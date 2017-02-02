@@ -63,6 +63,7 @@ type
       FLocale                      : ustring;
       FLogFile                     : ustring;
       FBrowserSubprocessPath       : ustring;
+      FFrameworkDirPath            : ustring;
       FLogSeverity                 : TCefLogSeverity;
       FJavaScriptFlags             : ustring;
       FResourcesDirPath            : ustring;
@@ -115,6 +116,7 @@ type
       property Locale                      : ustring           read FLocale                      write FLocale;
       property LogFile                     : ustring           read FLogFile                     write FLogFile;
       property BrowserSubprocessPath       : ustring           read FBrowserSubprocessPath       write FBrowserSubprocessPath;
+      property FrameworkDirPath            : ustring           read FFrameworkDirPath            write FFrameworkDirPath;
       property LogSeverity                 : TCefLogSeverity   read FLogSeverity                 write FLogSeverity;
       property JavaScriptFlags             : ustring           read FJavaScriptFlags             write FJavaScriptFlags;
       property ResourcesDirPath            : ustring           read FResourcesDirPath            write FResourcesDirPath;
@@ -201,6 +203,7 @@ begin
   FLocale                      := '';
   FLogFile                     := '';
   FBrowserSubprocessPath       := '';
+  FFrameworkDirPath            := '';
   FLogSeverity                 := LOGSEVERITY_DISABLE;
   FJavaScriptFlags             := '';
   FResourcesDirPath            := '';
@@ -361,6 +364,7 @@ begin
   aSettings.size                            := SizeOf(TCefSettings);
   aSettings.single_process                  := Ord(FSingleProcess);
   aSettings.no_sandbox                      := Ord(FNoSandbox);
+  aSettings.framework_dir_path              := CefString(FFrameworkDirPath);
   aSettings.multi_threaded_message_loop     := Ord(FMultiThreadedMessageLoop);
   aSettings.external_message_pump           := Ord(FExternalMessagePump);
   aSettings.windowless_rendering_enabled    := Ord(FWindowlessRenderingEnabled);

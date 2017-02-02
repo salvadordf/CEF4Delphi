@@ -1090,7 +1090,6 @@ begin
       aSettings.javascript_close_windows        := FOptions.JavascriptCloseWindows;
       aSettings.javascript_access_clipboard     := FOptions.JavascriptAccessClipboard;
       aSettings.javascript_dom_paste            := FOptions.JavascriptDomPaste;
-      aSettings.caret_browsing                  := FOptions.CaretBrowsing;
       aSettings.plugins                         := FOptions.Plugins;
       aSettings.universal_access_from_file_urls := FOptions.UniversalAccessFromFileUrls;
       aSettings.file_access_from_file_urls      := FOptions.FileAccessFromFileUrls;
@@ -1129,7 +1128,6 @@ begin
   aSettings.javascript_close_windows        := STATE_DEFAULT;
   aSettings.javascript_access_clipboard     := STATE_DEFAULT;
   aSettings.javascript_dom_paste            := STATE_DEFAULT;
-  aSettings.caret_browsing                  := STATE_DEFAULT;
   aSettings.plugins                         := STATE_DEFAULT;
   aSettings.universal_access_from_file_urls := STATE_DEFAULT;
   aSettings.file_access_from_file_urls      := STATE_DEFAULT;

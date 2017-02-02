@@ -977,6 +977,7 @@ type
     single_process: Integer;
     no_sandbox: Integer;
     browser_subprocess_path: TCefString;
+    framework_dir_path: TCefString;
     multi_threaded_message_loop: Integer;
     external_message_pump:integer;
     windowless_rendering_enabled: Integer;
@@ -1237,7 +1238,6 @@ type
     javascript_close_windows: TCefState;
     javascript_access_clipboard: TCefState;
     javascript_dom_paste: TCefState;
-    caret_browsing: TCefState;
     plugins: TCefState;
     universal_access_from_file_urls: TCefState;
     file_access_from_file_urls: TCefState;

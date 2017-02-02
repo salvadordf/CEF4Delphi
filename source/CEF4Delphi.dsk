@@ -1,14 +1,14 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,1,55,38,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,1196,49,1224,0,0,,
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,14,1625,142,1661,0,0,,
-File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFRequestContext.pas',0,1,144,88,166,0,0,,
-File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,1386,96,1411,0,0,,
-File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFRequestContextHandler.pas',0,1,76,76,104,0,0,,
-File_6=TSourceModule,'V:\2883_2\include\capi\cef_request_context_handler_capi.h',0,1,1,1,1,0,0,,
-File_7=TSourceModule,'V:\2883\include\capi\cef_request_context_handler_capi.h',0,1,1,1,1,0,0,,
-File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFSetCookieCallback.pas',0,1,46,1,1,0,0,,
-File_9=TSourceModule,'C:\Program Files\Embarcadero\Studio\17.0\Componentes_UI\uMouseHook.pas',0,1,112,20,141,0,0,,
+File_0=TSourceModule,'V:\2883\include\internal\cef_types.h',0,1,1,1,1,0,0,,
+File_1=TSourceModule,'V:\2883\include\internal\cef_types_wrappers.h',0,1,1,1,1,0,0,,
+File_2=TSourceModule,'V:\2924\include\internal\cef_types.h',0,1,1,1,1,0,0,,
+File_3=TSourceModule,'V:\2924\include\internal\cef_types_wrappers.h',0,1,1,72,24,0,0,,
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,1219,31,1254,0,0,,
+File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,1110,75,1130,0,0,,
+File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumOptions.pas',0,1,1,1,1,0,0,,
+File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,356,95,384,0,0,,
+File_8=TSourceModule,'V:\2924\include\cef_response_filter.h',0,1,1,1,1,0,0,,
+File_9=TSourceModule,'V:\2883\include\cef_response_filter.h',0,1,1,1,1,0,0,,
 
 [Modules]
 Module0=default.htm
