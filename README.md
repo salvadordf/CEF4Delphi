@@ -7,6 +7,8 @@ CEF4Delphi uses CEF 3.2924.1558.g872fbc0 which includes Chromium 56.0.2924.76.
 The CEF3 binaries used by CEF4Delphi are available for download at spotify :
   http://opensource.spotify.com/cefbuilds/cef_binary_3.2924.1558.g872fbc0_windows32.tar.bz2
 
+CEF4Delphi was tested on Delphi 10 Seattle.
+
 For more information about CEF4Delphi visit : 
   https://www.briskbard.com/index.php?lang=en&pageid=cef
 
