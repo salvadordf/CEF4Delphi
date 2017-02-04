@@ -101,7 +101,6 @@ type
       FChromeVersionInfo           : TFileVersionInfo;
       FLibHandle                   : THandle;
 
-      function  UnLoadCEFlibrary : boolean;
       function  LoadCEFlibrary : boolean;
       function  Load_cef_app_capi_h : boolean;
       function  Load_cef_browser_capi_h : boolean;
@@ -712,11 +711,6 @@ begin
       OutputDebugString(PWideChar('TCefApplication.LoadCEFlibrary error: Unsupported CEF version !' + chr(0)));
       {$ENDIF}
     end;
-end;
-
-function TCefApplication.UnLoadCEFlibrary : boolean;
-begin
-  Result := False;
 end;
 
 function TCefApplication.Load_cef_app_capi_h : boolean;
