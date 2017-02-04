@@ -112,6 +112,7 @@ type
   TVCLClientHandler = class(TCustomClientHandler)
     protected
       function  GetMultithreadApp : boolean;
+      function  GetExternalMessagePump : boolean;
 
     public
       constructor Create(const crm: IChromiumEvents; renderer: Boolean); reintroduce;
@@ -119,6 +120,7 @@ type
       procedure   ReleaseOtherInstances;
 
       property  MultithreadApp          : boolean                      read GetMultithreadApp;
+      property  ExternalMessagePump     : boolean                      read GetExternalMessagePump;
   end;
 
 implementation
@@ -474,7 +476,7 @@ constructor TVCLClientHandler.Create(const crm: IChromiumEvents; renderer : Bool
 begin
   inherited Create(crm, renderer);
 
-  if not(MultithreadApp) then
+  if not(MultithreadApp) and not(ExternalMessagePump) then
     begin
       if (CefInstances = 0) then CefTimer := SetTimer(0, 0, USER_TIMER_MINIMUM, @TimerProc);
       InterlockedIncrement(CefInstances);
@@ -483,10 +485,15 @@ end;
 
 destructor TVCLClientHandler.Destroy;
 begin
-  if not(MultithreadApp) then
+  if not(MultithreadApp) and not(ExternalMessagePump) then
     begin
       InterlockedDecrement(CefInstances);
-      if (CefInstances = 0) then KillTimer(0, CefTimer);
+
+      if (CefInstances = 0) and (CefTimer <> 0) then
+        begin
+          KillTimer(0, CefTimer);
+          CefTimer := 0;
+        end;
     end;
 
   inherited Destroy;
@@ -516,6 +523,22 @@ begin
       begin
         {$IFDEF DEBUG}
         OutputDebugString(PWideChar('TVCLClientHandler.GetMultithreadApp error: ' + e.Message + chr(0)));
+        {$ENDIF}
+      end;
+  end;
+end;
+
+function TVCLClientHandler.GetExternalMessagePump : boolean;
+begin
+  Result := True;
+
+  try
+    if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.ExternalMessagePump;
+  except
+    on e : exception do
+      begin
+        {$IFDEF DEBUG}
+        OutputDebugString(PWideChar('TVCLClientHandler.GetExternalMessagePump error: ' + e.Message + chr(0)));
         {$ENDIF}
       end;
   end;
