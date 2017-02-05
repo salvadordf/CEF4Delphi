@@ -42,11 +42,17 @@ unit uCEFv8Handler;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   System.Rtti, System.TypInfo, System.Variants, System.SysUtils,
   System.Classes, System.Math, System.SyncObjs, WinApi.Windows,
+  {$ELSE}
+  Rtti, TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, Windows,
+  {$ENDIF}
   uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
@@ -410,7 +416,11 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
     if v.IsObject then
     begin
       TValue.Make(nil, pi, ret);
+      {$IFDEF DELPHI15_UP}
       rec := TValueData(ret).FValueData.GetReferenceToRawData;
+      {$ELSE}
+      rec := IValueData(TValueData(ret).FHeapData).GetReferenceToRawData;
+      {$ENDIF}
       for r in FCtx.GetType(pi).GetFields do
       begin
         if not GetValue(r.FieldType.Handle, v.GetValueByKey(r.Name), f) then
@@ -470,7 +480,11 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
     ret := TCefv8ValueRef.NewObject(nil, nil);
     ret.SetUserData(ud);
 
+{$IFDEF DELPHI15_UP}
     rec := TValueData(v).FValueData.GetReferenceToRawData;
+{$ELSE}
+    rec := IValueData(TValueData(v).FHeapData).GetReferenceToRawData;
+{$ENDIF}
 
     if FSyncMainThread then
     begin

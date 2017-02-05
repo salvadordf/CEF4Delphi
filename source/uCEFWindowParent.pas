@@ -42,10 +42,16 @@ unit uCEFWindowParent;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows, WinApi.Messages, System.Classes, Vcl.Controls,
+  {$ELSE}
+  Windows, Messages, Classes, Controls,
+  {$ENDIF}
   uCEFTypes, uCEFInterfaces;
 
 type

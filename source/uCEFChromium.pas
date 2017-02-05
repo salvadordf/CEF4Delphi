@@ -42,10 +42,16 @@ unit uCEFChromium;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows, WinApi.Messages, System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms,
+  {$ELSE}
+  Windows, Messages, Classes, Controls, Graphics, Forms,
+  {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFPDFPrintCallback, uCEFStringVisitor, uCEFConstants, uCEFTask,
   uCEFDeleteCookiesCallback, uCEFDomVisitor, uCEFChromiumEvents,
@@ -233,8 +239,8 @@ type
       procedure SetWindowlessFrameRate(aValue : integer);
 
 
-      function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aClient : ICefClient; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): Boolean;
-      function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aClient : ICefClient; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): ICefBrowser;
+      function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): Boolean;
+      function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): ICefBrowser;
 
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
@@ -582,7 +588,11 @@ type
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
   System.SysUtils, System.Math,
+  {$ELSE}
+  SysUtils, Math,
+  {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFCookieManager, uCEFFrame,
   uCEFApplication;
 
@@ -708,7 +718,7 @@ begin
   Result := False;
 
   try
-    if (FHandler = nil) then
+    if (FClientHandler = nil) then
       begin
         FIsOSR           := aIsOsr;
         FClientHandler   := TVCLClientHandler.Create(Self, FIsOSR);
@@ -851,10 +861,10 @@ begin
 
 
         if MultithreadApp then
-          Result := CreateBrowserHost(@TempInfo, FHandler, FDefaultUrl, @TempSettings, nil)
+          Result := CreateBrowserHost(@TempInfo, FDefaultUrl, @TempSettings, nil)
          else
           begin
-            FBrowser := CreateBrowserHostSync(@TempInfo, FHandler, FDefaultUrl, @TempSettings, nil);
+            FBrowser := CreateBrowserHostSync(@TempInfo, FDefaultUrl, @TempSettings, nil);
 
             if (FBrowser <> nil) then
               begin
@@ -879,7 +889,6 @@ begin
 end;
 
 function TChromium.CreateBrowserHost(aWindowInfo     : PCefWindowInfo;
-                                     const aClient   : ICefClient;
                                      const aURL      : ustring;
                                      const aSettings : PCefBrowserSettings;
                                      const aContext  : ICefRequestContext): Boolean;
@@ -887,11 +896,10 @@ var
   TempURL : TCefString;
 begin
   TempURL := CefString(aURL);
-  Result  := cef_browser_host_create_browser(aWindowInfo, CefGetData(aClient), @TempURL, aSettings, CefGetData(aContext)) <> 0;
+  Result  := cef_browser_host_create_browser(aWindowInfo, FClientHandler.Wrap, @TempURL, aSettings, CefGetData(aContext)) <> 0;
 end;
 
 function TChromium.CreateBrowserHostSync(aWindowInfo     : PCefWindowInfo;
-                                         const aClient   : ICefClient;
                                          const aURL      : ustring;
                                          const aSettings : PCefBrowserSettings;
                                          const aContext  : ICefRequestContext): ICefBrowser;
@@ -900,7 +908,7 @@ var
   TempBrowser : PCefBrowser;
 begin
   TempURL     := CefString(aURL);
-  TempBrowser := cef_browser_host_create_browser_sync(aWindowInfo, CefGetData(aClient), @TempURL, aSettings, CefGetData(aContext));
+  TempBrowser := cef_browser_host_create_browser_sync(aWindowInfo, FClientHandler.Wrap, @TempURL, aSettings, CefGetData(aContext));
   Result      := TCefBrowserRef.UnWrap(TempBrowser);
 end;
 
@@ -2092,8 +2100,16 @@ procedure TChromium.CloseDevTools(const aDevTools : TWinControl);
 begin
   if Initialized then
     begin
-      if (aDevTools <> nil) then WinApi.Windows.SetParent(GetWindow(aDevTools.Handle, GW_CHILD), 0);
-      if (FBrowser  <> nil) then FBrowser.Host.CloseDevTools;
+      if (aDevTools <> nil) then
+        begin
+          {$IFDEF DELPHI16_UP}
+          WinApi.Windows.SetParent(GetWindow(aDevTools.Handle, GW_CHILD), 0);
+          {$ELSE}
+          Windows.SetParent(GetWindow(aDevTools.Handle, GW_CHILD), 0);
+          {$ENDIF}
+        end;
+
+      if (FBrowser <> nil) then FBrowser.Host.CloseDevTools;
     end;
 end;
 
@@ -2714,10 +2730,10 @@ begin
     begin
       TempRect.Left   := min(max(x, max(screen.DesktopLeft, 0)), screen.DesktopWidth  - TempForm.Width);
       TempRect.Top    := min(max(y, max(screen.DesktopTop,  0)), screen.DesktopHeight - TempForm.Height);
-      TempRect.Width  := TempForm.Width;
-      TempRect.Height := TempForm.Height;
+      TempRect.Right  := TempRect.Left + TempForm.Width  - 1;
+      TempRect.Bottom := TempRect.Top  + TempForm.Height - 1;
 
-      TempForm.SetBounds(TempRect.Left, TempRect.Top, TempRect.Width, TempRect.Height);
+      TempForm.SetBounds(TempRect.Left, TempRect.Top, TempRect.Right - TempRect.Left + 1, TempRect.Bottom - TempRect.Top + 1);
     end;
 end;
 
@@ -2732,10 +2748,10 @@ begin
     begin
       TempRect.Left   := min(max(TempForm.Left + x, max(screen.DesktopLeft, 0)), screen.DesktopWidth  - TempForm.Width);
       TempRect.Top    := min(max(TempForm.Top  + y, max(screen.DesktopTop,  0)), screen.DesktopHeight - TempForm.Height);
-      TempRect.Width  := TempForm.Width;
-      TempRect.Height := TempForm.Height;
+      TempRect.Right  := TempRect.Left + TempForm.Width  - 1;
+      TempRect.Bottom := TempRect.Top  + TempForm.Height - 1;
 
-      TempForm.SetBounds(TempRect.Left, TempRect.Top, TempRect.Width, TempRect.Height);
+      TempForm.SetBounds(TempRect.Left, TempRect.Top, TempRect.Right - TempRect.Left + 1, TempRect.Bottom - TempRect.Top + 1);
     end;
 end;
 

@@ -42,10 +42,16 @@ unit uCEFConstants;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   Winapi.Messages;
+  {$ELSE}
+  Messages;
+  {$ENDIF}
 
 const
   // /include/internal/cef_types.h (cef_errorcode_t)

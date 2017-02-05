@@ -39,16 +39,21 @@ unit uCEFRegisterComponents;
 
 {$R chromium.dcr}
 
+{$I cef.inc}
+
 interface
 
 procedure Register;
 
 implementation
+
 uses
+  {$IFDEF DELPHI16_UP}
   System.Classes,
-  uCEFChromium,
-  uCEFWindowParent,
-  uCEFChromiumWindow;
+  {$ELSE}
+  Classes,
+  {$ENDIF}
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow;
 
 procedure Register;
 begin

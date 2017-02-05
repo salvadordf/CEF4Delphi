@@ -42,6 +42,8 @@ unit uCEFContextMenuHandler;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses

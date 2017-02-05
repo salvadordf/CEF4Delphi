@@ -42,6 +42,8 @@ unit uCEFRequest;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses

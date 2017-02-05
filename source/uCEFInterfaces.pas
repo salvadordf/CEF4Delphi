@@ -42,10 +42,16 @@ unit uCEFInterfaces;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows, System.Classes,
+  {$ELSE}
+  Windows, Classes,
+  {$ENDIF}
   uCEFTypes;
 
 type

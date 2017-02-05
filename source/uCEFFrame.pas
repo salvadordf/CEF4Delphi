@@ -42,10 +42,12 @@ unit uCEFFrame;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
-  uCEFBAse, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
   TCefFrameRef = class(TCefBaseRef, ICefFrame)

@@ -42,10 +42,16 @@ unit uCEFChromiumWindow;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows, System.Classes, WinApi.Messages,
+  {$ELSE}
+  Windows, Classes, Messages,
+  {$ENDIF}
   uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants;
 
 type
@@ -76,7 +82,11 @@ type
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
   System.SysUtils;
+  {$ELSE}
+  SysUtils;
+  {$ENDIF}
 
 constructor TChromiumWindow.Create(AOwner: TComponent);
 begin

@@ -42,10 +42,16 @@ unit uCEFX509CertPrincipal;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   System.Classes,
+  {$ELSE}
+  Classes,
+  {$ENDIF}
   uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
@@ -68,7 +74,11 @@ type
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows, System.SysUtils,
+  {$ELSE}
+  Windows, SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
 function TCefX509CertPrincipalRef.GetDisplayName: ustring;

@@ -42,10 +42,16 @@ unit uCEFTypes;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows, System.Math;
+  {$ELSE}
+  Windows, Math;
+  {$ENDIF}
 
 type
   PCefStringWide = ^TCefStringWide;

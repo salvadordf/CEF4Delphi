@@ -42,6 +42,8 @@ unit uCEFV8Exception;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses

@@ -42,6 +42,8 @@ unit uCEFRequestHandler;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
@@ -100,7 +102,11 @@ type
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows, System.SysUtils,
+  {$ELSE}
+  Windows, SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFRequestCallback,
   uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate;
 

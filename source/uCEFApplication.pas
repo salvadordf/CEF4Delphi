@@ -42,10 +42,16 @@ unit uCEFApplication;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows,
+  {$ELSE}
+  Windows,
+  {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBase;
 
 type
@@ -249,7 +255,11 @@ var
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
   System.Math, System.IOUtils, System.SysUtils,
+  {$ELSE}
+  Math, IOUtils, SysUtils,
+  {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFCommandLine;
 
 const
@@ -575,7 +585,7 @@ var
   TempArgs : TCefMainArgs;
 begin
   TempArgs.instance := HINSTANCE;
-  Result            := cef_execute_process(@TempArgs, CefGetData(FAppIntf), FWindowsSandboxInfo);
+  Result            := cef_execute_process(@TempArgs, FApp.Wrap, FWindowsSandboxInfo);
 end;
 
 procedure TCefApplication.InitializeSettings(var aSettings : TCefSettings);
@@ -622,7 +632,7 @@ begin
     if FDeleteCookies and (length(FCookies) > 0) then TDirectory.Delete(FCookies, True);
 
     InitializeSettings(TempSettings);
-    Result := (cef_initialize(@HInstance, @TempSettings, CefGetData(FAppIntf), FWindowsSandboxInfo) <> 0);
+    Result := (cef_initialize(@HInstance, @TempSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0);
   except
     on e : exception do
       begin

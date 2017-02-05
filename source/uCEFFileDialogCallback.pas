@@ -42,10 +42,16 @@ unit uCEFFileDialogCallback;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   System.Classes,
+  {$ELSE}
+  Classes,
+  {$ENDIF}
   uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type

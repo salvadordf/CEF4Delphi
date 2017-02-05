@@ -42,10 +42,16 @@ unit uCEFClient;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows,
+  {$ELSE}
+  Windows,
+  {$ENDIF}
   uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
@@ -126,7 +132,11 @@ type
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
   System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFProcessMessage, uCEFBrowser, uCEFLoadHandler,
   uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
   uCEFDisplayHandler, uCEFDownloadHandler, uCEFGeolocationHandler, uCEFJsDialogHandler,

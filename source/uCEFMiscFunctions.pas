@@ -42,10 +42,16 @@ unit uCEFMiscFunctions;
   {$MINENUMSIZE 4}
 {$ENDIF}
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   WinApi.Windows, System.Classes, System.SysUtils,
+  {$ELSE}
+  Windows, Classes, SysUtils,
+  {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions;
 
 const
