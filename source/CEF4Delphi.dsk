@@ -1,21 +1,21 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,1,34,49,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\cef.inc',0,1,1,22,128,0,0,,
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFv8Types.pas',0,1,1,1,1,0,0,,
-File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFv8Handler.pas',0,1,449,1,488,0,0,,
-File_4=TSourceModule,'V:\dcef3-2883\src\ceflib.pas',0,1,40,30,70,0,0,,
-File_5=TSourceModule,'V:\dcef3-2883\src\ceffmx.pas',0,1,1,9,30,0,0,,
-File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source_xe\uCEFChromium.pas',0,1,2691,1,2704,0,0,,
-File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFX509CertPrincipal.pas',0,1,63,1,82,0,0,,
-File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFXmlReader.pas',0,1,79,1,92,0,0,,
+File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,69,3,103,0,0,,
+File_1=TSourceModule,'V:\dcef3-2883\src\ceflib.pas',0,1,10411,3,10440,0,0,,
+File_2=TSourceModule,'V:\dcef3-2883\src\cefvcl.pas',0,1,1,1,1,0,0,,
+File_3=TSourceModule,'V:\dcef3-2883\src\cefgui.pas',0,1,1,65,18,0,0,,
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,2044,1,2060,0,0,,
+File_5=TSourceModule,'V:\dcef3-2883\demos\guiclient\main.pas',0,1,498,1,500,0,0,,
+File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLibFunctions.pas',0,1,22,70,49,0,0,,
+File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFv8Handler.pas',0,1,747,60,735,0,0,,
+File_8=TSourceModule,'V:\2924\include\capi\cef_crash_util_capi.h',0,1,1,1,1,0,0,,
 
 [Modules]
-Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
+Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
 Module1=default.htm
 Count=2
 EditWindowCount=1
 
-[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas]
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
@@ -25,7 +25,7 @@ ModuleType=TURLModule
 
 [EditWindow0]
 ViewCount=2
-CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
+CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
 View0=0
 View1=1
 PercentageSizes=1
@@ -63,14 +63,14 @@ WelcomePageURL=bds:/default.htm
 
 [View1]
 CustomEditViewType=TEditView
-Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
-CursorX=76
-CursorY=2107
-TopLine=2077
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
+CursorX=94
+CursorY=272
+TopLine=236
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
 
 [Watches]
 Count=0

@@ -35,7 +35,8 @@
  *
  *)
 
-program SimpleBrowser;
+
+program MiniBrowser;
 
 {$I cef.inc}
 
@@ -46,18 +47,21 @@ uses
   Forms,
   {$ENDIF}
   uCEFApplication,
-  uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};
+  uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
+  uTestExtension in 'uTestExtension.pas';
 
 {$R *.res}
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp                      := TCefApplication.Create;
+  GlobalCEFApp.RemoteDebuggingPort  := 9000;
+  GlobalCEFApp.RenderProcessHandler := TCustomRenderProcessHandler.Create;
 
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
       Application.MainFormOnTaskbar := True;
-      Application.CreateForm(TForm1, Form1);
+      Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
       Application.Run;
     end;
 

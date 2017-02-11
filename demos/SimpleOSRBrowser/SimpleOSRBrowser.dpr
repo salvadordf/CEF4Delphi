@@ -37,8 +37,14 @@
 
 program SimpleOSRBrowser;
 
+{$I cef.inc}
+
 uses
+  {$IFDEF DELPHI16_UP}
   Vcl.Forms,
+  {$ELSE}
+  Forms,
+  {$ENDIF}
   uCEFApplication,
   uSimpleOSRBrowser in 'uSimpleOSRBrowser.pas' {Form1};
 

@@ -35,31 +35,80 @@
  *
  *)
 
-program SimpleBrowser;
+unit uTestExtension;
 
 {$I cef.inc}
 
+interface
+
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
+  Winapi.Windows,
   {$ELSE}
-  Forms,
+  Windows,
   {$ENDIF}
-  uCEFApplication,
-  uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};
+  uCEFRenderProcessHandler, uCEFBrowserProcessHandler, uCEFInterfaces, uCEFProcessMessage,
+  uCEFv8Context, uCEFTypes, uCEFv8Handler;
 
-{$R *.res}
+type
+  TCustomRenderProcessHandler = class(TCefRenderProcessHandlerOwn)
+  protected
+    procedure OnWebKitInitialized; override;
+  end;
 
+  TCustomBrowserProcessHandler = class(TCefBrowserProcessHandlerOwn)
+  protected
+    procedure OnScheduleMessagePumpWork(delayMs: Int64); override;
+  end;
+
+  TTestExtension = class
+    class function hello: string;
+    class procedure mouseover(const data: string);
+  end;
+
+implementation
+
+var
+  pumpMessages: Integer = 0;
+
+{ TCustomRenderProcessHandler }
+
+function getpath(const n: ICefDomNode): string;
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  Result := '<' + n.Name + '>';
+  if (n.Parent <> nil) then
+    Result := getpath(n.Parent) + Result;
+end;
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      Application.Initialize;
-      Application.MainFormOnTaskbar := True;
-      Application.CreateForm(TForm1, Form1);
-      Application.Run;
-    end;
+procedure TCustomRenderProcessHandler.OnWebKitInitialized;
+begin
+{$IFDEF DELPHI14_UP}
+  TCefRTTIExtension.Register('app', TTestExtension);
+{$ENDIF}
+end;
 
-  GlobalCEFApp.Free;
+{ TTestExtension }
+
+class procedure TTestExtension.mouseover(const data: string);
+var
+  msg: ICefProcessMessage;
+begin
+  msg := TCefProcessMessageRef.New('mouseover');
+  msg.ArgumentList.SetString(0, data);
+  TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+end;
+
+class function TTestExtension.hello: string;
+begin
+  Result := 'Hello from Delphi';
+end;
+
+{ TCustomBrowserProcessHandler }
+
+procedure TCustomBrowserProcessHandler.OnScheduleMessagePumpWork(
+  delayMs: Int64);
+begin
+  InterlockedExchange(pumpMessages, 1);
+end;
+
 end.

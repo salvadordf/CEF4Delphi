@@ -88,18 +88,24 @@ type
   ICefSchemeRegistrar = interface;
   ICefCommandLine = interface;
   ICefRequestHandler = interface;
+  ICefResourceBundleHandler = interface;
+  ICefBrowserProcessHandler = interface;
+  ICefRenderProcessHandler = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
 
-  TOnPdfPrintFinishedProc        = reference to procedure(const path: ustring; ok: Boolean);
-  TCefDomVisitorProc             = reference to procedure(const document: ICefDomDocument);
-  TCefStringVisitorProc          = reference to procedure(const str: ustring);
-  TOnRegisterCustomSchemes       = reference to procedure(const registrar: ICefSchemeRegistrar);
-  TOnBeforeCommandLineProcessing = reference to procedure(const processType: ustring; const commandLine: ICefCommandLine);
-  TCefCompletionCallbackProc     = reference to procedure;
-  TCefSetCookieCallbackProc      = reference to procedure(success: Boolean);
-  TCefDeleteCookiesCallbackProc  = reference to procedure(numDeleted: Integer);
+  TOnPdfPrintFinishedProc          = reference to procedure(const path: ustring; ok: Boolean);
+  TCefDomVisitorProc               = reference to procedure(const document: ICefDomDocument);
+  TCefStringVisitorProc            = reference to procedure(const str: ustring);
+  TOnRegisterCustomSchemes         = reference to procedure(const registrar: ICefSchemeRegistrar);
+  TOnGetResourceBundleHandler      = reference to procedure(var aCefResourceBundleHandler : ICefResourceBundleHandler);
+  TOnGetBrowserProcessHandler      = reference to procedure(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
+  TOnGetRenderProcessHandler       = reference to procedure(var aCefRenderProcessHandler : ICefRenderProcessHandler);
+  TOnBeforeCommandLineProcessing   = reference to procedure(const processType: ustring; const commandLine: ICefCommandLine);
+  TCefCompletionCallbackProc       = reference to procedure;
+  TCefSetCookieCallbackProc        = reference to procedure(success: Boolean);
+  TCefDeleteCookiesCallbackProc    = reference to procedure(numDeleted: Integer);
 
 
 

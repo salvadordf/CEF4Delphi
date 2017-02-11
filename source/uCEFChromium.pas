@@ -381,6 +381,7 @@ type
       procedure   VisitDOM;
       procedure   PdfPrintFinished(aResultOK : boolean);
       procedure   TextResultAvailable(const aText : string);
+      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
 
       procedure   LoadURL(const aURL : ustring);
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
@@ -848,8 +849,9 @@ begin
 
   try
     if not(csDesigning in ComponentState) and
-       (FBrowser   = nil) and
-       (FBrowserId = 0)   and
+       (FBrowser     =  nil) and
+       (FBrowserId   =  0)   and
+       (GlobalCEFApp <> nil) and
        CreateClientHandler(aBrowserParent = nil) then
       begin
         GetSettings(TempSettings);
@@ -2049,6 +2051,28 @@ end;
 procedure TChromium.TextResultAvailable(const aText : string);
 begin
   if assigned(FOnTextResultAvailable) then FOnTextResultAvailable(self, aText);
+end;
+
+procedure TChromium.ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer);
+var
+  TempFrame : ICefFrame;
+begin
+  try
+    if Initialized then
+      begin
+        TempFrame := FBrowser.MainFrame;
+
+        if (TempFrame <> nil) then
+          TempFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
+      end;
+  except
+    on e : exception do
+      begin
+        {$IFDEF DEBUG}
+        OutputDebugString(PWideChar('TChromium.ExecuteJavaScript error: ' + e.Message + chr(0)));
+        {$ENDIF}
+      end;
+  end;
 end;
 
 procedure TChromium.CookiesDeleted(numDeleted : integer);

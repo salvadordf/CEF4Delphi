@@ -37,12 +37,20 @@
 
 unit uSimpleOSRBrowser;
 
+{$I cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  uCEFChromium, GR32_Image, Vcl.AppEvnts, uCEFTypes, uCEFInterfaces;
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.AppEvnts,
+  {$ELSE}
+  Windows, Messages, SysUtils, Variants, Classes,
+  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
+  {$ENDIF}
+  GR32_Image, // You need the Graphics32 components for this demo available at http://graphics32.org
+  uCEFChromium, uCEFTypes, uCEFInterfaces;
 
 type
   TForm1 = class(TForm)
