@@ -356,9 +356,9 @@ const
 begin
   {$IFDEF DEBUG}
   OutputDebugString(PWideChar(aMessage + chr(0)));
-  {$ENDIF}
 
   if FLibLoaded then CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
+  {$ENDIF}
 end;
 
 function TCefApplication.CreateInternalApp : boolean;
