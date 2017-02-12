@@ -113,6 +113,8 @@ function CefIsCertStatusMinorError(Status : TCefCertStatus) : boolean;
 function  CefCrashReportingEnabled : boolean;
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 
+procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
+
 implementation
 
 function CefColorGetA(color: TCefColor): Byte;
@@ -417,6 +419,17 @@ begin
   cef_set_crash_key_value(@TempKey, @TempValue);
 end;
 
+procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
+var
+  TempFile, TempMessage : AnsiString;
+begin
+  if (length(aFile) > 0) and (length(aMessage) > 0) then
+    begin
+      TempFile    := AnsiString(aFile);
+      TempMessage := AnsiString(aMessage);
 
+      cef_log(@TempFile[1], aLine, aSeverity, @TempMessage[1]);
+    end;
+end;
 
 end.

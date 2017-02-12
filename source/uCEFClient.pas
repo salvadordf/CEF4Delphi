@@ -530,11 +530,8 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TVCLClientHandler.GetMultithreadApp error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TVCLClientHandler.GetMultithreadApp error: ' + e.Message);
   end;
 end;
 
@@ -546,11 +543,8 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.ExternalMessagePump;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TVCLClientHandler.GetExternalMessagePump error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TVCLClientHandler.GetExternalMessagePump error: ' + e.Message);
   end;
 end;
 

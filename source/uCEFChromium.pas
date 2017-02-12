@@ -680,11 +680,8 @@ begin
       if (FPrefs           <> nil) then FreeAndNil(FPrefs);
     except
       on e : exception do
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('TChromium.Destroy error: ' + e.Message + chr(0)));
-          {$ENDIF}
-        end;
+        if (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('TChromium.Destroy error: ' + e.Message);
     end;
   finally
     inherited Destroy;
@@ -706,11 +703,8 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.AfterConstruction error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.AfterConstruction error: ' + e.Message);
   end;
 end;
 
@@ -728,11 +722,8 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.CreateClientHandler error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.CreateClientHandler error: ' + e.Message);
   end;
 end;
 
@@ -877,11 +868,8 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.CreateBrowser error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.CreateBrowser error: ' + e.Message);
   end;
 end;
 
@@ -958,11 +946,8 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.VisitDOM error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.VisitDOM error: ' + e.Message);
   end;
 end;
 
@@ -1219,11 +1204,8 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.GetMultithreadApp error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.GetMultithreadApp error: ' + e.Message);
   end;
 end;
 
@@ -1652,17 +1634,13 @@ begin
         Result := TempProxy.SetDictionary(TempDict) and
                   FBrowser.Host.RequestContext.SetPreference('proxy', TempProxy, TempError);
 
-        {$IFDEF DEBUG}
-        if not(Result) then OutputDebugString(PWideChar('UpdateProxyPrefs error : ' + quotedstr(TempError) + chr(0)));
-        {$ENDIF}
+        if not(Result) and (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('UpdateProxyPrefs error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.UpdateProxyPrefs error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.UpdateProxyPrefs error: ' + e.Message);
   end;
 end;
 
@@ -1685,17 +1663,13 @@ begin
 
         Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        {$IFDEF DEBUG}
-        if not(Result) then OutputDebugString(PWideChar('UpdatePreference error : ' + quotedstr(TempError) + chr(0)));
-        {$ENDIF}
+        if not(Result) and (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('UpdatePreference error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.UpdatePreference error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
   end;
 end;
 
@@ -1713,17 +1687,13 @@ begin
         TempValue.SetInt(aValue);
         Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        {$IFDEF DEBUG}
-        if not(Result) then OutputDebugString(PWideChar('UpdatePreference error : ' + quotedstr(TempError) + chr(0)));
-        {$ENDIF}
+        if not(Result) and (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('UpdatePreference error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.UpdatePreference error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
   end;
 end;
 
@@ -1741,17 +1711,13 @@ begin
         TempValue.SetDouble(aValue);
         Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        {$IFDEF DEBUG}
-        if not(Result) then OutputDebugString(PWideChar('UpdatePreference error : ' + quotedstr(TempError) + chr(0)));
-        {$ENDIF}
+        if not(Result) and (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('UpdatePreference error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.UpdatePreference error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
   end;
 end;
 
@@ -1769,17 +1735,13 @@ begin
         TempValue.SetString(aValue);
         Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        {$IFDEF DEBUG}
-        if not(Result) then OutputDebugString(PWideChar('UpdatePreference error : ' + quotedstr(TempError) + chr(0)));
-        {$ENDIF}
+        if not(Result) and (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('UpdatePreference error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.UpdatePreference error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
   end;
 end;
 
@@ -2003,11 +1965,8 @@ begin
         end;
     except
       on e : exception do
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('TChromium.HandleDictionary error: ' + e.Message + chr(0)));
-          {$ENDIF}
-        end;
+        if (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('TChromium.HandleDictionary error: ' + e.Message);
     end;
   finally
     if (TempKeys <> nil) then TempKeys.Free;
@@ -2030,11 +1989,8 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.GetAllPreferences error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.GetAllPreferences error: ' + e.Message);
   end;
 end;
 
@@ -2067,11 +2023,8 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TChromium.ExecuteJavaScript error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      if (GlobalCEFApp <> nil) then
+        GlobalCEFApp.OutputDebugMessage('TChromium.ExecuteJavaScript error: ' + e.Message);
   end;
 end;
 

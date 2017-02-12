@@ -108,7 +108,8 @@ uses
   Windows, SysUtils,
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFRequestCallback,
-  uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate;
+  uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate,
+  uCEFApplication;
 
 function cef_request_handler_on_before_browse(self: PCefRequestHandler; browser: PCefBrowser;
   frame: PCefFrame; request: PCefRequest; isRedirect: Integer): Integer; stdcall;
@@ -296,11 +297,8 @@ begin
         end;
     except
       on e : exception do
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('cef_request_handler_on_select_client_certificate error: ' + e.Message + chr(0)));
-          {$ENDIF}
-        end;
+        if (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('cef_request_handler_on_select_client_certificate error: ' + e.Message);
     end;
   finally
     if (TempCertArray <> nil) then

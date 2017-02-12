@@ -104,6 +104,7 @@ type
       FCustomCommandLine             : ustring;
       FFlashEnabled                  : boolean;
       FCheckCEFFiles                 : boolean;
+      FLibLoaded                     : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
@@ -176,6 +177,7 @@ type
     public
       constructor Create;
       destructor  Destroy; override;
+      procedure   OutputDebugMessage(const aMessage : string);
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
 
@@ -223,6 +225,7 @@ type
       property ResourceBundleHandler       : ICefResourceBundleHandler       read FResourceBundleHandler          write FResourceBundleHandler;
       property BrowserProcessHandler       : ICefBrowserProcessHandler       read FBrowserProcessHandler          write FBrowserProcessHandler;
       property RenderProcessHandler        : ICefRenderProcessHandler        read FRenderProcessHandler           write FRenderProcessHandler;
+      property LibLoaded                   : boolean                         read FLibLoaded;
   end;
 
   TCefAppOwn = class(TCefBaseOwn, ICefApp)
@@ -272,7 +275,7 @@ uses
   {$ELSE}
   Math, IOUtils, SysUtils,
   {$ENDIF}
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFCommandLine;
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFCommandLine, uCEFConstants;
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
@@ -328,6 +331,7 @@ begin
   FResourceBundleHandler         := nil;
   FBrowserProcessHandler         := nil;
   FRenderProcessHandler          := nil;
+  FLibLoaded                     := False;
 
   UpdateChromeVersionInfo;
 
@@ -344,6 +348,17 @@ begin
   FApp     := nil;
 
   inherited Destroy;
+end;
+
+procedure TCefApplication.OutputDebugMessage(const aMessage : string);
+const
+  DEFAULT_LINE = 1;
+begin
+  {$IFDEF DEBUG}
+  OutputDebugString(PWideChar(aMessage + chr(0)));
+  {$ENDIF}
+
+  if FLibLoaded then CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
 end;
 
 function TCefApplication.CreateInternalApp : boolean;
@@ -365,11 +380,7 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TCefApplication.CreateInternalApp error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      OutputDebugMessage('TCefApplication.CreateInternalApp error: ' + e.Message);
   end;
 end;
 
@@ -387,11 +398,7 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TCefApplication.MultiExeProcessing error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      OutputDebugMessage('TCefApplication.MultiExeProcessing error: ' + e.Message);
   end;
 end;
 
@@ -410,11 +417,7 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TCefApplication.SingleExeProcessing error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      OutputDebugMessage('TCefApplication.SingleExeProcessing error: ' + e.Message);
   end;
 end;
 
@@ -447,11 +450,7 @@ begin
         end;
     except
       on e : exception do
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('TCefApplication.GetFileVersion error: ' + e.Message + chr(0)));
-          {$ENDIF}
-        end;
+        OutputDebugMessage('TCefApplication.GetFileVersion error: ' + e.Message);
     end;
   finally
     if (TempBuffer <> nil) then FreeMem(TempBuffer);
@@ -512,25 +511,13 @@ begin
              (TempVersionInfo.Build    = CEF_SUPPORTED_VERSION_BUILD)   then
             Result := True
            else
-            begin
-              {$IFDEF DEBUG}
-              OutputDebugString(PWideChar('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !' + chr(0)));
-              {$ENDIF}
-            end;
+            OutputDebugMessage('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !');
         end
        else
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('TCefApplication.CheckCEFLibrary error: CEF binaries missing !' + chr(0)));
-          {$ENDIF}
-        end;
+        OutputDebugMessage('TCefApplication.CheckCEFLibrary error: CEF binaries missing !');
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TCefApplication.CheckCEFLibrary error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      OutputDebugMessage('TCefApplication.CheckCEFLibrary error: ' + e.Message);
   end;
 end;
 
@@ -546,11 +533,7 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TCefApplication.UpdateChromeVersionInfo error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      OutputDebugMessage('TCefApplication.UpdateChromeVersionInfo error: ' + e.Message);
   end;
 end;
 
@@ -573,11 +556,7 @@ begin
               (ExecuteProcess >= 0);
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TCefApplication.StartSubProcess error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      OutputDebugMessage('TCefApplication.StartSubProcess error: ' + e.Message);
   end;
 end;
 
@@ -593,11 +572,7 @@ begin
       end;
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TCefApplication.ShutDown error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      OutputDebugMessage('TCefApplication.ShutDown error: ' + e.Message);
   end;
 end;
 
@@ -656,11 +631,7 @@ begin
     Result := (cef_initialize(@HInstance, @TempSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0);
   except
     on e : exception do
-      begin
-        {$IFDEF DEBUG}
-        OutputDebugString(PWideChar('TCefApplication.InitializeLibrary error: ' + e.Message + chr(0)));
-        {$ENDIF}
-      end;
+      OutputDebugMessage('TCefApplication.InitializeLibrary error: ' + e.Message);
   end;
 end;
 
@@ -707,9 +678,7 @@ begin
   if (FLibHandle = 0) then
     begin
       Result := False;
-      {$IFDEF DEBUG}
-      OutputDebugString(PWideChar('TCefApplication.LoadCEFlibrary error: Cannot load libcef.dll' + chr(0)));
-      {$ENDIF}
+      OutputDebugMessage('TCefApplication.LoadCEFlibrary error: Cannot load libcef.dll');
       exit;
     end;
 
@@ -754,13 +723,14 @@ begin
      Load_cef_string_types_h and
      Load_cef_thread_internal_h and
      Load_cef_trace_event_internal_h then
-    Result := True
+    begin
+      FLibLoaded := True;
+      Result     := True;
+    end
    else
     begin
       Result := False;
-      {$IFDEF DEBUG}
-      OutputDebugString(PWideChar('TCefApplication.LoadCEFlibrary error: Unsupported CEF version !' + chr(0)));
-      {$ENDIF}
+      OutputDebugMessage('TCefApplication.LoadCEFlibrary error: Unsupported CEF version !');
     end;
 end;
 

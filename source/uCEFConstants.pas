@@ -245,6 +245,11 @@ const
   CEF_CONTENT_SETTING_SESSION_ONLY  = 4;
   CEF_CONTENT_SETTING_NUM_SETTINGS  = 5;
 
+  // Used in the severity parameter of cef_log
+  CEF_LOG_SEVERITY_INFO    = 0;
+  CEF_LOG_SEVERITY_WARNING = 1;
+  CEF_LOG_SEVERITY_ERROR   = 2;
+
   ZOOM_STEP_25  = 0;
   ZOOM_STEP_33  = 1;
   ZOOM_STEP_50  = 2;

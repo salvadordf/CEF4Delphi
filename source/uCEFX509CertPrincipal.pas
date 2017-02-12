@@ -79,7 +79,7 @@ uses
   {$ELSE}
   Windows, SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFApplication;
 
 function TCefX509CertPrincipalRef.GetDisplayName: ustring;
 begin
@@ -122,11 +122,8 @@ begin
         end;
     except
       on e : exception do
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('TCefX509CertPrincipalRef.GetStreetAddresses error: ' + e.Message + chr(0)));
-          {$ENDIF}
-        end;
+        if (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('TCefX509CertPrincipalRef.GetStreetAddresses error: ' + e.Message);
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -149,11 +146,8 @@ begin
         end;
     except
       on e : exception do
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('TCefX509CertPrincipalRef.GetOrganizationNames error: ' + e.Message + chr(0)));
-          {$ENDIF}
-        end;
+        if (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('TCefX509CertPrincipalRef.GetOrganizationNames error: ' + e.Message);
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -176,11 +170,8 @@ begin
         end;
     except
       on e : exception do
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('TCefX509CertPrincipalRef.GetOrganizationUnitNames error: ' + e.Message + chr(0)));
-          {$ENDIF}
-        end;
+        if (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('TCefX509CertPrincipalRef.GetOrganizationUnitNames error: ' + e.Message);
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -203,11 +194,8 @@ begin
         end;
     except
       on e : exception do
-        begin
-          {$IFDEF DEBUG}
-          OutputDebugString(PWideChar('TCefX509CertPrincipalRef.GetDomainComponents error: ' + e.Message + chr(0)));
-          {$ENDIF}
-        end;
+        if (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OutputDebugMessage('TCefX509CertPrincipalRef.GetDomainComponents error: ' + e.Message);
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
