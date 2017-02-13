@@ -114,8 +114,13 @@ function  CefCrashReportingEnabled : boolean;
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
+procedure OutputDebugMessage(const aMessage : string);
+
 
 implementation
+
+uses
+  uCEFConstants, uCEFApplication;
 
 function CefColorGetA(color: TCefColor): Byte;
 begin
@@ -430,6 +435,18 @@ begin
 
       cef_log(@TempFile[1], aLine, aSeverity, @TempMessage[1]);
     end;
+end;
+
+procedure OutputDebugMessage(const aMessage : string);
+const
+  DEFAULT_LINE = 1;
+begin
+  {$IFDEF DEBUG}
+  OutputDebugString(PWideChar(aMessage + chr(0)));
+
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
+  {$ENDIF}
 end;
 
 end.

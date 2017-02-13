@@ -122,8 +122,7 @@ begin
         end;
     except
       on e : exception do
-        if (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('TCefX509CertPrincipalRef.GetStreetAddresses error: ' + e.Message);
+        OutputDebugMessage('TCefX509CertPrincipalRef.GetStreetAddresses error: ' + e.Message);
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -146,8 +145,7 @@ begin
         end;
     except
       on e : exception do
-        if (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('TCefX509CertPrincipalRef.GetOrganizationNames error: ' + e.Message);
+        OutputDebugMessage('TCefX509CertPrincipalRef.GetOrganizationNames error: ' + e.Message);
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -170,8 +168,7 @@ begin
         end;
     except
       on e : exception do
-        if (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('TCefX509CertPrincipalRef.GetOrganizationUnitNames error: ' + e.Message);
+        OutputDebugMessage('TCefX509CertPrincipalRef.GetOrganizationUnitNames error: ' + e.Message);
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -194,8 +191,7 @@ begin
         end;
     except
       on e : exception do
-        if (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('TCefX509CertPrincipalRef.GetDomainComponents error: ' + e.Message);
+        OutputDebugMessage('TCefX509CertPrincipalRef.GetDomainComponents error: ' + e.Message);
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);

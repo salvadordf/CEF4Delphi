@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
+  WinApi.Windows, System.Classes,
   {$ELSE}
-  Windows,
+  Windows, Classes,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBase;
 
@@ -101,7 +101,7 @@ type
       FDeleteCookies                 : boolean;
       FApp                           : TInternalApp;
       FAppIntf                       : ICefApp;
-      FCustomCommandLine             : ustring;
+      FCustomCommandLines            : TStringList;
       FFlashEnabled                  : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
@@ -163,6 +163,9 @@ type
       function  SingleExeProcessing : boolean;
       function  GetFileVersion(const aFileName : string) : uint64;
       function  CheckCEFLibrary : boolean;
+      function  CheckLocales : boolean;
+      function  CheckResources : boolean;
+      function  CheckDLLs : boolean;
       procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
       procedure UpdateChromeVersionInfo;
 
@@ -177,7 +180,8 @@ type
     public
       constructor Create;
       destructor  Destroy; override;
-      procedure   OutputDebugMessage(const aMessage : string);
+      procedure   AfterConstruction; override;
+      procedure   AddCustomCommandLine(const aCommandLine : string);
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
 
@@ -213,7 +217,6 @@ type
       property ExternalMessagePump         : boolean                         read FExternalMessagePump            write FExternalMessagePump;
       property DeleteCache                 : boolean                         read FDeleteCache                    write FDeleteCache;
       property DeleteCookies               : boolean                         read FDeleteCookies                  write FDeleteCookies;
-      property CustomCommandLine           : ustring                         read FCustomCommandLine              write FCustomCommandLine;
       property FlashEnabled                : boolean                         read FFlashEnabled                   write FFlashEnabled;
       property CheckCEFFiles               : boolean                         read FCheckCEFFiles                  write FCheckCEFFiles;
       property ChromeMajorVer              : uint16                          read FChromeVersionInfo.MajorVer;
@@ -275,7 +278,8 @@ uses
   {$ELSE}
   Math, IOUtils, SysUtils,
   {$ENDIF}
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFCommandLine, uCEFConstants;
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFCommandLine,
+  uCEFConstants;
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
@@ -325,7 +329,7 @@ begin
   FApp                           := nil;
   FAppIntf                       := nil;
   FFlashEnabled                  := True;
-  FCustomCommandLine             := '';
+  FCustomCommandLines            := nil;
   FCheckCEFFiles                 := True;
   FOnRegisterCustomSchemes       := nil;
   FResourceBundleHandler         := nil;
@@ -347,18 +351,21 @@ begin
   FAppIntf := nil;
   FApp     := nil;
 
+  if (FCustomCommandLines <> nil) then FreeAndNil(FCustomCommandLines);
+
   inherited Destroy;
 end;
 
-procedure TCefApplication.OutputDebugMessage(const aMessage : string);
-const
-  DEFAULT_LINE = 1;
+procedure TCefApplication.AfterConstruction;
 begin
-  {$IFDEF DEBUG}
-  OutputDebugString(PWideChar(aMessage + chr(0)));
+  inherited AfterConstruction;
 
-  if FLibLoaded then CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
-  {$ENDIF}
+  FCustomCommandLines := TStringList.Create;
+end;
+
+procedure TCefApplication.AddCustomCommandLine(const aCommandLine : string);
+begin
+  if (FCustomCommandLines <> nil) then FCustomCommandLines.Add(aCommandLine);
 end;
 
 function TCefApplication.CreateInternalApp : boolean;
@@ -473,6 +480,136 @@ begin
   aVersionInfo.Build    := uint16(aVersion and $FFFF);
 end;
 
+function TCefApplication.CheckLocales : boolean;
+var
+  TempDir : string;
+begin
+  Result := False;
+
+  try
+    if (length(FLocalesDirPath) > 0) then
+      TempDir := FLocalesDirPath
+     else
+      TempDir := 'locales';
+
+    Result := DirectoryExists(TempDir) and
+              FileExists(TempDir + '\am.pak') and
+              FileExists(TempDir + '\ar.pak') and
+              FileExists(TempDir + '\bg.pak') and
+              FileExists(TempDir + '\bn.pak') and
+              FileExists(TempDir + '\ca.pak') and
+              FileExists(TempDir + '\cs.pak') and
+              FileExists(TempDir + '\da.pak') and
+              FileExists(TempDir + '\de.pak') and
+              FileExists(TempDir + '\el.pak') and
+              FileExists(TempDir + '\en-GB.pak') and
+              FileExists(TempDir + '\en-US.pak') and
+              FileExists(TempDir + '\es.pak') and
+              FileExists(TempDir + '\es-419.pak') and
+              FileExists(TempDir + '\et.pak') and
+              FileExists(TempDir + '\fa.pak') and
+              FileExists(TempDir + '\fi.pak') and
+              FileExists(TempDir + '\fil.pak') and
+              FileExists(TempDir + '\fr.pak') and
+              FileExists(TempDir + '\gu.pak') and
+              FileExists(TempDir + '\he.pak') and
+              FileExists(TempDir + '\hi.pak') and
+              FileExists(TempDir + '\hr.pak') and
+              FileExists(TempDir + '\hu.pak') and
+              FileExists(TempDir + '\id.pak') and
+              FileExists(TempDir + '\it.pak') and
+              FileExists(TempDir + '\ja.pak') and
+              FileExists(TempDir + '\kn.pak') and
+              FileExists(TempDir + '\ko.pak') and
+              FileExists(TempDir + '\lt.pak') and
+              FileExists(TempDir + '\lv.pak') and
+              FileExists(TempDir + '\ml.pak') and
+              FileExists(TempDir + '\mr.pak') and
+              FileExists(TempDir + '\ms.pak') and
+              FileExists(TempDir + '\nb.pak') and
+              FileExists(TempDir + '\nl.pak') and
+              FileExists(TempDir + '\pl.pak') and
+              FileExists(TempDir + '\pt-BR.pak') and
+              FileExists(TempDir + '\pt-PT.pak') and
+              FileExists(TempDir + '\ro.pak') and
+              FileExists(TempDir + '\ru.pak') and
+              FileExists(TempDir + '\sk.pak') and
+              FileExists(TempDir + '\sl.pak') and
+              FileExists(TempDir + '\sr.pak') and
+              FileExists(TempDir + '\sv.pak') and
+              FileExists(TempDir + '\sw.pak') and
+              FileExists(TempDir + '\ta.pak') and
+              FileExists(TempDir + '\te.pak') and
+              FileExists(TempDir + '\th.pak') and
+              FileExists(TempDir + '\tr.pak') and
+              FileExists(TempDir + '\uk.pak') and
+              FileExists(TempDir + '\vi.pak') and
+              FileExists(TempDir + '\zh-CN.pak') and
+              FileExists(TempDir + '\zh-TW.pak');
+  except
+    on e : exception do
+      OutputDebugMessage('TCefApplication.CheckLocales error: ' + e.Message);
+  end;
+end;
+
+function TCefApplication.CheckResources : boolean;
+var
+  TempDir : string;
+begin
+  Result := False;
+
+  try
+    // path is hard-coded in Chromium for natives_blob.bin, snapshot_blob.bin and icudtl.dat
+
+    if FileExists('natives_blob.bin')  and
+       FileExists('snapshot_blob.bin') and
+       FileExists('icudtl.dat')        then
+      begin
+        if (length(FResourcesDirPath) > 0) then
+          begin
+            if DirectoryExists(FResourcesDirPath) then
+              begin
+                TempDir := FResourcesDirPath;
+                if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
+
+                Result := FileExists(TempDir + 'cef.pak')                and
+                          FileExists(TempDir + 'cef_100_percent.pak')    and
+                          FileExists(TempDir + 'cef_200_percent.pak')    and
+                          FileExists(TempDir + 'cef_extensions.pak')     and
+                          FileExists(TempDir + 'devtools_resources.pak');
+              end;
+          end
+         else
+          Result := FileExists('cef.pak')                and
+                    FileExists('cef_100_percent.pak')    and
+                    FileExists('cef_200_percent.pak')    and
+                    FileExists('cef_extensions.pak')     and
+                    FileExists('devtools_resources.pak');
+      end;
+  except
+    on e : exception do
+      OutputDebugMessage('TCefApplication.CheckResources error: ' + e.Message);
+  end;
+end;
+
+function TCefApplication.CheckDLLs : boolean;
+begin
+  Result := False;
+
+  try
+    Result := FileExists('chrome_elf.dll')         and
+              FileExists('d3dcompiler_43.dll')     and
+              FileExists('d3dcompiler_47.dll')     and
+              FileExists('libcef.dll')             and
+              FileExists('libEGL.dll')             and
+              FileExists('libGLESv2.dll')          and
+              FileExists('widevinecdmadapter.dll');
+  except
+    on e : exception do
+      OutputDebugMessage('TCefApplication.CheckDLLs error: ' + e.Message);
+  end;
+end;
+
 function TCefApplication.CheckCEFLibrary : boolean;
 var
   TempVersion : uint64;
@@ -480,45 +617,26 @@ var
 begin
   Result := False;
 
-  try
-    if not(FCheckCEFFiles) then
-      Result := True
-     else
-      if FileExists('chrome_elf.dll')         and
-         FileExists('d3dcompiler_43.dll')     and
-         FileExists('d3dcompiler_47.dll')     and
-         FileExists('libcef.dll')             and
-         FileExists('libEGL.dll')             and
-         FileExists('libGLESv2.dll')          and
-         FileExists('natives_blob.bin')       and
-         FileExists('snapshot_blob.bin')      and
-         FileExists('widevinecdmadapter.dll') and
-         FileExists('cef.pak')                and
-         FileExists('cef_100_percent.pak')    and
-         FileExists('cef_200_percent.pak')    and
-         FileExists('cef_extensions.pak')     and
-         FileExists('devtools_resources.pak') and
-         FileExists('icudtl.dat')             and
-         DirectoryExists('locales')           and
-         FileExists('locales\en-US.pak')      then
-        begin
-          TempVersion := GetFileVersion('libcef.dll');
-          UInt64ToFileVersionInfo(TempVersion, TempVersionInfo);
+  if not(FCheckCEFFiles) then
+    Result := True
+   else
+    if CheckDLLs      and
+       CheckResources and
+       CheckLocales   then
+      begin
+        TempVersion := GetFileVersion('libcef.dll');
+        UInt64ToFileVersionInfo(TempVersion, TempVersionInfo);
 
-          if (TempVersionInfo.MajorVer = CEF_SUPPORTED_VERSION_MAJOR)   and
-             (TempVersionInfo.MinorVer = CEF_SUPPORTED_VERSION_MINOR)   and
-             (TempVersionInfo.Release  = CEF_SUPPORTED_VERSION_RELEASE) and
-             (TempVersionInfo.Build    = CEF_SUPPORTED_VERSION_BUILD)   then
-            Result := True
-           else
-            OutputDebugMessage('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !');
-        end
-       else
-        OutputDebugMessage('TCefApplication.CheckCEFLibrary error: CEF binaries missing !');
-  except
-    on e : exception do
-      OutputDebugMessage('TCefApplication.CheckCEFLibrary error: ' + e.Message);
-  end;
+        if (TempVersionInfo.MajorVer = CEF_SUPPORTED_VERSION_MAJOR)   and
+           (TempVersionInfo.MinorVer = CEF_SUPPORTED_VERSION_MINOR)   and
+           (TempVersionInfo.Release  = CEF_SUPPORTED_VERSION_RELEASE) and
+           (TempVersionInfo.Build    = CEF_SUPPORTED_VERSION_BUILD)   then
+          Result := True
+         else
+          OutputDebugMessage('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !');
+      end
+     else
+      OutputDebugMessage('TCefApplication.CheckCEFLibrary error: CEF binaries missing !');
 end;
 
 procedure TCefApplication.UpdateChromeVersionInfo;
@@ -637,6 +755,8 @@ end;
 
 procedure TCefApplication.App_OnBeforeCommandLineProc(const processType : ustring;
                                                       const commandLine : ICefCommandLine);
+var
+  i : integer;
 begin
   if (commandLine <> nil) then
     begin
@@ -647,7 +767,18 @@ begin
           commandLine.AppendSwitch('--enable-system-flash');
         end;
 
-      if (length(FCustomCommandLine) > 0) then commandLine.AppendSwitch(FCustomCommandLine);
+      if (FCustomCommandLines <> nil) then
+        begin
+          i := 0;
+
+          while (i < FCustomCommandLines.Count) do
+            begin
+              if (length(FCustomCommandLines[i]) > 0) then
+                commandLine.AppendSwitch(FCustomCommandLines[i]);
+
+              inc(i);
+            end;
+        end;
     end;
 end;
 

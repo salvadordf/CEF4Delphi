@@ -297,8 +297,7 @@ begin
         end;
     except
       on e : exception do
-        if (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('cef_request_handler_on_select_client_certificate error: ' + e.Message);
+        OutputDebugMessage('uCEFRequestHandler.cef_request_handler_on_select_client_certificate error: ' + e.Message);
     end;
   finally
     if (TempCertArray <> nil) then

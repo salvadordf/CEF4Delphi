@@ -495,18 +495,25 @@ end;
 
 destructor TVCLClientHandler.Destroy;
 begin
-  if not(MultithreadApp) and not(ExternalMessagePump) then
-    begin
-      InterlockedDecrement(CefInstances);
-
-      if (CefInstances = 0) and (CefTimer <> 0) then
+  try
+    try
+      if not(MultithreadApp) and not(ExternalMessagePump) then
         begin
-          KillTimer(0, CefTimer);
-          CefTimer := 0;
-        end;
-    end;
+          InterlockedDecrement(CefInstances);
 
-  inherited Destroy;
+          if (CefInstances = 0) and (CefTimer <> 0) then
+            begin
+              KillTimer(0, CefTimer);
+              CefTimer := 0;
+            end;
+        end;
+    except
+      on e : exception do
+        OutputDebugMessage('TVCLClientHandler.Destroy error: ' + e.Message);
+    end;
+  finally
+    inherited Destroy;
+  end;
 end;
 
 procedure TVCLClientHandler.ReleaseOtherInstances;
@@ -530,8 +537,7 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TVCLClientHandler.GetMultithreadApp error: ' + e.Message);
+      OutputDebugMessage('TVCLClientHandler.GetMultithreadApp error: ' + e.Message);
   end;
 end;
 
@@ -543,8 +549,7 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.ExternalMessagePump;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TVCLClientHandler.GetExternalMessagePump error: ' + e.Message);
+      OutputDebugMessage('TVCLClientHandler.GetExternalMessagePump error: ' + e.Message);
   end;
 end;
 

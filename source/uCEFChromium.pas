@@ -680,8 +680,7 @@ begin
       if (FPrefs           <> nil) then FreeAndNil(FPrefs);
     except
       on e : exception do
-        if (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('TChromium.Destroy error: ' + e.Message);
+        OutputDebugMessage('TChromium.Destroy error: ' + e.Message);
     end;
   finally
     inherited Destroy;
@@ -703,8 +702,7 @@ begin
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.AfterConstruction error: ' + e.Message);
+      OutputDebugMessage('TChromium.AfterConstruction error: ' + e.Message);
   end;
 end;
 
@@ -722,8 +720,7 @@ begin
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.CreateClientHandler error: ' + e.Message);
+      OutputDebugMessage('TChromium.CreateClientHandler error: ' + e.Message);
   end;
 end;
 
@@ -868,8 +865,7 @@ begin
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.CreateBrowser error: ' + e.Message);
+      OutputDebugMessage('TChromium.CreateBrowser error: ' + e.Message);
   end;
 end;
 
@@ -946,8 +942,7 @@ begin
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.VisitDOM error: ' + e.Message);
+      OutputDebugMessage('TChromium.VisitDOM error: ' + e.Message);
   end;
 end;
 
@@ -1204,8 +1199,7 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.GetMultithreadApp error: ' + e.Message);
+      OutputDebugMessage('TChromium.GetMultithreadApp error: ' + e.Message);
   end;
 end;
 
@@ -1634,13 +1628,12 @@ begin
         Result := TempProxy.SetDictionary(TempDict) and
                   FBrowser.Host.RequestContext.SetPreference('proxy', TempProxy, TempError);
 
-        if not(Result) and (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('UpdateProxyPrefs error : ' + quotedstr(TempError));
+        if not(Result) then
+          OutputDebugMessage('TChromium.UpdateProxyPrefs error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.UpdateProxyPrefs error: ' + e.Message);
+      OutputDebugMessage('TChromium.UpdateProxyPrefs error: ' + e.Message);
   end;
 end;
 
@@ -1663,13 +1656,12 @@ begin
 
         Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        if not(Result) and (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('UpdatePreference error : ' + quotedstr(TempError));
+        if not(Result) then
+          OutputDebugMessage('TChromium.UpdatePreference error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
+      OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
   end;
 end;
 
@@ -1687,13 +1679,12 @@ begin
         TempValue.SetInt(aValue);
         Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        if not(Result) and (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('UpdatePreference error : ' + quotedstr(TempError));
+        if not(Result) then
+          OutputDebugMessage('TChromium.UpdatePreference error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
+      OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
   end;
 end;
 
@@ -1711,13 +1702,12 @@ begin
         TempValue.SetDouble(aValue);
         Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        if not(Result) and (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('UpdatePreference error : ' + quotedstr(TempError));
+        if not(Result) then
+          OutputDebugMessage('TChromium.UpdatePreference error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
+      OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
   end;
 end;
 
@@ -1735,13 +1725,12 @@ begin
         TempValue.SetString(aValue);
         Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        if not(Result) and (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('UpdatePreference error : ' + quotedstr(TempError));
+        if not(Result) then
+          OutputDebugMessage('TChromium.UpdatePreference error : ' + quotedstr(TempError));
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
+      OutputDebugMessage('TChromium.UpdatePreference error: ' + e.Message);
   end;
 end;
 
@@ -1965,8 +1954,7 @@ begin
         end;
     except
       on e : exception do
-        if (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OutputDebugMessage('TChromium.HandleDictionary error: ' + e.Message);
+        OutputDebugMessage('TChromium.HandleDictionary error: ' + e.Message);
     end;
   finally
     if (TempKeys <> nil) then TempKeys.Free;
@@ -1989,8 +1977,7 @@ begin
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.GetAllPreferences error: ' + e.Message);
+      OutputDebugMessage('TChromium.GetAllPreferences error: ' + e.Message);
   end;
 end;
 
@@ -2023,8 +2010,7 @@ begin
       end;
   except
     on e : exception do
-      if (GlobalCEFApp <> nil) then
-        GlobalCEFApp.OutputDebugMessage('TChromium.ExecuteJavaScript error: ' + e.Message);
+      OutputDebugMessage('TChromium.ExecuteJavaScript error: ' + e.Message);
   end;
 end;
 
