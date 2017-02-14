@@ -102,6 +102,7 @@ type
       FApp                           : TInternalApp;
       FAppIntf                       : ICefApp;
       FCustomCommandLines            : TStringList;
+      FCustomCommandLineValues       : TStringList;
       FFlashEnabled                  : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
@@ -111,6 +112,7 @@ type
       FResourceBundleHandler         : ICefResourceBundleHandler;
       FBrowserProcessHandler         : ICefBrowserProcessHandler;
       FRenderProcessHandler          : ICefRenderProcessHandler;
+      FLibCef                        : string;
 
       function  LoadCEFlibrary : boolean;
       function  Load_cef_app_capi_h : boolean;
@@ -166,6 +168,7 @@ type
       function  CheckLocales : boolean;
       function  CheckResources : boolean;
       function  CheckDLLs : boolean;
+      procedure DeleteDirContents(const aDirectory : string);
       procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
       procedure UpdateChromeVersionInfo;
 
@@ -181,7 +184,7 @@ type
       constructor Create;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
-      procedure   AddCustomCommandLine(const aCommandLine : string);
+      procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
 
@@ -229,6 +232,7 @@ type
       property BrowserProcessHandler       : ICefBrowserProcessHandler       read FBrowserProcessHandler          write FBrowserProcessHandler;
       property RenderProcessHandler        : ICefRenderProcessHandler        read FRenderProcessHandler           write FRenderProcessHandler;
       property LibLoaded                   : boolean                         read FLibLoaded;
+      property LibCef                      : string                          read FLibCef                         write FLibCef;
   end;
 
   TCefAppOwn = class(TCefBaseOwn, ICefApp)
@@ -276,7 +280,7 @@ uses
   {$IFDEF DELPHI16_UP}
   System.Math, System.IOUtils, System.SysUtils,
   {$ELSE}
-  Math, IOUtils, SysUtils,
+  Math, {$IFDEF DELPHI12_UP}IOUtils,{$ENDIF} SysUtils,
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFCommandLine,
   uCEFConstants;
@@ -330,12 +334,14 @@ begin
   FAppIntf                       := nil;
   FFlashEnabled                  := True;
   FCustomCommandLines            := nil;
+  FCustomCommandLineValues       := nil;
   FCheckCEFFiles                 := True;
   FOnRegisterCustomSchemes       := nil;
   FResourceBundleHandler         := nil;
   FBrowserProcessHandler         := nil;
   FRenderProcessHandler          := nil;
   FLibLoaded                     := False;
+  FLibCef                        := 'libcef.dll';
 
   UpdateChromeVersionInfo;
 
@@ -351,7 +357,8 @@ begin
   FAppIntf := nil;
   FApp     := nil;
 
-  if (FCustomCommandLines <> nil) then FreeAndNil(FCustomCommandLines);
+  if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
+  if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
 
   inherited Destroy;
 end;
@@ -360,12 +367,14 @@ procedure TCefApplication.AfterConstruction;
 begin
   inherited AfterConstruction;
 
-  FCustomCommandLines := TStringList.Create;
+  FCustomCommandLines      := TStringList.Create;
+  FCustomCommandLineValues := TStringList.Create;
 end;
 
-procedure TCefApplication.AddCustomCommandLine(const aCommandLine : string);
+procedure TCefApplication.AddCustomCommandLine(const aCommandLine, aValue : string);
 begin
-  if (FCustomCommandLines <> nil) then FCustomCommandLines.Add(aCommandLine);
+  if (FCustomCommandLines      <> nil) then FCustomCommandLines.Add(aCommandLine);
+  if (FCustomCommandLineValues <> nil) then FCustomCommandLineValues.Add(aValue);
 end;
 
 function TCefApplication.CreateInternalApp : boolean;
@@ -492,60 +501,64 @@ begin
      else
       TempDir := 'locales';
 
-    Result := DirectoryExists(TempDir) and
-              FileExists(TempDir + '\am.pak') and
-              FileExists(TempDir + '\ar.pak') and
-              FileExists(TempDir + '\bg.pak') and
-              FileExists(TempDir + '\bn.pak') and
-              FileExists(TempDir + '\ca.pak') and
-              FileExists(TempDir + '\cs.pak') and
-              FileExists(TempDir + '\da.pak') and
-              FileExists(TempDir + '\de.pak') and
-              FileExists(TempDir + '\el.pak') and
-              FileExists(TempDir + '\en-GB.pak') and
-              FileExists(TempDir + '\en-US.pak') and
-              FileExists(TempDir + '\es.pak') and
-              FileExists(TempDir + '\es-419.pak') and
-              FileExists(TempDir + '\et.pak') and
-              FileExists(TempDir + '\fa.pak') and
-              FileExists(TempDir + '\fi.pak') and
-              FileExists(TempDir + '\fil.pak') and
-              FileExists(TempDir + '\fr.pak') and
-              FileExists(TempDir + '\gu.pak') and
-              FileExists(TempDir + '\he.pak') and
-              FileExists(TempDir + '\hi.pak') and
-              FileExists(TempDir + '\hr.pak') and
-              FileExists(TempDir + '\hu.pak') and
-              FileExists(TempDir + '\id.pak') and
-              FileExists(TempDir + '\it.pak') and
-              FileExists(TempDir + '\ja.pak') and
-              FileExists(TempDir + '\kn.pak') and
-              FileExists(TempDir + '\ko.pak') and
-              FileExists(TempDir + '\lt.pak') and
-              FileExists(TempDir + '\lv.pak') and
-              FileExists(TempDir + '\ml.pak') and
-              FileExists(TempDir + '\mr.pak') and
-              FileExists(TempDir + '\ms.pak') and
-              FileExists(TempDir + '\nb.pak') and
-              FileExists(TempDir + '\nl.pak') and
-              FileExists(TempDir + '\pl.pak') and
-              FileExists(TempDir + '\pt-BR.pak') and
-              FileExists(TempDir + '\pt-PT.pak') and
-              FileExists(TempDir + '\ro.pak') and
-              FileExists(TempDir + '\ru.pak') and
-              FileExists(TempDir + '\sk.pak') and
-              FileExists(TempDir + '\sl.pak') and
-              FileExists(TempDir + '\sr.pak') and
-              FileExists(TempDir + '\sv.pak') and
-              FileExists(TempDir + '\sw.pak') and
-              FileExists(TempDir + '\ta.pak') and
-              FileExists(TempDir + '\te.pak') and
-              FileExists(TempDir + '\th.pak') and
-              FileExists(TempDir + '\tr.pak') and
-              FileExists(TempDir + '\uk.pak') and
-              FileExists(TempDir + '\vi.pak') and
-              FileExists(TempDir + '\zh-CN.pak') and
-              FileExists(TempDir + '\zh-TW.pak');
+    if DirectoryExists(TempDir) then
+      begin
+        if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
+
+        Result := FileExists(TempDir + 'am.pak') and
+                  FileExists(TempDir + 'ar.pak') and
+                  FileExists(TempDir + 'bg.pak') and
+                  FileExists(TempDir + 'bn.pak') and
+                  FileExists(TempDir + 'ca.pak') and
+                  FileExists(TempDir + 'cs.pak') and
+                  FileExists(TempDir + 'da.pak') and
+                  FileExists(TempDir + 'de.pak') and
+                  FileExists(TempDir + 'el.pak') and
+                  FileExists(TempDir + 'en-GB.pak') and
+                  FileExists(TempDir + 'en-US.pak') and
+                  FileExists(TempDir + 'es.pak') and
+                  FileExists(TempDir + 'es-419.pak') and
+                  FileExists(TempDir + 'et.pak') and
+                  FileExists(TempDir + 'fa.pak') and
+                  FileExists(TempDir + 'fi.pak') and
+                  FileExists(TempDir + 'fil.pak') and
+                  FileExists(TempDir + 'fr.pak') and
+                  FileExists(TempDir + 'gu.pak') and
+                  FileExists(TempDir + 'he.pak') and
+                  FileExists(TempDir + 'hi.pak') and
+                  FileExists(TempDir + 'hr.pak') and
+                  FileExists(TempDir + 'hu.pak') and
+                  FileExists(TempDir + 'id.pak') and
+                  FileExists(TempDir + 'it.pak') and
+                  FileExists(TempDir + 'ja.pak') and
+                  FileExists(TempDir + 'kn.pak') and
+                  FileExists(TempDir + 'ko.pak') and
+                  FileExists(TempDir + 'lt.pak') and
+                  FileExists(TempDir + 'lv.pak') and
+                  FileExists(TempDir + 'ml.pak') and
+                  FileExists(TempDir + 'mr.pak') and
+                  FileExists(TempDir + 'ms.pak') and
+                  FileExists(TempDir + 'nb.pak') and
+                  FileExists(TempDir + 'nl.pak') and
+                  FileExists(TempDir + 'pl.pak') and
+                  FileExists(TempDir + 'pt-BR.pak') and
+                  FileExists(TempDir + 'pt-PT.pak') and
+                  FileExists(TempDir + 'ro.pak') and
+                  FileExists(TempDir + 'ru.pak') and
+                  FileExists(TempDir + 'sk.pak') and
+                  FileExists(TempDir + 'sl.pak') and
+                  FileExists(TempDir + 'sr.pak') and
+                  FileExists(TempDir + 'sv.pak') and
+                  FileExists(TempDir + 'sw.pak') and
+                  FileExists(TempDir + 'ta.pak') and
+                  FileExists(TempDir + 'te.pak') and
+                  FileExists(TempDir + 'th.pak') and
+                  FileExists(TempDir + 'tr.pak') and
+                  FileExists(TempDir + 'uk.pak') and
+                  FileExists(TempDir + 'vi.pak') and
+                  FileExists(TempDir + 'zh-CN.pak') and
+                  FileExists(TempDir + 'zh-TW.pak');
+      end;
   except
     on e : exception do
       OutputDebugMessage('TCefApplication.CheckLocales error: ' + e.Message);
@@ -571,20 +584,18 @@ begin
               begin
                 TempDir := FResourcesDirPath;
                 if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
-
-                Result := FileExists(TempDir + 'cef.pak')                and
-                          FileExists(TempDir + 'cef_100_percent.pak')    and
-                          FileExists(TempDir + 'cef_200_percent.pak')    and
-                          FileExists(TempDir + 'cef_extensions.pak')     and
-                          FileExists(TempDir + 'devtools_resources.pak');
-              end;
+              end
+             else
+              exit;
           end
          else
-          Result := FileExists('cef.pak')                and
-                    FileExists('cef_100_percent.pak')    and
-                    FileExists('cef_200_percent.pak')    and
-                    FileExists('cef_extensions.pak')     and
-                    FileExists('devtools_resources.pak');
+          TempDir := '';
+
+        Result := FileExists(TempDir + 'cef.pak')                and
+                  FileExists(TempDir + 'cef_100_percent.pak')    and
+                  FileExists(TempDir + 'cef_200_percent.pak')    and
+                  FileExists(TempDir + 'cef_extensions.pak')     and
+                  FileExists(TempDir + 'devtools_resources.pak');
       end;
   except
     on e : exception do
@@ -600,7 +611,7 @@ begin
     Result := FileExists('chrome_elf.dll')         and
               FileExists('d3dcompiler_43.dll')     and
               FileExists('d3dcompiler_47.dll')     and
-              FileExists('libcef.dll')             and
+              FileExists(FLibCef)                  and
               FileExists('libEGL.dll')             and
               FileExists('libGLESv2.dll')          and
               FileExists('widevinecdmadapter.dll');
@@ -624,7 +635,7 @@ begin
        CheckResources and
        CheckLocales   then
       begin
-        TempVersion := GetFileVersion('libcef.dll');
+        TempVersion := GetFileVersion(FLibCef);
         UInt64ToFileVersionInfo(TempVersion, TempVersionInfo);
 
         if (TempVersionInfo.MajorVer = CEF_SUPPORTED_VERSION_MAJOR)   and
@@ -742,14 +753,50 @@ begin
   Result := False;
 
   try
-    if FDeleteCache   and (length(FCache)   > 0) then TDirectory.Delete(FCache,   True);
-    if FDeleteCookies and (length(FCookies) > 0) then TDirectory.Delete(FCookies, True);
+    if FDeleteCache   then DeleteDirContents(FCache);
+    if FDeleteCookies then DeleteDirContents(FCookies);
 
     InitializeSettings(TempSettings);
     Result := (cef_initialize(@HInstance, @TempSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0);
   except
     on e : exception do
       OutputDebugMessage('TCefApplication.InitializeLibrary error: ' + e.Message);
+  end;
+end;
+
+procedure TCefApplication.DeleteDirContents(const aDirectory : string);
+{$IFNDEF DELPHI12_UP}
+var
+  TempRec : TSearchRec;
+{$ENDIF}
+begin
+  try
+    if (length(aDirectory) > 0) and DirectoryExists(aDirectory) then
+      begin
+        {$IFDEF DELPHI12_UP}
+        TDirectory.Delete(aDirectory, True);
+        {$ELSE}
+        if (FindFirst(aDirectory + '\*', faAnyFile, TempRec) = 0) then
+          begin
+            try
+              repeat
+                if ((TempRec.Attr and faDirectory) <> 0) then
+                  begin
+                    if (TempRec.Name <> '.') and (TempRec.Name <> '..') then
+                      DeleteDirContents(aDirectory + '\' + TempRec.Name)
+                  end
+                else
+                 DeleteFile(aDirectory + '\' + TempRec.Name);
+              until (FindNext(TempRec) <> 0);
+            finally
+              FindClose(TempRec);
+            end;
+          end;
+        {$ENDIF}
+      end;
+  except
+    on e : exception do
+      OutputDebugMessage('TCefApplication.DeleteDirContents error: ' + e.Message);
   end;
 end;
 
@@ -767,14 +814,21 @@ begin
           commandLine.AppendSwitch('--enable-system-flash');
         end;
 
-      if (FCustomCommandLines <> nil) then
+      if (FCustomCommandLines       <> nil) and
+         (FCustomCommandLineValues  <> nil) and
+         (FCustomCommandLines.Count =  FCustomCommandLineValues.Count) then
         begin
           i := 0;
 
           while (i < FCustomCommandLines.Count) do
             begin
               if (length(FCustomCommandLines[i]) > 0) then
-                commandLine.AppendSwitch(FCustomCommandLines[i]);
+                begin
+                  if (length(FCustomCommandLineValues[i]) > 0) then
+                    commandLine.AppendSwitchWithValue(FCustomCommandLines[i], FCustomCommandLineValues[i])
+                   else
+                    commandLine.AppendSwitch(FCustomCommandLines[i]);
+                end;
 
               inc(i);
             end;
@@ -804,7 +858,7 @@ end;
 
 function TCefApplication.LoadCEFlibrary : boolean;
 begin
-  FLibHandle := LoadLibrary(PChar('libcef.dll'));
+  FLibHandle := LoadLibrary(PChar(FLibCef));
 
   if (FLibHandle = 0) then
     begin

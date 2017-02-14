@@ -95,17 +95,19 @@ type
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
 
-  TOnPdfPrintFinishedProc          = reference to procedure(const path: ustring; ok: Boolean);
-  TCefDomVisitorProc               = reference to procedure(const document: ICefDomDocument);
-  TCefStringVisitorProc            = reference to procedure(const str: ustring);
-  TOnRegisterCustomSchemes         = reference to procedure(const registrar: ICefSchemeRegistrar);
-  TOnGetResourceBundleHandler      = reference to procedure(var aCefResourceBundleHandler : ICefResourceBundleHandler);
-  TOnGetBrowserProcessHandler      = reference to procedure(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
-  TOnGetRenderProcessHandler       = reference to procedure(var aCefRenderProcessHandler : ICefRenderProcessHandler);
-  TOnBeforeCommandLineProcessing   = reference to procedure(const processType: ustring; const commandLine: ICefCommandLine);
-  TCefCompletionCallbackProc       = reference to procedure;
-  TCefSetCookieCallbackProc        = reference to procedure(success: Boolean);
-  TCefDeleteCookiesCallbackProc    = reference to procedure(numDeleted: Integer);
+  TOnPdfPrintFinishedProc          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; ok: Boolean);
+  TCefDomVisitorProc               = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const document: ICefDomDocument);
+  TCefStringVisitorProc            = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const str: ustring);
+
+  TOnRegisterCustomSchemes         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const registrar: ICefSchemeRegistrar) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnGetResourceBundleHandler      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(var aCefResourceBundleHandler : ICefResourceBundleHandler) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnGetBrowserProcessHandler      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(var aCefBrowserProcessHandler : ICefBrowserProcessHandler) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnGetRenderProcessHandler       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(var aCefRenderProcessHandler : ICefRenderProcessHandler) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnBeforeCommandLineProcessing   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const processType: ustring; const commandLine: ICefCommandLine) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+
+  TCefCompletionCallbackProc       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure;
+  TCefSetCookieCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(success: Boolean);
+  TCefDeleteCookiesCallbackProc    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(numDeleted: Integer);
 
 
 
@@ -119,7 +121,7 @@ type
     procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; filePaths: TStrings);
   end;
 
-  TCefRunFileDialogCallbackProc = reference to
+  TCefRunFileDialogCallbackProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF}
     procedure(selectedAcceptFilter: Integer; filePaths: TStrings);
 
   ICefNavigationEntryVisitor = interface(ICefBase)
@@ -128,7 +130,7 @@ type
       current: Boolean; index, total: Integer): Boolean;
   end;
 
-  TCefNavigationEntryVisitorProc = reference to
+  TCefNavigationEntryVisitorProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF}
     function(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer): Boolean;
 
   ICefPdfPrintCallback = interface(ICefBase)
@@ -136,7 +138,7 @@ type
     procedure OnPdfPrintFinished(const path: ustring; ok: Boolean);
   end;
 
-  TOnDownloadImageFinishedProc = reference to
+  TOnDownloadImageFinishedProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF}
     procedure(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
 
   ICefDownloadImageCallback = interface(ICefBase)
@@ -872,7 +874,7 @@ type
     function GetRenderProcessHandler: ICefRenderProcessHandler;
   end;
 
-  TCefCookieVisitorProc = reference to function(
+  TCefCookieVisitorProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(
     const name, value, domain, path: ustring; secure, httponly,
     hasExpires: Boolean; const creation, lastAccess, expires: TDateTime;
     count, total: Integer; out deleteCookie: Boolean): Boolean;

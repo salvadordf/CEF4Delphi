@@ -66,7 +66,7 @@ type
       class function UnWrap(data: Pointer): ICefTask;
   end;
 
-  TCefFastTaskProc = reference to procedure;
+  TCefFastTaskProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure;
 
   TCefFastTask = class(TCefTaskOwn)
     protected

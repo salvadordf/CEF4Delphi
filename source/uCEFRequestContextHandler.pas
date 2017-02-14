@@ -50,7 +50,7 @@ uses
   uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRequestContextHandlerProc = reference to function: ICefCookieManager;
+  TCefRequestContextHandlerProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function: ICefCookieManager;
 
   TCefRequestContextHandlerRef = class(TCefBaseRef, ICefRequestContextHandler)
     protected

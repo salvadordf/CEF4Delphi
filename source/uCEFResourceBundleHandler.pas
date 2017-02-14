@@ -60,9 +60,9 @@ type
       constructor Create; virtual;
   end;
 
-  TGetDataResource         = reference to function(resourceId: Integer; out data: Pointer; out dataSize: NativeUInt): Boolean;
-  TGetLocalizedString      = reference to function(stringId: Integer; out stringVal: ustring): Boolean;
-  TGetDataResourceForScale = reference to function(resourceId: Integer; scaleFactor: TCefScaleFactor; out data: Pointer; out dataSize: NativeUInt): Boolean;
+  TGetDataResource         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(resourceId: Integer; out data: Pointer; out dataSize: NativeUInt): Boolean;
+  TGetLocalizedString      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(stringId: Integer; out stringVal: ustring): Boolean;
+  TGetDataResourceForScale = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(resourceId: Integer; scaleFactor: TCefScaleFactor; out data: Pointer; out dataSize: NativeUInt): Boolean;
 
   TCefFastResourceBundle = class(TCefResourceBundleHandlerOwn)
     protected

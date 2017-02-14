@@ -58,7 +58,7 @@ type
       constructor Create; virtual;
   end;
 
-  TCefWebPluginInfoVisitorProc = reference to function(const info: ICefWebPluginInfo; count, total: Integer): Boolean;
+  TCefWebPluginInfoVisitorProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const info: ICefWebPluginInfo; count, total: Integer): Boolean;
 
   TCefFastWebPluginInfoVisitor = class(TCefWebPluginInfoVisitorOwn)
     protected

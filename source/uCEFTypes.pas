@@ -216,8 +216,17 @@ type
   TCefDomEventCategory     = Integer;     // /include/internal/cef_types.h (cef_dom_event_category_t)
 
 
+{$IFNDEF DELPHI12_UP}
+  NativeUInt = Cardinal;
+  PNativeUInt = ^NativeUInt;
+  NativeInt = Integer;
+  uint16 = Word;
+  ustring  = type WideString;
+  rbstring = type AnsiString;
+{$ELSE}
   ustring  = type string;
   rbstring = type RawByteString;
+{$ENDIF}
 
   Char16  = WideChar;
   PChar16 = PWideChar;

@@ -55,13 +55,13 @@ uses
   uCEFInterfaces, uCEFTypes;
 
 type
-  TCefV8AccessorGetterProc = reference to function(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8AccessorSetterProc = reference to function(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8AccessorGetterProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8AccessorSetterProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean;
 
-  TCefV8InterceptorGetterByNameProc  = reference to function(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8InterceptorSetterByNameProc  = reference to function(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8InterceptorGetterByIndexProc = reference to function(index: integer; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8InterceptorSetterByIndexProc = reference to function(index: integer; const obj, value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8InterceptorGetterByNameProc  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8InterceptorSetterByNameProc  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8InterceptorGetterByIndexProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(index: integer; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8InterceptorSetterByIndexProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(index: integer; const obj, value: ICefv8Value; const exception: ustring): Boolean;
 
 implementation
 

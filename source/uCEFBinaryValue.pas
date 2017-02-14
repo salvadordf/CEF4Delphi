@@ -47,7 +47,7 @@ unit uCEFBinaryValue;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
   TCefBinaryValueRef = class(TCefBaseRef, ICefBinaryValue)
@@ -68,7 +68,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFTypes;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
 function TCefBinaryValueRef.Copy: ICefBinaryValue;
 begin

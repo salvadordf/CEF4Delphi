@@ -51,7 +51,10 @@ uses
   System.Rtti, System.TypInfo, System.Variants, System.SysUtils,
   System.Classes, System.Math, System.SyncObjs, WinApi.Windows,
   {$ELSE}
-  Rtti, TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, Windows,
+    {$IFDEF DELPHI12_UP}
+      Rtti,
+    {$ENDIF}
+     TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, Windows,
   {$ENDIF}
   uCEFBase, uCEFInterfaces, uCEFTypes;
 
@@ -72,6 +75,7 @@ type
       constructor Create; virtual;
   end;
 
+{$IFDEF DELPHI14_UP}
   TCefRTTIExtension = class(TCefv8HandlerOwn)
     protected
       FValue: TValue;
@@ -91,6 +95,7 @@ type
       destructor Destroy; override;
       class procedure Register(const name: string; const value: TValue; SyncMainThread: Boolean = False);
   end;
+{$ENDIF}
 
 implementation
 
@@ -161,6 +166,8 @@ begin
   Result := False;
 end;
 
+
+{$IFDEF DELPHI14_UP}
 // TCefRTTIExtension
 
 constructor TCefRTTIExtension.Create(const value: TValue; SyncMainThread: Boolean);
@@ -906,5 +913,6 @@ begin
   end else
     Exit(False);
 end;
+{$ENDIF}
 
 end.

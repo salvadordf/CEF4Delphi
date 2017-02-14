@@ -50,7 +50,7 @@ uses
   uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRegisterCDMProc = reference to procedure(result: TCefCDMRegistrationError; const error_message: ustring);
+  TCefRegisterCDMProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(result: TCefCDMRegistrationError; const error_message: ustring);
 
   TCefRegisterCDMCallbackOwn = class(TCefBaseOwn, ICefRegisterCDMCallback)
     protected

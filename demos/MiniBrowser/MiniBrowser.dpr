@@ -57,8 +57,14 @@ begin
   GlobalCEFApp.RemoteDebuggingPort  := 9000;
   GlobalCEFApp.RenderProcessHandler := TCustomRenderProcessHandler.Create;
 
-  // Example of command line switch. Uncomment the following line to see an FPS counter in the browser.
+  // Examples of command line switches.
+  // **********************************
+  //
+  // Uncomment the following line to see an FPS counter in the browser.
   //GlobalCEFApp.AddCustomCommandLine('--show-fps-counter');
+  //
+  // Uncomment the following line to change the user agent string.
+  //GlobalCEFApp.AddCustomCommandLine('--user-agent', 'MiniBrowser');
 
   if GlobalCEFApp.StartMainProcess then
     begin

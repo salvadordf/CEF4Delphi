@@ -50,7 +50,7 @@ uses
   uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefWebPluginIsUnstableProc = reference to procedure(const path: ustring; unstable: Boolean);
+  TCefWebPluginIsUnstableProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; unstable: Boolean);
 
   TCefWebPluginUnstableCallbackOwn = class(TCefBaseOwn, ICefWebPluginUnstableCallback)
     protected

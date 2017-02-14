@@ -193,13 +193,13 @@ begin
   cef_string_utf16_clear(@str);
 end;
 
-function CefGetObject(ptr: Pointer): TObject; inline;
+function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 begin
   Dec(PByte(ptr), SizeOf(Pointer));
   Result := TObject(PPointer(ptr)^);
 end;
 
-function CefGetData(const i: ICefBase): Pointer; inline;
+function CefGetData(const i: ICefBase): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 begin
   if (i <> nil) then
     Result := i.Wrap
@@ -442,7 +442,7 @@ const
   DEFAULT_LINE = 1;
 begin
   {$IFDEF DEBUG}
-  OutputDebugString(PWideChar(aMessage + chr(0)));
+  OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
 
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);

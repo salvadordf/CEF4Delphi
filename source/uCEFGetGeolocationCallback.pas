@@ -58,7 +58,7 @@ type
       constructor Create; virtual;
   end;
 
-  TOnLocationUpdate = reference to procedure(const position: PCefGeoposition);
+  TOnLocationUpdate = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const position: PCefGeoposition);
 
   TCefFastGetGeolocationCallback = class(TCefGetGeolocationCallbackOwn)
     protected
