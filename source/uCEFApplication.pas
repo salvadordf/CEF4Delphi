@@ -288,7 +288,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 2924;
-  CEF_SUPPORTED_VERSION_RELEASE = 1566;
+  CEF_SUPPORTED_VERSION_RELEASE = 1569;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
 
@@ -604,17 +604,32 @@ begin
 end;
 
 function TCefApplication.CheckDLLs : boolean;
+var
+  TempDir : string;
 begin
   Result := False;
 
   try
+    if (length(FFrameworkDirPath) > 0) then
+      begin
+        if DirectoryExists(FFrameworkDirPath) then
+          begin
+            TempDir := FFrameworkDirPath;
+            if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
+          end
+         else
+          exit;
+      end
+     else
+      TempDir := '';
+
     Result := FileExists('chrome_elf.dll')         and
-              FileExists('d3dcompiler_43.dll')     and
-              FileExists('d3dcompiler_47.dll')     and
               FileExists(FLibCef)                  and
-              FileExists('libEGL.dll')             and
-              FileExists('libGLESv2.dll')          and
-              FileExists('widevinecdmadapter.dll');
+              FileExists(TempDir + 'd3dcompiler_43.dll')     and
+              FileExists(TempDir + 'd3dcompiler_47.dll')     and
+              FileExists(TempDir + 'libEGL.dll')             and
+              FileExists(TempDir + 'libGLESv2.dll')          and
+              FileExists(TempDir + 'widevinecdmadapter.dll');
   except
     on e : exception do
       OutputDebugMessage('TCefApplication.CheckDLLs error: ' + e.Message);
@@ -718,16 +733,16 @@ begin
   aSettings.size                            := SizeOf(TCefSettings);
   aSettings.single_process                  := Ord(FSingleProcess);
   aSettings.no_sandbox                      := Ord(FNoSandbox);
+  aSettings.browser_subprocess_path         := CefString(FBrowserSubprocessPath);
   aSettings.framework_dir_path              := CefString(FFrameworkDirPath);
   aSettings.multi_threaded_message_loop     := Ord(FMultiThreadedMessageLoop);
   aSettings.external_message_pump           := Ord(FExternalMessagePump);
   aSettings.windowless_rendering_enabled    := Ord(FWindowlessRenderingEnabled);
+  aSettings.command_line_args_disabled      := Ord(FCommandLineArgsDisabled);
   aSettings.cache_path                      := CefString(FCache);
   aSettings.user_data_path                  := CefString(FUserDataPath);
   aSettings.persist_session_cookies         := Ord(FPersistSessionCookies);
   aSettings.persist_user_preferences        := Ord(FPersistUserPreferences);
-  aSettings.browser_subprocess_path         := CefString(FBrowserSubprocessPath);
-  aSettings.command_line_args_disabled      := Ord(FCommandLineArgsDisabled);
   aSettings.user_agent                      := CefString(FUserAgent);
   aSettings.product_version                 := CefString(FProductVersion);
   aSettings.locale                          := CefString(FLocale);
@@ -863,7 +878,7 @@ begin
   if (FLibHandle = 0) then
     begin
       Result := False;
-      OutputDebugMessage('TCefApplication.LoadCEFlibrary error: Cannot load libcef.dll');
+      OutputDebugMessage('TCefApplication.LoadCEFlibrary error: Cannot load libcef.dll. Error code : 0x' + inttohex(GetLastError, 8));
       exit;
     end;
 

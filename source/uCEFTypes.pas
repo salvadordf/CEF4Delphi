@@ -988,35 +988,35 @@ type
 
   // /include/internal/cef_types.h (cef_settings_t)
   TCefSettings = record
-    size: NativeUInt;
-    single_process: Integer;
-    no_sandbox: Integer;
-    browser_subprocess_path: TCefString;
-    framework_dir_path: TCefString;
-    multi_threaded_message_loop: Integer;
-    external_message_pump:integer;
-    windowless_rendering_enabled: Integer;
-    command_line_args_disabled: Integer;
-    cache_path: TCefString;
-    user_data_path: TCefString;
-    persist_session_cookies: Integer;
-    persist_user_preferences: Integer;
-    user_agent: TCefString;
-    product_version: TCefString;
-    locale: TCefString;
-    log_file: TCefString;
-    log_severity: TCefLogSeverity;
-    javascript_flags: TCefString;
-    resources_dir_path: TCefString;
-    locales_dir_path: TCefString;
-    pack_loading_disabled: Integer;
-    remote_debugging_port: Integer;
-    uncaught_exception_stack_size: Integer;
-    context_safety_implementation: Integer;
-    ignore_certificate_errors: Integer;
+    size                           : NativeUInt;
+    single_process                 : Integer;
+    no_sandbox                     : Integer;
+    browser_subprocess_path        : TCefString;
+    framework_dir_path             : TCefString;
+    multi_threaded_message_loop    : Integer;
+    external_message_pump          : Integer;
+    windowless_rendering_enabled   : Integer;
+    command_line_args_disabled     : Integer;
+    cache_path                     : TCefString;
+    user_data_path                 : TCefString;
+    persist_session_cookies        : Integer;
+    persist_user_preferences       : Integer;
+    user_agent                     : TCefString;
+    product_version                : TCefString;
+    locale                         : TCefString;
+    log_file                       : TCefString;
+    log_severity                   : TCefLogSeverity;
+    javascript_flags               : TCefString;
+    resources_dir_path             : TCefString;
+    locales_dir_path               : TCefString;
+    pack_loading_disabled          : Integer;
+    remote_debugging_port          : Integer;
+    uncaught_exception_stack_size  : Integer;
+    context_safety_implementation  : Integer;
+    ignore_certificate_errors      : Integer;
     enable_net_security_expiration : integer;
-    background_color: TCefColor;
-    accept_language_list: TCefString;
+    background_color               : TCefColor;
+    accept_language_list           : TCefString;
   end;
 
   // /include/internal/cef_win.h (cef_window_info_t)
