@@ -113,6 +113,8 @@ type
       FBrowserProcessHandler         : ICefBrowserProcessHandler;
       FRenderProcessHandler          : ICefRenderProcessHandler;
       FLibCef                        : string;
+      FChromeElf                     : string;
+      FAppSettings                   : TCefSettings;
 
       function  LoadCEFlibrary : boolean;
       function  Load_cef_app_capi_h : boolean;
@@ -181,7 +183,7 @@ type
       procedure App_OnGetRenderProcessHandler(var aCefRenderProcessHandler : ICefRenderProcessHandler);
 
     public
-      constructor Create;
+      constructor Create(aUpdateChromeVer : boolean = True);
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
@@ -288,11 +290,16 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 2924;
-  CEF_SUPPORTED_VERSION_RELEASE = 1569;
+  CEF_SUPPORTED_VERSION_RELEASE = 1571;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
+  CEF_CHROMEELF_VERSION_MAJOR   = 56;
+  CEF_CHROMEELF_VERSION_MINOR   = 0;
+  CEF_CHROMEELF_VERSION_RELEASE = 2924;
+  CEF_CHROMEELF_VERSION_BUILD   = 76;
 
-constructor TCefApplication.Create;
+
+constructor TCefApplication.Create(aUpdateChromeVer : boolean);
 begin
   inherited Create;
 
@@ -342,8 +349,17 @@ begin
   FRenderProcessHandler          := nil;
   FLibLoaded                     := False;
   FLibCef                        := 'libcef.dll';
+  FChromeElf                     := 'chrome_elf.dll';
 
-  UpdateChromeVersionInfo;
+  FAppSettings.size := SizeOf(TCefSettings);
+  FillChar(FAppSettings, FAppSettings.size, 0);
+
+  FChromeVersionInfo.MajorVer    := CEF_CHROMEELF_VERSION_MAJOR;
+  FChromeVersionInfo.MinorVer    := CEF_CHROMEELF_VERSION_MINOR;
+  FChromeVersionInfo.Release     := CEF_CHROMEELF_VERSION_RELEASE;
+  FChromeVersionInfo.Build       := CEF_CHROMEELF_VERSION_BUILD;
+
+  if aUpdateChromeVer then UpdateChromeVersionInfo;
 
   IsMultiThread := True;
 
@@ -623,8 +639,8 @@ begin
      else
       TempDir := '';
 
-    Result := FileExists('chrome_elf.dll')         and
-              FileExists(FLibCef)                  and
+    Result := FileExists(FChromeElf)                         and
+              FileExists(FLibCef)                            and
               FileExists(TempDir + 'd3dcompiler_43.dll')     and
               FileExists(TempDir + 'd3dcompiler_47.dll')     and
               FileExists(TempDir + 'libEGL.dll')             and
@@ -670,9 +686,9 @@ var
   TempVersion : uint64;
 begin
   try
-    if FileExists('chrome_elf.dll') then
+    if FileExists(FChromeElf) then
       begin
-        TempVersion := GetFileVersion('chrome_elf.dll');
+        TempVersion := GetFileVersion(FChromeElf);
         UInt64ToFileVersionInfo(TempVersion, FChromeVersionInfo);
       end;
   except
@@ -762,8 +778,6 @@ begin
 end;
 
 function TCefApplication.InitializeLibrary : boolean;
-var
-  TempSettings : TCefSettings;
 begin
   Result := False;
 
@@ -771,8 +785,8 @@ begin
     if FDeleteCache   then DeleteDirContents(FCache);
     if FDeleteCookies then DeleteDirContents(FCookies);
 
-    InitializeSettings(TempSettings);
-    Result := (cef_initialize(@HInstance, @TempSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0);
+    InitializeSettings(FAppSettings);
+    Result := (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0);
   except
     on e : exception do
       OutputDebugMessage('TCefApplication.InitializeLibrary error: ' + e.Message);

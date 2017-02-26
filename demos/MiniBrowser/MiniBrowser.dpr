@@ -66,6 +66,14 @@ begin
   // Uncomment the following line to change the user agent string.
   //GlobalCEFApp.AddCustomCommandLine('--user-agent', 'MiniBrowser');
 
+
+  //GlobalCEFApp.LibCef := 'cef\libcef.dll';
+  //GlobalCEFApp.FrameworkDirPath := 'k:\cef\';
+  //GlobalCEFApp.ResourcesDirPath := 'k:\cef\';
+  //GlobalCEFApp.LocalesDirPath := 'k:\cef\locales\';
+  //GlobalCEFApp.CheckCEFFiles := False;
+
+
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;

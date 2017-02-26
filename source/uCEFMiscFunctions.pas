@@ -209,7 +209,7 @@ end;
 
 function CefString(const str: PCefString): ustring;
 begin
-  if str <> nil then
+  if (str <> nil) then
     SetString(Result, str.str, str.length)
    else
     Result := '';
@@ -217,53 +217,50 @@ end;
 
 function CefString(const str: ustring): TCefString;
 begin
-  Result.str := PChar16(PWideChar(str));
+  Result.str    := PChar16(PWideChar(str));
   Result.length := Length(str);
-  Result.dtor := nil;
+  Result.dtor   := nil;
 end;
 
 procedure CefStringFree(const str: PCefString);
 begin
-  if str <> nil then
-    cef_string_utf16_clear(str);
+  if (str <> nil) then cef_string_utf16_clear(str);
 end;
 
 procedure CefStringSet(const str: PCefString; const value: ustring);
 begin
-  if str <> nil then
-    cef_string_utf16_set(PWideChar(value), Length(value), str, 1);
+  if (str <> nil) then cef_string_utf16_set(PWideChar(value), Length(value), str, 1);
 end;
 
 function CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
 begin
-  if str <> nil then
-  begin
-    Result := CefString(PCefString(str));
-    cef_string_userfree_utf16_free(str);
-  end else
+  if (str <> nil) then
+    begin
+      Result := CefString(PCefString(str));
+      cef_string_userfree_utf16_free(str);
+    end
+   else
     Result := '';
 end;
 
 function CefStringAlloc(const str: ustring): TCefString;
 begin
   FillChar(Result, SizeOf(Result), 0);
-  if str <> '' then
-    cef_string_wide_to_utf16(PWideChar(str), Length(str), @Result);
+  if (str <> '') then cef_string_wide_to_utf16(PWideChar(str), Length(str), @Result);
 end;
 
 procedure _free_string(str: PChar16); stdcall;
 begin
-  if str <> nil then
-    FreeMem(str);
+  if (str <> nil) then FreeMem(str);
 end;
 
 function CefUserFreeString(const str: ustring): PCefStringUserFree;
 begin
-  Result := cef_string_userfree_utf16_alloc;
+  Result        := cef_string_userfree_utf16_alloc;
   Result.length := Length(str);
   GetMem(Result.str, Result.length * SizeOf(TCefChar));
   Move(PCefChar(str)^, Result.str^, Result.length * SizeOf(TCefChar));
-  Result.dtor := @_free_string;
+  Result.dtor   := @_free_string;
 end;
 
 function CefExecuteProcess(var app : ICefApp; aWindowsSandboxInfo : Pointer) : integer;
@@ -273,10 +270,10 @@ end;
 
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
 var
-  n, c: TCefString;
+  n, c : TCefString;
 begin
-  n := CefString(name);
-  c := CefString(code);
+  n      := CefString(name);
+  c      := CefString(code);
   Result := cef_register_extension(@n, @c, CefGetData(handler)) <> 0;
 end;
 
@@ -292,33 +289,33 @@ end;
 
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 begin
-  Result.wYear := dt.year;
-  Result.wMonth := dt.month;
-  Result.wDayOfWeek := dt.day_of_week;
-  Result.wDay := dt.day_of_month;
-  Result.wHour := dt.hour;
-  Result.wMinute := dt.minute;
-  Result.wSecond := dt.second;
-  Result.wMilliseconds := dt.millisecond;
+  Result.wYear          := dt.year;
+  Result.wMonth         := dt.month;
+  Result.wDayOfWeek     := dt.day_of_week;
+  Result.wDay           := dt.day_of_month;
+  Result.wHour          := dt.hour;
+  Result.wMinute        := dt.minute;
+  Result.wSecond        := dt.second;
+  Result.wMilliseconds  := dt.millisecond;
 end;
 
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 begin
-  Result.year := dt.wYear;
-  Result.month := dt.wMonth;
-  Result.day_of_week := dt.wDayOfWeek;
+  Result.year         := dt.wYear;
+  Result.month        := dt.wMonth;
+  Result.day_of_week  := dt.wDayOfWeek;
   Result.day_of_month := dt.wDay;
-  Result.hour := dt.wHour;
-  Result.minute := dt.wMinute;
-  Result.second := dt.wSecond;
-  Result.millisecond := dt.wMilliseconds;
+  Result.hour         := dt.wHour;
+  Result.minute       := dt.wMinute;
+  Result.second       := dt.wSecond;
+  Result.millisecond  := dt.wMilliseconds;
 end;
 
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 var
   st: TSystemTime;
 begin
-  st := CefTimeToSystemTime(dt);
+  st     := CefTimeToSystemTime(dt);
   SystemTimeToTzSpecificLocalTime(nil, @st, @st);
   Result := SystemTimeToDateTime(st);
 end;

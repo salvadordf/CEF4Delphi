@@ -171,7 +171,7 @@ procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const params: ICefContextMenuParams; commandId: Integer;
   eventFlags: TCefEventFlags; out Result: Boolean);
 var
-  TempPoint : TSmallPoint;
+  TempParam : WParam;
 begin
   Result := False;
 
@@ -181,9 +181,8 @@ begin
 
     MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
       begin
-        TempPoint.x := params.XCoord;
-        TempPoint.y := params.YCoord;
-        PostMessage(Handle, MINIBROWSER_SHOWDEVTOOLS, wParam(TempPoint), 0);
+        TempParam := ((params.XCoord and $FFFF) shl 16) or (params.YCoord and $FFFF);
+        PostMessage(Handle, MINIBROWSER_SHOWDEVTOOLS, TempParam, 0);
       end;
 
     MINIBROWSER_CONTEXTMENU_SHOWJSALERT :
@@ -260,8 +259,12 @@ begin
 end;
 
 procedure TMiniBrowserFrm.ShowDevToolsMsg(var aMessage : TMessage);
+var
+  TempPoint : TPoint;
 begin
-  ShowDevTools(SmallPointToPoint(TSmallPoint(aMessage.wParam)));
+  TempPoint.x := (aMessage.wParam shr 16) and $FFFF;
+  TempPoint.y := aMessage.wParam and $FFFF;
+  ShowDevTools(TempPoint);
 end;
 
 procedure TMiniBrowserFrm.HideDevToolsMsg(var aMessage : TMessage);
@@ -282,7 +285,7 @@ begin
   Chromium1.CloseDevTools(DevTools);
   Splitter1.Visible := False;
   DevTools.Visible  := False;
-  DevTools.Width   := 0;
+  DevTools.Width    := 0;
 end;
 
 end.

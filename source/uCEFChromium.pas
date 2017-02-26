@@ -98,6 +98,10 @@ type
       FIsOSR              : boolean;
       FInitialized        : boolean;
       FClosing            : boolean;
+      FWindowInfo         : TCefWindowInfo;
+      FBrowserSettings    : TCefBrowserSettings;
+      FDevWindowInfo      : TCefWindowInfo;
+      FDevBrowserSettings : TCefBrowserSettings;
 
       // ICefClient
       FOnProcessMessageReceived       : TOnProcessMessageReceived;
@@ -638,6 +642,12 @@ begin
   FProxyScriptURL        := '';
   FProxyByPassList       := '';
 
+  FillChar(FWindowInfo,    SizeOf(TCefWindowInfo), 0);
+  FillChar(FDevWindowInfo, SizeOf(TCefWindowInfo), 0);
+
+  InitializeSettings(FBrowserSettings);
+  InitializeSettings(FDevBrowserSettings);
+
   InitializeEvents;
 
   inherited Create(AOwner);
@@ -829,9 +839,6 @@ begin
 end;
 
 function TChromium.CreateBrowser(const aBrowserParent : TWinControl; const aWindowName : string) : boolean;
-var
-  TempInfo     : TCefWindowInfo;
-  TempSettings : TCefBrowserSettings;
 begin
   Result := False;
 
@@ -842,19 +849,19 @@ begin
        (GlobalCEFApp <> nil) and
        CreateClientHandler(aBrowserParent = nil) then
       begin
-        GetSettings(TempSettings);
+        GetSettings(FBrowserSettings);
 
         if FIsOSR then
-          WindowInfoAsWindowless(TempInfo, FCompHandle, False, aWindowName)
+          WindowInfoAsWindowless(FWindowInfo, FCompHandle, False, aWindowName)
          else
-          WindowInfoAsChild(TempInfo, aBrowserParent.Handle, aBrowserParent.ClientRect, aWindowName);
+          WindowInfoAsChild(FWindowInfo, aBrowserParent.Handle, aBrowserParent.ClientRect, aWindowName);
 
 
         if MultithreadApp then
-          Result := CreateBrowserHost(@TempInfo, FDefaultUrl, @TempSettings, nil)
+          Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, nil)
          else
           begin
-            FBrowser := CreateBrowserHostSync(@TempInfo, FDefaultUrl, @TempSettings, nil);
+            FBrowser := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, nil);
 
             if (FBrowser <> nil) then
               begin
@@ -2031,19 +2038,16 @@ end;
 
 procedure TChromium.ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);
 var
-  TempInfo     : TCefWindowInfo;
-  TempSettings : TCefBrowserSettings;
   TempPoint    : TCefPoint;
-  TempPPoint   : PCefPoint;
 begin
   if not(Initialized) or HasDevTools then Exit;
 
-  InitializeSettings(TempSettings);
+  InitializeSettings(FDevBrowserSettings);
 
   if (aDevTools <> nil) then
-    WindowInfoAsChild(TempInfo, aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
+    WindowInfoAsChild(FDevWindowInfo, aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
    else
-    WindowInfoAsPopUp(TempInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
+    WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
 
 
   if (inspectElementAt.x <> low(integer)) and
@@ -2051,12 +2055,11 @@ begin
     begin
       TempPoint.x := inspectElementAt.x;
       TempPoint.y := inspectElementAt.y;
-      TempPPoint  := @TempPoint;
+
+      FBrowser.Host.ShowDevTools(@FDevWindowInfo, TCefClientOwn.Create as ICefClient, @FDevBrowserSettings, @TempPoint);
     end
    else
-    TempPPoint := nil;
-
-  FBrowser.Host.ShowDevTools(@TempInfo, TCefClientOwn.Create as ICefClient, @TempSettings, TempPPoint);
+    FBrowser.Host.ShowDevTools(@FDevWindowInfo, TCefClientOwn.Create as ICefClient, @FDevBrowserSettings, nil);
 end;
 
 procedure TChromium.CloseDevTools(const aDevTools : TWinControl);
