@@ -5,7 +5,9 @@ CEF4Delphi is based on DCEF3, made by Henri Gourvest. The original license of DC
 
 CEF4Delphi uses CEF 3.2924.1571.gcdcdfa9 which includes Chromium 56.0.2924.76. 
 The CEF3 binaries used by CEF4Delphi are available for download at spotify :
+
   32bit -> http://opensource.spotify.com/cefbuilds/cef_binary_3.2924.1571.gcdcdfa9_windows32.tar.bz2
+  
   64bit -> http://opensource.spotify.com/cefbuilds/cef_binary_3.2924.1571.gcdcdfa9_windows64.tar.bz2
 
 CEF4Delphi was developed and tested on Delphi 10 Seattle. Other versions of Delphi or Lazarus were NOT tested.
