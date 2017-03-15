@@ -128,7 +128,7 @@ end;
 procedure TCustomCefStringVisitor.Visit(const str: ustring);
 begin
   if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).TextResultAvailable(str);
+    TChromium(FChromiumBrowser).Internal_TextResultAvailable(str);
 end;
 
 end.

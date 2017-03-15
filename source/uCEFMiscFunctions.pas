@@ -52,7 +52,7 @@ uses
   {$ELSE}
   Windows, Classes, SysUtils,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFLibFunctions;
+  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler;
 
 const
   Kernel32DLL = 'kernel32.dll';
@@ -116,11 +116,18 @@ procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
 procedure OutputDebugMessage(const aMessage : string);
 
+function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring; const handler: TCefResourceHandlerClass): Boolean; overload;
+function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring; const factory: ICefSchemeHandlerFactory): Boolean; overload;
+function CefClearSchemeHandlerFactories: Boolean;
+
+function CefAddCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
+function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
+function CefClearCrossOriginWhitelist: Boolean;
 
 implementation
 
 uses
-  uCEFConstants, uCEFApplication;
+  uCEFConstants, uCEFApplication, uCEFSchemeHandlerFactory;
 
 function CefColorGetA(color: TCefColor): Byte;
 begin
@@ -444,6 +451,65 @@ begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
   {$ENDIF}
+end;
+
+function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring;
+  const handler: TCefResourceHandlerClass): Boolean;
+var
+  s, h: TCefString;
+begin
+  s := CefString(SchemeName);
+  h := CefString(HostName);
+  Result := cef_register_scheme_handler_factory(
+    @s,
+    @h,
+    CefGetData(TCefSchemeHandlerFactoryOwn.Create(handler) as ICefBase)) <> 0;
+end;
+
+function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring;
+  const factory: ICefSchemeHandlerFactory): Boolean;
+var
+  s, h: TCefString;
+begin
+  s := CefString(SchemeName);
+  h := CefString(HostName);
+  Result := cef_register_scheme_handler_factory(
+    @s,
+    @h,
+    CefGetData(factory as ICefBase)) <> 0;
+end;
+
+function CefClearSchemeHandlerFactories: Boolean;
+begin
+  Result := cef_clear_scheme_handler_factories <> 0;
+end;
+
+function CefAddCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol,
+  TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
+var
+  so, tp, td: TCefString;
+begin
+  so := CefString(SourceOrigin);
+  tp := CefString(TargetProtocol);
+  td := CefString(TargetDomain);
+  Result := cef_add_cross_origin_whitelist_entry(@so, @tp, @td, Ord(AllowTargetSubdomains)) <> 0;
+end;
+
+function CefRemoveCrossOriginWhitelistEntry(
+  const SourceOrigin, TargetProtocol, TargetDomain: ustring;
+  AllowTargetSubdomains: Boolean): Boolean;
+var
+  so, tp, td: TCefString;
+begin
+  so := CefString(SourceOrigin);
+  tp := CefString(TargetProtocol);
+  td := CefString(TargetDomain);
+  Result := cef_remove_cross_origin_whitelist_entry(@so, @tp, @td, Ord(AllowTargetSubdomains)) <> 0;
+end;
+
+function CefClearCrossOriginWhitelist: Boolean;
+begin
+  Result := cef_clear_cross_origin_whitelist <> 0;
 end;
 
 end.

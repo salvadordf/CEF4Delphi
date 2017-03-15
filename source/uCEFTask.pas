@@ -110,6 +110,26 @@ type
       constructor Create(const aCallBack : ICefDeleteCookiesCallback); reintroduce;
   end;
 
+  TCefUpdatePrefsTask = class(TCefTaskOwn)
+    protected
+      FChromiumBrowser : TObject;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+  end;
+
+  TCefSavePrefsTask = class(TCefTaskOwn)
+    protected
+      FChromiumBrowser : TObject;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+  end;
+
 implementation
 
 uses
@@ -182,7 +202,7 @@ end;
 procedure TCefGetHTMLTask.Execute;
 begin
   if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).GetHTML;
+    TChromium(FChromiumBrowser).Internal_GetHTML;
 end;
 
 // TCefGetDocumentTask
@@ -196,7 +216,7 @@ end;
 procedure TCefGetDocumentTask.Execute;
 begin
   if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).VisitDOM;
+    TChromium(FChromiumBrowser).Internal_VisitDOM;
 end;
 
 // TCefDeleteCookiesTask
@@ -214,6 +234,36 @@ var
 begin
   CookieManager := TCefCookieManagerRef.Global(nil);
   CookieManager.DeleteCookies('', '', FCallBack);
+end;
+
+// TCefUpdatePrefsTask
+
+constructor TCefUpdatePrefsTask.Create(const aChromiumBrowser : TObject);
+begin
+  inherited Create;
+
+  FChromiumBrowser := aChromiumBrowser;
+end;
+
+procedure TCefUpdatePrefsTask.Execute;
+begin
+  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
+    TChromium(FChromiumBrowser).Internal_UpdatePreferences;
+end;
+
+// TCefSavePrefsTask
+
+constructor TCefSavePrefsTask.Create(const aChromiumBrowser : TObject);
+begin
+  inherited Create;
+
+  FChromiumBrowser := aChromiumBrowser;
+end;
+
+procedure TCefSavePrefsTask.Execute;
+begin
+  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
+    TChromium(FChromiumBrowser).Internal_SavePreferences;
 end;
 
 end.

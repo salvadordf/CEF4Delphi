@@ -117,8 +117,13 @@ end;
 
 procedure TChromiumWindow.WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
 begin
-  PostMessage(self.Handle, CEF_DOONCLOSE, 0, 0);
-  Result := True;
+  if assigned(FOnClose) then
+    begin
+      PostMessage(self.Handle, CEF_DOONCLOSE, 0, 0);
+      Result := True;
+    end
+   else
+    Result := False;
 end;
 
 procedure TChromiumWindow.OnCloseMsg(var aMessage : TMessage);

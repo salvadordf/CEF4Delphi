@@ -35,57 +35,49 @@
  *
  *)
 
+unit uPreferences;
 
-program MiniBrowser;
-
-{$I cef.inc}
+interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  {$ELSE}
-  Forms,
-  {$ENDIF }
-  uCEFApplication,
-  uCEFInterfaces,
-  uCEFMiscFunctions,
-  uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
-  uTestExtension in 'uTestExtension.pas',
-  uHelloScheme in 'uHelloScheme.pas',
-  uPreferences in 'uPreferences.pas' {PreferencesFrm};
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
 
-{$R *.res}
+type
+  TPreferencesFrm = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
+    GroupBox1: TGroupBox;
+    ProxyTypeCbx: TComboBox;
+    ProxyTypeLbl: TLabel;
+    ProxyServerLbl: TLabel;
+    ProxyServerEdt: TEdit;
+    ProxyPortLbl: TLabel;
+    ProxyPortEdt: TEdit;
+    ProxyUsernameLbl: TLabel;
+    ProxyUsernameEdt: TEdit;
+    ProxyPasswordLbl: TLabel;
+    ProxyPasswordEdt: TEdit;
+    ProxyScriptURLEdt: TEdit;
+    ProxyScriptURLLbl: TLabel;
+    ProxyByPassListEdt: TEdit;
+    ProxyByPassListLbl: TLabel;
+    GroupBox2: TGroupBox;
+    HeaderNameEdt: TEdit;
+    HeaderNameLbl: TLabel;
+    HeaderValueEdt: TEdit;
+    HeaderValueLbl: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
 
-procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: ICefSchemeRegistrar);
-begin
-  registrar.AddCustomScheme('hello', True, True, False);
-end;
+var
+  PreferencesFrm: TPreferencesFrm;
 
-begin
-  GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.RemoteDebuggingPort  := 9000;
-  GlobalCEFApp.RenderProcessHandler := TCustomRenderProcessHandler.Create;
-  GlobalCEFApp.OnRegCustomSchemes   := GlobalCEFApp_OnRegCustomSchemes;
+implementation
 
-  // Examples of command line switches.
-  // **********************************
-  //
-  // Uncomment the following line to see an FPS counter in the browser.
-  //GlobalCEFApp.AddCustomCommandLine('--show-fps-counter');
-  //
-  // Uncomment the following line to change the user agent string.
-  //GlobalCEFApp.AddCustomCommandLine('--user-agent', 'MiniBrowser');
+{$R *.dfm}
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      CefRegisterSchemeHandlerFactory('hello', '', THelloScheme);
-
-      Application.Initialize;
-      Application.MainFormOnTaskbar := True;
-      Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
-      Application.CreateForm(TPreferencesFrm, PreferencesFrm);
-      Application.Run;
-    end;
-
-  GlobalCEFApp.Free;
 end.

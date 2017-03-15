@@ -74,7 +74,6 @@ type
       FFontOptions        : TChromiumFontOptions;
       FPDFPrintOptions    : TPDFPrintOptions;
       FDefaultEncoding    : ustring;
-      FPrefs              : TStringList;
       FProxyType          : integer;
       FProxyServer        : string;
       FProxyPort          : integer;
@@ -83,7 +82,6 @@ type
       FProxyScriptURL     : string;
       FProxyByPassList    : string;
       FUpdatePreferences  : boolean;
-      FGetPreferences     : boolean;
       FCustomHeaderName   : string;
       FCustomHeaderValue  : string;
       FAddCustomHeader    : boolean;
@@ -95,6 +93,7 @@ type
       FCMStoragePath      : ustring;
       FZoomStep           : byte;
       FWindowName         : string;
+      FPrefsFileName      : string;
       FIsOSR              : boolean;
       FInitialized        : boolean;
       FClosing            : boolean;
@@ -200,7 +199,7 @@ type
       // Custom
       FOnTextResultAvailable          : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished             : TOnPdfPrintFinishedEvent;
-      FOnPrefsAvailable               : TOnTextResultAvailableEvent;
+      FOnPrefsAvailable               : TNotifyEvent;
       FOnCookiesDeleted               : TOnCookiesDeletedEvent;
       FOnDocumentAvailable            : TOnDocumentAvailableEvent;
 
@@ -252,7 +251,6 @@ type
       procedure GetSettings(var aSettings : TCefBrowserSettings);
       procedure GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : string);
 
-      procedure UpdateAllPreferences;
       function  UpdateProxyPrefs : boolean;
       function  UpdatePreference(const aName : string; aValue : boolean) : boolean; overload;
       function  UpdatePreference(const aName : string; aValue : integer) : boolean; overload;
@@ -272,7 +270,6 @@ type
       procedure PrefsAvailableMsg(var aMessage : TMessage);
       function  GetParentForm : TCustomForm;
       procedure ApplyZoomStep;
-      function  GetAllPreferences : boolean;
       function  SendCompMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
       procedure WndProc(var aMessage: TMessage);
 
@@ -379,13 +376,16 @@ type
       function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = '') : boolean;
       procedure   CloseBrowser(aForceClose : boolean);
 
-      procedure   DOMVisitorVisit(const document: ICefDomDocument);
-      procedure   CookiesDeleted(numDeleted : integer);
-      procedure   GetHTML;
-      procedure   VisitDOM;
-      procedure   PdfPrintFinished(aResultOK : boolean);
-      procedure   TextResultAvailable(const aText : string);
-      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
+      // Internal procedures.
+      // Only tasks, visitors or callbacks should use them in the right thread/process.
+      procedure   Internal_DOMVisit(const document: ICefDomDocument);
+      procedure   Internal_CookiesDeleted(numDeleted : integer);
+      procedure   Internal_GetHTML;
+      procedure   Internal_VisitDOM;
+      procedure   Internal_PdfPrintFinished(aResultOK : boolean);
+      procedure   Internal_TextResultAvailable(const aText : string);
+      procedure   Internal_UpdatePreferences;
+      procedure   Internal_SavePreferences;
 
       procedure   LoadURL(const aURL : ustring);
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
@@ -400,6 +400,9 @@ type
       procedure   DeleteCookies;
       procedure   RetrieveDOMDocument;
       procedure   RetrieveHTML;
+      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
+      procedure   UpdatePreferences;
+      procedure   SavePreferences(const aFileName : string);
 
       procedure   ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);
       procedure   CloseDevTools(const aDevTools : TWinControl = nil);
@@ -462,7 +465,6 @@ type
       property  WindowHandle            : THandle                      read GetWindowHandle;
       property  FrameIsFocused          : boolean                      read GetFrameIsFocused;
       property  Initialized             : boolean                      read GetInitialized;
-      property  GetPreferences          : boolean                      read FGetPreferences           write FGetPreferences;
       property  CookiePrefs             : integer                      read FCookiePrefs              write SetCookiePrefs;
       property  ImagesPrefs             : integer                      read FImagesPrefs              write SetImagesPrefs;
       property  CMStoragePath           : ustring                      read FCMStoragePath            write SetCMStoragePath;
@@ -490,7 +492,7 @@ type
     published
       property  OnTextResultAvailable   : TOnTextResultAvailableEvent  read FOnTextResultAvailable    write FOnTextResultAvailable;
       property  OnPdfPrintFinished      : TOnPdfPrintFinishedEvent     read FOnPdfPrintFinished       write FOnPdfPrintFinished;
-      property  OnPrefsAvailable        : TOnTextResultAvailableEvent  read FOnPrefsAvailable         write FOnPrefsAvailable;
+      property  OnPrefsAvailable        : TNotifyEvent                 read FOnPrefsAvailable         write FOnPrefsAvailable;
       property  OnCookiesDeleted        : TOnCookiesDeletedEvent       read FOnCookiesDeleted         write FOnCookiesDeleted;
       property  OnDocumentAvailable     : TOnDocumentAvailableEvent    read FOnDocumentAvailable      write FOnDocumentAvailable;
 
@@ -620,11 +622,10 @@ begin
   FCookiDeletercb        := nil;
   FDOMVisitor            := nil;
   FPDFPrintOptions       := nil;
-  FPrefs                 := nil;
   FUpdatePreferences     := False;
-  FGetPreferences        := False;
   FCustomHeaderName      := '';
   FCustomHeaderValue     := '';
+  FPrefsFileName         := '';
   FAddCustomHeader       := False;
   FDoNotTrack            := True;
   FSendReferrer          := True;
@@ -687,7 +688,6 @@ begin
       if (FFontOptions     <> nil) then FreeAndNil(FFontOptions);
       if (FOptions         <> nil) then FreeAndNil(FOptions);
       if (FPDFPrintOptions <> nil) then FreeAndNil(FPDFPrintOptions);
-      if (FPrefs           <> nil) then FreeAndNil(FPrefs);
     except
       on e : exception do
         OutputDebugMessage('TChromium.Destroy error: ' + e.Message);
@@ -708,7 +708,6 @@ begin
         FOptions         := TChromiumOptions.Create;
         FFontOptions     := TChromiumFontOptions.Create;
         FPDFPrintOptions := TPDFPrintOptions.Create;
-        FPrefs           := TStringList.Create;
       end;
   except
     on e : exception do
@@ -932,7 +931,7 @@ begin
     end;
 end;
 
-procedure TChromium.VisitDOM;
+procedure TChromium.Internal_VisitDOM;
 var
   TempFrame : ICefFrame;
 begin
@@ -949,7 +948,7 @@ begin
       end;
   except
     on e : exception do
-      OutputDebugMessage('TChromium.VisitDOM error: ' + e.Message);
+      OutputDebugMessage('TChromium.Internal_VisitDOM error: ' + e.Message);
   end;
 end;
 
@@ -1404,7 +1403,7 @@ procedure TChromium.SetCookiePrefs(aValue : integer);
 begin
   if (FCookiePrefs <> aValue) then
     begin
-      FCookiePrefs      := aValue;
+      FCookiePrefs       := aValue;
       FUpdatePreferences := True;
     end;
 end;
@@ -1413,7 +1412,7 @@ procedure TChromium.SetImagesPrefs(aValue : integer);
 begin
   if (FImagesPrefs <> aValue) then
     begin
-      FImagesPrefs      := aValue;
+      FImagesPrefs       := aValue;
       FUpdatePreferences := True;
     end;
 end;
@@ -1510,7 +1509,7 @@ begin
     CookieManager.SetStoragePath(FCMStoragePath, False, nil);
 end;
 
-procedure TChromium.GetHTML;
+procedure TChromium.Internal_GetHTML;
 var
   TempFrame : ICefFrame;
 begin
@@ -1559,6 +1558,29 @@ begin
     end;
 end;
 
+procedure TChromium.UpdatePreferences;
+var
+  TempTask: ICefTask;
+begin
+  if Initialized then
+    begin
+      TempTask := TCefUpdatePrefsTask.Create(self);
+      CefPostTask(TID_UI, TempTask);
+    end;
+end;
+
+procedure TChromium.SavePreferences(const aFileName : string);
+var
+  TempTask: ICefTask;
+begin
+  if Initialized and (length(aFileName) > 0) then
+    begin
+      FPrefsFileName := aFileName;
+      TempTask       := TCefSavePrefsTask.Create(self);
+      CefPostTask(TID_UI, TempTask);
+    end;
+end;
+
 procedure TChromium.SimulateMouseWheel(aDeltaX, aDeltaY : integer);
 var
   TempEvent : TCefMouseEvent;
@@ -1572,8 +1594,10 @@ begin
     end;
 end;
 
-procedure TChromium.UpdateAllPreferences;
+procedure TChromium.Internal_UpdatePreferences;
 begin
+  FUpdatePreferences := False;
+
   UpdateProxyPrefs;
   UpdatePreference('enable_do_not_track', FDoNotTrack);
   UpdatePreference('enable_referrers',    FSendReferrer);
@@ -1968,29 +1992,29 @@ begin
   end;
 end;
 
-function TChromium.GetAllPreferences : boolean;
+procedure TChromium.Internal_SavePreferences;
 var
-  TempDict : ICefDictionaryValue;
+  TempDict  : ICefDictionaryValue;
+  TempPrefs : TStringList;
 begin
-  Result := False;
-
   try
-    if (FBrowser <> nil) and (FPrefs <> nil) then
+    if Initialized then
       begin
-        FPrefs.Clear;
+        TempPrefs := TStringList.Create;
         TempDict := FBrowser.Host.RequestContext.GetAllPreferences(True);
-        HandleDictionary(TempDict, FPrefs, '');
-        Result := SendCompMessage(CEF_PREFERENCES_AVAILABLE);
+        HandleDictionary(TempDict, TempPrefs, '');
+        TempPrefs.SaveToFile(FPrefsFileName);
+        SendCompMessage(CEF_PREFERENCES_SAVED);
       end;
   except
     on e : exception do
-      OutputDebugMessage('TChromium.GetAllPreferences error: ' + e.Message);
+      OutputDebugMessage('TChromium.Internal_SavePreferences error: ' + e.Message);
   end;
 end;
 
 procedure TChromium.PrefsAvailableMsg(var aMessage : TMessage);
 begin
-  if (FPrefs <> nil) and assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self, FPrefs.Text);
+  if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self);
 end;
 
 function TChromium.SendCompMessage(aMsg : cardinal; wParam : cardinal; lParam : integer) : boolean;
@@ -1998,7 +2022,7 @@ begin
   Result := (FCompHandle <> 0) and PostMessage(FCompHandle, aMsg, wParam, lParam);
 end;
 
-procedure TChromium.TextResultAvailable(const aText : string);
+procedure TChromium.Internal_TextResultAvailable(const aText : string);
 begin
   if assigned(FOnTextResultAvailable) then FOnTextResultAvailable(self, aText);
 end;
@@ -2021,24 +2045,24 @@ begin
   end;
 end;
 
-procedure TChromium.CookiesDeleted(numDeleted : integer);
+procedure TChromium.Internal_CookiesDeleted(numDeleted : integer);
 begin
   if assigned(FOnCookiesDeleted) then FOnCookiesDeleted(self, numDeleted);
 end;
 
-procedure TChromium.DOMVisitorVisit(const document: ICefDomDocument);
+procedure TChromium.Internal_DOMVisit(const document: ICefDomDocument);
 begin
   if assigned(FOnDocumentAvailable) then FOnDocumentAvailable(self, document);
 end;
 
-procedure TChromium.PdfPrintFinished(aResultOK : boolean);
+procedure TChromium.Internal_PdfPrintFinished(aResultOK : boolean);
 begin
   if assigned(FOnPdfPrintFinished) then FOnPdfPrintFinished(self, aResultOK);
 end;
 
 procedure TChromium.ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);
 var
-  TempPoint    : TCefPoint;
+  TempPoint : TCefPoint;
 begin
   if not(Initialized) or HasDevTools then Exit;
 
@@ -2082,7 +2106,7 @@ end;
 procedure TChromium.WndProc(var aMessage: TMessage);
 begin
   case aMessage.Msg of
-    CEF_PREFERENCES_AVAILABLE  : PrefsAvailableMsg(aMessage);
+    CEF_PREFERENCES_SAVED : PrefsAvailableMsg(aMessage);
 
     else aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
   end;
@@ -2094,7 +2118,7 @@ begin
 
   if Assigned(FOnClose) then FOnClose(Self, browser, Result);
 
-  FClosing := True;
+  if (browser <> nil) and (FBrowserId = browser.Identifier) then FClosing := True;
 end;
 
 procedure TChromium.doOnAddressChange(const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
@@ -2110,7 +2134,7 @@ begin
       if (FBrowser <> nil) then FBrowserId := FBrowser.Identifier;
     end;
 
-  UpdateAllPreferences;
+  Internal_UpdatePreferences;
 
   FInitialized := (FBrowser <> nil) and (FBrowserId <> 0);
 
@@ -2124,26 +2148,19 @@ function TChromium.doOnBeforeBrowse(const browser    : ICefBrowser;
 begin
   Result := False;
 
-  if FUpdatePreferences then
-    begin
-      FUpdatePreferences := False;
-      UpdateAllPreferences;
-    end;
-
-  if FGetPreferences then
-    begin
-      FGetPreferences := False;
-      GetAllPreferences;
-    end;
+  if FUpdatePreferences then Internal_UpdatePreferences;
 
   if Assigned(FOnBeforeBrowse) then FOnBeforeBrowse(Self, browser, frame, request, isRedirect, Result);
 end;
 
 procedure TChromium.doOnBeforeClose(const browser: ICefBrowser);
 begin
-  FInitialized := False;
-  FBrowser     := nil;
-  FBrowserId   := 0;
+  if (browser <> nil) and (FBrowserId = browser.Identifier) then
+    begin
+      FInitialized := False;
+      FBrowser     := nil;
+      FBrowserId   := 0;
+    end;
 
   if Assigned(FOnBeforeClose) then FOnBeforeClose(Self, browser);
 end;

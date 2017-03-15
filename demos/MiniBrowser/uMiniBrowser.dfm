@@ -109,30 +109,56 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object URLEditPnl: TPanel
       Left = 133
       Top = 0
-      Width = 956
+      Width = 915
       Height = 41
       Align = alClient
       BevelOuter = bvNone
       Padding.Top = 9
-      Padding.Right = 8
       Padding.Bottom = 8
       ShowCaption = False
       TabOrder = 1
-      object URLEdt: TEdit
+      ExplicitWidth = 844
+      object URLCbx: TComboBox
         Left = 0
         Top = 9
-        Width = 948
-        Height = 24
+        Width = 915
+        Height = 21
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
+        TabOrder = 0
+        Text = 'https://www.google.com'
+        OnKeyUp = URLCbxKeyUp
+        OnSelect = URLCbxSelect
+        Items.Strings = (
+          'https://www.google.com'
+          'hello://world/'
+          
+            'https://www.whatismybrowser.com/detect/what-http-headers-is-my-b' +
+            'rowser-sending')
+        ExplicitWidth = 948
+      end
+    end
+    object ConfigPnl: TPanel
+      Left = 1048
+      Top = 0
+      Width = 41
+      Height = 41
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 2
+      object ConfigBtn: TButton
+        Left = 8
+        Top = 8
+        Width = 25
+        Height = 25
+        Caption = #8801
+        Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -15
-        Font.Name = 'Tahoma'
-        Font.Style = []
+        Font.Height = -17
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
-        OnKeyUp = URLEdtKeyUp
-        ExplicitHeight = 26
+        OnClick = ConfigBtnClick
       end
     end
   end
@@ -164,6 +190,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
       end>
   end
   object Chromium1: TChromium
+    OnTextResultAvailable = Chromium1TextResultAvailable
     OnProcessMessageReceived = Chromium1ProcessMessageReceived
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
@@ -174,5 +201,21 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnAfterCreated = Chromium1AfterCreated
     Left = 424
     Top = 352
+  end
+  object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
+    Left = 664
+    Top = 104
+    object DevTools1: TMenuItem
+      Caption = 'DevTools'
+      OnClick = DevTools1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object Preferences1: TMenuItem
+      Caption = 'Preferences...'
+      OnClick = Preferences1Click
+    end
   end
 end

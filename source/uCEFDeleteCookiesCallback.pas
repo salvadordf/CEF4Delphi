@@ -123,7 +123,7 @@ end;
 procedure TCefCustomDeleteCookiesCallback.OnComplete(numDeleted: Integer);
 begin
   if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).CookiesDeleted(numDeleted);
+    TChromium(FChromiumBrowser).Internal_CookiesDeleted(numDeleted);
 end;
 
 end.

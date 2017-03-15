@@ -104,6 +104,9 @@ type
       FCustomCommandLines            : TStringList;
       FCustomCommandLineValues       : TStringList;
       FFlashEnabled                  : boolean;
+      FEnableSpellingService         : boolean;
+      FEnableMediaStream             : boolean;
+      FEnableSpeechInput             : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
@@ -223,6 +226,9 @@ type
       property DeleteCache                 : boolean                         read FDeleteCache                    write FDeleteCache;
       property DeleteCookies               : boolean                         read FDeleteCookies                  write FDeleteCookies;
       property FlashEnabled                : boolean                         read FFlashEnabled                   write FFlashEnabled;
+      property EnableSpellingService       : boolean                         read FEnableSpellingService          write FEnableSpellingService;
+      property EnableMediaStream           : boolean                         read FEnableMediaStream              write FEnableMediaStream;
+      property EnableSpeechInput           : boolean                         read FEnableSpeechInput              write FEnableSpeechInput;
       property CheckCEFFiles               : boolean                         read FCheckCEFFiles                  write FCheckCEFFiles;
       property ChromeMajorVer              : uint16                          read FChromeVersionInfo.MajorVer;
       property ChromeMinorVer              : uint16                          read FChromeVersionInfo.MinorVer;
@@ -290,7 +296,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 2924;
-  CEF_SUPPORTED_VERSION_RELEASE = 1571;
+  CEF_SUPPORTED_VERSION_RELEASE = 1575;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 56;
@@ -340,6 +346,9 @@ begin
   FApp                           := nil;
   FAppIntf                       := nil;
   FFlashEnabled                  := True;
+  FEnableSpellingService         := True;
+  FEnableMediaStream             := True;
+  FEnableSpeechInput             := True;
   FCustomCommandLines            := nil;
   FCustomCommandLineValues       := nil;
   FCheckCEFFiles                 := True;
@@ -842,6 +851,10 @@ begin
           commandLine.AppendSwitch('--enable-accelerated-plugins');
           commandLine.AppendSwitch('--enable-system-flash');
         end;
+
+      commandLine.AppendSwitchWithValue('--enable-spelling-service', IntToStr(Ord(FEnableSpellingService)));
+      commandLine.AppendSwitchWithValue('--enable-media-stream',     IntToStr(Ord(FEnableMediaStream)));
+      commandLine.AppendSwitchWithValue('--enable-speech-input',     IntToStr(Ord(FEnableSpeechInput)));
 
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and

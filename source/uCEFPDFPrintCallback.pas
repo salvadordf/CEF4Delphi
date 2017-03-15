@@ -120,7 +120,7 @@ end;
 procedure TCefPDFPrintCallBack.OnPdfPrintFinished(const path: ustring; aResultOK : Boolean);
 begin
   if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).PdfPrintFinished(aResultOK);
+    TChromium(FChromiumBrowser).Internal_PdfPrintFinished(aResultOK);
 end;
 
 end.

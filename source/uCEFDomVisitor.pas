@@ -127,7 +127,7 @@ end;
 procedure TCustomDomVisitor.visit(const document: ICefDomDocument);
 begin
   if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).DOMVisitorVisit(document);
+    TChromium(FChromiumBrowser).Internal_DOMVisit(document);
 end;
 
 end.
