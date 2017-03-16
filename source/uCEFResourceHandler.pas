@@ -47,10 +47,10 @@ unit uCEFResourceHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefResourceHandlerOwn = class(TCefBaseOwn, ICefResourceHandler)
+  TCefResourceHandlerOwn = class(TCefBaseRefCountedOwn, ICefResourceHandler)
     protected
       function  ProcessRequest(const request: ICefRequest; const callback: ICefCallback): Boolean; virtual;
       procedure GetResponseHeaders(const response: ICefResponse; out responseLength: Int64; out redirectUrl: ustring); virtual;
@@ -124,38 +124,40 @@ begin
   Result := False;
 end;
 
-constructor TCefResourceHandlerOwn.Create(const browser: ICefBrowser;
-  const frame: ICefFrame; const schemeName: ustring;
-  const request: ICefRequest);
+constructor TCefResourceHandlerOwn.Create(const browser    : ICefBrowser;
+                                          const frame      : ICefFrame;
+                                          const schemeName : ustring;
+                                          const request    : ICefRequest);
 begin
   inherited CreateData(SizeOf(TCefResourceHandler));
+
   with PCefResourceHandler(FData)^ do
-  begin
-    process_request := cef_resource_handler_process_request;
-    get_response_headers := cef_resource_handler_get_response_headers;
-    read_response := cef_resource_handler_read_response;
-    can_get_cookie := cef_resource_handler_can_get_cookie;
-    can_set_cookie := cef_resource_handler_can_set_cookie;
-    cancel:= cef_resource_handler_cancel;
-  end;
+    begin
+      process_request      := cef_resource_handler_process_request;
+      get_response_headers := cef_resource_handler_get_response_headers;
+      read_response        := cef_resource_handler_read_response;
+      can_get_cookie       := cef_resource_handler_can_get_cookie;
+      can_set_cookie       := cef_resource_handler_can_set_cookie;
+      cancel               := cef_resource_handler_cancel;
+    end;
 end;
 
-procedure TCefResourceHandlerOwn.GetResponseHeaders(
-  const response: ICefResponse; out responseLength: Int64;
-  out redirectUrl: ustring);
+procedure TCefResourceHandlerOwn.GetResponseHeaders(const response       : ICefResponse;
+                                                    out   responseLength : Int64;
+                                                    out   redirectUrl    : ustring);
 begin
 
 end;
 
-function TCefResourceHandlerOwn.ProcessRequest(const request: ICefRequest;
-  const callback: ICefCallback): Boolean;
+function TCefResourceHandlerOwn.ProcessRequest(const request: ICefRequest; const callback: ICefCallback): Boolean;
 begin
   Result := False;
 end;
 
-function TCefResourceHandlerOwn.ReadResponse(const dataOut: Pointer;
-  bytesToRead: Integer; var bytesRead: Integer;
-  const callback: ICefCallback): Boolean;
+function TCefResourceHandlerOwn.ReadResponse(const dataOut     : Pointer;
+                                                   bytesToRead : Integer;
+                                             var   bytesRead   : Integer;
+                                             const callback    : ICefCallback): Boolean;
 begin
   Result := False;
 end;

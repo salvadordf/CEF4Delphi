@@ -47,10 +47,10 @@ unit uCEFJsDialogCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefJsDialogCallbackRef = class(TCefBaseRef, ICefJsDialogCallback)
+  TCefJsDialogCallbackRef = class(TCefBaseRefCountedRef, ICefJsDialogCallback)
   protected
     procedure Cont(success: Boolean; const userInput: ustring);
   public

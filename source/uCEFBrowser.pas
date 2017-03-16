@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefBrowserRef = class(TCefBaseRef, ICefBrowser)
+  TCefBrowserRef = class(TCefBaseRefCountedRef, ICefBrowser)
     protected
       function  GetHost: ICefBrowserHost;
       function  CanGoBack: Boolean;
@@ -83,7 +83,7 @@ type
       class function UnWrap(data: Pointer): ICefBrowser;
   end;
 
-  TCefBrowserHostRef = class(TCefBaseRef, ICefBrowserHost)
+  TCefBrowserHostRef = class(TCefBaseRefCountedRef, ICefBrowserHost)
     protected
       function  GetBrowser: ICefBrowser;
       procedure CloseBrowser(forceClose: Boolean);

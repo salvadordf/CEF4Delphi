@@ -47,12 +47,12 @@ unit uCEFWebPluginUnstableCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefWebPluginIsUnstableProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; unstable: Boolean);
 
-  TCefWebPluginUnstableCallbackOwn = class(TCefBaseOwn, ICefWebPluginUnstableCallback)
+  TCefWebPluginUnstableCallbackOwn = class(TCefBaseRefCountedOwn, ICefWebPluginUnstableCallback)
     protected
       procedure IsUnstable(const path: ustring; unstable: Boolean); virtual;
 

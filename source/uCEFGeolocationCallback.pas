@@ -47,10 +47,10 @@ unit uCEFGeolocationCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefGeolocationCallbackRef = class(TCefBaseRef, ICefGeolocationCallback)
+  TCefGeolocationCallbackRef = class(TCefBaseRefCountedRef, ICefGeolocationCallback)
   protected
     procedure Cont(allow: Boolean);
   public

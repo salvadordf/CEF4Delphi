@@ -47,10 +47,10 @@ unit uCEFv8Accessor;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes, uCEFv8Types;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFv8Types;
 
 type
-  TCefV8AccessorOwn = class(TCefBaseOwn, ICefV8Accessor)
+  TCefV8AccessorOwn = class(TCefBaseRefCountedOwn, ICefV8Accessor)
     protected
       function Get(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean; virtual;
       function Put(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean; virtual;

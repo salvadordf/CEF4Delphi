@@ -273,5 +273,8 @@
     <Transaction>2017/01/05 09:46:44.000.222,C:\Program Files\Embarcadero\Studio\17.0\cef3\uCEFChromiumWindow.pas=</Transaction>
     <Transaction>2017/01/05 10:34:46.000.529,=C:\Program Files\Embarcadero\Studio\17.0\cef3\uCEFChromiumWindow.pas</Transaction>
     <Transaction>2017/01/22 10:37:38.000.090,C:\Program Files\Embarcadero\Studio\17.0\cef3\CEF4Delphi.dproj=C:\Program Files\Embarcadero\Studio\17.0\cef3\cef3.dproj</Transaction>
+    <Transaction>2017/03/16 09:32:10.000.622,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBaseRefCounted.pas</Transaction>
+    <Transaction>2017/03/16 09:32:22.000.431,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBaseScopedWrapper.pas</Transaction>
+    <Transaction>2017/03/16 09:32:54.000.567,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBase.pas=</Transaction>
   </Transactions>
 </BorlandProject>

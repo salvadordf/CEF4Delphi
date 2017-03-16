@@ -47,10 +47,10 @@ unit uCEFZipReader;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefZipReaderRef = class(TCefBaseRef, ICefZipReader)
+  TCefZipReaderRef = class(TCefBaseRefCountedRef, ICefZipReader)
   protected
     function MoveToFirstFile: Boolean;
     function MoveToNextFile: Boolean;

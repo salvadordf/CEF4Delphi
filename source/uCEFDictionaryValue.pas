@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDictionaryValueRef = class(TCefBaseRef, ICefDictionaryValue)
+  TCefDictionaryValueRef = class(TCefBaseRefCountedRef, ICefDictionaryValue)
     protected
       function IsValid: Boolean;
       function isOwned: Boolean;

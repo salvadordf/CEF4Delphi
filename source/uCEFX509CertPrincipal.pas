@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefX509CertPrincipalRef = class(TCefBaseRef, ICefX509CertPrincipal)
+  TCefX509CertPrincipalRef = class(TCefBaseRefCountedRef, ICefX509CertPrincipal)
     protected
       function  GetDisplayName: ustring;
       function  GetCommonName: ustring;

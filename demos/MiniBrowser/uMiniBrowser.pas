@@ -86,6 +86,7 @@ type
     DevTools1: TMenuItem;
     N1: TMenuItem;
     Preferences1: TMenuItem;
+    GoBtn: TButton;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -114,13 +115,11 @@ type
       const browser: ICefBrowser; const value: ustring);
     procedure Chromium1TextResultAvailable(Sender: TObject;
       const aText: string);
-    procedure URLCbxKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure URLCbxSelect(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
     procedure DevTools1Click(Sender: TObject);
     procedure Preferences1Click(Sender: TObject);
     procedure ConfigBtnClick(Sender: TObject);
+    procedure GoBtnClick(Sender: TObject);
 
   protected
     procedure AddURL(const aURL : string);
@@ -155,6 +154,11 @@ end;
 procedure TMiniBrowserFrm.ForwardBtnClick(Sender: TObject);
 begin
   Chromium1.GoForward;
+end;
+
+procedure TMiniBrowserFrm.GoBtnClick(Sender: TObject);
+begin
+  Chromium1.LoadURL(URLCbx.Text);
 end;
 
 procedure TMiniBrowserFrm.ReloadBtnClick(Sender: TObject);
@@ -338,17 +342,6 @@ begin
 
       Chromium1.UpdatePreferences;
     end;
-end;
-
-procedure TMiniBrowserFrm.URLCbxKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Key = 13) then Chromium1.LoadURL(URLCbx.Text);
-end;
-
-procedure TMiniBrowserFrm.URLCbxSelect(Sender: TObject);
-begin
-  Chromium1.LoadURL(URLCbx.Text);
 end;
 
 procedure TMiniBrowserFrm.ConfigBtnClick(Sender: TObject);

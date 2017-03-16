@@ -56,10 +56,10 @@ uses
     {$ENDIF}
      TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, Windows,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefv8HandlerRef = class(TCefBaseRef, ICefv8Handler)
+  TCefv8HandlerRef = class(TCefBaseRefCountedRef, ICefv8Handler)
     protected
       function Execute(const name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean;
 
@@ -67,7 +67,7 @@ type
       class function UnWrap(data: Pointer): ICefv8Handler;
   end;
 
-  TCefv8HandlerOwn = class(TCefBaseOwn, ICefv8Handler)
+  TCefv8HandlerOwn = class(TCefBaseRefCountedOwn, ICefv8Handler)
     protected
       function Execute(const name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean; virtual;
 

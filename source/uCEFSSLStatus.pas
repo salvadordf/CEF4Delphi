@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefSSLStatusRef = class(TCefBaseRef, ICefSSLStatus)
+  TCefSSLStatusRef = class(TCefBaseRefCountedRef, ICefSSLStatus)
     protected
       function IsSecureConnection: boolean;
       function GetCertStatus: TCefCertStatus;

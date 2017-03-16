@@ -47,10 +47,10 @@ unit uCEFEndTracingCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefEndTracingCallbackOwn = class(TCefBaseOwn, ICefEndTracingCallback)
+  TCefEndTracingCallbackOwn = class(TCefBaseRefCountedOwn, ICefEndTracingCallback)
   protected
     procedure OnEndTracingComplete(const tracingFile: ustring); virtual;
   public

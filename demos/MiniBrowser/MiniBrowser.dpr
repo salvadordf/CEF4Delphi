@@ -47,8 +47,8 @@ uses
   Forms,
   {$ENDIF }
   uCEFApplication,
-  uCEFInterfaces,
   uCEFMiscFunctions,
+  uCEFSchemeRegistrar,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uTestExtension in 'uTestExtension.pas',
   uHelloScheme in 'uHelloScheme.pas',
@@ -56,9 +56,9 @@ uses
 
 {$R *.res}
 
-procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: ICefSchemeRegistrar);
+procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
-  registrar.AddCustomScheme('hello', True, True, False);
+  registrar.AddCustomScheme('hello', True, True, False, False, False);
 end;
 
 begin

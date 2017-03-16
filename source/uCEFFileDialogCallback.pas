@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefFileDialogCallbackRef = class(TCefBaseRef, ICefFileDialogCallback)
+  TCefFileDialogCallbackRef = class(TCefBaseRefCountedRef, ICefFileDialogCallback)
   protected
     procedure Cont(selectedAcceptFilter: Integer; filePaths: TStrings);
     procedure Cancel;

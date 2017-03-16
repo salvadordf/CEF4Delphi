@@ -47,10 +47,10 @@ unit uCEFv8Context;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefv8ContextRef = class(TCefBaseRef, ICefv8Context)
+  TCefv8ContextRef = class(TCefBaseRefCountedRef, ICefv8Context)
     protected
       function GetTaskRunner: ICefTaskRunner;
       function IsValid: Boolean;

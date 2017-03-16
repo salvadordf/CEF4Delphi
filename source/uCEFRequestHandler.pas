@@ -47,10 +47,10 @@ unit uCEFRequestHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRequestHandlerOwn = class(TCefBaseOwn, ICefRequestHandler)
+  TCefRequestHandlerOwn = class(TCefBaseRefCountedOwn, ICefRequestHandler)
     protected
       function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; isRedirect: Boolean): Boolean; virtual;
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;

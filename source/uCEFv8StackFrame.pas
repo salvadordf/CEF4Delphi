@@ -47,10 +47,10 @@ unit uCEFv8StackFrame;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefV8StackFrameRef = class(TCefBaseRef, ICefV8StackFrame)
+  TCefV8StackFrameRef = class(TCefBaseRefCountedRef, ICefV8StackFrame)
   protected
     function IsValid: Boolean;
     function GetScriptName: ustring;

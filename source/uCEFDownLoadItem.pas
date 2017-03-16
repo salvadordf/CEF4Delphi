@@ -47,10 +47,10 @@ unit uCEFDownLoadItem;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDownLoadItemRef = class(TCefBaseRef, ICefDownLoadItem)
+  TCefDownLoadItemRef = class(TCefBaseRefCountedRef, ICefDownLoadItem)
   protected
     function IsValid: Boolean;
     function IsInProgress: Boolean;

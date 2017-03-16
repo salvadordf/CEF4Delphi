@@ -47,10 +47,10 @@ unit uCEFUrlRequest;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefUrlRequestRef = class(TCefBaseRef, ICefUrlRequest)
+  TCefUrlRequestRef = class(TCefBaseRefCountedRef, ICefUrlRequest)
   protected
     function GetRequest: ICefRequest;
     function GetRequestStatus: TCefUrlRequestStatus;

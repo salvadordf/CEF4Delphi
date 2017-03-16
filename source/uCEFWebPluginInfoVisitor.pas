@@ -47,10 +47,10 @@ unit uCEFWebPluginInfoVisitor;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefWebPluginInfoVisitorOwn = class(TCefBaseOwn, ICefWebPluginInfoVisitor)
+  TCefWebPluginInfoVisitorOwn = class(TCefBaseRefCountedOwn, ICefWebPluginInfoVisitor)
     protected
       function Visit(const info: ICefWebPluginInfo; count, total: Integer): Boolean; virtual;
 

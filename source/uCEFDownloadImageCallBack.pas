@@ -47,10 +47,10 @@ unit uCEFDownloadImageCallBack;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDownloadImageCallbackOwn = class(TCefBaseOwn, ICefDownloadImageCallback)
+  TCefDownloadImageCallbackOwn = class(TCefBaseRefCountedOwn, ICefDownloadImageCallback)
     protected
       procedure OnDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage); virtual; abstract;
 

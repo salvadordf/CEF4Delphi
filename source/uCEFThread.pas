@@ -47,10 +47,10 @@ unit uCEFThread;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefThreadRef = class(TCefBaseRef, ICefThread)
+  TCefThreadRef = class(TCefBaseRefCountedRef, ICefThread)
     protected
       function  GetTaskRunner : ICefTaskRunner;
       function  GetPlatformThreadID : TCefPlatformThreadId;

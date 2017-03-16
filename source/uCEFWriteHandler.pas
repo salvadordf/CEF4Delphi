@@ -47,10 +47,10 @@ unit uCEFWriteHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefWriteHandlerOwn = class(TCefBaseOwn, ICefWriteHandler)
+  TCefWriteHandlerOwn = class(TCefBaseRefCountedOwn, ICefWriteHandler)
   protected
     function Write(const ptr: Pointer; size, n: NativeUInt): NativeUInt; virtual;
     function Seek(offset: Int64; whence: Integer): Integer; virtual;

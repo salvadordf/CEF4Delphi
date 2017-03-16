@@ -47,12 +47,15 @@ unit uCEFMenuModelDelegate;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefMenuModelDelegateOwn = class(TCefBaseOwn, ICefMenuModelDelegate)
+  TCefMenuModelDelegateOwn = class(TCefBaseRefCountedOwn, ICefMenuModelDelegate)
   protected
     procedure ExecuteCommand(const menuModel: ICefMenuModel; commandId: Integer; eventFlags: TCefEventFlags); virtual;
+    procedure MouseOutsideMenu(const menuModel: ICefMenuModel; const screenPoint: PCefPoint); virtual;
+    procedure UnhandledOpenSubmenu(const menuModel: ICefMenuModel; isRTL: boolean); virtual;
+    procedure UnhandledCloseSubmenu(const menuModel: ICefMenuModel; isRTL: boolean); virtual;
     procedure MenuWillShow(const menuModel: ICefMenuModel); virtual;
     procedure MenuClosed(const menuModel: ICefMenuModel); virtual;
     function  FormatLabel(const menuModel: ICefMenuModel; const label_ : uString) : boolean; virtual;
@@ -70,6 +73,30 @@ procedure cef_menu_model_delegate_execute_command(self: PCefMenuModelDelegate;
 begin
   with TCefMenuModelDelegateOwn(CefGetObject(self)) do
     ExecuteCommand(TCefMenuModelRef.UnWrap(menu_model), command_id, event_flags);
+end;
+
+procedure cef_menu_model_delegate_mouse_outside_menu(self: PCefMenuModelDelegate;
+                                                     menu_model: PCefMenuModel;
+                                                     const screen_point: PCefPoint); stdcall;
+begin
+  with TCefMenuModelDelegateOwn(CefGetObject(self)) do
+    MouseOutsideMenu(TCefMenuModelRef.UnWrap(menu_model), screen_point);
+end;
+
+procedure cef_menu_model_delegate_unhandled_open_submenu(self: PCefMenuModelDelegate;
+                                                         menu_model: PCefMenuModel;
+                                                         is_rtl: integer); stdcall;
+begin
+  with TCefMenuModelDelegateOwn(CefGetObject(self)) do
+    UnhandledOpenSubmenu(TCefMenuModelRef.UnWrap(menu_model), is_rtl <> 0);
+end;
+
+procedure cef_menu_model_delegate_unhandled_close_submenu(self: PCefMenuModelDelegate;
+                                                          menu_model: PCefMenuModel;
+                                                          is_rtl: integer); stdcall;
+begin
+  with TCefMenuModelDelegateOwn(CefGetObject(self)) do
+    UnhandledCloseSubmenu(TCefMenuModelRef.UnWrap(menu_model), is_rtl <> 0);
 end;
 
 procedure cef_menu_model_delegate_menu_will_show(self: PCefMenuModelDelegate; menu_model: PCefMenuModel); stdcall;
@@ -96,16 +123,34 @@ begin
 
   with PCefMenuModelDelegate(FData)^ do
     begin
-      execute_command := cef_menu_model_delegate_execute_command;
-      menu_will_show  := cef_menu_model_delegate_menu_will_show;
-      menu_closed     := cef_menu_model_delegate_menu_closed;
-      format_label    := cef_menu_model_delegate_format_label;
+      execute_command         := cef_menu_model_delegate_execute_command;
+      mouse_outside_menu      := cef_menu_model_delegate_mouse_outside_menu;
+      unhandled_open_submenu  := cef_menu_model_delegate_unhandled_open_submenu;
+      unhandled_close_submenu := cef_menu_model_delegate_unhandled_close_submenu;
+      menu_will_show          := cef_menu_model_delegate_menu_will_show;
+      menu_closed             := cef_menu_model_delegate_menu_closed;
+      format_label            := cef_menu_model_delegate_format_label;
     end;
 end;
 
 procedure TCefMenuModelDelegateOwn.ExecuteCommand(
   const menuModel: ICefMenuModel; commandId: Integer;
   eventFlags: TCefEventFlags);
+begin
+
+end;
+
+procedure TCefMenuModelDelegateOwn.MouseOutsideMenu(const menuModel: ICefMenuModel; const screenPoint: PCefPoint);
+begin
+
+end;
+
+procedure TCefMenuModelDelegateOwn.UnhandledOpenSubmenu(const menuModel: ICefMenuModel; isRTL: boolean);
+begin
+
+end;
+
+procedure TCefMenuModelDelegateOwn.UnhandledCloseSubmenu(const menuModel: ICefMenuModel; isRTL: boolean);
 begin
 
 end;

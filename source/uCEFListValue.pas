@@ -47,10 +47,10 @@ unit uCEFListValue;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefListValueRef = class(TCefBaseRef, ICefListValue)
+  TCefListValueRef = class(TCefBaseRefCountedRef, ICefListValue)
     protected
       function IsValid: Boolean;
       function IsOwned: Boolean;

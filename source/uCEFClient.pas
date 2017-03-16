@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Windows,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefClientOwn = class(TCefBaseOwn, ICefClient)
+  TCefClientOwn = class(TCefBaseRefCountedOwn, ICefClient)
     protected
       function GetContextMenuHandler: ICefContextMenuHandler; virtual;
       function GetDialogHandler: ICefDialogHandler; virtual;

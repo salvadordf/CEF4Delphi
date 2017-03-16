@@ -47,10 +47,10 @@ unit uCEFDragHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDragHandlerOwn = class(TCefBaseOwn, ICefDragHandler)
+  TCefDragHandlerOwn = class(TCefBaseRefCountedOwn, ICefDragHandler)
     protected
       function OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean; virtual;
       procedure OnDraggableRegionsChanged(const browser: ICefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray); virtual;

@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCEFX509CertificateRef = class(TCefBaseRef, ICefX509Certificate)
+  TCEFX509CertificateRef = class(TCefBaseRefCountedRef, ICefX509Certificate)
     protected
       function GetSubject: ICefX509CertPrincipal;
       function GetIssuer: ICefX509CertPrincipal;

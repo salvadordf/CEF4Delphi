@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFBase;
+unit uCEFBaseRefCounted;
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -50,7 +50,7 @@ uses
   uCEFInterfaces;
 
 type
-  TCefBaseOwn = class(TInterfacedObject, ICefBase)
+  TCefBaseRefCountedOwn = class(TInterfacedObject, ICefBaseRefCounted)
     protected
       FData: Pointer;
 
@@ -60,7 +60,7 @@ type
       function    Wrap: Pointer;
   end;
 
-  TCefBaseRef = class(TInterfacedObject, ICefBase)
+  TCefBaseRefCountedRef = class(TInterfacedObject, ICefBaseRefCounted)
     protected
       FData: Pointer;
 
@@ -68,107 +68,115 @@ type
       constructor Create(data: Pointer); virtual;
       destructor  Destroy; override;
       function    Wrap: Pointer;
-      class function UnWrap(data: Pointer): ICefBase;
+      class function UnWrap(data: Pointer): ICefBaseRefCounted;
   end;
+
+
 
 implementation
 
 uses
   uCEFTypes, uCEFMiscFunctions;
 
-procedure cef_base_add_ref(self: PCefBase); stdcall;
+procedure cef_base_add_ref(self: PCefBaseRefCounted); stdcall;
 begin
-  TCefBaseOwn(CefGetObject(self))._AddRef;
+  TCefBaseRefCountedOwn(CefGetObject(self))._AddRef;
 end;
 
-function cef_base_release(self: PCefBase): Integer; stdcall;
+function cef_base_release(self: PCefBaseRefCounted): Integer; stdcall;
 begin
-  Result := TCefBaseOwn(CefGetObject(self))._Release;
+  Result := TCefBaseRefCountedOwn(CefGetObject(self))._Release;
 end;
 
-function cef_base_has_one_ref(self: PCefBase): Integer; stdcall;
+function cef_base_has_one_ref(self: PCefBaseRefCounted): Integer; stdcall;
 begin
-  Result := Ord(TCefBaseOwn(CefGetObject(self)).FRefCount = 1);
+  Result := Ord(TCefBaseRefCountedOwn(CefGetObject(self)).FRefCount = 1);
 end;
 
-procedure cef_base_add_ref_owned(self: PCefBase); stdcall;
+procedure cef_base_add_ref_owned(self: PCefBaseRefCounted); stdcall;
 begin
   //
 end;
 
-function cef_base_release_owned(self: PCefBase): Integer; stdcall;
+function cef_base_release_owned(self: PCefBaseRefCounted): Integer; stdcall;
 begin
   Result := 1;
 end;
 
-function cef_base_has_one_ref_owned(self: PCefBase): Integer; stdcall;
+function cef_base_has_one_ref_owned(self: PCefBaseRefCounted): Integer; stdcall;
 begin
   Result := 1;
 end;
 
-constructor TCefBaseOwn.CreateData(size: Cardinal; owned: Boolean);
+constructor TCefBaseRefCountedOwn.CreateData(size: Cardinal; owned: Boolean);
 begin
   GetMem(FData, size + SizeOf(Pointer));
   PPointer(FData)^ := Self;
   Inc(PByte(FData), SizeOf(Pointer));
   FillChar(FData^, size, 0);
-  PCefBase(FData)^.size := size;
+  PCefBaseRefCounted(FData)^.size := size;
 
   if owned then
     begin
-      PCefBase(FData)^.add_ref := cef_base_add_ref_owned;
-      PCefBase(FData)^.release := cef_base_release_owned;
-      PCefBase(FData)^.has_one_ref := cef_base_has_one_ref_owned;
+      PCefBaseRefCounted(FData)^.add_ref := cef_base_add_ref_owned;
+      PCefBaseRefCounted(FData)^.release := cef_base_release_owned;
+      PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref_owned;
     end
    else
     begin
-      PCefBase(FData)^.add_ref := cef_base_add_ref;
-      PCefBase(FData)^.release := cef_base_release;
-      PCefBase(FData)^.has_one_ref := cef_base_has_one_ref;
+      PCefBaseRefCounted(FData)^.add_ref := cef_base_add_ref;
+      PCefBaseRefCounted(FData)^.release := cef_base_release;
+      PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref;
     end;
 end;
 
-destructor TCefBaseOwn.Destroy;
+destructor TCefBaseRefCountedOwn.Destroy;
 begin
   Dec(PByte(FData), SizeOf(Pointer));
   FreeMem(FData);
-  inherited;
+  FData := nil;
+
+  inherited Destroy;
 end;
 
-function TCefBaseOwn.Wrap: Pointer;
+function TCefBaseRefCountedOwn.Wrap: Pointer;
 begin
   Result := FData;
-  if Assigned(PCefBase(FData)^.add_ref) then
-    PCefBase(FData)^.add_ref(PCefBase(FData));
+
+  if (FData <> nil) and Assigned(PCefBaseRefCounted(FData)^.add_ref) then
+    PCefBaseRefCounted(FData)^.add_ref(PCefBaseRefCounted(FData));
 end;
 
-// TCefBaseRef
+// TCefBaseRefCountedRef
 
-constructor TCefBaseRef.Create(data: Pointer);
+constructor TCefBaseRefCountedRef.Create(data: Pointer);
 begin
   Assert(data <> nil);
   FData := data;
 end;
 
-destructor TCefBaseRef.Destroy;
+destructor TCefBaseRefCountedRef.Destroy;
 begin
-  if (FData <> nil) and Assigned(PCefBase(FData)^.release) then PCefBase(FData)^.release(PCefBase(FData));
+  if (FData <> nil) and Assigned(PCefBaseRefCounted(FData)^.release) then
+    PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData));
 
   inherited Destroy;
 end;
 
-class function TCefBaseRef.UnWrap(data: Pointer): ICefBase;
+class function TCefBaseRefCountedRef.UnWrap(data: Pointer): ICefBaseRefCounted;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefBase else
+  if (data <> nil) then
+    Result := Create(data) as ICefBaseRefCounted
+   else
     Result := nil;
 end;
 
-function TCefBaseRef.Wrap: Pointer;
+function TCefBaseRefCountedRef.Wrap: Pointer;
 begin
   Result := FData;
-  if Assigned(PCefBase(FData)^.add_ref) then
-    PCefBase(FData)^.add_ref(PCefBase(FData));
+
+  if (FData <> nil) and Assigned(PCefBaseRefCounted(FData)^.add_ref) then
+    PCefBaseRefCounted(FData)^.add_ref(PCefBaseRefCounted(FData));
 end;
 
 end.

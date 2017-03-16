@@ -47,10 +47,10 @@ unit uCEFDownloadItemCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDownloadItemCallbackRef = class(TCefBaseRef, ICefDownloadItemCallback)
+  TCefDownloadItemCallbackRef = class(TCefBaseRefCountedRef, ICefDownloadItemCallback)
   protected
     procedure Cancel;
     procedure Pause;

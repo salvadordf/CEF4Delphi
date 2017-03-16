@@ -47,10 +47,10 @@ unit uCEFFrame;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefFrameRef = class(TCefBaseRef, ICefFrame)
+  TCefFrameRef = class(TCefBaseRefCountedRef, ICefFrame)
     public
       function IsValid: Boolean;
       procedure Undo;

@@ -47,10 +47,10 @@ unit uCEFRenderHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRenderHandlerOwn = class(TCefBaseOwn, ICefRenderHandler)
+  TCefRenderHandlerOwn = class(TCefBaseRefCountedOwn, ICefRenderHandler)
     protected
       function  GetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
       function  GetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;

@@ -47,10 +47,10 @@ unit uCEFStreamWriter;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefStreamWriterRef = class(TCefBaseRef, ICefStreamWriter)
+  TCefStreamWriterRef = class(TCefBaseRefCountedRef, ICefStreamWriter)
     protected
       function write(const ptr: Pointer; size, n: NativeUInt): NativeUInt;
       function Seek(offset: Int64; whence: Integer): Integer;

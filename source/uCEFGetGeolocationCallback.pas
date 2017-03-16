@@ -47,10 +47,10 @@ unit uCEFGetGeolocationCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefGetGeolocationCallbackOwn = class(TCefBaseOwn, ICefGetGeolocationCallback)
+  TCefGetGeolocationCallbackOwn = class(TCefBaseRefCountedOwn, ICefGetGeolocationCallback)
     protected
       procedure OnLocationUpdate(const position: PCefGeoposition); virtual;
 

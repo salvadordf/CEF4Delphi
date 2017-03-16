@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDragDataRef = class(TCefBaseRef, ICefDragData)
+  TCefDragDataRef = class(TCefBaseRefCountedRef, ICefDragData)
   protected
     function Clone: ICefDragData;
     function IsReadOnly: Boolean;

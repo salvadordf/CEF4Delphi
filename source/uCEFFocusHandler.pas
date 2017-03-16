@@ -47,10 +47,10 @@ unit uCEFFocusHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefFocusHandlerOwn = class(TCefBaseOwn, ICefFocusHandler)
+  TCefFocusHandlerOwn = class(TCefBaseRefCountedOwn, ICefFocusHandler)
     protected
       procedure OnTakeFocus(const browser: ICefBrowser; next: Boolean); virtual;
       function OnSetFocus(const browser: ICefBrowser; source: TCefFocusSource): Boolean; virtual;

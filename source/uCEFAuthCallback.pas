@@ -47,10 +47,10 @@ unit uCEFAuthCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefAuthCallbackRef = class(TCefBaseRef, ICefAuthCallback)
+  TCefAuthCallbackRef = class(TCefBaseRefCountedRef, ICefAuthCallback)
   protected
     procedure Cont(const username, password: ustring);
     procedure Cancel;

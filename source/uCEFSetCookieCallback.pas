@@ -47,10 +47,10 @@ unit uCEFSetCookieCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefSetCookieCallbackOwn = class(TCefBaseOwn, ICefSetCookieCallback)
+  TCefSetCookieCallbackOwn = class(TCefBaseRefCountedOwn, ICefSetCookieCallback)
     protected
       procedure OnComplete(success: Boolean); virtual; abstract;
 

@@ -47,10 +47,10 @@ unit uCEFV8Exception;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefV8ExceptionRef = class(TCefBaseRef, ICefV8Exception)
+  TCefV8ExceptionRef = class(TCefBaseRefCountedRef, ICefV8Exception)
     protected
       function GetMessage: ustring;
       function GetSourceLine: ustring;

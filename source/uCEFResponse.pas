@@ -47,10 +47,10 @@ unit uCEFResponse;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefResponseRef = class(TCefBaseRef, ICefResponse)
+  TCefResponseRef = class(TCefBaseRefCountedRef, ICefResponse)
   protected
     function IsReadOnly: Boolean;
     function GetError: TCefErrorCode;

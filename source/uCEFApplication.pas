@@ -52,7 +52,18 @@ uses
   {$ELSE}
   Windows, Classes,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFBase;
+  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
+
+const
+  CEF_SUPPORTED_VERSION_MAJOR   = 3;
+  CEF_SUPPORTED_VERSION_MINOR   = 2987;
+  CEF_SUPPORTED_VERSION_RELEASE = 1594;
+  CEF_SUPPORTED_VERSION_BUILD   = 0;
+
+  CEF_CHROMEELF_VERSION_MAJOR   = 57;
+  CEF_CHROMEELF_VERSION_MINOR   = 0;
+  CEF_CHROMEELF_VERSION_RELEASE = 2987;
+  CEF_CHROMEELF_VERSION_BUILD   = 98;
 
 type
   TInternalApp = class;
@@ -180,7 +191,7 @@ type
       function  GetChromeVersion : string;
 
       procedure App_OnBeforeCommandLineProc(const processType: ustring; const commandLine: ICefCommandLine);
-      procedure App_OnRegCustomSchemes(const registrar: ICefSchemeRegistrar);
+      procedure App_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
       procedure App_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
       procedure App_OnGetBrowserProcessHandler(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
       procedure App_OnGetRenderProcessHandler(var aCefRenderProcessHandler : ICefRenderProcessHandler);
@@ -243,10 +254,10 @@ type
       property LibCef                      : string                          read FLibCef                         write FLibCef;
   end;
 
-  TCefAppOwn = class(TCefBaseOwn, ICefApp)
+  TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
     protected
       procedure OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine); virtual; abstract;
-      procedure OnRegisterCustomSchemes(const registrar: ICefSchemeRegistrar); virtual; abstract;
+      procedure OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef); virtual; abstract;
       function  GetResourceBundleHandler: ICefResourceBundleHandler; virtual; abstract;
       function  GetBrowserProcessHandler: ICefBrowserProcessHandler; virtual; abstract;
       function  GetRenderProcessHandler: ICefRenderProcessHandler; virtual; abstract;
@@ -264,7 +275,7 @@ type
       FOnGetRenderProcessHandler     : TOnGetRenderProcessHandler;
 
       procedure OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine); override;
-      procedure OnRegisterCustomSchemes(const registrar: ICefSchemeRegistrar); override;
+      procedure OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef); override;
       function  GetResourceBundleHandler: ICefResourceBundleHandler; override;
       function  GetBrowserProcessHandler: ICefBrowserProcessHandler; override;
       function  GetRenderProcessHandler: ICefRenderProcessHandler; override;
@@ -290,20 +301,7 @@ uses
   {$ELSE}
   Math, {$IFDEF DELPHI12_UP}IOUtils,{$ENDIF} SysUtils,
   {$ENDIF}
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFCommandLine,
-  uCEFConstants;
-
-const
-  CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 2924;
-  CEF_SUPPORTED_VERSION_RELEASE = 1575;
-  CEF_SUPPORTED_VERSION_BUILD   = 0;
-
-  CEF_CHROMEELF_VERSION_MAJOR   = 56;
-  CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 2924;
-  CEF_CHROMEELF_VERSION_BUILD   = 76;
-
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants, uCEFSchemeHandlerFactory;
 
 constructor TCefApplication.Create(aUpdateChromeVer : boolean);
 begin
@@ -878,7 +876,7 @@ begin
     end;
 end;
 
-procedure TCefApplication.App_OnRegCustomSchemes(const registrar: ICefSchemeRegistrar);
+procedure TCefApplication.App_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
   if assigned(FOnRegisterCustomSchemes) then FOnRegisterCustomSchemes(registrar);
 end;
@@ -1429,6 +1427,8 @@ begin
   cef_string_userfree_wide_free   := GetProcAddress(FLibHandle, 'cef_string_userfree_wide_free');
   cef_string_userfree_utf8_free   := GetProcAddress(FLibHandle, 'cef_string_userfree_utf8_free');
   cef_string_userfree_utf16_free  := GetProcAddress(FLibHandle, 'cef_string_userfree_utf16_free');
+  cef_string_utf16_to_lower       := GetProcAddress(FLibHandle, 'cef_string_utf16_to_lower');
+  cef_string_utf16_to_upper       := GetProcAddress(FLibHandle, 'cef_string_utf16_to_upper');
 
   Result := assigned(cef_string_wide_set) and
             assigned(cef_string_utf8_set) and
@@ -1452,7 +1452,9 @@ begin
             assigned(cef_string_userfree_utf16_alloc) and
             assigned(cef_string_userfree_wide_free) and
             assigned(cef_string_userfree_utf8_free) and
-            assigned(cef_string_userfree_utf16_free);
+            assigned(cef_string_userfree_utf16_free) and
+            assigned(cef_string_utf16_to_lower) and
+            assigned(cef_string_utf16_to_upper);
 end;
 
 function TCefApplication.Load_cef_thread_internal_h : boolean;
@@ -1491,16 +1493,31 @@ end;
 // TCefAppOwn
 
 procedure cef_app_on_before_command_line_processing(self: PCefApp;
-  const process_type: PCefString; command_line: PCefCommandLine); stdcall;
+                                                    const process_type: PCefString;
+                                                          command_line: PCefCommandLine); stdcall;
 begin
-  with TCefAppOwn(CefGetObject(self)) do
-    OnBeforeCommandLineProcessing(CefString(process_type), TCefCommandLineRef.UnWrap(command_line));
+  TCefAppOwn(CefGetObject(self)).OnBeforeCommandLineProcessing(CefString(process_type),
+                                                               TCefCommandLineRef.UnWrap(command_line));
 end;
 
 procedure cef_app_on_register_custom_schemes(self: PCefApp; registrar: PCefSchemeRegistrar); stdcall;
+var
+  TempWrapper : TCefSchemeRegistrarRef;
 begin
-  with TCefAppOwn(CefGetObject(self)) do
-    OnRegisterCustomSchemes(TCefSchemeRegistrarRef.UnWrap(registrar));
+  TempWrapper := nil;
+
+  try
+    try
+      TempWrapper := TCefSchemeRegistrarRef.Create(registrar);
+
+      TCefAppOwn(CefGetObject(self)).OnRegisterCustomSchemes(TempWrapper);
+    except
+      on e : exception do
+        OutputDebugMessage('cef_app_on_register_custom_schemes error: ' + e.Message);
+    end;
+  finally
+    if (TempWrapper <> nil) then FreeAndNil(TempWrapper);
+  end;
 end;
 
 function cef_app_get_resource_bundle_handler(self: PCefApp): PCefResourceBundleHandler; stdcall;
@@ -1540,7 +1557,7 @@ begin
   if Assigned(FOnBeforeCommandLineProcessing) then FOnBeforeCommandLineProcessing(processType, commandLine);
 end;
 
-procedure TInternalApp.OnRegisterCustomSchemes(const registrar: ICefSchemeRegistrar);
+procedure TInternalApp.OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
   if Assigned(FOnRegisterCustomSchemes) then FOnRegisterCustomSchemes(registrar);
 end;

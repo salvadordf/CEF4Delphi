@@ -47,10 +47,10 @@ unit uCEFRequest;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRequestRef = class(TCefBaseRef, ICefRequest)
+  TCefRequestRef = class(TCefBaseRefCountedRef, ICefRequest)
   protected
     function IsReadOnly: Boolean;
     function GetUrl: ustring;

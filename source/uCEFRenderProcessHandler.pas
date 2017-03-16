@@ -47,11 +47,11 @@ unit uCEFRenderProcessHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes, uCEFListValue, uCEFBrowser, uCEFFrame, uCEFRequest,
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFListValue, uCEFBrowser, uCEFFrame, uCEFRequest,
   uCEFv8Context, uCEFv8Exception, uCEFv8StackTrace, uCEFDomNode, uCEFProcessMessage;
 
 type
-  TCefRenderProcessHandlerOwn = class(TCefBaseOwn, ICefRenderProcessHandler)
+  TCefRenderProcessHandlerOwn = class(TCefBaseRefCountedOwn, ICefRenderProcessHandler)
   protected
     procedure OnRenderThreadCreated(const extraInfo: ICefListValue); virtual;
     procedure OnWebKitInitialized; virtual;

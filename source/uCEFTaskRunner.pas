@@ -47,10 +47,10 @@ unit uCEFTaskRunner;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefTaskRunnerRef = class(TCefBaseRef, ICefTaskRunner)
+  TCefTaskRunnerRef = class(TCefBaseRefCountedRef, ICefTaskRunner)
   protected
     function IsSame(const that: ICefTaskRunner): Boolean;
     function BelongsToCurrentThread: Boolean;

@@ -47,10 +47,10 @@ unit uCEFFindHandler;
 interface
 
 uses
-  uCEFBase, uCEFTypes, uCEFInterfaces;
+  uCEFBaseRefCounted, uCEFTypes, uCEFInterfaces;
 
 type
-  TCefFindHandlerOwn = class(TCefBaseOwn, ICefFindHandler)
+  TCefFindHandlerOwn = class(TCefBaseRefCountedOwn, ICefFindHandler)
     protected
       procedure OnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean); virtual; abstract;
 

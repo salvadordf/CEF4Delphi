@@ -47,10 +47,10 @@ unit uCEFRunContextMenuCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRunContextMenuCallbackRef = class(TCefBaseRef, ICefRunContextMenuCallback)
+  TCefRunContextMenuCallbackRef = class(TCefBaseRefCountedRef, ICefRunContextMenuCallback)
   protected
     procedure Cont(commandId: Integer; eventFlags: TCefEventFlags);
     procedure Cancel;

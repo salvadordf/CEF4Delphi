@@ -47,10 +47,10 @@ unit uCEFPostDataElement;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefPostDataElementRef = class(TCefBaseRef, ICefPostDataElement)
+  TCefPostDataElementRef = class(TCefBaseRefCountedRef, ICefPostDataElement)
     protected
       function  IsReadOnly: Boolean;
       procedure SetToEmpty;
@@ -66,7 +66,7 @@ type
       class function New: ICefPostDataElement;
   end;
 
-  TCefPostDataElementOwn = class(TCefBaseOwn, ICefPostDataElement)
+  TCefPostDataElementOwn = class(TCefBaseRefCountedOwn, ICefPostDataElement)
     protected
       FDataType: TCefPostDataElementType;
       FValueByte: Pointer;

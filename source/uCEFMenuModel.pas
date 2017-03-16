@@ -47,11 +47,12 @@ unit uCEFMenuModel;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefMenuModelRef = class(TCefBaseRef, ICefMenuModel)
+  TCefMenuModelRef = class(TCefBaseRefCountedRef, ICefMenuModel)
   protected
+    function IsSubMenu: Boolean;
     function Clear: Boolean;
     function GetCount: Integer;
     function AddSeparator: Boolean;
@@ -101,6 +102,12 @@ type
     function RemoveAcceleratorAt(index: Integer): Boolean;
     function GetAccelerator(commandId: Integer; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
     function GetAcceleratorAt(index: Integer; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+    function SetColor(commandId: Integer; colorType: TCefMenuColorType; color: TCefColor): Boolean;
+    function SetColorAt(index: Integer; colorType: TCefMenuColorType; color: TCefColor): Boolean;
+    function GetColor(commandId: Integer; colorType: TCefMenuColorType; out color: TCefColor): Boolean;
+    function GetColorAt(index: Integer; colorType: TCefMenuColorType; out color: TCefColor): Boolean;
+    function SetFontList(commandId: Integer; const fontList: ustring): Boolean;
+    function SetFontListAt(index: Integer; const fontList: ustring): Boolean;
   public
     class function UnWrap(data: Pointer): ICefMenuModel;
     class function New(const delegate: ICefMenuModelDelegate): ICefMenuModel;
@@ -153,6 +160,11 @@ begin
   Result := TCefMenuModelRef.UnWrap(PCefMenuModel(FData).add_sub_menu(PCefMenuModel(FData), commandId, @t));
 end;
 
+function TCefMenuModelRef.IsSubMenu: Boolean;
+begin
+  Result := PCefMenuModel(FData).is_sub_menu(PCefMenuModel(FData)) <> 0;
+end;
+
 function TCefMenuModelRef.Clear: Boolean;
 begin
   Result := PCefMenuModel(FData).clear(PCefMenuModel(FData)) <> 0;
@@ -181,6 +193,42 @@ begin
   shiftPressed := sp <> 0;
   ctrlPressed := cp <> 0;
   altPressed := ap <> 0;
+end;
+
+function TCefMenuModelRef.SetColor(commandId: Integer; colorType: TCefMenuColorType; color: TCefColor): Boolean;
+begin
+  Result := PCefMenuModel(FData).set_color(PCefMenuModel(FData), commandId, colorType, color) <> 0;
+end;
+
+function TCefMenuModelRef.SetColorAt(index: Integer; colorType: TCefMenuColorType; color: TCefColor): Boolean;
+begin
+  Result := PCefMenuModel(FData).set_color_at(PCefMenuModel(FData), index, colorType, color) <> 0;
+end;
+
+function TCefMenuModelRef.GetColor(commandId: Integer; colorType: TCefMenuColorType; out color: TCefColor): Boolean;
+begin
+  Result := PCefMenuModel(FData).get_color(PCefMenuModel(FData), commandId, colorType, @color) <> 0;
+end;
+
+function TCefMenuModelRef.GetColorAt(index: Integer; colorType: TCefMenuColorType; out color: TCefColor): Boolean;
+begin
+  Result := PCefMenuModel(FData).get_color_at(PCefMenuModel(FData), index, colorType, @color) <> 0;
+end;
+
+function TCefMenuModelRef.SetFontList(commandId: Integer; const fontList: ustring): Boolean;
+var
+  TempString : TCefString;
+begin
+  TempString := CefString(fontList);
+  Result     := PCefMenuModel(FData).set_font_list(PCefMenuModel(FData), commandId, @TempString) <> 0;
+end;
+
+function TCefMenuModelRef.SetFontListAt(index: Integer; const fontList: ustring): Boolean;
+var
+  TempString : TCefString;
+begin
+  TempString := CefString(fontList);
+  Result     := PCefMenuModel(FData).set_font_list_at(PCefMenuModel(FData), index, @TempString) <> 0;
 end;
 
 function TCefMenuModelRef.GetCommandIdAt(index: Integer): Integer;

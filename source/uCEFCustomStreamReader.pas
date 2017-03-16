@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes, SysUtils,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefCustomStreamReader = class(TCefBaseOwn, ICefCustomStreamReader)
+  TCefCustomStreamReader = class(TCefBaseRefCountedOwn, ICefCustomStreamReader)
     protected
       FStream: TStream;
       FOwned: Boolean;

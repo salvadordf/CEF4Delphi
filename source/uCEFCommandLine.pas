@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFTypes, uCEFInterfaces;
+  uCEFBaseRefCounted, uCEFTypes, uCEFInterfaces;
 
 type
-  TCefCommandLineRef = class(TCefBaseRef, ICefCommandLine)
+  TCefCommandLineRef = class(TCefBaseRefCountedRef, ICefCommandLine)
     protected
       function  IsValid: Boolean;
       function  IsReadOnly: Boolean;

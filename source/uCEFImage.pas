@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Windows,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefImageRef = class(TCefBaseRef, ICefImage)
+  TCefImageRef = class(TCefBaseRefCountedRef, ICefImage)
   protected
     function IsEmpty: Boolean;
     function IsSame(const that: ICefImage): Boolean;

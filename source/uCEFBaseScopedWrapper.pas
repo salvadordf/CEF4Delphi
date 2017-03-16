@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFSchemeRegistrar;
+unit uCEFBaseScopedWrapper;
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -46,32 +46,28 @@ unit uCEFSchemeRegistrar;
 
 interface
 
-uses
-  uCEFBaseScopedWrapper, uCEFTypes;
-
 type
-  TCefSchemeRegistrarRef = class(TCEFBaseScopedWrapperRef)
+  TCEFBaseScopedWrapperRef = class
+    protected
+      FData: Pointer;
+
     public
-      function AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated, IsSecure, IsCorsEnabled: Boolean): Boolean; stdcall;
+      constructor Create(data: Pointer); virtual;
+      function    Wrap: Pointer;
   end;
 
 implementation
 
-uses
-  uCEFMiscFunctions;
-
-function TCefSchemeRegistrarRef.AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated, IsSecure, IsCorsEnabled: Boolean): Boolean;
-var
-  sn: TCefString;
+constructor TCEFBaseScopedWrapperRef.Create(data: Pointer);
 begin
-  sn     := CefString(schemeName);
-  Result := PCefSchemeRegistrar(FData).add_custom_scheme(PCefSchemeRegistrar(FData),
-                                                         @sn,
-                                                         Ord(IsStandard),
-                                                         Ord(IsLocal),
-                                                         Ord(IsDisplayIsolated),
-                                                         Ord(isSecure),
-                                                         Ord(IsCorsEnabled)) <> 0;
+  inherited Create;
+
+  FData := data;
+end;
+
+function TCEFBaseScopedWrapperRef.Wrap: Pointer;
+begin
+  Result := FData;
 end;
 
 end.

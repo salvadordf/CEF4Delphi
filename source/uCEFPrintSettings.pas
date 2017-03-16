@@ -47,10 +47,10 @@ unit uCEFPrintSettings;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefPrintSettingsRef = class(TCefBaseRef, ICefPrintSettings)
+  TCefPrintSettingsRef = class(TCefBaseRefCountedRef, ICefPrintSettings)
   protected
     function IsValid: Boolean;
     function IsReadOnly: Boolean;

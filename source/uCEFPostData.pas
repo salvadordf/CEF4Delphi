@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefPostDataRef = class(TCefBaseRef, ICefPostData)
+  TCefPostDataRef = class(TCefBaseRefCountedRef, ICefPostData)
     protected
       function  IsReadOnly: Boolean;
       function  HasExcludedElements: Boolean;

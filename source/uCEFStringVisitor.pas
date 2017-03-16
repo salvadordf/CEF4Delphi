@@ -47,10 +47,10 @@ unit uCEFStringVisitor;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefStringVisitorOwn = class(TCefBaseOwn, ICefStringVisitor)
+  TCefStringVisitorOwn = class(TCefBaseRefCountedOwn, ICefStringVisitor)
     protected
       procedure Visit(const str: ustring); virtual;
 

@@ -47,7 +47,7 @@ unit uCEFStringMap;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefStringMapOwn = class(TInterfacedObject, ICefStringMap)

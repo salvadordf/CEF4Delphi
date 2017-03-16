@@ -47,10 +47,10 @@ unit uCEFJsDialogHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefJsDialogHandlerOwn = class(TCefBaseOwn, ICefJsDialogHandler)
+  TCefJsDialogHandlerOwn = class(TCefBaseRefCountedOwn, ICefJsDialogHandler)
     protected
       function OnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean; virtual;
       function OnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: Boolean; const callback: ICefJsDialogCallback): Boolean; virtual;

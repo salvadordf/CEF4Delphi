@@ -47,10 +47,10 @@ unit uCEFTask;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefTaskOwn = class(TCefBaseOwn, ICefTask)
+  TCefTaskOwn = class(TCefBaseRefCountedOwn, ICefTask)
     protected
       procedure Execute; virtual;
 
@@ -58,7 +58,7 @@ type
       constructor Create; virtual;
   end;
 
-  TCefTaskRef = class(TCefBaseRef, ICefTask)
+  TCefTaskRef = class(TCefBaseRefCountedRef, ICefTask)
     protected
       procedure Execute; virtual;
 

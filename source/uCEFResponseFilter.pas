@@ -47,10 +47,10 @@ unit uCEFResponseFilter;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefResponseFilterOwn = class(TCefBaseOwn, ICefResponseFilter)
+  TCefResponseFilterOwn = class(TCefBaseRefCountedOwn, ICefResponseFilter)
   protected
     function InitFilter: Boolean; virtual; abstract;
     function Filter(dataIn: Pointer; dataInSize, dataInRead: NativeUInt; dataOut: Pointer;

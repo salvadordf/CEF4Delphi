@@ -2,7 +2,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   Left = 0
   Top = 0
   Caption = 'MiniBrowser'
-  ClientHeight = 681
+  ClientHeight = 716
   ClientWidth = 1089
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Left = 1084
     Top = 41
     Width = 5
-    Height = 621
+    Height = 656
     Align = alRight
     Visible = False
     ExplicitLeft = 0
@@ -109,7 +109,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object URLEditPnl: TPanel
       Left = 133
       Top = 0
-      Width = 915
+      Width = 883
       Height = 41
       Align = alClient
       BevelOuter = bvNone
@@ -117,36 +117,36 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Padding.Bottom = 8
       ShowCaption = False
       TabOrder = 1
-      ExplicitWidth = 844
+      ExplicitWidth = 915
       object URLCbx: TComboBox
         Left = 0
         Top = 9
-        Width = 915
+        Width = 883
         Height = 21
         Align = alClient
         TabOrder = 0
         Text = 'https://www.google.com'
-        OnKeyUp = URLCbxKeyUp
-        OnSelect = URLCbxSelect
         Items.Strings = (
           'https://www.google.com'
           'hello://world/'
           
             'https://www.whatismybrowser.com/detect/what-http-headers-is-my-b' +
-            'rowser-sending')
-        ExplicitWidth = 948
+            'rowser-sending'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close')
+        ExplicitWidth = 915
       end
     end
     object ConfigPnl: TPanel
-      Left = 1048
+      Left = 1016
       Top = 0
-      Width = 41
+      Width = 73
       Height = 41
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
+      ExplicitLeft = 1015
       object ConfigBtn: TButton
-        Left = 8
+        Left = 40
         Top = 8
         Width = 25
         Height = 25
@@ -160,34 +160,52 @@ object MiniBrowserFrm: TMiniBrowserFrm
         TabOrder = 0
         OnClick = ConfigBtnClick
       end
+      object GoBtn: TButton
+        Left = 8
+        Top = 8
+        Width = 25
+        Height = 25
+        Caption = #9658
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -17
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        OnClick = GoBtnClick
+      end
     end
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Top = 41
     Width = 1084
-    Height = 621
+    Height = 656
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 621
   end
   object DevTools: TCEFWindowParent
     Left = 1089
     Top = 41
     Width = 0
-    Height = 621
+    Height = 656
     Align = alRight
     TabOrder = 2
     Visible = False
+    ExplicitHeight = 621
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 662
+    Top = 697
     Width = 1089
     Height = 19
     Panels = <
       item
         Width = 50
       end>
+    ExplicitTop = 662
   end
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable

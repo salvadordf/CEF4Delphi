@@ -1997,18 +1997,24 @@ var
   TempDict  : ICefDictionaryValue;
   TempPrefs : TStringList;
 begin
+  TempPrefs := nil;
+
   try
-    if Initialized then
-      begin
-        TempPrefs := TStringList.Create;
-        TempDict := FBrowser.Host.RequestContext.GetAllPreferences(True);
-        HandleDictionary(TempDict, TempPrefs, '');
-        TempPrefs.SaveToFile(FPrefsFileName);
-        SendCompMessage(CEF_PREFERENCES_SAVED);
-      end;
-  except
-    on e : exception do
-      OutputDebugMessage('TChromium.Internal_SavePreferences error: ' + e.Message);
+    try
+      if Initialized then
+        begin
+          TempPrefs := TStringList.Create;
+          TempDict  := FBrowser.Host.RequestContext.GetAllPreferences(True);
+          HandleDictionary(TempDict, TempPrefs, '');
+          TempPrefs.SaveToFile(FPrefsFileName);
+          SendCompMessage(CEF_PREFERENCES_SAVED);
+        end;
+    except
+      on e : exception do
+        OutputDebugMessage('TChromium.Internal_SavePreferences error: ' + e.Message);
+    end;
+  finally
+    if (TempPrefs <> nil) then FreeAndNil(TempPrefs);
   end;
 end;
 

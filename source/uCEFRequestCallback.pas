@@ -47,10 +47,10 @@ unit uCEFRequestCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRequestCallbackRef = class(TCefBaseRef, ICefRequestCallback)
+  TCefRequestCallbackRef = class(TCefBaseRefCountedRef, ICefRequestCallback)
     protected
       procedure Cont(allow: Boolean);
       procedure Cancel;

@@ -47,10 +47,10 @@ unit uCEFv8StackTrace;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefV8StackTraceRef = class(TCefBaseRef, ICefV8StackTrace)
+  TCefV8StackTraceRef = class(TCefBaseRefCountedRef, ICefV8StackTrace)
   protected
     function IsValid: Boolean;
     function GetFrameCount: Integer;

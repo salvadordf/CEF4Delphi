@@ -47,10 +47,10 @@ unit uCEFPDFPrintCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefPdfPrintCallbackOwn = class(TCefBaseOwn, ICefPdfPrintCallback)
+  TCefPdfPrintCallbackOwn = class(TCefBaseRefCountedOwn, ICefPdfPrintCallback)
     protected
       procedure OnPdfPrintFinished(const path: ustring; ok: Boolean); virtual; abstract;
 

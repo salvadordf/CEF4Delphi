@@ -47,12 +47,12 @@ unit uCEFSchemeHandlerFactory;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes, uCEFResourceHandler;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFResourceHandler;
 
 type
-  TCefSchemeHandlerFactoryOwn = class(TCefBaseOwn, ICefSchemeHandlerFactory)
+  TCefSchemeHandlerFactoryOwn = class(TCefBaseRefCountedOwn, ICefSchemeHandlerFactory)
     protected
-      FClass: TCefResourceHandlerClass;
+      FClass : TCefResourceHandlerClass;
 
       function New(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest): ICefResourceHandler; virtual;
 
@@ -65,28 +65,33 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest;
 
-function cef_scheme_handler_factory_create(self: PCefSchemeHandlerFactory;
-  browser: PCefBrowser; frame: PCefFrame; const scheme_name: PCefString;
-  request: PCefRequest): PCefResourceHandler; stdcall;
+function cef_scheme_handler_factory_create(      self        : PCefSchemeHandlerFactory;
+                                                 browser     : PCefBrowser;
+                                                 frame       : PCefFrame;
+                                           const scheme_name : PCefString;
+                                                 request     : PCefRequest): PCefResourceHandler; stdcall;
 begin
-
   with TCefSchemeHandlerFactoryOwn(CefGetObject(self)) do
-    Result := CefGetData(New(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame),
-      CefString(scheme_name), TCefRequestRef.UnWrap(request)));
+    Result := CefGetData(New(TCefBrowserRef.UnWrap(browser),
+                             TCefFrameRef.UnWrap(frame),
+                             CefString(scheme_name),
+                             TCefRequestRef.UnWrap(request)));
 end;
 
-constructor TCefSchemeHandlerFactoryOwn.Create(
-  const AClass: TCefResourceHandlerClass);
+constructor TCefSchemeHandlerFactoryOwn.Create(const AClass: TCefResourceHandlerClass);
 begin
   inherited CreateData(SizeOf(TCefSchemeHandlerFactory));
+
   FClass := AClass;
+
   with PCefSchemeHandlerFactory(FData)^ do
     create := cef_scheme_handler_factory_create;
 end;
 
-function TCefSchemeHandlerFactoryOwn.New(const browser: ICefBrowser;
-  const frame: ICefFrame; const schemeName: ustring;
-  const request: ICefRequest): ICefResourceHandler;
+function TCefSchemeHandlerFactoryOwn.New(const browser    : ICefBrowser;
+                                         const frame      : ICefFrame;
+                                         const schemeName : ustring;
+                                         const request    : ICefRequest): ICefResourceHandler;
 begin
   Result := FClass.Create(browser, frame, schemeName, request);
 end;

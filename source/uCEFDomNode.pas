@@ -47,10 +47,10 @@ unit uCEFDomNode;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDomNodeRef = class(TCefBaseRef, ICefDomNode)
+  TCefDomNodeRef = class(TCefBaseRefCountedRef, ICefDomNode)
     protected
       function GetType: TCefDomNodeType;
       function IsText: Boolean;

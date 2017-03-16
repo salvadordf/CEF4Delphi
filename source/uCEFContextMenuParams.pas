@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefContextMenuParamsRef = class(TCefBaseRef, ICefContextMenuParams)
+  TCefContextMenuParamsRef = class(TCefBaseRefCountedRef, ICefContextMenuParams)
   protected
     function GetXCoord: Integer;
     function GetYCoord: Integer;

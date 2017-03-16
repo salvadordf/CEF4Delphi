@@ -47,10 +47,10 @@ unit uCEFContextMenuHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefContextMenuHandlerOwn = class(TCefBaseOwn, ICefContextMenuHandler)
+  TCefContextMenuHandlerOwn = class(TCefBaseRefCountedOwn, ICefContextMenuHandler)
     protected
       procedure OnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel); virtual;
       function  RunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): Boolean; virtual;

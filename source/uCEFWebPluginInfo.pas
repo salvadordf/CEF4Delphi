@@ -47,10 +47,10 @@ unit uCEFWebPluginInfo;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefWebPluginInfoRef = class(TCefBaseRef, ICefWebPluginInfo)
+  TCefWebPluginInfoRef = class(TCefBaseRefCountedRef, ICefWebPluginInfo)
     protected
       function GetName: ustring;
       function GetPath: ustring;

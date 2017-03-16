@@ -47,10 +47,10 @@ unit uCEFLoadHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefLoadHandlerOwn = class(TCefBaseOwn, ICefLoadHandler)
+  TCefLoadHandlerOwn = class(TCefBaseRefCountedOwn, ICefLoadHandler)
     protected
       procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean); virtual;
       procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType); virtual;

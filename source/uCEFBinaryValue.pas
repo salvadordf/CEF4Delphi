@@ -47,10 +47,10 @@ unit uCEFBinaryValue;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefBinaryValueRef = class(TCefBaseRef, ICefBinaryValue)
+  TCefBinaryValueRef = class(TCefBaseRefCountedRef, ICefBinaryValue)
     protected
       function IsValid: Boolean;
       function IsOwned: Boolean;

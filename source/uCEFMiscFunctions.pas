@@ -73,7 +73,7 @@ function CefInt64GetLow(const int64_val: Int64): Integer;
 function CefInt64GetHigh(const int64_val: Int64): Integer;
 
 function CefGetObject(ptr: Pointer): TObject;
-function CefGetData(const i: ICefBase): Pointer;
+function CefGetData(const i: ICefBaseRefCounted): Pointer;
 
 function CefStringAlloc(const str: ustring): TCefString;
 function CefStringClearAndGet(var str: TCefString): ustring;
@@ -116,9 +116,8 @@ procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
 procedure OutputDebugMessage(const aMessage : string);
 
-function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring; const handler: TCefResourceHandlerClass): Boolean; overload;
-function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring; const factory: ICefSchemeHandlerFactory): Boolean; overload;
-function CefClearSchemeHandlerFactories: Boolean;
+function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring; const handler: TCefResourceHandlerClass): Boolean;
+function CefClearSchemeHandlerFactories : boolean;
 
 function CefAddCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
 function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
@@ -206,7 +205,7 @@ begin
   Result := TObject(PPointer(ptr)^);
 end;
 
-function CefGetData(const i: ICefBase): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 begin
   if (i <> nil) then
     Result := i.Wrap
@@ -453,58 +452,54 @@ begin
   {$ENDIF}
 end;
 
-function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring;
-  const handler: TCefResourceHandlerClass): Boolean;
+function CefRegisterSchemeHandlerFactory(const SchemeName : ustring;
+                                         const HostName   : ustring;
+                                         const handler    : TCefResourceHandlerClass) : boolean;
 var
-  s, h: TCefString;
+  TempScheme, TempHostName : TCefString;
+  TempFactory : ICefSchemeHandlerFactory;
 begin
-  s := CefString(SchemeName);
-  h := CefString(HostName);
-  Result := cef_register_scheme_handler_factory(
-    @s,
-    @h,
-    CefGetData(TCefSchemeHandlerFactoryOwn.Create(handler) as ICefBase)) <> 0;
+  TempScheme   := CefString(SchemeName);
+  TempHostName := CefString(HostName);
+  TempFactory  := TCefSchemeHandlerFactoryOwn.Create(handler);
+  Result       := cef_register_scheme_handler_factory(@TempScheme, @TempHostName, TempFactory.Wrap) <> 0;
 end;
 
-function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring;
-  const factory: ICefSchemeHandlerFactory): Boolean;
-var
-  s, h: TCefString;
-begin
-  s := CefString(SchemeName);
-  h := CefString(HostName);
-  Result := cef_register_scheme_handler_factory(
-    @s,
-    @h,
-    CefGetData(factory as ICefBase)) <> 0;
-end;
-
-function CefClearSchemeHandlerFactories: Boolean;
+function CefClearSchemeHandlerFactories : boolean;
 begin
   Result := cef_clear_scheme_handler_factories <> 0;
 end;
 
-function CefAddCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol,
-  TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
+function CefAddCrossOriginWhitelistEntry(const SourceOrigin          : ustring;
+                                         const TargetProtocol        : ustring;
+                                         const TargetDomain          : ustring;
+                                               AllowTargetSubdomains : Boolean): Boolean;
 var
-  so, tp, td: TCefString;
+  TempSourceOrigin, TempTargetProtocol, TempTargetDomain : TCefString;
 begin
-  so := CefString(SourceOrigin);
-  tp := CefString(TargetProtocol);
-  td := CefString(TargetDomain);
-  Result := cef_add_cross_origin_whitelist_entry(@so, @tp, @td, Ord(AllowTargetSubdomains)) <> 0;
+  TempSourceOrigin   := CefString(SourceOrigin);
+  TempTargetProtocol := CefString(TargetProtocol);
+  TempTargetDomain   := CefString(TargetDomain);
+  Result             := cef_add_cross_origin_whitelist_entry(@TempSourceOrigin,
+                                                             @TempTargetProtocol,
+                                                             @TempTargetDomain,
+                                                             Ord(AllowTargetSubdomains)) <> 0;
 end;
 
-function CefRemoveCrossOriginWhitelistEntry(
-  const SourceOrigin, TargetProtocol, TargetDomain: ustring;
-  AllowTargetSubdomains: Boolean): Boolean;
+function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin          : ustring;
+                                            const TargetProtocol        : ustring;
+                                            const TargetDomain          : ustring;
+                                                  AllowTargetSubdomains : Boolean): Boolean;
 var
-  so, tp, td: TCefString;
+  TempSourceOrigin, TempTargetProtocol, TempTargetDomain : TCefString;
 begin
-  so := CefString(SourceOrigin);
-  tp := CefString(TargetProtocol);
-  td := CefString(TargetDomain);
-  Result := cef_remove_cross_origin_whitelist_entry(@so, @tp, @td, Ord(AllowTargetSubdomains)) <> 0;
+  TempSourceOrigin   := CefString(SourceOrigin);
+  TempTargetProtocol := CefString(TargetProtocol);
+  TempTargetDomain   := CefString(TargetDomain);
+  Result             := cef_remove_cross_origin_whitelist_entry(@TempSourceOrigin,
+                                                                @TempTargetProtocol,
+                                                                @TempTargetDomain,
+                                                                Ord(AllowTargetSubdomains)) <> 0;
 end;
 
 function CefClearCrossOriginWhitelist: Boolean;

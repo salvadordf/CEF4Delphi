@@ -47,10 +47,10 @@ unit uCEFv8Interceptor;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes, uCEFv8Types;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFv8Types;
 
 type
-  TCefV8InterceptorOwn = class(TCefBaseOwn, ICefV8Interceptor)
+  TCefV8InterceptorOwn = class(TCefBaseRefCountedOwn, ICefV8Interceptor)
     protected
       function GetByName(const name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean; virtual;
       function GetByIndex(index: integer; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean; virtual;

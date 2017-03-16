@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefCookieManagerRef = class(TCefBaseRef, ICefCookieManager)
+  TCefCookieManagerRef = class(TCefBaseRefCountedRef, ICefCookieManager)
     protected
       procedure SetSupportedSchemes(schemes: TStrings; const callback: ICefCompletionCallback);
       procedure SetSupportedSchemesProc(schemes: TStrings; const callback: TCefCompletionCallbackProc);

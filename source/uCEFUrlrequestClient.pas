@@ -47,10 +47,10 @@ unit uCEFUrlrequestClient;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefUrlrequestClientOwn = class(TCefBaseOwn, ICefUrlrequestClient)
+  TCefUrlrequestClientOwn = class(TCefBaseRefCountedOwn, ICefUrlrequestClient)
   protected
     procedure OnRequestComplete(const request: ICefUrlRequest); virtual;
     procedure OnUploadProgress(const request: ICefUrlRequest; current, total: Int64); virtual;

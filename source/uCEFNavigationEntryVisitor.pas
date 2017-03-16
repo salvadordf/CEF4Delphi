@@ -47,10 +47,10 @@ unit uCEFNavigationEntryVisitor;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces;
+  uCEFBaseRefCounted, uCEFInterfaces;
 
 type
-  TCefNavigationEntryVisitorOwn = class(TCefBaseOwn, ICefNavigationEntryVisitor)
+  TCefNavigationEntryVisitorOwn = class(TCefBaseRefCountedOwn, ICefNavigationEntryVisitor)
     protected
       function Visit(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer): Boolean; virtual;
 

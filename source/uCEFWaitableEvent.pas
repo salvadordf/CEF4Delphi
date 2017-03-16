@@ -47,10 +47,10 @@ unit uCEFWaitableEvent;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefWaitableEventRef = class(TCefBaseRef, ICefWaitableEvent)
+  TCefWaitableEventRef = class(TCefBaseRefCountedRef, ICefWaitableEvent)
     protected
       procedure Reset;
       procedure Signal;

@@ -47,10 +47,10 @@ unit uCEFCompletionCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces;
+  uCEFBaseRefCounted, uCEFInterfaces;
 
 type
-  TCefCompletionCallbackOwn = class(TCefBaseOwn, ICefCompletionCallback)
+  TCefCompletionCallbackOwn = class(TCefBaseRefCountedOwn, ICefCompletionCallback)
     protected
       procedure OnComplete; virtual;
 

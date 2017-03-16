@@ -47,10 +47,10 @@ unit uCEFCookieVisitor;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefCookieVisitorOwn = class(TCefBaseOwn, ICefCookieVisitor)
+  TCefCookieVisitorOwn = class(TCefBaseRefCountedOwn, ICefCookieVisitor)
     protected
       function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean; virtual;
 

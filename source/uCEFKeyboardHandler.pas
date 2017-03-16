@@ -47,10 +47,10 @@ unit uCEFKeyboardHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefKeyboardHandlerOwn = class(TCefBaseOwn, ICefKeyboardHandler)
+  TCefKeyboardHandlerOwn = class(TCefBaseRefCountedOwn, ICefKeyboardHandler)
     protected
       function OnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean): Boolean; virtual;
       function OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): Boolean; virtual;

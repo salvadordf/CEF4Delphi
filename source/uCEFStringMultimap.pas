@@ -47,7 +47,7 @@ unit uCEFStringMultimap;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefStringMultimapOwn = class(TInterfacedObject, ICefStringMultimap)

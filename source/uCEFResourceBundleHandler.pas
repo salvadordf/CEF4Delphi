@@ -47,10 +47,10 @@ unit uCEFResourceBundleHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefResourceBundleHandlerOwn = class(TCefBaseOwn, ICefResourceBundleHandler)
+  TCefResourceBundleHandlerOwn = class(TCefBaseRefCountedOwn, ICefResourceBundleHandler)
     protected
       function GetDataResource(stringId: Integer; out data: Pointer; out dataSize: NativeUInt): Boolean; virtual; abstract;
       function GetLocalizedString(messageId: Integer; out stringVal: ustring): Boolean; virtual; abstract;

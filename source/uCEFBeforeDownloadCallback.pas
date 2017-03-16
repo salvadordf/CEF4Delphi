@@ -47,10 +47,10 @@ unit uCEFBeforeDownloadCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefBeforeDownloadCallbackRef = class(TCefBaseRef, ICefBeforeDownloadCallback)
+  TCefBeforeDownloadCallbackRef = class(TCefBaseRefCountedRef, ICefBeforeDownloadCallback)
     protected
       procedure Cont(const downloadPath: ustring; showDialog: Boolean);
 

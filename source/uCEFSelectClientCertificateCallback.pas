@@ -47,10 +47,10 @@ unit uCEFSelectClientCertificateCallback;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefSelectClientCertificateCallbackRef = class(TCefBaseRef, ICefSelectClientCertificateCallback)
+  TCefSelectClientCertificateCallbackRef = class(TCefBaseRefCountedRef, ICefSelectClientCertificateCallback)
     protected
       procedure Select(const cert: ICefX509Certificate);
 

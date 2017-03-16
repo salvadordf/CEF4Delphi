@@ -47,10 +47,10 @@ unit uCEFProcessMessage;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefProcessMessageRef = class(TCefBaseRef, ICefProcessMessage)
+  TCefProcessMessageRef = class(TCefBaseRefCountedRef, ICefProcessMessage)
     protected
       function IsValid: Boolean;
       function IsReadOnly: Boolean;

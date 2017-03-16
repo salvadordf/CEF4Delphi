@@ -47,10 +47,10 @@ unit uCEFDomVisitor;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces;
+  uCEFBaseRefCounted, uCEFInterfaces;
 
 type
-  TCefDomVisitorOwn = class(TCefBaseOwn, ICefDomVisitor)
+  TCefDomVisitorOwn = class(TCefBaseRefCountedOwn, ICefDomVisitor)
     protected
       procedure visit(const document: ICefDomDocument); virtual;
 

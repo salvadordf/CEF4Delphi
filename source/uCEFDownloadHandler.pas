@@ -47,10 +47,10 @@ unit uCEFDownloadHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDownloadHandlerOwn = class(TCefBaseOwn, ICefDownloadHandler)
+  TCefDownloadHandlerOwn = class(TCefBaseRefCountedOwn, ICefDownloadHandler)
     protected
       procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
       procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); virtual;

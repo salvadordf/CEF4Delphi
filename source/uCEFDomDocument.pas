@@ -47,10 +47,10 @@ unit uCEFDomDocument;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDomDocumentRef = class(TCefBaseRef, ICefDomDocument)
+  TCefDomDocumentRef = class(TCefBaseRefCountedRef, ICefDomDocument)
     protected
       function GetType: TCefDomDocumentType;
       function GetDocument: ICefDomNode;

@@ -47,10 +47,10 @@ unit uCEFGeolocationHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefGeolocationHandlerOwn = class(TCefBaseOwn, ICefGeolocationHandler)
+  TCefGeolocationHandlerOwn = class(TCefBaseRefCountedOwn, ICefGeolocationHandler)
     protected
       function OnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean; virtual;
       procedure OnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer); virtual;

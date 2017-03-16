@@ -47,12 +47,12 @@ unit uCEFRequestContextHandler;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefRequestContextHandlerProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function: ICefCookieManager;
 
-  TCefRequestContextHandlerRef = class(TCefBaseRef, ICefRequestContextHandler)
+  TCefRequestContextHandlerRef = class(TCefBaseRefCountedRef, ICefRequestContextHandler)
     protected
       function GetCookieManager: ICefCookieManager;
       function OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): Boolean;
@@ -61,7 +61,7 @@ type
       class function UnWrap(data: Pointer): ICefRequestContextHandler;
   end;
 
-  TCefRequestContextHandlerOwn = class(TCefBaseOwn, ICefRequestContextHandler)
+  TCefRequestContextHandlerOwn = class(TCefBaseRefCountedOwn, ICefRequestContextHandler)
     protected
       function GetCookieManager: ICefCookieManager; virtual;
       function OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): Boolean; virtual;

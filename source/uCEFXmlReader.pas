@@ -47,10 +47,10 @@ unit uCEFXmlReader;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefXmlReaderRef = class(TCefBaseRef, ICefXmlReader)
+  TCefXmlReaderRef = class(TCefBaseRefCountedRef, ICefXmlReader)
   protected
     function MoveToNextNode: Boolean;
     function Close: Boolean;

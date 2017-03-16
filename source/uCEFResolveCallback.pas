@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefResolveCallbackOwn = class(TCefBaseOwn, ICefResolveCallback)
+  TCefResolveCallbackOwn = class(TCefBaseRefCountedOwn, ICefResolveCallback)
   protected
     procedure OnResolveCompleted(result: TCefErrorCode; resolvedIps: TStrings); virtual; abstract;
   public

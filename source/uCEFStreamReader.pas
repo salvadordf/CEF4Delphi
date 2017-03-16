@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefStreamReaderRef = class(TCefBaseRef, ICefStreamReader)
+  TCefStreamReaderRef = class(TCefBaseRefCountedRef, ICefStreamReader)
   protected
     function Read(ptr: Pointer; size, n: NativeUInt): NativeUInt;
     function Seek(offset: Int64; whence: Integer): Integer;

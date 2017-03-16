@@ -47,10 +47,10 @@ unit uCEFNavigationEntry;
 interface
 
 uses
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefNavigationEntryRef = class(TCefBaseRef, ICefNavigationEntry)
+  TCefNavigationEntryRef = class(TCefBaseRefCountedRef, ICefNavigationEntry)
     protected
       function IsValid: Boolean;
       function GetUrl: ustring;

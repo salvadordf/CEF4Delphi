@@ -52,10 +52,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBase, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRequestContextRef = class(TCefBaseRef, ICefRequestContext)
+  TCefRequestContextRef = class(TCefBaseRefCountedRef, ICefRequestContext)
     protected
       function IsSame(const other: ICefRequestContext): Boolean;
       function IsSharingWith(const other: ICefRequestContext): Boolean;
