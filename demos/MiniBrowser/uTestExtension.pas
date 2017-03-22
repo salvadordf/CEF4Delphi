@@ -51,11 +51,6 @@ uses
   uCEFv8Context, uCEFTypes, uCEFv8Handler;
 
 type
-  TCustomRenderProcessHandler = class(TCefRenderProcessHandlerOwn)
-  protected
-    procedure OnWebKitInitialized; override;
-  end;
-
   TCustomBrowserProcessHandler = class(TCefBrowserProcessHandlerOwn)
   protected
     procedure OnScheduleMessagePumpWork(delayMs: Int64); override;
@@ -70,22 +65,6 @@ implementation
 
 var
   pumpMessages: Integer = 0;
-
-{ TCustomRenderProcessHandler }
-
-function getpath(const n: ICefDomNode): string;
-begin
-  Result := '<' + n.Name + '>';
-  if (n.Parent <> nil) then
-    Result := getpath(n.Parent) + Result;
-end;
-
-procedure TCustomRenderProcessHandler.OnWebKitInitialized;
-begin
-{$IFDEF DELPHI14_UP}
-  TCefRTTIExtension.Register('app', TTestExtension);
-{$ENDIF}
-end;
 
 { TTestExtension }
 

@@ -90,6 +90,7 @@ type
   ICefResourceBundleHandler = interface;
   ICefBrowserProcessHandler = interface;
   ICefRenderProcessHandler = interface;
+  ICefProcessMessage = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -103,6 +104,8 @@ type
   TOnGetBrowserProcessHandler      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(var aCefBrowserProcessHandler : ICefBrowserProcessHandler) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnGetRenderProcessHandler       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(var aCefRenderProcessHandler : ICefRenderProcessHandler) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnBeforeCommandLineProcessing   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const processType: ustring; const commandLine: ICefCommandLine) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnCustomMessage                 = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnWebKitReady                   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure() {$IFNDEF DELPHI12_UP}of object{$ENDIF};
 
   TCefCompletionCallbackProc       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure;
   TCefSetCookieCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(success: Boolean);
@@ -1196,8 +1199,7 @@ type
   ICefResponseFilter = interface(ICefBaseRefCounted)
   ['{5013BC3C-F1AE-407A-A571-A4C6B1D6831E}']
     function InitFilter: Boolean;
-    function Filter(dataIn: Pointer; dataInSize, dataInRead: NativeUInt;
-      dataOut: Pointer; dataOutSize, dataOutWritten: NativeUInt): TCefResponseFilterStatus;
+    function Filter(dataIn: Pointer; dataInSize : NativeUInt; dataInRead: PNativeUInt; dataOut: Pointer; dataOutSize : NativeUInt; dataOutWritten: PNativeUInt): TCefResponseFilterStatus;
   end;
 
   ICefRequestHandler = interface(ICefBaseRefCounted)

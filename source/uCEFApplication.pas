@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 2987;
-  CEF_SUPPORTED_VERSION_RELEASE = 1594;
+  CEF_SUPPORTED_VERSION_RELEASE = 1596;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 57;
@@ -67,13 +67,6 @@ const
 
 type
   TInternalApp = class;
-
-  TFileVersionInfo = record
-    MajorVer : uint16;
-    MinorVer : uint16;
-    Release  : uint16;
-    Build    : uint16;
-  end;
 
   TCefApplication = class
     protected
@@ -120,6 +113,9 @@ type
       FEnableSpeechInput             : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
+      FSmoothScrolling               : boolean;
+      FFastUnload                    : boolean;
+      FDisableSafeBrowsing           : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
@@ -250,6 +246,9 @@ type
       property ResourceBundleHandler       : ICefResourceBundleHandler       read FResourceBundleHandler          write FResourceBundleHandler;
       property BrowserProcessHandler       : ICefBrowserProcessHandler       read FBrowserProcessHandler          write FBrowserProcessHandler;
       property RenderProcessHandler        : ICefRenderProcessHandler        read FRenderProcessHandler           write FRenderProcessHandler;
+      property SmoothScrolling             : boolean                         read FSmoothScrolling                write FSmoothScrolling;
+      property FastUnload                  : boolean                         read FFastUnload                     write FFastUnload;
+      property DisableSafeBrowsing         : boolean                         read FDisableSafeBrowsing            write FDisableSafeBrowsing;
       property LibLoaded                   : boolean                         read FLibLoaded;
       property LibCef                      : string                          read FLibCef                         write FLibCef;
   end;
@@ -350,6 +349,9 @@ begin
   FCustomCommandLines            := nil;
   FCustomCommandLineValues       := nil;
   FCheckCEFFiles                 := True;
+  FSmoothScrolling               := False;
+  FFastUnload                    := False;
+  FDisableSafeBrowsing           := False;
   FOnRegisterCustomSchemes       := nil;
   FResourceBundleHandler         := nil;
   FBrowserProcessHandler         := nil;
@@ -853,6 +855,19 @@ begin
       commandLine.AppendSwitchWithValue('--enable-spelling-service', IntToStr(Ord(FEnableSpellingService)));
       commandLine.AppendSwitchWithValue('--enable-media-stream',     IntToStr(Ord(FEnableMediaStream)));
       commandLine.AppendSwitchWithValue('--enable-speech-input',     IntToStr(Ord(FEnableSpeechInput)));
+
+      if FSmoothScrolling then
+        commandLine.AppendSwitch('--enable-smooth-scrolling');
+
+      if FFastUnload then
+        commandLine.AppendSwitch('--enable-fast-unload');
+
+      if FDisableSafeBrowsing then
+        begin
+          commandLine.AppendSwitch('--disable-client-side-phishing-detection');
+          commandLine.AppendSwitch('--safebrowsing-disable-auto-update');
+          commandLine.AppendSwitch('--safebrowsing-disable-download-protection');
+        end;
 
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and

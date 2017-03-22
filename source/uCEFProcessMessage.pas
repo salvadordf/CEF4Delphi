@@ -95,16 +95,17 @@ end;
 
 class function TCefProcessMessageRef.New(const name: ustring): ICefProcessMessage;
 var
-  n: TCefString;
+  TempString : TCefString;
 begin
-  n := CefString(name);
-  Result := UnWrap(cef_process_message_create(@n));
+  TempString := CefString(name);
+  Result     := UnWrap(cef_process_message_create(@TempString));
 end;
 
 class function TCefProcessMessageRef.UnWrap(data: Pointer): ICefProcessMessage;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefProcessMessage else
+  if (data <> nil) then
+    Result := Create(data) as ICefProcessMessage
+   else
     Result := nil;
 end;
 

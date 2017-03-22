@@ -105,7 +105,6 @@
         <DCCReference Include="uHelloScheme.pas"/>
         <DCCReference Include="uPreferences.pas">
             <Form>PreferencesFrm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

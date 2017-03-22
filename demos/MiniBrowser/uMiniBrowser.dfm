@@ -117,7 +117,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Padding.Bottom = 8
       ShowCaption = False
       TabOrder = 1
-      ExplicitWidth = 915
       object URLCbx: TComboBox
         Left = 0
         Top = 9
@@ -133,7 +132,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
             'https://www.whatismybrowser.com/detect/what-http-headers-is-my-b' +
             'rowser-sending'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close')
-        ExplicitWidth = 915
       end
     end
     object ConfigPnl: TPanel
@@ -144,7 +142,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 1015
       object ConfigBtn: TButton
         Left = 40
         Top = 8
@@ -184,7 +181,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Height = 656
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 621
   end
   object DevTools: TCEFWindowParent
     Left = 1089
@@ -194,7 +190,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Align = alRight
     TabOrder = 2
     Visible = False
-    ExplicitHeight = 621
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -205,7 +200,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
       item
         Width = 50
       end>
-    ExplicitTop = 662
   end
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable
@@ -228,6 +222,35 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'DevTools'
       OnClick = DevTools1Click
     end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object Print1: TMenuItem
+      Caption = 'Print'
+      OnClick = Print1Click
+    end
+    object PrintinPDF1: TMenuItem
+      Caption = 'Print to PDF'
+      OnClick = PrintinPDF1Click
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object Zoom1: TMenuItem
+      Caption = 'Zoom'
+      object Inczoom1: TMenuItem
+        Caption = 'Inc zoom'
+        OnClick = Inczoom1Click
+      end
+      object Deczoom1: TMenuItem
+        Caption = 'Dec zoom'
+        OnClick = Deczoom1Click
+      end
+      object Resetzoom1: TMenuItem
+        Caption = 'Reset zoom'
+        OnClick = Resetzoom1Click
+      end
+    end
     object N1: TMenuItem
       Caption = '-'
     end
@@ -235,5 +258,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Preferences...'
       OnClick = Preferences1Click
     end
+  end
+  object SaveDialog1: TSaveDialog
+    Left = 488
+    Top = 232
   end
 end

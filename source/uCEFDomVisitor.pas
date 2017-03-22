@@ -68,16 +68,6 @@ type
       constructor Create(const proc: TCefDomVisitorProc); reintroduce; virtual;
   end;
 
-  TCustomDomVisitor = class(TCefDomVisitorOwn)
-    protected
-      FChromiumBrowser : TObject;
-
-      procedure visit(const document: ICefDomDocument); override;
-
-    public
-      constructor Create(const aChromiumBrowser : TObject); reintroduce;
-  end;
-
 implementation
 
 uses
@@ -113,21 +103,6 @@ end;
 procedure TCefFastDomVisitor.visit(const document: ICefDomDocument);
 begin
   FProc(document);
-end;
-
-// TCustomDomVisitor
-
-constructor TCustomDomVisitor.Create(const aChromiumBrowser : TObject);
-begin
-  inherited Create;
-
-  FChromiumBrowser := aChromiumBrowser;
-end;
-
-procedure TCustomDomVisitor.visit(const document: ICefDomDocument);
-begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_DOMVisit(document);
 end;
 
 end.

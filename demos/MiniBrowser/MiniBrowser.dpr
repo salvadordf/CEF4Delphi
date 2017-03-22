@@ -49,6 +49,13 @@ uses
   uCEFApplication,
   uCEFMiscFunctions,
   uCEFSchemeRegistrar,
+  uCEFRenderProcessHandler,
+  uCEFv8Handler,
+  uCEFInterfaces,
+  uCEFDomVisitor,
+  uCEFConstants,
+  uCEFTypes,
+  uCEFTask,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uTestExtension in 'uTestExtension.pas',
   uHelloScheme in 'uHelloScheme.pas',
@@ -56,16 +63,58 @@ uses
 
 {$R *.res}
 
+var
+  TempProcessHandler : TCefCustomRenderProcessHandler;
+
+procedure DOMVisitor_OnDocAvailable(const document: ICefDomDocument);
+begin
+  // This function is called from a different process.
+  // document is only valid inside this function.
+  // As an example, this function only writes the document title to the 'debug.log' file.
+  CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'document.Title : ' + document.Title);
+end;
+
+procedure ProcessHandler_OnCustomMessage(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage);
+var
+  TempFrame : ICefFrame;
+  TempVisitor : TCefFastDomVisitor;
+begin
+  if (browser <> nil) then
+    begin
+      TempFrame := browser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          TempVisitor := TCefFastDomVisitor.Create(DOMVisitor_OnDocAvailable);
+          TempFrame.VisitDom(TempVisitor);
+        end;
+    end;
+end;
+
+procedure ProcessHandler_OnWebKitReady;
+begin
+{$IFDEF DELPHI14_UP}
+  TCefRTTIExtension.Register('app', TTestExtension);
+{$ENDIF}
+end;
+
 procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
   registrar.AddCustomScheme('hello', True, True, False, False, False);
 end;
 
 begin
+  TempProcessHandler                 := TCefCustomRenderProcessHandler.Create;
+  TempProcessHandler.MessageName     := 'retrievedom';   // same message name than TMiniBrowserFrm.VisitDOMMsg
+  TempProcessHandler.OnCustomMessage := ProcessHandler_OnCustomMessage;
+  TempProcessHandler.OnWebKitReady   := ProcessHandler_OnWebKitReady;
+
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.RemoteDebuggingPort  := 9000;
-  GlobalCEFApp.RenderProcessHandler := TCustomRenderProcessHandler.Create;
+  GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
   GlobalCEFApp.OnRegCustomSchemes   := GlobalCEFApp_OnRegCustomSchemes;
+  GlobalCEFApp.LogFile              := 'debug.log';
+  GlobalCEFApp.LogSeverity          := LOGSEVERITY_ERROR;
 
   // Examples of command line switches.
   // **********************************

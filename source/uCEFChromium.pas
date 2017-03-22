@@ -64,7 +64,6 @@ type
       FVisitor            : ICefStringVisitor;
       FPDFPrintcb         : ICefPdfPrintCallback;
       FCookiDeletercb     : ICefDeleteCookiesCallback;
-      FDOMVisitor         : ICefDomVisitor;
       FClientHandler      : TVCLClientHandler;
       FHandler            : ICefClient;
       FBrowser            : ICefBrowser;
@@ -201,7 +200,6 @@ type
       FOnPdfPrintFinished             : TOnPdfPrintFinishedEvent;
       FOnPrefsAvailable               : TNotifyEvent;
       FOnCookiesDeleted               : TOnCookiesDeletedEvent;
-      FOnDocumentAvailable            : TOnDocumentAvailableEvent;
 
       function  GetIsLoading : boolean;
       function  GetMultithreadApp : boolean;
@@ -378,10 +376,8 @@ type
 
       // Internal procedures.
       // Only tasks, visitors or callbacks should use them in the right thread/process.
-      procedure   Internal_DOMVisit(const document: ICefDomDocument);
       procedure   Internal_CookiesDeleted(numDeleted : integer);
       procedure   Internal_GetHTML;
-      procedure   Internal_VisitDOM;
       procedure   Internal_PdfPrintFinished(aResultOK : boolean);
       procedure   Internal_TextResultAvailable(const aText : string);
       procedure   Internal_UpdatePreferences;
@@ -398,7 +394,6 @@ type
 
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
       procedure   DeleteCookies;
-      procedure   RetrieveDOMDocument;
       procedure   RetrieveHTML;
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
       procedure   UpdatePreferences;
@@ -494,7 +489,6 @@ type
       property  OnPdfPrintFinished      : TOnPdfPrintFinishedEvent     read FOnPdfPrintFinished       write FOnPdfPrintFinished;
       property  OnPrefsAvailable        : TNotifyEvent                 read FOnPrefsAvailable         write FOnPrefsAvailable;
       property  OnCookiesDeleted        : TOnCookiesDeletedEvent       read FOnCookiesDeleted         write FOnCookiesDeleted;
-      property  OnDocumentAvailable     : TOnDocumentAvailableEvent    read FOnDocumentAvailable      write FOnDocumentAvailable;
 
       // ICefClient
       property OnProcessMessageReceived         : TOnProcessMessageReceived         read FOnProcessMessageReceived         write FOnProcessMessageReceived;
@@ -601,7 +595,7 @@ uses
   SysUtils, Math,
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFCookieManager, uCEFFrame,
-  uCEFApplication;
+  uCEFApplication, uCEFProcessMessage;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
@@ -620,7 +614,6 @@ begin
   FVisitor               := nil;
   FPDFPrintcb            := nil;
   FCookiDeletercb        := nil;
-  FDOMVisitor            := nil;
   FPDFPrintOptions       := nil;
   FUpdatePreferences     := False;
   FCustomHeaderName      := '';
@@ -683,7 +676,6 @@ begin
       FVisitor        := nil;
       FPDFPrintcb     := nil;
       FCookiDeletercb := nil;
-      FDOMVisitor     := nil;
 
       if (FFontOptions     <> nil) then FreeAndNil(FFontOptions);
       if (FOptions         <> nil) then FreeAndNil(FOptions);
@@ -834,7 +826,6 @@ begin
   FOnPdfPrintFinished             := nil;
   FOnPrefsAvailable               := nil;
   FOnCookiesDeleted               := nil;
-  FOnDocumentAvailable            := nil;
 end;
 
 function TChromium.CreateBrowser(const aBrowserParent : TWinControl; const aWindowName : string) : boolean;
@@ -929,27 +920,6 @@ begin
       if (FPDFPrintcb = nil) then FPDFPrintcb := TCefPDFPrintCallBack.Create(self);
       FBrowser.Host.PrintToPdf(aFilePath, @TempSettings, FPDFPrintcb);
     end;
-end;
-
-procedure TChromium.Internal_VisitDOM;
-var
-  TempFrame : ICefFrame;
-begin
-  try
-    if Initialized then
-      begin
-        TempFrame := FBrowser.MainFrame;
-
-        if (TempFrame <> nil) then
-          begin
-            if (FDOMVisitor = nil) then FDOMVisitor := TCustomDomVisitor.Create(self);
-            TempFrame.VisitDom(FDOMVisitor);
-          end;
-      end;
-  except
-    on e : exception do
-      OutputDebugMessage('TChromium.Internal_VisitDOM error: ' + e.Message);
-  end;
 end;
 
 procedure TChromium.ClipboardCopy;
@@ -1051,6 +1021,7 @@ begin
       aSettings.header_footer_url     := CefString(aURL);
       aSettings.page_width            := FPDFPrintOptions.page_width;
       aSettings.page_height           := FPDFPrintOptions.page_height;
+      aSettings.scale_factor          := FPDFPrintOptions.scale_factor;
       aSettings.margin_top            := FPDFPrintOptions.margin_top;
       aSettings.margin_right          := FPDFPrintOptions.margin_right;
       aSettings.margin_bottom         := FPDFPrintOptions.margin_bottom;
@@ -1533,17 +1504,6 @@ begin
       if (FCookiDeletercb = nil) then FCookiDeletercb := TCefCustomDeleteCookiesCallback.Create(self);
       TempTask := TCefDeleteCookiesTask.Create(FCookiDeletercb);
       CefPostTask(TID_IO, TempTask);
-    end;
-end;
-
-procedure TChromium.RetrieveDOMDocument;
-var
-  TempTask: ICefTask;
-begin
-  if Initialized then
-    begin
-      TempTask := TCefGetDocumentTask.Create(self);
-      CefPostTask(TID_RENDERER, TempTask);
     end;
 end;
 
@@ -2054,11 +2014,6 @@ end;
 procedure TChromium.Internal_CookiesDeleted(numDeleted : integer);
 begin
   if assigned(FOnCookiesDeleted) then FOnCookiesDeleted(self, numDeleted);
-end;
-
-procedure TChromium.Internal_DOMVisit(const document: ICefDomDocument);
-begin
-  if assigned(FOnDocumentAvailable) then FOnDocumentAvailable(self, document);
 end;
 
 procedure TChromium.Internal_PdfPrintFinished(aResultOK : boolean);

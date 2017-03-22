@@ -59,6 +59,7 @@ type
     protected
       Fpage_width            : integer;
       Fpage_height           : Integer;
+      Fscale_factor          : integer;
       Fmargin_top            : double;
       Fmargin_right          : double;
       Fmargin_bottom         : double;
@@ -74,7 +75,8 @@ type
 
     published
       property page_width            : integer                 read Fpage_width               write Fpage_width            default 0;
-      property page_height           : Integer                 read Fpage_height              write Fpage_height           default 0;
+      property page_height           : integer                 read Fpage_height              write Fpage_height           default 0;
+      property scale_factor          : integer                 read Fscale_factor             write Fscale_factor          default 0;
       property margin_top            : double                  read Fmargin_top               write Fmargin_top;
       property margin_right          : double                  read Fmargin_right             write Fmargin_right;
       property margin_bottom         : double                  read Fmargin_bottom            write Fmargin_bottom;
@@ -92,6 +94,7 @@ constructor TPDFPrintOptions.Create;
 begin
   Fpage_width            := 0;
   Fpage_height           := 0;
+  Fscale_factor          := 100;
   Fmargin_top            := 0;
   Fmargin_right          := 0;
   Fmargin_bottom         := 0;

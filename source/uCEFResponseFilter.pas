@@ -53,8 +53,7 @@ type
   TCefResponseFilterOwn = class(TCefBaseRefCountedOwn, ICefResponseFilter)
   protected
     function InitFilter: Boolean; virtual; abstract;
-    function Filter(dataIn: Pointer; dataInSize, dataInRead: NativeUInt; dataOut: Pointer;
-      dataOutSize, dataOutWritten: NativeUInt): TCefResponseFilterStatus; virtual; abstract;
+    function Filter(dataIn: Pointer; dataInSize : NativeUInt; dataInRead: PNativeUInt; dataOut: Pointer; dataOutSize : NativeUInt; dataOutWritten: PNativeUInt): TCefResponseFilterStatus; virtual; abstract;
   public
     constructor Create; virtual;
   end;
@@ -70,11 +69,11 @@ begin
     Result := Ord(InitFilter());
 end;
 
-function cef_response_filter_filter(self: PCefResponseFilter; data_in: Pointer; data_in_size, data_in_read: NativeUInt;
-  data_out: Pointer; data_out_size, data_out_written: NativeUInt): TCefResponseFilterStatus; stdcall;
+function cef_response_filter_filter(self: PCefResponseFilter; data_in: Pointer; data_in_size : NativeUInt; var data_in_read: NativeUInt;
+  data_out: Pointer; data_out_size: NativeUInt; var data_out_written: NativeUInt): TCefResponseFilterStatus; stdcall;
 begin
   with TCefResponseFilterOwn(CefGetObject(self)) do
-    Result := Filter(data_in, data_in_size, data_in_read, data_out, data_out_size, data_out_written);
+    Result := Filter(data_in, data_in_size, @data_in_read, data_out, data_out_size, @data_out_written);
 end;
 
 constructor TCefResponseFilterOwn.Create;

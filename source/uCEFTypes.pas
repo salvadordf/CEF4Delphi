@@ -265,6 +265,13 @@ type
     instance: HINST;
   end;
 
+  TFileVersionInfo = record
+    MajorVer : uint16;
+    MinorVer : uint16;
+    Release  : uint16;
+    Build    : uint16;
+  end;
+
   // /include/internal/cef_types.h (cef_rect_t)
   TCefRect = record
     x: Integer;
@@ -1636,7 +1643,7 @@ type
   TCefResponseFilter = record
     base: TCefBaseRefCounted;
     init_filter: function(self: PCefResponseFilter): Integer; stdcall;
-    filter: function(self: PCefResponseFilter; data_in: Pointer; data_in_size, data_in_read: NativeUInt; data_out: Pointer; data_out_size, data_out_written: NativeUInt): TCefResponseFilterStatus; stdcall;
+    filter: function(self: PCefResponseFilter; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt): TCefResponseFilterStatus; stdcall;
   end;
 
   // /include/capi/cef_auth_callback_capi.h (cef_auth_callback_t)
@@ -1790,6 +1797,7 @@ type
     header_footer_url: TCefString;
     page_width: Integer;
     page_height: Integer;
+    scale_factor: Integer;
     margin_top: double;
     margin_right: double;
     margin_bottom: double;

@@ -56,6 +56,7 @@ const
   MINIBROWSER_SHOWDEVTOOLS  = WM_APP + $101;
   MINIBROWSER_HIDEDEVTOOLS  = WM_APP + $102;
   MINIBROWSER_COPYHTML      = WM_APP + $103;
+  MINIBROWSER_VISITDOM      = WM_APP + $104;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -64,6 +65,7 @@ const
   MINIBROWSER_CONTEXTMENU_SHOWJSALERT  = MENU_ID_USER_FIRST + 3;
   MINIBROWSER_CONTEXTMENU_SETJSEVENT   = MENU_ID_USER_FIRST + 4;
   MINIBROWSER_CONTEXTMENU_COPYHTML     = MENU_ID_USER_FIRST + 5;
+  MINIBROWSER_CONTEXTMENU_VISITDOM     = MENU_ID_USER_FIRST + 6;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -87,6 +89,15 @@ type
     N1: TMenuItem;
     Preferences1: TMenuItem;
     GoBtn: TButton;
+    N2: TMenuItem;
+    PrintinPDF1: TMenuItem;
+    Print1: TMenuItem;
+    N3: TMenuItem;
+    Zoom1: TMenuItem;
+    Inczoom1: TMenuItem;
+    Deczoom1: TMenuItem;
+    Resetzoom1: TMenuItem;
+    SaveDialog1: TSaveDialog;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -120,6 +131,11 @@ type
     procedure Preferences1Click(Sender: TObject);
     procedure ConfigBtnClick(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
+    procedure PrintinPDF1Click(Sender: TObject);
+    procedure Print1Click(Sender: TObject);
+    procedure Inczoom1Click(Sender: TObject);
+    procedure Deczoom1Click(Sender: TObject);
+    procedure Resetzoom1Click(Sender: TObject);
 
   protected
     procedure AddURL(const aURL : string);
@@ -132,6 +148,7 @@ type
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
     procedure CopyHTMLMsg(var aMessage : TMessage); message MINIBROWSER_COPYHTML;
+    procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM;
   public
 
   end;
@@ -144,7 +161,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uPreferences;
+  uPreferences, uCEFProcessMessage;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
 begin
@@ -164,6 +181,11 @@ end;
 procedure TMiniBrowserFrm.ReloadBtnClick(Sender: TObject);
 begin
   Chromium1.Reload;
+end;
+
+procedure TMiniBrowserFrm.Resetzoom1Click(Sender: TObject);
+begin
+  Chromium1.ResetZoomStep;
 end;
 
 procedure TMiniBrowserFrm.Chromium1AddressChange(Sender: TObject;
@@ -186,6 +208,7 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWJSALERT, 'Show JS Alert');
   model.AddItem(MINIBROWSER_CONTEXTMENU_SETJSEVENT,  'Set mouseover event');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,    'Copy HTML to clipboard');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM,    'Visit DOM');
 
   if DevTools.Visible then
     model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -230,6 +253,9 @@ begin
 
     MINIBROWSER_CONTEXTMENU_COPYHTML :
       PostMessage(Handle, MINIBROWSER_COPYHTML, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_VISITDOM :
+      PostMessage(Handle, MINIBROWSER_VISITDOM, 0, 0);
   end;
 end;
 
@@ -308,6 +334,11 @@ begin
   HideDevTools;
 end;
 
+procedure TMiniBrowserFrm.Inczoom1Click(Sender: TObject);
+begin
+  Chromium1.IncZoomStep;
+end;
+
 procedure TMiniBrowserFrm.PopupMenu1Popup(Sender: TObject);
 begin
   if DevTools.Visible then
@@ -344,6 +375,20 @@ begin
     end;
 end;
 
+procedure TMiniBrowserFrm.Print1Click(Sender: TObject);
+begin
+  Chromium1.Print;
+end;
+
+procedure TMiniBrowserFrm.PrintinPDF1Click(Sender: TObject);
+begin
+  SaveDialog1.DefaultExt := 'pdf';
+  SaveDialog1.Filter     := 'PDF files (*.pdf)|*.PDF';
+
+  if SaveDialog1.Execute and (length(SaveDialog1.FileName) > 0) then
+    Chromium1.PrintToPDF(SaveDialog1.FileName, Chromium1.DocumentURL, Chromium1.DocumentURL);
+end;
+
 procedure TMiniBrowserFrm.ConfigBtnClick(Sender: TObject);
 var
   TempPoint : TPoint;
@@ -358,6 +403,24 @@ end;
 procedure TMiniBrowserFrm.CopyHTMLMsg(var aMessage : TMessage);
 begin
   Chromium1.RetrieveHTML;
+end;
+
+procedure TMiniBrowserFrm.VisitDOMMsg(var aMessage : TMessage);
+var
+  TempMsg : ICefProcessMessage;
+begin
+  // Only works using a TCefCustomRenderProcessHandler. See MiniBrowser demo.
+  if Chromium1.Initialized then
+    begin
+      // Use the ArgumentList property if you need to pass some parameters.
+      TempMsg := TCefProcessMessageRef.New('retrievedom'); // Same name than TCefCustomRenderProcessHandler.MessageName
+      Chromium1.Browser.SendProcessMessage(PID_RENDERER, TempMsg);
+    end;
+end;
+
+procedure TMiniBrowserFrm.Deczoom1Click(Sender: TObject);
+begin
+  Chromium1.DecZoomStep;
 end;
 
 procedure TMiniBrowserFrm.DevTools1Click(Sender: TObject);
