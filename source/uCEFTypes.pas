@@ -218,15 +218,18 @@ type
 
 
 {$IFNDEF DELPHI12_UP}
-  NativeUInt = Cardinal;
+  NativeUInt  = Cardinal;
   PNativeUInt = ^NativeUInt;
-  NativeInt = Integer;
-  uint16 = Word;
-  ustring  = type WideString;
-  rbstring = type AnsiString;
+  NativeInt   = Integer;
+  uint16      = Word;
+  ustring     = type WideString;
+  rbstring    = type AnsiString;
 {$ELSE}
   ustring  = type string;
   rbstring = type RawByteString;
+  {$IFNDEF DELPHI15_UP}
+  PNativeUInt = ^NativeUInt;
+  {$ENDIF}
 {$ENDIF}
 
   Char16  = WideChar;

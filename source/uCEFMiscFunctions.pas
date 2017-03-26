@@ -123,6 +123,15 @@ function CefAddCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, Tar
 function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
 function CefClearCrossOriginWhitelist: Boolean;
 
+procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
+function  GetExtendedFileVersion(const aFileName : string) : uint64;
+function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersionInfo) : boolean;
+
+function CheckLocales(const aLocalesDirPath : string) : boolean;
+function CheckResources(const aResourcesDirPath : string) : boolean;
+function CheckDLLs(const aFrameworkDirPath, aChromeElf, aLibCef : string) : boolean;
+function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
+
 implementation
 
 uses
@@ -505,6 +514,227 @@ end;
 function CefClearCrossOriginWhitelist: Boolean;
 begin
   Result := cef_clear_cross_origin_whitelist <> 0;
+end;
+
+function CheckLocales(const aLocalesDirPath : string) : boolean;
+var
+  TempDir : string;
+begin
+  Result := False;
+
+  try
+    if (length(aLocalesDirPath) > 0) then
+      TempDir := aLocalesDirPath
+     else
+      TempDir := 'locales';
+
+    if DirectoryExists(TempDir) then
+      begin
+        if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
+
+        Result := FileExists(TempDir + 'am.pak') and
+                  FileExists(TempDir + 'ar.pak') and
+                  FileExists(TempDir + 'bg.pak') and
+                  FileExists(TempDir + 'bn.pak') and
+                  FileExists(TempDir + 'ca.pak') and
+                  FileExists(TempDir + 'cs.pak') and
+                  FileExists(TempDir + 'da.pak') and
+                  FileExists(TempDir + 'de.pak') and
+                  FileExists(TempDir + 'el.pak') and
+                  FileExists(TempDir + 'en-GB.pak') and
+                  FileExists(TempDir + 'en-US.pak') and
+                  FileExists(TempDir + 'es.pak') and
+                  FileExists(TempDir + 'es-419.pak') and
+                  FileExists(TempDir + 'et.pak') and
+                  FileExists(TempDir + 'fa.pak') and
+                  FileExists(TempDir + 'fi.pak') and
+                  FileExists(TempDir + 'fil.pak') and
+                  FileExists(TempDir + 'fr.pak') and
+                  FileExists(TempDir + 'gu.pak') and
+                  FileExists(TempDir + 'he.pak') and
+                  FileExists(TempDir + 'hi.pak') and
+                  FileExists(TempDir + 'hr.pak') and
+                  FileExists(TempDir + 'hu.pak') and
+                  FileExists(TempDir + 'id.pak') and
+                  FileExists(TempDir + 'it.pak') and
+                  FileExists(TempDir + 'ja.pak') and
+                  FileExists(TempDir + 'kn.pak') and
+                  FileExists(TempDir + 'ko.pak') and
+                  FileExists(TempDir + 'lt.pak') and
+                  FileExists(TempDir + 'lv.pak') and
+                  FileExists(TempDir + 'ml.pak') and
+                  FileExists(TempDir + 'mr.pak') and
+                  FileExists(TempDir + 'ms.pak') and
+                  FileExists(TempDir + 'nb.pak') and
+                  FileExists(TempDir + 'nl.pak') and
+                  FileExists(TempDir + 'pl.pak') and
+                  FileExists(TempDir + 'pt-BR.pak') and
+                  FileExists(TempDir + 'pt-PT.pak') and
+                  FileExists(TempDir + 'ro.pak') and
+                  FileExists(TempDir + 'ru.pak') and
+                  FileExists(TempDir + 'sk.pak') and
+                  FileExists(TempDir + 'sl.pak') and
+                  FileExists(TempDir + 'sr.pak') and
+                  FileExists(TempDir + 'sv.pak') and
+                  FileExists(TempDir + 'sw.pak') and
+                  FileExists(TempDir + 'ta.pak') and
+                  FileExists(TempDir + 'te.pak') and
+                  FileExists(TempDir + 'th.pak') and
+                  FileExists(TempDir + 'tr.pak') and
+                  FileExists(TempDir + 'uk.pak') and
+                  FileExists(TempDir + 'vi.pak') and
+                  FileExists(TempDir + 'zh-CN.pak') and
+                  FileExists(TempDir + 'zh-TW.pak');
+      end;
+  except
+    on e : exception do
+      OutputDebugMessage('CheckLocales error: ' + e.Message);
+  end;
+end;
+
+function CheckResources(const aResourcesDirPath : string) : boolean;
+var
+  TempDir : string;
+begin
+  Result := False;
+
+  try
+    // path is hard-coded in Chromium for natives_blob.bin, snapshot_blob.bin and icudtl.dat
+
+    if FileExists('natives_blob.bin')  and
+       FileExists('snapshot_blob.bin') and
+       FileExists('icudtl.dat')        then
+      begin
+        if (length(aResourcesDirPath) > 0) then
+          begin
+            if DirectoryExists(aResourcesDirPath) then
+              begin
+                TempDir := aResourcesDirPath;
+                if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
+              end
+             else
+              exit;
+          end
+         else
+          TempDir := '';
+
+        Result := FileExists(TempDir + 'cef.pak')                and
+                  FileExists(TempDir + 'cef_100_percent.pak')    and
+                  FileExists(TempDir + 'cef_200_percent.pak')    and
+                  FileExists(TempDir + 'cef_extensions.pak')     and
+                  FileExists(TempDir + 'devtools_resources.pak');
+      end;
+  except
+    on e : exception do
+      OutputDebugMessage('CheckResources error: ' + e.Message);
+  end;
+end;
+
+function CheckDLLs(const aFrameworkDirPath, aChromeElf, aLibCef : string) : boolean;
+var
+  TempDir : string;
+begin
+  Result := False;
+
+  try
+    if (length(aFrameworkDirPath) > 0) then
+      begin
+        if DirectoryExists(aFrameworkDirPath) then
+          begin
+            TempDir := aFrameworkDirPath;
+            if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
+          end
+         else
+          exit;
+      end
+     else
+      TempDir := '';
+
+    Result := FileExists(aChromeElf)                         and
+              FileExists(aLibCef)                            and
+              FileExists(TempDir + 'd3dcompiler_43.dll')     and
+              FileExists(TempDir + 'd3dcompiler_47.dll')     and
+              FileExists(TempDir + 'libEGL.dll')             and
+              FileExists(TempDir + 'libGLESv2.dll')          and
+              FileExists(TempDir + 'widevinecdmadapter.dll');
+  except
+    on e : exception do
+      OutputDebugMessage('CheckDLLs error: ' + e.Message);
+  end;
+end;
+
+procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
+begin
+  aVersionInfo.MajorVer := uint16(aVersion shr 48);
+  aVersionInfo.MinorVer := uint16((aVersion shr 32) and $FFFF);
+  aVersionInfo.Release  := uint16((aVersion shr 16) and $FFFF);
+  aVersionInfo.Build    := uint16(aVersion and $FFFF);
+end;
+
+function GetExtendedFileVersion(const aFileName : string) : uint64;
+var
+  TempSize   : DWORD;
+  TempBuffer : pointer;
+  TempLen    : UINT;
+  TempHandle : cardinal;
+  TempInfo   : PVSFixedFileInfo;
+begin
+  Result     := 0;
+  TempBuffer := nil;
+
+  try
+    try
+      TempSize := GetFileVersioninfoSize(PChar(aFileName), TempHandle);
+
+      if (TempSize > 0) then
+        begin
+          GetMem(TempBuffer, TempSize);
+
+          if GetFileVersionInfo(PChar(aFileName), TempHandle, TempSize, TempBuffer) and
+             VerQueryValue(TempBuffer, '\', Pointer(TempInfo), TempLen) then
+            begin
+              Result := TempInfo.dwFileVersionMS;
+              Result := Result shl 32;
+              Result := Result or TempInfo.dwFileVersionLS;
+            end;
+        end;
+    except
+      on e : exception do
+        OutputDebugMessage('GetExtendedFileVersion error: ' + e.Message);
+    end;
+  finally
+    if (TempBuffer <> nil) then FreeMem(TempBuffer);
+  end;
+end;
+
+function GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersionInfo) : boolean;
+var
+  TempVersion : uint64;
+begin
+  Result := False;
+
+  try
+    if FileExists(aDLLFile) then
+      begin
+        TempVersion := GetExtendedFileVersion(aDLLFile);
+        UInt64ToFileVersionInfo(TempVersion, aVersionInfo);
+        Result := True;
+      end;
+  except
+    on e : exception do
+      OutputDebugMessage('GetDLLVersion error: ' + e.Message);
+  end;
+end;
+
+function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
+var
+  TempVersionInfo : TFileVersionInfo;
+begin
+  Result := GetDLLVersion(aDLLFile, TempVersionInfo) and
+            (TempVersionInfo.MajorVer = aMajor)      and
+            (TempVersionInfo.MinorVer = aMinor)      and
+            (TempVersionInfo.Release  = aRelease)    and
+            (TempVersionInfo.Build    = aBuild);
 end;
 
 end.

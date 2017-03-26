@@ -175,14 +175,8 @@ type
       function  CreateInternalApp : boolean;
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
-      function  GetFileVersion(const aFileName : string) : uint64;
       function  CheckCEFLibrary : boolean;
-      function  CheckLocales : boolean;
-      function  CheckResources : boolean;
-      function  CheckDLLs : boolean;
       procedure DeleteDirContents(const aDirectory : string);
-      procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
-      procedure UpdateChromeVersionInfo;
 
       function  GetChromeVersion : string;
 
@@ -300,7 +294,8 @@ uses
   {$ELSE}
   Math, {$IFDEF DELPHI12_UP}IOUtils,{$ENDIF} SysUtils,
   {$ENDIF}
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants, uCEFSchemeHandlerFactory;
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
+  uCEFSchemeHandlerFactory;
 
 constructor TCefApplication.Create(aUpdateChromeVer : boolean);
 begin
@@ -368,7 +363,7 @@ begin
   FChromeVersionInfo.Release     := CEF_CHROMEELF_VERSION_RELEASE;
   FChromeVersionInfo.Build       := CEF_CHROMEELF_VERSION_BUILD;
 
-  if aUpdateChromeVer then UpdateChromeVersionInfo;
+  if aUpdateChromeVer then GetDLLVersion(FChromeElf, FChromeVersionInfo);
 
   IsMultiThread := True;
 
@@ -462,42 +457,6 @@ begin
   end;
 end;
 
-function TCefApplication.GetFileVersion(const aFileName : string) : uint64;
-var
-  TempSize   : DWORD;
-  TempBuffer : pointer;
-  TempLen    : UINT;
-  TempHandle : cardinal;
-  TempInfo   : PVSFixedFileInfo;
-begin
-  Result     := 0;
-  TempBuffer := nil;
-
-  try
-    try
-      TempSize := GetFileVersioninfoSize(PChar(aFileName), TempHandle);
-
-      if (TempSize > 0) then
-        begin
-          GetMem(TempBuffer, TempSize);
-
-          if GetFileVersionInfo(PChar(aFileName), TempHandle, TempSize, TempBuffer) and
-             VerQueryValue(TempBuffer, '\', Pointer(TempInfo), TempLen) then
-            begin
-              Result := TempInfo.dwFileVersionMS;
-              Result := Result shl 32;
-              Result := Result or TempInfo.dwFileVersionLS;
-            end;
-        end;
-    except
-      on e : exception do
-        OutputDebugMessage('TCefApplication.GetFileVersion error: ' + e.Message);
-    end;
-  finally
-    if (TempBuffer <> nil) then FreeMem(TempBuffer);
-  end;
-end;
-
 function TCefApplication.GetChromeVersion : string;
 begin
   Result := inttostr(FChromeVersionInfo.MajorVer) + '.' +
@@ -506,204 +465,28 @@ begin
             inttostr(FChromeVersionInfo.Build);
 end;
 
-procedure TCefApplication.UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
-begin
-  aVersionInfo.MajorVer := uint16(aVersion shr 48);
-  aVersionInfo.MinorVer := uint16((aVersion shr 32) and $FFFF);
-  aVersionInfo.Release  := uint16((aVersion shr 16) and $FFFF);
-  aVersionInfo.Build    := uint16(aVersion and $FFFF);
-end;
-
-function TCefApplication.CheckLocales : boolean;
-var
-  TempDir : string;
-begin
-  Result := False;
-
-  try
-    if (length(FLocalesDirPath) > 0) then
-      TempDir := FLocalesDirPath
-     else
-      TempDir := 'locales';
-
-    if DirectoryExists(TempDir) then
-      begin
-        if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
-
-        Result := FileExists(TempDir + 'am.pak') and
-                  FileExists(TempDir + 'ar.pak') and
-                  FileExists(TempDir + 'bg.pak') and
-                  FileExists(TempDir + 'bn.pak') and
-                  FileExists(TempDir + 'ca.pak') and
-                  FileExists(TempDir + 'cs.pak') and
-                  FileExists(TempDir + 'da.pak') and
-                  FileExists(TempDir + 'de.pak') and
-                  FileExists(TempDir + 'el.pak') and
-                  FileExists(TempDir + 'en-GB.pak') and
-                  FileExists(TempDir + 'en-US.pak') and
-                  FileExists(TempDir + 'es.pak') and
-                  FileExists(TempDir + 'es-419.pak') and
-                  FileExists(TempDir + 'et.pak') and
-                  FileExists(TempDir + 'fa.pak') and
-                  FileExists(TempDir + 'fi.pak') and
-                  FileExists(TempDir + 'fil.pak') and
-                  FileExists(TempDir + 'fr.pak') and
-                  FileExists(TempDir + 'gu.pak') and
-                  FileExists(TempDir + 'he.pak') and
-                  FileExists(TempDir + 'hi.pak') and
-                  FileExists(TempDir + 'hr.pak') and
-                  FileExists(TempDir + 'hu.pak') and
-                  FileExists(TempDir + 'id.pak') and
-                  FileExists(TempDir + 'it.pak') and
-                  FileExists(TempDir + 'ja.pak') and
-                  FileExists(TempDir + 'kn.pak') and
-                  FileExists(TempDir + 'ko.pak') and
-                  FileExists(TempDir + 'lt.pak') and
-                  FileExists(TempDir + 'lv.pak') and
-                  FileExists(TempDir + 'ml.pak') and
-                  FileExists(TempDir + 'mr.pak') and
-                  FileExists(TempDir + 'ms.pak') and
-                  FileExists(TempDir + 'nb.pak') and
-                  FileExists(TempDir + 'nl.pak') and
-                  FileExists(TempDir + 'pl.pak') and
-                  FileExists(TempDir + 'pt-BR.pak') and
-                  FileExists(TempDir + 'pt-PT.pak') and
-                  FileExists(TempDir + 'ro.pak') and
-                  FileExists(TempDir + 'ru.pak') and
-                  FileExists(TempDir + 'sk.pak') and
-                  FileExists(TempDir + 'sl.pak') and
-                  FileExists(TempDir + 'sr.pak') and
-                  FileExists(TempDir + 'sv.pak') and
-                  FileExists(TempDir + 'sw.pak') and
-                  FileExists(TempDir + 'ta.pak') and
-                  FileExists(TempDir + 'te.pak') and
-                  FileExists(TempDir + 'th.pak') and
-                  FileExists(TempDir + 'tr.pak') and
-                  FileExists(TempDir + 'uk.pak') and
-                  FileExists(TempDir + 'vi.pak') and
-                  FileExists(TempDir + 'zh-CN.pak') and
-                  FileExists(TempDir + 'zh-TW.pak');
-      end;
-  except
-    on e : exception do
-      OutputDebugMessage('TCefApplication.CheckLocales error: ' + e.Message);
-  end;
-end;
-
-function TCefApplication.CheckResources : boolean;
-var
-  TempDir : string;
-begin
-  Result := False;
-
-  try
-    // path is hard-coded in Chromium for natives_blob.bin, snapshot_blob.bin and icudtl.dat
-
-    if FileExists('natives_blob.bin')  and
-       FileExists('snapshot_blob.bin') and
-       FileExists('icudtl.dat')        then
-      begin
-        if (length(FResourcesDirPath) > 0) then
-          begin
-            if DirectoryExists(FResourcesDirPath) then
-              begin
-                TempDir := FResourcesDirPath;
-                if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
-              end
-             else
-              exit;
-          end
-         else
-          TempDir := '';
-
-        Result := FileExists(TempDir + 'cef.pak')                and
-                  FileExists(TempDir + 'cef_100_percent.pak')    and
-                  FileExists(TempDir + 'cef_200_percent.pak')    and
-                  FileExists(TempDir + 'cef_extensions.pak')     and
-                  FileExists(TempDir + 'devtools_resources.pak');
-      end;
-  except
-    on e : exception do
-      OutputDebugMessage('TCefApplication.CheckResources error: ' + e.Message);
-  end;
-end;
-
-function TCefApplication.CheckDLLs : boolean;
-var
-  TempDir : string;
-begin
-  Result := False;
-
-  try
-    if (length(FFrameworkDirPath) > 0) then
-      begin
-        if DirectoryExists(FFrameworkDirPath) then
-          begin
-            TempDir := FFrameworkDirPath;
-            if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
-          end
-         else
-          exit;
-      end
-     else
-      TempDir := '';
-
-    Result := FileExists(FChromeElf)                         and
-              FileExists(FLibCef)                            and
-              FileExists(TempDir + 'd3dcompiler_43.dll')     and
-              FileExists(TempDir + 'd3dcompiler_47.dll')     and
-              FileExists(TempDir + 'libEGL.dll')             and
-              FileExists(TempDir + 'libGLESv2.dll')          and
-              FileExists(TempDir + 'widevinecdmadapter.dll');
-  except
-    on e : exception do
-      OutputDebugMessage('TCefApplication.CheckDLLs error: ' + e.Message);
-  end;
-end;
-
 function TCefApplication.CheckCEFLibrary : boolean;
-var
-  TempVersion : uint64;
-  TempVersionInfo : TFileVersionInfo;
 begin
   Result := False;
 
   if not(FCheckCEFFiles) then
     Result := True
    else
-    if CheckDLLs      and
-       CheckResources and
-       CheckLocales   then
+    if CheckDLLs(FFrameworkDirPath, FChromeElf, FLibCef) and
+       CheckResources(FResourcesDirPath) and
+       CheckLocales(FLocalesDirPath) then
       begin
-        TempVersion := GetFileVersion(FLibCef);
-        UInt64ToFileVersionInfo(TempVersion, TempVersionInfo);
-
-        if (TempVersionInfo.MajorVer = CEF_SUPPORTED_VERSION_MAJOR)   and
-           (TempVersionInfo.MinorVer = CEF_SUPPORTED_VERSION_MINOR)   and
-           (TempVersionInfo.Release  = CEF_SUPPORTED_VERSION_RELEASE) and
-           (TempVersionInfo.Build    = CEF_SUPPORTED_VERSION_BUILD)   then
+        if CheckDLLVersion(FLibCef,
+                           CEF_SUPPORTED_VERSION_MAJOR,
+                           CEF_SUPPORTED_VERSION_MINOR,
+                           CEF_SUPPORTED_VERSION_RELEASE,
+                           CEF_SUPPORTED_VERSION_BUILD) then
           Result := True
          else
           OutputDebugMessage('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !');
       end
      else
       OutputDebugMessage('TCefApplication.CheckCEFLibrary error: CEF binaries missing !');
-end;
-
-procedure TCefApplication.UpdateChromeVersionInfo;
-var
-  TempVersion : uint64;
-begin
-  try
-    if FileExists(FChromeElf) then
-      begin
-        TempVersion := GetFileVersion(FChromeElf);
-        UInt64ToFileVersionInfo(TempVersion, FChromeVersionInfo);
-      end;
-  except
-    on e : exception do
-      OutputDebugMessage('TCefApplication.UpdateChromeVersionInfo error: ' + e.Message);
-  end;
 end;
 
 function TCefApplication.StartMainProcess : boolean;
