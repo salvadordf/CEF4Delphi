@@ -56,7 +56,9 @@ begin
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
+      {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
+      {$ENDIF}
       Application.CreateForm(TForm1, Form1);
       Application.Run;
     end;

@@ -131,7 +131,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://www.whatismybrowser.com/detect/what-http-headers-is-my-b' +
             'rowser-sending'
-          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close')
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+          'https://www.w3schools.com/html/html5_video.asp'
+          'http://www.adobe.com/software/flash/about/'
+          'chrome://version/')
       end
     end
     object ConfigPnl: TPanel

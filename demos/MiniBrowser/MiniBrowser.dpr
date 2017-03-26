@@ -113,6 +113,9 @@ begin
   GlobalCEFApp.RemoteDebuggingPort  := 9000;
   GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
   GlobalCEFApp.OnRegCustomSchemes   := GlobalCEFApp_OnRegCustomSchemes;
+
+  // Enabling the debug log file for then DOM visitor demo.
+  // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
   GlobalCEFApp.LogFile              := 'debug.log';
   GlobalCEFApp.LogSeverity          := LOGSEVERITY_ERROR;
 
@@ -130,7 +133,9 @@ begin
       CefRegisterSchemeHandlerFactory('hello', '', THelloScheme);
 
       Application.Initialize;
+      {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
+      {$ENDIF}
       Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
       Application.CreateForm(TPreferencesFrm, PreferencesFrm);
       Application.Run;
