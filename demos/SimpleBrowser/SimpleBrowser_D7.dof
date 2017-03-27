@@ -4,7 +4,7 @@ Version=7.0
 A=8
 B=0
 C=1
-D=0
+D=1
 E=0
 F=0
 G=1
@@ -15,7 +15,7 @@ K=0
 L=1
 M=0
 N=1
-O=0
+O=1
 P=1
 Q=0
 R=0
@@ -23,7 +23,7 @@ S=0
 T=0
 U=0
 V=1
-W=1
+W=0
 X=1
 Y=1
 Z=1
@@ -88,15 +88,15 @@ RemoteSymbols=0
 MinStackSize=16384
 MaxStackSize=1048576
 ImageBase=4194304
-ExeDescription=CEF4Delphi
+ExeDescription=
 [Directories]
 OutputDir=
-UnitOutputDir=dcu\
+UnitOutputDir=
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=;C:\Delphi\Installed Components\TeeChart Standard 2014 for Delphi 7\Delphi7\Lib
-Packages=rtl;vcl;vclx;indy;vclie;xmlrtl;inetdbbde;inet;inetdbxpress;dbrtl;soaprtl;dsnap;VclSmp;dbexpress;vcldb;dbxcds;inetdb;bdertl;vcldbx;adortl;ibxpress;visualclx;visualdbclx;vclactnband;vclshlctrls;dclOfficeXP;tb2k_d7;tbx_d7;TntUnicodeVcl_R70;SpTBXLib_d7;RaizeComponentsVcl;RaizeComponentsVclDb;madBasic_;madDisAsm_;madExcept_;Tee97;TeeUI97;TeeDB97
-Conditionals=DEBUG
+SearchPath=
+Packages=
+Conditionals=
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
@@ -106,7 +106,7 @@ Launcher=
 UseLauncher=0
 DebugCWD=
 [Version Info]
-IncludeVerInfo=1
+IncludeVerInfo=0
 AutoIncBuild=0
 MajorVer=1
 MinorVer=0
@@ -117,7 +117,7 @@ PreRelease=0
 Special=0
 Private=0
 DLL=0
-Locale=7177
+Locale=1033
 CodePage=1252
 [Version Info Keys]
 CompanyName=
@@ -130,21 +130,3 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
-[Excluded Packages]
-C:\Delphi\Delphi7\Projects\Bpl\cxDataD7.bpl=ExpressDataController by Developer Express Inc.
-c:\delphi\delphi7\Projects\Bpl\nexusprovider70.bpl=UniDAC NexusDB Provider
-C:\Delphi\Components\dotNet\Managed VCL\bpl\ManagedDCL70.bpl=Managed extensions for VCL
-C:\Delphi\Installed Components\FastReport 4\LibD7\dclfstee7.bpl=FastScript 1.9 Tee Components
-C:\Delphi\Installed Components\FastReport 4\LibD7\dclfrxtee7.bpl=FastReport 4.0 Tee Components
-[HistoryLists\hlConditionals]
-Count=1
-Item0=DEBUG
-[HistoryLists\hlUnitAliases]
-Count=1
-Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
-[HistoryLists\hlSearchPath]
-Count=1
-Item0=;C:\Delphi\Installed Components\TeeChart Standard 2014 for Delphi 7\Delphi7\Lib
-[HistoryLists\hlUnitOutputDirectory]
-Count=1
-Item0=dcu\

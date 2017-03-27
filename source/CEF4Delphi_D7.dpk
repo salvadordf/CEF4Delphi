@@ -39,7 +39,6 @@ contains
   uCEFMiscFunctions in 'uCEFMiscFunctions.pas',
   uCEFLibFunctions in 'uCEFLibFunctions.pas',
   uCEFApplication in 'uCEFApplication.pas',
-  uCEFBase in 'uCEFBase.pas',
   uCEFSchemeRegistrar in 'uCEFSchemeRegistrar.pas',
   uCEFCommandLine in 'uCEFCommandLine.pas',
   uCEFClient in 'uCEFClient.pas',
@@ -147,6 +146,8 @@ contains
   uCEFX509Certificate in 'uCEFX509Certificate.pas',
   uCEFSSLStatus in 'uCEFSSLStatus.pas',
   uCEFSelectClientCertificateCallback in 'uCEFSelectClientCertificateCallback.pas',
-  uCEFChromiumWindow in 'uCEFChromiumWindow.pas';
+  uCEFChromiumWindow in 'uCEFChromiumWindow.pas',
+  uCEFBaseRefCounted in 'uCEFBaseRefCounted.pas',
+  uCEFBaseScopedWrapper in 'uCEFBaseScopedWrapper.pas';
 
 end.
