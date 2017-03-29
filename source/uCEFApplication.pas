@@ -483,10 +483,16 @@ begin
                            CEF_SUPPORTED_VERSION_BUILD) then
           Result := True
          else
-          OutputDebugMessage('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !');
+          begin
+            OutputDebugMessage('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !');
+            MessageBox(0, PWideChar('Unsupported CEF version !'), PWideChar('CEF4Delphi error'), MB_ICONERROR or MB_OK or MB_TOPMOST);
+          end;
       end
      else
-      OutputDebugMessage('TCefApplication.CheckCEFLibrary error: CEF binaries missing !');
+      begin
+        OutputDebugMessage('TCefApplication.CheckCEFLibrary error: CEF binaries missing !');
+        MessageBox(0, PWideChar('CEF binaries missing !'), PWideChar('CEF4Delphi error'), MB_ICONERROR or MB_OK or MB_TOPMOST);
+      end;
 end;
 
 function TCefApplication.StartMainProcess : boolean;
