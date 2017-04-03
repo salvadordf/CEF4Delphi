@@ -116,6 +116,8 @@ type
       FSmoothScrolling               : boolean;
       FFastUnload                    : boolean;
       FDisableSafeBrowsing           : boolean;
+      FEnableHighDPISupport          : boolean;
+      FMuteAudio                     : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
@@ -245,6 +247,8 @@ type
       property DisableSafeBrowsing         : boolean                         read FDisableSafeBrowsing            write FDisableSafeBrowsing;
       property LibLoaded                   : boolean                         read FLibLoaded;
       property LibCef                      : string                          read FLibCef                         write FLibCef;
+      property EnableHighDPISupport        : boolean                         read FEnableHighDPISupport           write FEnableHighDPISupport;
+      property MuteAudio                   : boolean                         read FMuteAudio                      write FMuteAudio;
   end;
 
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -351,6 +355,8 @@ begin
   FResourceBundleHandler         := nil;
   FBrowserProcessHandler         := nil;
   FRenderProcessHandler          := nil;
+  FEnableHighDPISupport          := False;
+  FMuteAudio                     := False;
   FLibLoaded                     := False;
   FLibCef                        := 'libcef.dll';
   FChromeElf                     := 'chrome_elf.dll';
@@ -428,7 +434,7 @@ begin
     if CheckCEFLibrary then
       begin
         FMustShutDown := True;
-        Result        := LoadCEFlibrary and
+        Result        := LoadCEFlibrary    and
                          CreateInternalApp and
                          InitializeLibrary;
       end;
@@ -658,6 +664,9 @@ begin
           commandLine.AppendSwitch('--safebrowsing-disable-download-protection');
         end;
 
+      if FMuteAudio then
+        commandLine.AppendSwitch('--mute-audio');
+
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and
          (FCustomCommandLines.Count =  FCustomCommandLineValues.Count) then
@@ -755,6 +764,8 @@ begin
     begin
       FLibLoaded := True;
       Result     := True;
+
+      if FEnableHighDPISupport then cef_enable_highdpi_support;
     end
    else
     begin
