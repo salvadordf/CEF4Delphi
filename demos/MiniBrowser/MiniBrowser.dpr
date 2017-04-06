@@ -94,7 +94,9 @@ end;
 procedure ProcessHandler_OnWebKitReady;
 begin
 {$IFDEF DELPHI14_UP}
-  TCefRTTIExtension.Register('app', TTestExtension);
+  // Registering the extension. Read this document for more details :
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+  TCefRTTIExtension.Register('myextension', TTestExtension);
 {$ENDIF}
 end;
 
@@ -104,6 +106,8 @@ begin
 end;
 
 begin
+  // This ProcessHandler is used for the extension and the DOM visitor demos.
+  // It can be removed if you don't want those features.
   TempProcessHandler                 := TCefCustomRenderProcessHandler.Create;
   TempProcessHandler.MessageName     := 'retrievedom';   // same message name than TMiniBrowserFrm.VisitDOMMsg
   TempProcessHandler.OnCustomMessage := ProcessHandler_OnCustomMessage;
@@ -116,6 +120,7 @@ begin
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
+  // Remove it if you don't want to use the DOM visitor
   GlobalCEFApp.LogFile              := 'debug.log';
   GlobalCEFApp.LogSeverity          := LOGSEVERITY_ERROR;
 

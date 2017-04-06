@@ -66,6 +66,8 @@ const
   MINIBROWSER_CONTEXTMENU_SETJSEVENT   = MENU_ID_USER_FIRST + 4;
   MINIBROWSER_CONTEXTMENU_COPYHTML     = MENU_ID_USER_FIRST + 5;
   MINIBROWSER_CONTEXTMENU_VISITDOM     = MENU_ID_USER_FIRST + 6;
+  MINIBROWSER_CONTEXTMENU_JSWRITEDOC   = MENU_ID_USER_FIRST + 7;
+  MINIBROWSER_CONTEXTMENU_JSPRINTDOC   = MENU_ID_USER_FIRST + 8;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -209,6 +211,8 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_SETJSEVENT,  'Set mouseover event');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,    'Copy HTML to clipboard');
   model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM,    'Visit DOM');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,  'Modify HTML document');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,  'Print using Javascript');
 
   if DevTools.Visible then
     model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -248,7 +252,7 @@ begin
               'if (n.parentNode){return getpath(n.parentNode) + ret} else '+
               'return ret'+
             '};'+
-            'app.mouseover(getpath(evt.target))}'+
+            'myextension.mouseover(getpath(evt.target))}'+
           ')', 'about:blank', 0);
 
     MINIBROWSER_CONTEXTMENU_COPYHTML :
@@ -256,6 +260,20 @@ begin
 
     MINIBROWSER_CONTEXTMENU_VISITDOM :
       PostMessage(Handle, MINIBROWSER_VISITDOM, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
+      if (browser <> nil) and (browser.MainFrame <> nil) then
+        browser.MainFrame.ExecuteJavaScript(
+          'var css = ' + chr(39) + '@page {size: A4; margin: 0;} @media print {html, body {width: 210mm; height: 297mm;}}' + chr(39) + '; ' +
+          'var style = document.createElement(' + chr(39) + 'style' + chr(39) + '); ' +
+          'style.type = ' + chr(39) + 'text/css' + chr(39) + '; ' +
+          'style.appendChild(document.createTextNode(css)); ' +
+          'document.head.appendChild(style);',
+          'about:blank', 0);
+
+    MINIBROWSER_CONTEXTMENU_JSPRINTDOC :
+      if (browser <> nil) and (browser.MainFrame <> nil) then
+        browser.MainFrame.ExecuteJavaScript('window.print();', 'about:blank', 0);
   end;
 end;
 
@@ -274,6 +292,7 @@ procedure TMiniBrowserFrm.Chromium1ProcessMessageReceived(Sender: TObject;
 begin
   if (message <> nil) and (message.Name = 'mouseover') and (message.ArgumentList <> nil) then
     begin
+      // Message received from the extension
       StatusBar1.Panels[0].Text := message.ArgumentList.GetString(0);
       Result                    := True;
     end
