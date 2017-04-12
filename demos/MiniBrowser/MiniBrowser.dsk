@@ -1,31 +1,31 @@
 ﻿[Closed Files]
 File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFv8Handler.pas',0,1,691,3,720,0,0,,
 File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLibFunctions.pas',0,1,172,3,201,0,0,,
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,484,40,494,0,0,,
-File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFv8Context.pas',0,1,73,57,88,0,0,,
-File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,261,25,292,0,0,,
-File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,2519,19,2538,0,0,,
-File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBrowserProcessHandler.pas',0,1,43,80,53,0,0,,
-File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumFontOptions.pas',0,1,29,3,58,0,0,,
-File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumOptions.pas',0,1,47,3,58,0,0,,
+File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFv8Context.pas',0,1,73,57,88,0,0,,
+File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,261,25,292,0,0,,
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,2519,19,2538,0,0,,
+File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBrowserProcessHandler.pas',0,1,43,80,53,0,0,,
+File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumFontOptions.pas',0,1,29,3,58,0,0,,
+File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumOptions.pas',0,1,47,3,58,0,0,,
 
 [Modules]
 Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas
 Module1=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\MiniBrowser.dproj
-Module2=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uTestExtension.pas
+Module2=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
 Module3=default.htm
-Count=4
+Module4=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uTestExtension.pas
+Count=5
 EditWindowCount=1
 
 [C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas]
 ModuleType=TSourceModule
 FormState=1
-FormOnTop=0
+FormOnTop=1
 
 [C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\MiniBrowser.dproj]
 ModuleType=TBaseProject
 
-[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uTestExtension.pas]
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
@@ -33,13 +33,19 @@ FormOnTop=0
 [default.htm]
 ModuleType=TURLModule
 
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uTestExtension.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
 [EditWindow0]
-ViewCount=4
+ViewCount=5
 CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas
 View0=0
 View1=1
 View2=2
 View3=3
+View4=4
 PercentageSizes=1
 Create=1
 Visible=1
@@ -78,7 +84,7 @@ CustomEditViewType=TEditView
 Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\MiniBrowser.dpr
 CursorX=73
 CursorY=100
-TopLine=76
+TopLine=79
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -98,13 +104,24 @@ EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\d
 [View3]
 CustomEditViewType=TEditView
 Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas
-CursorX=78
-CursorY=281
-TopLine=236
+CursorX=22
+CursorY=81
+TopLine=66
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas
+EditViewName=Borland.FormDesignerView
+
+[View4]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
+CursorX=85
+CursorY=370
+TopLine=344
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
 
 [Watches]
 Count=0
@@ -335,7 +352,7 @@ SplitPos=111
 [PropInspDesignerSelection]
 ArrangeBy=Name
 SelectedItem=Items,
-ExpandedItems=LiveBindings=0,"LiveBindings Designer=0",Margins=0,StyleElements=0,Touch=0
+ExpandedItems="LiveBindings Designer=0",MenuAnimation=0,Anchors=0,BevelEdges=0,Constraints=0,Font=0,LiveBindings=0,Margins=0
 
 [frmDesignPreview]
 PercentageSizes=1

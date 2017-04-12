@@ -136,7 +136,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'http://www.adobe.com/software/flash/about/'
           'chrome://version/'
           'http://html5test.com/'
-          'https://www.w3schools.com/')
+          'https://www.w3schools.com/'
+          'http://webglsamples.org/')
       end
     end
     object ConfigPnl: TPanel
