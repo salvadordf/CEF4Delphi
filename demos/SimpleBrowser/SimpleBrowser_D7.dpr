@@ -41,15 +41,18 @@ program SimpleBrowser_D7;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
+  WinApi.Windows, Vcl.Forms,
   {$ELSE}
-  Forms,
+  Windows, Forms,
   {$ENDIF}
   uCEFApplication,
   uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};
 
 
 {$R *.res}
+
+// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
   GlobalCEFApp := TCefApplication.Create;

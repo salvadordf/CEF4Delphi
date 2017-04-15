@@ -42,10 +42,10 @@ program MiniBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
+  WinApi.Windows, Vcl.Forms,
   {$ELSE}
-  Forms,
-  {$ENDIF }
+  Windows, Forms,
+  {$ENDIF}
   uCEFApplication,
   uCEFMiscFunctions,
   uCEFSchemeRegistrar,
@@ -62,6 +62,9 @@ uses
   uPreferences in 'uPreferences.pas' {PreferencesFrm};
 
 {$R *.res}
+
+// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 var
   TempProcessHandler : TCefCustomRenderProcessHandler;
