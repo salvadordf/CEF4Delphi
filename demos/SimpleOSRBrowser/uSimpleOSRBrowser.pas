@@ -86,9 +86,19 @@ type
     procedure chrmosrGetScreenPoint(Sender: TObject;
       const browser: ICefBrowser; viewX, viewY: Integer; screenX,
       screenY: PInteger; out Result: Boolean);
+    procedure FormAfterMonitorDpiChanged(Sender: TObject; OldDPI,
+      NewDPI: Integer);
+    procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser;
+      show: Boolean);
+    procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser;
+      const rect: PCefRect);
   private
     function getModifiers(Shift: TShiftState): TCefEventFlags;
     function GetButton(Button: TMouseButton): TCefMouseButtonType;
+
+    procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
+    procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+
   public
     { Public declarations }
   end;
@@ -228,6 +238,18 @@ begin
     end;
 end;
 
+procedure TForm1.chrmosrPopupShow(Sender: TObject;
+  const browser: ICefBrowser; show: Boolean);
+begin
+  // TO DO : Needed to draw the "select" items
+end;
+
+procedure TForm1.chrmosrPopupSize(Sender: TObject;
+  const browser: ICefBrowser; const rect: PCefRect);
+begin
+  // TO DO : Needed to draw the "select" items
+end;
+
 function TForm1.getModifiers(Shift: TShiftState): TCefEventFlags;
 begin
   Result := [];
@@ -246,6 +268,30 @@ begin
     TMouseButton.mbMiddle: Result := MBT_MIDDLE;
     else  Result := MBT_LEFT;
   end;
+end;
+
+procedure TForm1.WMMove(var aMessage : TWMMove);
+begin
+  inherited;
+
+  if (chrmosr <> nil) then chrmosr.NotifyMoveOrResizeStarted;
+end;
+
+procedure TForm1.WMMoving(var aMessage : TMessage);
+begin
+  inherited;
+
+  if (chrmosr <> nil) then chrmosr.NotifyMoveOrResizeStarted;
+end;
+
+procedure TForm1.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI,
+  NewDPI: Integer);
+begin
+  if (chrmosr <> nil) then
+    begin
+      chrmosr.NotifyScreenInfoChanged;
+      chrmosr.WasResized;
+    end;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);

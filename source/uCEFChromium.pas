@@ -430,6 +430,7 @@ type
       procedure   WasResized;
       procedure   WasHidden(hidden: Boolean);
       procedure   NotifyScreenInfoChanged;
+      procedure   NotifyMoveOrResizeStarted;
       procedure   Invalidate(kind: TCefPaintElementType);
       procedure   SendKeyEvent(const event: PCefKeyEvent);
       procedure   SendMouseClickEvent(const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
@@ -437,6 +438,7 @@ type
       procedure   SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
       procedure   SendFocusEvent(setFocus: Boolean);
       procedure   SendCaptureLostEvent;
+      function    SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
       procedure   SetFocus(focus: Boolean);
 
 
@@ -2764,6 +2766,11 @@ begin
   if Initialized then FBrowser.Host.NotifyScreenInfoChanged;
 end;
 
+procedure TChromium.NotifyMoveOrResizeStarted;
+begin
+  if Initialized then FBrowser.Host.NotifyMoveOrResizeStarted;
+end;
+
 procedure TChromium.Invalidate(kind: TCefPaintElementType);
 begin
   if Initialized then FBrowser.Host.Invalidate(kind);
@@ -2805,6 +2812,11 @@ end;
 procedure TChromium.SetFocus(focus: Boolean);
 begin
   if Initialized then FBrowser.Host.SetFocus(focus);
+end;
+
+function TChromium.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
+begin
+  Result := Initialized and FBrowser.SendProcessMessage(targetProcess, ProcMessage);
 end;
 
 end.

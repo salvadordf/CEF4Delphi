@@ -138,6 +138,7 @@ begin
 
   if GlobalCEFApp.StartMainProcess then
     begin
+      // You can register the Scheme Handler Factory here or later, for example in a context menu command.
       CefRegisterSchemeHandlerFactory('hello', '', THelloScheme);
 
       Application.Initialize;

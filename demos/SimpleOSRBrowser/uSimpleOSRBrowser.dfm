@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -67,6 +68,8 @@ object Form1: TForm1
     OnGetRootScreenRect = chrmosrGetRootScreenRect
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
+    OnPopupShow = chrmosrPopupShow
+    OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
     Left = 304

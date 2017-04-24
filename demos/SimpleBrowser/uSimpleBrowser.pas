@@ -60,7 +60,8 @@ type
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
-    { Private declarations }
+    procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
+    procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
   public
     { Public declarations }
   end;
@@ -80,6 +81,24 @@ end;
 procedure TForm1.FormShow(Sender: TObject);
 begin
   ChromiumWindow1.CreateBrowser;
+end;
+
+procedure TForm1.WMMove(var aMessage : TWMMove);
+begin
+  inherited;
+
+  if (ChromiumWindow1                 <> nil) and
+     (ChromiumWindow1.ChromiumBrowser <> nil) then
+    ChromiumWindow1.ChromiumBrowser.NotifyMoveOrResizeStarted;
+end;
+
+procedure TForm1.WMMoving(var aMessage : TMessage);
+begin
+  inherited;
+
+  if (ChromiumWindow1                 <> nil) and
+     (ChromiumWindow1.ChromiumBrowser <> nil) then
+    ChromiumWindow1.ChromiumBrowser.NotifyMoveOrResizeStarted;
 end;
 
 end.

@@ -1,33 +1,27 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,533,73,575,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLibFunctions.pas',0,1,117,46,128,0,0,,
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFPrintSettings.pas',0,1,45,18,53,0,0,,
-File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,820,3,836,0,0,,
-File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,271,108,249,0,0,,
-File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,2542,22,2562,0,0,,
-File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBrowserProcessHandler.pas',0,1,34,78,53,0,0,,
-File_7=TSourceModule,'c:\program files\embarcadero\studio\17.0\source\rtl\common\System.IOUtils.pas',0,1,1,1,1,0,0,,
-File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDLLFunctions.pas',0,1,36,1,57,0,0,,
+File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLibFunctions.pas',0,1,117,38,153,0,0,,
+File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,2086,3,2088,0,0,,{1,1944,26}{2,1729,36}{3,1235,30}{4,2088,3}
+File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLifeSpanHandler.pas',0,1,22,1,1,0,0,,
+File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFSchemeRegistrar.pas',0,1,10,1,1,0,0,,
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFSchemeHandlerFactory.pas',0,1,16,1,1,0,0,,
+File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,820,3,836,0,0,,
+File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,24,61,62,0,0,,
+File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,2797,45,2822,0,0,,
+File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,533,73,575,0,0,,
+File_9=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFPrintSettings.pas',0,1,45,18,53,0,0,,
 
 [Modules]
-Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
-Module1=default.htm
-Count=2
+Module0=default.htm
+Count=1
 EditWindowCount=1
-
-[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
 
 [default.htm]
 ModuleType=TURLModule
 
 [EditWindow0]
-ViewCount=2
-CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
+ViewCount=1
+CurrentView=0
 View0=0
-View1=1
 PercentageSizes=1
 Create=1
 Visible=1
@@ -44,33 +38,22 @@ ClientHeight=9428
 DockedToMainForm=1
 BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
 TopPanelSize=0
-LeftPanelSize=1898
-LeftPanelClients=PropertyInspector,DockSite3
-LeftPanelData=00000800010100000000AA19000000000000016A0700000000000001000000005D0E000009000000446F636B53697465330100000000A12300001100000050726F7065727479496E73706563746F72FFFFFFFF
+LeftPanelSize=0
 RightPanelSize=2000
-RightPanelClients=DockSite2,DockSite4
-RightPanelData=00000800010100000000AA1900000000000001D00700000000000001000000004312000009000000446F636B53697465320100000000A123000009000000446F636B5369746534FFFFFFFF
+RightPanelClients=DockSite2
+RightPanelData=00000800010100000000AA1900000000000001D0070000000000000100000000A123000009000000446F636B5369746532FFFFFFFF
 BottomPanelSize=0
 BottomPanelClients=DockSite1,MessageView
 BottomPanelData=0000080001020200000009000000446F636B53697465310F0000004D65737361676556696577466F726D1234000000000000022506000000000000FFFFFFFF
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779D1D00000000000002F306000000000000FFFFFFFF
+TabDockLeftClients=PropertyInspector=0,DockSite3=1
+TabDockRightClients=DockSite4=0
 
 [View0]
 CustomEditViewType=TWelcomePageView
 WelcomePageURL=bds:/default.htm
-
-[View1]
-CustomEditViewType=TEditView
-Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
-CursorX=61
-CursorY=62
-TopLine=24
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
 
 [Watches]
 Count=0
@@ -134,11 +117,11 @@ State=0
 Left=0
 Top=0
 Width=2000
-Height=4226
+Height=8868
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=4226
+ClientHeight=8868
 TBDockHeight=5897
 LRDockWidth=2352
 Dockable=1
@@ -280,7 +263,7 @@ StayOnTop=0
 [PropertyInspector]
 PercentageSizes=1
 Create=1
-Visible=1
+Visible=0
 Docked=1
 State=0
 Left=0
@@ -575,11 +558,11 @@ State=0
 Left=0
 Top=0
 Width=1898
-Height=3498
+Height=9170
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1898
-ClientHeight=3498
+ClientHeight=9170
 TBDockHeight=3677
 LRDockWidth=1898
 Dockable=1
@@ -685,11 +668,11 @@ State=0
 Left=0
 Top=23
 Width=2000
-Height=4529
+Height=9170
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=4529
+ClientHeight=9170
 TBDockHeight=7164
 LRDockWidth=2000
 Dockable=1
@@ -699,21 +682,21 @@ ActiveTabID=ProjectManager
 TabDockClients=ProjectManager,ModelViewTool,DataExplorerContainer,frmDesignPreview,TFileExplorerForm
 
 [DockSite3]
-HostDockSite=DockLeftPanel
+HostDockSite=LeftDockTabSet
 DockSiteType=1
 PercentageSizes=1
 Create=1
-Visible=1
+Visible=0
 Docked=1
 State=0
 Left=0
 Top=23
 Width=1898
-Height=3498
+Height=9170
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1898
-ClientHeight=3498
+ClientHeight=9170
 TBDockHeight=7164
 LRDockWidth=1898
 Dockable=1
@@ -723,11 +706,11 @@ ActiveTabID=StructureView
 TabDockClients=StructureView,ClassBrowserTool
 
 [DockSite4]
-HostDockSite=DockRightPanel
+HostDockSite=RightTabDock
 DockSiteType=1
 PercentageSizes=1
 Create=1
-Visible=1
+Visible=0
 Docked=1
 State=0
 Left=0

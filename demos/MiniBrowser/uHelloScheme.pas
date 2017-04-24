@@ -51,7 +51,7 @@ uses
 type
   THelloScheme = class(TCefResourceHandlerOwn)
     private
-      FStream      : TStringStream;
+      FStream      : TMemoryStream;
       FMimeType    : string;
       FStatusText  : string;
       FStatus      : Integer;
@@ -93,7 +93,7 @@ procedure THelloScheme.AfterConstruction;
 begin
   inherited AfterConstruction;
 
-  FStream := TStringStream.Create;
+  FStream := TMemoryStream.Create;
 end;
 
 procedure THelloScheme.GetResponseHeaders(const response       : ICefResponse;
@@ -114,6 +114,9 @@ begin
 end;
 
 function THelloScheme.ProcessRequest(const request : ICefRequest; const callback : ICefCallback): Boolean;
+var
+  TempString : string;
+  TempUTF8String : AnsiString;
 begin
   Result      := True;
   FStatus     := 200;
@@ -122,10 +125,13 @@ begin
 
   if (FStream <> nil) and (request <> nil) then
     begin
+      TempString     := '<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"/></head>' +
+                        '<body>Hello world!<br>' + request.URL + '</body></html>';
+      TempUTF8String := UTF8Encode(TempString);
+
       FStream.Clear;
-      FStream.WriteString('<html><head></head><body>Hello world!<br>' +
-                          request.URL +
-                          '</body></html>');
+      FStream.WriteBuffer(@TempUTF8String[1], length(TempUTF8String));
+      FStream.Seek(0, soFromBeginning);
     end;
 
   if (callback <> nil) then callback.Cont;
@@ -139,11 +145,8 @@ begin
   if (FStream <> nil) and (DataOut <> nil) then
     begin
       FStream.Seek(0, soFromBeginning);
-
-      Result    := True;
       BytesRead := FStream.Read(DataOut^, BytesToRead);
-
-      if (callback <> nil) then callback.Cont;
+      Result    := True;
     end
    else
     Result := False;

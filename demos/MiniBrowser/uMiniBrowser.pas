@@ -68,6 +68,8 @@ const
   MINIBROWSER_CONTEXTMENU_VISITDOM     = MENU_ID_USER_FIRST + 6;
   MINIBROWSER_CONTEXTMENU_JSWRITEDOC   = MENU_ID_USER_FIRST + 7;
   MINIBROWSER_CONTEXTMENU_JSPRINTDOC   = MENU_ID_USER_FIRST + 8;
+  MINIBROWSER_CONTEXTMENU_REGSCHEME    = MENU_ID_USER_FIRST + 9;
+  MINIBROWSER_CONTEXTMENU_CLEARFACT    = MENU_ID_USER_FIRST + 10;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -151,6 +153,8 @@ type
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
     procedure CopyHTMLMsg(var aMessage : TMessage); message MINIBROWSER_COPYHTML;
     procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM;
+    procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
+    procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
   public
 
   end;
@@ -163,7 +167,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uPreferences, uCEFProcessMessage;
+  uPreferences, uCEFProcessMessage, uCEFSchemeHandlerFactory, uHelloScheme;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
 begin
@@ -213,6 +217,8 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM,    'Visit DOM');
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,  'Modify HTML document');
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,  'Print using Javascript');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_REGSCHEME,   'Register scheme');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_CLEARFACT,   'Clear schemes');
 
   if DevTools.Visible then
     model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -226,6 +232,7 @@ procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
   eventFlags: TCefEventFlags; out Result: Boolean);
 var
   TempParam : WParam;
+  TempFactory: ICefSchemeHandlerFactory;
 begin
   Result := False;
 
@@ -274,6 +281,26 @@ begin
     MINIBROWSER_CONTEXTMENU_JSPRINTDOC :
       if (browser <> nil) and (browser.MainFrame <> nil) then
         browser.MainFrame.ExecuteJavaScript('window.print();', 'about:blank', 0);
+
+    MINIBROWSER_CONTEXTMENU_REGSCHEME :
+      if (browser <> nil) and
+         (browser.host <> nil) and
+         (browser.host.RequestContext <> nil) then
+        begin
+          // You can register the Scheme Handler Factory in the DPR file or later, for example in a context menu command.
+          TempFactory := TCefSchemeHandlerFactoryOwn.Create(THelloScheme);
+          if not(browser.host.RequestContext.RegisterSchemeHandlerFactory('hello', '', TempFactory)) then
+            MessageBox(0, PWideChar('RegisterSchemeHandlerFactory error !'), PWideChar('CEF4Delphi error'), MB_ICONERROR or MB_OK or MB_TOPMOST);
+        end;
+
+    MINIBROWSER_CONTEXTMENU_CLEARFACT :
+      if (browser <> nil) and
+         (browser.host <> nil) and
+         (browser.host.RequestContext <> nil) then
+        begin
+          if not(browser.host.RequestContext.ClearSchemeHandlerFactories) then
+            MessageBox(0, PWideChar('ClearSchemeHandlerFactories error !'), PWideChar('CEF4Delphi error'), MB_ICONERROR or MB_OK or MB_TOPMOST);
+        end;
   end;
 end;
 
@@ -429,12 +456,23 @@ var
   TempMsg : ICefProcessMessage;
 begin
   // Only works using a TCefCustomRenderProcessHandler. See MiniBrowser demo.
-  if Chromium1.Initialized then
-    begin
-      // Use the ArgumentList property if you need to pass some parameters.
-      TempMsg := TCefProcessMessageRef.New('retrievedom'); // Same name than TCefCustomRenderProcessHandler.MessageName
-      Chromium1.Browser.SendProcessMessage(PID_RENDERER, TempMsg);
-    end;
+  // Use the ArgumentList property if you need to pass some parameters.
+  TempMsg := TCefProcessMessageRef.New('retrievedom'); // Same name than TCefCustomRenderProcessHandler.MessageName
+  Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
+end;
+
+procedure TMiniBrowserFrm.WMMove(var aMessage : TWMMove);
+begin
+  inherited;
+
+  if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TMiniBrowserFrm.WMMoving(var aMessage : TMessage);
+begin
+  inherited;
+
+  if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TMiniBrowserFrm.Deczoom1Click(Sender: TObject);
