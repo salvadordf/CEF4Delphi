@@ -41,9 +41,9 @@ program SimpleOSRBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, Vcl.Forms,
+  Vcl.Forms,
   {$ELSE}
-  Windows, Forms,
+  Forms,
   {$ENDIF}
   uCEFApplication,
   uSimpleOSRBrowser in 'uSimpleOSRBrowser.pas' {Form1};

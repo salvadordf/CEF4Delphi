@@ -56,6 +56,7 @@ uses
 
 const
   Kernel32DLL = 'kernel32.dll';
+  SHLWAPIDLL  = 'shlwapi.dll';
 
 procedure CefStringListToStringList(var aSrcSL : TCefStringList; var aDstSL : TStringList); overload;
 procedure CefStringListToStringList(var aSrcSL : TCefStringList; var aDstSL : TStrings); overload;
@@ -107,6 +108,10 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THa
 function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 
+function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
+function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
+function CustomPathIsRelative(const aPath : string) : boolean;
+
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
 function CefIsCertStatusMinorError(Status : TCefCertStatus) : boolean;
 
@@ -129,7 +134,7 @@ function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersion
 
 function CheckLocales(const aLocalesDirPath : string) : boolean;
 function CheckResources(const aResourcesDirPath : string) : boolean;
-function CheckDLLs(const aFrameworkDirPath, aChromeElf, aLibCef : string) : boolean;
+function CheckDLLs(const aFrameworkDirPath : string) : boolean;
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 
 implementation
@@ -459,6 +464,9 @@ begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
   {$ENDIF}
+
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.ReRaiseExceptions then
+    raise Exception.Create(aMessage);
 end;
 
 function CefRegisterSchemeHandlerFactory(const SchemeName : ustring;
@@ -530,7 +538,7 @@ begin
 
     if DirectoryExists(TempDir) then
       begin
-        if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
+        TempDir := IncludeTrailingPathDelimiter(TempDir);
 
         Result := FileExists(TempDir + 'am.pak') and
                   FileExists(TempDir + 'ar.pak') and
@@ -599,38 +607,34 @@ begin
   Result := False;
 
   try
-    // path is hard-coded in Chromium for natives_blob.bin, snapshot_blob.bin and icudtl.dat
-
-    if FileExists('natives_blob.bin')  and
-       FileExists('snapshot_blob.bin') and
-       FileExists('icudtl.dat')        then
+    if (length(aResourcesDirPath) > 0) then
       begin
-        if (length(aResourcesDirPath) > 0) then
+        if DirectoryExists(aResourcesDirPath) then
           begin
-            if DirectoryExists(aResourcesDirPath) then
-              begin
-                TempDir := aResourcesDirPath;
-                if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
-              end
-             else
-              exit;
+            TempDir := IncludeTrailingPathDelimiter(aResourcesDirPath);
+            if CustomPathIsRelative(PChar(TempDir)) then TempDir := ExtractFilePath(ParamStr(0)) + TempDir;
           end
          else
-          TempDir := '';
+          exit;
+      end
+     else
+      TempDir := '';
 
-        Result := FileExists(TempDir + 'cef.pak')                and
-                  FileExists(TempDir + 'cef_100_percent.pak')    and
-                  FileExists(TempDir + 'cef_200_percent.pak')    and
-                  FileExists(TempDir + 'cef_extensions.pak')     and
-                  FileExists(TempDir + 'devtools_resources.pak');
-      end;
+    Result := FileExists(TempDir + 'natives_blob.bin')       and
+              FileExists(TempDir + 'snapshot_blob.bin')      and
+              FileExists(TempDir + 'icudtl.dat')             and
+              FileExists(TempDir + 'cef.pak')                and
+              FileExists(TempDir + 'cef_100_percent.pak')    and
+              FileExists(TempDir + 'cef_200_percent.pak')    and
+              FileExists(TempDir + 'cef_extensions.pak')     and
+              FileExists(TempDir + 'devtools_resources.pak');
   except
     on e : exception do
       OutputDebugMessage('CheckResources error: ' + e.Message);
   end;
 end;
 
-function CheckDLLs(const aFrameworkDirPath, aChromeElf, aLibCef : string) : boolean;
+function CheckDLLs(const aFrameworkDirPath : string) : boolean;
 var
   TempDir : string;
 begin
@@ -641,8 +645,8 @@ begin
       begin
         if DirectoryExists(aFrameworkDirPath) then
           begin
-            TempDir := aFrameworkDirPath;
-            if (TempDir[length(TempDir)] <> '\') then TempDir := TempDir + '\';
+            TempDir := IncludeTrailingPathDelimiter(aFrameworkDirPath);
+            if CustomPathIsRelative(PChar(TempDir)) then TempDir := ExtractFilePath(ParamStr(0)) + TempDir;
           end
          else
           exit;
@@ -650,8 +654,8 @@ begin
      else
       TempDir := '';
 
-    Result := FileExists(aChromeElf)                         and
-              FileExists(aLibCef)                            and
+    Result := FileExists(TempDir + CHROMEELF_DLL)            and
+              FileExists(TempDir + LIBCEF_DLL)               and
               FileExists(TempDir + 'd3dcompiler_43.dll')     and
               FileExists(TempDir + 'd3dcompiler_47.dll')     and
               FileExists(TempDir + 'libEGL.dll')             and
@@ -735,6 +739,15 @@ begin
             (TempVersionInfo.MinorVer = aMinor)      and
             (TempVersionInfo.Release  = aRelease)    and
             (TempVersionInfo.Build    = aBuild);
+end;
+
+function CustomPathIsRelative(const aPath : string) : boolean;
+begin
+  {$IFDEF DELPHI12_UP}
+  Result := PathIsRelativeUnicode(PChar(aPath));
+  {$ELSE}
+  Result := PathIsRelativeAnsi(PChar(aPath));
+  {$ENDIF}
 end;
 
 end.

@@ -45,6 +45,7 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Menus,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
+  System.UITypes,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
@@ -290,7 +291,7 @@ begin
           // You can register the Scheme Handler Factory in the DPR file or later, for example in a context menu command.
           TempFactory := TCefSchemeHandlerFactoryOwn.Create(THelloScheme);
           if not(browser.host.RequestContext.RegisterSchemeHandlerFactory('hello', '', TempFactory)) then
-            MessageBox(0, PWideChar('RegisterSchemeHandlerFactory error !'), PWideChar('CEF4Delphi error'), MB_ICONERROR or MB_OK or MB_TOPMOST);
+            MessageDlg('RegisterSchemeHandlerFactory error !', mtError, [mbOk], 0);
         end;
 
     MINIBROWSER_CONTEXTMENU_CLEARFACT :
@@ -299,7 +300,7 @@ begin
          (browser.host.RequestContext <> nil) then
         begin
           if not(browser.host.RequestContext.ClearSchemeHandlerFactories) then
-            MessageBox(0, PWideChar('ClearSchemeHandlerFactories error !'), PWideChar('CEF4Delphi error'), MB_ICONERROR or MB_OK or MB_TOPMOST);
+            MessageDlg('ClearSchemeHandlerFactories error !', mtError, [mbOk], 0);
         end;
   end;
 end;

@@ -48,7 +48,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, System.Classes,
+  WinApi.Windows, System.Classes, System.UITypes,
   {$ELSE}
   Windows, Classes,
   {$ENDIF}
@@ -56,14 +56,19 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 2987;
-  CEF_SUPPORTED_VERSION_RELEASE = 1601;
+  CEF_SUPPORTED_VERSION_MINOR   = 3029;
+  CEF_SUPPORTED_VERSION_RELEASE = 1604;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 57;
+  CEF_CHROMEELF_VERSION_MAJOR   = 58;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 2987;
-  CEF_CHROMEELF_VERSION_BUILD   = 133;
+  CEF_CHROMEELF_VERSION_RELEASE = 3029;
+  CEF_CHROMEELF_VERSION_BUILD   = 81;
+
+  LIBCEF_DLL                    = 'libcef.dll';
+  CHROMEELF_DLL                 = 'chrome_elf.dll';
+
+  IMAGE_FILE_LARGE_ADDRESS_AWARE = $20;
 
 type
   TInternalApp = class;
@@ -118,15 +123,23 @@ type
       FDisableSafeBrowsing           : boolean;
       FEnableHighDPISupport          : boolean;
       FMuteAudio                     : boolean;
+      FReRaiseExceptions             : boolean;
+      FUpdateChromeVer               : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
       FResourceBundleHandler         : ICefResourceBundleHandler;
       FBrowserProcessHandler         : ICefBrowserProcessHandler;
       FRenderProcessHandler          : ICefRenderProcessHandler;
-      FLibCef                        : string;
-      FChromeElf                     : string;
       FAppSettings                   : TCefSettings;
+
+      procedure SetFrameworkDirPath(const aValue : ustring);
+      procedure SetResourcesDirPath(const aValue : ustring);
+      procedure SetLocalesDirPath(const aValue : ustring);
+
+      function  GetChromeVersion : string;
+      function  GetLibCefPath : string;
+      function  GetChromeElfPath : string;
 
       function  LoadCEFlibrary : boolean;
       function  Load_cef_app_capi_h : boolean;
@@ -180,8 +193,6 @@ type
       function  CheckCEFLibrary : boolean;
       procedure DeleteDirContents(const aDirectory : string);
 
-      function  GetChromeVersion : string;
-
       procedure App_OnBeforeCommandLineProc(const processType: ustring; const commandLine: ICefCommandLine);
       procedure App_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
       procedure App_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
@@ -204,11 +215,11 @@ type
       property Locale                      : ustring                         read FLocale                         write FLocale;
       property LogFile                     : ustring                         read FLogFile                        write FLogFile;
       property BrowserSubprocessPath       : ustring                         read FBrowserSubprocessPath          write FBrowserSubprocessPath;
-      property FrameworkDirPath            : ustring                         read FFrameworkDirPath               write FFrameworkDirPath;
+      property FrameworkDirPath            : ustring                         read FFrameworkDirPath               write SetFrameworkDirPath;
       property LogSeverity                 : TCefLogSeverity                 read FLogSeverity                    write FLogSeverity;
       property JavaScriptFlags             : ustring                         read FJavaScriptFlags                write FJavaScriptFlags;
-      property ResourcesDirPath            : ustring                         read FResourcesDirPath               write FResourcesDirPath;
-      property LocalesDirPath              : ustring                         read FLocalesDirPath                 write FLocalesDirPath;
+      property ResourcesDirPath            : ustring                         read FResourcesDirPath               write SetResourcesDirPath;
+      property LocalesDirPath              : ustring                         read FLocalesDirPath                 write SetLocalesDirPath;
       property SingleProcess               : Boolean                         read FSingleProcess                  write FSingleProcess;
       property NoSandbox                   : Boolean                         read FNoSandbox                      write FNoSandbox;
       property CommandLineArgsDisabled     : Boolean                         read FCommandLineArgsDisabled        write FCommandLineArgsDisabled;
@@ -238,6 +249,8 @@ type
       property ChromeRelease               : uint16                          read FChromeVersionInfo.Release;
       property ChromeBuild                 : uint16                          read FChromeVersionInfo.Build;
       property ChromeVersion               : string                          read GetChromeVersion;
+      property LibCefPath                  : string                          read GetLibCefPath;
+      property ChromeElfPath               : string                          read GetChromeElfPath;
       property OnRegCustomSchemes          : TOnRegisterCustomSchemes        read FOnRegisterCustomSchemes        write FOnRegisterCustomSchemes;
       property ResourceBundleHandler       : ICefResourceBundleHandler       read FResourceBundleHandler          write FResourceBundleHandler;
       property BrowserProcessHandler       : ICefBrowserProcessHandler       read FBrowserProcessHandler          write FBrowserProcessHandler;
@@ -246,9 +259,9 @@ type
       property FastUnload                  : boolean                         read FFastUnload                     write FFastUnload;
       property DisableSafeBrowsing         : boolean                         read FDisableSafeBrowsing            write FDisableSafeBrowsing;
       property LibLoaded                   : boolean                         read FLibLoaded;
-      property LibCef                      : string                          read FLibCef                         write FLibCef;
       property EnableHighDPISupport        : boolean                         read FEnableHighDPISupport           write FEnableHighDPISupport;
       property MuteAudio                   : boolean                         read FMuteAudio                      write FMuteAudio;
+      property ReRaiseExceptions           : boolean                         read FReRaiseExceptions              write FReRaiseExceptions;
   end;
 
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -294,9 +307,9 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Math, System.IOUtils, System.SysUtils,
+  System.Math, System.IOUtils, System.SysUtils, Vcl.Dialogs,
   {$ELSE}
-  Math, {$IFDEF DELPHI12_UP}IOUtils,{$ENDIF} SysUtils,
+  Math, {$IFDEF DELPHI12_UP}IOUtils,{$ENDIF} SysUtils, Dialogs,
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory;
@@ -357,9 +370,9 @@ begin
   FRenderProcessHandler          := nil;
   FEnableHighDPISupport          := False;
   FMuteAudio                     := False;
+  FReRaiseExceptions             := False;
   FLibLoaded                     := False;
-  FLibCef                        := 'libcef.dll';
-  FChromeElf                     := 'chrome_elf.dll';
+  FUpdateChromeVer               := aUpdateChromeVer;
 
   FAppSettings.size := SizeOf(TCefSettings);
   FillChar(FAppSettings, FAppSettings.size, 0);
@@ -369,7 +382,7 @@ begin
   FChromeVersionInfo.Release     := CEF_CHROMEELF_VERSION_RELEASE;
   FChromeVersionInfo.Build       := CEF_CHROMEELF_VERSION_BUILD;
 
-  if aUpdateChromeVer then GetDLLVersion(FChromeElf, FChromeVersionInfo);
+  if FUpdateChromeVer then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
 
   IsMultiThread := True;
 
@@ -471,6 +484,63 @@ begin
             inttostr(FChromeVersionInfo.Build);
 end;
 
+function TCefApplication.GetLibCefPath : string;
+begin
+  if (length(FFrameworkDirPath) > 0) then
+    Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + LIBCEF_DLL
+   else
+    Result := LIBCEF_DLL;
+end;
+
+function TCefApplication.GetChromeElfPath : string;
+begin
+  if (length(FFrameworkDirPath) > 0) then
+    Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + CHROMEELF_DLL
+   else
+    Result := CHROMEELF_DLL;
+end;
+
+procedure TCefApplication.SetFrameworkDirPath(const aValue : ustring);
+begin
+  if (length(aValue) > 0) and DirectoryExists(aValue) then
+    begin
+      if CustomPathIsRelative(PChar(aValue)) then
+        FFrameworkDirPath := ExtractFilePath(ParamStr(0)) + aValue
+       else
+        FFrameworkDirPath := aValue;
+    end
+   else
+    FFrameworkDirPath := '';
+
+  if FUpdateChromeVer then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+end;
+
+procedure TCefApplication.SetResourcesDirPath(const aValue : ustring);
+begin
+  if (length(aValue) > 0) and DirectoryExists(aValue) then
+    begin
+      if CustomPathIsRelative(PChar(aValue)) then
+        FResourcesDirPath := ExtractFilePath(ParamStr(0)) + aValue
+       else
+        FResourcesDirPath := aValue;
+    end
+   else
+    FResourcesDirPath := '';
+end;
+
+procedure TCefApplication.SetLocalesDirPath(const aValue : ustring);
+begin
+  if (length(aValue) > 0) and DirectoryExists(aValue) then
+    begin
+      if CustomPathIsRelative(PChar(aValue)) then
+        FLocalesDirPath := ExtractFilePath(ParamStr(0)) + aValue
+       else
+        FLocalesDirPath := aValue;
+    end
+   else
+    FLocalesDirPath := '';
+end;
+
 function TCefApplication.CheckCEFLibrary : boolean;
 begin
   Result := False;
@@ -478,11 +548,11 @@ begin
   if not(FCheckCEFFiles) then
     Result := True
    else
-    if CheckDLLs(FFrameworkDirPath, FChromeElf, FLibCef) and
+    if CheckDLLs(FFrameworkDirPath) and
        CheckResources(FResourcesDirPath) and
        CheckLocales(FLocalesDirPath) then
       begin
-        if CheckDLLVersion(FLibCef,
+        if CheckDLLVersion(LibCefPath,
                            CEF_SUPPORTED_VERSION_MAJOR,
                            CEF_SUPPORTED_VERSION_MINOR,
                            CEF_SUPPORTED_VERSION_RELEASE,
@@ -491,13 +561,13 @@ begin
          else
           begin
             OutputDebugMessage('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !');
-            MessageBox(0, PWideChar('Unsupported CEF version !'), PWideChar('CEF4Delphi error'), MB_ICONERROR or MB_OK or MB_TOPMOST);
+            MessageDlg('Unsupported CEF version !', mtError, [mbOk], 0);
           end;
       end
      else
       begin
         OutputDebugMessage('TCefApplication.CheckCEFLibrary error: CEF binaries missing !');
-        MessageBox(0, PWideChar('CEF binaries missing !'), PWideChar('CEF4Delphi error'), MB_ICONERROR or MB_OK or MB_TOPMOST);
+        MessageDlg('CEF binaries missing !', mtError, [mbOk], 0);
       end;
 end;
 
@@ -711,7 +781,7 @@ end;
 
 function TCefApplication.LoadCEFlibrary : boolean;
 begin
-  FLibHandle := LoadLibrary(PChar(FLibCef));
+  FLibHandle := LoadLibraryEx(PChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
 
   if (FLibHandle = 0) then
     begin

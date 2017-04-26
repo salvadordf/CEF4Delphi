@@ -1257,7 +1257,6 @@ type
     resizable: Integer;
     fullscreen: Integer;
     dialog: Integer;
-    additionalFeatures: TCefStringList;
   end;
 
   // /include/internal/cef_types.h (cef_browser_settings_t)
@@ -1942,7 +1941,7 @@ type
   // /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)
   TCefSchemeRegistrar = record
     base: TCefBaseScoped;
-    add_custom_scheme: function(self: PCefSchemeRegistrar; const scheme_name: PCefString; is_standard, is_local, is_display_isolated, is_secure, is_cors_enabled: Integer): Integer; stdcall;
+    add_custom_scheme: function(self: PCefSchemeRegistrar; const scheme_name: PCefString; is_standard, is_local, is_display_isolated, is_secure, is_cors_enabled, is_csp_bypassing: Integer): Integer; stdcall;
   end;
 
   // /include/capi/cef_values_capi.h (cef_binary_value_t)

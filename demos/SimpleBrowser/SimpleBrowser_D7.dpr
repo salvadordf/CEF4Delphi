@@ -40,11 +40,7 @@ program SimpleBrowser_D7;
 {$I cef.inc}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  WinApi.Windows, Vcl.Forms,
-  {$ELSE}
-  Windows, Forms,
-  {$ENDIF}
+  Forms,
   uCEFApplication,
   uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};
 
@@ -60,9 +56,6 @@ begin
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
       Application.CreateForm(TForm1, Form1);
       Application.Run;
     end;

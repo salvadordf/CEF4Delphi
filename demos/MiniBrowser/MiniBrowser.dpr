@@ -42,9 +42,9 @@ program MiniBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, Vcl.Forms,
+  Vcl.Forms,
   {$ELSE}
-  Windows, Forms,
+  Forms,
   {$ENDIF}
   uCEFApplication,
   uCEFMiscFunctions,
@@ -105,7 +105,7 @@ end;
 
 procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
-  registrar.AddCustomScheme('hello', True, True, False, False, False);
+  registrar.AddCustomScheme('hello', True, True, False, False, False, False);
 end;
 
 begin
@@ -120,6 +120,11 @@ begin
   GlobalCEFApp.RemoteDebuggingPort  := 9000;
   GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
   GlobalCEFApp.OnRegCustomSchemes   := GlobalCEFApp_OnRegCustomSchemes;
+
+  // In case you want to move all CEF3 binaries
+  //GlobalCEFApp.FrameworkDirPath     := 'cef';
+  //GlobalCEFApp.ResourcesDirPath     := 'cef';
+  //GlobalCEFApp.LocalesDirPath       := 'cef\locales';
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
