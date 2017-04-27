@@ -52,7 +52,7 @@ uses
 type
   TCefSchemeRegistrarRef = class(TCEFBaseScopedWrapperRef)
     public
-      function AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated, IsSecure, IsCorsEnabled: Boolean): Boolean; stdcall;
+      function AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated, IsSecure, IsCorsEnabled, IsCSPBypassing: Boolean): Boolean; stdcall;
   end;
 
 implementation
@@ -60,7 +60,7 @@ implementation
 uses
   uCEFMiscFunctions;
 
-function TCefSchemeRegistrarRef.AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated, IsSecure, IsCorsEnabled: Boolean): Boolean;
+function TCefSchemeRegistrarRef.AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated, IsSecure, IsCorsEnabled, IsCSPBypassing: Boolean): Boolean;
 var
   sn: TCefString;
 begin
@@ -71,7 +71,8 @@ begin
                                                          Ord(IsLocal),
                                                          Ord(IsDisplayIsolated),
                                                          Ord(isSecure),
-                                                         Ord(IsCorsEnabled)) <> 0;
+                                                         Ord(IsCorsEnabled),
+                                                         Ord(IsCSPBypassing)) <> 0;
 end;
 
 end.

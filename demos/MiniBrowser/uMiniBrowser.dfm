@@ -134,7 +134,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
           'https://www.w3schools.com/html/html5_video.asp'
           'http://www.adobe.com/software/flash/about/'
-          'chrome://version/')
+          'chrome://version/'
+          'http://html5test.com/'
+          'https://www.w3schools.com/'
+          'http://webglsamples.org/')
       end
     end
     object ConfigPnl: TPanel

@@ -45,7 +45,7 @@ uses
   Vcl.Forms,
   {$ELSE}
   Forms,
-  {$ENDIF }
+  {$ENDIF}
   uCEFApplication,
   uCEFMiscFunctions,
   uCEFSchemeRegistrar,
@@ -62,6 +62,9 @@ uses
   uPreferences in 'uPreferences.pas' {PreferencesFrm};
 
 {$R *.res}
+
+// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 var
   TempProcessHandler : TCefCustomRenderProcessHandler;
@@ -94,16 +97,20 @@ end;
 procedure ProcessHandler_OnWebKitReady;
 begin
 {$IFDEF DELPHI14_UP}
-  TCefRTTIExtension.Register('app', TTestExtension);
+  // Registering the extension. Read this document for more details :
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+  TCefRTTIExtension.Register('myextension', TTestExtension);
 {$ENDIF}
 end;
 
 procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
-  registrar.AddCustomScheme('hello', True, True, False, False, False);
+  registrar.AddCustomScheme('hello', True, True, False, False, False, False);
 end;
 
 begin
+  // This ProcessHandler is used for the extension and the DOM visitor demos.
+  // It can be removed if you don't want those features.
   TempProcessHandler                 := TCefCustomRenderProcessHandler.Create;
   TempProcessHandler.MessageName     := 'retrievedom';   // same message name than TMiniBrowserFrm.VisitDOMMsg
   TempProcessHandler.OnCustomMessage := ProcessHandler_OnCustomMessage;
@@ -114,8 +121,14 @@ begin
   GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
   GlobalCEFApp.OnRegCustomSchemes   := GlobalCEFApp_OnRegCustomSchemes;
 
+  // In case you want to move all CEF3 binaries
+  //GlobalCEFApp.FrameworkDirPath     := 'cef';
+  //GlobalCEFApp.ResourcesDirPath     := 'cef';
+  //GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
+  // Remove it if you don't want to use the DOM visitor
   GlobalCEFApp.LogFile              := 'debug.log';
   GlobalCEFApp.LogSeverity          := LOGSEVERITY_ERROR;
 
@@ -130,6 +143,7 @@ begin
 
   if GlobalCEFApp.StartMainProcess then
     begin
+      // You can register the Scheme Handler Factory here or later, for example in a context menu command.
       CefRegisterSchemeHandlerFactory('hello', '', THelloScheme);
 
       Application.Initialize;

@@ -77,7 +77,7 @@ type
       function  GetFrameCount: NativeUInt;
       procedure GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
       procedure GetFrameNames(names: TStrings);
-      function  SendProcessMessage(targetProcess: TCefProcessId; message: ICefProcessMessage): Boolean;
+      function  SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
 
     public
       class function UnWrap(data: Pointer): ICefBrowser;
@@ -214,10 +214,9 @@ begin
   end;
 end;
 
-function TCefBrowserRef.SendProcessMessage(targetProcess: TCefProcessId;
-  message: ICefProcessMessage): Boolean;
+function TCefBrowserRef.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
 begin
-  Result := PCefBrowser(FData)^.send_process_message(PCefBrowser(FData), targetProcess, CefGetData(message)) <> 0;
+  Result := PCefBrowser(FData)^.send_process_message(PCefBrowser(FData), targetProcess, CefGetData(ProcMessage)) <> 0;
 end;
 
 function TCefBrowserRef.GetMainFrame: ICefFrame;

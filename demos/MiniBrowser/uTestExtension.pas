@@ -51,22 +51,11 @@ uses
   uCEFv8Context, uCEFTypes, uCEFv8Handler;
 
 type
-  TCustomBrowserProcessHandler = class(TCefBrowserProcessHandlerOwn)
-  protected
-    procedure OnScheduleMessagePumpWork(delayMs: Int64); override;
-  end;
-
   TTestExtension = class
-    class function hello: string;
     class procedure mouseover(const data: string);
   end;
 
 implementation
-
-var
-  pumpMessages: Integer = 0;
-
-{ TTestExtension }
 
 class procedure TTestExtension.mouseover(const data: string);
 var
@@ -74,20 +63,10 @@ var
 begin
   msg := TCefProcessMessageRef.New('mouseover');
   msg.ArgumentList.SetString(0, data);
+
+  // Sending a message back to the browser. It'll be received in the TChromium.OnProcessMessageReceived event.
+  // TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing Javascript.
   TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
-end;
-
-class function TTestExtension.hello: string;
-begin
-  Result := 'Hello from Delphi';
-end;
-
-{ TCustomBrowserProcessHandler }
-
-procedure TCustomBrowserProcessHandler.OnScheduleMessagePumpWork(
-  delayMs: Int64);
-begin
-  InterlockedExchange(pumpMessages, 1);
 end;
 
 end.

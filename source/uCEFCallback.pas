@@ -76,8 +76,9 @@ end;
 
 class function TCefCallbackRef.UnWrap(data: Pointer): ICefCallback;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefCallback else
+  if (data <> nil) then
+    Result := Create(data) as ICefCallback
+   else
     Result := nil;
 end;
 

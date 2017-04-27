@@ -276,5 +276,8 @@
     <Transaction>2017/03/16 09:32:10.000.622,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBaseRefCounted.pas</Transaction>
     <Transaction>2017/03/16 09:32:22.000.431,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBaseScopedWrapper.pas</Transaction>
     <Transaction>2017/03/16 09:32:54.000.567,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBase.pas=</Transaction>
+    <Transaction>2017/03/26 17:18:35.000.135,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\Unit1.pas</Transaction>
+    <Transaction>2017/03/26 17:19:20.000.644,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDLLFunctions.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\Unit1.pas</Transaction>
+    <Transaction>2017/03/26 17:28:33.000.757,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDLLFunctions.pas=</Transaction>
   </Transactions>
 </BorlandProject>

@@ -246,8 +246,7 @@ type
     function GetFrameCount: NativeUInt;
     procedure GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
     procedure GetFrameNames(names: TStrings);
-    function SendProcessMessage(targetProcess: TCefProcessId;
-      message: ICefProcessMessage): Boolean;
+    function SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
     property MainFrame: ICefFrame read GetMainFrame;
     property FocusedFrame: ICefFrame read GetFocusedFrame;
     property FrameCount: NativeUInt read GetFrameCount;
