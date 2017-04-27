@@ -504,7 +504,7 @@ procedure TCefApplication.SetFrameworkDirPath(const aValue : ustring);
 begin
   if (length(aValue) > 0) and DirectoryExists(aValue) then
     begin
-      if CustomPathIsRelative(PChar(aValue)) then
+      if CustomPathIsRelative(aValue) then
         FFrameworkDirPath := ExtractFilePath(ParamStr(0)) + aValue
        else
         FFrameworkDirPath := aValue;
@@ -519,7 +519,7 @@ procedure TCefApplication.SetResourcesDirPath(const aValue : ustring);
 begin
   if (length(aValue) > 0) and DirectoryExists(aValue) then
     begin
-      if CustomPathIsRelative(PChar(aValue)) then
+      if CustomPathIsRelative(aValue) then
         FResourcesDirPath := ExtractFilePath(ParamStr(0)) + aValue
        else
         FResourcesDirPath := aValue;
@@ -532,7 +532,7 @@ procedure TCefApplication.SetLocalesDirPath(const aValue : ustring);
 begin
   if (length(aValue) > 0) and DirectoryExists(aValue) then
     begin
-      if CustomPathIsRelative(PChar(aValue)) then
+      if CustomPathIsRelative(aValue) then
         FLocalesDirPath := ExtractFilePath(ParamStr(0)) + aValue
        else
         FLocalesDirPath := aValue;

@@ -612,7 +612,7 @@ begin
         if DirectoryExists(aResourcesDirPath) then
           begin
             TempDir := IncludeTrailingPathDelimiter(aResourcesDirPath);
-            if CustomPathIsRelative(PChar(TempDir)) then TempDir := ExtractFilePath(ParamStr(0)) + TempDir;
+            if CustomPathIsRelative(TempDir) then TempDir := ExtractFilePath(ParamStr(0)) + TempDir;
           end
          else
           exit;
@@ -646,7 +646,7 @@ begin
         if DirectoryExists(aFrameworkDirPath) then
           begin
             TempDir := IncludeTrailingPathDelimiter(aFrameworkDirPath);
-            if CustomPathIsRelative(PChar(TempDir)) then TempDir := ExtractFilePath(ParamStr(0)) + TempDir;
+            if CustomPathIsRelative(TempDir) then TempDir := ExtractFilePath(ParamStr(0)) + TempDir;
           end
          else
           exit;
