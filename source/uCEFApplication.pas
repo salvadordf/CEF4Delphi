@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3029;
-  CEF_SUPPORTED_VERSION_RELEASE = 1608;
+  CEF_SUPPORTED_VERSION_RELEASE = 1611;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 58;
@@ -334,7 +334,7 @@ begin
   FResourcesDirPath              := '';
   FLocalesDirPath                := '';
   FSingleProcess                 := False;
-  FNoSandbox                     := False;
+  FNoSandbox                     := True;
   FCommandLineArgsDisabled       := False;
   FPackLoadingDisabled           := False;
   FRemoteDebuggingPort           := 0;
@@ -435,7 +435,7 @@ begin
       end;
   except
     on e : exception do
-      OutputDebugMessage('TCefApplication.CreateInternalApp error: ' + e.Message);
+      CustomExceptionHandler('TCefApplication.CreateInternalApp error: ' + e.Message);
   end;
 end;
 
@@ -453,7 +453,7 @@ begin
       end;
   except
     on e : exception do
-      OutputDebugMessage('TCefApplication.MultiExeProcessing error: ' + e.Message);
+      CustomExceptionHandler('TCefApplication.MultiExeProcessing error: ' + e.Message);
   end;
 end;
 
@@ -472,7 +472,7 @@ begin
       end;
   except
     on e : exception do
-      OutputDebugMessage('TCefApplication.SingleExeProcessing error: ' + e.Message);
+      CustomExceptionHandler('TCefApplication.SingleExeProcessing error: ' + e.Message);
   end;
 end;
 
@@ -559,16 +559,10 @@ begin
                            CEF_SUPPORTED_VERSION_BUILD) then
           Result := True
          else
-          begin
-            OutputDebugMessage('TCefApplication.CheckCEFLibrary error: Unsupported CEF version !');
-            MessageDlg('Unsupported CEF version !', mtError, [mbOk], 0);
-          end;
+          MessageDlg('Unsupported CEF version !', mtError, [mbOk], 0);
       end
      else
-      begin
-        OutputDebugMessage('TCefApplication.CheckCEFLibrary error: CEF binaries missing !');
-        MessageDlg('CEF binaries missing !', mtError, [mbOk], 0);
-      end;
+      MessageDlg('CEF binaries missing !', mtError, [mbOk], 0);
 end;
 
 function TCefApplication.StartMainProcess : boolean;
@@ -590,7 +584,7 @@ begin
               (ExecuteProcess >= 0);
   except
     on e : exception do
-      OutputDebugMessage('TCefApplication.StartSubProcess error: ' + e.Message);
+      CustomExceptionHandler('TCefApplication.StartSubProcess error: ' + e.Message);
   end;
 end;
 
@@ -606,7 +600,7 @@ begin
       end;
   except
     on e : exception do
-      OutputDebugMessage('TCefApplication.ShutDown error: ' + e.Message);
+      CustomExceptionHandler('TCefApplication.ShutDown error: ' + e.Message);
   end;
 end;
 
@@ -663,7 +657,7 @@ begin
     Result := (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0);
   except
     on e : exception do
-      OutputDebugMessage('TCefApplication.InitializeLibrary error: ' + e.Message);
+      CustomExceptionHandler('TCefApplication.InitializeLibrary error: ' + e.Message);
   end;
 end;
 
@@ -699,7 +693,7 @@ begin
       end;
   except
     on e : exception do
-      OutputDebugMessage('TCefApplication.DeleteDirContents error: ' + e.Message);
+      CustomExceptionHandler('TCefApplication.DeleteDirContents error: ' + e.Message);
   end;
 end;
 
@@ -1398,7 +1392,7 @@ begin
       TCefAppOwn(CefGetObject(self)).OnRegisterCustomSchemes(TempWrapper);
     except
       on e : exception do
-        OutputDebugMessage('cef_app_on_register_custom_schemes error: ' + e.Message);
+        CustomExceptionHandler('cef_app_on_register_custom_schemes error: ' + e.Message);
     end;
   finally
     if (TempWrapper <> nil) then FreeAndNil(TempWrapper);

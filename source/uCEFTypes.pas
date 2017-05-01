@@ -324,6 +324,18 @@ type
     query: TCefString;
   end;
 
+  TUrlParts = record
+    spec: ustring;
+    scheme: ustring;
+    username: ustring;
+    password: ustring;
+    host: ustring;
+    port: ustring;
+    origin: ustring;
+    path: ustring;
+    query: ustring;
+  end;
+
   // /include/internal/cef_types.h (cef_insets_t)
   TCefInsets = record
     top: Integer;

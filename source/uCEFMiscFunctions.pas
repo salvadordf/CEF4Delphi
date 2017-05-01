@@ -120,6 +120,7 @@ procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
 procedure OutputDebugMessage(const aMessage : string);
+procedure CustomExceptionHandler(const aMessage : string);
 
 function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring; const handler: TCefResourceHandlerClass): Boolean;
 function CefClearSchemeHandlerFactories : boolean;
@@ -136,6 +137,8 @@ function CheckLocales(const aLocalesDirPath : string) : boolean;
 function CheckResources(const aResourcesDirPath : string) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string) : boolean;
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
+
+function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 
 implementation
 
@@ -464,6 +467,11 @@ begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
   {$ENDIF}
+end;
+
+procedure CustomExceptionHandler(const aMessage : string);
+begin
+  OutputDebugMessage(aMessage);
 
   if (GlobalCEFApp <> nil) and GlobalCEFApp.ReRaiseExceptions then
     raise Exception.Create(aMessage);
@@ -596,7 +604,7 @@ begin
       end;
   except
     on e : exception do
-      OutputDebugMessage('CheckLocales error: ' + e.Message);
+      CustomExceptionHandler('CheckLocales error: ' + e.Message);
   end;
 end;
 
@@ -630,7 +638,7 @@ begin
               FileExists(TempDir + 'devtools_resources.pak');
   except
     on e : exception do
-      OutputDebugMessage('CheckResources error: ' + e.Message);
+      CustomExceptionHandler('CheckResources error: ' + e.Message);
   end;
 end;
 
@@ -663,7 +671,7 @@ begin
               FileExists(TempDir + 'widevinecdmadapter.dll');
   except
     on e : exception do
-      OutputDebugMessage('CheckDLLs error: ' + e.Message);
+      CustomExceptionHandler('CheckDLLs error: ' + e.Message);
   end;
 end;
 
@@ -704,7 +712,7 @@ begin
         end;
     except
       on e : exception do
-        OutputDebugMessage('GetExtendedFileVersion error: ' + e.Message);
+        CustomExceptionHandler('GetExtendedFileVersion error: ' + e.Message);
     end;
   finally
     if (TempBuffer <> nil) then FreeMem(TempBuffer);
@@ -726,7 +734,7 @@ begin
       end;
   except
     on e : exception do
-      OutputDebugMessage('GetDLLVersion error: ' + e.Message);
+      CustomExceptionHandler('GetDLLVersion error: ' + e.Message);
   end;
 end;
 
@@ -748,6 +756,28 @@ begin
   {$ELSE}
   Result := PathIsRelativeAnsi(PChar(aPath));
   {$ENDIF}
+end;
+
+function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
+var
+  u: TCefString;
+  p: TCefUrlParts;
+begin
+  FillChar(p, sizeof(p), 0);
+  u := CefString(url);
+  Result := cef_parse_url(@u, p) <> 0;
+  if Result then
+  begin
+    //parts.spec := CefString(@p.spec);
+    parts.scheme := CefString(@p.scheme);
+    parts.username := CefString(@p.username);
+    parts.password := CefString(@p.password);
+    parts.host := CefString(@p.host);
+    parts.port := CefString(@p.port);
+    parts.origin := CefString(@p.origin);
+    parts.path := CefString(@p.path);
+    parts.query := CefString(@p.query);
+  end;
 end;
 
 end.

@@ -129,6 +129,11 @@ type
       property  ExternalMessagePump     : boolean                      read GetExternalMessagePump;
   end;
 
+var
+  CefInstances : Integer = 0;
+
+procedure CefDoMessageLoopWork;
+
 implementation
 
 uses
@@ -145,7 +150,6 @@ uses
 
 var
   looping      : Boolean = False;
-  CefInstances : Integer = 0;
   CefTimer     : UINT    = 0;
 
 function cef_client_get_context_menu_handler(self: PCefClient): PCefContextMenuHandler; stdcall;
@@ -466,7 +470,7 @@ end;
 
 // TVCLClientHandler
 
-procedure TimerProc(hwnd: HWND; uMsg: UINT; idEvent: Pointer; dwTime: DWORD); stdcall;
+procedure CefDoMessageLoopWork;
 begin
   if looping then Exit;
 
@@ -480,6 +484,11 @@ begin
         looping := False;
       end;
     end;
+end;
+
+procedure TimerProc(hwnd: HWND; uMsg: UINT; idEvent: Pointer; dwTime: DWORD); stdcall;
+begin
+  CefDoMessageLoopWork;
 end;
 
 constructor TVCLClientHandler.Create(const crm: IChromiumEvents; renderer : Boolean);
@@ -509,7 +518,7 @@ begin
         end;
     except
       on e : exception do
-        OutputDebugMessage('TVCLClientHandler.Destroy error: ' + e.Message);
+        CustomExceptionHandler('TVCLClientHandler.Destroy error: ' + e.Message);
     end;
   finally
     inherited Destroy;
@@ -537,7 +546,7 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
   except
     on e : exception do
-      OutputDebugMessage('TVCLClientHandler.GetMultithreadApp error: ' + e.Message);
+      CustomExceptionHandler('TVCLClientHandler.GetMultithreadApp error: ' + e.Message);
   end;
 end;
 
@@ -549,7 +558,7 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.ExternalMessagePump;
   except
     on e : exception do
-      OutputDebugMessage('TVCLClientHandler.GetExternalMessagePump error: ' + e.Message);
+      CustomExceptionHandler('TVCLClientHandler.GetExternalMessagePump error: ' + e.Message);
   end;
 end;
 
