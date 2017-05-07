@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Simple Browser'
-  ClientHeight = 562
-  ClientWidth = 684
+  ClientHeight = 624
+  ClientWidth = 1038
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,15 +18,17 @@ object Form1: TForm1
   object ChromiumWindow1: TChromiumWindow
     Left = 0
     Top = 30
-    Width = 684
-    Height = 532
+    Width = 1038
+    Height = 594
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 684
+    ExplicitHeight = 532
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 684
+    Width = 1038
     Height = 30
     Align = alTop
     BevelOuter = bvNone
@@ -36,19 +38,21 @@ object Form1: TForm1
     Padding.Bottom = 5
     ShowCaption = False
     TabOrder = 1
+    ExplicitWidth = 684
     object Edit1: TEdit
       Left = 5
       Top = 5
-      Width = 643
+      Width = 997
       Height = 20
       Margins.Right = 5
       Align = alClient
       TabOrder = 0
       Text = 'http://www.google.com'
+      ExplicitWidth = 643
       ExplicitHeight = 21
     end
     object Button1: TButton
-      Left = 648
+      Left = 1002
       Top = 5
       Width = 31
       Height = 20
@@ -57,6 +61,7 @@ object Form1: TForm1
       Caption = 'Go'
       TabOrder = 1
       OnClick = Button1Click
+      ExplicitLeft = 648
     end
   end
 end

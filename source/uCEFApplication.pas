@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3029;
-  CEF_SUPPORTED_VERSION_RELEASE = 1611;
+  CEF_SUPPORTED_VERSION_RELEASE = 1613;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 58;
@@ -435,7 +435,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TCefApplication.CreateInternalApp error: ' + e.Message);
+      if CustomExceptionHandler('TCefApplication.CreateInternalApp', e) then raise;
   end;
 end;
 
@@ -453,7 +453,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TCefApplication.MultiExeProcessing error: ' + e.Message);
+      if CustomExceptionHandler('TCefApplication.MultiExeProcessing', e) then raise;
   end;
 end;
 
@@ -472,7 +472,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TCefApplication.SingleExeProcessing error: ' + e.Message);
+      if CustomExceptionHandler('TCefApplication.SingleExeProcessing', e) then raise;
   end;
 end;
 
@@ -584,7 +584,7 @@ begin
               (ExecuteProcess >= 0);
   except
     on e : exception do
-      CustomExceptionHandler('TCefApplication.StartSubProcess error: ' + e.Message);
+      if CustomExceptionHandler('TCefApplication.StartSubProcess', e) then raise;
   end;
 end;
 
@@ -600,7 +600,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TCefApplication.ShutDown error: ' + e.Message);
+      if CustomExceptionHandler('TCefApplication.ShutDown', e) then raise;
   end;
 end;
 
@@ -657,7 +657,7 @@ begin
     Result := (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0);
   except
     on e : exception do
-      CustomExceptionHandler('TCefApplication.InitializeLibrary error: ' + e.Message);
+      if CustomExceptionHandler('TCefApplication.InitializeLibrary', e) then raise;
   end;
 end;
 
@@ -693,7 +693,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TCefApplication.DeleteDirContents error: ' + e.Message);
+      if CustomExceptionHandler('TCefApplication.DeleteDirContents', e) then raise;
   end;
 end;
 
@@ -1392,7 +1392,7 @@ begin
       TCefAppOwn(CefGetObject(self)).OnRegisterCustomSchemes(TempWrapper);
     except
       on e : exception do
-        CustomExceptionHandler('cef_app_on_register_custom_schemes error: ' + e.Message);
+        if CustomExceptionHandler('cef_app_on_register_custom_schemes', e) then raise;
     end;
   finally
     if (TempWrapper <> nil) then FreeAndNil(TempWrapper);

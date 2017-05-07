@@ -297,7 +297,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('uCEFRequestHandler.cef_request_handler_on_select_client_certificate error: ' + e.Message);
+        if CustomExceptionHandler('uCEFRequestHandler.cef_request_handler_on_select_client_certificate', e) then raise;
     end;
   finally
     if (TempCertArray <> nil) then

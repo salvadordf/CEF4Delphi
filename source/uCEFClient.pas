@@ -518,7 +518,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('TVCLClientHandler.Destroy error: ' + e.Message);
+        if CustomExceptionHandler('TVCLClientHandler.Destroy', e) then raise;
     end;
   finally
     inherited Destroy;
@@ -546,7 +546,7 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
   except
     on e : exception do
-      CustomExceptionHandler('TVCLClientHandler.GetMultithreadApp error: ' + e.Message);
+      if CustomExceptionHandler('TVCLClientHandler.GetMultithreadApp', e) then raise;
   end;
 end;
 
@@ -558,7 +558,7 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.ExternalMessagePump;
   except
     on e : exception do
-      CustomExceptionHandler('TVCLClientHandler.GetExternalMessagePump error: ' + e.Message);
+      if CustomExceptionHandler('TVCLClientHandler.GetExternalMessagePump', e) then raise;
   end;
 end;
 

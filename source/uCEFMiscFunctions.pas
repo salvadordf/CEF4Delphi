@@ -73,8 +73,8 @@ function CefInt64Set(int32_low, int32_high: Integer): Int64;
 function CefInt64GetLow(const int64_val: Int64): Integer;
 function CefInt64GetHigh(const int64_val: Int64): Integer;
 
-function CefGetObject(ptr: Pointer): TObject;
-function CefGetData(const i: ICefBaseRefCounted): Pointer;
+function CefGetObject(ptr: Pointer): TObject;  {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 
 function CefStringAlloc(const str: ustring): TCefString;
 function CefStringClearAndGet(var str: TCefString): ustring;
@@ -120,7 +120,7 @@ procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
 procedure OutputDebugMessage(const aMessage : string);
-procedure CustomExceptionHandler(const aMessage : string);
+function  CustomExceptionHandler(const aFunctionName : string; const aException : exception) : boolean;
 
 function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring; const handler: TCefResourceHandlerClass): Boolean;
 function CefClearSchemeHandlerFactories : boolean;
@@ -138,12 +138,36 @@ function CheckResources(const aResourcesDirPath : string) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string) : boolean;
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 
-function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
+function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
+function  CefCreateUrl(var parts: TUrlParts): ustring;
+function  CefFormatUrlForSecurityDisplay(const originUrl: string): string;
+function  CefGetMimeType(const extension: ustring): ustring;
+procedure CefGetExtensionsForMimeType(const mimeType: ustring; extensions: TStringList);
+
+function CefBase64Encode(const data: Pointer; dataSize: NativeUInt): ustring;
+function CefBase64Decode(const data: ustring): ICefBinaryValue;
+function CefUriEncode(const text: ustring; usePlus: Boolean): ustring;
+function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule: TCefUriUnescapeRule): ustring;
+
+function CefParseJson(const jsonString: ustring; options: TCefJsonParserOptions): ICefValue;
+function CefParseJsonAndReturnError(const jsonString   : ustring;
+                                          options      : TCefJsonParserOptions;
+                                    out   errorCodeOut : TCefJsonParserError;
+                                    out   errorMsgOut  : ustring): ICefValue;
+function CefWriteJson(const node: ICefValue; options: TCefJsonWriterOptions): ustring;
+
+function CefCreateDirectory(const fullPath: ustring): Boolean;
+function CefGetTempDirectory(out tempDir: ustring): Boolean;
+function CefCreateNewTempDirectory(const prefix: ustring; out newTempPath: ustring): Boolean;
+function CefCreateTempDirectoryInDirectory(const baseDir, prefix: ustring; out newDir: ustring): Boolean;
+function CefDirectoryExists(const path: ustring): Boolean;
+function CefDeleteFile(const path: ustring; recursive: Boolean): Boolean;
+function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Boolean): Boolean;
 
 implementation
 
 uses
-  uCEFConstants, uCEFApplication, uCEFSchemeHandlerFactory;
+  uCEFConstants, uCEFApplication, uCEFSchemeHandlerFactory, uCEFValue, uCEFBinaryValue;
 
 function CefColorGetA(color: TCefColor): Byte;
 begin
@@ -469,12 +493,11 @@ begin
   {$ENDIF}
 end;
 
-procedure CustomExceptionHandler(const aMessage : string);
+function CustomExceptionHandler(const aFunctionName : string; const aException : exception) : boolean;
 begin
-  OutputDebugMessage(aMessage);
+  OutputDebugMessage(aFunctionName + ' error : ' + aException.message);
 
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.ReRaiseExceptions then
-    raise Exception.Create(aMessage);
+  Result := (GlobalCEFApp <> nil) and GlobalCEFApp.ReRaiseExceptions;
 end;
 
 function CefRegisterSchemeHandlerFactory(const SchemeName : ustring;
@@ -604,7 +627,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('CheckLocales error: ' + e.Message);
+      if CustomExceptionHandler('CheckLocales', e) then raise;
   end;
 end;
 
@@ -638,7 +661,7 @@ begin
               FileExists(TempDir + 'devtools_resources.pak');
   except
     on e : exception do
-      CustomExceptionHandler('CheckResources error: ' + e.Message);
+      if CustomExceptionHandler('CheckResources', e) then raise;
   end;
 end;
 
@@ -671,7 +694,7 @@ begin
               FileExists(TempDir + 'widevinecdmadapter.dll');
   except
     on e : exception do
-      CustomExceptionHandler('CheckDLLs error: ' + e.Message);
+      if CustomExceptionHandler('CheckDLLs', e) then raise;
   end;
 end;
 
@@ -712,7 +735,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('GetExtendedFileVersion error: ' + e.Message);
+        if CustomExceptionHandler('GetExtendedFileVersion', e) then raise;
     end;
   finally
     if (TempBuffer <> nil) then FreeMem(TempBuffer);
@@ -734,7 +757,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('GetDLLVersion error: ' + e.Message);
+      if CustomExceptionHandler('GetDLLVersion', e) then raise;
   end;
 end;
 
@@ -778,6 +801,184 @@ begin
     parts.path := CefString(@p.path);
     parts.query := CefString(@p.query);
   end;
+end;
+
+function CefCreateUrl(var parts: TUrlParts): ustring;
+var
+  p: TCefUrlParts;
+  u: TCefString;
+begin
+  FillChar(p, sizeof(p), 0);
+  p.spec := CefString(parts.spec);
+  p.scheme := CefString(parts.scheme);
+  p.username := CefString(parts.username);
+  p.password := CefString(parts.password);
+  p.host := CefString(parts.host);
+  p.port := CefString(parts.port);
+  p.origin := CefString(parts.origin);
+  p.path := CefString(parts.path);
+  p.query := CefString(parts.query);
+  FillChar(u, SizeOf(u), 0);
+  if cef_create_url(@p, @u) <> 0 then
+    Result := CefString(@u) else
+    Result := '';
+end;
+
+function CefFormatUrlForSecurityDisplay(const originUrl: string): string;
+var
+  o: TCefString;
+begin
+  o := CefString(originUrl);
+  Result := CefStringFreeAndGet(cef_format_url_for_security_display(@o));
+end;
+
+function CefGetMimeType(const extension: ustring): ustring;
+var
+  s: TCefString;
+begin
+  s := CefString(extension);
+  Result := CefStringFreeAndGet(cef_get_mime_type(@s));
+end;
+
+procedure CefGetExtensionsForMimeType(const mimeType: ustring; extensions: TStringList);
+var
+  list: TCefStringList;
+  s, str: TCefString;
+  i: Integer;
+begin
+  list := cef_string_list_alloc();
+  try
+    s := CefString(mimeType);
+    cef_get_extensions_for_mime_type(@s, list);
+    for i := 0 to cef_string_list_size(list) - 1 do
+    begin
+      FillChar(str, SizeOf(str), 0);
+      cef_string_list_value(list, i, @str);
+      extensions.Add(CefStringClearAndGet(str));
+    end;
+  finally
+    cef_string_list_free(list);
+  end;
+end;
+
+function CefBase64Encode(const data: Pointer; dataSize: NativeUInt): ustring;
+begin
+  Result:= CefStringFreeAndGet(cef_base64encode(data, dataSize));
+end;
+
+function CefBase64Decode(const data: ustring): ICefBinaryValue;
+var
+  s: TCefString;
+begin
+  s := CefString(data);
+  Result := TCefBinaryValueRef.UnWrap(cef_base64decode(@s));
+end;
+
+function CefUriEncode(const text: ustring; usePlus: Boolean): ustring;
+var
+  s: TCefString;
+begin
+  s := CefString(text);
+  Result := CefStringFreeAndGet(cef_uriencode(@s, Ord(usePlus)));
+end;
+
+function CefUriDecode(const text: ustring; convertToUtf8: Boolean;
+  unescapeRule: TCefUriUnescapeRule): ustring;
+var
+  s: TCefString;
+begin
+  s := CefString(text);
+  Result := CefStringFreeAndGet(cef_uridecode(@s, Ord(convertToUtf8), unescapeRule));
+end;
+
+function CefParseJson(const jsonString: ustring; options: TCefJsonParserOptions): ICefValue;
+var
+  s: TCefString;
+begin
+  s := CefString(jsonString);
+  Result := TCefValueRef.UnWrap(cef_parse_json(@s, options));
+end;
+
+function CefParseJsonAndReturnError(const jsonString   : ustring;
+                                          options      : TCefJsonParserOptions;
+                                    out   errorCodeOut : TCefJsonParserError;
+                                    out   errorMsgOut  : ustring): ICefValue;
+var
+  s, e: TCefString;
+begin
+  s := CefString(jsonString);
+  FillChar(e, SizeOf(e), 0);
+  Result := TCefValueRef.UnWrap(cef_parse_jsonand_return_error(@s, options, @errorCodeOut, @e));
+  errorMsgOut := CefString(@e);
+end;
+
+function CefWriteJson(const node: ICefValue; options: TCefJsonWriterOptions): ustring;
+begin
+  Result := CefStringFreeAndGet(cef_write_json(CefGetData(node), options));
+end;
+
+function CefCreateDirectory(const fullPath: ustring): Boolean;
+var
+  path: TCefString;
+begin
+  path := CefString(fullPath);
+  Result := cef_create_directory(@path) <> 0;
+end;
+
+function CefGetTempDirectory(out tempDir: ustring): Boolean;
+var
+  path: TCefString;
+begin
+  FillChar(path, SizeOf(path), 0);
+  Result := cef_get_temp_directory(@path) <> 0;
+  tempDir := CefString(@path);
+end;
+
+function CefCreateNewTempDirectory(const prefix: ustring; out newTempPath: ustring): Boolean;
+var
+  path, pref: TCefString;
+begin
+  FillChar(path, SizeOf(path), 0);
+  pref := CefString(prefix);
+  Result := cef_create_new_temp_directory(@pref, @path) <> 0;
+  newTempPath := CefString(@path);
+end;
+
+function CefCreateTempDirectoryInDirectory(const baseDir, prefix: ustring;
+  out newDir: ustring): Boolean;
+var
+  base, path, pref: TCefString;
+begin
+  FillChar(path, SizeOf(path), 0);
+  pref := CefString(prefix);
+  base := CefString(baseDir);
+  Result := cef_create_temp_directory_in_directory(@base, @pref, @path) <> 0;
+  newDir := CefString(@path);
+end;
+
+function CefDirectoryExists(const path: ustring): Boolean;
+var
+  str: TCefString;
+begin
+  str := CefString(path);
+  Result := cef_directory_exists(@str) <> 0;
+end;
+
+function CefDeleteFile(const path: ustring; recursive: Boolean): Boolean;
+var
+  str: TCefString;
+begin
+  str := CefString(path);
+  Result := cef_delete_file(@str, Ord(recursive)) <> 0;
+end;
+
+function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Boolean): Boolean;
+var
+  src, dst: TCefString;
+begin
+  src := CefString(srcDir);
+  dst := CefString(destFile);
+  Result := cef_zip_directory(@src, @dst, Ord(includeHiddenFiles)) <> 0;
 end;
 
 end.

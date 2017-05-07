@@ -13,7 +13,6 @@ object MainForm: TMainForm
   FormStyle = fsMDIForm
   OldCreateOrder = False
   Position = poScreenCenter
-  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13

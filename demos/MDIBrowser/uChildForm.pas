@@ -98,6 +98,12 @@ implementation
 // 3. Wait for the TChromium.Close
 // 4. Enable a Timer and wait for 2 seconds
 // 5. Close and destroy the form
+//
+// Note
+// ====
+// If you load simple web pages and you want to speed up the destruction,
+// try skipping step 1 and reducing the timer's interval.
+
 
 procedure TChildForm.Button1Click(Sender: TObject);
 begin

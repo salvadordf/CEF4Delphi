@@ -62,7 +62,6 @@ type
     ButtonPnl: TPanel;
     NewBtn: TSpeedButton;
     ExitBtn: TSpeedButton;
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure NewBtnClick(Sender: TObject);
@@ -74,12 +73,15 @@ type
 
     procedure CreateMDIChild(const Name: string);
     procedure CloseAllChildForms;
+    function  GetChildClosing : boolean;
 
   protected
     procedure ChildDestroyedMsg(var aMessage : TMessage); message CEFBROWSER_CHILDDESTROYED;
 
   public
-    { Public declarations }
+    function CloseQuery: Boolean; override;
+
+    property ChildClosing : boolean read GetChildClosing;
   end;
 
 var
@@ -106,24 +108,6 @@ begin
   TempChild.Caption := Name;
 end;
 
-procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-begin
-  if FClosing then
-    CanClose := FCanClose
-   else
-    begin
-      FClosing := True;
-
-      if (MDIChildCount = 0) then
-        CanClose := True
-       else
-        begin
-          CanClose := False;
-          CloseAllChildForms;
-        end;
-    end;
-end;
-
 procedure TMainForm.CloseAllChildForms;
 var
   i : integer;
@@ -137,6 +121,23 @@ begin
 
       dec(i);
     end;
+end;
+
+function TMainForm.GetChildClosing : boolean;
+var
+  i : integer;
+begin
+  Result := false;
+  i      := pred(MDIChildCount);
+
+  while (i >= 0) do
+    if TChildForm(MDIChildren[i]).Closing then
+      begin
+        Result := True;
+        exit;
+      end
+     else
+      dec(i);
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
@@ -178,6 +179,24 @@ begin
     begin
       ButtonPnl.Enabled := False;
       Timer1.Enabled    := True;
+    end;
+end;
+
+function TMainForm.CloseQuery: Boolean;
+begin
+  if FClosing or ChildClosing then
+    Result := FCanClose
+   else
+    begin
+      FClosing := True;
+
+      if (MDIChildCount = 0) then
+        Result := True
+       else
+        begin
+          Result := False;
+          CloseAllChildForms;
+        end;
     end;
 end;
 

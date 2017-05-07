@@ -1,27 +1,44 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas',0,1,72,1,85,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,2074,1,2095,0,0,,{1,859,20}{2,2096,10}
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFClient.pas',0,1,475,75,86,0,0,,
-File_3=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Controls.pas',0,1,10059,1,10081,0,0,,
-File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumWindow.pas',0,1,29,24,60,0,0,,
-File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,188,40,238,0,0,,
+File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,180,12,209,0,0,,
+File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,36,25,69,0,0,,
+File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,2074,1,2095,0,0,,{1
+File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFClient.pas',0,1,475,75,86,0,0,,
+File_4=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Controls.pas',0,1,10059,1,10081,0,0,,
+File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumWindow.pas',0,1,29,24,60,0,0,,
 File_6=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Forms.pas',0,1,4433,1,4455,0,0,{{1729,4}
 File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLifeSpanHandler.pas',0,1,99,1,121,0,0,,
-File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBaseRefCounted.pas',0,1,65,1,87,0,0,,
-File_9=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\RTL\SYS\System.SysUtils.pas',0,1,21670,1,21692,0,0,,
 
 [Modules]
-Module0=default.htm
-Count=1
+Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dproj
+Module1=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas
+Module2=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
+Module3=default.htm
+Count=4
 EditWindowCount=1
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dproj]
+ModuleType=TBaseProject
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas]
+ModuleType=TSourceModule
+FormState=1
+FormOnTop=1
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
 
 [default.htm]
 ModuleType=TURLModule
 
 [EditWindow0]
-ViewCount=1
-CurrentView=0
+ViewCount=4
+CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dpr
 View0=0
+View1=1
+View2=2
+View3=3
 PercentageSizes=1
 Create=1
 Visible=1
@@ -54,6 +71,39 @@ BottomMiddelPanelData=0000080001020200000009000000446F636B5369746530100000004772
 [View0]
 CustomEditViewType=TWelcomePageView
 WelcomePageURL=bds:/default.htm
+
+[View1]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dpr
+CursorX=42
+CursorY=58
+TopLine=37
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dpr
+
+[View2]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas
+CursorX=1
+CursorY=85
+TopLine=72
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=Borland.FormDesignerView
+
+[View3]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
+CursorX=28
+CursorY=212
+TopLine=182
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas
 
 [Watches]
 Count=0
@@ -209,8 +259,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-148
-Top=-137
+Left=-121
+Top=-74
 Width=1844
 Height=3139
 MaxLeft=-1
@@ -274,11 +324,16 @@ MaxLeft=-1
 MaxTop=-1
 ClientWidth=1898
 ClientHeight=5370
-TBDockHeight=7164
+TBDockHeight=7119
 LRDockWidth=1898
 Dockable=1
 StayOnTop=0
 SplitPos=111
+
+[PropInspDesignerSelection]
+ArrangeBy=Name
+SelectedItem=Action,
+ExpandedItems=Anchors=0,BorderIcons=0
 
 [frmDesignPreview]
 PercentageSizes=1
@@ -289,11 +344,11 @@ State=0
 Left=0
 Top=0
 Width=2000
-Height=6861
+Height=6816
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=6861
+ClientHeight=6816
 TBDockHeight=5964
 LRDockWidth=2508
 Dockable=1
@@ -305,8 +360,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-898
-Top=-137
+Left=-946
+Top=1
 Width=2844
 Height=6200
 MaxLeft=-1
@@ -324,8 +379,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-1026
-Top=-137
+Left=-1152
+Top=243
 Width=273
 Height=359
 MaxLeft=-1
@@ -429,11 +484,11 @@ State=0
 Left=0
 Top=0
 Width=2336
-Height=1177
+Height=942
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2336
-ClientHeight=1177
+ClientHeight=942
 TBDockHeight=2321
 LRDockWidth=2820
 Dockable=1
@@ -494,11 +549,11 @@ State=0
 Left=0
 Top=0
 Width=2000
-Height=6861
+Height=6816
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=6861
+ClientHeight=6816
 TBDockHeight=4888
 LRDockWidth=7148
 Dockable=1
@@ -510,8 +565,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=0
-Top=0
+Left=249
+Top=709
 Width=2859
 Height=3206
 MaxLeft=-1
@@ -577,11 +632,11 @@ State=0
 Left=0
 Top=0
 Width=2000
-Height=6861
+Height=6816
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=6861
+ClientHeight=6816
 TBDockHeight=4888
 LRDockWidth=5305
 Dockable=1
@@ -642,7 +697,7 @@ Visible=0
 Docked=1
 State=0
 Left=0
-Top=0
+Top=23
 Width=3820
 Height=1424
 MaxLeft=-1
@@ -673,7 +728,7 @@ MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
 ClientHeight=4529
-TBDockHeight=7164
+TBDockHeight=7119
 LRDockWidth=2000
 Dockable=1
 StayOnTop=0
@@ -697,7 +752,7 @@ MaxLeft=-1
 MaxTop=-1
 ClientWidth=1898
 ClientHeight=3498
-TBDockHeight=7164
+TBDockHeight=7119
 LRDockWidth=1898
 Dockable=1
 StayOnTop=0
@@ -721,7 +776,7 @@ MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
 ClientHeight=4339
-TBDockHeight=7164
+TBDockHeight=7119
 LRDockWidth=2000
 Dockable=1
 StayOnTop=0

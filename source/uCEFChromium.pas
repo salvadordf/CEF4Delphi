@@ -684,7 +684,7 @@ begin
       if (FPDFPrintOptions <> nil) then FreeAndNil(FPDFPrintOptions);
     except
       on e : exception do
-        CustomExceptionHandler('TChromium.Destroy error: ' + e.Message);
+        if CustomExceptionHandler('TChromium.Destroy', e) then raise;
     end;
   finally
     inherited Destroy;
@@ -705,7 +705,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.AfterConstruction error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.AfterConstruction', e) then raise;
   end;
 end;
 
@@ -723,7 +723,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.CreateClientHandler error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.CreateClientHandler', e) then raise;
   end;
 end;
 
@@ -865,7 +865,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.CreateBrowser error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.CreateBrowser', e) then raise;
   end;
 end;
 
@@ -1179,7 +1179,7 @@ begin
     if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.GetMultithreadApp error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.GetMultithreadApp', e) then raise;
   end;
 end;
 
@@ -1627,7 +1627,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.UpdateProxyPrefs error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.UpdateProxyPrefs', e) then raise;
   end;
 end;
 
@@ -1655,7 +1655,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.UpdatePreference error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.UpdatePreference', e) then raise;
   end;
 end;
 
@@ -1678,7 +1678,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.UpdatePreference error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.UpdatePreference', e) then raise;
   end;
 end;
 
@@ -1701,7 +1701,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.UpdatePreference error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.UpdatePreference', e) then raise;
   end;
 end;
 
@@ -1724,7 +1724,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.UpdatePreference error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.UpdatePreference', e) then raise;
   end;
 end;
 
@@ -1948,7 +1948,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('TChromium.HandleDictionary error: ' + e.Message);
+        if CustomExceptionHandler('TChromium.HandleDictionary', e) then raise;
     end;
   finally
     if (TempKeys <> nil) then TempKeys.Free;
@@ -1974,7 +1974,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('TChromium.Internal_SavePreferences error: ' + e.Message);
+        if CustomExceptionHandler('TChromium.Internal_SavePreferences', e) then raise;
     end;
   finally
     if (TempPrefs <> nil) then FreeAndNil(TempPrefs);
@@ -2010,7 +2010,7 @@ begin
       end;
   except
     on e : exception do
-      CustomExceptionHandler('TChromium.ExecuteJavaScript error: ' + e.Message);
+      if CustomExceptionHandler('TChromium.ExecuteJavaScript', e) then raise;
   end;
 end;
 
