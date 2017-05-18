@@ -121,10 +121,15 @@ begin
   GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
   GlobalCEFApp.OnRegCustomSchemes   := GlobalCEFApp_OnRegCustomSchemes;
 
-  // In case you want to move all CEF3 binaries
-  //GlobalCEFApp.FrameworkDirPath     := 'cef';
-  //GlobalCEFApp.ResourcesDirPath     := 'cef';
-  //GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
+{
+  GlobalCEFApp.FrameworkDirPath     := 'cef';
+  GlobalCEFApp.ResourcesDirPath     := 'cef';
+  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  GlobalCEFApp.cache                := 'cef\cache';
+  GlobalCEFApp.cookies              := 'cef\cookies';
+  GlobalCEFApp.UserDataPath         := 'cef\User Data';
+}
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.

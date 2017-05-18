@@ -137,7 +137,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'chrome://version/'
           'http://html5test.com/'
           'https://www.w3schools.com/'
-          'http://webglsamples.org/')
+          'http://webglsamples.org/'
+          'https://www.youtube.com')
       end
     end
     object ConfigPnl: TPanel
@@ -215,6 +216,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnContextMenuCommand = Chromium1ContextMenuCommand
     OnAddressChange = Chromium1AddressChange
     OnTitleChange = Chromium1TitleChange
+    OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
     OnAfterCreated = Chromium1AfterCreated
     Left = 424

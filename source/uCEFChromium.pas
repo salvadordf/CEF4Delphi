@@ -385,6 +385,8 @@ type
 
       procedure   LoadURL(const aURL : ustring);
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
+      procedure   LoadRequest(const aRequest: ICefRequest);
+
       procedure   GoBack;
       procedure   GoForward;
       procedure   Reload;
@@ -1133,6 +1135,17 @@ begin
     begin
       TempFrame := FBrowser.MainFrame;
       if (TempFrame <> nil) then TempFrame.LoadString(aString, aURL);
+    end;
+end;
+
+procedure TChromium.LoadRequest(const aRequest: ICefRequest);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized then
+    begin
+      TempFrame := FBrowser.MainFrame;
+      if (TempFrame <> nil) then TempFrame.LoadRequest(aRequest);
     end;
 end;
 

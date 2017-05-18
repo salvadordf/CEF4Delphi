@@ -141,6 +141,8 @@ type
     procedure Inczoom1Click(Sender: TObject);
     procedure Deczoom1Click(Sender: TObject);
     procedure Resetzoom1Click(Sender: TObject);
+    procedure Chromium1FullScreenModeChange(Sender: TObject;
+      const browser: ICefBrowser; fullscreen: Boolean);
 
   protected
     procedure AddURL(const aURL : string);
@@ -303,6 +305,31 @@ begin
             MessageDlg('ClearSchemeHandlerFactories error !', mtError, [mbOk], 0);
         end;
   end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
+  const browser: ICefBrowser; fullscreen: Boolean);
+begin
+  if fullscreen then
+    begin
+      NavControlPnl.Visible := False;
+      StatusBar1.Visible    := False;
+
+      if (WindowState = wsMaximized) then WindowState := wsNormal;
+
+      BorderIcons := [];
+      BorderStyle := bsNone;
+      WindowState := wsMaximized;
+    end
+   else
+    begin
+      BorderIcons := [biSystemMenu, biMinimize, biMaximize];
+      BorderStyle := bsSizeable;
+      WindowState := wsNormal;
+
+      NavControlPnl.Visible := True;
+      StatusBar1.Visible    := True;
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;
