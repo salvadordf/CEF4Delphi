@@ -2,8 +2,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
   Left = 0
   Top = 0
   Caption = 'MiniBrowser'
-  ClientHeight = 716
-  ClientWidth = 1089
+  ClientHeight = 712
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,10 +16,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
   PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
-    Left = 1084
+    Left = 1179
     Top = 41
     Width = 5
-    Height = 656
+    Height = 652
     Align = alRight
     Visible = False
     ExplicitLeft = 0
@@ -29,7 +29,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object NavControlPnl: TPanel
     Left = 0
     Top = 0
-    Width = 1089
+    Width = 1184
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -109,7 +109,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object URLEditPnl: TPanel
       Left = 133
       Top = 0
-      Width = 883
+      Width = 978
       Height = 41
       Align = alClient
       BevelOuter = bvNone
@@ -120,7 +120,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
       object URLCbx: TComboBox
         Left = 0
         Top = 9
-        Width = 883
+        Width = 978
         Height = 21
         Align = alClient
         TabOrder = 0
@@ -142,7 +142,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
       end
     end
     object ConfigPnl: TPanel
-      Left = 1016
+      Left = 1111
       Top = 0
       Width = 73
       Height = 41
@@ -184,24 +184,24 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Top = 41
-    Width = 1084
-    Height = 656
+    Width = 1179
+    Height = 652
     Align = alClient
     TabOrder = 1
   end
   object DevTools: TCEFWindowParent
-    Left = 1089
+    Left = 1184
     Top = 41
     Width = 0
-    Height = 656
+    Height = 652
     Align = alRight
     TabOrder = 2
     Visible = False
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 697
-    Width = 1089
+    Top = 693
+    Width = 1184
     Height = 19
     Panels = <
       item
@@ -214,18 +214,20 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnPreKeyEvent = Chromium1PreKeyEvent
+    OnKeyEvent = Chromium1KeyEvent
     OnAddressChange = Chromium1AddressChange
     OnTitleChange = Chromium1TitleChange
     OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
     OnAfterCreated = Chromium1AfterCreated
-    Left = 424
-    Top = 352
+    Left = 32
+    Top = 224
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup
-    Left = 664
-    Top = 104
+    Left = 32
+    Top = 168
     object DevTools1: TMenuItem
       Caption = 'DevTools'
       OnClick = DevTools1Click
@@ -268,7 +270,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
     end
   end
   object SaveDialog1: TSaveDialog
-    Left = 488
-    Top = 232
+    Left = 32
+    Top = 112
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnMessage = ApplicationEvents1Message
+    Left = 32
+    Top = 56
   end
 end

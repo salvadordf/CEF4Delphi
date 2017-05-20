@@ -45,10 +45,10 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Menus,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
-  System.UITypes,
+  System.UITypes, Vcl.AppEvnts,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
-  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, AppEvnts,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
@@ -103,6 +103,7 @@ type
     Deczoom1: TMenuItem;
     Resetzoom1: TMenuItem;
     SaveDialog1: TSaveDialog;
+    ApplicationEvents1: TApplicationEvents;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -143,6 +144,14 @@ type
     procedure Resetzoom1Click(Sender: TObject);
     procedure Chromium1FullScreenModeChange(Sender: TObject;
       const browser: ICefBrowser; fullscreen: Boolean);
+    procedure Chromium1PreKeyEvent(Sender: TObject;
+      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+      out isKeyboardShortcut, Result: Boolean);
+    procedure Chromium1KeyEvent(Sender: TObject;
+      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+      out Result: Boolean);
+    procedure ApplicationEvents1Message(var Msg: tagMSG;
+      var Handled: Boolean);
 
   protected
     procedure AddURL(const aURL : string);
@@ -150,6 +159,9 @@ type
     procedure ShowDevTools(aPoint : TPoint); overload;
     procedure ShowDevTools; overload;
     procedure HideDevTools;
+
+    procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
+    procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
@@ -309,7 +321,7 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
   const browser: ICefBrowser; fullscreen: Boolean);
-begin
+begin                    
   if fullscreen then
     begin
       NavControlPnl.Visible := False;
@@ -332,6 +344,75 @@ begin
     end;
 end;
 
+procedure TMiniBrowserFrm.Chromium1KeyEvent(Sender: TObject;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  out Result: Boolean);
+var
+  TempMsg : TMsg;
+begin
+  Result := False;
+
+  if (event <> nil) and (osEvent <> nil) then
+    case osEvent.Message of
+      WM_KEYUP :
+        begin
+          TempMsg := osEvent^;
+
+          HandleKeyUp(TempMsg, Result);
+        end;
+
+      WM_KEYDOWN :
+        begin
+          TempMsg := osEvent^;
+
+          HandleKeyDown(TempMsg, Result);
+        end;
+    end;
+end;
+
+procedure TMiniBrowserFrm.ApplicationEvents1Message(var Msg: tagMSG;
+  var Handled: Boolean);
+begin
+  case Msg.message of
+    WM_KEYUP   : HandleKeyUp(Msg, Handled);
+    WM_KEYDOWN : HandleKeyDown(Msg, Handled);
+  end;
+end;
+
+procedure TMiniBrowserFrm.HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
+var
+  TempMessage : TMessage;
+  TempKeyMsg  : TWMKey;
+begin
+  TempMessage.Msg     := aMsg.message;
+  TempMessage.wParam  := aMsg.wParam;
+  TempMessage.lParam  := aMsg.lParam;
+  TempKeyMsg          := TWMKey(TempMessage);
+
+  if (TempKeyMsg.CharCode = VK_F12) then
+    begin
+      aHandled := True;
+
+      if DevTools.Visible then
+        PostMessage(Handle, MINIBROWSER_HIDEDEVTOOLS, 0, 0)
+       else
+        PostMessage(Handle, MINIBROWSER_SHOWDEVTOOLS, 0, 0);
+    end;
+end;
+
+procedure TMiniBrowserFrm.HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
+var
+  TempMessage : TMessage;
+  TempKeyMsg  : TWMKey;
+begin
+  TempMessage.Msg     := aMsg.message;
+  TempMessage.wParam  := aMsg.wParam;
+  TempMessage.lParam  := aMsg.lParam;
+  TempKeyMsg          := TWMKey(TempMessage);
+
+  if (TempKeyMsg.CharCode = VK_F12) then aHandled := True;
+end;
+
 procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;
   const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
@@ -339,6 +420,18 @@ begin
   ForwardBtn.Enabled := canGoForward;
   ReloadBtn.Enabled  := not(isLoading);
   StopBtn.Enabled    := isLoading;
+end;
+
+procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  out isKeyboardShortcut, Result: Boolean);
+begin
+  Result := False;
+
+  if (event <> nil) and
+     (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
+     (event.windows_key_code = VK_F12) then
+    isKeyboardShortcut := True;
 end;
 
 procedure TMiniBrowserFrm.Chromium1ProcessMessageReceived(Sender: TObject;
