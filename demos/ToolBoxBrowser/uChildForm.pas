@@ -43,48 +43,56 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Menus,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
   System.UITypes,
   {$ELSE}
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
-  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
-  uMainForm, uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uMainForm;
 
 type
   TChildForm = class(TForm)
-    Panel1: TPanel;
-    Edit1: TEdit;
-    Button1: TButton;
-    Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
+    Chromium1: TChromium;
     Timer1: TTimer;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-    procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Timer1Timer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormDestroy(Sender: TObject);
     procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser;
       const frame: ICefFrame; httpStatusCode: Integer);
+    procedure Chromium1AfterCreated(Sender: TObject;
+      const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
       out Result: Boolean);
-    procedure Timer1Timer(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure Chromium1PreKeyEvent(Sender: TObject;
+      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+      out isKeyboardShortcut, Result: Boolean);
+    procedure Chromium1KeyEvent(Sender: TObject;
+      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+      out Result: Boolean);
 
   private
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True when the final timer is triggered
     FClosing  : boolean;  // Set to True in the CloseQuery event.
+    FHomepage : string;
 
   protected
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEFBROWSER_CREATED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
+    procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
+    procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
+
   public
     property Closing   : boolean    read FClosing;
+    property Homepage  : string     read FHomepage    write FHomepage;
   end;
 
 implementation
@@ -104,19 +112,73 @@ implementation
 // If you load simple web pages and you want to speed up the destruction,
 // try skipping step 1 and reducing the timer's interval.
 
-procedure TChildForm.Button1Click(Sender: TObject);
-begin
-  Chromium1.LoadURL(Edit1.Text);
-end;
-
-procedure TChildForm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+procedure TChildForm.Chromium1AfterCreated(Sender: TObject;
+  const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEFBROWSER_CREATED, 0, 0);
 end;
 
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TChildForm.Chromium1Close(Sender: TObject;
+  const browser: ICefBrowser; out Result: Boolean);
 begin
   Timer1.Enabled := True;
+end;
+
+procedure TChildForm.Chromium1KeyEvent(Sender: TObject;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  out Result: Boolean);
+var
+  TempMsg : TMsg;
+begin
+  Result := False;
+
+  if (event <> nil) and (osEvent <> nil) then
+    case osEvent.Message of
+      WM_KEYUP :
+        begin
+          TempMsg := osEvent^;
+
+          HandleKeyUp(TempMsg, Result);
+        end;
+
+      WM_KEYDOWN :
+        begin
+          TempMsg := osEvent^;
+
+          HandleKeyDown(TempMsg, Result);
+        end;
+    end;
+end;
+
+procedure TChildForm.HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
+var
+  TempMessage : TMessage;
+  TempKeyMsg  : TWMKey;
+begin
+  TempMessage.Msg     := aMsg.message;
+  TempMessage.wParam  := aMsg.wParam;
+  TempMessage.lParam  := aMsg.lParam;
+  TempKeyMsg          := TWMKey(TempMessage);
+
+  if (TempKeyMsg.CharCode = VK_ESCAPE) then
+    begin
+      aHandled := True;
+
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
+end;
+
+procedure TChildForm.HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
+var
+  TempMessage : TMessage;
+  TempKeyMsg  : TWMKey;
+begin
+  TempMessage.Msg     := aMsg.message;
+  TempMessage.wParam  := aMsg.wParam;
+  TempMessage.lParam  := aMsg.lParam;
+  TempKeyMsg          := TWMKey(TempMessage);
+
+  if (TempKeyMsg.CharCode = VK_ESCAPE) then aHandled := True;
 end;
 
 procedure TChildForm.Chromium1LoadEnd(Sender: TObject;
@@ -127,19 +189,33 @@ begin
     Chromium1.CloseBrowser(True);
 end;
 
+procedure TChildForm.Chromium1PreKeyEvent(Sender: TObject;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  out isKeyboardShortcut, Result: Boolean);
+begin
+  Result := False;
+
+  if (event <> nil) and
+     (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
+     (event.windows_key_code = VK_ESCAPE) then
+    isKeyboardShortcut := True;
+end;
+
 procedure TChildForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
 end;
 
-procedure TChildForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+procedure TChildForm.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
 begin
   CanClose := FCanClose;
 
-  if not(FClosing) and Panel1.Enabled then
+  if not(FClosing) then
     begin
       FClosing := True;
       Chromium1.LoadURL('about:blank');
+      ShowWindow(Handle, SW_HIDE);
     end;
 end;
 
@@ -188,8 +264,7 @@ end;
 
 procedure TChildForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
-  Panel1.Enabled := True;
-  Button1.Click;
+  Chromium1.LoadURL(FHomepage);
 end;
 
 end.
