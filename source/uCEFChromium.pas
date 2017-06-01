@@ -371,8 +371,9 @@ type
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       function    CreateClientHandler(aIsOSR : boolean) : boolean;
-      function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = '') : boolean;
       procedure   CloseBrowser(aForceClose : boolean);
+      function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = '') : boolean; overload;
+      function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = '') : boolean; overload;
 
       // Internal procedures.
       // Only tasks, visitors or callbacks should use them in the right thread/process.
@@ -833,6 +834,25 @@ begin
 end;
 
 function TChromium.CreateBrowser(const aBrowserParent : TWinControl; const aWindowName : string) : boolean;
+var
+  TempHandle : HWND;
+  TempRect : TRect;
+begin
+  if (aBrowserParent <> nil) then
+    begin
+      TempHandle := aBrowserParent.Handle;
+      TempRect   := aBrowserParent.ClientRect;
+    end
+   else
+    begin
+      TempHandle := 0;
+      TempRect   := rect(0, 0, 0, 0);
+    end;
+
+  Result := CreateBrowser(TempHandle, TempRect, aWindowName);
+end;
+
+function TChromium.CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = '') : boolean;
 begin
   Result := False;
 
@@ -841,14 +861,14 @@ begin
        (FBrowser     =  nil) and
        (FBrowserId   =  0)   and
        (GlobalCEFApp <> nil) and
-       CreateClientHandler(aBrowserParent = nil) then
+       CreateClientHandler(aParentHandle = 0) then
       begin
         GetSettings(FBrowserSettings);
 
         if FIsOSR then
           WindowInfoAsWindowless(FWindowInfo, FCompHandle, False, aWindowName)
          else
-          WindowInfoAsChild(FWindowInfo, aBrowserParent.Handle, aBrowserParent.ClientRect, aWindowName);
+          WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
 
 
         if MultithreadApp then
