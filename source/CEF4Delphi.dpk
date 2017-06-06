@@ -150,6 +150,7 @@ contains
   uCEFSelectClientCertificateCallback in 'uCEFSelectClientCertificateCallback.pas',
   uCEFChromiumWindow in 'uCEFChromiumWindow.pas',
   uCEFBaseRefCounted in 'uCEFBaseRefCounted.pas',
-  uCEFBaseScopedWrapper in 'uCEFBaseScopedWrapper.pas';
+  uCEFBaseScopedWrapper in 'uCEFBaseScopedWrapper.pas',
+  uCEFAccessibilityHandler in 'uCEFAccessibilityHandler.pas';
 
 end.

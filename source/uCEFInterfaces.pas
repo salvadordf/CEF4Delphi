@@ -73,6 +73,7 @@ type
   ICefTaskRunner = interface;
   ICefFileDialogCallback = interface;
   ICefRequestContext = interface;
+  ICefAccessibilityHandler = interface;
   ICefDragData = interface;
   ICefNavigationEntry = interface;
   ICefSslInfo = interface;
@@ -204,6 +205,7 @@ type
     procedure DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
     procedure DragSourceSystemDragEnded;
     function  GetVisibleNavigationEntry : ICefNavigationEntry;
+    procedure SetAccessibilityState(accessibilityState: TCefState);
 
     property Browser: ICefBrowser read GetBrowser;
     property WindowHandle: TCefWindowHandle read GetWindowHandle;
@@ -1264,7 +1266,8 @@ type
     procedure Cont(commandId: Integer; eventFlags: TCefEventFlags);
     procedure Cancel;
   end;
-   ICefContextMenuHandler = interface(ICefBaseRefCounted)
+
+  ICefContextMenuHandler = interface(ICefBaseRefCounted)
   ['{C2951895-4087-49D5-BA18-4D9BA4F5EDD7}']
     procedure OnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame;
       const params: ICefContextMenuParams; const model: ICefMenuModel);
@@ -1275,6 +1278,12 @@ type
       const params: ICefContextMenuParams; commandId: Integer;
       eventFlags: TCefEventFlags): Boolean;
     procedure OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
+  end;
+
+  ICefAccessibilityHandler = interface(ICefBaseRefCounted)
+  ['{1878C3C7-7692-44AB-BFE0-6C387106816B}']
+    procedure OnAccessibilityTreeChange(const value: ICefValue);
+    procedure OnAccessibilityLocationChange(const value: ICefValue);
   end;
 
   ICefDialogHandler = interface(ICefBaseRefCounted)
@@ -1297,6 +1306,7 @@ type
 
   ICefRenderHandler = interface(ICefBaseRefCounted)
   ['{1FC1C22B-085A-4741-9366-5249B88EC410}']
+    procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
     function  GetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
     function  GetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
     function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean;
@@ -1380,20 +1390,20 @@ type
 
   ICefDragData = interface(ICefBaseRefCounted)
   ['{FBB6A487-F633-4055-AB3E-6619EDE75683}']
-    function Clone: ICefDragData;
-    function IsReadOnly: Boolean;
-    function IsLink: Boolean;
-    function IsFragment: Boolean;
-    function IsFile: Boolean;
-    function GetLinkUrl: ustring;
-    function GetLinkTitle: ustring;
-    function GetLinkMetadata: ustring;
-    function GetFragmentText: ustring;
-    function GetFragmentHtml: ustring;
-    function GetFragmentBaseUrl: ustring;
-    function GetFileName: ustring;
-    function GetFileContents(const writer: ICefStreamWriter): NativeUInt;
-    function GetFileNames(names: TStrings): Integer;
+    function  Clone: ICefDragData;
+    function  IsReadOnly: Boolean;
+    function  IsLink: Boolean;
+    function  IsFragment: Boolean;
+    function  IsFile: Boolean;
+    function  GetLinkUrl: ustring;
+    function  GetLinkTitle: ustring;
+    function  GetLinkMetadata: ustring;
+    function  GetFragmentText: ustring;
+    function  GetFragmentHtml: ustring;
+    function  GetFragmentBaseUrl: ustring;
+    function  GetFileName: ustring;
+    function  GetFileContents(const writer: ICefStreamWriter): NativeUInt;
+    function  GetFileNames(names: TStrings): Integer;
     procedure SetLinkUrl(const url: ustring);
     procedure SetLinkTitle(const title: ustring);
     procedure SetLinkMetadata(const data: ustring);
@@ -1402,6 +1412,9 @@ type
     procedure SetFragmentBaseUrl(const baseUrl: ustring);
     procedure ResetFileContents;
     procedure AddFile(const path, displayName: ustring);
+    function  GetImage : ICefImage;
+    function  GetImageHotspot : TCefPoint;
+    function  HasImage : boolean;
   end;
 
   ICefDragHandler = interface(ICefBaseRefCounted)
@@ -1709,6 +1722,7 @@ type
       const title, defaultFilePath: ustring; acceptFilters: TStrings;
       selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean;
 
+    procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
     function doOnGetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
     function doOnGetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
     function doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer;

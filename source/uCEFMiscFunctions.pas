@@ -103,7 +103,7 @@ function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefS
 
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : string = '');
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : string = '');
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; aTransparent : boolean; const aWindowName : string = '');
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : string = '');
 
 function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
@@ -408,7 +408,6 @@ begin
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.transparent_painting_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 
@@ -424,11 +423,10 @@ begin
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.transparent_painting_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; aTransparent : boolean; const aWindowName : string);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : string);
 begin
   aWindowInfo.ex_style                     := 0;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -440,7 +438,6 @@ begin
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(True);
-  aWindowInfo.transparent_painting_enabled := ord(aTransparent);
   aWindowInfo.window                       := 0;
 end;
 

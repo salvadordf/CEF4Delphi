@@ -52,6 +52,7 @@ uses
 type
   TCefRenderHandlerOwn = class(TCefBaseRefCountedOwn, ICefRenderHandler)
     protected
+      procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); virtual;
       function  GetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
       function  GetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
       function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean; virtual;
@@ -73,6 +74,7 @@ type
     protected
       FEvent: IChromiumEvents;
 
+      procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); override;
       function  GetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean; override;
       function  GetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean; override;
       function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean; override;
@@ -95,6 +97,23 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFDragData;
 
+
+function cef_render_handler_get_accessibility_handler(self: PCefRenderHandler): PCefAccessibilityHandler; stdcall;
+var
+  TempHandler : ICefAccessibilityHandler;
+begin
+  with TCefRenderHandlerOwn(CefGetObject(self)) do
+    begin
+      TempHandler := nil;
+
+      GetAccessibilityHandler(TempHandler);
+
+      if (TempHandler <> nil) then
+        Result := TempHandler.Wrap
+       else
+        Result := nil;
+    end;
+end;
 
 function cef_render_handler_get_root_screen_rect(self: PCefRenderHandler;
   browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
@@ -193,6 +212,7 @@ begin
 
   with PCefRenderHandler(FData)^ do
     begin
+      get_accessibility_handler        := cef_render_handler_get_accessibility_handler;
       get_root_screen_rect             := cef_render_handler_get_root_screen_rect;
       get_view_rect                    := cef_render_handler_get_view_rect;
       get_screen_point                 := cef_render_handler_get_screen_point;
@@ -205,6 +225,11 @@ begin
       on_scroll_offset_changed         := cef_render_handler_on_scroll_offset_changed;
       on_ime_composition_range_changed := cef_render_handler_on_ime_composition_range_changed;
     end;
+end;
+
+procedure TCefRenderHandlerOwn.GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
+begin
+  aAccessibilityHandler := nil;
 end;
 
 function TCefRenderHandlerOwn.GetRootScreenRect(const browser: ICefBrowser;
@@ -289,7 +314,13 @@ end;
 constructor TCustomRenderHandler.Create(const events: IChromiumEvents);
 begin
   inherited Create;
+
   FEvent := events;
+end;
+
+procedure TCustomRenderHandler.GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
+begin
+  FEvent.doOnGetAccessibilityHandler(aAccessibilityHandler);
 end;
 
 function TCustomRenderHandler.GetRootScreenRect(const browser: ICefBrowser;

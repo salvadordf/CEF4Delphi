@@ -56,14 +56,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 3029;
-  CEF_SUPPORTED_VERSION_RELEASE = 1619;
+  CEF_SUPPORTED_VERSION_MINOR   = 3071;
+  CEF_SUPPORTED_VERSION_RELEASE = 1634;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 58;
+  CEF_CHROMEELF_VERSION_MAJOR   = 59;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3029;
-  CEF_CHROMEELF_VERSION_BUILD   = 81;
+  CEF_CHROMEELF_VERSION_RELEASE = 3071;
+  CEF_CHROMEELF_VERSION_BUILD   = 82;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -95,7 +95,6 @@ type
       FPackLoadingDisabled           : Boolean;
       FRemoteDebuggingPort           : Integer;
       FUncaughtExceptionStackSize    : Integer;
-      FContextSafetyImplementation   : Integer;
       FPersistSessionCookies         : Boolean;
       FPersistUserPreferences        : boolean;
       FIgnoreCertificateErrors       : Boolean;
@@ -226,7 +225,6 @@ type
       property PackLoadingDisabled         : Boolean                         read FPackLoadingDisabled            write FPackLoadingDisabled;
       property RemoteDebuggingPort         : Integer                         read FRemoteDebuggingPort            write FRemoteDebuggingPort;
       property UncaughtExceptionStackSize  : Integer                         read FUncaughtExceptionStackSize     write FUncaughtExceptionStackSize;
-      property ContextSafetyImplementation : Integer                         read FContextSafetyImplementation    write FContextSafetyImplementation;
       property PersistSessionCookies       : Boolean                         read FPersistSessionCookies          write FPersistSessionCookies;
       property PersistUserPreferences      : Boolean                         read FPersistUserPreferences         write FPersistUserPreferences;
       property IgnoreCertificateErrors     : Boolean                         read FIgnoreCertificateErrors        write FIgnoreCertificateErrors;
@@ -339,7 +337,6 @@ begin
   FPackLoadingDisabled           := False;
   FRemoteDebuggingPort           := 0;
   FUncaughtExceptionStackSize    := 0;
-  FContextSafetyImplementation   := 0;
   FPersistSessionCookies         := False;
   FPersistUserPreferences        := False;
   FIgnoreCertificateErrors       := False;
@@ -638,7 +635,6 @@ begin
   aSettings.pack_loading_disabled           := Ord(FPackLoadingDisabled);
   aSettings.remote_debugging_port           := FRemoteDebuggingPort;
   aSettings.uncaught_exception_stack_size   := FUncaughtExceptionStackSize;
-  aSettings.context_safety_implementation   := FContextSafetyImplementation;
   aSettings.ignore_certificate_errors       := Ord(FIgnoreCertificateErrors);
   aSettings.enable_net_security_expiration  := Ord(FEnableNetSecurityExpiration);
   aSettings.background_color                := FBackgroundColor;

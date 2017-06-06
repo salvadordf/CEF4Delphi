@@ -175,6 +175,7 @@ type
       FOnFileDialog                   : TOnFileDialog;
 
       // ICefRenderHandler
+      FOnGetAccessibilityHandler      : TOnGetAccessibilityHandler;
       FOnGetRootScreenRect            : TOnGetRootScreenRect;
       FOnGetViewRect                  : TOnGetViewRect;
       FOnGetScreenPoint               : TOnGetScreenPoint;
@@ -346,6 +347,7 @@ type
       function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; virtual;
 
       // ICefRenderHandler
+      procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); virtual;
       function  doOnGetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
       function  doOnGetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
       function  doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean; virtual;
@@ -443,6 +445,7 @@ type
       procedure   SendCaptureLostEvent;
       function    SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
       procedure   SetFocus(focus: Boolean);
+      procedure   SetAccessibilityState(accessibilityState: TCefState);
 
 
       property  DefaultUrl              : ustring                      read FDefaultUrl               write FDefaultUrl;
@@ -569,6 +572,7 @@ type
       property OnFileDialog                     : TOnFileDialog                     read FOnFileDialog                     write FOnFileDialog;
 
       // ICefRenderHandler
+      property OnGetAccessibilityHandler        : TOnGetAccessibilityHandler        read FOnGetAccessibilityHandler        write FOnGetAccessibilityHandler;
       property OnGetRootScreenRect              : TOnGetRootScreenRect              read FOnGetRootScreenRect              write FOnGetRootScreenRect;
       property OnGetViewRect                    : TOnGetViewRect                    read FOnGetViewRect                    write FOnGetViewRect;
       property OnGetScreenPoint                 : TOnGetScreenPoint                 read FOnGetScreenPoint                 write FOnGetScreenPoint;
@@ -806,6 +810,7 @@ begin
   FOnFileDialog                   := nil;
 
   // ICefRenderHandler
+  FOnGetAccessibilityHandler      := nil;
   FOnGetRootScreenRect            := nil;
   FOnGetViewRect                  := nil;
   FOnGetScreenPoint               := nil;
@@ -866,7 +871,7 @@ begin
         GetSettings(FBrowserSettings);
 
         if FIsOSR then
-          WindowInfoAsWindowless(FWindowInfo, FCompHandle, False, aWindowName)
+          WindowInfoAsWindowless(FWindowInfo, FCompHandle, aWindowName)
          else
           WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
 
@@ -2382,6 +2387,11 @@ begin
     FOnGetResourceHandler(Self, browser, frame, request, Result);
 end;
 
+procedure TChromium.doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
+begin
+  if assigned(FOnGetAccessibilityHandler) then FOnGetAccessibilityHandler(Self, aAccessibilityHandler);
+end;
+
 function TChromium.doOnGetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
 begin
   Result := False;
@@ -2846,6 +2856,11 @@ end;
 procedure TChromium.SetFocus(focus: Boolean);
 begin
   if Initialized then FBrowser.Host.SetFocus(focus);
+end;
+
+procedure TChromium.SetAccessibilityState(accessibilityState: TCefState);
+begin
+  if Initialized then FBrowser.Host.SetAccessibilityState(accessibilityState);
 end;
 
 function TChromium.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;

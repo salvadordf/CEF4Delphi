@@ -79,6 +79,9 @@ type
     procedure SetFragmentBaseUrl(const baseUrl: ustring);
     procedure ResetFileContents;
     procedure AddFile(const path, displayName: ustring);
+    function  GetImage : ICefImage;
+    function  GetImageHotspot : TCefPoint;
+    function  HasImage : boolean;
   public
     class function UnWrap(data: Pointer): ICefDragData;
     class function New: ICefDragData;
@@ -87,7 +90,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFImage;
 
 procedure TCefDragDataRef.AddFile(const path, displayName: ustring);
 var
@@ -96,6 +99,21 @@ begin
   p := CefString(path);
   d := CefString(displayName);
   PCefDragData(FData).add_file(FData, @p, @d);
+end;
+
+function TCefDragDataRef.GetImage : ICefImage;
+begin
+  Result := TCefImageRef.UnWrap(PCefDragData(FData).get_image(FData));
+end;
+
+function TCefDragDataRef.GetImageHotspot : TCefPoint;
+begin
+  Result := PCefDragData(FData).get_image_hotspot(FData)^;
+end;
+
+function TCefDragDataRef.HasImage : boolean;
+begin
+  Result := (PCefDragData(FData).has_image(FData) <> 0);
 end;
 
 function TCefDragDataRef.Clone: ICefDragData;

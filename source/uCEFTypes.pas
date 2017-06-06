@@ -80,6 +80,7 @@ type
   PCefResourceBundleHandler = ^TCefResourceBundleHandler;
   PCefBrowserProcessHandler = ^TCefBrowserProcessHandler;
   PCefContextMenuHandler = ^TCefContextMenuHandler;
+  PCefAccessibilityHandler = ^TCefAccessibilityHandler;
   PCefFrame = ^TCefFrame;
   PCefApp = ^TCefApp;
   PCefStringVisitor = ^TCefStringVisitor;
@@ -1052,7 +1053,6 @@ type
     pack_loading_disabled          : Integer;
     remote_debugging_port          : Integer;
     uncaught_exception_stack_size  : Integer;
-    context_safety_implementation  : Integer;
     ignore_certificate_errors      : Integer;
     enable_net_security_expiration : integer;
     background_color               : TCefColor;
@@ -1071,7 +1071,6 @@ type
     parent_window: HWND;
     menu: HMENU;
     windowless_rendering_enabled: Integer;
-    transparent_painting_enabled: Integer;
     window: HWND;
   end;
 
@@ -1320,6 +1319,7 @@ type
   // /include/capi/cef_render_handler_capi.h (cef_render_handler_t)
   TCefRenderHandler = record
     base: TCefBaseRefCounted;
+    get_accessibility_handler: function(self: PCefRenderHandler): PCefAccessibilityHandler; stdcall;
     get_root_screen_rect: function(self: PCefRenderHandler; browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
     get_view_rect: function(self: PCefRenderHandler; browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
     get_screen_point: function(self: PCefRenderHandler; browser: PCefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Integer; stdcall;
@@ -1923,6 +1923,9 @@ type
     set_fragment_base_url: procedure(self: PCefDragData; const base_url: PCefString); stdcall;
     reset_file_contents: procedure(self: PCefDragData); stdcall;
     add_file: procedure(self: PCefDragData; const path, display_name: PCefString); stdcall;
+    get_image: function(self: PCefDragData): PCefImage;
+    get_image_hotspot: function(self: PCefDragData): PCefPoint;
+    has_image: function(self: PCefDragData): Integer;
   end;
 
   // /include/capi/cef_command_line_capi.h (cef_command_line_t)
@@ -2434,6 +2437,13 @@ type
     visit_dom: procedure(self: PCefFrame; visitor: PCefDomVisitor); stdcall;
   end;
 
+  // /include/capi/cef_accessibility_handler_capi.h (cef_accessibility_handler_t)
+  TCefAccessibilityHandler = record
+    base: TCefBaseRefCounted;
+    on_accessibility_tree_change: procedure(self: PCefAccessibilityHandler; value: PCefValue); stdcall;
+    on_accessibility_location_change: procedure(self: PCefAccessibilityHandler; value: PCefValue); stdcall;
+  end;
+
   // /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_handler_t)
   TCefContextMenuHandler = record
     base: TCefBaseRefCounted;
@@ -2517,6 +2527,7 @@ type
     drag_source_ended_at: procedure(self: PCefBrowserHost; x, y: Integer; op: TCefDragOperation); stdcall;
     drag_source_system_drag_ended: procedure(self: PCefBrowserHost); stdcall;
     get_visible_navigation_entry: function(self: PCefBrowserHost): PCefNavigationEntry; stdcall;
+    set_accessibility_state: procedure(self: PCefBrowserHost; accessibility_state: TCefState); stdcall;
   end;
 
   // /include/capi/cef_browser_capi.h (cef_browser_t)

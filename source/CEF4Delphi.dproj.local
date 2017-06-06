@@ -283,5 +283,7 @@
     <Transaction>2017/05/21 15:34:16.000.487,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumTool.dfm</Transaction>
     <Transaction>2017/05/21 15:34:16.000.487,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumTool.pas</Transaction>
     <Transaction>2017/05/21 15:36:08.000.019,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumTool.pas=</Transaction>
+    <Transaction>2017/06/05 17:09:35.000.867,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\Unit1.pas</Transaction>
+    <Transaction>2017/06/05 17:10:51.000.565,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFAccessibilityHandler.pas</Transaction>
   </Transactions>
 </BorlandProject>

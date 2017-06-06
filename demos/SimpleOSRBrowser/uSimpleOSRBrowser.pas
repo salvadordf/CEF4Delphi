@@ -110,6 +110,9 @@ implementation
 
 {$R *.dfm}
 
+uses
+  uCEFMiscFunctions;
+
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
   event: TCefKeyEvent;
@@ -296,6 +299,7 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF); // opaque white background color
   chrmosr.CreateBrowser(nil, '');
 end;
 

@@ -139,6 +139,7 @@ type
       procedure DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
       procedure DragSourceSystemDragEnded;
       function  GetVisibleNavigationEntry : ICefNavigationEntry;
+      procedure SetAccessibilityState(accessibilityState: TCefState);
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -321,6 +322,11 @@ end;
 function TCefBrowserHostRef.GetVisibleNavigationEntry : ICefNavigationEntry;
 begin
   Result := TCefNavigationEntryRef.UnWrap(PCefBrowserHost(FData).get_visible_navigation_entry(PCefBrowserHost(FData)));
+end;
+
+procedure TCefBrowserHostRef.SetAccessibilityState(accessibilityState: TCefState);
+begin
+  PCefBrowserHost(FData).set_accessibility_state(FData, accessibilityState);
 end;
 
 procedure TCefBrowserHostRef.DragTargetDragEnter(const dragData: ICefDragData;

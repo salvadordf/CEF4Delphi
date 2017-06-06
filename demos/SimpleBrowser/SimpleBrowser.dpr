@@ -46,7 +46,6 @@ uses
   Forms,
   {$ENDIF}
   uCEFApplication,
-  uCEFMiscFunctions,
   uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};
 
 {$R *.res}
