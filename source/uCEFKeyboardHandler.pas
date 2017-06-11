@@ -132,23 +132,25 @@ begin
   inherited Destroy;
 end;
 
-function TCustomKeyboardHandler.OnKeyEvent(const browser: ICefBrowser;
-  const event: PCefKeyEvent; osEvent: TCefEventHandle): Boolean;
+function TCustomKeyboardHandler.OnKeyEvent(const browser : ICefBrowser;
+                                           const event   : PCefKeyEvent;
+                                                 osEvent : TCefEventHandle): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnKeyEvent(browser, event, osEvent)
    else
-    Result := inherited;
+    Result := inherited OnKeyEvent(browser, event, osEvent);
 end;
 
-function TCustomKeyboardHandler.OnPreKeyEvent(const browser: ICefBrowser;
-  const event: PCefKeyEvent; osEvent: TCefEventHandle;
-  out isKeyboardShortcut: Boolean): Boolean;
+function TCustomKeyboardHandler.OnPreKeyEvent(const browser            : ICefBrowser;
+                                              const event              : PCefKeyEvent;
+                                                    osEvent            : TCefEventHandle;
+                                              out   isKeyboardShortcut : Boolean): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut)
    else
-    Result := inherited;
+    Result := inherited OnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut);
 end;
 
 end.

@@ -134,7 +134,7 @@ begin
   if (FEvent <> nil) then
     Result := FEvent.doOnDragEnter(browser, dragData, mask)
    else
-    Result := inherited;
+    Result := inherited OnDragEnter(browser, dragData, mask);
 end;
 
 procedure TCustomDragHandler.OnDraggableRegionsChanged(const browser: ICefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray);

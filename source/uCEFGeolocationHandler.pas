@@ -140,14 +140,15 @@ begin
     FEvent.doOnCancelGeolocationPermission(browser, requestId);
 end;
 
-function TCustomGeolocationHandler.OnRequestGeolocationPermission(
-  const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer;
-  const callback: ICefGeolocationCallback): Boolean;
+function TCustomGeolocationHandler.OnRequestGeolocationPermission(const browser       : ICefBrowser;
+                                                                  const requestingUrl : ustring;
+                                                                        requestId     : Integer;
+                                                                  const callback      : ICefGeolocationCallback): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnRequestGeolocationPermission(browser, requestingUrl, requestId, callback)
    else
-    Result := inherited;
+    Result := inherited OnRequestGeolocationPermission(browser, requestingUrl, requestId, callback);
 end;
 
 end.

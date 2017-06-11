@@ -173,15 +173,17 @@ end;
 constructor TCefRTTIExtension.Create(const value: TValue; SyncMainThread: Boolean);
 begin
   inherited Create;
-  FCtx := TRttiContext.Create;
+
+  FCtx            := TRttiContext.Create;
   FSyncMainThread := SyncMainThread;
-  FValue := value;
+  FValue          := value;
 end;
 
 destructor TCefRTTIExtension.Destroy;
 begin
   FCtx.Free;
-  inherited;
+
+  inherited Destroy;
 end;
 
 function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret: TValue): Boolean;

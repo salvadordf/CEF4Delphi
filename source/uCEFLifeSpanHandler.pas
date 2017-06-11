@@ -207,7 +207,7 @@ begin
   if (FEvent <> nil) then
     Result := FEvent.doOnClose(browser)
    else
-    Result := inherited;
+    Result := inherited DoClose(browser);
 end;
 
 procedure TCustomLifeSpanHandler.OnAfterCreated(const browser: ICefBrowser);
@@ -220,19 +220,26 @@ begin
   if (FEvent <> nil) then FEvent.doOnBeforeClose(browser);
 end;
 
-function TCustomLifeSpanHandler.OnBeforePopup(const browser: ICefBrowser;
-  const frame: ICefFrame; const targetUrl, targetFrameName: ustring;
-  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-  var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-  var client: ICefClient; var settings: TCefBrowserSettings;
-  var noJavascriptAccess: Boolean): Boolean;
+function TCustomLifeSpanHandler.OnBeforePopup(const browser            : ICefBrowser;
+                                              const frame              : ICefFrame;
+                                              const targetUrl          : ustring;
+                                              const targetFrameName    : ustring;
+                                                    targetDisposition  : TCefWindowOpenDisposition;
+                                                    userGesture        : Boolean;
+                                              var   popupFeatures      : TCefPopupFeatures;
+                                              var   windowInfo         : TCefWindowInfo;
+                                              var   client             : ICefClient;
+                                              var   settings           : TCefBrowserSettings;
+                                              var   noJavascriptAccess : Boolean): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnBeforePopup(browser, frame, targetUrl, targetFrameName,
-                                     targetDisposition, userGesture, popupFeatures, windowInfo, client, settings,
-                                     noJavascriptAccess)
+                                     targetDisposition, userGesture, popupFeatures,
+                                     windowInfo, client, settings, noJavascriptAccess)
    else
-    Result := inherited;
+    Result := inherited OnBeforePopup(browser, frame, targetUrl, targetFrameName,
+                                      targetDisposition, userGesture, popupFeatures,
+                                      windowInfo, client, settings, noJavascriptAccess);
 end;
 
 end.

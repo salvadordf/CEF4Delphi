@@ -130,9 +130,9 @@ end;
 
 destructor TCefCustomStreamReader.Destroy;
 begin
-  if FOwned then
-    FStream.Free;
-  inherited;
+  if FOwned then FStream.Free;
+
+  inherited Destroy;
 end;
 
 function TCefCustomStreamReader.Eof: Boolean;

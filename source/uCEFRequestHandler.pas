@@ -465,60 +465,72 @@ begin
   inherited Destroy;
 end;
 
-function TCustomRequestHandler.GetAuthCredentials(const browser: ICefBrowser;
-  const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer;
-  const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean;
+function TCustomRequestHandler.GetAuthCredentials(const browser  : ICefBrowser;
+                                                  const frame    : ICefFrame;
+                                                        isProxy  : Boolean;
+                                                  const host     : ustring;
+                                                        port     : Integer;
+                                                  const realm    : ustring;
+                                                  const scheme   : ustring;
+                                                  const callback : ICefAuthCallback): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnGetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback)
    else
-    Result := inherited;
+    Result := inherited GetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback);
 end;
 
-function TCustomRequestHandler.GetResourceHandler(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest): ICefResourceHandler;
+function TCustomRequestHandler.GetResourceHandler(const browser : ICefBrowser;
+                                                  const frame   : ICefFrame;
+                                                  const request : ICefRequest): ICefResourceHandler;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnGetResourceHandler(browser, frame, request)
    else
-    Result := inherited;
+    Result := inherited GetResourceHandler(browser, frame, request);
 end;
 
-function TCustomRequestHandler.OnBeforeBrowse(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest;
-  isRedirect: Boolean): Boolean;
+function TCustomRequestHandler.OnBeforeBrowse(const browser    : ICefBrowser;
+                                              const frame      : ICefFrame;
+                                              const request    : ICefRequest;
+                                                    isRedirect : Boolean): Boolean;
 begin
   Result := FEvent.doOnBeforeBrowse(browser, frame, request, isRedirect);
 end;
 
-function TCustomRequestHandler.OnBeforeResourceLoad(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest;
-  const callback: ICefRequestCallback): TCefReturnValue;
+function TCustomRequestHandler.OnBeforeResourceLoad(const browser  : ICefBrowser;
+                                                    const frame    : ICefFrame;
+                                                    const request  : ICefRequest;
+                                                    const callback : ICefRequestCallback): TCefReturnValue;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnBeforeResourceLoad(browser, frame, request, callback)
    else
-    Result := inherited;
+    Result := inherited OnBeforeResourceLoad(browser, frame, request, callback);
 end;
 
-function TCustomRequestHandler.OnCertificateError(const browser: ICefBrowser;
-  certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo;
-  const callback: ICefRequestCallback): Boolean;
+function TCustomRequestHandler.OnCertificateError(const browser    : ICefBrowser;
+                                                        certError  : TCefErrorcode;
+                                                  const requestUrl : ustring;
+                                                  const sslInfo    : ICefSslInfo;
+                                                  const callback   : ICefRequestCallback): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnCertificateError(browser, certError, requestUrl, sslInfo, callback)
    else
-    Result := inherited;
+    Result := inherited OnCertificateError(browser, certError, requestUrl, sslInfo, callback);
 end;
 
-function TCustomRequestHandler.OnOpenUrlFromTab(const browser: ICefBrowser;
-  const frame: ICefFrame; const targetUrl: ustring;
-  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean;
+function TCustomRequestHandler.OnOpenUrlFromTab(const browser           : ICefBrowser;
+                                                const frame             : ICefFrame;
+                                                const targetUrl         : ustring;
+                                                      targetDisposition : TCefWindowOpenDisposition;
+                                                      userGesture       : Boolean): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnOpenUrlFromTab(browser, frame, targetUrl, targetDisposition, userGesture)
    else
-    Result := inherited;
+    Result := inherited OnOpenUrlFromTab(browser, frame, targetUrl, targetDisposition, userGesture);
 end;
 
 function TCustomRequestHandler.OnSelectClientCertificate(const browser           : ICefBrowser;
@@ -532,7 +544,7 @@ begin
   if (FEvent <> nil) then
     Result := FEvent.doOnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback)
    else
-    Result := inherited;
+    Result := inherited OnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback);
 end;
 
 procedure TCustomRequestHandler.OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
@@ -540,24 +552,25 @@ begin
   if (FEvent <> nil) then FEvent.doOnPluginCrashed(browser, pluginPath);
 end;
 
-procedure TCustomRequestHandler.OnProtocolExecution(const browser: ICefBrowser;
-  const url: ustring; out allowOsExecution: Boolean);
+procedure TCustomRequestHandler.OnProtocolExecution(const browser          : ICefBrowser;
+                                                    const url              : ustring;
+                                                      out allowOsExecution : Boolean);
 begin
   if (FEvent <> nil) then FEvent.doOnProtocolExecution(browser, url, allowOsExecution);
 end;
 
-function TCustomRequestHandler.OnQuotaRequest(const browser: ICefBrowser;
-  const originUrl: ustring; newSize: Int64;
-  const callback: ICefRequestCallback): Boolean;
+function TCustomRequestHandler.OnQuotaRequest(const browser   : ICefBrowser;
+                                              const originUrl : ustring;
+                                                    newSize   : Int64;
+                                              const callback  : ICefRequestCallback): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnQuotaRequest(browser, originUrl, newSize, callback)
    else
-    Result := inherited;
+    Result := inherited OnQuotaRequest(browser, originUrl, newSize, callback);
 end;
 
-procedure TCustomRequestHandler.OnRenderProcessTerminated(
-  const browser: ICefBrowser; status: TCefTerminationStatus);
+procedure TCustomRequestHandler.OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
 begin
   if (FEvent <> nil) then FEvent.doOnRenderProcessTerminated(browser, status);
 end;
@@ -567,20 +580,24 @@ begin
   if (FEvent <> nil) then FEvent.doOnRenderViewReady(browser);
 end;
 
-procedure TCustomRequestHandler.OnResourceRedirect(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring);
+procedure TCustomRequestHandler.OnResourceRedirect(const browser  : ICefBrowser;
+                                                   const frame    : ICefFrame;
+                                                   const request  : ICefRequest;
+                                                   const response : ICefResponse;
+                                                   var   newUrl   : ustring);
 begin
   if (FEvent <> nil) then FEvent.doOnResourceRedirect(browser, frame, request, response, newUrl);
 end;
 
-function TCustomRequestHandler.OnResourceResponse(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest;
-  const response: ICefResponse): Boolean;
+function TCustomRequestHandler.OnResourceResponse(const browser  : ICefBrowser;
+                                                  const frame    : ICefFrame;
+                                                  const request  : ICefRequest;
+                                                  const response : ICefResponse): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnResourceResponse(browser, frame, request, response)
    else
-    Result := inherited;
+    Result := inherited OnResourceResponse(browser, frame, request, response);
 end;
 
 function TCustomRequestHandler.GetResourceResponseFilter(const browser: ICefBrowser;
@@ -591,15 +608,15 @@ begin
   if (FEvent <> nil) then
     Result := FEvent.doOnGetResourceResponseFilter(browser, frame, request, response)
    else
-    Result := inherited;
+    Result := inherited GetResourceResponseFilter(browser, frame, request, response);
 end;
 
-procedure TCustomRequestHandler.OnResourceLoadComplete(const browser: ICefBrowser;
-                                                       const frame: ICefFrame;
-                                                       const request: ICefRequest;
-                                                       const response: ICefResponse;
-                                                             status: TCefUrlRequestStatus;
-                                                             receivedContentLength: Int64);
+procedure TCustomRequestHandler.OnResourceLoadComplete(const browser               : ICefBrowser;
+                                                       const frame                 : ICefFrame;
+                                                       const request               : ICefRequest;
+                                                       const response              : ICefResponse;
+                                                             status                : TCefUrlRequestStatus;
+                                                             receivedContentLength : Int64);
 begin
   if (FEvent <> nil) then
     FEvent.doOnResourceLoadComplete(browser, frame, request, response, status, receivedContentLength);

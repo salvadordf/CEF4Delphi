@@ -239,19 +239,22 @@ begin
   inherited Destroy;
 end;
 
-procedure TCustomDisplayHandler.OnAddressChange(const browser: ICefBrowser;
-  const frame: ICefFrame; const url: ustring);
+procedure TCustomDisplayHandler.OnAddressChange(const browser : ICefBrowser;
+                                                const frame   : ICefFrame;
+                                                const url     : ustring);
 begin
   if (FEvent <> nil) then FEvent.doOnAddressChange(browser, frame, url);
 end;
 
-function TCustomDisplayHandler.OnConsoleMessage(const browser: ICefBrowser;
-  const message, source: ustring; line: Integer): Boolean;
+function TCustomDisplayHandler.OnConsoleMessage(const browser : ICefBrowser;
+                                                const message : ustring;
+                                                const source  : ustring;
+                                                      line    : Integer): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnConsoleMessage(browser, message, source, line)
    else
-    Result := inherited;
+    Result := inherited OnConsoleMessage(browser, message, source, line);
 end;
 
 procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser; iconUrls: TStrings);
@@ -279,7 +282,7 @@ begin
   if (FEvent <> nil) then
     Result := FEvent.doOnTooltip(browser, text)
    else
-    Result := inherited;
+    Result := inherited OnTooltip(browser, text);
 end;
 
 end.

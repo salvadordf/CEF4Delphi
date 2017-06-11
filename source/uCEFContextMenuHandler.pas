@@ -172,22 +172,24 @@ begin
   inherited Destroy;
 end;
 
-procedure TCustomContextMenuHandler.OnBeforeContextMenu(
-  const browser: ICefBrowser; const frame: ICefFrame;
-  const params: ICefContextMenuParams; const model: ICefMenuModel);
+procedure TCustomContextMenuHandler.OnBeforeContextMenu(const browser : ICefBrowser;
+                                                        const frame   : ICefFrame;
+                                                        const params  : ICefContextMenuParams;
+                                                        const model   : ICefMenuModel);
 begin
   if (FEvent <> nil) then FEvent.doOnBeforeContextMenu(browser, frame, params, model);
 end;
 
-function TCustomContextMenuHandler.OnContextMenuCommand(
-  const browser: ICefBrowser; const frame: ICefFrame;
-  const params: ICefContextMenuParams; commandId: Integer;
-  eventFlags: TCefEventFlags): Boolean;
+function TCustomContextMenuHandler.OnContextMenuCommand(const browser    : ICefBrowser;
+                                                        const frame      : ICefFrame;
+                                                        const params     : ICefContextMenuParams;
+                                                              commandId  : Integer;
+                                                              eventFlags : TCefEventFlags): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnContextMenuCommand(browser, frame, params, commandId, eventFlags)
    else
-    Result := inherited;
+    Result := inherited OnContextMenuCommand(browser, frame, params, commandId, eventFlags);
 end;
 
 procedure TCustomContextMenuHandler.OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);

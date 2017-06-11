@@ -148,7 +148,7 @@ begin
   if (FEvent <> nil) then
     Result := FEvent.doOnSetFocus(browser, source)
    else
-    Result := inherited;
+    Result := inherited OnSetFocus(browser, source);
 end;
 
 procedure TCustomFocusHandler.OnTakeFocus(const browser: ICefBrowser; next: Boolean);
