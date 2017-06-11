@@ -53,18 +53,17 @@ uses
 const
   CEFBROWSER_CREATED          = WM_APP + $100;
   CEFBROWSER_CHILDDESTROYED   = WM_APP + $101;
+  CEFBROWSER_DESTROY          = WM_APP + $102;
 
 type
   TMainForm = class(TForm)
     Button1: TButton;
     Edit1: TEdit;
-    Timer1: TTimer;
     procedure FormCreate(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private
     // Variables to control when can we destroy the form safely
-    FCanClose : boolean;  // Set to True when the final timer is triggered
+    FCanClose : boolean;  // Set to True when all the child forms are closed
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure CreateToolboxChild(const ChildCaption, URL: string);
@@ -95,8 +94,7 @@ uses
 // Destruction steps
 // =================
 // 1. Destroy all child forms
-// 2. Enable a Timer and wait for 1 second
-// 3. Close and destroy the main form
+// 2. Wait until all the child forms are closed before closing the main form and terminating the application.
 
 procedure TMainForm.CreateToolboxChild(const ChildCaption, URL: string);
 var
@@ -182,17 +180,6 @@ begin
     end;
 end;
 
-procedure TMainForm.Timer1Timer(Sender: TObject);
-begin
-  Timer1.Enabled := False;
-
-  if not(FCanClose) then
-    begin
-      FCanClose := True;
-      PostMessage(self.Handle, WM_CLOSE, 0, 0);
-    end;
-end;
-
 procedure TMainForm.Button1Click(Sender: TObject);
 begin
   CreateToolboxChild('Browser', Edit1.Text);
@@ -203,8 +190,8 @@ begin
   // If there are no more child forms we can destroy the main form
   if FClosing and (ChildFormCount = 0) then
     begin
-      ShowWindow(Handle, SW_HIDE);
-      Timer1.Enabled := True;
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
     end;
 end;
 

@@ -64,7 +64,6 @@ type
       FVisitor            : ICefStringVisitor;
       FPDFPrintcb         : ICefPdfPrintCallback;
       FCookiDeletercb     : ICefDeleteCookiesCallback;
-      FClientHandler      : TVCLClientHandler;
       FHandler            : ICefClient;
       FBrowser            : ICefBrowser;
       FBrowserId          : Integer;
@@ -207,6 +206,8 @@ type
       function  GetHasDocument : boolean;
       function  GetHasView : boolean;
       function  GetHasDevTools : boolean;
+      function  GetHasClientHandler : boolean;
+      function  GetHasBrowser : boolean;
       function  GetCanGoBack : boolean;
       function  GetCanGoForward : boolean;
       function  GetDocumentURL : string;
@@ -372,7 +373,8 @@ type
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
-      function    CreateClientHandler(aIsOSR : boolean) : boolean;
+      function    CreateClientHandler(aIsOSR : boolean) : boolean; overload;
+      function    CreateClientHandler(var aClient : ICefClient) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
       function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = '') : boolean; overload;
       function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = '') : boolean; overload;
@@ -403,6 +405,7 @@ type
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
       procedure   UpdatePreferences;
       procedure   SavePreferences(const aFileName : string);
+      function    SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
 
       procedure   ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);
       procedure   CloseDevTools(const aDevTools : TWinControl = nil);
@@ -462,6 +465,8 @@ type
       property  HasDocument             : boolean                      read GetHasDocument;
       property  HasView                 : boolean                      read GetHasView;
       property  HasDevTools             : boolean                      read GetHasDevTools;
+      property  HasClientHandler        : boolean                      read GetHasClientHandler;
+      property  HasBrowser              : boolean                      read GetHasBrowser;
       property  CanGoBack               : boolean                      read GetCanGoBack;
       property  CanGoForward            : boolean                      read GetCanGoForward;
       property  IsPopUp                 : boolean                      read GetIsPopUp;
@@ -615,7 +620,6 @@ begin
   FInitialized           := False;
   FIsOSR                 := False;
   FDefaultUrl            := 'about:blank';
-  FClientHandler         := nil;
   FHandler               := nil;
   FOptions               := nil;
   FFontOptions           := nil;
@@ -660,28 +664,15 @@ destructor TChromium.Destroy;
 begin
   try
     try
-      FBrowser    := nil;
-      FBrowserId  := 0;
-
       if (FCompHandle <> 0) then
         begin
           DeallocateHWnd(FCompHandle);
           FCompHandle := 0;
         end;
 
-      if (FHandler <> nil) then
-        begin
-          (FHandler as ICefClientHandler).Disconnect;
-          FHandler := nil;
-        end;
-
-      if (FClientHandler <> nil) then
-        begin
-          FClientHandler.Disconnect;
-          FClientHandler.ReleaseOtherInstances;
-          FClientHandler := nil;
-        end;
-
+      FBrowser        := nil;
+      FBrowserId      := 0;
+      FHandler        := nil;
       FVisitor        := nil;
       FPDFPrintcb     := nil;
       FCookiDeletercb := nil;
@@ -721,17 +712,27 @@ begin
   Result := False;
 
   try
-    if (FClientHandler = nil) then
+    if (FHandler = nil) then
       begin
-        FIsOSR           := aIsOsr;
-        FClientHandler   := TVCLClientHandler.Create(Self, FIsOSR);
-        FHandler         := FClientHandler as ICefClient;
-        Result           := (FHandler <> nil);
+        FIsOSR   := aIsOsr;
+        FHandler := TVCLClientHandler.Create(Self, FIsOSR);
+        Result   := True;
       end;
   except
     on e : exception do
       if CustomExceptionHandler('TChromium.CreateClientHandler', e) then raise;
   end;
+end;
+
+function TChromium.CreateClientHandler(var aClient : ICefClient) : boolean;
+begin
+  if CreateClientHandler(True) then
+    begin
+      aClient := FHandler;
+      Result  := True;
+    end
+   else
+    Result := False;
 end;
 
 procedure TChromium.InitializeEvents;
@@ -863,6 +864,7 @@ begin
 
   try
     if not(csDesigning in ComponentState) and
+       not(FClosing)         and
        (FBrowser     =  nil) and
        (FBrowserId   =  0)   and
        (GlobalCEFApp <> nil) and
@@ -909,7 +911,7 @@ var
   TempURL : TCefString;
 begin
   TempURL := CefString(aURL);
-  Result  := cef_browser_host_create_browser(aWindowInfo, FClientHandler.Wrap, @TempURL, aSettings, CefGetData(aContext)) <> 0;
+  Result  := cef_browser_host_create_browser(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aContext)) <> 0;
 end;
 
 function TChromium.CreateBrowserHostSync(aWindowInfo     : PCefWindowInfo;
@@ -921,7 +923,7 @@ var
   TempBrowser : PCefBrowser;
 begin
   TempURL     := CefString(aURL);
-  TempBrowser := cef_browser_host_create_browser_sync(aWindowInfo, FClientHandler.Wrap, @TempURL, aSettings, CefGetData(aContext));
+  TempBrowser := cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aContext));
   Result      := TCefBrowserRef.UnWrap(TempBrowser);
 end;
 
@@ -1234,6 +1236,16 @@ end;
 function TChromium.GetHasDevTools : boolean;
 begin
   Result := Initialized and FBrowser.Host.HasDevTools;
+end;
+
+function TChromium.GetHasClientHandler : boolean;
+begin
+  Result := (FHandler <> nil);
+end;
+
+function TChromium.GetHasBrowser : boolean;
+begin
+  Result := (FBrowser <> nil);
 end;
 
 function TChromium.GetWindowHandle : THandle;
@@ -1582,6 +1594,19 @@ begin
     end;
 end;
 
+function TChromium.SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
+var
+  TempHandle : HWND;
+begin
+  Result := False;
+
+  if Initialized then
+    begin
+      TempHandle := FBrowser.Host.WindowHandle;
+      Result     := (TempHandle <> 0) and (SetParent(TempHandle, aNewParentHwnd) <> 0);
+    end;
+end;
+
 procedure TChromium.SimulateMouseWheel(aDeltaX, aDeltaY : integer);
 var
   TempEvent : TCefMouseEvent;
@@ -1641,7 +1666,6 @@ begin
               TempDict.SetString('server', FProxyServer + ':' + inttostr(FProxyPort));
               if (length(FProxyByPassList) > 0) then TempDict.SetString('bypass_list', FProxyByPassList);
             end;
-
 
           CEF_PROXYTYPE_PAC_SCRIPT :
             begin
@@ -2118,9 +2142,22 @@ function TChromium.doOnClose(const browser: ICefBrowser): Boolean;
 begin
   Result := False;
 
-  if Assigned(FOnClose) then FOnClose(Self, browser, Result);
-
   if (browser <> nil) and (FBrowserId = browser.Identifier) then FClosing := True;
+
+  if Assigned(FOnClose) then FOnClose(Self, browser, Result);
+end;
+
+procedure TChromium.doOnBeforeClose(const browser: ICefBrowser);
+begin
+  if (browser <> nil) and (FBrowserId = browser.Identifier) then
+    begin
+      FInitialized := False;
+      FBrowser     := nil;
+      FBrowserId   := 0;
+      FHandler     := nil;
+    end;
+
+  if Assigned(FOnBeforeClose) then FOnBeforeClose(Self, browser);
 end;
 
 procedure TChromium.doOnAddressChange(const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
@@ -2153,18 +2190,6 @@ begin
   if FUpdatePreferences then Internal_UpdatePreferences;
 
   if Assigned(FOnBeforeBrowse) then FOnBeforeBrowse(Self, browser, frame, request, isRedirect, Result);
-end;
-
-procedure TChromium.doOnBeforeClose(const browser: ICefBrowser);
-begin
-  if (browser <> nil) and (FBrowserId = browser.Identifier) then
-    begin
-      FInitialized := False;
-      FBrowser     := nil;
-      FBrowserId   := 0;
-    end;
-
-  if Assigned(FOnBeforeClose) then FOnBeforeClose(Self, browser);
 end;
 
 procedure TChromium.doOnBeforeContextMenu(const browser : ICefBrowser;

@@ -71,6 +71,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -160,14 +161,22 @@ end;
 constructor TCustomContextMenuHandler.Create(const events: IChromiumEvents);
 begin
   inherited Create;
+
   FEvent := events;
+end;
+
+destructor TCustomContextMenuHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
 end;
 
 procedure TCustomContextMenuHandler.OnBeforeContextMenu(
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
-  FEvent.doOnBeforeContextMenu(browser, frame, params, model);
+  if (FEvent <> nil) then FEvent.doOnBeforeContextMenu(browser, frame, params, model);
 end;
 
 function TCustomContextMenuHandler.OnContextMenuCommand(
@@ -175,14 +184,15 @@ function TCustomContextMenuHandler.OnContextMenuCommand(
   const params: ICefContextMenuParams; commandId: Integer;
   eventFlags: TCefEventFlags): Boolean;
 begin
-  Result := FEvent.doOnContextMenuCommand(browser, frame, params, commandId,
-    eventFlags);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnContextMenuCommand(browser, frame, params, commandId, eventFlags)
+   else
+    Result := inherited;
 end;
 
-procedure TCustomContextMenuHandler.OnContextMenuDismissed(
-  const browser: ICefBrowser; const frame: ICefFrame);
+procedure TCustomContextMenuHandler.OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
 begin
-  FEvent.doOnContextMenuDismissed(browser, frame);
+  if (FEvent <> nil) then FEvent.doOnContextMenuDismissed(browser, frame);
 end;
 
 end.

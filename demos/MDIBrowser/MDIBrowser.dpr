@@ -56,7 +56,7 @@ uses
 
 begin
   GlobalCEFApp              := TCefApplication.Create;
-  GlobalCEFApp.FlashEnabled := False;  // Some websites with heavy Flash usage will need a longer Timer.Interval if you set this to True
+  GlobalCEFApp.FlashEnabled := False;
   GlobalCEFApp.FastUnload   := True;   // Enable the fast unload controller, which speeds up tab/window close by running a tab's onunload js handler independently of the GUI
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.

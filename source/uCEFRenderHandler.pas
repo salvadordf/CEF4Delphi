@@ -90,6 +90,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -318,65 +319,86 @@ begin
   FEvent := events;
 end;
 
+destructor TCustomRenderHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
+end;
+
 procedure TCustomRenderHandler.GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
 begin
-  FEvent.doOnGetAccessibilityHandler(aAccessibilityHandler);
+  if (FEvent <> nil) then FEvent.doOnGetAccessibilityHandler(aAccessibilityHandler);
 end;
 
 function TCustomRenderHandler.GetRootScreenRect(const browser: ICefBrowser;
   rect: PCefRect): Boolean;
 begin
-  Result := FEvent.doOnGetRootScreenRect(browser, rect);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnGetRootScreenRect(browser, rect)
+   else
+    Result := inherited;
 end;
 
 function TCustomRenderHandler.GetScreenInfo(const browser: ICefBrowser;
   screenInfo: PCefScreenInfo): Boolean;
 begin
-  Result := FEvent.doOnGetScreenInfo(browser, screenInfo);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnGetScreenInfo(browser, screenInfo)
+   else
+    Result := inherited;
 end;
 
 function TCustomRenderHandler.GetScreenPoint(const browser: ICefBrowser; viewX,
   viewY: Integer; screenX, screenY: PInteger): Boolean;
 begin
-  Result := FEvent.doOnGetScreenPoint(browser, viewX, viewY, screenX, screenY);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnGetScreenPoint(browser, viewX, viewY, screenX, screenY)
+   else
+    Result := inherited;
 end;
 
 function TCustomRenderHandler.GetViewRect(const browser: ICefBrowser;
   rect: PCefRect): Boolean;
 begin
-  Result := FEvent.doOnGetViewRect(browser, rect);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnGetViewRect(browser, rect)
+   else
+    Result := inherited;
 end;
 
 procedure TCustomRenderHandler.OnCursorChange(const browser: ICefBrowser;
   cursor: TCefCursorHandle; cursorType: TCefCursorType;
   const customCursorInfo: PCefCursorInfo);
 begin
-  FEvent.doOnCursorChange(browser, cursor, cursorType, customCursorInfo);
+  if (FEvent <> nil) then
+    FEvent.doOnCursorChange(browser, cursor, cursorType, customCursorInfo);
 end;
 
 procedure TCustomRenderHandler.OnPaint(const browser: ICefBrowser;
   kind: TCefPaintElementType; dirtyRectsCount: NativeUInt;
   const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
 begin
-  FEvent.doOnPaint(browser, kind, dirtyRectsCount, dirtyRects, buffer, width, height);
+  if (FEvent <> nil) then
+    FEvent.doOnPaint(browser, kind, dirtyRectsCount, dirtyRects, buffer, width, height);
 end;
 
 procedure TCustomRenderHandler.OnPopupShow(const browser: ICefBrowser;
   show: Boolean);
 begin
-  FEvent.doOnPopupShow(browser, show);
+  if (FEvent <> nil) then FEvent.doOnPopupShow(browser, show);
 end;
 
 procedure TCustomRenderHandler.OnPopupSize(const browser: ICefBrowser;
   const rect: PCefRect);
 begin
-  FEvent.doOnPopupSize(browser, rect);
+  if (FEvent <> nil) then FEvent.doOnPopupSize(browser, rect);
 end;
 
 procedure TCustomRenderHandler.OnScrollOffsetChanged(
   const browser: ICefBrowser; x, y: Double);
 begin
-  FEvent.doOnScrollOffsetChanged(browser, x, y);
+  if (FEvent <> nil) then FEvent.doOnScrollOffsetChanged(browser, x, y);
 end;
 
 procedure TCustomRenderHandler.OnIMECompositionRangeChanged(const browser: ICefBrowser;
@@ -384,20 +406,23 @@ procedure TCustomRenderHandler.OnIMECompositionRangeChanged(const browser: ICefB
                                                                   character_boundsCount: NativeUInt;
                                                             const character_bounds: PCefRect);
 begin
-  FEvent.doOnIMECompositionRangeChanged(browser, selected_range, character_boundsCount, character_bounds);
+  if (FEvent <> nil) then
+    FEvent.doOnIMECompositionRangeChanged(browser, selected_range, character_boundsCount, character_bounds);
 end;
 
 function TCustomRenderHandler.OnStartDragging(const browser: ICefBrowser;
-  const dragData: ICefDragData; allowedOps: TCefDragOperations; x,
-  y: Integer): Boolean;
+  const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean;
 begin
-  Result := FEvent.doOnStartDragging(browser, dragData, allowedOps, x, y);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnStartDragging(browser, dragData, allowedOps, x, y)
+   else
+    Result := inherited;
 end;
 
 procedure TCustomRenderHandler.OnUpdateDragCursor(const browser: ICefBrowser;
   operation: TCefDragOperation);
 begin
-  FEvent.doOnUpdateDragCursor(browser, operation);
+  if (FEvent <> nil) then FEvent.doOnUpdateDragCursor(browser, operation);
 end;
 
 end.

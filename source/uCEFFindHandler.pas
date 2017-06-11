@@ -66,6 +66,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -95,9 +96,17 @@ begin
   FEvent := events;
 end;
 
+destructor TCustomFindHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
+end;
+
 procedure TCustomFindHandler.OnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
 begin
-  FEvent.doOnFindResult(browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
+  if (FEvent <> nil) then
+    FEvent.doOnFindResult(browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
 end;
 
 end.

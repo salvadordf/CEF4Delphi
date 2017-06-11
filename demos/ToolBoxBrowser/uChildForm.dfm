@@ -27,25 +27,14 @@ object ChildForm: TChildForm
     Height = 300
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 160
-    ExplicitTop = 88
-    ExplicitWidth = 100
-    ExplicitHeight = 41
   end
   object Chromium1: TChromium
-    OnLoadEnd = Chromium1LoadEnd
     OnPreKeyEvent = Chromium1PreKeyEvent
     OnKeyEvent = Chromium1KeyEvent
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
     Left = 184
-    Top = 128
-  end
-  object Timer1: TTimer
-    Enabled = False
-    Interval = 2000
-    OnTimer = Timer1Timer
-    Left = 244
     Top = 128
   end
 end

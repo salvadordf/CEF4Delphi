@@ -2,11 +2,11 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2017/05/21 15:39:53.000.029,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/05/21 15:40:36.000.672,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uMainForm.pas</Transaction>
-    <Transaction>2017/05/21 15:40:36.000.672,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uMainForm.dfm</Transaction>
-    <Transaction>2017/05/21 15:40:43.000.627,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dproj</Transaction>
+    <Transaction>2017/05/21 15:40:36.000.672,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uMainForm.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/05/21 15:40:36.000.672,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uMainForm.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2017/05/21 15:40:43.000.627,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
     <Transaction>2017/05/21 15:44:20.000.154,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\Unit2.pas</Transaction>
-    <Transaction>2017/05/21 15:46:19.000.247,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\Unit2.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.dfm</Transaction>
-    <Transaction>2017/05/21 15:46:19.000.247,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\Unit2.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.pas</Transaction>
+    <Transaction>2017/05/21 15:46:19.000.247,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\Unit2.pas</Transaction>
+    <Transaction>2017/05/21 15:46:19.000.247,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\Unit2.dfm</Transaction>
   </Transactions>
 </BorlandProject>

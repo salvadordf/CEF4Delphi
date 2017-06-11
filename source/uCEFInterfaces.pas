@@ -79,7 +79,6 @@ type
   ICefSslInfo = interface;
   ICefSSLStatus = interface;
   ICefImage = interface;
-  ICefClientHandler = interface;
   IChromiumEvents = interface;
   ICefThread = interface;
   ICefWaitableEvent = interface;
@@ -1751,11 +1750,6 @@ type
 
     procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer;
       const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
-  end;
-
-  ICefClientHandler = interface
-    ['{E76F6888-D9C3-4FCE-9C23-E89659820A36}']
-    procedure Disconnect;
   end;
 
 implementation

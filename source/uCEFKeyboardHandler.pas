@@ -68,6 +68,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -120,20 +121,34 @@ end;
 constructor TCustomKeyboardHandler.Create(const events: IChromiumEvents);
 begin
   inherited Create;
+
   FEvent := events;
+end;
+
+destructor TCustomKeyboardHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
 end;
 
 function TCustomKeyboardHandler.OnKeyEvent(const browser: ICefBrowser;
   const event: PCefKeyEvent; osEvent: TCefEventHandle): Boolean;
 begin
-  Result := FEvent.doOnKeyEvent(browser, event, osEvent);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnKeyEvent(browser, event, osEvent)
+   else
+    Result := inherited;
 end;
 
 function TCustomKeyboardHandler.OnPreKeyEvent(const browser: ICefBrowser;
   const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out isKeyboardShortcut: Boolean): Boolean;
 begin
-  Result := FEvent.doOnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut)
+   else
+    Result := inherited;
 end;
 
 end.

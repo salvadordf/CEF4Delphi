@@ -68,6 +68,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -124,21 +125,31 @@ end;
 constructor TCustomDownloadHandler.Create(const events: IChromiumEvents);
 begin
   inherited Create;
+
   FEvent := events;
+end;
+
+destructor TCustomDownloadHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
 end;
 
 procedure TCustomDownloadHandler.OnBeforeDownload(const browser: ICefBrowser;
   const downloadItem: ICefDownloadItem; const suggestedName: ustring;
   const callback: ICefBeforeDownloadCallback);
 begin
-  FEvent.doOnBeforeDownload(browser, downloadItem, suggestedName, callback);
+  if (FEvent <> nil) then
+    FEvent.doOnBeforeDownload(browser, downloadItem, suggestedName, callback);
 end;
 
 procedure TCustomDownloadHandler.OnDownloadUpdated(const browser: ICefBrowser;
   const downloadItem: ICefDownloadItem;
   const callback: ICefDownloadItemCallback);
 begin
-  FEvent.doOnDownloadUpdated(browser, downloadItem, callback);
+  if (FEvent <> nil) then
+    FEvent.doOnDownloadUpdated(browser, downloadItem, callback);
 end;
 
 end.

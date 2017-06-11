@@ -70,10 +70,4 @@ object MainForm: TMainForm
       OnClick = ExitBtnClick
     end
   end
-  object Timer1: TTimer
-    Enabled = False
-    OnTimer = Timer1Timer
-    Left = 608
-    Top = 344
-  end
 end

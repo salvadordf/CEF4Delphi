@@ -63,17 +63,10 @@ object ChildForm: TChildForm
     TabOrder = 1
   end
   object Chromium1: TChromium
-    OnLoadEnd = Chromium1LoadEnd
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
     Left = 592
     Top = 288
-  end
-  object Timer1: TTimer
-    Enabled = False
-    Interval = 2000
-    OnTimer = Timer1Timer
-    Left = 608
-    Top = 344
   end
 end

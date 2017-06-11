@@ -55,20 +55,19 @@ uses
 const
   CEFBROWSER_CREATED          = WM_APP + $100;
   CEFBROWSER_CHILDDESTROYED   = WM_APP + $101;
+  CEFBROWSER_DESTROY          = WM_APP + $102;
 
 type
   TMainForm = class(TForm)
-    Timer1: TTimer;
     ButtonPnl: TPanel;
     NewBtn: TSpeedButton;
     ExitBtn: TSpeedButton;
     procedure FormCreate(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
     procedure NewBtnClick(Sender: TObject);
     procedure ExitBtnClick(Sender: TObject);
   private
     // Variables to control when can we destroy the form safely
-    FCanClose : boolean;  // Set to True when the final timer is triggered
+    FCanClose : boolean;  // Set to True when all the child forms are closed
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure CreateMDIChild(const Name: string);
@@ -97,8 +96,7 @@ uses
 // Destruction steps
 // =================
 // 1. Destroy all child forms
-// 2. Enable a Timer and wait for 1 second
-// 3. Close and destroy the main form
+// 2. Wait until all the child forms are closed before closing the main form and terminating the application.
 
 procedure TMainForm.CreateMDIChild(const Name: string);
 var
@@ -161,24 +159,14 @@ begin
     CloseAllChildForms;
 end;
 
-procedure TMainForm.Timer1Timer(Sender: TObject);
-begin
-  Timer1.Enabled := False;
-
-  if not(FCanClose) then
-    begin
-      FCanClose := True;
-      PostMessage(self.Handle, WM_CLOSE, 0, 0);
-    end;
-end;
-
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
 begin
   // If there are no more child forms we can destroy the main form
   if (MDIChildCount = 0) then
     begin
       ButtonPnl.Enabled := False;
-      Timer1.Enabled    := True;
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
     end;
 end;
 

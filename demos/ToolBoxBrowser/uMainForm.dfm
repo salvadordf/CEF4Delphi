@@ -34,11 +34,4 @@ object MainForm: TMainForm
     TabOrder = 1
     Text = 'https://www.google.com'
   end
-  object Timer1: TTimer
-    Enabled = False
-    Interval = 2000
-    OnTimer = Timer1Timer
-    Left = 225
-    Top = 1
-  end
 end
