@@ -1099,8 +1099,8 @@ type
     get_derencoded: function(self: PCefX509Certificate): PCefBinaryValue; stdcall;
     get_pemencoded: function(self: PCefX509Certificate): PCefBinaryValue; stdcall;
     get_issuer_chain_size: function(self: PCefX509Certificate): NativeUInt; stdcall;
-    get_derencoded_issuer_chain: procedure(self: PCefX509Certificate; out chainCount: NativeUInt; chain: PPCefBinaryValue); stdcall;
-    get_pemencoded_issuer_chain: procedure(self: PCefX509Certificate; out chainCount: NativeUInt; chain: PPCefBinaryValue); stdcall;
+    get_derencoded_issuer_chain: procedure(self: PCefX509Certificate; var chainCount: NativeUInt; chain: PPCefBinaryValue); stdcall;
+    get_pemencoded_issuer_chain: procedure(self: PCefX509Certificate; var chainCount: NativeUInt; chain: PPCefBinaryValue); stdcall;
   end;
 
   // /include/capi/cef_ssl_info_capi.h (cef_sslinfo_t)

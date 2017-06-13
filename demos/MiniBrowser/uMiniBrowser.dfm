@@ -232,6 +232,13 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'DevTools'
       OnClick = DevTools1Click
     end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object Openfile1: TMenuItem
+      Caption = 'Open file...'
+      OnClick = Openfile1Click
+    end
     object N2: TMenuItem
       Caption = '-'
     end
@@ -277,5 +284,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnMessage = ApplicationEvents1Message
     Left = 32
     Top = 56
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'HTML files|*.htm;*.html|Text files|*.txt'
+    Left = 32
+    Top = 280
   end
 end

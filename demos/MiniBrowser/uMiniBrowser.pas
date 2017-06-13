@@ -104,6 +104,9 @@ type
     Resetzoom1: TMenuItem;
     SaveDialog1: TSaveDialog;
     ApplicationEvents1: TApplicationEvents;
+    OpenDialog1: TOpenDialog;
+    N4: TMenuItem;
+    Openfile1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -152,6 +155,7 @@ type
       out Result: Boolean);
     procedure ApplicationEvents1Message(var Msg: tagMSG;
       var Handled: Boolean);
+    procedure Openfile1Click(Sender: TObject);
 
   protected
     procedure AddURL(const aURL : string);
@@ -504,6 +508,11 @@ end;
 procedure TMiniBrowserFrm.Inczoom1Click(Sender: TObject);
 begin
   Chromium1.IncZoomStep;
+end;
+
+procedure TMiniBrowserFrm.Openfile1Click(Sender: TObject);
+begin
+  if OpenDialog1.Execute then Chromium1.LoadURL('file:///' + OpenDialog1.FileName);
 end;
 
 procedure TMiniBrowserFrm.PopupMenu1Popup(Sender: TObject);
