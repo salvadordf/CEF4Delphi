@@ -42,9 +42,9 @@ program MiniBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
+  Vcl.Forms, System.SysUtils,
   {$ELSE}
-  Forms,
+  Forms, SysUtils,
   {$ENDIF}
   uCEFApplication,
   uCEFMiscFunctions,
@@ -53,6 +53,7 @@ uses
   uCEFv8Handler,
   uCEFInterfaces,
   uCEFDomVisitor,
+  uCEFDomNode,
   uCEFConstants,
   uCEFTypes,
   uCEFTask,
@@ -69,12 +70,41 @@ uses
 var
   TempProcessHandler : TCefCustomRenderProcessHandler;
 
+procedure SimpleDOMIteration(const aDocument: ICefDomDocument);
+var
+  TempHead, TempChild : ICefDomNode;
+begin
+  try
+    if (aDocument <> nil) then
+      begin
+        TempHead := aDocument.Head;
+
+        if (TempHead <> nil) then
+          begin
+            TempChild := TempHead.FirstChild;
+
+            while (TempChild <> nil) do
+              begin
+                CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'Head child element : ' + TempChild.Name);
+                TempChild := TempChild.NextSibling;
+              end;
+          end;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('SimpleDOMIteration', e) then raise;
+  end;
+end;
+
 procedure DOMVisitor_OnDocAvailable(const document: ICefDomDocument);
 begin
   // This function is called from a different process.
   // document is only valid inside this function.
   // As an example, this function only writes the document title to the 'debug.log' file.
   CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'document.Title : ' + document.Title);
+
+  // Simple DOM iteration example
+  SimpleDOMIteration(document);
 end;
 
 procedure ProcessHandler_OnCustomMessage(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage);

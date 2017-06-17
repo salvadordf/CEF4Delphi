@@ -585,7 +585,7 @@ procedure TMiniBrowserFrm.VisitDOMMsg(var aMessage : TMessage);
 var
   TempMsg : ICefProcessMessage;
 begin
-  // Only works using a TCefCustomRenderProcessHandler. See MiniBrowser demo.
+  // Only works using a TCefCustomRenderProcessHandler.
   // Use the ArgumentList property if you need to pass some parameters.
   TempMsg := TCefProcessMessageRef.New('retrievedom'); // Same name than TCefCustomRenderProcessHandler.MessageName
   Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
