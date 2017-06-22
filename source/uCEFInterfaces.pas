@@ -72,6 +72,9 @@ type
   ICefTask = interface;
   ICefTaskRunner = interface;
   ICefFileDialogCallback = interface;
+  ICefPrintHandler = interface;
+  ICefPrintDialogCallback = interface;
+  ICefPrintJobCallback = interface;
   ICefRequestContext = interface;
   ICefAccessibilityHandler = interface;
   ICefDragData = interface;
@@ -1504,6 +1507,27 @@ type
     property ColorModel: TCefColorModel read GetColorModel write SetColorModel;
     property Copies: Integer read GetCopies write SetCopies;
     property DuplexMode: TCefDuplexMode read GetDuplexMode write SetDuplexMode;
+  end;
+
+  ICefPrintDialogCallback = interface(ICefBaseRefCounted)
+    ['{1D7FB71E-0019-4A80-95ED-91DDD019253B}']
+    procedure cont(const settings: ICefPrintSettings);
+    procedure cancel;
+  end;
+
+  ICefPrintJobCallback = interface(ICefBaseRefCounted)
+    ['{5554852A-052C-464B-A868-B618C7E7E2FD}']
+    procedure cont;
+  end;
+
+  ICefPrintHandler = interface(ICefBaseRefCounted)
+    ['{2831D5C9-6E2B-4A30-A65A-0F4435371EFC}']
+    procedure OnPrintStart(const browser: ICefBrowser);
+    procedure OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
+    function  OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback): boolean;
+    function  OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback): boolean;
+    procedure OnPrintReset(const browser: ICefBrowser);
+    function  GetPDFPaperSize(deviceUnitsPerInch: Integer): TCefSize;
   end;
 
   ICefNavigationEntry = interface(ICefBaseRefCounted)

@@ -286,7 +286,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Top = 56
   end
   object OpenDialog1: TOpenDialog
-    Filter = 'HTML files|*.htm;*.html|Text files|*.txt'
+    Filter = 
+      'HTML files|*.htm;*.html|Text files|*.txt|PDF files|*.pdf|Image f' +
+      'iles|*.jpg;*.jpeg;*.png;*.bmp;*.gif'
     Left = 32
     Top = 280
   end

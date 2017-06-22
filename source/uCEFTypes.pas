@@ -1898,6 +1898,17 @@ type
     cont: procedure(self: PCefPrintJobCallback); stdcall;
   end;
 
+  // /include/capi/cef_print_handler_capi.h (cef_print_handler_t)
+  TCefPrintHandler = record
+    base: TCefBaseRefCounted;
+    on_print_start: procedure(self: PCefPrintHandler; browser: PCefBrowser); stdcall;
+    on_print_settings: procedure(self: PCefPrintHandler; browser: PCefBrowser; settings: PCefPrintSettings; get_defaults: Integer); stdcall;
+    on_print_dialog: function(self: PCefPrintHandler; browser: PCefBrowser; has_selection: Integer; callback: PCefPrintDialogCallback): Integer; stdcall;
+    on_print_job: function(self: PCefPrintHandler; browser: PCefBrowser; const document_name, pdf_file_path: PCefString; callback: PCefPrintJobCallback): Integer; stdcall;
+    on_print_reset: procedure(self: PCefPrintHandler; browser: PCefBrowser); stdcall;
+    get_pdf_paper_size: function(self: PCefPrintHandler; device_units_per_inch: Integer): TCefSize; stdcall;
+  end;
+
   // /include/capi/cef_drag_data_capi.h (cef_drag_data_t)
   TCefDragData = record
     base: TCefBaseRefCounted;
@@ -2554,17 +2565,6 @@ type
     get_frame_identifiers: procedure(self: PCefBrowser; identifiersCount: PNativeUInt; identifiers: PInt64); stdcall;
     get_frame_names: procedure(self: PCefBrowser; names: TCefStringList); stdcall;
     send_process_message: function(self: PCefBrowser; target_process: TCefProcessId; message: PCefProcessMessage): Integer; stdcall;
-  end;
-
-  // /include/capi/cef_print_handler_capi.h (cef_print_handler_t)
-  TCefPrintHandler = record
-    base: TCefBaseRefCounted;
-    on_print_start: procedure(self: PCefPrintHandler; browser: PCefBrowser); stdcall;
-    on_print_settings: procedure(self: PCefPrintHandler; settings: PCefPrintSettings; get_defaults: Integer); stdcall;
-    on_print_dialog: function(self: PCefPrintHandler; has_selection: Integer; callback: PCefPrintDialogCallback): Integer; stdcall;
-    on_print_job: function(self: PCefPrintHandler; const document_name, pdf_file_path: PCefString; callback: PCefPrintJobCallback): Integer; stdcall;
-    on_print_reset: procedure(self: PCefPrintHandler); stdcall;
-    get_pdf_paper_size: function(self: PCefPrintHandler; device_units_per_inch: Integer): TCefSize; stdcall;
   end;
 
   // /include/capi/cef_resource_bundle_handler_capi.h (cef_resource_bundle_handler_t)
