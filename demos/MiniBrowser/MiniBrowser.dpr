@@ -96,6 +96,31 @@ begin
   end;
 end;
 
+procedure SimpleNodeSearch(const aDocument: ICefDomDocument);
+const
+  NODE_ID = 'lst-ib';
+var
+  TempNode : ICefDomNode;
+begin
+  try
+    if (aDocument <> nil) then
+      begin
+        TempNode := aDocument.GetElementById(NODE_ID);
+
+        if (TempNode <> nil) then
+          CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, NODE_ID + ' element name : ' + TempNode.Name);
+
+        TempNode := aDocument.GetFocusedNode;
+
+        if (TempNode <> nil) then
+          CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'Focused element name : ' + TempNode.Name);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('SimpleNodeSearch', e) then raise;
+  end;
+end;
+
 procedure DOMVisitor_OnDocAvailable(const document: ICefDomDocument);
 begin
   // This function is called from a different process.
@@ -105,6 +130,9 @@ begin
 
   // Simple DOM iteration example
   SimpleDOMIteration(document);
+
+  // Simple DOM searches
+  SimpleNodeSearch(document);
 end;
 
 procedure ProcessHandler_OnCustomMessage(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage);

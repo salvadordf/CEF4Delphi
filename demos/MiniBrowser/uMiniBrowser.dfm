@@ -138,7 +138,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'http://html5test.com/'
           'https://www.w3schools.com/'
           'http://webglsamples.org/'
-          'https://www.youtube.com')
+          'https://www.youtube.com'
+          'https://html5demos.com/drag/')
       end
     end
     object ConfigPnl: TPanel

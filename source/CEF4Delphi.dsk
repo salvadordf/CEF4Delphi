@@ -1,14 +1,14 @@
 ﻿[Closed Files]
 File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,1623,68,1664,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,27,37,60,0,0,,
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,1861,7,1910,0,0,,{1
-File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,1492,56,1525,0,0,,{1
-File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLibFunctions.pas',0,1,1,1,1,0,0,,
-File_5=TSourceModule,'V:\3071\include\capi\cef_print_handler_capi.h',0,1,96,22,147,0,0,,
-File_6=TSourceModule,'V:\3071_2\include\capi\cef_print_handler_capi.h',0,1,40,30,70,0,0,,
-File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFX509Certificate.pas',0,1,115,17,123,0,0,,
-File_8=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\RTL\SYS\System.SysUtils.pas',0,1,25193,1,25222,0,0,,
-File_9=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFStringMultimap.pas',0,1,58,64,110,0,0,,
+File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBrowser.pas',0,1,332,1,335,0,0,,
+File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,481,3,510,0,0,,
+File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,156,3,155,0,0,,
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,27,37,60,0,0,,
+File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLibFunctions.pas',0,1,1,1,1,0,0,,
+File_6=TSourceModule,'V:\3071\include\capi\cef_print_handler_capi.h',0,1,96,22,147,0,0,,
+File_7=TSourceModule,'V:\3071_2\include\capi\cef_print_handler_capi.h',0,1,40,30,70,0,0,,
+File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFX509Certificate.pas',0,1,115,17,123,0,0,,
+File_9=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\RTL\SYS\System.SysUtils.pas',0,1,25193,1,25222,0,0,,
 
 [Modules]
 Module0=default.htm
@@ -40,8 +40,8 @@ BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
 TopPanelSize=0
 LeftPanelSize=0
 RightPanelSize=2000
-RightPanelClients=DockSite2,DockSite4
-RightPanelData=00000800010100000000AA1900000000000001D00700000000000001000000004312000009000000446F636B53697465320100000000A123000009000000446F636B5369746534FFFFFFFF
+RightPanelClients=DockSite2
+RightPanelData=00000800010100000000AA1900000000000001D0070000000000000100000000A123000009000000446F636B5369746532FFFFFFFF
 BottomPanelSize=0
 BottomPanelClients=DockSite1,MessageView
 BottomPanelData=0000080001020200000009000000446F636B53697465310F0000004D65737361676556696577466F726D1234000000000000022506000000000000FFFFFFFF
@@ -49,6 +49,7 @@ BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779D1D00000000000002F306000000000000FFFFFFFF
 TabDockLeftClients=PropertyInspector=0,DockSite3=1
+TabDockRightClients=DockSite4=0
 
 [View0]
 CustomEditViewType=TWelcomePageView
@@ -116,11 +117,11 @@ State=0
 Left=0
 Top=0
 Width=2000
-Height=4226
+Height=8868
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=4226
+ClientHeight=8868
 TBDockHeight=5897
 LRDockWidth=2352
 Dockable=1
@@ -667,11 +668,11 @@ State=0
 Left=0
 Top=23
 Width=2000
-Height=4529
+Height=9170
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=4529
+ClientHeight=9170
 TBDockHeight=7164
 LRDockWidth=2000
 Dockable=1
@@ -705,11 +706,11 @@ ActiveTabID=StructureView
 TabDockClients=StructureView,ClassBrowserTool
 
 [DockSite4]
-HostDockSite=DockRightPanel
+HostDockSite=RightTabDock
 DockSiteType=1
 PercentageSizes=1
 Create=1
-Visible=1
+Visible=0
 Docked=1
 State=0
 Left=0
