@@ -1,32 +1,46 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uMainForm.pas',0,1,152,56,203,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uMainForm.pas',0,1,127,19,169,0,0,,
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.pas',0,1,83,1,142,0,0,,
-File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uChildForm.pas',0,1,103,1,112,0,0,,
-File_4=TSourceModule,'C:\Program Files\Embarcadero\Studio\17.0\Componentes\misc\uConnectFrm.pas',0,1,1,31,16,0,0,,
-File_5=TSourceModule,'c:\program files\embarcadero\studio\17.0\source\rtl\common\System.Classes.pas',0,1,1970,1,1999,0,0,,
-File_6=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Forms.pas',0,1,1448,3,1381,0,0,{{1729,4}
-File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,22,69,65,0,0,,
-File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumTool.pas',0,1,1,1,1,0,0,,
-File_9=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDisplayHandler.pas',0,1,85,35,133,0,0,,
+File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,710,103,739,0,0,,
+File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumWindow.pas',0,1,29,31,76,0,0,,
+File_2=TSourceModule,'c:\program files\embarcadero\studio\17.0\source\rtl\common\System.Classes.pas',0,1,46,18,75,0,0,,
+File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFResourceHandler.pas',0,1,34,1,38,0,0,,
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumEvents.pas',0,3,68,3,97,0,0,,
+File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas',0,1,1,1,1,0,0,,
+File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uHelloScheme.pas',0,1,97,28,54,0,0,,
+File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas',0,1,67,21,84,0,0,,
+File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uTestExtension.pas',0,1,28,1,1,0,0,,
+File_9=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,738,28,775,0,0,,
 
 [Modules]
-Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dproj
-Module1=default.htm
-Count=2
+Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\CRBrowser.dproj
+Module1=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uCustomResourceHandler.pas
+Module2=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uMainForm.pas
+Module3=default.htm
+Count=4
 EditWindowCount=1
 
-[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dproj]
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\CRBrowser.dproj]
 ModuleType=TBaseProject
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uCustomResourceHandler.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uMainForm.pas]
+ModuleType=TSourceModule
+FormState=1
+FormOnTop=0
 
 [default.htm]
 ModuleType=TURLModule
 
 [EditWindow0]
-ViewCount=2
-CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dpr
+ViewCount=4
+CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\CRBrowser.dpr
 View0=0
 View1=1
+View2=2
+View3=3
 PercentageSizes=1
 Create=1
 Visible=1
@@ -43,7 +57,9 @@ ClientHeight=9428
 DockedToMainForm=1
 BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
 TopPanelSize=0
-LeftPanelSize=0
+LeftPanelSize=1898
+LeftPanelClients=PropertyInspector,DockSite3
+LeftPanelData=00000800010100000000AA19000000000000016A0700000000000001000000005D0E000009000000446F636B53697465330100000000A12300001100000050726F7065727479496E73706563746F72FFFFFFFF
 RightPanelSize=2000
 RightPanelClients=DockSite2,DockSite4
 RightPanelData=00000800010100000000AA1900000000000001D00700000000000001000000004312000009000000446F636B53697465320100000000A123000009000000446F636B5369746534FFFFFFFF
@@ -53,7 +69,6 @@ BottomPanelData=0000080001020200000009000000446F636B53697465310F0000004D65737361
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779D1D00000000000002F306000000000000FFFFFFFF
-TabDockLeftClients=PropertyInspector=0,DockSite3=1
 
 [View0]
 CustomEditViewType=TWelcomePageView
@@ -61,14 +76,36 @@ WelcomePageURL=bds:/default.htm
 
 [View1]
 CustomEditViewType=TEditView
-Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dpr
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\CRBrowser.dpr
 CursorX=2
-CursorY=63
+CursorY=61
 TopLine=40
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dpr
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\CRBrowser.dpr
+
+[View2]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uMainForm.pas
+CursorX=72
+CursorY=115
+TopLine=10
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uMainForm.pas
+
+[View3]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uCustomResourceHandler.pas
+CursorX=70
+CursorY=82
+TopLine=23
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uCustomResourceHandler.pas
 
 [Watches]
 Count=0
@@ -278,7 +315,7 @@ StayOnTop=0
 [PropertyInspector]
 PercentageSizes=1
 Create=1
-Visible=0
+Visible=1
 Docked=1
 State=0
 Left=0
@@ -294,6 +331,11 @@ LRDockWidth=1898
 Dockable=1
 StayOnTop=0
 SplitPos=111
+
+[PropInspDesignerSelection]
+ArrangeBy=Name
+SelectedItem=Action,
+ExpandedItems=Anchors=0,BorderIcons=0,Constraints=0
 
 [frmDesignPreview]
 PercentageSizes=1
@@ -573,11 +615,11 @@ State=0
 Left=0
 Top=0
 Width=1898
-Height=9170
+Height=3498
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1898
-ClientHeight=9170
+ClientHeight=3498
 TBDockHeight=3677
 LRDockWidth=1898
 Dockable=1
@@ -697,21 +739,21 @@ ActiveTabID=ProjectManager
 TabDockClients=ProjectManager,ModelViewTool,DataExplorerContainer,frmDesignPreview,TFileExplorerForm
 
 [DockSite3]
-HostDockSite=LeftDockTabSet
+HostDockSite=DockLeftPanel
 DockSiteType=1
 PercentageSizes=1
 Create=1
-Visible=0
+Visible=1
 Docked=1
 State=0
 Left=0
 Top=23
 Width=1898
-Height=9170
+Height=3498
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1898
-ClientHeight=9170
+ClientHeight=3498
 TBDockHeight=7164
 LRDockWidth=1898
 Dockable=1
