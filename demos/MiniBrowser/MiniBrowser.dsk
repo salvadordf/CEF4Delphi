@@ -1,14 +1,14 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uHelloScheme.pas',0,1,97,28,54,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas',0,1,67,21,84,0,0,,
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,533,111,562,0,0,,
-File_3=TSourceModule,'c:\program files\embarcadero\studio\17.0\source\rtl\common\System.Classes.pas',0,1,866,3,766,0,0,,
-File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uTestExtension.pas',0,1,28,1,1,0,0,,
-File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,738,28,775,0,0,,
-File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uPreferences.pas',0,1,38,18,54,0,0,,
-File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,268,48,304,0,0,,
-File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDomNode.pas',0,1,34,1,1,0,0,,
-File_9=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDomDocument.pas',0,1,25,1,1,0,0,,
+File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,738,28,775,0,0,,
+File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas',0,1,490,1,1,0,0,,
+File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uPreferences.pas',0,1,38,18,54,0,0,,
+File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,1603,1,1627,0,0,,{1
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,268,48,304,0,0,,
+File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDomNode.pas',0,1,34,1,1,0,0,,
+File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDomDocument.pas',0,1,25,1,1,0,0,,
+File_7=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\RTL\SYS\System.SysUtils.pas',0,1,341,1,370,0,0,,
+File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,466,29,481,0,0,,
+File_9=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\FastMM4\FastMM4.pas',0,1,9585,1,9607,0,0,,
 
 [Modules]
 Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\MiniBrowser.dproj
@@ -64,8 +64,8 @@ WelcomePageURL=bds:/default.htm
 CustomEditViewType=TEditView
 Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\MiniBrowser.dpr
 CursorX=2
-CursorY=183
-TopLine=152
+CursorY=190
+TopLine=150
 LeftCol=1
 Elisions=
 Bookmarks=

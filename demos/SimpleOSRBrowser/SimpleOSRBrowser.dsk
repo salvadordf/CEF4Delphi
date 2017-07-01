@@ -1,19 +1,19 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,338,30,360,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleOSRBrowser\uSimpleOSRBrowser.pas',0,1,102,58,305,0,0,,
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,10,21,38,0,0,,
-File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,34,23,38,0,0,,
-File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumWindow.pas',0,1,35,24,60,0,0,,
-File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,219,63,249,0,0,,
-File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas',0,1,416,36,438,0,0,,
-File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBrowser.pas',0,1,208,111,219,0,0,,
-File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas',0,1,71,13,84,0,0,,
-File_9=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\BriskBard\uBriskBardMainForm.pas',0,1,50,11,57,0,0,,
+File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleOSRBrowser\uSimpleOSRBrowser.pas',0,1,102,58,305,0,0,,
+File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,10,21,38,0,0,,
+File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,34,23,38,0,0,,
+File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumWindow.pas',0,1,35,24,60,0,0,,
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFInterfaces.pas',0,1,219,63,249,0,0,,
+File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MiniBrowser\uMiniBrowser.pas',0,1,416,36,438,0,0,,
+File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFBrowser.pas',0,1,208,111,219,0,0,,
+File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas',0,1,71,13,84,0,0,,
+File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\BriskBard\uBriskBardMainForm.pas',0,1,50,11,57,0,0,,
 
 [Modules]
 Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleOSRBrowser\SimpleOSRBrowser.dproj
 Module1=default.htm
-Count=2
+Module2=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
+Count=3
 EditWindowCount=1
 
 [C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleOSRBrowser\SimpleOSRBrowser.dproj]
@@ -22,11 +22,17 @@ ModuleType=TBaseProject
 [default.htm]
 ModuleType=TURLModule
 
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
 [EditWindow0]
-ViewCount=2
+ViewCount=3
 CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleOSRBrowser\SimpleOSRBrowser.dpr
 View0=0
 View1=1
+View2=2
 PercentageSizes=1
 Create=1
 Visible=1
@@ -43,7 +49,9 @@ ClientHeight=9428
 DockedToMainForm=1
 BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
 TopPanelSize=0
-LeftPanelSize=0
+LeftPanelSize=1898
+LeftPanelClients=PropertyInspector,DockSite3
+LeftPanelData=00000800010100000000AA19000000000000016A0700000000000001000000005D0E000009000000446F636B53697465330100000000A12300001100000050726F7065727479496E73706563746F72FFFFFFFF
 RightPanelSize=2000
 RightPanelClients=DockSite2,DockSite4
 RightPanelData=00000800010100000000AA1900000000000001D00700000000000001000000004312000009000000446F636B53697465320100000000A123000009000000446F636B5369746534FFFFFFFF
@@ -53,7 +61,6 @@ BottomPanelData=0000080001020200000009000000446F636B53697465310F0000004D65737361
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779D1D00000000000002F306000000000000FFFFFFFF
-TabDockLeftClients=PropertyInspector=0,DockSite3=1
 
 [View0]
 CustomEditViewType=TWelcomePageView
@@ -63,12 +70,23 @@ WelcomePageURL=bds:/default.htm
 CustomEditViewType=TEditView
 Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleOSRBrowser\SimpleOSRBrowser.dpr
 CursorX=2
-CursorY=61
+CursorY=68
 TopLine=28
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleOSRBrowser\SimpleOSRBrowser.dpr
+
+[View2]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
+CursorX=30
+CursorY=360
+TopLine=338
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas
 
 [Watches]
 Count=0
@@ -278,7 +296,7 @@ StayOnTop=0
 [PropertyInspector]
 PercentageSizes=1
 Create=1
-Visible=0
+Visible=1
 Docked=1
 State=0
 Left=0
@@ -573,11 +591,11 @@ State=0
 Left=0
 Top=0
 Width=1898
-Height=9170
+Height=3498
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1898
-ClientHeight=9170
+ClientHeight=3498
 TBDockHeight=3677
 LRDockWidth=1898
 Dockable=1
@@ -697,21 +715,21 @@ ActiveTabID=ProjectManager
 TabDockClients=ProjectManager,ModelViewTool,DataExplorerContainer,frmDesignPreview,TFileExplorerForm
 
 [DockSite3]
-HostDockSite=LeftDockTabSet
+HostDockSite=DockLeftPanel
 DockSiteType=1
 PercentageSizes=1
 Create=1
-Visible=0
+Visible=1
 Docked=1
 State=0
 Left=0
 Top=23
 Width=1898
-Height=9170
+Height=3498
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1898
-ClientHeight=9170
+ClientHeight=3498
 TBDockHeight=7164
 LRDockWidth=1898
 Dockable=1
