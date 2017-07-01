@@ -1,27 +1,38 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas',0,1,72,1,85,0,0,,
-File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,444,65,457,0,0,,{1
-File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,180,12,209,0,0,,
-File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,36,25,69,0,0,,
-File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,2074,1,2095,0,0,,{1
-File_5=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFClient.pas',0,1,475,75,86,0,0,,
-File_6=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Controls.pas',0,1,10059,1,10081,0,0,,
-File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumWindow.pas',0,1,29,24,60,0,0,,
-File_8=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Forms.pas',0,1,4433,1,4455,0,0,{{1729,4}
-File_9=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLifeSpanHandler.pas',0,1,99,1,121,0,0,,
+File_0=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFApplication.pas',0,1,444,65,457,0,0,,{1
+File_1=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFTypes.pas',0,1,180,12,209,0,0,,
+File_2=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFMiscFunctions.pas',0,1,36,25,69,0,0,,
+File_3=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromium.pas',0,1,2074,1,2095,0,0,,{1
+File_4=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFClient.pas',0,1,475,75,86,0,0,,
+File_5=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Controls.pas',0,1,10059,1,10081,0,0,,
+File_6=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFChromiumWindow.pas',0,1,29,24,60,0,0,,
+File_7=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Forms.pas',0,1,4433,1,4455,0,0,{{1729,4}
+File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFLifeSpanHandler.pas',0,1,99,1,121,0,0,,
 
 [Modules]
-Module0=default.htm
-Count=1
+Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dproj
+Module1=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas
+Module2=default.htm
+Count=3
 EditWindowCount=1
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dproj]
+ModuleType=TBaseProject
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas]
+ModuleType=TSourceModule
+FormState=1
+FormOnTop=0
 
 [default.htm]
 ModuleType=TURLModule
 
 [EditWindow0]
-ViewCount=1
-CurrentView=0
+ViewCount=3
+CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dpr
 View0=0
+View1=1
+View2=2
 PercentageSizes=1
 Create=1
 Visible=1
@@ -54,6 +65,28 @@ BottomMiddelPanelData=0000080001020200000009000000446F636B5369746530100000004772
 [View0]
 CustomEditViewType=TWelcomePageView
 WelcomePageURL=bds:/default.htm
+
+[View1]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dpr
+CursorX=32
+CursorY=67
+TopLine=22
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\SimpleBrowser.dpr
+
+[View2]
+CustomEditViewType=TEditView
+Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas
+CursorX=1
+CursorY=85
+TopLine=54
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SimpleBrowser\uSimpleBrowser.pas
 
 [Watches]
 Count=0

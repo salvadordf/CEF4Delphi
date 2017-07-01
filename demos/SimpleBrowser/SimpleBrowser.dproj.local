@@ -2,8 +2,8 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2017/01/22 14:37:05.000.577,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/01/22 14:41:11.000.096,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi demos\SimpleBrowser\uSimpleBrowser.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>2017/01/22 14:41:11.000.096,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi demos\SimpleBrowser\uSimpleBrowser.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/01/22 14:41:18.000.226,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi demos\SimpleBrowser\SimpleBrowser.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2017/01/22 14:41:11.000.096,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi demos\SimpleBrowser\uSimpleBrowser.pas</Transaction>
+    <Transaction>2017/01/22 14:41:11.000.096,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi demos\SimpleBrowser\uSimpleBrowser.dfm</Transaction>
+    <Transaction>2017/01/22 14:41:18.000.226,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi demos\SimpleBrowser\SimpleBrowser.dproj</Transaction>
   </Transactions>
 </BorlandProject>
