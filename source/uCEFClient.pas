@@ -619,7 +619,7 @@ begin
 
   if not(MultithreadApp) and not(ExternalMessagePump) then
     begin
-      if (CefInstances = 0) then CefTimer := SetTimer(0, 0, USER_TIMER_MINIMUM, @TimerProc);
+      if (CefInstances = 0) then CefTimer := SetTimer(0, 0, CEF_USER_TIMER_MINIMUM, @TimerProc);
       InterlockedIncrement(CefInstances);
     end;
 end;

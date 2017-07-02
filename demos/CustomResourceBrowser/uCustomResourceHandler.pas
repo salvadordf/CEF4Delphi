@@ -130,7 +130,6 @@ function TCustomResourceHandler.ReadResponse(const dataOut     : Pointer;
 begin
   if (FStream <> nil) and (DataOut <> nil) then
     begin
-      FStream.Seek(0, soFromBeginning);
       BytesRead := FStream.Read(DataOut^, BytesToRead);
       Result    := True;
     end

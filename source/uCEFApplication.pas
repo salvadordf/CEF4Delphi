@@ -68,8 +68,6 @@ const
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
 
-  IMAGE_FILE_LARGE_ADDRESS_AWARE = $20;
-
 type
   TInternalApp = class;
 

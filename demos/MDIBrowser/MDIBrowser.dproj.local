@@ -2,10 +2,10 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2017/05/01 10:03:03.000.353,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\about.pas=</Transaction>
-    <Transaction>2017/05/01 11:22:18.000.397,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\MDIAPP.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\MDIBrowser.dproj</Transaction>
-    <Transaction>2017/05/01 12:25:35.000.397,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\Main.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uMainForm.pas</Transaction>
-    <Transaction>2017/05/01 12:25:35.000.397,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\Main.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uMainForm.dfm</Transaction>
-    <Transaction>2017/05/01 12:26:13.000.106,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\ChildWin.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uChildForm.pas</Transaction>
-    <Transaction>2017/05/01 12:26:13.000.106,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\ChildWin.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uChildForm.dfm</Transaction>
+    <Transaction>2017/05/01 11:22:18.000.397,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\MDIBrowser.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\MDIAPP.dproj</Transaction>
+    <Transaction>2017/05/01 12:25:35.000.397,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uMainForm.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\Main.pas</Transaction>
+    <Transaction>2017/05/01 12:25:35.000.397,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uMainForm.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\Main.dfm</Transaction>
+    <Transaction>2017/05/01 12:26:13.000.106,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uChildForm.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\ChildWin.dfm</Transaction>
+    <Transaction>2017/05/01 12:26:13.000.106,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\uChildForm.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\MDIBrowser\ChildWin.pas</Transaction>
   </Transactions>
 </BorlandProject>

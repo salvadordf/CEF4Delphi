@@ -42,9 +42,9 @@ program MiniBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms, System.SysUtils,
+  Vcl.Forms, WinApi.Windows, System.SysUtils,
   {$ELSE}
-  Forms, SysUtils,
+  Forms, Windows, SysUtils,
   {$ENDIF}
   uCEFApplication,
   uCEFMiscFunctions,

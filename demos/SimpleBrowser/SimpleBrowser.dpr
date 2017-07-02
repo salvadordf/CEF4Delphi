@@ -41,9 +41,9 @@ program SimpleBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
+  Vcl.Forms, WinApi.Windows,
   {$ELSE}
-  Forms,
+  Forms, Windows,
   {$ENDIF}
   uCEFApplication,
   uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};

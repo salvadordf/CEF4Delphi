@@ -41,9 +41,9 @@ program ToolBoxBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
+  Vcl.Forms, WinApi.Windows,
   {$ELSE}
-  Forms,
+  Forms, Windows,
   {$ENDIF }
   uCEFApplication,
   uMainForm in 'uMainForm.pas' {MainForm},
