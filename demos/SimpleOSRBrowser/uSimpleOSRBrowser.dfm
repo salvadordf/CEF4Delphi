@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Simple OSR Browser'
-  ClientHeight = 578
-  ClientWidth = 677
+  ClientHeight = 712
+  ClientWidth = 984
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
   OnShow = FormShow
   PixelsPerInch = 96
@@ -18,7 +19,7 @@ object Form1: TForm1
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 677
+    Width = 984
     Height = 30
     Align = alTop
     BevelOuter = bvNone
@@ -28,19 +29,21 @@ object Form1: TForm1
     Padding.Bottom = 5
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 677
     object Edit1: TEdit
       Left = 5
       Top = 5
-      Width = 636
+      Width = 943
       Height = 20
       Margins.Right = 5
       Align = alClient
       TabOrder = 0
       Text = 'http://www.google.com'
+      ExplicitWidth = 636
       ExplicitHeight = 21
     end
     object Button1: TButton
-      Left = 641
+      Left = 948
       Top = 5
       Width = 31
       Height = 20
@@ -49,13 +52,14 @@ object Form1: TForm1
       Caption = 'Go'
       TabOrder = 1
       OnClick = Button1Click
+      ExplicitLeft = 641
     end
   end
   object PaintBox: TPaintBox32
     Left = 0
     Top = 30
-    Width = 677
-    Height = 548
+    Width = 984
+    Height = 682
     Align = alClient
     TabOrder = 1
     OnMouseDown = PaintBoxMouseDown
@@ -63,6 +67,8 @@ object Form1: TForm1
     OnMouseUp = PaintBoxMouseUp
     OnMouseWheel = PaintBoxMouseWheel
     OnResize = PaintBoxResize
+    ExplicitWidth = 677
+    ExplicitHeight = 548
   end
   object chrmosr: TChromium
     OnGetRootScreenRect = chrmosrGetRootScreenRect
@@ -72,12 +78,12 @@ object Form1: TForm1
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
-    Left = 304
-    Top = 304
+    Left = 24
+    Top = 56
   end
   object AppEvents: TApplicationEvents
     OnMessage = AppEventsMessage
-    Left = 504
-    Top = 240
+    Left = 24
+    Top = 128
   end
 end

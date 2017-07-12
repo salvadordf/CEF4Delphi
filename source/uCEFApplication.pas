@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3071;
-  CEF_SUPPORTED_VERSION_RELEASE = 1645;
+  CEF_SUPPORTED_VERSION_RELEASE = 1647;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 59;
@@ -905,6 +905,7 @@ begin
   cef_directory_exists                   := GetProcAddress(FLibHandle, 'cef_directory_exists');
   cef_delete_file                        := GetProcAddress(FLibHandle, 'cef_delete_file');
   cef_zip_directory                      := GetProcAddress(FLibHandle, 'cef_zip_directory');
+  cef_load_crlsets_file                  := GetProcAddress(FLibHandle, 'cef_load_crlsets_file');
 
   Result := assigned(cef_create_directory) and
             assigned(cef_get_temp_directory) and
@@ -912,7 +913,8 @@ begin
             assigned(cef_create_temp_directory_in_directory) and
             assigned(cef_directory_exists) and
             assigned(cef_delete_file) and
-            assigned(cef_zip_directory);
+            assigned(cef_zip_directory) and
+            assigned(cef_load_crlsets_file);
 end;
 
 function TCefApplication.Load_cef_geolocation_capi_h : boolean;

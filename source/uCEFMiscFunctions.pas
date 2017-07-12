@@ -163,6 +163,7 @@ function CefCreateTempDirectoryInDirectory(const baseDir, prefix: ustring; out n
 function CefDirectoryExists(const path: ustring): Boolean;
 function CefDeleteFile(const path: ustring; recursive: Boolean): Boolean;
 function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Boolean): Boolean;
+procedure CefLoadCRLSetsFile(const path : ustring);
 
 implementation
 
@@ -976,6 +977,14 @@ begin
   src := CefString(srcDir);
   dst := CefString(destFile);
   Result := cef_zip_directory(@src, @dst, Ord(includeHiddenFiles)) <> 0;
+end;
+
+procedure CefLoadCRLSetsFile(const path : ustring);
+var
+  TempPath : TCefString;
+begin
+  TempPath := CefString(path);
+  cef_load_crlsets_file(@TempPath);
 end;
 
 end.
