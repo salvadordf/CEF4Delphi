@@ -658,9 +658,7 @@ begin
      else
       TempDir := '';
 
-    Result := FileExists(TempDir + 'natives_blob.bin')       and
-              FileExists(TempDir + 'snapshot_blob.bin')      and
-              FileExists(TempDir + 'icudtl.dat')             and
+    Result := FileExists(TempDir + 'icudtl.dat')             and
               FileExists(TempDir + 'cef.pak')                and
               FileExists(TempDir + 'cef_100_percent.pak')    and
               FileExists(TempDir + 'cef_200_percent.pak')    and
@@ -698,6 +696,8 @@ begin
               FileExists(TempDir + 'd3dcompiler_47.dll')     and
               FileExists(TempDir + 'libEGL.dll')             and
               FileExists(TempDir + 'libGLESv2.dll')          and
+              FileExists(TempDir + 'natives_blob.bin')       and
+              FileExists(TempDir + 'snapshot_blob.bin')      and
               FileExists(TempDir + 'widevinecdmadapter.dll');
   except
     on e : exception do
