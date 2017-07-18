@@ -2,9 +2,9 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2017/07/01 10:31:40.000.157,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/07/01 10:33:03.000.262,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uMainForm.pas</Transaction>
-    <Transaction>2017/07/01 10:33:03.000.262,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uMainForm.dfm</Transaction>
-    <Transaction>2017/07/01 10:33:13.000.749,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\CRBrowser.dproj</Transaction>
+    <Transaction>2017/07/01 10:33:03.000.262,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uMainForm.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/07/01 10:33:03.000.262,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uMainForm.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2017/07/01 10:33:13.000.749,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\CRBrowser.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
     <Transaction>2017/07/01 10:54:08.000.543,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CustomResourceBrowser\uCustomResourceHandler.pas</Transaction>
   </Transactions>
 </BorlandProject>

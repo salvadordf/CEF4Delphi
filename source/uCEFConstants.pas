@@ -134,9 +134,17 @@ const
   CERT_STATUS_FIRST_ERROR = CERT_STATUS_COMMON_NAME_INVALID;
   CERT_STATUS_LAST_ERROR  = CERT_STATUS_VALIDITY_TOO_LONG;
 
+  // /include/internal/cef_types.h (cef_v8_accesscontrol_t)
+  V8_ACCESS_CONTROL_DEFAULT               = 0;
+  V8_ACCESS_CONTROL_ALL_CAN_READ          = 1 shl 0;
+  V8_ACCESS_CONTROL_ALL_CAN_WRITE         = 1 shl 1;
+  V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING = 1 shl 2;
 
   // /include/internal/cef_types.h (cef_v8_propertyattribute_t)
-  V8_PROPERTY_ATTRIBUTE_NONE = [];
+  V8_PROPERTY_ATTRIBUTE_NONE       = 0;
+  V8_PROPERTY_ATTRIBUTE_READONLY   = 1 shl 0;
+  V8_PROPERTY_ATTRIBUTE_DONTENUM   = 1 shl 1;
+  V8_PROPERTY_ATTRIBUTE_DONTDELETE = 1 shl 2;
 
   // /include/internal/cef_types.h (cef_transition_type_t)
   TT_LINK                 = 0;
@@ -145,7 +153,7 @@ const
   TT_MANUAL_SUBFRAME      = 4;
   TT_FORM_SUBMIT          = 7;
   TT_RELOAD               = 8;
-  TT_SOURCE_MASK          = $FF;
+  TT_SOURCE_MASK          = $000000FF;
   TT_BLOCKED_FLAG         = $00800000;
   TT_FORWARD_BACK_FLAG    = $01000000;
   TT_CHAIN_START_FLAG     = $10000000;
@@ -155,27 +163,60 @@ const
   TT_IS_REDIRECT_MASK     = $C0000000;
   TT_QUALIFIER_MASK       = $FFFFFF00;
 
+  // /include/internal/cef_types.h (cef_urlrequest_flags_t)
+  UR_FLAG_NONE                     = 0;
+  UR_FLAG_SKIP_CACHE               = 1 shl 0;
+  UR_FLAG_ALLOW_CACHED_CREDENTIALS = 1 shl 1;
+  UR_FLAG_REPORT_UPLOAD_PROGRESS   = 1 shl 3;
+  UR_FLAG_NO_DOWNLOAD_DATA         = 1 shl 6;
+  UR_FLAG_NO_RETRY_ON_5XX          = 1 shl 7;
+
   // /include/internal/cef_types.h (cef_dom_event_category_t)
-  DOM_EVENT_CATEGORY_UNKNOWN                 = $0;
-  DOM_EVENT_CATEGORY_UI                      = $1;
-  DOM_EVENT_CATEGORY_MOUSE                   = $2;
-  DOM_EVENT_CATEGORY_MUTATION                = $4;
-  DOM_EVENT_CATEGORY_KEYBOARD                = $8;
-  DOM_EVENT_CATEGORY_TEXT                    = $10;
-  DOM_EVENT_CATEGORY_COMPOSITION             = $20;
-  DOM_EVENT_CATEGORY_DRAG                    = $40;
-  DOM_EVENT_CATEGORY_CLIPBOARD               = $80;
-  DOM_EVENT_CATEGORY_MESSAGE                 = $100;
-  DOM_EVENT_CATEGORY_WHEEL                   = $200;
-  DOM_EVENT_CATEGORY_BEFORE_TEXT_INSERTED    = $400;
-  DOM_EVENT_CATEGORY_OVERFLOW                = $800;
-  DOM_EVENT_CATEGORY_PAGE_TRANSITION         = $1000;
-  DOM_EVENT_CATEGORY_POPSTATE                = $2000;
-  DOM_EVENT_CATEGORY_PROGRESS                = $4000;
-  DOM_EVENT_CATEGORY_XMLHTTPREQUEST_PROGRESS = $8000;
+  DOM_EVENT_CATEGORY_UNKNOWN                 = 0;
+  DOM_EVENT_CATEGORY_UI                      = 1 shl 0;
+  DOM_EVENT_CATEGORY_MOUSE                   = 1 shl 1;
+  DOM_EVENT_CATEGORY_MUTATION                = 1 shl 2;
+  DOM_EVENT_CATEGORY_KEYBOARD                = 1 shl 3;
+  DOM_EVENT_CATEGORY_TEXT                    = 1 shl 4;
+  DOM_EVENT_CATEGORY_COMPOSITION             = 1 shl 5;
+  DOM_EVENT_CATEGORY_DRAG                    = 1 shl 6;
+  DOM_EVENT_CATEGORY_CLIPBOARD               = 1 shl 7;
+  DOM_EVENT_CATEGORY_MESSAGE                 = 1 shl 8;
+  DOM_EVENT_CATEGORY_WHEEL                   = 1 shl 9;
+  DOM_EVENT_CATEGORY_BEFORE_TEXT_INSERTED    = 1 shl 10;
+  DOM_EVENT_CATEGORY_OVERFLOW                = 1 shl 11;
+  DOM_EVENT_CATEGORY_PAGE_TRANSITION         = 1 shl 12;
+  DOM_EVENT_CATEGORY_POPSTATE                = 1 shl 13;
+  DOM_EVENT_CATEGORY_PROGRESS                = 1 shl 14;
+  DOM_EVENT_CATEGORY_XMLHTTPREQUEST_PROGRESS = 1 shl 15;
+
+  // /include/internal/cef_types.h (cef_event_flags_t)
+  EVENTFLAG_NONE                 = 0;
+  EVENTFLAG_CAPS_LOCK_ON         = 1 shl 0;
+  EVENTFLAG_SHIFT_DOWN           = 1 shl 1;
+  EVENTFLAG_CONTROL_DOWN         = 1 shl 2;
+  EVENTFLAG_ALT_DOWN             = 1 shl 3;
+  EVENTFLAG_LEFT_MOUSE_BUTTON    = 1 shl 4;
+  EVENTFLAG_MIDDLE_MOUSE_BUTTON  = 1 shl 5;
+  EVENTFLAG_RIGHT_MOUSE_BUTTON   = 1 shl 6;
+  EVENTFLAG_COMMAND_DOWN         = 1 shl 7;
+  EVENTFLAG_NUM_LOCK_ON          = 1 shl 8;
+  EVENTFLAG_IS_KEY_PAD           = 1 shl 9;
+  EVENTFLAG_IS_LEFT              = 1 shl 10;
+  EVENTFLAG_IS_RIGHT             = 1 shl 11;
+
+  // /include/internal/cef_types.h (cef_drag_operations_mask_t)
+  DRAG_OPERATION_NONE     = 0;
+  DRAG_OPERATION_COPY     = 1 shl 0;
+  DRAG_OPERATION_LINK     = 1 shl 1;
+  DRAG_OPERATION_GENERIC  = 1 shl 2;
+  DRAG_OPERATION_PRIVATE  = 1 shl 3;
+  DRAG_OPERATION_MOVE     = 1 shl 4;
+  DRAG_OPERATION_DELETE   = 1 shl 5;
+  DRAG_OPERATION_EVERY    = $FFFFFFFF;
 
   // /include/internal/cef_types.h (cef_file_dialog_mode_t)
-  FILE_DIALOG_TYPE_MASK            = $FF;
+  FILE_DIALOG_TYPE_MASK            = $000000FF;
   FILE_DIALOG_OVERWRITEPROMPT_FLAG = $01000000;
   FILE_DIALOG_HIDEREADONLY_FLAG    = $02000000;
 
@@ -217,6 +258,39 @@ const
   MENU_ID_USER_FIRST                 = 26500;
   MENU_ID_USER_LAST                  = 28500;
 
+  // /include/internal/cef_types.h (cef_context_menu_type_flags_t)
+  CM_TYPEFLAG_NONE      = 0;
+  CM_TYPEFLAG_PAGE      = 1 shl 0;
+  CM_TYPEFLAG_FRAME     = 1 shl 1;
+  CM_TYPEFLAG_LINK      = 1 shl 2;
+  CM_TYPEFLAG_MEDIA     = 1 shl 3;
+  CM_TYPEFLAG_SELECTION = 1 shl 4;
+  CM_TYPEFLAG_EDITABLE  = 1 shl 5;
+
+  // /include/internal/cef_types.h (cef_context_menu_media_state_flags_t)
+  CM_MEDIAFLAG_NONE                  = 0;
+  CM_MEDIAFLAG_ERROR                 = 1 shl 0;
+  CM_MEDIAFLAG_PAUSED                = 1 shl 1;
+  CM_MEDIAFLAG_MUTED                 = 1 shl 2;
+  CM_MEDIAFLAG_LOOP                  = 1 shl 3;
+  CM_MEDIAFLAG_CAN_SAVE              = 1 shl 4;
+  CM_MEDIAFLAG_HAS_AUDIO             = 1 shl 5;
+  CM_MEDIAFLAG_HAS_VIDEO             = 1 shl 6;
+  CM_MEDIAFLAG_CONTROL_ROOT_ELEMENT  = 1 shl 7;
+  CM_MEDIAFLAG_CAN_PRINT             = 1 shl 8;
+  CM_MEDIAFLAG_CAN_ROTATE            = 1 shl 9;
+
+  // /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)
+  CM_EDITFLAG_NONE                   = 0;
+  CM_EDITFLAG_CAN_UNDO               = 1 shl 0;
+  CM_EDITFLAG_CAN_REDO               = 1 shl 1;
+  CM_EDITFLAG_CAN_CUT                = 1 shl 2;
+  CM_EDITFLAG_CAN_COPY               = 1 shl 3;
+  CM_EDITFLAG_CAN_PASTE              = 1 shl 4;
+  CM_EDITFLAG_CAN_DELETE             = 1 shl 5;
+  CM_EDITFLAG_CAN_SELECT_ALL         = 1 shl 6;
+  CM_EDITFLAG_CAN_TRANSLATE          = 1 shl 7;
+
   // /include/internal/cef_types.h (cef_ssl_version_t)
   SSL_CONNECTION_VERSION_UNKNOWN = 0;
   SSL_CONNECTION_VERSION_SSL2    = 1;
@@ -225,6 +299,18 @@ const
   SSL_CONNECTION_VERSION_TLS1_1  = 4;
   SSL_CONNECTION_VERSION_TLS1_2  = 5;
   SSL_CONNECTION_VERSION_QUIC    = 7;
+
+  // /include/internal/cef_types.h (cef_ssl_content_status_t)
+  SSL_CONTENT_NORMAL_CONTENT             = 0;
+  SSL_CONTENT_DISPLAYED_INSECURE_CONTENT = 1 shl 0;
+  SSL_CONTENT_RAN_INSECURE_CONTENT       = 1 shl 1;
+
+  // /include/internal/cef_types.h (cef_json_writer_options_t)
+  JSON_WRITER_DEFAULT                       = 0;
+  JSON_WRITER_OMIT_BINARY_VALUES            = 1 shl 0;
+  JSON_WRITER_OMIT_DOUBLE_TYPE_PRESERVATION = 1 shl 1;
+  JSON_WRITER_PRETTY_PRINT                  = 1 shl 2;
+
 
 //******************************************************
 //****************** OTHER CONSTANTS *******************
@@ -272,6 +358,7 @@ const
 
   CEF_PREFERENCES_SAVED  = WM_APP + $A00;
   CEF_DOONCLOSE          = WM_APP + $A01;
+  CEF_STARTDRAGGING      = WM_APP + $A02;
 
   CEF_USER_TIMER_MINIMUM = $0000000A;
   CEF_USER_TIMER_MAXIMUM = $7FFFFFFF;

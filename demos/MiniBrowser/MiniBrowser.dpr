@@ -42,10 +42,14 @@ program MiniBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms, WinApi.Windows, System.SysUtils,
+  Vcl.Forms,
+  WinApi.Windows,
+  System.SysUtils,
   {$ELSE}
-  Forms, Windows, SysUtils,
-  {$ENDIF}
+  Forms,
+  Windows,
+  SysUtils,
+  {$ENDIF }
   uCEFApplication,
   uCEFMiscFunctions,
   uCEFSchemeRegistrar,
@@ -57,10 +61,12 @@ uses
   uCEFConstants,
   uCEFTypes,
   uCEFTask,
+  uCEFProcessMessage,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uTestExtension in 'uTestExtension.pas',
   uHelloScheme in 'uHelloScheme.pas',
-  uPreferences in 'uPreferences.pas' {PreferencesFrm};
+  uPreferences in 'uPreferences.pas' {PreferencesFrm},
+  uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
 
 {$R *.res}
 
@@ -121,7 +127,9 @@ begin
   end;
 end;
 
-procedure DOMVisitor_OnDocAvailable(const document: ICefDomDocument);
+procedure DOMVisitor_OnDocAvailable(const browser: ICefBrowser; const document: ICefDomDocument);
+var
+  msg: ICefProcessMessage;
 begin
   // This function is called from a different process.
   // document is only valid inside this function.
@@ -133,12 +141,19 @@ begin
 
   // Simple DOM searches
   SimpleNodeSearch(document);
+
+  // Sending back some custom results to the browser process
+  // Notice that the 'domvisitor' message name needs to be recognized in
+  // Chromium1ProcessMessageReceived
+  msg := TCefProcessMessageRef.New('domvisitor');
+  msg.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
+  browser.SendProcessMessage(PID_BROWSER, msg);
 end;
 
 procedure ProcessHandler_OnCustomMessage(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage);
 var
   TempFrame : ICefFrame;
-  TempVisitor : TCefFastDomVisitor;
+  TempVisitor : TCefFastDomVisitor2;
 begin
   if (browser <> nil) then
     begin
@@ -146,7 +161,7 @@ begin
 
       if (TempFrame <> nil) then
         begin
-          TempVisitor := TCefFastDomVisitor.Create(DOMVisitor_OnDocAvailable);
+          TempVisitor := TCefFastDomVisitor2.Create(browser, DOMVisitor_OnDocAvailable);
           TempFrame.VisitDom(TempVisitor);
         end;
     end;
@@ -214,8 +229,9 @@ begin
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
       Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
-      Application.CreateForm(TPreferencesFrm, PreferencesFrm);
-      Application.Run;
+  Application.CreateForm(TPreferencesFrm, PreferencesFrm);
+  Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
+  Application.Run;
     end;
 
   GlobalCEFApp.Free;

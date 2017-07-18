@@ -100,6 +100,7 @@ type
 
   TOnPdfPrintFinishedProc          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; ok: Boolean);
   TCefDomVisitorProc               = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const document: ICefDomDocument);
+  TCefDomVisitorProc2              = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser : ICefBrowser; const document: ICefDomDocument);
   TCefStringVisitorProc            = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const str: ustring);
 
   TOnRegisterCustomSchemes         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const registrar: TCefSchemeRegistrarRef) {$IFNDEF DELPHI12_UP}of object{$ENDIF};

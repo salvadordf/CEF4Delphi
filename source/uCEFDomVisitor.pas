@@ -60,12 +60,24 @@ type
 
   TCefFastDomVisitor = class(TCefDomVisitorOwn)
     protected
-      FProc: TCefDomVisitorProc;
+      FProc    : TCefDomVisitorProc;
 
       procedure visit(const document: ICefDomDocument); override;
 
     public
       constructor Create(const proc: TCefDomVisitorProc); reintroduce; virtual;
+  end;
+
+  TCefFastDomVisitor2 = class(TCefDomVisitorOwn)
+    protected
+      FProc    : TCefDomVisitorProc2;
+      FBrowser : ICefBrowser;
+
+      procedure visit(const document: ICefDomDocument); override;
+
+    public
+      constructor Create(const browser: ICefBrowser; const proc: TCefDomVisitorProc2); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -97,12 +109,36 @@ end;
 constructor TCefFastDomVisitor.Create(const proc: TCefDomVisitorProc);
 begin
   inherited Create;
+
   FProc := proc;
 end;
 
 procedure TCefFastDomVisitor.visit(const document: ICefDomDocument);
 begin
   FProc(document);
+end;
+
+
+// TCefFastDomVisitor2
+
+constructor TCefFastDomVisitor2.Create(const browser: ICefBrowser; const proc: TCefDomVisitorProc2);
+begin
+  inherited Create;
+
+  FBrowser := browser;
+  FProc    := proc;
+end;
+
+destructor TCefFastDomVisitor2.Destroy;
+begin
+  FBrowser := nil;
+
+  inherited Destroy;
+end;
+
+procedure TCefFastDomVisitor2.visit(const document: ICefDomDocument);
+begin
+  FProc(FBrowser, document);
 end;
 
 end.

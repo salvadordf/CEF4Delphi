@@ -106,6 +106,10 @@
         <DCCReference Include="uPreferences.pas">
             <Form>PreferencesFrm</Form>
         </DCCReference>
+        <DCCReference Include="uSimpleTextViewer.pas">
+            <Form>SimpleTextViewerFrm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

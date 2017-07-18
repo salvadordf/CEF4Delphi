@@ -46,6 +46,7 @@ uses
   Forms, Windows,
   {$ENDIF}
   uCEFApplication,
+  uCEFTypes,
   uSimpleOSRBrowser in 'uSimpleOSRBrowser.pas' {Form1};
 
 {$R *.res}
@@ -56,6 +57,8 @@ uses
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.AddCustomCommandLine('--disable-gpu');
+  GlobalCEFApp.AddCustomCommandLine('--disable-gpu-compositing');
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
 {
@@ -66,7 +69,6 @@ begin
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
-
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;

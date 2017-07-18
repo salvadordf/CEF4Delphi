@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Simple OSR Browser'
-  ClientHeight = 712
-  ClientWidth = 984
+  ClientHeight = 716
+  ClientWidth = 992
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,37 +13,28 @@ object Form1: TForm1
   OldCreateOrder = False
   Position = poScreenCenter
   OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnHide = FormHide
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
+  object NavControlPnl: TPanel
     Left = 0
     Top = 0
-    Width = 984
+    Width = 992
     Height = 30
     Align = alTop
     BevelOuter = bvNone
+    Enabled = False
     Padding.Left = 5
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
     ShowCaption = False
-    TabOrder = 0
-    ExplicitWidth = 677
-    object Edit1: TEdit
-      Left = 5
-      Top = 5
-      Width = 943
-      Height = 20
-      Margins.Right = 5
-      Align = alClient
-      TabOrder = 0
-      Text = 'http://www.google.com'
-      ExplicitWidth = 636
-      ExplicitHeight = 21
-    end
-    object Button1: TButton
-      Left = 948
+    TabOrder = 1
+    object GoBtn: TButton
+      Left = 956
       Top = 5
       Width = 31
       Height = 20
@@ -51,26 +42,51 @@ object Form1: TForm1
       Align = alRight
       Caption = 'Go'
       TabOrder = 1
-      OnClick = Button1Click
-      ExplicitLeft = 641
+      OnClick = GoBtnClick
+    end
+    object ComboBox1: TComboBox
+      Left = 5
+      Top = 5
+      Width = 951
+      Height = 21
+      Align = alClient
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'https://www.google.com'
+      Items.Strings = (
+        'https://www.google.com'
+        'https://html5demos.com/drag')
     end
   end
-  object PaintBox: TPaintBox32
+  object Panel1: TPanel
     Left = 0
     Top = 30
-    Width = 984
-    Height = 682
+    Width = 992
+    Height = 686
     Align = alClient
-    TabOrder = 1
-    OnMouseDown = PaintBoxMouseDown
-    OnMouseMove = PaintBoxMouseMove
-    OnMouseUp = PaintBoxMouseUp
-    OnMouseWheel = PaintBoxMouseWheel
-    OnResize = PaintBoxResize
-    ExplicitWidth = 677
-    ExplicitHeight = 548
+    BevelOuter = bvNone
+    ShowCaption = False
+    TabOrder = 0
+    TabStop = True
+    OnEnter = Panel1Enter
+    OnExit = Panel1Exit
+    object PaintBox: TPaintBox32
+      Left = 0
+      Top = 0
+      Width = 992
+      Height = 686
+      Align = alClient
+      TabOrder = 0
+      OnClick = PaintBoxClick
+      OnMouseDown = PaintBoxMouseDown
+      OnMouseMove = PaintBoxMouseMove
+      OnMouseUp = PaintBoxMouseUp
+      OnMouseWheel = PaintBoxMouseWheel
+      OnResize = PaintBoxResize
+    end
   end
   object chrmosr: TChromium
+    OnAfterCreated = chrmosrAfterCreated
     OnGetRootScreenRect = chrmosrGetRootScreenRect
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint

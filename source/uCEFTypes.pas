@@ -201,22 +201,32 @@ type
   PPCefX509Certificate = ^PCefX509Certificate;
 
 
-  TCefWindowHandle         = HWND;        // /include/internal/cef_types_win.h (cef_window_handle_t)
-  TCefCursorHandle         = HCURSOR;     // /include/internal/cef_types_win.h (cef_cursor_handle_t)
-  TCefEventHandle          = PMsg;        // /include/internal/cef_types_win.h (cef_event_handle_t)
-  TCefPlatformThreadId     = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_id_t)
-  TCefPlatformThreadHandle = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_handle_t)
-  TCefTransitionType       = Cardinal;    // /include/internal/cef_types.h (cef_transition_type_t)
-  TCefColor                = Cardinal;    // /include/internal/cef_types.h (cef_color_t)
-  TCefErrorcode            = Integer;     // /include/internal/cef_types.h (cef_errorcode_t)
-  TCefCertStatus           = Integer;     // /include/internal/cef_types.h (cef_cert_status_t)
-  TCefSSLVersion           = integer;     // /include/internal/cef_types.h (cef_ssl_version_t)
-  TCefStringList           = Pointer;     // /include/internal/cef_string_list.h (cef_string_list_t)
-  TCefStringMap            = Pointer;     // /include/internal/cef_string_map.h (cef_string_map_t)
-  TCefStringMultimap       = Pointer;     // /include/internal/cef_string_multimap.h (cef_string_multimap_t)
-  TCefUriUnescapeRule      = Integer;     // /include/internal/cef_types.h (cef_uri_unescape_rule_t)
-  TCefDomEventCategory     = Integer;     // /include/internal/cef_types.h (cef_dom_event_category_t)
-
+  TCefWindowHandle                 = HWND;        // /include/internal/cef_types_win.h (cef_window_handle_t)
+  TCefCursorHandle                 = HCURSOR;     // /include/internal/cef_types_win.h (cef_cursor_handle_t)
+  TCefEventHandle                  = PMsg;        // /include/internal/cef_types_win.h (cef_event_handle_t)
+  TCefPlatformThreadId             = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_id_t)
+  TCefPlatformThreadHandle         = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_handle_t)
+  TCefTransitionType               = Cardinal;    // /include/internal/cef_types.h (cef_transition_type_t)
+  TCefColor                        = Cardinal;    // /include/internal/cef_types.h (cef_color_t)
+  TCefErrorcode                    = Integer;     // /include/internal/cef_types.h (cef_errorcode_t)
+  TCefCertStatus                   = Integer;     // /include/internal/cef_types.h (cef_cert_status_t)
+  TCefSSLVersion                   = integer;     // /include/internal/cef_types.h (cef_ssl_version_t)
+  TCefStringList                   = Pointer;     // /include/internal/cef_string_list.h (cef_string_list_t)
+  TCefStringMap                    = Pointer;     // /include/internal/cef_string_map.h (cef_string_map_t)
+  TCefStringMultimap               = Pointer;     // /include/internal/cef_string_multimap.h (cef_string_multimap_t)
+  TCefUriUnescapeRule              = Integer;     // /include/internal/cef_types.h (cef_uri_unescape_rule_t)
+  TCefDomEventCategory             = Integer;     // /include/internal/cef_types.h (cef_dom_event_category_t)
+  TCefEventFlags                   = Cardinal;    // /include/internal/cef_types.h (cef_event_flags_t)
+  TCefDragOperations               = Cardinal;    // /include/internal/cef_types.h (cef_drag_operations_mask_t)
+  TCefDragOperation                = Cardinal;    // /include/internal/cef_types.h (cef_drag_operations_mask_t)
+  TCefV8AccessControls             = Cardinal;    // /include/internal/cef_types.h (cef_v8_accesscontrol_t)
+  TCefV8PropertyAttributes         = Cardinal;    // /include/internal/cef_types.h (cef_v8_propertyattribute_t)
+  TCefUrlRequestFlags              = Cardinal;    // /include/internal/cef_types.h (cef_urlrequest_flags_t)
+  TCefContextMenuTypeFlags         = Cardinal;    // /include/internal/cef_types.h (cef_context_menu_type_flags_t)
+  TCefContextMenuMediaStateFlags   = Cardinal;    // /include/internal/cef_types.h (cef_context_menu_media_state_flags_t)
+  TCefContextMenuEditStateFlags    = Cardinal;    // /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)
+  TCefJsonWriterOptions            = Cardinal;    // /include/internal/cef_types.h (cef_json_writer_options_t)
+  TCefSSLContentStatus             = Cardinal;    // /include/internal/cef_types.h (cef_ssl_content_status_t)
 
 {$IFNDEF DELPHI12_UP}
   NativeUInt  = Cardinal;
@@ -359,14 +369,6 @@ type
     JSON_PARSE_ERROR_COUNT
   );
 
-  // /include/internal/cef_types.h (cef_json_writer_options_t)
-  TCefJsonWriterOption = (
-    JSON_WRITER_OMIT_BINARY_VALUES,
-    JSON_WRITER_OMIT_DOUBLE_TYPE_PRESERVATION,
-    JSON_WRITER_PRETTY_PRINT
-  );
-  TCefJsonWriterOptions = set of TCefJsonWriterOption;
-
   // /include/internal/cef_types.h (cef_state_t)
   TCefState = (
     STATE_DEFAULT = 0,
@@ -492,40 +494,15 @@ type
     MENUITEMTYPE_SUBMENU
   );
 
-  // /include/internal/cef_types.h (cef_event_flags_t)
-  TCefEventFlag = (
-    EVENTFLAG_CAPS_LOCK_ON,
-    EVENTFLAG_SHIFT_DOWN,
-    EVENTFLAG_CONTROL_DOWN,
-    EVENTFLAG_ALT_DOWN,
-    EVENTFLAG_LEFT_MOUSE_BUTTON,
-    EVENTFLAG_MIDDLE_MOUSE_BUTTON,
-    EVENTFLAG_RIGHT_MOUSE_BUTTON,
-    EVENTFLAG_COMMAND_DOWN,
-    EVENTFLAG_NUM_LOCK_ON,
-    EVENTFLAG_IS_KEY_PAD,
-    EVENTFLAG_IS_LEFT,
-    EVENTFLAG_IS_RIGHT
-  );
-  TCefEventFlags = set of TCefEventFlag;
-
-  // /include/internal/cef_types.h (cef_drag_operations_mask_t)
-  TCefDragOperation = (
-    DRAG_OPERATION_COPY,
-    DRAG_OPERATION_LINK,
-    DRAG_OPERATION_GENERIC,
-    DRAG_OPERATION_PRIVATE,
-    DRAG_OPERATION_MOVE,
-    DRAG_OPERATION_DELETE
-  );
-  TCefDragOperations = set of TCefDragOperation;
-
   // /include/internal/cef_types.h (cef_file_dialog_mode_t)
   TCefFileDialogMode = (
     FILE_DIALOG_OPEN,
     FILE_DIALOG_OPEN_MULTIPLE,
     FILE_DIALOG_OPEN_FOLDER,
-    FILE_DIALOG_SAVE
+    FILE_DIALOG_SAVE,
+    FILE_DIALOG_TYPE_MASK = $FF,
+    FILE_DIALOG_OVERWRITEPROMPT_FLAG = $01000000,
+    FILE_DIALOG_HIDEREADONLY_FLAG = $02000000
   );
 
   // /include/internal/cef_types.h (cef_focus_source_t)
@@ -681,19 +658,6 @@ type
     RV_CONTINUE_ASYNC
   );
 
-  // /include/internal/cef_types.h (cef_urlrequest_flags_t)
-  TCefUrlRequestFlag = (
-    UR_FLAG_SKIP_CACHE,
-    UR_FLAG_ALLOW_CACHED_CREDENTIALS,
-    UR_FLAG_DUMMY_1,
-    UR_FLAG_REPORT_UPLOAD_PROGRESS,
-    UR_FLAG_DUMMY_2,
-    UR_FLAG_DUMMY_3,
-    UR_FLAG_NO_DOWNLOAD_DATA,
-    UR_FLAG_NO_RETRY_ON_5XX
-  );
-  TCefUrlRequestFlags = set of TCefUrlRequestFlag;
-
   // /include/internal/cef_types.h (cef_urlrequest_status_t)
   TCefUrlRequestStatus = (
     UR_UNKNOWN = 0,
@@ -727,22 +691,6 @@ type
     ST_LOCALSTORAGE = 0,
     ST_SESSIONSTORAGE
   );
-
-  // /include/internal/cef_types.h (cef_v8_accesscontrol_t)
-  TCefV8AccessControl = (
-    V8_ACCESS_CONTROL_ALL_CAN_READ,
-    V8_ACCESS_CONTROL_ALL_CAN_WRITE,
-    V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING
-  );
-  TCefV8AccessControls = set of TCefV8AccessControl;
-
-  // /include/internal/cef_types.h (cef_v8_propertyattribute_t)
-  TCefV8PropertyAttribute = (
-    V8_PROPERTY_ATTRIBUTE_READONLY,
-    V8_PROPERTY_ATTRIBUTE_DONTENUM,
-    V8_PROPERTY_ATTRIBUTE_DONTDELETE
-  );
-  TCefV8PropertyAttributes = set of TCefV8PropertyAttribute;
 
   // /include/internal/cef_types.h (cef_response_filter_status_t)
   TCefResponseFilterStatus = (
@@ -883,45 +831,6 @@ type
     GEOPOSITON_ERROR_TIMEOUT
   );
 
-  // /include/internal/cef_types.h (cef_context_menu_type_flags_t)
-  TCefContextMenuTypeFlag = (
-    CM_TYPEFLAG_PAGE,
-    CM_TYPEFLAG_FRAME,
-    CM_TYPEFLAG_LINK,
-    CM_TYPEFLAG_MEDIA,
-    CM_TYPEFLAG_SELECTION,
-    CM_TYPEFLAG_EDITABLE
-  );
-  TCefContextMenuTypeFlags = set of TCefContextMenuTypeFlag;
-
-  // /include/internal/cef_types.h (cef_context_menu_media_state_flags_t)
-  TCefContextMenuMediaStateFlag = (
-    CM_MEDIAFLAG_ERROR,
-    CM_MEDIAFLAG_PAUSED,
-    CM_MEDIAFLAG_MUTED,
-    CM_MEDIAFLAG_LOOP,
-    CM_MEDIAFLAG_CAN_SAVE,
-    CM_MEDIAFLAG_HAS_AUDIO,
-    CM_MEDIAFLAG_HAS_VIDEO,
-    CM_MEDIAFLAG_CONTROL_ROOT_ELEMENT,
-    CM_MEDIAFLAG_CAN_PRINT,
-    CM_MEDIAFLAG_CAN_ROTATE
-  );
-  TCefContextMenuMediaStateFlags = set of TCefContextMenuMediaStateFlag;
-
-  // /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)
-  TCefContextMenuEditStateFlag = (
-    CM_EDITFLAG_CAN_UNDO,
-    CM_EDITFLAG_CAN_REDO,
-    CM_EDITFLAG_CAN_CUT,
-    CM_EDITFLAG_CAN_COPY,
-    CM_EDITFLAG_CAN_PASTE,
-    CM_EDITFLAG_CAN_DELETE,
-    CM_EDITFLAG_CAN_SELECT_ALL,
-    CM_EDITFLAG_CAN_TRANSLATE
-  );
-  TCefContextMenuEditStateFlags = set of TCefContextMenuEditStateFlag;
-
   // /include/internal/cef_types.h (cef_button_state_t)
   TCefButtonState = (
     CEF_BUTTON_STATE_NORMAL,
@@ -954,13 +863,6 @@ type
     CEF_MENU_COLOR_BACKGROUND_HOVERED,
     CEF_MENU_COLOR_COUNT
   );
-
-  // /include/internal/cef_types.h (cef_ssl_content_status_t)
-  TCefSSLContentStatusFlags = (
-    SSL_CONTENT_DISPLAYED_INSECURE_CONTENT,
-    SSL_CONTENT_RAN_INSECURE_CONTENT
-  );
-  TCefSSLContentStatus = set of TCefSSLContentStatusFlags;
 
   // /include/internal/cef_types.h (cef_cdm_registration_error_t)
   TCefCDMRegistrationError = (

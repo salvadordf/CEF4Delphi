@@ -48,57 +48,62 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, WinApi.Messages, System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms,
+  WinApi.Windows, WinApi.Messages, System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX,
   {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics, Forms,
+  Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFPDFPrintCallback, uCEFStringVisitor, uCEFConstants, uCEFTask,
   uCEFDeleteCookiesCallback, uCEFDomVisitor, uCEFChromiumEvents,
-  uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions;
+  uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions,
+  uCEFDragAndDropMgr;
 
 type
   TChromium = class(TComponent, IChromiumEvents)
     protected
-      FCompHandle         : HWND;
-      FVisitor            : ICefStringVisitor;
-      FPDFPrintcb         : ICefPdfPrintCallback;
-      FCookiDeletercb     : ICefDeleteCookiesCallback;
-      FHandler            : ICefClient;
-      FBrowser            : ICefBrowser;
-      FBrowserId          : Integer;
-      FDefaultUrl         : ustring;
-      FOptions            : TChromiumOptions;
-      FFontOptions        : TChromiumFontOptions;
-      FPDFPrintOptions    : TPDFPrintOptions;
-      FDefaultEncoding    : ustring;
-      FProxyType          : integer;
-      FProxyServer        : string;
-      FProxyPort          : integer;
-      FProxyUsername      : string;
-      FProxyPassword      : string;
-      FProxyScriptURL     : string;
-      FProxyByPassList    : string;
-      FUpdatePreferences  : boolean;
-      FCustomHeaderName   : string;
-      FCustomHeaderValue  : string;
-      FAddCustomHeader    : boolean;
-      FDoNotTrack         : boolean;
-      FSendReferrer       : boolean;
-      FHyperlinkAuditing  : boolean;
-      FCookiePrefs        : integer;
-      FImagesPrefs        : integer;
-      FCMStoragePath      : ustring;
-      FZoomStep           : byte;
-      FWindowName         : string;
-      FPrefsFileName      : string;
-      FIsOSR              : boolean;
-      FInitialized        : boolean;
-      FClosing            : boolean;
-      FWindowInfo         : TCefWindowInfo;
-      FBrowserSettings    : TCefBrowserSettings;
-      FDevWindowInfo      : TCefWindowInfo;
-      FDevBrowserSettings : TCefBrowserSettings;
+      FCompHandle             : HWND;
+      FVisitor                : ICefStringVisitor;
+      FPDFPrintcb             : ICefPdfPrintCallback;
+      FCookiDeletercb         : ICefDeleteCookiesCallback;
+      FHandler                : ICefClient;
+      FBrowser                : ICefBrowser;
+      FBrowserId              : Integer;
+      FDefaultUrl             : ustring;
+      FOptions                : TChromiumOptions;
+      FFontOptions            : TChromiumFontOptions;
+      FPDFPrintOptions        : TPDFPrintOptions;
+      FDefaultEncoding        : ustring;
+      FProxyType              : integer;
+      FProxyServer            : string;
+      FProxyPort              : integer;
+      FProxyUsername          : string;
+      FProxyPassword          : string;
+      FProxyScriptURL         : string;
+      FProxyByPassList        : string;
+      FUpdatePreferences      : boolean;
+      FCustomHeaderName       : string;
+      FCustomHeaderValue      : string;
+      FAddCustomHeader        : boolean;
+      FDoNotTrack             : boolean;
+      FSendReferrer           : boolean;
+      FHyperlinkAuditing      : boolean;
+      FCookiePrefs            : integer;
+      FImagesPrefs            : integer;
+      FCMStoragePath          : ustring;
+      FZoomStep               : byte;
+      FWindowName             : string;
+      FPrefsFileName          : string;
+      FIsOSR                  : boolean;
+      FInitialized            : boolean;
+      FClosing                : boolean;
+      FWindowInfo             : TCefWindowInfo;
+      FBrowserSettings        : TCefBrowserSettings;
+      FDevWindowInfo          : TCefWindowInfo;
+      FDevBrowserSettings     : TCefBrowserSettings;
+      FDragOperations         : TCefDragOperations;
+      FDragDropManager        : TCEFDragAndDropMgr;
+      FDropTargetCtrl         : TWinControl;
+      FDragAndDropInitialized : boolean;
 
       // ICefClient
       FOnProcessMessageReceived       : TOnProcessMessageReceived;
@@ -270,9 +275,15 @@ type
       procedure PrefsAvailableMsg(var aMessage : TMessage);
       function  GetParentForm : TCustomForm;
       procedure ApplyZoomStep;
+      procedure DelayedDragging;
       function  SendCompMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+      procedure ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);
       procedure WndProc(var aMessage: TMessage);
 
+      procedure DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+      procedure DragDropManager_OnDragOver(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+      procedure DragDropManager_OnDragLeave(Sender: TObject);
+      procedure DragDropManager_OnDrop(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
 
       // ICefClient
       function  doOnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean; virtual;
@@ -378,6 +389,8 @@ type
       procedure   CloseBrowser(aForceClose : boolean);
       function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = '') : boolean; overload;
       function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = '') : boolean; overload;
+      procedure   InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
+      procedure   ShutdownDragAndDrop;
 
       // Internal procedures.
       // Only tasks, visitors or callbacks should use them in the right thread/process.
@@ -450,6 +463,13 @@ type
       procedure   SetFocus(focus: Boolean);
       procedure   SetAccessibilityState(accessibilityState: TCefState);
 
+      procedure   DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);
+      procedure   DragTargetDragOver(const event: PCefMouseEvent; allowedOps: TCefDragOperations);
+      procedure   DragTargetDragLeave;
+      procedure   DragTargetDrop(event: PCefMouseEvent);
+      procedure   DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
+      procedure   DragSourceSystemDragEnded;
+
 
       property  DefaultUrl              : ustring                      read FDefaultUrl               write FDefaultUrl;
       property  Options                 : TChromiumOptions             read FOptions                  write FOptions;
@@ -488,6 +508,7 @@ type
       property  SendReferrer            : boolean                      read FSendReferrer             write SetSendReferrer;
       property  HyperlinkAuditing       : boolean                      read FHyperlinkAuditing        write SetHyperlinkAuditing;
       property  HasValidMainFrame       : boolean                      read GetHasValidMainFrame;
+      property  DragOperations          : TCefDragOperations           read FDragOperations           write FDragOperations;
 
       property  ProxyType               : integer                      read FProxyType                write SetProxyType;
       property  ProxyServer             : string                       read FProxyServer              write SetProxyServer;
@@ -609,45 +630,49 @@ uses
   SysUtils, Math,
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFCookieManager, uCEFFrame,
-  uCEFApplication, uCEFProcessMessage;
+  uCEFApplication, uCEFProcessMessage, uOLEDragAndDrop;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
-  FBrowser               := nil;
-  FBrowserId             := 0;
-  FCompHandle            := 0;
-  FClosing               := False;
-  FInitialized           := False;
-  FIsOSR                 := False;
-  FDefaultUrl            := 'about:blank';
-  FHandler               := nil;
-  FOptions               := nil;
-  FFontOptions           := nil;
-  FDefaultEncoding       := '';
-  FVisitor               := nil;
-  FPDFPrintcb            := nil;
-  FCookiDeletercb        := nil;
-  FPDFPrintOptions       := nil;
-  FUpdatePreferences     := False;
-  FCustomHeaderName      := '';
-  FCustomHeaderValue     := '';
-  FPrefsFileName         := '';
-  FAddCustomHeader       := False;
-  FDoNotTrack            := True;
-  FSendReferrer          := True;
-  FHyperlinkAuditing     := False;
-  FCookiePrefs           := CEF_CONTENT_SETTING_ALLOW;
-  FImagesPrefs           := CEF_CONTENT_SETTING_ALLOW;
-  FZoomStep              := ZOOM_STEP_DEF;
-  FWindowName            := '';
+  FBrowser                := nil;
+  FBrowserId              := 0;
+  FCompHandle             := 0;
+  FClosing                := False;
+  FInitialized            := False;
+  FIsOSR                  := False;
+  FDefaultUrl             := 'about:blank';
+  FHandler                := nil;
+  FOptions                := nil;
+  FFontOptions            := nil;
+  FDefaultEncoding        := '';
+  FVisitor                := nil;
+  FPDFPrintcb             := nil;
+  FCookiDeletercb         := nil;
+  FPDFPrintOptions        := nil;
+  FUpdatePreferences      := False;
+  FCustomHeaderName       := '';
+  FCustomHeaderValue      := '';
+  FPrefsFileName          := '';
+  FAddCustomHeader        := False;
+  FDoNotTrack             := True;
+  FSendReferrer           := True;
+  FHyperlinkAuditing      := False;
+  FCookiePrefs            := CEF_CONTENT_SETTING_ALLOW;
+  FImagesPrefs            := CEF_CONTENT_SETTING_ALLOW;
+  FZoomStep               := ZOOM_STEP_DEF;
+  FWindowName             := '';
+  FDragOperations         := DRAG_OPERATION_NONE;
+  FDragDropManager        := nil;
+  FDropTargetCtrl         := nil;
+  FDragAndDropInitialized := False;
 
-  FProxyType             := CEF_PROXYTYPE_DIRECT;
-  FProxyServer           := '';
-  FProxyPort             := 80;
-  FProxyUsername         := '';
-  FProxyPassword         := '';
-  FProxyScriptURL        := '';
-  FProxyByPassList       := '';
+  FProxyType         := CEF_PROXYTYPE_DIRECT;
+  FProxyServer       := '';
+  FProxyPort         := 80;
+  FProxyUsername     := '';
+  FProxyPassword     := '';
+  FProxyScriptURL    := '';
+  FProxyByPassList   := '';
 
   FillChar(FWindowInfo,    SizeOf(TCefWindowInfo), 0);
   FillChar(FDevWindowInfo, SizeOf(TCefWindowInfo), 0);
@@ -664,6 +689,8 @@ destructor TChromium.Destroy;
 begin
   try
     try
+      if (FDragDropManager <> nil) then FreeAndNil(FDragDropManager);
+
       if (FCompHandle <> 0) then
         begin
           DeallocateHWnd(FCompHandle);
@@ -896,6 +923,91 @@ begin
     on e : exception do
       if CustomExceptionHandler('TChromium.CreateBrowser', e) then raise;
   end;
+end;
+
+procedure TChromium.InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
+var
+  TempDropTarget : IDropTarget;
+begin
+  if FIsOSR and (FDragDropManager = nil) and (aDropTargetCtrl <> nil) then
+    begin
+      FDropTargetCtrl                 := aDropTargetCtrl;
+
+      FDragDropManager                := TCEFDragAndDropMgr.Create;
+      FDragDropManager.OnDragEnter    := DragDropManager_OnDragEnter;
+      FDragDropManager.OnDragOver     := DragDropManager_OnDragOver;
+      FDragDropManager.OnDragLeave    := DragDropManager_OnDragLeave;
+      FDragDropManager.OnDrop         := DragDropManager_OnDrop;
+
+      TempDropTarget                  := TOLEDropTarget.Create(FDragDropManager);
+
+      RegisterDragDrop(FDropTargetCtrl.Handle, TempDropTarget);
+
+      FDragAndDropInitialized := True;
+    end;
+end;
+
+procedure TChromium.ShutdownDragAndDrop;
+begin
+  if FDragAndDropInitialized and (FDropTargetCtrl <> nil) then
+    RevokeDragDrop(FDropTargetCtrl.Handle);
+end;
+
+procedure TChromium.ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);
+begin
+  if (FDropTargetCtrl <> nil) then
+    begin
+      pt                    := FDropTargetCtrl.ScreenToClient(pt);
+      aMouseEvent.x         := pt.x;
+      aMouseEvent.y         := pt.y;
+      aMouseEvent.modifiers := GetCefMouseModifiers(grfKeyState);
+    end;
+end;
+
+procedure TChromium.DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+var
+  TempMouseEvent : TCefMouseEvent;
+  TempAllowedOps : TCefDragOperations;
+begin
+  ToMouseEvent(grfKeyState, pt, TempMouseEvent);
+  DropEffectToDragOperation(dwEffect, TempAllowedOps);
+
+  DragTargetDragEnter(aDragData, @TempMouseEvent, TempAllowedOps);
+  DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
+
+  DragOperationToDropEffect(FDragOperations, dwEffect);
+end;
+
+procedure TChromium.DragDropManager_OnDragOver(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+var
+  TempMouseEvent : TCefMouseEvent;
+  TempAllowedOps : TCefDragOperations;
+begin
+  ToMouseEvent(grfKeyState, pt, TempMouseEvent);
+  DropEffectToDragOperation(dwEffect, TempAllowedOps);
+
+  DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
+
+  DragOperationToDropEffect(FDragOperations, dwEffect);
+end;
+
+procedure TChromium.DragDropManager_OnDragLeave(Sender: TObject);
+begin
+  DragTargetDragLeave;
+end;
+
+procedure TChromium.DragDropManager_OnDrop(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+var
+  TempMouseEvent : TCefMouseEvent;
+  TempAllowedOps : TCefDragOperations;
+begin
+  ToMouseEvent(grfKeyState, pt, TempMouseEvent);
+  DropEffectToDragOperation(dwEffect, TempAllowedOps);
+
+  DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
+  DragTargetDrop(@TempMouseEvent);
+
+  DragOperationToDropEffect(FDragOperations, dwEffect);
 end;
 
 procedure TChromium.CloseBrowser(aForceClose : boolean);
@@ -1615,7 +1727,7 @@ begin
     begin
       TempEvent.x         := 0;
       TempEvent.y         := 0;
-      TempEvent.modifiers := [];
+      TempEvent.modifiers := EVENTFLAG_NONE;
       FBrowser.Host.SendMouseWheelEvent(@TempEvent, aDeltaX, aDeltaY);
     end;
 end;
@@ -2133,6 +2245,7 @@ procedure TChromium.WndProc(var aMessage: TMessage);
 begin
   case aMessage.Msg of
     CEF_PREFERENCES_SAVED : PrefsAvailableMsg(aMessage);
+    CEF_STARTDRAGGING     : DelayedDragging;
 
     else aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
   end;
@@ -2687,7 +2800,33 @@ function TChromium.doOnStartDragging(const browser    : ICefBrowser;
 begin
   Result := False;
 
+  if FDragAndDropInitialized and
+     FDragDropManager.CloneDragData(dragData, allowedOps) then
+    begin
+      Result := True;
+      SendCompMessage(CEF_STARTDRAGGING);
+    end;
+
   if Assigned(FOnStartDragging) then FOnStartDragging(Self, browser, dragData, allowedOps, x, y, Result);
+end;
+
+procedure TChromium.DelayedDragging;
+var
+  TempOperation : TCefDragOperation;
+  TempPoint     : TPoint;
+begin
+  if FDragAndDropInitialized then
+    begin
+      FDragOperations := DRAG_OPERATION_NONE;
+      TempOperation   := FDragDropManager.StartDragging;
+      FDragOperations := DRAG_OPERATION_NONE;
+
+      GetCursorPos(TempPoint);
+      TempPoint := FDropTargetCtrl.ScreenToClient(TempPoint);
+
+      DragSourceEndedAt(TempPoint.x, TempPoint.y, TempOperation);
+      DragSourceSystemDragEnded;
+    end;
 end;
 
 procedure TChromium.doOnStatusMessage(const browser: ICefBrowser; const value: ustring);
@@ -2714,6 +2853,8 @@ end;
 
 procedure TChromium.doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
 begin
+  if FDragAndDropInitialized then FDragOperations := operation;
+
   if Assigned(FOnUpdateDragCursor) then FOnUpdateDragCursor(Self, browser, operation);
 end;
 
@@ -2891,6 +3032,36 @@ end;
 function TChromium.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
 begin
   Result := Initialized and FBrowser.SendProcessMessage(targetProcess, ProcMessage);
+end;
+
+procedure TChromium.DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);
+begin
+  if Initialized then FBrowser.Host.DragTargetDragEnter(dragData, event, allowedOps);
+end;
+
+procedure TChromium.DragTargetDragOver(const event: PCefMouseEvent; allowedOps: TCefDragOperations);
+begin
+  if Initialized then FBrowser.Host.DragTargetDragOver(event, allowedOps);
+end;
+
+procedure TChromium.DragTargetDragLeave;
+begin
+  if Initialized then FBrowser.Host.DragTargetDragLeave;
+end;
+
+procedure TChromium.DragTargetDrop(event: PCefMouseEvent);
+begin
+  if Initialized then FBrowser.Host.DragTargetDrop(event);
+end;
+
+procedure TChromium.DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
+begin
+  if Initialized then FBrowser.Host.DragSourceEndedAt(x, y, op);
+end;
+
+procedure TChromium.DragSourceSystemDragEnded;
+begin
+  if Initialized then FBrowser.Host.DragSourceSystemDragEnded;
 end;
 
 end.

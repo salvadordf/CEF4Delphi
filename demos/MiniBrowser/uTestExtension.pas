@@ -53,9 +53,13 @@ uses
 type
   TTestExtension = class
     class procedure mouseover(const data: string);
+    class procedure sendresulttobrowser(const msgtext, msgname : string);
   end;
 
 implementation
+
+uses
+  uCEFMiscFunctions, uCEFConstants;
 
 class procedure TTestExtension.mouseover(const data: string);
 var
@@ -66,6 +70,16 @@ begin
 
   // Sending a message back to the browser. It'll be received in the TChromium.OnProcessMessageReceived event.
   // TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing Javascript.
+  TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+end;
+
+class procedure TTestExtension.sendresulttobrowser(const msgtext, msgname : string);
+var
+  msg: ICefProcessMessage;
+begin
+  msg := TCefProcessMessageRef.New(msgname);
+  msg.ArgumentList.SetString(0, msgtext);
+
   TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
 end;
 

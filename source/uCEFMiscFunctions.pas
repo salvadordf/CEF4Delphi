@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, System.Classes, System.SysUtils,
+  WinApi.Windows, System.Classes, System.SysUtils, System.UITypes, WinApi.ActiveX,
   {$ELSE}
-  Windows, Classes, SysUtils,
+  Windows, Classes, SysUtils, UITypes, ActiveX,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler;
 
@@ -164,6 +164,15 @@ function CefDirectoryExists(const path: ustring): Boolean;
 function CefDeleteFile(const path: ustring; recursive: Boolean): Boolean;
 function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Boolean): Boolean;
 procedure CefLoadCRLSetsFile(const path : ustring);
+
+function CefIsKeyDown(aWparam : WPARAM) : boolean;
+function CefIsKeyToggled(aWparam : WPARAM) : boolean;
+function GetCefMouseModifiers(awparam : WPARAM) : TCefEventFlags;
+function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;
+function GefCursorToWindowsCursor(aCefCursor : TCefCursorType) : TCursor;
+
+procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDragOperations);
+procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
 
 implementation
 
@@ -985,6 +994,158 @@ var
 begin
   TempPath := CefString(path);
   cef_load_crlsets_file(@TempPath);
+end;
+
+function CefIsKeyDown(aWparam : WPARAM) : boolean;
+begin
+  Result := (GetKeyState(aWparam) < 0);
+end;
+
+function CefIsKeyToggled(aWparam : WPARAM) : boolean;
+begin
+  Result := (GetKeyState(aWparam) and $1) <> 0;
+end;
+
+function GetCefMouseModifiers(aWparam : WPARAM) : TCefEventFlags;
+begin
+  Result := EVENTFLAG_NONE;
+
+  if ((aWparam and MK_CONTROL) <> 0) then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if ((aWparam and MK_SHIFT)   <> 0) then Result := Result or EVENTFLAG_SHIFT_DOWN;
+  if ((aWparam and MK_LBUTTON) <> 0) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+  if ((aWparam and MK_MBUTTON) <> 0) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+  if ((aWparam and MK_RBUTTON) <> 0) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+  if CefIsKeyDown(VK_MENU)           then Result := Result or EVENTFLAG_ALT_DOWN;
+  if CefIsKeyToggled(VK_NUMLOCK)     then Result := Result or EVENTFLAG_NUM_LOCK_ON;
+  if CefIsKeyToggled(VK_CAPITAL)     then Result := Result or EVENTFLAG_CAPS_LOCK_ON;
+end;
+
+function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;
+begin
+  Result := EVENTFLAG_NONE;
+
+  if CefIsKeyDown(VK_SHIFT)      then Result := Result or EVENTFLAG_SHIFT_DOWN;
+  if CefIsKeyDown(VK_CONTROL)    then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if CefIsKeyDown(VK_MENU)       then Result := Result or EVENTFLAG_ALT_DOWN;
+  if CefIsKeyToggled(VK_NUMLOCK) then Result := Result or EVENTFLAG_NUM_LOCK_ON;
+  if CefIsKeyToggled(VK_CAPITAL) then Result := Result or EVENTFLAG_CAPS_LOCK_ON;
+
+
+  case aWparam of
+    VK_RETURN:
+      if (((aLparam shr 16) and KF_EXTENDED) <> 0) then Result := Result or EVENTFLAG_IS_KEY_PAD;
+
+    VK_INSERT,
+    VK_DELETE,
+    VK_HOME,
+    VK_END,
+    VK_PRIOR,
+    VK_NEXT,
+    VK_UP,
+    VK_DOWN,
+    VK_LEFT,
+    VK_RIGHT :
+      if (((aLparam shr 16) and KF_EXTENDED) = 0) then Result := Result or EVENTFLAG_IS_KEY_PAD;
+
+    VK_NUMLOCK,
+    VK_NUMPAD0,
+    VK_NUMPAD1,
+    VK_NUMPAD2,
+    VK_NUMPAD3,
+    VK_NUMPAD4,
+    VK_NUMPAD5,
+    VK_NUMPAD6,
+    VK_NUMPAD7,
+    VK_NUMPAD8,
+    VK_NUMPAD9,
+    VK_DIVIDE,
+    VK_MULTIPLY,
+    VK_SUBTRACT,
+    VK_ADD,
+    VK_DECIMAL,
+    VK_CLEAR :
+      Result := Result or EVENTFLAG_IS_KEY_PAD;
+
+    VK_SHIFT :
+      if CefIsKeyDown(VK_LSHIFT) then
+        Result := Result or EVENTFLAG_IS_LEFT
+       else
+        if CefIsKeyDown(VK_RSHIFT) then
+          Result := Result or EVENTFLAG_IS_RIGHT;
+
+    VK_CONTROL :
+      if CefIsKeyDown(VK_LCONTROL) then
+        Result := Result or EVENTFLAG_IS_LEFT
+       else
+        if CefIsKeyDown(VK_RCONTROL) then
+          Result := Result or EVENTFLAG_IS_RIGHT;
+
+    VK_MENU :
+      if CefIsKeyDown(VK_LMENU) then
+        Result := Result or EVENTFLAG_IS_LEFT
+       else
+        if CefIsKeyDown(VK_RMENU) then
+          Result := Result or EVENTFLAG_IS_RIGHT;
+
+    VK_LWIN :
+      Result := Result or EVENTFLAG_IS_LEFT;
+
+    VK_RWIN :
+      Result := Result or EVENTFLAG_IS_RIGHT;
+  end;
+end;
+
+function GefCursorToWindowsCursor(aCefCursor : TCefCursorType) : TCursor;
+begin
+  case aCefCursor of
+    CT_POINTER                  : Result := crArrow;
+    CT_CROSS                    : Result := crCross;
+    CT_HAND                     : Result := crHandPoint;
+    CT_IBEAM                    : Result := crIBeam;
+    CT_WAIT                     : Result := crHourGlass;
+    CT_HELP                     : Result := crHelp;
+    CT_EASTRESIZE               : Result := crSizeWE;
+    CT_NORTHRESIZE              : Result := crSizeNS;
+    CT_NORTHEASTRESIZE          : Result := crSizeNESW;
+    CT_NORTHWESTRESIZE          : Result := crSizeNWSE;
+    CT_SOUTHRESIZE              : Result := crSizeNS;
+    CT_SOUTHEASTRESIZE          : Result := crSizeNWSE;
+    CT_SOUTHWESTRESIZE          : Result := crSizeNESW;
+    CT_WESTRESIZE               : Result := crSizeWE;
+    CT_NORTHSOUTHRESIZE         : Result := crSizeNS;
+    CT_EASTWESTRESIZE           : Result := crSizeWE;
+    CT_NORTHEASTSOUTHWESTRESIZE : Result := crSizeNESW;
+    CT_NORTHWESTSOUTHEASTRESIZE : Result := crSizeNWSE;
+    CT_COLUMNRESIZE             : Result := crHSplit;
+    CT_ROWRESIZE                : Result := crVSplit;
+    CT_MOVE                     : Result := crSizeAll;
+    CT_PROGRESS                 : Result := crAppStart;
+    CT_NONE                     : Result := crNone;
+    CT_NODROP,
+    CT_NOTALLOWED               : Result := crNo;
+    CT_GRAB,
+    CT_GRABBING                 : Result := crDrag;
+
+    else Result := crDefault;
+  end;
+end;
+
+procedure DropEffectToDragOperation(aEffect: Longint; var aAllowedOps : TCefDragOperations);
+begin
+  aAllowedOps := DRAG_OPERATION_NONE;
+
+  if ((aEffect and DROPEFFECT_COPY) <> 0) then aAllowedOps := aAllowedOps or DRAG_OPERATION_COPY;
+  if ((aEffect and DROPEFFECT_LINK) <> 0) then aAllowedOps := aAllowedOps or DRAG_OPERATION_LINK;
+  if ((aEffect and DROPEFFECT_MOVE) <> 0) then aAllowedOps := aAllowedOps or DRAG_OPERATION_MOVE;
+end;
+
+procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
+begin
+  aEffect := DROPEFFECT_NONE;
+
+  if ((aDragOperations and DRAG_OPERATION_COPY) <> 0) then aEffect := aEffect or DROPEFFECT_COPY;
+  if ((aDragOperations and DRAG_OPERATION_LINK) <> 0) then aEffect := aEffect or DROPEFFECT_LINK;
+  if ((aDragOperations and DRAG_OPERATION_MOVE) <> 0) then aEffect := aEffect or DROPEFFECT_MOVE;
 end;
 
 end.
