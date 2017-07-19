@@ -25,7 +25,5 @@ object SimpleTextViewerFrm: TSimpleTextViewerFrm
     ReadOnly = True
     ScrollBars = ssBoth
     TabOrder = 0
-    ExplicitWidth = 611
-    ExplicitHeight = 495
   end
 end

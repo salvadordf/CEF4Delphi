@@ -214,7 +214,7 @@ begin
     Result := 0
    else
     begin
-      TempPointer := Pointer(PByte(FData) + FOffset);
+      TempPointer := Pointer(cardinal(FData) + FOffset);
 
       CopyMemory(TempPointer, ptr, size * n);
 

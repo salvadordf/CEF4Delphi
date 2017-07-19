@@ -47,7 +47,7 @@ uses
   WinApi.ActiveX, WinApi.ShlObj, WinApi.ShellApi, System.StrUtils, System.AnsiStrings,
   {$ELSE}
   Windows, Classes, Controls, SysUtils, Math,
-  ActiveX, ShlObj, Shellapi, StrUtils, AnsiStrings,
+  ActiveX, ShlObj, Shellapi, StrUtils, 
   {$ENDIF}
   uCEFDragData, uCEFInterfaces, uCEFTypes, uOLEDragAndDrop;
 
@@ -340,21 +340,21 @@ begin
                 BODY_END_TAG      + CRLF +
                 HTML_END_TAG;
 
-  TempPos := System.AnsiStrings.PosEx(HTML_START_TAG, TempString) + length(HTML_START_TAG);
+  TempPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_START_TAG, TempString) + length(HTML_START_TAG);
   FmtStr(TempDigits, '%.6d', [TempPos]);
-  TempString := System.AnsiStrings.StringReplace(TempString, PATTERN1, TempDigits, [rfReplaceAll]);
+  TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN1, TempDigits, [rfReplaceAll]);
 
-  TempPos := System.AnsiStrings.PosEx(HTML_END_TAG, TempString);
+  TempPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_END_TAG, TempString);
   FmtStr(TempDigits, '%.6d', [TempPos]);
-  TempString := System.AnsiStrings.StringReplace(TempString, PATTERN2, TempDigits, [rfReplaceAll]);
+  TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN2, TempDigits, [rfReplaceAll]);
 
-  TempPos := System.AnsiStrings.PosEx(FRAGMENT_START, TempString) + length(FRAGMENT_START);
+  TempPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_START, TempString) + length(FRAGMENT_START);
   FmtStr(TempDigits, '%.6d', [TempPos]);
-  TempString := System.AnsiStrings.StringReplace(TempString, PATTERN3, TempDigits, [rfReplaceAll]);
+  TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN3, TempDigits, [rfReplaceAll]);
 
-  TempPos := System.AnsiStrings.PosEx(FRAGMENT_END, TempString);
+  TempPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_END, TempString);
   FmtStr(TempDigits, '%.6d', [TempPos]);
-  TempString := System.AnsiStrings.StringReplace(TempString, PATTERN4, TempDigits, [rfReplaceAll]);
+  TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN4, TempDigits, [rfReplaceAll]);
 
   Result := TempString;
 end;
@@ -372,10 +372,22 @@ begin
       TempValuePos := aPos + length(aFieldName);
       i            := TempValuePos;
 
-      while (i <= TempLen) and not(CharInSet(aString[i], [#13, #10])) do inc(i);
+      while (i <= TempLen) and
+            {$IFDEF DELPHI12_UP}
+            not(CharInSet(aString[i], [#13, #10]))
+            {$ELSE}
+            not(aString[i] in [#13, #10])
+            {$ENDIF} do
+        inc(i);
 
       TempString := copy(aString, TempValuePos, i - TempValuePos);
-      if (length(TempString) > 0) then Result := UTF8ToString(TempString);
+
+      if (length(TempString) > 0) then
+        {$IFDEF DELPHI12_UP}
+        Result := UTF8ToString(TempString);
+        {$ELSE}
+        Result := UTF8Decode(TempString);
+        {$ENDIF}
     end
    else
     Result := '';
@@ -419,12 +431,12 @@ begin
       TempFragStartCommentPos := pos(FRAGMENT_START, cf_html);
 
       if (TempFragStartCommentPos > 0) then
-        TempFragStartCommentPos := System.AnsiStrings.PosEx('-->', cf_html, TempFragStartCommentPos + length(FRAGMENT_START));
+        TempFragStartCommentPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx('-->', cf_html, TempFragStartCommentPos + length(FRAGMENT_START));
 
       if (TempFragStartCommentPos > 0) then
         begin
           TempFragStartCommentPos := TempFragStartCommentPos + 3;
-          TempFragEndCommentPos   := System.AnsiStrings.PosEx(FRAGMENT_END, cf_html, TempFragStartCommentPos);
+          TempFragEndCommentPos   := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_END, cf_html, TempFragStartCommentPos);
         end
        else
         if (TempFragStart > 0) and
@@ -447,7 +459,12 @@ begin
          (TempFragEndCommentPos   > 0) and
          (TempFragEndCommentPos   > TempFragStartCommentPos) then
         begin
-          html     := UTF8ToString(copy(cf_html, TempFragStartCommentPos, TempFragEndCommentPos - TempFragStartCommentPos));
+          {$IFDEF DELPHI12_UP}
+          html := UTF8ToString(copy(cf_html, TempFragStartCommentPos, TempFragEndCommentPos - TempFragStartCommentPos));
+          {$ELSE}
+          html := UTF8Decode(copy(cf_html, TempFragStartCommentPos, TempFragEndCommentPos - TempFragStartCommentPos));
+          {$ENDIF}
+
           base_url := FindStringField(cf_html, CFHTML_SOURCEURL, TempSourcePos);
         end;
     end;
@@ -489,7 +506,12 @@ begin
 
       if (TempPointer <> nil) then
         begin
+          {$IFDEF DELPHI12_UP}
           TempText := UTF8ToString(PAnsiChar(TempPointer));
+          {$ELSE}
+          TempText := UTF8Decode(PAnsiChar(TempPointer));
+          {$ENDIF}
+
           aDragData.SetFragmentText(TempText);
           GlobalUnlock(aMedium.hGlobal);
           Result   := True;

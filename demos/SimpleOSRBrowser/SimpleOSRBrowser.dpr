@@ -57,6 +57,8 @@ uses
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
+
+  // These flags are added for testing purposes. Delete them if you need a faster performace.
   GlobalCEFApp.AddCustomCommandLine('--disable-gpu');
   GlobalCEFApp.AddCustomCommandLine('--disable-gpu-compositing');
 
@@ -69,6 +71,7 @@ begin
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
+
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;

@@ -130,7 +130,7 @@ begin
       TempUTF8String := UTF8Encode(TempString);
 
       FStream.Clear;
-      FStream.WriteData(@TempUTF8String[1], length(TempUTF8String));
+      FStream.Write(@TempUTF8String[1], length(TempUTF8String));
       FStream.Seek(0, soFromBeginning);
     end;
 

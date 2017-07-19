@@ -229,9 +229,9 @@ begin
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
       Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
-  Application.CreateForm(TPreferencesFrm, PreferencesFrm);
-  Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
-  Application.Run;
+      Application.CreateForm(TPreferencesFrm, PreferencesFrm);
+      Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
+      Application.Run;
     end;
 
   GlobalCEFApp.Free;
