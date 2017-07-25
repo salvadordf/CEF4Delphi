@@ -113,6 +113,7 @@ type
       FEnableSpellingService         : boolean;
       FEnableMediaStream             : boolean;
       FEnableSpeechInput             : boolean;
+      FEnableGPU                     : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
       FSmoothScrolling               : boolean;
@@ -239,6 +240,7 @@ type
       property EnableSpellingService       : boolean                         read FEnableSpellingService          write FEnableSpellingService;
       property EnableMediaStream           : boolean                         read FEnableMediaStream              write FEnableMediaStream;
       property EnableSpeechInput           : boolean                         read FEnableSpeechInput              write FEnableSpeechInput;
+      property EnableGPU                   : boolean                         read FEnableGPU                      write FEnableGPU;
       property CheckCEFFiles               : boolean                         read FCheckCEFFiles                  write FCheckCEFFiles;
       property ChromeMajorVer              : uint16                          read FChromeVersionInfo.MajorVer;
       property ChromeMinorVer              : uint16                          read FChromeVersionInfo.MinorVer;
@@ -353,6 +355,7 @@ begin
   FEnableSpellingService         := True;
   FEnableMediaStream             := True;
   FEnableSpeechInput             := True;
+  FEnableGPU                     := True;
   FCustomCommandLines            := nil;
   FCustomCommandLineValues       := nil;
   FCheckCEFFiles                 := True;
@@ -700,7 +703,8 @@ begin
     begin
       if FFlashEnabled then
         begin
-          commandLine.AppendSwitch('--enable-gpu-plugin');
+          if FEnableGPU then commandLine.AppendSwitch('--enable-gpu-plugin');
+
           commandLine.AppendSwitch('--enable-accelerated-plugins');
           commandLine.AppendSwitch('--enable-system-flash');
         end;
@@ -708,6 +712,12 @@ begin
       commandLine.AppendSwitchWithValue('--enable-spelling-service', IntToStr(Ord(FEnableSpellingService)));
       commandLine.AppendSwitchWithValue('--enable-media-stream',     IntToStr(Ord(FEnableMediaStream)));
       commandLine.AppendSwitchWithValue('--enable-speech-input',     IntToStr(Ord(FEnableSpeechInput)));
+
+      if not(FEnableGPU) then
+        begin
+          commandLine.AppendSwitch('--disable-gpu');
+          commandLine.AppendSwitch('--disable-gpu-compositing');
+        end;
 
       if FSmoothScrolling then
         commandLine.AppendSwitch('--enable-smooth-scrolling');

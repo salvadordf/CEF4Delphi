@@ -929,7 +929,10 @@ procedure TChromium.InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
 var
   TempDropTarget : IDropTarget;
 begin
-  if FIsOSR and (FDragDropManager = nil) and (aDropTargetCtrl <> nil) then
+  if FIsOSR and
+     not(FDragAndDropInitialized) and
+     (FDragDropManager = nil) and
+     (aDropTargetCtrl <> nil) then
     begin
       FDropTargetCtrl                 := aDropTargetCtrl;
 
@@ -950,7 +953,10 @@ end;
 procedure TChromium.ShutdownDragAndDrop;
 begin
   if FDragAndDropInitialized and (FDropTargetCtrl <> nil) then
-    RevokeDragDrop(FDropTargetCtrl.Handle);
+    begin
+      RevokeDragDrop(FDropTargetCtrl.Handle);
+      FDragAndDropInitialized := False;
+    end;
 end;
 
 procedure TChromium.ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);

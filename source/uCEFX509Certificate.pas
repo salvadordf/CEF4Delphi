@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes, System.SysUtils,
+  WinApi.Windows, System.Classes, System.SysUtils,
   {$ELSE}
-  Classes, SysUtils,
+  Windows, Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -65,8 +65,8 @@ type
       function GetDerEncoded: ICefBinaryValue;
       function GetPemEncoded: ICefBinaryValue;
       function GetIssuerChainSize: NativeUInt;
-      function GetDEREncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
-      function GetPEMEncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
+      procedure GetDEREncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
+      procedure GetPEMEncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
 
     public
       class function UnWrap(data: Pointer): ICefX509Certificate;
@@ -117,30 +117,36 @@ begin
   Result := PCefX509Certificate(FData).get_issuer_chain_size(FData);
 end;
 
-function TCEFX509CertificateRef.GetDEREncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
+procedure TCEFX509CertificateRef.GetDEREncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
 var
-  TempArray : PPCefBinaryValue;
+  TempArray : array of PCefBinaryValue;
   i : NativeUInt;
 begin
-  Result    := nil;
   TempArray := nil;
 
   try
     try
       if (chainCount > 0) then
         begin
-          GetMem(TempArray, chainCount * SizeOf(Pointer));
+          SetLength(TempArray, chainCount);
 
-          PCefX509Certificate(FData).get_derencoded_issuer_chain(FData, chainCount, TempArray);
+          i := 0;
+          while (i < chainCount) do
+            begin
+              TempArray[i] := nil;
+              inc(i);
+            end;
+
+          PCefX509Certificate(FData).get_derencoded_issuer_chain(FData, chainCount, TempArray[0]);
 
           if (chainCount > 0) then
             begin
-              i      := 0;
-              Result := TInterfaceList.Create;
+              SetLength(chain, chainCount);
 
+              i := 0;
               while (i < chainCount) do
                 begin
-                  Result.Add(TCefBinaryValueRef.UnWrap(PPointerArray(TempArray)[i]));
+                  chain[i] := TCefBinaryValueRef.UnWrap(TempArray[i]);
                   inc(i);
                 end;
             end;
@@ -150,34 +156,44 @@ begin
         if CustomExceptionHandler('TCEFX509CertificateRef.GetDEREncodedIssuerChain', e) then raise;
     end;
   finally
-    if (TempArray <> nil) then FreeMem(TempArray);
+    if (TempArray <> nil) then
+      begin
+        Finalize(TempArray);
+        TempArray := nil;
+      end;
   end;
 end;
 
-function TCEFX509CertificateRef.GetPEMEncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
+procedure TCEFX509CertificateRef.GetPEMEncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
 var
-  TempArray : PPCefBinaryValue;
+  TempArray : array of PCefBinaryValue;
   i : NativeUInt;
 begin
-  Result    := nil;
   TempArray := nil;
 
   try
     try
       if (chainCount > 0) then
         begin
-          GetMem(TempArray, chainCount * SizeOf(Pointer));
+          SetLength(TempArray, chainCount);
 
-          PCefX509Certificate(FData).get_pemencoded_issuer_chain(FData, chainCount, TempArray);
+          i := 0;
+          while (i < chainCount) do
+            begin
+              TempArray[i] := nil;
+              inc(i);
+            end;
+
+          PCefX509Certificate(FData).get_pemencoded_issuer_chain(FData, chainCount, TempArray[0]);
 
           if (chainCount > 0) then
             begin
-              i      := 0;
-              Result := TInterfaceList.Create;
+              SetLength(chain, chainCount);
 
+              i := 0;
               while (i < chainCount) do
                 begin
-                  Result.Add(TCefBinaryValueRef.UnWrap(PPointerArray(TempArray)[i]));
+                  chain[i] := TCefBinaryValueRef.UnWrap(TempArray[i]);
                   inc(i);
                 end;
             end;
@@ -187,7 +203,11 @@ begin
         if CustomExceptionHandler('TCEFX509CertificateRef.GetPEMEncodedIssuerChain', e) then raise;
     end;
   finally
-    if (TempArray <> nil) then FreeMem(TempArray);
+    if (TempArray <> nil) then
+      begin
+        Finalize(TempArray);
+        TempArray := nil;
+      end;
   end;
 end;
 

@@ -65,10 +65,30 @@ type
       class function New(const data: Pointer; dataSize: NativeUInt): ICefBinaryValue;
   end;
 
+  TCefBinaryValueOwn = class(TCefBaseRefCountedOwn, ICefBinaryValue)
+    protected
+      function IsValid: Boolean;
+      function IsOwned: Boolean;
+      function IsSame(const that: ICefBinaryValue): Boolean;
+      function IsEqual(const that: ICefBinaryValue): Boolean;
+      function Copy: ICefBinaryValue;
+      function GetSize: NativeUInt;
+      function GetData(buffer: Pointer; bufferSize, dataOffset: NativeUInt): NativeUInt;
+
+    public
+      constructor Create;
+  end;
+
 implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
+
+
+// **********************************************
+// **********  TCefBinaryValueRef  **************
+// **********************************************
+
 
 function TCefBinaryValueRef.Copy: ICefBinaryValue;
 begin
@@ -117,5 +137,97 @@ begin
     Result := Create(data) as ICefBinaryValue else
     Result := nil;
 end;
+
+
+// **********************************************
+// **********  TCefBinaryValueOwn  **************
+// **********************************************
+
+function cef_binary_value_is_valid(self: PCefBinaryValue): Integer; stdcall;
+begin
+  Result := Ord(TCefBinaryValueOwn(CefGetObject(self)).IsValid);
+end;
+
+function cef_binary_value_is_owned(self: PCefBinaryValue): Integer; stdcall;
+begin
+  Result := Ord(TCefBinaryValueOwn(CefGetObject(self)).IsOwned);
+end;
+
+function cef_binary_value_is_same(self, that: PCefBinaryValue):Integer; stdcall;
+begin
+  Result := Ord(TCefBinaryValueOwn(CefGetObject(self)).IsSame(TCefBinaryValueRef.UnWrap(that)));
+end;
+
+function cef_binary_value_is_equal(self, that: PCefBinaryValue): Integer; stdcall;
+begin
+  Result := Ord(TCefBinaryValueOwn(CefGetObject(self)).IsEqual(TCefBinaryValueRef.UnWrap(that)));
+end;
+
+function cef_binary_value_copy(self: PCefBinaryValue): PCefBinaryValue; stdcall;
+begin
+  Result := CefGetData(TCefBinaryValueOwn(CefGetObject(self)).Copy);
+end;
+
+function cef_binary_value_get_size(self: PCefBinaryValue): NativeUInt; stdcall;
+begin
+  Result := TCefBinaryValueOwn(CefGetObject(self)).GetSize;
+end;
+
+function cef_binary_value_get_data(self: PCefBinaryValue; buffer: Pointer; buffer_size, data_offset: NativeUInt): NativeUInt; stdcall;
+begin
+  Result := TCefBinaryValueOwn(CefGetObject(self)).GetData(buffer, buffer_size, data_offset);
+end;
+
+constructor TCefBinaryValueOwn.Create;
+begin
+  inherited CreateData(SizeOf(TCefBinaryValue));
+
+  with PCefBinaryValue(FData)^ do
+    begin
+      is_valid := cef_binary_value_is_valid;
+      is_owned := cef_binary_value_is_owned;
+      is_same  := cef_binary_value_is_same;
+      is_equal := cef_binary_value_is_equal;
+      copy     := cef_binary_value_copy;
+      get_size := cef_binary_value_get_size;
+      get_data := cef_binary_value_get_data;
+    end;
+end;
+
+function TCefBinaryValueOwn.IsValid: Boolean;
+begin
+  Result := False;
+end;
+
+function TCefBinaryValueOwn.IsOwned: Boolean;
+begin
+  Result := False;
+end;
+
+function TCefBinaryValueOwn.IsSame(const that: ICefBinaryValue): Boolean;
+begin
+  Result := False;
+end;
+
+function TCefBinaryValueOwn.IsEqual(const that: ICefBinaryValue): Boolean;
+begin
+  Result := False;
+end;
+
+function TCefBinaryValueOwn.Copy: ICefBinaryValue;
+begin
+  Result := nil;
+end;
+
+function TCefBinaryValueOwn.GetSize: NativeUInt;
+begin
+  Result := 0;
+end;
+
+function TCefBinaryValueOwn.GetData(buffer: Pointer; bufferSize, dataOffset: NativeUInt): NativeUInt;
+begin
+  Result := 0;
+end;
+
 
 end.

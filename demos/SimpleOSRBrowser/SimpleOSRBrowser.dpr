@@ -57,10 +57,7 @@ uses
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-
-  // These flags are added for testing purposes. Delete them if you need a faster performace.
-  GlobalCEFApp.AddCustomCommandLine('--disable-gpu');
-  GlobalCEFApp.AddCustomCommandLine('--disable-gpu-compositing');
+  GlobalCEFApp.EnableGPU                  := False;
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
 {

@@ -86,6 +86,7 @@ type
 
       function  HtmlToCFHtml(var aHTML, aBaseURL : ustring) : AnsiString;
       procedure CFHtmlToHtml(const cf_html : AnsiString; var html, base_url : string);
+      function  ZeroFiller(aNumber, aLength : integer) : AnsiString;
       function  FindStringField(const aString, aFieldName : AnsiString; var aPos : integer) : string;
 
     public
@@ -297,6 +298,13 @@ begin
     end;
 end;
 
+function TCEFDragAndDropMgr.ZeroFiller(aNumber, aLength : integer) : AnsiString;
+begin
+  Result := AnsiString(IntToStr(aNumber));
+
+  while (length(Result) < aLength) do Result := '0' + Result;
+end;
+
 function TCEFDragAndDropMgr.HtmlToCFHtml(var aHTML, aBaseURL : ustring) : AnsiString;
 const
   CRLF           : AnsiString = #13+#10;
@@ -340,20 +348,20 @@ begin
                 BODY_END_TAG      + CRLF +
                 HTML_END_TAG;
 
-  TempPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_START_TAG, TempString) + length(HTML_START_TAG);
-  FmtStr(TempDigits, '%.6d', [TempPos]);
+  TempPos    := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_START_TAG, TempString) + length(HTML_START_TAG);
+  TempDigits := ZeroFiller(TempPos, length(PATTERN1));
   TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN1, TempDigits, [rfReplaceAll]);
 
-  TempPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_END_TAG, TempString);
-  FmtStr(TempDigits, '%.6d', [TempPos]);
+  TempPos    := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_END_TAG, TempString);
+  TempDigits := ZeroFiller(TempPos, length(PATTERN2));
   TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN2, TempDigits, [rfReplaceAll]);
 
-  TempPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_START, TempString) + length(FRAGMENT_START);
-  FmtStr(TempDigits, '%.6d', [TempPos]);
+  TempPos    := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_START, TempString) + length(FRAGMENT_START);
+  TempDigits := ZeroFiller(TempPos, length(PATTERN3));
   TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN3, TempDigits, [rfReplaceAll]);
 
-  TempPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_END, TempString);
-  FmtStr(TempDigits, '%.6d', [TempPos]);
+  TempPos    := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_END, TempString);
+  TempDigits := ZeroFiller(TempPos, length(PATTERN4));
   TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN4, TempDigits, [rfReplaceAll]);
 
   Result := TempString;

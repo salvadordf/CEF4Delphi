@@ -97,6 +97,7 @@ type
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
+  TCefBinaryValueArray     = array of ICefBinaryValue;
 
   TOnPdfPrintFinishedProc          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; ok: Boolean);
   TCefDomVisitorProc               = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const document: ICefDomDocument);
@@ -1577,8 +1578,8 @@ type
     function GetDerEncoded: ICefBinaryValue;
     function GetPemEncoded: ICefBinaryValue;
     function GetIssuerChainSize: NativeUInt;
-    function GetDEREncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
-    function GetPEMEncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
+    procedure GetDEREncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
+    procedure GetPEMEncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
   end;
 
   ICefSslInfo = interface(ICefBaseRefCounted)
