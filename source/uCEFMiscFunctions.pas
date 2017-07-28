@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, System.Classes, System.SysUtils, System.UITypes, WinApi.ActiveX,
+  WinApi.Windows, System.Classes, System.SysUtils, System.UITypes, WinApi.ActiveX, System.Math,
   {$ELSE}
-  Windows, Classes, SysUtils, Controls, ActiveX,
+  Windows, Classes, SysUtils, Controls, ActiveX, Math,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler;
 
@@ -167,12 +167,22 @@ procedure CefLoadCRLSetsFile(const path : ustring);
 
 function CefIsKeyDown(aWparam : WPARAM) : boolean;
 function CefIsKeyToggled(aWparam : WPARAM) : boolean;
-function GetCefMouseModifiers(awparam : WPARAM) : TCefEventFlags;
+function GetCefMouseModifiers(awparam : WPARAM) : TCefEventFlags; overload;
+function GetCefMouseModifiers : TCefEventFlags; overload;
 function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;
 function GefCursorToWindowsCursor(aCefCursor : TCefCursorType) : TCursor;
 
 procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDragOperations);
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
+
+function  DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;
+procedure DeviceToLogical(var aEvent : TCEFMouseEvent; const aDeviceScaleFactor : double); overload;
+procedure DeviceToLogical(var aPoint : TPoint; const aDeviceScaleFactor : double); overload;
+function  LogicalToDevice(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;
+procedure LogicalToDevice(var aRect : TCEFRect; const aDeviceScaleFactor : double); overload;
+
+function GetScreenDPI : integer;
+function GetDeviceScaleFactor : single;
 
 implementation
 
@@ -1020,6 +1030,20 @@ begin
   if CefIsKeyToggled(VK_CAPITAL)     then Result := Result or EVENTFLAG_CAPS_LOCK_ON;
 end;
 
+function GetCefMouseModifiers : TCefEventFlags;
+begin
+  Result := EVENTFLAG_NONE;
+
+  if CefIsKeyDown(MK_CONTROL)    then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if CefIsKeyDown(MK_SHIFT)      then Result := Result or EVENTFLAG_SHIFT_DOWN;
+  if CefIsKeyDown(MK_LBUTTON)    then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+  if CefIsKeyDown(MK_MBUTTON)    then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+  if CefIsKeyDown(MK_RBUTTON)    then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+  if CefIsKeyDown(VK_MENU)       then Result := Result or EVENTFLAG_ALT_DOWN;
+  if CefIsKeyToggled(VK_NUMLOCK) then Result := Result or EVENTFLAG_NUM_LOCK_ON;
+  if CefIsKeyToggled(VK_CAPITAL) then Result := Result or EVENTFLAG_CAPS_LOCK_ON;
+end;
+
 function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;
 begin
   Result := EVENTFLAG_NONE;
@@ -1146,6 +1170,50 @@ begin
   if ((aDragOperations and DRAG_OPERATION_COPY) <> 0) then aEffect := aEffect or DROPEFFECT_COPY;
   if ((aDragOperations and DRAG_OPERATION_LINK) <> 0) then aEffect := aEffect or DROPEFFECT_LINK;
   if ((aDragOperations and DRAG_OPERATION_MOVE) <> 0) then aEffect := aEffect or DROPEFFECT_MOVE;
+end;
+
+function DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer;
+begin
+  Result := floor(aValue / aDeviceScaleFactor);
+end;
+
+procedure DeviceToLogical(var aEvent : TCEFMouseEvent; const aDeviceScaleFactor : double);
+begin
+  aEvent.x := DeviceToLogical(aEvent.x, aDeviceScaleFactor);
+  aEvent.y := DeviceToLogical(aEvent.y, aDeviceScaleFactor);
+end;
+
+procedure DeviceToLogical(var aPoint : TPoint; const aDeviceScaleFactor : double);
+begin
+  aPoint.x := DeviceToLogical(aPoint.x, aDeviceScaleFactor);
+  aPoint.y := DeviceToLogical(aPoint.y, aDeviceScaleFactor);
+end;
+
+function LogicalToDevice(aValue : integer; const aDeviceScaleFactor : double) : integer;
+begin
+  Result := floor(aValue * aDeviceScaleFactor);
+end;
+
+procedure LogicalToDevice(var aRect : TCEFRect; const aDeviceScaleFactor : double);
+begin
+  aRect.x      := LogicalToDevice(aRect.x,      aDeviceScaleFactor);
+  aRect.y      := LogicalToDevice(aRect.y,      aDeviceScaleFactor);
+  aRect.width  := LogicalToDevice(aRect.width,  aDeviceScaleFactor);
+  aRect.height := LogicalToDevice(aRect.height, aDeviceScaleFactor);
+end;
+
+function GetScreenDPI : integer;
+var
+  TempDC : HDC;
+begin
+  TempDC := GetDC(0);
+  Result := GetDeviceCaps(TempDC, LOGPIXELSX);
+  ReleaseDC(0, TempDC);
+end;
+
+function GetDeviceScaleFactor : single;
+begin
+  Result := GetScreenDPI / 96;
 end;
 
 end.

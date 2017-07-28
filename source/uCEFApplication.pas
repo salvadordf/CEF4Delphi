@@ -130,6 +130,7 @@ type
       FBrowserProcessHandler         : ICefBrowserProcessHandler;
       FRenderProcessHandler          : ICefRenderProcessHandler;
       FAppSettings                   : TCefSettings;
+      FDeviceScaleFactor             : single;
 
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
@@ -204,6 +205,7 @@ type
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
+      procedure   UpdateDeviceScaleFactor;
 
       property Cache                       : ustring                         read FCache                          write FCache;
       property Cookies                     : ustring                         read FCookies                        write FCookies;
@@ -260,6 +262,7 @@ type
       property EnableHighDPISupport        : boolean                         read FEnableHighDPISupport           write FEnableHighDPISupport;
       property MuteAudio                   : boolean                         read FMuteAudio                      write FMuteAudio;
       property ReRaiseExceptions           : boolean                         read FReRaiseExceptions              write FReRaiseExceptions;
+      property DeviceScaleFactor           : single                          read FDeviceScaleFactor;
   end;
 
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -371,6 +374,8 @@ begin
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
   FUpdateChromeVer               := aUpdateChromeVer;
+
+  UpdateDeviceScaleFactor;
 
   FAppSettings.size := SizeOf(TCefSettings);
   FillChar(FAppSettings, FAppSettings.size, 0);
@@ -584,6 +589,11 @@ begin
     on e : exception do
       if CustomExceptionHandler('TCefApplication.StartSubProcess', e) then raise;
   end;
+end;
+
+procedure TCefApplication.UpdateDeviceScaleFactor;
+begin
+  FDeviceScaleFactor := GetDeviceScaleFactor;
 end;
 
 procedure TCefApplication.ShutDown;

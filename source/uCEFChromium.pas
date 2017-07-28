@@ -360,10 +360,10 @@ type
 
       // ICefRenderHandler
       procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); virtual;
-      function  doOnGetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
-      function  doOnGetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
-      function  doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean; virtual;
-      function  doOnGetScreenInfo(const browser: ICefBrowser; screenInfo: PCefScreenInfo): Boolean; virtual;
+      function  doOnGetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; virtual;
+      function  doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; virtual;
+      function  doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean; virtual;
+      function  doOnGetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean; virtual;
       procedure doOnPopupShow(const browser: ICefBrowser; show: Boolean); virtual;
       procedure doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect); virtual;
       procedure doOnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); virtual;
@@ -975,13 +975,17 @@ var
   TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
 begin
-  ToMouseEvent(grfKeyState, pt, TempMouseEvent);
-  DropEffectToDragOperation(dwEffect, TempAllowedOps);
+  if (GlobalCEFApp <> nil) then
+    begin
+      ToMouseEvent(grfKeyState, pt, TempMouseEvent);
+      DropEffectToDragOperation(dwEffect, TempAllowedOps);
+      DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
 
-  DragTargetDragEnter(aDragData, @TempMouseEvent, TempAllowedOps);
-  DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
+      DragTargetDragEnter(aDragData, @TempMouseEvent, TempAllowedOps);
+      DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
 
-  DragOperationToDropEffect(FDragOperations, dwEffect);
+      DragOperationToDropEffect(FDragOperations, dwEffect);
+    end;
 end;
 
 procedure TChromium.DragDropManager_OnDragOver(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
@@ -989,12 +993,16 @@ var
   TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
 begin
-  ToMouseEvent(grfKeyState, pt, TempMouseEvent);
-  DropEffectToDragOperation(dwEffect, TempAllowedOps);
+  if (GlobalCEFApp <> nil) then
+    begin
+      ToMouseEvent(grfKeyState, pt, TempMouseEvent);
+      DropEffectToDragOperation(dwEffect, TempAllowedOps);
+      DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
 
-  DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
+      DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
 
-  DragOperationToDropEffect(FDragOperations, dwEffect);
+      DragOperationToDropEffect(FDragOperations, dwEffect);
+    end;
 end;
 
 procedure TChromium.DragDropManager_OnDragLeave(Sender: TObject);
@@ -1007,13 +1015,17 @@ var
   TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
 begin
-  ToMouseEvent(grfKeyState, pt, TempMouseEvent);
-  DropEffectToDragOperation(dwEffect, TempAllowedOps);
+  if (GlobalCEFApp <> nil) then
+    begin
+      ToMouseEvent(grfKeyState, pt, TempMouseEvent);
+      DropEffectToDragOperation(dwEffect, TempAllowedOps);
+      DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
 
-  DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
-  DragTargetDrop(@TempMouseEvent);
+      DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
+      DragTargetDrop(@TempMouseEvent);
 
-  DragOperationToDropEffect(FDragOperations, dwEffect);
+      DragOperationToDropEffect(FDragOperations, dwEffect);
+    end;
 end;
 
 procedure TChromium.CloseBrowser(aForceClose : boolean);
@@ -2536,28 +2548,28 @@ begin
   if assigned(FOnGetAccessibilityHandler) then FOnGetAccessibilityHandler(Self, aAccessibilityHandler);
 end;
 
-function TChromium.doOnGetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
+function TChromium.doOnGetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
   Result := False;
 
   if Assigned(FOnGetRootScreenRect) then FOnGetRootScreenRect(Self, browser, rect, Result);
 end;
 
-function TChromium.doOnGetScreenInfo(const browser: ICefBrowser; screenInfo: PCefScreenInfo): Boolean;
+function TChromium.doOnGetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
 begin
   Result := False;
 
   if Assigned(FOnGetScreenInfo) then FOnGetScreenInfo(Self, browser, screenInfo, Result);
 end;
 
-function TChromium.doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean;
+function TChromium.doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
 begin
   Result := False;
 
   if Assigned(FOnGetScreenPoint) then FOnGetScreenPoint(Self, browser, viewX, viewY, screenX, screenY, Result);
 end;
 
-function TChromium.doOnGetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
+function TChromium.doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
   Result := False;
 
@@ -2821,7 +2833,7 @@ var
   TempOperation : TCefDragOperation;
   TempPoint     : TPoint;
 begin
-  if FDragAndDropInitialized then
+  if FDragAndDropInitialized and (FDropTargetCtrl <> nil) and (GlobalCEFApp <> nil) then
     begin
       FDragOperations := DRAG_OPERATION_NONE;
       TempOperation   := FDragDropManager.StartDragging;
@@ -2829,6 +2841,7 @@ begin
 
       GetCursorPos(TempPoint);
       TempPoint := FDropTargetCtrl.ScreenToClient(TempPoint);
+      DeviceToLogical(TempPoint, GlobalCEFApp.DeviceScaleFactor);
 
       DragSourceEndedAt(TempPoint.x, TempPoint.y, TempOperation);
       DragSourceSystemDragEnded;

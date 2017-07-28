@@ -53,10 +53,10 @@ type
   TCefRenderHandlerOwn = class(TCefBaseRefCountedOwn, ICefRenderHandler)
     protected
       procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); virtual;
-      function  GetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
-      function  GetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean; virtual;
-      function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean; virtual;
-      function  GetScreenInfo(const browser: ICefBrowser; screenInfo: PCefScreenInfo): Boolean; virtual;
+      function  GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; virtual;
+      function  GetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; virtual;
+      function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean; virtual;
+      function  GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean; virtual;
       procedure OnPopupShow(const browser: ICefBrowser; show: Boolean); virtual;
       procedure OnPopupSize(const browser: ICefBrowser; const rect: PCefRect); virtual;
       procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); virtual;
@@ -75,14 +75,14 @@ type
       FEvent: IChromiumEvents;
 
       procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); override;
-      function  GetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean; override;
-      function  GetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean; override;
-      function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean; override;
+      function  GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; override;
+      function  GetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; override;
+      function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean; override;
       procedure OnPopupShow(const browser: ICefBrowser; show: Boolean); override;
       procedure OnPopupSize(const browser: ICefBrowser; const rect: PCefRect); override;
       procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); override;
       procedure OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo); override;
-      function  GetScreenInfo(const browser: ICefBrowser; screenInfo: PCefScreenInfo): Boolean; override;
+      function  GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean; override;
       function  OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean; override;
       procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); override;
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); override;
@@ -120,28 +120,28 @@ function cef_render_handler_get_root_screen_rect(self: PCefRenderHandler;
   browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
 begin
   with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetRootScreenRect(TCefBrowserRef.UnWrap(browser), rect));
+    Result := Ord(GetRootScreenRect(TCefBrowserRef.UnWrap(browser), rect^));
 end;
 
 function cef_render_handler_get_view_rect(self: PCefRenderHandler;
   browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
 begin
   with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetViewRect(TCefBrowserRef.UnWrap(browser), rect));
+    Result := Ord(GetViewRect(TCefBrowserRef.UnWrap(browser), rect^));
 end;
 
 function cef_render_handler_get_screen_point(self: PCefRenderHandler;
   browser: PCefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Integer; stdcall;
 begin
   with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetScreenPoint(TCefBrowserRef.UnWrap(browser), viewX, viewY, screenX, screenY));
+    Result := Ord(GetScreenPoint(TCefBrowserRef.UnWrap(browser), viewX, viewY, screenX^, screenY^));
 end;
 
 function cef_render_handler_get_screen_info(self: PCefRenderHandler;
   browser: PCefBrowser; screen_info: PCefScreenInfo): Integer; stdcall;
 begin
   with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetScreenInfo(TCefBrowserRef.UnWrap(browser), screen_info));
+    Result := Ord(GetScreenInfo(TCefBrowserRef.UnWrap(browser), screen_info^));
 end;
 
 procedure cef_render_handler_on_popup_show(self: PCefRenderProcessHandler;
@@ -217,6 +217,7 @@ begin
       get_root_screen_rect             := cef_render_handler_get_root_screen_rect;
       get_view_rect                    := cef_render_handler_get_view_rect;
       get_screen_point                 := cef_render_handler_get_screen_point;
+      get_screen_info                  := cef_render_handler_get_screen_info;
       on_popup_show                    := cef_render_handler_on_popup_show;
       on_popup_size                    := cef_render_handler_on_popup_size;
       on_paint                         := cef_render_handler_on_paint;
@@ -233,26 +234,23 @@ begin
   aAccessibilityHandler := nil;
 end;
 
-function TCefRenderHandlerOwn.GetRootScreenRect(const browser: ICefBrowser;
-  rect: PCefRect): Boolean;
+function TCefRenderHandlerOwn.GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
   Result := False;
 end;
 
-function TCefRenderHandlerOwn.GetScreenInfo(const browser: ICefBrowser;
-  screenInfo: PCefScreenInfo): Boolean;
+function TCefRenderHandlerOwn.GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
 begin
   Result := False;
 end;
 
 function TCefRenderHandlerOwn.GetScreenPoint(const browser: ICefBrowser; viewX,
-  viewY: Integer; screenX, screenY: PInteger): Boolean;
+  viewY: Integer; var screenX, screenY: Integer): Boolean;
 begin
   Result := False;
 end;
 
-function TCefRenderHandlerOwn.GetViewRect(const browser: ICefBrowser;
-  rect: PCefRect): Boolean;
+function TCefRenderHandlerOwn.GetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
   Result := False;
 end;
@@ -331,7 +329,7 @@ begin
   if (FEvent <> nil) then FEvent.doOnGetAccessibilityHandler(aAccessibilityHandler);
 end;
 
-function TCustomRenderHandler.GetRootScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
+function TCustomRenderHandler.GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnGetRootScreenRect(browser, rect)
@@ -339,7 +337,7 @@ begin
     Result := inherited GetRootScreenRect(browser, rect);
 end;
 
-function TCustomRenderHandler.GetScreenInfo(const browser: ICefBrowser; screenInfo: PCefScreenInfo): Boolean;
+function TCustomRenderHandler.GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnGetScreenInfo(browser, screenInfo)
@@ -347,7 +345,7 @@ begin
     Result := inherited GetScreenInfo(browser, screenInfo);
 end;
 
-function TCustomRenderHandler.GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Boolean;
+function TCustomRenderHandler.GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnGetScreenPoint(browser, viewX, viewY, screenX, screenY)
@@ -355,7 +353,7 @@ begin
     Result := inherited GetScreenPoint(browser, viewX, viewY, screenX, screenY);
 end;
 
-function TCustomRenderHandler.GetViewRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
+function TCustomRenderHandler.GetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
   if (FEvent <> nil) then
     Result := FEvent.doOnGetViewRect(browser, rect)
