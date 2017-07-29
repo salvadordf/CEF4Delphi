@@ -1188,7 +1188,6 @@ type
     default_encoding: TCefString;
     remote_fonts: TCefState;
     javascript: TCefState;
-    javascript_open_windows: TCefState;
     javascript_close_windows: TCefState;
     javascript_access_clipboard: TCefState;
     javascript_dom_paste: TCefState;

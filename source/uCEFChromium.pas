@@ -1215,7 +1215,6 @@ begin
       aSettings.remote_fonts                    := FFontOptions.RemoteFonts;
       aSettings.default_encoding                := CefString(DefaultEncoding);
       aSettings.javascript                      := FOptions.Javascript;
-      aSettings.javascript_open_windows         := FOptions.JavascriptOpenWindows;
       aSettings.javascript_close_windows        := FOptions.JavascriptCloseWindows;
       aSettings.javascript_access_clipboard     := FOptions.JavascriptAccessClipboard;
       aSettings.javascript_dom_paste            := FOptions.JavascriptDomPaste;
@@ -1253,7 +1252,6 @@ begin
   aSettings.remote_fonts                    := STATE_DEFAULT;
   aSettings.default_encoding                := CefString('');
   aSettings.javascript                      := STATE_DEFAULT;
-  aSettings.javascript_open_windows         := STATE_DEFAULT;
   aSettings.javascript_close_windows        := STATE_DEFAULT;
   aSettings.javascript_access_clipboard     := STATE_DEFAULT;
   aSettings.javascript_dom_paste            := STATE_DEFAULT;
