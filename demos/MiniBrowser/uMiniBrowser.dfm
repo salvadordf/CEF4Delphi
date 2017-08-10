@@ -211,7 +211,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
   end
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable
-    OnPdfPrintFinished = Chromium1PdfPrintFinished
     OnProcessMessageReceived = Chromium1ProcessMessageReceived
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu

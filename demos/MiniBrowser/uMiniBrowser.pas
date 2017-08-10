@@ -158,8 +158,6 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const params: ICefContextMenuParams; commandId: Integer;
       eventFlags: Cardinal; out Result: Boolean);
-    procedure Chromium1PdfPrintFinished(Sender: TObject;
-      aResultOK: Boolean);
 
   protected
     FText : string;
@@ -441,14 +439,6 @@ begin
   ForwardBtn.Enabled := canGoForward;
   ReloadBtn.Enabled  := not(isLoading);
   StopBtn.Enabled    := isLoading;
-end;
-
-procedure TMiniBrowserFrm.Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
-begin
-  if aResultOK then
-    showmessage('The PDF file was generated successfully')
-   else
-    showmessage('There was a problem generating the PDF file.');
 end;
 
 procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;
