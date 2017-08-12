@@ -88,7 +88,6 @@ begin
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 
-
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;

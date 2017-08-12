@@ -57,22 +57,16 @@ const
   MINIBROWSER_SHOWDEVTOOLS   = WM_APP + $101;
   MINIBROWSER_HIDEDEVTOOLS   = WM_APP + $102;
   MINIBROWSER_COPYHTML       = WM_APP + $103;
-  MINIBROWSER_VISITDOM       = WM_APP + $104;
-  MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $105;
+  MINIBROWSER_SHOWRESPONSE   = WM_APP + $104;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
   MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS = MENU_ID_USER_FIRST + 2;
-  MINIBROWSER_CONTEXTMENU_SHOWJSALERT  = MENU_ID_USER_FIRST + 3;
-  MINIBROWSER_CONTEXTMENU_SETJSEVENT   = MENU_ID_USER_FIRST + 4;
   MINIBROWSER_CONTEXTMENU_COPYHTML     = MENU_ID_USER_FIRST + 5;
-  MINIBROWSER_CONTEXTMENU_VISITDOM     = MENU_ID_USER_FIRST + 6;
   MINIBROWSER_CONTEXTMENU_JSWRITEDOC   = MENU_ID_USER_FIRST + 7;
   MINIBROWSER_CONTEXTMENU_JSPRINTDOC   = MENU_ID_USER_FIRST + 8;
-  MINIBROWSER_CONTEXTMENU_REGSCHEME    = MENU_ID_USER_FIRST + 9;
-  MINIBROWSER_CONTEXTMENU_CLEARFACT    = MENU_ID_USER_FIRST + 10;
-  MINIBROWSER_CONTEXTMENU_JSVISITDOM   = MENU_ID_USER_FIRST + 11;
+  MINIBROWSER_CONTEXTMENU_SHOWRESPONSE = MENU_ID_USER_FIRST + 9;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -126,9 +120,6 @@ type
     procedure Chromium1BeforeContextMenu(Sender: TObject;
       const browser: ICefBrowser; const frame: ICefFrame;
       const params: ICefContextMenuParams; const model: ICefMenuModel);
-    procedure Chromium1ProcessMessageReceived(Sender: TObject;
-      const browser: ICefBrowser; sourceProcess: TCefProcessId;
-      const message: ICefProcessMessage; out Result: Boolean);
     procedure Chromium1StatusMessage(Sender: TObject;
       const browser: ICefBrowser; const value: ustring);
     procedure Chromium1TextResultAvailable(Sender: TObject;
@@ -160,9 +151,13 @@ type
       eventFlags: Cardinal; out Result: Boolean);
     procedure Chromium1PdfPrintFinished(Sender: TObject;
       aResultOK: Boolean);
+    procedure Chromium1ResourceResponse(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const request: ICefRequest; const response: ICefResponse;
+      out Result: Boolean);
 
   protected
-    FText : string;
+    FResponse : string;
 
     procedure AddURL(const aURL : string);
 
@@ -177,8 +172,7 @@ type
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
     procedure CopyHTMLMsg(var aMessage : TMessage); message MINIBROWSER_COPYHTML;
-    procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM;
-    procedure ShowTextViewerMsg(var aMessage : TMessage); message MINIBROWSER_SHOWTEXTVIEWER;
+    procedure ShowResponseMsg(var aMessage : TMessage); message MINIBROWSER_SHOWRESPONSE;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
@@ -195,7 +189,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uPreferences, uCEFProcessMessage, uCEFSchemeHandlerFactory, uHelloScheme, uSimpleTextViewer;
+  uPreferences;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
 begin
@@ -239,15 +233,10 @@ procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
   model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWJSALERT, 'Show JS Alert');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SETJSEVENT,  'Set mouseover event');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,    'Copy HTML to clipboard');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM,    'Visit DOM in CEF');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSVISITDOM,  'Visit DOM in JavaScript');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,  'Modify HTML document');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,  'Print using Javascript');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_REGSCHEME,   'Register scheme');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_CLEARFACT,   'Clear schemes');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,       'Copy HTML to clipboard');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,     'Modify HTML document');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,     'Print using Javascript');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,   'Show last server response');
 
   if DevTools.Visible then
     model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -261,7 +250,6 @@ procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
   eventFlags: Cardinal; out Result: Boolean);
 var
   TempParam : WParam;
-  TempFactory: ICefSchemeHandlerFactory;
 begin
   Result := False;
 
@@ -275,34 +263,11 @@ begin
         PostMessage(Handle, MINIBROWSER_SHOWDEVTOOLS, TempParam, 0);
       end;
 
-    MINIBROWSER_CONTEXTMENU_SHOWJSALERT :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript('alert(''JavaScript execute works!'');', 'about:blank', 0);
-
-    MINIBROWSER_CONTEXTMENU_SETJSEVENT :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
-          'document.body.addEventListener("mouseover", function(evt){'+
-            'function getpath(n){'+
-              'var ret = "<" + n.nodeName + ">";'+
-              'if (n.parentNode){return getpath(n.parentNode) + ret} else '+
-              'return ret'+
-            '};'+
-            'myextension.mouseover(getpath(evt.target))}'+
-          ')', 'about:blank', 0);
-
     MINIBROWSER_CONTEXTMENU_COPYHTML :
       PostMessage(Handle, MINIBROWSER_COPYHTML, 0, 0);
 
-    MINIBROWSER_CONTEXTMENU_VISITDOM :
-      PostMessage(Handle, MINIBROWSER_VISITDOM, 0, 0);
-
-    MINIBROWSER_CONTEXTMENU_JSVISITDOM :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
-          'var testhtml = document.body.innerHTML;' +
-          'myextension.sendresulttobrowser(testhtml, ''customname'');',
-          'about:blank', 0);
+    MINIBROWSER_CONTEXTMENU_SHOWRESPONSE :
+      PostMessage(Handle, MINIBROWSER_SHOWRESPONSE, 0, 0);
 
     MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
       if (browser <> nil) and (browser.MainFrame <> nil) then
@@ -317,26 +282,6 @@ begin
     MINIBROWSER_CONTEXTMENU_JSPRINTDOC :
       if (browser <> nil) and (browser.MainFrame <> nil) then
         browser.MainFrame.ExecuteJavaScript('window.print();', 'about:blank', 0);
-
-    MINIBROWSER_CONTEXTMENU_REGSCHEME :
-      if (browser <> nil) and
-         (browser.host <> nil) and
-         (browser.host.RequestContext <> nil) then
-        begin
-          // You can register the Scheme Handler Factory in the DPR file or later, for example in a context menu command.
-          TempFactory := TCefSchemeHandlerFactoryOwn.Create(THelloScheme);
-          if not(browser.host.RequestContext.RegisterSchemeHandlerFactory('hello', '', TempFactory)) then
-            MessageDlg('RegisterSchemeHandlerFactory error !', mtError, [mbOk], 0);
-        end;
-
-    MINIBROWSER_CONTEXTMENU_CLEARFACT :
-      if (browser <> nil) and
-         (browser.host <> nil) and
-         (browser.host.RequestContext <> nil) then
-        begin
-          if not(browser.host.RequestContext.ClearSchemeHandlerFactories) then
-            MessageDlg('ClearSchemeHandlerFactories error !', mtError, [mbOk], 0);
-        end;
   end;
 end;
 
@@ -463,35 +408,17 @@ begin
     isKeyboardShortcut := True;
 end;
 
-procedure TMiniBrowserFrm.Chromium1ProcessMessageReceived(Sender: TObject;
-  const browser: ICefBrowser; sourceProcess: TCefProcessId;
-  const message: ICefProcessMessage; out Result: Boolean);
+procedure TMiniBrowserFrm.Chromium1ResourceResponse(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  const request: ICefRequest; const response: ICefResponse;
+  out Result: Boolean);
 begin
-  if (message = nil) or (message.ArgumentList = nil) then exit;
+  Result := False;
 
-  if (message.Name = 'mouseover') then
-    begin
-      // Message received from the extension
-      ShowStatusText(message.ArgumentList.GetString(0));
-      Result := True;
-    end
-   else
-    if (message.Name = 'domvisitor') then
-      begin
-        // Message received from the DOMVISITOR in CEF
-        ShowStatusText(message.ArgumentList.GetString(0));
-        Result := True;
-      end
-     else
-    if (message.Name = 'customname') then
-      begin
-        // Message received from the Javascript DOM visitor
-        FText := message.ArgumentList.GetString(0);
-        PostMessage(Handle, MINIBROWSER_SHOWTEXTVIEWER, 0, 0);
-        Result := True;
-      end
-     else
-      Result := False;
+  if (frame <> nil) and frame.IsMain and (response <> nil) and (request <> nil) then
+    FResponse := 'URL : ' + request.Url + #13 + #10 +
+                 'Status : ' + inttostr(response.Status) + #13 + #10 +
+                 'MimeType : ' + response.MimeType;
 end;
 
 procedure TMiniBrowserFrm.ShowStatusText(const aText : string);
@@ -628,20 +555,9 @@ begin
   Chromium1.RetrieveHTML;
 end;
 
-procedure TMiniBrowserFrm.VisitDOMMsg(var aMessage : TMessage);
-var
-  TempMsg : ICefProcessMessage;
+procedure TMiniBrowserFrm.ShowResponseMsg(var aMessage : TMessage);
 begin
-  // Only works using a TCefCustomRenderProcessHandler.
-  // Use the ArgumentList property if you need to pass some parameters.
-  TempMsg := TCefProcessMessageRef.New('retrievedom'); // Same name than TCefCustomRenderProcessHandler.MessageName
-  Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
-end;
-
-procedure TMiniBrowserFrm.ShowTextViewerMsg(var aMessage : TMessage);
-begin
-  SimpleTextViewerFrm.Memo1.Lines.Text := FText;
-  SimpleTextViewerFrm.ShowModal;
+  if (length(FResponse) > 0) then MessageDlg(FResponse, mtInformation, [mbOk], 0);
 end;
 
 procedure TMiniBrowserFrm.WMMove(var aMessage : TWMMove);

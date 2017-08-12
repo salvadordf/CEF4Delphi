@@ -123,11 +123,11 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Width = 978
         Height = 21
         Align = alClient
+        ItemIndex = 0
         TabOrder = 0
         Text = 'https://www.google.com'
         Items.Strings = (
           'https://www.google.com'
-          'hello://world/'
           
             'https://www.whatismybrowser.com/detect/what-http-headers-is-my-b' +
             'rowser-sending'
@@ -212,7 +212,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable
     OnPdfPrintFinished = Chromium1PdfPrintFinished
-    OnProcessMessageReceived = Chromium1ProcessMessageReceived
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
@@ -223,6 +222,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
     OnAfterCreated = Chromium1AfterCreated
+    OnResourceResponse = Chromium1ResourceResponse
     Left = 32
     Top = 224
   end

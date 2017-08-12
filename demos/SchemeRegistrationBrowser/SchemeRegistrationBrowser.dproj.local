@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/08/12 11:25:15.000.051,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/08/12 11:26:00.000.707,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SchemeRegistrationBrowser\uSchemeRegistrationBrowser.pas</Transaction>
+    <Transaction>2017/08/12 11:26:00.000.707,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SchemeRegistrationBrowser\uSchemeRegistrationBrowser.dfm</Transaction>
+    <Transaction>2017/08/12 11:26:06.000.294,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SchemeRegistrationBrowser\SchemeRegistrationBrowser.dproj</Transaction>
+    <Transaction>2017/08/12 11:27:56.000.909,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\SchemeRegistrationBrowser\uHelloScheme.pas</Transaction>
+  </Transactions>
+</BorlandProject>

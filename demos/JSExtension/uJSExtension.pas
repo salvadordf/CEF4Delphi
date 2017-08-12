@@ -178,7 +178,7 @@ begin
 
   // This function receives the messages with the JavaScript results
 
-  // Many on these events are received in different threads and the VCL
+  // Many of these events are received in different threads and the VCL
   // doesn't like to create and destroy components in different threads.
 
   // It's safer to store the results and send a message to the main thread to show them.
