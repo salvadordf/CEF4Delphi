@@ -3,9 +3,9 @@
 	<Transactions>
     <Transaction>2017/07/15 09:50:55.000.277,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2017/07/25 21:43:25.000.930,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/07/25 21:43:40.000.982,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\Unit1.pas</Transaction>
-    <Transaction>2017/07/25 21:43:40.000.982,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\Unit1.dfm</Transaction>
-    <Transaction>2017/07/25 21:43:48.000.560,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\JSExtension.dproj</Transaction>
+    <Transaction>2017/07/25 21:43:40.000.982,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/07/25 21:43:40.000.982,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2017/07/25 21:43:48.000.560,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\JSExtension.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
     <Transaction>2017/07/25 21:44:09.000.830,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\Unit1.pas=</Transaction>
     <Transaction>2017/07/25 21:44:16.000.573,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\uJSExtension.pas</Transaction>
     <Transaction>2017/07/25 21:48:00.000.759,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\JSExtension\uTestExtension.pas</Transaction>

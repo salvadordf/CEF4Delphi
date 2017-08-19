@@ -35,8 +35,7 @@
  *
  *)
 
-
-program MiniBrowser;
+program CookieVisitor;
 
 {$I cef.inc}
 
@@ -44,15 +43,15 @@ uses
   {$IFDEF DELPHI16_UP}
   Vcl.Forms,
   WinApi.Windows,
-  System.SysUtils,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
-  uPreferences in 'uPreferences.pas' {PreferencesFrm};
+  uCEFMiscFunctions,
+  uCEFTypes,
+  uCookieVisitor in 'uCookieVisitor.pas' {CookieVisitorFrm},
+  uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
 
 {$R *.res}
 
@@ -63,31 +62,20 @@ begin
   GlobalCEFApp                      := TCefApplication.Create;
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-
+{
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.cache                := 'cef\cache';
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
-
-  // Examples of command line switches.
-  // **********************************
-  //
-  // Uncomment the following line to see an FPS counter in the browser.
-  //GlobalCEFApp.AddCustomCommandLine('--show-fps-counter');
-  //
-  // Uncomment the following line to change the user agent string.
-  //GlobalCEFApp.AddCustomCommandLine('--user-agent', 'MiniBrowser');
-
+}
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
-      {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
-      Application.CreateForm(TPreferencesFrm, PreferencesFrm);
+      Application.CreateForm(TCookieVisitorFrm, CookieVisitorFrm);
+      Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
       Application.Run;
     end;
 

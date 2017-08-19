@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/08/19 10:36:06.000.317,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/08/19 10:36:56.000.222,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\UCookieVisitor.pas</Transaction>
+    <Transaction>2017/08/19 10:36:56.000.222,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\UCookieVisitor.dfm</Transaction>
+    <Transaction>2017/08/19 10:37:04.000.708,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\CookieVisitor.dproj</Transaction>
+    <Transaction>2017/08/19 10:37:17.000.131,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\UCookieVisitor.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\CookieVisitor.dfm</Transaction>
+    <Transaction>2017/08/19 10:37:17.000.131,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\UCookieVisitor.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\CookieVisitor.pas</Transaction>
+    <Transaction>2017/08/19 10:37:20.000.965,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\CookieVisitor.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\uCookieVisitor.dfm</Transaction>
+    <Transaction>2017/08/19 10:37:20.000.965,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\CookieVisitor.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\uCookieVisitor.pas</Transaction>
+    <Transaction>2017/08/19 10:51:46.000.224,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\CookieVisitor\uSimpleTextViewer.pas</Transaction>
+  </Transactions>
+</BorlandProject>

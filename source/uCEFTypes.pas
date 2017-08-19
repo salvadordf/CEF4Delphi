@@ -1588,6 +1588,19 @@ type
     expires: TCefTime;
   end;
 
+  TCookie = record
+    name        : ustring;
+    value       : ustring;
+    domain      : ustring;
+    path        : ustring;
+    creation    : TDateTime;
+    last_access : TDateTime;
+    expires     : TDateTime;
+    secure      : boolean;
+    httponly    : boolean;
+    has_expires : boolean;
+  end;
+
   // /include/capi/cef_request_context_capi.h (cef_request_context_t)
   TCefRequestContext = record
     base: TCefBaseRefCounted;

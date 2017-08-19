@@ -11,11 +11,16 @@ File_8=TSourceModule,'c:\program files\embarcadero\studio\17.0\SOURCE\VCL\Vcl.Co
 File_9=TSourceModule,'c:\program files\embarcadero\studio\17.0\source\rtl\common\System.Classes.pas',0,1,126,3,155,0,0,,
 
 [Modules]
-Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\FullScreenBrowser.dproj
-Module1=default.htm
-Module2=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\uMainForm.pas
+Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\uMainForm.pas
+Module1=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\FullScreenBrowser.dproj
+Module2=default.htm
 Count=3
 EditWindowCount=1
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\uMainForm.pas]
+ModuleType=TSourceModule
+FormState=1
+FormOnTop=0
 
 [C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\FullScreenBrowser.dproj]
 ModuleType=TBaseProject
@@ -23,14 +28,9 @@ ModuleType=TBaseProject
 [default.htm]
 ModuleType=TURLModule
 
-[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\uMainForm.pas]
-ModuleType=TSourceModule
-FormState=1
-FormOnTop=0
-
 [EditWindow0]
 ViewCount=3
-CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\FullScreenBrowser.dpr
+CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\uMainForm.pas
 View0=0
 View1=1
 View2=2
@@ -56,7 +56,7 @@ RightPanelClients=DockSite2,DockSite4
 RightPanelData=00000800010100000000AA1900000000000001D00700000000000001000000004312000009000000446F636B53697465320100000000A123000009000000446F636B5369746534FFFFFFFF
 BottomPanelSize=0
 BottomPanelClients=DockSite1,MessageView
-BottomPanelData=0000080001020200000009000000446F636B53697465310F0000004D65737361676556696577466F726D3B36000000000000020F0600000000000001000000003B3600000F0000004D65737361676556696577466F726DFFFFFFFF
+BottomPanelData=0000080001020200000009000000446F636B53697465310F0000004D65737361676556696577466F726D1234000000000000022506000000000000FFFFFFFF
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779D1D00000000000002F306000000000000FFFFFFFF
@@ -69,9 +69,9 @@ WelcomePageURL=bds:/default.htm
 [View1]
 CustomEditViewType=TEditView
 Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\FullScreenBrowser\uMainForm.pas
-CursorX=2
-CursorY=37
-TopLine=79
+CursorX=71
+CursorY=129
+TopLine=94
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -167,14 +167,14 @@ Visible=0
 Docked=1
 State=0
 Left=0
-Top=23
-Width=10000
-Height=1345
+Top=0
+Width=2773
+Height=1424
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=10000
-ClientHeight=1345
-TBDockHeight=1345
+ClientWidth=2773
+ClientHeight=1424
+TBDockHeight=1424
 LRDockWidth=2773
 Dockable=1
 StayOnTop=0
