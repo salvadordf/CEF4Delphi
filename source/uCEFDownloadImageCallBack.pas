@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2017 Salvador Díaz Fau. All rights reserved.
+//        Copyright Â© 2017 Salvador DÃ­az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -81,13 +81,15 @@ end;
 
 constructor TCefDownloadImageCallbackOwn.Create;
 begin
-  CreateData(SizeOf(TCefDownloadImageCallback), False);
+  inherited CreateData(SizeOf(TCefDownloadImageCallback));
 
-  with PCefDownloadImageCallback(FData)^ do on_download_image_finished := nil;
+  with PCefDownloadImageCallback(FData)^ do
+    on_download_image_finished := cef_download_image_callback_on_download_image_finished;
 end;
 
 constructor TCefFastDownloadImageCallback.Create(const proc: TOnDownloadImageFinishedProc);
 begin
+  inherited Create;
   FProc := proc;
 end;
 
@@ -96,4 +98,6 @@ begin
   FProc(imageUrl, httpStatusCode, image);
 end;
 
+
 end.
+
