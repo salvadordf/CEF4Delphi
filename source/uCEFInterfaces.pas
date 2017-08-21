@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2017 Salvador Díaz Fau. All rights reserved.
+//        Copyright Â© 2017 Salvador DÃ­az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -1633,7 +1633,7 @@ type
     function GetAsJpeg(scaleFactor: Single; quality: Integer;
       pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
 
-    property Width: NativeUInt read GetHeight;
+    property Width: NativeUInt read GetWidth;
     property Height: NativeUInt read GetHeight;
   end;
 
