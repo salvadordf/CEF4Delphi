@@ -61,9 +61,6 @@ object JSExtensionFrm: TJSExtensionFrm
       item
         Width = 50
       end>
-    ExplicitLeft = 400
-    ExplicitTop = 544
-    ExplicitWidth = 0
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
@@ -72,10 +69,6 @@ object JSExtensionFrm: TJSExtensionFrm
     Height = 540
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = -201
-    ExplicitTop = -63
-    ExplicitWidth = 1179
-    ExplicitHeight = 652
   end
   object Chromium1: TChromium
     OnProcessMessageReceived = Chromium1ProcessMessageReceived

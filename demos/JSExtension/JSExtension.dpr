@@ -43,14 +43,17 @@ uses
   {$IFDEF DELPHI16_UP}
   WinApi.Windows,
   Vcl.Forms,
+  System.SysUtils,
   {$ELSE}
   Forms,
   Windows,
+  SysUtils,
   {$ENDIF }
   uCEFApplication,
   uCEFRenderProcessHandler,
   uCEFInterfaces,
   uCEFv8Handler,
+  uCEFTypes,
   uJSExtension in 'uJSExtension.pas' {JSExtensionFrm},
   uTestExtension in 'uTestExtension.pas',
   uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
@@ -74,19 +77,21 @@ end;
 
 begin
   // You need a TCefCustomRenderProcessHandler to register the extension in the OnWebKitReady event
-  TempProcessHandler                := TCefCustomRenderProcessHandler.Create;
-  TempProcessHandler.OnWebKitReady  := ProcessHandler_OnWebKitReady;
+  TempProcessHandler                           := TCefCustomRenderProcessHandler.Create;
+  TempProcessHandler.OnWebKitReady             := ProcessHandler_OnWebKitReady;
 
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
 
   // The directories are optional.
+  {
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.cache                := 'cef\cache';
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
+  }
 
   if GlobalCEFApp.StartMainProcess then
     begin

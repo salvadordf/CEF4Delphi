@@ -35,15 +35,14 @@
  *
  *)
 
-
-program MiniBrowser;
+program PostDataInspector;
 
 {$I cef.inc}
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
   WinApi.Windows,
+  Vcl.Forms,
   System.SysUtils,
   {$ELSE}
   Forms,
@@ -51,35 +50,61 @@ uses
   SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
-  uPreferences in 'uPreferences.pas' {PreferencesFrm};
+  uCEFRenderProcessHandler,
+  uCEFInterfaces,
+  uCEFProcessMessage,
+  uCEFTypes,
+  uPostDataInspector in 'uPostDataInspector.pas' {PostDataInspectorFrm};
 
 {$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
-begin
-  GlobalCEFApp                      := TCefApplication.Create;
+var
+  TempProcessHandler : TCefCustomRenderProcessHandler;
 
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
+procedure ProcessHandler_OnBeforeBrowserNavigation(const browser        : ICefBrowser;
+                                                   const frame          : ICefFrame;
+                                                   const request        : ICefRequest;
+                                                         navigationType : TCefNavigationType;
+                                                         isRedirect     : Boolean;
+                                                   var   aResult        : boolean);
+var
+  msg: ICefProcessMessage;
+  TempString : string;
+begin
+  aResult := False;
+
+  if (request = nil) then
+    TempString := 'no request'
+   else
+    if (request.postdata = nil) then
+      TempString := 'no postdata'
+     else
+      TempString := 'postdata elements : ' + inttostr(request.postdata.GetCount);
+
+  msg := TCefProcessMessageRef.New(POSTDATA_MSGNAME);
+  msg.ArgumentList.SetString(0, TempString);
+  browser.SendProcessMessage(PID_BROWSER, msg);
+end;
+
+begin
+  TempProcessHandler                           := TCefCustomRenderProcessHandler.Create;
+  TempProcessHandler.OnBeforeBrowserNavigation := ProcessHandler_OnBeforeBrowserNavigation;
+
+  GlobalCEFApp                      := TCefApplication.Create;
+  GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
+
+  // The directories are optional.
+  {
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.cache                := 'cef\cache';
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
-
-  // Examples of command line switches.
-  // **********************************
-  //
-  // Uncomment the following line to see an FPS counter in the browser.
-  //GlobalCEFApp.AddCustomCommandLine('--show-fps-counter');
-  //
-  // Uncomment the following line to change the user agent string.
-  //GlobalCEFApp.AddCustomCommandLine('--user-agent', 'MiniBrowser');
+  }
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -87,8 +112,7 @@ begin
       {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
-      Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
-      Application.CreateForm(TPreferencesFrm, PreferencesFrm);
+      Application.CreateForm(TPostDataInspectorFrm, PostDataInspectorFrm);
       Application.Run;
     end;
 

@@ -416,9 +416,14 @@ begin
   Result := False;
 
   if (frame <> nil) and frame.IsMain and (response <> nil) and (request <> nil) then
-    FResponse := 'URL : ' + request.Url + #13 + #10 +
-                 'Status : ' + inttostr(response.Status) + #13 + #10 +
-                 'MimeType : ' + response.MimeType;
+    begin
+      FResponse := 'URL : ' + request.Url + #13 + #10 +
+                   'Status : ' + inttostr(response.Status) + #13 + #10 +
+                   'MimeType : ' + response.MimeType;
+
+      if (request.postdata <> nil) then
+        FResponse := FResponse + #13 + #10 + 'Post data elements : ' + inttostr(request.postdata.GetCount);
+    end;
 end;
 
 procedure TMiniBrowserFrm.ShowStatusText(const aText : string);

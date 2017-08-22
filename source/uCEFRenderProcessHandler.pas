@@ -75,19 +75,22 @@ type
 
   TCefCustomRenderProcessHandler = class(TCefRenderProcessHandlerOwn)
     protected
-      FMessageName     : ustring;
-      FOnCustomMessage : TOnCustomMessage;
-      FOnWebKitReady   : TOnWebKitReady;
+      FMessageName               : ustring;
+      FOnCustomMessage           : TOnCustomMessage;
+      FOnWebKitReady             : TOnWebKitReady;
+      FOnBeforeBrowserNavigation : TOnBeforeBrowserNavigation;
 
       procedure OnWebKitInitialized; override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; override;
+      function  OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean): Boolean; override;
 
     public
       constructor Create; override;
 
-      property MessageName     : ustring            read FMessageName       write FMessageName;
-      property OnCustomMessage : TOnCustomMessage   read FOnCustomMessage   write FOnCustomMessage;
-      property OnWebKitReady   : TOnWebKitReady     read FOnWebKitReady     write FOnWebKitReady;
+      property MessageName                : ustring                     read FMessageName                write FMessageName;
+      property OnCustomMessage            : TOnCustomMessage            read FOnCustomMessage            write FOnCustomMessage;
+      property OnWebKitReady              : TOnWebKitReady              read FOnWebKitReady              write FOnWebKitReady;
+      property OnBeforeBrowserNavigation  : TOnBeforeBrowserNavigation  read FOnBeforeBrowserNavigation  write FOnBeforeBrowserNavigation;
   end;
 
 implementation
@@ -281,9 +284,10 @@ constructor TCefCustomRenderProcessHandler.Create;
 begin
   inherited Create;
 
-  FMessageName     := '';
-  FOnCustomMessage := nil;
-  FOnWebKitReady   := nil;
+  FMessageName                := '';
+  FOnCustomMessage            := nil;
+  FOnWebKitReady              := nil;
+  FOnBeforeBrowserNavigation  := nil;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnWebKitInitialized;
@@ -302,6 +306,20 @@ begin
     end
    else
     Result := inherited OnProcessMessageReceived(browser, sourceProcess, message);
+end;
+
+function TCefCustomRenderProcessHandler.OnBeforeNavigation(const browser        : ICefBrowser;
+                                                           const frame          : ICefFrame;
+                                                           const request        : ICefRequest;
+                                                                 navigationType : TCefNavigationType;
+                                                                 isRedirect     : Boolean) : Boolean;
+begin
+  Result := False;
+
+  if assigned(FOnBeforeBrowserNavigation) then
+    FOnBeforeBrowserNavigation(browser, frame, request, navigationType, isRedirect, Result)
+   else
+    Result := inherited OnBeforeNavigation(browser, frame, request, navigationType, isRedirect);
 end;
 
 end.

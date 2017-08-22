@@ -73,7 +73,9 @@ begin
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
+      {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
+      {$ENDIF}
       Application.CreateForm(TCookieVisitorFrm, CookieVisitorFrm);
       Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
       Application.Run;

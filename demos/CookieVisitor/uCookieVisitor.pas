@@ -116,7 +116,8 @@ uses
 function CookieVisitorProc(const name, value, domain, path: ustring;
                                  secure, httponly, hasExpires: Boolean;
                            const creation, lastAccess, expires: TDateTime;
-                                 count, total: Integer; out deleteCookie: Boolean): Boolean;
+                                 count, total: Integer;
+                           out   deleteCookie: Boolean): Boolean;
 var
   TempCookie : TCookie;
 begin
@@ -158,7 +159,7 @@ end;
 
 procedure TCookieVisitorFrm.ShowCookiesMsg(var aMessage : TMessage);
 begin
-  SimpleTextViewerFrm.Memo1.Lines.Text := FText;
+  SimpleTextViewerFrm.Memo1.Lines.Text := FText; // This should be protected by a mutex.
   SimpleTextViewerFrm.ShowModal;
 end;
 

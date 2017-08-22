@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -111,6 +111,7 @@ type
   TOnBeforeCommandLineProcessing   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const processType: ustring; const commandLine: ICefCommandLine) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnCustomMessage                 = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnWebKitReady                   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure() {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnBeforeBrowserNavigation       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean; var aResult : boolean) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
 
   TCefCompletionCallbackProc       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure;
   TCefSetCookieCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(success: Boolean);
