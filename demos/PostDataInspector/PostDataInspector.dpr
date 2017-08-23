@@ -64,17 +64,17 @@ uses
 var
   TempProcessHandler : TCefCustomRenderProcessHandler;
 
-procedure ProcessHandler_OnBeforeNavigationEvent(const browser        : ICefBrowser;
-                                                 const frame          : ICefFrame;
-                                                 const request        : ICefRequest;
-                                                       navigationType : TCefNavigationType;
-                                                       isRedirect     : Boolean;
-                                                 var   aResult        : boolean);
+procedure ProcessHandler_OnBeforeNavigationEvent(const browser         : ICefBrowser;
+                                                 const frame           : ICefFrame;
+                                                 const request         : ICefRequest;
+                                                       navigationType  : TCefNavigationType;
+                                                       isRedirect      : Boolean;
+                                                 var   aStopNavigation : boolean);
 var
   msg: ICefProcessMessage;
   TempString : string;
 begin
-  aResult := False;
+  aStopNavigation := False;
 
   if (request = nil) then
     TempString := 'no request'
