@@ -89,7 +89,7 @@ implementation
 
 // This demo shows an alternative way to inspect the POST data in read only mode.
 // This data is not always available in the request of TChromium.OnBeforeBrowse
-// so this demo uses the TCefCustomRenderProcessHandler.OnBeforeBrowserNavigation event
+// so this demo uses the TCefCustomRenderProcessHandler.OnBeforeNavigationEvent event
 // and sends the results in a process message.
 // That message is received in the Chromium1ProcessMessageReceived function.
 
@@ -114,7 +114,7 @@ begin
 
   // It's safer to store the results and send a message to the main thread to show them.
 
-  // The message names is also used in the ProcessHandler_OnBeforeBrowserNavigation function of the DPR file.
+  // The message names is also used in the ProcessHandler_OnBeforeNavigationEvent function of the DPR file.
 
   if (message.Name = POSTDATA_MSGNAME) then
     begin

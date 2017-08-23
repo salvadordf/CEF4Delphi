@@ -138,16 +138,18 @@ begin
   SimpleNodeSearch(document);
 
   // Sending back some custom results to the browser process
-  // Notice that the 'domvisitor' message name needs to be recognized in
+  // Notice that the DOMVISITOR_MSGNAME message name needs to be recognized in
   // Chromium1ProcessMessageReceived
-  msg := TCefProcessMessageRef.New('domvisitor');
+  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME);
   msg.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
   browser.SendProcessMessage(PID_BROWSER, msg);
 end;
 
-procedure ProcessHandler_OnCustomMessage(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage);
+procedure ProcessHandler_OnProcessMessageReceivedEvent(const browser       : ICefBrowser;
+                                                             sourceProcess : TCefProcessId;
+                                                       const message       : ICefProcessMessage);
 var
-  TempFrame : ICefFrame;
+  TempFrame   : ICefFrame;
   TempVisitor : TCefFastDomVisitor2;
 begin
   if (browser <> nil) then
@@ -165,9 +167,9 @@ end;
 begin
   // This ProcessHandler is used for the extension and the DOM visitor demos.
   // It can be removed if you don't want those features.
-  TempProcessHandler                 := TCefCustomRenderProcessHandler.Create;
-  TempProcessHandler.MessageName     := 'retrievedom';   // same message name than TMiniBrowserFrm.VisitDOMMsg
-  TempProcessHandler.OnCustomMessage := ProcessHandler_OnCustomMessage;
+  TempProcessHandler                               := TCefCustomRenderProcessHandler.Create;
+  TempProcessHandler.MessageName                   := RETRIEVEDOM_MSGNAME;   // same message name than TMiniBrowserFrm.VisitDOMMsg
+  TempProcessHandler.OnProcessMessageReceivedEvent := ProcessHandler_OnProcessMessageReceivedEvent;
 
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.RemoteDebuggingPort  := 9000;

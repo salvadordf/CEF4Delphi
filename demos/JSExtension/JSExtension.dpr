@@ -66,7 +66,7 @@ uses
 var
   TempProcessHandler : TCefCustomRenderProcessHandler;
 
-procedure ProcessHandler_OnWebKitReady;
+procedure ProcessHandler_OnWebKitInitializedEvent;
 begin
 {$IFDEF DELPHI14_UP}
   // Registering the extension. Read this document for more details :
@@ -78,7 +78,7 @@ end;
 begin
   // You need a TCefCustomRenderProcessHandler to register the extension in the OnWebKitReady event
   TempProcessHandler                           := TCefCustomRenderProcessHandler.Create;
-  TempProcessHandler.OnWebKitReady             := ProcessHandler_OnWebKitReady;
+  TempProcessHandler.OnWebKitInitializedEvent  := ProcessHandler_OnWebKitInitializedEvent;
 
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;

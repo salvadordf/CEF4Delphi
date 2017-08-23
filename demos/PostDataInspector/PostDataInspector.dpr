@@ -64,12 +64,12 @@ uses
 var
   TempProcessHandler : TCefCustomRenderProcessHandler;
 
-procedure ProcessHandler_OnBeforeBrowserNavigation(const browser        : ICefBrowser;
-                                                   const frame          : ICefFrame;
-                                                   const request        : ICefRequest;
-                                                         navigationType : TCefNavigationType;
-                                                         isRedirect     : Boolean;
-                                                   var   aResult        : boolean);
+procedure ProcessHandler_OnBeforeNavigationEvent(const browser        : ICefBrowser;
+                                                 const frame          : ICefFrame;
+                                                 const request        : ICefRequest;
+                                                       navigationType : TCefNavigationType;
+                                                       isRedirect     : Boolean;
+                                                 var   aResult        : boolean);
 var
   msg: ICefProcessMessage;
   TempString : string;
@@ -90,8 +90,8 @@ begin
 end;
 
 begin
-  TempProcessHandler                           := TCefCustomRenderProcessHandler.Create;
-  TempProcessHandler.OnBeforeBrowserNavigation := ProcessHandler_OnBeforeBrowserNavigation;
+  TempProcessHandler                         := TCefCustomRenderProcessHandler.Create;
+  TempProcessHandler.OnBeforeNavigationEvent := ProcessHandler_OnBeforeNavigationEvent;
 
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;

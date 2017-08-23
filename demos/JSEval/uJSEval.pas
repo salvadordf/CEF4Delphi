@@ -98,7 +98,7 @@ type
     procedure ParseEvalJsAnswer(const pMessage: ICefProcessMessage; pBrowser: ICefBrowser; pReturnValue : ICefv8Value; pException : ICefV8Exception);
 
   public
-    procedure RenderProcessHandler_OnCustomMessage(const pBrowser: ICefBrowser; uSourceProcess: TCefProcessId; const pMessage: ICefProcessMessage);
+    procedure RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser: ICefBrowser; uSourceProcess: TCefProcessId; const pMessage: ICefProcessMessage);
   end;
 
 var
@@ -119,7 +119,7 @@ uses
 // 2. Set the TCefCustomRenderProcessHandler in the GlobalCEFApp.RenderProcessHandler property.
 // 3. To get the Javascript code in this demo we use a context menu that sends a MINIBROWSER_EVALJSCODE to the form.
 // 4. The EvalJSCodeMsg asks for the Javascript code and sends it to the renderer using a process message.
-// 5. RenderProcessHandler_OnCustomMessage receives the process message and calls ParseEvalJsAnswer to evaluate the code
+// 5. RenderProcessHandler_OnProcessMessageReceivedEvent receives the process message and calls ParseEvalJsAnswer to evaluate the code
 // 6. ParseEvalJsAnswer evaluates the code and sends a message with the results to the browser process using a process message.
 // 7. Chromium1ProcessMessageReceived receives the message, stores the results and sends a MINIBROWSER_SHOWTEXTVIEWER
 //    message to the form.
@@ -205,9 +205,9 @@ begin
     end;
 end;
 
-procedure TJSEvalFrm.RenderProcessHandler_OnCustomMessage(const pBrowser       : ICefBrowser;
-                                                                uSourceProcess : TCefProcessId;
-                                                          const pMessage       : ICefProcessMessage);
+procedure TJSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser       : ICefBrowser;
+                                                                              uSourceProcess : TCefProcessId;
+                                                                        const pMessage       : ICefProcessMessage);
 var
   pV8Context   : ICefv8Context;
   pReturnValue : ICefv8Value;

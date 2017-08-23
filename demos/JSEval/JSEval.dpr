@@ -62,9 +62,9 @@ var
   FProcessHandler : TCefCustomRenderProcessHandler;
 
 begin
-  FProcessHandler                   := TCefCustomRenderProcessHandler.Create;
-  FProcessHandler.MessageName       := EVAL_JS;
-  FProcessHandler.OnCustomMessage   := JSEvalFrm.RenderProcessHandler_OnCustomMessage;
+  FProcessHandler                                 := TCefCustomRenderProcessHandler.Create;
+  FProcessHandler.MessageName                     := EVAL_JS;
+  FProcessHandler.OnProcessMessageReceivedEvent   := JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent;
 
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.RenderProcessHandler := FProcessHandler as ICefRenderProcessHandler;

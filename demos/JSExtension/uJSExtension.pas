@@ -104,11 +104,13 @@ uses
 // The CEF3 document describing extensions is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
-// This demo has a TTestExtension class that is registered in the OnWebKitReady event
-// of a custom ProcessHandler when the application is initializing.
+// This demo has a TTestExtension class that is registered in the
+// TCefCustomRenderProcessHandler.OnWebKitInitializedEvent event
+// of a custom render process handler when the application is initializing.
 
 // TTestExtension can send information back to the browser with a process message.
-// The TTestExtension.mouseover function do this by calling TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+// The TTestExtension.mouseover function do this by calling
+// TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
 
 // TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing JS,
 // TCefv8ContextRef.Current.Browser.SendProcessMessage should send a message to the right browser even

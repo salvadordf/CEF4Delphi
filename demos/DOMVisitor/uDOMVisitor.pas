@@ -58,6 +58,9 @@ const
 
   MINIBROWSER_CONTEXTMENU_VISITDOM     = MENU_ID_USER_FIRST + 1;
 
+  DOMVISITOR_MSGNAME  = 'domvisitor';
+  RETRIEVEDOM_MSGNAME = 'retrievedom';
+
 type
   TDOMVisitorFrm = class(TForm)
     CEFWindowParent1: TCEFWindowParent;
@@ -135,7 +138,7 @@ procedure TDOMVisitorFrm.Chromium1ProcessMessageReceived(Sender: TObject;
 begin
   if (message = nil) or (message.ArgumentList = nil) then exit;
 
-  if (message.Name = 'domvisitor') then
+  if (message.Name = DOMVISITOR_MSGNAME) then
     begin
       // Message received from the DOMVISITOR in CEF
       ShowStatusText('DOM Visitor result text : ' + message.ArgumentList.GetString(0));
@@ -167,7 +170,7 @@ var
 begin
   // Only works using a TCefCustomRenderProcessHandler.
   // Use the ArgumentList property if you need to pass some parameters.
-  TempMsg := TCefProcessMessageRef.New('retrievedom'); // Same name than TCefCustomRenderProcessHandler.MessageName
+  TempMsg := TCefProcessMessageRef.New(RETRIEVEDOM_MSGNAME); // Same name than TCefCustomRenderProcessHandler.MessageName
   Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
 end;
 
