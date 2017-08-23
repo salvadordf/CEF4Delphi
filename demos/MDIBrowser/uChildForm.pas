@@ -169,6 +169,7 @@ end;
 
 procedure TChildForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
+  CEFWindowParent1.UpdateSize;
   Panel1.Enabled := True;
   Button1.Click;
 end;

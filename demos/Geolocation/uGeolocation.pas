@@ -104,6 +104,7 @@ end;
 
 procedure TGeolocationFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
+  CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
   GoBtn.Click;
 end;

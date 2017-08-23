@@ -130,6 +130,7 @@ end;
 
 procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
+  ChromiumWindow1.UpdateSize;
   AddressBarPnl.Enabled := True;
 end;
 

@@ -237,6 +237,7 @@ end;
 
 procedure TChildForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
+  CEFWindowParent1.UpdateSize;
   Chromium1.LoadURL(FHomepage);
 end;
 

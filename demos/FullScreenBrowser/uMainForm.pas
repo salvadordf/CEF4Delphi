@@ -50,6 +50,9 @@ uses
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFTypes;
 
+const
+  MINIBROWSER_CREATED        = WM_APP + $100;
+
 type
   TMainForm = class(TForm)
     CEFWindowParent1: TCEFWindowParent;
@@ -61,11 +64,14 @@ type
       const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
       out Result: Boolean);
     procedure FormShow(Sender: TObject);
+    procedure Chromium1AfterCreated(Sender: TObject;
+      const browser: ICefBrowser);
   private
     { Private declarations }
   protected
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
 
     procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
     procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
@@ -109,6 +115,17 @@ begin
   TempKeyMsg          := TWMKey(TempMessage);
 
   if (TempKeyMsg.CharCode = VK_ESCAPE) then aHandled := True;
+end;
+
+procedure TMainForm.Chromium1AfterCreated(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+end;
+
+procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.UpdateSize;
 end;
 
 procedure TMainForm.Chromium1KeyEvent(Sender: TObject;

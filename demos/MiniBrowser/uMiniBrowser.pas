@@ -458,6 +458,7 @@ end;
 
 procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
+  CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
   AddURL(MINIBROWSER_HOMEPAGE);
   Chromium1.LoadURL(MINIBROWSER_HOMEPAGE);

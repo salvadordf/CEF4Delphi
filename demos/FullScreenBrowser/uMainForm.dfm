@@ -25,14 +25,11 @@ object MainForm: TMainForm
     Height = 288
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 136
-    ExplicitTop = 104
-    ExplicitWidth = 100
-    ExplicitHeight = 41
   end
   object Chromium1: TChromium
     OnPreKeyEvent = Chromium1PreKeyEvent
     OnKeyEvent = Chromium1KeyEvent
+    OnAfterCreated = Chromium1AfterCreated
     Left = 208
     Top = 120
   end

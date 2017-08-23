@@ -56,7 +56,6 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
       Items.Strings = (
         'https://www.google.com'
         'hello://world')
-      ExplicitWidth = 824
     end
   end
   object CEFWindowParent1: TCEFWindowParent
