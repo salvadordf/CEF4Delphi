@@ -11,7 +11,7 @@ The CEF3 binaries used by CEF4Delphi are available for download at spotify :
   64bit -> http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1657.g2c22842_windows64.tar.bz2
 
 
-CEF4Delphi was developed and tested on Delphi 10.2 Seattle and it has been tested in Delphi 7, Delphi XE and Delphi 10.
+CEF4Delphi was developed and tested on Delphi 10.2 Tokyo and it has been tested in Delphi 7, Delphi XE and Delphi 10.
 
 For more information about CEF4Delphi visit : 
   https://www.briskbard.com/index.php?lang=en&pageid=cef
