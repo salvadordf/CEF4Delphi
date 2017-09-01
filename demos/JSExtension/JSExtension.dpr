@@ -50,6 +50,8 @@ uses
   SysUtils,
   {$ENDIF }
   uCEFApplication,
+  uCEFMiscFunctions,
+  uCEFConstants,
   uCEFRenderProcessHandler,
   uCEFInterfaces,
   uCEFv8Handler,
@@ -84,14 +86,14 @@ begin
   GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
 
   // The directories are optional.
-  {
+{
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.cache                := 'cef\cache';
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
-  }
+}
 
   if GlobalCEFApp.StartMainProcess then
     begin

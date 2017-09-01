@@ -50,6 +50,8 @@ uses
   uCEFApplication,
   uCEFRenderProcessHandler,
   uCEFInterfaces,
+  uCEFConstants,
+  uCEFTypes,
   uJSEval in 'uJSEval.pas' {JSEvalFrm},
   uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
 
@@ -63,7 +65,8 @@ var
 
 begin
   FProcessHandler                                 := TCefCustomRenderProcessHandler.Create;
-  FProcessHandler.MessageName                     := EVAL_JS;
+  FProcessHandler.AddMessageName(EVAL_JS);
+  FProcessHandler.AddMessageName(BINARY_PARAM_JS);
   FProcessHandler.OnProcessMessageReceivedEvent   := JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent;
 
   GlobalCEFApp                      := TCefApplication.Create;

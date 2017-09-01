@@ -22,7 +22,6 @@ object JSEvalFrm: TJSEvalFrm
     Height = 541
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 530
   end
   object AddressBarPnl: TPanel
     Left = 0

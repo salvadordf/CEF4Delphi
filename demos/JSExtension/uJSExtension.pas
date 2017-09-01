@@ -99,7 +99,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uSimpleTextViewer;
+  uSimpleTextViewer, uCEFMiscFunctions;
 
 // The CEF3 document describing extensions is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md

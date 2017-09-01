@@ -990,12 +990,17 @@ end;
 
 procedure TChromium.DragDropManager_OnDragOver(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
 var
-  TempMouseEvent : TCefMouseEvent;
+
+  TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
-begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      ToMouseEvent(grfKeyState, pt, TempMouseEvent);
+
+begin
+
+  if (GlobalCEFApp <> nil) then
+
+    begin
+
+      ToMouseEvent(grfKeyState, pt, TempMouseEvent);
       DropEffectToDragOperation(dwEffect, TempAllowedOps);
       DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
 
@@ -1007,17 +1012,23 @@ end;
 
 procedure TChromium.DragDropManager_OnDragLeave(Sender: TObject);
 begin
-  DragTargetDragLeave;
+
+  DragTargetDragLeave;
 end;
 
 procedure TChromium.DragDropManager_OnDrop(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
 var
-  TempMouseEvent : TCefMouseEvent;
+
+  TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
-begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      ToMouseEvent(grfKeyState, pt, TempMouseEvent);
+
+begin
+
+  if (GlobalCEFApp <> nil) then
+
+    begin
+
+      ToMouseEvent(grfKeyState, pt, TempMouseEvent);
       DropEffectToDragOperation(dwEffect, TempAllowedOps);
       DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
 

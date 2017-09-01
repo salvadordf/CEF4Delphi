@@ -75,6 +75,7 @@ type
 
   TCefCustomRenderProcessHandler = class(TCefRenderProcessHandlerOwn)
     protected
+      FExtraMsgNames                 : TStringList;
       FMessageName                   : ustring;
       FOnRenderThreadCreatedEvent    : TOnRenderThreadCreatedEvent;
       FOnWebKitInitializedEvent      : TOnWebKitInitializedEvent;
@@ -100,6 +101,8 @@ type
 
     public
       constructor Create; override;
+      destructor  Destroy; override;
+      procedure   AddMessageName(const aName : string);
 
       property MessageName                   : ustring                         read FMessageName                   write FMessageName;
       property OnRenderThreadCreatedEvent    : TOnRenderThreadCreatedEvent     read FOnRenderThreadCreatedEvent    write FOnRenderThreadCreatedEvent;
@@ -304,6 +307,7 @@ begin
   inherited Create;
 
   FMessageName                   := '';
+  FExtraMsgNames                 := TStringList.Create;
   FOnRenderThreadCreatedEvent    := nil;
   FOnWebKitInitializedEvent      := nil;
   FOnBrowserCreatedEvent         := nil;
@@ -314,6 +318,18 @@ begin
   FOnUncaughtExceptionEvent      := nil;
   FOnFocusedNodeChangedEvent     := nil;
   FOnProcessMessageReceivedEvent := nil;
+end;
+
+destructor TCefCustomRenderProcessHandler.Destroy;
+begin
+  FExtraMsgNames.Free;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomRenderProcessHandler.AddMessageName(const aName : string);
+begin
+  FExtraMsgNames.Add(aName);
 end;
 
 procedure TCefCustomRenderProcessHandler.OnRenderThreadCreated(const extraInfo: ICefListValue);
@@ -384,7 +400,8 @@ function TCefCustomRenderProcessHandler.OnProcessMessageReceived(const browser  
                                                                        sourceProcess : TCefProcessId;
                                                                  const message       : ICefProcessMessage): Boolean;
 begin
-  if assigned(FOnProcessMessageReceivedEvent) and (message.Name = FMessageName) then
+  if assigned(FOnProcessMessageReceivedEvent) and
+     ((message.Name = FMessageName) or (FExtraMsgNames.IndexOf(message.Name) >= 0)) then
     begin
       FOnProcessMessageReceivedEvent(browser, sourceProcess, message);
       Result := True;
