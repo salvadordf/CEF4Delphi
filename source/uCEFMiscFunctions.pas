@@ -52,7 +52,8 @@ uses
   {$ELSE}
   Windows, Classes, SysUtils, Controls, ActiveX, Math,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler, uCEFGetGeolocationCallback;
+  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler, uCEFGetGeolocationCallback,
+  uCEFRegisterCDMCallback;
 
 const
   Kernel32DLL = 'kernel32.dll';
@@ -187,6 +188,9 @@ function GetScreenDPI : integer;
 function GetDeviceScaleFactor : single;
 
 function CefGetGeolocation(const aCallbackFunction : TOnLocationUpdate) : boolean;
+
+procedure CefRegisterWidevineCdm(const path: ustring; const callback: ICefRegisterCdmCallback);
+procedure CefFastRegisterWidevineCdm(const path: ustring; const callback: TCefRegisterCDMProc);
 
 implementation
 
@@ -1236,6 +1240,19 @@ end;
 function GetDeviceScaleFactor : single;
 begin
   Result := GetScreenDPI / 96;
+end;
+
+procedure CefRegisterWidevineCdm(const path: ustring; const callback: ICefRegisterCdmCallback);
+var
+  str: TCefString;
+begin
+  str := CefString(path);
+  cef_register_widevine_cdm(@str, CefGetData(callback));
+end;
+
+procedure CefFastRegisterWidevineCdm(const path: ustring; const callback: TCefRegisterCDMProc);
+begin
+  CefRegisterWidevineCdm(path, TCefFastRegisterCdmCallback.Create(callback) as ICefRegisterCdmCallback);
 end;
 
 end.
