@@ -53,10 +53,9 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
-  MINIBROWSER_CREATED        = WM_APP + $100;
-  MINIBROWSER_VISITDOM       = WM_APP + $101;
+  MINIBROWSER_VISITDOM               = WM_APP + $101;
 
-  MINIBROWSER_CONTEXTMENU_VISITDOM     = MENU_ID_USER_FIRST + 1;
+  MINIBROWSER_CONTEXTMENU_VISITDOM   = MENU_ID_USER_FIRST + 1;
 
   DOMVISITOR_MSGNAME  = 'domvisitor';
   RETRIEVEDOM_MSGNAME = 'retrievedom';
@@ -86,7 +85,7 @@ type
   private
     { Private declarations }
   protected
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -106,10 +105,9 @@ implementation
 uses
   uCEFProcessMessage;
 
-procedure TDOMVisitorFrm.Chromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TDOMVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TDOMVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;

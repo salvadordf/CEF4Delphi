@@ -52,11 +52,13 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
-  MINIBROWSER_CREATED        = WM_APP + $100;
-  MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $105;
+  MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $100;
 
   MINIBROWSER_CONTEXTMENU_SETJSEVENT   = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_JSVISITDOM   = MENU_ID_USER_FIRST + 2;
+
+  MOUSEOVER_MESSAGE_NAME  = 'mouseover';
+  CUSTOMNAME_MESSAGE_NAME = 'customname';
 
 type
   TJSExtensionFrm = class(TForm)
@@ -78,12 +80,11 @@ type
     procedure Chromium1ProcessMessageReceived(Sender: TObject;
       const browser: ICefBrowser; sourceProcess: TCefProcessId;
       const message: ICefProcessMessage; out Result: Boolean);
-    procedure Chromium1AfterCreated(Sender: TObject;
-      const browser: ICefBrowser);
+    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
   protected
     FText : string;
 
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure ShowTextViewerMsg(var aMessage : TMessage); message MINIBROWSER_SHOWTEXTVIEWER;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -125,10 +126,9 @@ begin
   Chromium1.LoadURL(Edit1.Text);
 end;
 
-procedure TJSExtensionFrm.Chromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TJSExtensionFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TJSExtensionFrm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -167,7 +167,7 @@ begin
       if (browser <> nil) and (browser.MainFrame <> nil) then
         browser.MainFrame.ExecuteJavaScript(
           'var testhtml = document.body.innerHTML;' +
-          'myextension.sendresulttobrowser(testhtml, ''customname'');',  // This is the call from JavaScript to the extension with DELPHI code in uTestExtension.pas
+          'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');',  // This is the call from JavaScript to the extension with DELPHI code in uTestExtension.pas
           'about:blank', 0);
   end;
 end;
@@ -187,13 +187,13 @@ begin
 
   // The message names are defined in the extension or in JS code.
 
-  if (message.Name = 'mouseover') then
+  if (message.Name = MOUSEOVER_MESSAGE_NAME) then
     begin
       StatusBar1.Panels[0].Text := message.ArgumentList.GetString(0); // this doesn't create/destroy components
       Result := True;
     end
    else
-    if (message.Name = 'customname') then
+    if (message.Name = CUSTOMNAME_MESSAGE_NAME) then
       begin
         FText := message.ArgumentList.GetString(0);
         PostMessage(Handle, MINIBROWSER_SHOWTEXTVIEWER, 0, 0);

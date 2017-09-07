@@ -52,8 +52,7 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
-  MINIBROWSER_CREATED     = WM_APP + $101;
-  MINIBROWSER_NEWLOCATION = WM_APP + $102;
+  MINIBROWSER_NEWLOCATION = WM_APP + $100;
 
 type
   TGeolocationFrm = class(TForm)
@@ -64,18 +63,14 @@ type
     GoBtn: TButton;
     StatusBar1: TStatusBar;
 
-    procedure Chromium1AfterCreated(Sender: TObject;
-      const browser: ICefBrowser);
+    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);private
-    { Private declarations }
+    procedure FormShow(Sender: TObject);
   protected
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure NewLocationMsg(var aMessage : TMessage); message MINIBROWSER_NEWLOCATION;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
-  public
-    { Public declarations }
   end;
 
 var
@@ -86,10 +81,9 @@ implementation
 
 {$R *.dfm}
 
-procedure TGeolocationFrm.Chromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TGeolocationFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TGeolocationFrm.FormShow(Sender: TObject);

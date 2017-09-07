@@ -53,7 +53,6 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
-  MINIBROWSER_CREATED        = WM_APP + $100;
   MINIBROWSER_SHOWDEVTOOLS   = WM_APP + $101;
   MINIBROWSER_HIDEDEVTOOLS   = WM_APP + $102;
   MINIBROWSER_COPYHTML       = WM_APP + $103;
@@ -168,7 +167,7 @@ type
     procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
     procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
 
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
     procedure CopyHTMLMsg(var aMessage : TMessage); message MINIBROWSER_COPYHTML;
@@ -222,10 +221,9 @@ begin
   AddURL(url);
 end;
 
-procedure TMiniBrowserFrm.Chromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TMiniBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;

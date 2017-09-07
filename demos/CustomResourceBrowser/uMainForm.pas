@@ -49,10 +49,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCustomResourceHandler;
-
-const
-  MINIBROWSER_CREATED       = WM_APP + $100;
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCustomResourceHandler, uCEFConstants;
 
 type
   TMainForm = class(TForm)
@@ -67,10 +64,9 @@ type
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
 
   protected
-    procedure Chromium_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium_OnAfterCreated(Sender: TObject);
     procedure Chromium_OnGetResourceHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; out Result: ICefResourceHandler);
 
   public
@@ -94,14 +90,15 @@ end;
 
 procedure TMainForm.FormShow(Sender: TObject);
 begin
-  ChromiumWindow1.ChromiumBrowser.OnAfterCreated       := Chromium_OnAfterCreated;
+  ChromiumWindow1.OnAfterCreated                       := Chromium_OnAfterCreated;
   ChromiumWindow1.ChromiumBrowser.OnGetResourceHandler := Chromium_OnGetResourceHandler;
   ChromiumWindow1.CreateBrowser;
 end;
 
-procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
+procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  ChromiumWindow1.UpdateSize;
+  AddressBarPnl.Enabled := True;
 end;
 
 procedure TMainForm.Chromium_OnGetResourceHandler(Sender : TObject;
@@ -126,12 +123,6 @@ begin
   finally
     if (TempStream <> nil) then FreeAndNil(TempStream);
   end;
-end;
-
-procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);
-begin
-  ChromiumWindow1.UpdateSize;
-  AddressBarPnl.Enabled := True;
 end;
 
 procedure TMainForm.WMMove(var aMessage : TWMMove);

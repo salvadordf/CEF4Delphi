@@ -59,13 +59,13 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFConstants;
+  uCEFMiscFunctions, uCEFConstants, uJSExtension;
 
 class procedure TTestExtension.mouseover(const data: string);
 var
   msg: ICefProcessMessage;
 begin
-  msg := TCefProcessMessageRef.New('mouseover');
+  msg := TCefProcessMessageRef.New(MOUSEOVER_MESSAGE_NAME);
   msg.ArgumentList.SetString(0, data);
 
   // Sending a message back to the browser. It'll be received in the TChromium.OnProcessMessageReceived event.

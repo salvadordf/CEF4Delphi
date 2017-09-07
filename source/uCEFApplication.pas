@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3112;
-  CEF_SUPPORTED_VERSION_RELEASE = 1658;
+  CEF_SUPPORTED_VERSION_RELEASE = 1659;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 60;
@@ -545,27 +545,82 @@ begin
 end;
 
 function TCefApplication.CheckCEFLibrary : boolean;
+var
+  TempString, TempPath : string;
 begin
   Result := False;
 
   if not(FCheckCEFFiles) then
     Result := True
    else
-    if CheckDLLs(FFrameworkDirPath) and
-       CheckResources(FResourcesDirPath) and
-       CheckLocales(FLocalesDirPath) then
-      begin
-        if CheckDLLVersion(LibCefPath,
-                           CEF_SUPPORTED_VERSION_MAJOR,
-                           CEF_SUPPORTED_VERSION_MINOR,
-                           CEF_SUPPORTED_VERSION_RELEASE,
-                           CEF_SUPPORTED_VERSION_BUILD) then
-          Result := True
-         else
-          MessageDlg('Unsupported CEF version !', mtError, [mbOk], 0);
-      end
-     else
-      MessageDlg('CEF binaries missing !', mtError, [mbOk], 0);
+    begin
+      if not(CheckDLLs(FFrameworkDirPath)) then
+        begin
+          TempString := 'CEF framework files missing !' + CRLF + CRLF;
+
+          if GetAbsoluteDirPath(FFrameworkDirPath, TempPath) then
+            begin
+              if (length(TempPath) = 0) then TempPath := ExtractFilePath(ParamStr(0));
+              TempString := TempString + 'Make sure all the CEF framework files can be found in this directory :' + CRLF + SplitLongString(TempPath);
+            end
+           else
+            TempString := TempString + 'The CEF framework directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FFrameworkDirPath);
+
+          MessageDlg(TempString, mtError, [mbOk], 0);
+          exit;
+        end;
+
+
+      if not(CheckResources(FResourcesDirPath)) then
+        begin
+          TempString := 'CEF resources missing !' + CRLF + CRLF;
+
+          if GetAbsoluteDirPath(FResourcesDirPath, TempPath) then
+            begin
+              if (length(TempPath) = 0) then TempPath := ExtractFilePath(ParamStr(0));
+              TempString := TempString + 'Make sure all the CEF resources can be found in this directory :' + CRLF + SplitLongString(TempPath);
+            end
+           else
+            TempString := TempString + 'The CEF resources directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FResourcesDirPath);
+
+          MessageDlg(TempString, mtError, [mbOk], 0);
+          exit;
+        end;
+
+
+      if not(CheckLocales(FLocalesDirPath)) then
+        begin
+          TempString := 'CEF locale files missing !' + CRLF + CRLF;
+
+          if GetAbsoluteDirPath(FLocalesDirPath, TempPath) then
+            begin
+              if (length(TempPath) = 0) then TempPath := ExtractFilePath(ParamStr(0)) + 'locales';
+              TempString := TempString + 'Make sure all the CEF locale files can be found in this directory :' + CRLF + SplitLongString(TempPath);
+            end
+           else
+            TempString := TempString + 'The CEF locales directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FLocalesDirPath);
+
+          MessageDlg(TempString, mtError, [mbOk], 0);
+          exit;
+        end;
+
+
+      if CheckDLLVersion(LibCefPath,
+                         CEF_SUPPORTED_VERSION_MAJOR,
+                         CEF_SUPPORTED_VERSION_MINOR,
+                         CEF_SUPPORTED_VERSION_RELEASE,
+                         CEF_SUPPORTED_VERSION_BUILD) then
+        Result := True
+       else
+        begin
+          TempString := 'Unsupported CEF version !' +
+                        CRLF + CRLF +
+                        'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
+                        CRLF + CEF4DELPHI_URL;
+
+          MessageDlg(TempString, mtError, [mbOk], 0);
+        end;
+    end;
 end;
 
 function TCefApplication.StartMainProcess : boolean;

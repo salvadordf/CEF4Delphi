@@ -22,24 +22,23 @@ object Form1: TForm1
     Height = 594
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 684
-    ExplicitHeight = 532
+    OnAfterCreated = ChromiumWindow1AfterCreated
   end
-  object Panel1: TPanel
+  object AddressPnl: TPanel
     Left = 0
     Top = 0
     Width = 1038
     Height = 30
     Align = alTop
     BevelOuter = bvNone
+    Enabled = False
     Padding.Left = 5
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
     ShowCaption = False
     TabOrder = 1
-    ExplicitWidth = 684
-    object Edit1: TEdit
+    object AddressEdt: TEdit
       Left = 5
       Top = 5
       Width = 997
@@ -48,10 +47,9 @@ object Form1: TForm1
       Align = alClient
       TabOrder = 0
       Text = 'http://www.google.com'
-      ExplicitWidth = 643
       ExplicitHeight = 21
     end
-    object Button1: TButton
+    object GoBtn: TButton
       Left = 1002
       Top = 5
       Width = 31
@@ -60,8 +58,7 @@ object Form1: TForm1
       Align = alRight
       Caption = 'Go'
       TabOrder = 1
-      OnClick = Button1Click
-      ExplicitLeft = 648
+      OnClick = GoBtnClick
     end
   end
 end

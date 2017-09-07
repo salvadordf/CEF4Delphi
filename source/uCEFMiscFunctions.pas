@@ -133,6 +133,8 @@ procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TF
 function  GetExtendedFileVersion(const aFileName : string) : uint64;
 function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersionInfo) : boolean;
 
+function SplitLongString(aSrcString : string) : string;
+function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
 function CheckLocales(const aLocalesDirPath : string) : boolean;
 function CheckResources(const aResourcesDirPath : string) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string) : boolean;
@@ -575,6 +577,21 @@ begin
   Result := cef_clear_cross_origin_whitelist <> 0;
 end;
 
+function SplitLongString(aSrcString : string) : string;
+const
+  MAXLINELENGTH = 50;
+begin
+  while (length(aSrcString) > 0) do
+    begin
+      if (length(Result) > 0) then
+        Result := Result + CRLF + copy(aSrcString, 1, MAXLINELENGTH)
+       else
+        Result := Result + copy(aSrcString, 1, MAXLINELENGTH);
+
+      aSrcString := copy(aSrcString, succ(MAXLINELENGTH), length(aSrcString));
+    end;
+end;
+
 function CheckLocales(const aLocalesDirPath : string) : boolean;
 var
   TempDir : string;
@@ -651,6 +668,24 @@ begin
   end;
 end;
 
+function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
+begin
+  Result := True;
+
+  if (length(aSrcPath) > 0) then
+    begin
+      if DirectoryExists(aSrcPath) then
+        begin
+          aRsltPath := IncludeTrailingPathDelimiter(aSrcPath);
+          if CustomPathIsRelative(aRsltPath) then aRsltPath := ExtractFilePath(ParamStr(0)) + aRsltPath;
+        end
+       else
+        Result := False;
+    end
+   else
+    aRsltPath := '';
+end;
+
 function CheckResources(const aResourcesDirPath : string) : boolean;
 var
   TempDir : string;
@@ -658,20 +693,8 @@ begin
   Result := False;
 
   try
-    if (length(aResourcesDirPath) > 0) then
-      begin
-        if DirectoryExists(aResourcesDirPath) then
-          begin
-            TempDir := IncludeTrailingPathDelimiter(aResourcesDirPath);
-            if CustomPathIsRelative(TempDir) then TempDir := ExtractFilePath(ParamStr(0)) + TempDir;
-          end
-         else
-          exit;
-      end
-     else
-      TempDir := '';
-
-    Result := FileExists(TempDir + 'natives_blob.bin')       and
+    Result := GetAbsoluteDirPath(aResourcesDirPath, TempDir) and
+              FileExists(TempDir + 'natives_blob.bin')       and
               FileExists(TempDir + 'snapshot_blob.bin')      and
               FileExists(TempDir + 'icudtl.dat')             and
               FileExists(TempDir + 'cef.pak')                and
@@ -692,20 +715,8 @@ begin
   Result := False;
 
   try
-    if (length(aFrameworkDirPath) > 0) then
-      begin
-        if DirectoryExists(aFrameworkDirPath) then
-          begin
-            TempDir := IncludeTrailingPathDelimiter(aFrameworkDirPath);
-            if CustomPathIsRelative(TempDir) then TempDir := ExtractFilePath(ParamStr(0)) + TempDir;
-          end
-         else
-          exit;
-      end
-     else
-      TempDir := '';
-
-    Result := FileExists(TempDir + CHROMEELF_DLL)            and
+    Result := GetAbsoluteDirPath(aFrameworkDirPath, TempDir) and
+              FileExists(TempDir + CHROMEELF_DLL)            and
               FileExists(TempDir + LIBCEF_DLL)               and
               FileExists(TempDir + 'd3dcompiler_43.dll')     and
               FileExists(TempDir + 'd3dcompiler_47.dll')     and

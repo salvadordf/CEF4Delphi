@@ -48,10 +48,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFTypes;
-
-const
-  MINIBROWSER_CREATED        = WM_APP + $100;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFTypes, uCEFConstants;
 
 type
   TMainForm = class(TForm)
@@ -71,7 +68,7 @@ type
   protected
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
 
     procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
     procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
@@ -117,10 +114,9 @@ begin
   if (TempKeyMsg.CharCode = VK_ESCAPE) then aHandled := True;
 end;
 
-procedure TMainForm.Chromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TMainForm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);

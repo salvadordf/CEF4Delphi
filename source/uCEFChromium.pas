@@ -1090,7 +1090,7 @@ begin
   if Initialized then
     begin
       GetPrintPDFSettings(TempSettings, aTitle, aURL);
-      if (FPDFPrintcb = nil) then FPDFPrintcb := TCefPDFPrintCallBack.Create(self);
+      if (FPDFPrintcb = nil) then FPDFPrintcb := TCefCustomPDFPrintCallBack.Create(self);
       FBrowser.Host.PrintToPdf(aFilePath, @TempSettings, FPDFPrintcb);
     end;
 end;

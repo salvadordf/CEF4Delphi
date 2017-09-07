@@ -52,9 +52,7 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
-  MINIBROWSER_CREATED        = WM_APP + $100;
-
-  POSTDATA_MSGNAME           = 'postdatainfo';
+  POSTDATA_MSGNAME   = 'postdatainfo';
 
 type
   TPostDataInspectorFrm = class(TForm)
@@ -73,7 +71,7 @@ type
       const browser: ICefBrowser);
   protected
 
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
   public
@@ -96,10 +94,9 @@ implementation
 // If you need more control over the POST data register an scheme.
 // See the SchemeRegistrationBrowser demo.
 
-procedure TPostDataInspectorFrm.Chromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TPostDataInspectorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TPostDataInspectorFrm.Chromium1ProcessMessageReceived(

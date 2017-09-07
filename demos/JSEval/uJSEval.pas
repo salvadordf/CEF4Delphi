@@ -53,13 +53,12 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
-  MINIBROWSER_CREATED        = WM_APP + $100;
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $101;
   MINIBROWSER_EVALJSCODE     = WM_APP + $102;
-  MINIBROWSER_EVALJSBINPARAM = WM_APP + $103;
+  MINIBROWSER_JSBINPARAM     = WM_APP + $103;
 
-  MINIBROWSER_CONTEXTMENU_EVALJSCODE      = MENU_ID_USER_FIRST + 1;
-  MINIBROWSER_CONTEXTMENU_EVALJSBINPARAM  = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_EVALJSCODE  = MENU_ID_USER_FIRST + 1;
+  MINIBROWSER_CONTEXTMENU_JSBINPARAM  = MENU_ID_USER_FIRST + 2;
 
   EVAL_JS         = 'JSContextEvalDemo';
   BINARY_PARAM_JS = 'JSBinaryParameter';
@@ -92,10 +91,10 @@ type
   protected
     FText : string;
 
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure ShowTextViewerMsg(var aMessage : TMessage); message MINIBROWSER_SHOWTEXTVIEWER;
     procedure EvalJSCodeMsg(var aMessage : TMessage); message MINIBROWSER_EVALJSCODE;
-    procedure EvalJSBinParamMsg(var aMessage : TMessage); message MINIBROWSER_EVALJSBINPARAM;
+    procedure EvalJSBinParamMsg(var aMessage : TMessage); message MINIBROWSER_JSBINPARAM;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
@@ -120,34 +119,37 @@ uses
 
 // Steps to evaluate some JavaScript code using the V8Context
 // ----------------------------------------------------------
-// 1. Create a TCefCustomRenderProcessHandler in the DPR file, adds a message name and sets the OnCustomMessage event.
+// 1. Create a TCefCustomRenderProcessHandler in the DPR file, add a message name and set the OnCustomMessage event.
 // 2. Set the TCefCustomRenderProcessHandler in the GlobalCEFApp.RenderProcessHandler property.
 // 3. To get the Javascript code in this demo we use a context menu that sends a MINIBROWSER_EVALJSCODE to the form.
 // 4. The EvalJSCodeMsg asks for the Javascript code and sends it to the renderer using a process message.
-// 5. RenderProcessHandler_OnProcessMessageReceivedEvent receives the process message and calls ParseEvalJsAnswer to evaluate the code
-// 6. ParseEvalJsAnswer evaluates the code and sends a message with the results to the browser process using a process message.
-// 7. Chromium1ProcessMessageReceived receives the message, stores the results and sends a MINIBROWSER_SHOWTEXTVIEWER
-//    message to the form.
+// 5. RenderProcessHandler_OnProcessMessageReceivedEvent receives the process message and calls ParseEvalJsAnswer
+//    to evaluate the code.
+// 6. ParseEvalJsAnswer evaluates the code and sends a message with the results to the browser process using a
+//    process message.
+// 7. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
+//    MINIBROWSER_SHOWTEXTVIEWER message to the form.
 // 8. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
-
 
 
 // This demo also has an example of binary parameters in process messages
 // ----------------------------------------------------------------------
-// 1. Create a TCefCustomRenderProcessHandler in the DPR file, adds a message name and sets the OnCustomMessage event.
+// 1. Create a TCefCustomRenderProcessHandler in the DPR file, add a message name and set the OnCustomMessage event.
 // 2. Set the TCefCustomRenderProcessHandler in the GlobalCEFApp.RenderProcessHandler property.
-// 3. The context menu has a 'Send JPEG image' option that sends a MINIBROWSER_EVALJSBINPARAM message to the form.
-// 4. EvalJSBinParamMsg asks for a JPEG image and sends a process message with a ICefBinaryValue parameter to the renderer process.
-// 5. The renderer process parses the binary parameter in the ParseBinaryValue function and sends back the image size and encoded image data to the browser process.
-// 6. Chromium1ProcessMessageReceived receives the message, stores the results and sends a MINIBROWSER_SHOWTEXTVIEWER
-//    message to the form.
+// 3. The context menu has a 'Send JPEG image' option that sends a MINIBROWSER_JSBINPARAM message to the form.
+// 4. EvalJSBinParamMsg asks for a JPEG image and sends a process message with a ICefBinaryValue parameter to the
+//    renderer process.
+// 5. The renderer process parses the binary parameter in the ParseBinaryValue function and sends back the image
+//    size and encoded image data to the browser process.
+// 6. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
+//    MINIBROWSER_SHOWTEXTVIEWER message to the form.
 // 7. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
 
 
 // About binary parameters
 // -----------------------
 // There is a size limit in the binary parameters of only a few kilobytes.
-// For more info and alternatives, read this thread in the official CEF3 forum :
+// For more info and alternatives read this thread in the official CEF3 forum :
 // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=10590
 //
 // Compress the binary data if necessary!
@@ -156,7 +158,7 @@ uses
 
 procedure TJSEvalFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TJSEvalFrm.Chromium1BeforeContextMenu(Sender : TObject;
@@ -165,8 +167,8 @@ procedure TJSEvalFrm.Chromium1BeforeContextMenu(Sender : TObject;
                                                 const params  : ICefContextMenuParams;
                                                 const model   : ICefMenuModel);
 begin
-  model.AddItem(MINIBROWSER_CONTEXTMENU_EVALJSCODE,     'Evaluate JavaScript code...');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_EVALJSBINPARAM, 'Send JPEG image...');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_EVALJSCODE, 'Evaluate JavaScript code...');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSBINPARAM, 'Send JPEG image...');
 end;
 
 procedure TJSEvalFrm.Chromium1ContextMenuCommand(Sender : TObject;
@@ -180,8 +182,8 @@ begin
   Result := False;
 
   case commandId of
-    MINIBROWSER_CONTEXTMENU_EVALJSCODE     : PostMessage(Handle, MINIBROWSER_EVALJSCODE, 0, 0);
-    MINIBROWSER_CONTEXTMENU_EVALJSBINPARAM : PostMessage(Handle, MINIBROWSER_EVALJSBINPARAM, 0, 0);
+    MINIBROWSER_CONTEXTMENU_EVALJSCODE : PostMessage(Handle, MINIBROWSER_EVALJSCODE, 0, 0);
+    MINIBROWSER_CONTEXTMENU_JSBINPARAM : PostMessage(Handle, MINIBROWSER_JSBINPARAM, 0, 0);
   end;
 end;
 
@@ -240,13 +242,13 @@ end;
 
 procedure TJSEvalFrm.EvalJSBinParamMsg(var aMessage : TMessage);
 var
-  TempMsg    : ICefProcessMessage;
+  TempMsg        : ICefProcessMessage;
   TempOpenDialog : TOpenDialog;
-  TempStream : TFileStream;
-  TempBinValue : ICefBinaryValue;
-  TempBuffer : TBytes;
-  TempSize : NativeUInt;
-  TempPointer : pointer;
+  TempStream     : TFileStream;
+  TempBinValue   : ICefBinaryValue;
+  TempBuffer     : TBytes;
+  TempSize       : NativeUInt;
+  TempPointer    : pointer;
 begin
   TempOpenDialog := nil;
   TempStream     := nil;
@@ -270,8 +272,7 @@ begin
                 begin
                   TempPointer  := @TempBuffer[0];
                   TempBinValue := TCefBinaryValueRef.New(TempPointer, TempSize);
-
-                  TempMsg := TCefProcessMessageRef.New(BINARY_PARAM_JS);
+                  TempMsg      := TCefProcessMessageRef.New(BINARY_PARAM_JS);
 
                   if TempMsg.ArgumentList.SetBinary(0, TempBinValue) then
                     Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
@@ -369,35 +370,41 @@ end;
 
 procedure TJSEvalFrm.ParseBinaryValue(const pBrowser : ICefBrowser; const aBinaryValue : ICefBinaryValue);
 var
-  pAnswer      : ICefProcessMessage;
-  TempBuffer   : TBytes;
-  TempPointer  : pointer;
-  TempSize     : NativeUInt;
-  TempString   : string;
+  pAnswer     : ICefProcessMessage;
+  TempBuffer  : TBytes;
+  TempPointer : pointer;
+  TempSize    : NativeUInt;
+  TempString  : string;
 begin
   if (aBinaryValue = nil) then exit;
 
-  pAnswer  := TCefProcessMessageRef.New(BINARY_PARAM_JS);
-  TempSize := aBinaryValue.GetSize;
-
-  if (TempSize > 0) then
-    begin
-      SetLength(TempBuffer, TempSize);
-      TempPointer := @TempBuffer[0];
-      TempSize    := aBinaryValue.GetData(TempPointer, TempSize, 0);
+  try
+    try
+      TempSize := aBinaryValue.GetSize;
 
       if (TempSize > 0) then
         begin
-          TempString := EncodeBase64(TempPointer, TempSize);
-          TempString := 'Image size : ' + inttostr(TempSize) + #13 + #10 +
-                        'Encoded image : ' + TempString;
+          SetLength(TempBuffer, TempSize);
+          TempPointer := @TempBuffer[0];
+          TempSize    := aBinaryValue.GetData(TempPointer, TempSize, 0);
 
-          pAnswer.ArgumentList.SetString(0, TempString);
-          pBrowser.SendProcessMessage(PID_BROWSER, pAnswer);
+          if (TempSize > 0) then
+            begin
+              pAnswer    := TCefProcessMessageRef.New(BINARY_PARAM_JS);
+              TempString := 'Image size : ' + inttostr(TempSize) + #13 + #10 +
+                            'Encoded image : ' + EncodeBase64(TempPointer, TempSize);
+
+              if pAnswer.ArgumentList.SetString(0, TempString) then
+                pBrowser.SendProcessMessage(PID_BROWSER, pAnswer);
+            end;
         end;
-
-      SetLength(TempBuffer, 0);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TJSEvalFrm.ParseBinaryValue', e) then raise;
     end;
+  finally
+    SetLength(TempBuffer, 0);
+  end;
 end;
 
 procedure TJSEvalFrm.Chromium1ProcessMessageReceived(Sender : TObject;

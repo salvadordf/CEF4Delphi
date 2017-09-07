@@ -359,9 +359,13 @@ const
   CEF_PREFERENCES_SAVED  = WM_APP + $A00;
   CEF_DOONCLOSE          = WM_APP + $A01;
   CEF_STARTDRAGGING      = WM_APP + $A02;
+  CEF_AFTERCREATED       = WM_APP + $A03;
 
   CEF_USER_TIMER_MINIMUM = $0000000A;
   CEF_USER_TIMER_MAXIMUM = $7FFFFFFF;
+
+  CEF4DELPHI_URL = 'https://github.com/salvadordf/CEF4Delphi';
+  CRLF           = #13 + #10;
 
 implementation
 

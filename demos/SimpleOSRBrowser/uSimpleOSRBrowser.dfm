@@ -36,7 +36,7 @@ object Form1: TForm1
     object ComboBox1: TComboBox
       Left = 5
       Top = 5
-      Width = 755
+      Width = 721
       Height = 21
       Align = alClient
       ItemIndex = 0
@@ -47,9 +47,9 @@ object Form1: TForm1
         'https://html5demos.com/drag')
     end
     object Panel2: TPanel
-      Left = 760
+      Left = 726
       Top = 5
-      Width = 35
+      Width = 69
       Height = 20
       Margins.Left = 2
       Margins.Top = 2
@@ -57,6 +57,7 @@ object Form1: TForm1
       Margins.Bottom = 2
       Align = alRight
       BevelOuter = bvNone
+      Padding.Left = 4
       ShowCaption = False
       TabOrder = 1
       object GoBtn: TButton
@@ -65,10 +66,30 @@ object Form1: TForm1
         Width = 31
         Height = 20
         Margins.Left = 5
-        Align = alRight
+        Align = alLeft
         Caption = 'Go'
         TabOrder = 0
         OnClick = GoBtnClick
+      end
+      object SnapshotBtn: TButton
+        Left = 38
+        Top = 0
+        Width = 31
+        Height = 20
+        Hint = 'Take snapshot'
+        Margins.Left = 5
+        Align = alRight
+        Caption = #181
+        Font.Charset = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -24
+        Font.Name = 'Webdings'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        OnClick = SnapshotBtnClick
       end
     end
   end
@@ -116,5 +137,12 @@ object Form1: TForm1
     OnMessage = AppEventsMessage
     Left = 24
     Top = 128
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'bmp'
+    Filter = 'Bitmap files (*.bmp)|*.BMP'
+    Title = 'Save snapshot'
+    Left = 544
+    Top = 62
   end
 end

@@ -57,14 +57,17 @@ uses
 type
   TChromiumWindow = class(TCEFWindowParent)
     protected
-      FChromium : TChromium;
-      FOnClose  : TNotifyEvent;
+      FChromium       : TChromium;
+      FOnClose        : TNotifyEvent;
+      FOnAfterCreated : TNotifyEvent;
 
       function    GetChildWindowHandle : THandle; override;
 
       procedure   OnCloseMsg(var aMessage : TMessage); message CEF_DOONCLOSE;
+      procedure   OnAfterCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
 
       procedure   WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+      procedure   WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 
    public
       constructor Create(AOwner: TComponent); override;
@@ -76,7 +79,8 @@ type
       property ChromiumBrowser  : TChromium       read FChromium;
 
     published
-      property OnClose          : TNotifyEvent    read FOnClose     write FOnClose;
+      property OnClose          : TNotifyEvent    read FOnClose          write FOnClose;
+      property OnAfterCreated   : TNotifyEvent    read FOnAfterCreated   write FOnAfterCreated;
   end;
 
 implementation
@@ -92,8 +96,9 @@ constructor TChromiumWindow.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FChromium := nil;
-  FOnClose  := nil;
+  FChromium       := nil;
+  FOnClose        := nil;
+  FOnAfterCreated := nil;
 end;
 
 procedure TChromiumWindow.AfterConstruction;
@@ -102,8 +107,9 @@ begin
 
   if not(csDesigning in ComponentState) then
     begin
-      FChromium         := TChromium.Create(self);
-      FChromium.OnClose := WebBrowser_OnClose;
+      FChromium                := TChromium.Create(self);
+      FChromium.OnClose        := WebBrowser_OnClose;
+      FChromium.OnAfterCreated := WebBrowser_OnAfterCreated;
     end;
 end;
 
@@ -119,16 +125,26 @@ procedure TChromiumWindow.WebBrowser_OnClose(Sender: TObject; const browser: ICe
 begin
   if assigned(FOnClose) then
     begin
-      PostMessage(self.Handle, CEF_DOONCLOSE, 0, 0);
+      PostMessage(Handle, CEF_DOONCLOSE, 0, 0);
       Result := True;
     end
    else
     Result := False;
 end;
 
+procedure TChromiumWindow.WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
+begin
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+end;
+
 procedure TChromiumWindow.OnCloseMsg(var aMessage : TMessage);
 begin
   if assigned(FOnClose) then FOnClose(self);
+end;
+
+procedure TChromiumWindow.OnAfterCreatedMsg(var aMessage : TMessage);
+begin
+  if assigned(FOnAfterCreated) then FOnAfterCreated(self);
 end;
 
 procedure TChromiumWindow.CreateBrowser;

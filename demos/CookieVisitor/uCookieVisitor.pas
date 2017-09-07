@@ -53,7 +53,6 @@ uses
   uCEFCookieManager, uCEFCookieVisitor;
 
 const
-  MINIBROWSER_CREATED       = WM_APP + $100;
   MINIBROWSER_SHOWCOOKIES   = WM_APP + $101;
 
   MINIBROWSER_CONTEXTMENU_DELETECOOKIES = MENU_ID_USER_FIRST + 1;
@@ -84,7 +83,7 @@ type
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure ShowCookiesMsg(var aMessage : TMessage); message MINIBROWSER_SHOWCOOKIES;
 
   protected
@@ -171,7 +170,7 @@ end;
 
 procedure TCookieVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TCookieVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;

@@ -50,10 +50,7 @@ uses
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
   {$ENDIF}
   GR32_Image, // You need the Graphics32 components for this demo available at http://graphics32.org
-  uCEFChromium, uCEFTypes, uCEFInterfaces;
-
-const
-  MINIBROWSER_CREATED       = WM_APP + $100;
+  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants;
 
 type
   TForm1 = class(TForm)
@@ -65,6 +62,8 @@ type
     ComboBox1: TComboBox;
     Panel2: TPanel;
     GoBtn: TButton;
+    SnapshotBtn: TButton;
+    SaveDialog1: TSaveDialog;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 
@@ -95,6 +94,7 @@ type
     procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure SnapshotBtnClick(Sender: TObject);
 
   private
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
@@ -104,7 +104,7 @@ type
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMCaptureChanged(var aMessage : TMessage); message WM_CAPTURECHANGED;
     procedure WMCancelMode(var aMessage : TMessage); message WM_CANCELMODE;
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message MINIBROWSER_CREATED;
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
 
   public
     { Public declarations }
@@ -235,7 +235,7 @@ end;
 
 procedure TForm1.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, MINIBROWSER_CREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TForm1.chrmosrCursorChange(Sender : TObject;
@@ -567,6 +567,11 @@ end;
 procedure TForm1.Panel1Exit(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
+end;
+
+procedure TForm1.SnapshotBtnClick(Sender: TObject);
+begin
+  if SaveDialog1.Execute then PaintBox.Buffer.SaveToFile(SaveDialog1.FileName);
 end;
 
 end.

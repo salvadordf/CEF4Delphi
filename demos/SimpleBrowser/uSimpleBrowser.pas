@@ -54,11 +54,12 @@ uses
 type
   TForm1 = class(TForm)
     ChromiumWindow1: TChromiumWindow;
-    Panel1: TPanel;
-    Edit1: TEdit;
-    Button1: TButton;
-    procedure Button1Click(Sender: TObject);
+    AddressPnl: TPanel;
+    AddressEdt: TEdit;
+    GoBtn: TButton;
+    procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ChromiumWindow1AfterCreated(Sender: TObject);
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -73,9 +74,15 @@ implementation
 
 {$R *.dfm}
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.GoBtnClick(Sender: TObject);
 begin
-  ChromiumWindow1.LoadURL(Edit1.Text);
+  ChromiumWindow1.LoadURL(AddressEdt.Text);
+end;
+
+procedure TForm1.ChromiumWindow1AfterCreated(Sender: TObject);
+begin
+  AddressPnl.Enabled := True;
+  GoBtn.Click;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
