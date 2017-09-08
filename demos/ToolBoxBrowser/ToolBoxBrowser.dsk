@@ -10,11 +10,14 @@ File_7=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF
 File_8=TSourceModule,'C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\source\uCEFDisplayHandler.pas',0,1,85,35,133,0,0,,
 
 [Modules]
-Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.pas
-Module1=default.htm
-Module2=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dproj
+Module0=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dproj
+Module1=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.pas
+Module2=default.htm
 Count=3
 EditWindowCount=1
+
+[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dproj]
+ModuleType=TBaseProject
 
 [C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.pas]
 ModuleType=TSourceModule
@@ -22,12 +25,9 @@ ModuleType=TSourceModule
 [default.htm]
 ModuleType=TURLModule
 
-[C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dproj]
-ModuleType=TBaseProject
-
 [EditWindow0]
 ViewCount=3
-CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.pas
+CurrentEditView=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\ToolBoxBrowser.dpr
 View0=0
 View1=1
 View2=2
@@ -57,7 +57,7 @@ BottomPanelData=0000080001020200000009000000446F636B53697465310F0000004D65737361
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779D1D00000000000002F306000000000000FFFFFFFF
-TabDockLeftClients=DockSite3=0,PropertyInspector=1
+TabDockLeftClients=PropertyInspector=0,DockSite3=1
 TabDockRightClients=DockSite4=0
 
 [View0]
@@ -78,9 +78,9 @@ EditViewName=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\d
 [View2]
 CustomEditViewType=TEditView
 Module=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\ToolBoxBrowser\uChildForm.pas
-CursorX=31
-CursorY=240
-TopLine=43
+CursorX=87
+CursorY=104
+TopLine=66
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -189,11 +189,11 @@ State=0
 Left=0
 Top=0
 Width=1875
-Height=6794
+Height=6738
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1875
-ClientHeight=6794
+ClientHeight=6738
 TBDockHeight=7152
 LRDockWidth=2000
 Dockable=1
@@ -300,14 +300,14 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=0
-Top=18
+Left=78
+Top=386
 Width=1898
-Height=9215
+Height=7220
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=1898
-ClientHeight=9215
+ClientWidth=1773
+ClientHeight=6794
 TBDockHeight=7220
 LRDockWidth=1898
 Dockable=1
@@ -726,7 +726,7 @@ MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
 ClientHeight=9215
-TBDockHeight=7220
+TBDockHeight=7164
 LRDockWidth=2000
 Dockable=1
 StayOnTop=0
@@ -769,12 +769,12 @@ State=0
 Left=0
 Top=0
 Width=2000
-Height=7220
+Height=7164
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1875
-ClientHeight=6794
-TBDockHeight=7220
+ClientHeight=6738
+TBDockHeight=7164
 LRDockWidth=2000
 Dockable=1
 StayOnTop=0

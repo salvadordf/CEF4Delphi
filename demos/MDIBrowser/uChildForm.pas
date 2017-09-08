@@ -93,7 +93,7 @@ implementation
 // Destruction steps
 // =================
 // 1. FormCloseQuery calls TChromium.CloseBrowser
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 and Chromium1 in the main thread.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 
@@ -116,6 +116,7 @@ end;
 procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
 begin
   PostMessage(Handle, CEFBROWSER_DESTROY, 0, 0);
+  Result := False;
 end;
 
 procedure TChildForm.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -177,7 +178,6 @@ end;
 procedure TChildForm.BrowserDestroyMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.Free;
-  Chromium1.Free;
 end;
 
 end.

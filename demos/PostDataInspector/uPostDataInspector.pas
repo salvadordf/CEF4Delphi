@@ -104,6 +104,8 @@ procedure TPostDataInspectorFrm.Chromium1ProcessMessageReceived(
   sourceProcess: TCefProcessId; const message: ICefProcessMessage;
   out Result: Boolean);
 begin
+  Result := False;
+
   if (message = nil) or (message.ArgumentList = nil) then exit;
 
   // Many of these events are received in different threads and the VCL
@@ -117,9 +119,7 @@ begin
     begin
       StatusBar1.Panels[0].Text := message.ArgumentList.GetString(0); // this doesn't create/destroy components
       Result := True;
-    end
-   else
-    Result := False;
+    end;
 end;
 
 procedure TPostDataInspectorFrm.FormShow(Sender: TObject);

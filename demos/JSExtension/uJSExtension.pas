@@ -176,6 +176,8 @@ procedure TJSExtensionFrm.Chromium1ProcessMessageReceived(Sender: TObject;
   const browser: ICefBrowser; sourceProcess: TCefProcessId;
   const message: ICefProcessMessage; out Result: Boolean);
 begin
+  Result := False;
+
   if (message = nil) or (message.ArgumentList = nil) then exit;
 
   // This function receives the messages with the JavaScript results
@@ -198,9 +200,7 @@ begin
         FText := message.ArgumentList.GetString(0);
         PostMessage(Handle, MINIBROWSER_SHOWTEXTVIEWER, 0, 0);
         Result := True;
-      end
-     else
-      Result := False;
+      end;
 end;
 
 procedure TJSExtensionFrm.FormShow(Sender: TObject);

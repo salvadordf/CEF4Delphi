@@ -134,6 +134,8 @@ procedure TDOMVisitorFrm.Chromium1ProcessMessageReceived(Sender: TObject;
   const browser: ICefBrowser; sourceProcess: TCefProcessId;
   const message: ICefProcessMessage; out Result: Boolean);
 begin
+  Result := False;
+
   if (message = nil) or (message.ArgumentList = nil) then exit;
 
   if (message.Name = DOMVISITOR_MSGNAME) then
@@ -141,9 +143,7 @@ begin
       // Message received from the DOMVISITOR in CEF
       ShowStatusText('DOM Visitor result text : ' + message.ArgumentList.GetString(0));
       Result := True;
-    end
-   else
-    Result := False;
+    end;
 end;
 
 procedure TDOMVisitorFrm.FormShow(Sender: TObject);

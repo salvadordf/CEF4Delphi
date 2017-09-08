@@ -413,6 +413,8 @@ procedure TJSEvalFrm.Chromium1ProcessMessageReceived(Sender : TObject;
                                                      const message       : ICefProcessMessage;
                                                      out   Result        : Boolean);
 begin
+  Result := False;
+
   if (message = nil) or (message.ArgumentList = nil) then exit;
 
   if (message.Name = EVAL_JS) then
@@ -427,9 +429,7 @@ begin
         FText := message.ArgumentList.GetString(0);
         PostMessage(Handle, MINIBROWSER_SHOWTEXTVIEWER, 0, 0);
         Result := True;
-      end
-     else
-      Result := False;
+      end;
 end;
 
 end.

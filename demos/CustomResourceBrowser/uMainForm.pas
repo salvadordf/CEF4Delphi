@@ -111,6 +111,7 @@ var
 begin
   // This event is called from the IO thread. Use mutexes if necessary.
   TempStream := nil;
+  Result     := nil;
 
   try
     try
