@@ -118,23 +118,27 @@ begin
 
   if owned then
     begin
-      PCefBaseRefCounted(FData)^.add_ref := cef_base_add_ref_owned;
-      PCefBaseRefCounted(FData)^.release := cef_base_release_owned;
+      PCefBaseRefCounted(FData)^.add_ref     := cef_base_add_ref_owned;
+      PCefBaseRefCounted(FData)^.release     := cef_base_release_owned;
       PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref_owned;
     end
    else
     begin
-      PCefBaseRefCounted(FData)^.add_ref := cef_base_add_ref;
-      PCefBaseRefCounted(FData)^.release := cef_base_release;
+      PCefBaseRefCounted(FData)^.add_ref     := cef_base_add_ref;
+      PCefBaseRefCounted(FData)^.release     := cef_base_release;
       PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref;
     end;
 end;
 
 destructor TCefBaseRefCountedOwn.Destroy;
+var
+  TempPointer : pointer;
 begin
-  Dec(PByte(FData), SizeOf(Pointer));
-  FreeMem(FData);
-  FData := nil;
+  TempPointer := FData;
+  FData       := nil;
+
+  Dec(PByte(TempPointer), SizeOf(Pointer));
+  FreeMem(TempPointer);
 
   inherited Destroy;
 end;

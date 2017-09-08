@@ -144,6 +144,7 @@ end;
 
 procedure TChromiumWindow.OnAfterCreatedMsg(var aMessage : TMessage);
 begin
+  UpdateSize;
   if assigned(FOnAfterCreated) then FOnAfterCreated(self);
 end;
 

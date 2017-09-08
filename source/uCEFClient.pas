@@ -510,7 +510,6 @@ end;
 
 destructor TCustomClientHandler.Destroy;
 begin
-  FEvents             := nil;
   FLoadHandler        := nil;
   FFocusHandler       := nil;
   FContextMenuHandler := nil;
@@ -525,6 +524,7 @@ begin
   FRenderHandler      := nil;
   FDragHandler        := nil;
   FFindHandler        := nil;
+  FEvents             := nil;
 
   inherited Destroy;
 end;
