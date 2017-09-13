@@ -414,12 +414,15 @@ type
 
   // /include/internal/cef_types.h (cef_referrer_policy_t)
   TCefReferrerPolicy = (
-    REFERRER_POLICY_ALWAYS,
-    REFERRER_POLICY_DEFAULT,
-    REFERRER_POLICY_NO_REFERRER_WHEN_DOWNGRADE,
-    REFERRER_POLICY_NEVER,
+    REFERRER_POLICY_CLEAR_REFERRER_ON_TRANSITION_FROM_SECURE_TO_INSECURE,    // same value as REFERRER_POLICY_DEFAULT
+    REFERRER_POLICY_REDUCE_REFERRER_GRANULARITY_ON_TRANSITION_CROSS_ORIGIN,
+    REFERRER_POLICY_ORIGIN_ONLY_ON_TRANSITION_CROSS_ORIGIN,
+    REFERRER_POLICY_NEVER_CLEAR_REFERRER,
     REFERRER_POLICY_ORIGIN,
-    REFERRER_POLICY_ORIGIN_WHEN_CROSS_ORIGIN
+    REFERRER_POLICY_CLEAR_REFERRER_ON_TRANSITION_CROSS_ORIGIN,
+    REFERRER_POLICY_ORIGIN_CLEAR_ON_TRANSITION_FROM_SECURE_TO_INSECURE,
+    REFERRER_POLICY_NO_REFERRER,
+    REFERRER_POLICY_LAST_VALUE
   );
 
   // /include/internal/cef_types.h (cef_postdataelement_type_t)
@@ -1164,11 +1167,7 @@ type
     menuBarVisible: Integer;
     statusBarVisible: Integer;
     toolBarVisible: Integer;
-    locationBarVisible: Integer;
     scrollbarsVisible: Integer;
-    resizable: Integer;
-    fullscreen: Integer;
-    dialog: Integer;
   end;
 
   // /include/internal/cef_types.h (cef_browser_settings_t)

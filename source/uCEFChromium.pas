@@ -2384,7 +2384,7 @@ begin
       TempHeaderMap := nil;
     end;
 
-  if not(FSendReferrer) then request.SetReferrer('', REFERRER_POLICY_NEVER);
+  if not(FSendReferrer) then request.SetReferrer('', REFERRER_POLICY_NO_REFERRER);
 
   Result := RV_CONTINUE;
 
