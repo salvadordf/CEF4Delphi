@@ -310,7 +310,7 @@ uses
   {$IFDEF DELPHI16_UP}
   System.Math, System.IOUtils, System.SysUtils, Vcl.Dialogs,
   {$ELSE}
-  Math, {$IFDEF DELPHI12_UP}IOUtils,{$ENDIF} SysUtils, Dialogs,
+  Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils, Dialogs,
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory;
@@ -724,7 +724,7 @@ begin
 end;
 
 procedure TCefApplication.DeleteDirContents(const aDirectory : string);
-{$IFNDEF DELPHI12_UP}
+{$IFNDEF DELPHI14_UP}
 var
   TempRec : TSearchRec;
 {$ENDIF}
@@ -732,7 +732,7 @@ begin
   try
     if (length(aDirectory) > 0) and DirectoryExists(aDirectory) then
       begin
-        {$IFDEF DELPHI12_UP}
+        {$IFDEF DELPHI14_UP}
         TDirectory.Delete(aDirectory, True);
         {$ELSE}
         if (FindFirst(aDirectory + '\*', faAnyFile, TempRec) = 0) then
@@ -829,17 +829,17 @@ end;
 
 procedure TCefApplication.App_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
 begin
-  aCefResourceBundleHandler := FResourceBundleHandler;
+  if (FResourceBundleHandler <> nil) then aCefResourceBundleHandler := FResourceBundleHandler;
 end;
 
 procedure TCefApplication.App_OnGetBrowserProcessHandler(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
 begin
-  aCefBrowserProcessHandler := FBrowserProcessHandler;
+  if (FBrowserProcessHandler <> nil) then aCefBrowserProcessHandler := FBrowserProcessHandler;
 end;
 
 procedure TCefApplication.App_OnGetRenderProcessHandler(var aCefRenderProcessHandler : ICefRenderProcessHandler);
 begin
-  aCefRenderProcessHandler := FRenderProcessHandler;
+  if (FRenderProcessHandler <> nil) then aCefRenderProcessHandler := FRenderProcessHandler;
 end;
 
 function TCefApplication.LoadCEFlibrary : boolean;
@@ -1445,22 +1445,29 @@ end;
 procedure cef_app_on_before_command_line_processing(self: PCefApp;
                                                     const process_type: PCefString;
                                                           command_line: PCefCommandLine); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefAppOwn(CefGetObject(self)).OnBeforeCommandLineProcessing(CefString(process_type),
-                                                               TCefCommandLineRef.UnWrap(command_line));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefAppOwn) then
+    TCefAppOwn(TempObject).OnBeforeCommandLineProcessing(CefString(process_type), TCefCommandLineRef.UnWrap(command_line));
 end;
 
 procedure cef_app_on_register_custom_schemes(self: PCefApp; registrar: PCefSchemeRegistrar); stdcall;
 var
   TempWrapper : TCefSchemeRegistrarRef;
+  TempObject  : TObject;
 begin
   TempWrapper := nil;
 
   try
     try
       TempWrapper := TCefSchemeRegistrarRef.Create(registrar);
+      TempObject  := CefGetObject(self);
 
-      TCefAppOwn(CefGetObject(self)).OnRegisterCustomSchemes(TempWrapper);
+      if (TempObject <> nil) and (TempObject is TCefAppOwn) then
+        TCefAppOwn(TempObject).OnRegisterCustomSchemes(TempWrapper);
     except
       on e : exception do
         if CustomExceptionHandler('cef_app_on_register_custom_schemes', e) then raise;
@@ -1471,18 +1478,39 @@ begin
 end;
 
 function cef_app_get_resource_bundle_handler(self: PCefApp): PCefResourceBundleHandler; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := CefGetData(TCefAppOwn(CefGetObject(self)).GetResourceBundleHandler());
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefAppOwn) then
+    Result := CefGetData(TCefAppOwn(TempObject).GetResourceBundleHandler)
+   else
+    Result := nil;
 end;
 
 function cef_app_get_browser_process_handler(self: PCefApp): PCefBrowserProcessHandler; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := CefGetData(TCefAppOwn(CefGetObject(self)).GetBrowserProcessHandler());
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefAppOwn) then
+    Result := CefGetData(TCefAppOwn(TempObject).GetBrowserProcessHandler)
+   else
+    Result := nil;
 end;
 
 function cef_app_get_render_process_handler(self: PCefApp): PCefRenderProcessHandler; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := CefGetData(TCefAppOwn(CefGetObject(self)).GetRenderProcessHandler());
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefAppOwn) then
+    Result := CefGetData(TCefAppOwn(TempObject).GetRenderProcessHandler)
+   else
+    Result := nil;
 end;
 
 
@@ -1504,12 +1532,12 @@ end;
 
 procedure TInternalApp.OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
 begin
-  if Assigned(FOnBeforeCommandLineProcessing) then FOnBeforeCommandLineProcessing(processType, commandLine);
+  if assigned(FOnBeforeCommandLineProcessing) then FOnBeforeCommandLineProcessing(processType, commandLine);
 end;
 
 procedure TInternalApp.OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
-  if Assigned(FOnRegisterCustomSchemes) then FOnRegisterCustomSchemes(registrar);
+  if assigned(FOnRegisterCustomSchemes) then FOnRegisterCustomSchemes(registrar);
 end;
 
 function TInternalApp.GetResourceBundleHandler: ICefResourceBundleHandler;

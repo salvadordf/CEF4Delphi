@@ -238,6 +238,7 @@ type
   ustring  = type string;
   rbstring = type RawByteString;
   {$IFNDEF DELPHI15_UP}
+  NativeUInt  = Cardinal;
   PNativeUInt = ^NativeUInt;
   {$ENDIF}
 {$ENDIF}

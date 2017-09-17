@@ -51,7 +51,7 @@ uses
   System.Rtti, System.TypInfo, System.Variants, System.SysUtils,
   System.Classes, System.Math, System.SyncObjs, WinApi.Windows,
   {$ELSE}
-    {$IFDEF DELPHI12_UP}
+    {$IFDEF DELPHI14_UP}
       Rtti,
     {$ENDIF}
      TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, Windows,
