@@ -96,13 +96,13 @@ end;
 
 constructor TCefGeolocationHandlerOwn.Create;
 begin
-
   inherited CreateData(SizeOf(TCefGeolocationHandler));
+
   with PCefGeolocationHandler(FData)^ do
-  begin
-    on_request_geolocation_permission := cef_geolocation_handler_on_request_geolocation_permission;
-    on_cancel_geolocation_permission :=  cef_geolocation_handler_on_cancel_geolocation_permission;
-  end;
+    begin
+      on_request_geolocation_permission := cef_geolocation_handler_on_request_geolocation_permission;
+      on_cancel_geolocation_permission  := cef_geolocation_handler_on_cancel_geolocation_permission;
+    end;
 end;
 
 

@@ -96,6 +96,11 @@ type
   ICefBrowserProcessHandler = interface;
   ICefRenderProcessHandler = interface;
   ICefProcessMessage = interface;
+  ICefLifeSpanHandler = interface;
+  ICefGetExtensionResourceCallback = interface;
+  ICefExtensionHandler = interface;
+  ICefExtension = interface;
+  ICefStreamReader = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -1196,6 +1201,37 @@ type
     procedure OnBeforeClose(const browser: ICefBrowser);
     function DoClose(const browser: ICefBrowser): Boolean;
   end;
+
+
+  ICefGetExtensionResourceCallback = interface(ICefBaseRefCounted)
+  ['{579C8602-8252-40D0-9E0A-501F32C36C42}']
+    procedure cont(const stream: ICefStreamReader);
+    procedure cancel;
+  end;
+
+  ICefExtensionHandler = interface(ICefBaseRefCounted)
+  ['{3234008F-D809-459D-963D-23BA50219648}']
+    procedure OnExtensionLoadFailed(result: TCefErrorcode);
+    procedure OnExtensionLoaded(const extension: ICefExtension);
+    procedure OnExtensionUnloaded(const extension: ICefExtension);
+    function OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+    function GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean): ICefBrowser;
+    function CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
+    function GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
+  end;
+
+  ICefExtension = interface(ICefBaseRefCounted)
+  ['{D30D1C64-A26F-49C0-AEB7-C55EC68951CA}']
+    function GetIdentifier : ustring;
+    function GetPath : ustring;
+    function GetManifest : ICefDictionaryValue;
+    function IsSame(const that : ICefExtension) : boolean;
+    function GetHandler : ICefExtensionHandler;
+    function GetLoaderContext: ICefRequestContext;
+    function IsLoaded : boolean;
+    procedure unload;
+  end;
+
 
   ICefLoadHandler = interface(ICefBaseRefCounted)
   ['{2C63FB82-345D-4A5B-9858-5AE7A85C9F49}']

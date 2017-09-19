@@ -128,6 +128,9 @@ type
   PCefKeyboardHandler = ^TCefKeyboardHandler;
   PCefKeyEvent = ^TCefKeyEvent;
   PCefLifeSpanHandler = ^TCefLifeSpanHandler;
+  PCefGetExtensionResourceCallback = ^TCefGetExtensionResourceCallback;
+  PCefExtensionHandler = ^TCefExtensionHandler;
+  PCefExtension = ^TCefExtension;
   PCefPopupFeatures = ^TCefPopupFeatures;
   PCefBrowserSettings = ^TCefBrowserSettings;
   PCefLoadHandler = ^TCefLoadHandler;
@@ -1153,6 +1156,38 @@ type
     on_after_created: procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
     do_close: function(self: PCefLifeSpanHandler; browser: PCefBrowser): Integer; stdcall;
     on_before_close: procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
+  end;
+
+  // /include/capi/cef_extension_handler_capi.h (cef_get_extension_resource_callback_t)
+  TCefGetExtensionResourceCallback = record
+    base: TCefBaseRefCounted;
+    cont: procedure(self: PCefGetExtensionResourceCallback; stream: PCefStreamReader); stdcall;
+    cancel: procedure(self: PCefGetExtensionResourceCallback); stdcall;
+  end;
+
+  // /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)
+  TCefExtensionHandler = record
+    base: TCefBaseRefCounted;
+    on_extension_load_failed: procedure(self: PCefExtensionHandler; result: TCefErrorcode); stdcall;
+    on_extension_loaded: procedure(self: PCefExtensionHandler; extension: PCefExtension); stdcall;
+    on_extension_unloaded: procedure(self: PCefExtensionHandler; extension: PCefExtension); stdcall;
+    on_before_background_browser: function(self: PCefExtensionHandler; extension: PCefExtension; const url: PCefString; var client: PCefClient; settings: PCefBrowserSettings) : Integer; stdcall;
+    get_active_browser: function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; include_incognito: Integer): PCefBrowser; stdcall;
+    can_access_browser: function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; include_incognito: Integer; target_browser: PCefBrowser): Integer; stdcall;
+    get_extension_resource: function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; const file_: PCefString; callback: PCefGetExtensionResourceCallback): Integer; stdcall;
+  end;
+
+  // /include/capi/cef_extension_capi.h (cef_extension_t)
+  TCefExtension = record
+    base: TCefBaseRefCounted;
+    get_identifier: function(self: PCefExtension) : PCefStringUserFree; stdcall;
+    get_path: function(self: PCefExtension) : PCefStringUserFree; stdcall;
+    get_manifest: function(self: PCefExtension) : PCefDictionaryValue; stdcall;
+    is_same: function(self, that: PCefExtension) : Integer; stdcall;
+    get_handler: function(self: PCefExtension) : PCefExtensionHandler; stdcall;
+    get_loader_context: function(self: PCefExtension) : PCefRequestContext; stdcall;
+    is_loaded: function(self: PCefExtension) : Integer; stdcall;
+    unload: procedure(self: PCefExtension); stdcall;
   end;
 
   // /include/internal/cef_types.h (cef_popup_features_t)
