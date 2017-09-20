@@ -186,6 +186,7 @@ type
       function  ExecuteProcess : integer;
       procedure InitializeSettings(var aSettings : TCefSettings);
       function  InitializeLibrary : boolean;
+      function  InitializeCookies : boolean;
       function  CreateInternalApp : boolean;
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
@@ -313,7 +314,7 @@ uses
   Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils, Dialogs,
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
-  uCEFSchemeHandlerFactory;
+  uCEFSchemeHandlerFactory, uCEFCookieManager;
 
 constructor TCefApplication.Create(aUpdateChromeVer : boolean);
 begin
@@ -708,6 +709,7 @@ begin
 end;
 
 function TCefApplication.InitializeLibrary : boolean;
+
 begin
   Result := False;
 
@@ -716,10 +718,37 @@ begin
     if FDeleteCookies then DeleteDirContents(FCookies);
 
     InitializeSettings(FAppSettings);
-    Result := (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0);
+
+    Result :=  (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0) and
+               InitializeCookies;
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.InitializeLibrary', e) then raise;
+  end;
+end;
+
+function TCefApplication.InitializeCookies : boolean;
+var
+  TempCookieManager : ICefCookieManager;
+begin
+  Result := False;
+
+  try
+    if (length(FCookies) > 0) then
+      begin
+        TempCookieManager := TCefCookieManagerRef.Global(nil);
+
+        if (TempCookieManager <> nil) and
+           TempCookieManager.SetStoragePath(FCookies, FPersistSessionCookies, nil) then
+          Result := True
+         else
+          OutputDebugMessage('TCefApplication.InitializeCookies error : cookies cannot be accessed');
+      end
+     else
+      Result := True;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplication.InitializeCookies', e) then raise;
   end;
 end;
 

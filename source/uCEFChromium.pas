@@ -89,7 +89,6 @@ type
       FHyperlinkAuditing      : boolean;
       FCookiePrefs            : integer;
       FImagesPrefs            : integer;
-      FCMStoragePath          : ustring;
       FZoomStep               : byte;
       FWindowName             : string;
       FPrefsFileName          : string;
@@ -240,7 +239,6 @@ type
       procedure SetProxyByPassList(const aValue : string);
       procedure SetCustomHeaderName(const aValue : string);
       procedure SetCustomHeaderValue(const aValue : string);
-      procedure SetCMStoragePath(const aValue : ustring);
       procedure SetZoomLevel(const aValue : double);
       procedure SetZoomPct(const aValue : double);
       procedure SetZoomStep(aValue : byte);
@@ -495,7 +493,6 @@ type
       property  Initialized             : boolean                      read GetInitialized;
       property  CookiePrefs             : integer                      read FCookiePrefs              write SetCookiePrefs;
       property  ImagesPrefs             : integer                      read FImagesPrefs              write SetImagesPrefs;
-      property  CMStoragePath           : ustring                      read FCMStoragePath            write SetCMStoragePath;
       property  DocumentURL             : string                       read GetDocumentURL;
       property  WindowName              : string                       read FWindowName               write FWindowName;
       property  ZoomLevel               : double                       read GetZoomLevel              write SetZoomLevel;
@@ -1659,17 +1656,6 @@ begin
       FCustomHeaderValue := aValue;
       FAddCustomHeader   := (length(FCustomHeaderName) > 0) and (length(FCustomHeaderValue) > 0);
     end;
-end;
-
-procedure TChromium.SetCMStoragePath(const aValue : ustring);
-var
-  CookieManager : ICefCookieManager;
-begin
-  FCMStoragePath := aValue;
-  CookieManager  := TCefCookieManagerRef.Global(nil);
-
-  if (CookieManager <> nil) then
-    CookieManager.SetStoragePath(FCMStoragePath, False, nil);
 end;
 
 procedure TChromium.Internal_GetHTML;
