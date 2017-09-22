@@ -76,7 +76,7 @@ type
       function  GetFrame(const name: ustring): ICefFrame;
       function  GetFrameCount: NativeUInt;
       procedure GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
-      procedure GetFrameNames(names: TStrings);
+      procedure GetFrameNames(const aFrameNames : TStrings);
       function  SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
 
     public
@@ -194,24 +194,34 @@ begin
   PCefBrowser(FData)^.get_frame_identifiers(PCefBrowser(FData), count, identifiers);
 end;
 
-procedure TCefBrowserRef.GetFrameNames(names: TStrings);
+procedure TCefBrowserRef.GetFrameNames(const aFrameNames : TStrings);
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : Integer;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+
   try
-    PCefBrowser(FData)^.get_frame_names(PCefBrowser(FData), list);
-    FillChar(str, SizeOf(str), 0);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      names.Add(CefStringClearAndGet(str));
-    end;
+    if (aFrameNames <> nil) then
+      begin
+        TempSL := cef_string_list_alloc;
+        PCefBrowser(FData)^.get_frame_names(PCefBrowser(FData), TempSL);
+        FillChar(TempString, SizeOf(TempString), 0);
+
+        i := 0;
+        j := cef_string_list_size(TempSL);
+
+        while (i < j) do
+          begin
+            FillChar(TempString, SizeOf(TempString), 0);
+            cef_string_list_value(TempSL, i, @TempString);
+            aFrameNames.Add(CefStringClearAndGet(TempString));
+            inc(i);
+          end;
+      end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 

@@ -267,7 +267,7 @@ type
     function GetFrame(const name: ustring): ICefFrame;
     function GetFrameCount: NativeUInt;
     procedure GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
-    procedure GetFrameNames(names: TStrings);
+    procedure GetFrameNames(const aFrameNames : TStrings);
     function SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
     property MainFrame: ICefFrame read GetMainFrame;
     property FocusedFrame: ICefFrame read GetFocusedFrame;
@@ -1230,6 +1230,11 @@ type
     function GetLoaderContext: ICefRequestContext;
     function IsLoaded : boolean;
     procedure unload;
+    property Identifier    : ustring              read GetIdentifier;
+    property Path          : ustring              read GetPath;
+    property Manifest      : ICefDictionaryValue  read GetManifest;
+    property Handler       : ICefExtensionHandler read GetHandler;
+    property LoaderContext : ICefRequestContext   read GetLoaderContext;
   end;
 
 

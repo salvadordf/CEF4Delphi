@@ -224,6 +224,7 @@ type
       function  GetInitialized : boolean;
       function  GetVisibleNavigationEntry : ICefNavigationEntry;
       function  GetHasValidMainFrame : boolean;
+      function  GetFrameCount : NativeUInt;
 
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
@@ -393,7 +394,7 @@ type
       // Internal procedures.
       // Only tasks, visitors or callbacks should use them in the right thread/process.
       procedure   Internal_CookiesDeleted(numDeleted : integer);
-      procedure   Internal_GetHTML;
+      procedure   Internal_GetHTML(const aFrameName : ustring);
       procedure   Internal_PdfPrintFinished(aResultOK : boolean);
       procedure   Internal_TextResultAvailable(const aText : string);
       procedure   Internal_UpdatePreferences;
@@ -412,7 +413,8 @@ type
 
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
       procedure   DeleteCookies;
-      procedure   RetrieveHTML;
+      procedure   RetrieveHTML(const aFrameName : ustring = '');
+      procedure   GetFrameNames(const aFrameNames : TStrings);
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
       procedure   UpdatePreferences;
       procedure   SavePreferences(const aFileName : string);
@@ -505,6 +507,7 @@ type
       property  SendReferrer            : boolean                      read FSendReferrer             write SetSendReferrer;
       property  HyperlinkAuditing       : boolean                      read FHyperlinkAuditing        write SetHyperlinkAuditing;
       property  HasValidMainFrame       : boolean                      read GetHasValidMainFrame;
+      property  FrameCount              : NativeUInt                   read GetFrameCount;
       property  DragOperations          : TCefDragOperations           read FDragOperations           write FDragOperations;
 
       property  ProxyType               : integer                      read FProxyType                write SetProxyType;
@@ -626,7 +629,7 @@ uses
   {$ELSE}
   SysUtils, Math,
   {$ENDIF}
-  uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFCookieManager, uCEFFrame,
+  uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplication, uCEFProcessMessage, uOLEDragAndDrop;
 
 constructor TChromium.Create(AOwner: TComponent);
@@ -987,16 +990,11 @@ end;
 
 procedure TChromium.DragDropManager_OnDragOver(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
 var
-
   TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
-
 begin
-
   if (GlobalCEFApp <> nil) then
-
     begin
-
       ToMouseEvent(grfKeyState, pt, TempMouseEvent);
       DropEffectToDragOperation(dwEffect, TempAllowedOps);
       DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
@@ -1009,22 +1007,16 @@ end;
 
 procedure TChromium.DragDropManager_OnDragLeave(Sender: TObject);
 begin
-
   DragTargetDragLeave;
 end;
 
 procedure TChromium.DragDropManager_OnDrop(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
 var
-
   TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
-
 begin
-
   if (GlobalCEFApp <> nil) then
-
     begin
-
       ToMouseEvent(grfKeyState, pt, TempMouseEvent);
       DropEffectToDragOperation(dwEffect, TempAllowedOps);
       DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
@@ -1418,6 +1410,14 @@ begin
   Result := Initialized and (FBrowser.MainFrame <> nil) and FBrowser.MainFrame.IsValid;
 end;
 
+function TChromium.GetFrameCount : NativeUInt;
+begin
+  if Initialized then
+    Result := FBrowser.GetFrameCount
+   else
+    Result := 0;
+end;
+
 procedure TChromium.SetWindowlessFrameRate(aValue : integer);
 begin
   if Initialized then FBrowser.Host.SetWindowlessFrameRate(aValue);
@@ -1658,13 +1658,17 @@ begin
     end;
 end;
 
-procedure TChromium.Internal_GetHTML;
+procedure TChromium.Internal_GetHTML(const aFrameName : ustring);
 var
   TempFrame : ICefFrame;
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.MainFrame;
+      if (length(aFrameName) > 0) then
+        TempFrame := FBrowser.GetFrame(aFrameName)
+       else
+        TempFrame := FBrowser.MainFrame;
+
       if (TempFrame <> nil) then
         begin
           if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
@@ -1685,15 +1689,21 @@ begin
     end;
 end;
 
-procedure TChromium.RetrieveHTML;
+// Leave aFrameName empty to get the HTML source from the main frame
+procedure TChromium.RetrieveHTML(const aFrameName : ustring);
 var
   TempTask: ICefTask;
 begin
   if Initialized then
     begin
-      TempTask := TCefGetHTMLTask.Create(self);
+      TempTask := TCefGetHTMLTask.Create(self, aFrameName);
       CefPostTask(TID_UI, TempTask);
     end;
+end;
+
+procedure TChromium.GetFrameNames(const aFrameNames : TStrings);
+begin
+  if Initialized then FBrowser.GetFrameNames(aFrameNames);
 end;
 
 procedure TChromium.UpdatePreferences;

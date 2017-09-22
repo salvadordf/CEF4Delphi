@@ -83,11 +83,12 @@ type
   TCefGetHTMLTask = class(TCefTaskOwn)
     protected
       FChromiumBrowser : TObject;
+      FFrameName       : ustring;
 
       procedure Execute; override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      constructor Create(const aChromiumBrowser : TObject; const aFrameName : ustring); reintroduce;
   end;
 
   TCefDeleteCookiesTask = class(TCefTaskOwn)
@@ -189,17 +190,18 @@ end;
 // TCefGetHTMLTask
 
 
-constructor TCefGetHTMLTask.Create(const aChromiumBrowser : TObject);
+constructor TCefGetHTMLTask.Create(const aChromiumBrowser : TObject; const aFrameName : ustring);
 begin
   inherited Create;
 
   FChromiumBrowser := aChromiumBrowser;
+  FFrameName       := aFrameName;
 end;
 
 procedure TCefGetHTMLTask.Execute;
 begin
   if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_GetHTML;
+    TChromium(FChromiumBrowser).Internal_GetHTML(FFrameName);
 end;
 
 
