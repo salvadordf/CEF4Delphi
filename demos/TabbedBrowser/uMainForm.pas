@@ -44,13 +44,12 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.StdCtrls,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, ComCtrls, Buttons, ExtCtrls,
+  Controls, Forms, Dialogs, ComCtrls, Buttons, ExtCtrls, StdCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  Vcl.StdCtrls;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
   CEFBROWSER_DESTROYWNDPARENT = WM_APP + $100;
@@ -121,9 +120,9 @@ implementation
 // PageIndex of the Tab where they are included in the Message.lParam parameter if necessary.
 
 // For simplicity the Button panel and the PageControl are disabled while adding or removing tab sheets.
-// The Form can't be closed if it's desrtoying a tab.
+// The Form can't be closed if it's destroying a tab.
 
-// In case of closing a tab sheet, the destruction sequence is this :
+// This is the destruction sequence when you remove a tab sheet:
 // 1. RemoveTabBtnClick calls TChromium.CloseBrowser of the selected tab which triggers a TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROYWNDPARENT message to destroy TCEFWindowParent in the main thread which triggers a TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sends a CEFBROWSER_DESTROYTAB message to destroy the tab in the main thread.
@@ -261,7 +260,7 @@ var
 begin
   if (PageControl1.TabIndex >= 0) and
      GetPageIndex(Sender, TempPageIndex) and
-     (PageControl1.Pages[PageControl1.TabIndex].PageIndex = TempPageIndex) then
+     (PageControl1.TabIndex = TempPageIndex) then
     URLCbx.Text := url;
 end;
 
