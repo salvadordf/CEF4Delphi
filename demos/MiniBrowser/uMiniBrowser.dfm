@@ -103,7 +103,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Style = []
         ParentFont = False
         TabOrder = 3
-        OnClick = ReloadBtnClick
+        OnClick = StopBtnClick
       end
     end
     object URLEditPnl: TPanel

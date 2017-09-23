@@ -154,6 +154,7 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const request: ICefRequest; const response: ICefResponse;
       out Result: Boolean);
+    procedure StopBtnClick(Sender: TObject);
 
   protected
     FResponse : string;
@@ -429,6 +430,11 @@ begin
   StatusBar1.Panels[0].Text := aText;
 end;
 
+procedure TMiniBrowserFrm.StopBtnClick(Sender: TObject);
+begin
+  Chromium1.StopLoad;
+end;
+
 procedure TMiniBrowserFrm.Chromium1StatusMessage(Sender: TObject;
   const browser: ICefBrowser; const value: ustring);
 begin
@@ -490,6 +496,7 @@ end;
 
 procedure TMiniBrowserFrm.Openfile1Click(Sender: TObject);
 begin
+  // This is a quick solution to load files. The file URL should be properly encoded.
   if OpenDialog1.Execute then Chromium1.LoadURL('file:///' + OpenDialog1.FileName);
 end;
 

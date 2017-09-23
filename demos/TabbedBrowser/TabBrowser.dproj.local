@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/09/22 21:27:36.000.032,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/09/22 21:28:13.000.073,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\TabbedBrowser\uMainForm.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2017/09/22 21:28:13.000.073,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\TabbedBrowser\uMainForm.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/09/22 21:28:23.000.089,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\TabbedBrowser\TabbedBrowser.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2017/09/22 21:40:45.000.419,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\TabbedBrowser\TabbedBrowser.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\TabbedBrowser\TabBrowser.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
