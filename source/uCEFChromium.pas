@@ -1697,7 +1697,7 @@ var
 begin
   if Initialized then
     begin
-      if (aFrameIdentifier <> low(int64)) then
+      if (aFrameIdentifier <> 0) then
         TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
        else
         TempFrame := FBrowser.MainFrame;
