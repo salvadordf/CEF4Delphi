@@ -84,11 +84,16 @@ type
     protected
       FChromiumBrowser : TObject;
       FFrameName       : ustring;
+      FFrame           : ICefFrame;
+      FFrameIdentifier : int64;
 
       procedure Execute; override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject; const aFrameName : ustring); reintroduce;
+      constructor Create(const aChromiumBrowser : TObject; const aFrameName : ustring); reintroduce; overload;
+      constructor Create(const aChromiumBrowser : TObject; const aFrame : ICefFrame); reintroduce; overload;
+      constructor Create(const aChromiumBrowser : TObject; const aFrameIdentifier : int64); reintroduce; overload;
+      destructor  Destroy; override;
   end;
 
   TCefDeleteCookiesTask = class(TCefTaskOwn)
@@ -196,12 +201,49 @@ begin
 
   FChromiumBrowser := aChromiumBrowser;
   FFrameName       := aFrameName;
+  FFrame           := nil;
+  FFrameIdentifier := 0;
+end;
+
+constructor TCefGetHTMLTask.Create(const aChromiumBrowser : TObject; const aFrame : ICefFrame);
+begin
+  inherited Create;
+
+  FChromiumBrowser := aChromiumBrowser;
+  FFrameName       := '';
+  FFrame           := aFrame;
+  FFrameIdentifier := 0;
+end;
+
+constructor TCefGetHTMLTask.Create(const aChromiumBrowser : TObject; const aFrameIdentifier : int64);
+begin
+  inherited Create;
+
+  FChromiumBrowser := aChromiumBrowser;
+  FFrameName       := '';
+  FFrame           := nil;
+  FFrameIdentifier := aFrameIdentifier;
+end;
+
+destructor TCefGetHTMLTask.Destroy;
+begin
+  FFrame := nil;
+
+  inherited Destroy;
 end;
 
 procedure TCefGetHTMLTask.Execute;
 begin
   if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_GetHTML(FFrameName);
+    begin
+      if (FFrame <> nil) then
+        TChromium(FChromiumBrowser).Internal_GetHTML(FFrame)
+       else
+        if (FFrameIdentifier <> 0) then
+          TChromium(FChromiumBrowser).Internal_GetHTML(FFrameIdentifier)
+         else
+          TChromium(FChromiumBrowser).Internal_GetHTML(FFrameName);
+    end;
 end;
 
 

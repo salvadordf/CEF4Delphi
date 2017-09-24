@@ -394,7 +394,9 @@ type
       // Internal procedures.
       // Only tasks, visitors or callbacks should use them in the right thread/process.
       procedure   Internal_CookiesDeleted(numDeleted : integer);
-      procedure   Internal_GetHTML(const aFrameName : ustring);
+      procedure   Internal_GetHTML(const aFrameName : ustring); overload;
+      procedure   Internal_GetHTML(const aFrame : ICefFrame); overload;
+      procedure   Internal_GetHTML(const aFrameIdentifier : int64); overload;
       procedure   Internal_PdfPrintFinished(aResultOK : boolean);
       procedure   Internal_TextResultAvailable(const aText : string);
       procedure   Internal_UpdatePreferences;
@@ -413,8 +415,11 @@ type
 
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
       procedure   DeleteCookies;
-      procedure   RetrieveHTML(const aFrameName : ustring = '');
-      procedure   GetFrameNames(const aFrameNames : TStrings);
+      procedure   RetrieveHTML(const aFrameName : ustring = ''); overload;
+      procedure   RetrieveHTML(const aFrame : ICefFrame); overload;
+      procedure   RetrieveHTML(const aFrameIdentifier : int64); overload;
+      function    GetFrameNames(var aFrameNames : TStrings) : boolean;
+      function    GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
       procedure   UpdatePreferences;
       procedure   SavePreferences(const aFileName : string);
@@ -1677,6 +1682,34 @@ begin
     end;
 end;
 
+procedure TChromium.Internal_GetHTML(const aFrame : ICefFrame);
+begin
+  if Initialized and (aFrame <> nil) then
+    begin
+      if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
+      aFrame.GetSource(FVisitor);
+    end;
+end;
+
+procedure TChromium.Internal_GetHTML(const aFrameIdentifier : int64);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized then
+    begin
+      if (aFrameIdentifier <> low(int64)) then
+        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
+          TempFrame.GetSource(FVisitor);
+        end;
+    end;
+end;
+
 procedure TChromium.DeleteCookies;
 var
   TempTask: ICefTask;
@@ -1701,9 +1734,36 @@ begin
     end;
 end;
 
-procedure TChromium.GetFrameNames(const aFrameNames : TStrings);
+procedure TChromium.RetrieveHTML(const aFrame : ICefFrame);
+var
+  TempTask: ICefTask;
 begin
-  if Initialized then FBrowser.GetFrameNames(aFrameNames);
+  if Initialized then
+    begin
+      TempTask := TCefGetHTMLTask.Create(self, aFrame);
+      CefPostTask(TID_UI, TempTask);
+    end;
+end;
+
+procedure TChromium.RetrieveHTML(const aFrameIdentifier : int64);
+var
+  TempTask: ICefTask;
+begin
+  if Initialized then
+    begin
+      TempTask := TCefGetHTMLTask.Create(self, aFrameIdentifier);
+      CefPostTask(TID_UI, TempTask);
+    end;
+end;
+
+function TChromium.GetFrameNames(var aFrameNames : TStrings) : boolean;
+begin
+  Result := Initialized and FBrowser.GetFrameNames(aFrameNames);
+end;
+
+function TChromium.GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+begin
+  Result := Initialized and FBrowser.GetFrameIdentifiers(aFrameCount, aFrameIdentifierArray);
 end;
 
 procedure TChromium.UpdatePreferences;

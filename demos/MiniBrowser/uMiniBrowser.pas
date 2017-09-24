@@ -57,15 +57,19 @@ const
   MINIBROWSER_HIDEDEVTOOLS   = WM_APP + $102;
   MINIBROWSER_COPYHTML       = WM_APP + $103;
   MINIBROWSER_SHOWRESPONSE   = WM_APP + $104;
+  MINIBROWSER_COPYFRAMEIDS   = WM_APP + $105;
+  MINIBROWSER_COPYFRAMENAMES = WM_APP + $106;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
-  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS = MENU_ID_USER_FIRST + 1;
-  MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS = MENU_ID_USER_FIRST + 2;
-  MINIBROWSER_CONTEXTMENU_COPYHTML     = MENU_ID_USER_FIRST + 5;
-  MINIBROWSER_CONTEXTMENU_JSWRITEDOC   = MENU_ID_USER_FIRST + 7;
-  MINIBROWSER_CONTEXTMENU_JSPRINTDOC   = MENU_ID_USER_FIRST + 8;
-  MINIBROWSER_CONTEXTMENU_SHOWRESPONSE = MENU_ID_USER_FIRST + 9;
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS   = MENU_ID_USER_FIRST + 1;
+  MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS   = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_COPYHTML       = MENU_ID_USER_FIRST + 3;
+  MINIBROWSER_CONTEXTMENU_JSWRITEDOC     = MENU_ID_USER_FIRST + 4;
+  MINIBROWSER_CONTEXTMENU_JSPRINTDOC     = MENU_ID_USER_FIRST + 5;
+  MINIBROWSER_CONTEXTMENU_SHOWRESPONSE   = MENU_ID_USER_FIRST + 6;
+  MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS   = MENU_ID_USER_FIRST + 7;
+  MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES = MENU_ID_USER_FIRST + 8;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -172,6 +176,8 @@ type
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
     procedure CopyHTMLMsg(var aMessage : TMessage); message MINIBROWSER_COPYHTML;
+    procedure CopyFramesIDsMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMEIDS;
+    procedure CopyFramesNamesMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMENAMES;
     procedure ShowResponseMsg(var aMessage : TMessage); message MINIBROWSER_SHOWRESPONSE;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -233,6 +239,9 @@ procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
 begin
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,       'Copy HTML to clipboard');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS,   'Copy HTML frame identifiers to clipboard');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES, 'Copy HTML frame names to clipboard');
+  model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,     'Modify HTML document');
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,     'Print using Javascript');
   model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,   'Show last server response');
@@ -264,6 +273,12 @@ begin
 
     MINIBROWSER_CONTEXTMENU_COPYHTML :
       PostMessage(Handle, MINIBROWSER_COPYHTML, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS :
+      PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES :
+      PostMessage(Handle, MINIBROWSER_COPYFRAMENAMES, 0, 0);
 
     MINIBROWSER_CONTEXTMENU_SHOWRESPONSE :
       PostMessage(Handle, MINIBROWSER_SHOWRESPONSE, 0, 0);
@@ -564,6 +579,43 @@ end;
 procedure TMiniBrowserFrm.CopyHTMLMsg(var aMessage : TMessage);
 begin
   Chromium1.RetrieveHTML;
+end;
+
+procedure TMiniBrowserFrm.CopyFramesIDsMsg(var aMessage : TMessage);
+var
+  i          : NativeUInt;
+  TempCount  : NativeUInt;
+  TempArray  : TCefFrameIdentifierArray;
+  TempString : string;
+begin
+  TempCount := Chromium1.FrameCount;
+
+  if Chromium1.GetFrameIdentifiers(TempCount, TempArray) then
+    begin
+      TempString := '';
+      i          := 0;
+
+      while (i < TempCount) do
+        begin
+          TempString := TempString + inttostr(TempArray[i]) + CRLF;
+          inc(i);
+        end;
+
+      clipboard.AsText := TempString;
+    end;
+end;
+
+procedure TMiniBrowserFrm.CopyFramesNamesMsg(var aMessage : TMessage);
+var
+  TempSL : TStringList;
+begin
+  try
+    TempSL := TStringList.Create;
+
+    if Chromium1.GetFrameNames(TStrings(TempSL)) then clipboard.AsText := TempSL.Text;
+  finally
+    FreeAndNil(TempSL);
+  end;
 end;
 
 procedure TMiniBrowserFrm.ShowResponseMsg(var aMessage : TMessage);

@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -75,8 +75,8 @@ type
       function  GetFrameByident(identifier: Int64): ICefFrame;
       function  GetFrame(const name: ustring): ICefFrame;
       function  GetFrameCount: NativeUInt;
-      procedure GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
-      procedure GetFrameNames(const aFrameNames : TStrings);
+      function  GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+      function  GetFrameNames(var aFrameNames : TStrings) : boolean;
       function  SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
 
     public
@@ -189,37 +189,67 @@ begin
   Result := PCefBrowser(FData)^.get_frame_count(PCefBrowser(FData));
 end;
 
-procedure TCefBrowserRef.GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
+function TCefBrowserRef.GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+var
+  i : NativeUInt;
 begin
-  PCefBrowser(FData)^.get_frame_identifiers(PCefBrowser(FData), count, identifiers);
+  Result := False;
+
+  try
+    if (aFrameCount > 0) then
+      begin
+        SetLength(aFrameIdentifierArray, aFrameCount);
+        i := 0;
+        while (i < aFrameCount) do
+          begin
+            aFrameIdentifierArray[i] := 0;
+            inc(i);
+          end;
+
+        PCefBrowser(FData)^.get_frame_identifiers(PCefBrowser(FData), aFrameCount, aFrameIdentifierArray[0]);
+
+        Result := True;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefBrowserRef.GetFrameIdentifiers', e) then raise;
+  end;
 end;
 
-procedure TCefBrowserRef.GetFrameNames(const aFrameNames : TStrings);
+function TCefBrowserRef.GetFrameNames(var aFrameNames : TStrings) : boolean;
 var
   TempSL : TCefStringList;
   i, j : Integer;
   TempString : TCefString;
 begin
   TempSL := nil;
+  Result := False;
 
   try
-    if (aFrameNames <> nil) then
-      begin
-        TempSL := cef_string_list_alloc;
-        PCefBrowser(FData)^.get_frame_names(PCefBrowser(FData), TempSL);
-        FillChar(TempString, SizeOf(TempString), 0);
+    try
+      if (aFrameNames <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+          PCefBrowser(FData)^.get_frame_names(PCefBrowser(FData), TempSL);
+          FillChar(TempString, SizeOf(TempString), 0);
 
-        i := 0;
-        j := cef_string_list_size(TempSL);
+          i := 0;
+          j := cef_string_list_size(TempSL);
 
-        while (i < j) do
-          begin
-            FillChar(TempString, SizeOf(TempString), 0);
-            cef_string_list_value(TempSL, i, @TempString);
-            aFrameNames.Add(CefStringClearAndGet(TempString));
-            inc(i);
-          end;
-      end;
+          while (i < j) do
+            begin
+              FillChar(TempString, SizeOf(TempString), 0);
+              cef_string_list_value(TempSL, i, @TempString);
+              aFrameNames.Add(CefStringClearAndGet(TempString));
+              inc(i);
+            end;
+
+          Result := True;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefBrowserRef.GetFrameNames', e) then raise;
+    end;
   finally
     if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;

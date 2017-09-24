@@ -195,8 +195,6 @@ object MainForm: TMainForm
           
             'https://developers.google.com/maps/documentation/javascript/exam' +
             'ples/streetview-embed?hl=fr')
-        ExplicitTop = 1
-        ExplicitWidth = 456
       end
     end
   end

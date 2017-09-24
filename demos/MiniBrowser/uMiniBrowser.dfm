@@ -143,7 +143,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://html5demos.com/drag/'
           
             'https://developers.google.com/maps/documentation/javascript/exam' +
-            'ples/streetview-embed?hl=fr')
+            'ples/streetview-embed?hl=fr'
+          
+            'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
+            '_name')
       end
     end
     object ConfigPnl: TPanel

@@ -105,6 +105,7 @@ type
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
   TCefBinaryValueArray     = array of ICefBinaryValue;
+  TCefFrameIdentifierArray = array of int64;
 
   TOnPdfPrintFinishedProc          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; ok: Boolean);
   TCefDomVisitorProc               = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const document: ICefDomDocument);
@@ -266,8 +267,8 @@ type
     function GetFrameByident(identifier: Int64): ICefFrame;
     function GetFrame(const name: ustring): ICefFrame;
     function GetFrameCount: NativeUInt;
-    procedure GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
-    procedure GetFrameNames(const aFrameNames : TStrings);
+    function GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+    function GetFrameNames(var aFrameNames : TStrings) : boolean;
     function SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
     property MainFrame: ICefFrame read GetMainFrame;
     property FocusedFrame: ICefFrame read GetFocusedFrame;

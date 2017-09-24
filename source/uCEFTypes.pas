@@ -2510,7 +2510,7 @@ type
     get_frame_byident: function(self: PCefBrowser; identifier: Int64): PCefFrame; stdcall;
     get_frame: function(self: PCefBrowser; const name: PCefString): PCefFrame; stdcall;
     get_frame_count: function(self: PCefBrowser): NativeUInt; stdcall;
-    get_frame_identifiers: procedure(self: PCefBrowser; identifiersCount: PNativeUInt; identifiers: PInt64); stdcall;
+    get_frame_identifiers: procedure(self: PCefBrowser; var identifiersCount: NativeUInt; var identifiers: Int64); stdcall;
     get_frame_names: procedure(self: PCefBrowser; names: TCefStringList); stdcall;
     send_process_message: function(self: PCefBrowser; target_process: TCefProcessId; message: PCefProcessMessage): Integer; stdcall;
   end;
