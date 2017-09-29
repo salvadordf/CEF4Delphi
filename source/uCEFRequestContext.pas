@@ -80,7 +80,8 @@ type
     public
       class function UnWrap(data: Pointer): ICefRequestContext;
       class function Global: ICefRequestContext;
-      class function New(const settings: PCefRequestContextSettings; const handler: ICefRequestContextHandler): ICefRequestContext;
+      class function New(const settings: PCefRequestContextSettings; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
+      class function New(const aCache, aAcceptLanguageList : ustring; aPersistSessionCookies, aPersistUserPreferences, aIgnoreCertificateErrors, aEnableNetSecurityExpiration : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
       class function Shared(const other: ICefRequestContext; const handler: ICefRequestContextHandler): ICefRequestContext;
   end;
 
@@ -144,6 +145,27 @@ class function TCefRequestContextRef.New(const settings: PCefRequestContextSetti
                                          const handler: ICefRequestContextHandler): ICefRequestContext;
 begin
   Result := UnWrap(cef_request_context_create_context(settings, CefGetData(handler)));
+end;
+
+class function TCefRequestContextRef.New(const aCache                       : ustring;
+                                         const aAcceptLanguageList          : ustring;
+                                               aPersistSessionCookies       : boolean;
+                                               aPersistUserPreferences      : boolean;
+                                               aIgnoreCertificateErrors     : boolean;
+                                               aEnableNetSecurityExpiration : boolean;
+                                         const handler                      : ICefRequestContextHandler): ICefRequestContext;
+var
+  TempSettings : TCefRequestContextSettings;
+begin
+  TempSettings.size                           := SizeOf(TCefRequestContextSettings);
+  TempSettings.cache_path                     := CefString(aCache);
+  TempSettings.persist_session_cookies        := Ord(aPersistSessionCookies);
+  TempSettings.persist_user_preferences       := Ord(aPersistUserPreferences);
+  TempSettings.ignore_certificate_errors      := Ord(aIgnoreCertificateErrors);
+  TempSettings.enable_net_security_expiration := Ord(aEnableNetSecurityExpiration);
+  TempSettings.accept_language_list           := CefString(aAcceptLanguageList);
+
+  Result := UnWrap(cef_request_context_create_context(@TempSettings, CefGetData(handler)));
 end;
 
 procedure TCefRequestContextRef.PurgePluginListCache(reloadPages: Boolean);

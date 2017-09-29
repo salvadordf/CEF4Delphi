@@ -672,8 +672,13 @@ function TCefApplication.ExecuteProcess : integer;
 var
   TempArgs : TCefMainArgs;
 begin
-  TempArgs.instance := HINSTANCE;
-  Result            := cef_execute_process(@TempArgs, FApp.Wrap, FWindowsSandboxInfo);
+  if (FApp <> nil) then
+    begin
+      TempArgs.instance := HINSTANCE;
+      Result            := cef_execute_process(@TempArgs, FApp.Wrap, FWindowsSandboxInfo);
+    end
+   else
+    Result := 0;
 end;
 
 procedure TCefApplication.InitializeSettings(var aSettings : TCefSettings);
@@ -719,7 +724,8 @@ begin
 
     InitializeSettings(FAppSettings);
 
-    Result :=  (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0) and
+    Result :=  (FApp <> nil) and
+               (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0) and
                InitializeCookies;
   except
     on e : exception do

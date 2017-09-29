@@ -96,6 +96,8 @@ implementation
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
+uses
+  uCEFRequestContext;
 
 procedure TChildForm.Button1Click(Sender: TObject);
 begin
@@ -150,8 +152,23 @@ begin
 end;
 
 procedure TChildForm.FormShow(Sender: TObject);
+var
+  TempContext : ICefRequestContext;
 begin
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
+  // The new request context overrides several GlobalCEFApp properties like :
+  // cache, AcceptLanguageList, PersistSessionCookies, PersistUserPreferences,
+  // IgnoreCertificateErrors and EnableNetSecurityExpiration
+
+  // If you use an empty cache path, CEF will use in-memory cache.
+
+  if MainForm.NewContextChk.Checked then
+    TempContext := TCefRequestContextRef.New('', '', False, False, False, False)
+   else
+    TempContext := nil;
+
+  // In case you used a custom cookies path in the GlobalCEFApp you can
+  // override it in the TChromium.CreateBrowser function
+  Chromium1.CreateBrowser(CEFWindowParent1, '', TempContext);
 end;
 
 procedure TChildForm.WMMove(var aMessage : TWMMove);

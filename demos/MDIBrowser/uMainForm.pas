@@ -62,6 +62,7 @@ type
     ButtonPnl: TPanel;
     NewBtn: TSpeedButton;
     ExitBtn: TSpeedButton;
+    NewContextChk: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure NewBtnClick(Sender: TObject);
     procedure ExitBtnClick(Sender: TObject);

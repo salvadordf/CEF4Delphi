@@ -69,5 +69,13 @@ object MainForm: TMainForm
       NumGlyphs = 2
       OnClick = ExitBtnClick
     end
+    object NewContextChk: TCheckBox
+      Left = 192
+      Top = 8
+      Width = 257
+      Height = 17
+      Caption = 'Create a new request context for new browsers'
+      TabOrder = 0
+    end
   end
 end

@@ -386,8 +386,8 @@ type
       function    CreateClientHandler(aIsOSR : boolean) : boolean; overload;
       function    CreateClientHandler(var aClient : ICefClient) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
-      function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = '') : boolean; overload;
-      function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = '') : boolean; overload;
+      function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload;
+      function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload;
       procedure   InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
       procedure   ShutdownDragAndDrop;
 
@@ -871,10 +871,14 @@ begin
   FOnCookiesDeleted               := nil;
 end;
 
-function TChromium.CreateBrowser(const aBrowserParent : TWinControl; const aWindowName : string) : boolean;
+function TChromium.CreateBrowser(const aBrowserParent         : TWinControl;
+                                 const aWindowName            : string;
+                                 const aContext               : ICefRequestContext;
+                                 const aCookiesPath           : string;
+                                       aPersistSessionCookies : boolean) : boolean;
 var
   TempHandle : HWND;
-  TempRect : TRect;
+  TempRect   : TRect;
 begin
   if (aBrowserParent <> nil) then
     begin
@@ -887,10 +891,17 @@ begin
       TempRect   := rect(0, 0, 0, 0);
     end;
 
-  Result := CreateBrowser(TempHandle, TempRect, aWindowName);
+  Result := CreateBrowser(TempHandle, TempRect, aWindowName, aContext, aCookiesPath, aPersistSessionCookies);
 end;
 
-function TChromium.CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = '') : boolean;
+function TChromium.CreateBrowser(aParentHandle : HWND;
+                                 aParentRect   : TRect;
+                                 const aWindowName  : string;
+                                 const aContext     : ICefRequestContext;
+                                 const aCookiesPath : string;
+                                       aPersistSessionCookies : boolean) : boolean;
+var
+  TempCookieManager : ICefCookieManager;
 begin
   Result := False;
 
@@ -910,11 +921,21 @@ begin
           WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
 
 
+        if (aContext <> nil) and (length(aCookiesPath) > 0) then
+          begin
+            TempCookieManager := aContext.GetDefaultCookieManager(nil);
+
+            if (TempCookieManager = nil) or
+               not(TempCookieManager.SetStoragePath(aCookiesPath, aPersistSessionCookies, nil)) then
+              OutputDebugMessage('TChromium.CreateBrowser error : cookies cannot be accessed');
+          end;
+
+
         if MultithreadApp then
-          Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, nil)
+          Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aContext)
          else
           begin
-            FBrowser := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, nil);
+            FBrowser := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aContext);
 
             if (FBrowser <> nil) then
               begin

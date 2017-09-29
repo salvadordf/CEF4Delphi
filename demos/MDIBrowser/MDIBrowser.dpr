@@ -46,6 +46,7 @@ uses
   Forms, Windows,
   {$ENDIF }
   uCEFApplication,
+  uCEFTypes,
   uMainForm in 'uMainForm.pas' {MainForm},
   uChildForm in 'uChildForm.pas' {ChildForm};
 
