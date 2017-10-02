@@ -48,44 +48,65 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefResolveCallbackOwn = class(TCefBaseRefCountedOwn, ICefResolveCallback)
-  protected
-    procedure OnResolveCompleted(result: TCefErrorCode; resolvedIps: TStrings); virtual; abstract;
-  public
-    constructor Create; virtual;
+    protected
+      procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings); virtual; abstract;
+    public
+      constructor Create; virtual;
+  end;
+
+  TCefCustomResolveCallback = class(TCefResolveCallbackOwn)
+    protected
+      FChromiumBrowser : TObject;
+      procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings); override;
+
+    public
+      constructor Create(const aChromiumBrowser : TObject); reintroduce;
   end;
 
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFChromium;
 
 procedure cef_resolve_callback_on_resolve_completed(self: PCefResolveCallback;
-  result: TCefErrorCode; resolved_ips: TCefStringList); stdcall;
+                                                    result: TCefErrorCode;
+                                                    resolved_ips: TCefStringList); stdcall;
 var
-  list: TStringList;
-  i: Integer;
+  TempSL : TStringList;
+  i, j : Integer;
   str: TCefString;
 begin
-  list := TStringList.Create;
+  TempSL := nil;
+
   try
-    for i := 0 to cef_string_list_size(resolved_ips) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(resolved_ips, i, @str);
-      list.Add(CefStringClearAndGet(str));
+    try
+      TempSL := TStringList.Create;
+      i      := 0;
+      j      := cef_string_list_size(resolved_ips);
+
+      while (i < j) do
+        begin
+          FillChar(str, SizeOf(str), 0);
+          cef_string_list_value(resolved_ips, i, @str);
+          TempSL.Add(CefStringClearAndGet(str));
+          inc(i);
+        end;
+
+      TCefResolveCallbackOwn(CefGetObject(self)).OnResolveCompleted(result, TempSL);
+    except
+      on e : exception do
+        if CustomExceptionHandler('cef_resolve_callback_on_resolve_completed', e) then raise;
     end;
-    with TCefResolveCallbackOwn(CefGetObject(self)) do
-      OnResolveCompleted(result, list);
   finally
-    list.Free;
+    if (TempSL <> nil) then FreeAndNil(TempSL);
   end;
 end;
 
@@ -94,8 +115,24 @@ end;
 constructor TCefResolveCallbackOwn.Create;
 begin
   CreateData(SizeOf(TCefResolveCallback), False);
+
   with PCefResolveCallback(FData)^ do
     on_resolve_completed := cef_resolve_callback_on_resolve_completed;
+end;
+
+// TCefCustomResolveCallback
+
+constructor TCefCustomResolveCallback.Create(const aChromiumBrowser : TObject);
+begin
+  inherited Create;
+
+  FChromiumBrowser := aChromiumBrowser;
+end;
+
+procedure TCefCustomResolveCallback.OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings);
+begin
+  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
+    TChromium(FChromiumBrowser).Internal_ResolvedHostAvailable(result, resolvedIps);
 end;
 
 end.

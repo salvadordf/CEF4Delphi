@@ -106,6 +106,7 @@ type
     OpenDialog1: TOpenDialog;
     N4: TMenuItem;
     Openfile1: TMenuItem;
+    Resolvehost1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -159,6 +160,9 @@ type
       const request: ICefRequest; const response: ICefResponse;
       out Result: Boolean);
     procedure StopBtnClick(Sender: TObject);
+    procedure Resolvehost1Click(Sender: TObject);
+    procedure Chromium1ResolvedHostAvailable(Sender: TObject;
+      result: Integer; const resolvedIps: TStrings);
 
   protected
     FResponse : string;
@@ -220,6 +224,14 @@ end;
 procedure TMiniBrowserFrm.Resetzoom1Click(Sender: TObject);
 begin
   Chromium1.ResetZoomStep;
+end;
+
+procedure TMiniBrowserFrm.Resolvehost1Click(Sender: TObject);
+var
+  TempURL : string;
+begin
+  TempURL := inputbox('Resolve host', 'URL :', 'http://google.com');
+  if (length(TempURL) > 0) then Chromium1.ResolveHost(TempURL);
 end;
 
 procedure TMiniBrowserFrm.Chromium1AddressChange(Sender: TObject;
@@ -422,6 +434,16 @@ begin
     isKeyboardShortcut := True;
 end;
 
+procedure TMiniBrowserFrm.Chromium1ResolvedHostAvailable(Sender: TObject;
+  result: Integer; const resolvedIps: TStrings);
+begin
+  if (result = ERR_NONE) then
+    showmessage('Resolved IPs : ' + resolvedIps.CommaText)
+   else
+    showmessage('There was a problem resolving the host.' + CRLF +
+                'Error code : ' + inttostr(result));
+end;
+
 procedure TMiniBrowserFrm.Chromium1ResourceResponse(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const request: ICefRequest; const response: ICefResponse;
@@ -431,12 +453,12 @@ begin
 
   if (frame <> nil) and frame.IsMain and (response <> nil) and (request <> nil) then
     begin
-      FResponse := 'URL : ' + request.Url + #13 + #10 +
-                   'Status : ' + inttostr(response.Status) + #13 + #10 +
+      FResponse := 'URL : ' + request.Url + CRLF +
+                   'Status : ' + inttostr(response.Status) + CRLF +
                    'MimeType : ' + response.MimeType;
 
       if (request.postdata <> nil) then
-        FResponse := FResponse + #13 + #10 + 'Post data elements : ' + inttostr(request.postdata.GetCount);
+        FResponse := FResponse + CRLF + 'Post data elements : ' + inttostr(request.postdata.GetCount);
     end;
 end;
 

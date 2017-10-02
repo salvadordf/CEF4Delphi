@@ -161,8 +161,13 @@ end;
 
 destructor TCefBaseRefCountedRef.Destroy;
 begin
-  if (FData <> nil) and Assigned(PCefBaseRefCounted(FData)^.release) then
-    PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData));
+  if (FData <> nil) then
+    begin
+      if assigned(PCefBaseRefCounted(FData)^.release) then
+        PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData));
+
+      FData := nil;
+    end;
 
   inherited Destroy;
 end;

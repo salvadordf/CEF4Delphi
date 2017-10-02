@@ -219,6 +219,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable
     OnPdfPrintFinished = Chromium1PdfPrintFinished
+    OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
@@ -283,6 +284,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object Preferences1: TMenuItem
       Caption = 'Preferences...'
       OnClick = Preferences1Click
+    end
+    object Resolvehost1: TMenuItem
+      Caption = 'Resolve host...'
+      OnClick = Resolvehost1Click
     end
   end
   object SaveDialog1: TSaveDialog

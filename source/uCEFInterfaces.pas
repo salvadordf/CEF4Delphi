@@ -1498,7 +1498,7 @@ type
 
   ICefResolveCallback = interface(ICefBaseRefCounted)
     ['{0C0EA252-7968-4163-A1BE-A1453576DD06}']
-    procedure OnResolveCompleted(result: TCefErrorCode; resolvedIps: TStrings);
+    procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings);
   end;
 
   ICefRequestContext = interface(ICefBaseRefCounted)
@@ -1523,6 +1523,8 @@ type
     procedure CloseAllConnections(const callback: ICefCompletionCallback);
     procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
     function ResolveHostCached(const origin: ustring; resolvedIps: TStrings): TCefErrorCode;
+    property CachePath: ustring read GetCachePath;
+    property IsGlobalContext: boolean read IsGlobal;
   end;
 
   ICefPrintSettings = Interface(ICefBaseRefCounted)

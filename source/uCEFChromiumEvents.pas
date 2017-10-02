@@ -59,6 +59,7 @@ type
   TOnTextResultAvailableEvent     = procedure(Sender: TObject; const aText : string) of object;
   TOnPdfPrintFinishedEvent        = procedure(Sender: TObject; aResultOK : boolean) of object;
   TOnCookiesDeletedEvent          = procedure(Sender: TObject; numDeleted : integer) of object;
+  TOnResolvedIPsAvailableEvent    = procedure(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings) of object;
   TOnProcessMessageReceived       = procedure(Sender: TObject; const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean) of object;
   TOnLoadingStateChange           = procedure(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean) of object;
   TOnLoadStart                    = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType) of object;

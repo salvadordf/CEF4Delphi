@@ -64,6 +64,7 @@ type
       FCompHandle             : HWND;
       FVisitor                : ICefStringVisitor;
       FPDFPrintcb             : ICefPdfPrintCallback;
+      FResolveHostcb          : ICefResolveCallback;
       FCookiDeletercb         : ICefDeleteCookiesCallback;
       FHandler                : ICefClient;
       FBrowser                : ICefBrowser;
@@ -204,6 +205,7 @@ type
       FOnPdfPrintFinished             : TOnPdfPrintFinishedEvent;
       FOnPrefsAvailable               : TNotifyEvent;
       FOnCookiesDeleted               : TOnCookiesDeletedEvent;
+      FOnResolvedHostAvailable        : TOnResolvedIPsAvailableEvent;
 
       function  GetIsLoading : boolean;
       function  GetMultithreadApp : boolean;
@@ -225,6 +227,8 @@ type
       function  GetVisibleNavigationEntry : ICefNavigationEntry;
       function  GetHasValidMainFrame : boolean;
       function  GetFrameCount : NativeUInt;
+      function  GetRequestContextCache : string;
+      function  GetRequestContextIsGlobal : boolean;
 
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
@@ -388,6 +392,7 @@ type
       procedure   CloseBrowser(aForceClose : boolean);
       function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload;
       function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload;
+      function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
       procedure   InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
       procedure   ShutdownDragAndDrop;
 
@@ -401,6 +406,7 @@ type
       procedure   Internal_TextResultAvailable(const aText : string);
       procedure   Internal_UpdatePreferences;
       procedure   Internal_SavePreferences;
+      procedure   Internal_ResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
 
       procedure   LoadURL(const aURL : ustring);
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
@@ -424,6 +430,7 @@ type
       procedure   UpdatePreferences;
       procedure   SavePreferences(const aFileName : string);
       function    SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
+      procedure   ResolveHost(const aURL : ustring);
 
       procedure   ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);
       procedure   CloseDevTools(const aDevTools : TWinControl = nil);
@@ -498,6 +505,8 @@ type
       property  WindowHandle            : THandle                      read GetWindowHandle;
       property  FrameIsFocused          : boolean                      read GetFrameIsFocused;
       property  Initialized             : boolean                      read GetInitialized;
+      property  RequestContextCache     : string                       read GetRequestContextCache;
+      property  RequestContextIsGlobal  : boolean                      read GetRequestContextIsGlobal;
       property  CookiePrefs             : integer                      read FCookiePrefs              write SetCookiePrefs;
       property  ImagesPrefs             : integer                      read FImagesPrefs              write SetImagesPrefs;
       property  DocumentURL             : string                       read GetDocumentURL;
@@ -528,6 +537,7 @@ type
       property  OnPdfPrintFinished      : TOnPdfPrintFinishedEvent     read FOnPdfPrintFinished       write FOnPdfPrintFinished;
       property  OnPrefsAvailable        : TNotifyEvent                 read FOnPrefsAvailable         write FOnPrefsAvailable;
       property  OnCookiesDeleted        : TOnCookiesDeletedEvent       read FOnCookiesDeleted         write FOnCookiesDeleted;
+      property  OnResolvedHostAvailable : TOnResolvedIPsAvailableEvent read FOnResolvedHostAvailable  write FOnResolvedHostAvailable;
 
       // ICefClient
       property OnProcessMessageReceived         : TOnProcessMessageReceived         read FOnProcessMessageReceived         write FOnProcessMessageReceived;
@@ -635,7 +645,8 @@ uses
   SysUtils, Math,
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
-  uCEFApplication, uCEFProcessMessage, uOLEDragAndDrop;
+  uCEFApplication, uCEFProcessMessage, uOLEDragAndDrop, uCEFRequestContext,
+  uCEFResolveCallback;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
@@ -652,6 +663,7 @@ begin
   FDefaultEncoding        := '';
   FVisitor                := nil;
   FPDFPrintcb             := nil;
+  FResolveHostcb          := nil;
   FCookiDeletercb         := nil;
   FPDFPrintOptions        := nil;
   FUpdatePreferences      := False;
@@ -707,6 +719,7 @@ begin
       FHandler        := nil;
       FVisitor        := nil;
       FPDFPrintcb     := nil;
+      FResolveHostcb  := nil;
       FCookiDeletercb := nil;
 
       if (FFontOptions     <> nil) then FreeAndNil(FFontOptions);
@@ -869,6 +882,7 @@ begin
   FOnPdfPrintFinished             := nil;
   FOnPrefsAvailable               := nil;
   FOnCookiesDeleted               := nil;
+  FOnResolvedHostAvailable        := nil;
 end;
 
 function TChromium.CreateBrowser(const aBrowserParent         : TWinControl;
@@ -973,6 +987,19 @@ begin
       RegisterDragDrop(FDropTargetCtrl.Handle, TempDropTarget);
 
       FDragAndDropInitialized := True;
+    end;
+end;
+
+function TChromium.ShareRequestContext(var   aContext : ICefRequestContext;
+                                       const aHandler : ICefRequestContextHandler) : boolean;
+begin
+  Result   := False;
+  aContext := nil;
+
+  if Initialized then
+    begin
+      aContext := TCefRequestContextRef.Shared(FBrowser.Host.RequestContext, aHandler);
+      Result   := (aContext <> nil);
     end;
 end;
 
@@ -1444,6 +1471,22 @@ begin
     Result := 0;
 end;
 
+function TChromium.GetRequestContextCache : string;
+begin
+  if Initialized then
+    Result := FBrowser.host.RequestContext.CachePath
+   else
+    if (GlobalCEFApp <> nil) then
+      Result := GlobalCEFApp.cache
+     else
+      Result := '';
+end;
+
+function TChromium.GetRequestContextIsGlobal : boolean;
+begin
+  Result := Initialized and FBrowser.host.RequestContext.IsGlobal;
+end;
+
 procedure TChromium.SetWindowlessFrameRate(aValue : integer);
 begin
   if Initialized then FBrowser.Host.SetWindowlessFrameRate(aValue);
@@ -1748,6 +1791,7 @@ procedure TChromium.RetrieveHTML(const aFrameName : ustring);
 var
   TempTask: ICefTask;
 begin
+  // Results will be received in the OnTextResultAvailable event of this class
   if Initialized then
     begin
       TempTask := TCefGetHTMLTask.Create(self, aFrameName);
@@ -1759,6 +1803,7 @@ procedure TChromium.RetrieveHTML(const aFrame : ICefFrame);
 var
   TempTask: ICefTask;
 begin
+  // Results will be received in the OnTextResultAvailable event of this class
   if Initialized then
     begin
       TempTask := TCefGetHTMLTask.Create(self, aFrame);
@@ -1770,6 +1815,7 @@ procedure TChromium.RetrieveHTML(const aFrameIdentifier : int64);
 var
   TempTask: ICefTask;
 begin
+  // Results will be received in the OnTextResultAvailable event of this class
   if Initialized then
     begin
       TempTask := TCefGetHTMLTask.Create(self, aFrameIdentifier);
@@ -1820,6 +1866,16 @@ begin
     begin
       TempHandle := FBrowser.Host.WindowHandle;
       Result     := (TempHandle <> 0) and (SetParent(TempHandle, aNewParentHwnd) <> 0);
+    end;
+end;
+
+procedure TChromium.ResolveHost(const aURL : ustring);
+begin
+  // Results will be received in the OnResolvedHostAvailable event of this class
+  if Initialized and (length(aURL) > 0) then
+    begin
+      if (FResolveHostcb = nil) then FResolveHostcb := TCefCustomResolveCallback.Create(self);
+      FBrowser.Host.RequestContext.ResolveHost(aURL, FResolveHostcb);
     end;
 end;
 
@@ -2257,6 +2313,11 @@ begin
   finally
     if (TempPrefs <> nil) then FreeAndNil(TempPrefs);
   end;
+end;
+
+procedure TChromium.Internal_ResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
+begin
+  if assigned(FOnResolvedHostAvailable) then FOnResolvedHostAvailable(self, result, resolvedIps);
 end;
 
 procedure TChromium.PrefsAvailableMsg(var aMessage : TMessage);
