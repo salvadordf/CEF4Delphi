@@ -105,7 +105,8 @@ type
       FExternalMessagePump           : boolean;
       FDeleteCache                   : boolean;
       FDeleteCookies                 : boolean;
-      FInternalApp                   : TInternalApp;
+      FApp                           : TInternalApp;
+      FAppIntf                       : ICefApp;
       FCustomCommandLines            : TStringList;
       FCustomCommandLineValues       : TStringList;
       FFlashEnabled                  : boolean;
@@ -352,7 +353,8 @@ begin
   FExternalMessagePump           := False;
   FDeleteCache                   := False;
   FDeleteCookies                 := False;
-  FInternalApp                   := nil;
+  FApp                           := nil;
+  FAppIntf                       := nil;
   FFlashEnabled                  := True;
   FEnableSpellingService         := True;
   FEnableMediaStream             := True;
@@ -395,7 +397,8 @@ destructor TCefApplication.Destroy;
 begin
   ShutDown;
 
-  FInternalApp := nil;
+  FAppIntf := nil;
+  FApp     := nil;
 
   if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
   if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
@@ -422,16 +425,17 @@ begin
   Result := False;
 
   try
-    if (FInternalApp = nil) then
+    if (FApp = nil) then
       begin
-        FInternalApp                            := TInternalApp.Create;
-        FInternalApp.OnBeforeCommandLineProc    := App_OnBeforeCommandLineProc;
-        FInternalApp.OnRegCustomSchemes         := App_OnRegCustomSchemes;
-        FInternalApp.OnGetResourceBundleHandler := App_OnGetResourceBundleHandler;
-        FInternalApp.OnGetBrowserProcessHandler := App_OnGetBrowserProcessHandler;
-        FInternalApp.OnGetRenderProcessHandler  := App_OnGetRenderProcessHandler;
+        FApp                            := TInternalApp.Create;
+        FApp.OnBeforeCommandLineProc    := App_OnBeforeCommandLineProc;
+        FApp.OnRegCustomSchemes         := App_OnRegCustomSchemes;
+        FApp.OnGetResourceBundleHandler := App_OnGetResourceBundleHandler;
+        FApp.OnGetBrowserProcessHandler := App_OnGetBrowserProcessHandler;
+        FApp.OnGetRenderProcessHandler  := App_OnGetRenderProcessHandler;
 
-        Result := True;
+        FAppIntf := FApp as ICefApp;
+        Result   := (FAppIntf <> nil);
       end;
   except
     on e : exception do
@@ -668,10 +672,10 @@ function TCefApplication.ExecuteProcess : integer;
 var
   TempArgs : TCefMainArgs;
 begin
-  if (FInternalApp <> nil) then
+  if (FApp <> nil) then
     begin
       TempArgs.instance := HINSTANCE;
-      Result            := cef_execute_process(@TempArgs, FInternalApp.Wrap, FWindowsSandboxInfo);
+      Result            := cef_execute_process(@TempArgs, FApp.Wrap, FWindowsSandboxInfo);
     end
    else
     Result := 0;
@@ -720,8 +724,8 @@ begin
 
     InitializeSettings(FAppSettings);
 
-    Result :=  (FInternalApp <> nil) and
-               (cef_initialize(@HInstance, @FAppSettings, FInternalApp.Wrap, FWindowsSandboxInfo) <> 0) and
+    Result :=  (FApp <> nil) and
+               (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0) and
                InitializeCookies;
   except
     on e : exception do
