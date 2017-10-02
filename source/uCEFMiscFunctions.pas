@@ -271,8 +271,13 @@ end;
 
 function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 begin
-  Dec(PByte(ptr), SizeOf(Pointer));
-  Result := TObject(PPointer(ptr)^);
+  if (ptr <> nil) then
+    begin
+      Dec(PByte(ptr), SizeOf(Pointer));
+      Result := TObject(PPointer(ptr)^);
+    end
+   else
+    Result := nil;
 end;
 
 function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
