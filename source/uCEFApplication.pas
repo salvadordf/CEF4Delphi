@@ -105,8 +105,6 @@ type
       FExternalMessagePump           : boolean;
       FDeleteCache                   : boolean;
       FDeleteCookies                 : boolean;
-      FApp                           : TInternalApp;
-      FAppIntf                       : ICefApp;
       FCustomCommandLines            : TStringList;
       FCustomCommandLineValues       : TStringList;
       FFlashEnabled                  : boolean;
@@ -183,21 +181,14 @@ type
       function  Load_cef_trace_event_internal_h : boolean;
 
       procedure ShutDown;
-      function  ExecuteProcess : integer;
+      function  ExecuteProcess(const aApp : ICefApp) : integer;
       procedure InitializeSettings(var aSettings : TCefSettings);
-      function  InitializeLibrary : boolean;
+      function  InitializeLibrary(const aApp : ICefApp) : boolean;
       function  InitializeCookies : boolean;
-      function  CreateInternalApp : boolean;
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       function  CheckCEFLibrary : boolean;
       procedure DeleteDirContents(const aDirectory : string);
-
-      procedure App_OnBeforeCommandLineProc(const processType: ustring; const commandLine: ICefCommandLine);
-      procedure App_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
-      procedure App_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
-      procedure App_OnGetBrowserProcessHandler(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
-      procedure App_OnGetRenderProcessHandler(var aCefRenderProcessHandler : ICefRenderProcessHandler);
 
     public
       constructor Create(aUpdateChromeVer : boolean = True);
@@ -207,6 +198,13 @@ type
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
       procedure   UpdateDeviceScaleFactor;
+
+      // Internal procedures. Only TInternalApp should use them.
+      procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
+      procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+      procedure   Internal_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
+      procedure   Internal_OnGetBrowserProcessHandler(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
+      procedure   Internal_OnGetRenderProcessHandler(var aCefRenderProcessHandler : ICefRenderProcessHandler);
 
       property Cache                       : ustring                         read FCache                          write FCache;
       property Cookies                     : ustring                         read FCookies                        write FCookies;
@@ -280,11 +278,7 @@ type
 
   TInternalApp = class(TCefAppOwn)
     protected
-      FOnBeforeCommandLineProcessing : TOnBeforeCommandLineProcessing;
-      FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
-      FOnGetResourceBundleHandler    : TOnGetResourceBundleHandler;
-      FOnGetBrowserProcessHandler    : TOnGetBrowserProcessHandler;
-      FOnGetRenderProcessHandler     : TOnGetRenderProcessHandler;
+      FCefApp : TCefApplication;
 
       procedure OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine); override;
       procedure OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef); override;
@@ -293,13 +287,8 @@ type
       function  GetRenderProcessHandler: ICefRenderProcessHandler; override;
 
     public
-      constructor Create; override;
-
-      property OnBeforeCommandLineProc       : TOnBeforeCommandLineProcessing  read FOnBeforeCommandLineProcessing  write FOnBeforeCommandLineProcessing;
-      property OnRegCustomSchemes            : TOnRegisterCustomSchemes        read FOnRegisterCustomSchemes        write FOnRegisterCustomSchemes;
-      property OnGetResourceBundleHandler    : TOnGetResourceBundleHandler     read FOnGetResourceBundleHandler     write FOnGetResourceBundleHandler;
-      property OnGetBrowserProcessHandler    : TOnGetBrowserProcessHandler     read FOnGetBrowserProcessHandler     write FOnGetBrowserProcessHandler;
-      property OnGetRenderProcessHandler     : TOnGetRenderProcessHandler      read FOnGetRenderProcessHandler      write FOnGetRenderProcessHandler;
+      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      destructor  Destroy; override;
   end;
 
 var
@@ -353,8 +342,6 @@ begin
   FExternalMessagePump           := False;
   FDeleteCache                   := False;
   FDeleteCookies                 := False;
-  FApp                           := nil;
-  FAppIntf                       := nil;
   FFlashEnabled                  := True;
   FEnableSpellingService         := True;
   FEnableMediaStream             := True;
@@ -397,9 +384,6 @@ destructor TCefApplication.Destroy;
 begin
   ShutDown;
 
-  FAppIntf := nil;
-  FApp     := nil;
-
   if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
   if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
 
@@ -420,30 +404,9 @@ begin
   if (FCustomCommandLineValues <> nil) then FCustomCommandLineValues.Add(aValue);
 end;
 
-function TCefApplication.CreateInternalApp : boolean;
-begin
-  Result := False;
-
-  try
-    if (FApp = nil) then
-      begin
-        FApp                            := TInternalApp.Create;
-        FApp.OnBeforeCommandLineProc    := App_OnBeforeCommandLineProc;
-        FApp.OnRegCustomSchemes         := App_OnRegCustomSchemes;
-        FApp.OnGetResourceBundleHandler := App_OnGetResourceBundleHandler;
-        FApp.OnGetBrowserProcessHandler := App_OnGetBrowserProcessHandler;
-        FApp.OnGetRenderProcessHandler  := App_OnGetRenderProcessHandler;
-
-        FAppIntf := FApp as ICefApp;
-        Result   := (FAppIntf <> nil);
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.CreateInternalApp', e) then raise;
-  end;
-end;
-
 function TCefApplication.MultiExeProcessing : boolean;
+var
+  TempApp : ICefApp;
 begin
   Result := False;
 
@@ -451,9 +414,12 @@ begin
     if CheckCEFLibrary then
       begin
         FMustShutDown := True;
-        Result        := LoadCEFlibrary    and
-                         CreateInternalApp and
-                         InitializeLibrary;
+
+        if LoadCEFlibrary then
+          begin
+            TempApp := TInternalApp.Create(self);
+            Result  := InitializeLibrary(TempApp);
+          end;
       end;
   except
     on e : exception do
@@ -462,17 +428,21 @@ begin
 end;
 
 function TCefApplication.SingleExeProcessing : boolean;
+var
+  TempApp : ICefApp;
 begin
   Result := False;
 
   try
-    if CheckCEFLibrary      and
-       LoadCEFlibrary       and
-       CreateInternalApp    and
-       (ExecuteProcess < 0) then
+    if CheckCEFLibrary and LoadCEFlibrary then
       begin
-        FMustShutDown := True;
-        Result        := InitializeLibrary;
+        TempApp := TInternalApp.Create(self);
+
+        if (ExecuteProcess(TempApp) < 0) then
+          begin
+            FMustShutDown := True;
+            Result        := InitializeLibrary(TempApp);
+          end;
       end;
   except
     on e : exception do
@@ -633,14 +603,17 @@ begin
 end;
 
 function TCefApplication.StartSubProcess : boolean;
+var
+  TempApp : ICefApp;
 begin
   Result := False;
 
   try
-    Result := not(FSingleProcess) and
-              LoadCEFlibrary      and
-              CreateInternalApp   and
-              (ExecuteProcess >= 0);
+    if not(FSingleProcess) and LoadCEFlibrary then
+      begin
+        TempApp := TInternalApp.Create(self);
+        Result  := (ExecuteProcess(TempApp) >= 0);
+      end;
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.StartSubProcess', e) then raise;
@@ -668,17 +641,12 @@ begin
   end;
 end;
 
-function TCefApplication.ExecuteProcess : integer;
+function TCefApplication.ExecuteProcess(const aApp : ICefApp) : integer;
 var
   TempArgs : TCefMainArgs;
 begin
-  if (FApp <> nil) then
-    begin
-      TempArgs.instance := HINSTANCE;
-      Result            := cef_execute_process(@TempArgs, FApp.Wrap, FWindowsSandboxInfo);
-    end
-   else
-    Result := 0;
+  TempArgs.instance := HINSTANCE;
+  Result            := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
 end;
 
 procedure TCefApplication.InitializeSettings(var aSettings : TCefSettings);
@@ -713,8 +681,7 @@ begin
   aSettings.accept_language_list            := CefString(FAcceptLanguageList);
 end;
 
-function TCefApplication.InitializeLibrary : boolean;
-
+function TCefApplication.InitializeLibrary(const aApp : ICefApp) : boolean;
 begin
   Result := False;
 
@@ -724,9 +691,8 @@ begin
 
     InitializeSettings(FAppSettings);
 
-    Result :=  (FApp <> nil) and
-               (cef_initialize(@HInstance, @FAppSettings, FApp.Wrap, FWindowsSandboxInfo) <> 0) and
-               InitializeCookies;
+    Result := (cef_initialize(@HInstance, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) and
+              InitializeCookies;
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.InitializeLibrary', e) then raise;
@@ -794,8 +760,8 @@ begin
   end;
 end;
 
-procedure TCefApplication.App_OnBeforeCommandLineProc(const processType : ustring;
-                                                      const commandLine : ICefCommandLine);
+procedure TCefApplication.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
+                                                                 const commandLine : ICefCommandLine);
 var
   i : integer;
 begin
@@ -857,22 +823,22 @@ begin
     end;
 end;
 
-procedure TCefApplication.App_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+procedure TCefApplication.Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
   if assigned(FOnRegisterCustomSchemes) then FOnRegisterCustomSchemes(registrar);
 end;
 
-procedure TCefApplication.App_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
+procedure TCefApplication.Internal_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
 begin
   if (FResourceBundleHandler <> nil) then aCefResourceBundleHandler := FResourceBundleHandler;
 end;
 
-procedure TCefApplication.App_OnGetBrowserProcessHandler(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
+procedure TCefApplication.Internal_OnGetBrowserProcessHandler(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
 begin
   if (FBrowserProcessHandler <> nil) then aCefBrowserProcessHandler := FBrowserProcessHandler;
 end;
 
-procedure TCefApplication.App_OnGetRenderProcessHandler(var aCefRenderProcessHandler : ICefRenderProcessHandler);
+procedure TCefApplication.Internal_OnGetRenderProcessHandler(var aCefRenderProcessHandler : ICefRenderProcessHandler);
 begin
   if (FRenderProcessHandler <> nil) then aCefRenderProcessHandler := FRenderProcessHandler;
 end;
@@ -1567,41 +1533,44 @@ end;
 
 procedure TInternalApp.OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
 begin
-  if assigned(FOnBeforeCommandLineProcessing) then FOnBeforeCommandLineProcessing(processType, commandLine);
+  if (FCefApp <> nil) then FCefApp.Internal_OnBeforeCommandLineProcessing(processType, commandLine);
 end;
 
 procedure TInternalApp.OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
-  if assigned(FOnRegisterCustomSchemes) then FOnRegisterCustomSchemes(registrar);
+  if (FCefApp <> nil) then FCefApp.Internal_OnRegisterCustomSchemes(registrar);
 end;
 
 function TInternalApp.GetResourceBundleHandler: ICefResourceBundleHandler;
 begin
   Result := nil;
-  if assigned(FOnGetResourceBundleHandler) then FOnGetResourceBundleHandler(Result);
+  if (FCefApp <> nil) then FCefApp.Internal_OnGetResourceBundleHandler(Result);
 end;
 
 function TInternalApp.GetBrowserProcessHandler: ICefBrowserProcessHandler;
 begin
   Result := nil;
-  if assigned(FOnGetBrowserProcessHandler) then FOnGetBrowserProcessHandler(Result);
+  if (FCefApp <> nil) then FCefApp.Internal_OnGetBrowserProcessHandler(Result);
 end;
 
 function TInternalApp.GetRenderProcessHandler: ICefRenderProcessHandler;
 begin
   Result := nil;
-  if assigned(FOnGetRenderProcessHandler) then FOnGetRenderProcessHandler(Result);
+  if (FCefApp <> nil) then FCefApp.Internal_OnGetRenderProcessHandler(Result);
 end;
 
-constructor TInternalApp.Create;
+constructor TInternalApp.Create(const aCefApp : TCefApplication);
 begin
   inherited Create;
 
-  FOnBeforeCommandLineProcessing := nil;
-  FOnRegisterCustomSchemes       := nil;
-  FOnGetResourceBundleHandler    := nil;
-  FOnGetBrowserProcessHandler    := nil;
-  FOnGetRenderProcessHandler     := nil;
+  FCefApp := aCefApp;
+end;
+
+destructor TInternalApp.Destroy;
+begin
+  FCefApp := nil;
+
+  inherited Destroy;
 end;
 
 end.

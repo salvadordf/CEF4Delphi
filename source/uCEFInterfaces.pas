@@ -111,13 +111,7 @@ type
   TCefDomVisitorProc               = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const document: ICefDomDocument);
   TCefDomVisitorProc2              = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser : ICefBrowser; const document: ICefDomDocument);
   TCefStringVisitorProc            = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const str: ustring);
-
   TOnRegisterCustomSchemes         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const registrar: TCefSchemeRegistrarRef) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
-  TOnGetResourceBundleHandler      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(var aCefResourceBundleHandler : ICefResourceBundleHandler) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
-  TOnGetBrowserProcessHandler      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(var aCefBrowserProcessHandler : ICefBrowserProcessHandler) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
-  TOnGetRenderProcessHandler       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(var aCefRenderProcessHandler : ICefRenderProcessHandler) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
-  TOnBeforeCommandLineProcessing   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const processType: ustring; const commandLine: ICefCommandLine) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
-
   TOnRenderThreadCreatedEvent      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const extraInfo: ICefListValue) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnWebKitInitializedEvent        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure() {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnBrowserCreatedEvent           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser) {$IFNDEF DELPHI12_UP}of object{$ENDIF};

@@ -118,7 +118,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFMiscFunctions, uCEFConstants, uCEFApplication;
+  uCEFMiscFunctions, uCEFApplication;
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
