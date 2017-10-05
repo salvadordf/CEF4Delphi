@@ -129,6 +129,7 @@ type
       FRenderProcessHandler          : ICefRenderProcessHandler;
       FAppSettings                   : TCefSettings;
       FDeviceScaleFactor             : single;
+      FShowCheckCEFLibraryErrorMessageBox: Boolean;
 
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
@@ -187,6 +188,7 @@ type
       function  InitializeCookies : boolean;
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
+      procedure ShowCheckCEFLibraryError(const AErrorMsg: string); virtual;
       function  CheckCEFLibrary : boolean;
       procedure DeleteDirContents(const aDirectory : string);
 
@@ -537,7 +539,7 @@ begin
            else
             TempString := TempString + 'The CEF framework directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FFrameworkDirPath);
 
-          MessageDlg(TempString, mtError, [mbOk], 0);
+          ShowCheckCEFLibraryError(TempString);
           exit;
         end;
 
@@ -554,7 +556,7 @@ begin
            else
             TempString := TempString + 'The CEF resources directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FResourcesDirPath);
 
-          MessageDlg(TempString, mtError, [mbOk], 0);
+          ShowCheckCEFLibraryError(TempString);
           exit;
         end;
 
@@ -571,7 +573,7 @@ begin
            else
             TempString := TempString + 'The CEF locales directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FLocalesDirPath);
 
-          MessageDlg(TempString, mtError, [mbOk], 0);
+          ShowCheckCEFLibraryError(TempString);
           exit;
         end;
 
@@ -589,7 +591,7 @@ begin
                         'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
                         CRLF + CEF4DELPHI_URL;
 
-          MessageDlg(TempString, mtError, [mbOk], 0);
+          ShowCheckCEFLibraryError(TempString);
         end;
     end;
 end;
@@ -623,6 +625,12 @@ end;
 procedure TCefApplication.UpdateDeviceScaleFactor;
 begin
   FDeviceScaleFactor := GetDeviceScaleFactor;
+end;
+
+procedure TCefApplication.ShowCheckCEFLibraryError(const AErrorMsg: string);
+begin
+  if FShowCheckCEFLibraryErrorMessageBox then
+    MessageDlg(AErrorMsg, mtError, [mbOk], 0);
 end;
 
 procedure TCefApplication.ShutDown;
