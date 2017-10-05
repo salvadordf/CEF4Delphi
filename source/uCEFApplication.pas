@@ -121,6 +121,7 @@ type
       FMuteAudio                     : boolean;
       FReRaiseExceptions             : boolean;
       FUpdateChromeVer               : boolean;
+      FShowMessageDlg                : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
@@ -189,6 +190,7 @@ type
       function  SingleExeProcessing : boolean;
       function  CheckCEFLibrary : boolean;
       procedure DeleteDirContents(const aDirectory : string);
+      procedure ShowErrorMessageDlg(const aError : string); virtual;
 
     public
       constructor Create(aUpdateChromeVer : boolean = True);
@@ -243,6 +245,7 @@ type
       property EnableSpeechInput           : boolean                         read FEnableSpeechInput              write FEnableSpeechInput;
       property EnableGPU                   : boolean                         read FEnableGPU                      write FEnableGPU;
       property CheckCEFFiles               : boolean                         read FCheckCEFFiles                  write FCheckCEFFiles;
+      property ShowMessageDlg              : boolean                         read FShowMessageDlg                 write FShowMessageDlg;
       property ChromeMajorVer              : uint16                          read FChromeVersionInfo.MajorVer;
       property ChromeMinorVer              : uint16                          read FChromeVersionInfo.MinorVer;
       property ChromeRelease               : uint16                          read FChromeVersionInfo.Release;
@@ -361,6 +364,7 @@ begin
   FMuteAudio                     := False;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
+  FShowMessageDlg                := True;
   FUpdateChromeVer               := aUpdateChromeVer;
 
   UpdateDeviceScaleFactor;
@@ -537,7 +541,7 @@ begin
            else
             TempString := TempString + 'The CEF framework directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FFrameworkDirPath);
 
-          MessageDlg(TempString, mtError, [mbOk], 0);
+          ShowErrorMessageDlg(TempString);
           exit;
         end;
 
@@ -554,7 +558,7 @@ begin
            else
             TempString := TempString + 'The CEF resources directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FResourcesDirPath);
 
-          MessageDlg(TempString, mtError, [mbOk], 0);
+          ShowErrorMessageDlg(TempString);
           exit;
         end;
 
@@ -571,7 +575,7 @@ begin
            else
             TempString := TempString + 'The CEF locales directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FLocalesDirPath);
 
-          MessageDlg(TempString, mtError, [mbOk], 0);
+          ShowErrorMessageDlg(TempString);
           exit;
         end;
 
@@ -589,7 +593,7 @@ begin
                         'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
                         CRLF + CEF4DELPHI_URL;
 
-          MessageDlg(TempString, mtError, [mbOk], 0);
+          ShowErrorMessageDlg(TempString);
         end;
     end;
 end;
@@ -758,6 +762,13 @@ begin
     on e : exception do
       if CustomExceptionHandler('TCefApplication.DeleteDirContents', e) then raise;
   end;
+end;
+
+procedure TCefApplication.ShowErrorMessageDlg(const aError : string);
+begin
+  OutputDebugMessage(aError);
+
+  if FShowMessageDlg then MessageDlg(aError, mtError, [mbOk], 0);
 end;
 
 procedure TCefApplication.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
