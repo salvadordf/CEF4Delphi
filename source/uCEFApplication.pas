@@ -122,6 +122,7 @@ type
       FReRaiseExceptions             : boolean;
       FUpdateChromeVer               : boolean;
       FShowMessageDlg                : boolean;
+      FSetCurrentDir                 : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
@@ -139,7 +140,7 @@ type
       function  GetLibCefPath : string;
       function  GetChromeElfPath : string;
 
-      function  LoadCEFlibrary : boolean;
+      function  LoadCEFlibrary : boolean; virtual;
       function  Load_cef_app_capi_h : boolean;
       function  Load_cef_browser_capi_h : boolean;
       function  Load_cef_command_line_capi_h : boolean;
@@ -246,6 +247,7 @@ type
       property EnableGPU                   : boolean                         read FEnableGPU                      write FEnableGPU;
       property CheckCEFFiles               : boolean                         read FCheckCEFFiles                  write FCheckCEFFiles;
       property ShowMessageDlg              : boolean                         read FShowMessageDlg                 write FShowMessageDlg;
+      property SetCurrentDir               : boolean                         read FSetCurrentDir                  write FSetCurrentDir;
       property ChromeMajorVer              : uint16                          read FChromeVersionInfo.MajorVer;
       property ChromeMinorVer              : uint16                          read FChromeVersionInfo.MinorVer;
       property ChromeRelease               : uint16                          read FChromeVersionInfo.Release;
@@ -365,6 +367,7 @@ begin
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
   FShowMessageDlg                := True;
+  FSetCurrentDir                 := False;
   FUpdateChromeVer               := aUpdateChromeVer;
 
   UpdateDeviceScaleFactor;
@@ -856,6 +859,8 @@ end;
 
 function TCefApplication.LoadCEFlibrary : boolean;
 begin
+  if FSetCurrentDir then chdir(ExtractFileDir(ParamStr(0)));
+
   FLibHandle := LoadLibraryEx(PChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
 
   if (FLibHandle = 0) then
