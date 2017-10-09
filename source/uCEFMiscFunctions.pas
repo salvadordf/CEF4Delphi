@@ -112,6 +112,7 @@ function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInforma
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
 function CustomPathIsRelative(const aPath : string) : boolean;
+function GetModulePath : string;
 
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
 function CefIsCertStatusMinorError(Status : TCefCertStatus) : boolean;
@@ -686,7 +687,7 @@ begin
       if DirectoryExists(aSrcPath) then
         begin
           aRsltPath := IncludeTrailingPathDelimiter(aSrcPath);
-          if CustomPathIsRelative(aRsltPath) then aRsltPath := ExtractFilePath(ParamStr(0)) + aRsltPath;
+          if CustomPathIsRelative(aRsltPath) then aRsltPath := GetModulePath + aRsltPath;
         end
        else
         Result := False;
@@ -821,6 +822,11 @@ begin
   {$ELSE}
   Result := PathIsRelativeAnsi(PChar(aPath));
   {$ENDIF}
+end;
+
+function GetModulePath : string;
+begin
+  Result := IncludeTrailingPathDelimiter(ExtractFileDir(GetModuleName(HInstance)));
 end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;

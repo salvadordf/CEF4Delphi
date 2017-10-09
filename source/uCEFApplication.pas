@@ -486,7 +486,7 @@ begin
   if (length(aValue) > 0) and DirectoryExists(aValue) then
     begin
       if CustomPathIsRelative(aValue) then
-        FFrameworkDirPath := ExtractFilePath(ParamStr(0)) + aValue
+        FFrameworkDirPath := GetModulePath + aValue
        else
         FFrameworkDirPath := aValue;
     end
@@ -501,7 +501,7 @@ begin
   if (length(aValue) > 0) and DirectoryExists(aValue) then
     begin
       if CustomPathIsRelative(aValue) then
-        FResourcesDirPath := ExtractFilePath(ParamStr(0)) + aValue
+        FResourcesDirPath := GetModulePath + aValue
        else
         FResourcesDirPath := aValue;
     end
@@ -514,7 +514,7 @@ begin
   if (length(aValue) > 0) and DirectoryExists(aValue) then
     begin
       if CustomPathIsRelative(aValue) then
-        FLocalesDirPath := ExtractFilePath(ParamStr(0)) + aValue
+        FLocalesDirPath := GetModulePath + aValue
        else
         FLocalesDirPath := aValue;
     end
@@ -538,7 +538,7 @@ begin
 
           if GetAbsoluteDirPath(FFrameworkDirPath, TempPath) then
             begin
-              if (length(TempPath) = 0) then TempPath := ExtractFilePath(ParamStr(0));
+              if (length(TempPath) = 0) then TempPath := GetModulePath;
               TempString := TempString + 'Make sure all the CEF framework files can be found in this directory :' + CRLF + SplitLongString(TempPath);
             end
            else
@@ -555,7 +555,7 @@ begin
 
           if GetAbsoluteDirPath(FResourcesDirPath, TempPath) then
             begin
-              if (length(TempPath) = 0) then TempPath := ExtractFilePath(ParamStr(0));
+              if (length(TempPath) = 0) then TempPath := GetModulePath;
               TempString := TempString + 'Make sure all the CEF resources can be found in this directory :' + CRLF + SplitLongString(TempPath);
             end
            else
@@ -572,7 +572,7 @@ begin
 
           if GetAbsoluteDirPath(FLocalesDirPath, TempPath) then
             begin
-              if (length(TempPath) = 0) then TempPath := ExtractFilePath(ParamStr(0)) + 'locales';
+              if (length(TempPath) = 0) then TempPath := GetModulePath + 'locales';
               TempString := TempString + 'Make sure all the CEF locale files can be found in this directory :' + CRLF + SplitLongString(TempPath);
             end
            else
@@ -859,7 +859,7 @@ end;
 
 function TCefApplication.LoadCEFlibrary : boolean;
 begin
-  if FSetCurrentDir then chdir(ExtractFileDir(ParamStr(0)));
+  if FSetCurrentDir then chdir(GetModulePath);
 
   FLibHandle := LoadLibraryEx(PChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
 
