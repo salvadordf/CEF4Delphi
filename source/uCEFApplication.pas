@@ -858,8 +858,14 @@ begin
 end;
 
 function TCefApplication.LoadCEFlibrary : boolean;
+var
+  TempOldDir : string;
 begin
-  if FSetCurrentDir then chdir(GetModulePath);
+  if FSetCurrentDir then
+    begin
+      TempOldDir := GetCurrentDir;
+      chdir(GetModulePath);
+    end;
 
   FLibHandle := LoadLibraryEx(PChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
 
@@ -922,6 +928,8 @@ begin
       Result := False;
       OutputDebugMessage('TCefApplication.LoadCEFlibrary error: Unsupported CEF version !');
     end;
+
+  if FSetCurrentDir then chdir(TempOldDir);
 end;
 
 function TCefApplication.Load_cef_app_capi_h : boolean;
