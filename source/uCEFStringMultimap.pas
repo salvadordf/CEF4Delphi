@@ -54,18 +54,18 @@ type
     protected
       FStringMap: TCefStringMultimap;
 
-      function GetHandle: TCefStringMultimap; virtual;
-      function GetSize: Integer; virtual;
-      function FindCount(const Key: ustring): Integer; virtual;
-      function GetEnumerate(const Key: ustring; ValueIndex: Integer): ustring; virtual;
-      function GetKey(Index: Integer): ustring; virtual;
-      function GetValue(Index: Integer): ustring; virtual;
+      function  GetHandle: TCefStringMultimap; virtual;
+      function  GetSize: Integer; virtual;
+      function  FindCount(const Key: ustring): Integer; virtual;
+      function  GetEnumerate(const Key: ustring; ValueIndex: Integer): ustring; virtual;
+      function  GetKey(Index: Integer): ustring; virtual;
+      function  GetValue(Index: Integer): ustring; virtual;
       procedure Append(const Key, Value: ustring); virtual;
       procedure Clear; virtual;
 
     public
       constructor Create; virtual;
-      destructor Destroy; override;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -95,7 +95,8 @@ end;
 destructor TCefStringMultimapOwn.Destroy;
 begin
   cef_string_multimap_free(FStringMap);
-  inherited;
+
+  inherited Destroy;
 end;
 
 function TCefStringMultimapOwn.FindCount(const Key: ustring): Integer;
@@ -106,8 +107,7 @@ begin
   Result := cef_string_multimap_find_count(FStringMap, @k);
 end;
 
-function TCefStringMultimapOwn.GetEnumerate(const Key: ustring;
-  ValueIndex: Integer): ustring;
+function TCefStringMultimapOwn.GetEnumerate(const Key: ustring; ValueIndex: Integer): ustring;
 var
   k, v: TCefString;
 begin

@@ -70,6 +70,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -126,22 +127,33 @@ end;
 constructor TCustomFocusHandler.Create(const events: IChromiumEvents);
 begin
   inherited Create;
+
   FEvent := events;
+end;
+
+destructor TCustomFocusHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
 end;
 
 procedure TCustomFocusHandler.OnGotFocus(const browser: ICefBrowser);
 begin
-  FEvent.doOnGotFocus(browser);
+  if (FEvent <> nil) then FEvent.doOnGotFocus(browser);
 end;
 
 function TCustomFocusHandler.OnSetFocus(const browser: ICefBrowser; source: TCefFocusSource): Boolean;
 begin
-  Result := FEvent.doOnSetFocus(browser, source);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnSetFocus(browser, source)
+   else
+    Result := inherited OnSetFocus(browser, source);
 end;
 
 procedure TCustomFocusHandler.OnTakeFocus(const browser: ICefBrowser; next: Boolean);
 begin
-  FEvent.doOnTakeFocus(browser, next);
+  if (FEvent <> nil) then FEvent.doOnTakeFocus(browser, next);
 end;
 
 

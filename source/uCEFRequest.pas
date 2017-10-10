@@ -103,7 +103,7 @@ end;
 
 function TCefRequestRef.GetFlags: TCefUrlRequestFlags;
 begin
-  Byte(Result) := PCefRequest(FData)^.get_flags(PCefRequest(FData));
+  Result := PCefRequest(FData)^.get_flags(PCefRequest(FData));
 end;
 
 procedure TCefRequestRef.GetHeaderMap(const HeaderMap: ICefStringMultimap);

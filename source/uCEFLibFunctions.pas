@@ -92,6 +92,7 @@ var
   cef_directory_exists                   : function(const path : PCefString): Integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
   cef_delete_file                        : function(const path : PCefString; recursive : integer): Integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
   cef_zip_directory                      : function(const src_dir, dest_file : PCefString; include_hidden_files : integer): Integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
+  cef_load_crlsets_file                  : procedure(const path : PCefString); {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
 
   // /include/capi/cef_geolocation_capi.h
   cef_get_geolocation : function(callback: PCefGetGeolocationCallback): Integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};

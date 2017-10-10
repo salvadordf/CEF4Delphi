@@ -82,6 +82,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -227,49 +228,61 @@ end;
 constructor TCustomDisplayHandler.Create(const events: IChromiumEvents);
 begin
   inherited Create;
+
   FEvent := events;
 end;
 
-procedure TCustomDisplayHandler.OnAddressChange(const browser: ICefBrowser;
-  const frame: ICefFrame; const url: ustring);
+destructor TCustomDisplayHandler.Destroy;
 begin
-  FEvent.doOnAddressChange(browser, frame, url);
+  FEvent := nil;
+
+  inherited Destroy;
 end;
 
-function TCustomDisplayHandler.OnConsoleMessage(const browser: ICefBrowser;
-  const message, source: ustring; line: Integer): Boolean;
+procedure TCustomDisplayHandler.OnAddressChange(const browser : ICefBrowser;
+                                                const frame   : ICefFrame;
+                                                const url     : ustring);
 begin
-  Result := FEvent.doOnConsoleMessage(browser, message, source, line);
+  if (FEvent <> nil) then FEvent.doOnAddressChange(browser, frame, url);
 end;
 
-procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser;
-  iconUrls: TStrings);
+function TCustomDisplayHandler.OnConsoleMessage(const browser : ICefBrowser;
+                                                const message : ustring;
+                                                const source  : ustring;
+                                                      line    : Integer): Boolean;
 begin
-  FEvent.doOnFaviconUrlChange(browser, iconUrls);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnConsoleMessage(browser, message, source, line)
+   else
+    Result := inherited OnConsoleMessage(browser, message, source, line);
 end;
 
-procedure TCustomDisplayHandler.OnFullScreenModeChange(
-  const browser: ICefBrowser; fullscreen: Boolean);
+procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser; iconUrls: TStrings);
 begin
-  FEvent.doOnFullScreenModeChange(browser, fullscreen);
+  if (FEvent <> nil) then FEvent.doOnFaviconUrlChange(browser, iconUrls);
 end;
 
-procedure TCustomDisplayHandler.OnStatusMessage(const browser: ICefBrowser;
-  const value: ustring);
+procedure TCustomDisplayHandler.OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
 begin
-  FEvent.doOnStatusMessage(browser, value);
+  if (FEvent <> nil) then FEvent.doOnFullScreenModeChange(browser, fullscreen);
 end;
 
-procedure TCustomDisplayHandler.OnTitleChange(const browser: ICefBrowser;
-  const title: ustring);
+procedure TCustomDisplayHandler.OnStatusMessage(const browser: ICefBrowser; const value: ustring);
 begin
-  FEvent.doOnTitleChange(browser, title);
+  if (FEvent <> nil) then FEvent.doOnStatusMessage(browser, value);
 end;
 
-function TCustomDisplayHandler.OnTooltip(const browser: ICefBrowser;
-  var text: ustring): Boolean;
+procedure TCustomDisplayHandler.OnTitleChange(const browser: ICefBrowser; const title: ustring);
 begin
-  Result := FEvent.doOnTooltip(browser, text);
+  if (FEvent <> nil) then FEvent.doOnTitleChange(browser, title);
+end;
+
+function TCustomDisplayHandler.OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
+begin
+  if (FEvent <> nil) then
+    Result := FEvent.doOnTooltip(browser, text)
+   else
+    Result := inherited OnTooltip(browser, text);
 end;
 
 end.

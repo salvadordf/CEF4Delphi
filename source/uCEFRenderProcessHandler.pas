@@ -75,19 +75,46 @@ type
 
   TCefCustomRenderProcessHandler = class(TCefRenderProcessHandlerOwn)
     protected
-      FMessageName     : ustring;
-      FOnCustomMessage : TOnCustomMessage;
-      FOnWebKitReady   : TOnWebKitReady;
+      FExtraMsgNames                 : TStringList;
+      FMessageName                   : ustring;
+      FOnRenderThreadCreatedEvent    : TOnRenderThreadCreatedEvent;
+      FOnWebKitInitializedEvent      : TOnWebKitInitializedEvent;
+      FOnBrowserCreatedEvent         : TOnBrowserCreatedEvent;
+      FOnBrowserDestroyedEvent       : TOnBrowserDestroyedEvent;
+      FOnBeforeNavigationEvent       : TOnBeforeNavigationEvent;
+      FOnContextCreatedEvent         : TOnContextCreatedEvent;
+      FOnContextReleasedEvent        : TOnContextReleasedEvent;
+      FOnUncaughtExceptionEvent      : TOnUncaughtExceptionEvent;
+      FOnFocusedNodeChangedEvent     : TOnFocusedNodeChangedEvent;
+      FOnProcessMessageReceivedEvent : TOnProcessMessageReceivedEvent;
 
+      procedure OnRenderThreadCreated(const extraInfo: ICefListValue); override;
       procedure OnWebKitInitialized; override;
+      procedure OnBrowserCreated(const browser: ICefBrowser); override;
+      procedure OnBrowserDestroyed(const browser: ICefBrowser); override;
+      function  OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean): Boolean; override;
+      procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
+      procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
+      procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); override;
+      procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode); override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; override;
 
     public
       constructor Create; override;
+      destructor  Destroy; override;
+      procedure   AddMessageName(const aName : string);
 
-      property MessageName     : ustring            read FMessageName       write FMessageName;
-      property OnCustomMessage : TOnCustomMessage   read FOnCustomMessage   write FOnCustomMessage;
-      property OnWebKitReady   : TOnWebKitReady     read FOnWebKitReady     write FOnWebKitReady;
+      property MessageName                   : ustring                         read FMessageName                   write FMessageName;
+      property OnRenderThreadCreatedEvent    : TOnRenderThreadCreatedEvent     read FOnRenderThreadCreatedEvent    write FOnRenderThreadCreatedEvent;
+      property OnWebKitInitializedEvent      : TOnWebKitInitializedEvent       read FOnWebKitInitializedEvent      write FOnWebKitInitializedEvent;
+      property OnBrowserCreatedEvent         : TOnBrowserCreatedEvent          read FOnBrowserCreatedEvent         write FOnBrowserCreatedEvent;
+      property OnBrowserDestroyedEvent       : TOnBrowserDestroyedEvent        read FOnBrowserDestroyedEvent       write FOnBrowserDestroyedEvent;
+      property OnBeforeNavigationEvent       : TOnBeforeNavigationEvent        read FOnBeforeNavigationEvent       write FOnBeforeNavigationEvent;
+      property OnContextCreatedEvent         : TOnContextCreatedEvent          read FOnContextCreatedEvent         write FOnContextCreatedEvent;
+      property OnContextReleasedEvent        : TOnContextReleasedEvent         read FOnContextReleasedEvent        write FOnContextReleasedEvent;
+      property OnUncaughtExceptionEvent      : TOnUncaughtExceptionEvent       read FOnUncaughtExceptionEvent      write FOnUncaughtExceptionEvent;
+      property OnFocusedNodeChangedEvent     : TOnFocusedNodeChangedEvent      read FOnFocusedNodeChangedEvent     write FOnFocusedNodeChangedEvent;
+      property OnProcessMessageReceivedEvent : TOnProcessMessageReceivedEvent  read FOnProcessMessageReceivedEvent write FOnProcessMessageReceivedEvent;
   end;
 
 implementation
@@ -96,8 +123,7 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
 
-procedure cef_render_process_handler_on_render_thread_created(
-  self: PCefRenderProcessHandler; extra_info: PCefListValue); stdcall;
+procedure cef_render_process_handler_on_render_thread_created(self: PCefRenderProcessHandler; extra_info: PCefListValue); stdcall;
 begin
   with TCefRenderProcessHandlerOwn(CefGetObject(Self)) do
     OnRenderThreadCreated(TCefListValueRef.UnWrap(extra_info));
@@ -109,8 +135,7 @@ begin
     OnWebKitInitialized;
 end;
 
-procedure cef_render_process_handler_on_browser_created(self: PCefRenderProcessHandler;
-  browser: PCefBrowser); stdcall;
+procedure cef_render_process_handler_on_browser_created(self: PCefRenderProcessHandler; browser: PCefBrowser); stdcall;
 begin
   with TCefRenderProcessHandlerOwn(CefGetObject(Self)) do
     OnBrowserCreated(TCefBrowserRef.UnWrap(browser));
@@ -281,27 +306,110 @@ constructor TCefCustomRenderProcessHandler.Create;
 begin
   inherited Create;
 
-  FMessageName     := '';
-  FOnCustomMessage := nil;
-  FOnWebKitReady   := nil;
+  FMessageName                   := '';
+  FExtraMsgNames                 := TStringList.Create;
+  FOnRenderThreadCreatedEvent    := nil;
+  FOnWebKitInitializedEvent      := nil;
+  FOnBrowserCreatedEvent         := nil;
+  FOnBrowserDestroyedEvent       := nil;
+  FOnBeforeNavigationEvent       := nil;
+  FOnContextCreatedEvent         := nil;
+  FOnContextReleasedEvent        := nil;
+  FOnUncaughtExceptionEvent      := nil;
+  FOnFocusedNodeChangedEvent     := nil;
+  FOnProcessMessageReceivedEvent := nil;
+end;
+
+destructor TCefCustomRenderProcessHandler.Destroy;
+begin
+  FExtraMsgNames.Free;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomRenderProcessHandler.AddMessageName(const aName : string);
+begin
+  FExtraMsgNames.Add(aName);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnRenderThreadCreated(const extraInfo: ICefListValue);
+begin
+  if assigned(FOnRenderThreadCreatedEvent) then FOnRenderThreadCreatedEvent(extraInfo);
 end;
 
 procedure TCefCustomRenderProcessHandler.OnWebKitInitialized;
 begin
-  if assigned(FOnWebKitReady) then FOnWebKitReady();
+  if assigned(FOnWebKitInitializedEvent) then FOnWebKitInitializedEvent;
+end;
+
+procedure TCefCustomRenderProcessHandler.OnBrowserCreated(const browser: ICefBrowser);
+begin
+  if assigned(FOnBrowserCreatedEvent) then FOnBrowserCreatedEvent(browser);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnBrowserDestroyed(const browser: ICefBrowser);
+begin
+  if assigned(FOnBrowserDestroyedEvent) then FOnBrowserDestroyedEvent(browser);
+end;
+
+function TCefCustomRenderProcessHandler.OnBeforeNavigation(const browser        : ICefBrowser;
+                                                           const frame          : ICefFrame;
+                                                           const request        : ICefRequest;
+                                                                 navigationType : TCefNavigationType;
+                                                                 isRedirect     : Boolean) : Boolean;
+begin
+  Result := False;
+
+  if assigned(FOnBeforeNavigationEvent) then
+    FOnBeforeNavigationEvent(browser, frame, request, navigationType, isRedirect, Result)
+   else
+    Result := inherited OnBeforeNavigation(browser, frame, request, navigationType, isRedirect);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnContextCreated(const browser : ICefBrowser;
+                                                          const frame   : ICefFrame;
+                                                          const context : ICefv8Context);
+begin
+  if assigned(FOnContextCreatedEvent) then FOnContextCreatedEvent(browser, frame, context);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnContextReleased(const browser : ICefBrowser;
+                                                           const frame   : ICefFrame;
+                                                           const context : ICefv8Context);
+begin
+  if assigned(FOnContextReleasedEvent) then FOnContextReleasedEvent(browser, frame, context);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnUncaughtException(const browser    : ICefBrowser;
+                                                             const frame      : ICefFrame;
+                                                             const context    : ICefv8Context;
+                                                             const exception  : ICefV8Exception;
+                                                             const stackTrace : ICefV8StackTrace);
+begin
+  if assigned(FOnUncaughtExceptionEvent) then FOnUncaughtExceptionEvent(browser, frame, context, exception, stackTrace);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnFocusedNodeChanged(const browser : ICefBrowser;
+                                                              const frame   : ICefFrame;
+                                                              const node    : ICefDomNode);
+begin
+  if assigned(FOnFocusedNodeChangedEvent) then FOnFocusedNodeChangedEvent(browser, frame, node);
 end;
 
 function TCefCustomRenderProcessHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
                                                                        sourceProcess : TCefProcessId;
                                                                  const message       : ICefProcessMessage): Boolean;
 begin
-  if assigned(FOnCustomMessage) and (message.Name = FMessageName) then
+  if assigned(FOnProcessMessageReceivedEvent) and
+     ((message.Name = FMessageName) or (FExtraMsgNames.IndexOf(message.Name) >= 0)) then
     begin
-      FOnCustomMessage(browser, sourceProcess, message);
+      FOnProcessMessageReceivedEvent(browser, sourceProcess, message);
       Result := True;
     end
    else
     Result := inherited OnProcessMessageReceived(browser, sourceProcess, message);
 end;
+
+
 
 end.

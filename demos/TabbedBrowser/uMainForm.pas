@@ -1,0 +1,408 @@
+// ************************************************************************
+// ***************************** CEF4Delphi *******************************
+// ************************************************************************
+//
+// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// browser in Delphi applications.
+//
+// The original license of DCEF3 still applies to CEF4Delphi.
+//
+// For more information about CEF4Delphi visit :
+//         https://www.briskbard.com/index.php?lang=en&pageid=cef
+//
+//        Copyright © 2017 Salvador Díaz Fau. All rights reserved.
+//
+// ************************************************************************
+// ************ vvvv Original license and comments below vvvv *************
+// ************************************************************************
+(*
+ *                       Delphi Chromium Embedded 3
+ *
+ * Usage allowed under the restrictions of the Lesser GNU General Public License
+ * or alternatively the restrictions of the Mozilla Public License 1.1
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+ * the specific language governing rights and limitations under the License.
+ *
+ * Unit owner : Henri Gourvest <hgourvest@gmail.com>
+ * Web site   : http://www.progdigy.com
+ * Repository : http://code.google.com/p/delphichromiumembedded/
+ * Group      : http://groups.google.com/group/delphichromiumembedded
+ *
+ * Embarcadero Technologies, Inc is not permitted to use or redistribute
+ * this source code without explicit permission.
+ *
+ *)
+
+unit uMainForm;
+
+{$I cef.inc}
+
+interface
+
+uses
+  {$IFDEF DELPHI16_UP}
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.StdCtrls,
+  {$ELSE}
+  Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, ComCtrls, Buttons, ExtCtrls, StdCtrls,
+  {$ENDIF}
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+
+const
+  CEFBROWSER_DESTROYWNDPARENT = WM_APP + $100;
+  CEFBROWSER_DESTROYTAB       = WM_APP + $101;
+
+type
+  TMainForm = class(TForm)
+    PageControl1: TPageControl;
+    ButtonPnl: TPanel;
+    NavButtonPnl: TPanel;
+    BackBtn: TButton;
+    ForwardBtn: TButton;
+    ReloadBtn: TButton;
+    StopBtn: TButton;
+    ConfigPnl: TPanel;
+    GoBtn: TButton;
+    URLEditPnl: TPanel;
+    URLCbx: TComboBox;
+    AddTabBtn: TButton;
+    RemoveTabBtn: TButton;
+    procedure AddTabBtnClick(Sender: TObject);
+    procedure RemoveTabBtnClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure PageControl1Change(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure BackBtnClick(Sender: TObject);
+    procedure ForwardBtnClick(Sender: TObject);
+    procedure ReloadBtnClick(Sender: TObject);
+    procedure StopBtnClick(Sender: TObject);
+    procedure GoBtnClick(Sender: TObject);
+
+  protected
+    FDestroying : boolean;
+
+    procedure Chromium_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
+    procedure Chromium_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
+    procedure Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+    procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
+
+    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure BrowserDestroyWindowParentMsg(var aMessage : TMessage); message CEFBROWSER_DESTROYWNDPARENT;
+    procedure BrowserDestroyTabMsg(var aMessage : TMessage); message CEFBROWSER_DESTROYTAB;
+    procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
+    procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+
+    function  GetPageIndex(const aSender : TObject; var aPageIndex : integer) : boolean;
+    procedure NotifyMoveOrResizeStarted;
+    function  SearchChromium(aPageIndex : integer; var aChromium : TChromium) : boolean;
+    function  SearchWindowParent(aPageIndex : integer; var aWindowParent : TCEFWindowParent) : boolean;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+
+implementation
+
+{$R *.dfm}
+
+// This is just a simplified demo with tab handling.
+// It's not meant to be a complete browser or the best way to implement a tabbed browser.
+
+// In this demo all browsers share the buttons and URL combobox.
+// All TChromium components share the same functions for their events sending the
+// PageIndex of the Tab where they are included in the Message.lParam parameter if necessary.
+
+// For simplicity the Button panel and the PageControl are disabled while adding or removing tab sheets.
+// The Form can't be closed if it's destroying a tab.
+
+// This is the destruction sequence when you remove a tab sheet:
+// 1. RemoveTabBtnClick calls TChromium.CloseBrowser of the selected tab which triggers a TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROYWNDPARENT message to destroy TCEFWindowParent in the main thread which triggers a TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sends a CEFBROWSER_DESTROYTAB message to destroy the tab in the main thread.
+
+procedure TMainForm.AddTabBtnClick(Sender: TObject);
+var
+  TempSheet        : TTabSheet;
+  TempWindowParent : TCEFWindowParent;
+  TempChromium     : TChromium;
+begin
+  ButtonPnl.Enabled    := False;
+  PageControl1.Enabled := False;
+
+  TempSheet             := TTabSheet.Create(PageControl1);
+  TempSheet.Caption     := 'New Tab';
+  TempSheet.PageControl := PageControl1;
+
+  TempWindowParent        := TCEFWindowParent.Create(TempSheet);
+  TempWindowParent.Parent := TempSheet;
+  TempWindowParent.Color  := clWhite;
+  TempWindowParent.Align  := alClient;
+
+  TempChromium                 := TChromium.Create(TempSheet);
+  TempChromium.OnAfterCreated  := Chromium_OnAfterCreated;
+  TempChromium.OnAddressChange := Chromium_OnAddressChange;
+  TempChromium.OnTitleChange   := Chromium_OnTitleChange;
+  TempChromium.OnClose         := Chromium_OnClose;
+  TempChromium.OnBeforeClose   := Chromium_OnBeforeClose;
+
+  TempChromium.CreateBrowser(TempWindowParent, '');
+end;
+
+procedure TMainForm.RemoveTabBtnClick(Sender: TObject);
+var
+  TempChromium : TChromium;
+begin
+  if SearchChromium(PageControl1.TabIndex, TempChromium) then
+    begin
+      FDestroying          := True;
+      ButtonPnl.Enabled    := False;
+      PageControl1.Enabled := False;
+      TempChromium.CloseBrowser(True);
+    end;
+end;
+
+procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := not(FDestroying);
+end;
+
+procedure TMainForm.FormShow(Sender: TObject);
+begin
+  AddTabBtn.Click;
+end;
+
+procedure TMainForm.ForwardBtnClick(Sender: TObject);
+var
+  TempChromium : TChromium;
+begin
+  if SearchChromium(PageControl1.TabIndex, TempChromium) then TempChromium.GoForward;
+end;
+
+procedure TMainForm.GoBtnClick(Sender: TObject);
+var
+  TempChromium : TChromium;
+begin
+  if SearchChromium(PageControl1.TabIndex, TempChromium) then TempChromium.LoadURL(URLCbx.Text);
+end;
+
+procedure TMainForm.ReloadBtnClick(Sender: TObject);
+var
+  TempChromium : TChromium;
+begin
+  if SearchChromium(PageControl1.TabIndex, TempChromium) then TempChromium.Reload;
+end;
+
+procedure TMainForm.BackBtnClick(Sender: TObject);
+var
+  TempChromium : TChromium;
+begin
+  if SearchChromium(PageControl1.TabIndex, TempChromium) then TempChromium.GoBack;
+end;
+
+procedure TMainForm.StopBtnClick(Sender: TObject);
+var
+  TempChromium : TChromium;
+begin
+  if SearchChromium(PageControl1.TabIndex, TempChromium) then TempChromium.StopLoad;
+end;
+
+procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);
+var
+  TempWindowParent : TCEFWindowParent;
+  TempChromium     : TChromium;
+begin
+  ButtonPnl.Enabled    := True;
+  PageControl1.Enabled := True;
+
+  if SearchWindowParent(aMessage.lParam, TempWindowParent) then
+    TempWindowParent.UpdateSize;
+
+  if SearchChromium(aMessage.lParam, TempChromium) then
+    TempChromium.LoadURL(URLCbx.Items[0]);
+end;
+
+procedure TMainForm.BrowserDestroyWindowParentMsg(var aMessage : TMessage);
+var
+  TempWindowParent : TCEFWindowParent;
+begin
+  if SearchWindowParent(aMessage.lParam, TempWindowParent) then TempWindowParent.Free;
+end;
+
+procedure TMainForm.BrowserDestroyTabMsg(var aMessage : TMessage);
+begin
+  if (aMessage.lParam >= 0) and
+     (aMessage.lParam < PageControl1.PageCount) then
+    PageControl1.Pages[aMessage.lParam].Free;
+
+  ButtonPnl.Enabled    := True;
+  PageControl1.Enabled := True;
+  FDestroying          := False;
+end;
+
+procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
+var
+  TempPageIndex : integer;
+begin
+  if GetPageIndex(Sender, TempPageIndex) then
+    PostMessage(Handle, CEF_AFTERCREATED, 0, TempPageIndex);
+end;
+
+procedure TMainForm.Chromium_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
+var
+  TempPageIndex : integer;
+begin
+  if (PageControl1.TabIndex >= 0) and
+     GetPageIndex(Sender, TempPageIndex) and
+     (PageControl1.TabIndex = TempPageIndex) then
+    URLCbx.Text := url;
+end;
+
+function TMainForm.GetPageIndex(const aSender : TObject; var aPageIndex : integer) : boolean;
+begin
+  Result     := False;
+  aPageIndex := -1;
+
+  if (aSender <> nil) and
+     (aSender is TComponent) and
+     (TComponent(aSender).Owner <> nil) and
+     (TComponent(aSender).Owner is TTabSheet) then
+    begin
+      aPageIndex := TTabSheet(TComponent(aSender).Owner).PageIndex;
+      Result     := True;
+    end;
+end;
+
+procedure TMainForm.Chromium_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
+var
+  TempPageIndex : integer;
+begin
+  if GetPageIndex(Sender, TempPageIndex) then
+    PageControl1.Pages[TempPageIndex].Caption := title;
+end;
+
+procedure TMainForm.Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+var
+  TempPageIndex : integer;
+begin
+  if GetPageIndex(Sender, TempPageIndex) then
+    PostMessage(Handle, CEFBROWSER_DESTROYWNDPARENT, 0, TempPageIndex);
+
+  Result := False;
+end;
+
+procedure TMainForm.Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
+var
+  TempPageIndex : integer;
+begin
+  if GetPageIndex(Sender, TempPageIndex) then
+    PostMessage(Handle, CEFBROWSER_DESTROYTAB, 0, TempPageIndex);
+end;
+
+function TMainForm.SearchChromium(aPageIndex : integer; var aChromium : TChromium) : boolean;
+var
+  i, j : integer;
+  TempComponent : TComponent;
+  TempSheet : TTabSheet;
+begin
+  Result    := False;
+  aChromium := nil;
+
+  if (aPageIndex >= 0) and (aPageIndex < PageControl1.PageCount) then
+    begin
+      TempSheet := PageControl1.Pages[aPageIndex];
+      i         := 0;
+      j         := TempSheet.ComponentCount;
+
+      while (i < j) and not(Result) do
+        begin
+          TempComponent := TempSheet.Components[i];
+
+          if (TempComponent <> nil) and (TempComponent is TChromium) then
+            begin
+              aChromium := TChromium(TempComponent);
+              Result    := True;
+            end
+           else
+            inc(i);
+        end;
+    end;
+end;
+
+function TMainForm.SearchWindowParent(aPageIndex : integer; var aWindowParent : TCEFWindowParent) : boolean;
+var
+  i, j : integer;
+  TempControl : TControl;
+  TempSheet : TTabSheet;
+begin
+  Result        := False;
+  aWindowParent := nil;
+
+  if (aPageIndex >= 0) and (aPageIndex < PageControl1.PageCount) then
+    begin
+      TempSheet := PageControl1.Pages[aPageIndex];
+      i         := 0;
+      j         := TempSheet.ControlCount;
+
+      while (i < j) and not(Result) do
+        begin
+          TempControl := TempSheet.Controls[i];
+
+          if (TempControl <> nil) and (TempControl is TCEFWindowParent) then
+            begin
+              aWindowParent := TCEFWindowParent(TempControl);
+              Result        := True;
+            end
+           else
+            inc(i);
+        end;
+    end;
+end;
+
+procedure TMainForm.NotifyMoveOrResizeStarted;
+var
+  i, j : integer;
+  TempChromium : TChromium;
+begin
+  if not(showing) or (PageControl1 = nil) then exit;
+
+  i := 0;
+  j := PageControl1.PageCount;
+
+  while (i < j) do
+    begin
+      if SearchChromium(i, TempChromium) then TempChromium.NotifyMoveOrResizeStarted;
+
+      inc(i);
+    end;
+end;
+
+procedure TMainForm.WMMove(var aMessage : TWMMove);
+begin
+  inherited;
+
+  NotifyMoveOrResizeStarted;
+end;
+
+procedure TMainForm.WMMoving(var aMessage : TMessage);
+begin
+  inherited;
+
+  NotifyMoveOrResizeStarted;
+end;
+
+procedure TMainForm.PageControl1Change(Sender: TObject);
+var
+  TempChromium : TChromium;
+begin
+  if showing and SearchChromium(PageControl1.TabIndex, TempChromium) then
+    URLCbx.Text := TempChromium.DocumentURL;
+end;
+
+end.

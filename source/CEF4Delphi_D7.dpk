@@ -148,6 +148,8 @@ contains
   uCEFSelectClientCertificateCallback in 'uCEFSelectClientCertificateCallback.pas',
   uCEFChromiumWindow in 'uCEFChromiumWindow.pas',
   uCEFBaseRefCounted in 'uCEFBaseRefCounted.pas',
-  uCEFBaseScopedWrapper in 'uCEFBaseScopedWrapper.pas';
+  uCEFBaseScopedWrapper in 'uCEFBaseScopedWrapper.pas',
+  uCEFDragAndDropMgr in 'uCEFDragAndDropMgr.pas',
+  uOLEDragAndDrop in 'uOLEDragAndDrop.pas';
 
 end.

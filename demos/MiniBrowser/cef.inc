@@ -1,5 +1,22 @@
+// ************************************************************************
+// ***************************** CEF4Delphi *******************************
+// ************************************************************************
+//
+// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// browser in Delphi applications.
+//
+// The original license of DCEF3 still applies to CEF4Delphi.
+//
+// For more information about CEF4Delphi visit :
+//         https://www.briskbard.com/index.php?lang=en&pageid=cef
+//
+//        Copyright © 2017 Salvador Díaz Fau. All rights reserved.
+//
+// ************************************************************************
+// ************ vvvv Original license and comments below vvvv *************
+// ************************************************************************
 (*
- *                       Delphi Chromium Embedded
+ *                       Delphi Chromium Embedded 3
  *
  * Usage allowed under the restrictions of the Lesser GNU General Public License
  * or alternatively the restrictions of the Mozilla Public License 1.1
@@ -12,34 +29,36 @@
  * Web site   : http://www.progdigy.com
  * Repository : http://code.google.com/p/delphichromiumembedded/
  * Group      : http://groups.google.com/group/delphichromiumembedded
+ *
+ * Embarcadero Technologies, Inc is not permitted to use or redistribute
+ * this source code without explicit permission.
+ *
  *)
 
- {.$define CEF_STRING_TYPE_UTF8}
-{$define CEF_STRING_TYPE_UTF16}
-{.$define CEF_STRING_TYPE_WIDE}
-
-{.$DEFINE CEF_MULTI_THREADED_MESSAGE_LOOP}
-
+ // The complete list of compiler versions is here :
+ // http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Compiler_Versions
 
 {$DEFINE DELPHI_VERSION_UNKNOW}
 
 {$IFDEF FPC}
-  // force multithreading message loop on FPC, still not work
   {$DEFINE CEF_MULTI_THREADED_MESSAGE_LOOP}
   {$DEFINE SUPPORTS_INLINE}
 {$ENDIF}
 
+// Delphi 5
 {$IFDEF VER130}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
 {$ENDIF}
 
+// Delphi 6
 {$IFDEF VER140}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
   {$DEFINE DELPHI6_UP}
 {$ENDIF}
 
+// Delphi 7
 {$IFDEF VER150}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
@@ -47,8 +66,8 @@
   {$DEFINE DELPHI7_UP}
 {$ENDIF}
 
+// Delphi 8
 {$IFDEF VER160}
-  // DELPHI 8 for Dotnet
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
   {$DEFINE DELPHI6_UP}
@@ -130,6 +149,7 @@
   {$DEFINE DELPHI15_UP}
 {$ENDIF}
 
+// Delphi XE2
 {$IFDEF VER230}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
@@ -145,6 +165,7 @@
   {$DEFINE DELPHI16_UP}
 {$ENDIF}
 
+// Delphi XE3
 {$IFDEF VER240}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
@@ -161,6 +182,7 @@
   {$DEFINE DELPHI17_UP}
 {$ENDIF}
 
+// Delphi XE4
 {$IFDEF VER250}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
@@ -238,7 +260,8 @@
   {$DEFINE DELPHI21_UP}
 {$ENDIF}
 
-{$IFDEF VER290} // RAD Studio XE8
+// Delphi XE8
+{$IFDEF VER290}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
   {$DEFINE DELPHI6_UP}
@@ -259,7 +282,7 @@
   {$DEFINE DELPHI22_UP}
 {$ENDIF VER290}
 
-// Rad Studio 10
+// Rad Studio 10 - Delphi Seattle
 {$IFDEF VER300}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
@@ -282,7 +305,7 @@
   {$DEFINE DELPHI23_UP}
 {$ENDIF}
 
-// Rad Studio 10.1
+// Rad Studio 10.1 - Delphi Berlin
 {$IFDEF VER310}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
@@ -306,6 +329,31 @@
   {$DEFINE DELPHI24_UP}
 {$ENDIF}
 
+// Rad Studio 10.2 - Delphi Tokyo
+{$IFDEF VER320}
+  {$UNDEF DELPHI_VERSION_UNKNOW}
+  {$DEFINE DELPHI5_UP}
+  {$DEFINE DELPHI6_UP}
+  {$DEFINE DELPHI7_UP}
+  {$DEFINE DELPHI8_UP}
+  {$DEFINE DELPHI9_UP}
+  {$DEFINE DELPHI10_UP}
+  {$DEFINE DELPHI11_UP}
+  {$DEFINE DELPHI12_UP}
+  {$DEFINE DELPHI14_UP}
+  {$DEFINE DELPHI15_UP}
+  {$DEFINE DELPHI16_UP}
+  {$DEFINE DELPHI17_UP}
+  {$DEFINE DELPHI18_UP}
+  {$DEFINE DELPHI19_UP}
+  {$DEFINE DELPHI20_UP}
+  {$DEFINE DELPHI21_UP}
+  {$DEFINE DELPHI22_UP}
+  {$DEFINE DELPHI23_UP}
+  {$DEFINE DELPHI24_UP}
+  {$DEFINE DELPHI25_UP}
+{$ENDIF}
+
 
 {$IFDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
@@ -327,6 +375,7 @@
   {$DEFINE DELPHI22_UP}
   {$DEFINE DELPHI23_UP}
   {$DEFINE DELPHI24_UP}
+  {$DEFINE DELPHI25_UP}
 {$ENDIF}
 
 {$IFDEF DELPHI9_UP}

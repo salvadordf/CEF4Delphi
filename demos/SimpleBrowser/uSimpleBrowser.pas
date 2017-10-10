@@ -54,12 +54,14 @@ uses
 type
   TForm1 = class(TForm)
     ChromiumWindow1: TChromiumWindow;
-    Panel1: TPanel;
-    Edit1: TEdit;
-    Button1: TButton;
-    procedure Button1Click(Sender: TObject);
+    AddressPnl: TPanel;
+    AddressEdt: TEdit;
+    GoBtn: TButton;
+    procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ChromiumWindow1AfterCreated(Sender: TObject);
   private
+    // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
   public
@@ -73,14 +75,37 @@ implementation
 
 {$R *.dfm}
 
-procedure TForm1.Button1Click(Sender: TObject);
-begin
-  ChromiumWindow1.LoadURL(Edit1.Text);
-end;
+// This is a demo with the simplest web browser you can build using CEF4Delphi and
+// it doesn't show any sign of progress like other web browsers do.
+
+// Remember that it may take a few seconds to load if Windows update, your antivirus or
+// any other windows service is using your hard drive.
+
+// Depending on your internet connection it may take longer than expected.
+
+// Please check that your firewall or antivirus are not blocking this application
+// or the domain "google.com". If you don't live in the US, you'll be redirected to
+// another domain which will take a little time too.
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  // You *MUST* call CreateBrowser to create and initialize the browser.
+  // This will trigger the AfterCreated event when the browser is fully
+  // initialized and ready to receive commands.
   ChromiumWindow1.CreateBrowser;
+end;
+
+procedure TForm1.ChromiumWindow1AfterCreated(Sender: TObject);
+begin
+  // Now the browser is fully initialized we can load the initial web page.
+  AddressPnl.Enabled := True;
+  GoBtn.Click;
+end;
+
+procedure TForm1.GoBtnClick(Sender: TObject);
+begin
+  // This will load the URL in the edit box
+  ChromiumWindow1.LoadURL(AddressEdt.Text);
 end;
 
 procedure TForm1.WMMove(var aMessage : TWMMove);

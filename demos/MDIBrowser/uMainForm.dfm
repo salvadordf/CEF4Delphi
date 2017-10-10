@@ -13,7 +13,6 @@ object MainForm: TMainForm
   FormStyle = fsMDIForm
   OldCreateOrder = False
   Position = poScreenCenter
-  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -70,11 +69,13 @@ object MainForm: TMainForm
       NumGlyphs = 2
       OnClick = ExitBtnClick
     end
-  end
-  object Timer1: TTimer
-    Enabled = False
-    OnTimer = Timer1Timer
-    Left = 608
-    Top = 344
+    object NewContextChk: TCheckBox
+      Left = 192
+      Top = 8
+      Width = 257
+      Height = 17
+      Caption = 'Create a new request context for new browsers'
+      TabOrder = 0
+    end
   end
 end

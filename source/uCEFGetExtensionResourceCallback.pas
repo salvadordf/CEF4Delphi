@@ -35,38 +35,51 @@
  *
  *)
 
-unit uTestExtension;
+unit uCEFGetExtensionResourceCallback;
+
+{$IFNDEF CPUX64}
+  {$ALIGN ON}
+  {$MINENUMSIZE 4}
+{$ENDIF}
 
 {$I cef.inc}
 
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows,
-  {$ELSE}
-  Windows,
-  {$ENDIF}
-  uCEFRenderProcessHandler, uCEFBrowserProcessHandler, uCEFInterfaces, uCEFProcessMessage,
-  uCEFv8Context, uCEFTypes, uCEFv8Handler;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TTestExtension = class
-    class procedure mouseover(const data: string);
+  TCefGetExtensionResourceCallbackRef = class(TCefBaseRefCountedRef, ICefGetExtensionResourceCallback)
+    protected
+      procedure Cont(const stream: ICefStreamReader);
+      procedure Cancel;
+
+    public
+      class function UnWrap(data: Pointer): ICefGetExtensionResourceCallback;
   end;
 
 implementation
 
-class procedure TTestExtension.mouseover(const data: string);
-var
-  msg: ICefProcessMessage;
-begin
-  msg := TCefProcessMessageRef.New('mouseover');
-  msg.ArgumentList.SetString(0, data);
+uses
+  uCEFMiscFunctions;
 
-  // Sending a message back to the browser. It'll be received in the TChromium.OnProcessMessageReceived event.
-  // TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing Javascript.
-  TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+procedure TCefGetExtensionResourceCallbackRef.Cont(const stream: ICefStreamReader);
+begin
+  PCefGetExtensionResourceCallback(FData).cont(FData, CefGetData(stream));
+end;
+
+procedure TCefGetExtensionResourceCallbackRef.Cancel;
+begin
+  PCefGetExtensionResourceCallback(FData).cancel(FData);
+end;
+
+class function TCefGetExtensionResourceCallbackRef.UnWrap(data: Pointer): ICefGetExtensionResourceCallback;
+begin
+  if (data <> nil) then
+    Result := Create(data) as ICefGetExtensionResourceCallback
+   else
+    Result := nil;
 end;
 
 end.

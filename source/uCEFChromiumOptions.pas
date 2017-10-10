@@ -59,7 +59,6 @@ type
     protected
       FWindowlessFrameRate         : Integer;
       FJavascript                  : TCefState;
-      FJavascriptOpenWindows       : TCefState;
       FJavascriptCloseWindows      : TCefState;
       FJavascriptAccessClipboard   : TCefState;
       FJavascriptDomPaste          : TCefState;
@@ -83,7 +82,6 @@ type
 
     published
       property Javascript                  : TCefState read FJavascript                   write FJavascript                  default STATE_DEFAULT;
-      property JavascriptOpenWindows       : TCefState read FJavascriptOpenWindows        write FJavascriptOpenWindows       default STATE_DEFAULT;
       property JavascriptCloseWindows      : TCefState read FJavascriptCloseWindows       write FJavascriptCloseWindows      default STATE_DEFAULT;
       property JavascriptAccessClipboard   : TCefState read FJavascriptAccessClipboard    write FJavascriptAccessClipboard   default STATE_DEFAULT;
       property JavascriptDomPaste          : TCefState read FJavascriptDomPaste           write FJavascriptDomPaste          default STATE_DEFAULT;
@@ -110,7 +108,6 @@ constructor TChromiumOptions.Create;
 begin
   FWindowlessFrameRate         := 30;
   FJavascript                  := STATE_DEFAULT;
-  FJavascriptOpenWindows       := STATE_DEFAULT;
   FJavascriptCloseWindows      := STATE_DEFAULT;
   FJavascriptAccessClipboard   := STATE_DEFAULT;
   FJavascriptDomPaste          := STATE_DEFAULT;

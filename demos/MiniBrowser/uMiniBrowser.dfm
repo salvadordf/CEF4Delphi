@@ -2,8 +2,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
   Left = 0
   Top = 0
   Caption = 'MiniBrowser'
-  ClientHeight = 716
-  ClientWidth = 1089
+  ClientHeight = 712
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,10 +16,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
   PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
-    Left = 1084
+    Left = 1179
     Top = 41
     Width = 5
-    Height = 656
+    Height = 652
     Align = alRight
     Visible = False
     ExplicitLeft = 0
@@ -29,7 +29,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object NavControlPnl: TPanel
     Left = 0
     Top = 0
-    Width = 1089
+    Width = 1184
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -103,13 +103,13 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Style = []
         ParentFont = False
         TabOrder = 3
-        OnClick = ReloadBtnClick
+        OnClick = StopBtnClick
       end
     end
     object URLEditPnl: TPanel
       Left = 133
       Top = 0
-      Width = 883
+      Width = 978
       Height = 41
       Align = alClient
       BevelOuter = bvNone
@@ -120,28 +120,37 @@ object MiniBrowserFrm: TMiniBrowserFrm
       object URLCbx: TComboBox
         Left = 0
         Top = 9
-        Width = 883
+        Width = 978
         Height = 21
         Align = alClient
+        ItemIndex = 0
         TabOrder = 0
         Text = 'https://www.google.com'
         Items.Strings = (
           'https://www.google.com'
-          'hello://world/'
           
             'https://www.whatismybrowser.com/detect/what-http-headers-is-my-b' +
             'rowser-sending'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
           'https://www.w3schools.com/html/html5_video.asp'
           'http://www.adobe.com/software/flash/about/'
+          'http://isflashinstalled.com/'
           'chrome://version/'
           'http://html5test.com/'
           'https://www.w3schools.com/'
-          'http://webglsamples.org/')
+          'http://webglsamples.org/'
+          'https://www.youtube.com'
+          'https://html5demos.com/drag/'
+          
+            'https://developers.google.com/maps/documentation/javascript/exam' +
+            'ples/streetview-embed?hl=fr'
+          
+            'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
+            '_name')
       end
     end
     object ConfigPnl: TPanel
-      Left = 1016
+      Left = 1111
       Top = 0
       Width = 73
       Height = 41
@@ -183,24 +192,24 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Top = 41
-    Width = 1084
-    Height = 656
+    Width = 1179
+    Height = 652
     Align = alClient
     TabOrder = 1
   end
   object DevTools: TCEFWindowParent
-    Left = 1089
+    Left = 1184
     Top = 41
     Width = 0
-    Height = 656
+    Height = 652
     Align = alRight
     TabOrder = 2
     Visible = False
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 697
-    Width = 1089
+    Top = 693
+    Width = 1184
     Height = 19
     Panels = <
       item
@@ -209,24 +218,36 @@ object MiniBrowserFrm: TMiniBrowserFrm
   end
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable
-    OnProcessMessageReceived = Chromium1ProcessMessageReceived
+    OnPdfPrintFinished = Chromium1PdfPrintFinished
+    OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnPreKeyEvent = Chromium1PreKeyEvent
+    OnKeyEvent = Chromium1KeyEvent
     OnAddressChange = Chromium1AddressChange
     OnTitleChange = Chromium1TitleChange
+    OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
     OnAfterCreated = Chromium1AfterCreated
-    Left = 424
-    Top = 352
+    OnResourceResponse = Chromium1ResourceResponse
+    Left = 32
+    Top = 224
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup
-    Left = 664
-    Top = 104
+    Left = 32
+    Top = 168
     object DevTools1: TMenuItem
       Caption = 'DevTools'
       OnClick = DevTools1Click
+    end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object Openfile1: TMenuItem
+      Caption = 'Open file...'
+      OnClick = Openfile1Click
     end
     object N2: TMenuItem
       Caption = '-'
@@ -264,9 +285,25 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Preferences...'
       OnClick = Preferences1Click
     end
+    object Resolvehost1: TMenuItem
+      Caption = 'Resolve host...'
+      OnClick = Resolvehost1Click
+    end
   end
   object SaveDialog1: TSaveDialog
-    Left = 488
-    Top = 232
+    Left = 32
+    Top = 112
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnMessage = ApplicationEvents1Message
+    Left = 32
+    Top = 56
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 
+      'HTML files|*.htm;*.html|Text files|*.txt|PDF files|*.pdf|Image f' +
+      'iles|*.jpg;*.jpeg;*.png;*.bmp;*.gif'
+    Left = 32
+    Top = 280
   end
 end

@@ -150,6 +150,12 @@ contains
   uCEFSelectClientCertificateCallback in 'uCEFSelectClientCertificateCallback.pas',
   uCEFChromiumWindow in 'uCEFChromiumWindow.pas',
   uCEFBaseRefCounted in 'uCEFBaseRefCounted.pas',
-  uCEFBaseScopedWrapper in 'uCEFBaseScopedWrapper.pas';
+  uCEFBaseScopedWrapper in 'uCEFBaseScopedWrapper.pas',
+  uCEFAccessibilityHandler in 'uCEFAccessibilityHandler.pas',
+  uOLEDragAndDrop in 'uOLEDragAndDrop.pas',
+  uCEFDragAndDropMgr in 'uCEFDragAndDropMgr.pas',
+  uCEFGetExtensionResourceCallback in 'uCEFGetExtensionResourceCallback.pas',
+  uCEFExtension in 'uCEFExtension.pas',
+  uCEFExtensionHandler in 'uCEFExtensionHandler.pas';
 
 end.

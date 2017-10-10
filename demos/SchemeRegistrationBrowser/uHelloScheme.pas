@@ -117,6 +117,7 @@ function THelloScheme.ProcessRequest(const request : ICefRequest; const callback
 var
   TempString : string;
   TempUTF8String : AnsiString;
+  TempPointer : pointer;
 begin
   Result      := True;
   FStatus     := 200;
@@ -128,9 +129,10 @@ begin
       TempString     := '<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"/></head>' +
                         '<body>Hello world!<br>' + request.URL + '</body></html>';
       TempUTF8String := UTF8Encode(TempString);
+      TempPointer    := @TempUTF8String[1];
 
       FStream.Clear;
-      FStream.WriteData(@TempUTF8String[1], length(TempUTF8String));
+      FStream.Write(TempPointer, length(TempUTF8String));
       FStream.Seek(0, soFromBeginning);
     end;
 

@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -75,8 +75,8 @@ type
       function  GetFrameByident(identifier: Int64): ICefFrame;
       function  GetFrame(const name: ustring): ICefFrame;
       function  GetFrameCount: NativeUInt;
-      procedure GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
-      procedure GetFrameNames(names: TStrings);
+      function  GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+      function  GetFrameNames(var aFrameNames : TStrings) : boolean;
       function  SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
 
     public
@@ -139,6 +139,7 @@ type
       procedure DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
       procedure DragSourceSystemDragEnded;
       function  GetVisibleNavigationEntry : ICefNavigationEntry;
+      procedure SetAccessibilityState(accessibilityState: TCefState);
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -188,29 +189,69 @@ begin
   Result := PCefBrowser(FData)^.get_frame_count(PCefBrowser(FData));
 end;
 
-procedure TCefBrowserRef.GetFrameIdentifiers(count: PNativeUInt; identifiers: PInt64);
+function TCefBrowserRef.GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+var
+  i : NativeUInt;
 begin
-  PCefBrowser(FData)^.get_frame_identifiers(PCefBrowser(FData), count, identifiers);
+  Result := False;
+
+  try
+    if (aFrameCount > 0) then
+      begin
+        SetLength(aFrameIdentifierArray, aFrameCount);
+        i := 0;
+        while (i < aFrameCount) do
+          begin
+            aFrameIdentifierArray[i] := 0;
+            inc(i);
+          end;
+
+        PCefBrowser(FData)^.get_frame_identifiers(PCefBrowser(FData), aFrameCount, aFrameIdentifierArray[0]);
+
+        Result := True;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefBrowserRef.GetFrameIdentifiers', e) then raise;
+  end;
 end;
 
-procedure TCefBrowserRef.GetFrameNames(names: TStrings);
+function TCefBrowserRef.GetFrameNames(var aFrameNames : TStrings) : boolean;
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : Integer;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+  Result := False;
+
   try
-    PCefBrowser(FData)^.get_frame_names(PCefBrowser(FData), list);
-    FillChar(str, SizeOf(str), 0);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      names.Add(CefStringClearAndGet(str));
+    try
+      if (aFrameNames <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+          PCefBrowser(FData)^.get_frame_names(PCefBrowser(FData), TempSL);
+          FillChar(TempString, SizeOf(TempString), 0);
+
+          i := 0;
+          j := cef_string_list_size(TempSL);
+
+          while (i < j) do
+            begin
+              FillChar(TempString, SizeOf(TempString), 0);
+              cef_string_list_value(TempSL, i, @TempString);
+              aFrameNames.Add(CefStringClearAndGet(TempString));
+              inc(i);
+            end;
+
+          Result := True;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefBrowserRef.GetFrameNames', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 
@@ -321,6 +362,11 @@ end;
 function TCefBrowserHostRef.GetVisibleNavigationEntry : ICefNavigationEntry;
 begin
   Result := TCefNavigationEntryRef.UnWrap(PCefBrowserHost(FData).get_visible_navigation_entry(PCefBrowserHost(FData)));
+end;
+
+procedure TCefBrowserHostRef.SetAccessibilityState(accessibilityState: TCefState);
+begin
+  PCefBrowserHost(FData).set_accessibility_state(FData, accessibilityState);
 end;
 
 procedure TCefBrowserHostRef.DragTargetDragEnter(const dragData: ICefDragData;

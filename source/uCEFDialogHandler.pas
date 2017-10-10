@@ -71,6 +71,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -127,9 +128,25 @@ begin
   FEvent := events;
 end;
 
-function TCustomDialogHandler.OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean;
+destructor TCustomDialogHandler.Destroy;
 begin
-  Result := FEvent.doOnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback);
+  FEvent := nil;
+
+  inherited Destroy;
+end;
+
+function TCustomDialogHandler.OnFileDialog(const browser              : ICefBrowser;
+                                                 mode                 : TCefFileDialogMode;
+                                           const title                : ustring;
+                                           const defaultFilePath      : ustring;
+                                                 acceptFilters        : TStrings;
+                                                 selectedAcceptFilter : Integer;
+                                           const callback             : ICefFileDialogCallback): Boolean;
+begin
+  if (FEvent <> nil) then
+    Result := FEvent.doOnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback)
+   else
+    Result := inherited OnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback);
 end;
 
 end.

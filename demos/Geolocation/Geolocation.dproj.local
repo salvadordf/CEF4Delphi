@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/08/12 19:39:54.000.945,=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/08/12 19:40:26.000.400,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\Geolocation\uGeolocation.pas</Transaction>
+    <Transaction>2017/08/12 19:40:26.000.400,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\Geolocation\uGeolocation.dfm</Transaction>
+    <Transaction>2017/08/12 19:40:30.000.902,C:\Users\usuario\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\demos\Geolocation\Geolocation.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

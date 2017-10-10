@@ -79,18 +79,37 @@ uses
   uCEFTypes, uCEFMiscFunctions;
 
 procedure cef_base_add_ref(self: PCefBaseRefCounted); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefBaseRefCountedOwn(CefGetObject(self))._AddRef;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefBaseRefCountedOwn) then
+    TCefBaseRefCountedOwn(TempObject)._AddRef;
 end;
 
 function cef_base_release(self: PCefBaseRefCounted): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := TCefBaseRefCountedOwn(CefGetObject(self))._Release;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefBaseRefCountedOwn) then
+    Result := TCefBaseRefCountedOwn(TempObject)._Release
+   else
+    Result := 0;
 end;
 
 function cef_base_has_one_ref(self: PCefBaseRefCounted): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := Ord(TCefBaseRefCountedOwn(CefGetObject(self)).FRefCount = 1);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefBaseRefCountedOwn) then
+    Result := Ord(TCefBaseRefCountedOwn(TempObject).FRefCount = 1)
+   else
+    Result := Ord(False);
 end;
 
 procedure cef_base_add_ref_owned(self: PCefBaseRefCounted); stdcall;
@@ -118,23 +137,27 @@ begin
 
   if owned then
     begin
-      PCefBaseRefCounted(FData)^.add_ref := cef_base_add_ref_owned;
-      PCefBaseRefCounted(FData)^.release := cef_base_release_owned;
+      PCefBaseRefCounted(FData)^.add_ref     := cef_base_add_ref_owned;
+      PCefBaseRefCounted(FData)^.release     := cef_base_release_owned;
       PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref_owned;
     end
    else
     begin
-      PCefBaseRefCounted(FData)^.add_ref := cef_base_add_ref;
-      PCefBaseRefCounted(FData)^.release := cef_base_release;
+      PCefBaseRefCounted(FData)^.add_ref     := cef_base_add_ref;
+      PCefBaseRefCounted(FData)^.release     := cef_base_release;
       PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref;
     end;
 end;
 
 destructor TCefBaseRefCountedOwn.Destroy;
+var
+  TempPointer : pointer;
 begin
-  Dec(PByte(FData), SizeOf(Pointer));
-  FreeMem(FData);
-  FData := nil;
+  TempPointer := FData;
+  FData       := nil;
+
+  Dec(PByte(TempPointer), SizeOf(Pointer));
+  FreeMem(TempPointer);
 
   inherited Destroy;
 end;
@@ -157,8 +180,13 @@ end;
 
 destructor TCefBaseRefCountedRef.Destroy;
 begin
-  if (FData <> nil) and Assigned(PCefBaseRefCounted(FData)^.release) then
-    PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData));
+  if (FData <> nil) then
+    begin
+      if assigned(PCefBaseRefCounted(FData)^.release) then
+        PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData));
+
+      FData := nil;
+    end;
 
   inherited Destroy;
 end;

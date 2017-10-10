@@ -68,6 +68,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -95,13 +96,13 @@ end;
 
 constructor TCefGeolocationHandlerOwn.Create;
 begin
-
   inherited CreateData(SizeOf(TCefGeolocationHandler));
+
   with PCefGeolocationHandler(FData)^ do
-  begin
-    on_request_geolocation_permission := cef_geolocation_handler_on_request_geolocation_permission;
-    on_cancel_geolocation_permission :=  cef_geolocation_handler_on_cancel_geolocation_permission;
-  end;
+    begin
+      on_request_geolocation_permission := cef_geolocation_handler_on_request_geolocation_permission;
+      on_cancel_geolocation_permission  := cef_geolocation_handler_on_cancel_geolocation_permission;
+    end;
 end;
 
 
@@ -122,19 +123,32 @@ end;
 constructor TCustomGeolocationHandler.Create(const events: IChromiumEvents);
 begin
   inherited Create;
+
   FEvent := events;
+end;
+
+destructor TCustomGeolocationHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
 end;
 
 procedure TCustomGeolocationHandler.OnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer);
 begin
-  FEvent.doOnCancelGeolocationPermission(browser, requestId);
+  if (FEvent <> nil) then
+    FEvent.doOnCancelGeolocationPermission(browser, requestId);
 end;
 
-function TCustomGeolocationHandler.OnRequestGeolocationPermission(
-  const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer;
-  const callback: ICefGeolocationCallback): Boolean;
+function TCustomGeolocationHandler.OnRequestGeolocationPermission(const browser       : ICefBrowser;
+                                                                  const requestingUrl : ustring;
+                                                                        requestId     : Integer;
+                                                                  const callback      : ICefGeolocationCallback): Boolean;
 begin
-  Result := FEvent.doOnRequestGeolocationPermission(browser, requestingUrl, requestId, callback);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnRequestGeolocationPermission(browser, requestingUrl, requestId, callback)
+   else
+    Result := inherited OnRequestGeolocationPermission(browser, requestingUrl, requestId, callback);
 end;
 
 end.

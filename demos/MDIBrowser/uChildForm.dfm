@@ -31,7 +31,6 @@ object ChildForm: TChildForm
     Padding.Bottom = 5
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 684
     object Edit1: TEdit
       Left = 5
       Top = 5
@@ -41,7 +40,6 @@ object ChildForm: TChildForm
       Align = alClient
       TabOrder = 0
       Text = 'http://www.google.com'
-      ExplicitWidth = 643
       ExplicitHeight = 21
     end
     object Button1: TButton
@@ -54,7 +52,6 @@ object ChildForm: TChildForm
       Caption = 'Go'
       TabOrder = 1
       OnClick = Button1Click
-      ExplicitLeft = 648
     end
   end
   object CEFWindowParent1: TCEFWindowParent
@@ -64,23 +61,12 @@ object ChildForm: TChildForm
     Height = 421
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 336
-    ExplicitTop = 216
-    ExplicitWidth = 100
-    ExplicitHeight = 41
   end
   object Chromium1: TChromium
-    OnLoadEnd = Chromium1LoadEnd
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
     Left = 592
     Top = 288
-  end
-  object Timer1: TTimer
-    Enabled = False
-    Interval = 2000
-    OnTimer = Timer1Timer
-    Left = 608
-    Top = 344
   end
 end

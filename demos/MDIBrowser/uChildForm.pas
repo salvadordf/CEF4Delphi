@@ -50,7 +50,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
-  uMainForm, uCEFChromium, uCEFWindowParent, uCEFInterfaces;
+  uMainForm, uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants;
 
 type
   TChildForm = class(TForm)
@@ -59,27 +59,26 @@ type
     Button1: TButton;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
-    Timer1: TTimer;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
-    procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser;
-      const frame: ICefFrame; httpStatusCode: Integer);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
       out Result: Boolean);
-    procedure Timer1Timer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure Chromium1BeforeClose(Sender: TObject;
+      const browser: ICefBrowser);
 
   private
     // Variables to control when can we destroy the form safely
-    FCanClose : boolean;  // Set to True when the final timer is triggered
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
   protected
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEFBROWSER_CREATED;
+    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEFBROWSER_DESTROY;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
@@ -93,11 +92,12 @@ implementation
 
 // Destruction steps
 // =================
-// 1. Load about:blank and wait till it's fully loaded
-// 2. Call TChromium.CloseBrowser
-// 3. Wait for the TChromium.Close
-// 4. Enable a Timer and wait for 2 seconds
-// 5. Close and destroy the form
+// 1. FormCloseQuery calls TChromium.CloseBrowser
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+
+uses
+  uCEFRequestContext;
 
 procedure TChildForm.Button1Click(Sender: TObject);
 begin
@@ -109,17 +109,16 @@ begin
   PostMessage(Handle, CEFBROWSER_CREATED, 0, 0);
 end;
 
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TChildForm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  Timer1.Enabled := True;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TChildForm.Chromium1LoadEnd(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame;
-  httpStatusCode: Integer);
+procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
 begin
-  if FClosing and (Chromium1.DocumentURL = 'about:blank') then
-    Chromium1.CloseBrowser(False);
+  PostMessage(Handle, CEFBROWSER_DESTROY, 0, 0);
+  Result := False;
 end;
 
 procedure TChildForm.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -133,8 +132,9 @@ begin
 
   if not(FClosing) and Panel1.Enabled then
     begin
-      FClosing := True;
-      Chromium1.LoadURL('about:blank');
+      FClosing       := True;
+      Panel1.Enabled := False;
+      Chromium1.CloseBrowser(True);
     end;
 end;
 
@@ -152,19 +152,23 @@ begin
 end;
 
 procedure TChildForm.FormShow(Sender: TObject);
+var
+  TempContext : ICefRequestContext;
 begin
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
-end;
+  // The new request context overrides several GlobalCEFApp properties like :
+  // cache, AcceptLanguageList, PersistSessionCookies, PersistUserPreferences,
+  // IgnoreCertificateErrors and EnableNetSecurityExpiration
 
-procedure TChildForm.Timer1Timer(Sender: TObject);
-begin
-  Timer1.Enabled := False;
+  // If you use an empty cache path, CEF will use in-memory cache.
 
-  if not(FCanClose) then
-    begin
-      FCanClose := True;
-      PostMessage(self.Handle, WM_CLOSE, 0, 0);
-    end;
+  if MainForm.NewContextChk.Checked then
+    TempContext := TCefRequestContextRef.New('', '', False, False, False, False)
+   else
+    TempContext := nil;
+
+  // In case you used a custom cookies path in the GlobalCEFApp you can
+  // override it in the TChromium.CreateBrowser function
+  Chromium1.CreateBrowser(CEFWindowParent1, '', TempContext);
 end;
 
 procedure TChildForm.WMMove(var aMessage : TWMMove);
@@ -183,8 +187,14 @@ end;
 
 procedure TChildForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
+  CEFWindowParent1.UpdateSize;
   Panel1.Enabled := True;
   Button1.Click;
+end;
+
+procedure TChildForm.BrowserDestroyMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.Free;
 end;
 
 end.

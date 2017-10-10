@@ -72,6 +72,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -145,24 +146,31 @@ begin
   FEvent := events;
 end;
 
+destructor TCustomLoadHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
+end;
+
 procedure TCustomLoadHandler.OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
 begin
-  FEvent.doOnLoadEnd(browser, frame, httpStatusCode);
+  if (FEvent <> nil) then FEvent.doOnLoadEnd(browser, frame, httpStatusCode);
 end;
 
 procedure TCustomLoadHandler.OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
 begin
-  FEvent.doOnLoadError(browser, frame, errorCode, errorText, failedUrl);
+  if (FEvent <> nil) then FEvent.doOnLoadError(browser, frame, errorCode, errorText, failedUrl);
 end;
 
 procedure TCustomLoadHandler.OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
-  FEvent.doOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+  if (FEvent <> nil) then FEvent.doOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
 end;
 
 procedure TCustomLoadHandler.OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
 begin
-  FEvent.doOnLoadStart(browser, frame, transitionType);
+  if (FEvent <> nil) then FEvent.doOnLoadStart(browser, frame, transitionType);
 end;
 
 end.

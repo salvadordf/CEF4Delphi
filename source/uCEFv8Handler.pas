@@ -51,7 +51,7 @@ uses
   System.Rtti, System.TypInfo, System.Variants, System.SysUtils,
   System.Classes, System.Math, System.SyncObjs, WinApi.Windows,
   {$ELSE}
-    {$IFDEF DELPHI12_UP}
+    {$IFDEF DELPHI14_UP}
       Rtti,
     {$ENDIF}
      TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, Windows,
@@ -100,7 +100,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value, uCEFConstants;
 
 function cef_v8_handler_execute(self: PCefv8Handler;
   const name: PCefString; obj: PCefv8Value; argumentsCount: NativeUInt;
@@ -173,15 +173,17 @@ end;
 constructor TCefRTTIExtension.Create(const value: TValue; SyncMainThread: Boolean);
 begin
   inherited Create;
-  FCtx := TRttiContext.Create;
+
+  FCtx            := TRttiContext.Create;
   FSyncMainThread := SyncMainThread;
-  FValue := value;
+  FValue          := value;
 end;
 
 destructor TCefRTTIExtension.Destroy;
 begin
   FCtx.Free;
-  inherited;
+
+  inherited Destroy;
 end;
 
 function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret: TValue): Boolean;
@@ -505,7 +507,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
         begin
           vl := rf.GetValue(rec);
           SetValue(vl, o);
-          v8.SetValueByKey(rf.Name, o, []);
+          v8.SetValueByKey(rf.Name, o, V8_PROPERTY_ATTRIBUTE_NONE);
         end;
       end)
     end else
@@ -514,7 +516,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
         vl := rf.GetValue(rec);
         if not SetValue(vl, v8) then
           Exit(False);
-        ret.SetValueByKey(rf.Name, v8,  []);
+        ret.SetValueByKey(rf.Name, v8,  V8_PROPERTY_ATTRIBUTE_NONE);
       end;
     Result := True;
   end;
@@ -546,7 +548,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
       if m.Visibility > mvProtected then
       begin
         f := TCefv8ValueRef.NewFunction(m.Name, Self);
-        ret.SetValueByKey(m.Name, f, []);
+        ret.SetValueByKey(m.Name, f, V8_PROPERTY_ATTRIBUTE_NONE);
       end;
 
     for p in rt.GetProperties do
@@ -612,7 +614,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
         if (m.Visibility > mvProtected) and (m.MethodKind in [mkClassProcedure, mkClassFunction]) then
         begin
           f := TCefv8ValueRef.NewFunction(m.Name, Self);
-          ret.SetValueByKey(m.Name, f, []);
+          ret.SetValueByKey(m.Name, f, V8_PROPERTY_ATTRIBUTE_NONE);
         end;
     end;
 
@@ -678,7 +680,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
         if m.Visibility > mvProtected then
         begin
           f := TCefv8ValueRef.NewFunction(m.Name, Self);
-          ret.SetValueByKey(m.Name, f, []);
+          ret.SetValueByKey(m.Name, f, V8_PROPERTY_ATTRIBUTE_NONE);
         end;
 
       Result := True;

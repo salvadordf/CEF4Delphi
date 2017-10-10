@@ -122,7 +122,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('TCefX509CertPrincipalRef.GetStreetAddresses error: ' + e.Message);
+        if CustomExceptionHandler('TCefX509CertPrincipalRef.GetStreetAddresses', e) then raise;
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -145,7 +145,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('TCefX509CertPrincipalRef.GetOrganizationNames error: ' + e.Message);
+        if CustomExceptionHandler('TCefX509CertPrincipalRef.GetOrganizationNames', e) then raise;
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -168,7 +168,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('TCefX509CertPrincipalRef.GetOrganizationUnitNames error: ' + e.Message);
+        if CustomExceptionHandler('TCefX509CertPrincipalRef.GetOrganizationUnitNames', e) then raise;
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);
@@ -191,7 +191,7 @@ begin
         end;
     except
       on e : exception do
-        CustomExceptionHandler('TCefX509CertPrincipalRef.GetDomainComponents error: ' + e.Message);
+        if CustomExceptionHandler('TCefX509CertPrincipalRef.GetDomainComponents', e) then raise;
     end;
   finally
     if (TempList <> nil) then cef_string_list_free(TempList);

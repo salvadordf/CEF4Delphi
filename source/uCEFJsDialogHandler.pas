@@ -72,6 +72,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -161,34 +162,50 @@ end;
 constructor TCustomJsDialogHandler.Create(const events: IChromiumEvents);
 begin
   inherited Create;
+
   FEvent := events;
 end;
 
-function TCustomJsDialogHandler.OnBeforeUnloadDialog(const browser: ICefBrowser;
-  const messageText: ustring; isReload: Boolean;
-  const callback: ICefJsDialogCallback): Boolean;
+destructor TCustomJsDialogHandler.Destroy;
 begin
-  Result := FEvent.doOnBeforeUnloadDialog(browser, messageText, isReload, callback);
+  FEvent := nil;
+
+  inherited Destroy;
+end;
+
+function TCustomJsDialogHandler.OnBeforeUnloadDialog(const browser     : ICefBrowser;
+                                                     const messageText : ustring;
+                                                           isReload    : Boolean;
+                                                     const callback    : ICefJsDialogCallback): Boolean;
+begin
+  if (FEvent <> nil) then
+    Result := FEvent.doOnBeforeUnloadDialog(browser, messageText, isReload, callback)
+   else
+    Result := inherited OnBeforeUnloadDialog(browser, messageText, isReload, callback);
 end;
 
 procedure TCustomJsDialogHandler.OnDialogClosed(const browser: ICefBrowser);
 begin
-  FEvent.doOnDialogClosed(browser);
+  if (FEvent <> nil) then FEvent.doOnDialogClosed(browser);
 end;
 
-function TCustomJsDialogHandler.OnJsdialog(const browser: ICefBrowser;
-  const originUrl: ustring; dialogType: TCefJsDialogType;
-  const messageText, defaultPromptText: ustring;
-  const callback: ICefJsDialogCallback;
-  out suppressMessage: Boolean): Boolean;
+function TCustomJsDialogHandler.OnJsdialog(const browser           : ICefBrowser;
+                                           const originUrl         : ustring;
+                                                 dialogType        : TCefJsDialogType;
+                                           const messageText       : ustring;
+                                           const defaultPromptText : ustring;
+                                           const callback          : ICefJsDialogCallback;
+                                           out   suppressMessage   : Boolean): Boolean;
 begin
-  Result := FEvent.doOnJsdialog(browser, originUrl, dialogType,
-    messageText, defaultPromptText, callback, suppressMessage);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnJsdialog(browser, originUrl, dialogType, messageText, defaultPromptText, callback, suppressMessage)
+   else
+    Result := inherited OnJsdialog(browser, originUrl, dialogType, messageText, defaultPromptText, callback, suppressMessage);
 end;
 
 procedure TCustomJsDialogHandler.OnResetDialogState(const browser: ICefBrowser);
 begin
-  FEvent.doOnResetDialogState(browser);
+  if (FEvent <> nil) then FEvent.doOnResetDialogState(browser);
 end;
 
 end.

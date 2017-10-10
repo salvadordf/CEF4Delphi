@@ -112,7 +112,7 @@ end;
 
 function TCefContextMenuParamsRef.GetEditStateFlags: TCefContextMenuEditStateFlags;
 begin
-  Byte(Result) := PCefContextMenuParams(FData).get_edit_state_flags(PCefContextMenuParams(FData));
+  Result := PCefContextMenuParams(FData).get_edit_state_flags(PCefContextMenuParams(FData));
 end;
 
 function TCefContextMenuParamsRef.GetFrameCharset: ustring;
@@ -132,7 +132,7 @@ end;
 
 function TCefContextMenuParamsRef.GetMediaStateFlags: TCefContextMenuMediaStateFlags;
 begin
-  Word(Result) := PCefContextMenuParams(FData).get_media_state_flags(PCefContextMenuParams(FData));
+  Result := PCefContextMenuParams(FData).get_media_state_flags(PCefContextMenuParams(FData));
 end;
 
 function TCefContextMenuParamsRef.GetMediaType: TCefContextMenuMediaType;
@@ -167,7 +167,7 @@ end;
 
 function TCefContextMenuParamsRef.GetTypeFlags: TCefContextMenuTypeFlags;
 begin
-  Byte(Result) := PCefContextMenuParams(FData).get_type_flags(PCefContextMenuParams(FData));
+  Result := PCefContextMenuParams(FData).get_type_flags(PCefContextMenuParams(FData));
 end;
 
 function TCefContextMenuParamsRef.GetUnfilteredLinkUrl: ustring;

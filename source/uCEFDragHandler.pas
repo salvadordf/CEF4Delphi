@@ -68,6 +68,7 @@ type
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -121,14 +122,25 @@ begin
   FEvent := events;
 end;
 
+destructor TCustomDragHandler.Destroy;
+begin
+  FEvent := nil;
+
+  inherited Destroy;
+end;
+
 function TCustomDragHandler.OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean;
 begin
-  Result := FEvent.doOnDragEnter(browser, dragData, mask);
+  if (FEvent <> nil) then
+    Result := FEvent.doOnDragEnter(browser, dragData, mask)
+   else
+    Result := inherited OnDragEnter(browser, dragData, mask);
 end;
 
 procedure TCustomDragHandler.OnDraggableRegionsChanged(const browser: ICefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray);
 begin
-  FEvent.doOnDraggableRegionsChanged(browser, regionsCount, regions);
+  if (FEvent <> nil) then
+    FEvent.doOnDraggableRegionsChanged(browser, regionsCount, regions);
 end;
 
 end.

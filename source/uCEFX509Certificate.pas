@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  WinApi.Windows, System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Windows, Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -65,8 +65,8 @@ type
       function GetDerEncoded: ICefBinaryValue;
       function GetPemEncoded: ICefBinaryValue;
       function GetIssuerChainSize: NativeUInt;
-      function GetDEREncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
-      function GetPEMEncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
+      procedure GetDEREncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
+      procedure GetPEMEncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
 
     public
       class function UnWrap(data: Pointer): ICefX509Certificate;
@@ -117,35 +117,97 @@ begin
   Result := PCefX509Certificate(FData).get_issuer_chain_size(FData);
 end;
 
-function TCEFX509CertificateRef.GetDEREncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
+procedure TCEFX509CertificateRef.GetDEREncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
 var
-  arr: PPCefBinaryValue;
-  i: Integer;
+  TempArray : array of PCefBinaryValue;
+  i : NativeUInt;
 begin
-  Result := TInterfaceList.Create;
-  GetMem(arr, chainCount * SizeOf(Pointer));
+  TempArray := nil;
+
   try
-    PCefX509Certificate(FData).get_derencoded_issuer_chain(FData, chainCount, arr);
-    for i := 0 to chainCount - 1 do
-       Result.Add(TCefBinaryValueRef.UnWrap(PPointerArray(arr)[i]));
+    try
+      if (chainCount > 0) then
+        begin
+          SetLength(TempArray, chainCount);
+
+          i := 0;
+          while (i < chainCount) do
+            begin
+              TempArray[i] := nil;
+              inc(i);
+            end;
+
+          PCefX509Certificate(FData).get_derencoded_issuer_chain(FData, chainCount, TempArray[0]);
+
+          if (chainCount > 0) then
+            begin
+              SetLength(chain, chainCount);
+
+              i := 0;
+              while (i < chainCount) do
+                begin
+                  chain[i] := TCefBinaryValueRef.UnWrap(TempArray[i]);
+                  inc(i);
+                end;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCEFX509CertificateRef.GetDEREncodedIssuerChain', e) then raise;
+    end;
   finally
-    FreeMem(arr);
+    if (TempArray <> nil) then
+      begin
+        Finalize(TempArray);
+        TempArray := nil;
+      end;
   end;
 end;
 
-function TCEFX509CertificateRef.GetPEMEncodedIssuerChain(chainCount: NativeUInt): IInterfaceList;
+procedure TCEFX509CertificateRef.GetPEMEncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
 var
-  arr: PPCefBinaryValue;
-  i: Integer;
+  TempArray : array of PCefBinaryValue;
+  i : NativeUInt;
 begin
-  Result := TInterfaceList.Create;
-  GetMem(arr, chainCount * SizeOf(Pointer));
+  TempArray := nil;
+
   try
-    PCefX509Certificate(FData).get_pemencoded_issuer_chain(FData, chainCount, arr);
-    for i := 0 to chainCount - 1 do
-       Result.Add(TCefBinaryValueRef.UnWrap(PPointerArray(arr)[i]));
+    try
+      if (chainCount > 0) then
+        begin
+          SetLength(TempArray, chainCount);
+
+          i := 0;
+          while (i < chainCount) do
+            begin
+              TempArray[i] := nil;
+              inc(i);
+            end;
+
+          PCefX509Certificate(FData).get_pemencoded_issuer_chain(FData, chainCount, TempArray[0]);
+
+          if (chainCount > 0) then
+            begin
+              SetLength(chain, chainCount);
+
+              i := 0;
+              while (i < chainCount) do
+                begin
+                  chain[i] := TCefBinaryValueRef.UnWrap(TempArray[i]);
+                  inc(i);
+                end;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCEFX509CertificateRef.GetPEMEncodedIssuerChain', e) then raise;
+    end;
   finally
-    FreeMem(arr);
+    if (TempArray <> nil) then
+      begin
+        Finalize(TempArray);
+        TempArray := nil;
+      end;
   end;
 end;
 
