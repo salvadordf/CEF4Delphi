@@ -1,0 +1,64 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Simple Browser'
+  ClientHeight = 624
+  ClientWidth = 1038
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ChromiumWindow1: TChromiumWindow
+    Left = 0
+    Top = 30
+    Width = 1038
+    Height = 594
+    Align = alClient
+    TabOrder = 0
+    OnAfterCreated = ChromiumWindow1AfterCreated
+  end
+  object AddressPnl: TPanel
+    Left = 0
+    Top = 0
+    Width = 1038
+    Height = 30
+    Align = alTop
+    BevelOuter = bvNone
+    Enabled = False
+    Padding.Left = 5
+    Padding.Top = 5
+    Padding.Right = 5
+    Padding.Bottom = 5
+    ShowCaption = False
+    TabOrder = 1
+    object AddressEdt: TEdit
+      Left = 5
+      Top = 5
+      Width = 997
+      Height = 20
+      Margins.Right = 5
+      Align = alClient
+      TabOrder = 0
+      Text = 'http://www.google.com'
+      ExplicitHeight = 21
+    end
+    object GoBtn: TButton
+      Left = 1002
+      Top = 5
+      Width = 31
+      Height = 20
+      Margins.Left = 5
+      Align = alRight
+      Caption = 'Go'
+      TabOrder = 1
+      OnClick = GoBtnClick
+    end
+  end
+end
