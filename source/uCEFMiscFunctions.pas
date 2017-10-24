@@ -138,7 +138,7 @@ function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersion
 function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
 function CheckLocales(const aLocalesDirPath : string) : boolean;
-function CheckResources(const aResourcesDirPath : string) : boolean;
+function CheckResources(const aResourcesDirPath : string; aCheckDevResources: boolean) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string) : boolean;
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 
@@ -696,7 +696,7 @@ begin
     aRsltPath := '';
 end;
 
-function CheckResources(const aResourcesDirPath : string) : boolean;
+function CheckResources(const aResourcesDirPath : string; aCheckDevResources: boolean) : boolean;
 var
   TempDir : string;
 begin
@@ -710,7 +710,7 @@ begin
               FileExists(TempDir + 'cef_100_percent.pak')    and
               FileExists(TempDir + 'cef_200_percent.pak')    and
               FileExists(TempDir + 'cef_extensions.pak')     and
-              FileExists(TempDir + 'devtools_resources.pak');
+              (not aCheckDevResources or FileExists(TempDir + 'devtools_resources.pak'));
   except
     on e : exception do
       if CustomExceptionHandler('CheckResources', e) then raise;
