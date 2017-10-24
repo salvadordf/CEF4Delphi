@@ -8,3 +8,4 @@ rmdir Win32\Debug
 rmdir Win32\Release
 rmdir Win32
 rmdir __history
+rmdir __recovery

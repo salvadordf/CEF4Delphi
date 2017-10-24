@@ -133,14 +133,16 @@ function CefClearCrossOriginWhitelist: Boolean;
 
 procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
 function  GetExtendedFileVersion(const aFileName : string) : uint64;
+function  GetStringFileInfo(const aFileName, aField : string; var aValue : string) : boolean;
 function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersionInfo) : boolean;
 
 function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
-function CheckLocales(const aLocalesDirPath, aLocalesRequired : string) : boolean;
-function CheckResources(const aResourcesDirPath : string; aCheckDevResources: boolean) : boolean;
+function CheckLocales(const aLocalesDirPath : string; const aLocalesRequired : string = '') : boolean;
+function CheckResources(const aResourcesDirPath : string; aCheckDevResources: boolean = True) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string) : boolean;
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
+function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 function  CefCreateUrl(var parts: TUrlParts): ustring;
@@ -821,6 +823,96 @@ begin
   end;
 end;
 
+function GetStringFileInfo(const aFileName, aField : string; var aValue : string) : boolean;
+type
+  PLangAndCodepage = ^TLangAndCodepage;
+  TLangAndCodepage = record
+    wLanguage : word;
+    wCodePage : word;
+  end;
+var
+  TempSize     : DWORD;
+  TempBuffer   : pointer;
+  TempHandle   : cardinal;
+  TempPointer  : pointer;
+  TempSubBlock : string;
+  TempLang     : PLangAndCodepage;
+  TempArray    : array of TLangAndCodepage;
+  i, j : DWORD;
+begin
+  Result     := False;
+  TempBuffer := nil;
+  TempArray  := nil;
+  aValue     := '';
+
+  try
+    try
+      TempSize := GetFileVersionInfoSize(PChar(aFileName), TempHandle);
+
+      if (TempSize > 0) then
+        begin
+          GetMem(TempBuffer, TempSize);
+
+          if GetFileVersionInfo(PChar(aFileName), 0, TempSize, TempBuffer) then
+            begin
+              if VerQueryValue(TempBuffer, '\VarFileInfo\Translation\', Pointer(TempLang), TempSize) then
+                begin
+                  i := 0;
+                  j := TempSize div SizeOf(TLangAndCodepage);
+
+                  SetLength(TempArray, j);
+
+                  while (i < j) do
+                    begin
+                      TempArray[i].wLanguage := TempLang.wLanguage;
+                      TempArray[i].wCodePage := TempLang.wCodePage;
+                      inc(TempLang);
+                      inc(i);
+                    end;
+                end;
+
+              i := 0;
+              j := Length(TempArray);
+
+              while (i < j) and not(Result) do
+                begin
+                  TempSubBlock := '\StringFileInfo\' +
+                                  IntToHex(TempArray[i].wLanguage, 4) + IntToHex(TempArray[i].wCodePage, 4) +
+                                  '\' + aField;
+
+                  if VerQueryValue(TempBuffer, PChar(TempSubBlock), TempPointer, TempSize) then
+                    begin
+                      aValue := trim(PChar(TempPointer));
+                      Result := (length(aValue) > 0);
+                    end;
+
+                  inc(i);
+                end;
+
+              // Adobe's flash player DLL uses a different codepage to store the StringFileInfo fields
+              if not(Result) and (j > 0) and (TempArray[0].wCodePage <> 1252) then
+                begin
+                  TempSubBlock := '\StringFileInfo\' +
+                                  IntToHex(TempArray[0].wLanguage, 4) + IntToHex(1252, 4) +
+                                  '\' + aField;
+
+                  if VerQueryValue(TempBuffer, PChar(TempSubBlock), TempPointer, TempSize) then
+                    begin
+                      aValue := trim(PChar(TempPointer));
+                      Result := (length(aValue) > 0);
+                    end;
+                end;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('GetStringFileInfo', e) then raise;
+    end;
+  finally
+    if (TempBuffer <> nil) then FreeMem(TempBuffer);
+  end;
+end;
+
 function GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersionInfo) : boolean;
 var
   TempVersion : uint64;
@@ -838,6 +930,14 @@ begin
     on e : exception do
       if CustomExceptionHandler('GetDLLVersion', e) then raise;
   end;
+end;
+
+function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
+begin
+  Result := IntToStr(aVersionInfo.MajorVer) + '.' +
+            IntToStr(aVersionInfo.MinorVer) + '.' +
+            IntToStr(aVersionInfo.Release)  + '.' +
+            IntToStr(aVersionInfo.Build);
 end;
 
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;

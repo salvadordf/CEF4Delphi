@@ -83,6 +83,7 @@ type
       FLocalesRequired               : ustring;
       FLogFile                       : ustring;
       FBrowserSubprocessPath         : ustring;
+      FCustomFlashPath               : ustring;
       FFrameworkDirPath              : ustring;
       FLogSeverity                   : TCefLogSeverity;
       FJavaScriptFlags               : ustring;
@@ -132,7 +133,7 @@ type
       FRenderProcessHandler          : ICefRenderProcessHandler;
       FAppSettings                   : TCefSettings;
       FDeviceScaleFactor             : single;
-      FCheckDevToolsResources             : boolean;
+      FCheckDevToolsResources        : boolean;
 
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
@@ -193,6 +194,7 @@ type
       function  SingleExeProcessing : boolean;
       function  CheckCEFLibrary : boolean;
       procedure DeleteDirContents(const aDirectory : string);
+      function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
 
     public
@@ -271,6 +273,7 @@ type
       property DeviceScaleFactor           : single                          read FDeviceScaleFactor;
       property CheckDevToolsResources      : boolean                         read FCheckDevToolsResources         write FCheckDevToolsResources;
       property LocalesRequired             : ustring                         read FLocalesRequired                write FLocalesRequired;
+      property CustomFlashPath             : ustring                         read FCustomFlashPath                write FCustomFlashPath;
   end;
 
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -328,6 +331,7 @@ begin
   FLocale                        := '';
   FLogFile                       := '';
   FBrowserSubprocessPath         := '';
+  FCustomFlashPath               := '';
   FFrameworkDirPath              := '';
   FLogSeverity                   := LOGSEVERITY_DISABLE;
   FJavaScriptFlags               := '';
@@ -465,10 +469,7 @@ end;
 
 function TCefApplication.GetChromeVersion : string;
 begin
-  Result := inttostr(FChromeVersionInfo.MajorVer) + '.' +
-            inttostr(FChromeVersionInfo.MinorVer) + '.' +
-            inttostr(FChromeVersionInfo.Release)  + '.' +
-            inttostr(FChromeVersionInfo.Build);
+  Result := FileVersionInfoToString(FChromeVersionInfo);
 end;
 
 function TCefApplication.GetLibCefPath : string;
@@ -773,6 +774,40 @@ begin
   end;
 end;
 
+function TCefApplication.FindFlashDLL(var aFileName : string) : boolean;
+var
+  TempSearchRec : TSearchRec;
+  TempProductName, TempPath : string;
+begin
+  Result    := False;
+  aFileName := '';
+
+  try
+    if (length(FCustomFlashPath) > 0) then
+      begin
+        TempPath := IncludeTrailingPathDelimiter(FCustomFlashPath);
+
+        if (FindFirst(TempPath + '*.dll', faAnyFile, TempSearchRec) = 0) then
+          begin
+            repeat
+              if (TempSearchRec.Attr <> faDirectory) and
+                 GetStringFileInfo(TempPath + TempSearchRec.Name, 'ProductName', TempProductName) and
+                 (CompareText(TempProductName, 'Shockwave Flash') = 0) then
+                begin
+                  aFileName := TempPath + TempSearchRec.Name;
+                  Result    := True;
+                end;
+            until Result or (FindNext(TempSearchRec) <> 0);
+
+            FindClose(TempSearchRec);
+          end;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplication.FindFlashDLL', e) then raise;
+  end;
+end;
+
 procedure TCefApplication.ShowErrorMessageDlg(const aError : string);
 begin
   OutputDebugMessage(aError);
@@ -784,16 +819,28 @@ procedure TCefApplication.Internal_OnBeforeCommandLineProcessing(const processTy
                                                                  const commandLine : ICefCommandLine);
 var
   i : integer;
+  TempVersionInfo : TFileVersionInfo;
+  TempFileName : string;
 begin
   if (commandLine <> nil) then
     begin
-      if FFlashEnabled then
+      if FindFlashDLL(TempFileName) and
+         GetDLLVersion(TempFileName, TempVersionInfo) then
         begin
           if FEnableGPU then commandLine.AppendSwitch('--enable-gpu-plugin');
 
           commandLine.AppendSwitch('--enable-accelerated-plugins');
-          commandLine.AppendSwitch('--enable-system-flash');
-        end;
+          commandLine.AppendSwitchWithValue('--ppapi-flash-path',    TempFileName);
+          commandLine.AppendSwitchWithValue('--ppapi-flash-version', FileVersionInfoToString(TempVersionInfo));
+        end
+       else
+        if FFlashEnabled then
+          begin
+            if FEnableGPU then commandLine.AppendSwitch('--enable-gpu-plugin');
+
+            commandLine.AppendSwitch('--enable-accelerated-plugins');
+            commandLine.AppendSwitch('--enable-system-flash');
+          end;
 
       commandLine.AppendSwitchWithValue('--enable-spelling-service', IntToStr(Ord(FEnableSpellingService)));
       commandLine.AppendSwitchWithValue('--enable-media-stream',     IntToStr(Ord(FEnableMediaStream)));
