@@ -80,6 +80,7 @@ type
       FUserAgent                     : ustring;
       FProductVersion                : ustring;
       FLocale                        : ustring;
+      FLocalesRequired               : ustring;
       FLogFile                       : ustring;
       FBrowserSubprocessPath         : ustring;
       FFrameworkDirPath              : ustring;
@@ -131,6 +132,7 @@ type
       FRenderProcessHandler          : ICefRenderProcessHandler;
       FAppSettings                   : TCefSettings;
       FDeviceScaleFactor             : single;
+      FCheckDevToolsResources             : boolean;
 
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
@@ -267,6 +269,8 @@ type
       property MuteAudio                   : boolean                         read FMuteAudio                      write FMuteAudio;
       property ReRaiseExceptions           : boolean                         read FReRaiseExceptions              write FReRaiseExceptions;
       property DeviceScaleFactor           : single                          read FDeviceScaleFactor;
+      property CheckDevToolsResources      : boolean                         read FCheckDevToolsResources         write FCheckDevToolsResources;
+      property LocalesRequired             : ustring                         read FLocalesRequired                write FLocalesRequired;
   end;
 
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -369,6 +373,8 @@ begin
   FShowMessageDlg                := True;
   FSetCurrentDir                 := False;
   FUpdateChromeVer               := aUpdateChromeVer;
+  FCheckDevToolsResources        := True;
+  FLocalesRequired               := '';
 
   UpdateDeviceScaleFactor;
 
@@ -549,7 +555,7 @@ begin
         end;
 
 
-      if not(CheckResources(FResourcesDirPath)) then
+      if not(CheckResources(FResourcesDirPath, FCheckDevToolsResources)) then
         begin
           TempString := 'CEF resources missing !' + CRLF + CRLF;
 
@@ -566,7 +572,7 @@ begin
         end;
 
 
-      if not(CheckLocales(FLocalesDirPath)) then
+      if not(CheckLocales(FLocalesDirPath, FLocalesRequired)) then
         begin
           TempString := 'CEF locale files missing !' + CRLF + CRLF;
 
