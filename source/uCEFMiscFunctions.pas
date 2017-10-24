@@ -137,7 +137,7 @@ function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersion
 
 function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
-function CheckLocales(const aLocalesDirPath : string) : boolean;
+function CheckLocales(const aLocalesDirPath, aLocalesRequired : string) : boolean;
 function CheckResources(const aResourcesDirPath : string; aCheckDevResources: boolean) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string) : boolean;
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
@@ -602,9 +602,93 @@ begin
     end;
 end;
 
-function CheckLocales(const aLocalesDirPath : string) : boolean;
+function CheckLocaleFile(const aLocalesDirPath, aLocale : string) : boolean;
+begin
+  Result := FileExists(aLocalesDirPath + aLocale + '.pak');
+end;
+
+function CheckLocaleFiles(const aLocalesDirPath, aLocalesRequired : string) : boolean;
+var
+  LLocaleList: TStrings;
+  LLocale: string;
+begin
+  Result := True;
+  LLocaleList := TStringList.Create;
+  try
+    LLocaleList.CommaText := aLocalesRequired;
+    for LLocale in LLocaleList do
+    begin
+      // avoid typing mistakes
+      if Length(LLocale) = 0 then
+        Continue;
+      Result := Result and CheckLocaleFile(aLocalesDirPath, LLocale);
+      if not Result then
+        Break;
+    end;
+  finally
+    FreeAndNil(LLocaleList);
+  end;
+end;
+
+function CheckLocales(const aLocalesDirPath, aLocalesRequired : string) : boolean;
+const
+  LOCALES_REQUIRED_DEFAULT =
+    'am,' +
+    'ar,' +
+    'bg,' +
+    'bn,' +
+    'ca,' +
+    'cs,' +
+    'da,' +
+    'de,' +
+    'el,' +
+    'en-GB,' +
+    'en-US,' +
+    'es,' +
+    'es-419,' +
+    'et,' +
+    'fa,' +
+    'fi,' +
+    'fil,' +
+    'fr,' +
+    'gu,' +
+    'he,' +
+    'hi,' +
+    'hr,' +
+    'hu,' +
+    'id,' +
+    'it,' +
+    'ja,' +
+    'kn,' +
+    'ko,' +
+    'lt,' +
+    'lv,' +
+    'ml,' +
+    'mr,' +
+    'ms,' +
+    'nb,' +
+    'nl,' +
+    'pl,' +
+    'pt-BR,' +
+    'pt-PT,' +
+    'ro,' +
+    'ru,' +
+    'sk,' +
+    'sl,' +
+    'sr,' +
+    'sv,' +
+    'sw,' +
+    'ta,' +
+    'te,' +
+    'th,' +
+    'tr,' +
+    'uk,' +
+    'vi,' +
+    'zh-CN,' +
+    'zh-TW';
 var
   TempDir : string;
+  LLocalesRequired: string;
 begin
   Result := False;
 
@@ -617,60 +701,12 @@ begin
     if DirectoryExists(TempDir) then
       begin
         TempDir := IncludeTrailingPathDelimiter(TempDir);
+        if Length(aLocalesRequired) > 0 then
+          LLocalesRequired := aLocalesRequired
+        else
+          LLocalesRequired := LOCALES_REQUIRED_DEFAULT;
 
-        Result := FileExists(TempDir + 'am.pak') and
-                  FileExists(TempDir + 'ar.pak') and
-                  FileExists(TempDir + 'bg.pak') and
-                  FileExists(TempDir + 'bn.pak') and
-                  FileExists(TempDir + 'ca.pak') and
-                  FileExists(TempDir + 'cs.pak') and
-                  FileExists(TempDir + 'da.pak') and
-                  FileExists(TempDir + 'de.pak') and
-                  FileExists(TempDir + 'el.pak') and
-                  FileExists(TempDir + 'en-GB.pak') and
-                  FileExists(TempDir + 'en-US.pak') and
-                  FileExists(TempDir + 'es.pak') and
-                  FileExists(TempDir + 'es-419.pak') and
-                  FileExists(TempDir + 'et.pak') and
-                  FileExists(TempDir + 'fa.pak') and
-                  FileExists(TempDir + 'fi.pak') and
-                  FileExists(TempDir + 'fil.pak') and
-                  FileExists(TempDir + 'fr.pak') and
-                  FileExists(TempDir + 'gu.pak') and
-                  FileExists(TempDir + 'he.pak') and
-                  FileExists(TempDir + 'hi.pak') and
-                  FileExists(TempDir + 'hr.pak') and
-                  FileExists(TempDir + 'hu.pak') and
-                  FileExists(TempDir + 'id.pak') and
-                  FileExists(TempDir + 'it.pak') and
-                  FileExists(TempDir + 'ja.pak') and
-                  FileExists(TempDir + 'kn.pak') and
-                  FileExists(TempDir + 'ko.pak') and
-                  FileExists(TempDir + 'lt.pak') and
-                  FileExists(TempDir + 'lv.pak') and
-                  FileExists(TempDir + 'ml.pak') and
-                  FileExists(TempDir + 'mr.pak') and
-                  FileExists(TempDir + 'ms.pak') and
-                  FileExists(TempDir + 'nb.pak') and
-                  FileExists(TempDir + 'nl.pak') and
-                  FileExists(TempDir + 'pl.pak') and
-                  FileExists(TempDir + 'pt-BR.pak') and
-                  FileExists(TempDir + 'pt-PT.pak') and
-                  FileExists(TempDir + 'ro.pak') and
-                  FileExists(TempDir + 'ru.pak') and
-                  FileExists(TempDir + 'sk.pak') and
-                  FileExists(TempDir + 'sl.pak') and
-                  FileExists(TempDir + 'sr.pak') and
-                  FileExists(TempDir + 'sv.pak') and
-                  FileExists(TempDir + 'sw.pak') and
-                  FileExists(TempDir + 'ta.pak') and
-                  FileExists(TempDir + 'te.pak') and
-                  FileExists(TempDir + 'th.pak') and
-                  FileExists(TempDir + 'tr.pak') and
-                  FileExists(TempDir + 'uk.pak') and
-                  FileExists(TempDir + 'vi.pak') and
-                  FileExists(TempDir + 'zh-CN.pak') and
-                  FileExists(TempDir + 'zh-TW.pak');
+        Result := CheckLocaleFiles(TempDir, LLocalesRequired);
       end;
   except
     on e : exception do

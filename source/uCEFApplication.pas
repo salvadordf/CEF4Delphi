@@ -80,6 +80,7 @@ type
       FUserAgent                     : ustring;
       FProductVersion                : ustring;
       FLocale                        : ustring;
+      FLocalesRequired               : ustring;
       FLogFile                       : ustring;
       FBrowserSubprocessPath         : ustring;
       FFrameworkDirPath              : ustring;
@@ -269,6 +270,7 @@ type
       property ReRaiseExceptions           : boolean                         read FReRaiseExceptions              write FReRaiseExceptions;
       property DeviceScaleFactor           : single                          read FDeviceScaleFactor;
       property CheckDevToolsResources      : boolean                         read FCheckDevToolsResources         write FCheckDevToolsResources;
+      property LocalesRequired             : ustring                         read FLocalesRequired                write FLocalesRequired;
   end;
 
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -372,6 +374,7 @@ begin
   FSetCurrentDir                 := False;
   FUpdateChromeVer               := aUpdateChromeVer;
   FCheckDevToolsResources        := True;
+  FLocalesRequired               := '';
 
   UpdateDeviceScaleFactor;
 
@@ -569,7 +572,7 @@ begin
         end;
 
 
-      if not(CheckLocales(FLocalesDirPath)) then
+      if not(CheckLocales(FLocalesDirPath, FLocalesRequired)) then
         begin
           TempString := 'CEF locale files missing !' + CRLF + CRLF;
 
