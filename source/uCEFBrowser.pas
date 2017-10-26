@@ -140,6 +140,9 @@ type
       procedure DragSourceSystemDragEnded;
       function  GetVisibleNavigationEntry : ICefNavigationEntry;
       procedure SetAccessibilityState(accessibilityState: TCefState);
+      procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
+      function  GetExtension : ICefExtension;
+      function  IsBackgroundHost : boolean;
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -149,7 +152,8 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFDownloadImageCallBack, uCEFFrame, uCEFPDFPrintCallback,
-  uCEFRunFileDialogCallback, uCEFRequestContext, uCEFNavigationEntryVisitor, uCEFNavigationEntry;
+  uCEFRunFileDialogCallback, uCEFRequestContext, uCEFNavigationEntryVisitor, uCEFNavigationEntry,
+  uCEFExtension;
 
 function TCefBrowserRef.GetHost: ICefBrowserHost;
 begin
@@ -367,6 +371,21 @@ end;
 procedure TCefBrowserHostRef.SetAccessibilityState(accessibilityState: TCefState);
 begin
   PCefBrowserHost(FData).set_accessibility_state(FData, accessibilityState);
+end;
+
+procedure TCefBrowserHostRef.SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
+begin
+  PCefBrowserHost(FData).set_auto_resize_enabled(FData, Ord(enabled), min_size, max_size);
+end;
+
+function TCefBrowserHostRef.GetExtension : ICefExtension;
+begin
+  Result := TCefExtensionRef.UnWrap(PCefBrowserHost(FData).get_extension(FData));
+end;
+
+function TCefBrowserHostRef.IsBackgroundHost : boolean;
+begin
+  Result := PCefBrowserHost(FData).is_background_host(FData) <> 0;
 end;
 
 procedure TCefBrowserHostRef.DragTargetDragEnter(const dragData: ICefDragData;

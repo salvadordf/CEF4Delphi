@@ -55,10 +55,11 @@ type
       procedure OnExtensionLoadFailed(result: TCefErrorcode);
       procedure OnExtensionLoaded(const extension: ICefExtension);
       procedure OnExtensionUnloaded(const extension: ICefExtension);
-      function OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
-      function GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean): ICefBrowser;
-      function CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
-      function GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
+      function  OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+      function  OnBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+      function  GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean): ICefBrowser;
+      function  CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
+      function  GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
 
     public
       class function UnWrap(data: Pointer): ICefExtensionHandler;
@@ -69,10 +70,11 @@ type
       procedure OnExtensionLoadFailed(result: TCefErrorcode); virtual;
       procedure OnExtensionLoaded(const extension: ICefExtension); virtual;
       procedure OnExtensionUnloaded(const extension: ICefExtension); virtual;
-      function OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean; virtual;
-      function GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean): ICefBrowser; virtual;
-      function CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean; virtual;
-      function GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean; virtual;
+      function  OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean; virtual;
+      function  OnBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+      function  GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean): ICefBrowser; virtual;
+      function  CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean; virtual;
+      function  GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean; virtual;
 
     public
       constructor Create; virtual;
@@ -109,6 +111,19 @@ function TCefExtensionHandlerRef.OnBeforeBackgroundBrowser(const extension : ICe
                                                            var   settings  : TCefBrowserSettings) : boolean;
 begin
   Result := False;
+end;
+
+function TCefExtensionHandlerRef.OnBeforeBrowser(const extension      : ICefExtension;
+                                                 const browser        : ICefBrowser;
+                                                 const active_browser : ICefBrowser;
+                                                       index          : Integer;
+                                                 const url            : ustring;
+                                                       active         : boolean;
+                                                 var   windowInfo     : TCefWindowInfo;
+                                                 var   client         : ICefClient;
+                                                 var   settings       : TCefBrowserSettings) : boolean;
+begin
+  Result := True;
 end;
 
 function TCefExtensionHandlerRef.GetActiveBrowser(const extension         : ICefExtension;
@@ -203,6 +218,40 @@ begin
       client := CefGetData(TempClient);
 end;
 
+function cef_extension_handler_on_before_browser(self             : PCefExtensionHandler;
+                                                 extension        : PCefExtension;
+                                                 browser          : PCefBrowser;
+                                                 active_browser   : PCefBrowser;
+                                                 index            : Integer;
+                                                 const url        : PCefString;
+                                                       active     : Integer;
+                                                       windowInfo : PCefWindowInfo;
+                                                 var   client     : PCefClient;
+                                                       settings   : PCefBrowserSettings) : Integer; stdcall;
+var
+  TempClient : ICefClient;
+  TempOldCli : pointer;
+begin
+  TempClient := TCefClientRef.UnWrap(client);
+  TempOldCli := pointer(TempClient);
+
+  Result := Ord(TCefExtensionHandlerOwn(CefGetObject(self)).OnBeforeBrowser(TCefExtensionRef.UnWrap(extension),
+                                                                            TCefBrowserRef.UnWrap(browser),
+                                                                            TCefBrowserRef.UnWrap(active_browser),
+                                                                            index,
+                                                                            CefString(url),
+                                                                            active <> 0,
+                                                                            windowInfo^,
+                                                                            TempClient,
+                                                                            settings^));
+
+  if (TempClient = nil) then
+    client := nil
+   else
+    if (TempOldCli <> pointer(TempClient)) then
+      client := CefGetData(TempClient);
+end;
+
 function cef_extension_handler_get_active_browser(self              : PCefExtensionHandler;
                                                   extension         : PCefExtension;
                                                   browser           : PCefBrowser;
@@ -247,6 +296,7 @@ begin
       on_extension_loaded          := cef_extension_handler_on_extension_loaded;
       on_extension_unloaded        := cef_extension_handler_on_extension_unloaded;
       on_before_background_browser := cef_extension_handler_on_before_background_browser;
+      on_before_browser            := cef_extension_handler_on_before_browser;
       get_active_browser           := cef_extension_handler_get_active_browser;
       can_access_browser           := cef_extension_handler_can_access_browser;
       get_extension_resource       := cef_extension_handler_get_extension_resource;
@@ -272,6 +322,19 @@ function TCefExtensionHandlerOwn.OnBeforeBackgroundBrowser(const extension : ICe
                                                            const url       : ustring;
                                                            var   client    : ICefClient;
                                                            var   settings  : TCefBrowserSettings) : boolean;
+begin
+  Result := True;
+end;
+
+function TCefExtensionHandlerOwn.OnBeforeBrowser(const extension      : ICefExtension;
+                                                 const browser        : ICefBrowser;
+                                                 const active_browser : ICefBrowser;
+                                                       index          : Integer;
+                                                 const url            : ustring;
+                                                       active         : boolean;
+                                                 var   windowInfo     : TCefWindowInfo;
+                                                 var   client         : ICefClient;
+                                                 var   settings       : TCefBrowserSettings) : boolean;
 begin
   Result := True;
 end;

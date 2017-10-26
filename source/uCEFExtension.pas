@@ -52,13 +52,13 @@ uses
 type
   TCefExtensionRef = class(TCefBaseRefCountedRef, ICefExtension)
     protected
-      function GetIdentifier : ustring;
-      function GetPath : ustring;
-      function GetManifest : ICefDictionaryValue;
-      function IsSame(const that : ICefExtension) : boolean;
-      function GetHandler : ICefExtensionHandler;
-      function GetLoaderContext: ICefRequestContext;
-      function IsLoaded : boolean;
+      function  GetIdentifier : ustring;
+      function  GetPath : ustring;
+      function  GetManifest : ICefDictionaryValue;
+      function  IsSame(const that : ICefExtension) : boolean;
+      function  GetHandler : ICefExtensionHandler;
+      function  GetLoaderContext: ICefRequestContext;
+      function  IsLoaded : boolean;
       procedure unload;
 
     public

@@ -136,6 +136,7 @@ type
       FOnTooltip                      : TOnTooltip;
       FOnStatusMessage                : TOnStatusMessage;
       FOnConsoleMessage               : TOnConsoleMessage;
+      FOnAutoResize                   : TOnAutoResize;
 
       // ICefDownloadHandler
       FOnBeforeDownload               : TOnBeforeDownload;
@@ -319,6 +320,7 @@ type
       function  doOnTooltip(const browser: ICefBrowser; var text: ustring): Boolean; virtual;
       procedure doOnStatusMessage(const browser: ICefBrowser; const value: ustring); virtual;
       function  doOnConsoleMessage(const browser: ICefBrowser; const aMessage, source: ustring; line: Integer): Boolean; virtual;
+      function  doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
 
       // ICefDownloadHandler
       procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
@@ -570,6 +572,7 @@ type
       property OnTooltip                        : TOnTooltip                        read FOnTooltip                        write FOnTooltip;
       property OnStatusMessage                  : TOnStatusMessage                  read FOnStatusMessage                  write FOnStatusMessage;
       property OnConsoleMessage                 : TOnConsoleMessage                 read FOnConsoleMessage                 write FOnConsoleMessage;
+      property OnAutoResize                     : TOnAutoResize                     read FOnAutoResize                     write FOnAutoResize;
 
       // ICefDownloadHandler
       property OnBeforeDownload                 : TOnBeforeDownload                 read FOnBeforeDownload                 write FOnBeforeDownload;
@@ -813,6 +816,7 @@ begin
   FOnTooltip                      := nil;
   FOnStatusMessage                := nil;
   FOnConsoleMessage               := nil;
+  FOnAutoResize                   := nil;
 
   // ICefDownloadHandler
   FOnBeforeDownload               := nil;
@@ -2565,6 +2569,14 @@ begin
   Result := False;
 
   if Assigned(FOnConsoleMessage) then FOnConsoleMessage(Self, browser, aMessage, source, line, Result);
+end;
+
+function TChromium.doOnAutoResize(const browser  : ICefBrowser;
+                                  const new_size : PCefSize): Boolean;
+begin
+  Result := False;
+
+  if Assigned(FOnAutoResize) then FOnAutoResize(Self, browser, new_size, Result);
 end;
 
 function TChromium.doOnContextMenuCommand(const browser    : ICefBrowser;

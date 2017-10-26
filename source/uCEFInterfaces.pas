@@ -221,6 +221,9 @@ type
     procedure DragSourceSystemDragEnded;
     function  GetVisibleNavigationEntry : ICefNavigationEntry;
     procedure SetAccessibilityState(accessibilityState: TCefState);
+    procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
+    function  GetExtension : ICefExtension;
+    function  IsBackgroundHost : boolean;
 
     property Browser: ICefBrowser read GetBrowser;
     property WindowHandle: TCefWindowHandle read GetWindowHandle;
@@ -1209,27 +1212,28 @@ type
     procedure OnExtensionLoadFailed(result: TCefErrorcode);
     procedure OnExtensionLoaded(const extension: ICefExtension);
     procedure OnExtensionUnloaded(const extension: ICefExtension);
-    function OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
-    function GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean): ICefBrowser;
-    function CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
-    function GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
+    function  OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+    function  OnBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+    function  GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean): ICefBrowser;
+    function  CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
+    function  GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
   end;
 
   ICefExtension = interface(ICefBaseRefCounted)
   ['{D30D1C64-A26F-49C0-AEB7-C55EC68951CA}']
-    function GetIdentifier : ustring;
-    function GetPath : ustring;
-    function GetManifest : ICefDictionaryValue;
-    function IsSame(const that : ICefExtension) : boolean;
-    function GetHandler : ICefExtensionHandler;
-    function GetLoaderContext: ICefRequestContext;
-    function IsLoaded : boolean;
+    function  GetIdentifier : ustring;
+    function  GetPath : ustring;
+    function  GetManifest : ICefDictionaryValue;
+    function  IsSame(const that : ICefExtension) : boolean;
+    function  GetHandler : ICefExtensionHandler;
+    function  GetLoaderContext : ICefRequestContext;
+    function  IsLoaded : boolean;
     procedure unload;
-    property Identifier    : ustring              read GetIdentifier;
-    property Path          : ustring              read GetPath;
-    property Manifest      : ICefDictionaryValue  read GetManifest;
-    property Handler       : ICefExtensionHandler read GetHandler;
-    property LoaderContext : ICefRequestContext   read GetLoaderContext;
+    property  Identifier    : ustring              read GetIdentifier;
+    property  Path          : ustring              read GetPath;
+    property  Manifest      : ICefDictionaryValue  read GetManifest;
+    property  Handler       : ICefExtensionHandler read GetHandler;
+    property  LoaderContext : ICefRequestContext   read GetLoaderContext;
   end;
 
 
@@ -1238,8 +1242,7 @@ type
     procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
     procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
     procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
-    procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
-      const errorText, failedUrl: ustring);
+    procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
   end;
 
   ICefRequestCallback = interface(ICefBaseRefCounted)
@@ -1280,9 +1283,10 @@ type
     procedure OnTitleChange(const browser: ICefBrowser; const title: ustring);
     procedure OnFaviconUrlChange(const browser: ICefBrowser; icon_urls: TStrings);
     procedure OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
-    function OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
+    function  OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
     procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring);
-    function OnConsoleMessage(const browser: ICefBrowser; const message, source: ustring; line: Integer): Boolean;
+    function  OnConsoleMessage(const browser: ICefBrowser; const message, source: ustring; line: Integer): Boolean;
+    function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
   end;
 
   ICefFocusHandler = interface(ICefBaseRefCounted)
@@ -1485,6 +1489,7 @@ type
 
   ICefRequestContextHandler = interface(ICefBaseRefCounted)
     ['{76EB1FA7-78DF-4FD5-ABB3-1CDD3E73A140}']
+    procedure OnRequestContextInitialized(const request_context: ICefRequestContext);
     function GetCookieManager: ICefCookieManager;
     function OnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring;
       const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): Boolean;
@@ -1497,28 +1502,33 @@ type
 
   ICefRequestContext = interface(ICefBaseRefCounted)
     ['{5830847A-2971-4BD5-ABE6-21451F8923F7}']
-    function IsSame(const other: ICefRequestContext): Boolean;
-    function IsSharingWith(const other: ICefRequestContext): Boolean;
-    function IsGlobal: Boolean;
-    function GetHandler: ICefRequestContextHandler;
-    function GetCachePath: ustring;
-    function GetDefaultCookieManager(const callback: ICefCompletionCallback): ICefCookieManager;
-    function GetDefaultCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
-    function RegisterSchemeHandlerFactory(const schemeName, domainName: ustring;
-        const factory: ICefSchemeHandlerFactory): Boolean;
-    function ClearSchemeHandlerFactories: Boolean;
+    function  IsSame(const other: ICefRequestContext): Boolean;
+    function  IsSharingWith(const other: ICefRequestContext): Boolean;
+    function  IsGlobal: Boolean;
+    function  GetHandler: ICefRequestContextHandler;
+    function  GetCachePath: ustring;
+    function  GetDefaultCookieManager(const callback: ICefCompletionCallback): ICefCookieManager;
+    function  GetDefaultCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
+    function  RegisterSchemeHandlerFactory(const schemeName, domainName: ustring; const factory: ICefSchemeHandlerFactory): Boolean;
+    function  ClearSchemeHandlerFactories: Boolean;
     procedure PurgePluginListCache(reloadPages: Boolean);
-    function HasPreference(const name: ustring): Boolean;
-    function GetPreference(const name: ustring): ICefValue;
-    function GetAllPreferences(includeDefaults: Boolean): ICefDictionaryValue;
-    function CanSetPreference(const name: ustring): Boolean;
-    function SetPreference(const name: ustring; const value: ICefValue; out error: ustring): Boolean;
+    function  HasPreference(const name: ustring): Boolean;
+    function  GetPreference(const name: ustring): ICefValue;
+    function  GetAllPreferences(includeDefaults: Boolean): ICefDictionaryValue;
+    function  CanSetPreference(const name: ustring): Boolean;
+    function  SetPreference(const name: ustring; const value: ICefValue; out error: ustring): Boolean;
     procedure ClearCertificateExceptions(const callback: ICefCompletionCallback);
     procedure CloseAllConnections(const callback: ICefCompletionCallback);
     procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
-    function ResolveHostCached(const origin: ustring; resolvedIps: TStrings): TCefErrorCode;
-    property CachePath: ustring read GetCachePath;
-    property IsGlobalContext: boolean read IsGlobal;
+    function  ResolveHostCached(const origin: ustring; const resolvedIps: TStrings): TCefErrorCode;
+    procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
+    function  DidLoadExtension(const extension_id: ustring): boolean;
+    function  HasExtension(const extension_id: ustring): boolean;
+    function  GetExtensions(const extension_ids: TStringList): boolean;
+    function  GetExtension(const extension_id: ustring): ICefExtension;
+
+    property  CachePath        : ustring  read GetCachePath;
+    property  IsGlobalContext  : boolean  read IsGlobal;
   end;
 
   ICefPrintSettings = Interface(ICefBaseRefCounted)
@@ -1732,6 +1742,7 @@ type
     function doOnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
     procedure doOnStatusMessage(const browser: ICefBrowser; const value: ustring);
     function doOnConsoleMessage(const browser: ICefBrowser; const message, source: ustring; line: Integer): Boolean;
+    function doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
 
     function doOnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean;
     procedure doOnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer);

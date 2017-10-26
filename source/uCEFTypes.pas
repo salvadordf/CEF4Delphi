@@ -689,7 +689,8 @@ type
     PK_FILE_EXE,
     PK_FILE_MODULE,
     PK_LOCAL_APP_DATA,
-    PK_USER_DATA
+    PK_USER_DATA,
+    PK_DIR_RESOURCES
   );
 
   // /include/internal/cef_types.h (cef_storage_type_t)
@@ -1064,6 +1065,7 @@ type
     on_tooltip: function(self: PCefDisplayHandler; browser: PCefBrowser; text: PCefString): Integer; stdcall;
     on_status_message: procedure(self: PCefDisplayHandler; browser: PCefBrowser; const value: PCefString); stdcall;
     on_console_message: function(self: PCefDisplayHandler; browser: PCefBrowser; const message: PCefString; const source: PCefString; line: Integer): Integer; stdcall;
+    on_auto_resize: function(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
   end;
 
   // /include/capi/cef_download_handler_capi.h (cef_download_handler_t)
@@ -1172,6 +1174,7 @@ type
     on_extension_loaded: procedure(self: PCefExtensionHandler; extension: PCefExtension); stdcall;
     on_extension_unloaded: procedure(self: PCefExtensionHandler; extension: PCefExtension); stdcall;
     on_before_background_browser: function(self: PCefExtensionHandler; extension: PCefExtension; const url: PCefString; var client: PCefClient; settings: PCefBrowserSettings) : Integer; stdcall;
+    on_before_browser: function(self: PCefExtensionHandler; extension: PCefExtension; browser, active_browser: PCefBrowser; index: Integer; const url: PCefString; active: Integer; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings) : Integer; stdcall;
     get_active_browser: function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; include_incognito: Integer): PCefBrowser; stdcall;
     can_access_browser: function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; include_incognito: Integer; target_browser: PCefBrowser): Integer; stdcall;
     get_extension_resource: function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; const file_: PCefString; callback: PCefGetExtensionResourceCallback): Integer; stdcall;
@@ -1657,11 +1660,17 @@ type
     close_all_connections: procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
     resolve_host: procedure(self: PCefRequestContext; const origin: PCefString; callback: PCefResolveCallback); stdcall;
     resolve_host_cached: function(self: PCefRequestContext; const origin: PCefString; resolved_ips: TCefStringList): TCefErrorCode; stdcall;
+    load_extension: procedure(self: PCefRequestContext; const root_directory: PCefString; manifest: PCefDictionaryValue; handler: PCefExtensionHandler); stdcall;
+    did_load_extension: function(self: PCefRequestContext; const extension_id: PCefString): Integer; stdcall;
+    has_extension: function(self: PCefRequestContext; const extension_id: PCefString): Integer; stdcall;
+    get_extensions: function(self: PCefRequestContext; extension_ids: TCefStringList): Integer; stdcall;
+    get_extension: function(self: PCefRequestContext; const extension_id: PCefString): PCefExtension; stdcall;
   end;
 
   // /include/capi/cef_request_context_handler_capi.h (cef_request_context_handler_t)
   TCefRequestContextHandler = record
     base: TCefBaseRefCounted;
+    on_request_context_initialized: procedure(self: PCefRequestContextHandler; request_context: PCefRequestContext); stdcall;
     get_cookie_manager: function(self: PCefRequestContextHandler): PCefCookieManager; stdcall;
     on_before_plugin_load: function(self: PCefRequestContextHandler; const mime_type, plugin_url : PCefString; is_main_frame : integer; const top_origin_url: PCefString; plugin_info: PCefWebPluginInfo; plugin_policy: PCefPluginPolicy): Integer; stdcall;
   end;
@@ -2487,6 +2496,9 @@ type
     drag_source_system_drag_ended: procedure(self: PCefBrowserHost); stdcall;
     get_visible_navigation_entry: function(self: PCefBrowserHost): PCefNavigationEntry; stdcall;
     set_accessibility_state: procedure(self: PCefBrowserHost; accessibility_state: TCefState); stdcall;
+    set_auto_resize_enabled: procedure(self: PCefBrowserHost; enabled: integer; const min_size, max_size: PCefSize); stdcall;
+    get_extension: function(self: PCefBrowserHost): PCefExtension; stdcall;
+    is_background_host: function(self: PCefBrowserHost): integer; stdcall;
   end;
 
   // /include/capi/cef_browser_capi.h (cef_browser_t)

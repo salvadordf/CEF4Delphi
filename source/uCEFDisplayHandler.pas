@@ -64,6 +64,8 @@ type
       function  OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean; virtual;
       procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring); virtual;
       function  OnConsoleMessage(const browser: ICefBrowser; const message, source: ustring; line: Integer): Boolean; virtual;
+      function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
+
     public
       constructor Create; virtual;
   end;
@@ -79,6 +81,7 @@ type
       function  OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean; override;
       procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring); override;
       function  OnConsoleMessage(const browser: ICefBrowser; const message, source: ustring; line: Integer): Boolean; override;
+      function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; override;
 
     public
       constructor Create(const events: IChromiumEvents); reintroduce; virtual;
@@ -165,30 +168,40 @@ begin
     CefString(message), CefString(source), line));
 end;
 
+function cef_display_handler_on_auto_resize(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
+begin
+  Result := Ord(TCefDisplayHandlerOwn(CefGetObject(self)).OnAutoResize(TCefBrowserRef.UnWrap(browser), new_size));
+end;
+
 
 constructor TCefDisplayHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDisplayHandler));
+
   with PCefDisplayHandler(FData)^ do
-  begin
-    on_address_change := cef_display_handler_on_address_change;
-    on_title_change := cef_display_handler_on_title_change;
-    on_favicon_urlchange := cef_display_handler_on_favicon_urlchange;
-    on_fullscreen_mode_change := cef_display_handler_on_fullscreen_mode_change;
-    on_tooltip := cef_display_handler_on_tooltip;
-    on_status_message := cef_display_handler_on_status_message;
-    on_console_message := cef_display_handler_on_console_message;
-  end;
+    begin
+      on_address_change         := cef_display_handler_on_address_change;
+      on_title_change           := cef_display_handler_on_title_change;
+      on_favicon_urlchange      := cef_display_handler_on_favicon_urlchange;
+      on_fullscreen_mode_change := cef_display_handler_on_fullscreen_mode_change;
+      on_tooltip                := cef_display_handler_on_tooltip;
+      on_status_message         := cef_display_handler_on_status_message;
+      on_console_message        := cef_display_handler_on_console_message;
+      on_auto_resize            := cef_display_handler_on_auto_resize;
+    end;
 end;
 
-procedure TCefDisplayHandlerOwn.OnAddressChange(const browser: ICefBrowser;
-  const frame: ICefFrame; const url: ustring);
+procedure TCefDisplayHandlerOwn.OnAddressChange(const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
 begin
 
 end;
 
-function TCefDisplayHandlerOwn.OnConsoleMessage(const browser: ICefBrowser;
-  const message, source: ustring; line: Integer): Boolean;
+function TCefDisplayHandlerOwn.OnConsoleMessage(const browser: ICefBrowser; const message, source: ustring; line: Integer): Boolean;
+begin
+  Result := False;
+end;
+
+function TCefDisplayHandlerOwn.OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
 begin
   Result := False;
 end;
@@ -199,26 +212,22 @@ begin
 
 end;
 
-procedure TCefDisplayHandlerOwn.OnFullScreenModeChange(
-  const browser: ICefBrowser; fullscreen: Boolean);
+procedure TCefDisplayHandlerOwn.OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
 begin
 
 end;
 
-procedure TCefDisplayHandlerOwn.OnStatusMessage(const browser: ICefBrowser;
-  const value: ustring);
+procedure TCefDisplayHandlerOwn.OnStatusMessage(const browser: ICefBrowser; const value: ustring);
 begin
 
 end;
 
-procedure TCefDisplayHandlerOwn.OnTitleChange(const browser: ICefBrowser;
-  const title: ustring);
+procedure TCefDisplayHandlerOwn.OnTitleChange(const browser: ICefBrowser; const title: ustring);
 begin
 
 end;
 
-function TCefDisplayHandlerOwn.OnTooltip(const browser: ICefBrowser;
-  var text: ustring): Boolean;
+function TCefDisplayHandlerOwn.OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
 begin
   Result := False;
 end;
@@ -255,6 +264,14 @@ begin
     Result := FEvent.doOnConsoleMessage(browser, message, source, line)
    else
     Result := inherited OnConsoleMessage(browser, message, source, line);
+end;
+
+function TCustomDisplayHandler.OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
+begin
+  if (FEvent <> nil) then
+    Result := FEvent.doOnAutoResize(browser, new_size)
+   else
+    Result := inherited OnAutoResize(browser, new_size);
 end;
 
 procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser; iconUrls: TStrings);
