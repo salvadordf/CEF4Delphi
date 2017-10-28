@@ -741,13 +741,14 @@ begin
   Result := False;
 
   try
-    Result := GetAbsoluteDirPath(aResourcesDirPath, TempDir) and
-              FileExists(TempDir + 'natives_blob.bin')       and
-              FileExists(TempDir + 'snapshot_blob.bin')      and
-              FileExists(TempDir + 'cef.pak')                and
-              FileExists(TempDir + 'cef_100_percent.pak')    and
-              FileExists(TempDir + 'cef_200_percent.pak')    and
-              FileExists(TempDir + 'cef_extensions.pak')     and
+    Result := GetAbsoluteDirPath(aResourcesDirPath, TempDir)  and
+              FileExists(TempDir + 'natives_blob.bin')        and
+              FileExists(TempDir + 'snapshot_blob.bin')       and
+              FileExists(TempDir + 'v8_context_snapshot.bin') and
+              FileExists(TempDir + 'cef.pak')                 and
+              FileExists(TempDir + 'cef_100_percent.pak')     and
+              FileExists(TempDir + 'cef_200_percent.pak')     and
+              FileExists(TempDir + 'cef_extensions.pak')      and
               (not aCheckDevResources or FileExists(TempDir + 'devtools_resources.pak'));
   except
     on e : exception do

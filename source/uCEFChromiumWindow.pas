@@ -62,6 +62,7 @@ type
       FOnAfterCreated : TNotifyEvent;
 
       function    GetChildWindowHandle : THandle; override;
+      function    GetBrowserInitialized : boolean;
 
       procedure   OnCloseMsg(var aMessage : TMessage); message CEF_DOONCLOSE;
       procedure   OnAfterCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
@@ -72,11 +73,12 @@ type
    public
       constructor Create(AOwner: TComponent); override;
       procedure   AfterConstruction; override;
-      procedure   CreateBrowser;
+      function    CreateBrowser : boolean;
       procedure   CloseBrowser(aForceClose : boolean);
       procedure   LoadURL(const aURL : string);
 
       property ChromiumBrowser  : TChromium       read FChromium;
+      property Initialized      : boolean         read GetBrowserInitialized;
 
     published
       property OnClose          : TNotifyEvent    read FOnClose          write FOnClose;
@@ -121,6 +123,11 @@ begin
     Result := 0;
 end;
 
+function TChromiumWindow.GetBrowserInitialized : boolean;
+begin
+  Result := (FChromium <> nil) and FChromium.Initialized;
+end;
+
 procedure TChromiumWindow.WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
 begin
   if assigned(FOnClose) then
@@ -148,10 +155,11 @@ begin
   if assigned(FOnAfterCreated) then FOnAfterCreated(self);
 end;
 
-procedure TChromiumWindow.CreateBrowser;
+function TChromiumWindow.CreateBrowser : boolean;
 begin
-  if not(csDesigning in ComponentState) and (FChromium <> nil) then
-    FChromium.CreateBrowser(self, '');
+  Result := not(csDesigning in ComponentState) and
+            (FChromium <> nil) and
+            FChromium.CreateBrowser(self, '');
 end;
 
 procedure TChromiumWindow.CloseBrowser(aForceClose : boolean);
