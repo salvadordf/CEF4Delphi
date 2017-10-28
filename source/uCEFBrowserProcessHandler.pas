@@ -51,13 +51,14 @@ uses
 
 type
   TCefBrowserProcessHandlerOwn = class(TCefBaseRefCountedOwn, ICefBrowserProcessHandler)
-  protected
-    procedure OnContextInitialized; virtual;
-    procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); virtual;
-    procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue); virtual;
-    procedure OnScheduleMessagePumpWork(delayMs: Int64); virtual;
-  public
-    constructor Create; virtual;
+    protected
+      procedure OnContextInitialized; virtual;
+      procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); virtual;
+      procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue); virtual;
+      procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual;
+
+    public
+      constructor Create; virtual;
   end;
 
 implementation
@@ -96,11 +97,11 @@ begin
 
   with PCefBrowserProcessHandler(FData)^ do
     begin
-      on_context_initialized := cef_browser_process_handler_on_context_initialized;
-      on_before_child_process_launch := cef_browser_process_handler_on_before_child_process_launch;
+      on_context_initialized           := cef_browser_process_handler_on_context_initialized;
+      on_before_child_process_launch   := cef_browser_process_handler_on_before_child_process_launch;
       on_render_process_thread_created := cef_browser_process_handler_on_render_process_thread_created;
-      get_print_handler := nil; // linux
-      on_schedule_message_pump_work := cef_browser_process_handler_on_schedule_message_pump_work;
+      get_print_handler                := nil; // linux
+      on_schedule_message_pump_work    := cef_browser_process_handler_on_schedule_message_pump_work;
     end;
 end;
 
@@ -119,7 +120,7 @@ begin
 
 end;
 
-procedure TCefBrowserProcessHandlerOwn.OnScheduleMessagePumpWork(delayMs: Int64);
+procedure TCefBrowserProcessHandlerOwn.OnScheduleMessagePumpWork(const delayMs: Int64);
 begin
 
 end;

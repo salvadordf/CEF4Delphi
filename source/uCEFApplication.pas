@@ -52,7 +52,7 @@ uses
   {$ELSE}
   Windows, Classes,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
+  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar, uCEFBrowserProcessHandler;
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
@@ -125,6 +125,7 @@ type
       FUpdateChromeVer               : boolean;
       FShowMessageDlg                : boolean;
       FSetCurrentDir                 : boolean;
+      FGlobalContextInitialized      : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
@@ -134,6 +135,12 @@ type
       FAppSettings                   : TCefSettings;
       FDeviceScaleFactor             : single;
       FCheckDevToolsResources        : boolean;
+
+      // ICefBrowserProcessHandler
+      FOnContextInitializedEvent         : TOnContextInitializedEvent;
+      FOnBeforeChildProcessLaunchEvent   : TOnBeforeChildProcessLaunchEvent;
+      FOnRenderProcessThreadCreatedEvent : TOnRenderProcessThreadCreatedEvent;
+      FOnScheduleMessagePumpWorkEvent    : TOnScheduleMessagePumpWorkEvent;
 
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
@@ -206,74 +213,82 @@ type
       function    StartSubProcess : boolean;
       procedure   UpdateDeviceScaleFactor;
 
-      // Internal procedures. Only TInternalApp should use them.
+      // Internal procedures. Only TInternalApp and TCefCustomBrowserProcessHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
       procedure   Internal_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
       procedure   Internal_OnGetBrowserProcessHandler(var aCefBrowserProcessHandler : ICefBrowserProcessHandler);
       procedure   Internal_OnGetRenderProcessHandler(var aCefRenderProcessHandler : ICefRenderProcessHandler);
+      procedure   Internal_OnContextInitialized;
+      procedure   Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+      procedure   Internal_OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
+      procedure   Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
 
-      property Cache                       : ustring                         read FCache                          write FCache;
-      property Cookies                     : ustring                         read FCookies                        write FCookies;
-      property UserDataPath                : ustring                         read FUserDataPath                   write FUserDataPath;
-      property UserAgent                   : ustring                         read FUserAgent                      write FUserAgent;
-      property ProductVersion              : ustring                         read FProductVersion                 write FProductVersion;
-      property Locale                      : ustring                         read FLocale                         write FLocale;
-      property LogFile                     : ustring                         read FLogFile                        write FLogFile;
-      property BrowserSubprocessPath       : ustring                         read FBrowserSubprocessPath          write FBrowserSubprocessPath;
-      property FrameworkDirPath            : ustring                         read FFrameworkDirPath               write SetFrameworkDirPath;
-      property LogSeverity                 : TCefLogSeverity                 read FLogSeverity                    write FLogSeverity;
-      property JavaScriptFlags             : ustring                         read FJavaScriptFlags                write FJavaScriptFlags;
-      property ResourcesDirPath            : ustring                         read FResourcesDirPath               write SetResourcesDirPath;
-      property LocalesDirPath              : ustring                         read FLocalesDirPath                 write SetLocalesDirPath;
-      property SingleProcess               : Boolean                         read FSingleProcess                  write FSingleProcess;
-      property NoSandbox                   : Boolean                         read FNoSandbox                      write FNoSandbox;
-      property CommandLineArgsDisabled     : Boolean                         read FCommandLineArgsDisabled        write FCommandLineArgsDisabled;
-      property PackLoadingDisabled         : Boolean                         read FPackLoadingDisabled            write FPackLoadingDisabled;
-      property RemoteDebuggingPort         : Integer                         read FRemoteDebuggingPort            write FRemoteDebuggingPort;
-      property UncaughtExceptionStackSize  : Integer                         read FUncaughtExceptionStackSize     write FUncaughtExceptionStackSize;
-      property PersistSessionCookies       : Boolean                         read FPersistSessionCookies          write FPersistSessionCookies;
-      property PersistUserPreferences      : Boolean                         read FPersistUserPreferences         write FPersistUserPreferences;
-      property IgnoreCertificateErrors     : Boolean                         read FIgnoreCertificateErrors        write FIgnoreCertificateErrors;
-      property EnableNetSecurityExpiration : boolean                         read FEnableNetSecurityExpiration    write FEnableNetSecurityExpiration;
-      property BackgroundColor             : TCefColor                       read FBackgroundColor                write FBackgroundColor;
-      property AcceptLanguageList          : ustring                         read FAcceptLanguageList             write FAcceptLanguageList;
-      property WindowsSandboxInfo          : Pointer                         read FWindowsSandboxInfo             write FWindowsSandboxInfo;
-      property WindowlessRenderingEnabled  : Boolean                         read FWindowlessRenderingEnabled     write FWindowlessRenderingEnabled;
-      property MultiThreadedMessageLoop    : boolean                         read FMultiThreadedMessageLoop       write FMultiThreadedMessageLoop;
-      property ExternalMessagePump         : boolean                         read FExternalMessagePump            write FExternalMessagePump;
-      property DeleteCache                 : boolean                         read FDeleteCache                    write FDeleteCache;
-      property DeleteCookies               : boolean                         read FDeleteCookies                  write FDeleteCookies;
-      property FlashEnabled                : boolean                         read FFlashEnabled                   write FFlashEnabled;
-      property EnableSpellingService       : boolean                         read FEnableSpellingService          write FEnableSpellingService;
-      property EnableMediaStream           : boolean                         read FEnableMediaStream              write FEnableMediaStream;
-      property EnableSpeechInput           : boolean                         read FEnableSpeechInput              write FEnableSpeechInput;
-      property EnableGPU                   : boolean                         read FEnableGPU                      write FEnableGPU;
-      property CheckCEFFiles               : boolean                         read FCheckCEFFiles                  write FCheckCEFFiles;
-      property ShowMessageDlg              : boolean                         read FShowMessageDlg                 write FShowMessageDlg;
-      property SetCurrentDir               : boolean                         read FSetCurrentDir                  write FSetCurrentDir;
-      property ChromeMajorVer              : uint16                          read FChromeVersionInfo.MajorVer;
-      property ChromeMinorVer              : uint16                          read FChromeVersionInfo.MinorVer;
-      property ChromeRelease               : uint16                          read FChromeVersionInfo.Release;
-      property ChromeBuild                 : uint16                          read FChromeVersionInfo.Build;
-      property ChromeVersion               : string                          read GetChromeVersion;
-      property LibCefPath                  : string                          read GetLibCefPath;
-      property ChromeElfPath               : string                          read GetChromeElfPath;
-      property OnRegCustomSchemes          : TOnRegisterCustomSchemes        read FOnRegisterCustomSchemes        write FOnRegisterCustomSchemes;
-      property ResourceBundleHandler       : ICefResourceBundleHandler       read FResourceBundleHandler          write FResourceBundleHandler;
-      property BrowserProcessHandler       : ICefBrowserProcessHandler       read FBrowserProcessHandler          write FBrowserProcessHandler;
-      property RenderProcessHandler        : ICefRenderProcessHandler        read FRenderProcessHandler           write FRenderProcessHandler;
-      property SmoothScrolling             : boolean                         read FSmoothScrolling                write FSmoothScrolling;
-      property FastUnload                  : boolean                         read FFastUnload                     write FFastUnload;
-      property DisableSafeBrowsing         : boolean                         read FDisableSafeBrowsing            write FDisableSafeBrowsing;
-      property LibLoaded                   : boolean                         read FLibLoaded;
-      property EnableHighDPISupport        : boolean                         read FEnableHighDPISupport           write FEnableHighDPISupport;
-      property MuteAudio                   : boolean                         read FMuteAudio                      write FMuteAudio;
-      property ReRaiseExceptions           : boolean                         read FReRaiseExceptions              write FReRaiseExceptions;
-      property DeviceScaleFactor           : single                          read FDeviceScaleFactor;
-      property CheckDevToolsResources      : boolean                         read FCheckDevToolsResources         write FCheckDevToolsResources;
-      property LocalesRequired             : ustring                         read FLocalesRequired                write FLocalesRequired;
-      property CustomFlashPath             : ustring                         read FCustomFlashPath                write FCustomFlashPath;
+      property Cache                             : ustring                             read FCache                             write FCache;
+      property Cookies                           : ustring                             read FCookies                           write FCookies;
+      property UserDataPath                      : ustring                             read FUserDataPath                      write FUserDataPath;
+      property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
+      property ProductVersion                    : ustring                             read FProductVersion                    write FProductVersion;
+      property Locale                            : ustring                             read FLocale                            write FLocale;
+      property LogFile                           : ustring                             read FLogFile                           write FLogFile;
+      property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write FBrowserSubprocessPath;
+      property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
+      property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
+      property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
+      property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
+      property LocalesDirPath                    : ustring                             read FLocalesDirPath                    write SetLocalesDirPath;
+      property SingleProcess                     : Boolean                             read FSingleProcess                     write FSingleProcess;
+      property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
+      property CommandLineArgsDisabled           : Boolean                             read FCommandLineArgsDisabled           write FCommandLineArgsDisabled;
+      property PackLoadingDisabled               : Boolean                             read FPackLoadingDisabled               write FPackLoadingDisabled;
+      property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
+      property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
+      property PersistSessionCookies             : Boolean                             read FPersistSessionCookies             write FPersistSessionCookies;
+      property PersistUserPreferences            : Boolean                             read FPersistUserPreferences            write FPersistUserPreferences;
+      property IgnoreCertificateErrors           : Boolean                             read FIgnoreCertificateErrors           write FIgnoreCertificateErrors;
+      property EnableNetSecurityExpiration       : boolean                             read FEnableNetSecurityExpiration       write FEnableNetSecurityExpiration;
+      property BackgroundColor                   : TCefColor                           read FBackgroundColor                   write FBackgroundColor;
+      property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
+      property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
+      property WindowlessRenderingEnabled        : Boolean                             read FWindowlessRenderingEnabled        write FWindowlessRenderingEnabled;
+      property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
+      property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
+      property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
+      property DeleteCookies                     : boolean                             read FDeleteCookies                     write FDeleteCookies;
+      property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;
+      property EnableSpellingService             : boolean                             read FEnableSpellingService             write FEnableSpellingService;
+      property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
+      property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
+      property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;
+      property CheckCEFFiles                     : boolean                             read FCheckCEFFiles                     write FCheckCEFFiles;
+      property ShowMessageDlg                    : boolean                             read FShowMessageDlg                    write FShowMessageDlg;
+      property SetCurrentDir                     : boolean                             read FSetCurrentDir                     write FSetCurrentDir;
+      property GlobalContextInitialized          : boolean                             read FGlobalContextInitialized;
+      property ChromeMajorVer                    : uint16                              read FChromeVersionInfo.MajorVer;
+      property ChromeMinorVer                    : uint16                              read FChromeVersionInfo.MinorVer;
+      property ChromeRelease                     : uint16                              read FChromeVersionInfo.Release;
+      property ChromeBuild                       : uint16                              read FChromeVersionInfo.Build;
+      property ChromeVersion                     : string                              read GetChromeVersion;
+      property LibCefPath                        : string                              read GetLibCefPath;
+      property ChromeElfPath                     : string                              read GetChromeElfPath;
+      property OnRegCustomSchemes                : TOnRegisterCustomSchemes            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
+      property ResourceBundleHandler             : ICefResourceBundleHandler           read FResourceBundleHandler             write FResourceBundleHandler;
+      property RenderProcessHandler              : ICefRenderProcessHandler            read FRenderProcessHandler              write FRenderProcessHandler;
+      property SmoothScrolling                   : boolean                             read FSmoothScrolling                   write FSmoothScrolling;
+      property FastUnload                        : boolean                             read FFastUnload                        write FFastUnload;
+      property DisableSafeBrowsing               : boolean                             read FDisableSafeBrowsing               write FDisableSafeBrowsing;
+      property LibLoaded                         : boolean                             read FLibLoaded;
+      property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
+      property MuteAudio                         : boolean                             read FMuteAudio                         write FMuteAudio;
+      property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
+      property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
+      property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
+      property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
+      property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
+      property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitializedEvent         write FOnContextInitializedEvent;
+      property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunchEvent   write FOnBeforeChildProcessLaunchEvent;
+      property OnRenderProcessThreadCreated      : TOnRenderProcessThreadCreatedEvent  read FOnRenderProcessThreadCreatedEvent write FOnRenderProcessThreadCreatedEvent;
+      property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWorkEvent    write FOnScheduleMessagePumpWorkEvent;
   end;
 
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -297,6 +312,20 @@ type
       function  GetResourceBundleHandler: ICefResourceBundleHandler; override;
       function  GetBrowserProcessHandler: ICefBrowserProcessHandler; override;
       function  GetRenderProcessHandler: ICefRenderProcessHandler; override;
+
+    public
+      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefCustomBrowserProcessHandler = class(TCefBrowserProcessHandlerOwn)
+    protected
+      FCefApp : TCefApplication;
+
+      procedure OnContextInitialized; override;
+      procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
+      procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue); override;
+      procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
 
     public
       constructor Create(const aCefApp : TCefApplication); reintroduce;
@@ -376,9 +405,16 @@ begin
   FLibLoaded                     := False;
   FShowMessageDlg                := True;
   FSetCurrentDir                 := False;
+  FGlobalContextInitialized      := False;
   FUpdateChromeVer               := aUpdateChromeVer;
   FCheckDevToolsResources        := True;
   FLocalesRequired               := '';
+
+  // ICefBrowserProcessHandler
+  FOnContextInitializedEvent         := nil;
+  FOnBeforeChildProcessLaunchEvent   := nil;
+  FOnRenderProcessThreadCreatedEvent := nil;
+  FOnScheduleMessagePumpWorkEvent    := nil;
 
   UpdateDeviceScaleFactor;
 
@@ -413,6 +449,7 @@ begin
 
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
+  FBrowserProcessHandler   := TCefCustomBrowserProcessHandler.Create(self);
 end;
 
 procedure TCefApplication.AddCustomCommandLine(const aCommandLine, aValue : string);
@@ -705,8 +742,7 @@ begin
 
     InitializeSettings(FAppSettings);
 
-    Result := (cef_initialize(@HInstance, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) and
-              InitializeCookies;
+    Result := (cef_initialize(@HInstance, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0);
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.InitializeLibrary', e) then raise;
@@ -813,6 +849,29 @@ begin
   OutputDebugMessage(aError);
 
   if FShowMessageDlg then MessageDlg(aError, mtError, [mbOk], 0);
+end;
+
+procedure TCefApplication.Internal_OnContextInitialized;
+begin
+  InitializeCookies;
+  FGlobalContextInitialized := True;
+
+  if assigned(FOnContextInitializedEvent) then FOnContextInitializedEvent;
+end;
+
+procedure TCefApplication.Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+begin
+  if assigned(FOnBeforeChildProcessLaunchEvent) then FOnBeforeChildProcessLaunchEvent(commandLine);
+end;
+
+procedure TCefApplication.Internal_OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
+begin
+  if assigned(FOnRenderProcessThreadCreatedEvent) then FOnRenderProcessThreadCreatedEvent(extraInfo);
+end;
+
+procedure TCefApplication.Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
+begin
+  if assigned(FOnScheduleMessagePumpWorkEvent) then FOnScheduleMessagePumpWorkEvent(delayMs);
 end;
 
 procedure TCefApplication.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
@@ -1648,6 +1707,42 @@ begin
   FCefApp := nil;
 
   inherited Destroy;
+end;
+
+// TCefCustomBrowserProcessHandler
+
+constructor TCefCustomBrowserProcessHandler.Create(const aCefApp : TCefApplication);
+begin
+  inherited Create;
+
+  FCefApp := aCefApp;
+end;
+
+destructor TCefCustomBrowserProcessHandler.Destroy;
+begin
+  FCefApp := nil;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomBrowserProcessHandler.OnContextInitialized;
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnContextInitialized;
+end;
+
+procedure TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnBeforeChildProcessLaunch(commandLine);
+end;
+
+procedure TCefCustomBrowserProcessHandler.OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnRenderProcessThreadCreated(extraInfo);
+end;
+
+procedure TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork(const delayMs: Int64);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnScheduleMessagePumpWork(delayMs);
 end;
 
 end.

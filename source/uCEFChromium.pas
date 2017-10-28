@@ -924,11 +924,19 @@ begin
   Result := False;
 
   try
+    // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+    // even if you use a custom request context.
+    // If you create a browser in the initialization of your app, make sure you call this
+    // function when GlobalCEFApp.GlobalContextInitialized is TRUE.
+    // Use the GlobalCEFApp.OnContextInitialized event to know when
+    // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
+
     if not(csDesigning in ComponentState) and
        not(FClosing)         and
        (FBrowser     =  nil) and
        (FBrowserId   =  0)   and
        (GlobalCEFApp <> nil) and
+       GlobalCEFApp.GlobalContextInitialized  and
        CreateClientHandler(aParentHandle = 0) then
       begin
         GetSettings(FBrowserSettings);
