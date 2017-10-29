@@ -13,7 +13,6 @@ object Form1: TForm1
   OldCreateOrder = False
   Position = poScreenCenter
   OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow

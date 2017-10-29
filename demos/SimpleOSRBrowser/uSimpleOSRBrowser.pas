@@ -74,7 +74,6 @@ type
 
     procedure FormShow(Sender: TObject);
     procedure FormHide(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
 
@@ -434,6 +433,8 @@ end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
 begin
+  chrmosr.WasHidden(False);
+  chrmosr.SendFocusEvent(True);
   NavControlPnl.Enabled := True;
   GoBtn.Click;
 end;
@@ -445,13 +446,6 @@ begin
       chrmosr.NotifyScreenInfoChanged;
       chrmosr.WasResized;
     end;
-end;
-
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-  chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF); // opaque white background color
-  chrmosr.CreateBrowser(nil, '');
-  chrmosr.InitializeDragAndDrop(PaintBox);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -467,8 +461,9 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  chrmosr.WasHidden(False);
-  chrmosr.SendFocusEvent(True);
+  chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF); // opaque white background color
+  chrmosr.CreateBrowser(nil, '');
+  chrmosr.InitializeDragAndDrop(PaintBox);
 end;
 
 procedure TForm1.PaintBoxClick(Sender: TObject);

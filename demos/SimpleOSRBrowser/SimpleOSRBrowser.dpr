@@ -46,7 +46,6 @@ uses
   Forms, Windows,
   {$ENDIF}
   uCEFApplication,
-  uCEFTypes,
   uSimpleOSRBrowser in 'uSimpleOSRBrowser.pas' {Form1};
 
 {$R *.res}
@@ -58,7 +57,6 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  //GlobalCEFApp.EnableGPU                  := False;
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
 {
