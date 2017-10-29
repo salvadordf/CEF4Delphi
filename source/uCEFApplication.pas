@@ -388,7 +388,7 @@ begin
   FEnableSpellingService         := True;
   FEnableMediaStream             := True;
   FEnableSpeechInput             := True;
-  FEnableGPU                     := True;
+  FEnableGPU                     := False;
   FCustomCommandLines            := nil;
   FCustomCommandLineValues       := nil;
   FCheckCEFFiles                 := True;
