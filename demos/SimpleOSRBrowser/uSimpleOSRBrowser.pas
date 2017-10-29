@@ -433,8 +433,6 @@ end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
 begin
-  chrmosr.WasHidden(False);
-  chrmosr.SendFocusEvent(True);
   NavControlPnl.Enabled := True;
   GoBtn.Click;
 end;
@@ -461,9 +459,17 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF); // opaque white background color
-  chrmosr.CreateBrowser(nil, '');
-  chrmosr.InitializeDragAndDrop(PaintBox);
+  if chrmosr.Initialized then
+    begin
+      chrmosr.WasHidden(False);
+      chrmosr.SendFocusEvent(True);
+    end
+   else
+    begin
+      chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF); // opaque white background color
+      chrmosr.CreateBrowser(nil, '');
+      chrmosr.InitializeDragAndDrop(PaintBox);
+    end;
 end;
 
 procedure TForm1.PaintBoxClick(Sender: TObject);
