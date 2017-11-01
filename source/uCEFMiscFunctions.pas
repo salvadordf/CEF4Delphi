@@ -749,7 +749,7 @@ begin
               FileExists(TempDir + 'cef_100_percent.pak')     and
               FileExists(TempDir + 'cef_200_percent.pak')     and
               FileExists(TempDir + 'cef_extensions.pak')      and
-              (not aCheckDevResources or FileExists(TempDir + 'devtools_resources.pak'));
+              (not(aCheckDevResources) or FileExists(TempDir + 'devtools_resources.pak'));
   except
     on e : exception do
       if CustomExceptionHandler('CheckResources', e) then raise;
@@ -765,14 +765,16 @@ begin
   try
     // The icudtl.dat file must be placed next to libcef.dll
     // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=14503#p32263
-    Result := GetAbsoluteDirPath(aFrameworkDirPath, TempDir) and
-              FileExists(TempDir + CHROMEELF_DLL)            and
-              FileExists(TempDir + LIBCEF_DLL)               and
-              FileExists(TempDir + 'd3dcompiler_43.dll')     and
-              FileExists(TempDir + 'd3dcompiler_47.dll')     and
-              FileExists(TempDir + 'libEGL.dll')             and
-              FileExists(TempDir + 'libGLESv2.dll')          and
-              FileExists(TempDir + 'icudtl.dat')             and
+    Result := GetAbsoluteDirPath(aFrameworkDirPath, TempDir)    and
+              FileExists(TempDir + CHROMEELF_DLL)               and
+              FileExists(TempDir + LIBCEF_DLL)                  and
+              FileExists(TempDir + 'd3dcompiler_43.dll')        and
+              FileExists(TempDir + 'd3dcompiler_47.dll')        and
+              FileExists(TempDir + 'libEGL.dll')                and
+              FileExists(TempDir + 'libGLESv2.dll')             and
+              FileExists(TempDir + 'swiftshader\libEGL.dll')    and
+              FileExists(TempDir + 'swiftshader\libGLESv2.dll') and
+              FileExists(TempDir + 'icudtl.dat')                and
               FileExists(TempDir + 'widevinecdmadapter.dll');
   except
     on e : exception do

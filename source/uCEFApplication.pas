@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3202;
-  CEF_SUPPORTED_VERSION_RELEASE = 1674;
+  CEF_SUPPORTED_VERSION_RELEASE = 1677;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 62;
@@ -122,7 +122,6 @@ type
       FEnableHighDPISupport          : boolean;
       FMuteAudio                     : boolean;
       FReRaiseExceptions             : boolean;
-      FUpdateChromeVer               : boolean;
       FShowMessageDlg                : boolean;
       FSetCurrentDir                 : boolean;
       FGlobalContextInitialized      : boolean;
@@ -135,6 +134,8 @@ type
       FAppSettings                   : TCefSettings;
       FDeviceScaleFactor             : single;
       FCheckDevToolsResources        : boolean;
+      FDisableGPUCache               : boolean;
+      FProcessType                   : TCefProcessType;
 
       // ICefBrowserProcessHandler
       FOnContextInitializedEvent         : TOnContextInitializedEvent;
@@ -203,9 +204,10 @@ type
       procedure DeleteDirContents(const aDirectory : string);
       function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
+      function  ParseProcessType : TCefProcessType;
 
     public
-      constructor Create(aUpdateChromeVer : boolean = True);
+      constructor Create;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
@@ -283,8 +285,10 @@ type
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
+      property DisableGPUCache                   : boolean                             read FDisableGPUCache                   write FDisableGPUCache;
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
       property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
+      property ProcessType                       : TCefProcessType                     read FProcessType;
       property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitializedEvent         write FOnContextInitializedEvent;
       property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunchEvent   write FOnBeforeChildProcessLaunchEvent;
       property OnRenderProcessThreadCreated      : TOnRenderProcessThreadCreatedEvent  read FOnRenderProcessThreadCreatedEvent write FOnRenderProcessThreadCreatedEvent;
@@ -346,7 +350,7 @@ uses
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory, uCEFCookieManager;
 
-constructor TCefApplication.Create(aUpdateChromeVer : boolean);
+constructor TCefApplication.Create;
 begin
   inherited Create;
 
@@ -406,9 +410,10 @@ begin
   FShowMessageDlg                := True;
   FSetCurrentDir                 := False;
   FGlobalContextInitialized      := False;
-  FUpdateChromeVer               := aUpdateChromeVer;
   FCheckDevToolsResources        := True;
+  FDisableGPUCache               := False;
   FLocalesRequired               := '';
+  FProcessType                   := ParseProcessType;
 
   // ICefBrowserProcessHandler
   FOnContextInitializedEvent         := nil;
@@ -426,7 +431,7 @@ begin
   FChromeVersionInfo.Release     := CEF_CHROMEELF_VERSION_RELEASE;
   FChromeVersionInfo.Build       := CEF_CHROMEELF_VERSION_BUILD;
 
-  if FUpdateChromeVer then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
 
   IsMultiThread := True;
 
@@ -537,7 +542,7 @@ begin
    else
     FFrameworkDirPath := '';
 
-  if FUpdateChromeVer then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
 end;
 
 procedure TCefApplication.SetResourcesDirPath(const aValue : ustring);
@@ -733,6 +738,8 @@ begin
 end;
 
 function TCefApplication.InitializeLibrary(const aApp : ICefApp) : boolean;
+var
+  TempArgs : TCefMainArgs;
 begin
   Result := False;
 
@@ -742,7 +749,8 @@ begin
 
     InitializeSettings(FAppSettings);
 
-    Result := (cef_initialize(@HInstance, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0);
+    TempArgs.instance := HINSTANCE;
+    Result            := (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0);
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.InitializeLibrary', e) then raise;
@@ -851,6 +859,40 @@ begin
   if FShowMessageDlg then MessageDlg(aError, mtError, [mbOk], 0);
 end;
 
+function TCefApplication.ParseProcessType : TCefProcessType;
+const
+  TYPE_PARAMETER_NAME = '--type=';
+  TYPE_RENDERER_VALUE = 'renderer';
+  TYPE_ZYGOTE_VALUE   = 'zygote';
+var
+  i, TempLen : integer;
+  TempName, TempValue : string;
+begin
+  Result  := ptBrowser;
+  i       := pred(paramCount);
+  TempLen := length(TYPE_PARAMETER_NAME);
+
+  while (i >= 0) and (Result = ptBrowser) do
+    begin
+      TempName := copy(paramstr(i), 1, TempLen);
+
+      if (CompareText(TempName, TYPE_PARAMETER_NAME) = 0) then
+        begin
+          TempValue := copy(paramstr(i), succ(TempLen), length(paramstr(i)));
+
+          if (CompareText(TempValue, TYPE_RENDERER_VALUE) = 0) then
+            Result := ptRenderer
+           else
+            if (CompareText(TempValue, TYPE_ZYGOTE_VALUE) = 0) then
+              Result := ptZygote
+             else
+              Result := ptOther;
+        end;
+
+      dec(i);
+    end;
+end;
+
 procedure TCefApplication.Internal_OnContextInitialized;
 begin
   InitializeCookies;
@@ -916,6 +958,9 @@ begin
 
       if FFastUnload then
         commandLine.AppendSwitch('--enable-fast-unload');
+
+      if FDisableGPUCache then
+        commandLine.AppendSwitch('--disable-gpu-shader-disk-cache');
 
       if FDisableSafeBrowsing then
         begin

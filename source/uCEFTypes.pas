@@ -278,15 +278,18 @@ type
   TCefString = TCefStringUtf16;
   PCefString = PCefStringUtf16;
 
-  TCefMainArgs = record
-    instance: HINST;
-  end;
-
   TFileVersionInfo = record
     MajorVer : uint16;
     MinorVer : uint16;
     Release  : uint16;
     Build    : uint16;
+  end;
+
+  TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptOther);
+
+  // /include/internal/cef_types_win.h (cef_main_args_t)
+  TCefMainArgs = record
+    instance: HINST;
   end;
 
   // /include/internal/cef_types.h (cef_rect_t)
@@ -968,7 +971,7 @@ type
     accept_language_list           : TCefString;
   end;
 
-  // /include/internal/cef_win.h (cef_window_info_t)
+  // /include/internal/cef_types_win.h (cef_window_info_t)
   TCefWindowInfo = record
     ex_style: DWORD;
     window_name: TCefString;

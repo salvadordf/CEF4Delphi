@@ -107,6 +107,7 @@ type
     N4: TMenuItem;
     Openfile1: TMenuItem;
     Resolvehost1: TMenuItem;
+    Timer1: TTimer;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -163,6 +164,7 @@ type
     procedure Resolvehost1Click(Sender: TObject);
     procedure Chromium1ResolvedHostAvailable(Sender: TObject;
       result: Integer; const resolvedIps: TStrings);
+    procedure Timer1Timer(Sender: TObject);
 
   protected
     FResponse : string;
@@ -494,7 +496,15 @@ end;
 
 procedure TMiniBrowserFrm.FormShow(Sender: TObject);
 begin
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
+end;
+
+procedure TMiniBrowserFrm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);

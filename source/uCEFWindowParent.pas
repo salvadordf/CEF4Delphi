@@ -106,7 +106,7 @@ begin
   hdwp     := BeginDeferWindowPos(1);
 
   try
-    hdwp := DeferWindowPos(hdwp, TempHandle, 0,
+    hdwp := DeferWindowPos(hdwp, TempHandle, HWND_TOP,
                            TempRect.left, TempRect.top, TempRect.right - TempRect.left, TempRect.bottom - TempRect.top,
                            SWP_NOZORDER);
   finally

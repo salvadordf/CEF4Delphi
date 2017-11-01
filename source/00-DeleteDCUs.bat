@@ -1,4 +1,6 @@
 del /s /q *.dcu
+del /s /q *.exe
+del /s /q *.log
 del /s /q *.dsk
 del /s /q *.identcache
 del /s /q *.stat

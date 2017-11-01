@@ -139,6 +139,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'http://html5test.com/'
           'https://www.w3schools.com/'
           'http://webglsamples.org/'
+          'https://get.webgl.org/'
           'https://www.youtube.com'
           'https://html5demos.com/drag/'
           
@@ -305,5 +306,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
       'iles|*.jpg;*.jpeg;*.png;*.bmp;*.gif'
     Left = 32
     Top = 280
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = Timer1Timer
+    Left = 32
+    Top = 344
   end
 end

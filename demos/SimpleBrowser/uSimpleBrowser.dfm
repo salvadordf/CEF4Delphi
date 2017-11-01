@@ -61,4 +61,11 @@ object Form1: TForm1
       OnClick = GoBtnClick
     end
   end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = Timer1Timer
+    Left = 552
+    Top = 264
+  end
 end
