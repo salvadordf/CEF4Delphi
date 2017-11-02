@@ -57,13 +57,13 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3202;
-  CEF_SUPPORTED_VERSION_RELEASE = 1677;
+  CEF_SUPPORTED_VERSION_RELEASE = 1678;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 62;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 3202;
-  CEF_CHROMEELF_VERSION_BUILD   = 62;
+  CEF_CHROMEELF_VERSION_BUILD   = 75;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -454,7 +454,9 @@ begin
 
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
-  FBrowserProcessHandler   := TCefCustomBrowserProcessHandler.Create(self);
+
+  if (FProcessType = ptBrowser) then
+    FBrowserProcessHandler := TCefCustomBrowserProcessHandler.Create(self);
 end;
 
 procedure TCefApplication.AddCustomCommandLine(const aCommandLine, aValue : string);
@@ -862,8 +864,6 @@ end;
 function TCefApplication.ParseProcessType : TCefProcessType;
 const
   TYPE_PARAMETER_NAME = '--type=';
-  TYPE_RENDERER_VALUE = 'renderer';
-  TYPE_ZYGOTE_VALUE   = 'zygote';
 var
   i, TempLen : integer;
   TempName, TempValue : string;
@@ -880,10 +880,10 @@ begin
         begin
           TempValue := copy(paramstr(i), succ(TempLen), length(paramstr(i)));
 
-          if (CompareText(TempValue, TYPE_RENDERER_VALUE) = 0) then
+          if (CompareText(TempValue, 'renderer') = 0) then
             Result := ptRenderer
            else
-            if (CompareText(TempValue, TYPE_ZYGOTE_VALUE) = 0) then
+            if (CompareText(TempValue, 'zygote') = 0) then
               Result := ptZygote
              else
               Result := ptOther;
