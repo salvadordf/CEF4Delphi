@@ -287,6 +287,13 @@ type
 
   TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptOther);
 
+  TCefWebRTCHandlingPolicy = (
+    hpDefault,
+    hpDefaultPublicAndPrivateInterfaces,
+    hpDefaultPublicInterfaceOnly,
+    hpDisableNonProxiedUDP
+  );
+
   // /include/internal/cef_types_win.h (cef_main_args_t)
   TCefMainArgs = record
     instance: HINST;

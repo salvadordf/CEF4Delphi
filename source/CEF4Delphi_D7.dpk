@@ -150,6 +150,9 @@ contains
   uCEFBaseRefCounted in 'uCEFBaseRefCounted.pas',
   uCEFBaseScopedWrapper in 'uCEFBaseScopedWrapper.pas',
   uCEFDragAndDropMgr in 'uCEFDragAndDropMgr.pas',
-  uOLEDragAndDrop in 'uOLEDragAndDrop.pas';
+  uOLEDragAndDrop in 'uOLEDragAndDrop.pas',
+  uCEFGetExtensionResourceCallback in 'uCEFGetExtensionResourceCallback.pas',
+  uCEFExtension in 'uCEFExtension.pas',
+  uCEFExtensionHandler in 'uCEFExtensionHandler.pas';
 
 end.

@@ -91,6 +91,8 @@ implementation
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  Caption := 'Simple Browser - Initializing browser. Please wait...';
+
   // You *MUST* call CreateBrowser to create and initialize the browser.
   // This will trigger the AfterCreated event when the browser is fully
   // initialized and ready to receive commands.
@@ -103,6 +105,7 @@ end;
 procedure TForm1.ChromiumWindow1AfterCreated(Sender: TObject);
 begin
   // Now the browser is fully initialized we can load the initial web page.
+  Caption            := 'Simple Browser';
   AddressPnl.Enabled := True;
   GoBtn.Click;
 end;

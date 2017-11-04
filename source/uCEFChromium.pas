@@ -104,6 +104,9 @@ type
       FDragDropManager        : TCEFDragAndDropMgr;
       FDropTargetCtrl         : TWinControl;
       FDragAndDropInitialized : boolean;
+      FWebRTCIPHandlingPolicy : TCefWebRTCHandlingPolicy;
+      FWebRTCMultipleRoutes   : TCefState;
+      FWebRTCNonProxiedUDP    : TCefState;
 
       // ICefClient
       FOnProcessMessageReceived       : TOnProcessMessageReceived;
@@ -204,7 +207,7 @@ type
       // Custom
       FOnTextResultAvailable          : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished             : TOnPdfPrintFinishedEvent;
-      FOnPrefsAvailable               : TNotifyEvent;
+      FOnPrefsAvailable               : TOnPrefsAvailableEvent;
       FOnCookiesDeleted               : TOnCookiesDeletedEvent;
       FOnResolvedHostAvailable        : TOnResolvedIPsAvailableEvent;
 
@@ -234,6 +237,9 @@ type
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
       procedure SetHyperlinkAuditing(aValue : boolean);
+      procedure SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
+      procedure SetWebRTCMultipleRoutes(aValue : TCefState);
+      procedure SetWebRTCNonProxiedUDP(aValue : TCefState);
       procedure SetCookiePrefs(aValue : integer);
       procedure SetImagesPrefs(aValue : integer);
       procedure SetProxyType(aValue : integer);
@@ -406,8 +412,8 @@ type
       procedure   Internal_GetHTML(const aFrameIdentifier : int64); overload;
       procedure   Internal_PdfPrintFinished(aResultOK : boolean);
       procedure   Internal_TextResultAvailable(const aText : string);
-      procedure   Internal_UpdatePreferences;
-      procedure   Internal_SavePreferences;
+      procedure   Internal_UpdatePreferences; virtual;
+      function    Internal_SavePreferences : boolean;
       procedure   Internal_ResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
 
       procedure   LoadURL(const aURL : ustring);
@@ -526,6 +532,10 @@ type
       property  FrameCount              : NativeUInt                   read GetFrameCount;
       property  DragOperations          : TCefDragOperations           read FDragOperations           write FDragOperations;
 
+      property  WebRTCIPHandlingPolicy  : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy   write SetWebRTCIPHandlingPolicy;
+      property  WebRTCMultipleRoutes    : TCefState                    read FWebRTCMultipleRoutes     write SetWebRTCMultipleRoutes;
+      property  WebRTCNonproxiedUDP     : TCefState                    read FWebRTCNonProxiedUDP      write SetWebRTCNonProxiedUDP;
+
       property  ProxyType               : integer                      read FProxyType                write SetProxyType;
       property  ProxyServer             : string                       read FProxyServer              write SetProxyServer;
       property  ProxyPort               : integer                      read FProxyPort                write SetProxyPort;
@@ -537,7 +547,7 @@ type
     published
       property  OnTextResultAvailable   : TOnTextResultAvailableEvent  read FOnTextResultAvailable    write FOnTextResultAvailable;
       property  OnPdfPrintFinished      : TOnPdfPrintFinishedEvent     read FOnPdfPrintFinished       write FOnPdfPrintFinished;
-      property  OnPrefsAvailable        : TNotifyEvent                 read FOnPrefsAvailable         write FOnPrefsAvailable;
+      property  OnPrefsAvailable        : TOnPrefsAvailableEvent       read FOnPrefsAvailable         write FOnPrefsAvailable;
       property  OnCookiesDeleted        : TOnCookiesDeletedEvent       read FOnCookiesDeleted         write FOnCookiesDeleted;
       property  OnResolvedHostAvailable : TOnResolvedIPsAvailableEvent read FOnResolvedHostAvailable  write FOnResolvedHostAvailable;
 
@@ -681,10 +691,15 @@ begin
   FImagesPrefs            := CEF_CONTENT_SETTING_ALLOW;
   FZoomStep               := ZOOM_STEP_DEF;
   FWindowName             := '';
+
   FDragOperations         := DRAG_OPERATION_NONE;
   FDragDropManager        := nil;
   FDropTargetCtrl         := nil;
   FDragAndDropInitialized := False;
+
+  FWebRTCIPHandlingPolicy := hpDefault;
+  FWebRTCMultipleRoutes   := STATE_DEFAULT;
+  FWebRTCNonProxiedUDP    := STATE_DEFAULT;
 
   FProxyType         := CEF_PROXYTYPE_DIRECT;
   FProxyServer       := '';
@@ -1640,6 +1655,33 @@ begin
     end;
 end;
 
+procedure TChromium.SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
+begin
+  if (FWebRTCIPHandlingPolicy <> aValue) then
+    begin
+      FWebRTCIPHandlingPolicy := aValue;
+      FUpdatePreferences      := True;
+    end;
+end;
+
+procedure TChromium.SetWebRTCMultipleRoutes(aValue : TCefState);
+begin
+  if (FWebRTCMultipleRoutes <> aValue) then
+    begin
+      FWebRTCMultipleRoutes := aValue;
+      FUpdatePreferences    := True;
+    end;
+end;
+
+procedure TChromium.SetWebRTCNonProxiedUDP(aValue : TCefState);
+begin
+  if (FWebRTCNonProxiedUDP <> aValue) then
+    begin
+      FWebRTCNonProxiedUDP := aValue;
+      FUpdatePreferences   := True;
+    end;
+end;
+
 procedure TChromium.SetCookiePrefs(aValue : integer);
 begin
   if (FCookiePrefs <> aValue) then
@@ -1912,6 +1954,23 @@ begin
   UpdatePreference('enable_do_not_track', FDoNotTrack);
   UpdatePreference('enable_referrers',    FSendReferrer);
   UpdatePreference('enable_a_ping',       FHyperlinkAuditing);
+
+  case FWebRTCIPHandlingPolicy of
+    hpDefaultPublicAndPrivateInterfaces :
+      UpdatePreference('webrtc.ip_handling_policy', 'default_public_and_private_interfaces');
+
+    hpDefaultPublicInterfaceOnly :
+      UpdatePreference('webrtc.ip_handling_policy', 'default_public_interface_only');
+
+    hpDisableNonProxiedUDP :
+      UpdatePreference('webrtc.ip_handling_policy', 'disable_non_proxied_udp');
+  end;
+
+  if (FWebRTCMultipleRoutes <> STATE_DEFAULT) then
+    UpdatePreference('webrtc.multiple_routes_enabled', (FWebRTCMultipleRoutes = STATE_ENABLED));
+
+  if (FWebRTCNonProxiedUDP <> STATE_DEFAULT) then
+    UpdatePreference('webrtc.nonproxied_udp_enabled', (FWebRTCNonProxiedUDP = STATE_ENABLED));
 end;
 
 function TChromium.UpdateProxyPrefs : boolean;
@@ -2301,11 +2360,12 @@ begin
   end;
 end;
 
-procedure TChromium.Internal_SavePreferences;
+function TChromium.Internal_SavePreferences : boolean;
 var
   TempDict  : ICefDictionaryValue;
   TempPrefs : TStringList;
 begin
+  Result    := False;
   TempPrefs := nil;
 
   try
@@ -2316,13 +2376,14 @@ begin
           TempDict  := FBrowser.Host.RequestContext.GetAllPreferences(True);
           HandleDictionary(TempDict, TempPrefs, '');
           TempPrefs.SaveToFile(FPrefsFileName);
-          SendCompMessage(CEF_PREFERENCES_SAVED);
+          Result    := True;
         end;
     except
       on e : exception do
         if CustomExceptionHandler('TChromium.Internal_SavePreferences', e) then raise;
     end;
   finally
+    SendCompMessage(CEF_PREFERENCES_SAVED, Ord(Result));
     if (TempPrefs <> nil) then FreeAndNil(TempPrefs);
   end;
 end;
@@ -2334,7 +2395,7 @@ end;
 
 procedure TChromium.PrefsAvailableMsg(var aMessage : TMessage);
 begin
-  if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self);
+  if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self, (aMessage.WParam <> 0));
 end;
 
 function TChromium.SendCompMessage(aMsg : cardinal; wParam : cardinal; lParam : integer) : boolean;

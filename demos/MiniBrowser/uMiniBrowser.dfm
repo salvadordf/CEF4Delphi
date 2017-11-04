@@ -147,7 +147,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
             'ples/streetview-embed?hl=fr'
           
             'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
-            '_name')
+            '_name'
+          'https://www.browserleaks.com/webrtc')
       end
     end
     object ConfigPnl: TPanel
@@ -220,6 +221,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable
     OnPdfPrintFinished = Chromium1PdfPrintFinished
+    OnPrefsAvailable = Chromium1PrefsAvailable
     OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
@@ -309,7 +311,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   end
   object Timer1: TTimer
     Enabled = False
-    Interval = 200
+    Interval = 300
     OnTimer = Timer1Timer
     Left = 32
     Top = 344

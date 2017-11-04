@@ -611,24 +611,31 @@ end;
 
 function CheckLocaleFiles(const aLocalesDirPath, aLocalesRequired : string) : boolean;
 var
-  LLocaleList: TStrings;
-  LLocale: string;
+  TempLocaleList : TStrings;
+  TempLocale     : string;
+  i, j           : integer;
 begin
-  Result := True;
-  LLocaleList := TStringList.Create;
+  Result         := True;
+  TempLocaleList := TStringList.Create;
+
   try
-    LLocaleList.CommaText := aLocalesRequired;
-    for LLocale in LLocaleList do
-    begin
-      // avoid typing mistakes
-      if Length(LLocale) = 0 then
-        Continue;
-      Result := Result and CheckLocaleFile(aLocalesDirPath, LLocale);
-      if not Result then
-        Break;
-    end;
+    TempLocaleList.CommaText := aLocalesRequired;
+
+    i := 0;
+    j := TempLocaleList.Count;
+
+    while (i < j) and Result do
+      begin
+        TempLocale := trim(TempLocaleList[i]);
+
+        // avoid typing mistakes
+        if (Length(TempLocale) > 0) then
+          Result := Result and CheckLocaleFile(aLocalesDirPath, TempLocale);
+
+        inc(i);
+      end;
   finally
-    FreeAndNil(LLocaleList);
+    FreeAndNil(TempLocaleList);
   end;
 end;
 
@@ -689,8 +696,8 @@ const
     'zh-CN,' +
     'zh-TW';
 var
-  TempDir : string;
-  LLocalesRequired: string;
+  TempDir             : string;
+  TempLocalesRequired : string;
 begin
   Result := False;
 
@@ -703,12 +710,13 @@ begin
     if DirectoryExists(TempDir) then
       begin
         TempDir := IncludeTrailingPathDelimiter(TempDir);
-        if Length(aLocalesRequired) > 0 then
-          LLocalesRequired := aLocalesRequired
-        else
-          LLocalesRequired := LOCALES_REQUIRED_DEFAULT;
 
-        Result := CheckLocaleFiles(TempDir, LLocalesRequired);
+        if (length(aLocalesRequired) > 0) then
+          TempLocalesRequired := aLocalesRequired
+         else
+          TempLocalesRequired := LOCALES_REQUIRED_DEFAULT;
+
+        Result := CheckLocaleFiles(TempDir, TempLocalesRequired);
       end;
   except
     on e : exception do

@@ -53,23 +53,25 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
-  MINIBROWSER_SHOWDEVTOOLS   = WM_APP + $101;
-  MINIBROWSER_HIDEDEVTOOLS   = WM_APP + $102;
-  MINIBROWSER_COPYHTML       = WM_APP + $103;
-  MINIBROWSER_SHOWRESPONSE   = WM_APP + $104;
-  MINIBROWSER_COPYFRAMEIDS   = WM_APP + $105;
-  MINIBROWSER_COPYFRAMENAMES = WM_APP + $106;
+  MINIBROWSER_SHOWDEVTOOLS    = WM_APP + $101;
+  MINIBROWSER_HIDEDEVTOOLS    = WM_APP + $102;
+  MINIBROWSER_COPYHTML        = WM_APP + $103;
+  MINIBROWSER_SHOWRESPONSE    = WM_APP + $104;
+  MINIBROWSER_COPYFRAMEIDS    = WM_APP + $105;
+  MINIBROWSER_COPYFRAMENAMES  = WM_APP + $106;
+  MINIBROWSER_SAVEPREFERENCES = WM_APP + $107;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
-  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS   = MENU_ID_USER_FIRST + 1;
-  MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS   = MENU_ID_USER_FIRST + 2;
-  MINIBROWSER_CONTEXTMENU_COPYHTML       = MENU_ID_USER_FIRST + 3;
-  MINIBROWSER_CONTEXTMENU_JSWRITEDOC     = MENU_ID_USER_FIRST + 4;
-  MINIBROWSER_CONTEXTMENU_JSPRINTDOC     = MENU_ID_USER_FIRST + 5;
-  MINIBROWSER_CONTEXTMENU_SHOWRESPONSE   = MENU_ID_USER_FIRST + 6;
-  MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS   = MENU_ID_USER_FIRST + 7;
-  MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES = MENU_ID_USER_FIRST + 8;
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS    = MENU_ID_USER_FIRST + 1;
+  MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS    = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_COPYHTML        = MENU_ID_USER_FIRST + 3;
+  MINIBROWSER_CONTEXTMENU_JSWRITEDOC      = MENU_ID_USER_FIRST + 4;
+  MINIBROWSER_CONTEXTMENU_JSPRINTDOC      = MENU_ID_USER_FIRST + 5;
+  MINIBROWSER_CONTEXTMENU_SHOWRESPONSE    = MENU_ID_USER_FIRST + 6;
+  MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS    = MENU_ID_USER_FIRST + 7;
+  MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES  = MENU_ID_USER_FIRST + 8;
+  MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES = MENU_ID_USER_FIRST + 9;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -165,6 +167,7 @@ type
     procedure Chromium1ResolvedHostAvailable(Sender: TObject;
       result: Integer; const resolvedIps: TStrings);
     procedure Timer1Timer(Sender: TObject);
+    procedure Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
 
   protected
     FResponse : string;
@@ -185,6 +188,7 @@ type
     procedure CopyFramesIDsMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMEIDS;
     procedure CopyFramesNamesMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMENAMES;
     procedure ShowResponseMsg(var aMessage : TMessage); message MINIBROWSER_SHOWRESPONSE;
+    procedure SavePreferencesMsg(var aMessage : TMessage); message MINIBROWSER_SAVEPREFERENCES;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
@@ -252,13 +256,15 @@ procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
   model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,       'Copy HTML to clipboard');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS,   'Copy HTML frame identifiers to clipboard');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES, 'Copy HTML frame names to clipboard');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,        'Copy HTML to clipboard');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS,    'Copy HTML frame identifiers to clipboard');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES,  'Copy HTML frame names to clipboard');
   model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,     'Modify HTML document');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,     'Print using Javascript');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,   'Show last server response');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES, 'Save preferences as...');
+  model.AddSeparator;
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,      'Modify HTML document');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,      'Print using Javascript');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show last server response');
 
   if DevTools.Visible then
     model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -296,6 +302,9 @@ begin
 
     MINIBROWSER_CONTEXTMENU_SHOWRESPONSE :
       PostMessage(Handle, MINIBROWSER_SHOWRESPONSE, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES :
+      PostMessage(Handle, MINIBROWSER_SAVEPREFERENCES, 0, 0);
 
     MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
       if (browser <> nil) and (browser.MainFrame <> nil) then
@@ -424,6 +433,14 @@ begin
     showmessage('There was a problem generating the PDF file.');
 end;
 
+procedure TMiniBrowserFrm.Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
+begin
+  if aResultOK then
+    showmessage('The preferences file was generated successfully')
+   else
+    showmessage('There was a problem generating the preferences file.');
+end;
+
 procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;
   const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
   out isKeyboardShortcut, Result: Boolean);
@@ -496,6 +513,14 @@ end;
 
 procedure TMiniBrowserFrm.FormShow(Sender: TObject);
 begin
+  ShowStatusText('Initializing browser. Please wait...');
+
+  // WebRTC's IP leaking can lowered/avoided by setting these preferences
+  // To test this go to https://www.browserleaks.com/webrtc
+  Chromium1.WebRTCIPHandlingPolicy := hpDisableNonProxiedUDP;
+  Chromium1.WebRTCMultipleRoutes   := STATE_DISABLED;
+  Chromium1.WebRTCNonproxiedUDP    := STATE_DISABLED;
+
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
@@ -653,6 +678,15 @@ end;
 procedure TMiniBrowserFrm.ShowResponseMsg(var aMessage : TMessage);
 begin
   if (length(FResponse) > 0) then MessageDlg(FResponse, mtInformation, [mbOk], 0);
+end;
+
+procedure TMiniBrowserFrm.SavePreferencesMsg(var aMessage : TMessage);
+begin
+  SaveDialog1.DefaultExt := 'txt';
+  SaveDialog1.Filter     := 'Text files (*.txt)|*.TXT';
+
+  if SaveDialog1.Execute and (length(SaveDialog1.FileName) > 0) then
+    Chromium1.SavePreferences(SaveDialog1.FileName);
 end;
 
 procedure TMiniBrowserFrm.WMMove(var aMessage : TWMMove);
