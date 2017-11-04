@@ -65,6 +65,7 @@ type
     GoBtn: TButton;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
+    Timer1: TTimer;
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
@@ -79,6 +80,7 @@ type
       numDeleted: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -163,6 +165,12 @@ begin
   SimpleTextViewerFrm.ShowModal;
 end;
 
+procedure TCookieVisitorFrm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
+end;
+
 procedure TCookieVisitorFrm.GoBtnClick(Sender: TObject);
 begin
   Chromium1.LoadURL(Edit1.Text);
@@ -221,7 +229,9 @@ end;
 
 procedure TCookieVisitorFrm.FormShow(Sender: TObject);
 begin
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TCookieVisitorFrm.WMMove(var aMessage : TWMMove);

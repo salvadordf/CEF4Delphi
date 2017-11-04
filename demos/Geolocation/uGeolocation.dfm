@@ -22,7 +22,6 @@ object GeolocationFrm: TGeolocationFrm
     Height = 642
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 395
   end
   object NavControlPnl: TPanel
     Left = 0
@@ -76,13 +75,17 @@ object GeolocationFrm: TGeolocationFrm
       item
         Width = 200
       end>
-    ExplicitLeft = 584
-    ExplicitTop = 592
-    ExplicitWidth = 0
   end
   object Chromium1: TChromium
     OnAfterCreated = Chromium1AfterCreated
     Left = 32
     Top = 224
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 32
+    Top = 288
   end
 end

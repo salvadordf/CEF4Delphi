@@ -62,10 +62,12 @@ type
     Edit1: TEdit;
     GoBtn: TButton;
     StatusBar1: TStatusBar;
+    Timer1: TTimer;
 
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   protected
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure NewLocationMsg(var aMessage : TMessage); message MINIBROWSER_NEWLOCATION;
@@ -88,7 +90,9 @@ end;
 
 procedure TGeolocationFrm.FormShow(Sender: TObject);
 begin
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TGeolocationFrm.GoBtnClick(Sender: TObject);
@@ -108,6 +112,12 @@ begin
   StatusBar1.Panels[0].Text := 'lat : ' + floattostr(GlobalPosition.latitude);
   StatusBar1.Panels[1].Text := 'lon : ' + floattostr(GlobalPosition.longitude);
   StatusBar1.Panels[2].Text := 'alt : ' + floattostr(GlobalPosition.altitude);
+end;
+
+procedure TGeolocationFrm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TGeolocationFrm.WMMove(var aMessage : TWMMove);

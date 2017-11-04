@@ -22,7 +22,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
     Height = 530
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 549
   end
   object AddressBarPnl: TPanel
     Left = 0
@@ -71,9 +70,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
       item
         Width = 50
       end>
-    ExplicitLeft = 584
-    ExplicitTop = 552
-    ExplicitWidth = 0
   end
   object Chromium1: TChromium
     OnProcessMessageReceived = Chromium1ProcessMessageReceived
@@ -82,5 +78,12 @@ object DOMVisitorFrm: TDOMVisitorFrm
     OnAfterCreated = Chromium1AfterCreated
     Left = 16
     Top = 40
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 16
+    Top = 96
   end
 end

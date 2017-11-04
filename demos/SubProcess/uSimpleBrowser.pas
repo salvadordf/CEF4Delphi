@@ -57,9 +57,11 @@ type
     AddressPnl: TPanel;
     AddressEdt: TEdit;
     GoBtn: TButton;
+    Timer1: TTimer;
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -89,15 +91,21 @@ implementation
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  Caption := 'Simple Browser - Initializing browser. Please wait...';
+
   // You *MUST* call CreateBrowser to create and initialize the browser.
   // This will trigger the AfterCreated event when the browser is fully
   // initialized and ready to receive commands.
-  ChromiumWindow1.CreateBrowser;
+
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
 end;
 
 procedure TForm1.ChromiumWindow1AfterCreated(Sender: TObject);
 begin
   // Now the browser is fully initialized we can load the initial web page.
+  Caption            := 'Simple Browser';
   AddressPnl.Enabled := True;
   GoBtn.Click;
 end;
@@ -106,6 +114,12 @@ procedure TForm1.GoBtnClick(Sender: TObject);
 begin
   // This will load the URL in the edit box
   ChromiumWindow1.LoadURL(AddressEdt.Text);
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
 end;
 
 procedure TForm1.WMMove(var aMessage : TWMMove);

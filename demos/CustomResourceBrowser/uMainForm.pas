@@ -57,9 +57,11 @@ type
     AddressBarPnl: TPanel;
     Edit1: TEdit;
     Button1: TButton;
+    Timer1: TTimer;
 
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -92,7 +94,16 @@ procedure TMainForm.FormShow(Sender: TObject);
 begin
   ChromiumWindow1.OnAfterCreated                       := Chromium_OnAfterCreated;
   ChromiumWindow1.ChromiumBrowser.OnGetResourceHandler := Chromium_OnGetResourceHandler;
-  ChromiumWindow1.CreateBrowser;
+
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
+end;
+
+procedure TMainForm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
 end;
 
 procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject);

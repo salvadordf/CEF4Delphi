@@ -31,7 +31,6 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
     ParentDoubleBuffered = False
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 865
     object GoBtn: TButton
       Left = 944
       Top = 5
@@ -42,7 +41,6 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
       Caption = 'Go'
       TabOrder = 0
       OnClick = GoBtnClick
-      ExplicitLeft = 829
     end
     object AddressCbx: TComboBox
       Left = 5
@@ -65,8 +63,6 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
     Height = 622
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 865
-    ExplicitHeight = 528
   end
   object Chromium1: TChromium
     OnBeforeContextMenu = Chromium1BeforeContextMenu
@@ -74,5 +70,12 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
     OnAfterCreated = Chromium1AfterCreated
     Left = 16
     Top = 40
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 16
+    Top = 96
   end
 end

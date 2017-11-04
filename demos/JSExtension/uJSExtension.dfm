@@ -78,4 +78,11 @@ object JSExtensionFrm: TJSExtensionFrm
     Left = 32
     Top = 224
   end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 32
+    Top = 288
+  end
 end

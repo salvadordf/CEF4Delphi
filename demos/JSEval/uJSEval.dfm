@@ -69,4 +69,11 @@ object JSEvalFrm: TJSEvalFrm
     Left = 16
     Top = 40
   end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 16
+    Top = 96
+  end
 end

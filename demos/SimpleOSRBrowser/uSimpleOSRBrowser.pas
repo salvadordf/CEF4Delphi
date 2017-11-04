@@ -64,6 +64,7 @@ type
     GoBtn: TButton;
     SnapshotBtn: TButton;
     SaveDialog1: TSaveDialog;
+    Timer1: TTimer;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 
@@ -94,6 +95,7 @@ type
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure SnapshotBtnClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
 
   private
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
@@ -467,8 +469,11 @@ begin
    else
     begin
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF); // opaque white background color
-      chrmosr.CreateBrowser(nil, '');
-      chrmosr.InitializeDragAndDrop(PaintBox);
+
+      if chrmosr.CreateBrowser(nil, '') then
+        chrmosr.InitializeDragAndDrop(PaintBox)
+       else
+        Timer1.Enabled := True;
     end;
 end;
 
@@ -573,6 +578,16 @@ end;
 procedure TForm1.SnapshotBtnClick(Sender: TObject);
 begin
   if SaveDialog1.Execute then PaintBox.Buffer.SaveToFile(SaveDialog1.FileName);
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+
+  if chrmosr.CreateBrowser(nil, '') then
+    chrmosr.InitializeDragAndDrop(PaintBox)
+   else
+    Timer1.Enabled := True;
 end;
 
 end.

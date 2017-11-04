@@ -24,9 +24,6 @@ object PostDataInspectorFrm: TPostDataInspectorFrm
       item
         Width = 50
       end>
-    ExplicitLeft = -119
-    ExplicitTop = 548
-    ExplicitWidth = 978
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
@@ -35,10 +32,6 @@ object PostDataInspectorFrm: TPostDataInspectorFrm
     Height = 666
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = -119
-    ExplicitTop = 27
-    ExplicitWidth = 978
-    ExplicitHeight = 540
   end
   object NavControlPnl: TPanel
     Left = 0
@@ -54,8 +47,6 @@ object PostDataInspectorFrm: TPostDataInspectorFrm
     Padding.Bottom = 5
     ShowCaption = False
     TabOrder = 2
-    ExplicitLeft = -119
-    ExplicitWidth = 978
     object Edit1: TEdit
       Left = 5
       Top = 5
@@ -67,7 +58,6 @@ object PostDataInspectorFrm: TPostDataInspectorFrm
       Text = 
         'https://www.w3schools.com/php/showphp.asp?filename=demo_form_pos' +
         't'
-      ExplicitWidth = 937
       ExplicitHeight = 21
     end
     object GoBtn: TButton
@@ -80,7 +70,6 @@ object PostDataInspectorFrm: TPostDataInspectorFrm
       Caption = 'Go'
       TabOrder = 1
       OnClick = GoBtnClick
-      ExplicitLeft = 942
     end
   end
   object Chromium1: TChromium
@@ -88,5 +77,12 @@ object PostDataInspectorFrm: TPostDataInspectorFrm
     OnAfterCreated = Chromium1AfterCreated
     Left = 32
     Top = 224
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 32
+    Top = 288
   end
 end

@@ -141,7 +141,14 @@ object Form1: TForm1
     DefaultExt = 'bmp'
     Filter = 'Bitmap files (*.bmp)|*.BMP'
     Title = 'Save snapshot'
-    Left = 544
-    Top = 62
+    Left = 24
+    Top = 278
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 24
+    Top = 206
   end
 end

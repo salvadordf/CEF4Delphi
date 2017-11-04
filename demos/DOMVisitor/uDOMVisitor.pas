@@ -68,6 +68,7 @@ type
     GoBtn: TButton;
     AddressEdt: TEdit;
     StatusBar1: TStatusBar;
+    Timer1: TTimer;
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
@@ -82,6 +83,7 @@ type
     procedure Chromium1ProcessMessageReceived(Sender: TObject;
       const browser: ICefBrowser; sourceProcess: TCefProcessId;
       const message: ICefProcessMessage; out Result: Boolean);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -148,7 +150,9 @@ end;
 
 procedure TDOMVisitorFrm.FormShow(Sender: TObject);
 begin
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TDOMVisitorFrm.GoBtnClick(Sender: TObject);
@@ -190,6 +194,12 @@ end;
 procedure TDOMVisitorFrm.ShowStatusText(const aText : string);
 begin
   StatusBar1.Panels[0].Text := aText;
+end;
+
+procedure TDOMVisitorFrm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 end.

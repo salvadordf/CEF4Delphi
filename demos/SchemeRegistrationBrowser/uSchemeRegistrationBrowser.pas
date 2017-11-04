@@ -63,6 +63,7 @@ type
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     AddressCbx: TComboBox;
+    Timer1: TTimer;
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
     procedure Chromium1BeforeContextMenu(Sender: TObject;
@@ -74,6 +75,7 @@ type
       eventFlags: Cardinal; out Result: Boolean);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -141,12 +143,20 @@ end;
 
 procedure TSchemeRegistrationBrowserFrm.FormShow(Sender: TObject);
 begin
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.GoBtnClick(Sender: TObject);
 begin
   Chromium1.LoadURL(AddressCbx.Text);
+end;
+
+procedure TSchemeRegistrationBrowserFrm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);

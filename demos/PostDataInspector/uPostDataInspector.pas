@@ -62,6 +62,7 @@ type
     NavControlPnl: TPanel;
     Edit1: TEdit;
     GoBtn: TButton;
+    Timer1: TTimer;
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Chromium1ProcessMessageReceived(Sender: TObject;
@@ -69,6 +70,7 @@ type
       const message: ICefProcessMessage; out Result: Boolean);
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
+    procedure Timer1Timer(Sender: TObject);
   protected
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
@@ -124,12 +126,20 @@ end;
 
 procedure TPostDataInspectorFrm.FormShow(Sender: TObject);
 begin
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TPostDataInspectorFrm.GoBtnClick(Sender: TObject);
 begin
   Chromium1.LoadURL(Edit1.Text);
+end;
+
+procedure TPostDataInspectorFrm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TPostDataInspectorFrm.WMMove(var aMessage : TWMMove);

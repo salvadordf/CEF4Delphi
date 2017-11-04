@@ -48,12 +48,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFTypes, uCEFConstants,
+  Vcl.ExtCtrls;
 
 type
   TMainForm = class(TForm)
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
+    Timer1: TTimer;
     procedure Chromium1PreKeyEvent(Sender: TObject;
       const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
       out isKeyboardShortcut, Result: Boolean);
@@ -63,6 +65,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -99,6 +102,12 @@ begin
 
       PostMessage(Handle, WM_CLOSE, 0, 0);
     end;
+end;
+
+procedure TMainForm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TMainForm.HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
@@ -165,7 +174,10 @@ end;
 procedure TMainForm.FormShow(Sender: TObject);
 begin
   Chromium1.DefaultUrl := 'https://www.google.com';
-  Chromium1.CreateBrowser(CEFWindowParent1, '');
+
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
 end;
 
 procedure TMainForm.WMMove(var aMessage : TWMMove);

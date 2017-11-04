@@ -90,6 +90,9 @@ begin
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
+  GlobalCEFApp.DisableGPUCache      := True;      // Disable the creation of a 'GPUCache' directory in the hard drive.
+  GlobalCEFApp.SingleProcess        := True;      // Use the single process mode *ONLY* for debugging purposes
   GlobalCEFApp.cache                := 'cef\cache';
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
