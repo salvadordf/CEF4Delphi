@@ -45,10 +45,10 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Menus,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
-  System.UITypes, Vcl.AppEvnts,
+  System.UITypes, Vcl.AppEvnts, Winapi.ActiveX, Winapi.ShlObj,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
-  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, AppEvnts,
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, AppEvnts, ActiveX, ShlObj,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
@@ -168,6 +168,13 @@ type
       result: Integer; const resolvedIps: TStrings);
     procedure Timer1Timer(Sender: TObject);
     procedure Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
+    procedure Chromium1BeforeDownload(Sender: TObject;
+      const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
+      const suggestedName: ustring;
+      const callback: ICefBeforeDownloadCallback);
+    procedure Chromium1DownloadUpdated(Sender: TObject;
+      const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
+      const callback: ICefDownloadItemCallback);
 
   protected
     FResponse : string;
@@ -272,6 +279,54 @@ begin
     model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
 end;
 
+function PathToMyDocuments : string;
+var
+  Allocator : IMalloc;
+  Path      : pchar;
+  idList    : PItemIDList;
+begin
+  Result   := '';
+  Path     := nil;
+  idList   := nil;
+
+  try
+    if (SHGetMalloc(Allocator) = S_OK) then
+      begin
+        GetMem(Path, MAX_PATH);
+        if (SHGetSpecialFolderLocation(0, CSIDL_PERSONAL, idList) = S_OK) and
+           SHGetPathFromIDList(idList, Path) then
+          Result := string(Path);
+      end;
+  finally
+    if (Path   <> nil) then FreeMem(Path);
+    if (idList <> nil) then Allocator.Free(idList);
+  end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1BeforeDownload(Sender: TObject;
+  const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
+  const suggestedName: ustring;
+  const callback: ICefBeforeDownloadCallback);
+var
+  TempMyDocuments, TempFullPath, TempName : string;
+begin
+  if (downloadItem = nil) or not(downloadItem.IsValid) then exit;
+
+  TempMyDocuments := PathToMyDocuments;
+
+  if (length(suggestedName) > 0) then
+    TempName := suggestedName
+   else
+    TempName := 'DownloadedFile';
+
+  if (length(TempMyDocuments) > 0) then
+    TempFullPath := IncludeTrailingPathDelimiter(TempMyDocuments) + TempName
+   else
+    TempFullPath := TempName;
+
+  callback.cont(TempFullPath, False);
+end;
+
 procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
@@ -320,6 +375,29 @@ begin
       if (browser <> nil) and (browser.MainFrame <> nil) then
         browser.MainFrame.ExecuteJavaScript('window.print();', 'about:blank', 0);
   end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1DownloadUpdated(Sender: TObject;
+  const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
+  const callback: ICefDownloadItemCallback);
+var
+  TempString : string;
+begin
+  if downloadItem.IsComplete then
+    ShowStatusText(downloadItem.FullPath + ' completed')
+   else
+    if downloadItem.IsCanceled then
+      ShowStatusText(downloadItem.FullPath + ' canceled')
+     else
+      if downloadItem.IsInProgress then
+        begin
+          if (downloadItem.PercentComplete >= 0) then
+            TempString := downloadItem.FullPath + ' : ' + inttostr(downloadItem.PercentComplete) + '%'
+           else
+            TempString := downloadItem.FullPath + ' : ' + inttostr(downloadItem.ReceivedBytes) + ' bytes received';
+
+          ShowStatusText(TempString);
+        end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
