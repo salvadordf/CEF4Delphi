@@ -80,7 +80,7 @@ type
       constructor Create(const method: TCefFastTaskProc); reintroduce;
   end;
 
-  TCefGetHTMLTask = class(TCefTaskOwn)
+  TCefGetTextTask = class(TCefTaskOwn)
     protected
       FChromiumBrowser : TObject;
       FFrameName       : ustring;
@@ -94,6 +94,11 @@ type
       constructor Create(const aChromiumBrowser : TObject; const aFrame : ICefFrame); reintroduce; overload;
       constructor Create(const aChromiumBrowser : TObject; const aFrameIdentifier : int64); reintroduce; overload;
       destructor  Destroy; override;
+  end;
+
+  TCefGetHTMLTask = class(TCefGetTextTask)
+    protected
+      procedure Execute; override;
   end;
 
   TCefDeleteCookiesTask = class(TCefTaskOwn)
@@ -191,11 +196,10 @@ begin
   CefPostDelayedTask(threadId, Create(method), Delay);
 end;
 
+// TCefGetTextTask
 
-// TCefGetHTMLTask
 
-
-constructor TCefGetHTMLTask.Create(const aChromiumBrowser : TObject; const aFrameName : ustring);
+constructor TCefGetTextTask.Create(const aChromiumBrowser : TObject; const aFrameName : ustring);
 begin
   inherited Create;
 
@@ -205,7 +209,7 @@ begin
   FFrameIdentifier := 0;
 end;
 
-constructor TCefGetHTMLTask.Create(const aChromiumBrowser : TObject; const aFrame : ICefFrame);
+constructor TCefGetTextTask.Create(const aChromiumBrowser : TObject; const aFrame : ICefFrame);
 begin
   inherited Create;
 
@@ -215,7 +219,7 @@ begin
   FFrameIdentifier := 0;
 end;
 
-constructor TCefGetHTMLTask.Create(const aChromiumBrowser : TObject; const aFrameIdentifier : int64);
+constructor TCefGetTextTask.Create(const aChromiumBrowser : TObject; const aFrameIdentifier : int64);
 begin
   inherited Create;
 
@@ -225,12 +229,29 @@ begin
   FFrameIdentifier := aFrameIdentifier;
 end;
 
-destructor TCefGetHTMLTask.Destroy;
+destructor TCefGetTextTask.Destroy;
 begin
   FFrame := nil;
 
   inherited Destroy;
 end;
+
+procedure TCefGetTextTask.Execute;
+begin
+  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
+    begin
+      if (FFrame <> nil) then
+        TChromium(FChromiumBrowser).Internal_GetText(FFrame)
+       else
+        if (FFrameIdentifier <> 0) then
+          TChromium(FChromiumBrowser).Internal_GetText(FFrameIdentifier)
+         else
+          TChromium(FChromiumBrowser).Internal_GetText(FFrameName);
+    end;
+end;
+
+
+// TCefGetHTMLTask
 
 procedure TCefGetHTMLTask.Execute;
 begin

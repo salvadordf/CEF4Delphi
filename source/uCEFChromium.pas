@@ -410,6 +410,9 @@ type
       procedure   Internal_GetHTML(const aFrameName : ustring); overload;
       procedure   Internal_GetHTML(const aFrame : ICefFrame); overload;
       procedure   Internal_GetHTML(const aFrameIdentifier : int64); overload;
+      procedure   Internal_GetText(const aFrameName : ustring); overload;
+      procedure   Internal_GetText(const aFrame : ICefFrame); overload;
+      procedure   Internal_GetText(const aFrameIdentifier : int64); overload;
       procedure   Internal_PdfPrintFinished(aResultOK : boolean);
       procedure   Internal_TextResultAvailable(const aText : string);
       procedure   Internal_UpdatePreferences; virtual;
@@ -432,6 +435,9 @@ type
       procedure   RetrieveHTML(const aFrameName : ustring = ''); overload;
       procedure   RetrieveHTML(const aFrame : ICefFrame); overload;
       procedure   RetrieveHTML(const aFrameIdentifier : int64); overload;
+      procedure   RetrieveText(const aFrameName : ustring = ''); overload;
+      procedure   RetrieveText(const aFrame : ICefFrame); overload;
+      procedure   RetrieveText(const aFrameIdentifier : int64); overload;
       function    GetFrameNames(var aFrameNames : TStrings) : boolean;
       function    GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
@@ -1828,6 +1834,53 @@ begin
     end;
 end;
 
+procedure TChromium.Internal_GetText(const aFrameName : ustring);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized then
+    begin
+      if (length(aFrameName) > 0) then
+        TempFrame := FBrowser.GetFrame(aFrameName)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
+          TempFrame.GetText(FVisitor);
+        end;
+    end;
+end;
+
+procedure TChromium.Internal_GetText(const aFrame : ICefFrame);
+begin
+  if Initialized and (aFrame <> nil) then
+    begin
+      if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
+      aFrame.GetText(FVisitor);
+    end;
+end;
+
+procedure TChromium.Internal_GetText(const aFrameIdentifier : int64);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized then
+    begin
+      if (aFrameIdentifier <> 0) then
+        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
+          TempFrame.GetText(FVisitor);
+        end;
+    end;
+end;
+
 procedure TChromium.DeleteCookies;
 var
   TempTask: ICefTask;
@@ -1873,6 +1926,43 @@ begin
   if Initialized then
     begin
       TempTask := TCefGetHTMLTask.Create(self, aFrameIdentifier);
+      CefPostTask(TID_UI, TempTask);
+    end;
+end;
+
+// Leave aFrameName empty to get the HTML source from the main frame
+procedure TChromium.RetrieveText(const aFrameName : ustring);
+var
+  TempTask: ICefTask;
+begin
+  // Results will be received in the OnTextResultAvailable event of this class
+  if Initialized then
+    begin
+      TempTask := TCefGetTextTask.Create(self, aFrameName);
+      CefPostTask(TID_UI, TempTask);
+    end;
+end;
+
+procedure TChromium.RetrieveText(const aFrame : ICefFrame);
+var
+  TempTask: ICefTask;
+begin
+  // Results will be received in the OnTextResultAvailable event of this class
+  if Initialized then
+    begin
+      TempTask := TCefGetTextTask.Create(self, aFrame);
+      CefPostTask(TID_UI, TempTask);
+    end;
+end;
+
+procedure TChromium.RetrieveText(const aFrameIdentifier : int64);
+var
+  TempTask: ICefTask;
+begin
+  // Results will be received in the OnTextResultAvailable event of this class
+  if Initialized then
+    begin
+      TempTask := TCefGetTextTask.Create(self, aFrameIdentifier);
       CefPostTask(TID_UI, TempTask);
     end;
 end;

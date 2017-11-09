@@ -60,6 +60,7 @@ const
   MINIBROWSER_COPYFRAMEIDS    = WM_APP + $105;
   MINIBROWSER_COPYFRAMENAMES  = WM_APP + $106;
   MINIBROWSER_SAVEPREFERENCES = WM_APP + $107;
+  MINIBROWSER_COPYALLTEXT     = WM_APP + $108;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -72,6 +73,7 @@ const
   MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS    = MENU_ID_USER_FIRST + 7;
   MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES  = MENU_ID_USER_FIRST + 8;
   MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES = MENU_ID_USER_FIRST + 9;
+  MINIBROWSER_CONTEXTMENU_COPYALLTEXT     = MENU_ID_USER_FIRST + 10;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -191,6 +193,7 @@ type
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
+    procedure CopyAllTextMsg(var aMessage : TMessage); message MINIBROWSER_COPYALLTEXT;
     procedure CopyHTMLMsg(var aMessage : TMessage); message MINIBROWSER_COPYHTML;
     procedure CopyFramesIDsMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMEIDS;
     procedure CopyFramesNamesMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMENAMES;
@@ -263,6 +266,7 @@ procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
   model.AddSeparator;
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYALLTEXT,     'Copy displayed text to clipboard');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,        'Copy HTML to clipboard');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS,    'Copy HTML frame identifiers to clipboard');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES,  'Copy HTML frame names to clipboard');
@@ -345,6 +349,9 @@ begin
         TempParam := ((params.XCoord and $FFFF) shl 16) or (params.YCoord and $FFFF);
         PostMessage(Handle, MINIBROWSER_SHOWDEVTOOLS, TempParam, 0);
       end;
+
+    MINIBROWSER_CONTEXTMENU_COPYALLTEXT :
+      PostMessage(Handle, MINIBROWSER_COPYALLTEXT, 0, 0);
 
     MINIBROWSER_CONTEXTMENU_COPYHTML :
       PostMessage(Handle, MINIBROWSER_COPYHTML, 0, 0);
@@ -714,6 +721,11 @@ end;
 procedure TMiniBrowserFrm.CopyHTMLMsg(var aMessage : TMessage);
 begin
   Chromium1.RetrieveHTML;
+end;
+
+procedure TMiniBrowserFrm.CopyAllTextMsg(var aMessage : TMessage);
+begin
+  Chromium1.RetrieveText;
 end;
 
 procedure TMiniBrowserFrm.CopyFramesIDsMsg(var aMessage : TMessage);
