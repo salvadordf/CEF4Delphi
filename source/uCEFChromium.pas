@@ -478,7 +478,7 @@ type
       procedure   WasHidden(hidden: Boolean);
       procedure   NotifyScreenInfoChanged;
       procedure   NotifyMoveOrResizeStarted;
-      procedure   Invalidate(kind: TCefPaintElementType);
+      procedure   Invalidate(kind: TCefPaintElementType = PET_VIEW);
       procedure   SendKeyEvent(const event: PCefKeyEvent);
       procedure   SendMouseClickEvent(const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
       procedure   SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
@@ -3320,7 +3320,13 @@ end;
 
 procedure TChromium.Invalidate(kind: TCefPaintElementType);
 begin
-  if Initialized then FBrowser.Host.Invalidate(kind);
+  if Initialized then
+    begin
+      if FIsOSR then
+        FBrowser.Host.Invalidate(kind)
+       else
+        InvalidateRect(FBrowser.Host.WindowHandle, nil, False);
+    end;
 end;
 
 procedure TChromium.SendKeyEvent(const event: PCefKeyEvent);

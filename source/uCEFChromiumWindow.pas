@@ -77,8 +77,8 @@ type
       procedure   CloseBrowser(aForceClose : boolean);
       procedure   LoadURL(const aURL : string);
 
-      property ChromiumBrowser  : TChromium       read FChromium;
-      property Initialized      : boolean         read GetBrowserInitialized;
+      property ChromiumBrowser    : TChromium       read FChromium;
+      property Initialized        : boolean         read GetBrowserInitialized;
 
     published
       property OnClose          : TNotifyEvent    read FOnClose          write FOnClose;

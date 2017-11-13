@@ -41,6 +41,7 @@ object Form1: TForm1
       ItemIndex = 0
       TabOrder = 0
       Text = 'https://www.google.com'
+      OnEnter = ComboBox1Enter
       Items.Strings = (
         'https://www.google.com'
         'https://html5demos.com/drag')
@@ -69,6 +70,7 @@ object Form1: TForm1
         Caption = 'Go'
         TabOrder = 0
         OnClick = GoBtnClick
+        OnEnter = GoBtnEnter
       end
       object SnapshotBtn: TButton
         Left = 38
@@ -89,6 +91,7 @@ object Form1: TForm1
         ShowHint = True
         TabOrder = 1
         OnClick = SnapshotBtnClick
+        OnEnter = SnapshotBtnEnter
       end
     end
   end
@@ -115,7 +118,6 @@ object Form1: TForm1
       OnMouseDown = PaintBoxMouseDown
       OnMouseMove = PaintBoxMouseMove
       OnMouseUp = PaintBoxMouseUp
-      OnMouseWheel = PaintBoxMouseWheel
       OnMouseLeave = PaintBoxMouseLeave
       OnResize = PaintBoxResize
     end

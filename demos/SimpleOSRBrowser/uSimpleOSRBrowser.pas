@@ -49,7 +49,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes,
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
   {$ENDIF}
-  GR32_Image, // You need the Graphics32 components for this demo available at http://graphics32.org
+  GR32_Image, // You need the Graphics32 components for this demo available at http://graphics32.org and https://github.com/graphics32/graphics32
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants;
 
 type
@@ -69,6 +69,8 @@ type
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 
     procedure GoBtnClick(Sender: TObject);
+    procedure SnapshotBtnClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
 
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
@@ -83,7 +85,6 @@ type
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure PaintBoxMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
     procedure PaintBoxMouseLeave(Sender: TObject);
 
     procedure chrmosrPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
@@ -94,10 +95,9 @@ type
     procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
-    procedure SnapshotBtnClick(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
-
-  private
+    procedure GoBtnEnter(Sender: TObject);
+    procedure SnapshotBtnEnter(Sender: TObject);
+    procedure ComboBox1Enter(Sender: TObject); private
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
 
@@ -123,108 +123,116 @@ uses
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
-  TempEvent : TCefKeyEvent;
+  TempKeyEvent   : TCefKeyEvent;
+  TempMouseEvent : TCefMouseEvent;
 begin
   case Msg.message of
     WM_SYSCHAR :
-      if (Panel1.Focused or chrmosr.FrameIsFocused) and
-         (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
         begin
-          TempEvent.kind                    := KEYEVENT_CHAR;
-          TempEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempEvent.windows_key_code        := Msg.wParam;
-          TempEvent.native_key_code         := Msg.lParam;
-          TempEvent.is_system_key           := ord(True);
-          TempEvent.character               := #0;
-          TempEvent.unmodified_character    := #0;
-          TempEvent.focus_on_editable_field := ord(False);
+          TempKeyEvent.kind                    := KEYEVENT_CHAR;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
+          TempKeyEvent.windows_key_code        := Msg.wParam;
+          TempKeyEvent.native_key_code         := Msg.lParam;
+          TempKeyEvent.is_system_key           := ord(True);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
 
-          chrmosr.SendKeyEvent(@TempEvent);
+          chrmosr.SendKeyEvent(@TempKeyEvent);
           Handled := True;
         end;
 
     WM_SYSKEYDOWN :
-      if (Panel1.Focused or chrmosr.FrameIsFocused) and
-         (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
         begin
-          TempEvent.kind                    := KEYEVENT_RAWKEYDOWN;
-          TempEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempEvent.windows_key_code        := Msg.wParam;
-          TempEvent.native_key_code         := Msg.lParam;
-          TempEvent.is_system_key           := ord(True);
-          TempEvent.character               := #0;
-          TempEvent.unmodified_character    := #0;
-          TempEvent.focus_on_editable_field := ord(False);
+          TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
+          TempKeyEvent.windows_key_code        := Msg.wParam;
+          TempKeyEvent.native_key_code         := Msg.lParam;
+          TempKeyEvent.is_system_key           := ord(True);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
 
-          chrmosr.SendKeyEvent(@TempEvent);
+          chrmosr.SendKeyEvent(@TempKeyEvent);
           Handled := True;
         end;
 
     WM_SYSKEYUP :
-      if (Panel1.Focused or chrmosr.FrameIsFocused) and
-         (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
         begin
-          TempEvent.kind                    := KEYEVENT_KEYUP;
-          TempEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempEvent.windows_key_code        := Msg.wParam;
-          TempEvent.native_key_code         := Msg.lParam;
-          TempEvent.is_system_key           := ord(True);
-          TempEvent.character               := #0;
-          TempEvent.unmodified_character    := #0;
-          TempEvent.focus_on_editable_field := ord(False);
+          TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
+          TempKeyEvent.windows_key_code        := Msg.wParam;
+          TempKeyEvent.native_key_code         := Msg.lParam;
+          TempKeyEvent.is_system_key           := ord(True);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
 
-          chrmosr.SendKeyEvent(@TempEvent);
+          chrmosr.SendKeyEvent(@TempKeyEvent);
           Handled := True;
         end;
 
     WM_KEYDOWN :
-      if (Panel1.Focused or chrmosr.FrameIsFocused) and
-         (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
         begin
-          TempEvent.kind                    := KEYEVENT_RAWKEYDOWN;
-          TempEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempEvent.windows_key_code        := Msg.wParam;
-          TempEvent.native_key_code         := Msg.lParam;
-          TempEvent.is_system_key           := ord(False);
-          TempEvent.character               := #0;
-          TempEvent.unmodified_character    := #0;
-          TempEvent.focus_on_editable_field := ord(False);
+          TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
+          TempKeyEvent.windows_key_code        := Msg.wParam;
+          TempKeyEvent.native_key_code         := Msg.lParam;
+          TempKeyEvent.is_system_key           := ord(False);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
 
-          chrmosr.SendKeyEvent(@TempEvent);
+          chrmosr.SendKeyEvent(@TempKeyEvent);
           Handled := True;
         end;
 
     WM_KEYUP :
-      if (Panel1.Focused or chrmosr.FrameIsFocused) and
-         (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
         begin
-          TempEvent.kind                    := KEYEVENT_KEYUP;
-          TempEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempEvent.windows_key_code        := Msg.wParam;
-          TempEvent.native_key_code         := Msg.lParam;
-          TempEvent.is_system_key           := ord(False);
-          TempEvent.character               := #0;
-          TempEvent.unmodified_character    := #0;
-          TempEvent.focus_on_editable_field := ord(False);
+          TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
+          TempKeyEvent.windows_key_code        := Msg.wParam;
+          TempKeyEvent.native_key_code         := Msg.lParam;
+          TempKeyEvent.is_system_key           := ord(False);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
 
-          chrmosr.SendKeyEvent(@TempEvent);
+          chrmosr.SendKeyEvent(@TempKeyEvent);
           Handled := True;
         end;
 
     WM_CHAR :
-      if Panel1.Focused or chrmosr.FrameIsFocused then
+      if Panel1.Focused then
         begin
-          TempEvent.kind                    := KEYEVENT_CHAR;
-          TempEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempEvent.windows_key_code        := Msg.wParam;
-          TempEvent.native_key_code         := Msg.lParam;
-          TempEvent.is_system_key           := ord(False);
-          TempEvent.character               := #0;
-          TempEvent.unmodified_character    := #0;
-          TempEvent.focus_on_editable_field := ord(False);
+          TempKeyEvent.kind                    := KEYEVENT_CHAR;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
+          TempKeyEvent.windows_key_code        := Msg.wParam;
+          TempKeyEvent.native_key_code         := Msg.lParam;
+          TempKeyEvent.is_system_key           := ord(False);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
 
-          chrmosr.SendKeyEvent(@TempEvent);
+          chrmosr.SendKeyEvent(@TempKeyEvent);
           Handled := True;
+        end;
+
+    // The MouseWheel event in PaintBox doesn't receive any event
+    // so we'll catch the WM_MOUSEWHEEL message here.
+    WM_MOUSEWHEEL :
+      if Panel1.Focused and (GlobalCEFApp <> nil) then
+        begin
+          TempMouseEvent.x         := Msg.lParam and $FFFF;
+          TempMouseEvent.y         := Msg.lParam shr 16;
+          TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
+          DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
+          chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, int16(Msg.wParam shr 16));
         end;
   end;
 end;
@@ -232,6 +240,11 @@ end;
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
   chrmosr.LoadURL(ComboBox1.Text);
+end;
+
+procedure TForm1.GoBtnEnter(Sender: TObject);
+begin
+  chrmosr.SendFocusEvent(False);
 end;
 
 procedure TForm1.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -384,6 +397,11 @@ begin
   // LogicalToDevice(rect, GlobalCEFApp.DeviceScaleFactor);
 end;
 
+procedure TForm1.ComboBox1Enter(Sender: TObject);
+begin
+  chrmosr.SendFocusEvent(False);
+end;
+
 function TForm1.getModifiers(Shift: TShiftState): TCefEventFlags;
 begin
   Result := EVENTFLAG_NONE;
@@ -435,6 +453,7 @@ end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
 begin
+  Caption               := 'Simple OSR Browser';
   NavControlPnl.Enabled := True;
   GoBtn.Click;
 end;
@@ -468,6 +487,7 @@ begin
     end
    else
     begin
+      Caption := 'Simple OSR Browser - Initializing browser. Please wait...';
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF); // opaque white background color
 
       if chrmosr.CreateBrowser(nil, '') then
@@ -541,24 +561,6 @@ begin
     end;
 end;
 
-procedure TForm1.PaintBoxMouseWheel(Sender      : TObject;
-                                    Shift       : TShiftState;
-                                    WheelDelta  : Integer;
-                                    MousePos    : TPoint;
-                                    var Handled : Boolean);
-var
-  TempEvent : TCefMouseEvent;
-begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      TempEvent.x         := MousePos.X;
-      TempEvent.y         := MousePos.Y;
-      TempEvent.modifiers := getModifiers(Shift);
-      DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
-    end;
-end;
-
 procedure TForm1.PaintBoxResize(Sender: TObject);
 begin
   PaintBox.Buffer.SetSize(PaintBox.Width, PaintBox.Height);
@@ -578,6 +580,11 @@ end;
 procedure TForm1.SnapshotBtnClick(Sender: TObject);
 begin
   if SaveDialog1.Execute then PaintBox.Buffer.SaveToFile(SaveDialog1.FileName);
+end;
+
+procedure TForm1.SnapshotBtnEnter(Sender: TObject);
+begin
+  chrmosr.SendFocusEvent(False);
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
