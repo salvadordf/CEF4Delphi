@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Simple OSR Browser'
+  Caption = 'Simple OSR Browser - Initializing browser. Please wait...'
   ClientHeight = 510
   ClientWidth = 800
   Color = clBtnFace
@@ -13,6 +13,7 @@ object Form1: TForm1
   OldCreateOrder = False
   Position = poScreenCenter
   OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
@@ -31,7 +32,7 @@ object Form1: TForm1
     Padding.Right = 5
     Padding.Bottom = 5
     ShowCaption = False
-    TabOrder = 1
+    TabOrder = 0
     object ComboBox1: TComboBox
       Left = 5
       Top = 5
@@ -44,7 +45,10 @@ object Form1: TForm1
       OnEnter = ComboBox1Enter
       Items.Strings = (
         'https://www.google.com'
-        'https://html5demos.com/drag')
+        'https://html5demos.com/drag'
+        
+          'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_selec' +
+          't_form')
     end
     object Panel2: TPanel
       Left = 726
@@ -95,32 +99,22 @@ object Form1: TForm1
       end
     end
   end
-  object Panel1: TPanel
+  object Panel1: TBufferPanel
     Left = 0
     Top = 30
     Width = 800
     Height = 480
     Align = alClient
-    BevelOuter = bvNone
-    ShowCaption = False
-    TabOrder = 0
-    TabStop = True
+    Caption = 'Panel1'
+    TabOrder = 1
+    OnClick = Panel1Click
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
-    object PaintBox: TPaintBox32
-      Left = 0
-      Top = 0
-      Width = 800
-      Height = 480
-      Align = alClient
-      TabOrder = 0
-      OnClick = PaintBoxClick
-      OnMouseDown = PaintBoxMouseDown
-      OnMouseMove = PaintBoxMouseMove
-      OnMouseUp = PaintBoxMouseUp
-      OnMouseLeave = PaintBoxMouseLeave
-      OnResize = PaintBoxResize
-    end
+    OnMouseDown = Panel1MouseDown
+    OnMouseLeave = Panel1MouseLeave
+    OnMouseMove = Panel1MouseMove
+    OnMouseUp = Panel1MouseUp
+    OnResize = Panel1Resize
   end
   object chrmosr: TChromium
     OnAfterCreated = chrmosrAfterCreated

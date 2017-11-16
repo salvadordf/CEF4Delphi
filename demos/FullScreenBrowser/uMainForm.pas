@@ -107,7 +107,8 @@ end;
 procedure TMainForm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
-  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) and not(Chromium1.Initialized) then
+    Timer1.Enabled := True;
 end;
 
 procedure TMainForm.HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);

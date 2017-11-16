@@ -103,7 +103,8 @@ end;
 procedure TMainForm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
-  if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
+  if not(ChromiumWindow1.CreateBrowser) and not(ChromiumWindow1.Initialized) then
+    Timer1.Enabled := True;
 end;
 
 procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject);

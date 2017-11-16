@@ -614,7 +614,8 @@ end;
 procedure TMiniBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
-  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
+  if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) and not(Chromium1.Initialized) then
+    Timer1.Enabled := True;
 end;
 
 procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
