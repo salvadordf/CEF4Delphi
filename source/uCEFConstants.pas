@@ -360,6 +360,7 @@ const
   CEF_DOONCLOSE          = WM_APP + $A01;
   CEF_STARTDRAGGING      = WM_APP + $A02;
   CEF_AFTERCREATED       = WM_APP + $A03;
+  CEF_PENDINGRESIZE      = WM_APP + $A04;
 
   CEF_USER_TIMER_MINIMUM = $0000000A;
   CEF_USER_TIMER_MAXIMUM = $7FFFFFFF;
@@ -370,3 +371,4 @@ const
 implementation
 
 end.
+

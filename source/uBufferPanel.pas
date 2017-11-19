@@ -61,10 +61,9 @@ type
       function  GetBufferWidth : integer;
       function  GetBufferHeight : integer;
 
-      procedure CopyBuffer(aDC : HDC; const aRect : TRect);
+      function  CopyBuffer(aDC : HDC; const aRect : TRect) : boolean;
       function  SaveBufferToFile(const aFilename : string) : boolean;
       procedure DestroyBuffer;
-      procedure Resize; override;
 
       procedure WMPaint(var aMessage: TWMPaint); message WM_PAINT;
       procedure WMEraseBkgnd(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;
@@ -78,6 +77,8 @@ type
       function    BeginBufferDraw : boolean;
       procedure   EndBufferDraw;
       procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap);
+      function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
+      function    BufferIsResized(aUseMutex : boolean = True) : boolean;
 
       property Buffer         : TBitmap            read FBuffer;
       property ScanlineSize   : integer            read FScanlineSize;
@@ -173,7 +174,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions;
+  uCEFMiscFunctions, uCEFApplication;
 
 constructor TBufferPanel.Create(AOwner: TComponent);
 begin
@@ -254,14 +255,17 @@ begin
   if (FMutex <> 0) then ReleaseMutex(FMutex);
 end;
 
-procedure TBufferPanel.CopyBuffer(aDC : HDC; const aRect : TRect);
+function TBufferPanel.CopyBuffer(aDC : HDC; const aRect : TRect) : boolean;
 begin
+  Result := False;
+
   if BeginBufferDraw then
     begin
-      if (FBuffer <> nil) and (aDC <> 0) then
-        BitBlt(aDC, aRect.Left, aRect.Top, aRect.Right - aRect.Left, aRect.Bottom - aRect.Top,
-              FBuffer.Canvas.Handle, aRect.Left, aRect.Top,
-              SrcCopy);
+      Result := (FBuffer <> nil) and
+                (aDC     <> 0)   and
+                BitBlt(aDC, aRect.Left, aRect.Top, aRect.Right - aRect.Left, aRect.Bottom - aRect.Top,
+                       FBuffer.Canvas.Handle, aRect.Left, aRect.Top,
+                       SrcCopy);
 
       EndBufferDraw;
     end;
@@ -269,8 +273,8 @@ end;
 
 procedure TBufferPanel.WMPaint(var aMessage: TWMPaint);
 var
-  TempPaintStruct: TPaintStruct;
-  TempDC : HDC;
+  TempPaintStruct : TPaintStruct;
+  TempDC          : HDC;
 begin
   try
     TempDC := BeginPaint(Handle, TempPaintStruct);
@@ -285,36 +289,16 @@ begin
         Canvas.Rectangle(0, 0, Width, Height);
       end
      else
-      CopyBuffer(TempDC, TempPaintStruct.rcPaint);
+      if not(CopyBuffer(TempDC, TempPaintStruct.rcPaint)) then
+        begin
+          Canvas.Brush.Color := Color;
+          Canvas.Brush.Style := bsSolid;
+          Canvas.FillRect(rect(0, 0, Width, Height));
+        end;
   finally
     EndPaint(Handle, TempPaintStruct);
     aMessage.Result := 1;
   end;
-end;
-
-procedure TBufferPanel.Resize;
-begin
-  if BeginBufferDraw then
-    begin
-      if ((FBuffer        =  nil)   or
-          (FBuffer.Width  <> Width) or
-          (FBuffer.Height <> Height)) then
-        begin
-          if (FBuffer <> nil) then FreeAndNil(FBuffer);
-
-          FBuffer             := TBitmap.Create;
-          FBuffer.PixelFormat := pf32bit;
-          FBuffer.HandleType  := bmDIB;
-          FBuffer.Width       := Width;
-          FBuffer.Height      := Height;
-
-          FScanlineSize       := FBuffer.Width * SizeOf(TRGBQuad);
-        end;
-
-      EndBufferDraw;
-    end;
-
-  inherited Resize;
 end;
 
 procedure TBufferPanel.WMEraseBkgnd(var aMessage : TWMEraseBkgnd);
@@ -349,6 +333,44 @@ end;
 procedure TBufferPanel.BufferDraw(x, y : integer; const aBitmap : TBitmap);
 begin
   if (FBuffer <> nil) then FBuffer.Canvas.Draw(x, y, aBitmap);
+end;
+
+function TBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
+begin
+  if ((FBuffer        =  nil)      or
+      (FBuffer.Width  <> aWidth)   or
+      (FBuffer.Height <> aHeight)) then
+    begin
+      if (FBuffer <> nil) then FreeAndNil(FBuffer);
+
+      FBuffer             := TBitmap.Create;
+      FBuffer.PixelFormat := pf32bit;
+      FBuffer.HandleType  := bmDIB;
+      FBuffer.Width       := aWidth;
+      FBuffer.Height      := aHeight;
+      FScanlineSize       := FBuffer.Width * SizeOf(TRGBQuad);
+      Result              := True;
+    end
+   else
+    Result := False;
+end;
+
+function TBufferPanel.BufferIsResized(aUseMutex : boolean) : boolean;
+begin
+  Result := False;
+
+  if not(aUseMutex) or BeginBufferDraw then
+    begin
+      // CEF and Chromium use 'floor' to round the float values in Device <-> Logical unit conversions
+      // and Delphi uses MulDiv, which uses the bankers rounding, to resize the components in high DPI mode.
+      // This is the cause of slight differences in size between the buffer and the panel in some occasions.
+
+      Result := (FBuffer <> nil) and
+                (FBuffer.Width  = LogicalToDevice(DeviceToLogical(Width,  GlobalCEFApp.DeviceScaleFactor), GlobalCEFApp.DeviceScaleFactor)) and
+                (FBuffer.Height = LogicalToDevice(DeviceToLogical(Height, GlobalCEFApp.DeviceScaleFactor), GlobalCEFApp.DeviceScaleFactor));
+
+      if aUseMutex then EndBufferDraw;
+    end;
 end;
 
 end.

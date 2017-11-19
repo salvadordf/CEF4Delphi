@@ -103,15 +103,20 @@ type
     FPopUpBitmap    : TBitmap;
     FPopUpRect      : TRect;
     FShowPopUp      : boolean;
+    FResizing       : boolean;
+    FPendingResize  : boolean;
+    FResizeCS       : TCriticalSection;
 
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
+    procedure DoResize;
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMCaptureChanged(var aMessage : TMessage); message WM_CAPTURECHANGED;
     procedure WMCancelMode(var aMessage : TMessage); message WM_CANCELMODE;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
 
   public
     { Public declarations }
@@ -131,6 +136,15 @@ uses
   Math,
   {$ENDIF}
   uCEFMiscFunctions, uCEFApplication;
+
+// *********************************
+// ********* ATTENTION !!! *********
+// *********************************
+//
+// There is a known bug in the destruction of TChromium in OSR mode.
+// If you destroy the TChromium in OSR mode before the application is closed,
+// add a timer and wait 1-2 seconds after the TChromium's destruction.
+// After that you can close the app. Hide the application in the task bar if necessary.
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
@@ -248,6 +262,11 @@ end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
+  FResizeCS.Acquire;
+  FResizing      := False;
+  FPendingResize := False;
+  FResizeCS.Release;
+
   chrmosr.LoadURL(ComboBox1.Text);
 end;
 
@@ -327,11 +346,11 @@ procedure TForm1.chrmosrGetViewRect(Sender : TObject;
 begin
   if (GlobalCEFApp <> nil) then
     begin
-      rect.x      := 0;
-      rect.y      := 0;
-      rect.width  := DeviceToLogical(Panel1.Width,  GlobalCEFApp.DeviceScaleFactor);
-      rect.height := DeviceToLogical(Panel1.Height, GlobalCEFApp.DeviceScaleFactor);
-      Result      := True;
+      rect.x          := 0;
+      rect.y          := 0;
+      rect.width      := DeviceToLogical(Panel1.Width,  GlobalCEFApp.DeviceScaleFactor);
+      rect.height     := DeviceToLogical(Panel1.Height, GlobalCEFApp.DeviceScaleFactor);
+      Result          := True;
     end
    else
     Result := False;
@@ -351,83 +370,100 @@ var
   n : NativeUInt;
   TempWidth, TempHeight, TempScanlineSize : integer;
   TempBufferBits : Pointer;
+  TempForcedResize : boolean;
 begin
-  if Panel1.BeginBufferDraw then
-    begin
-      if (kind = PET_POPUP) then
-        begin
-          if (FPopUpBitmap = nil) or
-             (width  <> FPopUpBitmap.Width) or
-             (height <> FPopUpBitmap.Height) then
-            begin
-              if (FPopUpBitmap <> nil) then FPopUpBitmap.Free;
+  try
+    FResizeCS.Acquire;
+    TempForcedResize := False;
 
-              FPopUpBitmap             := TBitmap.Create;
-              FPopUpBitmap.PixelFormat := pf32bit;
-              FPopUpBitmap.HandleType  := bmDIB;
-              FPopUpBitmap.Width       := width;
-              FPopUpBitmap.Height      := height;
-            end;
+    if Panel1.BeginBufferDraw then
+      begin
+        if (kind = PET_POPUP) then
+          begin
+            if (FPopUpBitmap = nil) or
+               (width  <> FPopUpBitmap.Width) or
+               (height <> FPopUpBitmap.Height) then
+              begin
+                if (FPopUpBitmap <> nil) then FPopUpBitmap.Free;
 
-          TempWidth        := FPopUpBitmap.Width;
-          TempHeight       := FPopUpBitmap.Height;
-          TempScanlineSize := FPopUpBitmap.Width * SizeOf(TRGBQuad);
-          TempBufferBits   := FPopUpBitmap.Scanline[pred(FPopUpBitmap.Height)];
-        end
-       else
-        begin
-          TempWidth        := Panel1.BufferWidth;
-          TempHeight       := Panel1.BufferHeight;
-          TempScanlineSize := Panel1.ScanlineSize;
-          TempBufferBits   := Panel1.BufferBits;
-        end;
+                FPopUpBitmap             := TBitmap.Create;
+                FPopUpBitmap.PixelFormat := pf32bit;
+                FPopUpBitmap.HandleType  := bmDIB;
+                FPopUpBitmap.Width       := width;
+                FPopUpBitmap.Height      := height;
+              end;
 
-      if (TempBufferBits <> nil) then
-        begin
-          SrcStride := Width * SizeOf(TRGBQuad);
-          DstStride := - TempScanlineSize;
+            TempWidth        := FPopUpBitmap.Width;
+            TempHeight       := FPopUpBitmap.Height;
+            TempScanlineSize := FPopUpBitmap.Width * SizeOf(TRGBQuad);
+            TempBufferBits   := FPopUpBitmap.Scanline[pred(FPopUpBitmap.Height)];
+          end
+         else
+          begin
+            TempForcedResize := Panel1.UpdateBufferDimensions(Width, Height) or not(Panel1.BufferIsResized(False));
+            TempWidth        := Panel1.BufferWidth;
+            TempHeight       := Panel1.BufferHeight;
+            TempScanlineSize := Panel1.ScanlineSize;
+            TempBufferBits   := Panel1.BufferBits;
+          end;
 
-          n := 0;
+        if (TempBufferBits <> nil) then
+          begin
+            SrcStride := Width * SizeOf(TRGBQuad);
+            DstStride := - TempScanlineSize;
 
-          while (n < dirtyRectsCount) do
-            begin
-              if (dirtyRects[n].x >= 0) and (dirtyRects[n].y >= 0) then
-                begin
-                  TempLineSize := min(dirtyRects[n].width, TempWidth - dirtyRects[n].x) * SizeOf(TRGBQuad);
+            n := 0;
 
-                  if (TempLineSize > 0) then
-                    begin
-                      TempSrcOffset := ((dirtyRects[n].y * Width) + dirtyRects[n].x) * SizeOf(TRGBQuad);
-                      TempDstOffset := ((TempScanlineSize * pred(TempHeight)) - (dirtyRects[n].y * TempScanlineSize)) +
-                                       (dirtyRects[n].x * SizeOf(TRGBQuad));
+            while (n < dirtyRectsCount) do
+              begin
+                if (dirtyRects[n].x >= 0) and (dirtyRects[n].y >= 0) then
+                  begin
+                    TempLineSize := min(dirtyRects[n].width, TempWidth - dirtyRects[n].x) * SizeOf(TRGBQuad);
 
-                      src := @PByte(buffer)[TempSrcOffset];
-                      dst := @PByte(TempBufferBits)[TempDstOffset];
+                    if (TempLineSize > 0) then
+                      begin
+                        TempSrcOffset := ((dirtyRects[n].y * Width) + dirtyRects[n].x) * SizeOf(TRGBQuad);
+                        TempDstOffset := ((TempScanlineSize * pred(TempHeight)) - (dirtyRects[n].y * TempScanlineSize)) +
+                                         (dirtyRects[n].x * SizeOf(TRGBQuad));
 
-                      i := 0;
-                      j := min(dirtyRects[n].height, TempHeight - dirtyRects[n].y);
+                        src := @PByte(buffer)[TempSrcOffset];
+                        dst := @PByte(TempBufferBits)[TempDstOffset];
 
-                      while (i < j) do
-                        begin
-                          Move(src^, dst^, TempLineSize);
+                        i := 0;
+                        j := min(dirtyRects[n].height, TempHeight - dirtyRects[n].y);
 
-                          Inc(dst, DstStride);
-                          Inc(src, SrcStride);
-                          inc(i);
-                        end;
-                    end;
-                end;
+                        while (i < j) do
+                          begin
+                            Move(src^, dst^, TempLineSize);
 
-              inc(n);
-            end;
+                            Inc(dst, DstStride);
+                            Inc(src, SrcStride);
+                            inc(i);
+                          end;
+                      end;
+                  end;
 
-          if FShowPopup and (FPopUpBitmap <> nil) then
-            Panel1.BufferDraw(FPopUpRect.Left, FPopUpRect.Top, FPopUpBitmap);
-        end;
+                inc(n);
+              end;
 
-      Panel1.EndBufferDraw;
-      Panel1.InvalidatePanel;
-    end;
+            if FShowPopup and (FPopUpBitmap <> nil) then
+              Panel1.BufferDraw(FPopUpRect.Left, FPopUpRect.Top, FPopUpBitmap);
+          end;
+
+        Panel1.EndBufferDraw;
+        Panel1.InvalidatePanel;
+
+        if (kind = PET_VIEW) then
+          begin
+            if TempForcedResize or FPendingResize then PostMessage(Handle, CEF_PENDINGRESIZE, 0, 0);
+
+            FResizing      := False;
+            FPendingResize := False;
+          end;
+      end;
+  finally
+    FResizeCS.Release;
+  end;
 end;
 
 procedure TForm1.chrmosrPopupShow(Sender : TObject;
@@ -532,9 +568,12 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  FPopUpBitmap := nil;
-  FPopUpRect   := rect(0, 0, 0, 0);
-  FShowPopUp   := False;
+  FPopUpBitmap    := nil;
+  FPopUpRect      := rect(0, 0, 0, 0);
+  FShowPopUp      := False;
+  FResizing       := False;
+  FPendingResize  := False;
+  FResizeCS       := TCriticalSection.Create;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -635,7 +674,32 @@ end;
 
 procedure TForm1.Panel1Resize(Sender: TObject);
 begin
-  chrmosr.WasResized;
+  DoResize;
+end;
+
+procedure TForm1.PendingResizeMsg(var aMessage : TMessage);
+begin
+  DoResize;
+end;
+
+procedure TForm1.DoResize;
+begin
+  try
+    FResizeCS.Acquire;
+
+    if FResizing then
+      FPendingResize := True
+     else
+      if Panel1.BufferIsResized then
+        chrmosr.Invalidate(PET_VIEW)
+       else
+        begin
+          FResizing := True;
+          chrmosr.WasResized;
+        end;
+  finally
+    FResizeCS.Release;
+  end;
 end;
 
 procedure TForm1.Panel1Enter(Sender: TObject);

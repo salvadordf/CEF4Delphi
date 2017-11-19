@@ -48,7 +48,8 @@ object Form1: TForm1
         'https://html5demos.com/drag'
         
           'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_selec' +
-          't_form')
+          't_form'
+        'https://www.briskbard.com')
     end
     object Panel2: TPanel
       Left = 726
@@ -111,10 +112,10 @@ object Form1: TForm1
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
     OnMouseDown = Panel1MouseDown
-    OnMouseLeave = Panel1MouseLeave
     OnMouseMove = Panel1MouseMove
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
+    OnMouseLeave = Panel1MouseLeave
   end
   object chrmosr: TChromium
     OnAfterCreated = chrmosrAfterCreated
