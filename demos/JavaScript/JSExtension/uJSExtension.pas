@@ -107,12 +107,11 @@ uses
 // The CEF3 document describing extensions is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
-// This demo has a TTestExtension class that is registered in the
-// TCefCustomRenderProcessHandler.OnWebKitInitializedEvent event
-// of a custom render process handler when the application is initializing.
+// This demo has a Javascrit extension class that is registered in the
+// GlobalCEFApp.OnWebKitInitialized event when the application is initializing.
 
-// TTestExtension can send information back to the browser with a process message.
-// The TTestExtension.mouseover function do this by calling
+// TTestExtensionHandler can send information back to the browser with a process message.
+// The "mouseover" function do this by calling
 // TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
 
 // TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing JS,
@@ -162,14 +161,14 @@ begin
               'if (n.parentNode){return getpath(n.parentNode) + ret} else '+
               'return ret'+
             '};'+
-            'myextension.mouseover(getpath(evt.target))}'+   // This is the call from JavaScript to the extension with DELPHI code in uTestExtension.pas
+            'myextension.mouseover(getpath(evt.target))}'+   // This is the call from JavaScript to the extension with DELPHI code in uTestExtensionHandler.pas
           ')', 'about:blank', 0);
 
     MINIBROWSER_CONTEXTMENU_JSVISITDOM :
       if (browser <> nil) and (browser.MainFrame <> nil) then
         browser.MainFrame.ExecuteJavaScript(
           'var testhtml = document.body.innerHTML;' +
-          'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');',  // This is the call from JavaScript to the extension with DELPHI code in uTestExtension.pas
+          'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');',  // This is the call from JavaScript to the extension with DELPHI code in uTestExtensionHandler.pas
           'about:blank', 0);
   end;
 end;

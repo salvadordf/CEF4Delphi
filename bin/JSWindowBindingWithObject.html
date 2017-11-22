@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>JS Window Binding with an object demo.</h1>
+
+<p>The CEF3 document describing JavaScript Window Bindings is here :<br>
+<a href="https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md">https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md</a></p>
+
+<p>The following button shows the contents of <strong>window.myobj.myval</strong> which was set in the GlobalCEFApp.OnContextCreated event.</p>
+<button onclick="myFunction()">Click me</button>
+
+<script>
+function myFunction() {
+    alert(window.myobj.myval);
+}
+</script>
+
+</body>
+</html>

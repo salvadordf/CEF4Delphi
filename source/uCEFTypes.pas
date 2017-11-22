@@ -1503,8 +1503,8 @@ type
   TCefResourceBundle = record
     base: TCefBaseRefCounted;
     get_localized_string: function(self: PCefResourceBundle; string_id: Integer): PCefStringUserFree; stdcall;
-    get_data_resource: function(self: PCefResourceBundle; resource_id: Integer; out data: Pointer; out data_size: NativeUInt): Integer; stdcall;
-    get_data_resource_for_scale: function(self: PCefResourceBundle; resource_id: Integer; scale_factor: TCefScaleFactor; out data: Pointer; out data_size: NativeUInt): Integer; stdcall;
+    get_data_resource: function(self: PCefResourceBundle; resource_id: Integer; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
+    get_data_resource_for_scale: function(self: PCefResourceBundle; resource_id: Integer; scale_factor: TCefScaleFactor; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
   end;
 
   // /include/capi/cef_menu_model_delegate_capi.h (cef_menu_model_delegate_t)
@@ -2542,7 +2542,7 @@ type
     base: TCefBaseRefCounted;
     get_localized_string: function(self: PCefResourceBundleHandler; string_id: Integer; string_val: PCefString): Integer; stdcall;
     get_data_resource: function(self: PCefResourceBundleHandler; resource_id: Integer; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
-    get_data_resource_for_scale: function(self: PCefResourceBundleHandler; resource_id: Integer; scale_factor: TCefScaleFactor; out data: Pointer; data_size: NativeUInt): Integer; stdcall;
+    get_data_resource_for_scale: function(self: PCefResourceBundleHandler; resource_id: Integer; scale_factor: TCefScaleFactor; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
   end;
 
   // /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)

@@ -35,7 +35,7 @@
  *
  *)
 
-program PostDataInspector;
+program JSWindowBindingWithObject;
 
 {$I cef.inc}
 
@@ -50,55 +50,35 @@ uses
   SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFRenderProcessHandler,
   uCEFInterfaces,
-  uCEFProcessMessage,
-  uCEFTypes,
-  uPostDataInspector in 'uPostDataInspector.pas' {PostDataInspectorFrm};
+  uCEFv8Value,
+  uCEFConstants,
+  uJSWindowBindingWithObject in 'uJSWindowBindingWithObject.pas' {JSWindowBindingWithObjectFrm},
+  uMyV8Accessor in 'uMyV8Accessor.pas';
 
 {$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
-procedure GlobalCEFApp_OnBeforeNavigation(const browser         : ICefBrowser;
-                                          const frame           : ICefFrame;
-                                          const request         : ICefRequest;
-                                                navigationType  : TCefNavigationType;
-                                                isRedirect      : Boolean;
-                                          var   aStopNavigation : boolean);
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 var
-  msg: ICefProcessMessage;
-  TempString : string;
+  TempAccessor : ICefV8Accessor;
+  TempObject   : ICefv8Value;
 begin
-  aStopNavigation := False;
+  // This is the first JS Window Binding example in the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
-  if (request = nil) then
-    TempString := 'no request'
-   else
-    if (request.postdata = nil) then
-      TempString := 'no postdata'
-     else
-      TempString := 'postdata elements : ' + inttostr(request.postdata.GetCount);
+  TempAccessor := TMyV8Accessor.Create;
+  TempObject   := TCefv8ValueRef.NewObject(TempAccessor, nil);
+  TempObject.SetValueByKey('myval', TCefv8ValueRef.NewString('My Value!'), V8_PROPERTY_ATTRIBUTE_NONE);
 
-  msg := TCefProcessMessageRef.New(POSTDATA_MSGNAME);
-  msg.ArgumentList.SetString(0, TempString);
-  browser.SendProcessMessage(PID_BROWSER, msg);
+  context.Global.SetValueByKey('myobj', TempObject, V8_PROPERTY_ATTRIBUTE_NONE);
 end;
 
 begin
-  GlobalCEFApp                    := TCefApplication.Create;
-  GlobalCEFApp.OnBeforeNavigation := GlobalCEFApp_OnBeforeNavigation;
-
-  // The directories are optional.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
+  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -106,7 +86,7 @@ begin
       {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
-      Application.CreateForm(TPostDataInspectorFrm, PostDataInspectorFrm);
+      Application.CreateForm(TJSWindowBindingWithObjectFrm, JSWindowBindingWithObjectFrm);
       Application.Run;
     end;
 

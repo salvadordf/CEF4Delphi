@@ -104,7 +104,7 @@ type
     procedure ParseBinaryValue(const pBrowser : ICefBrowser; const aBinaryValue : ICefBinaryValue);
 
   public
-    procedure RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser: ICefBrowser; uSourceProcess: TCefProcessId; const pMessage: ICefProcessMessage);
+    procedure RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser: ICefBrowser; uSourceProcess: TCefProcessId; const pMessage: ICefProcessMessage; var aHandled : boolean);
   end;
 
 var
@@ -303,7 +303,8 @@ end;
 
 procedure TJSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser       : ICefBrowser;
                                                                               uSourceProcess : TCefProcessId;
-                                                                        const pMessage       : ICefProcessMessage);
+                                                                        const pMessage       : ICefProcessMessage;
+                                                                        var   aHandled       : boolean);
 var
   pV8Context   : ICefv8Context;
   pReturnValue : ICefv8Value;
@@ -311,6 +312,8 @@ var
   TempScript   : string;
   TempBinValue : ICefBinaryValue;
 begin
+  aHandled := False;
+
   if (pMessage = nil) or (pMessage.ArgumentList = nil) then exit;
 
   if (pMessage.Name = EVAL_JS) then
@@ -328,12 +331,15 @@ begin
               pV8Context.Exit;
             end;
         end;
+
+      aHandled := True;
     end
    else
     if (pMessage.Name = BINARY_PARAM_JS) then
       begin
         TempBinValue := pMessage.ArgumentList.GetBinary(0);
         ParseBinaryValue(pBrowser, TempBinValue);
+        aHandled := True;
       end;
 end;
 

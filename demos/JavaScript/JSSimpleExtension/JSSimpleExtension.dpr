@@ -35,7 +35,7 @@
  *
  *)
 
-program PostDataInspector;
+program JSSimpleExtension;
 
 {$I cef.inc}
 
@@ -50,55 +50,35 @@ uses
   SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFRenderProcessHandler,
-  uCEFInterfaces,
-  uCEFProcessMessage,
+  uCEFMiscFunctions,
   uCEFTypes,
-  uPostDataInspector in 'uPostDataInspector.pas' {PostDataInspectorFrm};
+  uJSSimpleExtension in 'uJSSimpleExtension.pas' {JSSimpleExtensionFrm};
 
 {$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
-procedure GlobalCEFApp_OnBeforeNavigation(const browser         : ICefBrowser;
-                                          const frame           : ICefFrame;
-                                          const request         : ICefRequest;
-                                                navigationType  : TCefNavigationType;
-                                                isRedirect      : Boolean;
-                                          var   aStopNavigation : boolean);
+procedure GlobalCEFApp_OnWebKitInitializedEvent;
 var
-  msg: ICefProcessMessage;
-  TempString : string;
+  TempExtensionCode : string;
 begin
-  aStopNavigation := False;
+  // This is the first JS extension example in the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
-  if (request = nil) then
-    TempString := 'no request'
-   else
-    if (request.postdata = nil) then
-      TempString := 'no postdata'
-     else
-      TempString := 'postdata elements : ' + inttostr(request.postdata.GetCount);
+  TempExtensionCode := 'var test;' +
+                       'if (!test)' +
+                       '  test = {};' +
+                       '(function() {' +
+                       '  test.myval = ' + quotedstr('My Value!') + ';' +
+                       '})();';
 
-  msg := TCefProcessMessageRef.New(POSTDATA_MSGNAME);
-  msg.ArgumentList.SetString(0, TempString);
-  browser.SendProcessMessage(PID_BROWSER, msg);
+  CefRegisterExtension('v8/test', TempExtensionCode, nil);
 end;
 
 begin
-  GlobalCEFApp                    := TCefApplication.Create;
-  GlobalCEFApp.OnBeforeNavigation := GlobalCEFApp_OnBeforeNavigation;
-
-  // The directories are optional.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitializedEvent;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -106,7 +86,7 @@ begin
       {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
-      Application.CreateForm(TPostDataInspectorFrm, PostDataInspectorFrm);
+      Application.CreateForm(TJSSimpleExtensionFrm, JSSimpleExtensionFrm);
       Application.Run;
     end;
 

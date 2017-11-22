@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>JS Object with a parameter demo.</h1>
+
+<p>The CEF3 document describing JavaScript integration is here :<br>
+<a href="https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md">https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md</a></p>
+
+<p>This demo is based in the code comments for the cef_register_extension function in this file :<br>
+<a href="https://bitbucket.org/chromiumembedded/cef/src/facee1f750d0853664b06535d3a5f2edd6e3dab8/include/capi/cef_v8_capi.h?at=master">/include/capi/cef_v8_capi.h</a></p>
+
+<p>The following button sets the value of <strong>test.myparam</strong> with the text in the input box.</p>
+<input type="text" id="myText" value="Mickey"><button onclick="settestparameter()">Set test.myparam</button>
+
+<p>The following button shows the value of <strong>test.myparam</strong>.</p>
+<button onclick="showtestparameter()">Show test.myparam</button>
+
+<script>
+function settestparameter() {
+    test.myparam = document.getElementById("myText").value;
+}
+function showtestparameter() {
+    alert(test.myparam);
+}
+</script>
+
+</body>
+</html>

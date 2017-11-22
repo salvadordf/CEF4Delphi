@@ -35,49 +35,37 @@
  *
  *)
 
-program SimpleOSRBrowser;
+unit uMyV8Handler;
 
 {$I cef.inc}
 
+interface
+
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms, WinApi.Windows,
-  {$ELSE}
-  Forms, Windows,
-  {$ENDIF}
-  uCEFApplication,
-  uSimpleOSRBrowser in 'uSimpleOSRBrowser.pas' {Form1};
+  uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFv8Handler;
 
-{$R *.res}
+type
+  TMyV8Handler = class(TCefv8HandlerOwn)
+    protected
+      function Execute(const name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean; override;
+  end;
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+implementation
 
+function TMyV8Handler.Execute(const name      : ustring;
+                              const obj       : ICefv8Value;
+                              const arguments : TCefv8ValueArray;
+                              var   retval    : ICefv8Value;
+                              var   exception : ustring): Boolean;
 begin
-  GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.FastUnload                 := True;
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
-
-  if GlobalCEFApp.StartMainProcess then
+  if (name = 'myfunc') then
     begin
-      Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TForm1, Form1);
-      Application.Run;
-    end;
+      retval := TCefv8ValueRef.NewString('My Value!');
+      Result := True;
+    end
+   else
+    Result := False;
+end;
 
-  GlobalCEFApp.Free;
+
 end.

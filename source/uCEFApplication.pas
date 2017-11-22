@@ -52,7 +52,8 @@ uses
   {$ELSE}
   Windows, Classes,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar, uCEFBrowserProcessHandler;
+  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar,
+  uCEFBrowserProcessHandler, uCEFResourceBundleHandler, uCEFRenderProcessHandler;
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
@@ -143,6 +144,23 @@ type
       FOnRenderProcessThreadCreatedEvent : TOnRenderProcessThreadCreatedEvent;
       FOnScheduleMessagePumpWorkEvent    : TOnScheduleMessagePumpWorkEvent;
 
+      // ICefResourceBundleHandler
+      FOnGetLocalizedStringEvent         : TOnGetLocalizedStringEvent;
+      FOnGetDataResourceEvent            : TOnGetDataResourceEvent;
+      FOnGetDataResourceForScaleEvent    : TOnGetDataResourceForScaleEvent;
+
+      // ICefRenderProcessHandler
+      FOnRenderThreadCreated             : TOnRenderThreadCreatedEvent;
+      FOnWebKitInitialized               : TOnWebKitInitializedEvent;
+      FOnBrowserCreated                  : TOnBrowserCreatedEvent;
+      FOnBrowserDestroyed                : TOnBrowserDestroyedEvent;
+      FOnBeforeNavigation                : TOnBeforeNavigationEvent;
+      FOnContextCreated                  : TOnContextCreatedEvent;
+      FOnContextReleased                 : TOnContextReleasedEvent;
+      FOnUncaughtException               : TOnUncaughtExceptionEvent;
+      FOnFocusedNodeChanged              : TOnFocusedNodeChangedEvent;
+      FOnProcessMessageReceived          : TOnProcessMessageReceivedEvent;
+
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
@@ -205,6 +223,10 @@ type
       function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
+      procedure CreateAppHandlers;
+      procedure CreateBrowserProcessHandler;
+      procedure CreateResourceBundleHandler;
+      procedure CreateRenderProcessHandler;
 
     public
       constructor Create;
@@ -215,7 +237,8 @@ type
       function    StartSubProcess : boolean;
       procedure   UpdateDeviceScaleFactor;
 
-      // Internal procedures. Only TInternalApp and TCefCustomBrowserProcessHandler should use them.
+      // Internal procedures. Only TInternalApp, TCefCustomBrowserProcessHandler,
+      // ICefResourceBundleHandler and ICefRenderProcessHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
       procedure   Internal_OnGetResourceBundleHandler(var aCefResourceBundleHandler : ICefResourceBundleHandler);
@@ -225,6 +248,20 @@ type
       procedure   Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
       procedure   Internal_OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
       procedure   Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
+      function    Internal_GetLocalizedString(stringId: Integer; var stringVal: ustring) : boolean;
+      function    Internal_GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt) : boolean;
+      function    Internal_GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt) : boolean;
+      procedure   Internal_OnRenderThreadCreated(const extraInfo: ICefListValue);
+      procedure   Internal_OnWebKitInitialized;
+      procedure   Internal_OnBrowserCreated(const browser: ICefBrowser);
+      procedure   Internal_OnBrowserDestroyed(const browser: ICefBrowser);
+      procedure   Internal_OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean; var aStopNavigation : boolean);
+      procedure   Internal_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+      procedure   Internal_OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+      procedure   Internal_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
+      procedure   Internal_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
+      procedure   Internal_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
+
 
       property Cache                             : ustring                             read FCache                             write FCache;
       property Cookies                           : ustring                             read FCookies                           write FCookies;
@@ -273,9 +310,6 @@ type
       property ChromeVersion                     : string                              read GetChromeVersion;
       property LibCefPath                        : string                              read GetLibCefPath;
       property ChromeElfPath                     : string                              read GetChromeElfPath;
-      property OnRegCustomSchemes                : TOnRegisterCustomSchemes            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
-      property ResourceBundleHandler             : ICefResourceBundleHandler           read FResourceBundleHandler             write FResourceBundleHandler;
-      property RenderProcessHandler              : ICefRenderProcessHandler            read FRenderProcessHandler              write FRenderProcessHandler;
       property SmoothScrolling                   : boolean                             read FSmoothScrolling                   write FSmoothScrolling;
       property FastUnload                        : boolean                             read FFastUnload                        write FFastUnload;
       property DisableSafeBrowsing               : boolean                             read FDisableSafeBrowsing               write FDisableSafeBrowsing;
@@ -289,10 +323,31 @@ type
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
       property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
       property ProcessType                       : TCefProcessType                     read FProcessType;
+
+      property OnRegCustomSchemes                : TOnRegisterCustomSchemes            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
+
+      // ICefBrowserProcessHandler
       property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitializedEvent         write FOnContextInitializedEvent;
       property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunchEvent   write FOnBeforeChildProcessLaunchEvent;
       property OnRenderProcessThreadCreated      : TOnRenderProcessThreadCreatedEvent  read FOnRenderProcessThreadCreatedEvent write FOnRenderProcessThreadCreatedEvent;
       property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWorkEvent    write FOnScheduleMessagePumpWorkEvent;
+
+      // ICefResourceBundleHandler
+      property OnGetLocalizedString              : TOnGetLocalizedStringEvent          read FOnGetLocalizedStringEvent         write FOnGetLocalizedStringEvent;
+      property OnGetDataResource                 : TOnGetDataResourceEvent             read FOnGetDataResourceEvent            write FOnGetDataResourceEvent;
+      property OnGetDataResourceForScale         : TOnGetDataResourceForScaleEvent     read FOnGetDataResourceForScaleEvent    write FOnGetDataResourceForScaleEvent;
+
+      // ICefRenderProcessHandler
+      property OnRenderThreadCreated             : TOnRenderThreadCreatedEvent         read FOnRenderThreadCreated             write FOnRenderThreadCreated;
+      property OnWebKitInitialized               : TOnWebKitInitializedEvent           read FOnWebKitInitialized               write FOnWebKitInitialized;
+      property OnBrowserCreated                  : TOnBrowserCreatedEvent              read FOnBrowserCreated                  write FOnBrowserCreated;
+      property OnBrowserDestroyed                : TOnBrowserDestroyedEvent            read FOnBrowserDestroyed                write FOnBrowserDestroyed;
+      property OnBeforeNavigation                : TOnBeforeNavigationEvent            read FOnBeforeNavigation                write FOnBeforeNavigation;
+      property OnContextCreated                  : TOnContextCreatedEvent              read FOnContextCreated                  write FOnContextCreated;
+      property OnContextReleased                 : TOnContextReleasedEvent             read FOnContextReleased                 write FOnContextReleased;
+      property OnUncaughtException               : TOnUncaughtExceptionEvent           read FOnUncaughtException               write FOnUncaughtException;
+      property OnFocusedNodeChanged              : TOnFocusedNodeChangedEvent          read FOnFocusedNodeChanged              write FOnFocusedNodeChanged;
+      property OnProcessMessageReceived          : TOnProcessMessageReceivedEvent      read FOnProcessMessageReceived          write FOnProcessMessageReceived;
   end;
 
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -330,6 +385,39 @@ type
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
       procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue); override;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
+
+    public
+      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefCustomResourceBundleHandler = class(TCefResourceBundleHandlerOwn)
+    protected
+      FCefApp : TCefApplication;
+
+      function GetLocalizedString(stringid: Integer; var stringVal: ustring): Boolean; override;
+      function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean; override;
+      function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean; override;
+
+    public
+      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefCustomRenderProcessHandler = class(TCefRenderProcessHandlerOwn)
+    protected
+      FCefApp : TCefApplication;
+
+      procedure OnRenderThreadCreated(const extraInfo: ICefListValue); override;
+      procedure OnWebKitInitialized; override;
+      procedure OnBrowserCreated(const browser: ICefBrowser); override;
+      procedure OnBrowserDestroyed(const browser: ICefBrowser); override;
+      function  OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean): Boolean; override;
+      procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
+      procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
+      procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); override;
+      procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode); override;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage : ICefProcessMessage): Boolean; override;
 
     public
       constructor Create(const aCefApp : TCefApplication); reintroduce;
@@ -421,6 +509,23 @@ begin
   FOnRenderProcessThreadCreatedEvent := nil;
   FOnScheduleMessagePumpWorkEvent    := nil;
 
+  // ICefResourceBundleHandler
+  FOnGetLocalizedStringEvent         := nil;
+  FOnGetDataResourceEvent            := nil;
+  FOnGetDataResourceForScaleEvent    := nil;
+
+  // ICefRenderProcessHandler
+  FOnRenderThreadCreated             := nil;
+  FOnWebKitInitialized               := nil;
+  FOnBrowserCreated                  := nil;
+  FOnBrowserDestroyed                := nil;
+  FOnBeforeNavigation                := nil;
+  FOnContextCreated                  := nil;
+  FOnContextReleased                 := nil;
+  FOnUncaughtException               := nil;
+  FOnFocusedNodeChanged              := nil;
+  FOnProcessMessageReceived          := nil;
+
   UpdateDeviceScaleFactor;
 
   FAppSettings.size := SizeOf(TCefSettings);
@@ -454,9 +559,54 @@ begin
 
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
+end;
 
-  if (FProcessType = ptBrowser) then
-    FBrowserProcessHandler := TCefCustomBrowserProcessHandler.Create(self);
+procedure TCefApplication.CreateAppHandlers;
+begin
+  if FSingleProcess then
+    begin
+      CreateBrowserProcessHandler;
+      CreateResourceBundleHandler;
+      CreateRenderProcessHandler;
+    end
+   else
+    case FProcessType of
+      ptBrowser :
+        begin
+          CreateBrowserProcessHandler;
+          CreateResourceBundleHandler;
+        end;
+
+      ptRenderer : CreateRenderProcessHandler;
+    end;
+end;
+
+procedure TCefApplication.CreateBrowserProcessHandler;
+begin
+  FBrowserProcessHandler := TCefCustomBrowserProcessHandler.Create(self);
+end;
+
+procedure TCefApplication.CreateResourceBundleHandler;
+begin
+  if assigned(FOnGetLocalizedStringEvent)      or
+     assigned(FOnGetDataResourceEvent)         or
+     assigned(FOnGetDataResourceForScaleEvent) then
+    FResourceBundleHandler := TCefCustomResourceBundleHandler.Create(self);
+end;
+
+procedure TCefApplication.CreateRenderProcessHandler;
+begin
+  if assigned(FOnRenderThreadCreated)    or
+     assigned(FOnWebKitInitialized)      or
+     assigned(FOnBrowserCreated)         or
+     assigned(FOnBrowserDestroyed)       or
+     assigned(FOnBeforeNavigation)       or
+     assigned(FOnContextCreated)         or
+     assigned(FOnContextReleased)        or
+     assigned(FOnUncaughtException)      or
+     assigned(FOnFocusedNodeChanged)     or
+     assigned(FOnProcessMessageReceived) then
+    FRenderProcessHandler := TCefCustomRenderProcessHandler.Create(self);
 end;
 
 procedure TCefApplication.AddCustomCommandLine(const aCommandLine, aValue : string);
@@ -916,6 +1066,77 @@ begin
   if assigned(FOnScheduleMessagePumpWorkEvent) then FOnScheduleMessagePumpWorkEvent(delayMs);
 end;
 
+function TCefApplication.Internal_GetLocalizedString(stringid: Integer; var stringVal: ustring) : boolean;
+begin
+  Result := False;
+
+  if assigned(FOnGetLocalizedStringEvent) then FOnGetLocalizedStringEvent(stringId, stringVal, Result);
+end;
+
+function TCefApplication.Internal_GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt) : boolean;
+begin
+  Result := False;
+
+  if assigned(FOnGetDataResourceEvent) then FOnGetDataResourceEvent(resourceId, data, dataSize, Result);
+end;
+
+function TCefApplication.Internal_GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt) : boolean;
+begin
+  Result := False;
+
+  if assigned(FOnGetDataResourceForScaleEvent) then FOnGetDataResourceForScaleEvent(resourceId, scaleFactor, data, dataSize, Result);
+end;
+
+procedure TCefApplication.Internal_OnRenderThreadCreated(const extraInfo: ICefListValue);
+begin
+  if assigned(FOnRenderThreadCreated) then FOnRenderThreadCreated(extraInfo);
+end;
+
+procedure TCefApplication.Internal_OnWebKitInitialized;
+begin
+  if assigned(FOnWebKitInitialized) then FOnWebKitInitialized;
+end;
+
+procedure TCefApplication.Internal_OnBrowserCreated(const browser: ICefBrowser);
+begin
+  if assigned(FOnBrowserCreated) then FOnBrowserCreated(browser);
+end;
+
+procedure TCefApplication.Internal_OnBrowserDestroyed(const browser: ICefBrowser);
+begin
+  if assigned(FOnBrowserDestroyed) then FOnBrowserDestroyed(browser);
+end;
+
+procedure TCefApplication.Internal_OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean; var aStopNavigation : boolean);
+begin
+  if assigned(FOnBeforeNavigation) then FOnBeforeNavigation(browser, frame, request, navigationType, isRedirect, aStopNavigation);
+end;
+
+procedure TCefApplication.Internal_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+begin
+  if assigned(FOnContextCreated) then FOnContextCreated(browser, frame, context);
+end;
+
+procedure TCefApplication.Internal_OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+begin
+  if assigned(FOnContextReleased) then FOnContextReleased(browser, frame, context);
+end;
+
+procedure TCefApplication.Internal_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
+begin
+  if assigned(FOnUncaughtException) then FOnUncaughtException(browser, frame, context, exception, stackTrace);
+end;
+
+procedure TCefApplication.Internal_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
+begin
+  if assigned(FOnFocusedNodeChanged) then FOnFocusedNodeChanged(browser, frame, node);
+end;
+
+procedure TCefApplication.Internal_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
+begin
+  if assigned(FOnProcessMessageReceived) then FOnProcessMessageReceived(browser, sourceProcess, aMessage, aHandled);
+end;
+
 procedure TCefApplication.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
                                                                  const commandLine : ICefCommandLine);
 var
@@ -1079,6 +1300,8 @@ begin
       Result     := True;
 
       if FEnableHighDPISupport then cef_enable_highdpi_support;
+
+      CreateAppHandlers;
     end
    else
     begin
@@ -1788,6 +2011,140 @@ end;
 procedure TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork(const delayMs: Int64);
 begin
   if (FCefApp <> nil) then FCefApp.Internal_OnScheduleMessagePumpWork(delayMs);
+end;
+
+// TCefCustomResourceBundleHandler
+
+constructor TCefCustomResourceBundleHandler.Create(const aCefApp : TCefApplication);
+begin
+  inherited Create;
+
+  FCefApp := aCefApp;
+end;
+
+destructor TCefCustomResourceBundleHandler.Destroy;
+begin
+  FCefApp := nil;
+
+  inherited Destroy;
+end;
+
+function TCefCustomResourceBundleHandler.GetLocalizedString(stringid : Integer;
+                                                            var stringVal : ustring): Boolean;
+begin
+  if (FCefApp <> nil) then
+    Result := FCefApp.Internal_GetLocalizedString(stringid, stringVal)
+   else
+    Result := False;
+end;
+
+function TCefCustomResourceBundleHandler.GetDataResource(resourceId : Integer;
+                                                         var data     : Pointer;
+                                                         var dataSize : NativeUInt): Boolean;
+begin
+  if (FCefApp <> nil) then
+    Result := FCefApp.Internal_GetDataResource(resourceId, data, dataSize)
+   else
+    Result := False;
+end;
+
+function TCefCustomResourceBundleHandler.GetDataResourceForScale(resourceId : Integer;
+                                                                     scaleFactor : TCefScaleFactor;
+                                                                 var data        : Pointer;
+                                                                 var dataSize    : NativeUInt): Boolean;
+begin
+  if (FCefApp <> nil) then
+    Result := FCefApp.Internal_GetDataResourceForScale(resourceId, scaleFactor, data, dataSize)
+   else
+    Result := False;
+end;
+
+// TCefCustomRenderProcessHandler
+
+constructor TCefCustomRenderProcessHandler.Create(const aCefApp : TCefApplication);
+begin
+  inherited Create;
+
+  FCefApp := aCefApp;
+end;
+
+destructor TCefCustomRenderProcessHandler.Destroy;
+begin
+  FCefApp := nil;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomRenderProcessHandler.OnRenderThreadCreated(const extraInfo: ICefListValue);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnRenderThreadCreated(extraInfo);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnWebKitInitialized;
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnWebKitInitialized;
+end;
+
+procedure TCefCustomRenderProcessHandler.OnBrowserCreated(const browser: ICefBrowser);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnBrowserCreated(browser);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnBrowserDestroyed(const browser: ICefBrowser);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnBrowserDestroyed(browser);
+end;
+
+function  TCefCustomRenderProcessHandler.OnBeforeNavigation(const browser        : ICefBrowser;
+                                                            const frame          : ICefFrame;
+                                                            const request        : ICefRequest;
+                                                                  navigationType : TCefNavigationType;
+                                                                  isRedirect     : Boolean): Boolean;
+begin
+  if (FCefApp <> nil) then
+    FCefApp.Internal_OnBeforeNavigation(browser, frame, request, navigationType, isRedirect, Result)
+   else
+    Result := False;
+end;
+
+procedure TCefCustomRenderProcessHandler.OnContextCreated(const browser : ICefBrowser;
+                                                          const frame   : ICefFrame;
+                                                          const context : ICefv8Context);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnContextCreated(browser, frame, context);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnContextReleased(const browser : ICefBrowser;
+                                                           const frame   : ICefFrame;
+                                                           const context : ICefv8Context);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnContextReleased(browser, frame, context);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnUncaughtException(const browser    : ICefBrowser;
+                                                             const frame      : ICefFrame;
+                                                             const context    : ICefv8Context;
+                                                             const exception  : ICefV8Exception;
+                                                             const stackTrace : ICefV8StackTrace);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnUncaughtException(browser, frame, context, exception, stackTrace);
+end;
+
+procedure TCefCustomRenderProcessHandler.OnFocusedNodeChanged(const browser : ICefBrowser;
+                                                              const frame   : ICefFrame;
+                                                              const node    : ICefDomNode);
+begin
+  if (FCefApp <> nil) then FCefApp.Internal_OnFocusedNodeChanged(browser, frame, node);
+end;
+
+function  TCefCustomRenderProcessHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                                        sourceProcess : TCefProcessId;
+                                                                  const aMessage      : ICefProcessMessage): Boolean;
+begin
+  if (FCefApp <> nil) then
+    FCefApp.Internal_OnProcessMessageReceived(browser, sourceProcess, aMessage, Result)
+   else
+    Result := False;
 end;
 
 end.

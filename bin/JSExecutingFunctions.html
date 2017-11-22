@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Executing JS functions from Delphi demo.</h1>
+
+<p>The CEF3 document describing JavaScript integration is here :<br>
+<a href="https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md">https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md</a></p>
+
+<p>The following button registers <strong>myFunc()</strong> using a "register" function we previously binded to the window in the GlobalCEFApp.OnContextCreated event.</p>
+<button onclick="RegisterJSFunction()">Register JS function</button>
+
+<p>After registering the function you can right-click over this demo and select "Execute registered JS function" to execute the function.</p>
+
+<script>
+function myFunc() {
+  alert("This is myFunc executing!");
+}
+
+function RegisterJSFunction() {
+    window.register(myFunc);
+}
+</script>
+
+</body>
+</html>

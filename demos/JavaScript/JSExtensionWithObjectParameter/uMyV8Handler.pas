@@ -35,52 +35,47 @@
  *
  *)
 
-unit uTestExtension;
+unit uMyV8Handler;
 
 {$I cef.inc}
 
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows,
-  {$ELSE}
-  Windows,
-  {$ENDIF}
-  uCEFRenderProcessHandler, uCEFBrowserProcessHandler, uCEFInterfaces, uCEFProcessMessage,
-  uCEFv8Context, uCEFTypes, uCEFv8Handler;
+  uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFv8Handler;
 
 type
-  TTestExtension = class
-    class procedure mouseover(const data: string);
-    class procedure sendresulttobrowser(const msgtext, msgname : string);
+  TMyV8Handler = class(TCefv8HandlerOwn)
+    protected
+      FMyParam : string;
+
+      function Execute(const name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean; override;
   end;
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFConstants, uJSExtension;
-
-class procedure TTestExtension.mouseover(const data: string);
-var
-  msg: ICefProcessMessage;
+function TMyV8Handler.Execute(const name      : ustring;
+                              const obj       : ICefv8Value;
+                              const arguments : TCefv8ValueArray;
+                              var   retval    : ICefv8Value;
+                              var   exception : ustring): Boolean;
 begin
-  msg := TCefProcessMessageRef.New(MOUSEOVER_MESSAGE_NAME);
-  msg.ArgumentList.SetString(0, data);
+  if (name = 'GetMyParam') then
+    begin
+      retval := TCefv8ValueRef.NewString(FMyParam);
+      Result := True;
+    end
+   else
+    if (name = 'SetMyParam') then
+      begin
+        if (length(arguments) > 0) and arguments[0].IsString then
+          FMyParam := arguments[0].GetStringValue;
 
-  // Sending a message back to the browser. It'll be received in the TChromium.OnProcessMessageReceived event.
-  // TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing Javascript.
-  TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+        Result := True;
+      end
+     else
+      Result := False;
 end;
 
-class procedure TTestExtension.sendresulttobrowser(const msgtext, msgname : string);
-var
-  msg: ICefProcessMessage;
-begin
-  msg := TCefProcessMessageRef.New(msgname);
-  msg.ArgumentList.SetString(0, msgtext);
-
-  TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
-end;
 
 end.

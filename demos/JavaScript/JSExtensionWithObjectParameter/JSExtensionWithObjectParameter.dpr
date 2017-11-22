@@ -35,52 +35,61 @@
  *
  *)
 
-program JSEval;
+program JSExtensionWithObjectParameter;
 
 {$I cef.inc}
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
   WinApi.Windows,
+  Vcl.Forms,
+  System.SysUtils,
   {$ELSE}
   Forms,
   Windows,
+  SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFRenderProcessHandler,
+  uCEFMiscFunctions,
   uCEFInterfaces,
-  uCEFConstants,
-  uCEFTypes,
-  uJSEval in 'uJSEval.pas' {JSEvalFrm},
-  uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
+  uJSExtensionWithObjectParameter in 'uJSExtensionWithObjectParameter.pas' {JSExtensionWithObjectParameterFrm},
+  uMyV8Handler in 'uMyV8Handler.pas';
 
 {$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
+procedure GlobalCEFApp_OnWebKitInitializedEvent;
 var
-  FProcessHandler : TCefCustomRenderProcessHandler;
+  TempExtensionCode : string;
+  TempHandler       : ICefv8Handler;
+begin
+  // This is the JS extension example with a function in the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+
+  TempExtensionCode := 'var test;' +
+                       'if (!test)' +
+                       '  test = {};' +
+                       '(function() {' +
+                       '  test.__defineGetter__(' + quotedstr('myparam') + ', function() {' +
+                       '    native function GetMyParam();' +
+                       '    return GetMyParam();' +
+                       '  });' +
+                       '  test.__defineSetter__(' + quotedstr('myparam') + ', function(b) {' +
+                       '    native function SetMyParam();' +
+                       '    if(b) SetMyParam(b);' +
+                       '  });' +
+                       '})();';
+
+  TempHandler := TMyV8Handler.Create;
+
+  CefRegisterExtension('v8/test', TempExtensionCode, TempHandler);
+end;
 
 begin
-  FProcessHandler                                 := TCefCustomRenderProcessHandler.Create;
-  FProcessHandler.AddMessageName(EVAL_JS);
-  FProcessHandler.AddMessageName(BINARY_PARAM_JS);
-  FProcessHandler.OnProcessMessageReceivedEvent   := JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent;
-
-  GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.RenderProcessHandler := FProcessHandler as ICefRenderProcessHandler;
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitializedEvent;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -88,9 +97,8 @@ begin
       {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
-      Application.CreateForm(TJSEvalFrm, JSEvalFrm);
-      Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
-      Application.Run;
+      Application.CreateForm(TJSExtensionWithObjectParameterFrm, JSExtensionWithObjectParameterFrm);
+  Application.Run;
     end;
 
   GlobalCEFApp.Free;

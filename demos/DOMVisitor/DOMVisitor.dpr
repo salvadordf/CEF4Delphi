@@ -68,9 +68,6 @@ uses
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
-var
-  TempProcessHandler : TCefCustomRenderProcessHandler;
-
 procedure SimpleDOMIteration(const aDocument: ICefDomDocument);
 var
   TempHead, TempChild : ICefDomNode;
@@ -145,14 +142,15 @@ begin
   browser.SendProcessMessage(PID_BROWSER, msg);
 end;
 
-procedure ProcessHandler_OnProcessMessageReceivedEvent(const browser       : ICefBrowser;
-                                                             sourceProcess : TCefProcessId;
-                                                       const message       : ICefProcessMessage);
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                      sourceProcess : TCefProcessId;
+                                                const message       : ICefProcessMessage;
+                                                var   aHandled      : boolean);
 var
   TempFrame   : ICefFrame;
   TempVisitor : TCefFastDomVisitor2;
 begin
-  if (browser <> nil) then
+  if (browser <> nil) and (message.name = RETRIEVEDOM_MSGNAME) then
     begin
       TempFrame := browser.MainFrame;
 
@@ -161,19 +159,17 @@ begin
           TempVisitor := TCefFastDomVisitor2.Create(browser, DOMVisitor_OnDocAvailable);
           TempFrame.VisitDom(TempVisitor);
         end;
-    end;
+
+      aHandled := True;
+    end
+   else
+    aHandled := False;
 end;
 
 begin
-  // This ProcessHandler is used for the extension and the DOM visitor demos.
-  // It can be removed if you don't want those features.
-  TempProcessHandler                               := TCefCustomRenderProcessHandler.Create;
-  TempProcessHandler.MessageName                   := RETRIEVEDOM_MSGNAME;   // same message name than TMiniBrowserFrm.VisitDOMMsg
-  TempProcessHandler.OnProcessMessageReceivedEvent := ProcessHandler_OnProcessMessageReceivedEvent;
-
-  GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.RemoteDebuggingPort  := 9000;
-  GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
+  GlobalCEFApp                          := TCefApplication.Create;
+  GlobalCEFApp.RemoteDebuggingPort      := 9000;
+  GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
 {

@@ -35,7 +35,7 @@
  *
  *)
 
-program JSExtension;
+program JSExecutingFunctions;
 
 {$I cef.inc}
 
@@ -50,53 +50,48 @@ uses
   SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFMiscFunctions,
-  uCEFConstants,
-  uCEFRenderProcessHandler,
   uCEFInterfaces,
-  uCEFv8Handler,
+  uCEFv8Value,
+  uCEFConstants,
   uCEFTypes,
-  uJSExtension in 'uJSExtension.pas' {JSExtensionFrm},
-  uTestExtension in 'uTestExtension.pas',
-  uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
+  uJSExecutingFunctions in 'uJSExecutingFunctions.pas' {JSExecutingFunctionsFrm},
+  uMyV8Handler in 'uMyV8Handler.pas';
 
 {$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 var
-  TempProcessHandler : TCefCustomRenderProcessHandler;
-
-procedure ProcessHandler_OnWebKitInitializedEvent;
+  TempHandler : ICefv8Handler;
 begin
-{$IFDEF DELPHI14_UP}
-  // Registering the extension. Read this document for more details :
-  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
-  TCefRTTIExtension.Register('myextension', TTestExtension);
-{$ENDIF}
+  TempHandler := TMyV8Handler.Create;
+  context.Global.SetValueByKey('register', TCefv8ValueRef.NewFunction('register', TempHandler), V8_PROPERTY_ATTRIBUTE_NONE);
+end;
+
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                      sourceProcess : TCefProcessId;
+                                                const message       : ICefProcessMessage;
+                                                var   aHandled      : boolean);
+var
+  arguments: TCefv8ValueArray;
+begin
+  if (message.name = EXECFUNCTION_MSGNAME) then
+    begin
+      if (GlobalCallbackFunc <> nil) then
+        GlobalCallbackFunc.ExecuteFunctionWithContext(GlobalCallbackContext, nil, arguments);
+
+      aHandled := True;
+    end
+   else
+    aHandled := False;
 end;
 
 begin
-  // You need a TCefCustomRenderProcessHandler to register the extension in the OnWebKitReady event
-  TempProcessHandler                           := TCefCustomRenderProcessHandler.Create;
-  TempProcessHandler.OnWebKitInitializedEvent  := ProcessHandler_OnWebKitInitializedEvent;
-
-  GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.RenderProcessHandler := TempProcessHandler as ICefRenderProcessHandler;
-
-  // The directories are optional.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
-  GlobalCEFApp.DisableGPUCache      := True;      // Disable the creation of a 'GPUCache' directory in the hard drive.
-  GlobalCEFApp.SingleProcess        := True;      // Use the single process mode *ONLY* for debugging purposes
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
+  GlobalCEFApp                          := TCefApplication.Create;
+  GlobalCEFApp.OnContextCreated         := GlobalCEFApp_OnContextCreated;
+  GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -104,8 +99,7 @@ begin
       {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
-      Application.CreateForm(TJSExtensionFrm, JSExtensionFrm);
-      Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
+      Application.CreateForm(TJSExecutingFunctionsFrm, JSExecutingFunctionsFrm);
       Application.Run;
     end;
 

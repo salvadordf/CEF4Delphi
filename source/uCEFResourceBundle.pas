@@ -51,15 +51,13 @@ uses
 
 type
   TCefResourceBundleRef = class(TCefBaseRefCountedRef, ICefResourceBundle)
-  protected
-    function GetLocalizedString(stringId: Integer): ustring;
-    function GetDataResource(resourceId: Integer;
-      out data: Pointer; out dataSize: NativeUInt): Boolean;
-    function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor;
-      out data: Pointer; out dataSize: NativeUInt): Boolean;
-  public
-    class function UnWrap(data: Pointer): ICefResourceBundle;
-    class function Global: ICefResourceBundle;
+    protected
+      function GetLocalizedString(stringId: Integer): ustring;
+      function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
+      function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
+    public
+      class function UnWrap(data: Pointer): ICefResourceBundle;
+      class function Global: ICefResourceBundle;
   end;
 
 implementation
@@ -68,19 +66,19 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
 
-function TCefResourceBundleRef.GetDataResource(resourceId: Integer;
-  out data: Pointer; out dataSize: NativeUInt): Boolean;
+function TCefResourceBundleRef.GetDataResource(resourceId   : Integer;
+                                               var data     : Pointer;
+                                               var dataSize : NativeUInt): Boolean;
 begin
-  Result := PCefResourceBundle(FData).get_data_resource(FData, resourceId,
-    data, dataSize) <> 0;
+  Result := PCefResourceBundle(FData).get_data_resource(FData, resourceId, data, dataSize) <> 0;
 end;
 
-function TCefResourceBundleRef.GetDataResourceForScale(resourceId: Integer;
-  scaleFactor: TCefScaleFactor; out data: Pointer;
-  out dataSize: NativeUInt): Boolean;
+function TCefResourceBundleRef.GetDataResourceForScale(resourceId : Integer;
+                                                           scaleFactor : TCefScaleFactor;
+                                                       var data        : Pointer;
+                                                       var dataSize    : NativeUInt): Boolean;
 begin
-  Result := PCefResourceBundle(FData).get_data_resource_for_scale(FData,
-    resourceId, scaleFactor, data, dataSize) <> 0;
+  Result := PCefResourceBundle(FData).get_data_resource_for_scale(FData, resourceId, scaleFactor, data, dataSize) <> 0;
 end;
 
 function TCefResourceBundleRef.GetLocalizedString(stringId: Integer): ustring;
@@ -95,8 +93,9 @@ end;
 
 class function TCefResourceBundleRef.UnWrap(data: Pointer): ICefResourceBundle;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefResourceBundle else
+  if (data <> nil) then
+    Result := Create(data) as ICefResourceBundle
+   else
     Result := nil;
 end;
 
