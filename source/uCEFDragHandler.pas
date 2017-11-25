@@ -92,7 +92,7 @@ end;
 
 constructor TCefDragHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefDragHandler), False);
+  CreateData(SizeOf(TCefDragHandler));
   with PCefDragHandler(FData)^ do
   begin
     on_drag_enter := cef_drag_handler_on_drag_enter;

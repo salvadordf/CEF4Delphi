@@ -74,15 +74,43 @@ type
 var
   JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm;
 
+procedure GlobalCEFApp_OnWebKitInitializedEvent;
+
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFMiscFunctions, uMyV8Handler;
 
 // The CEF3 document describing JavaScript integration is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
 // The HTML file in this demo has a button that shows the contents of 'test.myfunc()'
 // which was registered in the GlobalCEFApp.OnWebKitInitialized event.
+
+procedure GlobalCEFApp_OnWebKitInitializedEvent;
+var
+  TempExtensionCode : string;
+  TempHandler       : ICefv8Handler;
+begin
+  // This is the JS extension example with a function in the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+
+  TempExtensionCode := 'var test;' +
+                       'if (!test)' +
+                       '  test = {};' +
+                       '(function() {' +
+                       '  test.myfunc = function() {' +
+                       '    native function myfunc();' +
+                       '    return myfunc();' +
+                       '  };' +
+                       '})();';
+
+  TempHandler := TMyV8Handler.Create;
+
+  CefRegisterExtension('v8/test', TempExtensionCode, TempHandler);
+end;
 
 procedure TJSExtensionWithFunctionFrm.GoBtnClick(Sender: TObject);
 begin

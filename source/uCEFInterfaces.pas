@@ -101,6 +101,7 @@ type
   ICefExtensionHandler = interface;
   ICefExtension = interface;
   ICefStreamReader = interface;
+  ICefLoadHandler = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -828,13 +829,6 @@ type
       count, total: Integer; out deleteCookie: Boolean): Boolean;
   end;
 
-  ICefResourceBundleHandler = interface(ICefBaseRefCounted)
-    ['{09C264FD-7E03-41E3-87B3-4234E82B5EA2}']
-    function GetLocalizedString(stringId: Integer; var stringVal: ustring): Boolean;
-    function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
-    function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
-  end;
-
   ICefCommandLine = interface(ICefBaseRefCounted)
   ['{6B43D21B-0F2C-4B94-B4E6-4AF0D7669D8E}']
     function IsValid: Boolean;
@@ -860,11 +854,19 @@ type
     property CommandLineString: ustring read GetCommandLineString;
   end;
 
+  ICefResourceBundleHandler = interface(ICefBaseRefCounted)
+    ['{09C264FD-7E03-41E3-87B3-4234E82B5EA2}']
+    function GetLocalizedString(stringId: Integer; var stringVal: ustring): Boolean;
+    function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
+    function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
+  end;
+
   ICefBrowserProcessHandler = interface(ICefBaseRefCounted)
   ['{27291B7A-C0AE-4EE0-9115-15C810E22F6C}']
     procedure OnContextInitialized;
     procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
     procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
+    function  GetPrintHandler : ICefPrintHandler;
     procedure OnScheduleMessagePumpWork(const delayMs: Int64);
   end;
 
@@ -874,20 +876,22 @@ type
     procedure OnWebKitInitialized;
     procedure OnBrowserCreated(const browser: ICefBrowser);
     procedure OnBrowserDestroyed(const browser: ICefBrowser);
+    function  GetLoadHandler : ICefLoadHandler;
+    function  OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean): Boolean;
     procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
     procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
     procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
     procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
-    function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean;
+    function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean;
   end;
 
   ICefApp = interface(ICefBaseRefCounted)
     ['{970CA670-9070-4642-B188-7D8A22DAEED4}']
     procedure OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
     procedure OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
-    function  GetResourceBundleHandler: ICefResourceBundleHandler;
-    function  GetBrowserProcessHandler: ICefBrowserProcessHandler;
-    function  GetRenderProcessHandler: ICefRenderProcessHandler;
+    procedure GetResourceBundleHandler(var aHandler : ICefResourceBundleHandler);
+    procedure GetBrowserProcessHandler(var aHandler : ICefBrowserProcessHandler);
+    procedure GetRenderProcessHandler(var aHandler : ICefRenderProcessHandler);
   end;
 
   TCefCookieVisitorProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(

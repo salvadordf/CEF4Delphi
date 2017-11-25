@@ -74,9 +74,14 @@ type
 var
   JSExtensionWithObjectParameterFrm: TJSExtensionWithObjectParameterFrm;
 
+procedure GlobalCEFApp_OnWebKitInitializedEvent;
+
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFMiscFunctions, uMyV8Handler;
 
 // The CEF3 document describing JavaScript integration is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
@@ -86,6 +91,33 @@ implementation
 
 // This demo is based in the code comments for the cef_register_extension function in the file
 // /include/capi/cef_v8_capi.h
+
+procedure GlobalCEFApp_OnWebKitInitializedEvent;
+var
+  TempExtensionCode : string;
+  TempHandler       : ICefv8Handler;
+begin
+  // This is the JS extension example with a function in the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+
+  TempExtensionCode := 'var test;' +
+                       'if (!test)' +
+                       '  test = {};' +
+                       '(function() {' +
+                       '  test.__defineGetter__(' + quotedstr('myparam') + ', function() {' +
+                       '    native function GetMyParam();' +
+                       '    return GetMyParam();' +
+                       '  });' +
+                       '  test.__defineSetter__(' + quotedstr('myparam') + ', function(b) {' +
+                       '    native function SetMyParam();' +
+                       '    if(b) SetMyParam(b);' +
+                       '  });' +
+                       '})();';
+
+  TempHandler := TMyV8Handler.Create;
+
+  CefRegisterExtension('v8/test', TempExtensionCode, TempHandler);
+end;
 
 procedure TJSExtensionWithObjectParameterFrm.GoBtnClick(Sender: TObject);
 begin

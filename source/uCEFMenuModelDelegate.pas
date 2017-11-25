@@ -119,7 +119,7 @@ end;
 
 constructor TCefMenuModelDelegateOwn.Create;
 begin
-  CreateData(SizeOf(TCefMenuModelDelegate), False);
+  CreateData(SizeOf(TCefMenuModelDelegate));
 
   with PCefMenuModelDelegate(FData)^ do
     begin

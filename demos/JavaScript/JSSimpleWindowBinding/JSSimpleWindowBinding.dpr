@@ -41,32 +41,19 @@ program JSSimpleWindowBinding;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
   Vcl.Forms,
-  System.SysUtils,
+  WinApi.Windows,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFInterfaces,
-  uCEFv8Value,
-  uCEFConstants,
   uJSSimpleWindowBinding in 'uJSSimpleWindowBinding.pas' {JSSimpleWindowBindingFrm};
 
 {$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
-procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-begin
-  // This is the first JS Window Binding example in the "JavaScript Integration" wiki page at
-  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
-
-  context.Global.SetValueByKey('myval', TCefv8ValueRef.NewString('My Value!'), V8_PROPERTY_ATTRIBUTE_NONE);;
-end;
 
 begin
   GlobalCEFApp                  := TCefApplication.Create;

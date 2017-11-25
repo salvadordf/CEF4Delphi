@@ -47,7 +47,7 @@ unit uCEFResourceBundleHandler;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplication;
 
 type
   TCefResourceBundleHandlerOwn = class(TCefBaseRefCountedOwn, ICefResourceBundleHandler)
@@ -60,28 +60,57 @@ type
       constructor Create; virtual;
   end;
 
+  TCefCustomResourceBundleHandler = class(TCefResourceBundleHandlerOwn)
+    protected
+      FCefApp : TCefApplication;
+
+      function GetLocalizedString(stringid: Integer; var stringVal: ustring): Boolean; override;
+      function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean; override;
+      function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean; override;
+
+    public
+      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFConstants;
 
 function cef_resource_bundle_handler_get_localized_string(self       : PCefResourceBundleHandler;
                                                           string_id  : Integer;
                                                           string_val : PCefString): Integer; stdcall;
 var
-  str: ustring;
+  TempString : ustring;
+  TempObject : TObject;
 begin
-  Result := Ord(TCefResourceBundleHandlerOwn(CefGetObject(self)).GetLocalizedString(string_id, str));
+  TempObject := CefGetObject(self);
 
-  if (Result <> 0) then string_val^ := CefString(str);
+  if (TempObject <> nil) and (TempObject is TCefResourceBundleHandlerOwn) then
+    begin
+      TempString := '';
+      Result     := Ord(TCefResourceBundleHandlerOwn(TempObject).GetLocalizedString(string_id, TempString));
+
+      if (Result <> 0) then string_val^ := CefString(TempString);
+    end
+   else
+    Result := 0;
 end;
 
 function cef_resource_bundle_handler_get_data_resource(self : PCefResourceBundleHandler;
                                                            resource_id : Integer;
                                                        var data        : Pointer;
                                                        var data_size   : NativeUInt): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := Ord(TCefResourceBundleHandlerOwn(CefGetObject(self)).GetDataResource(resource_id, data, data_size));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResourceBundleHandlerOwn) then
+    Result := Ord(TCefResourceBundleHandlerOwn(TempObject).GetDataResource(resource_id, data, data_size))
+   else
+    Result := 0;
 end;
 
 function cef_resource_bundle_handler_get_data_resource_for_scale(self: PCefResourceBundleHandler;
@@ -89,8 +118,15 @@ function cef_resource_bundle_handler_get_data_resource_for_scale(self: PCefResou
                                                                      scale_factor : TCefScaleFactor;
                                                                  var data         : Pointer;
                                                                  var data_size    : NativeUInt): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := Ord(TCefResourceBundleHandlerOwn(CefGetObject(self)).GetDataResourceForScale(resource_id, scale_factor, data, data_size));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResourceBundleHandlerOwn) then
+    Result := Ord(TCefResourceBundleHandlerOwn(TempObject).GetDataResourceForScale(resource_id, scale_factor, data, data_size))
+   else
+    Result := 0;
 end;
 
 constructor TCefResourceBundleHandlerOwn.Create;
@@ -103,6 +139,54 @@ begin
       get_data_resource           := cef_resource_bundle_handler_get_data_resource;
       get_data_resource_for_scale := cef_resource_bundle_handler_get_data_resource_for_scale;
     end;
+end;
+
+
+// TCefCustomResourceBundleHandler
+
+
+constructor TCefCustomResourceBundleHandler.Create(const aCefApp : TCefApplication);
+begin
+  inherited Create;
+
+  FCefApp := aCefApp;
+end;
+
+destructor TCefCustomResourceBundleHandler.Destroy;
+begin
+  FCefApp := nil;
+
+  inherited Destroy;
+end;
+
+function TCefCustomResourceBundleHandler.GetLocalizedString(stringid : Integer;
+                                                            var stringVal : ustring): Boolean;
+begin
+  if (FCefApp <> nil) then
+    Result := FCefApp.Internal_GetLocalizedString(stringid, stringVal)
+   else
+    Result := False;
+end;
+
+function TCefCustomResourceBundleHandler.GetDataResource(resourceId : Integer;
+                                                         var data     : Pointer;
+                                                         var dataSize : NativeUInt): Boolean;
+begin
+  if (FCefApp <> nil) then
+    Result := FCefApp.Internal_GetDataResource(resourceId, data, dataSize)
+   else
+    Result := False;
+end;
+
+function TCefCustomResourceBundleHandler.GetDataResourceForScale(resourceId : Integer;
+                                                                     scaleFactor : TCefScaleFactor;
+                                                                 var data        : Pointer;
+                                                                 var dataSize    : NativeUInt): Boolean;
+begin
+  if (FCefApp <> nil) then
+    Result := FCefApp.Internal_GetDataResourceForScale(resourceId, scaleFactor, data, dataSize)
+   else
+    Result := False;
 end;
 
 end.

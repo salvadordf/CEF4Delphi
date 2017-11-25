@@ -55,7 +55,7 @@ type
       FData: Pointer;
 
     public
-      constructor CreateData(size: Cardinal; owned: Boolean = False); virtual;
+      constructor CreateData(size: Cardinal; owned : boolean = False); virtual;
       destructor  Destroy; override;
       function    Wrap: Pointer;
   end;
@@ -88,7 +88,7 @@ begin
     TCefBaseRefCountedOwn(TempObject)._AddRef;
 end;
 
-function cef_base_release(self: PCefBaseRefCounted): Integer; stdcall;
+function cef_base_release_ref(self: PCefBaseRefCounted): Integer; stdcall;
 var
   TempObject : TObject;
 begin
@@ -127,7 +127,7 @@ begin
   Result := 1;
 end;
 
-constructor TCefBaseRefCountedOwn.CreateData(size: Cardinal; owned: Boolean);
+constructor TCefBaseRefCountedOwn.CreateData(size: Cardinal; owned : boolean);
 begin
   GetMem(FData, size + SizeOf(Pointer));
   PPointer(FData)^ := Self;
@@ -144,7 +144,7 @@ begin
    else
     begin
       PCefBaseRefCounted(FData)^.add_ref     := cef_base_add_ref;
-      PCefBaseRefCounted(FData)^.release     := cef_base_release;
+      PCefBaseRefCounted(FData)^.release     := cef_base_release_ref;
       PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref;
     end;
 end;

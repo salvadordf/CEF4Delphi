@@ -209,7 +209,7 @@ end;
 
 constructor TCefRenderHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefRenderHandler), False);
+  CreateData(SizeOf(TCefRenderHandler));
 
   with PCefRenderHandler(FData)^ do
     begin

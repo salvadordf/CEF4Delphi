@@ -97,12 +97,14 @@ type
 var
   JSExtensionFrm: TJSExtensionFrm;
 
+procedure GlobalCEFApp_OnWebKitInitialized;
+
 implementation
 
 {$R *.dfm}
 
 uses
-  uSimpleTextViewer, uCEFMiscFunctions;
+  uSimpleTextViewer, uCEFMiscFunctions, uTestExtensionHandler;
 
 // The CEF3 document describing extensions is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
@@ -121,6 +123,34 @@ uses
 // That message is received in the TChromium.OnProcessMessageReceived event.
 // Even if you create several TChromium objects you should have no problem because each of them will have its own
 // TChromium.OnProcessMessageReceived event to receive the messages from the extension.
+
+procedure GlobalCEFApp_OnWebKitInitialized;
+var
+  TempExtensionCode : string;
+  TempHandler       : ICefv8Handler;
+begin
+  // This is a JS extension example with 2 functions and several parameters.
+  // Please, read the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+
+  TempExtensionCode := 'var myextension;' +
+                       'if (!myextension)' +
+                       '  myextension = {};' +
+                       '(function() {' +
+                       '  myextension.mouseover = function(a) {' +
+                       '    native function mouseover();' +
+                       '    mouseover(a);' +
+                       '  };' +
+                       '  myextension.sendresulttobrowser = function(b,c) {' +
+                       '    native function sendresulttobrowser();' +
+                       '    sendresulttobrowser(b,c);' +
+                       '  };' +
+                       '})();';
+
+  TempHandler := TTestExtensionHandler.Create;
+
+  CefRegisterExtension('myextension', TempExtensionCode, TempHandler);
+end;
 
 procedure TJSExtensionFrm.GoBtnClick(Sender: TObject);
 begin

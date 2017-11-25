@@ -74,15 +74,35 @@ type
 var
   JSWindowBindingWithObjectFrm: TJSWindowBindingWithObjectFrm;
 
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFv8Value, uMyV8Accessor;
 
 // The CEF3 document describing JavaScript integration is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
 // The HTML file in this demo has a button that shows the contents of 'window.myobj.myval'
 // which was set in the GlobalCEFApp.OnContextCreated event.
+
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+var
+  TempAccessor : ICefV8Accessor;
+  TempObject   : ICefv8Value;
+begin
+  // This is the first JS Window Binding example in the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+
+  TempAccessor := TMyV8Accessor.Create;
+  TempObject   := TCefv8ValueRef.NewObject(TempAccessor, nil);
+  TempObject.SetValueByKey('myval', TCefv8ValueRef.NewString('My Value!'), V8_PROPERTY_ATTRIBUTE_NONE);
+
+  context.Global.SetValueByKey('myobj', TempObject, V8_PROPERTY_ATTRIBUTE_NONE);
+end;
 
 procedure TJSWindowBindingWithObjectFrm.GoBtnClick(Sender: TObject);
 begin

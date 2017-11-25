@@ -41,40 +41,19 @@ program JSSimpleExtension;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
   Vcl.Forms,
-  System.SysUtils,
+  WinApi.Windows,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFMiscFunctions,
-  uCEFTypes,
   uJSSimpleExtension in 'uJSSimpleExtension.pas' {JSSimpleExtensionFrm};
 
 {$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
-procedure GlobalCEFApp_OnWebKitInitializedEvent;
-var
-  TempExtensionCode : string;
-begin
-  // This is the first JS extension example in the "JavaScript Integration" wiki page at
-  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
-
-  TempExtensionCode := 'var test;' +
-                       'if (!test)' +
-                       '  test = {};' +
-                       '(function() {' +
-                       '  test.myval = ' + quotedstr('My Value!') + ';' +
-                       '})();';
-
-  CefRegisterExtension('v8/test', TempExtensionCode, nil);
-end;
 
 begin
   GlobalCEFApp                     := TCefApplication.Create;

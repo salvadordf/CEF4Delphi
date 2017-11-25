@@ -41,19 +41,13 @@ program JSExecutingFunctions;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
   Vcl.Forms,
-  System.SysUtils,
+  WinApi.Windows,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFInterfaces,
-  uCEFv8Value,
-  uCEFConstants,
-  uCEFTypes,
   uJSExecutingFunctions in 'uJSExecutingFunctions.pas' {JSExecutingFunctionsFrm},
   uMyV8Handler in 'uMyV8Handler.pas';
 
@@ -61,32 +55,6 @@ uses
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
-procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-var
-  TempHandler : ICefv8Handler;
-begin
-  TempHandler := TMyV8Handler.Create;
-  context.Global.SetValueByKey('register', TCefv8ValueRef.NewFunction('register', TempHandler), V8_PROPERTY_ATTRIBUTE_NONE);
-end;
-
-procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
-                                                      sourceProcess : TCefProcessId;
-                                                const message       : ICefProcessMessage;
-                                                var   aHandled      : boolean);
-var
-  arguments: TCefv8ValueArray;
-begin
-  if (message.name = EXECFUNCTION_MSGNAME) then
-    begin
-      if (GlobalCallbackFunc <> nil) then
-        GlobalCallbackFunc.ExecuteFunctionWithContext(GlobalCallbackContext, nil, arguments);
-
-      aHandled := True;
-    end
-   else
-    aHandled := False;
-end;
 
 begin
   GlobalCEFApp                          := TCefApplication.Create;

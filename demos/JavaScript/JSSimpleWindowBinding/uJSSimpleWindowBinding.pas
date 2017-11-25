@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
+  uCEFConstants, uCEFv8Value;
 
 type
   TJSSimpleWindowBindingFrm = class(TForm)
@@ -74,6 +75,8 @@ type
 var
   JSSimpleWindowBindingFrm: TJSSimpleWindowBindingFrm;
 
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+
 implementation
 
 {$R *.dfm}
@@ -83,6 +86,18 @@ implementation
 
 // The HTML file in this demo has a button that shows the contents of 'window.myval'
 // which was set in the GlobalCEFApp.OnContextCreated event.
+
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+var
+  TempValue : ICEFv8Value;
+begin
+  // This is the first JS Window Binding example in the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+
+  TempValue := TCefv8ValueRef.NewString('My Value!');
+
+  context.Global.SetValueByKey('myval', TempValue, V8_PROPERTY_ATTRIBUTE_NONE);
+end;
 
 procedure TJSSimpleWindowBindingFrm.GoBtnClick(Sender: TObject);
 begin

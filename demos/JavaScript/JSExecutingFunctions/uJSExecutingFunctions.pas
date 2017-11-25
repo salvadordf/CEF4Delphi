@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
+  uCEFConstants, uCEFv8Value;
 
 const
   JSDEMO_CONTEXTMENU_EXECFUNCTION = MENU_ID_USER_FIRST + 1;
@@ -88,6 +89,12 @@ var
   GlobalCallbackFunc       : ICefv8Value = nil;
   GlobalCallbackContext    : ICefv8Context = nil;
 
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                      sourceProcess : TCefProcessId;
+                                                const aMessage      : ICefProcessMessage;
+                                                var   aHandled      : boolean);
+
 implementation
 
 {$R *.dfm}
@@ -106,7 +113,36 @@ implementation
 // be executed.
 
 uses
-  uCEFProcessMessage;
+  uCEFProcessMessage, uMyV8Handler;
+
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+var
+  TempHandler  : ICefv8Handler;
+  TempFunction : ICefv8Value;
+begin
+  TempHandler  := TMyV8Handler.Create;
+  TempFunction := TCefv8ValueRef.NewFunction('register', TempHandler);
+
+  context.Global.SetValueByKey('register', TempFunction, V8_PROPERTY_ATTRIBUTE_NONE);
+end;
+
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                      sourceProcess : TCefProcessId;
+                                                const aMessage      : ICefProcessMessage;
+                                                var   aHandled      : boolean);
+var
+  arguments: TCefv8ValueArray;
+begin
+  if (aMessage.name = EXECFUNCTION_MSGNAME) then
+    begin
+      if (GlobalCallbackFunc <> nil) then
+        GlobalCallbackFunc.ExecuteFunctionWithContext(GlobalCallbackContext, nil, arguments);
+
+      aHandled := True;
+    end
+   else
+    aHandled := False;
+end;
 
 procedure TJSExecutingFunctionsFrm.GoBtnClick(Sender: TObject);
 begin

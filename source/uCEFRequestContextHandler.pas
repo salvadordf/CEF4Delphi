@@ -117,7 +117,7 @@ end;
 
 constructor TCefRequestContextHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefRequestContextHandler), False);
+  CreateData(SizeOf(TCefRequestContextHandler));
 
   with PCefRequestContextHandler(FData)^ do
     begin

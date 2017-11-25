@@ -90,7 +90,7 @@ end;
 
 constructor TCefPdfPrintCallbackOwn.Create;
 begin
-  CreateData(SizeOf(TCefPdfPrintCallback), False);
+  CreateData(SizeOf(TCefPdfPrintCallback));
 
   PCefPdfPrintCallback(FData).on_pdf_print_finished := cef_pdf_print_callback_on_pdf_print_finished;
 end;

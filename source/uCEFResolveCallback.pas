@@ -114,7 +114,7 @@ end;
 
 constructor TCefResolveCallbackOwn.Create;
 begin
-  CreateData(SizeOf(TCefResolveCallback), False);
+  CreateData(SizeOf(TCefResolveCallback));
 
   with PCefResolveCallback(FData)^ do
     on_resolve_completed := cef_resolve_callback_on_resolve_completed;

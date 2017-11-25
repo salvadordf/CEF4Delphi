@@ -78,7 +78,7 @@ end;
 
 constructor TCefResponseFilterOwn.Create;
 begin
-  CreateData(SizeOf(TCefResponseFilter), False);
+  CreateData(SizeOf(TCefResponseFilter));
   with PCefResponseFilter(FData)^ do
   begin
     init_filter := cef_response_filter_init_filter;

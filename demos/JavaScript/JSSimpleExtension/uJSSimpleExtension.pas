@@ -74,15 +74,37 @@ type
 var
   JSSimpleExtensionFrm: TJSSimpleExtensionFrm;
 
+procedure GlobalCEFApp_OnWebKitInitializedEvent;
+
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFMiscFunctions;
 
 // The CEF3 document describing JavaScript integration is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
 // The HTML file in this demo has a button that shows the contents of 'test.myval'
 // which was registered in the GlobalCEFApp.OnWebKitInitialized event.
+
+procedure GlobalCEFApp_OnWebKitInitializedEvent;
+var
+  TempExtensionCode : string;
+begin
+  // This is the first JS extension example in the "JavaScript Integration" wiki page at
+  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
+
+  TempExtensionCode := 'var test;' +
+                       'if (!test)' +
+                       '  test = {};' +
+                       '(function() {' +
+                       '  test.myval = ' + quotedstr('My Value!') + ';' +
+                       '})();';
+
+  CefRegisterExtension('v8/test', TempExtensionCode, nil);
+end;
 
 procedure TJSSimpleExtensionFrm.GoBtnClick(Sender: TObject);
 begin

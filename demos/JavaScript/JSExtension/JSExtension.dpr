@@ -41,21 +41,13 @@ program JSExtension;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
   Vcl.Forms,
-  System.SysUtils,
+  WinApi.Windows,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFMiscFunctions,
-  uCEFConstants,
-  uCEFRenderProcessHandler,
-  uCEFInterfaces,
-  uCEFv8Handler,
-  uCEFTypes,
   uJSExtension in 'uJSExtension.pas' {JSExtensionFrm},
   uTestExtensionHandler in 'uTestExtensionHandler.pas',
   uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
@@ -64,34 +56,6 @@ uses
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
-procedure GlobalCEFApp_OnWebKitInitialized;
-var
-  TempExtensionCode : string;
-  TempHandler       : ICefv8Handler;
-begin
-  // This is a JS extension example with 2 functions and several parameters.
-  // Please, read the "JavaScript Integration" wiki page at
-  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
-
-  TempExtensionCode := 'var myextension;' +
-                       'if (!myextension)' +
-                       '  myextension = {};' +
-                       '(function() {' +
-                       '  myextension.mouseover = function(a) {' +
-                       '    native function mouseover();' +
-                       '    mouseover(a);' +
-                       '  };' +
-                       '  myextension.sendresulttobrowser = function(b,c) {' +
-                       '    native function sendresulttobrowser();' +
-                       '    sendresulttobrowser(b,c);' +
-                       '  };' +
-                       '})();';
-
-  TempHandler := TTestExtensionHandler.Create;
-
-  CefRegisterExtension('myextension', TempExtensionCode, TempHandler);
-end;
 
 begin
   GlobalCEFApp                     := TCefApplication.Create;

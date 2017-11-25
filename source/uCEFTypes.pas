@@ -1542,7 +1542,7 @@ type
     on_context_released: procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; context: PCefv8Context); stdcall;
     on_uncaught_exception: procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; context: PCefv8Context; exception: PCefV8Exception; stackTrace: PCefV8StackTrace); stdcall;
     on_focused_node_changed: procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; node: PCefDomNode); stdcall;
-    on_process_message_received: function(self: PCefRenderProcessHandler; browser: PCefBrowser; source_process: TCefProcessId; message: PCefProcessMessage): Integer; stdcall;
+    on_process_message_received: function(self: PCefRenderProcessHandler; browser: PCefBrowser; source_process: TCefProcessId; message_: PCefProcessMessage): Integer; stdcall;
   end;
 
   // /include/capi/cef_request_handler_capi.h (cef_request_handler_t)

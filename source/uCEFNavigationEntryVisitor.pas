@@ -83,7 +83,7 @@ end;
 
 constructor TCefNavigationEntryVisitorOwn.Create;
 begin
-  CreateData(SizeOf(TCefNavigationEntryVisitor), False);
+  CreateData(SizeOf(TCefNavigationEntryVisitor));
   with PCefNavigationEntryVisitor(FData)^ do
     visit := cef_navigation_entry_visitor_visit;
 end;

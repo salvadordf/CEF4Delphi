@@ -82,7 +82,7 @@ end;
 
 constructor TCefFindHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefFindHandler), False);
+  CreateData(SizeOf(TCefFindHandler));
 
   with PCefFindHandler(FData)^ do on_find_result := cef_find_handler_on_find_result;
 end;

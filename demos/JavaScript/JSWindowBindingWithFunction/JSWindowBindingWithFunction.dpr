@@ -41,18 +41,13 @@ program JSWindowBindingWithFunction;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
   Vcl.Forms,
-  System.SysUtils,
+  WinApi.Windows,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFInterfaces,
-  uCEFv8Value,
-  uCEFConstants,
   uJSWindowBindingWithFunction in 'uJSWindowBindingWithFunction.pas' {JSWindowBindingWithFunctionFrm},
   uMyV8Handler in 'uMyV8Handler.pas';
 
@@ -60,18 +55,6 @@ uses
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
-procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-var
-  TempHandler : ICefv8Handler;
-begin
-  // This is the JS Window Binding example with a function in the "JavaScript Integration" wiki page at
-  // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
-
-  TempHandler := TMyV8Handler.Create;
-
-  context.Global.SetValueByKey('myfunc', TCefv8ValueRef.NewFunction('myfunc', TempHandler), V8_PROPERTY_ATTRIBUTE_NONE);
-end;
 
 begin
   GlobalCEFApp                  := TCefApplication.Create;
