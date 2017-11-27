@@ -148,7 +148,6 @@ type
       property OnStartDrag;
       property OnUnDock;
       {$IFDEF DELPHI9_UP}
-      property ShowCaption;
       property VerticalAlignment;
       property OnAlignInsertBefore;
       property OnAlignPosition;
@@ -160,6 +159,7 @@ type
       property OnMouseLeave;
       {$ENDIF}
       {$IFDEF DELPHI12_UP}
+      property ShowCaption;
       property ParentDoubleBuffered;
       {$ENDIF}
       {$IFDEF DELPHI14_UP}
