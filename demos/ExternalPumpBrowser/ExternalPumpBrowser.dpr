@@ -35,41 +35,43 @@
  *
  *)
 
-program SimpleOSRBrowser;
+program ExternalPumpBrowser;
 
 {$I cef.inc}
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms, WinApi.Windows,
+  Vcl.Forms,
+  WinApi.Windows,
+  System.SysUtils,
   {$ELSE}
-  Forms, Windows,
-  {$ENDIF}
+  Forms,
+  Windows,
+  SysUtils,
+  {$ENDIF }
   uCEFApplication,
-  uSimpleOSRBrowser in 'uSimpleOSRBrowser.pas' {Form1};
+  uCEFWorkScheduler,
+  uExternalPumpBrowser in 'uExternalPumpBrowser.pas' {ExternalPumpBrowserFrm};
 
 {$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+// If you don't add this flag the rederer process will crash when you try to load large images.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.FastUnload                 := True;
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
 
-  //GlobalCEFApp.AddCustomCommandLine('--show-fps-counter');
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
+  GlobalCEFApp                           := TCefApplication.Create;
+  GlobalCEFApp.FlashEnabled              := False;
+  GlobalCEFApp.FastUnload                := True;
+  GlobalCEFApp.ExternalMessagePump       := True;
+  GlobalCEFApp.MultiThreadedMessageLoop  := False;
+  GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -77,9 +79,15 @@ begin
       {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
-      Application.CreateForm(TForm1, Form1);
+      Application.CreateForm(TExternalPumpBrowserFrm, ExternalPumpBrowserFrm);
       Application.Run;
+
+      // The form needs to be destroyed *BEFORE* stopping the scheduler.
+      ExternalPumpBrowserFrm.Free;
+
+      GlobalCEFWorkScheduler.StopScheduler;
     end;
 
-  GlobalCEFApp.Free;
+  FreeAndNil(GlobalCEFApp);
+  FreeAndNil(GlobalCEFWorkScheduler);
 end.

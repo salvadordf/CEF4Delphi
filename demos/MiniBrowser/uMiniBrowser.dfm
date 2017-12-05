@@ -148,7 +148,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
             '_name'
-          'https://www.browserleaks.com/webrtc')
+          'https://www.browserleaks.com/webrtc'
+          'https://frames-per-second.appspot.com/')
       end
     end
     object ConfigPnl: TPanel

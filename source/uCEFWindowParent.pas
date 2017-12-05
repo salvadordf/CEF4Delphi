@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, WinApi.Messages, System.Classes, Vcl.Controls,
+  WinApi.Windows, WinApi.Messages, System.Classes, Vcl.Controls, Vcl.Graphics,
   {$ELSE}
-  Windows, Messages, Classes, Controls,
+  Windows, Messages, Classes, Controls, Graphics,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces;
 
@@ -64,6 +64,8 @@ type
 
     public
       procedure UpdateSize;
+      function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
+
       property  ChildWindowHandle : THandle   read GetChildWindowHandle;
 
     published
@@ -142,6 +144,35 @@ begin
 
     else inherited WndProc(aMessage);
   end;
+end;
+
+function TCEFWindowParent.TakeSnapshot(var aBitmap : TBitmap) : boolean;
+var
+  TempHWND   : HWND;
+  TempDC     : HDC;
+  TempRect   : TRect;
+  TempWidth  : Integer;
+  TempHeight : Integer;
+begin
+  Result   := False;
+  TempHWND := ChildWindowHandle;
+
+  if (TempHWND <> 0) then
+    begin
+      Winapi.Windows.GetClientRect(TempHWND, TempRect);
+      TempDC     := GetDC(TempHWND);
+      TempWidth  := TempRect.Right  - TempRect.Left;
+      TempHeight := TempRect.Bottom - TempRect.Top;
+
+      aBitmap        := TBitmap.Create;
+      aBitmap.Height := TempHeight;
+      aBitmap.Width  := TempWidth;
+
+      Result := BitBlt(aBitmap.Canvas.Handle, 0, 0, TempWidth, TempHeight,
+                       TempDC, 0, 0, SRCCOPY);
+
+      ReleaseDC(TempHWND, TempDC);
+    end;
 end;
 
 end.

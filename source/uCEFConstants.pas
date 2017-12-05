@@ -361,9 +361,13 @@ const
   CEF_STARTDRAGGING      = WM_APP + $A02;
   CEF_AFTERCREATED       = WM_APP + $A03;
   CEF_PENDINGRESIZE      = WM_APP + $A04;
+  CEF_PUMPHAVEWORK       = WM_APP + $A05;
+  CEF_DESTROY            = WM_APP + $A06;
 
-  CEF_USER_TIMER_MINIMUM = $0000000A;
-  CEF_USER_TIMER_MAXIMUM = $7FFFFFFF;
+  CEF_TIMER_MINIMUM           = $0000000A;
+  CEF_TIMER_MAXIMUM           = $7FFFFFFF;
+  CEF_TIMER_MAXDELAY          = 1000 div 30; // 30fps
+  CEF_TIMER_DELAY_PLACEHOLDER = high(integer);
 
   CEF4DELPHI_URL = 'https://github.com/salvadordf/CEF4Delphi';
   CRLF           = #13 + #10;

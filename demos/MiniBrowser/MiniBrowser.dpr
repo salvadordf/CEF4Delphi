@@ -44,11 +44,9 @@ uses
   {$IFDEF DELPHI16_UP}
   Vcl.Forms,
   WinApi.Windows,
-  System.SysUtils,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},

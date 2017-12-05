@@ -301,7 +301,7 @@ type
     function IsReadOnly: Boolean;
     function HasExcludedElements: Boolean;
     function GetCount: NativeUInt;
-    function GetElements(Count: NativeUInt): IInterfaceList; // ICefPostDataElement
+    function GetElements(Count: NativeUInt): IInterfaceList; // list of ICefPostDataElement
     function RemoveElement(const element: ICefPostDataElement): Integer;
     function AddElement(const element: ICefPostDataElement): Integer;
     procedure RemoveElements;

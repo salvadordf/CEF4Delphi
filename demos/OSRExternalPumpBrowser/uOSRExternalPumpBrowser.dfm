@@ -1,9 +1,9 @@
-object Form1: TForm1
+object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   Left = 0
   Top = 0
-  Caption = 'Simple OSR Browser - Initializing browser. Please wait...'
-  ClientHeight = 510
-  ClientWidth = 800
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 584
+  ClientWidth = 913
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,6 +13,7 @@ object Form1: TForm1
   OldCreateOrder = False
   Position = poScreenCenter
   OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnHide = FormHide
@@ -22,7 +23,7 @@ object Form1: TForm1
   object NavControlPnl: TPanel
     Left = 0
     Top = 0
-    Width = 800
+    Width = 913
     Height = 30
     Align = alTop
     BevelOuter = bvNone
@@ -36,7 +37,7 @@ object Form1: TForm1
     object ComboBox1: TComboBox
       Left = 5
       Top = 5
-      Width = 721
+      Width = 834
       Height = 21
       Align = alClient
       ItemIndex = 0
@@ -50,10 +51,11 @@ object Form1: TForm1
           'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_selec' +
           't_form'
         'https://www.briskbard.com'
-        'https://frames-per-second.appspot.com/')
+        'https://frames-per-second.appspot.com/'
+        'https://www.youtube.com')
     end
     object Panel2: TPanel
-      Left = 726
+      Left = 839
       Top = 5
       Width = 69
       Height = 20
@@ -104,8 +106,8 @@ object Form1: TForm1
   object Panel1: TBufferPanel
     Left = 0
     Top = 30
-    Width = 800
-    Height = 480
+    Width = 913
+    Height = 554
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 1
@@ -121,6 +123,8 @@ object Form1: TForm1
   end
   object chrmosr: TChromium
     OnAfterCreated = chrmosrAfterCreated
+    OnBeforeClose = chrmosrBeforeClose
+    OnClose = chrmosrClose
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
     OnGetScreenInfo = chrmosrGetScreenInfo

@@ -445,6 +445,7 @@ type
       procedure   SavePreferences(const aFileName : string);
       function    SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
       procedure   ResolveHost(const aURL : ustring);
+      function    TakeSnapshot(var aBitmap : TBitmap) : boolean;
 
       procedure   ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);
       procedure   CloseDevTools(const aDevTools : TWinControl = nil);
@@ -784,7 +785,7 @@ begin
     if (FHandler = nil) then
       begin
         FIsOSR   := aIsOsr;
-        FHandler := TVCLClientHandler.Create(Self, FIsOSR);
+        FHandler := TCustomClientHandler.Create(Self, FIsOSR);
         Result   := True;
       end;
   except
@@ -2020,6 +2021,42 @@ begin
     begin
       if (FResolveHostcb = nil) then FResolveHostcb := TCefCustomResolveCallback.Create(self);
       FBrowser.Host.RequestContext.ResolveHost(aURL, FResolveHostcb);
+    end;
+end;
+
+function TChromium.TakeSnapshot(var aBitmap : TBitmap) : boolean;
+var
+  TempHWND   : HWND;
+  TempDC     : HDC;
+  TempRect   : TRect;
+  TempWidth  : Integer;
+  TempHeight : Integer;
+begin
+  Result := False;
+
+  if not(FIsOSR) then
+    begin
+      TempHWND := GetWindowHandle;
+
+      if (TempHWND <> 0) then
+        begin
+          Winapi.Windows.GetClientRect(TempHWND, TempRect);
+
+          TempDC     := GetDC(TempHWND);
+          TempWidth  := TempRect.Right  - TempRect.Left;
+          TempHeight := TempRect.Bottom - TempRect.Top;
+
+          if (aBitmap <> nil) then FreeAndNil(aBitmap);
+
+          aBitmap        := TBitmap.Create;
+          aBitmap.Height := TempHeight;
+          aBitmap.Width  := TempWidth;
+
+          Result := BitBlt(aBitmap.Canvas.Handle, 0, 0, TempWidth, TempHeight,
+                           TempDC, 0, 0, SRCCOPY);
+
+          ReleaseDC(TempHWND, TempDC);
+        end;
     end;
 end;
 

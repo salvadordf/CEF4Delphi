@@ -61,6 +61,7 @@ const
   MINIBROWSER_COPYFRAMENAMES  = WM_APP + $106;
   MINIBROWSER_SAVEPREFERENCES = WM_APP + $107;
   MINIBROWSER_COPYALLTEXT     = WM_APP + $108;
+  MINIBROWSER_TAKESNAPSHOT    = WM_APP + $109;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -74,6 +75,7 @@ const
   MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES  = MENU_ID_USER_FIRST + 8;
   MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES = MENU_ID_USER_FIRST + 9;
   MINIBROWSER_CONTEXTMENU_COPYALLTEXT     = MENU_ID_USER_FIRST + 10;
+  MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT    = MENU_ID_USER_FIRST + 11;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -199,6 +201,7 @@ type
     procedure CopyFramesNamesMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMENAMES;
     procedure ShowResponseMsg(var aMessage : TMessage); message MINIBROWSER_SHOWRESPONSE;
     procedure SavePreferencesMsg(var aMessage : TMessage); message MINIBROWSER_SAVEPREFERENCES;
+    procedure TakeSnapshotMsg(var aMessage : TMessage); message MINIBROWSER_TAKESNAPSHOT;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
@@ -265,6 +268,8 @@ procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
+  model.AddSeparator;
+  model.AddItem(MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT,    'Take snapshot...');
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYALLTEXT,     'Copy displayed text to clipboard');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,        'Copy HTML to clipboard');
@@ -367,6 +372,9 @@ begin
 
     MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES :
       PostMessage(Handle, MINIBROWSER_SAVEPREFERENCES, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT :
+      PostMessage(Handle, MINIBROWSER_TAKESNAPSHOT, 0, 0);
 
     MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
       if (browser <> nil) and (browser.MainFrame <> nil) then
@@ -778,6 +786,25 @@ begin
 
   if SaveDialog1.Execute and (length(SaveDialog1.FileName) > 0) then
     Chromium1.SavePreferences(SaveDialog1.FileName);
+end;
+
+procedure TMiniBrowserFrm.TakeSnapshotMsg(var aMessage : TMessage);
+var
+  TempBitmap : TBitmap;
+begin
+  TempBitmap := nil;
+
+  try
+    SaveDialog1.DefaultExt := 'bmp';
+    SaveDialog1.Filter     := 'Bitmap files (*.bmp)|*.BMP';
+
+    if SaveDialog1.Execute and
+       (length(SaveDialog1.FileName) > 0) and
+       Chromium1.TakeSnapshot(TempBitmap) then
+      TempBitmap.SaveToFile(SaveDialog1.FileName);
+  finally
+    if (TempBitmap <> nil) then FreeAndNil(TempBitmap);
+  end;
 end;
 
 procedure TMiniBrowserFrm.WMMove(var aMessage : TWMMove);

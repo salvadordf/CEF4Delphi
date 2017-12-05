@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3202;
-  CEF_SUPPORTED_VERSION_RELEASE = 1686;
+  CEF_SUPPORTED_VERSION_RELEASE = 1690;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 62;
@@ -136,31 +136,32 @@ type
       FRenderProcessHandler          : ICefRenderProcessHandler;
 
       // ICefBrowserProcessHandler
-      FOnContextInitializedEvent         : TOnContextInitializedEvent;
-      FOnBeforeChildProcessLaunchEvent   : TOnBeforeChildProcessLaunchEvent;
-      FOnRenderProcessThreadCreatedEvent : TOnRenderProcessThreadCreatedEvent;
-      FOnScheduleMessagePumpWorkEvent    : TOnScheduleMessagePumpWorkEvent;
+      FOnContextInitialized          : TOnContextInitializedEvent;
+      FOnBeforeChildProcessLaunch    : TOnBeforeChildProcessLaunchEvent;
+      FOnRenderProcessThreadCreated  : TOnRenderProcessThreadCreatedEvent;
+      FOnScheduleMessagePumpWork     : TOnScheduleMessagePumpWorkEvent;
 
       // ICefResourceBundleHandler
-      FOnGetLocalizedStringEvent         : TOnGetLocalizedStringEvent;
-      FOnGetDataResourceEvent            : TOnGetDataResourceEvent;
-      FOnGetDataResourceForScaleEvent    : TOnGetDataResourceForScaleEvent;
+      FOnGetLocalizedString          : TOnGetLocalizedStringEvent;
+      FOnGetDataResource             : TOnGetDataResourceEvent;
+      FOnGetDataResourceForScale     : TOnGetDataResourceForScaleEvent;
 
       // ICefRenderProcessHandler
-      FOnRenderThreadCreated             : TOnRenderThreadCreatedEvent;
-      FOnWebKitInitialized               : TOnWebKitInitializedEvent;
-      FOnBrowserCreated                  : TOnBrowserCreatedEvent;
-      FOnBrowserDestroyed                : TOnBrowserDestroyedEvent;
-      FOnBeforeNavigation                : TOnBeforeNavigationEvent;
-      FOnContextCreated                  : TOnContextCreatedEvent;
-      FOnContextReleased                 : TOnContextReleasedEvent;
-      FOnUncaughtException               : TOnUncaughtExceptionEvent;
-      FOnFocusedNodeChanged              : TOnFocusedNodeChangedEvent;
-      FOnProcessMessageReceived          : TOnProcessMessageReceivedEvent;
+      FOnRenderThreadCreated         : TOnRenderThreadCreatedEvent;
+      FOnWebKitInitialized           : TOnWebKitInitializedEvent;
+      FOnBrowserCreated              : TOnBrowserCreatedEvent;
+      FOnBrowserDestroyed            : TOnBrowserDestroyedEvent;
+      FOnBeforeNavigation            : TOnBeforeNavigationEvent;
+      FOnContextCreated              : TOnContextCreatedEvent;
+      FOnContextReleased             : TOnContextReleasedEvent;
+      FOnUncaughtException           : TOnUncaughtExceptionEvent;
+      FOnFocusedNodeChanged          : TOnFocusedNodeChangedEvent;
+      FOnProcessMessageReceived      : TOnProcessMessageReceivedEvent;
 
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
+      procedure SetOsmodalLoop(aValue : boolean);
 
       function  GetChromeVersion : string;
       function  GetLibCefPath : string;
@@ -235,6 +236,10 @@ type
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
+
+      procedure   DoMessageLoopWork;
+      procedure   RunMessageLoop;
+      procedure   QuitMessageLoop;
       procedure   UpdateDeviceScaleFactor;
 
       // Internal procedures. Only TInternalApp, TCefCustomBrowserProcessHandler,
@@ -332,19 +337,20 @@ type
       property ResourceBundleHandler             : ICefResourceBundleHandler           read FResourceBundleHandler             write FResourceBundleHandler;
       property BrowserProcessHandler             : ICefBrowserProcessHandler           read FBrowserProcessHandler             write FBrowserProcessHandler;
       property RenderProcessHandler              : ICefRenderProcessHandler            read FRenderProcessHandler              write FRenderProcessHandler;
+      property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
 
       property OnRegCustomSchemes                : TOnRegisterCustomSchemes            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
       // ICefBrowserProcessHandler
-      property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitializedEvent         write FOnContextInitializedEvent;
-      property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunchEvent   write FOnBeforeChildProcessLaunchEvent;
-      property OnRenderProcessThreadCreated      : TOnRenderProcessThreadCreatedEvent  read FOnRenderProcessThreadCreatedEvent write FOnRenderProcessThreadCreatedEvent;
-      property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWorkEvent    write FOnScheduleMessagePumpWorkEvent;
+      property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitialized              write FOnContextInitialized;
+      property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunch        write FOnBeforeChildProcessLaunch;
+      property OnRenderProcessThreadCreated      : TOnRenderProcessThreadCreatedEvent  read FOnRenderProcessThreadCreated      write FOnRenderProcessThreadCreated;
+      property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWork         write FOnScheduleMessagePumpWork;
 
       // ICefResourceBundleHandler
-      property OnGetLocalizedString              : TOnGetLocalizedStringEvent          read FOnGetLocalizedStringEvent         write FOnGetLocalizedStringEvent;
-      property OnGetDataResource                 : TOnGetDataResourceEvent             read FOnGetDataResourceEvent            write FOnGetDataResourceEvent;
-      property OnGetDataResourceForScale         : TOnGetDataResourceForScaleEvent     read FOnGetDataResourceForScaleEvent    write FOnGetDataResourceForScaleEvent;
+      property OnGetLocalizedString              : TOnGetLocalizedStringEvent          read FOnGetLocalizedString              write FOnGetLocalizedString;
+      property OnGetDataResource                 : TOnGetDataResourceEvent             read FOnGetDataResource                 write FOnGetDataResource;
+      property OnGetDataResourceForScale         : TOnGetDataResourceForScaleEvent     read FOnGetDataResourceForScale         write FOnGetDataResourceForScale;
 
       // ICefRenderProcessHandler
       property OnRenderThreadCreated             : TOnRenderThreadCreatedEvent         read FOnRenderThreadCreated             write FOnRenderThreadCreated;
@@ -440,27 +446,27 @@ begin
   FRenderProcessHandler          := nil;
 
   // ICefBrowserProcessHandler
-  FOnContextInitializedEvent         := nil;
-  FOnBeforeChildProcessLaunchEvent   := nil;
-  FOnRenderProcessThreadCreatedEvent := nil;
-  FOnScheduleMessagePumpWorkEvent    := nil;
+  FOnContextInitialized          := nil;
+  FOnBeforeChildProcessLaunch    := nil;
+  FOnRenderProcessThreadCreated  := nil;
+  FOnScheduleMessagePumpWork     := nil;
 
   // ICefResourceBundleHandler
-  FOnGetLocalizedStringEvent         := nil;
-  FOnGetDataResourceEvent            := nil;
-  FOnGetDataResourceForScaleEvent    := nil;
+  FOnGetLocalizedString          := nil;
+  FOnGetDataResource             := nil;
+  FOnGetDataResourceForScale     := nil;
 
   // ICefRenderProcessHandler
-  FOnRenderThreadCreated             := nil;
-  FOnWebKitInitialized               := nil;
-  FOnBrowserCreated                  := nil;
-  FOnBrowserDestroyed                := nil;
-  FOnBeforeNavigation                := nil;
-  FOnContextCreated                  := nil;
-  FOnContextReleased                 := nil;
-  FOnUncaughtException               := nil;
-  FOnFocusedNodeChanged              := nil;
-  FOnProcessMessageReceived          := nil;
+  FOnRenderThreadCreated         := nil;
+  FOnWebKitInitialized           := nil;
+  FOnBrowserCreated              := nil;
+  FOnBrowserDestroyed            := nil;
+  FOnBeforeNavigation            := nil;
+  FOnContextCreated              := nil;
+  FOnContextReleased             := nil;
+  FOnUncaughtException           := nil;
+  FOnFocusedNodeChanged          := nil;
+  FOnProcessMessageReceived      := nil;
 
   UpdateDeviceScaleFactor;
 
@@ -481,7 +487,14 @@ end;
 
 destructor TCefApplication.Destroy;
 begin
-  ShutDown;
+  if FMustShutDown then ShutDown;
+
+  if (FLibHandle <> 0) then
+    begin
+      FreeLibrary(FLibHandle);
+      FLibHandle := 0;
+      FLibLoaded := False;
+    end;
 
   if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
   if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
@@ -615,78 +628,92 @@ function TCefApplication.CheckCEFLibrary : boolean;
 var
   TempString, TempPath : string;
 begin
-  Result := False;
+  if FCheckCEFFiles then
+    Result := False
+   else
+    begin
+      Result := True;
+      exit;
+    end;
 
-  if not(FCheckCEFFiles) then
+
+  if not(CheckDLLs(FFrameworkDirPath)) then
+    begin
+      TempString := 'CEF framework files missing !' + CRLF + CRLF;
+
+      if GetAbsoluteDirPath(FFrameworkDirPath, TempPath) then
+        begin
+          if (length(TempPath) = 0) then TempPath := GetModulePath;
+          TempString := TempString +
+                        'Make sure all the CEF framework files can be found in this directory :' +
+                        CRLF + SplitLongString(TempPath);
+        end
+       else
+        TempString := TempString +
+                      'The CEF framework directory doesn' + #39 +'t exist!' +
+                      CRLF + SplitLongString(FFrameworkDirPath);
+
+      ShowErrorMessageDlg(TempString);
+      exit;
+    end;
+
+
+  if not(CheckResources(FResourcesDirPath, FCheckDevToolsResources)) then
+    begin
+      TempString := 'CEF resources missing !' + CRLF + CRLF;
+
+      if GetAbsoluteDirPath(FResourcesDirPath, TempPath) then
+        begin
+          if (length(TempPath) = 0) then TempPath := GetModulePath;
+          TempString := TempString +
+                        'Make sure all the CEF resources can be found in this directory :' +
+                        CRLF + SplitLongString(TempPath);
+        end
+       else
+        TempString := TempString +
+                      'The CEF resources directory doesn' + #39 +'t exist!' +
+                      CRLF + SplitLongString(FResourcesDirPath);
+
+      ShowErrorMessageDlg(TempString);
+      exit;
+    end;
+
+
+  if not(CheckLocales(FLocalesDirPath, FLocalesRequired)) then
+    begin
+      TempString := 'CEF locale files missing !' + CRLF + CRLF;
+
+      if GetAbsoluteDirPath(FLocalesDirPath, TempPath) then
+        begin
+          if (length(TempPath) = 0) then TempPath := GetModulePath + 'locales';
+          TempString := TempString +
+                        'Make sure all the CEF locale files can be found in this directory :' +
+                        CRLF + SplitLongString(TempPath);
+        end
+       else
+        TempString := TempString +
+                      'The CEF locales directory doesn' + #39 +'t exist!' +
+                      CRLF + SplitLongString(FLocalesDirPath);
+
+      ShowErrorMessageDlg(TempString);
+      exit;
+    end;
+
+
+  if CheckDLLVersion(LibCefPath,
+                     CEF_SUPPORTED_VERSION_MAJOR,
+                     CEF_SUPPORTED_VERSION_MINOR,
+                     CEF_SUPPORTED_VERSION_RELEASE,
+                     CEF_SUPPORTED_VERSION_BUILD) then
     Result := True
    else
     begin
-      if not(CheckDLLs(FFrameworkDirPath)) then
-        begin
-          TempString := 'CEF framework files missing !' + CRLF + CRLF;
+      TempString := 'Unsupported CEF version !' +
+                    CRLF + CRLF +
+                    'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
+                    CRLF + CEF4DELPHI_URL;
 
-          if GetAbsoluteDirPath(FFrameworkDirPath, TempPath) then
-            begin
-              if (length(TempPath) = 0) then TempPath := GetModulePath;
-              TempString := TempString + 'Make sure all the CEF framework files can be found in this directory :' + CRLF + SplitLongString(TempPath);
-            end
-           else
-            TempString := TempString + 'The CEF framework directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FFrameworkDirPath);
-
-          ShowErrorMessageDlg(TempString);
-          exit;
-        end;
-
-
-      if not(CheckResources(FResourcesDirPath, FCheckDevToolsResources)) then
-        begin
-          TempString := 'CEF resources missing !' + CRLF + CRLF;
-
-          if GetAbsoluteDirPath(FResourcesDirPath, TempPath) then
-            begin
-              if (length(TempPath) = 0) then TempPath := GetModulePath;
-              TempString := TempString + 'Make sure all the CEF resources can be found in this directory :' + CRLF + SplitLongString(TempPath);
-            end
-           else
-            TempString := TempString + 'The CEF resources directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FResourcesDirPath);
-
-          ShowErrorMessageDlg(TempString);
-          exit;
-        end;
-
-
-      if not(CheckLocales(FLocalesDirPath, FLocalesRequired)) then
-        begin
-          TempString := 'CEF locale files missing !' + CRLF + CRLF;
-
-          if GetAbsoluteDirPath(FLocalesDirPath, TempPath) then
-            begin
-              if (length(TempPath) = 0) then TempPath := GetModulePath + 'locales';
-              TempString := TempString + 'Make sure all the CEF locale files can be found in this directory :' + CRLF + SplitLongString(TempPath);
-            end
-           else
-            TempString := TempString + 'The CEF locales directory doesn' + #39 +'t exist!' + CRLF + SplitLongString(FLocalesDirPath);
-
-          ShowErrorMessageDlg(TempString);
-          exit;
-        end;
-
-
-      if CheckDLLVersion(LibCefPath,
-                         CEF_SUPPORTED_VERSION_MAJOR,
-                         CEF_SUPPORTED_VERSION_MINOR,
-                         CEF_SUPPORTED_VERSION_RELEASE,
-                         CEF_SUPPORTED_VERSION_BUILD) then
-        Result := True
-       else
-        begin
-          TempString := 'Unsupported CEF version !' +
-                        CRLF + CRLF +
-                        'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
-                        CRLF + CEF4DELPHI_URL;
-
-          ShowErrorMessageDlg(TempString);
-        end;
+      ShowErrorMessageDlg(TempString);
     end;
 end;
 
@@ -716,6 +743,35 @@ begin
   end;
 end;
 
+procedure TCefApplication.DoMessageLoopWork;
+begin
+  if FLibLoaded and
+     not(FMultiThreadedMessageLoop) and
+     FExternalMessagePump then
+    cef_do_message_loop_work;
+end;
+
+procedure TCefApplication.RunMessageLoop;
+begin
+  if FLibLoaded and
+     not(FMultiThreadedMessageLoop) and
+     not(FExternalMessagePump) then
+    cef_run_message_loop;
+end;
+
+procedure TCefApplication.QuitMessageLoop;
+begin
+  if FLibLoaded and
+     not(FMultiThreadedMessageLoop) and
+     FExternalMessagePump then
+    cef_quit_message_loop;
+end;
+
+procedure TCefApplication.SetOsmodalLoop(aValue : boolean);
+begin
+  if FLibLoaded then cef_set_osmodal_loop(Ord(aValue));
+end;
+
 procedure TCefApplication.UpdateDeviceScaleFactor;
 begin
   FDeviceScaleFactor := GetDeviceScaleFactor;
@@ -724,13 +780,7 @@ end;
 procedure TCefApplication.ShutDown;
 begin
   try
-    if (FLibHandle <> 0) then
-      begin
-        if FMustShutDown then cef_shutdown;
-
-        FreeLibrary(FLibHandle);
-        FLibHandle := 0;
-      end;
+    cef_shutdown;
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.ShutDown', e) then raise;
@@ -948,43 +998,43 @@ begin
   InitializeCookies;
   FGlobalContextInitialized := True;
 
-  if assigned(FOnContextInitializedEvent) then FOnContextInitializedEvent;
+  if assigned(FOnContextInitialized) then FOnContextInitialized;
 end;
 
 procedure TCefApplication.Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 begin
-  if assigned(FOnBeforeChildProcessLaunchEvent) then FOnBeforeChildProcessLaunchEvent(commandLine);
+  if assigned(FOnBeforeChildProcessLaunch) then FOnBeforeChildProcessLaunch(commandLine);
 end;
 
 procedure TCefApplication.Internal_OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
 begin
-  if assigned(FOnRenderProcessThreadCreatedEvent) then FOnRenderProcessThreadCreatedEvent(extraInfo);
+  if assigned(FOnRenderProcessThreadCreated) then FOnRenderProcessThreadCreated(extraInfo);
 end;
 
 procedure TCefApplication.Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
 begin
-  if assigned(FOnScheduleMessagePumpWorkEvent) then FOnScheduleMessagePumpWorkEvent(delayMs);
+  if assigned(FOnScheduleMessagePumpWork) then FOnScheduleMessagePumpWork(delayMs);
 end;
 
 function TCefApplication.Internal_GetLocalizedString(stringid: Integer; var stringVal: ustring) : boolean;
 begin
   Result := False;
 
-  if assigned(FOnGetLocalizedStringEvent) then FOnGetLocalizedStringEvent(stringId, stringVal, Result);
+  if assigned(FOnGetLocalizedString) then FOnGetLocalizedString(stringId, stringVal, Result);
 end;
 
 function TCefApplication.Internal_GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt) : boolean;
 begin
   Result := False;
 
-  if assigned(FOnGetDataResourceEvent) then FOnGetDataResourceEvent(resourceId, data, dataSize, Result);
+  if assigned(FOnGetDataResource) then FOnGetDataResource(resourceId, data, dataSize, Result);
 end;
 
 function TCefApplication.Internal_GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt) : boolean;
 begin
   Result := False;
 
-  if assigned(FOnGetDataResourceForScaleEvent) then FOnGetDataResourceForScaleEvent(resourceId, scaleFactor, data, dataSize, Result);
+  if assigned(FOnGetDataResourceForScale) then FOnGetDataResourceForScale(resourceId, scaleFactor, data, dataSize, Result);
 end;
 
 procedure TCefApplication.Internal_OnRenderThreadCreated(const extraInfo: ICefListValue);
@@ -1155,9 +1205,9 @@ begin
   Result := not(HasResourceBundleHandler) and
             (FSingleProcess or
              ((FProcessType = ptBrowser) and
-              (assigned(FOnGetLocalizedStringEvent) or
-               assigned(FOnGetDataResourceEvent)    or
-               assigned(FOnGetDataResourceForScaleEvent))));
+              (assigned(FOnGetLocalizedString) or
+               assigned(FOnGetDataResource)    or
+               assigned(FOnGetDataResourceForScale))));
 end;
 
 function TCefApplication.GetMustCreateBrowserProcessHandler : boolean;

@@ -35,7 +35,7 @@
  *
  *)
 
-unit uSimpleOSRBrowser;
+unit uOSRExternalPumpBrowser;
 
 {$I cef.inc}
 
@@ -50,10 +50,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
   {$ENDIF}
-  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uBufferPanel;
+  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uBufferPanel, uCEFWorkScheduler;
 
 type
-  TForm1 = class(TForm)
+  TOSRExternalPumpBrowserFrm = class(TForm)
     NavControlPnl: TPanel;
     chrmosr: TChromium;
     AppEvents: TApplicationEvents;
@@ -84,6 +84,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure chrmosrPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
@@ -93,10 +94,13 @@ type
     procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+    procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 
     procedure SnapshotBtnClick(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
+
+    procedure Timer1Timer(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
 
   protected
@@ -105,6 +109,8 @@ type
     FShowPopUp      : boolean;
     FResizing       : boolean;
     FPendingResize  : boolean;
+    FCanClose       : boolean;
+    FClosing        : boolean;
     FResizeCS       : TCriticalSection;
 
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
@@ -123,7 +129,21 @@ type
   end;
 
 var
-  Form1: TForm1;
+  OSRExternalPumpBrowserFrm : TOSRExternalPumpBrowserFrm;
+  GlobalCEFWorkScheduler    : TCEFWorkScheduler = nil;
+
+// This is a simple browser in OSR mode (off-screen rendering).
+// It was necessary to destroy the browser following the destruction sequence described in
+// the MDIBrowser demo but in OSR mode there are some modifications.
+
+// This is the destruction sequence in OSR mode :
+// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and calls chrmosr.CloseBrowser(True).
+// 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
+//    set "Result" to false and CEF3 will destroy the internal browser immediately.
+// 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
+//    Now we set FCanClose to True and send WM_CLOSE to the form.
+
+procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 
 implementation
 
@@ -137,16 +157,12 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFApplication;
 
-// *********************************
-// ********* ATTENTION !!! *********
-// *********************************
-//
-// There is a known bug in the destruction of TChromium in OSR mode.
-// If you destroy the TChromium in OSR mode before the application is closed,
-// add a timer and wait 1-2 seconds after the TChromium's destruction.
-// After that you can close the app. Hide the application in the task bar if necessary.
+procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
+begin
+  if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+end;
 
-procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+procedure TOSRExternalPumpBrowserFrm.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
   TempKeyEvent   : TCefKeyEvent;
   TempMouseEvent : TCefMouseEvent;
@@ -260,7 +276,7 @@ begin
   end;
 end;
 
-procedure TForm1.GoBtnClick(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);
 begin
   FResizeCS.Acquire;
   FResizing      := False;
@@ -270,29 +286,40 @@ begin
   chrmosr.LoadURL(ComboBox1.Text);
 end;
 
-procedure TForm1.GoBtnEnter(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
 end;
 
-procedure TForm1.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
+procedure TOSRExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
-procedure TForm1.chrmosrCursorChange(Sender : TObject;
-                                     const browser          : ICefBrowser;
-                                           cursor           : HICON;
-                                           cursorType       : TCefCursorType;
-                                     const customCursorInfo : PCefCursorInfo);
+procedure TOSRExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
+procedure TOSRExternalPumpBrowserFrm.chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+begin
+  Result := False;
+end;
+
+procedure TOSRExternalPumpBrowserFrm.chrmosrCursorChange(Sender : TObject;
+                                                         const browser          : ICefBrowser;
+                                                               cursor           : HICON;
+                                                               cursorType       : TCefCursorType;
+                                                         const customCursorInfo : PCefCursorInfo);
 begin
   Panel1.Cursor := GefCursorToWindowsCursor(cursorType);
 end;
 
-procedure TForm1.chrmosrGetScreenInfo(Sender : TObject;
-                                      const browser    : ICefBrowser;
-                                      var   screenInfo : TCefScreenInfo;
-                                      out   Result     : Boolean);
+procedure TOSRExternalPumpBrowserFrm.chrmosrGetScreenInfo(Sender : TObject;
+                                                          const browser    : ICefBrowser;
+                                                          var   screenInfo : TCefScreenInfo;
+                                                          out   Result     : Boolean);
 var
   TempRect : TCEFRect;
 begin
@@ -316,13 +343,13 @@ begin
     Result := False;
 end;
 
-procedure TForm1.chrmosrGetScreenPoint(Sender : TObject;
-                                       const browser : ICefBrowser;
-                                             viewX   : Integer;
-                                             viewY   : Integer;
-                                       var   screenX : Integer;
-                                       var   screenY : Integer;
-                                       out   Result  : Boolean);
+procedure TOSRExternalPumpBrowserFrm.chrmosrGetScreenPoint(Sender : TObject;
+                                                           const browser : ICefBrowser;
+                                                                 viewX   : Integer;
+                                                                 viewY   : Integer;
+                                                           var   screenX : Integer;
+                                                           var   screenY : Integer;
+                                                           out   Result  : Boolean);
 var
   TempScreenPt, TempViewPt : TPoint;
 begin
@@ -339,10 +366,10 @@ begin
     Result := False;
 end;
 
-procedure TForm1.chrmosrGetViewRect(Sender : TObject;
-                                    const browser : ICefBrowser;
-                                    var   rect    : TCefRect;
-                                    out   Result  : Boolean);
+procedure TOSRExternalPumpBrowserFrm.chrmosrGetViewRect(Sender : TObject;
+                                                        const browser : ICefBrowser;
+                                                        var   rect    : TCefRect;
+                                                        out   Result  : Boolean);
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -356,14 +383,14 @@ begin
     Result := False;
 end;
 
-procedure TForm1.chrmosrPaint(Sender : TObject;
-                              const browser         : ICefBrowser;
-                                    kind            : TCefPaintElementType;
-                                    dirtyRectsCount : NativeUInt;
-                              const dirtyRects      : PCefRectArray;
-                              const buffer          : Pointer;
-                                    width           : Integer;
-                                    height          : Integer);
+procedure TOSRExternalPumpBrowserFrm.chrmosrPaint(Sender : TObject;
+                                                  const browser         : ICefBrowser;
+                                                        kind            : TCefPaintElementType;
+                                                        dirtyRectsCount : NativeUInt;
+                                                  const dirtyRects      : PCefRectArray;
+                                                  const buffer          : Pointer;
+                                                        width           : Integer;
+                                                        height          : Integer);
 var
   src, dst: PByte;
   i, j, TempLineSize, TempSrcOffset, TempDstOffset, SrcStride, DstStride : Integer;
@@ -466,9 +493,9 @@ begin
   end;
 end;
 
-procedure TForm1.chrmosrPopupShow(Sender : TObject;
-                                  const browser : ICefBrowser;
-                                        show    : Boolean);
+procedure TOSRExternalPumpBrowserFrm.chrmosrPopupShow(Sender : TObject;
+                                                      const browser : ICefBrowser;
+                                                            show    : Boolean);
 begin
   if show then
     FShowPopUp := True
@@ -481,9 +508,9 @@ begin
     end;
 end;
 
-procedure TForm1.chrmosrPopupSize(Sender : TObject;
-                                  const browser : ICefBrowser;
-                                  const rect    : PCefRect);
+procedure TOSRExternalPumpBrowserFrm.chrmosrPopupSize(Sender : TObject;
+                                                      const browser : ICefBrowser;
+                                                      const rect    : PCefRect);
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -496,12 +523,12 @@ begin
     end;
 end;
 
-procedure TForm1.ComboBox1Enter(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.ComboBox1Enter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
 end;
 
-function TForm1.getModifiers(Shift: TShiftState): TCefEventFlags;
+function TOSRExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;
 begin
   Result := EVENTFLAG_NONE;
 
@@ -513,7 +540,7 @@ begin
   if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
 end;
 
-function TForm1.GetButton(Button: TMouseButton): TCefMouseButtonType;
+function TOSRExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;
 begin
   case Button of
     TMouseButton.mbRight  : Result := MBT_RIGHT;
@@ -522,42 +549,42 @@ begin
   end;
 end;
 
-procedure TForm1.WMMove(var aMessage : TWMMove);
+procedure TOSRExternalPumpBrowserFrm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
   if (chrmosr <> nil) then chrmosr.NotifyMoveOrResizeStarted;
 end;
 
-procedure TForm1.WMMoving(var aMessage : TMessage);
+procedure TOSRExternalPumpBrowserFrm.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
   if (chrmosr <> nil) then chrmosr.NotifyMoveOrResizeStarted;
 end;
 
-procedure TForm1.WMCaptureChanged(var aMessage : TMessage);
+procedure TOSRExternalPumpBrowserFrm.WMCaptureChanged(var aMessage : TMessage);
 begin
   inherited;
 
   if (chrmosr <> nil) then chrmosr.SendCaptureLostEvent;
 end;
 
-procedure TForm1.WMCancelMode(var aMessage : TMessage);
+procedure TOSRExternalPumpBrowserFrm.WMCancelMode(var aMessage : TMessage);
 begin
   inherited;
 
   if (chrmosr <> nil) then chrmosr.SendCaptureLostEvent;
 end;
 
-procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
+procedure TOSRExternalPumpBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
-  Caption               := 'Simple OSR Browser';
+  Caption               := 'OSR External Pump Browser';
   NavControlPnl.Enabled := True;
   GoBtn.Click;
 end;
 
-procedure TForm1.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
+procedure TOSRExternalPumpBrowserFrm.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
 begin
   if (chrmosr <> nil) then
     begin
@@ -566,30 +593,44 @@ begin
     end;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing              := True;
+      NavControlPnl.Enabled := False;
+      chrmosr.CloseBrowser(True);
+    end;
+end;
+
+procedure TOSRExternalPumpBrowserFrm.FormCreate(Sender: TObject);
 begin
   FPopUpBitmap    := nil;
   FPopUpRect      := rect(0, 0, 0, 0);
   FShowPopUp      := False;
   FResizing       := False;
   FPendingResize  := False;
+  FCanClose       := False;
+  FClosing        := False;
   FResizeCS       := TCriticalSection.Create;
 end;
 
-procedure TForm1.FormDestroy(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.FormDestroy(Sender: TObject);
 begin
   chrmosr.ShutdownDragAndDrop;
 
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
 end;
 
-procedure TForm1.FormHide(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.FormHide(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
   chrmosr.WasHidden(True);
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.FormShow(Sender: TObject);
 begin
   if chrmosr.Initialized then
     begin
@@ -608,12 +649,12 @@ begin
     end;
 end;
 
-procedure TForm1.Panel1Click(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.Panel1Click(Sender: TObject);
 begin
   Panel1.SetFocus;
 end;
 
-procedure TForm1.Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TOSRExternalPumpBrowserFrm.Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
 begin
@@ -629,7 +670,7 @@ begin
     end;
 end;
 
-procedure TForm1.Panel1MouseLeave(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.Panel1MouseLeave(Sender: TObject);
 var
   TempEvent : TCefMouseEvent;
   TempPoint : TPoint;
@@ -646,7 +687,7 @@ begin
     end;
 end;
 
-procedure TForm1.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+procedure TOSRExternalPumpBrowserFrm.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
 begin
@@ -660,7 +701,7 @@ begin
     end;
 end;
 
-procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TOSRExternalPumpBrowserFrm.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
 begin
@@ -674,17 +715,17 @@ begin
     end;
 end;
 
-procedure TForm1.Panel1Resize(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.Panel1Resize(Sender: TObject);
 begin
   DoResize;
 end;
 
-procedure TForm1.PendingResizeMsg(var aMessage : TMessage);
+procedure TOSRExternalPumpBrowserFrm.PendingResizeMsg(var aMessage : TMessage);
 begin
   DoResize;
 end;
 
-procedure TForm1.DoResize;
+procedure TOSRExternalPumpBrowserFrm.DoResize;
 begin
   try
     FResizeCS.Acquire;
@@ -704,27 +745,27 @@ begin
   end;
 end;
 
-procedure TForm1.Panel1Enter(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.Panel1Enter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(True);
 end;
 
-procedure TForm1.Panel1Exit(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.Panel1Exit(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
 end;
 
-procedure TForm1.SnapshotBtnClick(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.SnapshotBtnClick(Sender: TObject);
 begin
   if SaveDialog1.Execute then Panel1.SaveToFile(SaveDialog1.FileName);
 end;
 
-procedure TForm1.SnapshotBtnEnter(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.SnapshotBtnEnter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
 end;
 
-procedure TForm1.Timer1Timer(Sender: TObject);
+procedure TOSRExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
 

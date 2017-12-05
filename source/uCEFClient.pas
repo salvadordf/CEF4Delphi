@@ -137,24 +137,6 @@ type
       destructor  Destroy; override;
   end;
 
-  TVCLClientHandler = class(TCustomClientHandler)
-    protected
-      function  GetMultithreadApp : boolean;
-      function  GetExternalMessagePump : boolean;
-
-    public
-      constructor Create(const crm: IChromiumEvents; renderer: Boolean); reintroduce;
-      destructor  Destroy; override;
-
-      property  MultithreadApp          : boolean                      read GetMultithreadApp;
-      property  ExternalMessagePump     : boolean                      read GetExternalMessagePump;
-  end;
-
-var
-  CefInstances : Integer = 0;
-
-procedure CefDoMessageLoopWork;
-
 implementation
 
 uses
@@ -169,11 +151,8 @@ uses
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
   uCEFFindHandler, uCEFConstants, uCEFApplication;
 
-var
-  looping      : Boolean = False;
-  CefTimer     : UINT    = 0;
 
-// ******************************************************
+  // ******************************************************
 // ****************** TCefClientRef *********************
 // ******************************************************
 
@@ -265,26 +244,6 @@ end;
 // ****************** TCefClientOwn *********************
 // ******************************************************
 
-procedure CefDoMessageLoopWork;
-begin
-  if looping then Exit;
-
-  if (CefInstances > 0) then
-    begin
-      looping := True;
-
-      try
-        cef_do_message_loop_work;
-      finally
-        looping := False;
-      end;
-    end;
-end;
-
-procedure TimerProc(hwnd: HWND; uMsg: UINT; idEvent: Pointer; dwTime: DWORD); stdcall;
-begin
-  CefDoMessageLoopWork;
-end;
 
 function cef_client_own_get_context_menu_handler(self: PCefClient): PCefContextMenuHandler; stdcall;
 begin
@@ -605,70 +564,6 @@ begin
     Result := FEvents.doOnProcessMessageReceived(browser, sourceProcess, message)
    else
     Result := False;
-end;
-
-
-// ******************************************************
-// **************** TVCLClientHandler *******************
-// ******************************************************
-
-
-constructor TVCLClientHandler.Create(const crm: IChromiumEvents; renderer : Boolean);
-begin
-  inherited Create(crm, renderer);
-
-  if not(MultithreadApp) and not(ExternalMessagePump) then
-    begin
-      if (CefInstances = 0) then CefTimer := SetTimer(0, 0, CEF_USER_TIMER_MINIMUM, @TimerProc);
-      InterlockedIncrement(CefInstances);
-    end;
-end;
-
-destructor TVCLClientHandler.Destroy;
-begin
-  try
-    try
-      if not(MultithreadApp) and not(ExternalMessagePump) then
-        begin
-          InterlockedDecrement(CefInstances);
-
-          if (CefInstances = 0) and (CefTimer <> 0) then
-            begin
-              KillTimer(0, CefTimer);
-              CefTimer := 0;
-            end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TVCLClientHandler.Destroy', e) then raise;
-    end;
-  finally
-    inherited Destroy;
-  end;
-end;
-
-function TVCLClientHandler.GetMultithreadApp : boolean;
-begin
-  Result := True;
-
-  try
-    if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TVCLClientHandler.GetMultithreadApp', e) then raise;
-  end;
-end;
-
-function TVCLClientHandler.GetExternalMessagePump : boolean;
-begin
-  Result := True;
-
-  try
-    if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.ExternalMessagePump;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TVCLClientHandler.GetExternalMessagePump', e) then raise;
-  end;
 end;
 
 end.

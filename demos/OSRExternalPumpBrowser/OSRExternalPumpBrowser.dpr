@@ -35,18 +35,23 @@
  *
  *)
 
-program SimpleOSRBrowser;
+program OSRExternalPumpBrowser;
 
 {$I cef.inc}
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms, WinApi.Windows,
+  Vcl.Forms,
+  WinApi.Windows,
+  System.SysUtils,
   {$ELSE}
-  Forms, Windows,
-  {$ENDIF}
+  Forms,
+  Windows,
+  SysUtils,
+  {$ENDIF }
   uCEFApplication,
-  uSimpleOSRBrowser in 'uSimpleOSRBrowser.pas' {Form1};
+  uCEFWorkScheduler,
+  uOSRExternalPumpBrowser in 'uOSRExternalPumpBrowser.pas' {OSRExternalPumpBrowserFrm};
 
 {$R *.res}
 
@@ -54,22 +59,20 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
+
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.FastUnload                 := True;
-
-  //GlobalCEFApp.AddCustomCommandLine('--show-fps-counter');
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
+  GlobalCEFApp.FlashEnabled               := False;
+  GlobalCEFApp.ExternalMessagePump        := True;
+  GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -77,9 +80,14 @@ begin
       {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
-      Application.CreateForm(TForm1, Form1);
+      Application.CreateForm(TOSRExternalPumpBrowserFrm, OSRExternalPumpBrowserFrm);
       Application.Run;
+
+      // Unlike the ExternalPumpBrowser, in OSR mode we don't need to destroy the
+      // form before stopping the scheduler.
+      GlobalCEFWorkScheduler.StopScheduler;
     end;
 
-  GlobalCEFApp.Free;
+  FreeAndNil(GlobalCEFApp);
+  FreeAndNil(GlobalCEFWorkScheduler);
 end.

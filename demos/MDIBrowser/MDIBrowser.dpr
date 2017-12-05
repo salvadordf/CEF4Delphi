@@ -56,6 +56,7 @@ uses
 
 begin
   GlobalCEFApp              := TCefApplication.Create;
+  GlobalCEFApp.MultiThreadedMessageLoop := False;
   GlobalCEFApp.FlashEnabled := False;
   GlobalCEFApp.FastUnload   := True;   // Enable the fast unload controller, which speeds up tab/window close by running a tab's onunload js handler independently of the GUI
 
