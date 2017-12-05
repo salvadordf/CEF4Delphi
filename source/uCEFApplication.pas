@@ -763,7 +763,7 @@ procedure TCefApplication.QuitMessageLoop;
 begin
   if FLibLoaded and
      not(FMultiThreadedMessageLoop) and
-     FExternalMessagePump then
+     not(FExternalMessagePump) then
     cef_quit_message_loop;
 end;
 
