@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3202;
-  CEF_SUPPORTED_VERSION_RELEASE = 1690;
+  CEF_SUPPORTED_VERSION_RELEASE = 1693;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 62;
@@ -194,6 +194,7 @@ type
       function  Load_cef_request_context_capi_h : boolean;
       function  Load_cef_resource_bundle_capi_h : boolean;
       function  Load_cef_response_capi_h : boolean;
+      function  Load_cef_server_capi_h : boolean;
       function  Load_cef_scheme_capi_h : boolean;
       function  Load_cef_ssl_info_capi_h : boolean;
       function  Load_cef_stream_capi_h : boolean;
@@ -1288,6 +1289,7 @@ begin
      Load_cef_request_context_capi_h and
      Load_cef_resource_bundle_capi_h and
      Load_cef_response_capi_h and
+     // Load_cef_server_capi_h and
      Load_cef_scheme_capi_h and
      Load_cef_ssl_info_capi_h and
      Load_cef_stream_capi_h and
@@ -1533,6 +1535,13 @@ begin
   cef_response_create := GetProcAddress(FLibHandle, 'cef_response_create');
 
   Result := assigned(cef_response_create);
+end;
+
+function TCefApplication.Load_cef_server_capi_h : boolean;
+begin
+  cef_server_create := GetProcAddress(FLibHandle, 'cef_server_create');
+
+  Result := assigned(cef_server_create);
 end;
 
 function TCefApplication.Load_cef_scheme_capi_h : boolean;

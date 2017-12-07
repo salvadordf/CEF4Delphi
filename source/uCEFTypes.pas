@@ -82,6 +82,8 @@ type
   PCefAccessibilityHandler = ^TCefAccessibilityHandler;
   PCefFrame = ^TCefFrame;
   PCefApp = ^TCefApp;
+  PCefServer = ^TCefServer;
+  PCefServerHandler = ^TCefServerHandler;
   PCefStringVisitor = ^TCefStringVisitor;
   PCefRequest = ^TCefRequest;
   PCefPostData = ^TCefPostData;
@@ -2563,6 +2565,37 @@ type
     get_resource_bundle_handler: function(self: PCefApp): PCefResourceBundleHandler; stdcall;
     get_browser_process_handler: function(self: PCefApp): PCefBrowserProcessHandler; stdcall;
     get_render_process_handler: function(self: PCefApp): PCefRenderProcessHandler; stdcall;
+  end;
+
+  // /include/capi/cef_server_capi.h (cef_server_t)
+  TCefServer = record
+    base: TCefBaseRefCounted;
+    get_task_runner: function(self: PCefServer): PCefTaskRunner; stdcall;
+    shutdown: procedure(self: PCefServer); stdcall;
+    is_running: function(self: PCefServer): Integer; stdcall;
+    get_address: function(self: PCefServer): PCefStringUserFree; stdcall;
+    has_connection: function(self: PCefServer): Integer; stdcall;
+    is_valid_connection: function(self: PCefServer; connection_id: Integer): Integer; stdcall;
+    send_http200response: procedure(self: PCefServer; connection_id: Integer; const content_type: PCefString; const data: Pointer; data_size: NativeUInt); stdcall;
+    send_http404response: procedure(self: PCefServer; connection_id: Integer); stdcall;
+    send_http500response: procedure(self: PCefServer; connection_id: Integer; const error_message: PCefString); stdcall;
+    send_http_response: procedure(self: PCefServer; connection_id, response_code: Integer; const content_type: PCefString; content_length: int64; headerMap: TCefStringMultimap); stdcall;
+    send_raw_data: procedure(self: PCefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt); stdcall;
+    close_connection: procedure(self: PCefServer; connection_id: Integer); stdcall;
+    send_web_socket_message: procedure(self: PCefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt); stdcall;
+  end;
+
+  // /include/capi/cef_server_capi.h (cef_server_handler_t)
+  TCefServerHandler = record
+    base: TCefBaseRefCounted;
+    on_server_created: procedure(self: PCefServerHandler; server: PCefServer); stdcall;
+    on_server_destroyed: procedure(self: PCefServerHandler; server: PCefServer); stdcall;
+    on_client_connected: procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer); stdcall;
+    on_client_disconnected: procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer); stdcall;
+    on_http_request: procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer; const client_address: PCefString; request: PCefRequest); stdcall;
+    on_web_socket_request: procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer; const client_address: PCefString; request: PCefRequest; callback: PCefCallback); stdcall;
+    on_web_socket_connected: procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer); stdcall;
+    on_web_socket_message: procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt); stdcall;
   end;
 
 implementation

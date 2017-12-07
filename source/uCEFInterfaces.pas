@@ -102,6 +102,8 @@ type
   ICefExtension = interface;
   ICefStreamReader = interface;
   ICefLoadHandler = interface;
+  ICefServer = interface;
+  ICefServerHandler = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -1842,6 +1844,35 @@ type
 
     procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer;
       const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
+  end;
+
+  ICefServer = interface(ICefBaseRefCounted)
+    ['{41D41764-A74B-4552-B166-C77E70549047}']
+    function  GetTaskRunner : ICefTaskRunner;
+    procedure Shutdown;
+    function  IsRunning : boolean;
+    function  GetAddress : ustring;
+    function  HasConnection : boolean;
+    function  IsValidConnection(connection_id: Integer) : boolean;
+    procedure SendHttp200response(connection_id: Integer; const content_type: ustring; const data: Pointer; data_size: NativeUInt);
+    procedure SendHttp404response(connection_id: Integer);
+    procedure SendHttp500response(connection_id: Integer; const error_message: ustring);
+    procedure SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; headerMap: TCefStringMultimap);
+    procedure SendRawData(connection_id: Integer; const data: Pointer; data_size: NativeUInt);
+    procedure CloseConnection(connection_id: Integer);
+    procedure SendWebSocketMessage(connection_id: Integer; const data: Pointer; data_size: NativeUInt);
+  end;
+
+  ICefServerHandler = interface(ICefBaseRefCounted)
+    ['{AFB64A63-44C9-44CD-959B-D8E20F549879}']
+    procedure OnServerCreated(const server: ICefServer);
+    procedure OnServerDestroyed(const server: ICefServer);
+    procedure OnClientConnected(const server: ICefServer; connection_id: Integer);
+    procedure OnClientDisconnected(const server: ICefServer; connection_id: Integer);
+    procedure OnHttpRequest(const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest);
+    procedure OnWebSocketRequest(const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest; const callback: ICefCallback);
+    procedure OnWebSocketConnected(const server: ICefServer; connection_id: Integer);
+    procedure OnWebSocketMessage(const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
   end;
 
 implementation

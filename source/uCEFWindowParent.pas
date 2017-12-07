@@ -65,6 +65,7 @@ type
     public
       procedure UpdateSize;
       function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
+      function  DestroyChildWindow : boolean;
 
       property  ChildWindowHandle : THandle   read GetChildWindowHandle;
 
@@ -173,6 +174,14 @@ begin
 
       ReleaseDC(TempHWND, TempDC);
     end;
+end;
+
+function TCEFWindowParent.DestroyChildWindow : boolean;
+var
+  TempHWND : HWND;
+begin
+  TempHWND := GetWindow(Handle, GW_CHILD);
+  Result   := (TempHWND <> 0) and DestroyWindow(TempHWND);
 end;
 
 end.

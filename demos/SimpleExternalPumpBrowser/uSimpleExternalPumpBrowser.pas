@@ -35,7 +35,7 @@
  *
  *)
 
-unit uSimpleBrowser;
+unit uSimpleExternalPumpBrowser;
 
 {$I cef.inc}
 
@@ -49,32 +49,44 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow;
+  uCEFChromium, uCEFWindowParent, uCEFTypes, uCEFConstants, uCEFInterfaces, uCEFWorkScheduler,
+  uCEFChromiumWindow;
 
 type
-  TForm1 = class(TForm)
-    ChromiumWindow1: TChromiumWindow;
+  TSimpleExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
-    AddressEdt: TEdit;
     GoBtn: TButton;
     Timer1: TTimer;
+    URLCbx: TComboBox;
+    ChromiumWindow1: TChromiumWindow;
+
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
-  private
-    // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+
+    // These 3 TChromiumWindow events are called in the main app thread, so you can do whatever you want with the GUI.
+    procedure ChromiumWindow1AfterCreated(Sender: TObject);
+    procedure ChromiumWindow1BeforeClose(Sender: TObject);
+    procedure ChromiumWindow1Close(Sender: TObject);
+
+  protected
+    FCanClose : boolean;
+    FClosing  : boolean;
+
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
-    // You also have to handle these two messages to set GlobalCEFApp.OsmodalLoop
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
-  public
-    { Public declarations }
   end;
 
 var
-  Form1: TForm1;
+  SimpleExternalPumpBrowserFrm : TSimpleExternalPumpBrowserFrm;
+  GlobalCEFWorkScheduler : TCEFWorkScheduler = nil;
+
+procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 
 implementation
 
@@ -83,72 +95,98 @@ implementation
 uses
   uCEFApplication;
 
-// This is a demo with the simplest web browser you can build using CEF4Delphi and
-// it doesn't show any sign of progress like other web browsers do.
+// This demo has a simple browser with a TChromiumWindow using the "External message pump" mode
+// to schedule the cef_do_message_loop_work calls thanks to the TCEFWorkScheduler class.
 
-// Remember that it may take a few seconds to load if Windows update, your antivirus or
-// any other windows service is using your hard drive.
+// It was necessary to destroy the browser with the following destruction sequence :
+// 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
+// 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
+// 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
 
-// Depending on your internet connection it may take longer than expected.
-
-// Please check that your firewall or antivirus are not blocking this application
-// or the domain "google.com". If you don't live in the US, you'll be redirected to
-// another domain which will take a little time too.
-
-procedure TForm1.FormShow(Sender: TObject);
+procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
-  // You *MUST* call CreateBrowser to create and initialize the browser.
-  // This will trigger the AfterCreated event when the browser is fully
-  // initialized and ready to receive commands.
+  if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+end;
 
+procedure TSimpleExternalPumpBrowserFrm.FormCreate(Sender: TObject);
+begin
+  FCanClose := False;
+  FClosing  := False;
+end;
+
+procedure TSimpleExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing           := True;
+      Visible            := False;
+      AddressPnl.Enabled := False;
+      ChromiumWindow1.CloseBrowser(True);
+    end;
+end;
+
+procedure TSimpleExternalPumpBrowserFrm.FormShow(Sender: TObject);
+begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
 end;
 
-procedure TForm1.ChromiumWindow1AfterCreated(Sender: TObject);
+procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1AfterCreated(Sender: TObject);
 begin
-  // Now the browser is fully initialized we can load the initial web page.
-  Caption            := 'Simple Browser';
+  Caption            := 'Simple External Pump Browser';
   AddressPnl.Enabled := True;
   GoBtn.Click;
 end;
 
-procedure TForm1.GoBtnClick(Sender: TObject);
+procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
-  // This will load the URL in the edit box
-  ChromiumWindow1.LoadURL(AddressEdt.Text);
+  FCanClose := True;
+  Close;
 end;
 
-procedure TForm1.Timer1Timer(Sender: TObject);
+procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1Close(Sender: TObject);
+begin
+  // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
+  ChromiumWindow1.DestroyChildWindow;
+end;
+
+procedure TSimpleExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);
+begin
+  ChromiumWindow1.LoadURL(URLCbx.Text);
+end;
+
+procedure TSimpleExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
   if not(ChromiumWindow1.CreateBrowser) and not(ChromiumWindow1.Initialized) then
     Timer1.Enabled := True;
 end;
 
-procedure TForm1.WMMove(var aMessage : TWMMove);
+procedure TSimpleExternalPumpBrowserFrm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
   if (ChromiumWindow1 <> nil) then ChromiumWindow1.NotifyMoveOrResizeStarted;
 end;
 
-procedure TForm1.WMMoving(var aMessage : TMessage);
+procedure TSimpleExternalPumpBrowserFrm.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
   if (ChromiumWindow1 <> nil) then ChromiumWindow1.NotifyMoveOrResizeStarted;
 end;
 
-procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
+procedure TSimpleExternalPumpBrowserFrm.WMEnterMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
 end;
 
-procedure TForm1.WMExitMenuLoop(var aMessage: TMessage);
+procedure TSimpleExternalPumpBrowserFrm.WMExitMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 

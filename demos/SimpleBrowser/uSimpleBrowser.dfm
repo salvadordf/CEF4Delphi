@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Simple Browser'
+  Caption = 'Initializing browser. Please wait...'
   ClientHeight = 624
   ClientWidth = 1038
   Color = clBtnFace

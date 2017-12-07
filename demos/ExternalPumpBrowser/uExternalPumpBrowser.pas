@@ -79,6 +79,8 @@ type
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
   public
 
@@ -93,6 +95,9 @@ procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFApplication;
 
 // This demo has a simple browser with a TChromium + TCEFWindowParent combination
 // It was necessary to destroy the browser following the destruction sequence described in the MDIBrowser demo.
@@ -112,10 +117,10 @@ procedure TExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: 
 begin
   CanClose := FCanClose;
 
-  if not(FClosing) and AddressPnl.Enabled then
+  if not(FClosing) then
     begin
-      Visible            := False;
       FClosing           := True;
+      Visible            := False;
       AddressPnl.Enabled := False;
       Chromium1.CloseBrowser(True);
     end;
@@ -182,6 +187,20 @@ begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TExternalPumpBrowserFrm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TExternalPumpBrowserFrm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

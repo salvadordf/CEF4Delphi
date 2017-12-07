@@ -154,6 +154,9 @@ var
   cef_register_scheme_handler_factory : function(const scheme_name, domain_name: PCefString; factory: PCefSchemeHandlerFactory): Integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
   cef_clear_scheme_handler_factories  : function : Integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
 
+  // /include/capi/cef_server_capi.h
+  cef_server_create : procedure(const address: PCefString; port: uint16; backlog: Integer; handler: PCefServerHandler); {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
+
   // /include/capi/cef_ssl_info_capi.h
   cef_is_cert_status_error       : function(status : TCefCertStatus) : integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
   cef_is_cert_status_minor_error : function(status : TCefCertStatus) : integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};

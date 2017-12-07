@@ -59,15 +59,18 @@ type
     protected
       FChromium       : TChromium;
       FOnClose        : TNotifyEvent;
+      FOnBeforeClose  : TNotifyEvent;
       FOnAfterCreated : TNotifyEvent;
 
       function    GetChildWindowHandle : THandle; override;
       function    GetBrowserInitialized : boolean;
 
       procedure   OnCloseMsg(var aMessage : TMessage); message CEF_DOONCLOSE;
+      procedure   OnBeforeCloseMsg(var aMessage : TMessage); message CEF_DOONBEFORECLOSE;
       procedure   OnAfterCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
 
       procedure   WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+      procedure   WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure   WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 
    public
@@ -76,12 +79,14 @@ type
       function    CreateBrowser : boolean;
       procedure   CloseBrowser(aForceClose : boolean);
       procedure   LoadURL(const aURL : string);
+      procedure   NotifyMoveOrResizeStarted;
 
       property ChromiumBrowser    : TChromium       read FChromium;
       property Initialized        : boolean         read GetBrowserInitialized;
 
     published
       property OnClose          : TNotifyEvent    read FOnClose          write FOnClose;
+      property OnBeforeClose    : TNotifyEvent    read FOnBeforeClose    write FOnBeforeClose;
       property OnAfterCreated   : TNotifyEvent    read FOnAfterCreated   write FOnAfterCreated;
   end;
 
@@ -100,6 +105,7 @@ begin
 
   FChromium       := nil;
   FOnClose        := nil;
+  FOnBeforeClose  := nil;
   FOnAfterCreated := nil;
 end;
 
@@ -111,6 +117,7 @@ begin
     begin
       FChromium                := TChromium.Create(self);
       FChromium.OnClose        := WebBrowser_OnClose;
+      FChromium.OnBeforeClose  := WebBrowser_OnBeforeClose;
       FChromium.OnAfterCreated := WebBrowser_OnAfterCreated;
     end;
 end;
@@ -139,6 +146,11 @@ begin
     Result := False;
 end;
 
+procedure TChromiumWindow.WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  if assigned(FOnBeforeClose) then PostMessage(Handle, CEF_DOONBEFORECLOSE, 0, 0);
+end;
+
 procedure TChromiumWindow.WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
@@ -147,6 +159,11 @@ end;
 procedure TChromiumWindow.OnCloseMsg(var aMessage : TMessage);
 begin
   if assigned(FOnClose) then FOnClose(self);
+end;
+
+procedure TChromiumWindow.OnBeforeCloseMsg(var aMessage : TMessage);
+begin
+  if assigned(FOnBeforeClose) then FOnBeforeClose(self);
 end;
 
 procedure TChromiumWindow.OnAfterCreatedMsg(var aMessage : TMessage);
@@ -171,6 +188,11 @@ procedure TChromiumWindow.LoadURL(const aURL : string);
 begin
   if not(csDesigning in ComponentState) and (FChromium <> nil) then
     FChromium.LoadURL(aURL);
+end;
+
+procedure TChromiumWindow.NotifyMoveOrResizeStarted;
+begin
+  if (FChromium <> nil) then FChromium.NotifyMoveOrResizeStarted;
 end;
 
 end.
