@@ -54,6 +54,7 @@ uses
 const
   CEFBROWSER_DESTROYWNDPARENT = WM_APP + $100;
   CEFBROWSER_DESTROYTAB       = WM_APP + $101;
+  CEFBROWSER_INITIALIZED      = WM_APP + $102;
 
 type
   TMainForm = class(TForm)
@@ -93,6 +94,7 @@ type
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyWindowParentMsg(var aMessage : TMessage); message CEFBROWSER_DESTROYWNDPARENT;
     procedure BrowserDestroyTabMsg(var aMessage : TMessage); message CEFBROWSER_DESTROYTAB;
+    procedure CEFInitializedMsg(var aMessage : TMessage); message CEFBROWSER_INITIALIZED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
@@ -107,6 +109,8 @@ type
 
 var
   MainForm: TMainForm;
+
+procedure GlobalCEFApp_OnContextInitialized;
 
 implementation
 
@@ -126,6 +130,11 @@ implementation
 // 1. RemoveTabBtnClick calls TChromium.CloseBrowser of the selected tab which triggers a TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROYWNDPARENT message to destroy TCEFWindowParent in the main thread which triggers a TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sends a CEFBROWSER_DESTROYTAB message to destroy the tab in the main thread.
+
+procedure GlobalCEFApp_OnContextInitialized;
+begin
+  if (MainForm <> nil) then PostMessage(MainForm.Handle, CEFBROWSER_INITIALIZED, 0, 0);
+end;
 
 procedure TMainForm.AddTabBtnClick(Sender: TObject);
 var
@@ -175,7 +184,15 @@ end;
 
 procedure TMainForm.FormShow(Sender: TObject);
 begin
-  AddTabBtn.Click;
+  if (GlobalCEFApp <> nil) and
+     GlobalCEFApp.GlobalContextInitialized and
+     not(ButtonPnl.Enabled) then
+    begin
+      ButtonPnl.Enabled := True;
+      Caption           := 'Tab Browser';
+      cursor            := crDefault;
+      if (PageControl1.PageCount = 0) then AddTabBtn.Click;
+    end;
 end;
 
 procedure TMainForm.ForwardBtnClick(Sender: TObject);
@@ -403,6 +420,17 @@ var
 begin
   if showing and SearchChromium(PageControl1.TabIndex, TempChromium) then
     URLCbx.Text := TempChromium.DocumentURL;
+end;
+
+procedure TMainForm.CEFInitializedMsg(var aMessage : TMessage);
+begin
+  if not(ButtonPnl.Enabled) then
+    begin
+      ButtonPnl.Enabled := True;
+      Caption           := 'Tab Browser';
+      cursor            := crDefault;
+      if (PageControl1.PageCount = 0) then AddTabBtn.Click;
+    end;
 end;
 
 end.

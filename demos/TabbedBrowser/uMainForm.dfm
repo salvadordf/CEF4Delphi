@@ -1,7 +1,7 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'Tab Browser'
+  Caption = 'Initializing browser. Please wait...'
   ClientHeight = 573
   ClientWidth = 732
   Color = clBtnFace
@@ -24,13 +24,13 @@ object MainForm: TMainForm
     Align = alTop
     BevelOuter = bvNone
     Caption = 'ButtonPnl'
+    Enabled = False
     Padding.Left = 5
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 684
     object NavButtonPnl: TPanel
       Left = 5
       Top = 5
@@ -139,7 +139,6 @@ object MainForm: TMainForm
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 648
       object GoBtn: TButton
         Left = 6
         Top = 0
@@ -166,8 +165,6 @@ object MainForm: TMainForm
       Padding.Top = 2
       ShowCaption = False
       TabOrder = 0
-      ExplicitLeft = 190
-      ExplicitWidth = 458
       object URLCbx: TComboBox
         Left = 0
         Top = 2
@@ -206,7 +203,5 @@ object MainForm: TMainForm
     Align = alClient
     TabOrder = 1
     OnChange = PageControl1Change
-    ExplicitWidth = 684
-    ExplicitHeight = 497
   end
 end

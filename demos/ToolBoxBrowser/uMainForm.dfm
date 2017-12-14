@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Toolbox Browser demo'
+  Caption = 'Initializing browser. Please wait...'
   ClientHeight = 37
   ClientWidth = 357
   Color = clBtnFace
@@ -15,23 +15,39 @@ object MainForm: TMainForm
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Button1: TButton
-    Left = 300
-    Top = 6
-    Width = 51
-    Height = 25
-    Caption = 'Open'
+  object ButtonPnl: TPanel
+    Left = 0
+    Top = 0
+    Width = 357
+    Height = 37
+    Align = alClient
+    BevelOuter = bvNone
+    Enabled = False
+    ShowCaption = False
     TabOrder = 0
-    OnClick = Button1Click
-  end
-  object Edit1: TEdit
-    Left = 8
-    Top = 8
-    Width = 286
-    Height = 21
-    TabOrder = 1
-    Text = 'https://www.google.com'
+    ExplicitLeft = 136
+    ExplicitTop = 8
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object Edit1: TEdit
+      Left = 8
+      Top = 8
+      Width = 286
+      Height = 21
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+    object Button1: TButton
+      Left = 300
+      Top = 6
+      Width = 51
+      Height = 25
+      Caption = 'Open'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
   end
 end

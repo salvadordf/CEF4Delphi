@@ -54,13 +54,16 @@ const
   CEFBROWSER_CREATED          = WM_APP + $100;
   CEFBROWSER_CHILDDESTROYED   = WM_APP + $101;
   CEFBROWSER_DESTROY          = WM_APP + $102;
+  CEFBROWSER_INITIALIZED      = WM_APP + $103;
 
 type
   TMainForm = class(TForm)
-    Button1: TButton;
+    ButtonPnl: TPanel;
     Edit1: TEdit;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True when all the child forms are closed
@@ -73,6 +76,7 @@ type
 
   protected
     procedure ChildDestroyedMsg(var aMessage : TMessage); message CEFBROWSER_CHILDDESTROYED;
+    procedure CEFInitializedMsg(var aMessage : TMessage); message CEFBROWSER_INITIALIZED;
 
   public
     function CloseQuery: Boolean; override;
@@ -84,17 +88,24 @@ type
 var
   MainForm: TMainForm;
 
+procedure GlobalCEFApp_OnContextInitialized;
+
 implementation
 
 {$R *.dfm}
 
 uses
-  uChildForm;
+  uChildForm, uCEFApplication;
 
 // Destruction steps
 // =================
 // 1. Destroy all child forms
 // 2. Wait until all the child forms are closed before closing the main form and terminating the application.
+
+procedure GlobalCEFApp_OnContextInitialized;
+begin
+  if (MainForm <> nil) then PostMessage(MainForm.Handle, CEFBROWSER_INITIALIZED, 0, 0);
+end;
 
 procedure TMainForm.CreateToolboxChild(const ChildCaption, URL: string);
 var
@@ -213,6 +224,23 @@ begin
 
           CloseAllChildForms;
         end;
+    end;
+end;
+
+procedure TMainForm.CEFInitializedMsg(var aMessage : TMessage);
+begin
+  Caption           := 'ToolBox Browser';
+  ButtonPnl.Enabled := True;
+  cursor            := crDefault;
+end;
+
+procedure TMainForm.FormShow(Sender: TObject);
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.GlobalContextInitialized then
+    begin
+      Caption           := 'ToolBox Browser';
+      ButtonPnl.Enabled := True;
+      cursor            := crDefault;
     end;
 end;
 
