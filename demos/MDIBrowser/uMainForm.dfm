@@ -1,7 +1,8 @@
 object MainForm: TMainForm
   Left = 194
   Top = 111
-  Caption = 'MDI Application'
+  Cursor = crAppStart
+  Caption = 'Initializing browser. Please wait...'
   ClientHeight = 631
   ClientWidth = 709
   Color = clAppWorkSpace
@@ -14,6 +15,7 @@ object MainForm: TMainForm
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object ButtonPnl: TPanel
@@ -23,6 +25,7 @@ object MainForm: TMainForm
     Height = 30
     Align = alTop
     BevelOuter = bvNone
+    Enabled = False
     ShowCaption = False
     TabOrder = 0
     object NewBtn: TSpeedButton

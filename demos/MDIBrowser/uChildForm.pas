@@ -50,7 +50,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
-  uMainForm, uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants;
+  uMainForm, uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes;
 
 type
   TChildForm = class(TForm)
@@ -59,6 +59,7 @@ type
     Button1: TButton;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
+    StatusBar1: TStatusBar;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Button1Click(Sender: TObject);
@@ -70,6 +71,11 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
+    procedure Chromium1LoadingStateChange(Sender: TObject;
+      const browser: ICefBrowser; isLoading, canGoBack,
+      canGoForward: Boolean);
+    procedure Chromium1StatusMessage(Sender: TObject;
+      const browser: ICefBrowser; const value: ustring);
 
   private
     // Variables to control when can we destroy the form safely
@@ -119,6 +125,25 @@ procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser;
 begin
   PostMessage(Handle, CEFBROWSER_DESTROY, 0, 0);
   Result := False;
+end;
+
+procedure TChildForm.Chromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+begin
+  if isLoading then
+    begin
+      StatusBar1.Panels[0].Text := 'Loading...';
+      cursor := crAppStart;
+    end
+   else
+    begin
+      StatusBar1.Panels[0].Text := '';
+      cursor := crDefault;
+    end;
+end;
+
+procedure TChildForm.Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
+begin
+  StatusBar1.Panels[1].Text := value;
 end;
 
 procedure TChildForm.FormClose(Sender: TObject; var Action: TCloseAction);

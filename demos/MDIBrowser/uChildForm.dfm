@@ -58,11 +58,30 @@ object ChildForm: TChildForm
     Left = 0
     Top = 30
     Width = 708
-    Height = 421
+    Height = 402
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 421
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 432
+    Width = 708
+    Height = 19
+    Panels = <
+      item
+        Width = 100
+      end
+      item
+        Width = 500
+      end>
+    ExplicitLeft = 360
+    ExplicitTop = 424
+    ExplicitWidth = 0
   end
   object Chromium1: TChromium
+    OnLoadingStateChange = Chromium1LoadingStateChange
+    OnStatusMessage = Chromium1StatusMessage
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
