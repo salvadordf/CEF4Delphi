@@ -51,10 +51,10 @@ uses
 
 type
   TCefJsDialogCallbackRef = class(TCefBaseRefCountedRef, ICefJsDialogCallback)
-  protected
-    procedure Cont(success: Boolean; const userInput: ustring);
-  public
-    class function UnWrap(data: Pointer): ICefJsDialogCallback;
+    protected
+      procedure Cont(success: Boolean; const userInput: ustring);
+    public
+      class function UnWrap(data: Pointer): ICefJsDialogCallback;
   end;
 
 
@@ -63,8 +63,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure TCefJsDialogCallbackRef.Cont(success: Boolean;
-  const userInput: ustring);
+procedure TCefJsDialogCallbackRef.Cont(success: Boolean; const userInput: ustring);
 var
   ui: TCefString;
 begin
@@ -72,11 +71,11 @@ begin
   PCefJsDialogCallback(FData).cont(PCefJsDialogCallback(FData), Ord(success), @ui);
 end;
 
-class function TCefJsDialogCallbackRef.UnWrap(
-  data: Pointer): ICefJsDialogCallback;
+class function TCefJsDialogCallbackRef.UnWrap(data: Pointer): ICefJsDialogCallback;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefJsDialogCallback else
+  if (data <> nil) then
+    Result := Create(data) as ICefJsDialogCallback
+   else
     Result := nil;
 end;
 

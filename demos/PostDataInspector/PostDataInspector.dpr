@@ -41,64 +41,22 @@ program PostDataInspector;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
   Vcl.Forms,
-  System.SysUtils,
+  WinApi.Windows,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
-  uCEFRenderProcessHandler,
-  uCEFInterfaces,
-  uCEFProcessMessage,
-  uCEFTypes,
   uPostDataInspector in 'uPostDataInspector.pas' {PostDataInspectorFrm};
 
 {$R *.res}
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
-procedure GlobalCEFApp_OnBeforeNavigation(const browser         : ICefBrowser;
-                                          const frame           : ICefFrame;
-                                          const request         : ICefRequest;
-                                                navigationType  : TCefNavigationType;
-                                                isRedirect      : Boolean;
-                                          var   aStopNavigation : boolean);
-var
-  msg: ICefProcessMessage;
-  TempString : string;
-begin
-  aStopNavigation := False;
-
-  if (request = nil) then
-    TempString := 'no request'
-   else
-    if (request.postdata = nil) then
-      TempString := 'no postdata'
-     else
-      TempString := 'postdata elements : ' + inttostr(request.postdata.GetCount);
-
-  msg := TCefProcessMessageRef.New(POSTDATA_MSGNAME);
-  msg.ArgumentList.SetString(0, TempString);
-  browser.SendProcessMessage(PID_BROWSER, msg);
-end;
 
 begin
   GlobalCEFApp                    := TCefApplication.Create;
   GlobalCEFApp.OnBeforeNavigation := GlobalCEFApp_OnBeforeNavigation;
-
-  // The directories are optional.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
 
   if GlobalCEFApp.StartMainProcess then
     begin

@@ -85,6 +85,8 @@ type
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure ShowCookiesMsg(var aMessage : TMessage); message MINIBROWSER_SHOWCOOKIES;
 
@@ -247,6 +249,20 @@ begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TCookieVisitorFrm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TCookieVisitorFrm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

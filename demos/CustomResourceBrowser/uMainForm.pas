@@ -66,6 +66,8 @@ type
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
   protected
     procedure Chromium_OnAfterCreated(Sender: TObject);
@@ -83,7 +85,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFMiscFunctions;
+  uCEFMiscFunctions, uCEFApplication;
 
 procedure TMainForm.Button1Click(Sender: TObject);
 begin
@@ -142,18 +144,28 @@ procedure TMainForm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
-  if (ChromiumWindow1                 <> nil) and
-     (ChromiumWindow1.ChromiumBrowser <> nil) then
-    ChromiumWindow1.ChromiumBrowser.NotifyMoveOrResizeStarted;
+  if (ChromiumWindow1 <> nil) then ChromiumWindow1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TMainForm.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
-  if (ChromiumWindow1                 <> nil) and
-     (ChromiumWindow1.ChromiumBrowser <> nil) then
-    ChromiumWindow1.ChromiumBrowser.NotifyMoveOrResizeStarted;
+  if (ChromiumWindow1 <> nil) then ChromiumWindow1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TMainForm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TMainForm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

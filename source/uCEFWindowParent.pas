@@ -160,7 +160,7 @@ begin
 
   if (TempHWND <> 0) then
     begin
-      Winapi.Windows.GetClientRect(TempHWND, TempRect);
+      {$IFDEF DELPHI16_UP}Winapi.{$ENDIF}Windows.GetClientRect(TempHWND, TempRect);
       TempDC     := GetDC(TempHWND);
       TempWidth  := TempRect.Right  - TempRect.Left;
       TempHeight := TempRect.Bottom - TempRect.Top;

@@ -155,6 +155,11 @@ contains
   uCEFExtension in 'uCEFExtension.pas',
   uCEFExtensionHandler in 'uCEFExtensionHandler.pas',
   uBufferPanel in 'uBufferPanel.pas',
-  uCEFApp in 'uCEFApp.pas';
+  uCEFApp in 'uCEFApp.pas',
+  uCEFWorkScheduler in 'uCEFWorkScheduler.pas',
+  uCEFServer in 'uCEFServer.pas',
+  uCEFServerHandler in 'uCEFServerHandler.pas',
+  uCEFServerEvents in 'uCEFServerEvents.pas',
+  uCEFServerComponent in 'uCEFServerComponent.pas';
 
 end.

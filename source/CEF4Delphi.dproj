@@ -251,6 +251,10 @@
         <DCCReference Include="uBufferPanel.pas"/>
         <DCCReference Include="uCEFApp.pas"/>
         <DCCReference Include="uCEFWorkScheduler.pas"/>
+        <DCCReference Include="uCEFServer.pas"/>
+        <DCCReference Include="uCEFServerHandler.pas"/>
+        <DCCReference Include="uCEFServerEvents.pas"/>
+        <DCCReference Include="uCEFServerComponent.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

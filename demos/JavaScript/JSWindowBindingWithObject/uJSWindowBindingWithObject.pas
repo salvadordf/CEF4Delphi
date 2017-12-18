@@ -67,6 +67,8 @@ type
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
   public
     { Public declarations }
   end;
@@ -148,6 +150,20 @@ begin
   CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
   GoBtn.Click;
+end;
+
+procedure TJSWindowBindingWithObjectFrm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TJSWindowBindingWithObjectFrm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

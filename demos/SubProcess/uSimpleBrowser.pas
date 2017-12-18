@@ -66,6 +66,9 @@ type
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    // You also have to handle these two messages to set GlobalCEFApp.OsmodalLoop
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
   public
     { Public declarations }
   end;
@@ -76,6 +79,9 @@ var
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFApplication;
 
 // This is a demo with the simplest web browser you can build using CEF4Delphi and
 // it doesn't show any sign of progress like other web browsers do.
@@ -127,18 +133,28 @@ procedure TForm1.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
-  if (ChromiumWindow1                 <> nil) and
-     (ChromiumWindow1.ChromiumBrowser <> nil) then
-    ChromiumWindow1.ChromiumBrowser.NotifyMoveOrResizeStarted;
+  if (ChromiumWindow1 <> nil) then ChromiumWindow1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
-  if (ChromiumWindow1                 <> nil) and
-     (ChromiumWindow1.ChromiumBrowser <> nil) then
-    ChromiumWindow1.ChromiumBrowser.NotifyMoveOrResizeStarted;
+  if (ChromiumWindow1 <> nil) then ChromiumWindow1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TForm1.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

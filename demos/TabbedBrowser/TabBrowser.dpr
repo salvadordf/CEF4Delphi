@@ -41,16 +41,17 @@ program TabBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms, WinApi.Windows,
+  Vcl.Forms,
+  WinApi.Windows,
   {$ELSE}
-  Forms, Windows,
+  Forms,
+  Windows,
   {$ENDIF }
   uCEFApplication,
   uMainForm in 'uMainForm.pas' {MainForm};
 
 {$R *.res}
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
@@ -58,16 +59,6 @@ begin
   GlobalCEFApp.FlashEnabled         := False;
   GlobalCEFApp.FastUnload           := True;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
 
   if GlobalCEFApp.StartMainProcess then
     begin

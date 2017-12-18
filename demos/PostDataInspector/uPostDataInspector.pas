@@ -76,6 +76,8 @@ type
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
   public
     { Public declarations }
   end;
@@ -83,9 +85,19 @@ type
 var
   PostDataInspectorFrm: TPostDataInspectorFrm;
 
+procedure GlobalCEFApp_OnBeforeNavigation(const browser         : ICefBrowser;
+                                          const frame           : ICefFrame;
+                                          const request         : ICefRequest;
+                                                navigationType  : TCefNavigationType;
+                                                isRedirect      : Boolean;
+                                          var   aStopNavigation : boolean);
+
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFRenderProcessHandler, uCEFProcessMessage;
 
 // This demo shows an alternative way to inspect the POST data in read only mode.
 // This data is not always available in the request of TChromium.OnBeforeBrowse
@@ -95,6 +107,31 @@ implementation
 
 // If you need more control over the POST data register an scheme.
 // See the SchemeRegistrationBrowser demo.
+
+procedure GlobalCEFApp_OnBeforeNavigation(const browser         : ICefBrowser;
+                                          const frame           : ICefFrame;
+                                          const request         : ICefRequest;
+                                                navigationType  : TCefNavigationType;
+                                                isRedirect      : Boolean;
+                                          var   aStopNavigation : boolean);
+var
+  msg: ICefProcessMessage;
+  TempString : string;
+begin
+  aStopNavigation := False;
+
+  if (request = nil) then
+    TempString := 'no request'
+   else
+    if (request.postdata = nil) then
+      TempString := 'no postdata'
+     else
+      TempString := 'postdata elements : ' + inttostr(request.postdata.GetCount);
+
+  msg := TCefProcessMessageRef.New(POSTDATA_MSGNAME);
+  msg.ArgumentList.SetString(0, TempString);
+  browser.SendProcessMessage(PID_BROWSER, msg);
+end;
 
 procedure TPostDataInspectorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
@@ -155,6 +192,20 @@ begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TPostDataInspectorFrm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TPostDataInspectorFrm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 procedure TPostDataInspectorFrm.BrowserCreatedMsg(var aMessage : TMessage);

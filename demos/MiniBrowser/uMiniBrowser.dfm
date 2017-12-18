@@ -132,10 +132,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
             'https://www.whatismybrowser.com/detect/what-http-headers-is-my-b' +
             'rowser-sending'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
           'https://www.w3schools.com/html/html5_video.asp'
           'http://www.adobe.com/software/flash/about/'
           'http://isflashinstalled.com/'
-          'chrome://version/'
           'http://html5test.com/'
           'https://www.w3schools.com/'
           'http://webglsamples.org/'
@@ -149,7 +149,23 @@ object MiniBrowserFrm: TMiniBrowserFrm
             'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
             '_name'
           'https://www.browserleaks.com/webrtc'
-          'https://frames-per-second.appspot.com/')
+          'https://frames-per-second.appspot.com/'
+          'chrome://version/'
+          'chrome://net-internals/'
+          'chrome://tracing/'
+          'chrome://appcache-internals/'
+          'chrome://blob-internals/'
+          'chrome://view-http-cache/'
+          'chrome://credits/'
+          'chrome://histograms/'
+          'chrome://media-internals/'
+          'chrome://kill'
+          'chrome://crash'
+          'chrome://hang'
+          'chrome://shorthang'
+          'chrome://gpuclean'
+          'chrome://gpucrash'
+          'chrome://gpuhang')
       end
     end
     object ConfigPnl: TPanel

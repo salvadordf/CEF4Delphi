@@ -100,12 +100,116 @@ type
 var
   DOMVisitorFrm: TDOMVisitorFrm;
 
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                      sourceProcess : TCefProcessId;
+                                                const message       : ICefProcessMessage;
+                                                var   aHandled      : boolean);
+
 implementation
 
 {$R *.dfm}
 
 uses
-  uCEFProcessMessage;
+  uCEFProcessMessage, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFRenderProcessHandler,
+  uCEFv8Handler, uCEFDomVisitor, uCEFDomNode, uCEFTask;
+
+procedure SimpleDOMIteration(const aDocument: ICefDomDocument);
+var
+  TempHead, TempChild : ICefDomNode;
+begin
+  try
+    if (aDocument <> nil) then
+      begin
+        TempHead := aDocument.Head;
+
+        if (TempHead <> nil) then
+          begin
+            TempChild := TempHead.FirstChild;
+
+            while (TempChild <> nil) do
+              begin
+                CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'Head child element : ' + TempChild.Name);
+                TempChild := TempChild.NextSibling;
+              end;
+          end;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('SimpleDOMIteration', e) then raise;
+  end;
+end;
+
+procedure SimpleNodeSearch(const aDocument: ICefDomDocument);
+const
+  NODE_ID = 'lst-ib'; // node found in google.com homepage
+var
+  TempNode : ICefDomNode;
+begin
+  try
+    if (aDocument <> nil) then
+      begin
+        TempNode := aDocument.GetElementById(NODE_ID);
+
+        if (TempNode <> nil) then
+          CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, NODE_ID + ' element name : ' + TempNode.Name);
+
+        TempNode := aDocument.GetFocusedNode;
+
+        if (TempNode <> nil) then
+          CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'Focused element name : ' + TempNode.Name);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('SimpleNodeSearch', e) then raise;
+  end;
+end;
+
+procedure DOMVisitor_OnDocAvailable(const browser: ICefBrowser; const document: ICefDomDocument);
+var
+  msg: ICefProcessMessage;
+begin
+  // This function is called from a different process.
+  // document is only valid inside this function.
+  // As an example, this function only writes the document title to the 'debug.log' file.
+  CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'document.Title : ' + document.Title);
+
+  // Simple DOM iteration example
+  SimpleDOMIteration(document);
+
+  // Simple DOM searches
+  SimpleNodeSearch(document);
+
+  // Sending back some custom results to the browser process
+  // Notice that the DOMVISITOR_MSGNAME message name needs to be recognized in
+  // Chromium1ProcessMessageReceived
+  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME);
+  msg.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
+  browser.SendProcessMessage(PID_BROWSER, msg);
+end;
+
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                      sourceProcess : TCefProcessId;
+                                                const message       : ICefProcessMessage;
+                                                var   aHandled      : boolean);
+var
+  TempFrame   : ICefFrame;
+  TempVisitor : TCefFastDomVisitor2;
+begin
+  if (browser <> nil) and (message.name = RETRIEVEDOM_MSGNAME) then
+    begin
+      TempFrame := browser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          TempVisitor := TCefFastDomVisitor2.Create(browser, DOMVisitor_OnDocAvailable);
+          TempFrame.VisitDom(TempVisitor);
+        end;
+
+      aHandled := True;
+    end
+   else
+    aHandled := False;
+end;
 
 procedure TDOMVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin

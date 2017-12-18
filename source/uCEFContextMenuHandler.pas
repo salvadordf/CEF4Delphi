@@ -66,6 +66,7 @@ type
       FEvent: IChromiumEvents;
 
       procedure OnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel); override;
+      function  RunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): Boolean; override;
       function  OnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags): Boolean; override;
       procedure OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame); override;
 
@@ -178,6 +179,18 @@ procedure TCustomContextMenuHandler.OnBeforeContextMenu(const browser : ICefBrow
                                                         const model   : ICefMenuModel);
 begin
   if (FEvent <> nil) then FEvent.doOnBeforeContextMenu(browser, frame, params, model);
+end;
+
+function TCustomContextMenuHandler.RunContextMenu(const browser  : ICefBrowser;
+                                                  const frame    : ICefFrame;
+                                                  const params   : ICefContextMenuParams;
+                                                  const model    : ICefMenuModel;
+                                                  const callback : ICefRunContextMenuCallback): Boolean;
+begin
+  if (FEvent <> nil) then
+    Result := FEvent.doRunContextMenu(browser, frame, params, model, callback)
+   else
+    Result := inherited RunContextMenu(browser, frame, params, model, callback);
 end;
 
 function TCustomContextMenuHandler.OnContextMenuCommand(const browser    : ICefBrowser;

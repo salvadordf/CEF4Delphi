@@ -68,11 +68,14 @@ type
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   protected
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure NewLocationMsg(var aMessage : TMessage); message MINIBROWSER_NEWLOCATION;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
   end;
 
 var
@@ -83,9 +86,33 @@ implementation
 
 {$R *.dfm}
 
+uses
+  uCEFMiscFunctions;
+
+procedure GeoLocationUpdate(const position: PCefGeoposition);
+begin
+  GlobalPosition.latitude          := position.latitude;
+  GlobalPosition.longitude         := position.longitude;
+  GlobalPosition.altitude          := position.altitude;
+  GlobalPosition.accuracy          := position.accuracy;
+  GlobalPosition.altitude_accuracy := position.altitude_accuracy;
+  GlobalPosition.heading           := position.heading;
+  GlobalPosition.speed             := position.speed;
+  GlobalPosition.timestamp         := position.timestamp;
+  GlobalPosition.error_code        := position.error_code;
+  GlobalPosition.error_message     := position.error_message;
+
+  PostMessage(GeolocationFrm.Handle, MINIBROWSER_NEWLOCATION, 0, 0);
+end;
+
 procedure TGeolocationFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+end;
+
+procedure TGeolocationFrm.FormCreate(Sender: TObject);
+begin
+  CefGetGeolocation(GeoLocationUpdate);
 end;
 
 procedure TGeolocationFrm.FormShow(Sender: TObject);
@@ -133,6 +160,20 @@ begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TGeolocationFrm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TGeolocationFrm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

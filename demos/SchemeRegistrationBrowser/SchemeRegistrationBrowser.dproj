@@ -107,7 +107,6 @@
         </DelphiCompile>
         <DCCReference Include="uSchemeRegistrationBrowser.pas">
             <Form>SchemeRegistrationBrowserFrm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uHelloScheme.pas"/>
         <BuildConfiguration Include="Release">

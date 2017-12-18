@@ -53,11 +53,13 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler;
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler,
+  uCEFServerComponent;
 
 procedure Register;
 begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel, TCEFWorkScheduler]);
+  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
+                                  TCEFWorkScheduler, TCEFServerComponent]);
 end;
 
 end.

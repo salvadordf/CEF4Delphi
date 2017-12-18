@@ -56,14 +56,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 3202;
-  CEF_SUPPORTED_VERSION_RELEASE = 1694;
+  CEF_SUPPORTED_VERSION_MINOR   = 3239;
+  CEF_SUPPORTED_VERSION_RELEASE = 1700;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 62;
+  CEF_CHROMEELF_VERSION_MAJOR   = 63;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3202;
-  CEF_CHROMEELF_VERSION_BUILD   = 94;
+  CEF_CHROMEELF_VERSION_RELEASE = 3239;
+  CEF_CHROMEELF_VERSION_BUILD   = 70;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -130,6 +130,8 @@ type
       FDeviceScaleFactor             : single;
       FCheckDevToolsResources        : boolean;
       FDisableGPUCache               : boolean;
+      FStatus                        : TCefAplicationStatus;
+      FMissingLibFiles               : string;
       FProcessType                   : TCefProcessType;
       FResourceBundleHandler         : ICefResourceBundleHandler;
       FBrowserProcessHandler         : ICefBrowserProcessHandler;
@@ -339,6 +341,8 @@ type
       property BrowserProcessHandler             : ICefBrowserProcessHandler           read FBrowserProcessHandler             write FBrowserProcessHandler;
       property RenderProcessHandler              : ICefRenderProcessHandler            read FRenderProcessHandler              write FRenderProcessHandler;
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
+      property Status                            : TCefAplicationStatus                read FStatus;
+      property MissingLibFiles                   : string                              read FMissingLibFiles;
 
       property OnRegCustomSchemes                : TOnRegisterCustomSchemes            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
@@ -385,6 +389,8 @@ constructor TCefApplication.Create;
 begin
   inherited Create;
 
+  FStatus                        := asLoading;
+  FMissingLibFiles               := '';
   FLibHandle                     := 0;
   FMustShutDown                  := False;
   FCache                         := '';
@@ -497,6 +503,8 @@ begin
       FLibLoaded := False;
     end;
 
+  FStatus := asUnloaded;
+
   if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
   if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
 
@@ -546,21 +554,16 @@ var
 begin
   Result := False;
 
-  try
-    if CheckCEFLibrary and LoadCEFlibrary then
-      begin
-        TempApp := TCustomCefApp.Create(self);
+  if CheckCEFLibrary and LoadCEFlibrary then
+    begin
+      TempApp := TCustomCefApp.Create(self);
 
-        if (ExecuteProcess(TempApp) < 0) then
-          begin
-            FMustShutDown := True;
-            Result        := InitializeLibrary(TempApp);
-          end;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.SingleExeProcessing', e) then raise;
-  end;
+      if (ExecuteProcess(TempApp) < 0) and (FStatus = asLoaded) then
+        begin
+          FMustShutDown := True;
+          Result        := InitializeLibrary(TempApp);
+        end;
+    end;
 end;
 
 function TCefApplication.GetChromeVersion : string;
@@ -627,94 +630,48 @@ end;
 
 function TCefApplication.CheckCEFLibrary : boolean;
 var
-  TempString, TempPath : string;
+  TempString : string;
+  TempMissingFrm, TempMissingRsc, TempMissingLoc : boolean;
 begin
-  if FCheckCEFFiles then
-    Result := False
-   else
-    begin
-      Result := True;
-      exit;
-    end;
+  Result := False;
 
-
-  if not(CheckDLLs(FFrameworkDirPath)) then
-    begin
-      TempString := 'CEF framework files missing !' + CRLF + CRLF;
-
-      if GetAbsoluteDirPath(FFrameworkDirPath, TempPath) then
-        begin
-          if (length(TempPath) = 0) then TempPath := GetModulePath;
-          TempString := TempString +
-                        'Make sure all the CEF framework files can be found in this directory :' +
-                        CRLF + SplitLongString(TempPath);
-        end
-       else
-        TempString := TempString +
-                      'The CEF framework directory doesn' + #39 +'t exist!' +
-                      CRLF + SplitLongString(FFrameworkDirPath);
-
-      ShowErrorMessageDlg(TempString);
-      exit;
-    end;
-
-
-  if not(CheckResources(FResourcesDirPath, FCheckDevToolsResources)) then
-    begin
-      TempString := 'CEF resources missing !' + CRLF + CRLF;
-
-      if GetAbsoluteDirPath(FResourcesDirPath, TempPath) then
-        begin
-          if (length(TempPath) = 0) then TempPath := GetModulePath;
-          TempString := TempString +
-                        'Make sure all the CEF resources can be found in this directory :' +
-                        CRLF + SplitLongString(TempPath);
-        end
-       else
-        TempString := TempString +
-                      'The CEF resources directory doesn' + #39 +'t exist!' +
-                      CRLF + SplitLongString(FResourcesDirPath);
-
-      ShowErrorMessageDlg(TempString);
-      exit;
-    end;
-
-
-  if not(CheckLocales(FLocalesDirPath, FLocalesRequired)) then
-    begin
-      TempString := 'CEF locale files missing !' + CRLF + CRLF;
-
-      if GetAbsoluteDirPath(FLocalesDirPath, TempPath) then
-        begin
-          if (length(TempPath) = 0) then TempPath := GetModulePath + 'locales';
-          TempString := TempString +
-                        'Make sure all the CEF locale files can be found in this directory :' +
-                        CRLF + SplitLongString(TempPath);
-        end
-       else
-        TempString := TempString +
-                      'The CEF locales directory doesn' + #39 +'t exist!' +
-                      CRLF + SplitLongString(FLocalesDirPath);
-
-      ShowErrorMessageDlg(TempString);
-      exit;
-    end;
-
-
-  if CheckDLLVersion(LibCefPath,
-                     CEF_SUPPORTED_VERSION_MAJOR,
-                     CEF_SUPPORTED_VERSION_MINOR,
-                     CEF_SUPPORTED_VERSION_RELEASE,
-                     CEF_SUPPORTED_VERSION_BUILD) then
+  if not(FCheckCEFFiles) or (FProcessType <> ptBrowser) then
     Result := True
    else
     begin
-      TempString := 'Unsupported CEF version !' +
-                    CRLF + CRLF +
-                    'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
-                    CRLF + CEF4DELPHI_URL;
+      TempMissingFrm := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
+      TempMissingRsc := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources));
+      TempMissingLoc := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
 
-      ShowErrorMessageDlg(TempString);
+      if TempMissingFrm or TempMissingRsc or TempMissingLoc then
+        begin
+          FStatus    := asErrorMissingFiles;
+          TempString := 'CEF3 binaries missing !';
+
+          if (length(FMissingLibFiles) > 0) then
+            TempString := TempString + CRLF + CRLF +
+                          'The missing files are :' + CRLF +
+                          trim(FMissingLibFiles);
+
+          ShowErrorMessageDlg(TempString);
+        end
+       else
+        if CheckDLLVersion(LibCefPath,
+                           CEF_SUPPORTED_VERSION_MAJOR,
+                           CEF_SUPPORTED_VERSION_MINOR,
+                           CEF_SUPPORTED_VERSION_RELEASE,
+                           CEF_SUPPORTED_VERSION_BUILD) then
+          Result := True
+         else
+          begin
+            FStatus    := asErrorDLLVersion;
+            TempString := 'Unsupported CEF version !' +
+                          CRLF + CRLF +
+                          'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
+                          CRLF + CEF4DELPHI_URL;
+
+            ShowErrorMessageDlg(TempString);
+          end;
     end;
 end;
 
@@ -732,16 +689,11 @@ var
 begin
   Result := False;
 
-  try
-    if not(FSingleProcess) and LoadCEFlibrary then
-      begin
-        TempApp := TCustomCefApp.Create(self);
-        Result  := (ExecuteProcess(TempApp) >= 0);
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.StartSubProcess', e) then raise;
-  end;
+  if not(FSingleProcess) and LoadCEFlibrary then
+    begin
+      TempApp := TCustomCefApp.Create(self);
+      Result  := (ExecuteProcess(TempApp) >= 0);
+    end;
 end;
 
 procedure TCefApplication.DoMessageLoopWork;
@@ -792,8 +744,17 @@ function TCefApplication.ExecuteProcess(const aApp : ICefApp) : integer;
 var
   TempArgs : TCefMainArgs;
 begin
-  TempArgs.instance := HINSTANCE;
-  Result            := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
+  Result := -1;
+  try
+    TempArgs.instance := HINSTANCE;
+    Result            := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
+  except
+    on e : exception do
+      begin
+        FStatus := asErrorExecutingProcess;
+        if CustomExceptionHandler('TCefApplication.ExecuteProcess', e) then raise;
+      end;
+  end;
 end;
 
 procedure TCefApplication.InitializeSettings(var aSettings : TCefSettings);
@@ -835,16 +796,25 @@ begin
   Result := False;
 
   try
-    if FDeleteCache   then DeleteDirContents(FCache);
-    if FDeleteCookies then DeleteDirContents(FCookies);
+    try
+      if FDeleteCache   then DeleteDirContents(FCache);
+      if FDeleteCookies then DeleteDirContents(FCookies);
 
-    InitializeSettings(FAppSettings);
+      InitializeSettings(FAppSettings);
 
-    TempArgs.instance := HINSTANCE;
-    Result            := (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.InitializeLibrary', e) then raise;
+      TempArgs.instance := HINSTANCE;
+
+      if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
+        begin
+          Result  := True;
+          FStatus := asInitialized;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefApplication.InitializeLibrary', e) then raise;
+    end;
+  finally
+    if not(Result) then FStatus := asErrorInitializingLibrary;
   end;
 end;
 
@@ -1251,7 +1221,7 @@ end;
 
 function TCefApplication.LoadCEFlibrary : boolean;
 var
-  TempOldDir : string;
+  TempOldDir, TempString : string;
 begin
   if FSetCurrentDir then
     begin
@@ -1263,8 +1233,12 @@ begin
 
   if (FLibHandle = 0) then
     begin
-      Result := False;
-      OutputDebugMessage('TCefApplication.LoadCEFlibrary error: Cannot load libcef.dll. Error code : 0x' + inttohex(GetLastError, 8));
+      Result     := False;
+      FStatus    := asErrorLoadingLibrary;
+      TempString := 'Error loading libcef.dll' + CRLF + CRLF +
+                    'Error code : 0x' + inttohex(GetLastError, 8);
+
+      ShowErrorMessageDlg(TempString);
       exit;
     end;
 
@@ -1289,7 +1263,7 @@ begin
      Load_cef_request_context_capi_h and
      Load_cef_resource_bundle_capi_h and
      Load_cef_response_capi_h and
-     // Load_cef_server_capi_h and
+     Load_cef_server_capi_h and
      Load_cef_scheme_capi_h and
      Load_cef_ssl_info_capi_h and
      Load_cef_stream_capi_h and
@@ -1311,6 +1285,7 @@ begin
      Load_cef_thread_internal_h and
      Load_cef_trace_event_internal_h then
     begin
+      FStatus    := asLoaded;
       FLibLoaded := True;
       Result     := True;
 
@@ -1320,8 +1295,14 @@ begin
     end
    else
     begin
-      Result := False;
-      OutputDebugMessage('TCefApplication.LoadCEFlibrary error: Unsupported CEF version !');
+      Result     := False;
+      FStatus    := asErrorDLLVersion;
+      TempString := 'Unsupported CEF version !' +
+                    CRLF + CRLF +
+                    'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
+                    CRLF + CEF4DELPHI_URL;
+
+      ShowErrorMessageDlg(TempString);
     end;
 
   if FSetCurrentDir then chdir(TempOldDir);

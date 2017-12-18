@@ -50,7 +50,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFSchemeRegistrar,
+  uCEFTypes, uCEFConstants;
 
 const
   MINIBROWSER_CONTEXTMENU_REGSCHEME    = MENU_ID_USER_FIRST + 1;
@@ -76,12 +77,15 @@ type
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   protected
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
   public
     { Public declarations }
   end;
@@ -89,12 +93,19 @@ type
 var
   SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm;
 
+procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+
 implementation
 
 {$R *.dfm}
 
 uses
-  uCEFSchemeHandlerFactory, uHelloScheme;
+  uCEFSchemeHandlerFactory, uCEFMiscFunctions, uHelloScheme;
+
+procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+begin
+  registrar.AddCustomScheme('hello', True, True, False, False, False, False);
+end;
 
 procedure TSchemeRegistrationBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
@@ -141,6 +152,12 @@ begin
   end;
 end;
 
+procedure TSchemeRegistrationBrowserFrm.FormCreate(Sender: TObject);
+begin
+  // You can register the Scheme Handler Factory here or later, for example in a context menu command.
+  CefRegisterSchemeHandlerFactory('hello', '', THelloScheme);
+end;
+
 procedure TSchemeRegistrationBrowserFrm.FormShow(Sender: TObject);
 begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
@@ -179,6 +196,20 @@ begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TSchemeRegistrationBrowserFrm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TSchemeRegistrationBrowserFrm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

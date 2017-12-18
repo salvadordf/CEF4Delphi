@@ -71,6 +71,8 @@ type
   protected
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
 
     procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
@@ -85,6 +87,9 @@ var
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFApplication;
 
 procedure TMainForm.HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
 var
@@ -193,6 +198,20 @@ begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TMainForm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TMainForm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

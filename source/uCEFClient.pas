@@ -117,23 +117,30 @@ type
       FDragHandler        : ICefDragHandler;
       FFindHandler        : ICefFindHandler;
 
-      function GetContextMenuHandler: ICefContextMenuHandler; override;
-      function GetDialogHandler: ICefDialogHandler; override;
-      function GetDisplayHandler: ICefDisplayHandler; override;
-      function GetDownloadHandler: ICefDownloadHandler; override;
-      function GetDragHandler: ICefDragHandler; override;
-      function GetFindHandler: ICefFindHandler; override;
-      function GetFocusHandler: ICefFocusHandler; override;
-      function GetGeolocationHandler: ICefGeolocationHandler; override;
-      function GetJsdialogHandler: ICefJsdialogHandler; override;
-      function GetKeyboardHandler: ICefKeyboardHandler; override;
-      function GetLifeSpanHandler: ICefLifeSpanHandler; override;
-      function GetRenderHandler: ICefRenderHandler; override;
-      function GetLoadHandler: ICefLoadHandler; override;
-      function GetRequestHandler: ICefRequestHandler; override;
-      function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; override;
+      function  GetContextMenuHandler: ICefContextMenuHandler; override;
+      function  GetDialogHandler: ICefDialogHandler; override;
+      function  GetDisplayHandler: ICefDisplayHandler; override;
+      function  GetDownloadHandler: ICefDownloadHandler; override;
+      function  GetDragHandler: ICefDragHandler; override;
+      function  GetFindHandler: ICefFindHandler; override;
+      function  GetFocusHandler: ICefFocusHandler; override;
+      function  GetGeolocationHandler: ICefGeolocationHandler; override;
+      function  GetJsdialogHandler: ICefJsdialogHandler; override;
+      function  GetKeyboardHandler: ICefKeyboardHandler; override;
+      function  GetLifeSpanHandler: ICefLifeSpanHandler; override;
+      function  GetRenderHandler: ICefRenderHandler; override;
+      function  GetLoadHandler: ICefLoadHandler; override;
+      function  GetRequestHandler: ICefRequestHandler; override;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; override;
+
+      procedure InitializeInterfaces;
+
     public
-      constructor Create(const events: IChromiumEvents; renderer: Boolean); reintroduce; virtual;
+      constructor Create(const events: IChromiumEvents;
+                         aCreateLoadHandler, aCreateFocusHandler, aCreateContextMenuHandler, aCreateDialogHandler,
+                         aCreateKeyboardHandler, aCreateDisplayHandler, aCreateDownloadHandler, aCreateGeolocationHandler,
+                         aCreateJsDialogHandler, aCreateLifeSpanHandler, aCreateRenderHandler, aCreateRequestHandler,
+                         aCreateDragHandler, aCreateFindHandler : boolean); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -152,7 +159,7 @@ uses
   uCEFFindHandler, uCEFConstants, uCEFApplication;
 
 
-  // ******************************************************
+// ******************************************************
 // ****************** TCefClientRef *********************
 // ******************************************************
 
@@ -441,33 +448,55 @@ end;
 // ******************************************************
 
 
-constructor TCustomClientHandler.Create(const events: IChromiumEvents; renderer: Boolean);
+constructor TCustomClientHandler.Create(const events                     : IChromiumEvents;
+                                              aCreateLoadHandler         : boolean;
+                                              aCreateFocusHandler        : boolean;
+                                              aCreateContextMenuHandler  : boolean;
+                                              aCreateDialogHandler       : boolean;
+                                              aCreateKeyboardHandler     : boolean;
+                                              aCreateDisplayHandler      : boolean;
+                                              aCreateDownloadHandler     : boolean;
+                                              aCreateGeolocationHandler  : boolean;
+                                              aCreateJsDialogHandler     : boolean;
+                                              aCreateLifeSpanHandler     : boolean;
+                                              aCreateRenderHandler       : boolean;
+                                              aCreateRequestHandler      : boolean;
+                                              aCreateDragHandler         : boolean;
+                                              aCreateFindHandler         : boolean);
 begin
   inherited Create;
 
-  FEvents             := events;
+  InitializeInterfaces;
 
-  FLoadHandler        := TCustomLoadHandler.Create(events);
-  FFocusHandler       := TCustomFocusHandler.Create(events);
-  FContextMenuHandler := TCustomContextMenuHandler.Create(events);
-  FDialogHandler      := TCustomDialogHandler.Create(events);
-  FKeyboardHandler    := TCustomKeyboardHandler.Create(events);
-  FDisplayHandler     := TCustomDisplayHandler.Create(events);
-  FDownloadHandler    := TCustomDownloadHandler.Create(events);
-  FGeolocationHandler := TCustomGeolocationHandler.Create(events);
-  FJsDialogHandler    := TCustomJsDialogHandler.Create(events);
-  FLifeSpanHandler    := TCustomLifeSpanHandler.Create(events);
-  FRequestHandler     := TCustomRequestHandler.Create(events);
-  FDragHandler        := TCustomDragHandler.Create(events);
-  FFindHandler        := TCustomFindHandler.Create(events);
+  FEvents := events;
 
-  if renderer then
-    FRenderHandler := TCustomRenderHandler.Create(events)
-   else
-    FRenderHandler := nil;
+  if (FEvents <> nil) then
+    begin
+      if aCreateLoadHandler        then FLoadHandler        := TCustomLoadHandler.Create(FEvents);
+      if aCreateFocusHandler       then FFocusHandler       := TCustomFocusHandler.Create(FEvents);
+      if aCreateContextMenuHandler then FContextMenuHandler := TCustomContextMenuHandler.Create(FEvents);
+      if aCreateDialogHandler      then FDialogHandler      := TCustomDialogHandler.Create(FEvents);
+      if aCreateKeyboardHandler    then FKeyboardHandler    := TCustomKeyboardHandler.Create(FEvents);
+      if aCreateDisplayHandler     then FDisplayHandler     := TCustomDisplayHandler.Create(FEvents);
+      if aCreateDownloadHandler    then FDownloadHandler    := TCustomDownloadHandler.Create(FEvents);
+      if aCreateGeolocationHandler then FGeolocationHandler := TCustomGeolocationHandler.Create(FEvents);
+      if aCreateJsDialogHandler    then FJsDialogHandler    := TCustomJsDialogHandler.Create(FEvents);
+      if aCreateLifeSpanHandler    then FLifeSpanHandler    := TCustomLifeSpanHandler.Create(FEvents);
+      if aCreateRenderHandler      then FRenderHandler      := TCustomRenderHandler.Create(FEvents);
+      if aCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(FEvents);
+      if aCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(FEvents);
+      if aCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(FEvents);
+    end;
 end;
 
 destructor TCustomClientHandler.Destroy;
+begin
+  InitializeInterfaces;
+
+  inherited Destroy;
+end;
+
+procedure TCustomClientHandler.InitializeInterfaces;
 begin
   FLoadHandler        := nil;
   FFocusHandler       := nil;
@@ -484,8 +513,6 @@ begin
   FDragHandler        := nil;
   FFindHandler        := nil;
   FEvents             := nil;
-
-  inherited Destroy;
 end;
 
 function TCustomClientHandler.GetContextMenuHandler: ICefContextMenuHandler;
@@ -560,7 +587,7 @@ end;
 
 function TCustomClientHandler.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean;
 begin
-  if Assigned(FEvents) then
+  if (FEvents <> nil) then
     Result := FEvents.doOnProcessMessageReceived(browser, sourceProcess, message)
    else
     Result := False;

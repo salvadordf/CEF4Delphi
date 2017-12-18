@@ -97,6 +97,8 @@ type
     procedure CEFInitializedMsg(var aMessage : TMessage); message CEFBROWSER_INITIALIZED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
     function  GetPageIndex(const aSender : TObject; var aPageIndex : integer) : boolean;
     procedure NotifyMoveOrResizeStarted;
@@ -412,6 +414,20 @@ begin
   inherited;
 
   NotifyMoveOrResizeStarted;
+end;
+
+procedure TMainForm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TMainForm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 procedure TMainForm.PageControl1Change(Sender: TObject);

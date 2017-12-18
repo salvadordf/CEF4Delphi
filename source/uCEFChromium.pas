@@ -124,6 +124,7 @@ type
 
       // ICefContextMenuHandler
       FOnBeforeContextMenu            : TOnBeforeContextMenu;
+      FOnRunContextMenu               : TOnRunContextMenu;
       FOnContextMenuCommand           : TOnContextMenuCommand;
       FOnContextMenuDismissed         : TOnContextMenuDismissed;
 
@@ -263,7 +264,6 @@ type
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
 
-      procedure GetSettings(var aSettings : TCefBrowserSettings);
       procedure GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : string);
 
       function  UpdateProxyPrefs : boolean;
@@ -282,6 +282,20 @@ type
       procedure HandleList(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
       procedure HandleInvalid(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
 
+      function  MustCreateLoadHandler : boolean; virtual;
+      function  MustCreateFocusHandler : boolean; virtual;
+      function  MustCreateContextMenuHandler : boolean; virtual;
+      function  MustCreateDialogHandler : boolean; virtual;
+      function  MustCreateKeyboardHandler : boolean; virtual;
+      function  MustCreateDisplayHandler : boolean; virtual;
+      function  MustCreateDownloadHandler : boolean; virtual;
+      function  MustCreateGeolocationHandler : boolean; virtual;
+      function  MustCreateJsDialogHandler : boolean; virtual;
+      function  MustCreateLifeSpanHandler : boolean; virtual;
+      function  MustCreateRequestHandler : boolean; virtual;
+      function  MustCreateDragHandler : boolean; virtual;
+      function  MustCreateFindHandler : boolean; virtual;
+
       procedure PrefsAvailableMsg(var aMessage : TMessage);
       function  GetParentForm : TCustomForm;
       procedure ApplyZoomStep;
@@ -294,6 +308,9 @@ type
       procedure DragDropManager_OnDragOver(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
       procedure DragDropManager_OnDragLeave(Sender: TObject);
       procedure DragDropManager_OnDrop(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+
+      // IChromiumEvents
+      procedure GetSettings(var aSettings : TCefBrowserSettings);
 
       // ICefClient
       function  doOnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean; virtual;
@@ -311,6 +328,7 @@ type
 
       // ICefContextMenuHandler
       procedure doOnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel); virtual;
+      function  doRunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): Boolean; virtual;
       function  doOnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags): Boolean; virtual;
       procedure doOnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame); virtual;
 
@@ -574,6 +592,7 @@ type
 
       // ICefContextMenuHandler
       property OnBeforeContextMenu              : TOnBeforeContextMenu              read FOnBeforeContextMenu              write FOnBeforeContextMenu;
+      property OnRunContextMenu                 : TOnRunContextMenu                 read FOnRunContextMenu                 write FOnRunContextMenu;
       property OnContextMenuCommand             : TOnContextMenuCommand             read FOnContextMenuCommand             write FOnContextMenuCommand;
       property OnContextMenuDismissed           : TOnContextMenuDismissed           read FOnContextMenuDismissed           write FOnContextMenuDismissed;
 
@@ -785,7 +804,22 @@ begin
     if (FHandler = nil) then
       begin
         FIsOSR   := aIsOsr;
-        FHandler := TCustomClientHandler.Create(Self, FIsOSR);
+        FHandler := TCustomClientHandler.Create(Self,
+                                                MustCreateLoadHandler,
+                                                MustCreateFocusHandler,
+                                                MustCreateContextMenuHandler,
+                                                MustCreateDialogHandler,
+                                                MustCreateKeyboardHandler,
+                                                MustCreateDisplayHandler,
+                                                MustCreateDownloadHandler,
+                                                MustCreateGeolocationHandler,
+                                                MustCreateJsDialogHandler,
+                                                MustCreateLifeSpanHandler,
+                                                FIsOSR, // Create the Render Handler in OSR mode only
+                                                MustCreateRequestHandler,
+                                                MustCreateDragHandler,
+                                                MustCreateFindHandler);
+
         Result   := True;
       end;
   except
@@ -823,6 +857,7 @@ begin
 
   // ICefContextMenuHandler
   FOnBeforeContextMenu            := nil;
+  FOnRunContextMenu               := nil;
   FOnContextMenuCommand           := nil;
   FOnContextMenuDismissed         := nil;
 
@@ -2040,7 +2075,7 @@ begin
 
       if (TempHWND <> 0) then
         begin
-          Winapi.Windows.GetClientRect(TempHWND, TempRect);
+          {$IFDEF DELPHI16_UP}Winapi.{$ENDIF}Windows.GetClientRect(TempHWND, TempRect);
 
           TempDC     := GetDC(TempHWND);
           TempWidth  := TempRect.Right  - TempRect.Left;
@@ -2520,6 +2555,111 @@ begin
   if assigned(FOnResolvedHostAvailable) then FOnResolvedHostAvailable(self, result, resolvedIps);
 end;
 
+function TChromium.MustCreateLoadHandler : boolean;
+begin
+  Result := assigned(FOnLoadStart) or
+            assigned(FOnLoadEnd)   or
+            assigned(FOnLoadError) or
+            assigned(FOnLoadingStateChange);
+end;
+
+function TChromium.MustCreateFocusHandler : boolean;
+begin
+  Result := assigned(FOnTakeFocus) or
+            assigned(FOnSetFocus)  or
+            assigned(FOnGotFocus);
+end;
+
+function TChromium.MustCreateContextMenuHandler : boolean;
+begin
+  Result := assigned(FOnBeforeContextMenu)  or
+            assigned(FOnRunContextMenu)     or
+            assigned(FOnContextMenuCommand) or
+            assigned(FOnContextMenuDismissed);
+end;
+
+function TChromium.MustCreateDialogHandler : boolean;
+begin
+  Result := assigned(FOnFileDialog);
+end;
+
+function TChromium.MustCreateKeyboardHandler : boolean;
+begin
+  Result := assigned(FOnPreKeyEvent) or
+            assigned(FOnKeyEvent);
+end;
+
+function TChromium.MustCreateDisplayHandler : boolean;
+begin
+  Result := assigned(FOnAddressChange)        or
+            assigned(FOnTitleChange)          or
+            assigned(FOnFavIconUrlChange)     or
+            assigned(FOnFullScreenModeChange) or
+            assigned(FOnTooltip)              or
+            assigned(FOnStatusMessage)        or
+            assigned(FOnConsoleMessage)       or
+            assigned(FOnAutoResize);
+end;
+
+function TChromium.MustCreateDownloadHandler : boolean;
+begin
+  Result := assigned(FOnBeforeDownload) or
+            assigned(FOnDownloadUpdated);
+end;
+
+function TChromium.MustCreateGeolocationHandler : boolean;
+begin
+  Result := assigned(FOnRequestGeolocationPermission) or
+            assigned(FOnCancelGeolocationPermission);
+end;
+
+function TChromium.MustCreateJsDialogHandler : boolean;
+begin
+  Result := assigned(FOnJsdialog)           or
+            assigned(FOnBeforeUnloadDialog) or
+            assigned(FOnResetDialogState)   or
+            assigned(FOnDialogClosed);
+end;
+
+function TChromium.MustCreateLifeSpanHandler : boolean;
+begin
+  Result := assigned(FOnBeforePopup)  or
+            assigned(FOnAfterCreated) or
+            assigned(FOnBeforeClose)  or
+            assigned(FOnClose);
+end;
+
+function TChromium.MustCreateRequestHandler : boolean;
+begin
+  Result := assigned(FOnBeforeBrowse)              or
+            assigned(FOnOpenUrlFromTab)            or
+            assigned(FOnBeforeResourceLoad)        or
+            assigned(FOnGetResourceHandler)        or
+            assigned(FOnResourceRedirect)          or
+            assigned(FOnResourceResponse)          or
+            assigned(FOnGetResourceResponseFilter) or
+            assigned(FOnResourceLoadComplete)      or
+            assigned(FOnGetAuthCredentials)        or
+            assigned(FOnQuotaRequest)              or
+            assigned(FOnProtocolExecution)         or
+            assigned(FOnCertificateError)          or
+            assigned(FOnSelectClientCertificate)   or
+            assigned(FOnPluginCrashed)             or
+            assigned(FOnRenderViewReady)           or
+            assigned(FOnRenderProcessTerminated);
+end;
+
+function TChromium.MustCreateDragHandler : boolean;
+begin
+  Result := assigned(FOnDragEnter) or
+            assigned(FOnDraggableRegionsChanged);
+end;
+
+function TChromium.MustCreateFindHandler : boolean;
+begin
+  Result := assigned(FOnFindResult);
+end;
+
 procedure TChromium.PrefsAvailableMsg(var aMessage : TMessage);
 begin
   if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self, (aMessage.WParam <> 0));
@@ -2676,6 +2816,17 @@ procedure TChromium.doOnBeforeContextMenu(const browser : ICefBrowser;
                                           const model   : ICefMenuModel);
 begin
   if Assigned(FOnBeforeContextMenu) then FOnBeforeContextMenu(Self, browser, frame, params, model);
+end;
+
+function TChromium.doRunContextMenu(const browser  : ICefBrowser;
+                                    const frame    : ICefFrame;
+                                    const params   : ICefContextMenuParams;
+                                    const model    : ICefMenuModel;
+                                    const callback : ICefRunContextMenuCallback): Boolean;
+begin
+  Result := False;
+
+  if Assigned(FOnRunContextMenu) then FOnRunContextMenu(Self, browser, frame, params, model, callback, Result);
 end;
 
 procedure TChromium.doOnBeforeDownload(const browser       : ICefBrowser;
@@ -2949,9 +3100,13 @@ begin
   if not(Initialized) then
     suppressMessage := True
    else
-    if Assigned(FOnJsdialog) then
-      FOnJsdialog(Self, browser, originUrl, dialogType, messageText,
-                  defaultPromptText, callback, suppressMessage, Result);
+    begin
+      suppressMessage := False;
+
+      if Assigned(FOnJsdialog) then
+        FOnJsdialog(Self, browser, originUrl, dialogType, messageText,
+                    defaultPromptText, callback, suppressMessage, Result);
+    end;
 end;
 
 function TChromium.doOnKeyEvent(const browser : ICefBrowser;

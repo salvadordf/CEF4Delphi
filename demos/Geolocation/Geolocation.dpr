@@ -41,55 +41,24 @@ program Geolocation;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
   Vcl.Forms,
+  WinApi.Windows,
   {$ELSE}
   Forms,
   Windows,
   {$ENDIF }
   uCEFApplication,
-  uCEFMiscFunctions,
-  uCEFTypes,
   uGeolocation in 'uGeolocation.pas' {GeolocationFrm};
 
 {$R *.res}
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
-
-procedure GeoLocationUpdate(const position: PCefGeoposition);
 begin
-  GlobalPosition.latitude          := position.latitude;
-  GlobalPosition.longitude         := position.longitude;
-  GlobalPosition.altitude          := position.altitude;
-  GlobalPosition.accuracy          := position.accuracy;
-  GlobalPosition.altitude_accuracy := position.altitude_accuracy;
-  GlobalPosition.heading           := position.heading;
-  GlobalPosition.speed             := position.speed;
-  GlobalPosition.timestamp         := position.timestamp;
-  GlobalPosition.error_code        := position.error_code;
-  GlobalPosition.error_message     := position.error_message;
+  GlobalCEFApp := TCefApplication.Create;
 
-  PostMessage(Application.MainForm.Handle, MINIBROWSER_NEWLOCATION, 0, 0);
-end;
-
-begin
-  GlobalCEFApp                      := TCefApplication.Create;
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
   if GlobalCEFApp.StartMainProcess then
     begin
-      CefGetGeolocation(GeoLocationUpdate);
-
       Application.Initialize;
       {$IFDEF DELPHI11_UP}
       Application.MainFormOnTaskbar := True;

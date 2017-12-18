@@ -600,6 +600,7 @@ begin
   if not(FClosing) then
     begin
       FClosing              := True;
+      Visible               := False;
       NavControlPnl.Enabled := False;
       chrmosr.CloseBrowser(True);
     end;

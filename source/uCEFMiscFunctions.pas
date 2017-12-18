@@ -138,11 +138,12 @@ function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersion
 
 function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
-function CheckLocales(const aLocalesDirPath : string; const aLocalesRequired : string = '') : boolean;
-function CheckResources(const aResourcesDirPath : string; aCheckDevResources: boolean = True) : boolean;
-function CheckDLLs(const aFrameworkDirPath : string) : boolean;
+function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True) : boolean;
+function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
+function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
 
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 function  CefCreateUrl(var parts: TUrlParts): ustring;
@@ -604,42 +605,26 @@ begin
     end;
 end;
 
-function CheckLocaleFile(const aLocalesDirPath, aLocale : string) : boolean;
+function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
 begin
-  Result := FileExists(aLocalesDirPath + aLocale + '.pak');
+  Result := True;
+
+  if (length(aSrcPath) > 0) then
+    begin
+      aRsltPath := IncludeTrailingPathDelimiter(aSrcPath);
+
+      if DirectoryExists(aSrcPath) then
+        begin
+          if CustomPathIsRelative(aRsltPath) then aRsltPath := GetModulePath + aRsltPath;
+        end
+       else
+        Result := False;
+    end
+   else
+    aRsltPath := '';
 end;
 
-function CheckLocaleFiles(const aLocalesDirPath, aLocalesRequired : string) : boolean;
-var
-  TempLocaleList : TStrings;
-  TempLocale     : string;
-  i, j           : integer;
-begin
-  Result         := True;
-  TempLocaleList := TStringList.Create;
-
-  try
-    TempLocaleList.CommaText := aLocalesRequired;
-
-    i := 0;
-    j := TempLocaleList.Count;
-
-    while (i < j) and Result do
-      begin
-        TempLocale := trim(TempLocaleList[i]);
-
-        // avoid typing mistakes
-        if (Length(TempLocale) > 0) then
-          Result := Result and CheckLocaleFile(aLocalesDirPath, TempLocale);
-
-        inc(i);
-      end;
-  finally
-    FreeAndNil(TempLocaleList);
-  end;
-end;
-
-function CheckLocales(const aLocalesDirPath, aLocalesRequired : string) : boolean;
+function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string) : boolean;
 const
   LOCALES_REQUIRED_DEFAULT =
     'am,' +
@@ -696,97 +681,149 @@ const
     'zh-CN,' +
     'zh-TW';
 var
-  TempDir             : string;
-  TempLocalesRequired : string;
+  i        : integer;
+  TempDir  : string;
+  TempList : TStringList;
+begin
+  Result   := False;
+  TempList := nil;
+
+  try
+    try
+      if (length(aLocalesDirPath) > 0) then
+        TempDir := IncludeTrailingPathDelimiter(aLocalesDirPath)
+       else
+        TempDir := 'locales\';
+
+      TempList := TStringList.Create;
+
+      if (length(aLocalesRequired) > 0) then
+        TempList.CommaText := aLocalesRequired
+       else
+        TempList.CommaText := LOCALES_REQUIRED_DEFAULT;
+
+      i := 0;
+      while (i < TempList.Count) do
+        begin
+          TempList[i] := TempDir + TempList[i] + '.pak';
+          inc(i);
+        end;
+
+      if DirectoryExists(TempDir) then
+        Result := CheckFilesExist(TempList, aMissingFiles)
+       else
+        aMissingFiles := trim(aMissingFiles) + CRLF + TempList.Text;
+    except
+      on e : exception do
+        if CustomExceptionHandler('CheckLocales', e) then raise;
+    end;
+  finally
+    if (TempList <> nil) then FreeAndNil(TempList);
+  end;
+end;
+
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean) : boolean;
+var
+  TempDir    : string;
+  TempList   : TStringList;
+  TempExists : boolean;
 begin
   Result := False;
 
   try
-    if (length(aLocalesDirPath) > 0) then
-      TempDir := aLocalesDirPath
-     else
-      TempDir := 'locales';
+    try
+      TempExists := GetAbsoluteDirPath(aResourcesDirPath, TempDir);
 
-    if DirectoryExists(TempDir) then
-      begin
-        TempDir := IncludeTrailingPathDelimiter(TempDir);
+      TempList := TStringList.Create;
+      TempList.Add(TempDir + 'natives_blob.bin');
+      TempList.Add(TempDir + 'snapshot_blob.bin');
+      TempList.Add(TempDir + 'v8_context_snapshot.bin');
+      TempList.Add(TempDir + 'cef.pak');
+      TempList.Add(TempDir + 'cef_100_percent.pak');
+      TempList.Add(TempDir + 'cef_200_percent.pak');
+      TempList.Add(TempDir + 'cef_extensions.pak');
 
-        if (length(aLocalesRequired) > 0) then
-          TempLocalesRequired := aLocalesRequired
-         else
-          TempLocalesRequired := LOCALES_REQUIRED_DEFAULT;
+      if aCheckDevResources then TempList.Add(TempDir + 'devtools_resources.pak');
 
-        Result := CheckLocaleFiles(TempDir, TempLocalesRequired);
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('CheckLocales', e) then raise;
+      if TempExists then
+        Result := CheckFilesExist(TempList, aMissingFiles)
+       else
+        aMissingFiles := trim(aMissingFiles) + CRLF + TempList.Text;
+    except
+      on e : exception do
+        if CustomExceptionHandler('CheckResources', e) then raise;
+    end;
+  finally
+    if (TempList <> nil) then FreeAndNil(TempList);
   end;
 end;
 
-function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
+function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
+var
+  TempDir    : string;
+  TempList   : TStringList;
+  TempExists : boolean;
+begin
+  Result   := False;
+  TempList := nil;
+
+  try
+    try
+      TempExists := GetAbsoluteDirPath(aFrameworkDirPath, TempDir);
+
+      // The icudtl.dat file must be placed next to libcef.dll
+      // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=14503#p32263
+
+      TempList := TStringList.Create;
+      TempList.Add(TempDir + CHROMEELF_DLL);
+      TempList.Add(TempDir + LIBCEF_DLL);
+      TempList.Add(TempDir + 'd3dcompiler_43.dll');
+      TempList.Add(TempDir + 'd3dcompiler_47.dll');
+      TempList.Add(TempDir + 'libEGL.dll');
+      TempList.Add(TempDir + 'libGLESv2.dll');
+      TempList.Add(TempDir + 'swiftshader\libEGL.dll');
+      TempList.Add(TempDir + 'swiftshader\libGLESv2.dll');
+      TempList.Add(TempDir + 'icudtl.dat');
+      TempList.Add(TempDir + 'widevinecdmadapter.dll');
+
+      if TempExists then
+        Result := CheckFilesExist(TempList, aMissingFiles)
+       else
+        aMissingFiles := trim(aMissingFiles) + CRLF + TempList.Text;
+    except
+      on e : exception do
+        if CustomExceptionHandler('CheckDLLs', e) then raise;
+    end;
+  finally
+    if (TempList <> nil) then FreeAndNil(TempList);
+  end;
+end;
+
+function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
+var
+  i : integer;
 begin
   Result := True;
 
-  if (length(aSrcPath) > 0) then
-    begin
-      if DirectoryExists(aSrcPath) then
-        begin
-          aRsltPath := IncludeTrailingPathDelimiter(aSrcPath);
-          if CustomPathIsRelative(aRsltPath) then aRsltPath := GetModulePath + aRsltPath;
-        end
-       else
-        Result := False;
-    end
-   else
-    aRsltPath := '';
-end;
-
-function CheckResources(const aResourcesDirPath : string; aCheckDevResources: boolean) : boolean;
-var
-  TempDir : string;
-begin
-  Result := False;
-
   try
-    Result := GetAbsoluteDirPath(aResourcesDirPath, TempDir)  and
-              FileExists(TempDir + 'natives_blob.bin')        and
-              FileExists(TempDir + 'snapshot_blob.bin')       and
-              FileExists(TempDir + 'v8_context_snapshot.bin') and
-              FileExists(TempDir + 'cef.pak')                 and
-              FileExists(TempDir + 'cef_100_percent.pak')     and
-              FileExists(TempDir + 'cef_200_percent.pak')     and
-              FileExists(TempDir + 'cef_extensions.pak')      and
-              (not(aCheckDevResources) or FileExists(TempDir + 'devtools_resources.pak'));
+    if (aList <> nil) then
+      begin
+        i := 0;
+
+        while (i < aList.Count) do
+          begin
+            if (length(aList[i]) > 0) and not(FileExists(aList[i])) then
+              begin
+                Result        := False;
+                aMissingFiles := aMissingFiles + aList[i] + CRLF;
+              end;
+
+            inc(i);
+          end;
+      end;
   except
     on e : exception do
-      if CustomExceptionHandler('CheckResources', e) then raise;
-  end;
-end;
-
-function CheckDLLs(const aFrameworkDirPath : string) : boolean;
-var
-  TempDir : string;
-begin
-  Result := False;
-
-  try
-    // The icudtl.dat file must be placed next to libcef.dll
-    // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=14503#p32263
-    Result := GetAbsoluteDirPath(aFrameworkDirPath, TempDir)    and
-              FileExists(TempDir + CHROMEELF_DLL)               and
-              FileExists(TempDir + LIBCEF_DLL)                  and
-              FileExists(TempDir + 'd3dcompiler_43.dll')        and
-              FileExists(TempDir + 'd3dcompiler_47.dll')        and
-              FileExists(TempDir + 'libEGL.dll')                and
-              FileExists(TempDir + 'libGLESv2.dll')             and
-              FileExists(TempDir + 'swiftshader\libEGL.dll')    and
-              FileExists(TempDir + 'swiftshader\libGLESv2.dll') and
-              FileExists(TempDir + 'icudtl.dat')                and
-              FileExists(TempDir + 'widevinecdmadapter.dll');
-  except
-    on e : exception do
-      if CustomExceptionHandler('CheckDLLs', e) then raise;
+      if CustomExceptionHandler('CheckFilesExist', e) then raise;
   end;
 end;
 

@@ -50,6 +50,8 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFChromiumEvents;
 
 type
+  TOnAccessibilityEvent = procedure(Sender: TObject; const value: ICefValue) of object;
+
   TCEFAccessibilityHandlerOwn = class(TCefBaseRefCountedOwn, ICefAccessibilityHandler)
     protected
       procedure OnAccessibilityTreeChange(const value: ICefValue); virtual;

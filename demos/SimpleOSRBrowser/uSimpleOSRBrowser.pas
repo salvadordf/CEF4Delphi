@@ -115,6 +115,8 @@ type
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMCaptureChanged(var aMessage : TMessage); message WM_CAPTURECHANGED;
     procedure WMCancelMode(var aMessage : TMessage); message WM_CANCELMODE;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
 
@@ -548,6 +550,20 @@ begin
   inherited;
 
   if (chrmosr <> nil) then chrmosr.SendCaptureLostEvent;
+end;
+
+procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TForm1.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);

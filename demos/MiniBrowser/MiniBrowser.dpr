@@ -54,32 +54,10 @@ uses
 
 {$R *.res}
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp                      := TCefApplication.Create;
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
-  GlobalCEFApp.DisableGPUCache      := True;      // Disable the creation of a 'GPUCache' directory in the hard drive.
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
-
-  // Examples of command line switches.
-  // **********************************
-  //
-  // Uncomment the following line to see an FPS counter in the browser.
-  //GlobalCEFApp.AddCustomCommandLine('--show-fps-counter');
-  //
-  // Uncomment the following line to change the user agent string.
-  //GlobalCEFApp.AddCustomCommandLine('--user-agent', 'MiniBrowser');
+  GlobalCEFApp := TCefApplication.Create;
 
   if GlobalCEFApp.StartMainProcess then
     begin

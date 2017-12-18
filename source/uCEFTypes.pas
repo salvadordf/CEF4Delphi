@@ -289,6 +289,16 @@ type
 
   TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptOther);
 
+  TCefAplicationStatus = (asLoading,
+                          asLoaded,
+                          asInitialized,
+                          asUnloaded,
+                          asErrorMissingFiles,
+                          asErrorDLLVersion,
+                          asErrorLoadingLibrary,
+                          asErrorInitializingLibrary,
+                          asErrorExecutingProcess);
+
   TCefWebRTCHandlingPolicy = (
     hpDefault,
     hpDefaultPublicAndPrivateInterfaces,

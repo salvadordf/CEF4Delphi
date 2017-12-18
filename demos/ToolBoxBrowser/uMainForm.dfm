@@ -28,10 +28,6 @@ object MainForm: TMainForm
     Enabled = False
     ShowCaption = False
     TabOrder = 0
-    ExplicitLeft = 136
-    ExplicitTop = 8
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Edit1: TEdit
       Left = 8
       Top = 8

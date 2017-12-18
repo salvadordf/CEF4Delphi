@@ -85,6 +85,8 @@ type
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEFBROWSER_DESTROY;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
     procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
     procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
@@ -97,6 +99,9 @@ type
 implementation
 
 {$R *.dfm}
+
+uses
+  uCEFApplication;
 
 // Destruction steps
 // =================
@@ -234,6 +239,20 @@ begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TChildForm.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TChildForm.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 procedure TChildForm.BrowserCreatedMsg(var aMessage : TMessage);

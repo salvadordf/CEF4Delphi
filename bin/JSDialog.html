@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>The following button shows an alert box.</p>
+<button onclick="myAlertFunction()">Click me</button>
+<br>
+
+<p>The following button shows an confirm box.</p>
+<button onclick="myConfirmFunction()">Click me</button>
+<br>
+
+<p>The following button shows an Prompt box.</p>
+<button onclick="myPromptFunction()">Click me</button>
+<br>
+
+<p id="demo"></p>
+
+<script>
+function myAlertFunction() {
+    alert('Custom dialog for JS Alert functions');
+}
+function myConfirmFunction() {
+    confirm("Press a button!");
+}
+function myPromptFunction() {
+    var person = prompt("Please enter your name", "Harry Potter");
+    if (person != null) {
+        document.getElementById("demo").innerHTML =
+        "Hello " + person + "! How are you today?";
+    }
+}
+</script>
+
+</body>
+</html>

@@ -83,8 +83,9 @@ begin
       Application.CreateForm(TOSRExternalPumpBrowserFrm, OSRExternalPumpBrowserFrm);
       Application.Run;
 
-      // Unlike the ExternalPumpBrowser, in OSR mode we don't need to destroy the
-      // form before stopping the scheduler.
+      // The form needs to be destroyed *BEFORE* stopping the scheduler.
+      OSRExternalPumpBrowserFrm.Free;
+
       GlobalCEFWorkScheduler.StopScheduler;
     end;
 
