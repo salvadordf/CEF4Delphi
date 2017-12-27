@@ -53,6 +53,7 @@ type
   TCefDeleteCookiesCallbackOwn = class(TCefBaseRefCountedOwn, ICefDeleteCookiesCallback)
     protected
       procedure OnComplete(numDeleted: Integer); virtual; abstract;
+      procedure InitializeVars; virtual; abstract;
 
     public
       constructor Create; virtual;
@@ -66,6 +67,8 @@ type
 
     public
       constructor Create(const callback: TCefDeleteCookiesCallbackProc); reintroduce;
+      destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
   TCefCustomDeleteCookiesCallback = class(TCefDeleteCookiesCallbackOwn)
@@ -76,6 +79,8 @@ type
 
     public
       constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
 implementation
@@ -108,7 +113,19 @@ end;
 
 procedure TCefFastDeleteCookiesCallback.OnComplete(numDeleted: Integer);
 begin
-  FCallback(numDeleted)
+  if assigned(FCallback) then FCallback(numDeleted)
+end;
+
+destructor TCefFastDeleteCookiesCallback.Destroy;
+begin
+  InitializeVars;
+
+  inherited Destroy;
+end;
+
+procedure TCefFastDeleteCookiesCallback.InitializeVars;
+begin
+  FCallback := nil;
 end;
 
 // TCefCustomDeleteCookiesCallback
@@ -118,6 +135,18 @@ begin
   inherited Create;
 
   FChromiumBrowser := aChromiumBrowser;
+end;
+
+destructor TCefCustomDeleteCookiesCallback.Destroy;
+begin
+  InitializeVars;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomDeleteCookiesCallback.InitializeVars;
+begin
+  FChromiumBrowser := nil;
 end;
 
 procedure TCefCustomDeleteCookiesCallback.OnComplete(numDeleted: Integer);

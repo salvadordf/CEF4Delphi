@@ -106,7 +106,8 @@ uses
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
-  if (MainForm <> nil) then PostMessage(MainForm.Handle, CEFBROWSER_INITIALIZED, 0, 0);
+  if (MainForm <> nil) and MainForm.HandleAllocated then
+    PostMessage(MainForm.Handle, CEFBROWSER_INITIALIZED, 0, 0);
 end;
 
 procedure TMainForm.CreateMDIChild(const Name: string);

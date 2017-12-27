@@ -73,6 +73,8 @@ type
       function GetRequestHandler: ICefRequestHandler; virtual;
       function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; virtual;
 
+      procedure InitializeVars; virtual;
+
     public
       class function UnWrap(data: Pointer): ICefClient;
   end;
@@ -94,6 +96,8 @@ type
       function GetLoadHandler: ICefLoadHandler; virtual;
       function GetRequestHandler: ICefRequestHandler; virtual;
       function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; virtual;
+
+      procedure InitializeVars; virtual;
 
     public
       constructor Create; virtual;
@@ -133,8 +137,6 @@ type
       function  GetRequestHandler: ICefRequestHandler; override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; override;
 
-      procedure InitializeInterfaces;
-
     public
       constructor Create(const events: IChromiumEvents;
                          aCreateLoadHandler, aCreateFocusHandler, aCreateContextMenuHandler, aCreateDialogHandler,
@@ -142,6 +144,7 @@ type
                          aCreateJsDialogHandler, aCreateLifeSpanHandler, aCreateRenderHandler, aCreateRequestHandler,
                          aCreateDragHandler, aCreateFindHandler : boolean); reintroduce; virtual;
       destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
 implementation
@@ -244,6 +247,11 @@ end;
 function TCefClientRef.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean;
 begin
   Result := False;
+end;
+
+procedure TCefClientRef.InitializeVars;
+begin
+  //
 end;
 
 
@@ -442,6 +450,11 @@ begin
   Result := False;
 end;
 
+procedure TCefClientOwn.InitializeVars;
+begin
+  //
+end;
+
 
 // ******************************************************
 // *************** TCustomClientHandler *****************
@@ -466,7 +479,7 @@ constructor TCustomClientHandler.Create(const events                     : IChro
 begin
   inherited Create;
 
-  InitializeInterfaces;
+  InitializeVars;
 
   FEvents := events;
 
@@ -491,12 +504,12 @@ end;
 
 destructor TCustomClientHandler.Destroy;
 begin
-  InitializeInterfaces;
+  InitializeVars;
 
   inherited Destroy;
 end;
 
-procedure TCustomClientHandler.InitializeInterfaces;
+procedure TCustomClientHandler.InitializeVars;
 begin
   FLoadHandler        := nil;
   FFocusHandler       := nil;

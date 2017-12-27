@@ -69,6 +69,9 @@ type
       procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); virtual; abstract;
       procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode); virtual; abstract;
       function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean; virtual;
+
+      procedure InitializeVars; virtual; abstract;
+
     public
       constructor Create; virtual;
   end;
@@ -91,6 +94,7 @@ type
     public
       constructor Create(const aCefApp : TCefApplication); reintroduce;
       destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
 implementation
@@ -313,9 +317,14 @@ end;
 
 destructor TCefCustomRenderProcessHandler.Destroy;
 begin
-  FCefApp := nil;
+  InitializeVars;
 
   inherited Destroy;
+end;
+
+procedure TCefCustomRenderProcessHandler.InitializeVars;
+begin
+  FCefApp := nil;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnRenderThreadCreated(const extraInfo: ICefListValue);

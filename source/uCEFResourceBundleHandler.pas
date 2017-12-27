@@ -56,6 +56,8 @@ type
       function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean; virtual; abstract;
       function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean; virtual; abstract;
 
+      procedure InitializeVars; virtual; abstract;
+
     public
       constructor Create; virtual;
   end;
@@ -71,6 +73,7 @@ type
     public
       constructor Create(const aCefApp : TCefApplication); reintroduce;
       destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
 implementation
@@ -154,9 +157,14 @@ end;
 
 destructor TCefCustomResourceBundleHandler.Destroy;
 begin
-  FCefApp := nil;
+  InitializeVars;
 
   inherited Destroy;
+end;
+
+procedure TCefCustomResourceBundleHandler.InitializeVars;
+begin
+  FCefApp := nil;
 end;
 
 function TCefCustomResourceBundleHandler.GetLocalizedString(stringid : Integer;

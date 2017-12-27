@@ -53,12 +53,13 @@ type
   TCefStringVisitorOwn = class(TCefBaseRefCountedOwn, ICefStringVisitor)
     protected
       procedure Visit(const str: ustring); virtual;
+      procedure InitializeVars; virtual;
 
     public
       constructor Create; virtual;
   end;
 
-  TCefFastStringVisitor = class(TCefStringVisitorOwn, ICefStringVisitor)
+  TCefFastStringVisitor = class(TCefStringVisitorOwn)
     protected
       FVisit: TCefStringVisitorProc;
 
@@ -76,6 +77,8 @@ type
 
     public
       constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
 implementation
@@ -102,6 +105,11 @@ begin
   //
 end;
 
+procedure TCefStringVisitorOwn.InitializeVars;
+begin
+  //
+end;
+
 // TCefFastStringVisitor
 
 constructor TCefFastStringVisitor.Create(const callback: TCefStringVisitorProc);
@@ -123,6 +131,18 @@ begin
   inherited Create;
 
   FChromiumBrowser := aChromiumBrowser;
+end;
+
+destructor TCustomCefStringVisitor.Destroy;
+begin
+  InitializeVars;
+
+  inherited Destroy;
+end;
+
+procedure TCustomCefStringVisitor.InitializeVars;
+begin
+  FChromiumBrowser := nil;
 end;
 
 procedure TCustomCefStringVisitor.Visit(const str: ustring);

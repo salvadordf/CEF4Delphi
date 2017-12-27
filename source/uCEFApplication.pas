@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3239;
-  CEF_SUPPORTED_VERSION_RELEASE = 1709;
+  CEF_SUPPORTED_VERSION_RELEASE = 1710;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 63;
@@ -230,6 +230,7 @@ type
       function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
+      procedure RemoveAppReferences;
       procedure CreateAppHandlers;
 
     public
@@ -496,6 +497,8 @@ destructor TCefApplication.Destroy;
 begin
   if FMustShutDown then ShutDown;
 
+  RemoveAppReferences;
+
   if (FLibHandle <> 0) then
     begin
       FreeLibrary(FLibHandle);
@@ -509,6 +512,18 @@ begin
   if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
 
   inherited Destroy;
+end;
+
+procedure TCefApplication.RemoveAppReferences;
+begin
+  try
+    if (FResourceBundleHandler <> nil) then FResourceBundleHandler.InitializeVars;
+    if (FBrowserProcessHandler <> nil) then FBrowserProcessHandler.InitializeVars;
+    if (FRenderProcessHandler  <> nil) then FRenderProcessHandler.InitializeVars;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplication.RemoveAppReferences', e) then raise;
+  end;
 end;
 
 procedure TCefApplication.AfterConstruction;

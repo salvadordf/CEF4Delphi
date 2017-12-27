@@ -58,6 +58,8 @@ type
   TCefResolveCallbackOwn = class(TCefBaseRefCountedOwn, ICefResolveCallback)
     protected
       procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings); virtual; abstract;
+      procedure InitializeVars; virtual; abstract;
+
     public
       constructor Create; virtual;
   end;
@@ -69,6 +71,8 @@ type
 
     public
       constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
 implementation
@@ -127,6 +131,18 @@ begin
   inherited Create;
 
   FChromiumBrowser := aChromiumBrowser;
+end;
+
+destructor TCefCustomResolveCallback.Destroy;
+begin
+  InitializeVars;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomResolveCallback.InitializeVars;
+begin
+  FChromiumBrowser := nil;
 end;
 
 procedure TCefCustomResolveCallback.OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings);

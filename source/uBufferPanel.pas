@@ -57,15 +57,20 @@ type
       FBuffer         : TBitmap;
       FScanlineSize   : integer;
 
+      procedure CreateBufferMutex;
+
+      procedure DestroyBufferMutex;
+      procedure DestroyBuffer;
+
       function  GetBufferBits : pointer;
       function  GetBufferWidth : integer;
       function  GetBufferHeight : integer;
 
-      function  CopyBuffer(aDC : HDC; const aRect : TRect) : boolean;
+      function  CopyBuffer : boolean;
       function  SaveBufferToFile(const aFilename : string) : boolean;
-      procedure DestroyBuffer;
 
-      procedure WMPaint(var aMessage: TWMPaint); message WM_PAINT;
+      procedure Paint; override;
+
       procedure WMEraseBkgnd(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;
 
     public
@@ -73,7 +78,7 @@ type
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       function    SaveToFile(const aFilename : string) : boolean;
-      procedure   InvalidatePanel;
+      function    InvalidatePanel : boolean;
       function    BeginBufferDraw : boolean;
       procedure   EndBufferDraw;
       procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap);
@@ -187,12 +192,7 @@ end;
 destructor TBufferPanel.Destroy;
 begin
   DestroyBuffer;
-
-  if (FMutex <> 0) then
-    begin
-      CloseHandle(FMutex);
-      FMutex := 0;
-    end;
+  DestroyBufferMutex;
 
   inherited Destroy;
 end;
@@ -201,7 +201,21 @@ procedure TBufferPanel.AfterConstruction;
 begin
   inherited AfterConstruction;
 
+  CreateBufferMutex;
+end;
+
+procedure TBufferPanel.CreateBufferMutex;
+begin
   FMutex := CreateMutex(nil, False, nil);
+end;
+
+procedure TBufferPanel.DestroyBufferMutex;
+begin
+  if (FMutex <> 0) then
+    begin
+      CloseHandle(FMutex);
+      FMutex := 0;
+    end;
 end;
 
 procedure TBufferPanel.DestroyBuffer;
@@ -231,18 +245,18 @@ end;
 
 function TBufferPanel.SaveToFile(const aFilename : string) : boolean;
 begin
+  Result := False;
+
   if BeginBufferDraw then
     begin
       Result := SaveBufferToFile(aFilename);
       EndBufferDraw;
-    end
-   else
-    Result := False;
+    end;
 end;
 
-procedure TBufferPanel.InvalidatePanel;
+function TBufferPanel.InvalidatePanel : boolean;
 begin
-  PostMessage(Handle, CM_INVALIDATE, 0, 0);
+  Result := HandleAllocated and PostMessage(Handle, CM_INVALIDATE, 0, 0);
 end;
 
 function TBufferPanel.BeginBufferDraw : boolean;
@@ -255,50 +269,39 @@ begin
   if (FMutex <> 0) then ReleaseMutex(FMutex);
 end;
 
-function TBufferPanel.CopyBuffer(aDC : HDC; const aRect : TRect) : boolean;
+function TBufferPanel.CopyBuffer : boolean;
 begin
   Result := False;
 
   if BeginBufferDraw then
     begin
       Result := (FBuffer <> nil) and
-                (aDC     <> 0)   and
-                BitBlt(aDC, aRect.Left, aRect.Top, aRect.Right - aRect.Left, aRect.Bottom - aRect.Top,
-                       FBuffer.Canvas.Handle, aRect.Left, aRect.Top,
+                BitBlt(Canvas.Handle, 0, 0, Width, Height,
+                       FBuffer.Canvas.Handle, 0, 0,
                        SrcCopy);
 
       EndBufferDraw;
     end;
 end;
 
-procedure TBufferPanel.WMPaint(var aMessage: TWMPaint);
-var
-  TempPaintStruct : TPaintStruct;
-  TempDC          : HDC;
+procedure TBufferPanel.Paint;
 begin
-  try
-    TempDC := BeginPaint(Handle, TempPaintStruct);
+  if csDesigning in ComponentState then
+    begin
+      Canvas.Font.Assign(Font);
+      Canvas.Brush.Color := Color;
+      Canvas.Brush.Style := bsSolid;
+      Canvas.Pen.Style   := psDash;
 
-    if csDesigning in ComponentState then
+      Canvas.Rectangle(0, 0, Width, Height);
+    end
+   else
+    if not(CopyBuffer) then
       begin
-        Canvas.Font.Assign(Font);
         Canvas.Brush.Color := Color;
         Canvas.Brush.Style := bsSolid;
-        Canvas.Pen.Style   := psDash;
-
-        Canvas.Rectangle(0, 0, Width, Height);
-      end
-     else
-      if not(CopyBuffer(TempDC, TempPaintStruct.rcPaint)) then
-        begin
-          Canvas.Brush.Color := Color;
-          Canvas.Brush.Style := bsSolid;
-          Canvas.FillRect(rect(0, 0, Width, Height));
-        end;
-  finally
-    EndPaint(Handle, TempPaintStruct);
-    aMessage.Result := 1;
-  end;
+        Canvas.FillRect(rect(0, 0, Width, Height));
+      end;
 end;
 
 procedure TBufferPanel.WMEraseBkgnd(var aMessage : TWMEraseBkgnd);
@@ -337,6 +340,8 @@ end;
 
 function TBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
 begin
+  Result := False;
+
   if ((FBuffer        =  nil)      or
       (FBuffer.Width  <> aWidth)   or
       (FBuffer.Height <> aHeight)) then
@@ -350,9 +355,7 @@ begin
       FBuffer.Height      := aHeight;
       FScanlineSize       := FBuffer.Width * SizeOf(TRGBQuad);
       Result              := True;
-    end
-   else
-    Result := False;
+    end;
 end;
 
 function TBufferPanel.BufferIsResized(aUseMutex : boolean) : boolean;

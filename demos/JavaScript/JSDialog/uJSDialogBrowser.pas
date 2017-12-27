@@ -183,7 +183,6 @@ procedure TJSDialogBrowserFrm.ChromiumBrowser_OnJsdialog(Sender : TObject;
                                                          out   Result            : Boolean);
 begin
   // In this event we must store the dialog information and post a message to the main form to show the dialog
-
   FJSDialogInfoCS.Acquire;
 
   if FPendingDlg then

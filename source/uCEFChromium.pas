@@ -261,6 +261,14 @@ type
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): Boolean;
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): ICefBrowser;
 
+      procedure DestroyClientHandler;
+      procedure DestroyVisitor;
+      procedure DestroyPDFPrintcb;
+      procedure DestroyResolveHostcb;
+      procedure DestroyCookiDeletercb;
+
+      procedure ClearBrowserReference;
+
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
 
@@ -758,13 +766,13 @@ begin
           FCompHandle := 0;
         end;
 
-      FBrowser        := nil;
-      FBrowserId      := 0;
-      FHandler        := nil;
-      FVisitor        := nil;
-      FPDFPrintcb     := nil;
-      FResolveHostcb  := nil;
-      FCookiDeletercb := nil;
+      ClearBrowserReference;
+
+      DestroyClientHandler;
+      DestroyVisitor;
+      DestroyPDFPrintcb;
+      DestroyResolveHostcb;
+      DestroyCookiDeletercb;
 
       if (FFontOptions     <> nil) then FreeAndNil(FFontOptions);
       if (FOptions         <> nil) then FreeAndNil(FOptions);
@@ -776,6 +784,57 @@ begin
   finally
     inherited Destroy;
   end;
+end;
+
+procedure TChromium.ClearBrowserReference;
+begin
+  FBrowser   := nil;
+  FBrowserId := 0;
+end;
+
+procedure TChromium.DestroyClientHandler;
+begin
+  if (FHandler <> nil) then
+    begin
+      FHandler.InitializeVars;
+      FHandler := nil;
+    end;
+end;
+
+procedure TChromium.DestroyVisitor;
+begin
+  if (FVisitor <> nil) then
+    begin
+      FVisitor.InitializeVars;
+      FVisitor := nil;
+    end;
+end;
+
+procedure TChromium.DestroyPDFPrintcb;
+begin
+  if (FPDFPrintcb <> nil) then
+    begin
+      FPDFPrintcb.InitializeVars;
+      FPDFPrintcb := nil;
+    end;
+end;
+
+procedure TChromium.DestroyResolveHostcb;
+begin
+  if (FResolveHostcb <> nil) then
+    begin
+      FResolveHostcb.InitializeVars;
+      FResolveHostcb := nil;
+    end;
+end;
+
+procedure TChromium.DestroyCookiDeletercb;
+begin
+  if (FCookiDeletercb <> nil) then
+    begin
+      FCookiDeletercb.InitializeVars;
+      FCookiDeletercb := nil;
+    end;
 end;
 
 procedure TChromium.AfterConstruction;
@@ -2770,9 +2829,8 @@ begin
   if (browser <> nil) and (FBrowserId = browser.Identifier) then
     begin
       FInitialized := False;
-      FBrowser     := nil;
-      FBrowserId   := 0;
-      FHandler     := nil;
+      ClearBrowserReference;
+      DestroyClientHandler;
     end;
 
   if Assigned(FOnBeforeClose) then FOnBeforeClose(Self, browser);

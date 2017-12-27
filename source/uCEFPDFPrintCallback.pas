@@ -54,6 +54,8 @@ type
     protected
       procedure OnPdfPrintFinished(const path: ustring; ok: Boolean); virtual; abstract;
 
+      procedure InitializeVars; virtual; abstract;
+
     public
       constructor Create; virtual;
   end;
@@ -66,6 +68,8 @@ type
 
     public
       constructor Create(const proc: TOnPdfPrintFinishedProc); reintroduce;
+      destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
   TCefCustomPDFPrintCallBack = class(TCefPdfPrintCallbackOwn)
@@ -76,6 +80,8 @@ type
 
     public
       constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      destructor  Destroy; override;
+      procedure   InitializeVars; override;
   end;
 
 implementation
@@ -105,7 +111,19 @@ end;
 
 procedure TCefFastPdfPrintCallback.OnPdfPrintFinished(const path: ustring; ok: Boolean);
 begin
-  FProc(path, ok);
+  if assigned(FProc) then FProc(path, ok);
+end;
+
+destructor TCefFastPdfPrintCallback.Destroy;
+begin
+  InitializeVars;
+
+  inherited Destroy;
+end;
+
+procedure TCefFastPdfPrintCallback.InitializeVars;
+begin
+  FProc := nil;
 end;
 
 // TCefCustomPDFPrintCallBack
@@ -115,6 +133,18 @@ begin
   inherited Create;
 
   FChromiumBrowser := aChromiumBrowser;
+end;
+
+destructor TCefCustomPDFPrintCallBack.Destroy;
+begin
+  InitializeVars;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomPDFPrintCallBack.InitializeVars;
+begin
+  FChromiumBrowser := nil;
 end;
 
 procedure TCefCustomPDFPrintCallBack.OnPdfPrintFinished(const path: ustring; aResultOK : Boolean);
