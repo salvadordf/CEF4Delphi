@@ -108,11 +108,11 @@ object PreferencesFrm: TPreferencesFrm
         'PAC script')
     end
     object ProxyServerEdt: TEdit
-      Left = 108
+      Left = 176
       Top = 53
-      Width = 292
+      Width = 224
       Height = 21
-      TabOrder = 1
+      TabOrder = 2
     end
     object ProxyPortEdt: TEdit
       Left = 108
@@ -121,7 +121,7 @@ object PreferencesFrm: TPreferencesFrm
       Height = 21
       MaxLength = 5
       NumbersOnly = True
-      TabOrder = 2
+      TabOrder = 3
       Text = '80'
     end
     object ProxyUsernameEdt: TEdit
@@ -129,7 +129,7 @@ object PreferencesFrm: TPreferencesFrm
       Top = 107
       Width = 292
       Height = 21
-      TabOrder = 3
+      TabOrder = 4
     end
     object ProxyPasswordEdt: TEdit
       Left = 108
@@ -137,21 +137,35 @@ object PreferencesFrm: TPreferencesFrm
       Width = 292
       Height = 21
       PasswordChar = '*'
-      TabOrder = 4
+      TabOrder = 5
     end
     object ProxyScriptURLEdt: TEdit
       Left = 108
       Top = 161
       Width = 292
       Height = 21
-      TabOrder = 5
+      TabOrder = 6
     end
     object ProxyByPassListEdt: TEdit
       Left = 108
       Top = 188
       Width = 292
       Height = 21
-      TabOrder = 6
+      TabOrder = 7
+    end
+    object ProxySchemeCb: TComboBox
+      Left = 108
+      Top = 53
+      Width = 62
+      Height = 21
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 1
+      Text = 'HTTP'
+      Items.Strings = (
+        'HTTP'
+        'SOCKS4'
+        'SOCKS5')
     end
   end
   object GroupBox2: TGroupBox

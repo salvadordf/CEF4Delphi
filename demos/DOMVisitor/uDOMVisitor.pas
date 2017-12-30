@@ -113,6 +113,22 @@ uses
   uCEFProcessMessage, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFRenderProcessHandler,
   uCEFv8Handler, uCEFDomVisitor, uCEFDomNode, uCEFTask;
 
+// This demo sends messages from the browser process to the render process,
+// and from the render process to the browser process.
+
+// To send a message from the browser process you must use the TChromium.SendProcessMessage
+// procedure with a PID_RENDERER parameter. The render process receives those messages in
+// the GlobalCEFApp.OnProcessMessageReceived event
+
+// To send messages from the render process you must use the browser.SendProcessMessage
+// procedure with a PID_BROWSER parameter. The browser process receives those messages in
+// the TChromium.OnProcessMessageReceived event.
+
+// message.name is used to identify different messages sent with SendProcessMessage.
+
+// The OnProcessMessageReceived event can recognize any number of messages identifying them
+// by message.name
+
 procedure SimpleDOMIteration(const aDocument: ICefDomDocument);
 var
   TempHead, TempChild : ICefDomNode;
@@ -220,7 +236,7 @@ procedure TDOMVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
-  model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM,    'Visit DOM in CEF');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM, 'Visit DOM in CEF');
 end;
 
 procedure TDOMVisitorFrm.Chromium1ContextMenuCommand(Sender: TObject;

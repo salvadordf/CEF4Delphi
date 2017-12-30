@@ -74,6 +74,7 @@ type
     HeaderNameLbl: TLabel;
     HeaderValueEdt: TEdit;
     HeaderValueLbl: TLabel;
+    ProxySchemeCb: TComboBox;
   private
     { Private declarations }
   public

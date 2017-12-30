@@ -165,7 +165,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'chrome://shorthang'
           'chrome://gpuclean'
           'chrome://gpucrash'
-          'chrome://gpuhang')
+          'chrome://gpuhang'
+          'chrome://extensions-support')
       end
     end
     object ConfigPnl: TPanel
@@ -232,7 +233,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Height = 19
     Panels = <
       item
-        Width = 50
+        Width = 100
+      end
+      item
+        Width = 500
       end>
   end
   object Chromium1: TChromium

@@ -516,8 +516,19 @@ procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;
 begin
   BackBtn.Enabled    := canGoBack;
   ForwardBtn.Enabled := canGoForward;
-  ReloadBtn.Enabled  := not(isLoading);
-  StopBtn.Enabled    := isLoading;
+
+  if isLoading then
+    begin
+      StatusBar1.Panels[0].Text := 'Loading...';
+      ReloadBtn.Enabled         := False;
+      StopBtn.Enabled           := True;
+    end
+   else
+    begin
+      StatusBar1.Panels[0].Text := 'Finished';
+      ReloadBtn.Enabled         := True;
+      StopBtn.Enabled           := False;
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
@@ -578,7 +589,7 @@ end;
 
 procedure TMiniBrowserFrm.ShowStatusText(const aText : string);
 begin
-  StatusBar1.Panels[0].Text := aText;
+  StatusBar1.Panels[1].Text := aText;
 end;
 
 procedure TMiniBrowserFrm.StopBtnClick(Sender: TObject);
@@ -677,9 +688,34 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Preferences1Click(Sender: TObject);
+var
+  TempScheme, TempServer : string;
+  i : integer;
 begin
+  i := pos('://', Chromium1.ProxyServer);
+
+  if (i <= 0) then
+    begin
+      PreferencesFrm.ProxySchemeCb.ItemIndex := 0;
+      TempServer := Chromium1.ProxyServer;
+    end
+   else
+    begin
+      TempScheme := copy(Chromium1.ProxyServer, 1, pred(i));
+      TempServer := copy(Chromium1.ProxyServer, i + 3, length(Chromium1.ProxyServer));
+
+      if (CompareText(TempScheme, 'socks')  = 0) or
+         (CompareText(TempScheme, 'socks5') = 0) then
+        PreferencesFrm.ProxySchemeCb.ItemIndex := 2
+       else
+        if (CompareText(TempScheme, 'socks4') = 0) then
+          PreferencesFrm.ProxySchemeCb.ItemIndex := 1
+         else
+          PreferencesFrm.ProxySchemeCb.ItemIndex := 0;
+    end;
+
   PreferencesFrm.ProxyTypeCbx.ItemIndex  := Chromium1.ProxyType;
-  PreferencesFrm.ProxyServerEdt.Text     := Chromium1.ProxyServer;
+  PreferencesFrm.ProxyServerEdt.Text     := TempServer;
   PreferencesFrm.ProxyPortEdt.Text       := inttostr(Chromium1.ProxyPort);
   PreferencesFrm.ProxyUsernameEdt.Text   := Chromium1.ProxyUsername;
   PreferencesFrm.ProxyPasswordEdt.Text   := Chromium1.ProxyPassword;
@@ -691,7 +727,6 @@ begin
   if (PreferencesFrm.ShowModal = mrOk) then
     begin
       Chromium1.ProxyType         := PreferencesFrm.ProxyTypeCbx.ItemIndex;
-      Chromium1.ProxyServer       := PreferencesFrm.ProxyServerEdt.Text;
       Chromium1.ProxyPort         := strtoint(PreferencesFrm.ProxyPortEdt.Text);
       Chromium1.ProxyUsername     := PreferencesFrm.ProxyUsernameEdt.Text;
       Chromium1.ProxyPassword     := PreferencesFrm.ProxyPasswordEdt.Text;
@@ -699,6 +734,12 @@ begin
       Chromium1.ProxyByPassList   := PreferencesFrm.ProxyByPassListEdt.Text;
       Chromium1.CustomHeaderName  := PreferencesFrm.HeaderNameEdt.Text;
       Chromium1.CustomHeaderValue := PreferencesFrm.HeaderValueEdt.Text;
+
+      case PreferencesFrm.ProxySchemeCb.ItemIndex of
+        1  : Chromium1.ProxyServer := 'socks4://' + PreferencesFrm.ProxyServerEdt.Text;
+        2  : Chromium1.ProxyServer := 'socks5://' + PreferencesFrm.ProxyServerEdt.Text;
+        else Chromium1.ProxyServer := PreferencesFrm.ProxyServerEdt.Text;
+      end;
 
       Chromium1.UpdatePreferences;
     end;
