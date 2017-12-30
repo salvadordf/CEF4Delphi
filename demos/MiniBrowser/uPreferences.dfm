@@ -108,9 +108,9 @@ object PreferencesFrm: TPreferencesFrm
         'PAC script')
     end
     object ProxyServerEdt: TEdit
-      Left = 176
+      Left = 184
       Top = 53
-      Width = 224
+      Width = 216
       Height = 21
       TabOrder = 2
     end
@@ -156,7 +156,7 @@ object PreferencesFrm: TPreferencesFrm
     object ProxySchemeCb: TComboBox
       Left = 108
       Top = 53
-      Width = 62
+      Width = 70
       Height = 21
       Style = csDropDownList
       ItemIndex = 0

@@ -688,34 +688,15 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Preferences1Click(Sender: TObject);
-var
-  TempScheme, TempServer : string;
-  i : integer;
 begin
-  i := pos('://', Chromium1.ProxyServer);
-
-  if (i <= 0) then
-    begin
-      PreferencesFrm.ProxySchemeCb.ItemIndex := 0;
-      TempServer := Chromium1.ProxyServer;
-    end
-   else
-    begin
-      TempScheme := copy(Chromium1.ProxyServer, 1, pred(i));
-      TempServer := copy(Chromium1.ProxyServer, i + 3, length(Chromium1.ProxyServer));
-
-      if (CompareText(TempScheme, 'socks')  = 0) or
-         (CompareText(TempScheme, 'socks5') = 0) then
-        PreferencesFrm.ProxySchemeCb.ItemIndex := 2
-       else
-        if (CompareText(TempScheme, 'socks4') = 0) then
-          PreferencesFrm.ProxySchemeCb.ItemIndex := 1
-         else
-          PreferencesFrm.ProxySchemeCb.ItemIndex := 0;
-    end;
+  case Chromium1.ProxyScheme of
+    psSOCKS4 : PreferencesFrm.ProxySchemeCb.ItemIndex := 1;
+    psSOCKS5 : PreferencesFrm.ProxySchemeCb.ItemIndex := 2;
+    else       PreferencesFrm.ProxySchemeCb.ItemIndex := 0;
+  end;
 
   PreferencesFrm.ProxyTypeCbx.ItemIndex  := Chromium1.ProxyType;
-  PreferencesFrm.ProxyServerEdt.Text     := TempServer;
+  PreferencesFrm.ProxyServerEdt.Text     := Chromium1.ProxyServer;
   PreferencesFrm.ProxyPortEdt.Text       := inttostr(Chromium1.ProxyPort);
   PreferencesFrm.ProxyUsernameEdt.Text   := Chromium1.ProxyUsername;
   PreferencesFrm.ProxyPasswordEdt.Text   := Chromium1.ProxyPassword;
@@ -727,6 +708,7 @@ begin
   if (PreferencesFrm.ShowModal = mrOk) then
     begin
       Chromium1.ProxyType         := PreferencesFrm.ProxyTypeCbx.ItemIndex;
+      Chromium1.ProxyServer       := PreferencesFrm.ProxyServerEdt.Text;
       Chromium1.ProxyPort         := strtoint(PreferencesFrm.ProxyPortEdt.Text);
       Chromium1.ProxyUsername     := PreferencesFrm.ProxyUsernameEdt.Text;
       Chromium1.ProxyPassword     := PreferencesFrm.ProxyPasswordEdt.Text;
@@ -736,9 +718,9 @@ begin
       Chromium1.CustomHeaderValue := PreferencesFrm.HeaderValueEdt.Text;
 
       case PreferencesFrm.ProxySchemeCb.ItemIndex of
-        1  : Chromium1.ProxyServer := 'socks4://' + PreferencesFrm.ProxyServerEdt.Text;
-        2  : Chromium1.ProxyServer := 'socks5://' + PreferencesFrm.ProxyServerEdt.Text;
-        else Chromium1.ProxyServer := PreferencesFrm.ProxyServerEdt.Text;
+        1  : Chromium1.ProxyScheme := psSOCKS4;
+        2  : Chromium1.ProxyScheme := psSOCKS5;
+        else Chromium1.ProxyScheme := psHTTP;
       end;
 
       Chromium1.UpdatePreferences;

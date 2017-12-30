@@ -75,6 +75,7 @@ type
       FPDFPrintOptions        : TPDFPrintOptions;
       FDefaultEncoding        : ustring;
       FProxyType              : integer;
+      FProxyScheme            : TCefProxyScheme;
       FProxyServer            : string;
       FProxyPort              : integer;
       FProxyUsername          : string;
@@ -244,6 +245,7 @@ type
       procedure SetCookiePrefs(aValue : integer);
       procedure SetImagesPrefs(aValue : integer);
       procedure SetProxyType(aValue : integer);
+      procedure SetProxyScheme(aValue : TCefProxyScheme);
       procedure SetProxyServer(const aValue : string);
       procedure SetProxyPort(aValue : integer);
       procedure SetProxyUsername(const aValue : string);
@@ -570,6 +572,7 @@ type
       property  WebRTCNonproxiedUDP     : TCefState                    read FWebRTCNonProxiedUDP      write SetWebRTCNonProxiedUDP;
 
       property  ProxyType               : integer                      read FProxyType                write SetProxyType;
+      property  ProxyScheme             : TCefProxyScheme              read FProxyScheme              write SetProxyScheme;
       property  ProxyServer             : string                       read FProxyServer              write SetProxyServer;
       property  ProxyPort               : integer                      read FProxyPort                write SetProxyPort;
       property  ProxyUsername           : string                       read FProxyUsername            write SetProxyUsername;
@@ -736,6 +739,7 @@ begin
   FWebRTCNonProxiedUDP    := STATE_DEFAULT;
 
   FProxyType         := CEF_PROXYTYPE_DIRECT;
+  FProxyScheme       := psHTTP;
   FProxyServer       := '';
   FProxyPort         := 80;
   FProxyUsername     := '';
@@ -1810,6 +1814,15 @@ begin
     end;
 end;
 
+procedure TChromium.SetProxyScheme(aValue : TCefProxyScheme);
+begin
+  if (FProxyScheme <> aValue) then
+    begin
+      FProxyScheme       := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
 procedure TChromium.SetProxyServer(const aValue : string);
 begin
   if (FProxyServer <> aValue) then
@@ -2227,7 +2240,13 @@ begin
             begin
               TempValue.SetString('fixed_servers');
               TempDict.SetValue('mode', TempValue);
-              TempDict.SetString('server', FProxyServer + ':' + inttostr(FProxyPort));
+
+              case FProxyScheme of
+                psSOCKS4 : TempDict.SetString('server', 'socks4://' + FProxyServer + ':' + inttostr(FProxyPort));
+                psSOCKS5 : TempDict.SetString('server', 'socks5://' + FProxyServer + ':' + inttostr(FProxyPort));
+                else       TempDict.SetString('server', FProxyServer + ':' + inttostr(FProxyPort));
+              end;
+
               if (length(FProxyByPassList) > 0) then TempDict.SetString('bypass_list', FProxyByPassList);
             end;
 

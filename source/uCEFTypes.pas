@@ -299,6 +299,8 @@ type
                           asErrorInitializingLibrary,
                           asErrorExecutingProcess);
 
+  TCefProxyScheme = (psHTTP, psSOCKS4, psSOCKS5);
+
   TCefWebRTCHandlingPolicy = (
     hpDefault,
     hpDefaultPublicAndPrivateInterfaces,
