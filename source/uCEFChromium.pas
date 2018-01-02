@@ -468,7 +468,9 @@ type
       procedure   RetrieveText(const aFrameIdentifier : int64); overload;
       function    GetFrameNames(var aFrameNames : TStrings) : boolean;
       function    GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
-      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer = 0);
+      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameName : ustring = ''; aStartLine : integer = 0); overload;
+      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrame : ICefFrame; aStartLine : integer = 0); overload;
+      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameIdentifier : int64; aStartLine : integer = 0); overload;
       procedure   UpdatePreferences;
       procedure   SavePreferences(const aFileName : string);
       function    SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
@@ -2753,14 +2755,49 @@ begin
   if assigned(FOnTextResultAvailable) then FOnTextResultAvailable(self, aText);
 end;
 
-procedure TChromium.ExecuteJavaScript(const aCode, aScriptURL : ustring; aStartLine : integer);
+procedure TChromium.ExecuteJavaScript(const aCode, aScriptURL, aFrameName : ustring; aStartLine : integer);
 var
   TempFrame : ICefFrame;
 begin
   try
     if Initialized then
       begin
-        TempFrame := FBrowser.MainFrame;
+        if (length(aFrameName) > 0) then
+          TempFrame := FBrowser.GetFrame(aFrameName)
+         else
+          TempFrame := FBrowser.MainFrame;
+
+        if (TempFrame <> nil) then
+          TempFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.ExecuteJavaScript', e) then raise;
+  end;
+end;
+
+procedure TChromium.ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrame : ICefFrame; aStartLine : integer);
+begin
+  try
+    if Initialized and (aFrame <> nil) then
+      aFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.ExecuteJavaScript', e) then raise;
+  end;
+end;
+
+procedure TChromium.ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameIdentifier : int64; aStartLine : integer = 0);
+var
+  TempFrame : ICefFrame;
+begin
+  try
+    if Initialized then
+      begin
+        if (aFrameIdentifier <> 0) then
+          TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+         else
+          TempFrame := FBrowser.MainFrame;
 
         if (TempFrame <> nil) then
           TempFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
