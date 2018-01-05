@@ -56,6 +56,7 @@ type
     function GetRequestStatus: TCefUrlRequestStatus;
     function GetRequestError: Integer;
     function GetResponse: ICefResponse;
+    function GetResponseWasCached: boolean;
     procedure Cancel;
   public
     class function UnWrap(data: Pointer): ICefUrlRequest;
@@ -94,6 +95,11 @@ begin
   Result := PCefUrlRequest(FData).get_request_status(PCefUrlRequest(FData));
 end;
 
+function TCefUrlRequestRef.GetResponseWasCached: boolean;
+begin
+  Result := PCefUrlRequest(FData).response_was_cached(PCefUrlRequest(FData)) <> 0;
+end;
+
 function TCefUrlRequestRef.GetResponse: ICefResponse;
 begin
   Result := TCefResponseRef.UnWrap(PCefUrlRequest(FData).get_response(PCefUrlRequest(FData)));
@@ -101,8 +107,9 @@ end;
 
 class function TCefUrlRequestRef.UnWrap(data: Pointer): ICefUrlRequest;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefUrlRequest else
+  if (data <> nil) then
+    Result := Create(data) as ICefUrlRequest
+   else
     Result := nil;
 end;
 

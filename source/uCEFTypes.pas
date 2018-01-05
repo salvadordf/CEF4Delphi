@@ -1426,6 +1426,7 @@ type
     get_request_status: function(self: PCefUrlRequest): TCefUrlRequestStatus; stdcall;
     get_request_error: function(self: PCefUrlRequest): TCefErrorcode; stdcall;
     get_response: function(self: PCefUrlRequest): PCefResponse; stdcall;
+    response_was_cached: function(self: PCefUrlRequest): integer; stdcall;
     cancel: procedure(self: PCefUrlRequest); stdcall;
   end;
 

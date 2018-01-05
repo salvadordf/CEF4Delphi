@@ -1393,11 +1393,18 @@ type
 
   ICefUrlRequest = interface(ICefBaseRefCounted)
     ['{59226AC1-A0FA-4D59-9DF4-A65C42391A67}']
-    function GetRequest: ICefRequest;
-    function GetRequestStatus: TCefUrlRequestStatus;
-    function GetRequestError: Integer;
-    function GetResponse: ICefResponse;
+    function  GetRequest: ICefRequest;
+    function  GetRequestStatus: TCefUrlRequestStatus;
+    function  GetRequestError: Integer;
+    function  GetResponse: ICefResponse;
+    function  GetResponseWasCached: boolean;
     procedure Cancel;
+
+    property Request           : ICefRequest           read GetRequest;
+    property RequestStatus     : TCefUrlRequestStatus  read GetRequestStatus;
+    property RequestError      : Integer               read GetRequestError;
+    property Response          : ICefResponse          read GetResponse;
+    property ResponseWasCached : boolean               read GetResponseWasCached;
   end;
 
   ICefUrlrequestClient = interface(ICefBaseRefCounted)

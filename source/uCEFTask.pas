@@ -101,16 +101,6 @@ type
       procedure Execute; override;
   end;
 
-  TCefDeleteCookiesTask = class(TCefTaskOwn)
-    protected
-      FCallBack : ICefDeleteCookiesCallback;
-
-      procedure Execute; override;
-
-    public
-      constructor Create(const aCallBack : ICefDeleteCookiesCallback); reintroduce;
-  end;
-
   TCefUpdatePrefsTask = class(TCefTaskOwn)
     protected
       FChromiumBrowser : TObject;
@@ -265,25 +255,6 @@ begin
          else
           TChromium(FChromiumBrowser).Internal_GetHTML(FFrameName);
     end;
-end;
-
-
-// TCefDeleteCookiesTask
-
-
-constructor TCefDeleteCookiesTask.Create(const aCallBack : ICefDeleteCookiesCallback);
-begin
-  inherited Create;
-
-  FCallBack := aCallBack;
-end;
-
-procedure TCefDeleteCookiesTask.Execute;
-var
-  CookieManager : ICefCookieManager;
-begin
-  CookieManager := TCefCookieManagerRef.Global(nil);
-  CookieManager.DeleteCookies('', '', FCallBack);
 end;
 
 

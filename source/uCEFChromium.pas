@@ -459,7 +459,7 @@ type
       procedure   StartDownload(const aURL : ustring);
 
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
-      procedure   DeleteCookies;
+      function    DeleteCookies : boolean;
       procedure   RetrieveHTML(const aFrameName : ustring = ''); overload;
       procedure   RetrieveHTML(const aFrame : ICefFrame); overload;
       procedure   RetrieveHTML(const aFrameIdentifier : int64); overload;
@@ -1991,15 +1991,22 @@ begin
     end;
 end;
 
-procedure TChromium.DeleteCookies;
+function TChromium.DeleteCookies : boolean;
 var
-  TempTask: ICefTask;
+  TempManager : ICefCookieManager;
 begin
-  if Initialized then
+  Result := False;
+
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
     begin
-      if (FCookiDeletercb = nil) then FCookiDeletercb := TCefCustomDeleteCookiesCallback.Create(self);
-      TempTask := TCefDeleteCookiesTask.Create(FCookiDeletercb);
-      CefPostTask(TID_IO, TempTask);
+      TempManager := FBrowser.Host.RequestContext.GetDefaultCookieManager(nil);
+
+      if (TempManager <> nil) then
+        begin
+          if (FCookiDeletercb = nil) then FCookiDeletercb := TCefCustomDeleteCookiesCallback.Create(self);
+
+          Result := TempManager.DeleteCookies('', '', FCookiDeletercb);
+        end;
     end;
 end;
 
