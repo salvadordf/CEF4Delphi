@@ -123,6 +123,7 @@ type
       FShowMessageDlg                : boolean;
       FSetCurrentDir                 : boolean;
       FGlobalContextInitialized      : boolean;
+      FSitePerProcess                : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
@@ -325,6 +326,7 @@ type
       property LibLoaded                         : boolean                             read FLibLoaded;
       property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
       property MuteAudio                         : boolean                             read FMuteAudio                         write FMuteAudio;
+      property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
@@ -440,6 +442,7 @@ begin
   FOnRegisterCustomSchemes       := nil;
   FEnableHighDPISupport          := False;
   FMuteAudio                     := False;
+  FSitePerProcess                := True;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
   FShowMessageDlg                := True;
@@ -1134,6 +1137,9 @@ begin
 
       if FMuteAudio then
         commandLine.AppendSwitch('--mute-audio');
+
+      if FSitePerProcess then
+        commandLine.AppendSwitch('--site-per-process');
 
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and
