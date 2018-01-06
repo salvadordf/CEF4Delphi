@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2017 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3239;
-  CEF_SUPPORTED_VERSION_RELEASE = 1720;
+  CEF_SUPPORTED_VERSION_RELEASE = 1723;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 63;
@@ -543,45 +543,60 @@ begin
   if (FCustomCommandLineValues <> nil) then FCustomCommandLineValues.Add(aValue);
 end;
 
+// This function must only be called by the main executable when the application
+// is configured to use a different executable for the subprocesses.
+// The process calling ths function must be the browser process.
 function TCefApplication.MultiExeProcessing : boolean;
 var
   TempApp : ICefApp;
 begin
-  Result := False;
+  Result  := False;
+  TempApp := nil;
 
   try
-    if CheckCEFLibrary then
-      begin
-        FMustShutDown := True;
+    try
+      if (ProcessType = ptBrowser) and CheckCEFLibrary then
+        begin
+          FMustShutDown := True;
 
-        if LoadCEFlibrary then
-          begin
-            TempApp := TCustomCefApp.Create(self);
-            Result  := InitializeLibrary(TempApp);
-          end;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.MultiExeProcessing', e) then raise;
+          if LoadCEFlibrary then
+            begin
+              TempApp := TCustomCefApp.Create(self);
+              Result  := InitializeLibrary(TempApp);
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefApplication.MultiExeProcessing', e) then raise;
+    end;
+  finally
+    TempApp := nil;
   end;
 end;
 
+// This function will be called by all processes when the application is configured
+// to use the same executable for all the processes : browser, render, etc.
 function TCefApplication.SingleExeProcessing : boolean;
 var
   TempApp : ICefApp;
 begin
-  Result := False;
+  Result  := False;
+  TempApp := nil;
 
-  if CheckCEFLibrary and LoadCEFlibrary then
-    begin
-      TempApp := TCustomCefApp.Create(self);
+  try
+    if CheckCEFLibrary and LoadCEFlibrary then
+      begin
+        TempApp := TCustomCefApp.Create(self);
 
-      if (ExecuteProcess(TempApp) < 0) and (FStatus = asLoaded) then
-        begin
-          FMustShutDown := True;
-          Result        := InitializeLibrary(TempApp);
-        end;
-    end;
+        if (ExecuteProcess(TempApp) < 0) and (FStatus = asLoaded) then
+          begin
+            FMustShutDown := True;
+            Result        := InitializeLibrary(TempApp);
+          end;
+      end;
+  finally
+    TempApp := nil;
+  end;
 end;
 
 function TCefApplication.GetChromeVersion : string;
@@ -701,17 +716,27 @@ begin
     Result := SingleExeProcessing;
 end;
 
+// This function can only be called by the executable used for the subprocesses.
+// The application must be configured to use different executables for the subprocesses.
+// The process calling this function can't be the browser process.
 function TCefApplication.StartSubProcess : boolean;
 var
   TempApp : ICefApp;
 begin
-  Result := False;
+  Result  := False;
+  TempApp := nil;
 
-  if not(FSingleProcess) and LoadCEFlibrary then
-    begin
-      TempApp := TCustomCefApp.Create(self);
-      Result  := (ExecuteProcess(TempApp) >= 0);
-    end;
+  try
+    if not(FSingleProcess)        and
+       (ProcessType <> ptBrowser) and
+       LoadCEFlibrary             then
+      begin
+        TempApp := TCustomCefApp.Create(self);
+        Result  := (ExecuteProcess(TempApp) >= 0);
+      end;
+  finally
+    TempApp := nil;
+  end;
 end;
 
 procedure TCefApplication.DoMessageLoopWork;
