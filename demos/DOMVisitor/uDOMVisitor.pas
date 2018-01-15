@@ -65,10 +65,12 @@ type
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     AddressBarPnl: TPanel;
-    GoBtn: TButton;
     AddressEdt: TEdit;
     StatusBar1: TStatusBar;
     Timer1: TTimer;
+    Panel1: TPanel;
+    GoBtn: TButton;
+    VisitDOMBtn: TButton;
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
@@ -84,6 +86,7 @@ type
       const browser: ICefBrowser; sourceProcess: TCefProcessId;
       const message: ICefProcessMessage; out Result: Boolean);
     procedure Timer1Timer(Sender: TObject);
+    procedure VisitDOMBtnClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -287,11 +290,15 @@ begin
   GoBtn.Click;
 end;
 
+procedure TDOMVisitorFrm.VisitDOMBtnClick(Sender: TObject);
+begin
+  PostMessage(Handle, MINIBROWSER_VISITDOM, 0, 0);
+end;
+
 procedure TDOMVisitorFrm.VisitDOMMsg(var aMessage : TMessage);
 var
   TempMsg : ICefProcessMessage;
 begin
-  // Only works using a TCefCustomRenderProcessHandler.
   // Use the ArgumentList property if you need to pass some parameters.
   TempMsg := TCefProcessMessageRef.New(RETRIEVEDOM_MSGNAME); // Same name than TCefCustomRenderProcessHandler.MessageName
   Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);

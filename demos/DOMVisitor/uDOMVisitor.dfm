@@ -39,26 +39,48 @@ object DOMVisitorFrm: TDOMVisitorFrm
     ParentDoubleBuffered = False
     ShowCaption = False
     TabOrder = 1
-    object GoBtn: TButton
-      Left = 842
-      Top = 5
-      Width = 31
-      Height = 20
-      Margins.Left = 5
-      Align = alRight
-      Caption = 'Go'
-      TabOrder = 0
-      OnClick = GoBtnClick
-    end
     object AddressEdt: TEdit
       Left = 5
       Top = 5
-      Width = 837
-      Height = 20
-      Align = alClient
-      TabOrder = 1
+      Width = 764
+      Height = 21
+      TabOrder = 0
       Text = 'https://www.google.com'
-      ExplicitHeight = 21
+    end
+    object Panel1: TPanel
+      Left = 759
+      Top = 5
+      Width = 114
+      Height = 20
+      Align = alRight
+      BevelOuter = bvNone
+      Padding.Left = 5
+      ShowCaption = False
+      TabOrder = 1
+      object GoBtn: TButton
+        Left = 5
+        Top = 0
+        Width = 31
+        Height = 20
+        Margins.Left = 5
+        Align = alLeft
+        Caption = 'Go'
+        TabOrder = 0
+        OnClick = GoBtnClick
+        ExplicitLeft = 98
+        ExplicitTop = 5
+      end
+      object VisitDOMBtn: TButton
+        Left = 39
+        Top = 0
+        Width = 75
+        Height = 20
+        Align = alRight
+        Caption = 'Visit DOM'
+        TabOrder = 1
+        OnClick = VisitDOMBtnClick
+        ExplicitLeft = 42
+      end
     end
   end
   object StatusBar1: TStatusBar
