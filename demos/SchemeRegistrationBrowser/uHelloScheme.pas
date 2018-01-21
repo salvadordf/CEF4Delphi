@@ -115,9 +115,7 @@ end;
 
 function THelloScheme.ProcessRequest(const request : ICefRequest; const callback : ICefCallback): Boolean;
 var
-  TempContents, TempFilename, TempExt : string;
-  TempUTF8String : AnsiString;
-  TempPointer : pointer;
+  TempFilename, TempExt : string;
   TempParts : TUrlParts;
   TempFile : TFileStream;
 begin
