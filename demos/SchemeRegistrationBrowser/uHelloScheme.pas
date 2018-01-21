@@ -46,7 +46,7 @@ uses
   {$ELSE}
   Classes, Windows, SysUtils,
   {$ENDIF}
-  uCEFInterfaces, uCEFTypes, uCEFResourceHandler;
+  uCEFInterfaces, uCEFTypes, uCEFResourceHandler, uCEFMiscFunctions;
 
 type
   THelloScheme = class(TCefResourceHandlerOwn)
@@ -115,28 +115,85 @@ end;
 
 function THelloScheme.ProcessRequest(const request : ICefRequest; const callback : ICefCallback): Boolean;
 var
-  TempString : string;
+  TempContents, TempFilename, TempExt : string;
   TempUTF8String : AnsiString;
   TempPointer : pointer;
+  TempParts : TUrlParts;
+  TempFile : TFileStream;
 begin
-  Result      := True;
-  FStatus     := 200;
-  FStatusText := 'OK';
-  FMimeType   := 'text/html';
+  Result      := False;
+  FStatus     := 404;
+  FStatusText := 'ERROR';
+  FMimeType   := '';
+  TempFile    := nil;
 
-  if (FStream <> nil) and (request <> nil) then
-    begin
-      TempString     := '<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"/></head>' +
-                        '<body>Hello world!<br>' + request.URL + '</body></html>';
-      TempUTF8String := UTF8Encode(TempString);
-      TempPointer    := @TempUTF8String[1];
+  try
+    try
+      if (FStream <> nil) and (request <> nil) then
+        begin
+          TempFilename := '';
+          FStream.Clear;
 
-      FStream.Clear;
-      FStream.Write(TempPointer, length(TempUTF8String));
-      FStream.Seek(0, soFromBeginning);
+          if CefParseUrl(Request.URL, TempParts) then
+            begin
+              if (length(TempParts.path) > 0) and
+                 (TempParts.path <> '/') then
+                begin
+                  TempFilename := TempParts.path;
+
+                  if (length(TempFilename) > 0) and (TempFilename[1] = '/') then
+                    TempFilename := copy(TempFilename, 2, length(TempFilename));
+
+                  if (length(TempFilename) > 0) and (TempFilename[length(TempFilename)] = '/') then
+                    TempFilename := copy(TempFilename, 1, length(TempFilename) - 1);
+
+                  if (length(TempFilename) > 0) and not(FileExists(TempFilename)) then
+                    TempFilename := '';
+                end;
+
+              if (length(TempFilename) = 0) and
+                 (length(TempParts.host) > 0) and
+                 (TempParts.host <> '/') then
+                begin
+                  TempFilename := TempParts.host;
+
+                  if (length(TempFilename) > 0) and (TempFilename[1] = '/') then
+                    TempFilename := copy(TempFilename, 2, length(TempFilename));
+
+                  if (length(TempFilename) > 0) and (TempFilename[length(TempFilename)] = '/') then
+                    TempFilename := copy(TempFilename, 1, length(TempFilename) - 1);
+
+                  if (length(TempFilename) > 0) and not(FileExists(TempFilename)) then
+                    TempFilename := '';
+                end;
+            end;
+
+          if (length(TempFilename) > 0) then
+            begin
+              TempExt := ExtractFileExt(TempFilename);
+
+              if (length(TempExt) > 0) and (TempExt[1] = '.') then
+                TempExt := copy(TempExt, 2, length(TempExt));
+
+              Result      := True;
+              FStatus     := 200;
+              FStatusText := 'OK';
+              FMimeType   := CefGetMimeType(TempExt);
+              TempFile    := TFileStream.Create(TempFilename, fmOpenRead);
+              TempFile.Seek(0, soFromBeginning);
+              FStream.LoadFromStream(TStream(TempFile));
+            end;
+
+          FStream.Seek(0, soFromBeginning);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('THelloScheme.ProcessRequest', e) then raise;
     end;
-
-  if (callback <> nil) then callback.Cont;
+  finally
+    if (callback <> nil) then callback.Cont;
+    if (TempFile <> nil) then FreeAndNil(TempFile);
+  end;
 end;
 
 function THelloScheme.ReadResponse(const dataOut     : Pointer;

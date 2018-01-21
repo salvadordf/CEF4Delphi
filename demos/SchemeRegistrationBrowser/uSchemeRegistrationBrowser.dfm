@@ -51,10 +51,10 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
       Align = alClient
       ItemIndex = 1
       TabOrder = 1
-      Text = 'hello://world'
+      Text = 'hello://test.html'
       Items.Strings = (
         'https://www.google.com'
-        'hello://world')
+        'hello://test.html')
     end
   end
   object CEFWindowParent1: TCEFWindowParent
