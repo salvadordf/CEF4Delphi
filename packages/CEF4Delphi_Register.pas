@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFRegisterComponents;
+unit CEF4Delphi_Register;
 
 {$R chromium.dcr}
 

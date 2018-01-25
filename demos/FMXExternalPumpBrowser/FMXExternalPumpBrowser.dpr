@@ -35,35 +35,35 @@
  *
  *)
 
-program OSRExternalPumpBrowser;
-
-{$I cef.inc}
+program FMXExternalPumpBrowser;
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
+  {$IFDEF DELPHI17_UP}
+  System.StartUpCopy,
+  {$ENDIF}
+  FMX.Forms,
+  {$IFDEF MSWINDOWS}
   WinApi.Windows,
+  {$ENDIF}
   System.SysUtils,
-  {$ELSE}
-  Forms,
-  Windows,
-  SysUtils,
-  {$ENDIF }
   uCEFApplication,
-  uCEFWorkScheduler,
-  uOSRExternalPumpBrowser in 'uOSRExternalPumpBrowser.pas' {OSRExternalPumpBrowserFrm};
+  uFMXWorkScheduler,
+  uFMXExternalPumpBrowser in 'uFMXExternalPumpBrowser.pas' {FMXExternalPumpBrowserFrm},
+  uFMXApplicationService in 'uFMXApplicationService.pas';
 
 {$R *.res}
 
+{$IFDEF MSWINDOWS}
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+{$ENDIF}
 
 begin
   // TCEFWorkScheduler will call cef_do_message_loop_work when
   // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
   // GlobalCEFWorkScheduler needs to be created before the
   // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
+  GlobalCEFWorkScheduler := TFMXWorkScheduler.Create(nil);
 
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
@@ -78,14 +78,11 @@ begin
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TOSRExternalPumpBrowserFrm, OSRExternalPumpBrowserFrm);
+      Application.CreateForm(TFMXExternalPumpBrowserFrm, FMXExternalPumpBrowserFrm);
       Application.Run;
 
       // The form needs to be destroyed *BEFORE* stopping the scheduler.
-      OSRExternalPumpBrowserFrm.Free;
+      FMXExternalPumpBrowserFrm.Free;
 
       GlobalCEFWorkScheduler.StopScheduler;
     end;

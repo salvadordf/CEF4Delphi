@@ -57,9 +57,9 @@ type
       FBuffer         : TBitmap;
       FScanlineSize   : integer;
 
-      procedure CreateBufferMutex;
+      procedure CreateSyncObj;
 
-      procedure DestroyBufferMutex;
+      procedure DestroySyncObj;
       procedure DestroyBuffer;
 
       function  GetBufferBits : pointer;
@@ -192,7 +192,7 @@ end;
 destructor TBufferPanel.Destroy;
 begin
   DestroyBuffer;
-  DestroyBufferMutex;
+  DestroySyncObj;
 
   inherited Destroy;
 end;
@@ -201,15 +201,15 @@ procedure TBufferPanel.AfterConstruction;
 begin
   inherited AfterConstruction;
 
-  CreateBufferMutex;
+  CreateSyncObj;
 end;
 
-procedure TBufferPanel.CreateBufferMutex;
+procedure TBufferPanel.CreateSyncObj;
 begin
   FMutex := CreateMutex(nil, False, nil);
 end;
 
-procedure TBufferPanel.DestroyBufferMutex;
+procedure TBufferPanel.DestroySyncObj;
 begin
   if (FMutex <> 0) then
     begin
@@ -359,18 +359,35 @@ begin
 end;
 
 function TBufferPanel.BufferIsResized(aUseMutex : boolean) : boolean;
+var
+  TempDevWidth, TempLogWidth, TempDevHeight, TempLogHeight : integer;
 begin
   Result := False;
 
   if not(aUseMutex) or BeginBufferDraw then
     begin
-      // CEF and Chromium use 'floor' to round the float values in Device <-> Logical unit conversions
-      // and Delphi uses MulDiv, which uses the bankers rounding, to resize the components in high DPI mode.
-      // This is the cause of slight differences in size between the buffer and the panel in some occasions.
+      if (GlobalCEFApp.DeviceScaleFactor = 1) then
+        begin
+          Result := (FBuffer <> nil) and
+                    (FBuffer.Width  = Width) and
+                    (FBuffer.Height = Height);
+        end
+       else
+        begin
+          // CEF and Chromium use 'floor' to round the float values in Device <-> Logical unit conversions
+          // and Delphi uses MulDiv, which uses the bankers rounding, to resize the components in high DPI mode.
+          // This is the cause of slight differences in size between the buffer and the panel in some occasions.
 
-      Result := (FBuffer <> nil) and
-                (FBuffer.Width  = LogicalToDevice(DeviceToLogical(Width,  GlobalCEFApp.DeviceScaleFactor), GlobalCEFApp.DeviceScaleFactor)) and
-                (FBuffer.Height = LogicalToDevice(DeviceToLogical(Height, GlobalCEFApp.DeviceScaleFactor), GlobalCEFApp.DeviceScaleFactor));
+          TempLogWidth  := DeviceToLogical(Width,  GlobalCEFApp.DeviceScaleFactor);
+          TempLogHeight := DeviceToLogical(Height, GlobalCEFApp.DeviceScaleFactor);
+
+          TempDevWidth  := LogicalToDevice(TempLogWidth,  GlobalCEFApp.DeviceScaleFactor);
+          TempDevHeight := LogicalToDevice(TempLogHeight, GlobalCEFApp.DeviceScaleFactor);
+
+          Result := (FBuffer <> nil) and
+                    (FBuffer.Width  = TempDevWidth) and
+                    (FBuffer.Height = TempDevHeight);
+        end;
 
       if aUseMutex then EndBufferDraw;
     end;

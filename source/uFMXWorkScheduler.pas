@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFWorkScheduler;
+unit uFMXWorkScheduler;
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -47,17 +47,13 @@ unit uCEFWorkScheduler;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  WinApi.Windows, WinApi.Messages, System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms,
-  {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics, Forms,
-  {$ENDIF}
+  System.Classes, System.Types,
+  FMX.Types, FMX.Controls,
   uCEFConstants, uCEFWorkSchedulerThread;
 
 type
-  TCEFWorkScheduler = class(TComponent)
+  TFMXWorkScheduler = class(TComponent)
     protected
-      FCompHandle         : HWND;
       FThread             : TCEFWorkSchedulerThread;
       FDepleteWorkCycles  : cardinal;
       FDepleteWorkDelay   : cardinal;
@@ -71,11 +67,8 @@ type
 
       procedure CreateThread;
       procedure DestroyThread;
-      procedure DeallocateWindowHandle;
       procedure DepleteWork;
-      procedure WndProc(var aMessage: TMessage);
       procedure NextPulse(aInterval : integer);
-      procedure ScheduleWork(const delay_ms : int64);
       procedure DoWork;
       procedure DoMessageLoopWork;
 
@@ -86,6 +79,7 @@ type
       {$WARN SYMBOL_PLATFORM ON}
       {$ENDIF}
 
+
       procedure Thread_OnPulse(Sender : TObject);
 
     public
@@ -94,6 +88,7 @@ type
       procedure   AfterConstruction; override;
       procedure   ScheduleMessagePumpWork(const delay_ms : int64);
       procedure   StopScheduler;
+      procedure   ScheduleWork(const delay_ms : int64);
 
     published
       {$IFDEF MSWINDOWS}
@@ -109,20 +104,18 @@ type
 implementation
 
 uses
-  {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Math,
-  {$ELSE}
-  SysUtils, Math,
+  {$IFDEF MSWINDOWS}
+  WinApi.Windows,
   {$ENDIF}
+  System.SysUtils, System.Math,
+  FMX.Platform, FMX.Platform.Win, FMX.Forms,
   uCEFMiscFunctions, uCEFApplication;
 
-
-constructor TCEFWorkScheduler.Create(AOwner: TComponent);
+constructor TFMXWorkScheduler.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
   FThread             := nil;
-  FCompHandle         := 0;
   FStopped            := False;
   {$IFDEF MSWINDOWS}
   {$WARN SYMBOL_PLATFORM OFF}
@@ -134,26 +127,21 @@ begin
   FDepleteWorkDelay   := CEF_TIMER_DEPLETEWORK_DELAY;
 end;
 
-destructor TCEFWorkScheduler.Destroy;
+destructor TFMXWorkScheduler.Destroy;
 begin
   DestroyThread;
-  DeallocateWindowHandle;
 
   inherited Destroy;
 end;
 
-procedure TCEFWorkScheduler.AfterConstruction;
+procedure TFMXWorkScheduler.AfterConstruction;
 begin
   inherited AfterConstruction;
 
-  if not(csDesigning in ComponentState) then
-    begin
-      FCompHandle := AllocateHWnd(WndProc);
-      CreateThread;
-    end;
+  if not(csDesigning in ComponentState) then CreateThread;
 end;
 
-procedure TCEFWorkScheduler.CreateThread;
+procedure TFMXWorkScheduler.CreateThread;
 begin
   FThread                 := TCEFWorkSchedulerThread.Create;
   {$IFDEF MSWINDOWS}
@@ -161,14 +149,10 @@ begin
   {$ENDIF}
   FThread.DefaultInterval := FDefaultInterval;
   FThread.OnPulse         := Thread_OnPulse;
-  {$IFDEF DELPHI8_UP}
   FThread.Start;
-  {$ELSE}
-  FThread.Resume;
-  {$ENDIF}
 end;
 
-procedure TCEFWorkScheduler.DestroyThread;
+procedure TFMXWorkScheduler.DestroyThread;
 begin
   try
     if (FThread <> nil) then
@@ -180,33 +164,16 @@ begin
       end;
   except
     on e : exception do
-      if CustomExceptionHandler('TCEFWorkScheduler.DestroyThread', e) then raise;
+      if CustomExceptionHandler('TFMXWorkScheduler.DestroyThread', e) then raise;
   end;
 end;
 
-procedure TCEFWorkScheduler.WndProc(var aMessage: TMessage);
-begin
-  if (aMessage.Msg = CEF_PUMPHAVEWORK) then
-    ScheduleWork(aMessage.lParam)
-   else
-    aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
-end;
-
-procedure TCEFWorkScheduler.DeallocateWindowHandle;
-begin
-  if (FCompHandle <> 0) then
-    begin
-      DeallocateHWnd(FCompHandle);
-      FCompHandle := 0;
-    end;
-end;
-
-procedure TCEFWorkScheduler.DoMessageLoopWork;
+procedure TFMXWorkScheduler.DoMessageLoopWork;
 begin
   if (GlobalCEFApp <> nil) then GlobalCEFApp.DoMessageLoopWork;
 end;
 
-procedure TCEFWorkScheduler.SetDefaultInterval(aValue : integer);
+procedure TFMXWorkScheduler.SetDefaultInterval(aValue : integer);
 begin
   FDefaultInterval := aValue;
   if (FThread <> nil) then FThread.DefaultInterval := aValue;
@@ -214,7 +181,7 @@ end;
 
 {$IFDEF MSWINDOWS}
 {$WARN SYMBOL_PLATFORM OFF}
-procedure TCEFWorkScheduler.SetPriority(aValue : TThreadPriority);
+procedure TFMXWorkScheduler.SetPriority(aValue : TThreadPriority);
 begin
   FPriority := aValue;
   if (FThread <> nil) then FThread.Priority := aValue;
@@ -222,7 +189,7 @@ end;
 {$WARN SYMBOL_PLATFORM ON}
 {$ENDIF}
 
-procedure TCEFWorkScheduler.DepleteWork;
+procedure TFMXWorkScheduler.DepleteWork;
 var
   i : cardinal;
 begin
@@ -236,32 +203,45 @@ begin
     end;
 end;
 
-procedure TCEFWorkScheduler.ScheduleMessagePumpWork(const delay_ms : int64);
+procedure TFMXWorkScheduler.ScheduleMessagePumpWork(const delay_ms : int64);
+{$IFDEF MSWINDOWS}
+var
+  TempHandle : HWND;
+{$ENDIF}
 begin
-  if not(FStopped) and (FCompHandle <> 0) then
-    PostMessage(FCompHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
+  if not(FStopped) then
+    begin
+      {$IFDEF MSWINDOWS}
+      {$IFDEF DELPHI17_UP}
+      TempHandle := ApplicationHWND;
+      {$ELSE}
+      TempHandle := FmxHandleToHWND(Application.MainForm.Handle);
+      {$ENDIF}
+      if (TempHandle <> 0) then
+        WinApi.Windows.PostMessage(TempHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
+      {$ENDIF}
+    end;
 end;
 
-procedure TCEFWorkScheduler.StopScheduler;
+procedure TFMXWorkScheduler.StopScheduler;
 begin
   FStopped := True;
   NextPulse(0);
   DepleteWork;
-  DeallocateWindowHandle;
 end;
 
-procedure TCEFWorkScheduler.Thread_OnPulse(Sender: TObject);
+procedure TFMXWorkScheduler.Thread_OnPulse(Sender: TObject);
 begin
   if not(FStopped) then DoMessageLoopWork;
 end;
 
-procedure TCEFWorkScheduler.DoWork;
+procedure TFMXWorkScheduler.DoWork;
 begin
   DoMessageLoopWork;
   NextPulse(FDefaultInterval);
 end;
 
-procedure TCEFWorkScheduler.ScheduleWork(const delay_ms : int64);
+procedure TFMXWorkScheduler.ScheduleWork(const delay_ms : int64);
 begin
   if not(FStopped) then
     begin
@@ -272,7 +252,7 @@ begin
     end;
 end;
 
-procedure TCEFWorkScheduler.NextPulse(aInterval : integer);
+procedure TFMXWorkScheduler.NextPulse(aInterval : integer);
 begin
   if (FThread <> nil) then FThread.NextPulse(aInterval);
 end;

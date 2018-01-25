@@ -74,12 +74,12 @@ type
 
   TCefCustomPDFPrintCallBack = class(TCefPdfPrintCallbackOwn)
     protected
-      FChromiumBrowser : TObject;
+      FChromiumBrowser : IChromiumEvents;
 
       procedure OnPdfPrintFinished(const path: ustring; aResultOK : Boolean); override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
       procedure   InitializeVars; override;
   end;
@@ -87,7 +87,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFChromium;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_pdf_print_callback_on_pdf_print_finished(self: PCefPdfPrintCallback; const path: PCefString; ok: Integer); stdcall;
 begin
@@ -128,7 +128,7 @@ end;
 
 // TCefCustomPDFPrintCallBack
 
-constructor TCefCustomPDFPrintCallBack.Create(const aChromiumBrowser : TObject);
+constructor TCefCustomPDFPrintCallBack.Create(const aChromiumBrowser : IChromiumEvents);
 begin
   inherited Create;
 
@@ -149,8 +149,7 @@ end;
 
 procedure TCefCustomPDFPrintCallBack.OnPdfPrintFinished(const path: ustring; aResultOK : Boolean);
 begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_PdfPrintFinished(aResultOK);
+  if (FChromiumBrowser <> nil) then FChromiumBrowser.doPdfPrintFinished(aResultOK);
 end;
 
 end.

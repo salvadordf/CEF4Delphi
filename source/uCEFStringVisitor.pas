@@ -71,12 +71,12 @@ type
 
   TCustomCefStringVisitor = class(TCefStringVisitorOwn)
     protected
-      FChromiumBrowser : TObject;
+      FChromiumBrowser : IChromiumEvents;
 
       procedure Visit(const str: ustring); override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
       procedure   InitializeVars; override;
   end;
@@ -84,7 +84,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFChromium;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_string_visitor_visit(self: PCefStringVisitor; const str: PCefString); stdcall;
 begin
@@ -126,7 +126,7 @@ end;
 
 // TCustomCefStringVisitor
 
-constructor TCustomCefStringVisitor.Create(const aChromiumBrowser : TObject);
+constructor TCustomCefStringVisitor.Create(const aChromiumBrowser : IChromiumEvents);
 begin
   inherited Create;
 
@@ -147,8 +147,7 @@ end;
 
 procedure TCustomCefStringVisitor.Visit(const str: ustring);
 begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_TextResultAvailable(str);
+  if (FChromiumBrowser <> nil) then FChromiumBrowser.doTextResultAvailable(str);
 end;
 
 end.

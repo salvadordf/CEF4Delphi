@@ -1809,6 +1809,20 @@ type
 
     // ICefFindHandler
     procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
+
+    // Custom
+    procedure doCookiesDeleted(numDeleted : integer);
+    procedure doGetHTML(const aFrameName : ustring); overload;
+    procedure doGetHTML(const aFrame : ICefFrame); overload;
+    procedure doGetHTML(const aFrameIdentifier : int64); overload;
+    procedure doGetText(const aFrameName : ustring); overload;
+    procedure doGetText(const aFrame : ICefFrame); overload;
+    procedure doGetText(const aFrameIdentifier : int64); overload;
+    procedure doPdfPrintFinished(aResultOK : boolean);
+    procedure doTextResultAvailable(const aText : string);
+    procedure doUpdatePreferences;
+    function  doSavePreferences : boolean;
+    procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
   end;
 
 

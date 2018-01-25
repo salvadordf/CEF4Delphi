@@ -124,6 +124,7 @@ type
       FSetCurrentDir                 : boolean;
       FGlobalContextInitialized      : boolean;
       FSitePerProcess                : boolean;
+      FDisableWebSecurity            : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       FLibHandle                     : THandle;
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemes;
@@ -327,6 +328,7 @@ type
       property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
       property MuteAudio                         : boolean                             read FMuteAudio                         write FMuteAudio;
       property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;
+      property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
@@ -380,9 +382,9 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Math, System.IOUtils, System.SysUtils, Vcl.Dialogs,
+  System.Math, System.IOUtils, System.SysUtils,
   {$ELSE}
-  Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils, Dialogs,
+  Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp,
@@ -443,6 +445,7 @@ begin
   FEnableHighDPISupport          := False;
   FMuteAudio                     := False;
   FSitePerProcess                := True;
+  FDisableWebSecurity            := False;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
   FShowMessageDlg                := True;
@@ -960,7 +963,12 @@ procedure TCefApplication.ShowErrorMessageDlg(const aError : string);
 begin
   OutputDebugMessage(aError);
 
-  if FShowMessageDlg then MessageDlg(aError, mtError, [mbOk], 0);
+  if FShowMessageDlg then
+    begin
+      {$IFDEF MSWINDOWS}
+      MessageBox(0, PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK or MB_TOPMOST);
+      {$ENDIF}
+    end;
 end;
 
 function TCefApplication.ParseProcessType : TCefProcessType;
@@ -1162,6 +1170,9 @@ begin
 
       if FMuteAudio then
         commandLine.AppendSwitch('--mute-audio');
+
+      if FDisableWebSecurity then
+        commandLine.AppendSwitch('--disable-web-security');
 
       if FSitePerProcess then
         commandLine.AppendSwitch('--site-per-process');

@@ -82,7 +82,7 @@ type
 
   TCefGetTextTask = class(TCefTaskOwn)
     protected
-      FChromiumBrowser : TObject;
+      FChromiumBrowser : IChromiumEvents;
       FFrameName       : ustring;
       FFrame           : ICefFrame;
       FFrameIdentifier : int64;
@@ -90,9 +90,9 @@ type
       procedure Execute; override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject; const aFrameName : ustring); reintroduce; overload;
-      constructor Create(const aChromiumBrowser : TObject; const aFrame : ICefFrame); reintroduce; overload;
-      constructor Create(const aChromiumBrowser : TObject; const aFrameIdentifier : int64); reintroduce; overload;
+      constructor Create(const aChromiumBrowser : IChromiumEvents; const aFrameName : ustring); reintroduce; overload;
+      constructor Create(const aChromiumBrowser : IChromiumEvents; const aFrame : ICefFrame); reintroduce; overload;
+      constructor Create(const aChromiumBrowser : IChromiumEvents; const aFrameIdentifier : int64); reintroduce; overload;
       destructor  Destroy; override;
   end;
 
@@ -103,28 +103,30 @@ type
 
   TCefUpdatePrefsTask = class(TCefTaskOwn)
     protected
-      FChromiumBrowser : TObject;
+      FChromiumBrowser : IChromiumEvents;
 
       procedure Execute; override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
+      destructor  Destroy; override;
   end;
 
   TCefSavePrefsTask = class(TCefTaskOwn)
     protected
-      FChromiumBrowser : TObject;
+      FChromiumBrowser : IChromiumEvents;
 
       procedure Execute; override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
+      destructor  Destroy; override;
   end;
 
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFChromium, uCEFCookieManager;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager;
 
 procedure cef_task_execute(self: PCefTask); stdcall;
 begin
@@ -189,7 +191,7 @@ end;
 // TCefGetTextTask
 
 
-constructor TCefGetTextTask.Create(const aChromiumBrowser : TObject; const aFrameName : ustring);
+constructor TCefGetTextTask.Create(const aChromiumBrowser : IChromiumEvents; const aFrameName : ustring);
 begin
   inherited Create;
 
@@ -199,7 +201,7 @@ begin
   FFrameIdentifier := 0;
 end;
 
-constructor TCefGetTextTask.Create(const aChromiumBrowser : TObject; const aFrame : ICefFrame);
+constructor TCefGetTextTask.Create(const aChromiumBrowser : IChromiumEvents; const aFrame : ICefFrame);
 begin
   inherited Create;
 
@@ -209,7 +211,7 @@ begin
   FFrameIdentifier := 0;
 end;
 
-constructor TCefGetTextTask.Create(const aChromiumBrowser : TObject; const aFrameIdentifier : int64);
+constructor TCefGetTextTask.Create(const aChromiumBrowser : IChromiumEvents; const aFrameIdentifier : int64);
 begin
   inherited Create;
 
@@ -221,22 +223,23 @@ end;
 
 destructor TCefGetTextTask.Destroy;
 begin
-  FFrame := nil;
+  FChromiumBrowser := nil;
+  FFrame           := nil;
 
   inherited Destroy;
 end;
 
 procedure TCefGetTextTask.Execute;
 begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
+  if (FChromiumBrowser <> nil) then
     begin
       if (FFrame <> nil) then
-        TChromium(FChromiumBrowser).Internal_GetText(FFrame)
+        FChromiumBrowser.doGetText(FFrame)
        else
         if (FFrameIdentifier <> 0) then
-          TChromium(FChromiumBrowser).Internal_GetText(FFrameIdentifier)
+          FChromiumBrowser.doGetText(FFrameIdentifier)
          else
-          TChromium(FChromiumBrowser).Internal_GetText(FFrameName);
+          FChromiumBrowser.doGetText(FFrameName);
     end;
 end;
 
@@ -245,15 +248,15 @@ end;
 
 procedure TCefGetHTMLTask.Execute;
 begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
+  if (FChromiumBrowser <> nil) then
     begin
       if (FFrame <> nil) then
-        TChromium(FChromiumBrowser).Internal_GetHTML(FFrame)
+        FChromiumBrowser.doGetHTML(FFrame)
        else
         if (FFrameIdentifier <> 0) then
-          TChromium(FChromiumBrowser).Internal_GetHTML(FFrameIdentifier)
+          FChromiumBrowser.doGetHTML(FFrameIdentifier)
          else
-          TChromium(FChromiumBrowser).Internal_GetHTML(FFrameName);
+          FChromiumBrowser.doGetHTML(FFrameName);
     end;
 end;
 
@@ -261,34 +264,46 @@ end;
 // TCefUpdatePrefsTask
 
 
-constructor TCefUpdatePrefsTask.Create(const aChromiumBrowser : TObject);
+constructor TCefUpdatePrefsTask.Create(const aChromiumBrowser : IChromiumEvents);
 begin
   inherited Create;
 
   FChromiumBrowser := aChromiumBrowser;
 end;
 
+destructor TCefUpdatePrefsTask.Destroy;
+begin
+  FChromiumBrowser := nil;
+
+  inherited Destroy;
+end;
+
 procedure TCefUpdatePrefsTask.Execute;
 begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_UpdatePreferences;
+  if (FChromiumBrowser <> nil) then FChromiumBrowser.doUpdatePreferences;
 end;
 
 
 // TCefSavePrefsTask
 
 
-constructor TCefSavePrefsTask.Create(const aChromiumBrowser : TObject);
+constructor TCefSavePrefsTask.Create(const aChromiumBrowser : IChromiumEvents);
 begin
   inherited Create;
 
   FChromiumBrowser := aChromiumBrowser;
 end;
 
+destructor TCefSavePrefsTask.Destroy;
+begin
+  FChromiumBrowser := nil;
+
+  inherited Destroy;
+end;
+
 procedure TCefSavePrefsTask.Execute;
 begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_SavePreferences;
+  if (FChromiumBrowser <> nil) then FChromiumBrowser.doSavePreferences;
 end;
 
 end.

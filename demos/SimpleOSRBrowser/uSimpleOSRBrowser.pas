@@ -633,7 +633,7 @@ procedure TForm1.Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: T
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       Panel1.SetFocus;
 
@@ -650,7 +650,7 @@ var
   TempEvent : TCefMouseEvent;
   TempPoint : TPoint;
 begin
-  if (GlobalCEFApp <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       GetCursorPos(TempPoint);
       TempPoint           := Panel1.ScreenToclient(TempPoint);
@@ -666,7 +666,7 @@ procedure TForm1.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Inte
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       TempEvent.x         := X;
       TempEvent.y         := Y;
@@ -680,7 +680,7 @@ procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TSh
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       TempEvent.x         := X;
       TempEvent.y         := Y;

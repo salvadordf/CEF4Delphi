@@ -35,41 +35,28 @@
  *
  *)
 
-program SimpleOSRBrowser;
+unit CEF4Delphi_FMX_Register;
+
+{$R chromium.dcr}
 
 {$I cef.inc}
 
+interface
+
+procedure Register;
+
+implementation
+
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
-  Forms,
-  Windows,
-  {$ENDIF}
-  uCEFApplication,
-  uSimpleOSRBrowser in 'uSimpleOSRBrowser.pas' {Form1};
+  System.Classes,
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler,
+  uFMXBufferPanel, uFMXChromium, uFMXWorkScheduler, uCEFServerComponent;
 
-{$R *.res}
-
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
+procedure Register;
 begin
-  GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.FastUnload                 := True;
-  GlobalCEFApp.SitePerProcess             := False;
+  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
+                                  TFMXBufferPanel, TFMXChromium, TFMXWorkScheduler,
+                                  TCEFWorkScheduler, TCEFServerComponent]);
+end;
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TForm1, Form1);
-      Application.Run;
-    end;
-
-  GlobalCEFApp.Free;
 end.

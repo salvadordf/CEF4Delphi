@@ -67,8 +67,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
         Caption = 'Go'
         TabOrder = 0
         OnClick = GoBtnClick
-        ExplicitLeft = 98
-        ExplicitTop = 5
       end
       object VisitDOMBtn: TButton
         Left = 39
@@ -79,7 +77,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
         Caption = 'Visit DOM'
         TabOrder = 1
         OnClick = VisitDOMBtnClick
-        ExplicitLeft = 42
       end
     end
   end

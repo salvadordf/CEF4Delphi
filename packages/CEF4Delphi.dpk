@@ -1,0 +1,170 @@
+package CEF4Delphi;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'CEF4Delphi'}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl,
+  vcl;
+
+contains
+  CEF4Delphi_Register in 'CEF4Delphi_Register.pas',
+  uCEFFindHandler in '..\source\uCEFFindHandler.pas',
+  uCEFConstants in '..\source\uCEFConstants.pas',
+  uCEFTypes in '..\source\uCEFTypes.pas',
+  uCEFInterfaces in '..\source\uCEFInterfaces.pas',
+  uCEFMiscFunctions in '..\source\uCEFMiscFunctions.pas',
+  uCEFLibFunctions in '..\source\uCEFLibFunctions.pas',
+  uCEFApplication in '..\source\uCEFApplication.pas',
+  uCEFSchemeRegistrar in '..\source\uCEFSchemeRegistrar.pas',
+  uCEFCommandLine in '..\source\uCEFCommandLine.pas',
+  uCEFClient in '..\source\uCEFClient.pas',
+  uCEFProcessMessage in '..\source\uCEFProcessMessage.pas',
+  uCEFBrowser in '..\source\uCEFBrowser.pas',
+  uCEFListValue in '..\source\uCEFListValue.pas',
+  uCEFBinaryValue in '..\source\uCEFBinaryValue.pas',
+  uCEFValue in '..\source\uCEFValue.pas',
+  uCEFDictionaryValue in '..\source\uCEFDictionaryValue.pas',
+  uCEFDownloadImageCallBack in '..\source\uCEFDownloadImageCallBack.pas',
+  uCEFFrame in '..\source\uCEFFrame.pas',
+  uCEFPDFPrintCallback in '..\source\uCEFPDFPrintCallback.pas',
+  uCEFRunFileDialogCallback in '..\source\uCEFRunFileDialogCallback.pas',
+  uCEFRequestContext in '..\source\uCEFRequestContext.pas',
+  uCEFNavigationEntryVisitor in '..\source\uCEFNavigationEntryVisitor.pas',
+  uCEFStringVisitor in '..\source\uCEFStringVisitor.pas',
+  uCEFv8Context in '..\source\uCEFv8Context.pas',
+  uCEFDomVisitor in '..\source\uCEFDomVisitor.pas',
+  uCEFNavigationEntry in '..\source\uCEFNavigationEntry.pas',
+  uCEFCookieManager in '..\source\uCEFCookieManager.pas',
+  uCEFCompletionCallback in '..\source\uCEFCompletionCallback.pas',
+  uCEFRequestContextHandler in '..\source\uCEFRequestContextHandler.pas',
+  uCEFWebPluginInfo in '..\source\uCEFWebPluginInfo.pas',
+  uCEFDomDocument in '..\source\uCEFDomDocument.pas',
+  uCEFDomNode in '..\source\uCEFDomNode.pas',
+  uCEFv8Value in '..\source\uCEFv8Value.pas',
+  uCEFv8Accessor in '..\source\uCEFv8Accessor.pas',
+  uCEFLoadHandler in '..\source\uCEFLoadHandler.pas',
+  uCEFFocusHandler in '..\source\uCEFFocusHandler.pas',
+  uCEFContextMenuHandler in '..\source\uCEFContextMenuHandler.pas',
+  uCEFDialogHandler in '..\source\uCEFDialogHandler.pas',
+  uCEFKeyboardHandler in '..\source\uCEFKeyboardHandler.pas',
+  uCEFDisplayHandler in '..\source\uCEFDisplayHandler.pas',
+  uCEFDownloadHandler in '..\source\uCEFDownloadHandler.pas',
+  uCEFGeolocationHandler in '..\source\uCEFGeolocationHandler.pas',
+  uCEFJsDialogHandler in '..\source\uCEFJsDialogHandler.pas',
+  uCEFLifeSpanHandler in '..\source\uCEFLifeSpanHandler.pas',
+  uCEFRequestHandler in '..\source\uCEFRequestHandler.pas',
+  uCEFRenderHandler in '..\source\uCEFRenderHandler.pas',
+  uCEFDragHandler in '..\source\uCEFDragHandler.pas',
+  uCEFPostData in '..\source\uCEFPostData.pas',
+  uCEFPostDataElement in '..\source\uCEFPostDataElement.pas',
+  uCEFRequest in '..\source\uCEFRequest.pas',
+  uCEFStreamReader in '..\source\uCEFStreamReader.pas',
+  uCEFWriteHandler in '..\source\uCEFWriteHandler.pas',
+  uCEFStreamWriter in '..\source\uCEFStreamWriter.pas',
+  uCEFv8StackFrame in '..\source\uCEFv8StackFrame.pas',
+  uCEFv8StackTrace in '..\source\uCEFv8StackTrace.pas',
+  uCEFv8Handler in '..\source\uCEFv8Handler.pas',
+  uCEFRequestCallback in '..\source\uCEFRequestCallback.pas',
+  uCEFCustomStreamReader in '..\source\uCEFCustomStreamReader.pas',
+  uCEFCallback in '..\source\uCEFCallback.pas',
+  uCEFResourceHandler in '..\source\uCEFResourceHandler.pas',
+  uCEFSchemeHandlerFactory in '..\source\uCEFSchemeHandlerFactory.pas',
+  uCEFTask in '..\source\uCEFTask.pas',
+  uCEFTaskRunner in '..\source\uCEFTaskRunner.pas',
+  uCEFStringMap in '..\source\uCEFStringMap.pas',
+  uCEFStringMultimap in '..\source\uCEFStringMultimap.pas',
+  uCEFXmlReader in '..\source\uCEFXmlReader.pas',
+  uCEFZipReader in '..\source\uCEFZipReader.pas',
+  uCEFResponse in '..\source\uCEFResponse.pas',
+  uCEFCookieVisitor in '..\source\uCEFCookieVisitor.pas',
+  uCEFV8Exception in '..\source\uCEFV8Exception.pas',
+  uCEFResourceBundleHandler in '..\source\uCEFResourceBundleHandler.pas',
+  uCEFSetCookieCallback in '..\source\uCEFSetCookieCallback.pas',
+  uCEFDeleteCookiesCallback in '..\source\uCEFDeleteCookiesCallback.pas',
+  uCEFDownLoadItem in '..\source\uCEFDownLoadItem.pas',
+  uCEFBeforeDownloadCallback in '..\source\uCEFBeforeDownloadCallback.pas',
+  uCEFDownloadItemCallback in '..\source\uCEFDownloadItemCallback.pas',
+  uCEFAuthCallback in '..\source\uCEFAuthCallback.pas',
+  uCEFJsDialogCallback in '..\source\uCEFJsDialogCallback.pas',
+  uCEFGeolocationCallback in '..\source\uCEFGeolocationCallback.pas',
+  uCEFContextMenuParams in '..\source\uCEFContextMenuParams.pas',
+  uCEFMenuModel in '..\source\uCEFMenuModel.pas',
+  uCEFBrowserProcessHandler in '..\source\uCEFBrowserProcessHandler.pas',
+  uCEFRenderProcessHandler in '..\source\uCEFRenderProcessHandler.pas',
+  uCEFUrlrequestClient in '..\source\uCEFUrlrequestClient.pas',
+  uCEFUrlRequest in '..\source\uCEFUrlRequest.pas',
+  uCEFWebPluginInfoVisitor in '..\source\uCEFWebPluginInfoVisitor.pas',
+  uCEFWebPluginUnstableCallback in '..\source\uCEFWebPluginUnstableCallback.pas',
+  uCEFEndTracingCallback in '..\source\uCEFEndTracingCallback.pas',
+  uCEFGetGeolocationCallback in '..\source\uCEFGetGeolocationCallback.pas',
+  uCEFFileDialogCallback in '..\source\uCEFFileDialogCallback.pas',
+  uCEFDragData in '..\source\uCEFDragData.pas',
+  uCEFResolveCallback in '..\source\uCEFResolveCallback.pas',
+  uCEFPrintSettings in '..\source\uCEFPrintSettings.pas',
+  uCEFSslInfo in '..\source\uCEFSslInfo.pas',
+  uCEFRunContextMenuCallback in '..\source\uCEFRunContextMenuCallback.pas',
+  uCEFResourceBundle in '..\source\uCEFResourceBundle.pas',
+  uCEFResponseFilter in '..\source\uCEFResponseFilter.pas',
+  uCEFImage in '..\source\uCEFImage.pas',
+  uCEFMenuModelDelegate in '..\source\uCEFMenuModelDelegate.pas',
+  uCEFv8Types in '..\source\uCEFv8Types.pas',
+  uCEFWindowParent in '..\source\uCEFWindowParent.pas',
+  uCEFChromium in '..\source\uCEFChromium.pas',
+  uCEFChromiumEvents in '..\source\uCEFChromiumEvents.pas',
+  uCEFChromiumOptions in '..\source\uCEFChromiumOptions.pas',
+  uCEFChromiumFontOptions in '..\source\uCEFChromiumFontOptions.pas',
+  uCEFPDFPrintOptions in '..\source\uCEFPDFPrintOptions.pas',
+  uCEFRegisterCDMCallback in '..\source\uCEFRegisterCDMCallback.pas',
+  uCEFThread in '..\source\uCEFThread.pas',
+  uCEFv8Interceptor in '..\source\uCEFv8Interceptor.pas',
+  uCEFWaitableEvent in '..\source\uCEFWaitableEvent.pas',
+  uCEFX509CertPrincipal in '..\source\uCEFX509CertPrincipal.pas',
+  uCEFX509Certificate in '..\source\uCEFX509Certificate.pas',
+  uCEFSSLStatus in '..\source\uCEFSSLStatus.pas',
+  uCEFSelectClientCertificateCallback in '..\source\uCEFSelectClientCertificateCallback.pas',
+  uCEFChromiumWindow in '..\source\uCEFChromiumWindow.pas',
+  uCEFBaseRefCounted in '..\source\uCEFBaseRefCounted.pas',
+  uCEFBaseScopedWrapper in '..\source\uCEFBaseScopedWrapper.pas',
+  uCEFAccessibilityHandler in '..\source\uCEFAccessibilityHandler.pas',
+  uOLEDragAndDrop in '..\source\uOLEDragAndDrop.pas',
+  uCEFDragAndDropMgr in '..\source\uCEFDragAndDropMgr.pas',
+  uCEFGetExtensionResourceCallback in '..\source\uCEFGetExtensionResourceCallback.pas',
+  uCEFExtension in '..\source\uCEFExtension.pas',
+  uCEFExtensionHandler in '..\source\uCEFExtensionHandler.pas',
+  uBufferPanel in '..\source\uBufferPanel.pas',
+  uCEFApp in '..\source\uCEFApp.pas',
+  uCEFWorkScheduler in '..\source\uCEFWorkScheduler.pas',
+  uCEFWorkSchedulerThread in '..\source\uCEFWorkSchedulerThread.pas',
+  uCEFServer in '..\source\uCEFServer.pas',
+  uCEFServerHandler in '..\source\uCEFServerHandler.pas',
+  uCEFServerEvents in '..\source\uCEFServerEvents.pas',
+  uCEFServerComponent in '..\source\uCEFServerComponent.pas';
+
+end.
+

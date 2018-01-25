@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Simple OSR Browser - Initializing browser. Please wait...'
-  ClientHeight = 510
+  ClientHeight = 530
   ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -105,7 +105,7 @@ object Form1: TForm1
     Left = 0
     Top = 30
     Width = 800
-    Height = 480
+    Height = 500
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 1

@@ -160,7 +160,7 @@ end;
 
 procedure SimpleNodeSearch(const aDocument: ICefDomDocument);
 const
-  NODE_ID = 'lst-ib'; // node found in google.com homepage
+  NODE_ID = 'lst-ib'; // input box node found in google.com homepage
 var
   TempNode : ICefDomNode;
 begin
@@ -170,12 +170,18 @@ begin
         TempNode := aDocument.GetElementById(NODE_ID);
 
         if (TempNode <> nil) then
-          CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, NODE_ID + ' element name : ' + TempNode.Name);
+          begin
+            CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, NODE_ID + ' element name : ' + TempNode.Name);
+            CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, NODE_ID + ' element value : ' + TempNode.GetValue);
+          end;
 
         TempNode := aDocument.GetFocusedNode;
 
         if (TempNode <> nil) then
-          CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'Focused element name : ' + TempNode.Name);
+          begin
+            CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'Focused element name : ' + TempNode.Name);
+            CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'Focused element inner text : ' + TempNode.ElementInnerText);
+          end;
       end;
   except
     on e : exception do

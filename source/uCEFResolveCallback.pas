@@ -66,11 +66,11 @@ type
 
   TCefCustomResolveCallback = class(TCefResolveCallbackOwn)
     protected
-      FChromiumBrowser : TObject;
+      FChromiumBrowser : IChromiumEvents;
       procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings); override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
       procedure   InitializeVars; override;
   end;
@@ -78,7 +78,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFChromium;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_resolve_callback_on_resolve_completed(self: PCefResolveCallback;
                                                     result: TCefErrorCode;
@@ -126,7 +126,7 @@ end;
 
 // TCefCustomResolveCallback
 
-constructor TCefCustomResolveCallback.Create(const aChromiumBrowser : TObject);
+constructor TCefCustomResolveCallback.Create(const aChromiumBrowser : IChromiumEvents);
 begin
   inherited Create;
 
@@ -147,8 +147,7 @@ end;
 
 procedure TCefCustomResolveCallback.OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings);
 begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_ResolvedHostAvailable(result, resolvedIps);
+  if (FChromiumBrowser <> nil) then FChromiumBrowser.doResolvedHostAvailable(result, resolvedIps);
 end;
 
 end.

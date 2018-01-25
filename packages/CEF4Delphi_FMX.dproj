@@ -1,14 +1,14 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{3B58D3C2-1F7F-4146-A307-5F778CD7C586}</ProjectGuid>
+        <ProjectGuid>{2F51F1BD-0529-4B4A-BFD2-86FE96910A62}</ProjectGuid>
+        <MainSource>CEF4Delphi_FMX.dpk</MainSource>
         <ProjectVersion>18.2</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
-        <MainSource>DOMVisitor.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
-        <AppType>Application</AppType>
+        <AppType>Package</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -45,13 +45,26 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug with optimization' or '$(Cfg_3)'!=''">
+        <Cfg_3>true</Cfg_3>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_3)'=='true') or '$(Cfg_3_Win32)'!=''">
+        <Cfg_3_Win32>true</Cfg_3_Win32>
+        <CfgParent>Cfg_3</CfgParent>
+        <Cfg_3>true</Cfg_3>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <SanitizedProjectName>DOMVisitor</SanitizedProjectName>
+        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
+        <GenPackage>true</GenPackage>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
-        <VerInfo_Locale>3082</VerInfo_Locale>
+        <SanitizedProjectName>CEF4Delphi_FMX</SanitizedProjectName>
+        <GenDll>true</GenDll>
+        <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
         <DCC_N>false</DCC_N>
         <DCC_S>false</DCC_S>
@@ -59,20 +72,19 @@
         <DCC_K>false</DCC_K>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <DCC_UsePackage>rtl;vcl;fmx;$(DCC_UsePackage)</DCC_UsePackage>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_UsePackage>DBXSqliteDriver;RESTComponents;DataSnapServerMidas;DBXDb2Driver;DBXInterBaseDriver;vclactnband;frxe23;vclFireDAC;emsclientfiredac;DataSnapFireDAC;svnui;tethering;Componentes;FireDACADSDriver;DBXMSSQLDriver;DatasnapConnectorsFreePascal;FireDACMSSQLDriver;vcltouch;vcldb;bindcompfmx;svn;Intraweb;DBXOracleDriver;inetdb;Componentes_Int;CEF4Delphi;FmxTeeUI;FireDACIBDriver;fmx;fmxdae;vclib;FireDACDBXDriver;dbexpress;IndyProtocols230;vclx;dsnap;DataSnapCommon;emsclient;FireDACCommon;RESTBackendComponents;DataSnapConnectors;VCLRESTComponents;soapserver;frxTee23;vclie;bindengine;DBXMySQLDriver;FireDACOracleDriver;CloudService;FireDACMySQLDriver;DBXFirebirdDriver;FireDACCommonDriver;DataSnapClient;inet;bindcompdbx;vcl;DBXSybaseASEDriver;FireDACDb2Driver;GR32_DSGN_RSXE5;dsnapcon;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;Componentes_UI;TeeDB;FireDAC;FireDACSqliteDriver;FireDACPgDriver;ibmonitor;FireDACASADriver;DBXOdbcDriver;FireDACTDataDriver;FMXTee;soaprtl;DbxCommonDriver;Componentes_Misc;ibxpress;Tee;DataSnapServer;xmlrtl;soapmidas;DataSnapNativeClient;fmxobj;vclwinx;ibxbindings;rtl;FireDACDSDriver;DbxClientDriver;DBXSybaseASADriver;CustomIPTransport;vcldsnap;GR32_RSXE5;bindcomp;appanalytics;Componentes_RTF;DBXInformixDriver;bindcompvcl;frxDB23;Componentes_vCard;TeeUI;IndyCore230;vclribbon;dbxcds;VclSmp;adortl;FireDACODBCDriver;DataSnapIndy10ServerTransport;IndySystem230;dsnapxml;DataSnapProviderClient;dbrtl;inetdbxpress;FireDACMongoDBDriver;frx23;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
-        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-        <DCC_ExeOutput>..\..\bin</DCC_ExeOutput>
+        <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;RESTComponents;DataSnapServerMidas;DBXDb2Driver;DBXInterBaseDriver;vclactnband;vclFireDAC;emsclientfiredac;DataSnapFireDAC;tethering;FireDACADSDriver;DBXMSSQLDriver;DatasnapConnectorsFreePascal;FireDACMSSQLDriver;vcltouch;vcldb;bindcompfmx;Intraweb;DBXOracleDriver;inetdb;FmxTeeUI;FireDACIBDriver;fmx;fmxdae;vclib;FireDACDBXDriver;dbexpress;IndyProtocols230;vclx;dsnap;DataSnapCommon;emsclient;FireDACCommon;RESTBackendComponents;DataSnapConnectors;VCLRESTComponents;soapserver;vclie;bindengine;DBXMySQLDriver;FireDACOracleDriver;CloudService;FireDACMySQLDriver;DBXFirebirdDriver;FireDACCommonDriver;DataSnapClient;inet;bindcompdbx;vcl;DBXSybaseASEDriver;FireDACDb2Driver;dsnapcon;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;TeeDB;FireDAC;FireDACSqliteDriver;FireDACPgDriver;ibmonitor;FireDACASADriver;DBXOdbcDriver;FireDACTDataDriver;FMXTee;soaprtl;DbxCommonDriver;ibxpress;Tee;DataSnapServer;xmlrtl;soapmidas;DataSnapNativeClient;fmxobj;vclwinx;ibxbindings;rtl;FireDACDSDriver;DbxClientDriver;DBXSybaseASADriver;CustomIPTransport;vcldsnap;bindcomp;appanalytics;DBXInformixDriver;bindcompvcl;TeeUI;IndyCore230;vclribbon;dbxcds;VclSmp;adortl;FireDACODBCDriver;DataSnapIndy10ServerTransport;IndySystem230;dsnapxml;DataSnapProviderClient;dbrtl;inetdbxpress;FireDACMongoDBDriver;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
-        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
-        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+        <DCC_UsePackage>rtl;vcl;fmx;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -83,13 +95,11 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <AppEnableHighDPI>true</AppEnableHighDPI>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=CEF4Delphi;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=CEF4Delphi;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <DCC_Description>CEF4Delphi</DCC_Description>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
-        <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -98,35 +108,181 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <AppEnableHighDPI>true</AppEnableHighDPI>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_3_Win32)'!=''">
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_DebugDCUs>true</DCC_DebugDCUs>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="uDOMVisitor.pas">
-            <Form>DOMVisitorFrm</Form>
-        </DCCReference>
+        <DCCReference Include="rtl.dcp"/>
+        <DCCReference Include="vcl.dcp"/>
+        <DCCReference Include="fmx.dcp"/>
+        <DCCReference Include="CEF4Delphi_FMX_Register.pas"/>
+        <DCCReference Include="..\source\uCEFFindHandler.pas"/>
+        <DCCReference Include="..\source\uCEFConstants.pas"/>
+        <DCCReference Include="..\source\uCEFTypes.pas"/>
+        <DCCReference Include="..\source\uCEFInterfaces.pas"/>
+        <DCCReference Include="..\source\uCEFMiscFunctions.pas"/>
+        <DCCReference Include="..\source\uCEFLibFunctions.pas"/>
+        <DCCReference Include="..\source\uCEFApplication.pas"/>
+        <DCCReference Include="..\source\uCEFSchemeRegistrar.pas"/>
+        <DCCReference Include="..\source\uCEFCommandLine.pas"/>
+        <DCCReference Include="..\source\uCEFClient.pas"/>
+        <DCCReference Include="..\source\uCEFProcessMessage.pas"/>
+        <DCCReference Include="..\source\uCEFBrowser.pas"/>
+        <DCCReference Include="..\source\uCEFListValue.pas"/>
+        <DCCReference Include="..\source\uCEFBinaryValue.pas"/>
+        <DCCReference Include="..\source\uCEFValue.pas"/>
+        <DCCReference Include="..\source\uCEFDictionaryValue.pas"/>
+        <DCCReference Include="..\source\uCEFDownloadImageCallBack.pas"/>
+        <DCCReference Include="..\source\uCEFFrame.pas"/>
+        <DCCReference Include="..\source\uCEFPDFPrintCallback.pas"/>
+        <DCCReference Include="..\source\uCEFRunFileDialogCallback.pas"/>
+        <DCCReference Include="..\source\uCEFRequestContext.pas"/>
+        <DCCReference Include="..\source\uCEFNavigationEntryVisitor.pas"/>
+        <DCCReference Include="..\source\uCEFStringVisitor.pas"/>
+        <DCCReference Include="..\source\uCEFv8Context.pas"/>
+        <DCCReference Include="..\source\uCEFDomVisitor.pas"/>
+        <DCCReference Include="..\source\uCEFNavigationEntry.pas"/>
+        <DCCReference Include="..\source\uCEFCookieManager.pas"/>
+        <DCCReference Include="..\source\uCEFCompletionCallback.pas"/>
+        <DCCReference Include="..\source\uCEFRequestContextHandler.pas"/>
+        <DCCReference Include="..\source\uCEFWebPluginInfo.pas"/>
+        <DCCReference Include="..\source\uCEFDomDocument.pas"/>
+        <DCCReference Include="..\source\uCEFDomNode.pas"/>
+        <DCCReference Include="..\source\uCEFv8Value.pas"/>
+        <DCCReference Include="..\source\uCEFv8Accessor.pas"/>
+        <DCCReference Include="..\source\uCEFLoadHandler.pas"/>
+        <DCCReference Include="..\source\uCEFFocusHandler.pas"/>
+        <DCCReference Include="..\source\uCEFContextMenuHandler.pas"/>
+        <DCCReference Include="..\source\uCEFDialogHandler.pas"/>
+        <DCCReference Include="..\source\uCEFKeyboardHandler.pas"/>
+        <DCCReference Include="..\source\uCEFDisplayHandler.pas"/>
+        <DCCReference Include="..\source\uCEFDownloadHandler.pas"/>
+        <DCCReference Include="..\source\uCEFGeolocationHandler.pas"/>
+        <DCCReference Include="..\source\uCEFJsDialogHandler.pas"/>
+        <DCCReference Include="..\source\uCEFLifeSpanHandler.pas"/>
+        <DCCReference Include="..\source\uCEFRequestHandler.pas"/>
+        <DCCReference Include="..\source\uCEFRenderHandler.pas"/>
+        <DCCReference Include="..\source\uCEFDragHandler.pas"/>
+        <DCCReference Include="..\source\uCEFPostData.pas"/>
+        <DCCReference Include="..\source\uCEFPostDataElement.pas"/>
+        <DCCReference Include="..\source\uCEFRequest.pas"/>
+        <DCCReference Include="..\source\uCEFStreamReader.pas"/>
+        <DCCReference Include="..\source\uCEFWriteHandler.pas"/>
+        <DCCReference Include="..\source\uCEFStreamWriter.pas"/>
+        <DCCReference Include="..\source\uCEFv8StackFrame.pas"/>
+        <DCCReference Include="..\source\uCEFv8StackTrace.pas"/>
+        <DCCReference Include="..\source\uCEFv8Handler.pas"/>
+        <DCCReference Include="..\source\uCEFRequestCallback.pas"/>
+        <DCCReference Include="..\source\uCEFCustomStreamReader.pas"/>
+        <DCCReference Include="..\source\uCEFCallback.pas"/>
+        <DCCReference Include="..\source\uCEFResourceHandler.pas"/>
+        <DCCReference Include="..\source\uCEFSchemeHandlerFactory.pas"/>
+        <DCCReference Include="..\source\uCEFTask.pas"/>
+        <DCCReference Include="..\source\uCEFTaskRunner.pas"/>
+        <DCCReference Include="..\source\uCEFStringMap.pas"/>
+        <DCCReference Include="..\source\uCEFStringMultimap.pas"/>
+        <DCCReference Include="..\source\uCEFXmlReader.pas"/>
+        <DCCReference Include="..\source\uCEFZipReader.pas"/>
+        <DCCReference Include="..\source\uCEFResponse.pas"/>
+        <DCCReference Include="..\source\uCEFCookieVisitor.pas"/>
+        <DCCReference Include="..\source\uCEFV8Exception.pas"/>
+        <DCCReference Include="..\source\uCEFResourceBundleHandler.pas"/>
+        <DCCReference Include="..\source\uCEFSetCookieCallback.pas"/>
+        <DCCReference Include="..\source\uCEFDeleteCookiesCallback.pas"/>
+        <DCCReference Include="..\source\uCEFDownLoadItem.pas"/>
+        <DCCReference Include="..\source\uCEFBeforeDownloadCallback.pas"/>
+        <DCCReference Include="..\source\uCEFDownloadItemCallback.pas"/>
+        <DCCReference Include="..\source\uCEFAuthCallback.pas"/>
+        <DCCReference Include="..\source\uCEFJsDialogCallback.pas"/>
+        <DCCReference Include="..\source\uCEFGeolocationCallback.pas"/>
+        <DCCReference Include="..\source\uCEFContextMenuParams.pas"/>
+        <DCCReference Include="..\source\uCEFMenuModel.pas"/>
+        <DCCReference Include="..\source\uCEFBrowserProcessHandler.pas"/>
+        <DCCReference Include="..\source\uCEFRenderProcessHandler.pas"/>
+        <DCCReference Include="..\source\uCEFUrlrequestClient.pas"/>
+        <DCCReference Include="..\source\uCEFUrlRequest.pas"/>
+        <DCCReference Include="..\source\uCEFWebPluginInfoVisitor.pas"/>
+        <DCCReference Include="..\source\uCEFWebPluginUnstableCallback.pas"/>
+        <DCCReference Include="..\source\uCEFEndTracingCallback.pas"/>
+        <DCCReference Include="..\source\uCEFGetGeolocationCallback.pas"/>
+        <DCCReference Include="..\source\uCEFFileDialogCallback.pas"/>
+        <DCCReference Include="..\source\uCEFDragData.pas"/>
+        <DCCReference Include="..\source\uCEFResolveCallback.pas"/>
+        <DCCReference Include="..\source\uCEFPrintSettings.pas"/>
+        <DCCReference Include="..\source\uCEFSslInfo.pas"/>
+        <DCCReference Include="..\source\uCEFRunContextMenuCallback.pas"/>
+        <DCCReference Include="..\source\uCEFResourceBundle.pas"/>
+        <DCCReference Include="..\source\uCEFResponseFilter.pas"/>
+        <DCCReference Include="..\source\uCEFImage.pas"/>
+        <DCCReference Include="..\source\uCEFMenuModelDelegate.pas"/>
+        <DCCReference Include="..\source\uCEFv8Types.pas"/>
+        <DCCReference Include="..\source\uCEFWindowParent.pas"/>
+        <DCCReference Include="..\source\uCEFChromium.pas"/>
+        <DCCReference Include="..\source\uCEFChromiumEvents.pas"/>
+        <DCCReference Include="..\source\uCEFChromiumOptions.pas"/>
+        <DCCReference Include="..\source\uCEFChromiumFontOptions.pas"/>
+        <DCCReference Include="..\source\uCEFPDFPrintOptions.pas"/>
+        <DCCReference Include="..\source\uCEFRegisterCDMCallback.pas"/>
+        <DCCReference Include="..\source\uCEFThread.pas"/>
+        <DCCReference Include="..\source\uCEFv8Interceptor.pas"/>
+        <DCCReference Include="..\source\uCEFWaitableEvent.pas"/>
+        <DCCReference Include="..\source\uCEFX509CertPrincipal.pas"/>
+        <DCCReference Include="..\source\uCEFX509Certificate.pas"/>
+        <DCCReference Include="..\source\uCEFSSLStatus.pas"/>
+        <DCCReference Include="..\source\uCEFSelectClientCertificateCallback.pas"/>
+        <DCCReference Include="..\source\uCEFChromiumWindow.pas"/>
+        <DCCReference Include="..\source\uCEFBaseRefCounted.pas"/>
+        <DCCReference Include="..\source\uCEFBaseScopedWrapper.pas"/>
+        <DCCReference Include="..\source\uCEFAccessibilityHandler.pas"/>
+        <DCCReference Include="..\source\uOLEDragAndDrop.pas"/>
+        <DCCReference Include="..\source\uCEFDragAndDropMgr.pas"/>
+        <DCCReference Include="..\source\uCEFGetExtensionResourceCallback.pas"/>
+        <DCCReference Include="..\source\uCEFExtension.pas"/>
+        <DCCReference Include="..\source\uCEFExtensionHandler.pas"/>
+        <DCCReference Include="..\source\uBufferPanel.pas"/>
+        <DCCReference Include="..\source\uCEFApp.pas"/>
+        <DCCReference Include="..\source\uCEFWorkScheduler.pas"/>
+        <DCCReference Include="..\source\uCEFWorkSchedulerThread.pas"/>
+        <DCCReference Include="..\source\uCEFServer.pas"/>
+        <DCCReference Include="..\source\uCEFServerHandler.pas"/>
+        <DCCReference Include="..\source\uCEFServerEvents.pas"/>
+        <DCCReference Include="..\source\uCEFServerComponent.pas"/>
+        <DCCReference Include="..\source\uFMXBufferPanel.pas"/>
+        <DCCReference Include="..\source\uFMXChromium.pas"/>
+        <DCCReference Include="..\source\uFMXWorkScheduler.pas"/>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
-        </BuildConfiguration>
-        <BuildConfiguration Include="Base">
-            <Key>Base</Key>
         </BuildConfiguration>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_1</Key>
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
+        <BuildConfiguration Include="Debug with optimization">
+            <Key>Cfg_3</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Delphi.Personality.12</Borland.Personality>
-        <Borland.ProjectType>Application</Borland.ProjectType>
+        <Borland.ProjectType>Package</Borland.ProjectType>
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">DOMVisitor.dpr</Source>
+                    <Source Name="MainSource">CEF4Delphi_FMX.dpk</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclIPIndyImpl250.bpl">IP Abstraction Indy Implementation Design Time</Excluded_Packages>
@@ -135,13 +291,18 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="Win32\Debug\DOMVisitor.exe" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployClass Name="AdditionalDebugSymbols">
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\17.0\Bpl\CEF4Delphi.bpl" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>CEF4Delphi.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
                     </Platform>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -256,7 +417,6 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -265,7 +425,6 @@
                 </DeployClass>
                 <DeployClass Name="DependencyFramework">
                     <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.framework</Extensions>
                     </Platform>
@@ -274,20 +433,7 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="DependencyModule">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
                     <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
@@ -310,7 +456,6 @@
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
@@ -333,7 +478,6 @@
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSX32">
-                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -432,35 +576,9 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSEntitlements">
-                    <Platform Name="iOSDevice32">
-                        <RemoteDir>..\</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <RemoteDir>..\</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectiOSInfoPList">
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceResourceRules"/>
+                <DeployClass Name="ProjectiOSEntitlements"/>
+                <DeployClass Name="ProjectiOSInfoPList"/>
                 <DeployClass Name="ProjectiOSResource">
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
@@ -472,18 +590,8 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectOSXEntitlements">
-                    <Platform Name="OSX32">
-                        <RemoteDir>..\</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="ProjectOSXInfoPList">
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
+                <DeployClass Name="ProjectOSXEntitlements"/>
+                <DeployClass Name="ProjectOSXInfoPList"/>
                 <DeployClass Name="ProjectOSXResource">
                     <Platform Name="OSX32">
                         <RemoteDir>Contents\Resources</RemoteDir>
@@ -508,7 +616,6 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -548,7 +655,7 @@
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
             </Deployment>

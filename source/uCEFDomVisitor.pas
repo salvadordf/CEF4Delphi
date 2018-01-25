@@ -83,7 +83,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFTypes, uCEFDomDocument, uCEFChromium;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFTypes, uCEFDomDocument;
 
 procedure cef_dom_visitor_visite(self: PCefDomVisitor; document: PCefDomDocument); stdcall;
 begin

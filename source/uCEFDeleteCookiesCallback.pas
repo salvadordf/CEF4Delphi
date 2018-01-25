@@ -73,12 +73,12 @@ type
 
   TCefCustomDeleteCookiesCallback = class(TCefDeleteCookiesCallbackOwn)
     protected
-      FChromiumBrowser : TObject;
+      FChromiumBrowser : IChromiumEvents;
 
       procedure OnComplete(numDeleted: Integer); override;
 
     public
-      constructor Create(const aChromiumBrowser : TObject); reintroduce;
+      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
       procedure   InitializeVars; override;
   end;
@@ -86,7 +86,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFChromium;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_delete_cookie_callback_on_complete(self: PCefDeleteCookiesCallback; num_deleted: Integer); stdcall;
 begin
@@ -130,7 +130,7 @@ end;
 
 // TCefCustomDeleteCookiesCallback
 
-constructor TCefCustomDeleteCookiesCallback.Create(const aChromiumBrowser : TObject);
+constructor TCefCustomDeleteCookiesCallback.Create(const aChromiumBrowser : IChromiumEvents);
 begin
   inherited Create;
 
@@ -151,8 +151,7 @@ end;
 
 procedure TCefCustomDeleteCookiesCallback.OnComplete(numDeleted: Integer);
 begin
-  if (FChromiumBrowser <> nil) and (FChromiumBrowser is TChromium) then
-    TChromium(FChromiumBrowser).Internal_CookiesDeleted(numDeleted);
+  if (FChromiumBrowser <> nil) then FChromiumBrowser.doCookiesDeleted(numDeleted);
 end;
 
 end.

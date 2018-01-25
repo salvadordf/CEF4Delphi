@@ -419,10 +419,25 @@ type
       // ICefFindHandler
       procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean); virtual;
 
+      // Custom
+      procedure doCookiesDeleted(numDeleted : integer); virtual;
+      procedure doGetHTML(const aFrameName : ustring); overload;
+      procedure doGetHTML(const aFrame : ICefFrame); overload;
+      procedure doGetHTML(const aFrameIdentifier : int64); overload;
+      procedure doGetText(const aFrameName : ustring); overload;
+      procedure doGetText(const aFrame : ICefFrame); overload;
+      procedure doGetText(const aFrameIdentifier : int64); overload;
+      procedure doPdfPrintFinished(aResultOK : boolean); virtual;
+      procedure doTextResultAvailable(const aText : string); virtual;
+      procedure doUpdatePreferences; virtual;
+      function  doSavePreferences : boolean; virtual;
+      procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings); virtual;
+
     public
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
+      procedure   BeforeDestruction; override;
       function    CreateClientHandler(aIsOSR : boolean) : boolean; overload;
       function    CreateClientHandler(var aClient : ICefClient) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
@@ -431,21 +446,6 @@ type
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
       procedure   InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
       procedure   ShutdownDragAndDrop;
-
-      // Internal procedures.
-      // Only tasks, visitors or callbacks should use them in the right thread/process.
-      procedure   Internal_CookiesDeleted(numDeleted : integer);
-      procedure   Internal_GetHTML(const aFrameName : ustring); overload;
-      procedure   Internal_GetHTML(const aFrame : ICefFrame); overload;
-      procedure   Internal_GetHTML(const aFrameIdentifier : int64); overload;
-      procedure   Internal_GetText(const aFrameName : ustring); overload;
-      procedure   Internal_GetText(const aFrame : ICefFrame); overload;
-      procedure   Internal_GetText(const aFrameIdentifier : int64); overload;
-      procedure   Internal_PdfPrintFinished(aResultOK : boolean);
-      procedure   Internal_TextResultAvailable(const aText : string);
-      procedure   Internal_UpdatePreferences; virtual;
-      function    Internal_SavePreferences : boolean;
-      procedure   Internal_ResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
 
       procedure   LoadURL(const aURL : ustring);
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
@@ -774,12 +774,6 @@ begin
 
       ClearBrowserReference;
 
-      DestroyClientHandler;
-      DestroyVisitor;
-      DestroyPDFPrintcb;
-      DestroyResolveHostcb;
-      DestroyCookiDeletercb;
-
       if (FFontOptions     <> nil) then FreeAndNil(FFontOptions);
       if (FOptions         <> nil) then FreeAndNil(FOptions);
       if (FPDFPrintOptions <> nil) then FreeAndNil(FPDFPrintOptions);
@@ -792,6 +786,17 @@ begin
   end;
 end;
 
+procedure TChromium.BeforeDestruction;
+begin
+  DestroyClientHandler;
+  DestroyVisitor;
+  DestroyPDFPrintcb;
+  DestroyResolveHostcb;
+  DestroyCookiDeletercb;
+
+  inherited BeforeDestruction;
+end;
+
 procedure TChromium.ClearBrowserReference;
 begin
   FBrowser   := nil;
@@ -800,47 +805,72 @@ end;
 
 procedure TChromium.DestroyClientHandler;
 begin
-  if (FHandler <> nil) then
-    begin
-      FHandler.InitializeVars;
-      FHandler := nil;
-    end;
+  try
+    if (FHandler <> nil) then
+      begin
+        FHandler.InitializeVars;
+        FHandler := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.DestroyClientHandler', e) then raise;
+  end;
 end;
 
 procedure TChromium.DestroyVisitor;
 begin
-  if (FVisitor <> nil) then
-    begin
-      FVisitor.InitializeVars;
-      FVisitor := nil;
-    end;
+  try
+    if (FVisitor <> nil) then
+      begin
+        FVisitor.InitializeVars;
+        FVisitor := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.DestroyVisitor', e) then raise;
+  end;
 end;
 
 procedure TChromium.DestroyPDFPrintcb;
 begin
-  if (FPDFPrintcb <> nil) then
-    begin
-      FPDFPrintcb.InitializeVars;
-      FPDFPrintcb := nil;
-    end;
+  try
+    if (FPDFPrintcb <> nil) then
+      begin
+        FPDFPrintcb.InitializeVars;
+        FPDFPrintcb := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.DestroyPDFPrintcb', e) then raise;
+  end;
 end;
 
 procedure TChromium.DestroyResolveHostcb;
 begin
-  if (FResolveHostcb <> nil) then
-    begin
-      FResolveHostcb.InitializeVars;
-      FResolveHostcb := nil;
-    end;
+  try
+    if (FResolveHostcb <> nil) then
+      begin
+        FResolveHostcb.InitializeVars;
+        FResolveHostcb := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.DestroyResolveHostcb', e) then raise;
+  end;
 end;
 
 procedure TChromium.DestroyCookiDeletercb;
 begin
-  if (FCookiDeletercb <> nil) then
-    begin
-      FCookiDeletercb.InitializeVars;
-      FCookiDeletercb := nil;
-    end;
+  try
+    if (FCookiDeletercb <> nil) then
+      begin
+        FCookiDeletercb.InitializeVars;
+        FCookiDeletercb := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.DestroyCookiDeletercb', e) then raise;
+  end;
 end;
 
 procedure TChromium.AfterConstruction;
@@ -1897,7 +1927,7 @@ begin
     end;
 end;
 
-procedure TChromium.Internal_GetHTML(const aFrameName : ustring);
+procedure TChromium.doGetHTML(const aFrameName : ustring);
 var
   TempFrame : ICefFrame;
 begin
@@ -1916,7 +1946,7 @@ begin
     end;
 end;
 
-procedure TChromium.Internal_GetHTML(const aFrame : ICefFrame);
+procedure TChromium.doGetHTML(const aFrame : ICefFrame);
 begin
   if Initialized and (aFrame <> nil) then
     begin
@@ -1925,7 +1955,7 @@ begin
     end;
 end;
 
-procedure TChromium.Internal_GetHTML(const aFrameIdentifier : int64);
+procedure TChromium.doGetHTML(const aFrameIdentifier : int64);
 var
   TempFrame : ICefFrame;
 begin
@@ -1944,7 +1974,7 @@ begin
     end;
 end;
 
-procedure TChromium.Internal_GetText(const aFrameName : ustring);
+procedure TChromium.doGetText(const aFrameName : ustring);
 var
   TempFrame : ICefFrame;
 begin
@@ -1963,7 +1993,7 @@ begin
     end;
 end;
 
-procedure TChromium.Internal_GetText(const aFrame : ICefFrame);
+procedure TChromium.doGetText(const aFrame : ICefFrame);
 begin
   if Initialized and (aFrame <> nil) then
     begin
@@ -1972,7 +2002,7 @@ begin
     end;
 end;
 
-procedure TChromium.Internal_GetText(const aFrameIdentifier : int64);
+procedure TChromium.doGetText(const aFrameIdentifier : int64);
 var
   TempFrame : ICefFrame;
 begin
@@ -2189,7 +2219,7 @@ begin
     end;
 end;
 
-procedure TChromium.Internal_UpdatePreferences;
+procedure TChromium.doUpdatePreferences;
 begin
   FUpdatePreferences := False;
 
@@ -2609,7 +2639,7 @@ begin
   end;
 end;
 
-function TChromium.Internal_SavePreferences : boolean;
+function TChromium.doSavePreferences : boolean;
 var
   TempDict  : ICefDictionaryValue;
   TempPrefs : TStringList;
@@ -2637,7 +2667,7 @@ begin
   end;
 end;
 
-procedure TChromium.Internal_ResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
+procedure TChromium.doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
 begin
   if assigned(FOnResolvedHostAvailable) then FOnResolvedHostAvailable(self, result, resolvedIps);
 end;
@@ -2757,7 +2787,7 @@ begin
   Result := (FCompHandle <> 0) and PostMessage(FCompHandle, aMsg, wParam, lParam);
 end;
 
-procedure TChromium.Internal_TextResultAvailable(const aText : string);
+procedure TChromium.doTextResultAvailable(const aText : string);
 begin
   if assigned(FOnTextResultAvailable) then FOnTextResultAvailable(self, aText);
 end;
@@ -2815,12 +2845,12 @@ begin
   end;
 end;
 
-procedure TChromium.Internal_CookiesDeleted(numDeleted : integer);
+procedure TChromium.doCookiesDeleted(numDeleted : integer);
 begin
   if assigned(FOnCookiesDeleted) then FOnCookiesDeleted(self, numDeleted);
 end;
 
-procedure TChromium.Internal_PdfPrintFinished(aResultOK : boolean);
+procedure TChromium.doPdfPrintFinished(aResultOK : boolean);
 begin
   if assigned(FOnPdfPrintFinished) then FOnPdfPrintFinished(self, aResultOK);
 end;
@@ -2912,7 +2942,7 @@ begin
       if (FBrowser <> nil) then FBrowserId := FBrowser.Identifier;
     end;
 
-  Internal_UpdatePreferences;
+  doUpdatePreferences;
 
   FInitialized := (FBrowser <> nil) and (FBrowserId <> 0);
 
@@ -2926,7 +2956,7 @@ function TChromium.doOnBeforeBrowse(const browser    : ICefBrowser;
 begin
   Result := False;
 
-  if FUpdatePreferences then Internal_UpdatePreferences;
+  if FUpdatePreferences then doUpdatePreferences;
 
   if Assigned(FOnBeforeBrowse) then FOnBeforeBrowse(Self, browser, frame, request, isRedirect, Result);
 end;
