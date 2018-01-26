@@ -290,7 +290,6 @@ type
       function  MustCreateDownloadHandler : boolean; virtual;
       function  MustCreateGeolocationHandler : boolean; virtual;
       function  MustCreateJsDialogHandler : boolean; virtual;
-      function  MustCreateLifeSpanHandler : boolean; virtual;
       function  MustCreateDragHandler : boolean; virtual;
       function  MustCreateFindHandler : boolean; virtual;
 
@@ -858,7 +857,7 @@ begin
                                                 MustCreateDownloadHandler,
                                                 MustCreateGeolocationHandler,
                                                 MustCreateJsDialogHandler,
-                                                MustCreateLifeSpanHandler,
+                                                True,
                                                 True, // FMX always uses the OSR mode
                                                 True,
                                                 MustCreateDragHandler,
@@ -2499,14 +2498,6 @@ begin
             assigned(FOnBeforeUnloadDialog) or
             assigned(FOnResetDialogState)   or
             assigned(FOnDialogClosed);
-end;
-
-function TFMXChromium.MustCreateLifeSpanHandler : boolean;
-begin
-  Result := assigned(FOnBeforePopup)  or
-            assigned(FOnAfterCreated) or
-            assigned(FOnBeforeClose)  or
-            assigned(FOnClose);
 end;
 
 function TFMXChromium.MustCreateDragHandler : boolean;
