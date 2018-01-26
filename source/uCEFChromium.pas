@@ -302,7 +302,6 @@ type
       function  MustCreateGeolocationHandler : boolean; virtual;
       function  MustCreateJsDialogHandler : boolean; virtual;
       function  MustCreateLifeSpanHandler : boolean; virtual;
-      function  MustCreateRequestHandler : boolean; virtual;
       function  MustCreateDragHandler : boolean; virtual;
       function  MustCreateFindHandler : boolean; virtual;
 
@@ -911,7 +910,7 @@ begin
                                                 MustCreateJsDialogHandler,
                                                 MustCreateLifeSpanHandler,
                                                 FIsOSR, // Create the Render Handler in OSR mode only
-                                                MustCreateRequestHandler,
+                                                True,
                                                 MustCreateDragHandler,
                                                 MustCreateFindHandler);
 
@@ -2744,26 +2743,6 @@ begin
             assigned(FOnAfterCreated) or
             assigned(FOnBeforeClose)  or
             assigned(FOnClose);
-end;
-
-function TChromium.MustCreateRequestHandler : boolean;
-begin
-  Result := assigned(FOnBeforeBrowse)              or
-            assigned(FOnOpenUrlFromTab)            or
-            assigned(FOnBeforeResourceLoad)        or
-            assigned(FOnGetResourceHandler)        or
-            assigned(FOnResourceRedirect)          or
-            assigned(FOnResourceResponse)          or
-            assigned(FOnGetResourceResponseFilter) or
-            assigned(FOnResourceLoadComplete)      or
-            assigned(FOnGetAuthCredentials)        or
-            assigned(FOnQuotaRequest)              or
-            assigned(FOnProtocolExecution)         or
-            assigned(FOnCertificateError)          or
-            assigned(FOnSelectClientCertificate)   or
-            assigned(FOnPluginCrashed)             or
-            assigned(FOnRenderViewReady)           or
-            assigned(FOnRenderProcessTerminated);
 end;
 
 function TChromium.MustCreateDragHandler : boolean;
