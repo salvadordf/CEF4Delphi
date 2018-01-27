@@ -193,6 +193,17 @@ begin
    else
     TempContext := nil;
 
+{
+  // This would be a good place to set the proxy server settings for all your child
+  // browsers if you use a proxy
+  Chromium1.ProxyType     := CEF_PROXYTYPE_FIXED_SERVERS;
+  Chromium1.ProxyScheme   := psHTTP;
+  Chromium1.ProxyServer   := '1.2.3.4';
+  Chromium1.ProxyPort     := 1234;
+  Chromium1.ProxyUsername := '';
+  Chromium1.ProxyPassword := '';
+}
+
   // In case you used a custom cookies path in the GlobalCEFApp you can
   // override it in the TChromium.CreateBrowser function
   Chromium1.CreateBrowser(CEFWindowParent1, '', TempContext);

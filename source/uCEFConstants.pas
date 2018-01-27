@@ -366,7 +366,6 @@ const
   CEF_DESTROY            = WM_APP + $A06;
   CEF_DOONBEFORECLOSE    = WM_APP + $A07;
 
-  CEF_TIMER_FIRST_ID           = high(cardinal) div 3; // A highly unlikely nIDEvent for our timers
   CEF_TIMER_MINIMUM            = $0000000A;
   CEF_TIMER_MAXIMUM            = $7FFFFFFF;
   CEF_TIMER_MAXDELAY           = 1000 div 30; // 30fps

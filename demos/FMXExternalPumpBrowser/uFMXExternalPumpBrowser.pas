@@ -58,10 +58,13 @@ type
   TFMXExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
     AddressEdt: TEdit;
-    GoBtn: TButton;
     Panel1: TFMXBufferPanel;
     chrmosr: TFMXChromium;
     Timer1: TTimer;
+    Panel2: TPanel;
+    GoBtn: TButton;
+    SnapshotBtn: TButton;
+    SaveDialog1: TSaveDialog;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -97,6 +100,8 @@ type
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
+    procedure SnapshotBtnClick(Sender: TObject);
+    procedure SnapshotBtnEnter(Sender: TObject);
 
   protected
     FPopUpBitmap       : TBitmap;
@@ -533,9 +538,11 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrPaint(Sender : TObject;
                                                         height          : Integer);
 var
   src, dst: PByte;
-  i, j, TempLineSize, TempSrcOffset, TempDstOffset, SrcStride, DstStride : Integer;
+  i, j, TempLineSize, TempSrcOffset, TempDstOffset, SrcStride, TempWidth, TempHeight : Integer;
   n : NativeUInt;
-  TempWidth, TempHeight, TempScanlineSize : integer;
+  {$IFNDEF DELPHI17_UP}
+  TempScanlineSize, DstStride : integer;
+  {$ENDIF}
   TempBufferBits : Pointer;
   TempForcedResize : boolean;
   TempBitmapData : TBitmapData;
@@ -563,7 +570,9 @@ begin
 
             TempWidth        := FPopUpBitmap.Width;
             TempHeight       := FPopUpBitmap.Height;
+            {$IFNDEF DELPHI17_UP}
             TempScanlineSize := FPopUpBitmap.BytesPerLine;
+            {$ENDIF}
             TempBitmap       := FPopUpBitmap;
           end
          else
@@ -571,7 +580,9 @@ begin
             TempForcedResize := Panel1.UpdateBufferDimensions(Width, Height) or not(Panel1.BufferIsResized(False));
             TempWidth        := Panel1.BufferWidth;
             TempHeight       := Panel1.BufferHeight;
+            {$IFNDEF DELPHI17_UP}
             TempScanlineSize := Panel1.ScanlineSize;
+            {$ENDIF}
             TempBitmap       := Panel1.Buffer;
           end;
 
@@ -579,13 +590,11 @@ begin
         if (TempBitmap <> nil) {$IFDEF DELPHI17_UP}and TempBitmap.Map(TMapAccess.ReadWrite, TempBitmapData){$ENDIF} then
           begin
             try
-              {$IFDEF DELPHI17_UP}
-              TempBufferBits := TempBitmapData.Data;
-              {$ELSE}
+              {$IFNDEF DELPHI17_UP}
               TempBufferBits := TempBitmapData.StartLine;
+              DstStride      := TempScanlineSize;
               {$ENDIF}
               SrcStride      := Width * SizeOf(TRGBQuad);
-              DstStride      := TempScanlineSize;
 
               n := 0;
 
@@ -598,19 +607,33 @@ begin
                       if (TempLineSize > 0) then
                         begin
                           TempSrcOffset := ((dirtyRects[n].y * Width) + dirtyRects[n].x) * SizeOf(TRGBQuad);
+
+                          {$IFDEF DELPHI17_UP}
+                          TempDstOffset := (dirtyRects[n].x * SizeOf(TRGBQuad));
+                          {$ELSE}
                           TempDstOffset := (dirtyRects[n].y * TempScanlineSize) + (dirtyRects[n].x * SizeOf(TRGBQuad));
+                          {$ENDIF}
 
                           src := @PByte(buffer)[TempSrcOffset];
+                          {$IFNDEF DELPHI17_UP}
                           dst := @PByte(TempBufferBits)[TempDstOffset];
+                          {$ENDIF}
 
                           i := 0;
                           j := min(dirtyRects[n].height, TempHeight - dirtyRects[n].y);
 
                           while (i < j) do
                             begin
+                              {$IFDEF DELPHI17_UP}
+                              TempBufferBits := TempBitmapData.GetScanline(dirtyRects[n].y + i);
+                              dst            := @PByte(TempBufferBits)[TempDstOffset];
+                              {$ENDIF}
+
                               Move(src^, dst^, TempLineSize);
 
+                              {$IFNDEF DELPHI17_UP}
                               inc(dst, DstStride);
+                              {$ENDIF}
                               inc(src, SrcStride);
                               inc(i);
                             end;
@@ -801,6 +824,16 @@ begin
   {$ELSE}
   Result := False;
   {$ENDIF}
+end;
+
+procedure TFMXExternalPumpBrowserFrm.SnapshotBtnClick(Sender: TObject);
+begin
+  if SaveDialog1.Execute then Panel1.SaveToFile(SaveDialog1.FileName);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.SnapshotBtnEnter(Sender: TObject);
+begin
+  chrmosr.SendFocusEvent(False);
 end;
 
 end.
