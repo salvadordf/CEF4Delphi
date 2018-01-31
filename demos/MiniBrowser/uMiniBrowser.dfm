@@ -12,6 +12,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -256,6 +258,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeDownload = Chromium1BeforeDownload
     OnDownloadUpdated = Chromium1DownloadUpdated
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     Left = 32
     Top = 224

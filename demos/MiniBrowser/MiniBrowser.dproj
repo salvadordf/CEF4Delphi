@@ -138,6 +138,10 @@
         <DCCReference Include="uPreferences.pas">
             <Form>PreferencesFrm</Form>
         </DCCReference>
+        <DCCReference Include="uSimpleTextViewer.pas">
+            <Form>SimpleTextViewerFrm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -166,6 +170,12 @@
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="MiniBrowser.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\bin\MiniBrowser.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>MiniBrowser.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>

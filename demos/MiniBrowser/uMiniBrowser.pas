@@ -179,9 +179,16 @@ type
     procedure Chromium1DownloadUpdated(Sender: TObject;
       const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
       const callback: ICefDownloadItemCallback);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure Chromium1BeforeResourceLoad(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const request: ICefRequest; const callback: ICefRequestCallback;
+      out Result: TCefReturnValue);
 
   protected
-    FResponse : string;
+    FResponse : TStringList;
+    FRequest  : TStringList;
 
     procedure AddURL(const aURL : string);
 
@@ -191,6 +198,9 @@ type
 
     procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
     procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
+
+    procedure InspectRequest(const aRequest : ICefRequest);
+    procedure InspectResponse(const aResponse : ICefResponse);
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
@@ -220,7 +230,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uPreferences;
+  uPreferences, uCefStringMultimap, uSimpleTextViewer;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
 begin
@@ -282,7 +292,7 @@ begin
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,      'Modify HTML document');
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,      'Print using Javascript');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show last server response');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show server headers');
 
   if DevTools.Visible then
     model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -336,6 +346,17 @@ begin
     TempFullPath := TempName;
 
   callback.cont(TempFullPath, False);
+end;
+
+procedure TMiniBrowserFrm.Chromium1BeforeResourceLoad(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  const request: ICefRequest; const callback: ICefRequestCallback;
+  out Result: TCefReturnValue);
+begin
+  Result := RV_CONTINUE;
+
+  if (frame <> nil) and frame.IsMain then
+    InspectRequest(request);
 end;
 
 procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
@@ -569,6 +590,52 @@ begin
                 'Error code : ' + inttostr(result));
 end;
 
+procedure TMiniBrowserFrm.InspectRequest(const aRequest : ICefRequest);
+var
+  TempHeaderMap : ICefStringMultimap;
+  i, j : integer;
+begin
+  if (aRequest <> nil) then
+    begin
+      FRequest.Clear;
+
+      TempHeaderMap := TCefStringMultimapOwn.Create;
+      aRequest.GetHeaderMap(TempHeaderMap);
+
+      i := 0;
+      j := TempHeaderMap.Size;
+
+      while (i < j) do
+        begin
+          FRequest.Add(TempHeaderMap.Key[i] + '=' + TempHeaderMap.Value[i]);
+          inc(i);
+        end;
+    end;
+end;
+
+procedure TMiniBrowserFrm.InspectResponse(const aResponse : ICefResponse);
+var
+  TempHeaderMap : ICefStringMultimap;
+  i, j : integer;
+begin
+  if (aResponse <> nil) then
+    begin
+      FResponse.Clear;
+
+      TempHeaderMap := TCefStringMultimapOwn.Create;
+      aResponse.GetHeaderMap(TempHeaderMap);
+
+      i := 0;
+      j := TempHeaderMap.Size;
+
+      while (i < j) do
+        begin
+          FResponse.Add(TempHeaderMap.Key[i] + '=' + TempHeaderMap.Value[i]);
+          inc(i);
+        end;
+    end;
+end;
+
 procedure TMiniBrowserFrm.Chromium1ResourceResponse(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const request: ICefRequest; const response: ICefResponse;
@@ -576,15 +643,8 @@ procedure TMiniBrowserFrm.Chromium1ResourceResponse(Sender: TObject;
 begin
   Result := False;
 
-  if (frame <> nil) and frame.IsMain and (response <> nil) and (request <> nil) then
-    begin
-      FResponse := 'URL : ' + request.Url + CRLF +
-                   'Status : ' + inttostr(response.Status) + CRLF +
-                   'MimeType : ' + response.MimeType;
-
-      if (request.postdata <> nil) then
-        FResponse := FResponse + CRLF + 'Post data elements : ' + inttostr(request.postdata.GetCount);
-    end;
+  if (frame <> nil) and frame.IsMain then
+    InspectResponse(response);
 end;
 
 procedure TMiniBrowserFrm.ShowStatusText(const aText : string);
@@ -615,6 +675,18 @@ begin
     caption := 'MiniBrowser - ' + title
    else
     caption := 'MiniBrowser';
+end;
+
+procedure TMiniBrowserFrm.FormCreate(Sender: TObject);
+begin
+  FResponse := TStringList.Create;
+  FRequest  := TStringList.Create;
+end;
+
+procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
+begin
+  FResponse.Free;
+  FRequest.Free;
 end;
 
 procedure TMiniBrowserFrm.FormShow(Sender: TObject);
@@ -801,7 +873,21 @@ end;
 
 procedure TMiniBrowserFrm.ShowResponseMsg(var aMessage : TMessage);
 begin
-  if (length(FResponse) > 0) then MessageDlg(FResponse, mtInformation, [mbOk], 0);
+  SimpleTextViewerFrm.Memo1.Lines.Clear;
+
+  SimpleTextViewerFrm.Memo1.Lines.Add('--------------------------');
+  SimpleTextViewerFrm.Memo1.Lines.Add('Request headers : ');
+  SimpleTextViewerFrm.Memo1.Lines.Add('--------------------------');
+  if (FRequest <> nil) then SimpleTextViewerFrm.Memo1.Lines.AddStrings(FRequest);
+
+  SimpleTextViewerFrm.Memo1.Lines.Add('');
+
+  SimpleTextViewerFrm.Memo1.Lines.Add('--------------------------');
+  SimpleTextViewerFrm.Memo1.Lines.Add('Response headers : ');
+  SimpleTextViewerFrm.Memo1.Lines.Add('--------------------------');
+  if (FResponse <> nil) then SimpleTextViewerFrm.Memo1.Lines.AddStrings(FResponse);
+
+  SimpleTextViewerFrm.ShowModal;
 end;
 
 procedure TMiniBrowserFrm.SavePreferencesMsg(var aMessage : TMessage);

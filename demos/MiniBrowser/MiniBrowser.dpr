@@ -50,7 +50,8 @@ uses
   {$ENDIF }
   uCEFApplication,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
-  uPreferences in 'uPreferences.pas' {PreferencesFrm};
+  uPreferences in 'uPreferences.pas' {PreferencesFrm},
+  uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
 
 {$R *.res}
 
@@ -67,6 +68,7 @@ begin
       {$ENDIF}
       Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
       Application.CreateForm(TPreferencesFrm, PreferencesFrm);
+      Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
       Application.Run;
     end;
 
