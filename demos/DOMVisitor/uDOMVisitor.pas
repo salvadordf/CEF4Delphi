@@ -198,6 +198,11 @@ begin
   // As an example, this function only writes the document title to the 'debug.log' file.
   CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'document.Title : ' + document.Title);
 
+  if document.HasSelection then
+    CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'document.SelectionAsText : ' + quotedstr(document.SelectionAsText))
+   else
+    CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, 'document.HasSelection : False');
+
   // Simple DOM iteration example
   SimpleDOMIteration(document);
 
