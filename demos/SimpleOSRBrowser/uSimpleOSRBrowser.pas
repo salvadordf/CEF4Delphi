@@ -93,6 +93,7 @@ type
     procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -496,6 +497,13 @@ begin
       FPopUpRect.Right  := rect.x + rect.width  - 1;
       FPopUpRect.Bottom := rect.y + rect.height - 1;
     end;
+end;
+
+procedure TForm1.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
+begin
+  Panel1.hint     := text;
+  Panel1.ShowHint := (length(text) > 0);
+  Result          := True;
 end;
 
 procedure TForm1.ComboBox1Enter(Sender: TObject);

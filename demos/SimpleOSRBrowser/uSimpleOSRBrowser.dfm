@@ -120,6 +120,7 @@ object Form1: TForm1
     OnMouseLeave = Panel1MouseLeave
   end
   object chrmosr: TChromium
+    OnTooltip = chrmosrTooltip
     OnAfterCreated = chrmosrAfterCreated
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
