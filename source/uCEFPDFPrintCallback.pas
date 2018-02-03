@@ -54,8 +54,6 @@ type
     protected
       procedure OnPdfPrintFinished(const path: ustring; ok: Boolean); virtual; abstract;
 
-      procedure InitializeVars; virtual; abstract;
-
     public
       constructor Create; virtual;
   end;
@@ -69,24 +67,27 @@ type
     public
       constructor Create(const proc: TOnPdfPrintFinishedProc); reintroduce;
       destructor  Destroy; override;
-      procedure   InitializeVars; override;
   end;
 
   TCefCustomPDFPrintCallBack = class(TCefPdfPrintCallbackOwn)
     protected
-      FChromiumBrowser : IChromiumEvents;
+      FEvents : Pointer;
 
       procedure OnPdfPrintFinished(const path: ustring; aResultOK : Boolean); override;
 
     public
-      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
-      procedure   InitializeVars; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_pdf_print_callback_on_pdf_print_finished(self: PCefPdfPrintCallback; const path: PCefString; ok: Integer); stdcall;
@@ -116,40 +117,39 @@ end;
 
 destructor TCefFastPdfPrintCallback.Destroy;
 begin
-  InitializeVars;
+  FProc := nil;
 
   inherited Destroy;
-end;
-
-procedure TCefFastPdfPrintCallback.InitializeVars;
-begin
-  FProc := nil;
 end;
 
 // TCefCustomPDFPrintCallBack
 
-constructor TCefCustomPDFPrintCallBack.Create(const aChromiumBrowser : IChromiumEvents);
+constructor TCefCustomPDFPrintCallBack.Create(const aEvents : IChromiumEvents);
 begin
   inherited Create;
 
-  FChromiumBrowser := aChromiumBrowser;
+  FEvents := Pointer(aEvents);
 end;
 
 destructor TCefCustomPDFPrintCallBack.Destroy;
 begin
-  InitializeVars;
+  FEvents := nil;
 
   inherited Destroy;
 end;
 
-procedure TCefCustomPDFPrintCallBack.InitializeVars;
-begin
-  FChromiumBrowser := nil;
-end;
-
 procedure TCefCustomPDFPrintCallBack.OnPdfPrintFinished(const path: ustring; aResultOK : Boolean);
 begin
-  if (FChromiumBrowser <> nil) then FChromiumBrowser.doPdfPrintFinished(aResultOK);
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doPdfPrintFinished(aResultOK);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCustomPDFPrintCallBack.OnPdfPrintFinished', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
 end;
 
 end.

@@ -57,27 +57,36 @@ type
       procedure OnResetDialogState(const browser: ICefBrowser); virtual;
       procedure OnDialogClosed(const browser: ICefBrowser); virtual;
 
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomJsDialogHandler = class(TCefJsDialogHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       function  OnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean; override;
       function  OnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: Boolean; const callback: ICefJsDialogCallback): Boolean; override;
       procedure OnResetDialogState(const browser: ICefBrowser); override;
       procedure OnDialogClosed(const browser: ICefBrowser); override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFJsDialogCallback;
 
 function cef_jsdialog_handler_on_jsdialog(self : PCefJsDialogHandler;
@@ -168,20 +177,30 @@ begin
 
 end;
 
+procedure TCefJsDialogHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomJsDialogHandler
 
-constructor TCustomJsDialogHandler.Create(const events: IChromiumEvents);
+constructor TCustomJsDialogHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomJsDialogHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
+end;
+
+procedure TCustomJsDialogHandler.RemoveReferences;
+begin
+  FEvents := nil;
 end;
 
 function TCustomJsDialogHandler.OnBeforeUnloadDialog(const browser     : ICefBrowser;
@@ -189,15 +208,15 @@ function TCustomJsDialogHandler.OnBeforeUnloadDialog(const browser     : ICefBro
                                                            isReload    : Boolean;
                                                      const callback    : ICefJsDialogCallback): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnBeforeUnloadDialog(browser, messageText, isReload, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnBeforeUnloadDialog(browser, messageText, isReload, callback)
    else
     Result := inherited OnBeforeUnloadDialog(browser, messageText, isReload, callback);
 end;
 
 procedure TCustomJsDialogHandler.OnDialogClosed(const browser: ICefBrowser);
 begin
-  if (FEvent <> nil) then FEvent.doOnDialogClosed(browser);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnDialogClosed(browser);
 end;
 
 function TCustomJsDialogHandler.OnJsdialog(const browser           : ICefBrowser;
@@ -210,15 +229,15 @@ function TCustomJsDialogHandler.OnJsdialog(const browser           : ICefBrowser
 begin
   suppressMessage := False;
 
-  if (FEvent <> nil) then
-    Result := FEvent.doOnJsdialog(browser, originUrl, dialogType, messageText, defaultPromptText, callback, suppressMessage)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnJsdialog(browser, originUrl, dialogType, messageText, defaultPromptText, callback, suppressMessage)
    else
     Result := inherited OnJsdialog(browser, originUrl, dialogType, messageText, defaultPromptText, callback, suppressMessage);
 end;
 
 procedure TCustomJsDialogHandler.OnResetDialogState(const browser: ICefBrowser);
 begin
-  if (FEvent <> nil) then FEvent.doOnResetDialogState(browser);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnResetDialogState(browser);
 end;
 
 end.

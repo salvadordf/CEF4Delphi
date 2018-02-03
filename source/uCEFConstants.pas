@@ -312,6 +312,15 @@ const
   JSON_WRITER_OMIT_DOUBLE_TYPE_PRESERVATION = 1 shl 1;
   JSON_WRITER_PRETTY_PRINT                  = 1 shl 2;
 
+  // /include/internal/cef_types.h (cef_log_severity_t)
+  LOGSEVERITY_DEFAULT  = 0;
+  LOGSEVERITY_VERBOSE  = 1;
+  LOGSEVERITY_DEBUG    = LOGSEVERITY_VERBOSE;
+  LOGSEVERITY_INFO     = 2;
+  LOGSEVERITY_WARNING  = 3;
+  LOGSEVERITY_ERROR    = 4;
+  LOGSEVERITY_DISABLE  = 99;
+
 
 //******************************************************
 //****************** OTHER CONSTANTS *******************
@@ -332,7 +341,7 @@ const
   CEF_CONTENT_SETTING_SESSION_ONLY  = 4;
   CEF_CONTENT_SETTING_NUM_SETTINGS  = 5;
 
-  // Used in the severity parameter of cef_log
+  // Used in the severity parameter in the 'cef_log' function, also known as 'CefLog' in CEF4Delphi.
   CEF_LOG_SEVERITY_INFO    = 0;
   CEF_LOG_SEVERITY_WARNING = 1;
   CEF_LOG_SEVERITY_ERROR   = 2;

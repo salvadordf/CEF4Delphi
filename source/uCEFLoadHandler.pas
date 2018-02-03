@@ -57,27 +57,36 @@ type
       procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer); virtual;
       procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring); virtual;
 
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomLoadHandler = class(TCefLoadHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean); override;
       procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType); override;
       procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer); override;
       procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring); override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame;
 
 procedure cef_load_handler_on_loading_state_change(self: PCefLoadHandler; browser: PCefBrowser; isLoading, canGoBack, canGoForward: Integer); stdcall;
@@ -137,40 +146,61 @@ begin
   //
 end;
 
+procedure TCefLoadHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomLoadHandler
 
-constructor TCustomLoadHandler.Create(const events: IChromiumEvents);
+constructor TCustomLoadHandler.Create(const events : Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomLoadHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
 
-procedure TCustomLoadHandler.OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
+procedure TCustomLoadHandler.RemoveReferences;
 begin
-  if (FEvent <> nil) then FEvent.doOnLoadEnd(browser, frame, httpStatusCode);
+  FEvents := nil;
 end;
 
-procedure TCustomLoadHandler.OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+procedure TCustomLoadHandler.OnLoadEnd(const browser        : ICefBrowser;
+                                       const frame          : ICefFrame;
+                                             httpStatusCode : Integer);
 begin
-  if (FEvent <> nil) then FEvent.doOnLoadError(browser, frame, errorCode, errorText, failedUrl);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnLoadEnd(browser, frame, httpStatusCode);
 end;
 
-procedure TCustomLoadHandler.OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+procedure TCustomLoadHandler.OnLoadError(const browser   : ICefBrowser;
+                                         const frame     : ICefFrame;
+                                               errorCode : Integer;
+                                         const errorText : ustring;
+                                         const failedUrl : ustring);
 begin
-  if (FEvent <> nil) then FEvent.doOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnLoadError(browser, frame, errorCode, errorText, failedUrl);
 end;
 
-procedure TCustomLoadHandler.OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
+procedure TCustomLoadHandler.OnLoadingStateChange(const browser      : ICefBrowser;
+                                                        isLoading    : Boolean;
+                                                        canGoBack    : Boolean;
+                                                        canGoForward : Boolean);
 begin
-  if (FEvent <> nil) then FEvent.doOnLoadStart(browser, frame, transitionType);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+end;
+
+procedure TCustomLoadHandler.OnLoadStart(const browser        : ICefBrowser;
+                                         const frame          : ICefFrame;
+                                               transitionType : TCefTransitionType);
+begin
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnLoadStart(browser, frame, transitionType);
 end;
 
 end.

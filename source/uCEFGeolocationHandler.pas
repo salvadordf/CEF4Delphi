@@ -52,8 +52,10 @@ uses
 type
   TCefGeolocationHandlerOwn = class(TCefBaseRefCountedOwn, ICefGeolocationHandler)
     protected
-      function OnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean; virtual;
+      function  OnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean; virtual;
       procedure OnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer); virtual;
+
+      procedure RemoveReferences; virtual;
 
     public
       constructor Create; virtual;
@@ -61,19 +63,26 @@ type
 
   TCustomGeolocationHandler = class(TCefGeolocationHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       function  OnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean; override;
       procedure OnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer); override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFGeolocationCallback;
 
 function cef_geolocation_handler_on_request_geolocation_permission(self: PCefGeolocationHandler;
@@ -118,26 +127,35 @@ begin
 
 end;
 
+procedure TCefGeolocationHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomGeolocationHandler
 
-constructor TCustomGeolocationHandler.Create(const events: IChromiumEvents);
+constructor TCustomGeolocationHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomGeolocationHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
 
+procedure TCustomGeolocationHandler.RemoveReferences;
+begin
+  FEvents := nil;
+end;
+
 procedure TCustomGeolocationHandler.OnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer);
 begin
-  if (FEvent <> nil) then
-    FEvent.doOnCancelGeolocationPermission(browser, requestId);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnCancelGeolocationPermission(browser, requestId);
 end;
 
 function TCustomGeolocationHandler.OnRequestGeolocationPermission(const browser       : ICefBrowser;
@@ -145,8 +163,8 @@ function TCustomGeolocationHandler.OnRequestGeolocationPermission(const browser 
                                                                         requestId     : Integer;
                                                                   const callback      : ICefGeolocationCallback): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnRequestGeolocationPermission(browser, requestingUrl, requestId, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnRequestGeolocationPermission(browser, requestingUrl, requestId, callback)
    else
     Result := inherited OnRequestGeolocationPermission(browser, requestingUrl, requestId, callback);
 end;

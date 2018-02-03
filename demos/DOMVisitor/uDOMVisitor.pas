@@ -121,7 +121,7 @@ uses
 
 // To send a message from the browser process you must use the TChromium.SendProcessMessage
 // procedure with a PID_RENDERER parameter. The render process receives those messages in
-// the GlobalCEFApp.OnProcessMessageReceived event
+// the GlobalCEFApp.OnProcessMessageReceived event.
 
 // To send messages from the render process you must use the browser.SendProcessMessage
 // procedure with a PID_BROWSER parameter. The browser process receives those messages in

@@ -231,6 +231,7 @@ type
   TCefContextMenuEditStateFlags    = Cardinal;    // /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)
   TCefJsonWriterOptions            = Cardinal;    // /include/internal/cef_types.h (cef_json_writer_options_t)
   TCefSSLContentStatus             = Cardinal;    // /include/internal/cef_types.h (cef_ssl_content_status_t)
+  TCefLogSeverity                  = Cardinal;    // /include/internal/cef_types.h (cef_log_severity_t)
 
 {$IFNDEF DELPHI12_UP}
   NativeUInt  = Cardinal;
@@ -401,16 +402,6 @@ type
     STATE_DEFAULT = 0,
     STATE_ENABLED,
     STATE_DISABLED
-  );
-
-  // /include/internal/cef_types.h (cef_log_severity_t)
-  TCefLogSeverity = (
-    LOGSEVERITY_DEFAULT,
-    LOGSEVERITY_VERBOSE,
-    LOGSEVERITY_INFO,
-    LOGSEVERITY_WARNING,
-    LOGSEVERITY_ERROR,
-    LOGSEVERITY_DISABLE = 99
   );
 
   // /include/internal/cef_types.h (cef_scale_factor_t)
@@ -1088,7 +1079,7 @@ type
     on_fullscreen_mode_change: procedure(self: PCefDisplayHandler; browser: PCefBrowser; fullscreen: Integer); stdcall;
     on_tooltip: function(self: PCefDisplayHandler; browser: PCefBrowser; text: PCefString): Integer; stdcall;
     on_status_message: procedure(self: PCefDisplayHandler; browser: PCefBrowser; const value: PCefString); stdcall;
-    on_console_message: function(self: PCefDisplayHandler; browser: PCefBrowser; const message: PCefString; const source: PCefString; line: Integer): Integer; stdcall;
+    on_console_message: function(self: PCefDisplayHandler; browser: PCefBrowser; level: TCefLogSeverity; const message: PCefString; const source: PCefString; line: Integer): Integer; stdcall;
     on_auto_resize: function(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
   end;
 

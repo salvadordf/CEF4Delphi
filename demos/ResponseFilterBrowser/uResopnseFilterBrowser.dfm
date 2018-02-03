@@ -1,0 +1,98 @@
+object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
+  Left = 0
+  Top = 0
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 624
+  ClientWidth = 1038
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Splitter1: TSplitter
+    Left = 0
+    Top = 532
+    Width = 1038
+    Height = 3
+    Cursor = crVSplit
+    Align = alBottom
+    ExplicitTop = 30
+    ExplicitWidth = 505
+  end
+  object AddressPnl: TPanel
+    Left = 0
+    Top = 0
+    Width = 1038
+    Height = 30
+    Align = alTop
+    BevelOuter = bvNone
+    Enabled = False
+    Padding.Left = 5
+    Padding.Top = 5
+    Padding.Right = 5
+    Padding.Bottom = 5
+    ShowCaption = False
+    TabOrder = 0
+    object AddressEdt: TEdit
+      Left = 5
+      Top = 5
+      Width = 997
+      Height = 20
+      Margins.Right = 5
+      Align = alClient
+      TabOrder = 0
+      Text = 'https://www.wikipedia.org'
+      ExplicitHeight = 21
+    end
+    object GoBtn: TButton
+      Left = 1002
+      Top = 5
+      Width = 31
+      Height = 20
+      Margins.Left = 5
+      Align = alRight
+      Caption = 'Go'
+      TabOrder = 1
+      OnClick = GoBtnClick
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Top = 30
+    Width = 1038
+    Height = 502
+    Align = alClient
+    TabOrder = 1
+  end
+  object Memo1: TMemo
+    Left = 0
+    Top = 535
+    Width = 1038
+    Height = 89
+    Align = alBottom
+    ReadOnly = True
+    ScrollBars = ssBoth
+    TabOrder = 2
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 56
+    Top = 88
+  end
+  object Chromium1: TChromium
+    OnAfterCreated = Chromium1AfterCreated
+    OnGetResourceResponseFilter = Chromium1GetResourceResponseFilter
+    Left = 56
+    Top = 160
+  end
+end

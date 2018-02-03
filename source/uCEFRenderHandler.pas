@@ -66,13 +66,15 @@ type
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); virtual;
       procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); virtual;
 
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomRenderHandler = class(TCefRenderHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); override;
       function  GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; override;
@@ -88,14 +90,21 @@ type
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); override;
       procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFDragData;
 
 
@@ -308,55 +317,65 @@ begin
 
 end;
 
+procedure TCefRenderHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomRenderHandler
 
-constructor TCustomRenderHandler.Create(const events: IChromiumEvents);
+constructor TCustomRenderHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomRenderHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
 
+procedure TCustomRenderHandler.RemoveReferences;
+begin
+  FEvents := nil;
+end;
+
 procedure TCustomRenderHandler.GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
 begin
-  if (FEvent <> nil) then FEvent.doOnGetAccessibilityHandler(aAccessibilityHandler);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnGetAccessibilityHandler(aAccessibilityHandler);
 end;
 
 function TCustomRenderHandler.GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnGetRootScreenRect(browser, rect)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnGetRootScreenRect(browser, rect)
    else
     Result := inherited GetRootScreenRect(browser, rect);
 end;
 
 function TCustomRenderHandler.GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnGetScreenInfo(browser, screenInfo)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnGetScreenInfo(browser, screenInfo)
    else
     Result := inherited GetScreenInfo(browser, screenInfo);
 end;
 
 function TCustomRenderHandler.GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnGetScreenPoint(browser, viewX, viewY, screenX, screenY)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnGetScreenPoint(browser, viewX, viewY, screenX, screenY)
    else
     Result := inherited GetScreenPoint(browser, viewX, viewY, screenX, screenY);
 end;
 
 function TCustomRenderHandler.GetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnGetViewRect(browser, rect)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnGetViewRect(browser, rect)
    else
     Result := inherited GetViewRect(browser, rect);
 end;
@@ -366,8 +385,7 @@ procedure TCustomRenderHandler.OnCursorChange(const browser          : ICefBrows
                                                     cursorType       : TCefCursorType;
                                               const customCursorInfo : PCefCursorInfo);
 begin
-  if (FEvent <> nil) then
-    FEvent.doOnCursorChange(browser, cursor, cursorType, customCursorInfo);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnCursorChange(browser, cursor, cursorType, customCursorInfo);
 end;
 
 procedure TCustomRenderHandler.OnPaint(const browser         : ICefBrowser;
@@ -378,23 +396,22 @@ procedure TCustomRenderHandler.OnPaint(const browser         : ICefBrowser;
                                              width           : Integer;
                                              height          : Integer);
 begin
-  if (FEvent <> nil) then
-    FEvent.doOnPaint(browser, kind, dirtyRectsCount, dirtyRects, buffer, width, height);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnPaint(browser, kind, dirtyRectsCount, dirtyRects, buffer, width, height);
 end;
 
 procedure TCustomRenderHandler.OnPopupShow(const browser: ICefBrowser; show: Boolean);
 begin
-  if (FEvent <> nil) then FEvent.doOnPopupShow(browser, show);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnPopupShow(browser, show);
 end;
 
 procedure TCustomRenderHandler.OnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
 begin
-  if (FEvent <> nil) then FEvent.doOnPopupSize(browser, rect);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnPopupSize(browser, rect);
 end;
 
 procedure TCustomRenderHandler.OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
 begin
-  if (FEvent <> nil) then FEvent.doOnScrollOffsetChanged(browser, x, y);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnScrollOffsetChanged(browser, x, y);
 end;
 
 procedure TCustomRenderHandler.OnIMECompositionRangeChanged(const browser               : ICefBrowser;
@@ -402,8 +419,7 @@ procedure TCustomRenderHandler.OnIMECompositionRangeChanged(const browser       
                                                                   character_boundsCount : NativeUInt;
                                                             const character_bounds      : PCefRect);
 begin
-  if (FEvent <> nil) then
-    FEvent.doOnIMECompositionRangeChanged(browser, selected_range, character_boundsCount, character_bounds);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnIMECompositionRangeChanged(browser, selected_range, character_boundsCount, character_bounds);
 end;
 
 function TCustomRenderHandler.OnStartDragging(const browser    : ICefBrowser;
@@ -412,15 +428,15 @@ function TCustomRenderHandler.OnStartDragging(const browser    : ICefBrowser;
                                                     x          : Integer;
                                                     y          : Integer): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnStartDragging(browser, dragData, allowedOps, x, y)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnStartDragging(browser, dragData, allowedOps, x, y)
    else
     Result := inherited OnStartDragging(browser, dragData, allowedOps, x, y);
 end;
 
 procedure TCustomRenderHandler.OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
 begin
-  if (FEvent <> nil) then FEvent.doOnUpdateDragCursor(browser, operation);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnUpdateDragCursor(browser, operation);
 end;
 
 end.

@@ -58,7 +58,6 @@ type
   TCefResolveCallbackOwn = class(TCefBaseRefCountedOwn, ICefResolveCallback)
     protected
       procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings); virtual; abstract;
-      procedure InitializeVars; virtual; abstract;
 
     public
       constructor Create; virtual;
@@ -66,13 +65,13 @@ type
 
   TCefCustomResolveCallback = class(TCefResolveCallbackOwn)
     protected
-      FChromiumBrowser : IChromiumEvents;
+      FEvents : Pointer;
+
       procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings); override;
 
     public
-      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
-      procedure   InitializeVars; override;
   end;
 
 implementation
@@ -126,28 +125,32 @@ end;
 
 // TCefCustomResolveCallback
 
-constructor TCefCustomResolveCallback.Create(const aChromiumBrowser : IChromiumEvents);
+constructor TCefCustomResolveCallback.Create(const aEvents : IChromiumEvents);
 begin
   inherited Create;
 
-  FChromiumBrowser := aChromiumBrowser;
+  FEvents := Pointer(aEvents);
 end;
 
 destructor TCefCustomResolveCallback.Destroy;
 begin
-  InitializeVars;
+  FEvents := nil;
 
   inherited Destroy;
 end;
 
-procedure TCefCustomResolveCallback.InitializeVars;
-begin
-  FChromiumBrowser := nil;
-end;
-
 procedure TCefCustomResolveCallback.OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings);
 begin
-  if (FChromiumBrowser <> nil) then FChromiumBrowser.doResolvedHostAvailable(result, resolvedIps);
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doResolvedHostAvailable(result, resolvedIps);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCustomResolveCallback.OnResolveCompleted', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
 end;
 
 end.

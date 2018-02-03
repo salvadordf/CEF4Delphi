@@ -58,7 +58,7 @@ type
       function  GetPrintHandler : ICefPrintHandler; virtual;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual; abstract;
 
-      procedure InitializeVars; virtual; abstract;
+      procedure RemoveReferences; virtual; abstract;
 
     public
       constructor Create; virtual;
@@ -76,7 +76,7 @@ type
     public
       constructor Create(const aCefApp : TCefApplication); reintroduce;
       destructor  Destroy; override;
-      procedure   InitializeVars; override;
+      procedure   RemoveReferences; override;
   end;
 
 implementation
@@ -171,12 +171,12 @@ end;
 
 destructor TCefCustomBrowserProcessHandler.Destroy;
 begin
-  InitializeVars;
+  RemoveReferences;
 
   inherited Destroy;
 end;
 
-procedure TCefCustomBrowserProcessHandler.InitializeVars;
+procedure TCefCustomBrowserProcessHandler.RemoveReferences;
 begin
   FCefApp := nil;
 end;

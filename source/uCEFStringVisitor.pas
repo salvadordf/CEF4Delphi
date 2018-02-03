@@ -53,7 +53,7 @@ type
   TCefStringVisitorOwn = class(TCefBaseRefCountedOwn, ICefStringVisitor)
     protected
       procedure Visit(const str: ustring); virtual;
-      procedure InitializeVars; virtual;
+      procedure RemoveReferences; virtual;
 
     public
       constructor Create; virtual;
@@ -71,19 +71,23 @@ type
 
   TCustomCefStringVisitor = class(TCefStringVisitorOwn)
     protected
-      FChromiumBrowser : IChromiumEvents;
+      FEvents : Pointer;
 
       procedure Visit(const str: ustring); override;
 
     public
-      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
-      procedure   InitializeVars; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_string_visitor_visit(self: PCefStringVisitor; const str: PCefString); stdcall;
@@ -105,7 +109,7 @@ begin
   //
 end;
 
-procedure TCefStringVisitorOwn.InitializeVars;
+procedure TCefStringVisitorOwn.RemoveReferences;
 begin
   //
 end;
@@ -126,28 +130,32 @@ end;
 
 // TCustomCefStringVisitor
 
-constructor TCustomCefStringVisitor.Create(const aChromiumBrowser : IChromiumEvents);
+constructor TCustomCefStringVisitor.Create(const aEvents : IChromiumEvents);
 begin
   inherited Create;
 
-  FChromiumBrowser := aChromiumBrowser;
+  FEvents := Pointer(aEvents);
 end;
 
 destructor TCustomCefStringVisitor.Destroy;
 begin
-  InitializeVars;
+  FEvents := nil;
 
   inherited Destroy;
 end;
 
-procedure TCustomCefStringVisitor.InitializeVars;
-begin
-  FChromiumBrowser := nil;
-end;
-
 procedure TCustomCefStringVisitor.Visit(const str: ustring);
 begin
-  if (FChromiumBrowser <> nil) then FChromiumBrowser.doTextResultAvailable(str);
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doTextResultAvailable(str);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCustomCefStringVisitor.Visit', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
 end;
 
 end.

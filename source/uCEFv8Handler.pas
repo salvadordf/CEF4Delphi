@@ -718,10 +718,16 @@ begin
 end;
 
 class procedure TCefRTTIExtension.Register(const name: string; const value: TValue; SyncMainThread: Boolean);
+var
+  TempCode    : ustring;
+  TempHandler : ICefv8Handler;
 begin
-  CefRegisterExtension(name,
-    format('__defineSetter__(''%s'', function(v){native function $s();$s(v)});__defineGetter__(''%0:s'', function(){native function $g();return $g()});', [name]),
-    TCefRTTIExtension.Create(value, SyncMainThread) as ICefv8Handler);
+  TempHandler := TCefRTTIExtension.Create(value, SyncMainThread);
+  TempCode    := format('this.__defineSetter__(''%s'', function(v){native function $s();$s(v)});' +
+                        'this.__defineGetter__(''%0:s'', function(){native function $g();return $g()});',
+                        [name]);
+
+  CefRegisterExtension(name, TempCode, TempHandler);
 end;
 
 {$IFDEF CPUX64}

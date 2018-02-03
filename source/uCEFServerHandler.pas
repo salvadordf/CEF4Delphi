@@ -86,6 +86,11 @@ type
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFServer, uCEFRequest, uCEFCallback;
 
 // **************************************************************
@@ -248,42 +253,82 @@ end;
 
 procedure TCustomServerHandler.OnServerCreated(const server: ICefServer);
 begin
-  if (FEvents <> nil) then FEvents.doOnServerCreated(server);
+  try
+    if (FEvents <> nil) then FEvents.doOnServerCreated(server);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomServerHandler.OnServerCreated', e) then raise;
+  end;
 end;
 
 procedure TCustomServerHandler.OnServerDestroyed(const server: ICefServer);
 begin
-  if (FEvents <> nil) then FEvents.doOnServerDestroyed(server);
+  try
+    if (FEvents <> nil) then FEvents.doOnServerDestroyed(server);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomServerHandler.OnServerDestroyed', e) then raise;
+  end;
 end;
 
 procedure TCustomServerHandler.OnClientConnected(const server: ICefServer; connection_id: Integer);
 begin
-  if (FEvents <> nil) then FEvents.doOnClientConnected(server, connection_id);
+  try
+    if (FEvents <> nil) then FEvents.doOnClientConnected(server, connection_id);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomServerHandler.OnClientConnected', e) then raise;
+  end;
 end;
 
 procedure TCustomServerHandler.OnClientDisconnected(const server: ICefServer; connection_id: Integer);
 begin
-  if (FEvents <> nil) then FEvents.doOnClientDisconnected(server, connection_id);
+  try
+    if (FEvents <> nil) then FEvents.doOnClientDisconnected(server, connection_id);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomServerHandler.OnClientDisconnected', e) then raise;
+  end;
 end;
 
 procedure TCustomServerHandler.OnHttpRequest(const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest);
 begin
-  if (FEvents <> nil) then FEvents.doOnHttpRequest(server, connection_id, client_address, request);
+  try
+    if (FEvents <> nil) then FEvents.doOnHttpRequest(server, connection_id, client_address, request);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomServerHandler.OnHttpRequest', e) then raise;
+  end;
 end;
 
 procedure TCustomServerHandler.OnWebSocketRequest(const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest; const callback: ICefCallback);
 begin
-  if (FEvents <> nil) then FEvents.doOnWebSocketRequest(server, connection_id, client_address, request, callback);
+  try
+    if (FEvents <> nil) then FEvents.doOnWebSocketRequest(server, connection_id, client_address, request, callback);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomServerHandler.OnWebSocketRequest', e) then raise;
+  end;
 end;
 
 procedure TCustomServerHandler.OnWebSocketConnected(const server: ICefServer; connection_id: Integer);
 begin
+  try
   if (FEvents <> nil) then FEvents.doOnWebSocketConnected(server, connection_id);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomServerHandler.OnWebSocketConnected', e) then raise;
+  end;
 end;
 
 procedure TCustomServerHandler.OnWebSocketMessage(const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
 begin
-  if (FEvents <> nil) then FEvents.doOnWebSocketMessage(server, connection_id, data, data_size);
+  try
+    if (FEvents <> nil) then FEvents.doOnWebSocketMessage(server, connection_id, data, data_size);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomServerHandler.OnWebSocketMessage', e) then raise;
+  end;
 end;
 
 end.

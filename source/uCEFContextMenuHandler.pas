@@ -57,27 +57,36 @@ type
       function  OnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags): Boolean; virtual;
       procedure OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame); virtual;
 
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomContextMenuHandler = class(TCefContextMenuHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       procedure OnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel); override;
       function  RunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): Boolean; override;
       function  OnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags): Boolean; override;
       procedure OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame); override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFContextMenuParams,
   uCEFMenuModel, uCEFRunContextMenuCallback;
 
@@ -119,58 +128,72 @@ end;
 constructor TCefContextMenuHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefContextMenuHandler));
+
   with PCefContextMenuHandler(FData)^ do
-  begin
-    on_before_context_menu := cef_context_menu_handler_on_before_context_menu;
-    run_context_menu := cef_context_menu_handler_run_context_menu;
-    on_context_menu_command := cef_context_menu_handler_on_context_menu_command;
-    on_context_menu_dismissed := cef_context_menu_handler_on_context_menu_dismissed;
-  end;
+    begin
+      on_before_context_menu    := cef_context_menu_handler_on_before_context_menu;
+      run_context_menu          := cef_context_menu_handler_run_context_menu;
+      on_context_menu_command   := cef_context_menu_handler_on_context_menu_command;
+      on_context_menu_dismissed := cef_context_menu_handler_on_context_menu_dismissed;
+    end;
 end;
 
-procedure TCefContextMenuHandlerOwn.OnBeforeContextMenu(
-  const browser: ICefBrowser; const frame: ICefFrame;
-  const params: ICefContextMenuParams; const model: ICefMenuModel);
+procedure TCefContextMenuHandlerOwn.OnBeforeContextMenu(const browser : ICefBrowser;
+                                                        const frame   : ICefFrame;
+                                                        const params  : ICefContextMenuParams;
+                                                        const model   : ICefMenuModel);
 begin
-
+  //
 end;
 
-function TCefContextMenuHandlerOwn.OnContextMenuCommand(
-  const browser: ICefBrowser; const frame: ICefFrame;
-  const params: ICefContextMenuParams; commandId: Integer;
-  eventFlags: TCefEventFlags): Boolean;
+function TCefContextMenuHandlerOwn.OnContextMenuCommand(const browser    : ICefBrowser;
+                                                        const frame      : ICefFrame;
+                                                        const params     : ICefContextMenuParams;
+                                                              commandId  : Integer;
+                                                              eventFlags : TCefEventFlags): Boolean;
+begin
+  Result := False;
+end;
+
+procedure TCefContextMenuHandlerOwn.OnContextMenuDismissed(const browser : ICefBrowser;
+                                                           const frame   : ICefFrame);
+begin
+  //
+end;
+
+function TCefContextMenuHandlerOwn.RunContextMenu(const browser  : ICefBrowser;
+                                                  const frame    : ICefFrame;
+                                                  const params   : ICefContextMenuParams;
+                                                  const model    : ICefMenuModel;
+                                                  const callback : ICefRunContextMenuCallback): Boolean;
 begin
   Result := False;
 end;
 
-procedure TCefContextMenuHandlerOwn.OnContextMenuDismissed(
-  const browser: ICefBrowser; const frame: ICefFrame);
+procedure TCefContextMenuHandlerOwn.RemoveReferences;
 begin
-
-end;
-
-function TCefContextMenuHandlerOwn.RunContextMenu(const browser: ICefBrowser;
-  const frame: ICefFrame; const params: ICefContextMenuParams;
-  const model: ICefMenuModel;
-  const callback: ICefRunContextMenuCallback): Boolean;
-begin
-  Result := False;
+  //
 end;
 
 // TCustomContextMenuHandler
 
-constructor TCustomContextMenuHandler.Create(const events: IChromiumEvents);
+constructor TCustomContextMenuHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomContextMenuHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
+end;
+
+procedure TCustomContextMenuHandler.RemoveReferences;
+begin
+  FEvents := nil;
 end;
 
 procedure TCustomContextMenuHandler.OnBeforeContextMenu(const browser : ICefBrowser;
@@ -178,7 +201,7 @@ procedure TCustomContextMenuHandler.OnBeforeContextMenu(const browser : ICefBrow
                                                         const params  : ICefContextMenuParams;
                                                         const model   : ICefMenuModel);
 begin
-  if (FEvent <> nil) then FEvent.doOnBeforeContextMenu(browser, frame, params, model);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnBeforeContextMenu(browser, frame, params, model);
 end;
 
 function TCustomContextMenuHandler.RunContextMenu(const browser  : ICefBrowser;
@@ -187,8 +210,8 @@ function TCustomContextMenuHandler.RunContextMenu(const browser  : ICefBrowser;
                                                   const model    : ICefMenuModel;
                                                   const callback : ICefRunContextMenuCallback): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doRunContextMenu(browser, frame, params, model, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doRunContextMenu(browser, frame, params, model, callback)
    else
     Result := inherited RunContextMenu(browser, frame, params, model, callback);
 end;
@@ -199,15 +222,16 @@ function TCustomContextMenuHandler.OnContextMenuCommand(const browser    : ICefB
                                                               commandId  : Integer;
                                                               eventFlags : TCefEventFlags): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnContextMenuCommand(browser, frame, params, commandId, eventFlags)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnContextMenuCommand(browser, frame, params, commandId, eventFlags)
    else
     Result := inherited OnContextMenuCommand(browser, frame, params, commandId, eventFlags);
 end;
 
-procedure TCustomContextMenuHandler.OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
+procedure TCustomContextMenuHandler.OnContextMenuDismissed(const browser : ICefBrowser;
+                                                           const frame   : ICefFrame);
 begin
-  if (FEvent <> nil) then FEvent.doOnContextMenuDismissed(browser, frame);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnContextMenuDismissed(browser, frame);
 end;
 
 end.

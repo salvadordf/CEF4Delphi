@@ -56,14 +56,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 3239;
-  CEF_SUPPORTED_VERSION_RELEASE = 1723;
+  CEF_SUPPORTED_VERSION_MINOR   = 3282;
+  CEF_SUPPORTED_VERSION_RELEASE = 1731;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 63;
+  CEF_CHROMEELF_VERSION_MAJOR   = 64;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3239;
-  CEF_CHROMEELF_VERSION_BUILD   = 109;
+  CEF_CHROMEELF_VERSION_RELEASE = 3282;
+  CEF_CHROMEELF_VERSION_BUILD   = 119;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -523,9 +523,9 @@ end;
 procedure TCefApplication.RemoveAppReferences;
 begin
   try
-    if (FResourceBundleHandler <> nil) then FResourceBundleHandler.InitializeVars;
-    if (FBrowserProcessHandler <> nil) then FBrowserProcessHandler.InitializeVars;
-    if (FRenderProcessHandler  <> nil) then FRenderProcessHandler.InitializeVars;
+    if (FResourceBundleHandler <> nil) then FResourceBundleHandler.RemoveReferences;
+    if (FBrowserProcessHandler <> nil) then FBrowserProcessHandler.RemoveReferences;
+    if (FRenderProcessHandler  <> nil) then FRenderProcessHandler.RemoveReferences;
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.RemoveAppReferences', e) then raise;

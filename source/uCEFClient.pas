@@ -73,7 +73,7 @@ type
       function GetRequestHandler: ICefRequestHandler; virtual;
       function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; virtual;
 
-      procedure InitializeVars; virtual;
+      procedure RemoveReferences; virtual;
 
     public
       class function UnWrap(data: Pointer): ICefClient;
@@ -97,7 +97,7 @@ type
       function GetRequestHandler: ICefRequestHandler; virtual;
       function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; virtual;
 
-      procedure InitializeVars; virtual;
+      procedure RemoveReferences; virtual;
 
     public
       constructor Create; virtual;
@@ -105,7 +105,7 @@ type
 
   TCustomClientHandler = class(TCefClientOwn)
     protected
-      FEvents             : IChromiumEvents;
+      FEvents             : Pointer;
       FLoadHandler        : ICefLoadHandler;
       FFocusHandler       : ICefFocusHandler;
       FContextMenuHandler : ICefContextMenuHandler;
@@ -120,6 +120,7 @@ type
       FRequestHandler     : ICefRequestHandler;
       FDragHandler        : ICefDragHandler;
       FFindHandler        : ICefFindHandler;
+
 
       function  GetContextMenuHandler: ICefContextMenuHandler; override;
       function  GetDialogHandler: ICefDialogHandler; override;
@@ -137,14 +138,16 @@ type
       function  GetRequestHandler: ICefRequestHandler; override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; override;
 
+      procedure InitializeVars;
+
     public
       constructor Create(const events: IChromiumEvents;
                          aCreateLoadHandler, aCreateFocusHandler, aCreateContextMenuHandler, aCreateDialogHandler,
                          aCreateKeyboardHandler, aCreateDisplayHandler, aCreateDownloadHandler, aCreateGeolocationHandler,
                          aCreateJsDialogHandler, aCreateLifeSpanHandler, aCreateRenderHandler, aCreateRequestHandler,
                          aCreateDragHandler, aCreateFindHandler : boolean); reintroduce; virtual;
-      destructor  Destroy; override;
-      procedure   InitializeVars; override;
+      procedure   BeforeDestruction; override;
+      procedure   RemoveReferences; override;
   end;
 
 implementation
@@ -249,7 +252,7 @@ begin
   Result := False;
 end;
 
-procedure TCefClientRef.InitializeVars;
+procedure TCefClientRef.RemoveReferences;
 begin
   //
 end;
@@ -450,7 +453,7 @@ begin
   Result := False;
 end;
 
-procedure TCefClientOwn.InitializeVars;
+procedure TCefClientOwn.RemoveReferences;
 begin
   //
 end;
@@ -481,7 +484,7 @@ begin
 
   InitializeVars;
 
-  FEvents := events;
+  FEvents := Pointer(events);
 
   if (FEvents <> nil) then
     begin
@@ -502,11 +505,31 @@ begin
     end;
 end;
 
-destructor TCustomClientHandler.Destroy;
+procedure TCustomClientHandler.BeforeDestruction;
 begin
   InitializeVars;
 
-  inherited Destroy;
+  inherited BeforeDestruction;
+end;
+
+procedure TCustomClientHandler.RemoveReferences;
+begin
+  FEvents := nil;
+
+  if (FLoadHandler        <> nil) then FLoadHandler.RemoveReferences;
+  if (FFocusHandler       <> nil) then FFocusHandler.RemoveReferences;
+  if (FContextMenuHandler <> nil) then FContextMenuHandler.RemoveReferences;
+  if (FDialogHandler      <> nil) then FDialogHandler.RemoveReferences;
+  if (FKeyboardHandler    <> nil) then FKeyboardHandler.RemoveReferences;
+  if (FDisplayHandler     <> nil) then FDisplayHandler.RemoveReferences;
+  if (FDownloadHandler    <> nil) then FDownloadHandler.RemoveReferences;
+  if (FGeolocationHandler <> nil) then FGeolocationHandler.RemoveReferences;
+  if (FJsDialogHandler    <> nil) then FJsDialogHandler.RemoveReferences;
+  if (FLifeSpanHandler    <> nil) then FLifeSpanHandler.RemoveReferences;
+  if (FRequestHandler     <> nil) then FRequestHandler.RemoveReferences;
+  if (FRenderHandler      <> nil) then FRenderHandler.RemoveReferences;
+  if (FDragHandler        <> nil) then FDragHandler.RemoveReferences;
+  if (FFindHandler        <> nil) then FFindHandler.RemoveReferences;
 end;
 
 procedure TCustomClientHandler.InitializeVars;
@@ -598,12 +621,14 @@ begin
   Result := FRequestHandler;
 end;
 
-function TCustomClientHandler.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean;
+function TCustomClientHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                             sourceProcess : TCefProcessId;
+                                                       const message       : ICefProcessMessage): Boolean;
 begin
   if (FEvents <> nil) then
-    Result := FEvents.doOnProcessMessageReceived(browser, sourceProcess, message)
+    Result := IChromiumEvents(FEvents).doOnProcessMessageReceived(browser, sourceProcess, message)
    else
-    Result := False;
+    Result := inherited OnProcessMessageReceived(browser, sourceProcess, message);
 end;
 
 end.

@@ -55,19 +55,23 @@ type
       procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
       procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); virtual;
 
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomDownloadHandler = class(TCefDownloadHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); override;
       procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -99,11 +103,12 @@ end;
 constructor TCefDownloadHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDownloadHandler));
+
   with PCefDownloadHandler(FData)^ do
-  begin
-    on_before_download := cef_download_handler_on_before_download;
-    on_download_updated := cef_download_handler_on_download_updated;
-  end;
+    begin
+      on_before_download  := cef_download_handler_on_before_download;
+      on_download_updated := cef_download_handler_on_download_updated;
+    end;
 end;
 
 procedure TCefDownloadHandlerOwn.OnBeforeDownload(const browser: ICefBrowser;
@@ -120,36 +125,45 @@ begin
 
 end;
 
+procedure TCefDownloadHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomDownloadHandler
 
-constructor TCustomDownloadHandler.Create(const events: IChromiumEvents);
+constructor TCustomDownloadHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomDownloadHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
 
-procedure TCustomDownloadHandler.OnBeforeDownload(const browser: ICefBrowser;
-  const downloadItem: ICefDownloadItem; const suggestedName: ustring;
-  const callback: ICefBeforeDownloadCallback);
+procedure TCustomDownloadHandler.RemoveReferences;
 begin
-  if (FEvent <> nil) then
-    FEvent.doOnBeforeDownload(browser, downloadItem, suggestedName, callback);
+  FEvents := nil;
 end;
 
-procedure TCustomDownloadHandler.OnDownloadUpdated(const browser: ICefBrowser;
-  const downloadItem: ICefDownloadItem;
-  const callback: ICefDownloadItemCallback);
+procedure TCustomDownloadHandler.OnBeforeDownload(const browser       : ICefBrowser;
+                                                  const downloadItem  : ICefDownloadItem;
+                                                  const suggestedName : ustring;
+                                                  const callback      : ICefBeforeDownloadCallback);
 begin
-  if (FEvent <> nil) then
-    FEvent.doOnDownloadUpdated(browser, downloadItem, callback);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnBeforeDownload(browser, downloadItem, suggestedName, callback);
+end;
+
+procedure TCustomDownloadHandler.OnDownloadUpdated(const browser      : ICefBrowser;
+                                                   const downloadItem : ICefDownloadItem;
+                                                   const callback     : ICefDownloadItemCallback);
+begin
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnDownloadUpdated(browser, downloadItem, callback);
 end;
 
 end.

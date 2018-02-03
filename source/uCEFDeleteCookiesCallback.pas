@@ -53,7 +53,6 @@ type
   TCefDeleteCookiesCallbackOwn = class(TCefBaseRefCountedOwn, ICefDeleteCookiesCallback)
     protected
       procedure OnComplete(numDeleted: Integer); virtual; abstract;
-      procedure InitializeVars; virtual; abstract;
 
     public
       constructor Create; virtual;
@@ -68,24 +67,27 @@ type
     public
       constructor Create(const callback: TCefDeleteCookiesCallbackProc); reintroduce;
       destructor  Destroy; override;
-      procedure   InitializeVars; override;
   end;
 
   TCefCustomDeleteCookiesCallback = class(TCefDeleteCookiesCallbackOwn)
     protected
-      FChromiumBrowser : IChromiumEvents;
+      FEvents : Pointer;
 
       procedure OnComplete(numDeleted: Integer); override;
 
     public
-      constructor Create(const aChromiumBrowser : IChromiumEvents); reintroduce;
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
-      procedure   InitializeVars; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_delete_cookie_callback_on_complete(self: PCefDeleteCookiesCallback; num_deleted: Integer); stdcall;
@@ -118,40 +120,39 @@ end;
 
 destructor TCefFastDeleteCookiesCallback.Destroy;
 begin
-  InitializeVars;
+  FCallback := nil;
 
   inherited Destroy;
-end;
-
-procedure TCefFastDeleteCookiesCallback.InitializeVars;
-begin
-  FCallback := nil;
 end;
 
 // TCefCustomDeleteCookiesCallback
 
-constructor TCefCustomDeleteCookiesCallback.Create(const aChromiumBrowser : IChromiumEvents);
+constructor TCefCustomDeleteCookiesCallback.Create(const aEvents : IChromiumEvents);
 begin
   inherited Create;
 
-  FChromiumBrowser := aChromiumBrowser;
+  FEvents := Pointer(aEvents);
 end;
 
 destructor TCefCustomDeleteCookiesCallback.Destroy;
 begin
-  InitializeVars;
+  FEvents := nil;
 
   inherited Destroy;
 end;
 
-procedure TCefCustomDeleteCookiesCallback.InitializeVars;
-begin
-  FChromiumBrowser := nil;
-end;
-
 procedure TCefCustomDeleteCookiesCallback.OnComplete(numDeleted: Integer);
 begin
-  if (FChromiumBrowser <> nil) then FChromiumBrowser.doCookiesDeleted(numDeleted);
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doCookiesDeleted(numDeleted);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCustomDeleteCookiesCallback.OnComplete', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
 end;
 
 end.

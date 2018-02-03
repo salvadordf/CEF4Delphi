@@ -166,7 +166,6 @@ type
   ICefPdfPrintCallback = interface(ICefBaseRefCounted)
   ['{F1CC58E9-2C30-4932-91AE-467C8D8EFB8E}']
     procedure OnPdfPrintFinished(const path: ustring; ok: Boolean);
-    procedure InitializeVars; // custom procedure to clear all references
   end;
 
   TOnDownloadImageFinishedProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF}
@@ -384,7 +383,6 @@ type
   ICefStringVisitor = interface(ICefBaseRefCounted)
     ['{63ED4D6C-2FC8-4537-964B-B84C008F6158}']
     procedure Visit(const str: ustring);
-    procedure InitializeVars; // custom procedure to clear all references
   end;
 
   ICefFrame = interface(ICefBaseRefCounted)
@@ -530,6 +528,8 @@ type
   ['{3137F90A-5DC5-43C1-858D-A269F28EF4F1}']
     procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
     procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefV8Exception = interface(ICefBaseRefCounted)
@@ -862,7 +862,7 @@ type
     function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
     function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
 
-    procedure InitializeVars; // custom procedure to clear all references
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefBrowserProcessHandler = interface(ICefBaseRefCounted)
@@ -873,7 +873,7 @@ type
     function  GetPrintHandler : ICefPrintHandler;
     procedure OnScheduleMessagePumpWork(const delayMs: Int64);
 
-    procedure InitializeVars; // custom procedure to clear all references
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefRenderProcessHandler = interface(ICefBaseRefCounted)
@@ -890,7 +890,7 @@ type
     procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
     function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean;
 
-    procedure InitializeVars; // custom procedure to clear all references
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefApp = interface(ICefBaseRefCounted)
@@ -920,7 +920,6 @@ type
   ICefDeleteCookiesCallback = interface(ICefBaseRefCounted)
     ['{758B79A1-B9E8-4F0D-94A0-DCE5AFADE33D}']
     procedure OnComplete(numDeleted: Integer);
-    procedure InitializeVars; // custom procedure to clear all references
   end;
 
   ICefCookieManager = Interface(ICefBaseRefCounted)
@@ -1208,6 +1207,8 @@ type
     procedure OnAfterCreated(const browser: ICefBrowser);
     procedure OnBeforeClose(const browser: ICefBrowser);
     function  DoClose(const browser: ICefBrowser): Boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
 
@@ -1253,6 +1254,8 @@ type
     procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
     procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
     procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefRequestCallback = interface(ICefBaseRefCounted)
@@ -1264,7 +1267,7 @@ type
   ICefResponseFilter = interface(ICefBaseRefCounted)
   ['{5013BC3C-F1AE-407A-A571-A4C6B1D6831E}']
     function InitFilter: Boolean;
-    function Filter(dataIn: Pointer; dataInSize : NativeUInt; dataInRead: PNativeUInt; dataOut: Pointer; dataOutSize : NativeUInt; dataOutWritten: PNativeUInt): TCefResponseFilterStatus;
+    function Filter(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt): TCefResponseFilterStatus;
   end;
 
   ICefRequestHandler = interface(ICefBaseRefCounted)
@@ -1285,6 +1288,8 @@ type
     procedure OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
     procedure OnRenderViewReady(const browser: ICefBrowser);
     procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefDisplayHandler = interface(ICefBaseRefCounted)
@@ -1295,8 +1300,10 @@ type
     procedure OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
     function  OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
     procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring);
-    function  OnConsoleMessage(const browser: ICefBrowser; const message, source: ustring; line: Integer): Boolean;
+    function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring; line: Integer): Boolean;
     function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefFocusHandler = interface(ICefBaseRefCounted)
@@ -1304,12 +1311,16 @@ type
     procedure OnTakeFocus(const browser: ICefBrowser; next: Boolean);
     function  OnSetFocus(const browser: ICefBrowser; source: TCefFocusSource): Boolean;
     procedure OnGotFocus(const browser: ICefBrowser);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefKeyboardHandler = interface(ICefBaseRefCounted)
   ['{0512F4EC-ED88-44C9-90D3-5C6D03D3B146}']
     function OnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean): Boolean;
     function OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): Boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefJsDialogHandler = interface(ICefBaseRefCounted)
@@ -1318,6 +1329,8 @@ type
     function  OnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: Boolean; const callback: ICefJsDialogCallback): Boolean;
     procedure OnResetDialogState(const browser: ICefBrowser);
     procedure OnDialogClosed(const browser: ICefBrowser);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefRunContextMenuCallback = interface(ICefBaseRefCounted)
@@ -1332,6 +1345,8 @@ type
     function  RunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): Boolean;
     function  OnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags): Boolean;
     procedure OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefAccessibilityHandler = interface(ICefBaseRefCounted)
@@ -1343,6 +1358,8 @@ type
   ICefDialogHandler = interface(ICefBaseRefCounted)
   ['{7763F4B2-8BE1-4E80-AC43-8B825850DC67}']
     function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefGeolocationCallback = interface(ICefBaseRefCounted)
@@ -1354,6 +1371,8 @@ type
   ['{1178EE62-BAE7-4E44-932B-EAAC7A18191C}']
     function  OnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean;
     procedure OnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefRenderHandler = interface(ICefBaseRefCounted)
@@ -1371,6 +1390,8 @@ type
     procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
     procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
     procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefClient = interface(ICefBaseRefCounted)
@@ -1388,7 +1409,7 @@ type
     function GetRequestHandler: ICefRequestHandler;
     function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean;
 
-    procedure InitializeVars; // custom procedure to clear all references
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefUrlRequest = interface(ICefBaseRefCounted)
@@ -1481,11 +1502,15 @@ type
     ['{59A89579-5B18-489F-A25C-5CC25FF831FC}']
     function  OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean;
     procedure OnDraggableRegionsChanged(const browser: ICefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefFindHandler = interface(ICefBaseRefCounted)
     ['{F20DF234-BD43-42B3-A80B-D354A9E5B787}']
     procedure OnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   ICefRequestContextHandler = interface(ICefBaseRefCounted)
@@ -1499,7 +1524,6 @@ type
   ICefResolveCallback = interface(ICefBaseRefCounted)
     ['{0C0EA252-7968-4163-A1BE-A1453576DD06}']
     procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings);
-    procedure InitializeVars; // custom procedure to clear all references
   end;
 
   ICefRequestContext = interface(ICefBaseRefCounted)
@@ -1744,7 +1768,7 @@ type
     procedure doOnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
     function  doOnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
     procedure doOnStatusMessage(const browser: ICefBrowser; const value: ustring);
-    function  doOnConsoleMessage(const browser: ICefBrowser; const message, source: ustring; line: Integer): Boolean;
+    function  doOnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring; line: Integer): Boolean;
     function  doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
 
     // ICefDownloadHandler
@@ -1812,12 +1836,6 @@ type
 
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
-    procedure doGetHTML(const aFrameName : ustring); overload;
-    procedure doGetHTML(const aFrame : ICefFrame); overload;
-    procedure doGetHTML(const aFrameIdentifier : int64); overload;
-    procedure doGetText(const aFrameName : ustring); overload;
-    procedure doGetText(const aFrame : ICefFrame); overload;
-    procedure doGetText(const aFrameIdentifier : int64); overload;
     procedure doPdfPrintFinished(aResultOK : boolean);
     procedure doTextResultAvailable(const aText : string);
     procedure doUpdatePreferences;

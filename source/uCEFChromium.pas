@@ -53,19 +53,13 @@ uses
   Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
-  uCEFPDFPrintCallback, uCEFStringVisitor, uCEFConstants, uCEFTask,
-  uCEFDeleteCookiesCallback, uCEFDomVisitor, uCEFChromiumEvents,
-  uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions,
-  uCEFDragAndDropMgr;
+  uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
+  uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions, uCEFDragAndDropMgr;
 
 type
   TChromium = class(TComponent, IChromiumEvents)
     protected
       FCompHandle             : HWND;
-      FVisitor                : ICefStringVisitor;
-      FPDFPrintcb             : ICefPdfPrintCallback;
-      FResolveHostcb          : ICefResolveCallback;
-      FCookiDeletercb         : ICefDeleteCookiesCallback;
       FHandler                : ICefClient;
       FBrowser                : ICefBrowser;
       FBrowserId              : Integer;
@@ -264,10 +258,6 @@ type
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): ICefBrowser;
 
       procedure DestroyClientHandler;
-      procedure DestroyVisitor;
-      procedure DestroyPDFPrintcb;
-      procedure DestroyResolveHostcb;
-      procedure DestroyCookiDeletercb;
 
       procedure ClearBrowserReference;
 
@@ -351,7 +341,7 @@ type
       procedure doOnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean); virtual;
       function  doOnTooltip(const browser: ICefBrowser; var text: ustring): Boolean; virtual;
       procedure doOnStatusMessage(const browser: ICefBrowser; const value: ustring); virtual;
-      function  doOnConsoleMessage(const browser: ICefBrowser; const aMessage, source: ustring; line: Integer): Boolean; virtual;
+      function  doOnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const aMessage, source: ustring; line: Integer): Boolean; virtual;
       function  doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
 
       // ICefDownloadHandler
@@ -419,12 +409,6 @@ type
 
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
-      procedure doGetHTML(const aFrameName : ustring); overload;
-      procedure doGetHTML(const aFrame : ICefFrame); overload;
-      procedure doGetHTML(const aFrameIdentifier : int64); overload;
-      procedure doGetText(const aFrameName : ustring); overload;
-      procedure doGetText(const aFrame : ICefFrame); overload;
-      procedure doGetText(const aFrameIdentifier : int64); overload;
       procedure doPdfPrintFinished(aResultOK : boolean); virtual;
       procedure doTextResultAvailable(const aText : string); virtual;
       procedure doUpdatePreferences; virtual;
@@ -444,6 +428,8 @@ type
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
       procedure   InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
       procedure   ShutdownDragAndDrop;
+
+
 
       procedure   LoadURL(const aURL : ustring);
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
@@ -695,8 +681,8 @@ uses
   SysUtils, Math,
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
-  uCEFApplication, uCEFProcessMessage, uOLEDragAndDrop, uCEFRequestContext,
-  uCEFResolveCallback;
+  uCEFApplication, uCEFProcessMessage, uCEFRequestContext, uOLEDragAndDrop,
+  uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
@@ -711,10 +697,6 @@ begin
   FOptions                := nil;
   FFontOptions            := nil;
   FDefaultEncoding        := '';
-  FVisitor                := nil;
-  FPDFPrintcb             := nil;
-  FResolveHostcb          := nil;
-  FCookiDeletercb         := nil;
   FPDFPrintOptions        := nil;
   FUpdatePreferences      := False;
   FCustomHeaderName       := '';
@@ -787,10 +769,6 @@ end;
 procedure TChromium.BeforeDestruction;
 begin
   DestroyClientHandler;
-  DestroyVisitor;
-  DestroyPDFPrintcb;
-  DestroyResolveHostcb;
-  DestroyCookiDeletercb;
 
   inherited BeforeDestruction;
 end;
@@ -806,68 +784,12 @@ begin
   try
     if (FHandler <> nil) then
       begin
-        FHandler.InitializeVars;
+        FHandler.RemoveReferences;
         FHandler := nil;
       end;
   except
     on e : exception do
       if CustomExceptionHandler('TChromium.DestroyClientHandler', e) then raise;
-  end;
-end;
-
-procedure TChromium.DestroyVisitor;
-begin
-  try
-    if (FVisitor <> nil) then
-      begin
-        FVisitor.InitializeVars;
-        FVisitor := nil;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromium.DestroyVisitor', e) then raise;
-  end;
-end;
-
-procedure TChromium.DestroyPDFPrintcb;
-begin
-  try
-    if (FPDFPrintcb <> nil) then
-      begin
-        FPDFPrintcb.InitializeVars;
-        FPDFPrintcb := nil;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromium.DestroyPDFPrintcb', e) then raise;
-  end;
-end;
-
-procedure TChromium.DestroyResolveHostcb;
-begin
-  try
-    if (FResolveHostcb <> nil) then
-      begin
-        FResolveHostcb.InitializeVars;
-        FResolveHostcb := nil;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromium.DestroyResolveHostcb', e) then raise;
-  end;
-end;
-
-procedure TChromium.DestroyCookiDeletercb;
-begin
-  try
-    if (FCookiDeletercb <> nil) then
-      begin
-        FCookiDeletercb.InitializeVars;
-        FCookiDeletercb := nil;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromium.DestroyCookiDeletercb', e) then raise;
   end;
 end;
 
@@ -1290,12 +1212,13 @@ end;
 procedure TChromium.PrintToPDF(const aFilePath, aTitle, aURL : ustring);
 var
   TempSettings : TCefPdfPrintSettings;
+  TempCallback : ICefPdfPrintCallback;
 begin
   if Initialized then
     begin
       GetPrintPDFSettings(TempSettings, aTitle, aURL);
-      if (FPDFPrintcb = nil) then FPDFPrintcb := TCefCustomPDFPrintCallBack.Create(self);
-      FBrowser.Host.PrintToPdf(aFilePath, @TempSettings, FPDFPrintcb);
+      TempCallback := TCefCustomPDFPrintCallBack.Create(self);
+      FBrowser.Host.PrintToPdf(aFilePath, @TempSettings, TempCallback);
     end;
 end;
 
@@ -1925,103 +1848,10 @@ begin
     end;
 end;
 
-procedure TChromium.doGetHTML(const aFrameName : ustring);
-var
-  TempFrame : ICefFrame;
-begin
-  if Initialized then
-    begin
-      if (length(aFrameName) > 0) then
-        TempFrame := FBrowser.GetFrame(aFrameName)
-       else
-        TempFrame := FBrowser.MainFrame;
-
-      if (TempFrame <> nil) then
-        begin
-          if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
-          TempFrame.GetSource(FVisitor);
-        end;
-    end;
-end;
-
-procedure TChromium.doGetHTML(const aFrame : ICefFrame);
-begin
-  if Initialized and (aFrame <> nil) then
-    begin
-      if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
-      aFrame.GetSource(FVisitor);
-    end;
-end;
-
-procedure TChromium.doGetHTML(const aFrameIdentifier : int64);
-var
-  TempFrame : ICefFrame;
-begin
-  if Initialized then
-    begin
-      if (aFrameIdentifier <> 0) then
-        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
-       else
-        TempFrame := FBrowser.MainFrame;
-
-      if (TempFrame <> nil) then
-        begin
-          if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
-          TempFrame.GetSource(FVisitor);
-        end;
-    end;
-end;
-
-procedure TChromium.doGetText(const aFrameName : ustring);
-var
-  TempFrame : ICefFrame;
-begin
-  if Initialized then
-    begin
-      if (length(aFrameName) > 0) then
-        TempFrame := FBrowser.GetFrame(aFrameName)
-       else
-        TempFrame := FBrowser.MainFrame;
-
-      if (TempFrame <> nil) then
-        begin
-          if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
-          TempFrame.GetText(FVisitor);
-        end;
-    end;
-end;
-
-procedure TChromium.doGetText(const aFrame : ICefFrame);
-begin
-  if Initialized and (aFrame <> nil) then
-    begin
-      if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
-      aFrame.GetText(FVisitor);
-    end;
-end;
-
-procedure TChromium.doGetText(const aFrameIdentifier : int64);
-var
-  TempFrame : ICefFrame;
-begin
-  if Initialized then
-    begin
-      if (aFrameIdentifier <> 0) then
-        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
-       else
-        TempFrame := FBrowser.MainFrame;
-
-      if (TempFrame <> nil) then
-        begin
-          if (FVisitor = nil) then FVisitor := TCustomCefStringVisitor.Create(self);
-          TempFrame.GetText(FVisitor);
-        end;
-    end;
-end;
-
 function TChromium.DeleteCookies : boolean;
 var
-  TempManager : ICefCookieManager;
+  TempManager  : ICefCookieManager;
+  TempCallback : ICefDeleteCookiesCallback;
 begin
   Result := False;
 
@@ -2031,9 +1861,8 @@ begin
 
       if (TempManager <> nil) then
         begin
-          if (FCookiDeletercb = nil) then FCookiDeletercb := TCefCustomDeleteCookiesCallback.Create(self);
-
-          Result := TempManager.DeleteCookies('', '', FCookiDeletercb);
+          TempCallback := TCefCustomDeleteCookiesCallback.Create(self);
+          Result       := TempManager.DeleteCookies('', '', TempCallback);
         end;
     end;
 end;
@@ -2041,74 +1870,104 @@ end;
 // Leave aFrameName empty to get the HTML source from the main frame
 procedure TChromium.RetrieveHTML(const aFrameName : ustring);
 var
-  TempTask: ICefTask;
+  TempFrame   : ICefFrame;
+  TempVisitor : ICefStringVisitor;
 begin
-  // Results will be received in the OnTextResultAvailable event of this class
   if Initialized then
     begin
-      TempTask := TCefGetHTMLTask.Create(self, aFrameName);
-      CefPostTask(TID_UI, TempTask);
+      if (length(aFrameName) > 0) then
+        TempFrame := FBrowser.GetFrame(aFrameName)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          TempVisitor := TCustomCefStringVisitor.Create(self);
+          TempFrame.GetSource(TempVisitor);
+        end;
     end;
 end;
 
 procedure TChromium.RetrieveHTML(const aFrame : ICefFrame);
 var
-  TempTask: ICefTask;
+  TempVisitor : ICefStringVisitor;
 begin
-  // Results will be received in the OnTextResultAvailable event of this class
-  if Initialized then
+  if Initialized and (aFrame <> nil) then
     begin
-      TempTask := TCefGetHTMLTask.Create(self, aFrame);
-      CefPostTask(TID_UI, TempTask);
+      TempVisitor := TCustomCefStringVisitor.Create(self);
+      aFrame.GetSource(TempVisitor);
     end;
 end;
 
 procedure TChromium.RetrieveHTML(const aFrameIdentifier : int64);
 var
-  TempTask: ICefTask;
+  TempFrame   : ICefFrame;
+  TempVisitor : ICefStringVisitor;
 begin
-  // Results will be received in the OnTextResultAvailable event of this class
   if Initialized then
     begin
-      TempTask := TCefGetHTMLTask.Create(self, aFrameIdentifier);
-      CefPostTask(TID_UI, TempTask);
+      if (aFrameIdentifier <> 0) then
+        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          TempVisitor := TCustomCefStringVisitor.Create(self);
+          TempFrame.GetSource(TempVisitor);
+        end;
     end;
 end;
 
 // Leave aFrameName empty to get the HTML source from the main frame
 procedure TChromium.RetrieveText(const aFrameName : ustring);
 var
-  TempTask: ICefTask;
+  TempFrame   : ICefFrame;
+  TempVisitor : ICefStringVisitor;
 begin
-  // Results will be received in the OnTextResultAvailable event of this class
   if Initialized then
     begin
-      TempTask := TCefGetTextTask.Create(self, aFrameName);
-      CefPostTask(TID_UI, TempTask);
+      if (length(aFrameName) > 0) then
+        TempFrame := FBrowser.GetFrame(aFrameName)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          TempVisitor := TCustomCefStringVisitor.Create(self);
+          TempFrame.GetText(TempVisitor);
+        end;
     end;
 end;
 
 procedure TChromium.RetrieveText(const aFrame : ICefFrame);
 var
-  TempTask: ICefTask;
+  TempVisitor : ICefStringVisitor;
 begin
-  // Results will be received in the OnTextResultAvailable event of this class
-  if Initialized then
+  if Initialized and (aFrame <> nil) then
     begin
-      TempTask := TCefGetTextTask.Create(self, aFrame);
-      CefPostTask(TID_UI, TempTask);
+      TempVisitor := TCustomCefStringVisitor.Create(self);
+      aFrame.GetText(TempVisitor);
     end;
 end;
 
 procedure TChromium.RetrieveText(const aFrameIdentifier : int64);
 var
-  TempTask: ICefTask;
+  TempFrame   : ICefFrame;
+  TempVisitor : ICefStringVisitor;
 begin
-  // Results will be received in the OnTextResultAvailable event of this class
   if Initialized then
     begin
-      TempTask := TCefGetTextTask.Create(self, aFrameIdentifier);
-      CefPostTask(TID_UI, TempTask);
+      if (aFrameIdentifier <> 0) then
+        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) then
+        begin
+          TempVisitor := TCustomCefStringVisitor.Create(self);
+          TempFrame.GetText(TempVisitor);
+        end;
     end;
 end;
 
@@ -2159,12 +2018,14 @@ begin
 end;
 
 procedure TChromium.ResolveHost(const aURL : ustring);
+var
+  TempCallback : ICefResolveCallback;
 begin
   // Results will be received in the OnResolvedHostAvailable event of this class
   if Initialized and (length(aURL) > 0) then
     begin
-      if (FResolveHostcb = nil) then FResolveHostcb := TCefCustomResolveCallback.Create(self);
-      FBrowser.Host.RequestContext.ResolveHost(aURL, FResolveHostcb);
+      TempCallback := TCefCustomResolveCallback.Create(self);
+      FBrowser.Host.RequestContext.ResolveHost(aURL, TempCallback);
     end;
 end;
 
@@ -3030,13 +2891,14 @@ begin
 end;
 
 function TChromium.doOnConsoleMessage(const browser  : ICefBrowser;
+                                            level    : TCefLogSeverity;
                                       const aMessage : ustring;
                                       const source   : ustring;
                                             line     : Integer): Boolean;
 begin
   Result := False;
 
-  if Assigned(FOnConsoleMessage) then FOnConsoleMessage(Self, browser, aMessage, source, line, Result);
+  if Assigned(FOnConsoleMessage) then FOnConsoleMessage(Self, browser, level, aMessage, source, line, Result);
 end;
 
 function TChromium.doOnAutoResize(const browser  : ICefBrowser;

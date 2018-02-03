@@ -141,7 +141,9 @@ begin
 
   if (count = pred(total)) then
     begin
-      PostMessage(CookieVisitorFrm.Handle, MINIBROWSER_SHOWCOOKIES, 0, 0);
+      if (CookieVisitorFrm <> nil) and CookieVisitorFrm.HandleAllocated then
+        PostMessage(CookieVisitorFrm.Handle, MINIBROWSER_SHOWCOOKIES, 0, 0);
+
       Result := False;
     end
    else

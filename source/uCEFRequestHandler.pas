@@ -70,13 +70,15 @@ type
       procedure OnRenderViewReady(const browser: ICefBrowser); virtual;
       procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
 
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomRequestHandler = class(TCefRequestHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; isRedirect: Boolean): Boolean; override;
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; override;
@@ -95,8 +97,10 @@ type
       procedure OnRenderViewReady(const browser: ICefBrowser); override;
       procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -312,25 +316,26 @@ end;
 constructor TCefRequestHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefRequestHandler));
+
   with PCefRequestHandler(FData)^ do
-  begin
-    on_before_browse := cef_request_handler_on_before_browse;
-    on_open_urlfrom_tab := cef_request_handler_on_open_urlfrom_tab;
-    on_before_resource_load := cef_request_handler_on_before_resource_load;
-    get_resource_handler := cef_request_handler_get_resource_handler;
-    on_resource_redirect := cef_request_handler_on_resource_redirect;
-    on_resource_response := cef_request_handler_on_resource_response;
-    get_resource_response_filter := cef_request_handler_get_resource_response_filter;
-    on_resource_load_complete := cef_request_handler_on_resource_load_complete;
-    get_auth_credentials := cef_request_handler_get_auth_credentials;
-    on_quota_request := cef_request_handler_on_quota_request;
-    on_protocol_execution := cef_request_handler_on_protocol_execution;
-    on_certificate_error := cef_request_handler_on_certificate_error;
-    on_select_client_certificate := cef_request_handler_on_select_client_certificate;
-    on_plugin_crashed := cef_request_handler_on_plugin_crashed;
-    on_render_view_ready := cef_request_handler_on_render_view_ready;
-    on_render_process_terminated := cef_request_handler_on_render_process_terminated;
-  end;
+    begin
+      on_before_browse              := cef_request_handler_on_before_browse;
+      on_open_urlfrom_tab           := cef_request_handler_on_open_urlfrom_tab;
+      on_before_resource_load       := cef_request_handler_on_before_resource_load;
+      get_resource_handler          := cef_request_handler_get_resource_handler;
+      on_resource_redirect          := cef_request_handler_on_resource_redirect;
+      on_resource_response          := cef_request_handler_on_resource_response;
+      get_resource_response_filter  := cef_request_handler_get_resource_response_filter;
+      on_resource_load_complete     := cef_request_handler_on_resource_load_complete;
+      get_auth_credentials          := cef_request_handler_get_auth_credentials;
+      on_quota_request              := cef_request_handler_on_quota_request;
+      on_protocol_execution         := cef_request_handler_on_protocol_execution;
+      on_certificate_error          := cef_request_handler_on_certificate_error;
+      on_select_client_certificate  := cef_request_handler_on_select_client_certificate;
+      on_plugin_crashed             := cef_request_handler_on_plugin_crashed;
+      on_render_view_ready          := cef_request_handler_on_render_view_ready;
+      on_render_process_terminated  := cef_request_handler_on_render_process_terminated;
+    end;
 end;
 
 function TCefRequestHandlerOwn.GetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame;
@@ -449,20 +454,30 @@ begin
 
 end;
 
+procedure TCefRequestHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomRequestHandler
 
-constructor TCustomRequestHandler.Create(const events: IChromiumEvents);
+constructor TCustomRequestHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomRequestHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
+end;
+
+procedure TCustomRequestHandler.RemoveReferences;
+begin
+  FEvents := nil;
 end;
 
 function TCustomRequestHandler.GetAuthCredentials(const browser  : ICefBrowser;
@@ -474,8 +489,8 @@ function TCustomRequestHandler.GetAuthCredentials(const browser  : ICefBrowser;
                                                   const scheme   : ustring;
                                                   const callback : ICefAuthCallback): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnGetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnGetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback)
    else
     Result := inherited GetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback);
 end;
@@ -484,8 +499,8 @@ function TCustomRequestHandler.GetResourceHandler(const browser : ICefBrowser;
                                                   const frame   : ICefFrame;
                                                   const request : ICefRequest): ICefResourceHandler;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnGetResourceHandler(browser, frame, request)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnGetResourceHandler(browser, frame, request)
    else
     Result := inherited GetResourceHandler(browser, frame, request);
 end;
@@ -495,7 +510,10 @@ function TCustomRequestHandler.OnBeforeBrowse(const browser    : ICefBrowser;
                                               const request    : ICefRequest;
                                                     isRedirect : Boolean): Boolean;
 begin
-  Result := FEvent.doOnBeforeBrowse(browser, frame, request, isRedirect);
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnBeforeBrowse(browser, frame, request, isRedirect)
+   else
+    Result := inherited OnBeforeBrowse(browser, frame, request, isRedirect);
 end;
 
 function TCustomRequestHandler.OnBeforeResourceLoad(const browser  : ICefBrowser;
@@ -503,8 +521,8 @@ function TCustomRequestHandler.OnBeforeResourceLoad(const browser  : ICefBrowser
                                                     const request  : ICefRequest;
                                                     const callback : ICefRequestCallback): TCefReturnValue;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnBeforeResourceLoad(browser, frame, request, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnBeforeResourceLoad(browser, frame, request, callback)
    else
     Result := inherited OnBeforeResourceLoad(browser, frame, request, callback);
 end;
@@ -515,8 +533,8 @@ function TCustomRequestHandler.OnCertificateError(const browser    : ICefBrowser
                                                   const sslInfo    : ICefSslInfo;
                                                   const callback   : ICefRequestCallback): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnCertificateError(browser, certError, requestUrl, sslInfo, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnCertificateError(browser, certError, requestUrl, sslInfo, callback)
    else
     Result := inherited OnCertificateError(browser, certError, requestUrl, sslInfo, callback);
 end;
@@ -527,8 +545,8 @@ function TCustomRequestHandler.OnOpenUrlFromTab(const browser           : ICefBr
                                                       targetDisposition : TCefWindowOpenDisposition;
                                                       userGesture       : Boolean): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnOpenUrlFromTab(browser, frame, targetUrl, targetDisposition, userGesture)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnOpenUrlFromTab(browser, frame, targetUrl, targetDisposition, userGesture)
    else
     Result := inherited OnOpenUrlFromTab(browser, frame, targetUrl, targetDisposition, userGesture);
 end;
@@ -541,22 +559,22 @@ function TCustomRequestHandler.OnSelectClientCertificate(const browser          
                                                          const certificates      : TCefX509CertificateArray;
                                                          const callback          : ICefSelectClientCertificateCallback): boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback)
    else
     Result := inherited OnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback);
 end;
 
 procedure TCustomRequestHandler.OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
 begin
-  if (FEvent <> nil) then FEvent.doOnPluginCrashed(browser, pluginPath);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnPluginCrashed(browser, pluginPath);
 end;
 
 procedure TCustomRequestHandler.OnProtocolExecution(const browser          : ICefBrowser;
                                                     const url              : ustring;
                                                       out allowOsExecution : Boolean);
 begin
-  if (FEvent <> nil) then FEvent.doOnProtocolExecution(browser, url, allowOsExecution);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnProtocolExecution(browser, url, allowOsExecution);
 end;
 
 function TCustomRequestHandler.OnQuotaRequest(const browser   : ICefBrowser;
@@ -564,20 +582,20 @@ function TCustomRequestHandler.OnQuotaRequest(const browser   : ICefBrowser;
                                                     newSize   : Int64;
                                               const callback  : ICefRequestCallback): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnQuotaRequest(browser, originUrl, newSize, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnQuotaRequest(browser, originUrl, newSize, callback)
    else
     Result := inherited OnQuotaRequest(browser, originUrl, newSize, callback);
 end;
 
 procedure TCustomRequestHandler.OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
 begin
-  if (FEvent <> nil) then FEvent.doOnRenderProcessTerminated(browser, status);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnRenderProcessTerminated(browser, status);
 end;
 
 procedure TCustomRequestHandler.OnRenderViewReady(const browser: ICefBrowser);
 begin
-  if (FEvent <> nil) then FEvent.doOnRenderViewReady(browser);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnRenderViewReady(browser);
 end;
 
 procedure TCustomRequestHandler.OnResourceRedirect(const browser  : ICefBrowser;
@@ -586,7 +604,7 @@ procedure TCustomRequestHandler.OnResourceRedirect(const browser  : ICefBrowser;
                                                    const response : ICefResponse;
                                                    var   newUrl   : ustring);
 begin
-  if (FEvent <> nil) then FEvent.doOnResourceRedirect(browser, frame, request, response, newUrl);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnResourceRedirect(browser, frame, request, response, newUrl);
 end;
 
 function TCustomRequestHandler.OnResourceResponse(const browser  : ICefBrowser;
@@ -594,8 +612,8 @@ function TCustomRequestHandler.OnResourceResponse(const browser  : ICefBrowser;
                                                   const request  : ICefRequest;
                                                   const response : ICefResponse): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnResourceResponse(browser, frame, request, response)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnResourceResponse(browser, frame, request, response)
    else
     Result := inherited OnResourceResponse(browser, frame, request, response);
 end;
@@ -605,8 +623,8 @@ function TCustomRequestHandler.GetResourceResponseFilter(const browser: ICefBrow
                                                          const request: ICefRequest;
                                                          const response: ICefResponse): ICefResponseFilter;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnGetResourceResponseFilter(browser, frame, request, response)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnGetResourceResponseFilter(browser, frame, request, response)
    else
     Result := inherited GetResourceResponseFilter(browser, frame, request, response);
 end;
@@ -618,8 +636,7 @@ procedure TCustomRequestHandler.OnResourceLoadComplete(const browser            
                                                              status                : TCefUrlRequestStatus;
                                                              receivedContentLength : Int64);
 begin
-  if (FEvent <> nil) then
-    FEvent.doOnResourceLoadComplete(browser, frame, request, response, status, receivedContentLength);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnResourceLoadComplete(browser, frame, request, response, status, receivedContentLength);
 end;
 
 end.

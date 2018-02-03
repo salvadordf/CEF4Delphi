@@ -55,25 +55,34 @@ type
       function OnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean): Boolean; virtual;
       function OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): Boolean; virtual;
 
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomKeyboardHandler = class(TCefKeyboardHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       function OnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean): Boolean; override;
       function OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): Boolean; override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
 
 function cef_keyboard_handler_on_pre_key_event(self: PCefKeyboardHandler;
@@ -116,28 +125,38 @@ begin
   Result := False;
 end;
 
+procedure TCefKeyboardHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomKeyboardHandler
 
-constructor TCustomKeyboardHandler.Create(const events: IChromiumEvents);
+constructor TCustomKeyboardHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomKeyboardHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
+end;
+
+procedure TCustomKeyboardHandler.RemoveReferences;
+begin
+  FEvents := nil;
 end;
 
 function TCustomKeyboardHandler.OnKeyEvent(const browser : ICefBrowser;
                                            const event   : PCefKeyEvent;
                                                  osEvent : TCefEventHandle): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnKeyEvent(browser, event, osEvent)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnKeyEvent(browser, event, osEvent)
    else
     Result := inherited OnKeyEvent(browser, event, osEvent);
 end;
@@ -147,8 +166,8 @@ function TCustomKeyboardHandler.OnPreKeyEvent(const browser            : ICefBro
                                                     osEvent            : TCefEventHandle;
                                               out   isKeyboardShortcut : Boolean): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut)
    else
     Result := inherited OnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut);
 end;

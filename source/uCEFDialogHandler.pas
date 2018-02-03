@@ -57,7 +57,9 @@ uses
 type
   TCefDialogHandlerOwn = class(TCefBaseRefCountedOwn, ICefDialogHandler)
     protected
-      function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; virtual;
+      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; virtual;
+
+      procedure RemoveReferences; virtual;
 
     public
       constructor Create; virtual;
@@ -65,18 +67,25 @@ type
 
   TCustomDialogHandler = class(TCefDialogHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
-      function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title: ustring; const defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; override;
+      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title: ustring; const defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; override;
+
+      procedure RemoveReferences; override;
 
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFileDialogCallback;
 
 function cef_dialog_handler_on_file_dialog(self: PCefDialogHandler; browser: PCefBrowser;
@@ -119,20 +128,30 @@ begin
   Result := False;
 end;
 
+procedure TCefDialogHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomDialogHandler
 
-constructor TCustomDialogHandler.Create(const events: IChromiumEvents);
+constructor TCustomDialogHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomDialogHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
+end;
+
+procedure TCustomDialogHandler.RemoveReferences;
+begin
+  FEvents := nil;
 end;
 
 function TCustomDialogHandler.OnFileDialog(const browser              : ICefBrowser;
@@ -143,10 +162,12 @@ function TCustomDialogHandler.OnFileDialog(const browser              : ICefBrow
                                                  selectedAcceptFilter : Integer;
                                            const callback             : ICefFileDialogCallback): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnFileDialog(browser, mode, title, defaultFilePath,
+                                                      acceptFilters, selectedAcceptFilter, callback)
    else
-    Result := inherited OnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback);
+    Result := inherited OnFileDialog(browser, mode, title, defaultFilePath,
+                                     acceptFilters, selectedAcceptFilter, callback);
 end;
 
 end.

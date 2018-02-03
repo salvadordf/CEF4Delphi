@@ -57,27 +57,36 @@ type
       procedure OnBeforeClose(const browser: ICefBrowser); virtual;
       function  DoClose(const browser: ICefBrowser): Boolean; virtual;
 
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomLifeSpanHandler = class(TCefLifeSpanHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean): Boolean; override;
       procedure OnAfterCreated(const browser: ICefBrowser); override;
       procedure OnBeforeClose(const browser: ICefBrowser); override;
       function  DoClose(const browser: ICefBrowser): Boolean; override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFClient, uCEFBrowser, uCEFFrame;
 
 function cef_life_span_handler_on_before_popup(      self                 : PCefLifeSpanHandler;
@@ -186,38 +195,48 @@ begin
   Result := False;
 end;
 
+procedure TCefLifeSpanHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomLifeSpanHandler
 
-constructor TCustomLifeSpanHandler.Create(const events: IChromiumEvents);
+constructor TCustomLifeSpanHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomLifeSpanHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
 
+procedure TCustomLifeSpanHandler.RemoveReferences;
+begin
+  FEvents := nil;
+end;
+
 function TCustomLifeSpanHandler.DoClose(const browser: ICefBrowser): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnClose(browser)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnClose(browser)
    else
     Result := inherited DoClose(browser);
 end;
 
 procedure TCustomLifeSpanHandler.OnAfterCreated(const browser: ICefBrowser);
 begin
-  if (FEvent <> nil) then FEvent.doOnAfterCreated(browser);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnAfterCreated(browser);
 end;
 
 procedure TCustomLifeSpanHandler.OnBeforeClose(const browser: ICefBrowser);
 begin
-  if (FEvent <> nil) then FEvent.doOnBeforeClose(browser);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnBeforeClose(browser);
 end;
 
 function TCustomLifeSpanHandler.OnBeforePopup(const browser            : ICefBrowser;
@@ -232,10 +251,10 @@ function TCustomLifeSpanHandler.OnBeforePopup(const browser            : ICefBro
                                               var   settings           : TCefBrowserSettings;
                                               var   noJavascriptAccess : Boolean): Boolean;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnBeforePopup(browser, frame, targetUrl, targetFrameName,
-                                     targetDisposition, userGesture, popupFeatures,
-                                     windowInfo, client, settings, noJavascriptAccess)
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnBeforePopup(browser, frame, targetUrl, targetFrameName,
+                                                       targetDisposition, userGesture, popupFeatures,
+                                                       windowInfo, client, settings, noJavascriptAccess)
    else
     Result := inherited OnBeforePopup(browser, frame, targetUrl, targetFrameName,
                                       targetDisposition, userGesture, popupFeatures,

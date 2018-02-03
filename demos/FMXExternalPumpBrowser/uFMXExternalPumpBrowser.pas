@@ -102,6 +102,8 @@ type
     procedure AddressEdtEnter(Sender: TObject);
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
+    procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser;
+      var text: ustring; out Result: Boolean);
 
   protected
     FPopUpBitmap       : TBitmap;
@@ -691,6 +693,13 @@ begin
       FPopUpRect.Right  := rect.x + LogicalToDevice(rect.width,  GlobalCEFApp.DeviceScaleFactor)  - 1;
       FPopUpRect.Bottom := rect.y + LogicalToDevice(rect.height, GlobalCEFApp.DeviceScaleFactor) - 1;
     end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
+begin
+  Panel1.Hint     := text;
+  Panel1.ShowHint := (length(text) > 0);
+  Result          := True;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.DoResize;

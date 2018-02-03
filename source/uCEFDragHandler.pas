@@ -52,8 +52,10 @@ uses
 type
   TCefDragHandlerOwn = class(TCefBaseRefCountedOwn, ICefDragHandler)
     protected
-      function OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean; virtual;
+      function  OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean; virtual;
       procedure OnDraggableRegionsChanged(const browser: ICefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray); virtual;
+
+      procedure RemoveReferences; virtual;
 
     public
       constructor Create; virtual;
@@ -61,19 +63,26 @@ type
 
   TCustomDragHandler = class(TCefDragHandlerOwn)
     protected
-      FEvent: IChromiumEvents;
+      FEvents : Pointer;
 
       function  OnDragEnter(const browser: ICefBrowser;  const dragData: ICefDragData; mask: TCefDragOperations): Boolean; override;
       procedure OnDraggableRegionsChanged(const browser: ICefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray); override;
 
+      procedure RemoveReferences; override;
+
     public
-      constructor Create(const events: IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFDragData;
 
 function cef_drag_handler_on_drag_enter(self: PCefDragHandler; browser: PCefBrowser;
@@ -113,34 +122,47 @@ begin
 
 end;
 
+procedure TCefDragHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
 // TCustomDragHandler
 
-constructor TCustomDragHandler.Create(const events: IChromiumEvents);
+constructor TCustomDragHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvent := events;
+  FEvents := events;
 end;
 
 destructor TCustomDragHandler.Destroy;
 begin
-  FEvent := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
 
-function TCustomDragHandler.OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean;
+procedure TCustomDragHandler.RemoveReferences;
 begin
-  if (FEvent <> nil) then
-    Result := FEvent.doOnDragEnter(browser, dragData, mask)
+  FEvents := nil;
+end;
+
+function TCustomDragHandler.OnDragEnter(const browser  : ICefBrowser;
+                                        const dragData : ICefDragData;
+                                              mask     : TCefDragOperations): Boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnDragEnter(browser, dragData, mask)
    else
     Result := inherited OnDragEnter(browser, dragData, mask);
 end;
 
-procedure TCustomDragHandler.OnDraggableRegionsChanged(const browser: ICefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray);
+procedure TCustomDragHandler.OnDraggableRegionsChanged(const browser      : ICefBrowser;
+                                                             regionsCount : NativeUInt;
+                                                             regions      : PCefDraggableRegionArray);
 begin
-  if (FEvent <> nil) then
-    FEvent.doOnDraggableRegionsChanged(browser, regionsCount, regions);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnDraggableRegionsChanged(browser, regionsCount, regions);
 end;
 
 end.
