@@ -35,7 +35,7 @@
  *
  *)
 
-unit uResopnseFilterBrowser;
+unit uResponseFilterBrowser;
 
 {$I cef.inc}
 
@@ -78,7 +78,7 @@ type
     FFilter   : ICefResponseFilter;
     FStream   : TMemoryStream;
     FStreamCS : TCriticalSection;
-    FLoading  : boolean;
+    FRscName  : string;
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -105,7 +105,7 @@ uses
   {$ELSE}
   Math,
   {$ENDIF}
-  uCEFApplication;
+  uCEFApplication, uCEFMiscFunctions;
 
 // This demo uses a TCustomResponseFilter to read the contents from a JavaScript file in wikipedia.org into a TMemoryStream.
 // The stream is shown in the TMemo when it's finished.
@@ -123,29 +123,38 @@ procedure TResponseFilterBrowserFrm.Filter_OnFilter(Sender: TObject;
                                                     var aResult          : TCefResponseFilterStatus);
 begin
   try
-    // This event will be called repeatedly until the input buffer has been fully read.
-    FStreamCS.Acquire;
+    try
+      // This event will be called repeatedly until the input buffer has been fully read.
+      // When there's no more data then data_in is nil and you can show the stream contents.
 
-    aResult := RESPONSE_FILTER_DONE;
+      FStreamCS.Acquire;
 
-    if (data_in = nil) then
-      begin
-        data_in_read     := 0;
-        data_out_written := 0;
-      end
-     else
-      begin
-        data_in_read := data_in_size;
+      if (data_in = nil) then
+        begin
+          data_in_read     := 0;
+          data_out_written := 0;
+          aResult          := RESPONSE_FILTER_DONE;
 
-        if (data_out <> nil) then
-          begin
-            data_out_written := min(data_in_read, data_out_size);
-            Move(data_in^, data_out^, data_out_written);
-          end;
+          PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+        end
+       else
+        begin
+          if (data_out <> nil) then
+            begin
+              data_out_written := min(data_in_read, data_out_size);
+              Move(data_in^, data_out^, data_out_written);
+            end;
 
-        FStream.WriteBuffer(data_in^, data_in_size);
-        PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
-      end;
+          data_in_read := FStream.Write(data_in^, data_in_size);
+          aResult      := RESPONSE_FILTER_NEED_MORE_DATA;
+        end;
+    except
+      on e : exception do
+        begin
+          aResult := RESPONSE_FILTER_ERROR;
+          if CustomExceptionHandler('TResponseFilterBrowserFrm.Filter_OnFilter', e) then raise;
+        end;
+    end;
   finally
     FStreamCS.Release;
   end;
@@ -153,7 +162,7 @@ end;
 
 procedure TResponseFilterBrowserFrm.FormCreate(Sender: TObject);
 begin
-  FLoading  := False;
+  FRscName  := 'index-47f5f07682.js'; // JS script used at wikipedia.org
   FStream   := TMemoryStream.Create;
   FStreamCS := TCriticalSection.Create;
   FFilter   := TCustomResponseFilter.Create;
@@ -189,10 +198,7 @@ procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(Sender : 
                                                                        const response  : ICefResponse;
                                                                        out   Result    : ICefResponseFilter);
 begin
-  // All resources can be filtered but for this demo we will select a JS file in wikipedia.org called 'index-47f5f07682.js'
-  if (request <> nil) and
-     (pos('index', request.URL) > 0) and  // the file contains the word 'index'
-     (pos('.js', request.URL) > 0) then   // the file contains the extension '.js'
+  if (request <> nil) and (pos(FRscName, request.URL) > 0) then
     Result := FFilter
    else
     Result := nil;
@@ -220,7 +226,6 @@ end;
 
 procedure TResponseFilterBrowserFrm.GoBtnClick(Sender: TObject);
 begin
-  FLoading := True;
   Chromium1.LoadURL(AddressEdt.Text);
 end;
 

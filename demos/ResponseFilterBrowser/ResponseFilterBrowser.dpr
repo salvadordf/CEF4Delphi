@@ -48,7 +48,7 @@ uses
   Windows,
   {$ENDIF }
   uCEFApplication,
-  uResopnseFilterBrowser in 'uResopnseFilterBrowser.pas' {ResponseFilterBrowserFrm};
+  uResponseFilterBrowser in 'uResponseFilterBrowser.pas' {ResponseFilterBrowserFrm};
 
 {$R *.res}
 

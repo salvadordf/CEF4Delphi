@@ -131,7 +131,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="uResopnseFilterBrowser.pas">
+        <DCCReference Include="uResponseFilterBrowser.pas">
             <Form>ResponseFilterBrowserFrm</Form>
         </DCCReference>
         <BuildConfiguration Include="Release">
