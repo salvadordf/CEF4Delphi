@@ -48,7 +48,7 @@ uses
   Windows,
   {$ENDIF }
   uCEFApplication,
-  uCEFTypes,
+  uCEFConstants,
   uDOMVisitor in 'uDOMVisitor.pas' {DOMVisitorFrm};
 
 {$R *.res}
