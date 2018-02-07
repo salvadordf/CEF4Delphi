@@ -229,10 +229,16 @@ procedure TResponseFilterBrowserFrm.StreamCopyCompleteMsg(var aMessage : TMessag
 begin
   try
     FStreamCS.Acquire;
+
     FStream.Seek(0, soBeginning);
+
     Memo1.Lines.Clear;
     Memo1.Lines.LoadFromStream(FStream);
+
     FStream.Clear;
+
+    FRscSize       := 0;
+    FRscCompleted  := False;
   finally
     FStreamCS.Release;
   end;
