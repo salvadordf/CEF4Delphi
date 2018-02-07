@@ -141,12 +141,16 @@ begin
         begin
           if (data_out <> nil) then
             begin
-              data_out_written := min(data_in_read, data_out_size);
-              Move(data_in^, data_out^, data_out_written);
+              data_out_written := min(data_in_size, data_out_size);
+
+              if (data_out_written > 0) then
+                Move(data_in^, data_out^, data_out_written);
             end;
 
-          data_in_read := FStream.Write(data_in^, data_in_size);
-          aResult      := RESPONSE_FILTER_NEED_MORE_DATA;
+          if (data_in_size > 0) then
+            data_in_read := FStream.Write(data_in^, data_in_size);
+
+          aResult := RESPONSE_FILTER_NEED_MORE_DATA;
         end;
     except
       on e : exception do
