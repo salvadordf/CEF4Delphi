@@ -75,12 +75,12 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   protected
-    FFilter        : ICefResponseFilter;
-    FStream        : TMemoryStream;
-    FStreamCS      : TCriticalSection;
-    FRscName       : string;
-    FRscSize       : int64;
-    FRscCompleted  : boolean;
+    FFilter        : ICefResponseFilter; // CEF Filter interface that receives the resource contents
+    FStream        : TMemoryStream;      // TMemoryStream to hold the resource contents
+    FStreamCS      : TCriticalSection;   // Critical section used to protect the memory stream
+    FRscName       : string;             // name of the resource that will be filtered
+    FRscSize       : int64;              // size of the resource if the server sends the Content-Length header
+    FRscCompleted  : boolean;            // This variable will be used to handle the results only once.
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -153,7 +153,9 @@ begin
           if (data_in_size > 0) then
             data_in_read := FStream.Write(data_in^, data_in_size);
 
-          if not(FRscCompleted) and (FRscSize = FStream.Size) then
+          // Send the STREAM_COPY_COMPLETE message only if the server sent the data size in
+          // a Content-Length header and we can compare it with the stream size
+          if not(FRscCompleted) and (FRscSize <> -1) and (FRscSize = FStream.Size) then
             FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
 
           aResult := RESPONSE_FILTER_NEED_MORE_DATA;
@@ -174,6 +176,7 @@ procedure TResponseFilterBrowserFrm.FormCreate(Sender: TObject);
 begin
   FRscName       := 'index-47f5f07682.js'; // JS script used at wikipedia.org
   FRscCompleted  := False;
+  FRscSize       := -1;
   FStream        := TMemoryStream.Create;
   FStreamCS      := TCriticalSection.Create;
   FFilter        := TCustomResponseFilter.Create;
@@ -208,11 +211,19 @@ procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(Sender : 
                                                                        const request   : ICefRequest;
                                                                        const response  : ICefResponse;
                                                                        out   Result    : ICefResponseFilter);
+var
+  TempHeader : string;
+  TempLen : integer;
 begin
   if (request <> nil) and (response <> nil) and (pos(FRscName, request.URL) > 0) then
     begin
-      Result   := FFilter;
-      FRscSize := StrToIntDef(response.GetHeader('Content-Length'), 0);
+      Result     := FFilter;
+      TempHeader := trim(response.GetHeader('Content-Length'));
+
+      if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
+        FRscSize := TempLen
+       else
+        FRscSize := -1;
     end
    else
     Result := nil;
@@ -225,20 +236,26 @@ begin
   GoBtn.Click;
 end;
 
+// This procedure handles the stream contents after it's fully downloaded
 procedure TResponseFilterBrowserFrm.StreamCopyCompleteMsg(var aMessage : TMessage);
 begin
   try
     FStreamCS.Acquire;
 
-    FStream.Seek(0, soBeginning);
+    if (FStream.Size > 0) then
+      begin
+        FStream.Seek(0, soBeginning);
 
-    Memo1.Lines.Clear;
-    Memo1.Lines.LoadFromStream(FStream);
+        Memo1.Lines.Clear;
+        Memo1.Lines.LoadFromStream(FStream);
 
-    FStream.Clear;
+        FStream.Clear;
+      end
+     else
+      Memo1.Lines.Clear;
 
-    FRscSize       := 0;
-    FRscCompleted  := False;
+    FRscSize      := -1;
+    FRscCompleted := False;
   finally
     FStreamCS.Release;
   end;

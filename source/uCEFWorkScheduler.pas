@@ -161,7 +161,7 @@ begin
   {$ENDIF}
   FThread.DefaultInterval := FDefaultInterval;
   FThread.OnPulse         := Thread_OnPulse;
-  {$IFDEF DELPHI8_UP}
+  {$IFDEF DELPHI14_UP}
   FThread.Start;
   {$ELSE}
   FThread.Resume;
