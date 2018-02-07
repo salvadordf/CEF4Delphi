@@ -75,10 +75,12 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   protected
-    FFilter   : ICefResponseFilter;
-    FStream   : TMemoryStream;
-    FStreamCS : TCriticalSection;
-    FRscName  : string;
+    FFilter        : ICefResponseFilter;
+    FStream        : TMemoryStream;
+    FStreamCS      : TCriticalSection;
+    FRscName       : string;
+    FRscSize       : int64;
+    FRscCompleted  : boolean;
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -135,7 +137,8 @@ begin
           data_out_written := 0;
           aResult          := RESPONSE_FILTER_DONE;
 
-          PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+          if not(FRscCompleted) then
+            FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
         end
        else
         begin
@@ -149,6 +152,9 @@ begin
 
           if (data_in_size > 0) then
             data_in_read := FStream.Write(data_in^, data_in_size);
+
+          if not(FRscCompleted) and (FRscSize = FStream.Size) then
+            FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
 
           aResult := RESPONSE_FILTER_NEED_MORE_DATA;
         end;
@@ -166,10 +172,11 @@ end;
 
 procedure TResponseFilterBrowserFrm.FormCreate(Sender: TObject);
 begin
-  FRscName  := 'index-47f5f07682.js'; // JS script used at wikipedia.org
-  FStream   := TMemoryStream.Create;
-  FStreamCS := TCriticalSection.Create;
-  FFilter   := TCustomResponseFilter.Create;
+  FRscName       := 'index-47f5f07682.js'; // JS script used at wikipedia.org
+  FRscCompleted  := False;
+  FStream        := TMemoryStream.Create;
+  FStreamCS      := TCriticalSection.Create;
+  FFilter        := TCustomResponseFilter.Create;
 
   // This event will receive the data
   TCustomResponseFilter(FFilter).OnFilter := Filter_OnFilter;
@@ -202,8 +209,11 @@ procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(Sender : 
                                                                        const response  : ICefResponse;
                                                                        out   Result    : ICefResponseFilter);
 begin
-  if (request <> nil) and (pos(FRscName, request.URL) > 0) then
-    Result := FFilter
+  if (request <> nil) and (response <> nil) and (pos(FRscName, request.URL) > 0) then
+    begin
+      Result   := FFilter;
+      FRscSize := StrToIntDef(response.GetHeader('Content-Length'), 0);
+    end
    else
     Result := nil;
 end;
