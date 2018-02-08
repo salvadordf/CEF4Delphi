@@ -116,12 +116,12 @@ end;
 
 function TCefResourceHandlerOwn.CanGetCookie(const cookie: PCefCookie): Boolean;
 begin
-  Result := False;
+  Result := True;
 end;
 
 function TCefResourceHandlerOwn.CanSetCookie(const cookie: PCefCookie): Boolean;
 begin
-  Result := False;
+  Result := True;
 end;
 
 constructor TCefResourceHandlerOwn.Create(const browser    : ICefBrowser;

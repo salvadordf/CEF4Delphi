@@ -167,6 +167,8 @@ type
       FOnGetResourceResponseFilter    : TOnGetResourceResponseFilter;
       FOnResourceLoadComplete         : TOnResourceLoadComplete;
       FOnGetAuthCredentials           : TOnGetAuthCredentials;
+      FOnCanGetCookies                : TOnCanGetCookies;
+      FOnCanSetCookie                 : TOnCanSetCookie;
       FOnQuotaRequest                 : TOnQuotaRequest;
       FOnProtocolExecution            : TOnProtocolExecution;
       FOnCertificateError             : TOnCertificateError;
@@ -374,6 +376,8 @@ type
       function  doOnGetResourceResponseFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): ICefResponseFilter; virtual;
       procedure doOnResourceLoadComplete(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: Int64); virtual;
       function  doOnGetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
+      function  doCanGetCookies(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest): boolean; virtual;
+      function  doCanSetCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie : PCefCookie): boolean; virtual;
       function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; virtual;
       procedure doOnProtocolExecution(const browser: ICefBrowser; const url: ustring; out allowOsExecution: Boolean); virtual;
       function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): Boolean; virtual;
@@ -637,6 +641,8 @@ type
       property OnGetResourceResponseFilter      : TOnGetResourceResponseFilter      read FOnGetResourceResponseFilter      write FOnGetResourceResponseFilter;
       property OnResourceLoadComplete           : TOnResourceLoadComplete           read FOnResourceLoadComplete           write FOnResourceLoadComplete;
       property OnGetAuthCredentials             : TOnGetAuthCredentials             read FOnGetAuthCredentials             write FOnGetAuthCredentials;
+      property OnCanGetCookies                  : TOnCanGetCookies                  read FOnCanGetCookies                  write FOnCanGetCookies;
+      property OnCanSetCookie                   : TOnCanSetCookie                   read FOnCanSetCookie                   write FOnCanSetCookie;
       property OnQuotaRequest                   : TOnQuotaRequest                   read FOnQuotaRequest                   write FOnQuotaRequest;
       property OnProtocolExecution              : TOnProtocolExecution              read FOnProtocolExecution              write FOnProtocolExecution;
       property OnCertificateError               : TOnCertificateError               read FOnCertificateError               write FOnCertificateError;
@@ -920,6 +926,8 @@ begin
   FOnGetResourceResponseFilter    := nil;
   FOnResourceLoadComplete         := nil;
   FOnGetAuthCredentials           := nil;
+  FOnCanGetCookies                := nil;
+  FOnCanSetCookie                 := nil;
   FOnQuotaRequest                 := nil;
   FOnProtocolExecution            := nil;
   FOnCertificateError             := nil;
@@ -3020,6 +3028,25 @@ begin
    else
     if (frame <> nil) and frame.IsMain and Assigned(FOnGetAuthCredentials) then
       FOnGetAuthCredentials(Self, browser, frame, isProxy, host, port, realm, scheme, callback, Result);
+end;
+
+function TChromium.doCanGetCookies(const browser : ICefBrowser;
+                                   const frame   : ICefFrame;
+                                   const request : ICefRequest): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnCanGetCookies) then FOnCanGetCookies(self, browser, frame, request, Result);
+end;
+
+function TChromium.doCanSetCookie(const browser : ICefBrowser;
+                                  const frame   : ICefFrame;
+                                  const request : ICefRequest;
+                                  const cookie  : PCefCookie): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnCanSetCookie) then FOnCanSetCookie(self, browser, frame, request, cookie, Result);
 end;
 
 function TChromium.doOnGetResourceHandler(const browser : ICefBrowser;

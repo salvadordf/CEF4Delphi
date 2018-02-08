@@ -1563,6 +1563,8 @@ type
     get_resource_response_filter: function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; response: PCefResponse): PCefResponseFilter; stdcall;
     on_resource_load_complete: procedure(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; response: PCefResponse; status: TCefUrlRequestStatus; received_content_length: Int64); stdcall;
     get_auth_credentials: function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
+    can_get_cookies: function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest): Integer; stdcall;
+    can_set_cookie: function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; const cookie: PCefCookie): Integer; stdcall;
     on_quota_request: function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefRequestCallback): Integer; stdcall;
     on_protocol_execution: procedure(self: PCefRequestHandler; browser: PCefBrowser; const url: PCefString; allow_os_execution: PInteger); stdcall;
     on_certificate_error: function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefRequestCallback): Integer; stdcall;

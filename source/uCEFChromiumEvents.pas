@@ -119,6 +119,8 @@ type
   TOnGetResourceResponseFilter    = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: ICefResponseFilter) of object;
   TOnResourceLoadComplete         = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: Int64) of object;
   TOnGetAuthCredentials           = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; out Result: Boolean) of object;
+  TOnCanGetCookies                = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResult: boolean) of object;
+  TOnCanSetCookie                 = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie : PCefCookie; var aResult : boolean) of object;
   TOnQuotaRequest                 = procedure(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback; out Result: Boolean) of object;
   TOnProtocolExecution            = procedure(Sender: TObject; const browser: ICefBrowser; const url: ustring; out allowOsExecution: Boolean) of object;
   TOnCertificateError             = procedure(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback; out Result: Boolean) of Object;

@@ -61,6 +61,8 @@ type
       function  GetResourceResponseFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): ICefResponseFilter; virtual;
       procedure OnResourceLoadComplete(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: Int64); virtual;
       function  GetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
+      function  CanGetCookies(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest): boolean; virtual;
+      function  CanSetCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie : PCefCookie): boolean; virtual;
       function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; virtual;
       function  GetCookieManager(const browser: ICefBrowser; const mainUrl: ustring): ICefCookieManager; virtual;
       procedure OnProtocolExecution(const browser: ICefBrowser; const url: ustring; out allowOsExecution: Boolean); virtual;
@@ -89,6 +91,8 @@ type
       function  GetResourceResponseFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): ICefResponseFilter; override;
       procedure OnResourceLoadComplete(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: Int64); override;
       function  GetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; override;
+      function  CanGetCookies(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest): boolean; override;
+      function  CanSetCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie : PCefCookie): boolean; override;
       function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; override;
       procedure OnProtocolExecution(const browser: ICefBrowser; const url: ustring; out allowOsExecution: Boolean); override;
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): Boolean; override;
@@ -202,6 +206,25 @@ begin
     Result := Ord(GetAuthCredentials(
       TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), isProxy <> 0,
       CefString(host), port, CefString(realm), CefString(scheme), TCefAuthCallbackRef.UnWrap(callback)));
+end;
+
+function cef_request_handler_can_get_cookies(self: PCefRequestHandler;
+                                             browser: PCefBrowser;
+                                             frame: PCefFrame;
+                                             request: PCefRequest): Integer; stdcall;
+begin
+  with TCefRequestHandlerOwn(CefGetObject(self)) do
+    Result := Ord(CanGetCookies(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), TCefRequestRef.UnWrap(request)));
+end;
+
+function cef_request_handler_can_set_cookie(self: PCefRequestHandler;
+                                            browser: PCefBrowser;
+                                            frame: PCefFrame;
+                                            request: PCefRequest;
+                                            const cookie: PCefCookie): Integer; stdcall;
+begin
+  with TCefRequestHandlerOwn(CefGetObject(self)) do
+    Result := Ord(CanSetCookie(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), TCefRequestRef.UnWrap(request), cookie));
 end;
 
 function cef_request_handler_on_quota_request(self: PCefRequestHandler; browser: PCefBrowser;
@@ -328,6 +351,8 @@ begin
       get_resource_response_filter  := cef_request_handler_get_resource_response_filter;
       on_resource_load_complete     := cef_request_handler_on_resource_load_complete;
       get_auth_credentials          := cef_request_handler_get_auth_credentials;
+      can_get_cookies               := cef_request_handler_can_get_cookies;
+      can_set_cookie                := cef_request_handler_can_set_cookie;
       on_quota_request              := cef_request_handler_on_quota_request;
       on_protocol_execution         := cef_request_handler_on_protocol_execution;
       on_certificate_error          := cef_request_handler_on_certificate_error;
@@ -343,6 +368,21 @@ function TCefRequestHandlerOwn.GetAuthCredentials(const browser: ICefBrowser; co
   const callback: ICefAuthCallback): Boolean;
 begin
   Result := False;
+end;
+
+function TCefRequestHandlerOwn.CanGetCookies(const browser : ICefBrowser;
+                                             const frame   : ICefFrame;
+                                             const request : ICefRequest): boolean;
+begin
+  Result := True;
+end;
+
+function TCefRequestHandlerOwn.CanSetCookie(const browser : ICefBrowser;
+                                            const frame   : ICefFrame;
+                                            const request : ICefRequest;
+                                            const cookie  : PCefCookie): boolean;
+begin
+  Result := True;
 end;
 
 function TCefRequestHandlerOwn.GetCookieManager(const browser: ICefBrowser;
@@ -493,6 +533,27 @@ begin
     Result := IChromiumEvents(FEvents).doOnGetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback)
    else
     Result := inherited GetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback);
+end;
+
+function TCustomRequestHandler.CanGetCookies(const browser : ICefBrowser;
+                                             const frame   : ICefFrame;
+                                             const request : ICefRequest): boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doCanGetCookies(browser, frame, request)
+   else
+    Result := inherited CanGetCookies(browser, frame, request);
+end;
+
+function TCustomRequestHandler.CanSetCookie(const browser : ICefBrowser;
+                                            const frame   : ICefFrame;
+                                            const request : ICefRequest;
+                                            const cookie  : PCefCookie): boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doCanSetCookie(browser, frame, request, cookie)
+   else
+    Result := inherited CanSetCookie(browser, frame, request, cookie);
 end;
 
 function TCustomRequestHandler.GetResourceHandler(const browser : ICefBrowser;
