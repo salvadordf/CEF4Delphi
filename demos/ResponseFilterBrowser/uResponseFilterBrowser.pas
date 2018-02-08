@@ -58,27 +58,30 @@ type
   TResponseFilterBrowserFrm = class(TForm)
     AddressPnl: TPanel;
     AddressEdt: TEdit;
-    GoBtn: TButton;
     Timer1: TTimer;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
     Splitter1: TSplitter;
     Memo1: TMemo;
+    Panel1: TPanel;
+    GoBtn: TButton;
+    Label1: TLabel;
+    RscNameEdt: TEdit;
     procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1GetResourceResponseFilter(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const request: ICefRequest; const response: ICefResponse;
-      out Result: ICefResponseFilter);
+    procedure Chromium1GetResourceResponseFilter(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: ICefResponseFilter);
+    procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure Chromium1ResourceLoadComplete(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const request: ICefRequest; const response: ICefResponse;
+      status: TCefUrlRequestStatus; receivedContentLength: Int64);
   protected
     FFilter        : ICefResponseFilter; // CEF Filter interface that receives the resource contents
     FStream        : TMemoryStream;      // TMemoryStream to hold the resource contents
     FStreamCS      : TCriticalSection;   // Critical section used to protect the memory stream
-    FRscName       : string;             // name of the resource that will be filtered
     FRscSize       : int64;              // size of the resource if the server sends the Content-Length header
     FRscCompleted  : boolean;            // This variable will be used to handle the results only once.
 
@@ -90,6 +93,8 @@ type
     procedure StreamCopyCompleteMsg(var aMessage : TMessage); message STREAM_COPY_COMPLETE;
 
     procedure Filter_OnFilter(Sender: TObject; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
+
+    function  IsMyResource(const aRequest : ICefRequest) : boolean;
   public
     { Public declarations }
   end;
@@ -172,9 +177,20 @@ begin
   end;
 end;
 
+function TResponseFilterBrowserFrm.IsMyResource(const aRequest : ICefRequest) : boolean;
+var
+  TempName : string;
+begin
+  TempName := trim(RscNameEdt.Text);
+
+  if (aRequest <> nil) and (length(TempName) > 0) then
+    Result := (pos(TempName, aRequest.URL) > 0)
+   else
+    Result := False;
+end;
+
 procedure TResponseFilterBrowserFrm.FormCreate(Sender: TObject);
 begin
-  FRscName       := 'index-47f5f07682.js'; // JS script used at wikipedia.org
   FRscCompleted  := False;
   FRscSize       := -1;
   FStream        := TMemoryStream.Create;
@@ -215,7 +231,7 @@ var
   TempHeader : string;
   TempLen : integer;
 begin
-  if (request <> nil) and (response <> nil) and (pos(FRscName, request.URL) > 0) then
+  if (response <> nil) and IsMyResource(request) then
     begin
       Result     := FFilter;
       TempHeader := trim(response.GetHeader('Content-Length'));
@@ -227,6 +243,21 @@ begin
     end
    else
     Result := nil;
+end;
+
+procedure TResponseFilterBrowserFrm.Chromium1ResourceLoadComplete(Sender : TObject;
+                                                                  const browser               : ICefBrowser;
+                                                                  const frame                 : ICefFrame;
+                                                                  const request               : ICefRequest;
+                                                                  const response              : ICefResponse;
+                                                                        status                : TCefUrlRequestStatus;
+                                                                        receivedContentLength : Int64);
+begin
+  // In case the server didn't send a Content-Length header
+  // and CEF didn't send a data_in = nil in Filter_OnFilter
+  // we still can use this event to know when the resource is complete
+  if not(FRscCompleted) and IsMyResource(request) then
+    FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
 end;
 
 procedure TResponseFilterBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);

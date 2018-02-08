@@ -44,24 +44,53 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     object AddressEdt: TEdit
       Left = 5
       Top = 5
-      Width = 997
+      Width = 755
       Height = 20
       Margins.Right = 5
       Align = alClient
       TabOrder = 0
       Text = 'https://www.wikipedia.org'
+      ExplicitWidth = 716
       ExplicitHeight = 21
     end
-    object GoBtn: TButton
-      Left = 1002
+    object Panel1: TPanel
+      Left = 760
       Top = 5
-      Width = 31
+      Width = 273
       Height = 20
-      Margins.Left = 5
       Align = alRight
-      Caption = 'Go'
+      BevelOuter = bvNone
+      Padding.Left = 5
+      ShowCaption = False
       TabOrder = 1
-      OnClick = GoBtnClick
+      object Label1: TLabel
+        Left = 54
+        Top = 3
+        Width = 84
+        Height = 13
+        Caption = 'Resource name : '
+      end
+      object GoBtn: TButton
+        Left = 5
+        Top = 0
+        Width = 31
+        Height = 20
+        Margins.Left = 5
+        Align = alLeft
+        Caption = 'Go'
+        TabOrder = 0
+        OnClick = GoBtnClick
+        ExplicitLeft = 154
+      end
+      object RscNameEdt: TEdit
+        Left = 144
+        Top = 0
+        Width = 129
+        Height = 20
+        Align = alRight
+        TabOrder = 1
+        Text = 'index-47f5f07682.js'
+      end
     end
   end
   object CEFWindowParent1: TCEFWindowParent
@@ -92,6 +121,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   object Chromium1: TChromium
     OnAfterCreated = Chromium1AfterCreated
     OnGetResourceResponseFilter = Chromium1GetResourceResponseFilter
+    OnResourceLoadComplete = Chromium1ResourceLoadComplete
     Left = 56
     Top = 160
   end
