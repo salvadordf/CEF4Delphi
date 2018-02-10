@@ -72,6 +72,8 @@ type
   TCefApplication = class
     protected
       FMustShutDown                  : boolean;
+      FWaitForChildProcesses         : boolean;
+      FWaitTime                      : cardinal;
       FCache                         : ustring;
       FCookies                       : ustring;
       FUserDataPath                  : ustring;
@@ -162,6 +164,10 @@ type
       FOnFocusedNodeChanged          : TOnFocusedNodeChangedEvent;
       FOnProcessMessageReceived      : TOnProcessMessageReceivedEvent;
 
+      procedure DestroyResourceBundleHandler;
+      procedure DestroyBrowserProcessHandler;
+      procedure DestroyRenderProcessHandler;
+
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
@@ -232,13 +238,14 @@ type
       function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
-      procedure RemoveAppReferences;
       procedure CreateAppHandlers;
+      procedure EnumerateAndWaitForChildProcesses;
 
     public
       constructor Create;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
+      procedure   BeforeDestruction; override;
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
@@ -348,6 +355,8 @@ type
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
+      property WaitForChildProcesses             : boolean                             read FWaitForChildProcesses             write FWaitForChildProcesses;
+      property WaitTime                          : cardinal                            read FWaitTime                          write FWaitTime;
 
       property OnRegCustomSchemes                : TOnRegisterCustomSchemes            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
@@ -382,9 +391,9 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Math, System.IOUtils, System.SysUtils,
+  System.Math, System.IOUtils, System.SysUtils, {$IFDEF MSWINDOWS}WinApi.TlHelp32,{$ENDIF}
   {$ELSE}
-  Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
+  Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils, {$IFDEF MSWINDOWS}TlHelp32,{$ENDIF}
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp,
@@ -398,6 +407,8 @@ begin
   FMissingLibFiles               := '';
   FLibHandle                     := 0;
   FMustShutDown                  := False;
+  FWaitForChildProcesses         := True;
+  FWaitTime                      := 5000;
   FCache                         := '';
   FCookies                       := '';
   FUserDataPath                  := '';
@@ -501,9 +512,11 @@ end;
 
 destructor TCefApplication.Destroy;
 begin
-  if FMustShutDown then ShutDown;
-
-  RemoveAppReferences;
+  if FMustShutDown then
+    begin
+      if FWaitForChildProcesses then EnumerateAndWaitForChildProcesses;
+      ShutDown;
+    end;
 
   if (FLibHandle <> 0) then
     begin
@@ -520,24 +533,63 @@ begin
   inherited Destroy;
 end;
 
-procedure TCefApplication.RemoveAppReferences;
-begin
-  try
-    if (FResourceBundleHandler <> nil) then FResourceBundleHandler.RemoveReferences;
-    if (FBrowserProcessHandler <> nil) then FBrowserProcessHandler.RemoveReferences;
-    if (FRenderProcessHandler  <> nil) then FRenderProcessHandler.RemoveReferences;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.RemoveAppReferences', e) then raise;
-  end;
-end;
-
 procedure TCefApplication.AfterConstruction;
 begin
   inherited AfterConstruction;
 
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
+end;
+
+procedure TCefApplication.BeforeDestruction;
+begin
+  DestroyResourceBundleHandler;
+  DestroyBrowserProcessHandler;
+  DestroyRenderProcessHandler;
+
+  inherited BeforeDestruction;
+end;
+
+procedure TCefApplication.DestroyResourceBundleHandler;
+begin
+  try
+    if (FResourceBundleHandler <> nil) then
+      begin
+        FResourceBundleHandler.RemoveReferences;
+        FResourceBundleHandler := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplication.DestroyResourceBundleHandler', e) then raise;
+  end;
+end;
+
+procedure TCefApplication.DestroyBrowserProcessHandler;
+begin
+  try
+    if (FBrowserProcessHandler <> nil) then
+      begin
+        FBrowserProcessHandler.RemoveReferences;
+        FBrowserProcessHandler := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplication.DestroyBrowserProcessHandler', e) then raise;
+  end;
+end;
+
+procedure TCefApplication.DestroyRenderProcessHandler;
+begin
+  try
+    if (FRenderProcessHandler <> nil) then
+      begin
+        FRenderProcessHandler.RemoveReferences;
+        FRenderProcessHandler := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplication.DestroyRenderProcessHandler', e) then raise;
+  end;
 end;
 
 procedure TCefApplication.AddCustomCommandLine(const aCommandLine, aValue : string);
@@ -1013,6 +1065,52 @@ begin
 
   if MustCreateRenderProcessHandler then
     FRenderProcessHandler := TCefCustomRenderProcessHandler.Create(self);
+end;
+
+procedure TCefApplication.EnumerateAndWaitForChildProcesses;
+{$IFDEF MSWINDOWS}
+var
+  TempHandle  : THandle;
+  TempProcess : TProcessEntry32;
+  TempArray   : array [0 .. pred(MAXIMUM_WAIT_OBJECTS)] of THandle;
+  TempPID     : DWORD;
+  i           : integer;
+  TempMain, TempSubProc, TempName : string;
+{$ENDIF}
+begin
+{$IFDEF MSWINDOWS}
+  for i := 0 to pred(MAXIMUM_WAIT_OBJECTS) do TempArray[i] := 0;
+
+  TempHandle         := CreateToolHelp32SnapShot(TH32CS_SNAPPROCESS, 0);
+  TempProcess.dwSize := Sizeof(TProcessEntry32);
+  TempPID            := GetCurrentProcessID;
+  TempMain           := ExtractFileName(paramstr(0));
+  TempSubProc        := ExtractFileName(FBrowserSubprocessPath);
+
+  Process32First(TempHandle, TempProcess);
+
+  i := 0;
+  repeat
+    if (TempProcess.th32ProcessID       <> TempPID) and
+       (TempProcess.th32ParentProcessID =  TempPID) then
+      begin
+        TempName := TempProcess.szExeFile;
+        TempName := ExtractFileName(TempName);
+
+        if (CompareText(TempName, TempMain) = 0) or
+           ((length(TempSubProc) > 0) and (CompareText(TempName, TempSubProc) = 0)) then
+          begin
+            TempArray[i] := TempProcess.th32ProcessID;
+            inc(i);
+          end;
+      end;
+  until not(Process32Next(TempHandle, TempProcess)) or (i = MAXIMUM_WAIT_OBJECTS);
+
+  CloseHandle(TempHandle);
+
+  if (i > 0) then
+    WaitForMultipleObjects(i, @TempArray, True, FWaitTime);
+{$ENDIF}
 end;
 
 procedure TCefApplication.Internal_OnContextInitialized;
