@@ -71,13 +71,10 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1GetResourceResponseFilter(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: ICefResponseFilter);
+    procedure Chromium1ResourceLoadComplete(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: Int64);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure Chromium1ResourceLoadComplete(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const request: ICefRequest; const response: ICefResponse;
-      status: TCefUrlRequestStatus; receivedContentLength: Int64);
   protected
     FFilter        : ICefResponseFilter; // CEF Filter interface that receives the resource contents
     FStream        : TMemoryStream;      // TMemoryStream to hold the resource contents

@@ -50,7 +50,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       Align = alClient
       TabOrder = 0
       Text = 'https://www.wikipedia.org'
-      ExplicitWidth = 716
       ExplicitHeight = 21
     end
     object Panel1: TPanel
@@ -80,7 +79,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Caption = 'Go'
         TabOrder = 0
         OnClick = GoBtnClick
-        ExplicitLeft = 154
       end
       object RscNameEdt: TEdit
         Left = 144
@@ -90,6 +88,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Align = alRight
         TabOrder = 1
         Text = 'index-47f5f07682.js'
+        ExplicitHeight = 21
       end
     end
   end
