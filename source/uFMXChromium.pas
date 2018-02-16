@@ -2488,16 +2488,14 @@ end;
 
 procedure TFMXChromium.doOnAfterCreated(const browser: ICefBrowser);
 begin
-  if (FBrowser = nil) and (browser <> nil) then
+  if MultithreadApp and (FBrowser = nil) and (browser <> nil) then
     begin
-      FBrowser   := browser;
-      FBrowserId := browser.Identifier;
+      FBrowser     := browser;
+      FBrowserId   := browser.Identifier;
+      FInitialized := (FBrowserId <> 0);
     end;
 
   doUpdatePreferences(browser);
-
-  if not(FInitialized) then
-    FInitialized := (FBrowser <> nil) and (FBrowserId <> 0);
 
   if Assigned(FOnAfterCreated) then FOnAfterCreated(Self, browser);
 end;
