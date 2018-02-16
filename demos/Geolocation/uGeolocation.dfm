@@ -78,6 +78,7 @@ object GeolocationFrm: TGeolocationFrm
       end>
   end
   object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     Left = 32
     Top = 224

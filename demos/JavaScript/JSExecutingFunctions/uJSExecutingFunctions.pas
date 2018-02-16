@@ -76,6 +76,13 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const params: ICefContextMenuParams; commandId: Integer;
       eventFlags: Cardinal; out Result: Boolean);
+    procedure Chromium1BeforePopup(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+      targetFrameName: ustring;
+      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+      var client: ICefClient; var settings: TCefBrowserSettings;
+      var noJavascriptAccess: Boolean; out Result: Boolean);
   protected
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -162,6 +169,18 @@ procedure TJSExecutingFunctionsFrm.Chromium1BeforeContextMenu(
 begin
   model.AddSeparator;
   model.AddItem(JSDEMO_CONTEXTMENU_EXECFUNCTION, 'Execute registered JS function');
+end;
+
+procedure TJSExecutingFunctionsFrm.Chromium1BeforePopup(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  var windowInfo: TCefWindowInfo; var client: ICefClient;
+  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  out Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
 procedure TJSExecutingFunctionsFrm.Chromium1ContextMenuCommand(

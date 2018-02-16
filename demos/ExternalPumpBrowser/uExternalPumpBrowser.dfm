@@ -93,6 +93,7 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
     Top = 88
   end
   object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close

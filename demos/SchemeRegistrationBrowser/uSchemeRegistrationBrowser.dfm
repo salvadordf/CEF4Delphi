@@ -68,6 +68,7 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
   object Chromium1: TChromium
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     Left = 16
     Top = 40

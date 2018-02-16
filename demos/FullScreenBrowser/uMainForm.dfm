@@ -29,6 +29,7 @@ object MainForm: TMainForm
   object Chromium1: TChromium
     OnPreKeyEvent = Chromium1PreKeyEvent
     OnKeyEvent = Chromium1KeyEvent
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     Left = 208
     Top = 120

@@ -59,10 +59,6 @@ object Form1: TForm1
     Height = 594
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 320
-    ExplicitTop = 168
-    ExplicitWidth = 100
-    ExplicitHeight = 41
   end
   object Timer1: TTimer
     Enabled = False
@@ -72,8 +68,9 @@ object Form1: TForm1
     Top = 88
   end
   object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
-    Left = 464
-    Top = 360
+    Left = 56
+    Top = 152
   end
 end

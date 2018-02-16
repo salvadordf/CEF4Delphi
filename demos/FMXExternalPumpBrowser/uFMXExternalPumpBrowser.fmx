@@ -106,6 +106,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   end
   object chrmosr: TFMXChromium
     OnTooltip = chrmosrTooltip
+    OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
     OnClose = chrmosrClose

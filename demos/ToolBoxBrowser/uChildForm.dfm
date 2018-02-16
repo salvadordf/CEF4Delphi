@@ -3,8 +3,8 @@ object ChildForm: TChildForm
   Top = 0
   BorderStyle = bsToolWindow
   Caption = 'Browser'
-  ClientHeight = 300
-  ClientWidth = 400
+  ClientHeight = 394
+  ClientWidth = 602
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,14 +23,17 @@ object ChildForm: TChildForm
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Top = 0
-    Width = 400
-    Height = 300
+    Width = 602
+    Height = 394
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 400
+    ExplicitHeight = 300
   end
   object Chromium1: TChromium
     OnPreKeyEvent = Chromium1PreKeyEvent
     OnKeyEvent = Chromium1KeyEvent
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close

@@ -63,6 +63,7 @@ object JSExecutingFunctionsFrm: TJSExecutingFunctionsFrm
   object Chromium1: TChromium
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     Left = 32
     Top = 224

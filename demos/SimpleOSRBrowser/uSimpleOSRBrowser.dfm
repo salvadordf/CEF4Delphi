@@ -121,6 +121,7 @@ object Form1: TForm1
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip
+    OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint

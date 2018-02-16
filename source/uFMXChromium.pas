@@ -246,8 +246,8 @@ type
       procedure SetWindowlessFrameRate(aValue : integer);
 
 
-      function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): Boolean;
-      function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): ICefBrowser;
+      function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): boolean;
+      function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aContext : ICefRequestContext): boolean;
 
       procedure DestroyClientHandler;
 
@@ -258,11 +258,11 @@ type
 
       procedure GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : string);
 
-      function  UpdateProxyPrefs : boolean;
-      function  UpdatePreference(const aName : string; aValue : boolean) : boolean; overload;
-      function  UpdatePreference(const aName : string; aValue : integer) : boolean; overload;
-      function  UpdatePreference(const aName : string; const aValue : double) : boolean; overload;
-      function  UpdatePreference(const aName, aValue : string) : boolean; overload;
+      function  UpdateProxyPrefs(const aBrowser: ICefBrowser) : boolean;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : string; aValue : boolean) : boolean; overload;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : string; aValue : integer) : boolean; overload;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : string; const aValue : double) : boolean; overload;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName, aValue : string) : boolean; overload;
 
       procedure HandleDictionary(const aDict : ICefDictionaryValue; var aResultSL : TStringList; const aRoot : string);
       procedure HandleNull(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
@@ -395,7 +395,8 @@ type
       procedure doCookiesDeleted(numDeleted : integer); virtual;
       procedure doPdfPrintFinished(aResultOK : boolean); virtual;
       procedure doTextResultAvailable(const aText : string); virtual;
-      procedure doUpdatePreferences; virtual;
+      procedure doUpdatePreferences(const aBrowser: ICefBrowser); virtual;
+      procedure doUpdateOwnPreferences; virtual;
       function  doSavePreferences : boolean; virtual;
       procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings); virtual;
 
@@ -437,6 +438,7 @@ type
       procedure   UpdatePreferences;
       procedure   SavePreferences(const aFileName : string);
       procedure   ResolveHost(const aURL : ustring);
+      function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
 
       procedure   Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
       procedure   StopFinding(aClearSelection : Boolean);
@@ -953,19 +955,10 @@ begin
           end;
 
 
-        if MultithreadApp then
+        if GlobalCEFApp.MultiThreadedMessageLoop then
           Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aContext)
          else
-          begin
-            FBrowser := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aContext);
-
-            if (FBrowser <> nil) then
-              begin
-                FBrowserId   := FBrowser.Identifier;
-                FInitialized := (FBrowserId <> 0);
-                Result       := True;
-              end;
-          end;
+          Result := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aContext);
       end;
   except
     on e : exception do
@@ -1005,14 +998,21 @@ end;
 function TFMXChromium.CreateBrowserHostSync(aWindowInfo     : PCefWindowInfo;
                                             const aURL      : ustring;
                                             const aSettings : PCefBrowserSettings;
-                                            const aContext  : ICefRequestContext): ICefBrowser;
+                                            const aContext  : ICefRequestContext): boolean;
 var
-  TempURL     : TCefString;
-  TempBrowser : PCefBrowser;
+  TempURL : TCefString;
 begin
-  TempURL     := CefString(aURL);
-  TempBrowser := cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aContext));
-  Result      := TCefBrowserRef.UnWrap(TempBrowser);
+  TempURL  := CefString(aURL);
+  FBrowser := TCefBrowserRef.UnWrap(cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aContext)));
+
+  if (FBrowser <> nil) then
+    begin
+      FBrowserId   := FBrowser.Identifier;
+      FInitialized := (FBrowserId <> 0);
+      Result       := FInitialized;
+    end
+   else
+    Result := False;
 end;
 
 procedure TFMXChromium.Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
@@ -1300,14 +1300,7 @@ end;
 
 function TFMXChromium.GetMultithreadApp : boolean;
 begin
-  Result := True;
-
-  try
-    if (GlobalCEFApp <> nil) then Result := GlobalCEFApp.MultiThreadedMessageLoop;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TFMXChromium.GetMultithreadApp', e) then raise;
-  end;
+  Result := (GlobalCEFApp <> nil) and GlobalCEFApp.MultiThreadedMessageLoop;
 end;
 
 function TFMXChromium.GetHasDocument : boolean;
@@ -1837,6 +1830,11 @@ begin
     end;
 end;
 
+function TFMXChromium.IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
+begin
+  Result := Initialized and (aBrowser <> nil) and FBrowser.IsSame(aBrowser);
+end;
+
 procedure TFMXChromium.SimulateMouseWheel(aDeltaX, aDeltaY : integer);
 var
   TempEvent : TCefMouseEvent;
@@ -1850,34 +1848,39 @@ begin
     end;
 end;
 
-procedure TFMXChromium.doUpdatePreferences;
+procedure TFMXChromium.doUpdatePreferences(const aBrowser: ICefBrowser);
 begin
   FUpdatePreferences := False;
 
-  UpdateProxyPrefs;
-  UpdatePreference('enable_do_not_track', FDoNotTrack);
-  UpdatePreference('enable_referrers',    FSendReferrer);
-  UpdatePreference('enable_a_ping',       FHyperlinkAuditing);
+  UpdateProxyPrefs(aBrowser);
+  UpdatePreference(aBrowser, 'enable_do_not_track', FDoNotTrack);
+  UpdatePreference(aBrowser, 'enable_referrers',    FSendReferrer);
+  UpdatePreference(aBrowser, 'enable_a_ping',       FHyperlinkAuditing);
 
   case FWebRTCIPHandlingPolicy of
     hpDefaultPublicAndPrivateInterfaces :
-      UpdatePreference('webrtc.ip_handling_policy', 'default_public_and_private_interfaces');
+      UpdatePreference(aBrowser, 'webrtc.ip_handling_policy', 'default_public_and_private_interfaces');
 
     hpDefaultPublicInterfaceOnly :
-      UpdatePreference('webrtc.ip_handling_policy', 'default_public_interface_only');
+      UpdatePreference(aBrowser, 'webrtc.ip_handling_policy', 'default_public_interface_only');
 
     hpDisableNonProxiedUDP :
-      UpdatePreference('webrtc.ip_handling_policy', 'disable_non_proxied_udp');
+      UpdatePreference(aBrowser, 'webrtc.ip_handling_policy', 'disable_non_proxied_udp');
   end;
 
   if (FWebRTCMultipleRoutes <> STATE_DEFAULT) then
-    UpdatePreference('webrtc.multiple_routes_enabled', (FWebRTCMultipleRoutes = STATE_ENABLED));
+    UpdatePreference(aBrowser, 'webrtc.multiple_routes_enabled', (FWebRTCMultipleRoutes = STATE_ENABLED));
 
   if (FWebRTCNonProxiedUDP <> STATE_DEFAULT) then
-    UpdatePreference('webrtc.nonproxied_udp_enabled', (FWebRTCNonProxiedUDP = STATE_ENABLED));
+    UpdatePreference(aBrowser, 'webrtc.nonproxied_udp_enabled', (FWebRTCNonProxiedUDP = STATE_ENABLED));
 end;
 
-function TFMXChromium.UpdateProxyPrefs : boolean;
+procedure TFMXChromium.doUpdateOwnPreferences;
+begin
+  if Initialized then doUpdatePreferences(FBrowser);
+end;
+
+function TFMXChromium.UpdateProxyPrefs(const aBrowser: ICefBrowser) : boolean;
 var
   TempError : ustring;
   TempProxy : ICefValue;
@@ -1887,7 +1890,9 @@ begin
   Result := False;
 
   try
-    if (FBrowser <> nil) and FBrowser.Host.RequestContext.CanSetPreference('proxy') then
+    if (aBrowser      <> nil) and
+       (aBrowser.Host <> nil) and
+       aBrowser.Host.RequestContext.CanSetPreference('proxy') then
       begin
         TempProxy := TCefValueRef.New;
         TempValue := TCefValueRef.New;
@@ -1935,7 +1940,7 @@ begin
         end;
 
         Result := TempProxy.SetDictionary(TempDict) and
-                  FBrowser.Host.RequestContext.SetPreference('proxy', TempProxy, TempError);
+                  aBrowser.Host.RequestContext.SetPreference('proxy', TempProxy, TempError);
 
         if not(Result) then
           OutputDebugMessage('TFMXChromium.UpdateProxyPrefs error : ' + quotedstr(TempError));
@@ -1946,7 +1951,7 @@ begin
   end;
 end;
 
-function TFMXChromium.UpdatePreference(const aName : string; aValue : boolean) : boolean;
+function TFMXChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : string; aValue : boolean) : boolean;
 var
   TempError : ustring;
   TempValue : ICefValue;
@@ -1954,7 +1959,9 @@ begin
   Result := False;
 
   try
-    if (FBrowser <> nil) and FBrowser.Host.RequestContext.CanSetPreference(aName) then
+    if (aBrowser      <> nil) and
+       (aBrowser.Host <> nil) and
+       aBrowser.Host.RequestContext.CanSetPreference(aName) then
       begin
         TempValue := TCefValueRef.New;
 
@@ -1963,7 +1970,7 @@ begin
          else
           TempValue.SetBool(0);
 
-        Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+        Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
         if not(Result) then
           OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
@@ -1974,7 +1981,7 @@ begin
   end;
 end;
 
-function TFMXChromium.UpdatePreference(const aName : string; aValue : integer) : boolean;
+function TFMXChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : string; aValue : integer) : boolean;
 var
   TempError : ustring;
   TempValue : ICefValue;
@@ -1982,11 +1989,13 @@ begin
   Result := False;
 
   try
-    if (FBrowser <> nil) and FBrowser.Host.RequestContext.CanSetPreference(aName) then
+    if (aBrowser      <> nil) and
+       (aBrowser.Host <> nil) and
+       aBrowser.Host.RequestContext.CanSetPreference(aName) then
       begin
         TempValue := TCefValueRef.New;
         TempValue.SetInt(aValue);
-        Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+        Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
         if not(Result) then
           OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
@@ -1997,7 +2006,7 @@ begin
   end;
 end;
 
-function TFMXChromium.UpdatePreference(const aName : string; const aValue : double) : boolean;
+function TFMXChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : string; const aValue : double) : boolean;
 var
   TempError : ustring;
   TempValue : ICefValue;
@@ -2005,11 +2014,13 @@ begin
   Result := False;
 
   try
-    if (FBrowser <> nil) and FBrowser.Host.RequestContext.CanSetPreference(aName) then
+    if (aBrowser      <> nil) and
+       (aBrowser.Host <> nil) and
+       aBrowser.Host.RequestContext.CanSetPreference(aName) then
       begin
         TempValue := TCefValueRef.New;
         TempValue.SetDouble(aValue);
-        Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+        Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
         if not(Result) then
           OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
@@ -2020,7 +2031,7 @@ begin
   end;
 end;
 
-function TFMXChromium.UpdatePreference(const aName, aValue : string) : boolean;
+function TFMXChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName, aValue : string) : boolean;
 var
   TempError : ustring;
   TempValue : ICefValue;
@@ -2028,11 +2039,13 @@ begin
   Result := False;
 
   try
-    if (FBrowser <> nil) and FBrowser.Host.RequestContext.CanSetPreference(aName) then
+    if (aBrowser      <> nil) and
+       (aBrowser.Host <> nil) and
+       aBrowser.Host.RequestContext.CanSetPreference(aName) then
       begin
         TempValue := TCefValueRef.New;
         TempValue.SetString(aValue);
-        Result := FBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+        Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
         if not(Result) then
           OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
@@ -2475,15 +2488,16 @@ end;
 
 procedure TFMXChromium.doOnAfterCreated(const browser: ICefBrowser);
 begin
-  if MultithreadApp and (FBrowser = nil) then
+  if (FBrowser = nil) and (browser <> nil) then
     begin
-      FBrowser := browser;
-      if (FBrowser <> nil) then FBrowserId := FBrowser.Identifier;
+      FBrowser   := browser;
+      FBrowserId := browser.Identifier;
     end;
 
-  doUpdatePreferences;
+  doUpdatePreferences(browser);
 
-  FInitialized := (FBrowser <> nil) and (FBrowserId <> 0);
+  if not(FInitialized) then
+    FInitialized := (FBrowser <> nil) and (FBrowserId <> 0);
 
   if Assigned(FOnAfterCreated) then FOnAfterCreated(Self, browser);
 end;
@@ -2495,7 +2509,7 @@ function TFMXChromium.doOnBeforeBrowse(const browser    : ICefBrowser;
 begin
   Result := False;
 
-  if FUpdatePreferences then doUpdatePreferences;
+  if FUpdatePreferences then doUpdatePreferences(browser);
 
   if Assigned(FOnBeforeBrowse) then FOnBeforeBrowse(Self, browser, frame, request, isRedirect, Result);
 end;
@@ -2610,7 +2624,7 @@ begin
 end;
 
 function TFMXChromium.doOnAutoResize(const browser  : ICefBrowser;
-                                  const new_size : PCefSize): Boolean;
+                                     const new_size : PCefSize): Boolean;
 begin
   Result := False;
 

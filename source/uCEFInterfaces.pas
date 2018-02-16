@@ -1842,7 +1842,8 @@ type
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
     procedure doTextResultAvailable(const aText : string);
-    procedure doUpdatePreferences;
+    procedure doUpdatePreferences(const aBrowser: ICefBrowser);
+    procedure doUpdateOwnPreferences;
     function  doSavePreferences : boolean;
     procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
   end;

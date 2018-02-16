@@ -74,6 +74,7 @@ object PostDataInspectorFrm: TPostDataInspectorFrm
   end
   object Chromium1: TChromium
     OnProcessMessageReceived = Chromium1ProcessMessageReceived
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     Left = 32
     Top = 224

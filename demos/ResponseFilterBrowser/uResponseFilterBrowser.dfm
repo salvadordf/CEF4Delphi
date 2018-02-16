@@ -118,6 +118,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Top = 88
   end
   object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnGetResourceResponseFilter = Chromium1GetResourceResponseFilter
     OnResourceLoadComplete = Chromium1ResourceLoadComplete

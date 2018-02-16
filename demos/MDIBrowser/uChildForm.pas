@@ -76,6 +76,13 @@ type
       canGoForward: Boolean);
     procedure Chromium1StatusMessage(Sender: TObject;
       const browser: ICefBrowser; const value: ustring);
+    procedure Chromium1BeforePopup(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+      targetFrameName: ustring;
+      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+      var client: ICefClient; var settings: TCefBrowserSettings;
+      var noJavascriptAccess: Boolean; out Result: Boolean);
 
   private
     // Variables to control when can we destroy the form safely
@@ -121,6 +128,18 @@ procedure TChildForm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBr
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
+procedure TChildForm.Chromium1BeforePopup(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  var windowInfo: TCefWindowInfo; var client: ICefClient;
+  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  out Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
 procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);

@@ -77,7 +77,8 @@ type
     FDialogType        : TCefJsDialogType;
     FCallback          : ICefJsDialogCallback;
 
-    procedure ChromiumBrowser_OnJsdialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean; out Result: Boolean);
+    procedure Chromium_OnJsdialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean; out Result: Boolean);
+    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -118,7 +119,8 @@ end;
 
 procedure TJSDialogBrowserFrm.FormShow(Sender: TObject);
 begin
-  ChromiumWindow1.ChromiumBrowser.OnJsdialog := ChromiumBrowser_OnJsdialog;
+  ChromiumWindow1.ChromiumBrowser.OnJsdialog    := Chromium_OnJsdialog;
+  ChromiumWindow1.ChromiumBrowser.OnBeforePopup := Chromium_OnBeforePopup;
 
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
@@ -172,15 +174,15 @@ begin
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
-procedure TJSDialogBrowserFrm.ChromiumBrowser_OnJsdialog(Sender : TObject;
-                                                         const browser           : ICefBrowser;
-                                                         const originUrl         : ustring;
-                                                               dialogType        : TCefJsDialogType;
-                                                         const messageText       : ustring;
-                                                         const defaultPromptText : ustring;
-                                                         const callback          : ICefJsDialogCallback;
-                                                         out   suppressMessage   : Boolean;
-                                                         out   Result            : Boolean);
+procedure TJSDialogBrowserFrm.Chromium_OnJsdialog(Sender : TObject;
+                                                  const browser           : ICefBrowser;
+                                                  const originUrl         : ustring;
+                                                        dialogType        : TCefJsDialogType;
+                                                  const messageText       : ustring;
+                                                  const defaultPromptText : ustring;
+                                                  const callback          : ICefJsDialogCallback;
+                                                  out   suppressMessage   : Boolean;
+                                                  out   Result            : Boolean);
 begin
   // In this event we must store the dialog information and post a message to the main form to show the dialog
   FJSDialogInfoCS.Acquire;
@@ -205,6 +207,18 @@ begin
     end;
 
   FJSDialogInfoCS.Release;
+end;
+
+procedure TJSDialogBrowserFrm.Chromium_OnBeforePopup(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  var windowInfo: TCefWindowInfo; var client: ICefClient;
+  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  out Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
 procedure TJSDialogBrowserFrm.ShowJSDialogMsg(var aMessage: TMessage);

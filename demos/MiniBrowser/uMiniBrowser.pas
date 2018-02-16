@@ -268,18 +268,21 @@ end;
 procedure TMiniBrowserFrm.Chromium1AddressChange(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
 begin
-  AddURL(url);
+  if Chromium1.IsSameBrowser(browser) then AddURL(url);
 end;
 
 procedure TMiniBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+  if Chromium1.IsSameBrowser(browser) then
+    PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
+  if not(Chromium1.IsSameBrowser(browser)) then exit;
+
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT,    'Take snapshot...');
   model.AddSeparator;
@@ -331,7 +334,10 @@ procedure TMiniBrowserFrm.Chromium1BeforeDownload(Sender: TObject;
 var
   TempMyDocuments, TempFullPath, TempName : string;
 begin
-  if (downloadItem = nil) or not(downloadItem.IsValid) then exit;
+  if not(Chromium1.IsSameBrowser(browser)) or
+     (downloadItem = nil) or
+     not(downloadItem.IsValid) then
+    exit;
 
   TempMyDocuments := PathToMyDocuments;
 
@@ -355,7 +361,9 @@ procedure TMiniBrowserFrm.Chromium1BeforeResourceLoad(Sender: TObject;
 begin
   Result := RV_CONTINUE;
 
-  if (frame <> nil) and frame.IsMain then
+  if Chromium1.IsSameBrowser(browser) and
+     (frame <> nil) and
+     frame.IsMain then
     InspectRequest(request);
 end;
 
@@ -367,6 +375,8 @@ var
   TempParam : WParam;
 begin
   Result := False;
+
+  if not(Chromium1.IsSameBrowser(browser)) then exit;
 
   case commandId of
     MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS :
@@ -421,6 +431,8 @@ procedure TMiniBrowserFrm.Chromium1DownloadUpdated(Sender: TObject;
 var
   TempString : string;
 begin
+  if not(Chromium1.IsSameBrowser(browser)) then exit;
+
   if downloadItem.IsComplete then
     ShowStatusText(downloadItem.FullPath + ' completed')
    else
@@ -441,6 +453,8 @@ end;
 procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
   const browser: ICefBrowser; fullscreen: Boolean);
 begin                    
+  if not(Chromium1.IsSameBrowser(browser)) then exit;
+
   if fullscreen then
     begin
       NavControlPnl.Visible := False;
@@ -470,6 +484,8 @@ var
   TempMsg : TMsg;
 begin
   Result := False;
+
+  if not(Chromium1.IsSameBrowser(browser)) then exit;
 
   if (event <> nil) and (osEvent <> nil) then
     case osEvent.Message of
@@ -535,6 +551,8 @@ end;
 procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;
   const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
+  if not(Chromium1.IsSameBrowser(browser)) then exit;
+
   BackBtn.Enabled    := canGoBack;
   ForwardBtn.Enabled := canGoForward;
 
@@ -574,7 +592,8 @@ procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;
 begin
   Result := False;
 
-  if (event <> nil) and
+  if Chromium1.IsSameBrowser(browser) and
+     (event <> nil) and
      (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
      (event.windows_key_code = VK_F12) then
     isKeyboardShortcut := True;
@@ -643,7 +662,9 @@ procedure TMiniBrowserFrm.Chromium1ResourceResponse(Sender: TObject;
 begin
   Result := False;
 
-  if (frame <> nil) and frame.IsMain then
+  if Chromium1.IsSameBrowser(browser) and
+     (frame <> nil) and
+     frame.IsMain then
     InspectResponse(response);
 end;
 
@@ -660,7 +681,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1StatusMessage(Sender: TObject;
   const browser: ICefBrowser; const value: ustring);
 begin
-  ShowStatusText(value);
+  if Chromium1.IsSameBrowser(browser) then ShowStatusText(value);
 end;
 
 procedure TMiniBrowserFrm.Chromium1TextResultAvailable(Sender: TObject; const aText: string);
@@ -671,6 +692,8 @@ end;
 procedure TMiniBrowserFrm.Chromium1TitleChange(Sender: TObject;
   const browser: ICefBrowser; const title: ustring);
 begin
+  if not(Chromium1.IsSameBrowser(browser)) then exit;
+
   if (title <> '') then
     caption := 'MiniBrowser - ' + title
    else

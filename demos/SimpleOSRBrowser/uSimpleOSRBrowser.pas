@@ -99,6 +99,13 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
+    procedure chrmosrBeforePopup(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+      targetFrameName: ustring;
+      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+      var client: ICefClient; var settings: TCefBrowserSettings;
+      var noJavascriptAccess: Boolean; out Result: Boolean);
 
   protected
     FPopUpBitmap    : TBitmap;
@@ -281,6 +288,24 @@ end;
 procedure TForm1.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+end;
+
+procedure TForm1.chrmosrBeforePopup(Sender : TObject;
+                                    const browser            : ICefBrowser;
+                                    const frame              : ICefFrame;
+                                    const targetUrl          : ustring;
+                                    const targetFrameName    : ustring;
+                                          targetDisposition  : TCefWindowOpenDisposition;
+                                          userGesture        : Boolean;
+                                    var   popupFeatures      : TCefPopupFeatures;
+                                    var   windowInfo         : TCefWindowInfo;
+                                    var   client             : ICefClient;
+                                    var   settings           : TCefBrowserSettings;
+                                    var   noJavascriptAccess : Boolean;
+                                    out   Result             : Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
 procedure TForm1.chrmosrCursorChange(Sender : TObject;

@@ -194,7 +194,7 @@ procedure TCefUpdatePrefsTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdatePreferences;
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdateOwnPreferences;
     except
       on e : exception do
         if CustomExceptionHandler('TCefUpdatePrefsTask.Execute', e) then raise;

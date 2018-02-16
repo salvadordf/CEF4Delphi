@@ -78,6 +78,7 @@ object ChildForm: TChildForm
   object Chromium1: TChromium
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnStatusMessage = Chromium1StatusMessage
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close

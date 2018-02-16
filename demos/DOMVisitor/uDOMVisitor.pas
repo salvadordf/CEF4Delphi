@@ -87,6 +87,13 @@ type
       const message: ICefProcessMessage; out Result: Boolean);
     procedure Timer1Timer(Sender: TObject);
     procedure VisitDOMBtnClick(Sender: TObject);
+    procedure Chromium1BeforePopup(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+      targetFrameName: ustring;
+      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+      var client: ICefClient; var settings: TCefBrowserSettings;
+      var noJavascriptAccess: Boolean; out Result: Boolean);
   private
     { Private declarations }
   protected
@@ -251,6 +258,18 @@ procedure TDOMVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM, 'Visit DOM in CEF');
+end;
+
+procedure TDOMVisitorFrm.Chromium1BeforePopup(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  var windowInfo: TCefWindowInfo; var client: ICefClient;
+  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  out Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
 procedure TDOMVisitorFrm.Chromium1ContextMenuCommand(Sender: TObject;
