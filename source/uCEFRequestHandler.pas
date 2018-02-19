@@ -112,7 +112,7 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, System.SysUtils,
+  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.SysUtils,
   {$ELSE}
   Windows, SysUtils,
   {$ENDIF}

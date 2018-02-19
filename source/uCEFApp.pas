@@ -48,7 +48,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, System.Classes, System.UITypes,
+  System.Classes, System.UITypes,
   {$ELSE}
   Windows, Classes,
   {$ENDIF}

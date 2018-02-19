@@ -48,13 +48,10 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Rtti, System.TypInfo, System.Variants, System.SysUtils,
-  System.Classes, System.Math, System.SyncObjs, WinApi.Windows,
+  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Rtti, System.TypInfo, System.Variants,
+  System.SysUtils, System.Classes, System.Math, System.SyncObjs,
   {$ELSE}
-    {$IFDEF DELPHI14_UP}
-      Rtti,
-    {$ENDIF}
-     TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, Windows,
+  {$IFDEF DELPHI14_UP}Rtti,{$ENDIF} TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, Windows,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 

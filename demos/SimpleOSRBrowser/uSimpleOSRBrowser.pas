@@ -84,6 +84,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure chrmosrPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
@@ -94,18 +95,14 @@ type
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
+    procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
+    procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+    procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
-    procedure chrmosrBeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-      var client: ICefClient; var settings: TCefBrowserSettings;
-      var noJavascriptAccess: Boolean; out Result: Boolean);
 
   protected
     FPopUpBitmap    : TBitmap;
@@ -113,6 +110,8 @@ type
     FShowPopUp      : boolean;
     FResizing       : boolean;
     FPendingResize  : boolean;
+    FCanClose       : boolean;
+    FClosing        : boolean;
     FResizeCS       : TCriticalSection;
 
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
@@ -147,14 +146,12 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFApplication;
 
-// *********************************
-// ********* ATTENTION !!! *********
-// *********************************
-//
-// There is a known bug in the destruction of TChromium in OSR mode.
-// If you destroy the TChromium in OSR mode before the application is closed,
-// add a timer and wait 1-2 seconds after the TChromium's destruction.
-// After that you can close the app. Hide the application in the task bar if necessary.
+// This is the destruction sequence in OSR mode :
+// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and calls chrmosr.CloseBrowser(True).
+// 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
+//    set "Result" to false and CEF3 will destroy the internal browser immediately.
+// 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
+//    Now we set FCanClose to True and send WM_CLOSE to the form.
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
@@ -223,7 +220,7 @@ begin
           TempKeyEvent.focus_on_editable_field := ord(False);
 
           chrmosr.SendKeyEvent(@TempKeyEvent);
-          Handled := True;
+          Handled := (Msg.wParam = VK_TAB);
         end;
 
     WM_KEYUP :
@@ -290,6 +287,12 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
+procedure TForm1.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TForm1.chrmosrBeforePopup(Sender : TObject;
                                     const browser            : ICefBrowser;
                                     const frame              : ICefFrame;
@@ -306,6 +309,11 @@ procedure TForm1.chrmosrBeforePopup(Sender : TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TForm1.chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+begin
+  Result := False;
 end;
 
 procedure TForm1.chrmosrCursorChange(Sender : TObject;
@@ -615,6 +623,18 @@ begin
     end;
 end;
 
+procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      chrmosr.CloseBrowser(True);
+    end;
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   FPopUpBitmap    := nil;
@@ -622,6 +642,8 @@ begin
   FShowPopUp      := False;
   FResizing       := False;
   FPendingResize  := False;
+  FCanClose       := False;
+  FClosing        := False;
   FResizeCS       := TCriticalSection.Create;
 end;
 

@@ -48,7 +48,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
+  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF}
   {$ELSE}
   Windows,
   {$ENDIF}

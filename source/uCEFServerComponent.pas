@@ -48,7 +48,8 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, WinApi.Messages, System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX, System.Math,
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX,{$ENDIF}
+  System.Classes, System.Math,
   {$ELSE}
   Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX, Math,
   {$ENDIF}

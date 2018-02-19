@@ -43,8 +43,8 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.Classes, Vcl.ExtCtrls, Vcl.Controls,
-  Vcl.Graphics, System.SyncObjs, System.SysUtils;
+  {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics,{$ENDIF}
+  System.Classes, System.SyncObjs, System.SysUtils;
   {$ELSE}
   Windows, Messages, Classes, Controls,
   ExtCtrls, Graphics, SyncObjs, SysUtils;
@@ -148,6 +148,9 @@ type
       property OnMouseDown;
       property OnMouseMove;
       property OnMouseUp;
+      property OnKeyDown;
+      property OnKeyPress;
+      property OnKeyUp;
       property OnResize;
       property OnStartDock;
       property OnStartDrag;

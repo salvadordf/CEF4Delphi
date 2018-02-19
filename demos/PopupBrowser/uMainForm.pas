@@ -253,7 +253,7 @@ begin
       if (TempForm is TChildForm) and
          TChildForm(TempForm).ClientInitialized and
          not(TChildForm(TempForm).Closing) then
-        PostMessage(TChildForm(screen.CustomForms[i]).Handle, WM_CLOSE, 0, 0);
+        PostMessage(TChildForm(TempForm).Handle, WM_CLOSE, 0, 0);
 
       dec(i);
     end;

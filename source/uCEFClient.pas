@@ -47,11 +47,6 @@ unit uCEFClient;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
-  {$ELSE}
-  Windows,
-  {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type

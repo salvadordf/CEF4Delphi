@@ -104,10 +104,7 @@ type
 implementation
 
 uses
-  {$IFDEF MSWINDOWS}
-  WinApi.Windows,
-  {$ENDIF}
-  System.SysUtils, System.Math,
+  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.SysUtils, System.Math,
   FMX.Platform, FMX.Platform.Win, FMX.Forms,
   uCEFMiscFunctions, uCEFApplication;
 

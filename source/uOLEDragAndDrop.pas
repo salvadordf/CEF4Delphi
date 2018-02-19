@@ -43,7 +43,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, System.Classes, System.Math, WinApi.ShlObj, WinApi.ActiveX;
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ShlObj, WinApi.ActiveX,{$ENDIF} System.Classes, System.Math;
   {$ELSE}
   Windows, Classes, Math, ShlObj, ActiveX;
   {$ENDIF}

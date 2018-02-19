@@ -236,7 +236,7 @@ begin
           TempKeyEvent.focus_on_editable_field := ord(False);
 
           chrmosr.SendKeyEvent(@TempKeyEvent);
-          Handled := True;
+          Handled := (Msg.wParam = VK_TAB);
         end;
 
     WM_KEYUP :

@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, System.Classes, WinApi.Messages,
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Classes, Messages,
+  Windows, Messages, Classes,
   {$ENDIF}
   uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants;
 

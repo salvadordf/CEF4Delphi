@@ -232,7 +232,7 @@ begin
       TempKeyEvent.focus_on_editable_field := ord(False);
 
       Chromium1.SendKeyEvent(@TempKeyEvent);
-      Handled := True;
+      Handled := (Msg.wParam = VK_TAB);
     end
    else
     Handled := False;

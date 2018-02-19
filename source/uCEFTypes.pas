@@ -48,7 +48,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows, System.Math;
+  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math;
   {$ELSE}
   Windows, Math;
   {$ENDIF}
