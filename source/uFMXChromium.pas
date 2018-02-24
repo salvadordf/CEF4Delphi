@@ -408,7 +408,7 @@ type
       function    CreateClientHandler : boolean; overload;
       function    CreateClientHandler(var aClient : ICefClient) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
-      function    CreateBrowser(const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean;
+      function    CreateBrowser(const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; virtual;
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
 
       procedure   LoadURL(const aURL : ustring);

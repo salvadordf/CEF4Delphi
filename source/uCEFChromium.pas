@@ -428,8 +428,8 @@ type
       function    CreateClientHandler(aIsOSR : boolean) : boolean; overload;
       function    CreateClientHandler(var aClient : ICefClient) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
-      function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload;
-      function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload;
+      function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
+      function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
       procedure   InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
       procedure   ShutdownDragAndDrop;
