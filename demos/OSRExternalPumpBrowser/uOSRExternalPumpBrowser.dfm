@@ -122,6 +122,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnMouseLeave = Panel1MouseLeave
   end
   object chrmosr: TChromium
+    OnTooltip = chrmosrTooltip
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose

@@ -96,33 +96,35 @@ type
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
+    procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
 
     procedure Timer1Timer(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
-    procedure chrmosrBeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-      var client: ICefClient; var settings: TCefBrowserSettings;
-      var noJavascriptAccess: Boolean; out Result: Boolean);
 
   protected
-    FPopUpBitmap    : TBitmap;
-    FPopUpRect      : TRect;
-    FShowPopUp      : boolean;
-    FResizing       : boolean;
-    FPendingResize  : boolean;
-    FCanClose       : boolean;
-    FClosing        : boolean;
-    FResizeCS       : TCriticalSection;
+    FPopUpBitmap     : TBitmap;
+    FPopUpRect       : TRect;
+    FShowPopUp       : boolean;
+    FResizing        : boolean;
+    FPendingResize   : boolean;
+    FCanClose        : boolean;
+    FClosing         : boolean;
+    FResizeCS        : TCriticalSection;
+
+    FLastClickCount  : integer;
+    FLastClickTime   : integer;
+    FLastClickPoint  : TPoint;
+    FLastClickButton : TMouseButton;
 
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure DoResize;
+    procedure InitializeLastClick;
+    function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -542,6 +544,13 @@ begin
     end;
 end;
 
+procedure TOSRExternalPumpBrowserFrm.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
+begin
+  Panel1.hint     := text;
+  Panel1.ShowHint := (length(text) > 0);
+  Result          := True;
+end;
+
 procedure TOSRExternalPumpBrowserFrm.ComboBox1Enter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
@@ -635,6 +644,8 @@ begin
   FCanClose       := False;
   FClosing        := False;
   FResizeCS       := TCriticalSection.Create;
+
+  InitializeLastClick;
 end;
 
 procedure TOSRExternalPumpBrowserFrm.FormDestroy(Sender: TObject);
@@ -677,16 +688,29 @@ end;
 procedure TOSRExternalPumpBrowserFrm.Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
+  TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssShift in Shift) then
     begin
       Panel1.SetFocus;
+
+      if not(CancelPreviousClick(x, y, TempTime)) and (Button = FLastClickButton) then
+        inc(FLastClickCount)
+       else
+        begin
+          FLastClickPoint.x := x;
+          FLastClickPoint.y := y;
+          FLastClickCount   := 1;
+        end;
+
+      FLastClickTime      := TempTime;
+      FLastClickButton    := Button;
 
       TempEvent.x         := X;
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, 1);
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
     end;
 end;
 
@@ -694,11 +718,15 @@ procedure TOSRExternalPumpBrowserFrm.Panel1MouseLeave(Sender: TObject);
 var
   TempEvent : TCefMouseEvent;
   TempPoint : TPoint;
+  TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       GetCursorPos(TempPoint);
-      TempPoint           := Panel1.ScreenToclient(TempPoint);
+      TempPoint := Panel1.ScreenToclient(TempPoint);
+
+      if CancelPreviousClick(TempPoint.x, TempPoint.y, TempTime) then InitializeLastClick;
+
       TempEvent.x         := TempPoint.x;
       TempEvent.y         := TempPoint.y;
       TempEvent.modifiers := GetCefMouseModifiers;
@@ -710,9 +738,12 @@ end;
 procedure TOSRExternalPumpBrowserFrm.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
+  TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
+      if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
+
       TempEvent.x         := X;
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
@@ -725,13 +756,13 @@ procedure TOSRExternalPumpBrowserFrm.Panel1MouseUp(Sender: TObject; Button: TMou
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       TempEvent.x         := X;
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, 1);
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
     end;
 end;
 
@@ -763,6 +794,24 @@ begin
   finally
     FResizeCS.Release;
   end;
+end;
+
+procedure TOSRExternalPumpBrowserFrm.InitializeLastClick;
+begin
+  FLastClickCount   := 0;
+  FLastClickTime    := 0;
+  FLastClickPoint.x := 0;
+  FLastClickPoint.y := 0;
+  FLastClickButton  := mbLeft;
+end;
+
+function TOSRExternalPumpBrowserFrm.CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
+begin
+  aCurrentTime := GetMessageTime;
+
+  Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
+            (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
+            (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.Panel1Enter(Sender: TObject);
