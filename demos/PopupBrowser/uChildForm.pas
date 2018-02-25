@@ -161,7 +161,7 @@ procedure TChildForm.HandleSysCharMsg(var Msg: tagMSG; var Handled: Boolean);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+  if Panel1.Focused then
     begin
       TempKeyEvent.kind                    := KEYEVENT_CHAR;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
@@ -183,7 +183,7 @@ procedure TChildForm.HandleSysKeyDownMsg(var Msg: tagMSG; var Handled: Boolean);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+  if Panel1.Focused then
     begin
       TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
@@ -205,7 +205,7 @@ procedure TChildForm.HandleSysKeyUpMsg(var Msg: tagMSG; var Handled: Boolean);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+  if Panel1.Focused then
     begin
       TempKeyEvent.kind                    := KEYEVENT_KEYUP;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
@@ -227,7 +227,7 @@ procedure TChildForm.HandleKeyDownMsg(var Msg: tagMSG; var Handled: Boolean);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+  if Panel1.Focused then
     begin
       TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
@@ -249,7 +249,7 @@ procedure TChildForm.HandleKeyUpMsg(var Msg: tagMSG; var Handled: Boolean);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+  if Panel1.Focused then
     begin
       TempKeyEvent.kind                    := KEYEVENT_KEYUP;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);

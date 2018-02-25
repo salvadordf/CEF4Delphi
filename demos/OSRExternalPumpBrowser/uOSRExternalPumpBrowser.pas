@@ -178,7 +178,7 @@ var
 begin
   case Msg.message of
     WM_SYSCHAR :
-      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused then
         begin
           TempKeyEvent.kind                    := KEYEVENT_CHAR;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
@@ -194,7 +194,7 @@ begin
         end;
 
     WM_SYSKEYDOWN :
-      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused then
         begin
           TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
@@ -210,7 +210,7 @@ begin
         end;
 
     WM_SYSKEYUP :
-      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused then
         begin
           TempKeyEvent.kind                    := KEYEVENT_KEYUP;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
@@ -226,7 +226,7 @@ begin
         end;
 
     WM_KEYDOWN :
-      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused then
         begin
           TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
@@ -242,7 +242,7 @@ begin
         end;
 
     WM_KEYUP :
-      if Panel1.Focused and (Msg.wParam in [VK_BACK..VK_HELP]) then
+      if Panel1.Focused then
         begin
           TempKeyEvent.kind                    := KEYEVENT_KEYUP;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);

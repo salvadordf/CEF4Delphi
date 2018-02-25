@@ -286,7 +286,7 @@ var
 begin
   if not(Panel1.IsFocused) or (chrmosr = nil) then exit;
 
-  if (Key in [VK_BACK..VK_HELP]) and (KeyChar = #0) then
+  if (Key <> 0) and (KeyChar = #0) then
     begin
       TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := getModifiers(Shift);
@@ -324,7 +324,7 @@ begin
       chrmosr.SendKeyEvent(@TempKeyEvent);
     end
    else
-    if (Key in [VK_BACK..VK_HELP]) and (KeyChar = #0) then
+    if (Key <> 0) and (KeyChar = #0) then
       begin
         TempKeyEvent.kind                    := KEYEVENT_KEYUP;
         TempKeyEvent.modifiers               := getModifiers(Shift);
