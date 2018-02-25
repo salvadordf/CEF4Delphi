@@ -347,7 +347,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssShift in Shift) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       Panel1.SetFocus;
 
