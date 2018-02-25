@@ -102,10 +102,17 @@ type
     FResizeCS          : TCriticalSection;
     FPopupFeatures     : TCefPopupFeatures;
 
+    FLastClickCount  : integer;
+    FLastClickTime   : integer;
+    FLastClickPoint  : TPoint;
+    FLastClickButton : TMouseButton;
+
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure ApplyPopupFeatures;
     procedure DoResize;
+    procedure InitializeLastClick;
+    function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -682,6 +689,8 @@ begin
   FClosing           := False;
   FClientInitialized := False;
   FResizeCS          := TCriticalSection.Create;
+
+  InitializeLastClick;
 end;
 
 procedure TChildForm.FormDestroy(Sender: TObject);
@@ -714,16 +723,29 @@ end;
 procedure TChildForm.Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
+  TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (Chromium1 <> nil) then
+  if (GlobalCEFApp <> nil) and (Chromium1 <> nil) and not(ssShift in Shift) then
     begin
       Panel1.SetFocus;
+
+      if not(CancelPreviousClick(x, y, TempTime)) and (Button = FLastClickButton) then
+        inc(FLastClickCount)
+       else
+        begin
+          FLastClickPoint.x := x;
+          FLastClickPoint.y := y;
+          FLastClickCount   := 1;
+        end;
+
+      FLastClickTime      := TempTime;
+      FLastClickButton    := Button;
 
       TempEvent.x         := X;
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      Chromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), False, 1);
+      Chromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
     end;
 end;
 
@@ -731,11 +753,15 @@ procedure TChildForm.Panel1MouseLeave(Sender: TObject);
 var
   TempEvent : TCefMouseEvent;
   TempPoint : TPoint;
+  TempTime  : integer;
 begin
   if (GlobalCEFApp <> nil) and (Chromium1 <> nil) then
     begin
       GetCursorPos(TempPoint);
-      TempPoint           := Panel1.ScreenToclient(TempPoint);
+      TempPoint := Panel1.ScreenToclient(TempPoint);
+
+      if CancelPreviousClick(TempPoint.x, TempPoint.y, TempTime) then InitializeLastClick;
+
       TempEvent.x         := TempPoint.x;
       TempEvent.y         := TempPoint.y;
       TempEvent.modifiers := GetCefMouseModifiers;
@@ -747,9 +773,12 @@ end;
 procedure TChildForm.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
+  TempTime  : integer;
 begin
   if (GlobalCEFApp <> nil) and (Chromium1 <> nil) then
     begin
+      if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
+
       TempEvent.x         := X;
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
@@ -768,7 +797,7 @@ begin
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      Chromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), True, 1);
+      Chromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
     end;
 end;
 
@@ -806,6 +835,24 @@ begin
   finally
     FResizeCS.Release;
   end;
+end;
+
+procedure TChildForm.InitializeLastClick;
+begin
+  FLastClickCount   := 0;
+  FLastClickTime    := 0;
+  FLastClickPoint.x := 0;
+  FLastClickPoint.y := 0;
+  FLastClickButton  := mbLeft;
+end;
+
+function TChildForm.CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
+begin
+  aCurrentTime := GetMessageTime;
+
+  Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
+            (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
+            (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
 end;
 
 procedure TChildForm.Panel1Enter(Sender: TObject);
