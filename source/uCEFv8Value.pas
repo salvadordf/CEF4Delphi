@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFv8Types;
 
@@ -222,37 +222,80 @@ begin
   Result := PCefV8Value(FData)^.delete_value_bykey(PCefV8Value(FData), @k) <> 0;
 end;
 
-function TCefv8ValueRef.ExecuteFunction(const obj: ICefv8Value;
-  const arguments: TCefv8ValueArray): ICefv8Value;
+function TCefv8ValueRef.ExecuteFunction(const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
 var
-  args: PPCefV8Value;
-  i: Integer;
+  args : PPCefV8Value;
+  i, j : NativeUInt;
 begin
-  GetMem(args, SizeOf(PCefV8Value) * Length(arguments));
+  Result := nil;
+  args   := nil;
+
   try
-    for i := 0 to Length(arguments) - 1 do
-      args[i] := CefGetData(arguments[i]);
-    Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.execute_function(PCefV8Value(FData),
-      CefGetData(obj), Length(arguments), args));
+    try
+      if (arguments <> nil) then
+        begin
+          i := 0;
+          j := Length(arguments);
+
+          GetMem(args, SizeOf(PCefV8Value) * j);
+
+          while (i < j) do
+            begin
+              args[i] := CefGetData(arguments[i]);
+              inc(i);
+            end;
+
+          Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData).execute_function(PCefV8Value(FData),
+                                                                              CefGetData(obj),
+                                                                              j,
+                                                                              args));
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefv8ValueRef.ExecuteFunction', e) then raise;
+    end;
   finally
-    FreeMem(args);
+    if (args <> nil) then FreeMem(args);
   end;
 end;
 
-function TCefv8ValueRef.ExecuteFunctionWithContext(const context: ICefv8Context;
-  const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
+function TCefv8ValueRef.ExecuteFunctionWithContext(const context   : ICefv8Context;
+                                                   const obj       : ICefv8Value;
+                                                   const arguments : TCefv8ValueArray): ICefv8Value;
 var
-  args: PPCefV8Value;
-  i: Integer;
+  args : PPCefV8Value;
+  i, j : NativeUInt;
 begin
-  GetMem(args, SizeOf(PCefV8Value) * Length(arguments));
+  Result := nil;
+  args   := nil;
+
   try
-    for i := 0 to Length(arguments) - 1 do
-      args[i] := CefGetData(arguments[i]);
-    Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.execute_function_with_context(PCefV8Value(FData),
-      CefGetData(context), CefGetData(obj), Length(arguments), args));
+    try
+      if (arguments <> nil) then
+        begin
+          i := 0;
+          j := Length(arguments);
+
+          GetMem(args, SizeOf(PCefV8Value) * j);
+
+          while (i < j) do
+            begin
+              args[i] := CefGetData(arguments[i]);
+              inc(i);
+            end;
+
+          Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData).execute_function_with_context(PCefV8Value(FData),
+                                                                                           CefGetData(context),
+                                                                                           CefGetData(obj),
+                                                                                           j,
+                                                                                           args));
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefv8ValueRef.ExecuteFunctionWithContext', e) then raise;
+    end;
   finally
-    FreeMem(args);
+    if (args <> nil) then FreeMem(args);
   end;
 end;
 
@@ -303,22 +346,41 @@ end;
 
 function TCefv8ValueRef.GetKeys(const keys: TStrings): Integer;
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+  Result := 0;
+
   try
-    Result := PCefV8Value(FData)^.get_keys(PCefV8Value(FData), list);
-    FillChar(str, SizeOf(str), 0);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      keys.Add(CefStringClearAndGet(str));
+    try
+      if (keys <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+
+          if (PCefV8Value(FData).get_keys(PCefV8Value(FData), TempSL) <> 0) then
+            begin
+              i := 0;
+              j := cef_string_list_size(TempSL);
+
+              while (i < j) do
+                begin
+                  FillChar(TempString, SizeOf(TempString), 0);
+                  cef_string_list_value(TempSL, i, @TempString);
+                  keys.Add(CefStringClearAndGet(TempString));
+                  inc(i);
+                end;
+
+              Result := j;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefv8ValueRef.GetKeys', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 

@@ -48,17 +48,17 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefCookieManagerRef = class(TCefBaseRefCountedRef, ICefCookieManager)
     protected
-      procedure SetSupportedSchemes(schemes: TStrings; const callback: ICefCompletionCallback);
-      procedure SetSupportedSchemesProc(schemes: TStrings; const callback: TCefCompletionCallbackProc);
+      procedure SetSupportedSchemes(const schemes: TStrings; const callback: ICefCompletionCallback);
+      procedure SetSupportedSchemesProc(const schemes: TStrings; const callback: TCefCompletionCallbackProc);
       function VisitAllCookies(const visitor: ICefCookieVisitor): Boolean;
       function VisitAllCookiesProc(const visitor: TCefCookieVisitorProc): Boolean;
       function VisitUrlCookies(const url: ustring; includeHttpOnly: Boolean; const visitor: ICefCookieVisitor): Boolean;
@@ -194,30 +194,38 @@ begin
   Result := SetStoragePath(path, persistSessionCookies, TCefFastCompletionCallback.Create(callback));
 end;
 
-procedure TCefCookieManagerRef.SetSupportedSchemes(schemes: TStrings; const callback: ICefCompletionCallback);
+procedure TCefCookieManagerRef.SetSupportedSchemes(const schemes: TStrings; const callback: ICefCompletionCallback);
 var
-  list: TCefStringList;
-  i: Integer;
-  item: TCefString;
+  TempSL : TCefStringList;
+  i : Integer;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc();
-  try
-    if (schemes <> nil) then
-      for i := 0 to schemes.Count - 1 do
-      begin
-        item := CefString(schemes[i]);
-        cef_string_list_append(list, @item);
-      end;
-    PCefCookieManager(FData).set_supported_schemes(
-      PCefCookieManager(FData), list, CefGetData(callback));
+  TempSL := nil;
 
+  try
+    try
+      if (schemes <> nil) and (schemes.Count > 0) then
+        begin
+          TempSL := cef_string_list_alloc();
+
+          for i := 0 to schemes.Count - 1 do
+            begin
+              TempString := CefString(schemes[i]);
+              cef_string_list_append(TempSL, @TempString);
+            end;
+
+          PCefCookieManager(FData).set_supported_schemes(PCefCookieManager(FData), TempSL, CefGetData(callback));
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCookieManagerRef.SetSupportedSchemes', e) then raise;
+    end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 
-procedure TCefCookieManagerRef.SetSupportedSchemesProc(schemes: TStrings;
-  const callback: TCefCompletionCallbackProc);
+procedure TCefCookieManagerRef.SetSupportedSchemesProc(const schemes: TStrings; const callback: TCefCompletionCallbackProc);
 begin
   SetSupportedSchemes(schemes, TCefFastCompletionCallback.Create(callback));
 end;

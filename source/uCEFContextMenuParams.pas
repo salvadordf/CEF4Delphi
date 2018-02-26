@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -88,25 +88,43 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
 
-function TCefContextMenuParamsRef.GetDictionarySuggestions(
-  const suggestions: TStringList): Boolean;
+function TCefContextMenuParamsRef.GetDictionarySuggestions(const suggestions : TStringList): Boolean;
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+  Result := False;
+
   try
-    Result := PCefContextMenuParams(FData).get_dictionary_suggestions(PCefContextMenuParams(FData), list) <> 0;
-    FillChar(str, SizeOf(str), 0);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      suggestions.Add(CefStringClearAndGet(str));
+    try
+      if (suggestions <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+
+          if (PCefContextMenuParams(FData).get_dictionary_suggestions(PCefContextMenuParams(FData), TempSL) <> 0) then
+            begin
+              i := 0;
+              j := cef_string_list_size(TempSL);
+
+              while (i < j) do
+                begin
+                  FillChar(TempString, SizeOf(TempString), 0);
+                  cef_string_list_value(TempSL, i, @TempString);
+                  suggestions.Add(CefStringClearAndGet(TempString));
+                  inc(i);
+                end;
+
+              Result := True;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefContextMenuParamsRef.GetDictionarySuggestions', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 

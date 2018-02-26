@@ -150,7 +150,7 @@ function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 function  CefCreateUrl(var parts: TUrlParts): ustring;
 function  CefFormatUrlForSecurityDisplay(const originUrl: string): string;
 function  CefGetMimeType(const extension: ustring): ustring;
-procedure CefGetExtensionsForMimeType(const mimeType: ustring; extensions: TStringList);
+procedure CefGetExtensionsForMimeType(const mimeType: ustring; var extensions: TStringList);
 
 function CefBase64Encode(const data: Pointer; dataSize: NativeUInt): ustring;
 function CefBase64Decode(const data: ustring): ICefBinaryValue;
@@ -256,7 +256,7 @@ begin
   if (aSrcSL <> nil) and (aDstSL <> nil) then
     begin
       i := 0;
-      j := pred(cef_string_list_size(aSrcSL));
+      j := cef_string_list_size(aSrcSL);
 
       while (i < j) do
         begin
@@ -1073,24 +1073,40 @@ begin
   Result := CefStringFreeAndGet(cef_get_mime_type(@s));
 end;
 
-procedure CefGetExtensionsForMimeType(const mimeType: ustring; extensions: TStringList);
+procedure CefGetExtensionsForMimeType(const mimeType: ustring; var extensions: TStringList);
 var
-  list: TCefStringList;
-  s, str: TCefString;
-  i: Integer;
+  TempSL : TCefStringList;
+  TempMimeType, TempString : TCefString;
+  i, j : NativeUInt;
 begin
-  list := cef_string_list_alloc();
+  TempSL := nil;
+
   try
-    s := CefString(mimeType);
-    cef_get_extensions_for_mime_type(@s, list);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      extensions.Add(CefStringClearAndGet(str));
+    try
+      if (extensions <> nil) then
+        begin
+          TempSL       := cef_string_list_alloc;
+          TempMimeType := CefString(mimeType);
+
+          cef_get_extensions_for_mime_type(@TempMimeType, TempSL);
+
+          i := 0;
+          j := cef_string_list_size(TempSL);
+
+          while (i < j) do
+            begin
+              FillChar(TempString, SizeOf(TempString), 0);
+              cef_string_list_value(TempSL, i, @TempString);
+              extensions.Add(CefStringClearAndGet(TempString));
+              inc(i);
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('CefGetExtensionsForMimeType', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 

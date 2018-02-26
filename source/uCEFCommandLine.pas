@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFTypes, uCEFInterfaces;
 
@@ -64,17 +64,17 @@ type
       procedure InitFromString(const commandLine: ustring);
       procedure Reset;
       function  GetCommandLineString: ustring;
-      procedure GetArgv(args: TStrings);
+      procedure GetArgv(var args: TStrings);
       function  GetProgram: ustring;
       procedure SetProgram(const prog: ustring);
       function  HasSwitches: Boolean;
       function  HasSwitch(const name: ustring): Boolean;
       function  GetSwitchValue(const name: ustring): ustring;
-      procedure GetSwitches(switches: TStrings);
+      procedure GetSwitches(var switches: TStrings);
       procedure AppendSwitch(const name: ustring);
       procedure AppendSwitchWithValue(const name, value: ustring);
       function  HasArguments: Boolean;
-      procedure GetArguments(arguments: TStrings);
+      procedure GetArguments(var arguments: TStrings);
       procedure AppendArgument(const argument: ustring);
       procedure PrependWrapper(const wrapper: ustring);
 
@@ -119,43 +119,73 @@ begin
   Result := UnWrap(PCefCommandLine(FData).copy(PCefCommandLine(FData)));
 end;
 
-procedure TCefCommandLineRef.GetArguments(arguments: TStrings);
+procedure TCefCommandLineRef.GetArguments(var arguments : TStrings);
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+
   try
-    PCefCommandLine(FData).get_arguments(PCefCommandLine(FData), list);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      arguments.Add(CefStringClearAndGet(str));
+    try
+      if (arguments <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+          PCefCommandLine(FData).get_arguments(PCefCommandLine(FData), TempSL);
+
+          i := 0;
+          j := cef_string_list_size(TempSL);
+
+          while (i < j) do
+            begin
+              FillChar(TempString, SizeOf(TempString), 0);
+              cef_string_list_value(TempSL, i, @TempString);
+              arguments.Add(CefStringClearAndGet(TempString));
+              inc(i);
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCommandLineRef.GetArguments', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 
-procedure TCefCommandLineRef.GetArgv(args: TStrings);
+procedure TCefCommandLineRef.GetArgv(var args: TStrings);
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+
   try
-    PCefCommandLine(FData).get_argv(FData, list);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      args.Add(CefStringClearAndGet(str));
+    try
+      if (args <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+          PCefCommandLine(FData).get_argv(PCefCommandLine(FData), TempSL);
+
+          i := 0;
+          j := cef_string_list_size(TempSL);
+
+          while (i < j) do
+            begin
+              FillChar(TempString, SizeOf(TempString), 0);
+              cef_string_list_value(TempSL, i, @TempString);
+              args.Add(CefStringClearAndGet(TempString));
+              inc(i);
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCommandLineRef.GetArgv', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 
@@ -169,23 +199,38 @@ begin
   Result := CefStringFreeAndGet(PCefCommandLine(FData).get_program(PCefCommandLine(FData)));
 end;
 
-procedure TCefCommandLineRef.GetSwitches(switches: TStrings);
+procedure TCefCommandLineRef.GetSwitches(var switches: TStrings);
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+
   try
-    PCefCommandLine(FData).get_switches(PCefCommandLine(FData), list);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      switches.Add(CefStringClearAndGet(str));
+    try
+      if (switches <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+          PCefCommandLine(FData).get_switches(PCefCommandLine(FData), TempSL);
+
+          i := 0;
+          j := cef_string_list_size(TempSL);
+
+          while (i < j) do
+            begin
+              FillChar(TempString, SizeOf(TempString), 0);
+              cef_string_list_value(TempSL, i, @TempString);
+              switches.Add(CefStringClearAndGet(TempString));
+              inc(i);
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCommandLineRef.GetSwitches', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 

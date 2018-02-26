@@ -189,8 +189,8 @@ type
     function  GetRequestContext: ICefRequestContext;
     function  GetZoomLevel: Double;
     procedure SetZoomLevel(zoomLevel: Double);
-    procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefRunFileDialogCallback);
-    procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: TCefRunFileDialogCallbackProc);
+    procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefRunFileDialogCallback);
+    procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: TCefRunFileDialogCallbackProc);
     procedure StartDownload(const url: ustring);
     procedure DownloadImage(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: Cardinal; bypassCache: Boolean; const callback: ICefDownloadImageCallback);
     procedure Print;
@@ -840,17 +840,17 @@ type
     procedure InitFromString(const commandLine: ustring);
     procedure Reset;
     function GetCommandLineString: ustring;
-    procedure GetArgv(args: TStrings);
+    procedure GetArgv(var args: TStrings);
     function GetProgram: ustring;
     procedure SetProgram(const prog: ustring);
     function HasSwitches: Boolean;
     function HasSwitch(const name: ustring): Boolean;
     function GetSwitchValue(const name: ustring): ustring;
-    procedure GetSwitches(switches: TStrings);
+    procedure GetSwitches(var switches: TStrings);
     procedure AppendSwitch(const name: ustring);
     procedure AppendSwitchWithValue(const name, value: ustring);
     function HasArguments: Boolean;
-    procedure GetArguments(arguments: TStrings);
+    procedure GetArguments(var arguments: TStrings);
     procedure AppendArgument(const argument: ustring);
     procedure PrependWrapper(const wrapper: ustring);
     property CommandLineString: ustring read GetCommandLineString;
@@ -924,8 +924,8 @@ type
 
   ICefCookieManager = Interface(ICefBaseRefCounted)
     ['{CC1749E6-9AD3-4283-8430-AF6CBF3E8785}']
-    procedure SetSupportedSchemes(schemes: TStrings; const callback: ICefCompletionCallback);
-    procedure SetSupportedSchemesProc(schemes: TStrings; const callback: TCefCompletionCallbackProc);
+    procedure SetSupportedSchemes(const schemes: TStrings; const callback: ICefCompletionCallback);
+    procedure SetSupportedSchemesProc(const schemes: TStrings; const callback: TCefCompletionCallbackProc);
     function VisitAllCookies(const visitor: ICefCookieVisitor): Boolean;
     function VisitAllCookiesProc(const visitor: TCefCookieVisitorProc): Boolean;
     function VisitUrlCookies(const url: ustring;
@@ -1467,7 +1467,7 @@ type
 
   ICefFileDialogCallback = interface(ICefBaseRefCounted)
   ['{1AF659AB-4522-4E39-9C52-184000D8E3C7}']
-    procedure Cont(selectedAcceptFilter: Integer; filePaths: TStrings);
+    procedure Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
     procedure Cancel;
   end;
 
@@ -1486,7 +1486,7 @@ type
     function  GetFragmentBaseUrl: ustring;
     function  GetFileName: ustring;
     function  GetFileContents(const writer: ICefStreamWriter): NativeUInt;
-    function  GetFileNames(names: TStrings): Integer;
+    function  GetFileNames(var names: TStrings): Integer;
     procedure SetLinkUrl(const url: ustring);
     procedure SetLinkTitle(const title: ustring);
     procedure SetLinkMetadata(const data: ustring);

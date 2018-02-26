@@ -57,7 +57,7 @@ uses
 type
   TCefFileDialogCallbackRef = class(TCefBaseRefCountedRef, ICefFileDialogCallback)
   protected
-    procedure Cont(selectedAcceptFilter: Integer; filePaths: TStrings);
+    procedure Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
     procedure Cancel;
   public
     class function UnWrap(data: Pointer): ICefFileDialogCallback;
@@ -73,7 +73,7 @@ begin
   PCefFileDialogCallback(FData).cancel(FData);
 end;
 
-procedure TCefFileDialogCallbackRef.Cont(selectedAcceptFilter: Integer; filePaths: TStrings);
+procedure TCefFileDialogCallbackRef.Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
 var
   list: TCefStringList;
   i: Integer;
@@ -92,11 +92,11 @@ begin
   end;
 end;
 
-class function TCefFileDialogCallbackRef.UnWrap(
-  data: Pointer): ICefFileDialogCallback;
+class function TCefFileDialogCallbackRef.UnWrap(data: Pointer): ICefFileDialogCallback;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefFileDialogCallback else
+  if (data <> nil) then
+    Result := Create(data) as ICefFileDialogCallback
+   else
     Result := nil;
 end;
 

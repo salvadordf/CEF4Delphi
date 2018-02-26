@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -86,8 +86,7 @@ begin
   Result := PCefPostData(FData)^.has_excluded_elements(PCefPostData(FData)) <> 0;
 end;
 
-function TCefPostDataRef.AddElement(
-  const element: ICefPostDataElement): Integer;
+function TCefPostDataRef.AddElement(const element: ICefPostDataElement): Integer;
 begin
   Result := PCefPostData(FData)^.add_element(PCefPostData(FData), CefGetData(element));
 end;
@@ -99,18 +98,33 @@ end;
 
 function TCefPostDataRef.GetElements(Count: NativeUInt): IInterfaceList;
 var
-  items: PCefPostDataElementArray;
-  i: Integer;
+  items : PCefPostDataElementArray;
+  i     : NativeUInt;
 begin
-  Result := TInterfaceList.Create;
-  GetMem(items, SizeOf(PCefPostDataElement) * Count);
-  FillChar(items^, SizeOf(PCefPostDataElement) * Count, 0);
+  Result := nil;
+  items  := nil;
+
   try
-    PCefPostData(FData)^.get_elements(PCefPostData(FData), @Count, items);
-    for i := 0 to Count - 1 do
-      Result.Add(TCefPostDataElementRef.UnWrap(items[i]));
+    try
+      GetMem(items, SizeOf(PCefPostDataElement) * Count);
+      FillChar(items^, SizeOf(PCefPostDataElement) * Count, 0);
+
+      PCefPostData(FData)^.get_elements(PCefPostData(FData), @Count, items);
+
+      Result := TInterfaceList.Create;
+      i      := 0;
+
+      while (i < Count) do
+        begin
+          Result.Add(TCefPostDataElementRef.UnWrap(items[i]));
+          inc(i);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefPostDataRef.GetElements', e) then raise;
+    end;
   finally
-    FreeMem(items);
+    if (items <> nil) then FreeMem(items);
   end;
 end;
 

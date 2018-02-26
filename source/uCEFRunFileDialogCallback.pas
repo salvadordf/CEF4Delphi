@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces;
 
@@ -78,24 +78,37 @@ implementation
 uses
   uCEFTypes, uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure cef_run_file_dialog_callback_on_file_dialog_dismissed(self: PCefRunFileDialogCallback; selected_accept_filter: Integer; file_paths: TCefStringList); stdcall;
+procedure cef_run_file_dialog_callback_on_file_dialog_dismissed(self                   : PCefRunFileDialogCallback;
+                                                                selected_accept_filter : Integer;
+                                                                file_paths             : TCefStringList); stdcall;
 var
   TempSL : TStringList;
-  i: Integer;
-  str: TCefString;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  TempSL := TStringList.Create;
+  TempSL := nil;
+
   try
-    for i := 0 to cef_string_list_size(file_paths) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(file_paths, i, @str);
-      TempSL.Add(CefStringClearAndGet(str));
+    try
+      TempSL := TStringList.Create;
+      i      := 0;
+      j      := cef_string_list_size(file_paths);
+
+      while (i < j) do
+        begin
+          FillChar(TempString, SizeOf(TempString), 0);
+          cef_string_list_value(file_paths, i, @TempString);
+          TempSL.Add(CefStringClearAndGet(TempString));
+          inc(i);
+        end;
+
+      TCefRunFileDialogCallbackOwn(CefGetObject(self)).OnFileDialogDismissed(selected_accept_filter, TempSL);
+    except
+      on e : exception do
+        if CustomExceptionHandler('cef_run_file_dialog_callback_on_file_dialog_dismissed', e) then raise;
     end;
-    with TCefRunFileDialogCallbackOwn(CefGetObject(self)) do
-      OnFileDialogDismissed(selected_accept_filter, TempSL);
   finally
-    TempSL.Free;
+    if (TempSL <> nil) then FreeAndNil(TempSL);
   end;
 end;
 

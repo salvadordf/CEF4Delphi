@@ -99,46 +99,64 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value, uCEFConstants;
 
-function cef_v8_handler_execute(self: PCefv8Handler;
-  const name: PCefString; obj: PCefv8Value; argumentsCount: NativeUInt;
-  const arguments: PPCefV8Value; var retval: PCefV8Value;
-  var exception: TCefString): Integer; stdcall;
+function cef_v8_handler_execute(self : PCefv8Handler;
+                                const name           : PCefString;
+                                      obj            : PCefv8Value;
+                                      argumentsCount : NativeUInt;
+                                const arguments      : PPCefV8Value;
+                                var   retval         : PCefV8Value;
+                                var   exception      : TCefString): Integer; stdcall;
 var
-  args: TCefv8ValueArray;
-  i: NativeInt;
-  ret: ICefv8Value;
-  exc: ustring;
+  args : TCefv8ValueArray;
+  i, j : NativeInt;
+  ret  : ICefv8Value;
+  exc  : ustring;
 begin
-  SetLength(args, argumentsCount);
-  for i := 0 to argumentsCount - 1 do
-    args[i] := TCefv8ValueRef.UnWrap(arguments[i]);
+  i := 0;
+  j := argumentsCount;
 
-  Result := -Ord(TCefv8HandlerOwn(CefGetObject(self)).Execute(
-    CefString(name), TCefv8ValueRef.UnWrap(obj), args, ret, exc));
-  retval := CefGetData(ret);
-  ret := nil;
+  SetLength(args, j);
+
+  while (i < j) do
+    begin
+      args[i] := TCefv8ValueRef.UnWrap(arguments[i]);
+      inc(i);
+    end;
+
+  Result    := -Ord(TCefv8HandlerOwn(CefGetObject(self)).Execute(CefString(name), TCefv8ValueRef.UnWrap(obj), args, ret, exc));
+  retval    := CefGetData(ret);
+  ret       := nil;
   exception := CefString(exc);
 end;
 
-function TCefv8HandlerRef.Execute(const name: ustring; const obj: ICefv8Value;
-  const arguments: TCefv8ValueArray; var retval: ICefv8Value;
-  var exception: ustring): Boolean;
+function TCefv8HandlerRef.Execute(const name      : ustring;
+                                  const obj       : ICefv8Value;
+                                  const arguments : TCefv8ValueArray;
+                                  var   retval    : ICefv8Value;
+                                  var   exception : ustring): Boolean;
 var
-  args: array of PCefV8Value;
-  i: Integer;
-  ret: PCefV8Value;
-  exc: TCefString;
-  n: TCefString;
+  args : array of PCefV8Value;
+  i, j : Integer;
+  ret  : PCefV8Value;
+  exc  : TCefString;
+  n    : TCefString;
 begin
-  SetLength(args, Length(arguments));
-  for i := 0 to Length(arguments) - 1 do
-    args[i] := CefGetData(arguments[i]);
-  ret := nil;
+  i := 0;
+  j := Length(arguments);
+
+  SetLength(args, j);
+
+  while (i < j) do
+    begin
+      args[i] := CefGetData(arguments[i]);
+      inc(i);
+    end;
+
   FillChar(exc, SizeOf(exc), 0);
-  n := CefString(name);
-  Result := PCefv8Handler(FData)^.execute(PCefv8Handler(FData), @n,
-    CefGetData(obj), Length(arguments), @args, ret, exc) <> 0;
-  retval := TCefv8ValueRef.UnWrap(ret);
+  ret       := nil;
+  n         := CefString(name);
+  Result    := PCefv8Handler(FData).execute(PCefv8Handler(FData), @n, CefGetData(obj), Length(arguments), @args, ret, exc) <> 0;
+  retval    := TCefv8ValueRef.UnWrap(ret);
   exception := CefStringClearAndGet(exc);
 end;
 
@@ -323,9 +341,9 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
 
   function ProcessVariant: Boolean;
   var
-    vr: Variant;
-    i: Integer;
-    vl: TValue;
+    vr   : Variant;
+    i, j : Integer;
+    vl   : TValue;
   begin
     VarClear(vr);
     if v.IsString then vr := v.GetStringValue else
@@ -336,14 +354,20 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
     if v.IsNull then TVarData(vr).VType := varNull else
     if v.IsArray then
       begin
-        vr := VarArrayCreate([0, v.GetArrayLength], varVariant);
-        for i := 0 to v.GetArrayLength - 1 do
-        begin
-          if not GetValue(pi, v.GetValueByIndex(i), vl) then Exit(False);
-          VarArrayPut(vr, vl.AsVariant, i);
-        end;
+        i  := 0;
+        j  := v.GetArrayLength;
+        vr := VarArrayCreate([0, j], varVariant);
+
+        while (i < j) do
+          begin
+            if not GetValue(pi, v.GetValueByIndex(i), vl) then Exit(False);
+            VarArrayPut(vr, vl.AsVariant, i);
+            inc(i);
+          end;
+
       end else
       Exit(False);
+
     TValue.Make(@vr, pi, ret);
     Result := True;
   end;

@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -237,22 +237,28 @@ function TCefRequestContextRef.ResolveHostCached(const origin      : ustring;
                                                  const resolvedIps : TStrings): TCefErrorCode;
 var
   ips : TCefStringList;
-  o, str : TCefString;
-  i : Integer;
+  TempOrigin, TempString : TCefString;
+  i, j : NativeUInt;
 begin
   ips := cef_string_list_alloc;
 
   try
-    o      := CefString(origin);
-    Result := PCefRequestContext(FData).resolve_host_cached(FData, @o, ips);
+    TempOrigin := CefString(origin);
+    Result     := PCefRequestContext(FData).resolve_host_cached(FData, @TempOrigin, ips);
 
-    if Assigned(ips) then
-      for i := 0 to cef_string_list_size(ips) - 1 do
-        begin
-          FillChar(str, SizeOf(str), 0);
-          cef_string_list_value(ips, i, @str);
-          resolvedIps.Add(CefStringClearAndGet(str));
-        end;
+    if (resolvedIps <> nil) and (ips <> nil) then
+      begin
+        i := 0;
+        j := cef_string_list_size(ips);
+
+        while (i < j) do
+          begin
+            FillChar(TempString, SizeOf(TempString), 0);
+            cef_string_list_value(ips, i, @TempString);
+            resolvedIps.Add(CefStringClearAndGet(TempString));
+            inc(i);
+          end;
+      end;
   finally
     cef_string_list_free(ips);
   end;
@@ -285,29 +291,40 @@ end;
 function TCefRequestContextRef.GetExtensions(const extension_ids: TStringList): boolean;
 var
   TempIDs    : TCefStringList;
-  i, j       : integer;
+  i, j       : NativeUInt;
   TempString : TCefString;
 begin
-  TempIDs := cef_string_list_alloc;
+  TempIDs := nil;
+  Result  := False;
 
   try
-    Result := PCefRequestContext(FData).get_extensions(FData, TempIDs) <> 0;
+    try
+      if (extension_ids <> nil) then
+        begin
+          TempIDs := cef_string_list_alloc;
 
-    if Assigned(TempIDs) then
-      begin
-        i := 0;
-        j := cef_string_list_size(TempIDs);
+          if (PCefRequestContext(FData).get_extensions(PCefRequestContext(FData), TempIDs) <> 0) then
+            begin
+              i := 0;
+              j := cef_string_list_size(TempIDs);
 
-        while (i < j) do
-          begin
-            FillChar(TempString, SizeOf(TempString), 0);
-            cef_string_list_value(TempIDs, i, @TempString);
-            extension_ids.Add(CefStringClearAndGet(TempString));
-            inc(i);
-          end;
-      end;
+              while (i < j) do
+                begin
+                  FillChar(TempString, SizeOf(TempString), 0);
+                  cef_string_list_value(TempIDs, i, @TempString);
+                  extension_ids.Add(CefStringClearAndGet(TempString));
+                  inc(i);
+                end;
+
+              Result := True;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefRequestContextRef.GetExtensions', e) then raise;
+    end;
   finally
-    cef_string_list_free(TempIDs);
+    if (TempIDs <> nil) then cef_string_list_free(TempIDs);
   end;
 end;
 

@@ -84,8 +84,8 @@ procedure cef_resolve_callback_on_resolve_completed(self: PCefResolveCallback;
                                                     resolved_ips: TCefStringList); stdcall;
 var
   TempSL : TStringList;
-  i, j : Integer;
-  str: TCefString;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
   TempSL := nil;
 
@@ -97,9 +97,9 @@ begin
 
       while (i < j) do
         begin
-          FillChar(str, SizeOf(str), 0);
-          cef_string_list_value(resolved_ips, i, @str);
-          TempSL.Add(CefStringClearAndGet(str));
+          FillChar(TempString, SizeOf(TempString), 0);
+          cef_string_list_value(resolved_ips, i, @TempString);
+          TempSL.Add(CefStringClearAndGet(TempString));
           inc(i);
         end;
 

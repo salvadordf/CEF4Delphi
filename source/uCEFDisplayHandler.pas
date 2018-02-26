@@ -123,26 +123,37 @@ begin
     OnTitleChange(TCefBrowserRef.UnWrap(browser), CefString(title));
 end;
 
-procedure cef_display_handler_on_favicon_urlchange(self: PCefDisplayHandler;
-                                                   browser: PCefBrowser;
-                                                   icon_urls: TCefStringList); stdcall;
+procedure cef_display_handler_on_favicon_urlchange(self      : PCefDisplayHandler;
+                                                   browser   : PCefBrowser;
+                                                   icon_urls : TCefStringList); stdcall;
 var
-  list: TStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := TStringList.Create;
+  TempSL := nil;
+
   try
-    for i := 0 to cef_string_list_size(icon_urls) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(icon_urls, i, @str);
-      list.Add(CefStringClearAndGet(str));
+    try
+      TempSL := TStringList.Create;
+      i      := 0;
+      j      := cef_string_list_size(icon_urls);
+
+      while (i < j) do
+        begin
+          FillChar(TempString, SizeOf(TempString), 0);
+          cef_string_list_value(icon_urls, i, @TempString);
+          TempSL.Add(CefStringClearAndGet(TempString));
+          inc(i);
+        end;
+
+      TCefDisplayHandlerOwn(CefGetObject(self)).OnFaviconUrlChange(TCefBrowserRef.UnWrap(browser), TempSL);
+    except
+      on e : exception do
+        if CustomExceptionHandler('cef_display_handler_on_favicon_urlchange', e) then raise;
     end;
-    with TCefDisplayHandlerOwn(CefGetObject(self)) do
-      OnFaviconUrlChange(TCefBrowserRef.UnWrap(browser), list);
   finally
-    list.Free;
+    if (TempSL <> nil) then FreeAndNil(TempSL);
   end;
 end;
 

@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -70,7 +70,7 @@ type
     function GetFragmentBaseUrl: ustring;
     function GetFileName: ustring;
     function GetFileContents(const writer: ICefStreamWriter): NativeUInt;
-    function GetFileNames(names: TStrings): Integer;
+    function GetFileNames(var names: TStrings): Integer;
     procedure SetLinkUrl(const url: ustring);
     procedure SetLinkTitle(const title: ustring);
     procedure SetLinkMetadata(const data: ustring);
@@ -132,23 +132,43 @@ begin
   Result := CefStringFreeAndGet(PCefDragData(FData).get_file_name(FData));
 end;
 
-function TCefDragDataRef.GetFileNames(names: TStrings): Integer;
+function TCefDragDataRef.GetFileNames(var names: TStrings): Integer;
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+  Result := 0;
+
   try
-    Result := PCefDragData(FData).get_file_names(FData, list);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      names.Add(CefStringClearAndGet(str));
+    try
+      if (names <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+
+          if (PCefDragData(FData).get_file_names(FData, TempSL) <> 0) then
+            begin
+              i := 0;
+              j := cef_string_list_size(TempSL);
+
+              while (i < j) do
+                begin
+                  FillChar(TempString, SizeOf(TempString), 0);
+                  cef_string_list_value(TempSL, i, @TempString);
+                  names.Add(CefStringClearAndGet(TempString));
+                  inc(i);
+                end;
+
+              Result := j;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefDragDataRef.GetFileNames', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 

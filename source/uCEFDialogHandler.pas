@@ -88,30 +88,49 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFileDialogCallback;
 
-function cef_dialog_handler_on_file_dialog(self: PCefDialogHandler; browser: PCefBrowser;
-  mode: TCefFileDialogMode; const title, default_file_path: PCefString;
-  accept_filters: TCefStringList; selected_accept_filter: Integer;
-  callback: PCefFileDialogCallback): Integer; stdcall;
+function cef_dialog_handler_on_file_dialog(self                    : PCefDialogHandler;
+                                           browser                 : PCefBrowser;
+                                           mode                    : TCefFileDialogMode;
+                                           const title             : PCefString;
+                                           const default_file_path : PCefString;
+                                           accept_filters          : TCefStringList;
+                                           selected_accept_filter  : Integer;
+                                           callback                : PCefFileDialogCallback): Integer; stdcall;
 var
-  list: TStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := TStringList.Create;
-  try
-    for i := 0 to cef_string_list_size(accept_filters) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(accept_filters, i, @str);
-      list.Add(CefStringClearAndGet(str));
-    end;
+  TempSL := nil;
+  Result := 0; // False
 
-    with TCefDialogHandlerOwn(CefGetObject(self)) do
-      Result := Ord(OnFileDialog(TCefBrowserRef.UnWrap(browser), mode, CefString(title),
-        CefString(default_file_path), list, selected_accept_filter,
-        TCefFileDialogCallbackRef.UnWrap(callback)));
+  try
+    try
+      TempSL := TStringList.Create;
+      i      := 0;
+      j      := cef_string_list_size(accept_filters);
+
+      while (i < j) do
+        begin
+          FillChar(TempString, SizeOf(TempString), 0);
+          cef_string_list_value(accept_filters, i, @TempString);
+          TempSL.Add(CefStringClearAndGet(TempString));
+          inc(i);
+        end;
+
+      Result := Ord(TCefDialogHandlerOwn(CefGetObject(self)).OnFileDialog(TCefBrowserRef.UnWrap(browser),
+                                                                          mode,
+                                                                          CefString(title),
+                                                                          CefString(default_file_path),
+                                                                          TempSL,
+                                                                          selected_accept_filter,
+                                                                          TCefFileDialogCallbackRef.UnWrap(callback)));
+    except
+      on e : exception do
+        if CustomExceptionHandler('cef_dialog_handler_on_file_dialog', e) then raise;
+    end;
   finally
-    list.Free;
+    if (TempSL <> nil) then FreeAndNil(TempSL);
   end;
 end;
 

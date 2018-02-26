@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -149,24 +149,43 @@ begin
   Result := PCefDictionaryValue(FData).get_int(PCefDictionaryValue(FData), @k);
 end;
 
-function TCefDictionaryValueRef.GetKeys(const keys: TStrings): Boolean;
+function TCefDictionaryValueRef.GetKeys(const keys : TStrings): Boolean;
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i, j : NativeUInt;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+  Result := False;
+
   try
-    Result := PCefDictionaryValue(FData).get_keys(PCefDictionaryValue(FData), list) <> 0;
-    FillChar(str, SizeOf(str), 0);
-    for i := 0 to cef_string_list_size(list) - 1 do
-    begin
-      FillChar(str, SizeOf(str), 0);
-      cef_string_list_value(list, i, @str);
-      keys.Add(CefStringClearAndGet(str));
+    try
+      if (keys <> nil) then
+        begin
+          TempSL := cef_string_list_alloc;
+
+          if (PCefDictionaryValue(FData).get_keys(PCefDictionaryValue(FData), TempSL) <> 0) then
+            begin
+              i := 0;
+              j := cef_string_list_size(TempSL);
+
+              while (i < j) do
+                begin
+                  FillChar(TempString, SizeOf(TempString), 0);
+                  cef_string_list_value(TempSL, i, @TempString);
+                  keys.Add(CefStringClearAndGet(TempString));
+                  inc(i);
+                end;
+
+              Result := True;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefDictionaryValueRef.GetKeys', e) then raise;
     end;
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 
