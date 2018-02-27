@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, SysUtils,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -75,20 +75,31 @@ end;
 
 procedure TCefFileDialogCallbackRef.Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
 var
-  list: TCefStringList;
-  i: Integer;
-  str: TCefString;
+  TempSL : TCefStringList;
+  i : Integer;
+  TempString : TCefString;
 begin
-  list := cef_string_list_alloc;
+  TempSL := nil;
+
+
   try
-    for i := 0 to filePaths.Count - 1 do
-    begin
-      str := CefString(filePaths[i]);
-      cef_string_list_append(list, @str);
+    try
+      TempSL := cef_string_list_alloc;
+
+      if (filePaths <> nil) and (filePaths.Count > 0) then
+        for i := 0 to filePaths.Count - 1 do
+          begin
+            TempString := CefString(filePaths[i]);
+            cef_string_list_append(TempSL, @TempString);
+          end;
+
+      PCefFileDialogCallback(FData).cont(PCefFileDialogCallback(FData), selectedAcceptFilter, TempSL);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefFileDialogCallbackRef.Cont', e) then raise;
     end;
-    PCefFileDialogCallback(FData).cont(FData, selectedAcceptFilter, list);
   finally
-    cef_string_list_free(list);
+    if (TempSL <> nil) then cef_string_list_free(TempSL);
   end;
 end;
 
