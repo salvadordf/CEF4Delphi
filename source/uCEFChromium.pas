@@ -83,6 +83,9 @@ type
       FDoNotTrack             : boolean;
       FSendReferrer           : boolean;
       FHyperlinkAuditing      : boolean;
+      FRunAllFlashInAllowMode : boolean;
+      FAllowOutdatedPlugins   : boolean;
+      FAlwaysAuthorizePlugins : boolean;
       FCookiePrefs            : integer;
       FImagesPrefs            : integer;
       FZoomStep               : byte;
@@ -235,6 +238,9 @@ type
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
       procedure SetHyperlinkAuditing(aValue : boolean);
+      procedure SetRunAllFlashInAllowMode(aValue : boolean);
+      procedure SetAllowOutdatedPlugins(aValue : boolean);
+      procedure SetAlwaysAuthorizePlugins(aValue : boolean);
       procedure SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
       procedure SetWebRTCMultipleRoutes(aValue : TCefState);
       procedure SetWebRTCNonProxiedUDP(aValue : TCefState);
@@ -553,6 +559,9 @@ type
       property  DoNotTrack              : boolean                      read FDoNotTrack               write SetDoNotTrack;
       property  SendReferrer            : boolean                      read FSendReferrer             write SetSendReferrer;
       property  HyperlinkAuditing       : boolean                      read FHyperlinkAuditing        write SetHyperlinkAuditing;
+      property  RunAllFlashInAllowMode  : boolean                      read FRunAllFlashInAllowMode   write SetRunAllFlashInAllowMode;
+      property  AllowOutdatedPlugins    : boolean                      read FAllowOutdatedPlugins     write SetAllowOutdatedPlugins;
+      property  AlwaysAuthorizePlugins  : boolean                      read FAlwaysAuthorizePlugins   write SetAlwaysAuthorizePlugins;
       property  HasValidMainFrame       : boolean                      read GetHasValidMainFrame;
       property  FrameCount              : NativeUInt                   read GetFrameCount;
       property  DragOperations          : TCefDragOperations           read FDragOperations           write FDragOperations;
@@ -712,6 +721,9 @@ begin
   FDoNotTrack             := True;
   FSendReferrer           := True;
   FHyperlinkAuditing      := False;
+  FRunAllFlashInAllowMode := False;
+  FAllowOutdatedPlugins   := False;
+  FAlwaysAuthorizePlugins := False;
   FCookiePrefs            := CEF_CONTENT_SETTING_ALLOW;
   FImagesPrefs            := CEF_CONTENT_SETTING_ALLOW;
   FZoomStep               := ZOOM_STEP_DEF;
@@ -1712,6 +1724,33 @@ begin
     end;
 end;
 
+procedure TChromium.SetRunAllFlashInAllowMode(aValue : boolean);
+begin
+  if (FRunAllFlashInAllowMode <> aValue) then
+    begin
+      FRunAllFlashInAllowMode := aValue;
+      FUpdatePreferences      := True;
+    end;
+end;
+
+procedure TChromium.SetAllowOutdatedPlugins(aValue : boolean);
+begin
+  if (FAllowOutdatedPlugins <> aValue) then
+    begin
+      FAllowOutdatedPlugins := aValue;
+      FUpdatePreferences    := True;
+    end;
+end;
+
+procedure TChromium.SetAlwaysAuthorizePlugins(aValue : boolean);
+begin
+  if (FAlwaysAuthorizePlugins <> aValue) then
+    begin
+      FAlwaysAuthorizePlugins := aValue;
+      FUpdatePreferences      := True;
+    end;
+end;
+
 procedure TChromium.SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
 begin
   if (FWebRTCIPHandlingPolicy <> aValue) then
@@ -2087,9 +2126,15 @@ begin
   FUpdatePreferences := False;
 
   UpdateProxyPrefs(aBrowser);
-  UpdatePreference(aBrowser, 'enable_do_not_track', FDoNotTrack);
-  UpdatePreference(aBrowser, 'enable_referrers',    FSendReferrer);
-  UpdatePreference(aBrowser, 'enable_a_ping',       FHyperlinkAuditing);
+  UpdatePreference(aBrowser, 'enable_do_not_track',                  FDoNotTrack);
+  UpdatePreference(aBrowser, 'enable_referrers',                     FSendReferrer);
+  UpdatePreference(aBrowser, 'enable_a_ping',                        FHyperlinkAuditing);
+  UpdatePreference(aBrowser, 'plugins.run_all_flash_in_allow_mode',  FRunAllFlashInAllowMode);
+  UpdatePreference(aBrowser, 'plugins.allow_outdated',               FAllowOutdatedPlugins);
+  UpdatePreference(aBrowser, 'plugins.always_authorize',             FAlwaysAuthorizePlugins);
+
+  if FRunAllFlashInAllowMode then
+    UpdatePreference(aBrowser, 'profile.default_content_setting_values.plugins', 1);
 
   case FWebRTCIPHandlingPolicy of
     hpDefaultPublicAndPrivateInterfaces :
