@@ -166,7 +166,6 @@
         <DCCReference Include="..\source\uCEFKeyboardHandler.pas"/>
         <DCCReference Include="..\source\uCEFDisplayHandler.pas"/>
         <DCCReference Include="..\source\uCEFDownloadHandler.pas"/>
-        <DCCReference Include="..\source\uCEFGeolocationHandler.pas"/>
         <DCCReference Include="..\source\uCEFJsDialogHandler.pas"/>
         <DCCReference Include="..\source\uCEFLifeSpanHandler.pas"/>
         <DCCReference Include="..\source\uCEFRequestHandler.pas"/>
@@ -203,7 +202,6 @@
         <DCCReference Include="..\source\uCEFDownloadItemCallback.pas"/>
         <DCCReference Include="..\source\uCEFAuthCallback.pas"/>
         <DCCReference Include="..\source\uCEFJsDialogCallback.pas"/>
-        <DCCReference Include="..\source\uCEFGeolocationCallback.pas"/>
         <DCCReference Include="..\source\uCEFContextMenuParams.pas"/>
         <DCCReference Include="..\source\uCEFMenuModel.pas"/>
         <DCCReference Include="..\source\uCEFBrowserProcessHandler.pas"/>
@@ -213,7 +211,6 @@
         <DCCReference Include="..\source\uCEFWebPluginInfoVisitor.pas"/>
         <DCCReference Include="..\source\uCEFWebPluginUnstableCallback.pas"/>
         <DCCReference Include="..\source\uCEFEndTracingCallback.pas"/>
-        <DCCReference Include="..\source\uCEFGetGeolocationCallback.pas"/>
         <DCCReference Include="..\source\uCEFFileDialogCallback.pas"/>
         <DCCReference Include="..\source\uCEFDragData.pas"/>
         <DCCReference Include="..\source\uCEFResolveCallback.pas"/>

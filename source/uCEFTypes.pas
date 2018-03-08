@@ -123,8 +123,6 @@ type
   PCefStreamWriter = ^TCefStreamWriter;
   PCefFindHandler = ^TCefFindHandler;
   PCefFocusHandler = ^TCefFocusHandler;
-  PCefGeolocationHandler = ^TCefGeolocationHandler;
-  PCefGeolocationCallback = ^TCefGeolocationCallback;
   PCefJsDialogHandler = ^TCefJsDialogHandler;
   PCefJsDialogCallback = ^TCefJsDialogCallback;
   PCefKeyboardHandler = ^TCefKeyboardHandler;
@@ -191,8 +189,6 @@ type
   PCefWebPluginInfoVisitor = ^TCefWebPluginInfoVisitor;
   PCefWebPluginUnstableCallback = ^TCefWebPluginUnstableCallback;
   PCefRegisterCDMCallback = ^TCefRegisterCDMCallback;
-  PCefGetGeolocationCallback = ^TCefGetGeolocationCallback;
-  PCefGeoposition = ^TCefGeoposition;
   PCefTaskRunner = ^TCefTaskRunner;
   PCefEndTracingCallback = ^TCefEndTracingCallback;
   PCefRequestContextSettings = ^TCefRequestContextSettings;
@@ -845,14 +841,6 @@ type
     DOM_EVENT_PHASE_BUBBLING
   );
 
-  // /include/internal/cef_types.h (cef_geoposition_error_code_t)
-  TCefGeopositionErrorCode = (
-    GEOPOSITON_ERROR_NONE,
-    GEOPOSITON_ERROR_PERMISSION_DENIED,
-    GEOPOSITON_ERROR_POSITION_UNAVAILABLE,
-    GEOPOSITON_ERROR_TIMEOUT
-  );
-
   // /include/internal/cef_types.h (cef_button_state_t)
   TCefButtonState = (
     CEF_BUTTON_STATE_NORMAL,
@@ -1132,19 +1120,6 @@ type
   TCefJsDialogCallback = record
     base: TCefBaseRefCounted;
     cont: procedure(self: PCefJsDialogCallback; success: Integer; const user_input: PCefString); stdcall;
-  end;
-
-  // /include/capi/cef_geolocation_handler_capi.h (cef_geolocation_handler_t)
-  TCefGeolocationHandler = record
-    base: TCefBaseRefCounted;
-    on_request_geolocation_permission: function(self: PCefGeolocationHandler; browser: PCefBrowser; const requesting_url: PCefString; request_id: Integer; callback: PCefGeolocationCallback): Integer; stdcall;
-    on_cancel_geolocation_permission: procedure(self: PCefGeolocationHandler; browser: PCefBrowser; request_id: Integer); stdcall;
-  end;
-
-  // /include/capi/cef_geolocation_handler_capi.h (cef_geolocation_callback_t)
-  TCefGeolocationCallback = record
-    base: TCefBaseRefCounted;
-    cont: procedure(self: PCefGeolocationCallback; allow: Integer); stdcall;
   end;
 
   // /include/internal/cef_types.h (cef_key_event_t)
@@ -1439,26 +1414,6 @@ type
     on_cdm_registration_complete: procedure(self:PCefRegisterCDMCallback; result: TCefCDMRegistrationError; const error_message: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_geolocation_capi.h (cef_get_geolocation_callback_t)
-  TCefGetGeolocationCallback = record
-    base: TCefBaseRefCounted;
-    on_location_update: procedure(self: PCefGetGeolocationCallback; const position: Pcefgeoposition); stdcall;
-  end;
-
-  // /include/internal/cef_types.h (cef_geoposition_t)
-  TCefGeoposition = record
-    latitude: Double;
-    longitude: Double;
-    altitude: Double;
-    accuracy: Double;
-    altitude_accuracy: Double;
-    heading: Double;
-    speed: Double;
-    timestamp: TCefTime;
-    error_code: TCefGeopositionErrorCode;
-    error_message: TCefString;
-  end;
-
   // /include/capi/cef_thread_capi.h (cef_thread_t)
   TCefThread = record
     base: TCefBaseRefCounted;
@@ -1543,7 +1498,6 @@ type
     on_browser_created: procedure(self: PCefRenderProcessHandler; browser: PCefBrowser); stdcall;
     on_browser_destroyed: procedure(self: PCefRenderProcessHandler; browser: PCefBrowser); stdcall;
     get_load_handler: function(self: PCefRenderProcessHandler): PCefLoadHandler; stdcall;
-    on_before_navigation: function(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; navigation_type: TCefNavigationType; is_redirect: Integer): Integer; stdcall;
     on_context_created: procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; context: PCefv8Context); stdcall;
     on_context_released: procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; context: PCefv8Context); stdcall;
     on_uncaught_exception: procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; context: PCefv8Context; exception: PCefV8Exception; stackTrace: PCefV8StackTrace); stdcall;
@@ -2449,7 +2403,6 @@ type
     get_drag_handler: function(self: PCefClient): PCefDragHandler; stdcall;
     get_find_handler: function(self: PCefClient): PCefFindHandler; stdcall;
     get_focus_handler: function(self: PCefClient): PCefFocusHandler; stdcall;
-    get_geolocation_handler: function(self: PCefClient): PCefGeolocationHandler; stdcall;
     get_jsdialog_handler: function(self: PCefClient): PCefJsDialogHandler; stdcall;
     get_keyboard_handler: function(self: PCefClient): PCefKeyboardHandler; stdcall;
     get_life_span_handler: function(self: PCefClient): PCefLifeSpanHandler; stdcall;

@@ -137,10 +137,6 @@ type
       FOnBeforeDownload               : TOnBeforeDownload;
       FOnDownloadUpdated              : TOnDownloadUpdated;
 
-      // ICefGeolocationHandler
-      FOnRequestGeolocationPermission : TOnRequestGeolocationPermission;
-      FOnCancelGeolocationPermission  : TOnCancelGeolocationPermission;
-
       // ICefJsDialogHandler
       FOnJsdialog                     : TOnJsdialog;
       FOnBeforeUnloadDialog           : TOnBeforeUnloadDialog;
@@ -287,7 +283,6 @@ type
       function  MustCreateKeyboardHandler : boolean; virtual;
       function  MustCreateDisplayHandler : boolean; virtual;
       function  MustCreateDownloadHandler : boolean; virtual;
-      function  MustCreateGeolocationHandler : boolean; virtual;
       function  MustCreateJsDialogHandler : boolean; virtual;
       function  MustCreateDragHandler : boolean; virtual;
       function  MustCreateFindHandler : boolean; virtual;
@@ -335,10 +330,6 @@ type
       // ICefDownloadHandler
       procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
       procedure doOnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); virtual;
-
-      // ICefGeolocationHandler
-      function  doOnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean; virtual;
-      procedure doOnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer); virtual;
 
       // ICefJsDialogHandler
       function  doOnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean; virtual;
@@ -595,10 +586,6 @@ type
       property OnBeforeDownload                 : TOnBeforeDownload                 read FOnBeforeDownload                 write FOnBeforeDownload;
       property OnDownloadUpdated                : TOnDownloadUpdated                read FOnDownloadUpdated                write FOnDownloadUpdated;
 
-      // ICefGeolocationHandler
-      property OnRequestGeolocationPermission   : TOnRequestGeolocationPermission   read FOnRequestGeolocationPermission   write FOnRequestGeolocationPermission;
-      property OnCancelGeolocationPermission    : TOnCancelGeolocationPermission    read FOnCancelGeolocationPermission    write FOnCancelGeolocationPermission;
-
       // ICefJsDialogHandler
       property OnJsdialog                       : TOnJsdialog                       read FOnJsdialog                       write FOnJsdialog;
       property OnBeforeUnloadDialog             : TOnBeforeUnloadDialog             read FOnBeforeUnloadDialog             write FOnBeforeUnloadDialog;
@@ -796,7 +783,6 @@ begin
                                                 MustCreateKeyboardHandler,
                                                 MustCreateDisplayHandler,
                                                 MustCreateDownloadHandler,
-                                                MustCreateGeolocationHandler,
                                                 MustCreateJsDialogHandler,
                                                 True,
                                                 True, // FMX always uses the OSR mode
@@ -862,10 +848,6 @@ begin
   // ICefDownloadHandler
   FOnBeforeDownload               := nil;
   FOnDownloadUpdated              := nil;
-
-  // ICefGeolocationHandler
-  FOnRequestGeolocationPermission := nil;
-  FOnCancelGeolocationPermission  := nil;
 
   // ICefJsDialogHandler
   FOnJsdialog                     := nil;
@@ -951,7 +933,7 @@ begin
        (FBrowser     =  nil) and
        (FBrowserId   =  0)   and
        (GlobalCEFApp <> nil) and
-       GlobalCEFApp.GlobalContextInitialized  and
+       GlobalCEFApp.GlobalContextInitialized and
        CreateClientHandler then
       begin
         GetSettings(FBrowserSettings);
@@ -2412,12 +2394,6 @@ begin
             assigned(FOnDownloadUpdated);
 end;
 
-function TFMXChromium.MustCreateGeolocationHandler : boolean;
-begin
-  Result := assigned(FOnRequestGeolocationPermission) or
-            assigned(FOnCancelGeolocationPermission);
-end;
-
 function TFMXChromium.MustCreateJsDialogHandler : boolean;
 begin
   Result := assigned(FOnJsdialog)           or
@@ -2635,12 +2611,6 @@ begin
   Result := False;
 
   if Assigned(FOnBeforeUnloadDialog) then FOnBeforeUnloadDialog(Self, browser, messageText, isReload, callback, Result);
-end;
-
-procedure TFMXChromium.doOnCancelGeolocationPermission(const browser : ICefBrowser; requestId : Integer);
-begin
-  if Assigned(FOnCancelGeolocationPermission) then
-    FOnCancelGeolocationPermission(Self, browser, requestId);
 end;
 
 function TFMXChromium.doOnCertificateError(const browser    : ICefBrowser;
@@ -3008,17 +2978,6 @@ end;
 procedure TFMXChromium.doOnRenderViewReady(const browser: ICefBrowser);
 begin
   if Assigned(FOnRenderViewReady) then FOnRenderViewReady(Self, browser);
-end;
-
-function TFMXChromium.doOnRequestGeolocationPermission(const browser       : ICefBrowser;
-                                                       const requestingUrl : ustring;
-                                                             requestId     : Integer;
-                                                       const callback      : ICefGeolocationCallback): Boolean;
-begin
-  Result := False;
-
-  if Assigned(FOnRequestGeolocationPermission) then
-    FOnRequestGeolocationPermission(Self, browser, requestingUrl, requestId, callback, Result);
 end;
 
 procedure TFMXChromium.doOnResetDialogState(const browser: ICefBrowser);

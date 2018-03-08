@@ -63,7 +63,6 @@ type
       procedure OnBrowserCreated(const browser: ICefBrowser); virtual; abstract;
       procedure OnBrowserDestroyed(const browser: ICefBrowser); virtual; abstract;
       function  GetLoadHandler: ICefLoadHandler; virtual;
-      function  OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean): Boolean; virtual;
       procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); virtual; abstract;
       procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); virtual; abstract;
       procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); virtual; abstract;
@@ -84,7 +83,6 @@ type
       procedure OnWebKitInitialized; override;
       procedure OnBrowserCreated(const browser: ICefBrowser); override;
       procedure OnBrowserDestroyed(const browser: ICefBrowser); override;
-      function  OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean): Boolean; override;
       procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
       procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
       procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); override;
@@ -155,27 +153,6 @@ begin
     Result := CefGetData(TCefRenderProcessHandlerOwn(TempObject).GetLoadHandler)
    else
     Result := nil;
-end;
-
-function cef_render_process_handler_on_before_navigation(self            : PCefRenderProcessHandler;
-                                                         browser         : PCefBrowser;
-                                                         frame           : PCefFrame;
-                                                         request         : PCefRequest;
-                                                         navigation_type : TCefNavigationType;
-                                                         is_redirect     : Integer): Integer; stdcall;
-var
-  TempObject : TObject;
-begin
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
-    Result := Ord(TCefRenderProcessHandlerOwn(TempObject).OnBeforeNavigation(TCefBrowserRef.UnWrap(browser),
-                                                                             TCefFrameRef.UnWrap(frame),
-                                                                             TCefRequestRef.UnWrap(request),
-                                                                             navigation_type,
-                                                                             is_redirect <> 0))
-   else
-    Result := 0;
 end;
 
 procedure cef_render_process_handler_on_context_created(self    : PCefRenderProcessHandler;
@@ -274,7 +251,6 @@ begin
       on_browser_created          := cef_render_process_handler_on_browser_created;
       on_browser_destroyed        := cef_render_process_handler_on_browser_destroyed;
       get_load_handler            := cef_render_process_handler_get_load_handler;
-      on_before_navigation        := cef_render_process_handler_on_before_navigation;
       on_context_created          := cef_render_process_handler_on_context_created;
       on_context_released         := cef_render_process_handler_on_context_released;
       on_uncaught_exception       := cef_render_process_handler_on_uncaught_exception;
@@ -286,15 +262,6 @@ end;
 function TCefRenderProcessHandlerOwn.GetLoadHandler: ICefLoadHandler;
 begin
   Result := nil;
-end;
-
-function TCefRenderProcessHandlerOwn.OnBeforeNavigation(const browser        : ICefBrowser;
-                                                        const frame          : ICefFrame;
-                                                        const request        : ICefRequest;
-                                                              navigationType : TCefNavigationType;
-                                                              isRedirect     : Boolean): Boolean;
-begin
-  Result := False;
 end;
 
 function TCefRenderProcessHandlerOwn.OnProcessMessageReceived(const browser       : ICefBrowser;
@@ -345,17 +312,6 @@ end;
 procedure TCefCustomRenderProcessHandler.OnBrowserDestroyed(const browser: ICefBrowser);
 begin
   if (FCefApp <> nil) then FCefApp.Internal_OnBrowserDestroyed(browser);
-end;
-
-function  TCefCustomRenderProcessHandler.OnBeforeNavigation(const browser        : ICefBrowser;
-                                                            const frame          : ICefFrame;
-                                                            const request        : ICefRequest;
-                                                                  navigationType : TCefNavigationType;
-                                                                  isRedirect     : Boolean): Boolean;
-begin
-  Result := inherited OnBeforeNavigation(browser, frame, request, navigationType, isRedirect);
-
-  if (FCefApp <> nil) then FCefApp.Internal_OnBeforeNavigation(browser, frame, request, navigationType, isRedirect, Result);
 end;
 
 procedure TCefCustomRenderProcessHandler.OnContextCreated(const browser : ICefBrowser;

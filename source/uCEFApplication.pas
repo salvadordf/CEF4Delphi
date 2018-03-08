@@ -56,14 +56,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 3282;
-  CEF_SUPPORTED_VERSION_RELEASE = 1741;
+  CEF_SUPPORTED_VERSION_MINOR   = 3325;
+  CEF_SUPPORTED_VERSION_RELEASE = 1746;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 64;
+  CEF_CHROMEELF_VERSION_MAJOR   = 65;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3282;
-  CEF_CHROMEELF_VERSION_BUILD   = 119;
+  CEF_CHROMEELF_VERSION_RELEASE = 3325;
+  CEF_CHROMEELF_VERSION_BUILD   = 146;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -157,7 +157,6 @@ type
       FOnWebKitInitialized           : TOnWebKitInitializedEvent;
       FOnBrowserCreated              : TOnBrowserCreatedEvent;
       FOnBrowserDestroyed            : TOnBrowserDestroyedEvent;
-      FOnBeforeNavigation            : TOnBeforeNavigationEvent;
       FOnContextCreated              : TOnContextCreatedEvent;
       FOnContextReleased             : TOnContextReleasedEvent;
       FOnUncaughtException           : TOnUncaughtExceptionEvent;
@@ -191,7 +190,6 @@ type
       function  Load_cef_crash_util_h : boolean;
       function  Load_cef_drag_data_capi_h : boolean;
       function  Load_cef_file_util_capi_h : boolean;
-      function  Load_cef_geolocation_capi_h : boolean;
       function  Load_cef_image_capi_h : boolean;
       function  Load_cef_menu_model_capi_h : boolean;
       function  Load_cef_origin_whitelist_capi_h : boolean;
@@ -273,7 +271,6 @@ type
       procedure   Internal_OnWebKitInitialized;
       procedure   Internal_OnBrowserCreated(const browser: ICefBrowser);
       procedure   Internal_OnBrowserDestroyed(const browser: ICefBrowser);
-      procedure   Internal_OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean; var aStopNavigation : boolean);
       procedure   Internal_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
       procedure   Internal_OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
       procedure   Internal_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
@@ -376,7 +373,6 @@ type
       property OnWebKitInitialized               : TOnWebKitInitializedEvent           read FOnWebKitInitialized               write FOnWebKitInitialized;
       property OnBrowserCreated                  : TOnBrowserCreatedEvent              read FOnBrowserCreated                  write FOnBrowserCreated;
       property OnBrowserDestroyed                : TOnBrowserDestroyedEvent            read FOnBrowserDestroyed                write FOnBrowserDestroyed;
-      property OnBeforeNavigation                : TOnBeforeNavigationEvent            read FOnBeforeNavigation                write FOnBeforeNavigation;
       property OnContextCreated                  : TOnContextCreatedEvent              read FOnContextCreated                  write FOnContextCreated;
       property OnContextReleased                 : TOnContextReleasedEvent             read FOnContextReleased                 write FOnContextReleased;
       property OnUncaughtException               : TOnUncaughtExceptionEvent           read FOnUncaughtException               write FOnUncaughtException;
@@ -486,7 +482,6 @@ begin
   FOnWebKitInitialized           := nil;
   FOnBrowserCreated              := nil;
   FOnBrowserDestroyed            := nil;
-  FOnBeforeNavigation            := nil;
   FOnContextCreated              := nil;
   FOnContextReleased             := nil;
   FOnUncaughtException           := nil;
@@ -1177,14 +1172,6 @@ begin
   if assigned(FOnBrowserDestroyed) then FOnBrowserDestroyed(browser);
 end;
 
-procedure TCefApplication.Internal_OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean; var aStopNavigation : boolean);
-begin
-  if assigned(FOnBeforeNavigation) then
-    FOnBeforeNavigation(browser, frame, request, navigationType, isRedirect, aStopNavigation)
-   else
-    aStopNavigation := False;
-end;
-
 procedure TCefApplication.Internal_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 begin
   if assigned(FOnContextCreated) then FOnContextCreated(browser, frame, context);
@@ -1351,7 +1338,6 @@ begin
                assigned(FOnWebKitInitialized)      or
                assigned(FOnBrowserCreated)         or
                assigned(FOnBrowserDestroyed)       or
-               assigned(FOnBeforeNavigation)       or
                assigned(FOnContextCreated)         or
                assigned(FOnContextReleased)        or
                assigned(FOnUncaughtException)      or
@@ -1405,7 +1391,6 @@ begin
      Load_cef_crash_util_h and
      Load_cef_drag_data_capi_h and
      Load_cef_file_util_capi_h and
-     Load_cef_geolocation_capi_h and
      Load_cef_image_capi_h and
      Load_cef_menu_model_capi_h and
      Load_cef_origin_whitelist_capi_h and
@@ -1546,13 +1531,6 @@ begin
             assigned(cef_delete_file) and
             assigned(cef_zip_directory) and
             assigned(cef_load_crlsets_file);
-end;
-
-function TCefApplication.Load_cef_geolocation_capi_h : boolean;
-begin
-  cef_get_geolocation := GetProcAddress(FLibHandle, 'cef_get_geolocation');
-
-  Result := assigned(cef_get_geolocation);
 end;
 
 function TCefApplication.Load_cef_image_capi_h : boolean;

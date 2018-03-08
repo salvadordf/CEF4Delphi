@@ -59,7 +59,6 @@ type
       function GetDragHandler: ICefDragHandler; virtual;
       function GetFindHandler: ICefFindHandler; virtual;
       function GetFocusHandler: ICefFocusHandler; virtual;
-      function GetGeolocationHandler: ICefGeolocationHandler; virtual;
       function GetJsdialogHandler: ICefJsdialogHandler; virtual;
       function GetKeyboardHandler: ICefKeyboardHandler; virtual;
       function GetLifeSpanHandler: ICefLifeSpanHandler; virtual;
@@ -83,7 +82,6 @@ type
       function GetDragHandler: ICefDragHandler; virtual;
       function GetFindHandler: ICefFindHandler; virtual;
       function GetFocusHandler: ICefFocusHandler; virtual;
-      function GetGeolocationHandler: ICefGeolocationHandler; virtual;
       function GetJsdialogHandler: ICefJsdialogHandler; virtual;
       function GetKeyboardHandler: ICefKeyboardHandler; virtual;
       function GetLifeSpanHandler: ICefLifeSpanHandler; virtual;
@@ -108,7 +106,6 @@ type
       FKeyboardHandler    : ICefKeyboardHandler;
       FDisplayHandler     : ICefDisplayHandler;
       FDownloadHandler    : ICefDownloadHandler;
-      FGeolocationHandler : ICefGeolocationHandler;
       FJsDialogHandler    : ICefJsDialogHandler;
       FLifeSpanHandler    : ICefLifeSpanHandler;
       FRenderHandler      : ICefRenderHandler;
@@ -124,7 +121,6 @@ type
       function  GetDragHandler: ICefDragHandler; override;
       function  GetFindHandler: ICefFindHandler; override;
       function  GetFocusHandler: ICefFocusHandler; override;
-      function  GetGeolocationHandler: ICefGeolocationHandler; override;
       function  GetJsdialogHandler: ICefJsdialogHandler; override;
       function  GetKeyboardHandler: ICefKeyboardHandler; override;
       function  GetLifeSpanHandler: ICefLifeSpanHandler; override;
@@ -138,9 +134,9 @@ type
     public
       constructor Create(const events: IChromiumEvents;
                          aCreateLoadHandler, aCreateFocusHandler, aCreateContextMenuHandler, aCreateDialogHandler,
-                         aCreateKeyboardHandler, aCreateDisplayHandler, aCreateDownloadHandler, aCreateGeolocationHandler,
-                         aCreateJsDialogHandler, aCreateLifeSpanHandler, aCreateRenderHandler, aCreateRequestHandler,
-                         aCreateDragHandler, aCreateFindHandler : boolean); reintroduce; virtual;
+                         aCreateKeyboardHandler, aCreateDisplayHandler, aCreateDownloadHandler, aCreateJsDialogHandler,
+                         aCreateLifeSpanHandler, aCreateRenderHandler, aCreateRequestHandler, aCreateDragHandler,
+                         aCreateFindHandler : boolean); reintroduce; virtual;
       procedure   BeforeDestruction; override;
       procedure   RemoveReferences; override;
   end;
@@ -155,7 +151,7 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFProcessMessage, uCEFBrowser, uCEFLoadHandler,
   uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
-  uCEFDisplayHandler, uCEFDownloadHandler, uCEFGeolocationHandler, uCEFJsDialogHandler,
+  uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
   uCEFFindHandler, uCEFConstants, uCEFApplication;
 
@@ -203,11 +199,6 @@ begin
 end;
 
 function TCefClientRef.GetFocusHandler: ICefFocusHandler;
-begin
-  Result := nil;
-end;
-
-function TCefClientRef.GetGeolocationHandler: ICefGeolocationHandler;
 begin
   Result := nil;
 end;
@@ -300,12 +291,6 @@ begin
     Result := CefGetData(GetFocusHandler);
 end;
 
-function cef_client_own_get_geolocation_handler(self: PCefClient): PCefGeolocationHandler; stdcall;
-begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetGeolocationHandler);
-end;
-
 function cef_client_own_get_jsdialog_handler(self: PCefClient): PCefJsDialogHandler; stdcall;
 begin
   with TCefClientOwn(CefGetObject(self)) do
@@ -362,7 +347,6 @@ begin
       get_drag_handler            := cef_client_own_get_drag_handler;
       get_find_handler            := cef_client_own_get_find_handler;
       get_focus_handler           := cef_client_own_get_focus_handler;
-      get_geolocation_handler     := cef_client_own_get_geolocation_handler;
       get_jsdialog_handler        := cef_client_own_get_jsdialog_handler;
       get_keyboard_handler        := cef_client_own_get_keyboard_handler;
       get_life_span_handler       := cef_client_own_get_life_span_handler;
@@ -404,11 +388,6 @@ begin
 end;
 
 function TCefClientOwn.GetFocusHandler: ICefFocusHandler;
-begin
-  Result := nil;
-end;
-
-function TCefClientOwn.GetGeolocationHandler: ICefGeolocationHandler;
 begin
   Result := nil;
 end;
@@ -467,7 +446,6 @@ constructor TCustomClientHandler.Create(const events                     : IChro
                                               aCreateKeyboardHandler     : boolean;
                                               aCreateDisplayHandler      : boolean;
                                               aCreateDownloadHandler     : boolean;
-                                              aCreateGeolocationHandler  : boolean;
                                               aCreateJsDialogHandler     : boolean;
                                               aCreateLifeSpanHandler     : boolean;
                                               aCreateRenderHandler       : boolean;
@@ -490,7 +468,6 @@ begin
       if aCreateKeyboardHandler    then FKeyboardHandler    := TCustomKeyboardHandler.Create(FEvents);
       if aCreateDisplayHandler     then FDisplayHandler     := TCustomDisplayHandler.Create(FEvents);
       if aCreateDownloadHandler    then FDownloadHandler    := TCustomDownloadHandler.Create(FEvents);
-      if aCreateGeolocationHandler then FGeolocationHandler := TCustomGeolocationHandler.Create(FEvents);
       if aCreateJsDialogHandler    then FJsDialogHandler    := TCustomJsDialogHandler.Create(FEvents);
       if aCreateLifeSpanHandler    then FLifeSpanHandler    := TCustomLifeSpanHandler.Create(FEvents);
       if aCreateRenderHandler      then FRenderHandler      := TCustomRenderHandler.Create(FEvents);
@@ -518,7 +495,6 @@ begin
   if (FKeyboardHandler    <> nil) then FKeyboardHandler.RemoveReferences;
   if (FDisplayHandler     <> nil) then FDisplayHandler.RemoveReferences;
   if (FDownloadHandler    <> nil) then FDownloadHandler.RemoveReferences;
-  if (FGeolocationHandler <> nil) then FGeolocationHandler.RemoveReferences;
   if (FJsDialogHandler    <> nil) then FJsDialogHandler.RemoveReferences;
   if (FLifeSpanHandler    <> nil) then FLifeSpanHandler.RemoveReferences;
   if (FRequestHandler     <> nil) then FRequestHandler.RemoveReferences;
@@ -536,7 +512,6 @@ begin
   FKeyboardHandler    := nil;
   FDisplayHandler     := nil;
   FDownloadHandler    := nil;
-  FGeolocationHandler := nil;
   FJsDialogHandler    := nil;
   FLifeSpanHandler    := nil;
   FRequestHandler     := nil;
@@ -579,11 +554,6 @@ end;
 function TCustomClientHandler.GetFocusHandler: ICefFocusHandler;
 begin
   Result := FFocusHandler;
-end;
-
-function TCustomClientHandler.GetGeolocationHandler: ICefGeolocationHandler;
-begin
-  Result := FGeolocationHandler;
 end;
 
 function TCustomClientHandler.GetJsdialogHandler: ICefJsDialogHandler;

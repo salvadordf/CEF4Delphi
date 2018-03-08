@@ -22,6 +22,7 @@ object Form1: TForm1
     Height = 594
     Align = alClient
     TabOrder = 0
+    ShowHint = False
     OnAfterCreated = ChromiumWindow1AfterCreated
   end
   object AddressPnl: TPanel

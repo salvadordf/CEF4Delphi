@@ -53,7 +53,7 @@ uses
   {$ELSE}
   Windows, Classes, SysUtils, Controls, ActiveX, Math,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler, uCEFGetGeolocationCallback,
+  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
   uCEFRegisterCDMCallback;
 
 const
@@ -191,8 +191,6 @@ procedure LogicalToDevice(var aRect : TCEFRect; const aDeviceScaleFactor : doubl
 
 function GetScreenDPI : integer;
 function GetDeviceScaleFactor : single;
-
-function CefGetGeolocation(const aCallbackFunction : TOnLocationUpdate) : boolean;
 
 procedure CefRegisterWidevineCdm(const path: ustring; const callback: ICefRegisterCdmCallback);
 procedure CefFastRegisterWidevineCdm(const path: ustring; const callback: TCefRegisterCDMProc);
@@ -1236,14 +1234,6 @@ var
 begin
   TempPath := CefString(path);
   cef_load_crlsets_file(@TempPath);
-end;
-
-function CefGetGeolocation(const aCallbackFunction : TOnLocationUpdate) : boolean;
-var
-  TempGeoCallBack : ICefGetGeolocationCallback;
-begin
-  TempGeoCallBack := TCefFastGetGeolocationCallback.Create(aCallbackFunction);
-  Result          := (cef_get_geolocation(TempGeoCallBack.Wrap) <> 0);
 end;
 
 function CefIsKeyDown(aWparam : WPARAM) : boolean;

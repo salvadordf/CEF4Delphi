@@ -119,7 +119,6 @@ type
   TOnWebKitInitializedEvent          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure() {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnBrowserCreatedEvent             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnBrowserDestroyedEvent           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
-  TOnBeforeNavigationEvent           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean; var aStopNavigation : boolean) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnContextCreatedEvent             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnContextReleasedEvent            = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnUncaughtExceptionEvent          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
@@ -387,7 +386,7 @@ type
 
   ICefFrame = interface(ICefBaseRefCounted)
     ['{8FD3D3A6-EA3A-4A72-8501-0276BD5C3D1D}']
-    function IsValid: Boolean;
+    function  IsValid: Boolean;
     procedure Undo;
     procedure Redo;
     procedure Cut;
@@ -404,20 +403,21 @@ type
     procedure LoadUrl(const url: ustring);
     procedure LoadString(const str, url: ustring);
     procedure ExecuteJavaScript(const code, scriptUrl: ustring; startLine: Integer);
-    function IsMain: Boolean;
-    function IsFocused: Boolean;
-    function GetName: ustring;
-    function GetIdentifier: Int64;
-    function GetParent: ICefFrame;
-    function GetUrl: ustring;
-    function GetBrowser: ICefBrowser;
-    function GetV8Context: ICefv8Context;
+    function  IsMain: Boolean;
+    function  IsFocused: Boolean;
+    function  GetName: ustring;
+    function  GetIdentifier: Int64;
+    function  GetParent: ICefFrame;
+    function  GetUrl: ustring;
+    function  GetBrowser: ICefBrowser;
+    function  GetV8Context: ICefv8Context;
     procedure VisitDom(const visitor: ICefDomVisitor);
     procedure VisitDomProc(const proc: TCefDomVisitorProc);
-    property Name: ustring read GetName;
-    property Url: ustring read GetUrl;
-    property Browser: ICefBrowser read GetBrowser;
-    property Parent: ICefFrame read GetParent;
+    property Name       : ustring     read GetName;
+    property Url        : ustring     read GetUrl;
+    property Browser    : ICefBrowser read GetBrowser;
+    property Parent     : ICefFrame   read GetParent;
+    property Identifier : int64       read GetIdentifier;
   end;
 
 
@@ -883,7 +883,6 @@ type
     procedure OnBrowserCreated(const browser: ICefBrowser);
     procedure OnBrowserDestroyed(const browser: ICefBrowser);
     function  GetLoadHandler : ICefLoadHandler;
-    function  OnBeforeNavigation(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; navigationType: TCefNavigationType; isRedirect: Boolean): Boolean;
     procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
     procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
     procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
@@ -1364,19 +1363,6 @@ type
     procedure RemoveReferences; // custom procedure to clear all references
   end;
 
-  ICefGeolocationCallback = interface(ICefBaseRefCounted)
-  ['{272B8E4F-4AE4-4F14-BC4E-5924FA0C149D}']
-    procedure Cont(allow: Boolean);
-  end;
-
-  ICefGeolocationHandler = interface(ICefBaseRefCounted)
-  ['{1178EE62-BAE7-4E44-932B-EAAC7A18191C}']
-    function  OnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean;
-    procedure OnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer);
-
-    procedure RemoveReferences; // custom procedure to clear all references
-  end;
-
   ICefRenderHandler = interface(ICefBaseRefCounted)
   ['{1FC1C22B-085A-4741-9366-5249B88EC410}']
     procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
@@ -1402,7 +1388,6 @@ type
     function GetDisplayHandler: ICefDisplayHandler;
     function GetDownloadHandler: ICefDownloadHandler;
     function GetFocusHandler: ICefFocusHandler;
-    function GetGeolocationHandler: ICefGeolocationHandler;
     function GetJsdialogHandler: ICefJsdialogHandler;
     function GetKeyboardHandler: ICefKeyboardHandler;
     function GetLifeSpanHandler: ICefLifeSpanHandler;
@@ -1458,11 +1443,6 @@ type
   ICefEndTracingCallback = interface(ICefBaseRefCounted)
   ['{79020EBE-9D1D-49A6-9714-8778FE8929F2}']
     procedure OnEndTracingComplete(const tracingFile: ustring);
-  end;
-
-  ICefGetGeolocationCallback = interface(ICefBaseRefCounted)
-  ['{ACB82FD9-3FFD-43F9-BF1A-A4849BF5B814}']
-    procedure OnLocationUpdate(const position: PCefGeoposition);
   end;
 
   ICefFileDialogCallback = interface(ICefBaseRefCounted)
@@ -1776,10 +1756,6 @@ type
     // ICefDownloadHandler
     procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
     procedure doOnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
-
-    // ICefGeolocationHandler
-    function  doOnRequestGeolocationPermission(const browser: ICefBrowser; const requestingUrl: ustring; requestId: Integer; const callback: ICefGeolocationCallback): Boolean;
-    procedure doOnCancelGeolocationPermission(const browser: ICefBrowser; requestId: Integer);
 
     // ICefJsDialogHandler
     function  doOnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean;

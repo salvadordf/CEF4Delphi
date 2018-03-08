@@ -27,8 +27,6 @@ object ChildForm: TChildForm
     Height = 394
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 400
-    ExplicitHeight = 300
   end
   object Chromium1: TChromium
     OnPreKeyEvent = Chromium1PreKeyEvent

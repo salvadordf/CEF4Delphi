@@ -94,9 +94,6 @@ var
   cef_zip_directory                      : function(const src_dir, dest_file : PCefString; include_hidden_files : integer): Integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
   cef_load_crlsets_file                  : procedure(const path : PCefString); {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
 
-  // /include/capi/cef_geolocation_capi.h
-  cef_get_geolocation : function(callback: PCefGetGeolocationCallback): Integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
-
   // /include/capi/cef_image_capi.h
   cef_image_create : function : PCefImage; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
 

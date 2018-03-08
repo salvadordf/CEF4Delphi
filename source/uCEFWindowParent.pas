@@ -77,6 +77,8 @@ type
       property  TabStop;
       property  TabOrder;
       property  Visible;
+      property  ShowHint;
+      property  Hint;
   end;
 
 implementation
