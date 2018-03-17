@@ -57,7 +57,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3325;
-  CEF_SUPPORTED_VERSION_RELEASE = 1746;
+  CEF_SUPPORTED_VERSION_RELEASE = 1749;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 65;
@@ -167,6 +167,7 @@ type
       procedure DestroyBrowserProcessHandler;
       procedure DestroyRenderProcessHandler;
 
+      procedure SetCache(const aValue : ustring);
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
@@ -278,7 +279,7 @@ type
       procedure   Internal_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
 
 
-      property Cache                             : ustring                             read FCache                             write FCache;
+      property Cache                             : ustring                             read FCache                             write SetCache;
       property Cookies                           : ustring                             read FCookies                           write FCookies;
       property UserDataPath                      : ustring                             read FUserDataPath                      write FUserDataPath;
       property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
@@ -336,7 +337,6 @@ type
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
-      property DisableGPUCache                   : boolean                             read FDisableGPUCache                   write FDisableGPUCache;
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
       property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
       property ProcessType                       : TCefProcessType                     read FProcessType;
@@ -459,7 +459,7 @@ begin
   FSetCurrentDir                 := False;
   FGlobalContextInitialized      := False;
   FCheckDevToolsResources        := True;
-  FDisableGPUCache               := False;
+  FDisableGPUCache               := True;
   FLocalesRequired               := '';
   FProcessType                   := ParseProcessType;
   FResourceBundleHandler         := nil;
@@ -668,6 +668,12 @@ begin
     Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + CHROMEELF_DLL
    else
     Result := CHROMEELF_DLL;
+end;
+
+procedure TCefApplication.SetCache(const aValue : ustring);
+begin
+  FCache           := trim(aValue);
+  FDisableGPUCache := (length(FCache) = 0);
 end;
 
 procedure TCefApplication.SetFrameworkDirPath(const aValue : ustring);
@@ -1489,10 +1495,12 @@ end;
 
 function TCefApplication.Load_cef_cookie_capi_h : boolean;
 begin
-  cef_cookie_manager_get_global_manager := GetProcAddress(FLibHandle, 'cef_cookie_manager_get_global_manager');
-  cef_cookie_manager_create_manager     := GetProcAddress(FLibHandle, 'cef_cookie_manager_create_manager');
+  cef_cookie_manager_get_global_manager   := GetProcAddress(FLibHandle, 'cef_cookie_manager_get_global_manager');
+  cef_cookie_manager_get_blocking_manager := GetProcAddress(FLibHandle, 'cef_cookie_manager_get_blocking_manager');
+  cef_cookie_manager_create_manager       := GetProcAddress(FLibHandle, 'cef_cookie_manager_create_manager');
 
   Result := assigned(cef_cookie_manager_get_global_manager) and
+            assigned(cef_cookie_manager_get_blocking_manager) and
             assigned(cef_cookie_manager_create_manager);
 end;
 

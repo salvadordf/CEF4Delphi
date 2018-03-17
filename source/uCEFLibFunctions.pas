@@ -74,8 +74,9 @@ var
   cef_command_line_get_global : function : PCefCommandLine; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
 
   // /include/capi/cef_cookie_capi.h
-  cef_cookie_manager_get_global_manager : function(callback: PCefCompletionCallback): PCefCookieManager; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
-  cef_cookie_manager_create_manager     : function(const path: PCefString; persist_session_cookies: Integer; callback: PCefCompletionCallback): PCefCookieManager; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
+  cef_cookie_manager_get_global_manager   : function(callback: PCefCompletionCallback): PCefCookieManager; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
+  cef_cookie_manager_get_blocking_manager : function : PCefCookieManager; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
+  cef_cookie_manager_create_manager       : function(const path: PCefString; persist_session_cookies: Integer; callback: PCefCompletionCallback): PCefCookieManager; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};
 
   // /include/capi/cef_crash_util.h
   cef_crash_reporting_enabled : function : integer; {$IFDEF CPUX64}stdcall{$ELSE}cdecl{$ENDIF};

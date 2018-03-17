@@ -153,13 +153,17 @@ destructor TCefBaseRefCountedOwn.Destroy;
 var
   TempPointer : pointer;
 begin
-  TempPointer := FData;
-  FData       := nil;
-
-  Dec(PByte(TempPointer), SizeOf(Pointer));
-  FreeMem(TempPointer);
-
-  inherited Destroy;
+  try
+    if (FData <> nil) then
+      begin
+        TempPointer := FData;
+        Dec(PByte(TempPointer), SizeOf(Pointer));
+        FreeMem(TempPointer);
+      end;
+  finally
+    FData := nil;
+    inherited Destroy;
+  end;
 end;
 
 function TCefBaseRefCountedOwn.Wrap: Pointer;
@@ -180,15 +184,13 @@ end;
 
 destructor TCefBaseRefCountedRef.Destroy;
 begin
-  if (FData <> nil) then
-    begin
-      if assigned(PCefBaseRefCounted(FData)^.release) then
-        PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData));
-
-      FData := nil;
-    end;
-
-  inherited Destroy;
+  try
+    if (FData <> nil) and assigned(PCefBaseRefCounted(FData)^.release) then
+      PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData));
+  finally
+    FData := nil;
+    inherited Destroy;
+  end;
 end;
 
 class function TCefBaseRefCountedRef.UnWrap(data: Pointer): ICefBaseRefCounted;

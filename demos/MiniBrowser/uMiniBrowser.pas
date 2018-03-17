@@ -455,6 +455,14 @@ procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
 begin                    
   if not(Chromium1.IsSameBrowser(browser)) then exit;
 
+  // This event is executed in a CEF thread and this can cause problems when
+  // you change the 'Enabled' and 'Visible' properties from VCL components.
+  // It's recommended to change the 'Enabled' and 'Visible' properties
+  // in the main application thread and not in a CEF thread.
+  // It's much safer to use PostMessage to send a message to the main form with
+  // all this information and update those properties in the procedure handling
+  // that message.
+
   if fullscreen then
     begin
       NavControlPnl.Visible := False;
@@ -552,6 +560,14 @@ procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;
   const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
   if not(Chromium1.IsSameBrowser(browser)) then exit;
+
+  // This event is executed in a CEF thread and this can cause problems when
+  // you change the 'Enabled' and 'Visible' properties from VCL components.
+  // It's recommended to change the 'Enabled' and 'Visible' properties
+  // in the main application thread and not in a CEF thread.
+  // It's much safer to use PostMessage to send a message to the main form with
+  // all this information and update those properties in the procedure handling
+  // that message.
 
   BackBtn.Enabled    := canGoBack;
   ForwardBtn.Enabled := canGoForward;

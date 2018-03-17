@@ -76,6 +76,7 @@ type
       class function UnWrap(data: Pointer): ICefCookieManager;
       class function Global(const callback: ICefCompletionCallback): ICefCookieManager;
       class function GlobalProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
+      class function Blocking : ICefCookieManager;
       class function New(const path: ustring; persistSessionCookies: Boolean; const callback: ICefCompletionCallback): ICefCookieManager;
       class function NewProc(const path: ustring; persistSessionCookies: Boolean; const callback: TCefCompletionCallbackProc): ICefCookieManager;
   end;
@@ -134,6 +135,11 @@ end;
 class function TCefCookieManagerRef.Global(const callback: ICefCompletionCallback): ICefCookieManager;
 begin
   Result := UnWrap(cef_cookie_manager_get_global_manager(CefGetData(callback)));
+end;
+
+class function TCefCookieManagerRef.Blocking : ICefCookieManager;
+begin
+  Result := UnWrap(cef_cookie_manager_get_blocking_manager);
 end;
 
 class function TCefCookieManagerRef.GlobalProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
