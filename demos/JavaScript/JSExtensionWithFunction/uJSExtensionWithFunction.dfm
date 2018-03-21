@@ -56,11 +56,26 @@ object JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm
     Left = 0
     Top = 30
     Width = 978
-    Height = 559
+    Height = 540
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 559
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 570
+    Width = 978
+    Height = 19
+    Panels = <
+      item
+        Width = 500
+      end>
+    ExplicitLeft = 336
+    ExplicitTop = 544
+    ExplicitWidth = 0
   end
   object Chromium1: TChromium
+    OnProcessMessageReceived = Chromium1ProcessMessageReceived
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     Left = 32

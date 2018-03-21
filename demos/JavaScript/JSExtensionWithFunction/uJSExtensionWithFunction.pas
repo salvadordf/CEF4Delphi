@@ -59,6 +59,7 @@ type
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
+    StatusBar1: TStatusBar;
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -70,6 +71,9 @@ type
       var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
       var noJavascriptAccess: Boolean; out Result: Boolean);
+    procedure Chromium1ProcessMessageReceived(Sender: TObject;
+      const browser: ICefBrowser; sourceProcess: TCefProcessId;
+      const message: ICefProcessMessage; out Result: Boolean);
   protected
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -141,6 +145,18 @@ procedure TJSExtensionWithFunctionFrm.Chromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TJSExtensionWithFunctionFrm.Chromium1ProcessMessageReceived(
+  Sender: TObject; const browser: ICefBrowser;
+  sourceProcess: TCefProcessId; const message: ICefProcessMessage;
+  out Result: Boolean);
+begin
+  if (message.Name = TEST_MESSAGE_NAME) then
+    begin
+      StatusBar1.Panels[0].Text := DateTimeToStr(now) + ' - ' + message.ArgumentList.GetString(0); // this doesn't create/destroy components
+      Result := True;
+    end
 end;
 
 procedure TJSExtensionWithFunctionFrm.FormShow(Sender: TObject);
