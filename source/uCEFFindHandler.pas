@@ -83,17 +83,32 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
 
-procedure cef_find_handler_on_find_result(self: PCefFindHandler; browser: PCefBrowser; identifier, count: Integer; const selection_rect: PCefRect; active_match_ordinal, final_update: Integer); stdcall;
+procedure cef_find_handler_on_find_result(      self                 : PCefFindHandler;
+                                                browser              : PCefBrowser;
+                                                identifier           : Integer;
+                                                count                : Integer;
+                                          const selection_rect       : PCefRect;
+                                                active_match_ordinal : integer;
+                                                final_update         : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefFindHandlerOwn(CefGetObject(self)) do
-    OnFindResult(TCefBrowserRef.UnWrap(browser), identifier, count, selection_rect, active_match_ordinal, final_update <> 0);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefFindHandlerOwn) then
+    TCefFindHandlerOwn(TempObject).OnFindResult(TCefBrowserRef.UnWrap(browser),
+                                                identifier,
+                                                count,
+                                                selection_rect,
+                                                active_match_ordinal,
+                                                final_update <> 0);
 end;
 
 constructor TCefFindHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefFindHandler));
+  inherited CreateData(SizeOf(TCefFindHandler));
 
-  with PCefFindHandler(FData)^ do on_find_result := cef_find_handler_on_find_result;
+  PCefFindHandler(FData).on_find_result := cef_find_handler_on_find_result;
 end;
 
 procedure TCefFindHandlerOwn.RemoveReferences;

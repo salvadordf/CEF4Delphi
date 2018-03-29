@@ -50,22 +50,32 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefStringMultimapOwn = class(TInterfacedObject, ICefStringMultimap)
+  TCefCustomStringMultimap = class(TInterfacedObject, ICefStringMultimap)
     protected
-      FStringMap: TCefStringMultimap;
+      FHandle : TCefStringMultimap;
 
       function  GetHandle: TCefStringMultimap; virtual;
-      function  GetSize: Integer; virtual;
-      function  FindCount(const Key: ustring): Integer; virtual;
-      function  GetEnumerate(const Key: ustring; ValueIndex: Integer): ustring; virtual;
-      function  GetKey(Index: Integer): ustring; virtual;
-      function  GetValue(Index: Integer): ustring; virtual;
-      procedure Append(const Key, Value: ustring); virtual;
+      function  GetSize: NativeUInt; virtual;
+      function  FindCount(const Key: ustring): NativeUInt; virtual;
+      function  GetEnumerate(const Key: ustring; ValueIndex: NativeUInt): ustring; virtual;
+      function  GetKey(Index: NativeUInt): ustring; virtual;
+      function  GetValue(Index: NativeUInt): ustring; virtual;
+      function  Append(const Key, Value: ustring) : boolean; virtual;
       procedure Clear; virtual;
 
     public
       constructor Create; virtual;
+  end;
+
+  TCefStringMultimapOwn = class(TCefCustomStringMultimap)
+    public
+      constructor Create; override;
       destructor  Destroy; override;
+  end;
+
+  TCefStringMultimapRef = class(TCefCustomStringMultimap)
+    public
+      constructor Create(aHandle : TCefStringMultimap); reintroduce;
   end;
 
 implementation
@@ -73,76 +83,141 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure TCefStringMultimapOwn.Append(const Key, Value: ustring);
-var
-  k, v: TCefString;
+
+// *********************************************
+// ********* TCefCustomStringMultimap **********
+// *********************************************
+
+
+constructor TCefCustomStringMultimap.Create;
 begin
-  k := CefString(key);
-  v := CefString(value);
-  cef_string_multimap_append(FStringMap, @k, @v);
+  inherited Create;
+
+  FHandle := nil;
 end;
 
-procedure TCefStringMultimapOwn.Clear;
+function TCefCustomStringMultimap.Append(const Key, Value: ustring) : boolean;
+var
+  TempKey, TempValue : TCefString;
 begin
-  cef_string_multimap_clear(FStringMap);
+  if (FHandle <> nil) then
+    begin
+      TempKey   := CefString(key);
+      TempValue := CefString(value);
+      Result    := (cef_string_multimap_append(FHandle, @TempKey, @TempValue) <> 0);
+    end
+   else
+    Result := False;
 end;
+
+procedure TCefCustomStringMultimap.Clear;
+begin
+  if (FHandle <> nil) then cef_string_multimap_clear(FHandle);
+end;
+
+function TCefCustomStringMultimap.FindCount(const Key: ustring): NativeUInt;
+var
+  TempKey : TCefString;
+begin
+  if (FHandle <> nil) then
+    begin
+      TempKey := CefString(Key);
+      Result  := cef_string_multimap_find_count(FHandle, @TempKey);
+    end
+   else
+    Result := 0;
+end;
+
+function TCefCustomStringMultimap.GetEnumerate(const Key: ustring; ValueIndex: NativeUInt): ustring;
+var
+  TempKey, TempValue : TCefString;
+begin
+  Result := '';
+
+  if (FHandle <> nil) then
+    begin
+      TempKey := CefString(Key);
+      FillChar(TempValue, SizeOf(TempValue), 0);
+
+      if (cef_string_multimap_enumerate(FHandle, @TempKey, ValueIndex, TempValue) <> 0) then
+        Result := CefString(@TempValue);
+    end;
+end;
+
+function TCefCustomStringMultimap.GetHandle: TCefStringMultimap;
+begin
+  Result := FHandle;
+end;
+
+function TCefCustomStringMultimap.GetKey(Index: NativeUInt): ustring;
+var
+  TempKey : TCefString;
+begin
+  Result := '';
+
+  if (FHandle <> nil) then
+    begin
+      FillChar(TempKey, SizeOf(TempKey), 0);
+
+      if (cef_string_multimap_key(FHandle, index, TempKey) <> 0) then
+        Result := CefString(@TempKey);
+    end;
+end;
+
+function TCefCustomStringMultimap.GetSize: NativeUInt;
+begin
+  if (FHandle <> nil) then
+    Result := cef_string_multimap_size(FHandle)
+   else
+    Result := 0;
+end;
+
+function TCefCustomStringMultimap.GetValue(Index: NativeUInt): ustring;
+var
+  TempValue : TCefString;
+begin
+  Result := '';
+
+  if (FHandle <> nil) then
+    begin
+      FillChar(TempValue, SizeOf(TempValue), 0);
+
+      if (cef_string_multimap_value(FHandle, index, TempValue) <> 0) then
+        Result := CefString(@TempValue);
+    end;
+end;
+
+
+// ******************************************
+// ********* TCefStringMultimapOwn **********
+// ******************************************
+
 
 constructor TCefStringMultimapOwn.Create;
 begin
-  FStringMap := cef_string_multimap_alloc;
+  inherited Create;
+
+  FHandle := cef_string_multimap_alloc;
 end;
 
 destructor TCefStringMultimapOwn.Destroy;
 begin
-  cef_string_multimap_free(FStringMap);
+  if (FHandle <> nil) then cef_string_multimap_free(FHandle);
 
   inherited Destroy;
 end;
 
-function TCefStringMultimapOwn.FindCount(const Key: ustring): Integer;
-var
-  k: TCefString;
-begin
-  k := CefString(Key);
-  Result := cef_string_multimap_find_count(FStringMap, @k);
-end;
 
-function TCefStringMultimapOwn.GetEnumerate(const Key: ustring; ValueIndex: Integer): ustring;
-var
-  k, v: TCefString;
-begin
-  k := CefString(Key);
-  FillChar(v, SizeOf(v), 0);
-  cef_string_multimap_enumerate(FStringMap, @k, ValueIndex, v);
-  Result := CefString(@v);
-end;
+// ******************************************
+// ********* TCefStringMultimapRef **********
+// ******************************************
 
-function TCefStringMultimapOwn.GetHandle: TCefStringMultimap;
-begin
-  Result := FStringMap;
-end;
 
-function TCefStringMultimapOwn.GetKey(Index: Integer): ustring;
-var
-  str: TCefString;
+constructor TCefStringMultimapRef.Create(aHandle : TCefStringMultimap);
 begin
-  FillChar(str, SizeOf(str), 0);
-  cef_string_multimap_key(FStringMap, index, str);
-  Result := CefString(@str);
-end;
+  inherited Create;
 
-function TCefStringMultimapOwn.GetSize: Integer;
-begin
-  Result := cef_string_multimap_size(FStringMap);
-end;
-
-function TCefStringMultimapOwn.GetValue(Index: Integer): ustring;
-var
-  str: TCefString;
-begin
-  FillChar(str, SizeOf(str), 0);
-  cef_string_multimap_value(FStringMap, index, str);
-  Result := CefString(@str);
+  FHandle := aHandle;
 end;
 
 end.

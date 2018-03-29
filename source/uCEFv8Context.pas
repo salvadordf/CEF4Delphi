@@ -110,7 +110,7 @@ end;
 
 function TCefv8ContextRef.GetTaskRunner: ICefTaskRunner;
 begin
-  Result := TCefTaskRunnerRef.UnWrap(PCefv8Context(FData)^.get_task_runner(FData));
+  Result := TCefTaskRunnerRef.UnWrap(PCefv8Context(FData)^.get_task_runner(PCefv8Context(FData)));
 end;
 
 function TCefv8ContextRef.IsSame(const that: ICefv8Context): Boolean;

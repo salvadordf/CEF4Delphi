@@ -86,26 +86,37 @@ uses
 // TCefResponseFilterOwn
 
 function cef_response_filter_init_filter(self: PCefResponseFilter): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefResponseFilterOwn(CefGetObject(self)) do Result := Ord(InitFilter());
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResponseFilterOwn) then
+    Result := Ord(TCefResponseFilterOwn(TempObject).InitFilter());
 end;
 
-function cef_response_filter_filter(self: PCefResponseFilter;
-                                    data_in: Pointer;
-                                    data_in_size : NativeUInt;
-                                    var data_in_read: NativeUInt;
-                                    data_out: Pointer;
-                                    data_out_size: NativeUInt;
-                                    var data_out_written: NativeUInt): TCefResponseFilterStatus; stdcall;
+function cef_response_filter_filter(    self             : PCefResponseFilter;
+                                        data_in          : Pointer;
+                                        data_in_size     : NativeUInt;
+                                    var data_in_read     : NativeUInt;
+                                        data_out         : Pointer;
+                                        data_out_size    : NativeUInt;
+                                    var data_out_written : NativeUInt): TCefResponseFilterStatus; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefResponseFilterOwn(CefGetObject(self)) do
-    Result := Filter(data_in,  data_in_size,  data_in_read,
-                     data_out, data_out_size, data_out_written);
+  Result     := RESPONSE_FILTER_DONE;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResponseFilterOwn) then
+    Result := TCefResponseFilterOwn(TempObject).Filter(data_in,  data_in_size,  data_in_read,
+                                                       data_out, data_out_size, data_out_written);
 end;
 
 constructor TCefResponseFilterOwn.Create;
 begin
-  CreateData(SizeOf(TCefResponseFilter));
+  inherited CreateData(SizeOf(TCefResponseFilter));
 
   with PCefResponseFilter(FData)^ do
     begin

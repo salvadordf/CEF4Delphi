@@ -62,23 +62,27 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure cef_end_tracing_callback_on_end_tracing_complete(self: PCefEndTracingCallback; const tracing_file: PCefString); stdcall;
+procedure cef_end_tracing_callback_on_end_tracing_complete(      self         : PCefEndTracingCallback;
+                                                           const tracing_file : PCefString); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefEndTracingCallbackOwn(CefGetObject(self)) do
-    OnEndTracingComplete(CefString(tracing_file));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefEndTracingCallbackOwn) then
+    TCefEndTracingCallbackOwn(TempObject).OnEndTracingComplete(CefString(tracing_file));
 end;
 
 constructor TCefEndTracingCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefEndTracingCallback));
-  with PCefEndTracingCallback(FData)^ do
-    on_end_tracing_complete := cef_end_tracing_callback_on_end_tracing_complete;
+
+  PCefEndTracingCallback(FData).on_end_tracing_complete := cef_end_tracing_callback_on_end_tracing_complete;
 end;
 
-procedure TCefEndTracingCallbackOwn.OnEndTracingComplete(
-  const tracingFile: ustring);
+procedure TCefEndTracingCallbackOwn.OnEndTracingComplete(const tracingFile: ustring);
 begin
-
+  //
 end;
 
 end.

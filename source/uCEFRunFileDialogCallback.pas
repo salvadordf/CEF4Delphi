@@ -57,7 +57,7 @@ uses
 type
   TCefRunFileDialogCallbackOwn = class(TCefBaseRefCountedOwn, ICefRunFileDialogCallback)
     protected
-      procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; filePaths: TStrings); virtual;
+      procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings); virtual;
 
     public
       constructor Create;
@@ -67,7 +67,7 @@ type
     protected
       FCallback: TCefRunFileDialogCallbackProc;
 
-      procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; filePaths: TStrings); override;
+      procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings); override;
 
     public
       constructor Create(callback: TCefRunFileDialogCallbackProc); reintroduce; virtual;
@@ -76,33 +76,29 @@ type
 implementation
 
 uses
-  uCEFTypes, uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFTypes, uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
 
 procedure cef_run_file_dialog_callback_on_file_dialog_dismissed(self                   : PCefRunFileDialogCallback;
                                                                 selected_accept_filter : Integer;
                                                                 file_paths             : TCefStringList); stdcall;
 var
-  TempSL : TStringList;
-  i, j : NativeUInt;
-  TempString : TCefString;
+  TempSL     : TStringList;
+  TempCefSL  : ICefStringList;
+  TempObject : TObject;
 begin
-  TempSL := nil;
+  TempSL     := nil;
+  TempObject := CefGetObject(self);
 
   try
     try
-      TempSL := TStringList.Create;
-      i      := 0;
-      j      := cef_string_list_size(file_paths);
-
-      while (i < j) do
+      if (TempObject <> nil) and (TempObject is TCefRunFileDialogCallbackOwn) then
         begin
-          FillChar(TempString, SizeOf(TempString), 0);
-          cef_string_list_value(file_paths, i, @TempString);
-          TempSL.Add(CefStringClearAndGet(TempString));
-          inc(i);
-        end;
+          TempSL    := TStringList.Create;
+          TempCefSL := TCefStringListRef.Create(file_paths);
+          TempCefSL.CopyToStrings(TempSL);
 
-      TCefRunFileDialogCallbackOwn(CefGetObject(self)).OnFileDialogDismissed(selected_accept_filter, TempSL);
+          TCefRunFileDialogCallbackOwn(TempObject).OnFileDialogDismissed(selected_accept_filter, TempSL);
+        end;
     except
       on e : exception do
         if CustomExceptionHandler('cef_run_file_dialog_callback_on_file_dialog_dismissed', e) then raise;
@@ -118,17 +114,17 @@ constructor TCefRunFileDialogCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefRunFileDialogCallback));
 
-  with PCefRunFileDialogCallback(FData)^ do on_file_dialog_dismissed := cef_run_file_dialog_callback_on_file_dialog_dismissed;
+  PCefRunFileDialogCallback(FData).on_file_dialog_dismissed := cef_run_file_dialog_callback_on_file_dialog_dismissed;
 end;
 
-procedure TCefRunFileDialogCallbackOwn.OnFileDialogDismissed(selectedAcceptFilter: Integer; filePaths: TStrings);
+procedure TCefRunFileDialogCallbackOwn.OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings);
 begin
  //
 end;
 
 // TCefFastRunFileDialogCallback
 
-procedure TCefFastRunFileDialogCallback.OnFileDialogDismissed(selectedAcceptFilter: Integer; filePaths: TStrings);
+procedure TCefFastRunFileDialogCallback.OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings);
 begin
   FCallback(selectedAcceptFilter, filePaths);
 end;

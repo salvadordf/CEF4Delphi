@@ -52,20 +52,20 @@ uses
 type
   TCefClientRef = class(TCefBaseRefCountedRef, ICefClient)
     protected
-      function GetContextMenuHandler: ICefContextMenuHandler; virtual;
-      function GetDialogHandler: ICefDialogHandler; virtual;
-      function GetDisplayHandler: ICefDisplayHandler; virtual;
-      function GetDownloadHandler: ICefDownloadHandler; virtual;
-      function GetDragHandler: ICefDragHandler; virtual;
-      function GetFindHandler: ICefFindHandler; virtual;
-      function GetFocusHandler: ICefFocusHandler; virtual;
-      function GetJsdialogHandler: ICefJsdialogHandler; virtual;
-      function GetKeyboardHandler: ICefKeyboardHandler; virtual;
-      function GetLifeSpanHandler: ICefLifeSpanHandler; virtual;
-      function GetRenderHandler: ICefRenderHandler; virtual;
-      function GetLoadHandler: ICefLoadHandler; virtual;
-      function GetRequestHandler: ICefRequestHandler; virtual;
-      function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; virtual;
+      procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); virtual;
+      procedure GetDialogHandler(var aHandler : ICefDialogHandler); virtual;
+      procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); virtual;
+      procedure GetDownloadHandler(var aHandler : ICefDownloadHandler); virtual;
+      procedure GetDragHandler(var aHandler : ICefDragHandler); virtual;
+      procedure GetFindHandler(var aHandler : ICefFindHandler); virtual;
+      procedure GetFocusHandler(var aHandler : ICefFocusHandler); virtual;
+      procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); virtual;
+      procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
+      procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
+      procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
+      procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
+      procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -75,20 +75,20 @@ type
 
   TCefClientOwn = class(TCefBaseRefCountedOwn, ICefClient)
     protected
-      function GetContextMenuHandler: ICefContextMenuHandler; virtual;
-      function GetDialogHandler: ICefDialogHandler; virtual;
-      function GetDisplayHandler: ICefDisplayHandler; virtual;
-      function GetDownloadHandler: ICefDownloadHandler; virtual;
-      function GetDragHandler: ICefDragHandler; virtual;
-      function GetFindHandler: ICefFindHandler; virtual;
-      function GetFocusHandler: ICefFocusHandler; virtual;
-      function GetJsdialogHandler: ICefJsdialogHandler; virtual;
-      function GetKeyboardHandler: ICefKeyboardHandler; virtual;
-      function GetLifeSpanHandler: ICefLifeSpanHandler; virtual;
-      function GetRenderHandler: ICefRenderHandler; virtual;
-      function GetLoadHandler: ICefLoadHandler; virtual;
-      function GetRequestHandler: ICefRequestHandler; virtual;
-      function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; virtual;
+      procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); virtual;
+      procedure GetDialogHandler(var aHandler : ICefDialogHandler); virtual;
+      procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); virtual;
+      procedure GetDownloadHandler(var aHandler : ICefDownloadHandler); virtual;
+      procedure GetDragHandler(var aHandler : ICefDragHandler); virtual;
+      procedure GetFindHandler(var aHandler : ICefFindHandler); virtual;
+      procedure GetFocusHandler(var aHandler : ICefFocusHandler); virtual;
+      procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); virtual;
+      procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
+      procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
+      procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
+      procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
+      procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -113,21 +113,20 @@ type
       FDragHandler        : ICefDragHandler;
       FFindHandler        : ICefFindHandler;
 
-
-      function  GetContextMenuHandler: ICefContextMenuHandler; override;
-      function  GetDialogHandler: ICefDialogHandler; override;
-      function  GetDisplayHandler: ICefDisplayHandler; override;
-      function  GetDownloadHandler: ICefDownloadHandler; override;
-      function  GetDragHandler: ICefDragHandler; override;
-      function  GetFindHandler: ICefFindHandler; override;
-      function  GetFocusHandler: ICefFocusHandler; override;
-      function  GetJsdialogHandler: ICefJsdialogHandler; override;
-      function  GetKeyboardHandler: ICefKeyboardHandler; override;
-      function  GetLifeSpanHandler: ICefLifeSpanHandler; override;
-      function  GetRenderHandler: ICefRenderHandler; override;
-      function  GetLoadHandler: ICefLoadHandler; override;
-      function  GetRequestHandler: ICefRequestHandler; override;
-      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean; override;
+      procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); override;
+      procedure GetDialogHandler(var aHandler : ICefDialogHandler); override;
+      procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); override;
+      procedure GetDownloadHandler(var aHandler : ICefDownloadHandler); override;
+      procedure GetDragHandler(var aHandler : ICefDragHandler); override;
+      procedure GetFindHandler(var aHandler : ICefFindHandler); override;
+      procedure GetFocusHandler(var aHandler : ICefFocusHandler); override;
+      procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); override;
+      procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); override;
+      procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); override;
+      procedure GetLoadHandler(var aHandler : ICefLoadHandler); override;
+      procedure GetRenderHandler(var aHandler : ICefRenderHandler); override;
+      procedure GetRequestHandler(var aHandler : ICefRequestHandler); override;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; override;
 
       procedure InitializeVars;
 
@@ -168,72 +167,72 @@ begin
     Result := nil;
 end;
 
-function TCefClientRef.GetContextMenuHandler: ICefContextMenuHandler;
+procedure TCefClientRef.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetDialogHandler: ICefDialogHandler;
+procedure TCefClientRef.GetDialogHandler(var aHandler : ICefDialogHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetDisplayHandler: ICefDisplayHandler;
+procedure TCefClientRef.GetDisplayHandler(var aHandler : ICefDisplayHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetDownloadHandler: ICefDownloadHandler;
+procedure TCefClientRef.GetDownloadHandler(var aHandler : ICefDownloadHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetDragHandler: ICefDragHandler;
+procedure TCefClientRef.GetDragHandler(var aHandler : ICefDragHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetFindHandler: ICefFindHandler;
+procedure TCefClientRef.GetFindHandler(var aHandler : ICefFindHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetFocusHandler: ICefFocusHandler;
+procedure TCefClientRef.GetFocusHandler(var aHandler : ICefFocusHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetJsdialogHandler: ICefJsDialogHandler;
+procedure TCefClientRef.GetJsdialogHandler(var aHandler : ICefJsDialogHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetKeyboardHandler: ICefKeyboardHandler;
+procedure TCefClientRef.GetKeyboardHandler(var aHandler : ICefKeyboardHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetLifeSpanHandler: ICefLifeSpanHandler;
+procedure TCefClientRef.GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetLoadHandler: ICefLoadHandler;
+procedure TCefClientRef.GetLoadHandler(var aHandler : ICefLoadHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetRenderHandler: ICefRenderHandler;
+procedure TCefClientRef.GetRenderHandler(var aHandler : ICefRenderHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.GetRequestHandler: ICefRequestHandler;
+procedure TCefClientRef.GetRequestHandler(var aHandler : ICefRequestHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientRef.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean;
+function TCefClientRef.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean;
 begin
   Result := False;
 end;
@@ -250,88 +249,240 @@ end;
 
 
 function cef_client_own_get_context_menu_handler(self: PCefClient): PCefContextMenuHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefContextMenuHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetContextMenuHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetContextMenuHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_dialog_handler(self: PCefClient): PCefDialogHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefDialogHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetDialogHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetDialogHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_display_handler(self: PCefClient): PCefDisplayHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefDisplayHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetDisplayHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetDisplayHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_download_handler(self: PCefClient): PCefDownloadHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefDownloadHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetDownloadHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetDownloadHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_drag_handler(self: PCefClient): PCefDragHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefDragHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetDragHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetDragHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_find_handler(self: PCefClient): PCefFindHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefFindHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetFindHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetFindHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_focus_handler(self: PCefClient): PCefFocusHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefFocusHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetFocusHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetFocusHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_jsdialog_handler(self: PCefClient): PCefJsDialogHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefJsDialogHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetJsdialogHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetJsdialogHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_keyboard_handler(self: PCefClient): PCefKeyboardHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefKeyboardHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetKeyboardHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetKeyboardHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_life_span_handler(self: PCefClient): PCefLifeSpanHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefLifeSpanHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetLifeSpanHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetLifeSpanHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_load_handler(self: PCefClient): PCefLoadHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefLoadHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetLoadHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetLoadHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_get_render_handler(self: PCefClient): PCefRenderHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefRenderHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetRenderHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetRenderHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 function cef_client_own_get_request_handler(self: PCefClient): PCefRequestHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefRequestHandler;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := CefGetData(GetRequestHandler);
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetRequestHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
-function cef_client_own_on_process_message_received(self: PCefClient; browser: PCefBrowser;
-  source_process: TCefProcessId; message: PCefProcessMessage): Integer; stdcall;
+function cef_client_own_on_process_message_received(self           : PCefClient;
+                                                    browser        : PCefBrowser;
+                                                    source_process : TCefProcessId;
+                                                    message_       : PCefProcessMessage): Integer; stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefClientOwn(CefGetObject(self)) do
-    Result := Ord(OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser), source_process, TCefProcessMessageRef.UnWrap(message)));
+  Result      := Ord(False);
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    Result := Ord(TCefClientOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
+                                                                     source_process,
+                                                                     TCefProcessMessageRef.UnWrap(message_)));
 end;
 
 constructor TCefClientOwn.Create;
@@ -357,72 +508,74 @@ begin
     end;
 end;
 
-function TCefClientOwn.GetContextMenuHandler: ICefContextMenuHandler;
+procedure TCefClientOwn.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetDialogHandler: ICefDialogHandler;
+procedure TCefClientOwn.GetDialogHandler(var aHandler : ICefDialogHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetDisplayHandler: ICefDisplayHandler;
+procedure TCefClientOwn.GetDisplayHandler(var aHandler : ICefDisplayHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetDownloadHandler: ICefDownloadHandler;
+procedure TCefClientOwn.GetDownloadHandler(var aHandler : ICefDownloadHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetDragHandler: ICefDragHandler;
+procedure TCefClientOwn.GetDragHandler(var aHandler : ICefDragHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetFindHandler: ICefFindHandler;
+procedure TCefClientOwn.GetFindHandler(var aHandler : ICefFindHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetFocusHandler: ICefFocusHandler;
+procedure TCefClientOwn.GetFocusHandler(var aHandler : ICefFocusHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetJsdialogHandler: ICefJsDialogHandler;
+procedure TCefClientOwn.GetJsdialogHandler(var aHandler : ICefJsDialogHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetKeyboardHandler: ICefKeyboardHandler;
+procedure TCefClientOwn.GetKeyboardHandler(var aHandler : ICefKeyboardHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetLifeSpanHandler: ICefLifeSpanHandler;
+procedure TCefClientOwn.GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetLoadHandler: ICefLoadHandler;
+procedure TCefClientOwn.GetLoadHandler(var aHandler : ICefLoadHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetRenderHandler: ICefRenderHandler;
+procedure TCefClientOwn.GetRenderHandler(var aHandler : ICefRenderHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.GetRequestHandler: ICefRequestHandler;
+procedure TCefClientOwn.GetRequestHandler(var aHandler : ICefRequestHandler);
 begin
-  Result := nil;
+  aHandler := nil;
 end;
 
-function TCefClientOwn.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage): Boolean;
+function TCefClientOwn.OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                      sourceProcess : TCefProcessId;
+                                                const message_      : ICefProcessMessage): Boolean;
 begin
   Result := False;
 end;
@@ -521,79 +674,118 @@ begin
   FEvents             := nil;
 end;
 
-function TCustomClientHandler.GetContextMenuHandler: ICefContextMenuHandler;
+procedure TCustomClientHandler.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
 begin
-  Result := FContextMenuHandler;
+  if (FContextMenuHandler <> nil) then
+    aHandler := FContextMenuHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetDialogHandler: ICefDialogHandler;
+procedure TCustomClientHandler.GetDialogHandler(var aHandler : ICefDialogHandler);
 begin
-  Result := FDialogHandler;
+  if (FDialogHandler <> nil) then
+    aHandler := FDialogHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetDisplayHandler: ICefDisplayHandler;
+procedure TCustomClientHandler.GetDisplayHandler(var aHandler : ICefDisplayHandler);
 begin
-  Result := FDisplayHandler;
+  if (FDisplayHandler <> nil) then
+    aHandler := FDisplayHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetDownloadHandler: ICefDownloadHandler;
+procedure TCustomClientHandler.GetDownloadHandler(var aHandler : ICefDownloadHandler);
 begin
-  Result := FDownloadHandler;
+  if (FDownloadHandler <> nil) then
+    aHandler := FDownloadHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetDragHandler: ICefDragHandler;
+procedure TCustomClientHandler.GetDragHandler(var aHandler : ICefDragHandler);
 begin
-  Result := FDragHandler;
+  if (FDragHandler <> nil) then
+    aHandler := FDragHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetFindHandler: ICefFindHandler;
+procedure TCustomClientHandler.GetFindHandler(var aHandler : ICefFindHandler);
 begin
-  Result := FFindHandler;
+  if (FFindHandler <> nil) then
+    aHandler := FFindHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetFocusHandler: ICefFocusHandler;
+procedure TCustomClientHandler.GetFocusHandler(var aHandler : ICefFocusHandler);
 begin
-  Result := FFocusHandler;
+  if (FFocusHandler <> nil) then
+    aHandler := FFocusHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetJsdialogHandler: ICefJsDialogHandler;
+procedure TCustomClientHandler.GetJsdialogHandler(var aHandler : ICefJsDialogHandler);
 begin
-  Result := FJsDialogHandler;
+  if (FJsDialogHandler <> nil) then
+    aHandler := FJsDialogHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetKeyboardHandler: ICefKeyboardHandler;
+procedure TCustomClientHandler.GetKeyboardHandler(var aHandler : ICefKeyboardHandler);
 begin
-  Result := FKeyboardHandler;
+  if (FKeyboardHandler <> nil) then
+    aHandler := FKeyboardHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetLifeSpanHandler: ICefLifeSpanHandler;
+procedure TCustomClientHandler.GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler);
 begin
-  Result := FLifeSpanHandler;
+  if (FLifeSpanHandler <> nil) then
+    aHandler := FLifeSpanHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetLoadHandler: ICefLoadHandler;
+procedure TCustomClientHandler.GetLoadHandler(var aHandler : ICefLoadHandler);
 begin
-  Result := FLoadHandler;
+  if (FLoadHandler <> nil) then
+    aHandler := FLoadHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetRenderHandler: ICefRenderHandler;
+procedure TCustomClientHandler.GetRenderHandler(var aHandler : ICefRenderHandler);
 begin
-  Result := FRenderHandler;
+  if (FRenderHandler <> nil) then
+    aHandler := FRenderHandler
+   else
+    aHandler := nil;
 end;
 
-function TCustomClientHandler.GetRequestHandler: ICefRequestHandler;
+procedure TCustomClientHandler.GetRequestHandler(var aHandler : ICefRequestHandler);
 begin
-  Result := FRequestHandler;
+  if (FRequestHandler <> nil) then
+    aHandler := FRequestHandler
+   else
+    aHandler := nil;
 end;
 
 function TCustomClientHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
                                                              sourceProcess : TCefProcessId;
-                                                       const message       : ICefProcessMessage): Boolean;
+                                                       const message_      : ICefProcessMessage): Boolean;
 begin
   if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnProcessMessageReceived(browser, sourceProcess, message)
+    Result := IChromiumEvents(FEvents).doOnProcessMessageReceived(browser, sourceProcess, message_)
    else
-    Result := inherited OnProcessMessageReceived(browser, sourceProcess, message);
+    Result := inherited OnProcessMessageReceived(browser, sourceProcess, message_);
 end;
 
 end.

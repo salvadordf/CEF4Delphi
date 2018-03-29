@@ -60,9 +60,6 @@ const
   Kernel32DLL = 'kernel32.dll';
   SHLWAPIDLL  = 'shlwapi.dll';
 
-procedure CefStringListToStringList(var aSrcSL : TCefStringList; var aDstSL : TStringList); overload;
-procedure CefStringListToStringList(var aSrcSL : TCefStringList; var aDstSL : TStrings); overload;
-
 function CefColorGetA(color: TCefColor): Byte;
 function CefColorGetR(color: TCefColor): byte;
 function CefColorGetG(color: TCefColor): Byte;
@@ -122,6 +119,7 @@ function  CefCrashReportingEnabled : boolean;
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
+procedure CefDebugLog(const aMessage : string);
 procedure OutputDebugMessage(const aMessage : string);
 function  CustomExceptionHandler(const aFunctionName : string; const aException : exception) : boolean;
 
@@ -199,7 +197,7 @@ implementation
 
 uses
   uCEFConstants, uCEFApplication, uCEFSchemeHandlerFactory, uCEFValue,
-  uCEFBinaryValue;
+  uCEFBinaryValue, uCEFStringList;
 
 function CefColorGetA(color: TCefColor): Byte;
 begin
@@ -239,31 +237,6 @@ end;
 function CefInt64GetHigh(const int64_val: Int64): Integer;
 begin
   Result := (int64_val shr 32) and $FFFFFFFF;
-end;
-
-procedure CefStringListToStringList(var aSrcSL : TCefStringList; var aDstSL : TStringList);
-begin
-  CefStringListToStringList(aSrcSL, TStrings(aDstSL));
-end;
-
-procedure CefStringListToStringList(var aSrcSL : TCefStringList; var aDstSL : TStrings);
-var
-  i, j : NativeUInt;
-  TempString : TCefString;
-begin
-  if (aSrcSL <> nil) and (aDstSL <> nil) then
-    begin
-      i := 0;
-      j := cef_string_list_size(aSrcSL);
-
-      while (i < j) do
-        begin
-          FillChar(TempString, SizeOf(TempString), 0);
-          cef_string_list_value(aSrcSL, i, @TempString);
-          aDstSL.Add(CefStringClearAndGet(TempString));
-          inc(i);
-        end;
-    end;
 end;
 
 function CefStringClearAndGet(var str: TCefString): ustring;
@@ -512,6 +485,28 @@ begin
       TempMessage := AnsiString(aMessage);
 
       cef_log(@TempFile[1], aLine, aSeverity, @TempMessage[1]);
+    end;
+end;
+
+procedure CefDebugLog(const aMessage : string);
+const
+  DEFAULT_LINE = 1;
+var
+  TempString : string;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempString := 'PID: ' + IntToStr(GetCurrentProcessID) + ', TID: ' + IntToStr(GetCurrentThreadID);
+
+      case GlobalCEFApp.ProcessType of
+        ptBrowser   : TempString := TempString + ', PT: Browser';
+        ptRenderer  : TempString := TempString + ', PT: Renderer';
+        ptZygote    : TempString := TempString + ', PT: Zygote';
+        ptGPU       : TempString := TempString + ', PT: GPU';
+        else          TempString := TempString + ', PT: Other';
+      end;
+
+      CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, TempString + ' - ' + aMessage);
     end;
 end;
 
@@ -1073,39 +1068,16 @@ end;
 
 procedure CefGetExtensionsForMimeType(const mimeType: ustring; var extensions: TStringList);
 var
-  TempSL : TCefStringList;
-  TempMimeType, TempString : TCefString;
-  i, j : NativeUInt;
+  TempSL       : ICefStringList;
+  TempMimeType : TCefString;
 begin
-  TempSL := nil;
-
-  try
-    try
-      if (extensions <> nil) then
-        begin
-          TempSL       := cef_string_list_alloc;
-          TempMimeType := CefString(mimeType);
-
-          cef_get_extensions_for_mime_type(@TempMimeType, TempSL);
-
-          i := 0;
-          j := cef_string_list_size(TempSL);
-
-          while (i < j) do
-            begin
-              FillChar(TempString, SizeOf(TempString), 0);
-              cef_string_list_value(TempSL, i, @TempString);
-              extensions.Add(CefStringClearAndGet(TempString));
-              inc(i);
-            end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('CefGetExtensionsForMimeType', e) then raise;
+  if (extensions <> nil) then
+    begin
+      TempSL       := TCefStringListOwn.Create;
+      TempMimeType := CefString(mimeType);
+      cef_get_extensions_for_mime_type(@TempMimeType, TempSL.Handle);
+      TempSL.CopyToStrings(extensions);
     end;
-  finally
-    if (TempSL <> nil) then cef_string_list_free(TempSL);
-  end;
 end;
 
 function CefBase64Encode(const data: Pointer; dataSize: NativeUInt): ustring;

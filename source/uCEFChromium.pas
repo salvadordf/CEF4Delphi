@@ -319,7 +319,7 @@ type
       // ICefLoadHandler
       procedure doOnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType); virtual;
       procedure doOnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer); virtual;
-      procedure doOnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring); virtual;
+      procedure doOnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring); virtual;
       procedure doOnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean); virtual;
 
       // ICefFocusHandler
@@ -340,7 +340,7 @@ type
       // ICefDisplayHandler
       procedure doOnAddressChange(const browser: ICefBrowser; const frame: ICefFrame; const url: ustring); virtual;
       procedure doOnTitleChange(const browser: ICefBrowser; const title: ustring); virtual;
-      procedure doOnFaviconUrlChange(const browser: ICefBrowser; iconUrls: TStrings); virtual;
+      procedure doOnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings); virtual;
       procedure doOnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean); virtual;
       function  doOnTooltip(const browser: ICefBrowser; var text: ustring): Boolean; virtual;
       procedure doOnStatusMessage(const browser: ICefBrowser; const value: ustring); virtual;
@@ -358,7 +358,7 @@ type
       procedure doOnDialogClosed(const browser: ICefBrowser); virtual;
 
       // ICefLifeSpanHandler
-      function  doOnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean): Boolean; virtual;
+      function  doOnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean): Boolean; virtual;
       procedure doOnAfterCreated(const browser: ICefBrowser); virtual;
       procedure doOnBeforeClose(const browser: ICefBrowser); virtual;
       function  doOnClose(const browser: ICefBrowser): Boolean; virtual;
@@ -384,7 +384,7 @@ type
       procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
 
       // ICefDialogHandler
-      function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; virtual;
+      function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; virtual;
 
       // ICefRenderHandler
       procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); virtual;
@@ -2864,7 +2864,7 @@ function TChromium.doOnBeforePopup(const browser            : ICefBrowser;
                                    const targetFrameName    : ustring;
                                          targetDisposition  : TCefWindowOpenDisposition;
                                          userGesture        : Boolean;
-                                   var   popupFeatures      : TCefPopupFeatures;
+                                   const popupFeatures      : TCefPopupFeatures;
                                    var   windowInfo         : TCefWindowInfo;
                                    var   client             : ICefClient;
                                    var   settings           : TCefBrowserSettings;
@@ -2886,11 +2886,12 @@ var
   TempHeaderMap : ICefStringMultimap;
 begin
   if FAddCustomHeader then
-    begin
+    try
       TempHeaderMap := TCefStringMultimapOwn.Create;
       request.GetHeaderMap(TempHeaderMap);
       TempHeaderMap.Append(FCustomHeaderName, FCustomHeaderValue);
       request.SetHeaderMap(TempHeaderMap);
+    finally
       TempHeaderMap := nil;
     end;
 
@@ -2995,7 +2996,7 @@ begin
   if Assigned(FOnDraggableRegionsChanged) then FOnDraggableRegionsChanged(Self, browser, regionsCount, regions);
 end;
 
-procedure TChromium.doOnFaviconUrlChange(const browser: ICefBrowser; iconUrls: TStrings);
+procedure TChromium.doOnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
 begin
   if Assigned(FOnFavIconUrlChange) then FOnFavIconUrlChange(Self, browser, iconUrls);
 end;
@@ -3004,7 +3005,7 @@ function TChromium.doOnFileDialog(const browser              : ICefBrowser;
                                         mode                 : TCefFileDialogMode;
                                   const title                : ustring;
                                   const defaultFilePath      : ustring;
-                                        acceptFilters        : TStrings;
+                                  const acceptFilters        : TStrings;
                                         selectedAcceptFilter : Integer;
                                   const callback             : ICefFileDialogCallback): Boolean;
 begin
@@ -3162,7 +3163,7 @@ end;
 
 procedure TChromium.doOnLoadError(const browser   : ICefBrowser;
                                   const frame     : ICefFrame;
-                                        errorCode : Integer;
+                                        errorCode : TCefErrorCode;
                                   const errorText : ustring;
                                   const failedUrl : ustring);
 begin

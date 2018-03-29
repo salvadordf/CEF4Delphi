@@ -76,23 +76,49 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value;
 
-function cef_v8_accessor_get(self: PCefV8Accessor; const name: PCefString; obj: PCefv8Value; out retval: PCefv8Value; exception: PCefString): Integer; stdcall;
+function cef_v8_accessor_get(      self      : PCefV8Accessor;
+                             const name      : PCefString;
+                                   obj       : PCefv8Value;
+                             out   retval    : PCefv8Value;
+                                   exception : PCefString): Integer; stdcall;
 var
   ret : ICefv8Value;
   TempExcept : ustring;
+  TempObject : TObject;
 begin
+  Result     := Ord(False);
   TempExcept := CefString(exception);
-  Result     := Ord(TCefV8AccessorOwn(CefGetObject(self)).Get(CefString(name), TCefv8ValueRef.UnWrap(obj), ret, TempExcept));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefV8AccessorOwn) then
+    Result := Ord(TCefV8AccessorOwn(TempObject).Get(CefString(name),
+                                                    TCefv8ValueRef.UnWrap(obj),
+                                                    ret,
+                                                    TempExcept));
+
   retval     := CefGetData(ret);
   exception^ := CefString(TempExcept);
 end;
 
-function cef_v8_accessor_put(self: PCefV8Accessor; const name: PCefString; obj: PCefv8Value; value: PCefv8Value; exception: PCefString): Integer; stdcall;
+function cef_v8_accessor_put(      self      : PCefV8Accessor;
+                             const name      : PCefString;
+                                   obj       : PCefv8Value;
+                                   value     : PCefv8Value;
+                                   exception : PCefString): Integer; stdcall;
 var
   TempExcept : ustring;
+  TempObject : TObject;
 begin
+  Result     := Ord(False);
   TempExcept := CefString(exception);
-  Result     := Ord(TCefV8AccessorOwn(CefGetObject(self)).Put(CefString(name), TCefv8ValueRef.UnWrap(obj), TCefv8ValueRef.UnWrap(value), TempExcept));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefV8AccessorOwn) then
+    Result := Ord(TCefV8AccessorOwn(TempObject).Put(CefString(name),
+                                                    TCefv8ValueRef.UnWrap(obj),
+                                                    TCefv8ValueRef.UnWrap(value),
+                                                    TempExcept));
+
   exception^ := CefString(TempExcept);
 end;
 

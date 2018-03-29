@@ -65,11 +65,9 @@ type
       function  GetLoadHandler: ICefLoadHandler; virtual;
       procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); virtual; abstract;
       procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); virtual; abstract;
-      procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); virtual; abstract;
+      procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const V8Exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); virtual; abstract;
       procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode); virtual; abstract;
       function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean; virtual;
-
-      procedure RemoveReferences; virtual; abstract;
 
     public
       constructor Create; virtual;
@@ -85,19 +83,23 @@ type
       procedure OnBrowserDestroyed(const browser: ICefBrowser); override;
       procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
       procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
-      procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); override;
+      procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const V8Exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); override;
       procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode); override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage : ICefProcessMessage): Boolean; override;
 
     public
       constructor Create(const aCefApp : TCefApplication); reintroduce;
       destructor  Destroy; override;
-      procedure   RemoveReferences; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFConstants;
 
 procedure cef_render_process_handler_on_render_thread_created(self       : PCefRenderProcessHandler;
@@ -147,12 +149,11 @@ function cef_render_process_handler_get_load_handler(self: PCefRenderProcessHand
 var
   TempObject : TObject;
 begin
+  Result     := nil;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
-    Result := CefGetData(TCefRenderProcessHandlerOwn(TempObject).GetLoadHandler)
-   else
-    Result := nil;
+    Result := CefGetData(TCefRenderProcessHandlerOwn(TempObject).GetLoadHandler);
 end;
 
 procedure cef_render_process_handler_on_context_created(self    : PCefRenderProcessHandler;
@@ -226,14 +227,13 @@ function cef_render_process_handler_on_process_message_received(self           :
 var
   TempObject : TObject;
 begin
+  Result     := Ord(False);
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
     Result := Ord(TCefRenderProcessHandlerOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
                                                                                    source_process,
-                                                                                   TCefProcessMessageRef.UnWrap(message_)))
-   else
-    Result := 0;
+                                                                                   TCefProcessMessageRef.UnWrap(message_)));
 end;
 
 
@@ -284,64 +284,99 @@ end;
 
 destructor TCefCustomRenderProcessHandler.Destroy;
 begin
-  RemoveReferences;
+  FCefApp := nil;
 
   inherited Destroy;
 end;
 
-procedure TCefCustomRenderProcessHandler.RemoveReferences;
-begin
-  FCefApp := nil;
-end;
-
 procedure TCefCustomRenderProcessHandler.OnRenderThreadCreated(const extraInfo: ICefListValue);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnRenderThreadCreated(extraInfo);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnRenderThreadCreated(extraInfo);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnRenderThreadCreated', e) then raise;
+  end;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnWebKitInitialized;
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnWebKitInitialized;
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnWebKitInitialized;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnWebKitInitialized', e) then raise;
+  end;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnBrowserCreated(const browser: ICefBrowser);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnBrowserCreated(browser);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnBrowserCreated(browser);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnBrowserCreated', e) then raise;
+  end;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnBrowserDestroyed(const browser: ICefBrowser);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnBrowserDestroyed(browser);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnBrowserDestroyed(browser);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnBrowserDestroyed', e) then raise;
+  end;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnContextCreated(const browser : ICefBrowser;
                                                           const frame   : ICefFrame;
                                                           const context : ICefv8Context);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnContextCreated(browser, frame, context);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnContextCreated(browser, frame, context);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnContextCreated', e) then raise;
+  end;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnContextReleased(const browser : ICefBrowser;
                                                            const frame   : ICefFrame;
                                                            const context : ICefv8Context);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnContextReleased(browser, frame, context);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnContextReleased(browser, frame, context);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnContextReleased', e) then raise;
+  end;
 end;
 
-procedure TCefCustomRenderProcessHandler.OnUncaughtException(const browser    : ICefBrowser;
-                                                             const frame      : ICefFrame;
-                                                             const context    : ICefv8Context;
-                                                             const exception  : ICefV8Exception;
-                                                             const stackTrace : ICefV8StackTrace);
+procedure TCefCustomRenderProcessHandler.OnUncaughtException(const browser     : ICefBrowser;
+                                                             const frame       : ICefFrame;
+                                                             const context     : ICefv8Context;
+                                                             const V8Exception : ICefV8Exception;
+                                                             const stackTrace  : ICefV8StackTrace);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnUncaughtException(browser, frame, context, exception, stackTrace);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnUncaughtException(browser, frame, context, V8Exception, stackTrace);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnUncaughtException', e) then raise;
+  end;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnFocusedNodeChanged(const browser : ICefBrowser;
                                                               const frame   : ICefFrame;
                                                               const node    : ICefDomNode);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnFocusedNodeChanged(browser, frame, node);
+  try
+   if (FCefApp <> nil) then FCefApp.Internal_OnFocusedNodeChanged(browser, frame, node);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnFocusedNodeChanged', e) then raise;
+  end;
 end;
 
 function  TCefCustomRenderProcessHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
@@ -350,7 +385,12 @@ function  TCefCustomRenderProcessHandler.OnProcessMessageReceived(const browser 
 begin
   Result := inherited OnProcessMessageReceived(browser, sourceProcess, aMessage);
 
-  if (FCefApp <> nil) then FCefApp.Internal_OnProcessMessageReceived(browser, sourceProcess, aMessage, Result);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnProcessMessageReceived(browser, sourceProcess, aMessage, Result);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnProcessMessageReceived', e) then raise;
+  end;
 end;
 
 end.

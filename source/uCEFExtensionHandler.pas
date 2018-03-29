@@ -178,88 +178,121 @@ end;
 
 procedure cef_extension_handler_on_extension_load_failed(self   : PCefExtensionHandler;
                                                          result : TCefErrorcode); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefExtensionHandlerOwn(CefGetObject(self)).OnExtensionLoadFailed(result);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefExtensionHandlerOwn) then
+    TCefExtensionHandlerOwn(TempObject).OnExtensionLoadFailed(result);
 end;
 
 procedure cef_extension_handler_on_extension_loaded(self      : PCefExtensionHandler;
                                                     extension : PCefExtension); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefExtensionHandlerOwn(CefGetObject(self)).OnExtensionLoaded(TCefExtensionRef.UnWrap(extension));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefExtensionHandlerOwn) then
+    TCefExtensionHandlerOwn(TempObject).OnExtensionLoaded(TCefExtensionRef.UnWrap(extension));
 end;
 
 procedure cef_extension_handler_on_extension_unloaded(self      : PCefExtensionHandler;
                                                       extension : PCefExtension); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefExtensionHandlerOwn(CefGetObject(self)).OnExtensionUnloaded(TCefExtensionRef.UnWrap(extension));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefExtensionHandlerOwn) then
+    TCefExtensionHandlerOwn(TempObject).OnExtensionUnloaded(TCefExtensionRef.UnWrap(extension));
 end;
 
-function cef_extension_handler_on_before_background_browser(self         : PCefExtensionHandler;
-                                                            extension    : PCefExtension;
-                                                            const url    : PCefString;
-                                                            var   client : PCefClient;
-                                                            settings     : PCefBrowserSettings) : Integer; stdcall;
+function cef_extension_handler_on_before_background_browser(      self      : PCefExtensionHandler;
+                                                                  extension : PCefExtension;
+                                                            const url       : PCefString;
+                                                            var   client    : PCefClient;
+                                                                  settings  : PCefBrowserSettings) : Integer; stdcall;
 var
   TempClient : ICefClient;
-  TempOldCli : pointer;
+  TempObject : TObject;
 begin
-  TempClient := TCefClientRef.UnWrap(client);
-  TempOldCli := pointer(TempClient);
+  try
+    Result     := Ord(True);
+    TempObject := CefGetObject(self);
+    TempClient := TCefClientRef.UnWrap(client);
 
-  Result := Ord(TCefExtensionHandlerOwn(CefGetObject(self)).OnBeforeBackgroundBrowser(TCefExtensionRef.UnWrap(extension),
-                                                                                      CefString(url),
-                                                                                      TempClient,
-                                                                                      settings^));
+    if (TempObject <> nil) and (TempObject is TCefExtensionHandlerOwn) then
+      Result := Ord(TCefExtensionHandlerOwn(TempObject).OnBeforeBackgroundBrowser(TCefExtensionRef.UnWrap(extension),
+                                                                                  CefString(url),
+                                                                                  TempClient,
+                                                                                  settings^));
 
-  if (TempClient = nil) then
-    client := nil
-   else
-    if (TempOldCli <> pointer(TempClient)) then
-      client := CefGetData(TempClient);
+    if (TempClient = nil) then
+      client := nil
+     else
+      if not(TempClient.SameAs(client)) then
+        client := TempClient.Wrap;
+  finally
+    TempClient := nil;
+  end;
 end;
 
-function cef_extension_handler_on_before_browser(self             : PCefExtensionHandler;
-                                                 extension        : PCefExtension;
-                                                 browser          : PCefBrowser;
-                                                 active_browser   : PCefBrowser;
-                                                 index            : Integer;
-                                                 const url        : PCefString;
-                                                       active     : Integer;
-                                                       windowInfo : PCefWindowInfo;
-                                                 var   client     : PCefClient;
-                                                       settings   : PCefBrowserSettings) : Integer; stdcall;
+function cef_extension_handler_on_before_browser(      self           : PCefExtensionHandler;
+                                                       extension      : PCefExtension;
+                                                       browser        : PCefBrowser;
+                                                       active_browser : PCefBrowser;
+                                                       index          : Integer;
+                                                 const url            : PCefString;
+                                                       active         : Integer;
+                                                       windowInfo     : PCefWindowInfo;
+                                                 var   client         : PCefClient;
+                                                       settings       : PCefBrowserSettings) : Integer; stdcall;
 var
   TempClient : ICefClient;
-  TempOldCli : pointer;
+  TempObject : TObject;
 begin
-  TempClient := TCefClientRef.UnWrap(client);
-  TempOldCli := pointer(TempClient);
+  try
+    Result     := Ord(True);
+    TempObject := CefGetObject(self);
+    TempClient := TCefClientRef.UnWrap(client);
 
-  Result := Ord(TCefExtensionHandlerOwn(CefGetObject(self)).OnBeforeBrowser(TCefExtensionRef.UnWrap(extension),
-                                                                            TCefBrowserRef.UnWrap(browser),
-                                                                            TCefBrowserRef.UnWrap(active_browser),
-                                                                            index,
-                                                                            CefString(url),
-                                                                            active <> 0,
-                                                                            windowInfo^,
-                                                                            TempClient,
-                                                                            settings^));
+    if (TempObject <> nil) and (TempObject is TCefExtensionHandlerOwn) then
+      Result := Ord(TCefExtensionHandlerOwn(TempObject).OnBeforeBrowser(TCefExtensionRef.UnWrap(extension),
+                                                                        TCefBrowserRef.UnWrap(browser),
+                                                                        TCefBrowserRef.UnWrap(active_browser),
+                                                                        index,
+                                                                        CefString(url),
+                                                                        active <> 0,
+                                                                        windowInfo^,
+                                                                        TempClient,
+                                                                        settings^));
 
-  if (TempClient = nil) then
-    client := nil
-   else
-    if (TempOldCli <> pointer(TempClient)) then
-      client := CefGetData(TempClient);
+    if (TempClient = nil) then
+      client := nil
+     else
+      if not(TempClient.SameAs(client)) then
+        client := TempClient.Wrap;
+  finally
+    TempClient := nil;
+  end;
 end;
 
 function cef_extension_handler_get_active_browser(self              : PCefExtensionHandler;
                                                   extension         : PCefExtension;
                                                   browser           : PCefBrowser;
                                                   include_incognito : Integer): PCefBrowser; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := CefGetData(TCefExtensionHandlerOwn(CefGetObject(self)).GetActiveBrowser(TCefExtensionRef.UnWrap(extension),
-                                                                                    TCefBrowserRef.UnWrap(browser),
-                                                                                    include_incognito <> 0));
+  Result     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefExtensionHandlerOwn) then
+    Result := CefGetData(TCefExtensionHandlerOwn(TempObject).GetActiveBrowser(TCefExtensionRef.UnWrap(extension),
+                                                                              TCefBrowserRef.UnWrap(browser),
+                                                                              include_incognito <> 0));
 end;
 
 function cef_extension_handler_can_access_browser(self              : PCefExtensionHandler;
@@ -267,23 +300,35 @@ function cef_extension_handler_can_access_browser(self              : PCefExtens
                                                   browser           : PCefBrowser;
                                                   include_incognito : Integer;
                                                   target_browser    : PCefBrowser): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := Ord(TCefExtensionHandlerOwn(CefGetObject(self)).CanAccessBrowser(TCefExtensionRef.UnWrap(extension),
-                                                                             TCefBrowserRef.UnWrap(browser),
-                                                                             include_incognito <> 0,
-                                                                             TCefBrowserRef.UnWrap(target_browser)));
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefExtensionHandlerOwn) then
+    Result := Ord(TCefExtensionHandlerOwn(TempObject).CanAccessBrowser(TCefExtensionRef.UnWrap(extension),
+                                                                       TCefBrowserRef.UnWrap(browser),
+                                                                       include_incognito <> 0,
+                                                                       TCefBrowserRef.UnWrap(target_browser)));
 end;
 
-function cef_extension_handler_get_extension_resource(self        : PCefExtensionHandler;
-                                                      extension   : PCefExtension;
-                                                      browser     : PCefBrowser;
-                                                      const file_ : PCefString;
-                                                      callback    : PCefGetExtensionResourceCallback): Integer; stdcall;
+function cef_extension_handler_get_extension_resource(      self      : PCefExtensionHandler;
+                                                            extension : PCefExtension;
+                                                            browser   : PCefBrowser;
+                                                      const file_     : PCefString;
+                                                            callback  : PCefGetExtensionResourceCallback): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := Ord(TCefExtensionHandlerOwn(CefGetObject(self)).GetExtensionResource(TCefExtensionRef.UnWrap(extension),
-                                                                                 TCefBrowserRef.UnWrap(browser),
-                                                                                 CefString(file_),
-                                                                                 TCefGetExtensionResourceCallbackRef.UnWrap(callback)));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefExtensionHandlerOwn) then
+    Result := Ord(TCefExtensionHandlerOwn(TempObject).GetExtensionResource(TCefExtensionRef.UnWrap(extension),
+                                                                           TCefBrowserRef.UnWrap(browser),
+                                                                           CefString(file_),
+                                                                           TCefGetExtensionResourceCallbackRef.UnWrap(callback)));
 end;
 
 constructor TCefExtensionHandlerOwn.Create;

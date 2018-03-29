@@ -55,10 +55,8 @@ type
       procedure OnContextInitialized; virtual; abstract;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); virtual; abstract;
       procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue); virtual; abstract;
-      function  GetPrintHandler : ICefPrintHandler; virtual;
+      procedure GetPrintHandler(var aHandler : ICefPrintHandler); virtual;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual; abstract;
-
-      procedure RemoveReferences; virtual; abstract;
 
     public
       constructor Create; virtual;
@@ -76,12 +74,16 @@ type
     public
       constructor Create(const aCefApp : TCefApplication); reintroduce;
       destructor  Destroy; override;
-      procedure   RemoveReferences; override;
   end;
 
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCommandLine, uCEFListValue, uCEFConstants;
 
 procedure cef_browser_process_handler_on_context_initialized(self: PCefBrowserProcessHandler); stdcall;
@@ -118,14 +120,19 @@ end;
 
 function cef_browser_process_handler_get_print_handler(self: PCefBrowserProcessHandler): PCefPrintHandler; stdcall;
 var
-  TempObject : TObject;
+  TempObject  : TObject;
+  TempHandler : ICefPrintHandler;
 begin
+  Result     := nil;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
-    Result := CefGetData(TCefBrowserProcessHandlerOwn(TempObject).GetPrintHandler)
-   else
-    Result := nil;
+    try
+      TCefBrowserProcessHandlerOwn(TempObject).GetPrintHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
 end;
 
 procedure cef_browser_process_handler_on_schedule_message_pump_work(self     : PCefBrowserProcessHandler;
@@ -153,9 +160,9 @@ begin
     end;
 end;
 
-function TCefBrowserProcessHandlerOwn.GetPrintHandler : ICefPrintHandler;
+procedure TCefBrowserProcessHandlerOwn.GetPrintHandler(var aHandler : ICefPrintHandler);
 begin
-  Result := nil; // only linux
+  aHandler := nil; // only linux
 end;
 
 
@@ -171,34 +178,49 @@ end;
 
 destructor TCefCustomBrowserProcessHandler.Destroy;
 begin
-  RemoveReferences;
+  FCefApp := nil;
 
   inherited Destroy;
 end;
 
-procedure TCefCustomBrowserProcessHandler.RemoveReferences;
-begin
-  FCefApp := nil;
-end;
-
 procedure TCefCustomBrowserProcessHandler.OnContextInitialized;
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnContextInitialized;
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnContextInitialized;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnContextInitialized', e) then raise;
+  end;
 end;
 
 procedure TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnBeforeChildProcessLaunch(commandLine);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnBeforeChildProcessLaunch(commandLine);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch', e) then raise;
+  end;
 end;
 
 procedure TCefCustomBrowserProcessHandler.OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnRenderProcessThreadCreated(extraInfo);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnRenderProcessThreadCreated(extraInfo);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnRenderProcessThreadCreated', e) then raise;
+  end;
 end;
 
 procedure TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork(const delayMs: Int64);
 begin
-  if (FCefApp <> nil) then FCefApp.Internal_OnScheduleMessagePumpWork(delayMs);
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_OnScheduleMessagePumpWork(delayMs);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork', e) then raise;
+  end;
 end;
 
 end.

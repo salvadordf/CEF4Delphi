@@ -81,23 +81,36 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFDownLoadItem, uCEFBeforeDownloadCallback,
   uCEFDownloadItemCallback;
 
-procedure cef_download_handler_on_before_download(self: PCefDownloadHandler;
-  browser: PCefBrowser; download_item: PCefDownloadItem;
-  const suggested_name: PCefString; callback: PCefBeforeDownloadCallback); stdcall;
+procedure cef_download_handler_on_before_download(      self           : PCefDownloadHandler;
+                                                        browser        : PCefBrowser;
+                                                        download_item  : PCefDownloadItem;
+                                                  const suggested_name : PCefString;
+                                                        callback       : PCefBeforeDownloadCallback); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefDownloadHandlerOwn(CefGetObject(self)).
-    OnBeforeDownload(TCefBrowserRef.UnWrap(browser),
-    TCefDownLoadItemRef.UnWrap(download_item), CefString(suggested_name),
-    TCefBeforeDownloadCallbackRef.UnWrap(callback));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDownloadHandlerOwn) then
+    TCefDownloadHandlerOwn(TempObject).OnBeforeDownload(TCefBrowserRef.UnWrap(browser),
+                                                        TCefDownLoadItemRef.UnWrap(download_item),
+                                                        CefString(suggested_name),
+                                                        TCefBeforeDownloadCallbackRef.UnWrap(callback));
 end;
 
-procedure cef_download_handler_on_download_updated(self: PCefDownloadHandler;
-  browser: PCefBrowser; download_item: PCefDownloadItem; callback: PCefDownloadItemCallback); stdcall;
+procedure cef_download_handler_on_download_updated(self          : PCefDownloadHandler;
+                                                   browser       : PCefBrowser;
+                                                   download_item : PCefDownloadItem;
+                                                   callback      : PCefDownloadItemCallback); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefDownloadHandlerOwn(CefGetObject(self)).
-    OnDownloadUpdated(TCefBrowserRef.UnWrap(browser),
-    TCefDownLoadItemRef.UnWrap(download_item),
-    TCefDownloadItemCallbackRef.UnWrap(callback));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDownloadHandlerOwn) then
+    TCefDownloadHandlerOwn(TempObject).OnDownloadUpdated(TCefBrowserRef.UnWrap(browser),
+                                                         TCefDownLoadItemRef.UnWrap(download_item),
+                                                         TCefDownloadItemCallbackRef.UnWrap(callback));
 end;
 
 constructor TCefDownloadHandlerOwn.Create;
@@ -111,16 +124,17 @@ begin
     end;
 end;
 
-procedure TCefDownloadHandlerOwn.OnBeforeDownload(const browser: ICefBrowser;
-  const downloadItem: ICefDownloadItem; const suggestedName: ustring;
-  const callback: ICefBeforeDownloadCallback);
+procedure TCefDownloadHandlerOwn.OnBeforeDownload(const browser       : ICefBrowser;
+                                                  const downloadItem  : ICefDownloadItem;
+                                                  const suggestedName : ustring;
+                                                  const callback      : ICefBeforeDownloadCallback);
 begin
 
 end;
 
-procedure TCefDownloadHandlerOwn.OnDownloadUpdated(const browser: ICefBrowser;
-  const downloadItem: ICefDownloadItem;
-  const callback: ICefDownloadItemCallback);
+procedure TCefDownloadHandlerOwn.OnDownloadUpdated(const browser      : ICefBrowser;
+                                                   const downloadItem : ICefDownloadItem;
+                                                   const callback     : ICefDownloadItemCallback);
 begin
 
 end;

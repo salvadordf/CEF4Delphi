@@ -59,7 +59,6 @@ object JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm
     Height = 540
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 559
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -70,9 +69,6 @@ object JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm
       item
         Width = 500
       end>
-    ExplicitLeft = 336
-    ExplicitTop = 544
-    ExplicitWidth = 0
   end
   object Chromium1: TChromium
     OnProcessMessageReceived = Chromium1ProcessMessageReceived

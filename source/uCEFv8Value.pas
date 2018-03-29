@@ -126,7 +126,8 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Accessor, uCEFv8Handler, uCEFv8Exception, uCEFv8Interceptor;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Accessor, uCEFv8Handler, uCEFv8Exception,
+  uCEFv8Interceptor, uCEFStringList;
 
 function TCefv8ValueRef.AdjustExternallyAllocatedMemory(changeInBytes: Integer): Integer;
 begin
@@ -218,7 +219,7 @@ function TCefv8ValueRef.DeleteValueByKey(const key: ustring): Boolean;
 var
   k: TCefString;
 begin
-  k := CefString(key);
+  k      := CefString(key);
   Result := PCefV8Value(FData)^.delete_value_bykey(PCefV8Value(FData), @k) <> 0;
 end;
 
@@ -244,12 +245,14 @@ begin
               args[i] := CefGetData(arguments[i]);
               inc(i);
             end;
+        end
+       else
+        j := 0;
 
-          Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData).execute_function(PCefV8Value(FData),
-                                                                              CefGetData(obj),
-                                                                              j,
-                                                                              args));
-        end;
+      Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData).execute_function(PCefV8Value(FData),
+                                                                          CefGetData(obj),
+                                                                          j,
+                                                                          args));
     except
       on e : exception do
         if CustomExceptionHandler('TCefv8ValueRef.ExecuteFunction', e) then raise;
@@ -283,13 +286,15 @@ begin
               args[i] := CefGetData(arguments[i]);
               inc(i);
             end;
+        end
+       else
+        j := 0;
 
-          Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData).execute_function_with_context(PCefV8Value(FData),
-                                                                                           CefGetData(context),
-                                                                                           CefGetData(obj),
-                                                                                           j,
-                                                                                           args));
-        end;
+      Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData).execute_function_with_context(PCefV8Value(FData),
+                                                                                       CefGetData(context),
+                                                                                       CefGetData(obj),
+                                                                                       j,
+                                                                                       args));
     except
       on e : exception do
         if CustomExceptionHandler('TCefv8ValueRef.ExecuteFunctionWithContext', e) then raise;
@@ -346,42 +351,16 @@ end;
 
 function TCefv8ValueRef.GetKeys(const keys: TStrings): Integer;
 var
-  TempSL : TCefStringList;
-  i, j : NativeUInt;
-  TempString : TCefString;
+  TempSL : ICefStringList;
 begin
-  TempSL := nil;
   Result := 0;
+  TempSL := TCefStringListOwn.Create;
 
-  try
-    try
-      if (keys <> nil) then
-        begin
-          TempSL := cef_string_list_alloc;
-
-          if (PCefV8Value(FData).get_keys(PCefV8Value(FData), TempSL) <> 0) then
-            begin
-              i := 0;
-              j := cef_string_list_size(TempSL);
-
-              while (i < j) do
-                begin
-                  FillChar(TempString, SizeOf(TempString), 0);
-                  cef_string_list_value(TempSL, i, @TempString);
-                  keys.Add(CefStringClearAndGet(TempString));
-                  inc(i);
-                end;
-
-              Result := j;
-            end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefv8ValueRef.GetKeys', e) then raise;
+  if (PCefV8Value(FData).get_keys(PCefV8Value(FData), TempSL.Handle) <> 0) then
+    begin
+      TempSL.CopyToStrings(keys);
+      Result := keys.Count;
     end;
-  finally
-    if (TempSL <> nil) then cef_string_list_free(TempSL);
-  end;
 end;
 
 function TCefv8ValueRef.SetUserData(const data: ICefv8Value): Boolean;
@@ -443,7 +422,7 @@ function TCefv8ValueRef.GetValueByKey(const key: ustring): ICefv8Value;
 var
   k: TCefString;
 begin
-  k := CefString(key);
+  k      := CefString(key);
   Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.get_value_bykey(PCefV8Value(FData), @k))
 end;
 
@@ -456,7 +435,7 @@ function TCefv8ValueRef.HasValueByKey(const key: ustring): Boolean;
 var
   k: TCefString;
 begin
-  k := CefString(key);
+  k      := CefString(key);
   Result := PCefV8Value(FData)^.has_value_bykey(PCefV8Value(FData), @k) <> 0;
 end;
 
@@ -520,36 +499,32 @@ begin
   Result := PCefV8Value(FData)^.is_undefined(PCefV8Value(FData)) <> 0;
 end;
 
-function TCefv8ValueRef.SetValueByAccessor(const key: ustring;
-  settings: TCefV8AccessControls; attribute: TCefV8PropertyAttributes): Boolean;
+function TCefv8ValueRef.SetValueByAccessor(const key: ustring; settings: TCefV8AccessControls; attribute: TCefV8PropertyAttributes): Boolean;
 var
   k: TCefString;
 begin
-  k := CefString(key);
-  Result:= PCefV8Value(FData)^.set_value_byaccessor(PCefV8Value(FData), @k,
-    PByte(@settings)^, PByte(@attribute)^) <> 0;
+  k      := CefString(key);
+  Result := PCefV8Value(FData)^.set_value_byaccessor(PCefV8Value(FData), @k, PByte(@settings)^, PByte(@attribute)^) <> 0;
 end;
 
-function TCefv8ValueRef.SetValueByIndex(index: Integer;
-  const value: ICefv8Value): Boolean;
+function TCefv8ValueRef.SetValueByIndex(index: Integer; const value: ICefv8Value): Boolean;
 begin
   Result:= PCefV8Value(FData)^.set_value_byindex(PCefV8Value(FData), index, CefGetData(value)) <> 0;
 end;
 
-function TCefv8ValueRef.SetValueByKey(const key: ustring;
-  const value: ICefv8Value; attribute: TCefV8PropertyAttributes): Boolean;
+function TCefv8ValueRef.SetValueByKey(const key: ustring; const value: ICefv8Value; attribute: TCefV8PropertyAttributes): Boolean;
 var
   k: TCefString;
 begin
-  k := CefString(key);
-  Result:= PCefV8Value(FData)^.set_value_bykey(PCefV8Value(FData), @k,
-    CefGetData(value), PByte(@attribute)^) <> 0;
+  k      := CefString(key);
+  Result := PCefV8Value(FData)^.set_value_bykey(PCefV8Value(FData), @k, CefGetData(value), PByte(@attribute)^) <> 0;
 end;
 
 class function TCefv8ValueRef.UnWrap(data: Pointer): ICefv8Value;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefv8Value else
+  if (data <> nil) then
+    Result := Create(data) as ICefv8Value
+   else
     Result := nil;
 end;
 

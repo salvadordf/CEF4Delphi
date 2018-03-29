@@ -94,7 +94,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFValue, uCEFDictionaryValue, uCEFCookieManager,
-  uCEFCompletionCallback, uCEFRequestContextHandler, uCEFExtension;
+  uCEFCompletionCallback, uCEFRequestContextHandler, uCEFExtension, uCEFStringList;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin
@@ -236,32 +236,13 @@ end;
 function TCefRequestContextRef.ResolveHostCached(const origin      : ustring;
                                                  const resolvedIps : TStrings): TCefErrorCode;
 var
-  ips : TCefStringList;
-  TempOrigin, TempString : TCefString;
-  i, j : NativeUInt;
+  TempSL     : ICefStringList;
+  TempOrigin : TCefString;
 begin
-  ips := cef_string_list_alloc;
-
-  try
-    TempOrigin := CefString(origin);
-    Result     := PCefRequestContext(FData).resolve_host_cached(FData, @TempOrigin, ips);
-
-    if (resolvedIps <> nil) and (ips <> nil) then
-      begin
-        i := 0;
-        j := cef_string_list_size(ips);
-
-        while (i < j) do
-          begin
-            FillChar(TempString, SizeOf(TempString), 0);
-            cef_string_list_value(ips, i, @TempString);
-            resolvedIps.Add(CefStringClearAndGet(TempString));
-            inc(i);
-          end;
-      end;
-  finally
-    cef_string_list_free(ips);
-  end;
+  TempSL     := TCefStringListOwn.Create;
+  TempOrigin := CefString(origin);
+  Result     := PCefRequestContext(FData).resolve_host_cached(FData, @TempOrigin, TempSL.Handle);
+  TempSL.CopyToStrings(resolvedIps);
 end;
 
 procedure TCefRequestContextRef.LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
@@ -290,42 +271,16 @@ end;
 
 function TCefRequestContextRef.GetExtensions(const extension_ids: TStringList): boolean;
 var
-  TempIDs    : TCefStringList;
-  i, j       : NativeUInt;
-  TempString : TCefString;
+  TempSL : ICefStringList;
 begin
-  TempIDs := nil;
-  Result  := False;
+  Result := False;
+  TempSL := TCefStringListOwn.Create;
 
-  try
-    try
-      if (extension_ids <> nil) then
-        begin
-          TempIDs := cef_string_list_alloc;
-
-          if (PCefRequestContext(FData).get_extensions(PCefRequestContext(FData), TempIDs) <> 0) then
-            begin
-              i := 0;
-              j := cef_string_list_size(TempIDs);
-
-              while (i < j) do
-                begin
-                  FillChar(TempString, SizeOf(TempString), 0);
-                  cef_string_list_value(TempIDs, i, @TempString);
-                  extension_ids.Add(CefStringClearAndGet(TempString));
-                  inc(i);
-                end;
-
-              Result := True;
-            end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefRequestContextRef.GetExtensions', e) then raise;
+  if (PCefRequestContext(FData).get_extensions(PCefRequestContext(FData), TempSL.Handle) <> 0) then
+    begin
+      TempSL.CopyToStrings(extension_ids);
+      Result := True;
     end;
-  finally
-    if (TempIDs <> nil) then cef_string_list_free(TempIDs);
-  end;
 end;
 
 function TCefRequestContextRef.GetExtension(const extension_id: ustring): ICefExtension;

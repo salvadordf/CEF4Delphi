@@ -77,33 +77,30 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
 
-procedure cef_resolve_callback_on_resolve_completed(self: PCefResolveCallback;
-                                                    result: TCefErrorCode;
-                                                    resolved_ips: TCefStringList); stdcall;
+procedure cef_resolve_callback_on_resolve_completed(self         : PCefResolveCallback;
+                                                    result       : TCefErrorCode;
+                                                    resolved_ips : TCefStringList); stdcall;
 var
-  TempSL : TStringList;
-  i, j : NativeUInt;
-  TempString : TCefString;
+  TempSL     : TStringList;
+  TempCefSL  : ICefStringList;
+  TempObject : TObject;
 begin
   TempSL := nil;
 
   try
     try
-      TempSL := TStringList.Create;
-      i      := 0;
-      j      := cef_string_list_size(resolved_ips);
+      TempObject := CefGetObject(self);
 
-      while (i < j) do
+      if (TempObject <> nil) and (TempObject is TCefResolveCallbackOwn) then
         begin
-          FillChar(TempString, SizeOf(TempString), 0);
-          cef_string_list_value(resolved_ips, i, @TempString);
-          TempSL.Add(CefStringClearAndGet(TempString));
-          inc(i);
-        end;
+          TempSL    := TStringList.Create;
+          TempCefSL := TCefStringListRef.Create(resolved_ips);
+          TempCefSL.CopyToStrings(TempSL);
 
-      TCefResolveCallbackOwn(CefGetObject(self)).OnResolveCompleted(result, TempSL);
+          TCefResolveCallbackOwn(TempObject).OnResolveCompleted(result, TempSL);
+        end;
     except
       on e : exception do
         if CustomExceptionHandler('cef_resolve_callback_on_resolve_completed', e) then raise;
@@ -117,10 +114,9 @@ end;
 
 constructor TCefResolveCallbackOwn.Create;
 begin
-  CreateData(SizeOf(TCefResolveCallback));
+  inherited CreateData(SizeOf(TCefResolveCallback));
 
-  with PCefResolveCallback(FData)^ do
-    on_resolve_completed := cef_resolve_callback_on_resolve_completed;
+  PCefResolveCallback(FData).on_resolve_completed := cef_resolve_callback_on_resolve_completed;
 end;
 
 // TCefCustomResolveCallback

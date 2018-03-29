@@ -90,14 +90,22 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure cef_pdf_print_callback_on_pdf_print_finished(self: PCefPdfPrintCallback; const path: PCefString; ok: Integer); stdcall;
+procedure cef_pdf_print_callback_on_pdf_print_finished(      self : PCefPdfPrintCallback;
+                                                       const path : PCefString;
+                                                             ok   : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefPdfPrintCallbackOwn(CefGetObject(self)) do OnPdfPrintFinished(CefString(path), ok <> 0);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefPdfPrintCallbackOwn) then
+    TCefPdfPrintCallbackOwn(TempObject).OnPdfPrintFinished(CefString(path),
+                                                           ok <> 0);
 end;
 
 constructor TCefPdfPrintCallbackOwn.Create;
 begin
-  CreateData(SizeOf(TCefPdfPrintCallback));
+  inherited CreateData(SizeOf(TCefPdfPrintCallback));
 
   PCefPdfPrintCallback(FData).on_pdf_print_finished := cef_pdf_print_callback_on_pdf_print_finished;
 end;
@@ -107,6 +115,7 @@ end;
 constructor TCefFastPdfPrintCallback.Create(const proc: TOnPdfPrintFinishedProc);
 begin
   FProc := proc;
+
   inherited Create;
 end;
 

@@ -53,7 +53,6 @@ type
   TCefStringVisitorOwn = class(TCefBaseRefCountedOwn, ICefStringVisitor)
     protected
       procedure Visit(const str: ustring); virtual;
-      procedure RemoveReferences; virtual;
 
     public
       constructor Create; virtual;
@@ -90,9 +89,15 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure cef_string_visitor_visit(self: PCefStringVisitor; const str: PCefString); stdcall;
+procedure cef_string_visitor_visit(      self : PCefStringVisitor;
+                                   const str  : PCefString); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefStringVisitorOwn(CefGetObject(self)).Visit(CefString(str));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefStringVisitorOwn) then
+    TCefStringVisitorOwn(TempObject).Visit(CefString(str));
 end;
 
 // TCefStringVisitorOwn
@@ -105,11 +110,6 @@ begin
 end;
 
 procedure TCefStringVisitorOwn.Visit(const str: ustring);
-begin
-  //
-end;
-
-procedure TCefStringVisitorOwn.RemoveReferences;
 begin
   //
 end;

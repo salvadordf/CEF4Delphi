@@ -185,10 +185,12 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const request: ICefRequest; const callback: ICefRequestCallback;
       out Result: TCefReturnValue);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
   protected
     FResponse : TStringList;
     FRequest  : TStringList;
+    FClosing  : boolean;
 
     procedure AddURL(const aURL : string);
 
@@ -559,7 +561,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;
   const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
-  if not(Chromium1.IsSameBrowser(browser)) then exit;
+  if not(Chromium1.IsSameBrowser(browser)) or FClosing then exit;
 
   // This event is executed in a CEF thread and this can cause problems when
   // you change the 'Enabled' and 'Visible' properties from VCL components.
@@ -686,7 +688,7 @@ end;
 
 procedure TMiniBrowserFrm.ShowStatusText(const aText : string);
 begin
-  StatusBar1.Panels[1].Text := aText;
+  if not(FClosing) then StatusBar1.Panels[1].Text := aText;
 end;
 
 procedure TMiniBrowserFrm.StopBtnClick(Sender: TObject);
@@ -716,8 +718,15 @@ begin
     caption := 'MiniBrowser';
 end;
 
+procedure TMiniBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  FClosing := True;
+  CanClose := True;
+end;
+
 procedure TMiniBrowserFrm.FormCreate(Sender: TObject);
 begin
+  FClosing  := False;
   FResponse := TStringList.Create;
   FRequest  := TStringList.Create;
 end;

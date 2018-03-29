@@ -57,7 +57,7 @@ uses
 type
   TCefDialogHandlerOwn = class(TCefBaseRefCountedOwn, ICefDialogHandler)
     protected
-      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; virtual;
+      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -69,7 +69,7 @@ type
     protected
       FEvents : Pointer;
 
-      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title: ustring; const defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; override;
+      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title: ustring; const defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; override;
 
       procedure RemoveReferences; override;
 
@@ -86,7 +86,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFileDialogCallback;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFileDialogCallback, uCEFStringList;
 
 function cef_dialog_handler_on_file_dialog(self                    : PCefDialogHandler;
                                            browser                 : PCefBrowser;
@@ -97,34 +97,31 @@ function cef_dialog_handler_on_file_dialog(self                    : PCefDialogH
                                            selected_accept_filter  : Integer;
                                            callback                : PCefFileDialogCallback): Integer; stdcall;
 var
-  TempSL : TStringList;
-  i, j : NativeUInt;
-  TempString : TCefString;
+  TempSL     : TStringList;
+  TempCefSL  : ICefStringList;
+  TempObject : TObject;
 begin
   TempSL := nil;
-  Result := 0; // False
+  Result := Ord(False);
 
   try
     try
-      TempSL := TStringList.Create;
-      i      := 0;
-      j      := cef_string_list_size(accept_filters);
+      TempObject := CefGetObject(self);
 
-      while (i < j) do
+      if (TempObject <> nil) and (TempObject is TCefDialogHandlerOwn) then
         begin
-          FillChar(TempString, SizeOf(TempString), 0);
-          cef_string_list_value(accept_filters, i, @TempString);
-          TempSL.Add(CefStringClearAndGet(TempString));
-          inc(i);
-        end;
+          TempSL    := TStringList.Create;
+          TempCefSL := TCefStringListRef.Create(accept_filters);
+          TempCefSL.CopyToStrings(TempSL);
 
-      Result := Ord(TCefDialogHandlerOwn(CefGetObject(self)).OnFileDialog(TCefBrowserRef.UnWrap(browser),
-                                                                          mode,
-                                                                          CefString(title),
-                                                                          CefString(default_file_path),
-                                                                          TempSL,
-                                                                          selected_accept_filter,
-                                                                          TCefFileDialogCallbackRef.UnWrap(callback)));
+          Result := Ord(TCefDialogHandlerOwn(TempObject).OnFileDialog(TCefBrowserRef.UnWrap(browser),
+                                                                      mode,
+                                                                      CefString(title),
+                                                                      CefString(default_file_path),
+                                                                      TempSL,
+                                                                      selected_accept_filter,
+                                                                      TCefFileDialogCallbackRef.UnWrap(callback)));
+        end;
     except
       on e : exception do
         if CustomExceptionHandler('cef_dialog_handler_on_file_dialog', e) then raise;
@@ -136,13 +133,18 @@ end;
 
 constructor TCefDialogHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefDialogHandler));
+  inherited CreateData(SizeOf(TCefDialogHandler));
 
-  with PCefDialogHandler(FData)^ do
-    on_file_dialog := cef_dialog_handler_on_file_dialog;
+  PCefDialogHandler(FData).on_file_dialog := cef_dialog_handler_on_file_dialog;
 end;
 
-function TCefDialogHandlerOwn.OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean;
+function TCefDialogHandlerOwn.OnFileDialog(const browser                : ICefBrowser;
+                                                 mode                   : TCefFileDialogMode;
+                                           const title                  : ustring;
+                                           const defaultFilePath        : ustring;
+                                           const acceptFilters          : TStrings;
+                                                 selectedAcceptFilter   : Integer;
+                                           const callback               : ICefFileDialogCallback): Boolean;
 begin
   Result := False;
 end;
@@ -177,7 +179,7 @@ function TCustomDialogHandler.OnFileDialog(const browser              : ICefBrow
                                                  mode                 : TCefFileDialogMode;
                                            const title                : ustring;
                                            const defaultFilePath      : ustring;
-                                                 acceptFilters        : TStrings;
+                                           const acceptFilters        : TStrings;
                                                  selectedAcceptFilter : Integer;
                                            const callback             : ICefFileDialogCallback): Boolean;
 begin

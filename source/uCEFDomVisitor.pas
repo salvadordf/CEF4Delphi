@@ -86,8 +86,13 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFTypes, uCEFDomDocument;
 
 procedure cef_dom_visitor_visite(self: PCefDomVisitor; document: PCefDomDocument); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefDomVisitorOwn(CefGetObject(self)).visit(TCefDomDocumentRef.UnWrap(document));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDomVisitorOwn) then
+    TCefDomVisitorOwn(TempObject).visit(TCefDomDocumentRef.UnWrap(document));
 end;
 
 // TCefDomVisitorOwn
@@ -96,7 +101,7 @@ constructor TCefDomVisitorOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDomVisitor));
 
-  with PCefDomVisitor(FData)^ do visit := cef_dom_visitor_visite;
+  PCefDomVisitor(FData).visit := cef_dom_visitor_visite;
 end;
 
 procedure TCefDomVisitorOwn.visit(const document: ICefDomDocument);

@@ -90,9 +90,9 @@ type
       const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
       targetFrameName: ustring;
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+      const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
-      var noJavascriptAccess: Boolean; out Result: Boolean);
+      var noJavascriptAccess: Boolean; var Result: Boolean);
 
   private
     { Private declarations }
@@ -130,31 +130,29 @@ uses
 
 // Steps to evaluate some JavaScript code using the V8Context
 // ----------------------------------------------------------
-// 1. Create a TCefCustomRenderProcessHandler in the DPR file, add a message name and set the OnCustomMessage event.
-// 2. Set the TCefCustomRenderProcessHandler in the GlobalCEFApp.RenderProcessHandler property.
-// 3. To get the Javascript code in this demo we use a context menu that sends a MINIBROWSER_EVALJSCODE to the form.
-// 4. The EvalJSCodeMsg asks for the Javascript code and sends it to the renderer using a process message.
-// 5. RenderProcessHandler_OnProcessMessageReceivedEvent receives the process message and calls ParseEvalJsAnswer
+// 1. Set GlobalCEFApp.OnProcessMessageReceived to JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent in the DPR file.
+// 2. To get the Javascript code in this demo we use a context menu that sends a MINIBROWSER_EVALJSCODE to the form.
+// 3. The EvalJSCodeMsg asks for the Javascript code and sends it to the renderer using a process message.
+// 4. RenderProcessHandler_OnProcessMessageReceivedEvent receives the process message and calls ParseEvalJsAnswer
 //    to evaluate the code.
-// 6. ParseEvalJsAnswer evaluates the code and sends a message with the results to the browser process using a
+// 5. ParseEvalJsAnswer evaluates the code and sends a message with the results to the browser process using a
 //    process message.
-// 7. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
+// 6. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
 //    MINIBROWSER_SHOWTEXTVIEWER message to the form.
-// 8. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
+// 7. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
 
 
 // This demo also has an example of binary parameters in process messages
 // ----------------------------------------------------------------------
-// 1. Create a TCefCustomRenderProcessHandler in the DPR file, add a message name and set the OnCustomMessage event.
-// 2. Set the TCefCustomRenderProcessHandler in the GlobalCEFApp.RenderProcessHandler property.
-// 3. The context menu has a 'Send JPEG image' option that sends a MINIBROWSER_JSBINPARAM message to the form.
-// 4. EvalJSBinParamMsg asks for a JPEG image and sends a process message with a ICefBinaryValue parameter to the
+// 1. Set GlobalCEFApp.OnProcessMessageReceived to JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent in the DPR file.
+// 2. The context menu has a 'Send JPEG image' option that sends a MINIBROWSER_JSBINPARAM message to the form.
+// 3. EvalJSBinParamMsg asks for a JPEG image and sends a process message with a ICefBinaryValue parameter to the
 //    renderer process.
-// 5. The renderer process parses the binary parameter in the ParseBinaryValue function and sends back the image
+// 4. The renderer process parses the binary parameter in the ParseBinaryValue function and sends back the image
 //    size and encoded image data to the browser process.
-// 6. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
+// 5. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
 //    MINIBROWSER_SHOWTEXTVIEWER message to the form.
-// 7. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
+// 6. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
 
 
 // About binary parameters
@@ -185,10 +183,10 @@ end;
 procedure TJSEvalFrm.Chromium1BeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
-  out Result: Boolean);
+  var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);

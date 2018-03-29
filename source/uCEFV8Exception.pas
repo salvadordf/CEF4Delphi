@@ -113,8 +113,9 @@ end;
 
 class function TCefV8ExceptionRef.UnWrap(data: Pointer): ICefV8Exception;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefV8Exception else
+  if (data <> nil) then
+    Result := Create(data) as ICefV8Exception
+   else
     Result := nil;
 end;
 

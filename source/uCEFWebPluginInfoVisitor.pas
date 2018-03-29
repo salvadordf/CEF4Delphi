@@ -75,20 +75,29 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFWebPluginInfo;
 
-function cef_web_plugin_info_visitor_visit(self: PCefWebPluginInfoVisitor; info: PCefWebPluginInfo; count, total: Integer): Integer; stdcall;
+function cef_web_plugin_info_visitor_visit(self: PCefWebPluginInfoVisitor;
+                                           info: PCefWebPluginInfo;
+                                           count, total: Integer): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefWebPluginInfoVisitorOwn(CefGetObject(self)) do
-    Result := Ord(Visit(TCefWebPluginInfoRef.UnWrap(info), count, total));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefWebPluginInfoVisitorOwn) then
+    Result := Ord(TCefWebPluginInfoVisitorOwn(TempObject).Visit(TCefWebPluginInfoRef.UnWrap(info),
+                                                                count,
+                                                                total));
 end;
 
 constructor TCefWebPluginInfoVisitorOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefWebPluginInfoVisitor));
+
   PCefWebPluginInfoVisitor(FData).visit := cef_web_plugin_info_visitor_visit;
 end;
 
-function TCefWebPluginInfoVisitorOwn.Visit(const info: ICefWebPluginInfo; count,
-  total: Integer): Boolean;
+function TCefWebPluginInfoVisitorOwn.Visit(const info: ICefWebPluginInfo; count, total: Integer): Boolean;
 begin
   Result := False;
 end;

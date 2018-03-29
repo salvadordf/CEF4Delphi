@@ -97,83 +97,118 @@ uses
 // ******************** TCEFServerHandlerOwn ********************
 // **************************************************************
 
-procedure cef_load_handler_on_server_created(self   : PCefServerHandler;
-                                             server : PCefServer); stdcall;
-begin
-  with TCEFServerHandlerOwn(CefGetObject(self)) do
-    OnServerCreated(TCEFServerRef.UnWrap(server));
-end;
-
-procedure cef_load_handler_on_server_destroyed(self   : PCefServerHandler;
+procedure cef_server_handler_on_server_created(self   : PCefServerHandler;
                                                server : PCefServer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCEFServerHandlerOwn(CefGetObject(self)) do
-    OnServerDestroyed(TCEFServerRef.UnWrap(server));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFServerHandlerOwn) then
+    TCEFServerHandlerOwn(TempObject).OnServerCreated(TCEFServerRef.UnWrap(server));
 end;
 
-procedure cef_load_handler_on_client_connected(self          : PCefServerHandler;
-                                               server        : PCefServer;
-                                               connection_id : Integer); stdcall;
+procedure cef_server_handler_on_server_destroyed(self   : PCefServerHandler;
+                                                 server : PCefServer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCEFServerHandlerOwn(CefGetObject(self)) do
-    OnClientConnected(TCEFServerRef.UnWrap(server), connection_id);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFServerHandlerOwn) then
+    TCEFServerHandlerOwn(TempObject).OnServerDestroyed(TCEFServerRef.UnWrap(server));
 end;
 
-procedure cef_load_handler_on_client_disconnected(self          : PCefServerHandler;
-                                                  server        : PCefServer;
-                                                  connection_id : Integer); stdcall;
+procedure cef_server_handler_on_client_connected(self          : PCefServerHandler;
+                                                 server        : PCefServer;
+                                                 connection_id : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCEFServerHandlerOwn(CefGetObject(self)) do
-    OnClientDisconnected(TCEFServerRef.UnWrap(server), connection_id);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFServerHandlerOwn) then
+    TCEFServerHandlerOwn(TempObject).OnClientConnected(TCEFServerRef.UnWrap(server),
+                                                       connection_id);
 end;
 
-procedure cef_load_handler_on_http_request(self : PCefServerHandler;
-                                                 server         : PCefServer;
-                                                 connection_id  : Integer;
-                                           const client_address : PCefString;
-                                                 request        : PCefRequest); stdcall;
+procedure cef_server_handler_on_client_disconnected(self          : PCefServerHandler;
+                                                    server        : PCefServer;
+                                                    connection_id : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCEFServerHandlerOwn(CefGetObject(self)) do
-    OnHttpRequest(TCEFServerRef.UnWrap(server),
-                  connection_id,
-                  CefString(client_address),
-                  TCefRequestRef.UnWrap(request));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFServerHandlerOwn) then
+    TCEFServerHandlerOwn(TempObject).OnClientDisconnected(TCEFServerRef.UnWrap(server),
+                                                          connection_id);
 end;
 
-procedure cef_load_handler_on_web_socket_request(self : PCefServerHandler;
-                                                       server         : PCefServer;
-                                                       connection_id  : Integer;
-                                                 const client_address : PCefString;
-                                                       request        : PCefRequest;
-                                                       callback       : PCefCallback); stdcall;
+procedure cef_server_handler_on_http_request(      self           : PCefServerHandler;
+                                                   server         : PCefServer;
+                                                   connection_id  : Integer;
+                                             const client_address : PCefString;
+                                                   request        : PCefRequest); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCEFServerHandlerOwn(CefGetObject(self)) do
-    OnWebSocketRequest(TCEFServerRef.UnWrap(server),
-                       connection_id,
-                       CefString(client_address),
-                       TCefRequestRef.UnWrap(request),
-                       TCefCallbackRef.UnWrap(callback));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFServerHandlerOwn) then
+    TCEFServerHandlerOwn(TempObject).OnHttpRequest(TCEFServerRef.UnWrap(server),
+                                                   connection_id,
+                                                   CefString(client_address),
+                                                   TCefRequestRef.UnWrap(request));
 end;
 
-procedure cef_load_handler_on_web_socket_connected(self          : PCefServerHandler;
-                                                   server        : PCefServer;
-                                                   connection_id : Integer); stdcall;
+procedure cef_server_handler_on_web_socket_request(      self           : PCefServerHandler;
+                                                         server         : PCefServer;
+                                                         connection_id  : Integer;
+                                                   const client_address : PCefString;
+                                                         request        : PCefRequest;
+                                                         callback       : PCefCallback); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCEFServerHandlerOwn(CefGetObject(self)) do
-    OnWebSocketConnected(TCEFServerRef.UnWrap(server), connection_id);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFServerHandlerOwn) then
+    TCEFServerHandlerOwn(TempObject).OnWebSocketRequest(TCEFServerRef.UnWrap(server),
+                                                        connection_id,
+                                                        CefString(client_address),
+                                                        TCefRequestRef.UnWrap(request),
+                                                        TCefCallbackRef.UnWrap(callback));
 end;
 
-procedure cef_load_handler_on_web_socket_message(self : PCefServerHandler;
-                                                       server        : PCefServer;
-                                                       connection_id : Integer;
-                                                 const data          : Pointer;
-                                                       data_size     : NativeUInt); stdcall;
+procedure cef_server_handler_on_web_socket_connected(self          : PCefServerHandler;
+                                                     server        : PCefServer;
+                                                     connection_id : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCEFServerHandlerOwn(CefGetObject(self)) do
-    OnWebSocketMessage(TCEFServerRef.UnWrap(server),
-                       connection_id,
-                       data,
-                       data_size);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFServerHandlerOwn) then
+    TCEFServerHandlerOwn(TempObject).OnWebSocketConnected(TCEFServerRef.UnWrap(server),
+                                                          connection_id);
+end;
+
+procedure cef_server_handler_on_web_socket_message(      self          : PCefServerHandler;
+                                                         server        : PCefServer;
+                                                         connection_id : Integer;
+                                                   const data          : Pointer;
+                                                         data_size     : NativeUInt); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFServerHandlerOwn) then
+    TCEFServerHandlerOwn(TempObject).OnWebSocketMessage(TCEFServerRef.UnWrap(server),
+                                                        connection_id,
+                                                        data,
+                                                        data_size);
 end;
 
 constructor TCEFServerHandlerOwn.Create;
@@ -182,14 +217,14 @@ begin
 
   with PCEFServerHandler(FData)^ do
     begin
-      on_server_created       := cef_load_handler_on_server_created;
-      on_server_destroyed     := cef_load_handler_on_server_destroyed;
-      on_client_connected     := cef_load_handler_on_client_connected;
-      on_client_disconnected  := cef_load_handler_on_client_disconnected;
-      on_http_request         := cef_load_handler_on_http_request;
-      on_web_socket_request   := cef_load_handler_on_web_socket_request;
-      on_web_socket_connected := cef_load_handler_on_web_socket_connected;
-      on_web_socket_message   := cef_load_handler_on_web_socket_message;
+      on_server_created       := cef_server_handler_on_server_created;
+      on_server_destroyed     := cef_server_handler_on_server_destroyed;
+      on_client_connected     := cef_server_handler_on_client_connected;
+      on_client_disconnected  := cef_server_handler_on_client_disconnected;
+      on_http_request         := cef_server_handler_on_http_request;
+      on_web_socket_request   := cef_server_handler_on_web_socket_request;
+      on_web_socket_connected := cef_server_handler_on_web_socket_connected;
+      on_web_socket_message   := cef_server_handler_on_web_socket_message;
     end;
 end;
 
@@ -314,7 +349,7 @@ end;
 procedure TCustomServerHandler.OnWebSocketConnected(const server: ICefServer; connection_id: Integer);
 begin
   try
-  if (FEvents <> nil) then FEvents.doOnWebSocketConnected(server, connection_id);
+    if (FEvents <> nil) then FEvents.doOnWebSocketConnected(server, connection_id);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomServerHandler.OnWebSocketConnected', e) then raise;

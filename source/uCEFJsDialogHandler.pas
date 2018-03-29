@@ -89,7 +89,7 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFJsDialogCallback;
 
-function cef_jsdialog_handler_on_jsdialog(self : PCefJsDialogHandler;
+function cef_jsdialog_handler_on_jsdialog(      self                : PCefJsDialogHandler;
                                                 browser             : PCefBrowser;
                                           const origin_url          : PCefString;
                                                 dialog_type         : TCefJsDialogType;
@@ -98,83 +98,106 @@ function cef_jsdialog_handler_on_jsdialog(self : PCefJsDialogHandler;
                                                 callback            : PCefJsDialogCallback;
                                                 suppress_message    : PInteger): Integer; stdcall;
 var
-  sm: Boolean;
+  TempSuppress : Boolean;
+  TempObject   : TObject;
 begin
-  sm := suppress_message^ <> 0;
+  Result       := Ord(False);
+  TempSuppress := suppress_message^ <> 0;
+  TempObject   := CefGetObject(self);
 
-  with TCefJsDialogHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnJsdialog(TCefBrowserRef.UnWrap(browser),
-                             CefString(origin_url),
-                             dialog_type,
-                             CefString(message_text),
-                             CefString(default_prompt_text),
-                             TCefJsDialogCallbackRef.UnWrap(callback),
-                             sm));
+  if (TempObject <> nil) and (TempObject is TCefJsDialogHandlerOwn) then
+    Result := Ord(TCefJsDialogHandlerOwn(TempObject).OnJsdialog(TCefBrowserRef.UnWrap(browser),
+                                                                CefString(origin_url),
+                                                                dialog_type,
+                                                                CefString(message_text),
+                                                                CefString(default_prompt_text),
+                                                                TCefJsDialogCallbackRef.UnWrap(callback),
+                                                                TempSuppress));
 
-  suppress_message^ := Ord(sm);
+  suppress_message^ := Ord(TempSuppress);
 end;
 
-function cef_jsdialog_handler_on_before_unload_dialog(self: PCefJsDialogHandler;
-  browser: PCefBrowser; const message_text: PCefString; is_reload: Integer;
-  callback: PCefJsDialogCallback): Integer; stdcall;
+function cef_jsdialog_handler_on_before_unload_dialog(      self         : PCefJsDialogHandler;
+                                                            browser      : PCefBrowser;
+                                                      const message_text : PCefString;
+                                                            is_reload    : Integer;
+                                                            callback     : PCefJsDialogCallback): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefJsDialogHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnBeforeUnloadDialog(TCefBrowserRef.UnWrap(browser), CefString(message_text),
-      is_reload <> 0, TCefJsDialogCallbackRef.UnWrap(callback)));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefJsDialogHandlerOwn) then
+    Result := Ord(TCefJsDialogHandlerOwn(TempObject).OnBeforeUnloadDialog(TCefBrowserRef.UnWrap(browser),
+                                                                          CefString(message_text),
+                                                                          is_reload <> 0,
+                                                                          TCefJsDialogCallbackRef.UnWrap(callback)));
 end;
 
-procedure cef_jsdialog_handler_on_reset_dialog_state(self: PCefJsDialogHandler;
-  browser: PCefBrowser); stdcall;
+procedure cef_jsdialog_handler_on_reset_dialog_state(self    : PCefJsDialogHandler;
+                                                     browser : PCefBrowser); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefJsDialogHandlerOwn(CefGetObject(self)) do
-    OnResetDialogState(TCefBrowserRef.UnWrap(browser));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefJsDialogHandlerOwn) then
+    TCefJsDialogHandlerOwn(TempObject).OnResetDialogState(TCefBrowserRef.UnWrap(browser));
 end;
 
-procedure cef_jsdialog_handler_on_dialog_closed(self: PCefJsDialogHandler;
-  browser: PCefBrowser); stdcall;
+procedure cef_jsdialog_handler_on_dialog_closed(self    : PCefJsDialogHandler;
+                                                browser : PCefBrowser); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefJsDialogHandlerOwn(CefGetObject(self)) do
-    OnDialogClosed(TCefBrowserRef.UnWrap(browser));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefJsDialogHandlerOwn) then
+    TCefJsDialogHandlerOwn(TempObject).OnDialogClosed(TCefBrowserRef.UnWrap(browser));
 end;
 
 constructor TCefJsDialogHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefJsDialogHandler));
+
   with PCefJsDialogHandler(FData)^ do
-  begin
-    on_jsdialog := cef_jsdialog_handler_on_jsdialog;
-    on_before_unload_dialog := cef_jsdialog_handler_on_before_unload_dialog;
-    on_reset_dialog_state := cef_jsdialog_handler_on_reset_dialog_state;
-    on_dialog_closed := cef_jsdialog_handler_on_dialog_closed;
-  end;
+    begin
+      on_jsdialog             := cef_jsdialog_handler_on_jsdialog;
+      on_before_unload_dialog := cef_jsdialog_handler_on_before_unload_dialog;
+      on_reset_dialog_state   := cef_jsdialog_handler_on_reset_dialog_state;
+      on_dialog_closed        := cef_jsdialog_handler_on_dialog_closed;
+    end;
 end;
 
-function TCefJsDialogHandlerOwn.OnJsdialog(const browser: ICefBrowser;
-  const originUrl: ustring; dialogType: TCefJsDialogType;
-  const messageText, defaultPromptText: ustring;
-  const callback: ICefJsDialogCallback;
-  out suppressMessage: Boolean): Boolean;
+function TCefJsDialogHandlerOwn.OnJsdialog(const browser           : ICefBrowser;
+                                           const originUrl         : ustring;
+                                                 dialogType        : TCefJsDialogType;
+                                           const messageText       : ustring;
+                                           const defaultPromptText : ustring;
+                                           const callback          : ICefJsDialogCallback;
+                                           out   suppressMessage   : Boolean): Boolean;
 begin
   Result          := False;
   suppressMessage := False;
 end;
 
-function TCefJsDialogHandlerOwn.OnBeforeUnloadDialog(const browser: ICefBrowser;
-  const messageText: ustring; isReload: Boolean;
-  const callback: ICefJsDialogCallback): Boolean;
+function TCefJsDialogHandlerOwn.OnBeforeUnloadDialog(const browser     : ICefBrowser;
+                                                     const messageText : ustring;
+                                                           isReload    : Boolean;
+                                                     const callback    : ICefJsDialogCallback): Boolean;
 begin
-
   Result := False;
 end;
 
 procedure TCefJsDialogHandlerOwn.OnDialogClosed(const browser: ICefBrowser);
 begin
-
+  //
 end;
 
 procedure TCefJsDialogHandlerOwn.OnResetDialogState(const browser: ICefBrowser);
 begin
-
+  //
 end;
 
 procedure TCefJsDialogHandlerOwn.RemoveReferences;

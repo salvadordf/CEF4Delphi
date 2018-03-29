@@ -120,179 +120,327 @@ uses
   uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate,
   uCEFApplication;
 
-function cef_request_handler_on_before_browse(self: PCefRequestHandler; browser: PCefBrowser;
-  frame: PCefFrame; request: PCefRequest; isRedirect: Integer): Integer; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnBeforeBrowse(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame),
-      TCefRequestRef.UnWrap(request), isRedirect <> 0));
-end;
-
-function cef_request_handler_on_open_urlfrom_tab(self: PCefRequestHandler; browser: PCefBrowser;
-  frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition;
-  user_gesture: Integer): Integer; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnOpenUrlFromTab(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame),
-      CefString(target_url), target_disposition, user_gesture <> 0));
-end;
-
-function cef_request_handler_on_before_resource_load(self: PCefRequestHandler;
-  browser: PCefBrowser; frame: PCefFrame; request: PCefRequest;
-  callback: PCefRequestCallback): TCefReturnValue; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := OnBeforeResourceLoad(
-      TCefBrowserRef.UnWrap(browser),
-      TCefFrameRef.UnWrap(frame),
-      TCefRequestRef.UnWrap(request),
-      TcefRequestCallbackRef.UnWrap(callback));
-end;
-
-function cef_request_handler_get_resource_handler(self: PCefRequestHandler;
-  browser: PCefBrowser; frame: PCefFrame; request: PCefRequest): PCefResourceHandler; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := CefGetData(GetResourceHandler(TCefBrowserRef.UnWrap(browser),
-      TCefFrameRef.UnWrap(frame), TCefRequestRef.UnWrap(request)));
-end;
-
-procedure cef_request_handler_on_resource_redirect(self: PCefRequestHandler;
-  browser: PCefBrowser; frame: PCefFrame; const request: PCefRequest; response: PCefResponse; new_url: PCefString); stdcall;
+function cef_request_handler_on_before_browse(self       : PCefRequestHandler;
+                                              browser    : PCefBrowser;
+                                              frame      : PCefFrame;
+                                              request    : PCefRequest;
+                                              isRedirect : Integer): Integer; stdcall;
 var
-  url: ustring;
+  TempObject : TObject;
 begin
-  url := CefString(new_url);
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    OnResourceRedirect(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame),
-      TCefRequestRef.UnWrap(request), TCefResponseRef.UnWrap(response), url);
-  if url <> '' then
-    CefStringSet(new_url, url);
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).OnBeforeBrowse(TCefBrowserRef.UnWrap(browser),
+                                                                   TCefFrameRef.UnWrap(frame),
+                                                                   TCefRequestRef.UnWrap(request),
+                                                                   isRedirect <> 0));
 end;
 
-function cef_request_handler_on_resource_response(self: PCefRequestHandler;
-  browser: PCefBrowser; frame: PCefFrame; request: PCefRequest;
-  response: PCefResponse): Integer; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnResourceResponse(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame),
-      TCefRequestRef.UnWrap(request), TCefResponseRef.UnWrap(response)));
-end;
-
-function cef_request_handler_get_resource_response_filter(self: PCefRequestHandler; browser: PCefBrowser;
-  frame: PCefFrame; request: PCefRequest; response: PCefResponse): PCefResponseFilter; stdcall;
-begin
-   with TCefRequestHandlerOwn(CefGetObject(self)) do
-     Result := CefGetData(GetResourceResponseFilter(TCefBrowserRef.UnWrap(browser),
-      TCefFrameRef.UnWrap(frame), TCefRequestRef.UnWrap(request),
-      TCefResponseRef.UnWrap(response)));
-end;
-
-procedure cef_request_handler_on_resource_load_complete(self: PCefRequestHandler; browser: PCefBrowser;
-  frame: PCefFrame; request: PCefRequest; response: PCefResponse;
-  status: TCefUrlRequestStatus; received_content_length: Int64); stdcall;
-begin
-   with TCefRequestHandlerOwn(CefGetObject(self)) do
-     OnResourceLoadComplete(TCefBrowserRef.UnWrap(browser),
-      TCefFrameRef.UnWrap(frame), TCefRequestRef.UnWrap(request),
-      TCefResponseRef.UnWrap(response), status, received_content_length);
-end;
-
-function cef_request_handler_get_auth_credentials(self: PCefRequestHandler;
-  browser: PCefBrowser; frame: PCefFrame; isProxy: Integer; const host: PCefString;
-  port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetAuthCredentials(
-      TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), isProxy <> 0,
-      CefString(host), port, CefString(realm), CefString(scheme), TCefAuthCallbackRef.UnWrap(callback)));
-end;
-
-function cef_request_handler_can_get_cookies(self: PCefRequestHandler;
-                                             browser: PCefBrowser;
-                                             frame: PCefFrame;
-                                             request: PCefRequest): Integer; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := Ord(CanGetCookies(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), TCefRequestRef.UnWrap(request)));
-end;
-
-function cef_request_handler_can_set_cookie(self: PCefRequestHandler;
-                                            browser: PCefBrowser;
-                                            frame: PCefFrame;
-                                            request: PCefRequest;
-                                            const cookie: PCefCookie): Integer; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := Ord(CanSetCookie(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), TCefRequestRef.UnWrap(request), cookie));
-end;
-
-function cef_request_handler_on_quota_request(self: PCefRequestHandler; browser: PCefBrowser;
-  const origin_url: PCefString; new_size: Int64; callback: PCefRequestCallback): Integer; stdcall;
-begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnQuotaRequest(TCefBrowserRef.UnWrap(browser),
-      CefString(origin_url), new_size, TCefRequestCallbackRef.UnWrap(callback)));
-end;
-
-procedure cef_request_handler_on_protocol_execution(self: PCefRequestHandler;
-  browser: PCefBrowser; const url: PCefString; allow_os_execution: PInteger); stdcall;
+function cef_request_handler_on_open_urlfrom_tab(      self               : PCefRequestHandler;
+                                                       browser            : PCefBrowser;
+                                                       frame              : PCefFrame;
+                                                 const target_url         : PCefString;
+                                                       target_disposition : TCefWindowOpenDisposition;
+                                                       user_gesture       : Integer): Integer; stdcall;
 var
-  allow: Boolean;
+  TempObject : TObject;
 begin
-  allow := allow_os_execution^ <> 0;
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    OnProtocolExecution(
-      TCefBrowserRef.UnWrap(browser),
-      CefString(url), allow);
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).OnOpenUrlFromTab(TCefBrowserRef.UnWrap(browser),
+                                                                     TCefFrameRef.UnWrap(frame),
+                                                                     CefString(target_url),
+                                                                     target_disposition,
+                                                                     user_gesture <> 0));
+end;
+
+function cef_request_handler_on_before_resource_load(self     : PCefRequestHandler;
+                                                     browser  : PCefBrowser;
+                                                     frame    : PCefFrame;
+                                                     request  : PCefRequest;
+                                                     callback : PCefRequestCallback): TCefReturnValue; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := RV_CONTINUE;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := TCefRequestHandlerOwn(TempObject).OnBeforeResourceLoad(TCefBrowserRef.UnWrap(browser),
+                                                                     TCefFrameRef.UnWrap(frame),
+                                                                     TCefRequestRef.UnWrap(request),
+                                                                     TcefRequestCallbackRef.UnWrap(callback));
+end;
+
+function cef_request_handler_get_resource_handler(self    : PCefRequestHandler;
+                                                  browser : PCefBrowser;
+                                                  frame   : PCefFrame;
+                                                  request : PCefRequest): PCefResourceHandler; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := CefGetData(TCefRequestHandlerOwn(TempObject).GetResourceHandler(TCefBrowserRef.UnWrap(browser),
+                                                                              TCefFrameRef.UnWrap(frame),
+                                                                              TCefRequestRef.UnWrap(request)));
+end;
+
+procedure cef_request_handler_on_resource_redirect(self     : PCefRequestHandler;
+                                                   browser  : PCefBrowser;
+                                                   frame    : PCefFrame;
+                                                   request  : PCefRequest;
+                                                   response : PCefResponse;
+                                                   new_url  : PCefString); stdcall;
+var
+  TempURL    : ustring;
+  TempObject : TObject;
+begin
+  TempURL    := CefString(new_url);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    TCefRequestHandlerOwn(TempObject).OnResourceRedirect(TCefBrowserRef.UnWrap(browser),
+                                                         TCefFrameRef.UnWrap(frame),
+                                                         TCefRequestRef.UnWrap(request),
+                                                         TCefResponseRef.UnWrap(response),
+                                                         TempURL);
+
+  if (TempURL <> '') then CefStringSet(new_url, TempURL);
+end;
+
+function cef_request_handler_on_resource_response(self     : PCefRequestHandler;
+                                                  browser  : PCefBrowser;
+                                                  frame    : PCefFrame;
+                                                  request  : PCefRequest;
+                                                  response : PCefResponse): Integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).OnResourceResponse(TCefBrowserRef.UnWrap(browser),
+                                                                       TCefFrameRef.UnWrap(frame),
+                                                                       TCefRequestRef.UnWrap(request),
+                                                                       TCefResponseRef.UnWrap(response)));
+end;
+
+function cef_request_handler_get_resource_response_filter(self     : PCefRequestHandler;
+                                                          browser  : PCefBrowser;
+                                                          frame    : PCefFrame;
+                                                          request  : PCefRequest;
+                                                          response : PCefResponse): PCefResponseFilter; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := CefGetData(TCefRequestHandlerOwn(TempObject).GetResourceResponseFilter(TCefBrowserRef.UnWrap(browser),
+                                                                                     TCefFrameRef.UnWrap(frame),
+                                                                                     TCefRequestRef.UnWrap(request),
+                                                                                     TCefResponseRef.UnWrap(response)));
+end;
+
+procedure cef_request_handler_on_resource_load_complete(self                    : PCefRequestHandler;
+                                                        browser                 : PCefBrowser;
+                                                        frame                   : PCefFrame;
+                                                        request                 : PCefRequest;
+                                                        response                : PCefResponse;
+                                                        status                  : TCefUrlRequestStatus;
+                                                        received_content_length : Int64); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    TCefRequestHandlerOwn(TempObject).OnResourceLoadComplete(TCefBrowserRef.UnWrap(browser),
+                                                             TCefFrameRef.UnWrap(frame),
+                                                             TCefRequestRef.UnWrap(request),
+                                                             TCefResponseRef.UnWrap(response),
+                                                             status,
+                                                             received_content_length);
+end;
+
+function cef_request_handler_get_auth_credentials(      self     : PCefRequestHandler;
+                                                        browser  : PCefBrowser;
+                                                        frame    : PCefFrame;
+                                                        isProxy  : Integer;
+                                                  const host     : PCefString;
+                                                        port     : Integer;
+                                                  const realm    : PCefString;
+                                                  const scheme   : PCefString;
+                                                        callback : PCefAuthCallback): Integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).GetAuthCredentials(TCefBrowserRef.UnWrap(browser),
+                                                                       TCefFrameRef.UnWrap(frame),
+                                                                       isProxy <> 0,
+                                                                       CefString(host),
+                                                                       port,
+                                                                       CefString(realm),
+                                                                       CefString(scheme),
+                                                                       TCefAuthCallbackRef.UnWrap(callback)));
+end;
+
+function cef_request_handler_can_get_cookies(self    : PCefRequestHandler;
+                                             browser : PCefBrowser;
+                                             frame   : PCefFrame;
+                                             request : PCefRequest): Integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).CanGetCookies(TCefBrowserRef.UnWrap(browser),
+                                                                  TCefFrameRef.UnWrap(frame),
+                                                                  TCefRequestRef.UnWrap(request)));
+end;
+
+function cef_request_handler_can_set_cookie(      self    : PCefRequestHandler;
+                                                  browser : PCefBrowser;
+                                                  frame   : PCefFrame;
+                                                  request : PCefRequest;
+                                            const cookie  : PCefCookie): Integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).CanSetCookie(TCefBrowserRef.UnWrap(browser),
+                                                                 TCefFrameRef.UnWrap(frame),
+                                                                 TCefRequestRef.UnWrap(request),
+                                                                 cookie));
+end;
+
+function cef_request_handler_on_quota_request(      self       : PCefRequestHandler;
+                                                    browser    : PCefBrowser;
+                                              const origin_url : PCefString;
+                                                    new_size   : Int64;
+                                                    callback   : PCefRequestCallback): Integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).OnQuotaRequest(TCefBrowserRef.UnWrap(browser),
+                                                                   CefString(origin_url),
+                                                                   new_size,
+                                                                   TCefRequestCallbackRef.UnWrap(callback)));
+end;
+
+procedure cef_request_handler_on_protocol_execution(      self               : PCefRequestHandler;
+                                                          browser            : PCefBrowser;
+                                                    const url                : PCefString;
+                                                          allow_os_execution : PInteger); stdcall;
+var
+  allow : Boolean;
+  TempObject : TObject;
+begin
+  allow      := allow_os_execution^ <> 0;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    TCefRequestHandlerOwn(TempObject).OnProtocolExecution(TCefBrowserRef.UnWrap(browser),
+                                                          CefString(url),
+                                                          allow);
+
   allow_os_execution^ := Ord(allow);
 end;
 
-function cef_request_handler_on_certificate_error(self: PCefRequestHandler;
-  browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString;
-  ssl_info: PCefSslInfo; callback: PCefRequestCallback): Integer; stdcall;
+function cef_request_handler_on_certificate_error(      self        : PCefRequestHandler;
+                                                        browser     : PCefBrowser;
+                                                        cert_error  : TCefErrorcode;
+                                                  const request_url : PCefString;
+                                                        ssl_info    : PCefSslInfo;
+                                                        callback    : PCefRequestCallback): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnCertificateError(TCefBrowserRef.UnWrap(browser), cert_error,
-      CefString(request_url), TCefSslInfoRef.UnWrap(ssl_info),
-      TCefRequestCallbackRef.UnWrap(callback)));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).OnCertificateError(TCefBrowserRef.UnWrap(browser),
+                                                                       cert_error,
+                                                                       CefString(request_url),
+                                                                       TCefSslInfoRef.UnWrap(ssl_info),
+                                                                       TCefRequestCallbackRef.UnWrap(callback)));
 end;
 
-procedure cef_request_handler_on_plugin_crashed(self: PCefRequestHandler;
-  browser: PCefBrowser; const plugin_path: PCefString); stdcall;
+procedure cef_request_handler_on_plugin_crashed(      self        : PCefRequestHandler;
+                                                      browser     : PCefBrowser;
+                                                const plugin_path : PCefString); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    OnPluginCrashed(TCefBrowserRef.UnWrap(browser), CefString(plugin_path));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    TCefRequestHandlerOwn(TempObject).OnPluginCrashed(TCefBrowserRef.UnWrap(browser),
+                                                      CefString(plugin_path));
 end;
 
-procedure cef_request_handler_on_render_view_ready(self: PCefRequestHandler;
-  browser: PCefBrowser); stdcall;
+procedure cef_request_handler_on_render_view_ready(self    : PCefRequestHandler;
+                                                   browser : PCefBrowser); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    OnRenderViewReady(TCefBrowserRef.UnWrap(browser));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    TCefRequestHandlerOwn(TempObject).OnRenderViewReady(TCefBrowserRef.UnWrap(browser));
 end;
 
-procedure cef_request_handler_on_render_process_terminated(self: PCefRequestHandler;
-  browser: PCefBrowser; status: TCefTerminationStatus); stdcall;
+procedure cef_request_handler_on_render_process_terminated(self    : PCefRequestHandler;
+                                                           browser : PCefBrowser;
+                                                           status  : TCefTerminationStatus); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRequestHandlerOwn(CefGetObject(self)) do
-    OnRenderProcessTerminated(TCefBrowserRef.UnWrap(browser), status);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    TCefRequestHandlerOwn(TempObject).OnRenderProcessTerminated(TCefBrowserRef.UnWrap(browser),
+                                                                status);
 end;
 
-function cef_request_handler_on_select_client_certificate(self: PCefRequestHandler;
-                                                          browser: PCefBrowser;
-                                                          isProxy: integer;
-                                                          const host: PCefString;
-                                                          port: integer;
-                                                          certificatesCount: NativeUInt;
-                                                          const certificates: PPCefX509Certificate;
-                                                          callback: PCefSelectClientCertificateCallback): integer; stdcall;
+function cef_request_handler_on_select_client_certificate(      self              : PCefRequestHandler;
+                                                                browser           : PCefBrowser;
+                                                                isProxy           : integer;
+                                                          const host              : PCefString;
+                                                                port              : integer;
+                                                                certificatesCount : NativeUInt;
+                                                          const certificates      : PPCefX509Certificate;
+                                                                callback          : PCefSelectClientCertificateCallback): integer; stdcall;
 var
   TempCertArray : TCefX509CertificateArray;
   i : NativeUInt;
+  TempObject : TObject;
 begin
   TempCertArray := nil;
-  Result        := 0;
+  Result        := Ord(False);
 
   try
     try
@@ -307,14 +455,16 @@ begin
               inc(i);
             end;
 
-          with TCefRequestHandlerOwn(CefGetObject(self)) do
-            Result := Ord(OnSelectClientCertificate(TCefBrowserRef.UnWrap(browser),
-                                                    (isProxy <> 0),
-                                                    CefString(host),
-                                                    port,
-                                                    certificatesCount,
-                                                    TempCertArray,
-                                                    TCefSelectClientCertificateCallbackRef.UnWrap(callback)));
+          TempObject := CefGetObject(self);
+
+          if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+            Result := Ord(TCefRequestHandlerOwn(TempObject).OnSelectClientCertificate(TCefBrowserRef.UnWrap(browser),
+                                                                                      (isProxy <> 0),
+                                                                                      CefString(host),
+                                                                                      port,
+                                                                                      certificatesCount,
+                                                                                      TempCertArray,
+                                                                                      TCefSelectClientCertificateCallbackRef.UnWrap(callback)));
 
           i := 0;
           while (i < certificatesCount) do

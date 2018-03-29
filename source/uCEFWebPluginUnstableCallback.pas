@@ -77,9 +77,14 @@ uses
 procedure cef_web_plugin_unstable_callback_is_unstable(self: PCefWebPluginUnstableCallback;
                                                        const path: PCefString;
                                                        unstable: Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefWebPluginUnstableCallbackOwn(CefGetObject(self)) do
-    IsUnstable(CefString(path), unstable <> 0);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefWebPluginUnstableCallbackOwn) then
+    TCefWebPluginUnstableCallbackOwn(TempObject).IsUnstable(CefString(path),
+                                                            unstable <> 0);
 end;
 
 // TCefWebPluginUnstableCallbackOwn

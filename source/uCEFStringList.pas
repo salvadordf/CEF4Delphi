@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFStringMap;
+unit uCEFStringList;
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -47,34 +47,40 @@ unit uCEFStringMap;
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.Classes,
+  {$ELSE}
+  Classes,
+  {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefCustomStringMap = class(TInterfacedObject, ICefStringMap)
+  TCefCustomStringList = class(TInterfacedObject, ICefStringList)
     protected
-      FHandle : TCefStringMap;
+      FHandle : TCefStringList;
 
       function  GetHandle: TCefStringMap; virtual;
       function  GetSize: NativeUInt; virtual;
-      function  Find(const key: ustring): ustring; virtual;
-      function  GetKey(index: NativeUInt): ustring; virtual;
       function  GetValue(index: NativeUInt): ustring; virtual;
-      function  Append(const key, value: ustring) : boolean; virtual;
+      procedure Append(const value: ustring); virtual;
       procedure Clear; virtual;
+      function  Copy : TCefStringList; virtual;
+      procedure CopyToStrings(const aStrings : TStrings); virtual;
+      procedure AddStrings(const aStrings : TStrings); virtual;
 
     public
       constructor Create; virtual;
   end;
 
-  TCefStringMapOwn = class(TCefCustomStringMap)
+  TCefStringListOwn = class(TCefCustomStringList)
     public
       constructor Create; override;
       destructor  Destroy; override;
   end;
 
-  TCefStringMapRef = class(TCefCustomStringMap)
+  TCefStringListRef = class(TCefCustomStringList)
     public
-      constructor Create(aHandle : TCefStringMap); reintroduce;
+      constructor Create(aHandle : TCefStringList); reintroduce;
   end;
 
 implementation
@@ -83,82 +89,56 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
 
-// ****************************************
-// ********* TCefCustomStringMap **********
-// ****************************************
+// *****************************************
+// ********* TCefCustomStringList **********
+// *****************************************
 
 
-constructor TCefCustomStringMap.Create;
+constructor TCefCustomStringList.Create;
 begin
   inherited Create;
 
   FHandle := nil;
 end;
 
-function TCefCustomStringMap.Append(const key, value: ustring) : boolean;
+procedure TCefCustomStringList.Append(const value: ustring);
 var
-  TempKey, TempValue : TCefString;
+  TempValue : TCefString;
 begin
   if (FHandle <> nil) then
     begin
-      TempKey   := CefString(key);
       TempValue := CefString(value);
-      Result    := cef_string_map_append(FHandle, @TempKey, @TempValue) <> 0;
-    end
-   else
-    Result := False;
-end;
-
-procedure TCefCustomStringMap.Clear;
-begin
-  if (FHandle <> nil) then cef_string_map_clear(FHandle);
-end;
-
-function TCefCustomStringMap.Find(const key: ustring): ustring;
-var
-  TempKey, TempValue : TCefString;
-begin
-  Result := '';
-
-  if (FHandle <> nil) then
-    begin
-      FillChar(TempValue, SizeOf(TempValue), 0);
-      TempKey := CefString(key);
-
-      if (cef_string_map_find(FHandle, @TempKey, TempValue) <> 0) then
-        Result := CefString(@TempValue);
+      cef_string_list_append(FHandle, @TempValue);
     end;
 end;
 
-function TCefCustomStringMap.GetHandle: TCefStringMap;
+procedure TCefCustomStringList.Clear;
+begin
+  if (FHandle <> nil) then cef_string_list_clear(FHandle);
+end;
+
+function TCefCustomStringList.GetHandle: TCefStringMap;
 begin
   Result := FHandle;
 end;
 
-function TCefCustomStringMap.GetKey(index: NativeUInt): ustring;
-var
-  TempKey : TCefString;
-begin
-  Result := '';
-
-  if (FHandle <> nil) then
-    begin
-      FillChar(TempKey, SizeOf(TempKey), 0);
-
-      if (cef_string_map_key(FHandle, index, TempKey) <> 0) then
-        Result := CefString(@TempKey);
-    end;
-end;
-
-function TCefCustomStringMap.GetSize: NativeUInt;
+function TCefCustomStringList.GetSize: NativeUInt;
 begin
   if (FHandle <> nil) then
-    Result := cef_string_map_size(FHandle)
+    Result := cef_string_list_size(FHandle)
    else
     Result := 0;
 end;
 
-function TCefCustomStringMap.GetValue(index: NativeUInt): ustring;
+function TCefCustomStringList.Copy : TCefStringList;
+begin
+  if (FHandle <> nil) then
+    Result := cef_string_list_copy(FHandle)
+   else
+    Result := nil;
+end;
+
+function TCefCustomStringList.GetValue(index: NativeUInt): ustring;
 var
   TempValue : TCefString;
 begin
@@ -168,38 +148,69 @@ begin
     begin
       FillChar(TempValue, SizeOf(TempValue), 0);
 
-      if (cef_string_map_value(FHandle, index, TempValue) <> 0) then
+      if (cef_string_list_value(FHandle, index, @TempValue) <> 0) then
         Result := CefString(@TempValue);
     end;
 end;
 
+procedure TCefCustomStringList.CopyToStrings(const aStrings : TStrings);
+var
+  i, j : NativeUInt;
+  TempString : TCefString;
+begin
+  if (aStrings <> nil) and (FHandle <> nil) then
+    begin
+      i := 0;
+      j := GetSize;
 
-// **************************************
-// ********* TCefStringMapOwn ***********
-// **************************************
+      while (i < j) do
+        begin
+          FillChar(TempString, SizeOf(TCefString), 0);
+
+          if (cef_string_list_value(FHandle, i, @TempString) <> 0) then
+            aStrings.Add(CefStringClearAndGet(TempString));
+
+          inc(i);
+        end;
+    end;
+end;
+
+procedure TCefCustomStringList.AddStrings(const aStrings : TStrings);
+var
+  i : integer;
+begin
+  if (FHandle <> nil) and (aStrings <> nil) and (aStrings.Count > 0) then
+    for i := 0 to aStrings.Count - 1 do Append(aStrings[i]);
+end;
 
 
-constructor TCefStringMapOwn.Create;
+
+// *****************************************
+// *********** TCefStringListOwn ***********
+// *****************************************
+
+
+constructor TCefStringListOwn.Create;
 begin
   inherited Create;
 
-  FHandle := cef_string_map_alloc;
+  FHandle := cef_string_list_alloc;
 end;
 
-destructor TCefStringMapOwn.Destroy;
+destructor TCefStringListOwn.Destroy;
 begin
-  if (FHandle <> nil) then cef_string_map_free(FHandle);
+  if (FHandle <> nil) then cef_string_list_free(FHandle);
 
   inherited Destroy;
 end;
 
 
-// **************************************
-// ********* TCefStringMapRef ***********
-// **************************************
+// *****************************************
+// *********** TCefStringListRef ***********
+// *****************************************
 
 
-constructor TCefStringMapRef.Create(aHandle : TCefStringMap);
+constructor TCefStringListRef.Create(aHandle : TCefStringList);
 begin
   inherited Create;
 

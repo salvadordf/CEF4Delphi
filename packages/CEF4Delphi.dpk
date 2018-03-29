@@ -161,7 +161,8 @@ contains
   uCEFServer in '..\source\uCEFServer.pas',
   uCEFServerHandler in '..\source\uCEFServerHandler.pas',
   uCEFServerEvents in '..\source\uCEFServerEvents.pas',
-  uCEFServerComponent in '..\source\uCEFServerComponent.pas';
+  uCEFServerComponent in '..\source\uCEFServerComponent.pas',
+  uCEFStringList in '..\source\uCEFStringList.pas';
 
 end.
 

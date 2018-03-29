@@ -91,8 +91,13 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_delete_cookie_callback_on_complete(self: PCefDeleteCookiesCallback; num_deleted: Integer); stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefDeleteCookiesCallbackOwn(CefGetObject(self)) do OnComplete(num_deleted);
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDeleteCookiesCallbackOwn) then
+    TCefDeleteCookiesCallbackOwn(TempObject).OnComplete(num_deleted);
 end;
 
 // TCefDeleteCookiesCallbackOwn
@@ -101,7 +106,7 @@ constructor TCefDeleteCookiesCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDeleteCookiesCallback));
 
-  with PCefDeleteCookiesCallback(FData)^ do on_complete := cef_delete_cookie_callback_on_complete;
+  PCefDeleteCookiesCallback(FData).on_complete := cef_delete_cookie_callback_on_complete;
 end;
 
 // TCefFastDeleteCookiesCallback

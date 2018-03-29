@@ -87,31 +87,31 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFStringMap, uCefStringList;
 
 procedure TCefCommandLineRef.AppendArgument(const argument: ustring);
 var
-  a: TCefString;
+  TempArgument : TCefString;
 begin
-  a := CefString(argument);
-  PCefCommandLine(FData).append_argument(PCefCommandLine(FData), @a);
+  TempArgument := CefString(argument);
+  PCefCommandLine(FData).append_argument(PCefCommandLine(FData), @TempArgument);
 end;
 
 procedure TCefCommandLineRef.AppendSwitch(const name: ustring);
 var
-  n: TCefString;
+  TempName : TCefString;
 begin
-  n := CefString(name);
-  PCefCommandLine(FData).append_switch(PCefCommandLine(FData), @n);
+  TempName := CefString(name);
+  PCefCommandLine(FData).append_switch(PCefCommandLine(FData), @TempName);
 end;
 
 procedure TCefCommandLineRef.AppendSwitchWithValue(const name, value: ustring);
 var
-  n, v: TCefString;
+  TempName, TempValue : TCefString;
 begin
-  n := CefString(name);
-  v := CefString(value);
-  PCefCommandLine(FData).append_switch_with_value(PCefCommandLine(FData), @n, @v);
+  TempName  := CefString(name);
+  TempValue := CefString(value);
+  PCefCommandLine(FData).append_switch_with_value(PCefCommandLine(FData), @TempName, @TempValue);
 end;
 
 function TCefCommandLineRef.Copy: ICefCommandLine;
@@ -121,72 +121,26 @@ end;
 
 procedure TCefCommandLineRef.GetArguments(var arguments : TStrings);
 var
-  TempSL : TCefStringList;
-  i, j : NativeUInt;
-  TempString : TCefString;
+  TempSL : ICefStringList;
 begin
-  TempSL := nil;
-
-  try
-    try
-      if (arguments <> nil) then
-        begin
-          TempSL := cef_string_list_alloc;
-          PCefCommandLine(FData).get_arguments(PCefCommandLine(FData), TempSL);
-
-          i := 0;
-          j := cef_string_list_size(TempSL);
-
-          while (i < j) do
-            begin
-              FillChar(TempString, SizeOf(TempString), 0);
-              cef_string_list_value(TempSL, i, @TempString);
-              arguments.Add(CefStringClearAndGet(TempString));
-              inc(i);
-            end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefCommandLineRef.GetArguments', e) then raise;
+  if (arguments <> nil) then
+    begin
+      TempSL := TCefStringListOwn.Create;
+      PCefCommandLine(FData).get_arguments(PCefCommandLine(FData), TempSL.Handle);
+      TempSL.CopyToStrings(arguments);
     end;
-  finally
-    if (TempSL <> nil) then cef_string_list_free(TempSL);
-  end;
 end;
 
 procedure TCefCommandLineRef.GetArgv(var args: TStrings);
 var
-  TempSL : TCefStringList;
-  i, j : NativeUInt;
-  TempString : TCefString;
+  TempSL : ICefStringList;
 begin
-  TempSL := nil;
-
-  try
-    try
-      if (args <> nil) then
-        begin
-          TempSL := cef_string_list_alloc;
-          PCefCommandLine(FData).get_argv(PCefCommandLine(FData), TempSL);
-
-          i := 0;
-          j := cef_string_list_size(TempSL);
-
-          while (i < j) do
-            begin
-              FillChar(TempString, SizeOf(TempString), 0);
-              cef_string_list_value(TempSL, i, @TempString);
-              args.Add(CefStringClearAndGet(TempString));
-              inc(i);
-            end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefCommandLineRef.GetArgv', e) then raise;
+  if (args <> nil) then
+    begin
+      TempSL := TCefStringListOwn.Create;
+      PCefCommandLine(FData).get_argv(PCefCommandLine(FData), TempSL.Handle);
+      TempSL.CopyToStrings(args);
     end;
-  finally
-    if (TempSL <> nil) then cef_string_list_free(TempSL);
-  end;
 end;
 
 function TCefCommandLineRef.GetCommandLineString: ustring;
@@ -201,27 +155,36 @@ end;
 
 procedure TCefCommandLineRef.GetSwitches(var switches: TStrings);
 var
-  TempSL : TCefStringList;
+  TempStrMap : ICefStringMap;
   i, j : NativeUInt;
-  TempString : TCefString;
+  TempKey, TempValue : string;
 begin
-  TempSL := nil;
+  TempStrMap := nil;
 
   try
     try
       if (switches <> nil) then
         begin
-          TempSL := cef_string_list_alloc;
-          PCefCommandLine(FData).get_switches(PCefCommandLine(FData), TempSL);
+          TempStrMap := TCefStringMapOwn.Create;
+          PCefCommandLine(FData).get_switches(PCefCommandLine(FData), TempStrMap.Handle);
 
           i := 0;
-          j := cef_string_list_size(TempSL);
+          j := TempStrMap.Size;
 
           while (i < j) do
             begin
-              FillChar(TempString, SizeOf(TempString), 0);
-              cef_string_list_value(TempSL, i, @TempString);
-              switches.Add(CefStringClearAndGet(TempString));
+              TempKey   := TempStrMap.Key[i];
+              TempValue := TempStrMap.Value[i];
+
+              if (length(TempKey) > 0) and (length(TempValue) > 0) then
+                switches.Add(TempKey + switches.NameValueSeparator + TempValue)
+               else
+                if (length(TempKey) > 0) then
+                  switches.Add(TempKey)
+                 else
+                  if (length(TempValue) > 0) then
+                    switches.Add(TempValue);
+
               inc(i);
             end;
         end;
@@ -230,16 +193,16 @@ begin
         if CustomExceptionHandler('TCefCommandLineRef.GetSwitches', e) then raise;
     end;
   finally
-    if (TempSL <> nil) then cef_string_list_free(TempSL);
+    TempStrMap := nil;
   end;
 end;
 
 function TCefCommandLineRef.GetSwitchValue(const name: ustring): ustring;
 var
-  n: TCefString;
+  TempName : TCefString;
 begin
-  n := CefString(name);
-  Result := CefStringFreeAndGet(PCefCommandLine(FData).get_switch_value(PCefCommandLine(FData), @n));
+  TempName := CefString(name);
+  Result   := CefStringFreeAndGet(PCefCommandLine(FData).get_switch_value(PCefCommandLine(FData), @TempName));
 end;
 
 class function TCefCommandLineRef.Global: ICefCommandLine;
@@ -254,10 +217,10 @@ end;
 
 function TCefCommandLineRef.HasSwitch(const name: ustring): Boolean;
 var
-  n: TCefString;
+  TempName : TCefString;
 begin
-  n := CefString(name);
-  Result := PCefCommandLine(FData).has_switch(PCefCommandLine(FData), @n) <> 0;
+  TempName := CefString(name);
+  Result   := PCefCommandLine(FData).has_switch(PCefCommandLine(FData), @TempName) <> 0;
 end;
 
 function TCefCommandLineRef.HasSwitches: Boolean;
@@ -265,18 +228,17 @@ begin
   Result := PCefCommandLine(FData).has_switches(PCefCommandLine(FData)) <> 0;
 end;
 
-procedure TCefCommandLineRef.InitFromArgv(argc: Integer;
-  const argv: PPAnsiChar);
+procedure TCefCommandLineRef.InitFromArgv(argc: Integer; const argv: PPAnsiChar);
 begin
   PCefCommandLine(FData).init_from_argv(PCefCommandLine(FData), argc, argv);
 end;
 
 procedure TCefCommandLineRef.InitFromString(const commandLine: ustring);
 var
-  cl: TCefString;
+  TempCommandLine : TCefString;
 begin
-  cl := CefString(commandLine);
-  PCefCommandLine(FData).init_from_string(PCefCommandLine(FData), @cl);
+  TempCommandLine := CefString(commandLine);
+  PCefCommandLine(FData).init_from_string(PCefCommandLine(FData), @TempCommandLine);
 end;
 
 function TCefCommandLineRef.IsReadOnly: Boolean;
@@ -296,10 +258,10 @@ end;
 
 procedure TCefCommandLineRef.PrependWrapper(const wrapper: ustring);
 var
-  w: TCefString;
+  TempWrapper : TCefString;
 begin
-  w := CefString(wrapper);
-  PCefCommandLine(FData).prepend_wrapper(PCefCommandLine(FData), @w);
+  TempWrapper := CefString(wrapper);
+  PCefCommandLine(FData).prepend_wrapper(PCefCommandLine(FData), @TempWrapper);
 end;
 
 procedure TCefCommandLineRef.Reset;
@@ -309,16 +271,17 @@ end;
 
 procedure TCefCommandLineRef.SetProgram(const prog: ustring);
 var
-  p: TCefString;
+  TempProgram : TCefString;
 begin
-  p := CefString(prog);
-  PCefCommandLine(FData).set_program(PCefCommandLine(FData), @p);
+  TempProgram := CefString(prog);
+  PCefCommandLine(FData).set_program(PCefCommandLine(FData), @TempProgram);
 end;
 
 class function TCefCommandLineRef.UnWrap(data: Pointer): ICefCommandLine;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefCommandLine else
+  if (data <> nil) then
+    Result := Create(data) as ICefCommandLine
+   else
     Result := nil;
 end;
 

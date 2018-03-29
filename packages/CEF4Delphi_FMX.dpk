@@ -13,8 +13,8 @@ package CEF4Delphi_FMX;
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
 {$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
 {$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
 {$STACKFRAMES ON}
@@ -165,7 +165,8 @@ contains
   uCEFServerComponent in '..\source\uCEFServerComponent.pas',
   uFMXBufferPanel in '..\source\uFMXBufferPanel.pas',
   uFMXChromium in '..\source\uFMXChromium.pas',
-  uFMXWorkScheduler in '..\source\uFMXWorkScheduler.pas';
+  uFMXWorkScheduler in '..\source\uFMXWorkScheduler.pas',
+  uCEFStringList in '..\source\uCEFStringList.pas';
 
 end.
 

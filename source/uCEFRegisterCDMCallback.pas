@@ -75,12 +75,17 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure cef_register_cdm_callback_on_cdm_registration_complete(self:PCefRegisterCDMCallback;
-                                                                 result: TCefCDMRegistrationError;
-                                                                 const error_message: PCefString); stdcall;
+procedure cef_register_cdm_callback_on_cdm_registration_complete(      self          : PCefRegisterCDMCallback;
+                                                                       result        : TCefCDMRegistrationError;
+                                                                 const error_message : PCefString); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRegisterCDMCallbackOwn(CefGetObject(self)) do
-    OnCDMRegistrationComplete(result, CefString(error_message));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRegisterCDMCallbackOwn) then
+    TCefRegisterCDMCallbackOwn(TempObject).OnCDMRegistrationComplete(result,
+                                                                     CefString(error_message));
 end;
 
 // TCefRegisterCDMCallbackOwn

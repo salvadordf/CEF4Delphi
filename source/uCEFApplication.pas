@@ -57,13 +57,13 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3325;
-  CEF_SUPPORTED_VERSION_RELEASE = 1749;
+  CEF_SUPPORTED_VERSION_RELEASE = 1755;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 65;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 3325;
-  CEF_CHROMEELF_VERSION_BUILD   = 146;
+  CEF_CHROMEELF_VERSION_BUILD   = 181;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -71,9 +71,6 @@ const
 type
   TCefApplication = class
     protected
-      FMustShutDown                  : boolean;
-      FWaitForChildProcesses         : boolean;
-      FWaitTime                      : cardinal;
       FCache                         : ustring;
       FCookies                       : ustring;
       FUserDataPath                  : ustring;
@@ -116,7 +113,7 @@ type
       FEnableGPU                     : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
-      FSmoothScrolling               : boolean;
+      FSmoothScrolling               : TCefState;
       FFastUnload                    : boolean;
       FDisableSafeBrowsing           : boolean;
       FEnableHighDPISupport          : boolean;
@@ -137,9 +134,11 @@ type
       FStatus                        : TCefAplicationStatus;
       FMissingLibFiles               : string;
       FProcessType                   : TCefProcessType;
-      FResourceBundleHandler         : ICefResourceBundleHandler;
-      FBrowserProcessHandler         : ICefBrowserProcessHandler;
-      FRenderProcessHandler          : ICefRenderProcessHandler;
+      FShutdownWaitTime              : cardinal;
+
+      FMustCreateResourceBundleHandler : boolean;
+      FMustCreateBrowserProcessHandler : boolean;
+      FMustCreateRenderProcessHandler  : boolean;
 
       // ICefBrowserProcessHandler
       FOnContextInitialized          : TOnContextInitializedEvent;
@@ -163,10 +162,6 @@ type
       FOnFocusedNodeChanged          : TOnFocusedNodeChangedEvent;
       FOnProcessMessageReceived      : TOnProcessMessageReceivedEvent;
 
-      procedure DestroyResourceBundleHandler;
-      procedure DestroyBrowserProcessHandler;
-      procedure DestroyRenderProcessHandler;
-
       procedure SetCache(const aValue : ustring);
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
@@ -179,9 +174,7 @@ type
       function  GetMustCreateResourceBundleHandler : boolean;
       function  GetMustCreateBrowserProcessHandler : boolean;
       function  GetMustCreateRenderProcessHandler : boolean;
-      function  GetHasResourceBundleHandler : boolean;
-      function  GetHasBrowserProcessHandler : boolean;
-      function  GetHasRenderProcessHandler : boolean;
+      function  GetGlobalContextInitialized : boolean;
 
       function  LoadCEFlibrary : boolean; virtual;
       function  Load_cef_app_capi_h : boolean;
@@ -237,14 +230,11 @@ type
       function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
-      procedure CreateAppHandlers;
-      procedure EnumerateAndWaitForChildProcesses;
 
     public
       constructor Create;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
-      procedure   BeforeDestruction; override;
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
@@ -258,9 +248,6 @@ type
       // ICefResourceBundleHandler and ICefRenderProcessHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
-      procedure   Internal_CopyRenderProcessHandler(var aHandler : ICefRenderProcessHandler);
-      procedure   Internal_CopyResourceBundleHandler(var aHandler : ICefResourceBundleHandler);
-      procedure   Internal_CopyBrowserProcessHandler(var aHandler : ICefBrowserProcessHandler);
       procedure   Internal_OnContextInitialized;
       procedure   Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
       procedure   Internal_OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
@@ -318,7 +305,7 @@ type
       property CheckCEFFiles                     : boolean                             read FCheckCEFFiles                     write FCheckCEFFiles;
       property ShowMessageDlg                    : boolean                             read FShowMessageDlg                    write FShowMessageDlg;
       property SetCurrentDir                     : boolean                             read FSetCurrentDir                     write FSetCurrentDir;
-      property GlobalContextInitialized          : boolean                             read FGlobalContextInitialized;
+      property GlobalContextInitialized          : boolean                             read GetGlobalContextInitialized;
       property ChromeMajorVer                    : uint16                              read FChromeVersionInfo.MajorVer;
       property ChromeMinorVer                    : uint16                              read FChromeVersionInfo.MinorVer;
       property ChromeRelease                     : uint16                              read FChromeVersionInfo.Release;
@@ -326,7 +313,7 @@ type
       property ChromeVersion                     : string                              read GetChromeVersion;
       property LibCefPath                        : string                              read GetLibCefPath;
       property ChromeElfPath                     : string                              read GetChromeElfPath;
-      property SmoothScrolling                   : boolean                             read FSmoothScrolling                   write FSmoothScrolling;
+      property SmoothScrolling                   : TCefState                           read FSmoothScrolling                   write FSmoothScrolling;
       property FastUnload                        : boolean                             read FFastUnload                        write FFastUnload;
       property DisableSafeBrowsing               : boolean                             read FDisableSafeBrowsing               write FDisableSafeBrowsing;
       property LibLoaded                         : boolean                             read FLibLoaded;
@@ -340,20 +327,13 @@ type
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
       property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
       property ProcessType                       : TCefProcessType                     read FProcessType;
-      property MustCreateResourceBundleHandler   : boolean                             read GetMustCreateResourceBundleHandler;
-      property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler;
-      property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler;
-      property HasResourceBundleHandler          : boolean                             read GetHasResourceBundleHandler;
-      property HasBrowserProcessHandler          : boolean                             read GetHasBrowserProcessHandler;
-      property HasRenderProcessHandler           : boolean                             read GetHasRenderProcessHandler;
-      property ResourceBundleHandler             : ICefResourceBundleHandler           read FResourceBundleHandler             write FResourceBundleHandler;
-      property BrowserProcessHandler             : ICefBrowserProcessHandler           read FBrowserProcessHandler             write FBrowserProcessHandler;
-      property RenderProcessHandler              : ICefRenderProcessHandler            read FRenderProcessHandler              write FRenderProcessHandler;
+      property MustCreateResourceBundleHandler   : boolean                             read GetMustCreateResourceBundleHandler write FMustCreateResourceBundleHandler;
+      property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
+      property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
-      property WaitForChildProcesses             : boolean                             read FWaitForChildProcesses             write FWaitForChildProcesses;
-      property WaitTime                          : cardinal                            read FWaitTime                          write FWaitTime;
+      property ShutdownWaitTime                  : cardinal                            read FShutdownWaitTime                  write FShutdownWaitTime;
 
       property OnRegCustomSchemes                : TOnRegisterCustomSchemes            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
@@ -392,8 +372,7 @@ uses
   Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils, {$IFDEF MSWINDOWS}TlHelp32,{$ENDIF}
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
-  uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp,
-  uCEFBrowserProcessHandler, uCEFResourceBundleHandler, uCEFRenderProcessHandler;
+  uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp;
 
 constructor TCefApplication.Create;
 begin
@@ -402,9 +381,6 @@ begin
   FStatus                        := asLoading;
   FMissingLibFiles               := '';
   FLibHandle                     := 0;
-  FMustShutDown                  := False;
-  FWaitForChildProcesses         := True;
-  FWaitTime                      := 5000;
   FCache                         := '';
   FCookies                       := '';
   FUserDataPath                  := '';
@@ -445,13 +421,13 @@ begin
   FCustomCommandLines            := nil;
   FCustomCommandLineValues       := nil;
   FCheckCEFFiles                 := True;
-  FSmoothScrolling               := False;
+  FSmoothScrolling               := STATE_DEFAULT;
   FFastUnload                    := False;
   FDisableSafeBrowsing           := False;
   FOnRegisterCustomSchemes       := nil;
   FEnableHighDPISupport          := False;
   FMuteAudio                     := False;
-  FSitePerProcess                := True;
+  FSitePerProcess                := False;
   FDisableWebSecurity            := False;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
@@ -462,9 +438,11 @@ begin
   FDisableGPUCache               := True;
   FLocalesRequired               := '';
   FProcessType                   := ParseProcessType;
-  FResourceBundleHandler         := nil;
-  FBrowserProcessHandler         := nil;
-  FRenderProcessHandler          := nil;
+  FShutdownWaitTime              := 0;
+
+  FMustCreateResourceBundleHandler := False;
+  FMustCreateBrowserProcessHandler := True;
+  FMustCreateRenderProcessHandler  := False;
 
   // ICefBrowserProcessHandler
   FOnContextInitialized          := nil;
@@ -507,25 +485,27 @@ end;
 
 destructor TCefApplication.Destroy;
 begin
-  if FMustShutDown then
-    begin
-      if FWaitForChildProcesses then EnumerateAndWaitForChildProcesses;
-      ShutDown;
-    end;
+  try
+    if (FProcessType = ptBrowser) then
+      begin
+        if (FShutdownWaitTime > 0) then sleep(FShutdownWaitTime);
+        ShutDown;
+      end;
 
-  if (FLibHandle <> 0) then
-    begin
-      FreeLibrary(FLibHandle);
-      FLibHandle := 0;
-      FLibLoaded := False;
-    end;
+    if (FLibHandle <> 0) then
+      begin
+        FreeLibrary(FLibHandle);
+        FLibHandle := 0;
+        FLibLoaded := False;
+      end;
 
-  FStatus := asUnloaded;
+    FStatus := asUnloaded;
 
-  if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
-  if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
-
-  inherited Destroy;
+    if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
+    if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
+  finally
+    inherited Destroy;
+  end;
 end;
 
 procedure TCefApplication.AfterConstruction;
@@ -534,57 +514,6 @@ begin
 
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
-end;
-
-procedure TCefApplication.BeforeDestruction;
-begin
-  DestroyResourceBundleHandler;
-  DestroyBrowserProcessHandler;
-  DestroyRenderProcessHandler;
-
-  inherited BeforeDestruction;
-end;
-
-procedure TCefApplication.DestroyResourceBundleHandler;
-begin
-  try
-    if (FResourceBundleHandler <> nil) then
-      begin
-        FResourceBundleHandler.RemoveReferences;
-        FResourceBundleHandler := nil;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.DestroyResourceBundleHandler', e) then raise;
-  end;
-end;
-
-procedure TCefApplication.DestroyBrowserProcessHandler;
-begin
-  try
-    if (FBrowserProcessHandler <> nil) then
-      begin
-        FBrowserProcessHandler.RemoveReferences;
-        FBrowserProcessHandler := nil;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.DestroyBrowserProcessHandler', e) then raise;
-  end;
-end;
-
-procedure TCefApplication.DestroyRenderProcessHandler;
-begin
-  try
-    if (FRenderProcessHandler <> nil) then
-      begin
-        FRenderProcessHandler.RemoveReferences;
-        FRenderProcessHandler := nil;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.DestroyRenderProcessHandler', e) then raise;
-  end;
 end;
 
 procedure TCefApplication.AddCustomCommandLine(const aCommandLine, aValue : string);
@@ -605,15 +534,12 @@ begin
 
   try
     try
-      if (ProcessType = ptBrowser) and CheckCEFLibrary then
+      if (ProcessType = ptBrowser) and
+         CheckCEFLibrary and
+         LoadCEFlibrary then
         begin
-          FMustShutDown := True;
-
-          if LoadCEFlibrary then
-            begin
-              TempApp := TCustomCefApp.Create(self);
-              Result  := InitializeLibrary(TempApp);
-            end;
+          TempApp := TCustomCefApp.Create(self);
+          Result  := InitializeLibrary(TempApp);
         end;
     except
       on e : exception do
@@ -637,12 +563,7 @@ begin
     if CheckCEFLibrary and LoadCEFlibrary then
       begin
         TempApp := TCustomCefApp.Create(self);
-
-        if (ExecuteProcess(TempApp) < 0) and (FStatus = asLoaded) then
-          begin
-            FMustShutDown := True;
-            Result        := InitializeLibrary(TempApp);
-          end;
+        Result  := (ExecuteProcess(TempApp) < 0) and InitializeLibrary(TempApp);
       end;
   finally
     TempApp := nil;
@@ -766,10 +687,13 @@ end;
 
 function TCefApplication.StartMainProcess : boolean;
 begin
-  if not(FSingleProcess) and (length(FBrowserSubprocessPath) > 0) then
-    Result := MultiExeProcessing
+  if (FStatus <> asLoading) then
+    Result := False
    else
-    Result := SingleExeProcessing;
+    if not(FSingleProcess) and (length(FBrowserSubprocessPath) > 0) then
+      Result := MultiExeProcessing
+     else
+      Result := SingleExeProcessing;
 end;
 
 // This function can only be called by the executable used for the subprocesses.
@@ -784,6 +708,7 @@ begin
 
   try
     if not(FSingleProcess)        and
+       (FStatus = asLoading)      and
        (ProcessType <> ptBrowser) and
        LoadCEFlibrary             then
       begin
@@ -832,7 +757,8 @@ end;
 procedure TCefApplication.ShutDown;
 begin
   try
-    cef_shutdown;
+    FStatus := asShuttingDown;
+    if FLibLoaded then cef_shutdown;
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.ShutDown', e) then raise;
@@ -845,8 +771,11 @@ var
 begin
   Result := -1;
   try
-    TempArgs.instance := HINSTANCE;
-    Result            := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
+    if (aApp <> nil) then
+      begin
+        TempArgs.instance := HINSTANCE;
+        Result            := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
+      end;
   except
     on e : exception do
       begin
@@ -896,17 +825,20 @@ begin
 
   try
     try
-      if FDeleteCache   then DeleteDirContents(FCache);
-      if FDeleteCookies then DeleteDirContents(FCookies);
-
-      InitializeSettings(FAppSettings);
-
-      TempArgs.instance := HINSTANCE;
-
-      if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
+      if (aApp <> nil) then
         begin
-          Result  := True;
-          FStatus := asInitialized;
+          if FDeleteCache   then DeleteDirContents(FCache);
+          if FDeleteCookies then DeleteDirContents(FCookies);
+
+          InitializeSettings(FAppSettings);
+
+          TempArgs.instance := HINSTANCE;
+
+          if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
+            begin
+              Result  := True;
+              FStatus := asInitialized;
+            end;
         end;
     except
       on e : exception do
@@ -1049,69 +981,14 @@ begin
             if (CompareText(TempValue, 'zygote') = 0) then
               Result := ptZygote
              else
-              Result := ptOther;
+              if (CompareText(TempValue, 'gpu-process') = 0) then
+                Result := ptGPU
+               else
+                Result := ptOther;
         end;
 
       dec(i);
     end;
-end;
-
-procedure TCefApplication.CreateAppHandlers;
-begin
-  if MustCreateBrowserProcessHandler then
-    FBrowserProcessHandler := TCefCustomBrowserProcessHandler.Create(self);
-
-  if MustCreateResourceBundleHandler then
-    FResourceBundleHandler := TCefCustomResourceBundleHandler.Create(self);
-
-  if MustCreateRenderProcessHandler then
-    FRenderProcessHandler := TCefCustomRenderProcessHandler.Create(self);
-end;
-
-procedure TCefApplication.EnumerateAndWaitForChildProcesses;
-{$IFDEF MSWINDOWS}
-var
-  TempHandle  : THandle;
-  TempProcess : TProcessEntry32;
-  TempArray   : array [0 .. pred(MAXIMUM_WAIT_OBJECTS)] of THandle;
-  TempPID     : DWORD;
-  i           : integer;
-  TempMain, TempSubProc, TempName : string;
-{$ENDIF}
-begin
-{$IFDEF MSWINDOWS}
-  for i := 0 to pred(MAXIMUM_WAIT_OBJECTS) do TempArray[i] := 0;
-
-  TempHandle         := CreateToolHelp32SnapShot(TH32CS_SNAPPROCESS, 0);
-  TempProcess.dwSize := Sizeof(TProcessEntry32);
-  TempPID            := GetCurrentProcessID;
-  TempMain           := ExtractFileName(paramstr(0));
-  TempSubProc        := ExtractFileName(FBrowserSubprocessPath);
-
-  Process32First(TempHandle, TempProcess);
-
-  i := 0;
-  repeat
-    if (TempProcess.th32ProcessID       <> TempPID) and
-       (TempProcess.th32ParentProcessID =  TempPID) then
-      begin
-        TempName := TempProcess.szExeFile;
-        TempName := ExtractFileName(TempName);
-
-        if (CompareText(TempName, TempMain) = 0) or
-           ((length(TempSubProc) > 0) and (CompareText(TempName, TempSubProc) = 0)) then
-          begin
-            TempArray[i] := TempProcess.th32ProcessID;
-            inc(i);
-          end;
-      end;
-  until not(Process32Next(TempHandle, TempProcess)) or (i = MAXIMUM_WAIT_OBJECTS);
-
-  CloseHandle(TempHandle);
-
-  if (i > 0) then
-    WaitForMultipleObjects(i, @TempArray, True, FWaitTime);
-{$ENDIF}
 end;
 
 procedure TCefApplication.Internal_OnContextInitialized;
@@ -1213,7 +1090,7 @@ var
   TempVersionInfo : TFileVersionInfo;
   TempFileName : string;
 begin
-  if (commandLine <> nil) then
+  if (commandLine <> nil) and (FProcessType = ptBrowser) and (processType = '') then
     begin
       if FindFlashDLL(TempFileName) and
          GetDLLVersion(TempFileName, TempVersionInfo) then
@@ -1243,8 +1120,10 @@ begin
           commandLine.AppendSwitch('--disable-gpu-compositing');
         end;
 
-      if FSmoothScrolling then
-        commandLine.AppendSwitch('--enable-smooth-scrolling');
+      case FSmoothScrolling of
+        STATE_ENABLED  : commandLine.AppendSwitch('--enable-smooth-scrolling');
+        STATE_DISABLED : commandLine.AppendSwitch('--disable-smooth-scrolling');
+      end;
 
       if FFastUnload then
         commandLine.AppendSwitch('--enable-fast-unload');
@@ -1295,81 +1174,54 @@ begin
   if assigned(FOnRegisterCustomSchemes) then FOnRegisterCustomSchemes(registrar);
 end;
 
-procedure TCefApplication.Internal_CopyRenderProcessHandler(var aHandler : ICefRenderProcessHandler);
-begin
-  if (FRenderProcessHandler <> nil) then
-    aHandler := FRenderProcessHandler
-   else
-    aHandler := nil;
-end;
-
-procedure TCefApplication.Internal_CopyResourceBundleHandler(var aHandler : ICefResourceBundleHandler);
-begin
-  if (FResourceBundleHandler <> nil) then
-    aHandler := FResourceBundleHandler
-   else
-    aHandler := nil;
-end;
-
-procedure TCefApplication.Internal_CopyBrowserProcessHandler(var aHandler : ICefBrowserProcessHandler);
-begin
-  if (FBrowserProcessHandler <> nil) then
-    aHandler := FBrowserProcessHandler
-   else
-    aHandler := nil;
-end;
-
 function TCefApplication.GetMustCreateResourceBundleHandler : boolean;
 begin
-  Result := not(HasResourceBundleHandler) and
-            (FSingleProcess or
-             ((FProcessType = ptBrowser) and
-              (assigned(FOnGetLocalizedString) or
-               assigned(FOnGetDataResource)    or
-               assigned(FOnGetDataResourceForScale))));
+  Result := FSingleProcess or
+            ((FProcessType in [ptBrowser, ptRenderer]) and
+             (FMustCreateResourceBundleHandler or
+              assigned(FOnGetLocalizedString)  or
+              assigned(FOnGetDataResource)     or
+              assigned(FOnGetDataResourceForScale)));
 end;
 
 function TCefApplication.GetMustCreateBrowserProcessHandler : boolean;
 begin
-  Result := not(HasBrowserProcessHandler) and
-            (FSingleProcess or (FProcessType = ptBrowser));
+  Result := FSingleProcess or
+            ((FProcessType = ptBrowser) and
+             (FMustCreateBrowserProcessHandler        or
+              assigned(FOnContextInitialized)         or
+              assigned(FOnBeforeChildProcessLaunch)   or
+              assigned(FOnRenderProcessThreadCreated) or
+              assigned(FOnScheduleMessagePumpWork)));
 end;
 
 function TCefApplication.GetMustCreateRenderProcessHandler : boolean;
 begin
-  Result := not(HasRenderProcessHandler) and
-            (FSingleProcess or
-             ((FProcessType = ptRenderer) and
-              (assigned(FOnRenderThreadCreated)    or
-               assigned(FOnWebKitInitialized)      or
-               assigned(FOnBrowserCreated)         or
-               assigned(FOnBrowserDestroyed)       or
-               assigned(FOnContextCreated)         or
-               assigned(FOnContextReleased)        or
-               assigned(FOnUncaughtException)      or
-               assigned(FOnFocusedNodeChanged)     or
-               assigned(FOnProcessMessageReceived))));
+  Result := FSingleProcess or
+            ((FProcessType = ptRenderer) and
+             (FMustCreateRenderProcessHandler     or
+              assigned(FOnRenderThreadCreated)    or
+              assigned(FOnWebKitInitialized)      or
+              assigned(FOnBrowserCreated)         or
+              assigned(FOnBrowserDestroyed)       or
+              assigned(FOnContextCreated)         or
+              assigned(FOnContextReleased)        or
+              assigned(FOnUncaughtException)      or
+              assigned(FOnFocusedNodeChanged)     or
+              assigned(FOnProcessMessageReceived)));
 end;
 
-function TCefApplication.GetHasResourceBundleHandler : boolean;
+function TCefApplication.GetGlobalContextInitialized : boolean;
 begin
-  Result := (FResourceBundleHandler <> nil);
-end;
-
-function TCefApplication.GetHasBrowserProcessHandler : boolean;
-begin
-  Result := (FBrowserProcessHandler <> nil);
-end;
-
-function TCefApplication.GetHasRenderProcessHandler : boolean;
-begin
-  Result := (FRenderProcessHandler <> nil);
+  Result := FGlobalContextInitialized or not(MustCreateBrowserProcessHandler);
 end;
 
 function TCefApplication.LoadCEFlibrary : boolean;
 var
   TempOldDir, TempString : string;
 begin
+  Result := False;
+
   if FSetCurrentDir then
     begin
       TempOldDir := GetCurrentDir;
@@ -1380,7 +1232,6 @@ begin
 
   if (FLibHandle = 0) then
     begin
-      Result     := False;
       FStatus    := asErrorLoadingLibrary;
       TempString := 'Error loading libcef.dll' + CRLF + CRLF +
                     'Error code : 0x' + inttohex(GetLastError, 8);
@@ -1436,12 +1287,9 @@ begin
       Result     := True;
 
       if FEnableHighDPISupport then cef_enable_highdpi_support;
-
-      CreateAppHandlers;
     end
    else
     begin
-      Result     := False;
       FStatus    := asErrorDLLVersion;
       TempString := 'Unsupported CEF version !' +
                     CRLF + CRLF +

@@ -85,41 +85,60 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFDragData;
 
-function cef_drag_handler_on_drag_enter(self: PCefDragHandler; browser: PCefBrowser;
-  dragData: PCefDragData; mask: TCefDragOperations): Integer; stdcall;
+function cef_drag_handler_on_drag_enter(self     : PCefDragHandler;
+                                        browser  : PCefBrowser;
+                                        dragData : PCefDragData;
+                                        mask     : TCefDragOperations): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefDragHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnDragEnter(TCefBrowserRef.UnWrap(browser), TCefDragDataRef.UnWrap(dragData), mask));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDragHandlerOwn) then
+    Result := Ord(TCefDragHandlerOwn(TempObject).OnDragEnter(TCefBrowserRef.UnWrap(browser),
+                                                             TCefDragDataRef.UnWrap(dragData),
+                                                             mask));
 end;
 
-procedure cef_drag_handler_on_draggable_regions_changed(self: PCefDragHandler;
-  browser: PCefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray); stdcall;
+procedure cef_drag_handler_on_draggable_regions_changed(self         : PCefDragHandler;
+                                                        browser      : PCefBrowser;
+                                                        regionsCount : NativeUInt;
+                                                        regions      : PCefDraggableRegionArray); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefDragHandlerOwn(CefGetObject(self)) do
-    OnDraggableRegionsChanged(TCefBrowserRef.UnWrap(browser), regionsCount, regions);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDragHandlerOwn) then
+    TCefDragHandlerOwn(TempObject).OnDraggableRegionsChanged(TCefBrowserRef.UnWrap(browser),
+                                                             regionsCount,
+                                                             regions);
 end;
 
 constructor TCefDragHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefDragHandler));
+  inherited CreateData(SizeOf(TCefDragHandler));
+
   with PCefDragHandler(FData)^ do
-  begin
-    on_drag_enter := cef_drag_handler_on_drag_enter;
-    on_draggable_regions_changed := cef_drag_handler_on_draggable_regions_changed;
-  end;
+    begin
+      on_drag_enter                := cef_drag_handler_on_drag_enter;
+      on_draggable_regions_changed := cef_drag_handler_on_draggable_regions_changed;
+    end;
 end;
 
-function TCefDragHandlerOwn.OnDragEnter(const browser: ICefBrowser;
-  const dragData: ICefDragData; mask: TCefDragOperations): Boolean;
+function TCefDragHandlerOwn.OnDragEnter(const browser  : ICefBrowser;
+                                        const dragData : ICefDragData;
+                                              mask     : TCefDragOperations): Boolean;
 begin
   Result := False;
 end;
 
-procedure TCefDragHandlerOwn.OnDraggableRegionsChanged(
-  const browser: ICefBrowser; regionsCount: NativeUInt;
-  regions: PCefDraggableRegionArray);
+procedure TCefDragHandlerOwn.OnDraggableRegionsChanged(const browser      : ICefBrowser;
+                                                             regionsCount : NativeUInt;
+                                                             regions      : PCefDraggableRegionArray);
 begin
-
+  //
 end;
 
 procedure TCefDragHandlerOwn.RemoveReferences;

@@ -109,7 +109,6 @@ type
 
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
-    procedure ApplyPopupFeatures;
     procedure DoResize;
     procedure InitializeLastClick;
     function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
@@ -125,7 +124,7 @@ type
 
   public
     function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
-
+    procedure ApplyPopupFeatures;
     procedure HandleSysCharMsg(var Msg: tagMSG; var Handled: Boolean);
     procedure HandleSysKeyDownMsg(var Msg: tagMSG; var Handled: Boolean);
     procedure HandleSysKeyUpMsg(var Msg: tagMSG; var Handled: Boolean);

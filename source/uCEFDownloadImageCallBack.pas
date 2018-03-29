@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright Â© 2018 Salvador DÃ­az Fau. All rights reserved.
+//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -73,23 +73,32 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFImage;
 
-procedure cef_download_image_callback_on_download_image_finished(self: PCefDownloadImageCallback; const image_url: PCefString; http_status_code: Integer; image: PCefImage); stdcall;
+procedure cef_download_image_callback_on_download_image_finished(      self             : PCefDownloadImageCallback;
+                                                                 const image_url        : PCefString;
+                                                                       http_status_code : Integer;
+                                                                       image            : PCefImage); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefDownloadImageCallbackOwn(CefGetObject(self)) do
-    OnDownloadImageFinished(CefString(image_url), http_status_code, TCefImageRef.UnWrap(image));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDownloadImageCallbackOwn) then
+    TCefDownloadImageCallbackOwn(TempObject).OnDownloadImageFinished(CefString(image_url),
+                                                                     http_status_code,
+                                                                     TCefImageRef.UnWrap(image));
 end;
 
 constructor TCefDownloadImageCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDownloadImageCallback));
 
-  with PCefDownloadImageCallback(FData)^ do
-    on_download_image_finished := cef_download_image_callback_on_download_image_finished;
+  PCefDownloadImageCallback(FData).on_download_image_finished := cef_download_image_callback_on_download_image_finished;
 end;
 
 constructor TCefFastDownloadImageCallback.Create(const proc: TOnDownloadImageFinishedProc);
 begin
   inherited Create;
+
   FProc := proc;
 end;
 

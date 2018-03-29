@@ -56,6 +56,11 @@
         <Cfg_3>true</Cfg_3>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug with logging' or '$(Cfg_4)'!=''">
+        <Cfg_4>true</Cfg_4>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <GenPackage>true</GenPackage>
@@ -93,6 +98,8 @@
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
+        <VerInfo_Locale>3082</VerInfo_Locale>
+        <VerInfo_Keys>FileVersion=1.0.0.0</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=CEF4Delphi;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=CEF4Delphi;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
@@ -100,6 +107,8 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
+        <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
+        <DCC_RangeChecking>true</DCC_RangeChecking>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -117,6 +126,16 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_4)'!=''">
+        <DCC_Define>DEBUG;INTFLOG;$(DCC_Define)</DCC_Define>
+        <VerInfo_Locale>3082</VerInfo_Locale>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_DebugDCUs>true</DCC_DebugDCUs>
+        <DCC_RemoteDebug>true</DCC_RemoteDebug>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <VerInfo_Keys>FileVersion=1.0.0.0</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -257,8 +276,13 @@
         <DCCReference Include="..\source\uFMXBufferPanel.pas"/>
         <DCCReference Include="..\source\uFMXChromium.pas"/>
         <DCCReference Include="..\source\uFMXWorkScheduler.pas"/>
+        <DCCReference Include="..\source\uCEFStringList.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug with logging">
+            <Key>Cfg_4</Key>
+            <CfgParent>Base</CfgParent>
         </BuildConfiguration>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -282,6 +306,7 @@
                     <Source Name="MainSource">CEF4Delphi_FMX.dpk</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\19.0\Bpl\DCLComponentes_UI.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\19.0\Bpl\DCLComponentes_UI.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclIPIndyImpl250.bpl">IP Abstraction Indy Implementation Design Time</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -298,6 +323,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Debug with logging" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>CEF4Delphi_FMX.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>

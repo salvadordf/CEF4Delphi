@@ -104,7 +104,7 @@ type
       procedure   SendHttp200response(connection_id: Integer; const content_type: ustring; const data: Pointer; data_size: NativeUInt);
       procedure   SendHttp404response(connection_id: Integer);
       procedure   SendHttp500response(connection_id: Integer; const error_message: ustring);
-      procedure   SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; const headerMap: ICefStringMultimap);
+      procedure   SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; const extra_headers: ICefStringMultimap);
       procedure   SendRawData(connection_id: Integer; const data: Pointer; data_size: NativeUInt);
       procedure   CloseConnection(connection_id: Integer);
       procedure   SendWebSocketMessage(connection_id: Integer; const data: Pointer; data_size: NativeUInt);
@@ -303,9 +303,9 @@ procedure TCEFServerComponent.SendHttpResponse(connection_id : Integer;
                                                response_code : Integer;
                                                const content_type   : ustring;
                                                      content_length : int64;
-                                               const headerMap      : ICefStringMultimap);
+                                               const extra_headers  : ICefStringMultimap);
 begin
-  if Initialized then FServer.SendHttpResponse(connection_id, response_code, content_type, content_length, headerMap);
+  if Initialized then FServer.SendHttpResponse(connection_id, response_code, content_type, content_length, extra_headers);
 end;
 
 procedure TCEFServerComponent.SendRawData(connection_id: Integer; const data: Pointer; data_size: NativeUInt);

@@ -87,22 +87,42 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
 
-procedure cef_focus_handler_on_take_focus(self: PCefFocusHandler; browser: PCefBrowser; next: Integer); stdcall;
+procedure cef_focus_handler_on_take_focus(self    : PCefFocusHandler;
+                                          browser : PCefBrowser;
+                                          next    : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefFocusHandlerOwn(CefGetObject(self)) do
-    OnTakeFocus(TCefBrowserRef.UnWrap(browser), next <> 0);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefFocusHandlerOwn) then
+    TCefFocusHandlerOwn(TempObject).OnTakeFocus(TCefBrowserRef.UnWrap(browser),
+                                                next <> 0);
 end;
 
-function cef_focus_handler_on_set_focus(self: PCefFocusHandler; browser: PCefBrowser; source: TCefFocusSource): Integer; stdcall;
+function cef_focus_handler_on_set_focus(self    : PCefFocusHandler;
+                                        browser : PCefBrowser;
+                                        source  : TCefFocusSource): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefFocusHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnSetFocus(TCefBrowserRef.UnWrap(browser), source))
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefFocusHandlerOwn) then
+    Result := Ord(TCefFocusHandlerOwn(TempObject).OnSetFocus(TCefBrowserRef.UnWrap(browser),
+                                                             source))
 end;
 
-procedure cef_focus_handler_on_got_focus(self: PCefFocusHandler; browser: PCefBrowser); stdcall;
+procedure cef_focus_handler_on_got_focus(self    : PCefFocusHandler;
+                                         browser : PCefBrowser); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefFocusHandlerOwn(CefGetObject(self)) do
-    OnGotFocus(TCefBrowserRef.UnWrap(browser));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefFocusHandlerOwn) then
+    TCefFocusHandlerOwn(TempObject).OnGotFocus(TCefBrowserRef.UnWrap(browser));
 end;
 
 constructor TCefFocusHandlerOwn.Create;
