@@ -12,6 +12,8 @@ object JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -74,6 +76,8 @@ object JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm
     OnProcessMessageReceived = Chromium1ProcessMessageReceived
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     Left = 32
     Top = 224
   end

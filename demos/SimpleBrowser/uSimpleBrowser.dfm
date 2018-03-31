@@ -12,6 +12,8 @@ object Form1: TForm1
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -22,6 +24,8 @@ object Form1: TForm1
     Height = 594
     Align = alClient
     TabOrder = 0
+    OnClose = ChromiumWindow1Close
+    OnBeforeClose = ChromiumWindow1BeforeClose
     OnAfterCreated = ChromiumWindow1AfterCreated
   end
   object AddressPnl: TPanel

@@ -94,10 +94,21 @@ type
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
       var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure FormCreate(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
+      out Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject;
+      const browser: ICefBrowser);
   private
     { Private declarations }
   protected
+    // Variables to control when can we destroy the form safely
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing  : boolean;  // Set to True in the CloseQuery event.
+
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -138,6 +149,12 @@ uses
 
 // The OnProcessMessageReceived event can recognize any number of messages identifying them
 // by message.name
+
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure SimpleDOMIteration(const aDocument: ICefDomDocument);
 var
@@ -253,6 +270,13 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
+procedure TDOMVisitorFrm.Chromium1BeforeClose(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TDOMVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
@@ -270,6 +294,13 @@ procedure TDOMVisitorFrm.Chromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TDOMVisitorFrm.Chromium1Close(Sender: TObject;
+  const browser: ICefBrowser; out Result: Boolean);
+begin
+  PostMessage(Handle, CEF_DESTROY, 0, 0);
+  Result := True;
 end;
 
 procedure TDOMVisitorFrm.Chromium1ContextMenuCommand(Sender: TObject;
@@ -301,6 +332,25 @@ begin
     end;
 end;
 
+procedure TDOMVisitorFrm.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      Chromium1.CloseBrowser(True);
+    end;
+end;
+
+procedure TDOMVisitorFrm.FormCreate(Sender: TObject);
+begin
+  FCanClose := False;
+  FClosing  := False;
+end;
+
 procedure TDOMVisitorFrm.FormShow(Sender: TObject);
 begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
@@ -318,6 +368,11 @@ begin
   CEFWindowParent1.UpdateSize;
   AddressBarPnl.Enabled := True;
   GoBtn.Click;
+end;
+
+procedure TDOMVisitorFrm.BrowserDestroyMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.Free;
 end;
 
 procedure TDOMVisitorFrm.VisitDOMBtnClick(Sender: TObject);

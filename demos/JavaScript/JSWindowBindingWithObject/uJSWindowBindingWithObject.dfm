@@ -12,6 +12,8 @@ object JSWindowBindingWithObjectFrm: TJSWindowBindingWithObjectFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -63,6 +65,8 @@ object JSWindowBindingWithObjectFrm: TJSWindowBindingWithObjectFrm
   object Chromium1: TChromium
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     Left = 32
     Top = 224
   end

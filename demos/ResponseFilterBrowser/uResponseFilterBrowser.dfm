@@ -12,6 +12,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -120,6 +121,8 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   object Chromium1: TChromium
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     OnGetResourceResponseFilter = Chromium1GetResourceResponseFilter
     OnResourceLoadComplete = Chromium1ResourceLoadComplete
     Left = 56

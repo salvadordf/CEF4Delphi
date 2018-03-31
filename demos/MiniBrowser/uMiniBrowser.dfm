@@ -240,6 +240,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
       end
       item
         Width = 500
+      end
+      item
+        Width = 100
+      end
+      item
+        Width = 100
       end>
   end
   object Chromium1: TChromium
@@ -247,6 +253,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnPdfPrintFinished = Chromium1PdfPrintFinished
     OnPrefsAvailable = Chromium1PrefsAvailable
     OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
+    OnRenderCompMsg = Chromium1RenderCompMsg
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
@@ -259,6 +266,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeDownload = Chromium1BeforeDownload
     OnDownloadUpdated = Chromium1DownloadUpdated
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     Left = 32

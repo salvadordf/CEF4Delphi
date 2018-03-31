@@ -109,6 +109,16 @@ function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInforma
 
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
+
+{$IFNDEF DELPHI12_UP}
+function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: Longint): Longint; stdcall;
+{$IFDEF WIN64}
+function SetWindowLongPtr; external user32 name 'SetWindowLongPtrW';
+{$ELSE}
+function SetWindowLongPtr; external user32 name 'SetWindowLongW';
+{$ENDIF}
+{$ENDIF}
+
 function CustomPathIsRelative(const aPath : string) : boolean;
 function GetModulePath : string;
 
@@ -189,9 +199,6 @@ procedure LogicalToDevice(var aRect : TCEFRect; const aDeviceScaleFactor : doubl
 
 function GetScreenDPI : integer;
 function GetDeviceScaleFactor : single;
-
-procedure CefRegisterWidevineCdm(const path: ustring; const callback: ICefRegisterCdmCallback);
-procedure CefFastRegisterWidevineCdm(const path: ustring; const callback: TCefRegisterCDMProc);
 
 implementation
 
@@ -778,7 +785,6 @@ begin
       TempList.Add(TempDir + 'swiftshader\libEGL.dll');
       TempList.Add(TempDir + 'swiftshader\libGLESv2.dll');
       TempList.Add(TempDir + 'icudtl.dat');
-      TempList.Add(TempDir + 'widevinecdmadapter.dll');
 
       if TempExists then
         Result := CheckFilesExist(TempList, aMissingFiles)
@@ -1416,19 +1422,6 @@ end;
 function GetDeviceScaleFactor : single;
 begin
   Result := GetScreenDPI / 96;
-end;
-
-procedure CefRegisterWidevineCdm(const path: ustring; const callback: ICefRegisterCdmCallback);
-var
-  str: TCefString;
-begin
-  str := CefString(path);
-  cef_register_widevine_cdm(@str, CefGetData(callback));
-end;
-
-procedure CefFastRegisterWidevineCdm(const path: ustring; const callback: TCefRegisterCDMProc);
-begin
-  CefRegisterWidevineCdm(path, TCefFastRegisterCdmCallback.Create(callback) as ICefRegisterCdmCallback);
 end;
 
 end.

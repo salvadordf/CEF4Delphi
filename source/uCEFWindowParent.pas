@@ -182,7 +182,7 @@ function TCEFWindowParent.DestroyChildWindow : boolean;
 var
   TempHWND : HWND;
 begin
-  TempHWND := GetWindow(Handle, GW_CHILD);
+  TempHWND := ChildWindowHandle;
   Result   := (TempHWND <> 0) and DestroyWindow(TempHWND);
 end;
 

@@ -12,6 +12,7 @@ object CookieVisitorFrm: TCookieVisitorFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -70,6 +71,8 @@ object CookieVisitorFrm: TCookieVisitorFrm
     OnContextMenuCommand = Chromium1ContextMenuCommand
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     Left = 32
     Top = 224
   end

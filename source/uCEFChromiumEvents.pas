@@ -48,9 +48,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, {$IFDEF MSWINDOWS}WinApi.Messages,{$ENDIF}
   {$ELSE}
-  Classes,
+  Classes, {$IFDEF MSWINDOWS}Messages,{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces;
 
@@ -156,6 +156,9 @@ type
   TOnPrefsAvailableEvent          = procedure(Sender: TObject; aResultOK : boolean) of object;
   TOnCookiesDeletedEvent          = procedure(Sender: TObject; numDeleted : integer) of object;
   TOnResolvedIPsAvailableEvent    = procedure(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings) of object;
+  {$IFDEF MSWINDOWS}
+  TOnCompMsgEvent                 = procedure (var aMessage: TMessage; var aHandled: Boolean) of object;
+  {$ENDIF}
 
 implementation
 

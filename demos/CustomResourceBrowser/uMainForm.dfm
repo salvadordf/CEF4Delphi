@@ -12,6 +12,8 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -22,6 +24,8 @@ object MainForm: TMainForm
     Height = 628
     Align = alClient
     TabOrder = 0
+    OnClose = ChromiumWindow1Close
+    OnBeforeClose = ChromiumWindow1BeforeClose
   end
   object AddressBarPnl: TPanel
     Left = 0

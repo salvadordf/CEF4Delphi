@@ -93,14 +93,23 @@ type
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
       var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
+      out Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject;
+      const browser: ICefBrowser);
 
   private
     { Private declarations }
 
   protected
     FText : string;
+    // Variables to control when can we destroy the form safely
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowTextViewerMsg(var aMessage : TMessage); message MINIBROWSER_SHOWTEXTVIEWER;
     procedure EvalJSCodeMsg(var aMessage : TMessage); message MINIBROWSER_EVALJSCODE;
     procedure EvalJSBinParamMsg(var aMessage : TMessage); message MINIBROWSER_JSBINPARAM;
@@ -164,10 +173,23 @@ uses
 // Compress the binary data if necessary!
 
 
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+
 
 procedure TJSEvalFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+end;
+
+procedure TJSEvalFrm.Chromium1BeforeClose(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSEvalFrm.Chromium1BeforeContextMenu(Sender : TObject;
@@ -192,6 +214,13 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
+procedure TJSEvalFrm.Chromium1Close(Sender: TObject;
+  const browser: ICefBrowser; out Result: Boolean);
+begin
+  PostMessage(Handle, CEF_DESTROY, 0, 0);
+  Result := True;
+end;
+
 procedure TJSEvalFrm.Chromium1ContextMenuCommand(Sender : TObject;
                                                  const browser    : ICefBrowser;
                                                  const frame      : ICefFrame;
@@ -206,6 +235,18 @@ begin
     MINIBROWSER_CONTEXTMENU_EVALJSCODE : PostMessage(Handle, MINIBROWSER_EVALJSCODE, 0, 0);
     MINIBROWSER_CONTEXTMENU_JSBINPARAM : PostMessage(Handle, MINIBROWSER_JSBINPARAM, 0, 0);
   end;
+end;
+
+procedure TJSEvalFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      Chromium1.CloseBrowser(True);
+    end;
 end;
 
 procedure TJSEvalFrm.FormShow(Sender: TObject);
@@ -225,6 +266,11 @@ begin
   CEFWindowParent1.UpdateSize;
   AddressBarPnl.Enabled := True;
   GoBtn.Click;
+end;
+
+procedure TJSEvalFrm.BrowserDestroyMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.Free;
 end;
 
 procedure TJSEvalFrm.ShowTextViewerMsg(var aMessage : TMessage);

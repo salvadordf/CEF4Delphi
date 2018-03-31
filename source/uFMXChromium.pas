@@ -48,6 +48,9 @@ interface
 
 uses
   System.Classes, System.Types,
+  {$IFDEF MSWINDOWS}
+  WinApi.Windows, WinApi.Messages,
+  {$ENDIF}
   FMX.Types, FMX.Platform, FMX.Controls, FMX.Forms,
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFChromiumEvents, uCEFChromiumOptions, uCEFChromiumFontOptions,
@@ -98,6 +101,17 @@ type
       FWebRTCIPHandlingPolicy : TCefWebRTCHandlingPolicy;
       FWebRTCMultipleRoutes   : TCefState;
       FWebRTCNonProxiedUDP    : TCefState;
+      {$IFDEF MSWINDOWS}
+      FOldBrowserCompWndPrc   : Pointer;
+      FOldWidgetCompWndPrc    : Pointer;
+      FOldRenderCompWndPrc    : Pointer;
+      FBrowserCompHWND        : THandle;
+      FWidgetCompHWND         : THandle;
+      FRenderCompHWND         : THandle;
+      FBrowserCompStub        : Pointer;
+      FWidgetCompStub         : Pointer;
+      FRenderCompStub         : Pointer;
+      {$ENDIF}
 
       // ICefClient
       FOnProcessMessageReceived       : TOnProcessMessageReceived;
@@ -197,6 +211,11 @@ type
       FOnPdfPrintFinished             : TOnPdfPrintFinishedEvent;
       FOnCookiesDeleted               : TOnCookiesDeletedEvent;
       FOnResolvedHostAvailable        : TOnResolvedIPsAvailableEvent;
+      {$IFDEF MSWINDOWS}
+      FOnBrowserCompMsg               : TOnCompMsgEvent;
+      FOnWidgetCompMsg                : TOnCompMsgEvent;
+      FOnRenderCompMsg                : TOnCompMsgEvent;
+      {$ENDIF}
 
       function  GetIsLoading : boolean;
       function  GetMultithreadApp : boolean;
@@ -289,6 +308,12 @@ type
 
       procedure ApplyZoomStep;
       function  GetParentForm : TCustomForm;
+
+      {$IFDEF MSWINDOWS}
+      procedure BrowserCompWndProc(var aMessage: TMessage);
+      procedure WidgetCompWndProc(var aMessage: TMessage);
+      procedure RenderCompWndProc(var aMessage: TMessage);
+      {$ENDIF}
 
       // IChromiumEvents
       procedure GetSettings(var aSettings : TCefBrowserSettings);
@@ -547,6 +572,11 @@ type
       property  OnPdfPrintFinished      : TOnPdfPrintFinishedEvent     read FOnPdfPrintFinished       write FOnPdfPrintFinished;
       property  OnCookiesDeleted        : TOnCookiesDeletedEvent       read FOnCookiesDeleted         write FOnCookiesDeleted;
       property  OnResolvedHostAvailable : TOnResolvedIPsAvailableEvent read FOnResolvedHostAvailable  write FOnResolvedHostAvailable;
+      {$IFDEF MSWINDOWS}
+      property  OnBrowserCompMsg        : TOnCompMsgEvent              read FOnBrowserCompMsg         write FOnBrowserCompMsg;
+      property  OnWidgetCompMsg         : TOnCompMsgEvent              read FOnWidgetCompMsg          write FOnWidgetCompMsg;
+      property  OnRenderCompMsg         : TOnCompMsgEvent              read FOnRenderCompMsg          write FOnRenderCompMsg;
+      {$ENDIF}
 
       // ICefClient
       property OnProcessMessageReceived         : TOnProcessMessageReceived         read FOnProcessMessageReceived         write FOnProcessMessageReceived;
@@ -679,6 +709,18 @@ begin
   FZoomStep               := ZOOM_STEP_DEF;
   FWindowName             := '';
 
+  {$IFDEF MSWINDOWS}
+  FOldBrowserCompWndPrc   := nil;
+  FOldWidgetCompWndPrc    := nil;
+  FOldRenderCompWndPrc    := nil;
+  FBrowserCompHWND        := 0;
+  FWidgetCompHWND         := 0;
+  FRenderCompHWND         := 0;
+  FBrowserCompStub        := nil;
+  FWidgetCompStub         := nil;
+  FRenderCompStub         := nil;
+  {$ENDIF}
+
   FDragOperations         := DRAG_OPERATION_NONE;
   FDragAndDropInitialized := False;
 
@@ -726,6 +768,32 @@ end;
 
 procedure TFMXChromium.BeforeDestruction;
 begin
+  {$IFDEF MSWINDOWS}
+  if (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc <> nil) then
+    begin
+      SetWindowLongPtr(FBrowserCompHWND, GWL_WNDPROC, NativeInt(FOldBrowserCompWndPrc));
+      FreeObjectInstance(FBrowserCompStub);
+      FOldBrowserCompWndPrc := nil;
+      FBrowserCompStub      := nil;
+    end;
+
+  if (FWidgetCompHWND <> 0) and (FOldWidgetCompWndPrc <> nil) then
+    begin
+      SetWindowLongPtr(FWidgetCompHWND, GWL_WNDPROC, NativeInt(FOldWidgetCompWndPrc));
+      FreeObjectInstance(FWidgetCompStub);
+      FOldWidgetCompWndPrc := nil;
+      FWidgetCompStub      := nil;
+    end;
+
+  if (FRenderCompHWND <> 0) and (FOldRenderCompWndPrc <> nil) then
+    begin
+      SetWindowLongPtr(FRenderCompHWND, GWL_WNDPROC, NativeInt(FOldRenderCompWndPrc));
+      FreeObjectInstance(FRenderCompStub);
+      FOldRenderCompWndPrc := nil;
+      FRenderCompStub      := nil;
+    end;
+  {$ENDIF}
+
   DestroyClientHandler;
 
   inherited BeforeDestruction;
@@ -2978,6 +3046,44 @@ end;
 
 procedure TFMXChromium.doOnRenderViewReady(const browser: ICefBrowser);
 begin
+  {$IFDEF MSWINDOWS}
+  if (browser      <> nil) and
+     (browser.Host <> nil) then
+    begin
+      FBrowserCompHWND := browser.Host.WindowHandle;
+
+      if (FBrowserCompHWND <> 0) then
+        FWidgetCompHWND := FindWindowEx(FBrowserCompHWND, 0, 'Chrome_WidgetWin_0', '');
+
+      if (FWidgetCompHWND <> 0) then
+        FRenderCompHWND := FindWindowEx(FWidgetCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
+
+      if assigned(FOnBrowserCompMsg) and (FBrowserCompHWND <> 0) then
+        begin
+          FBrowserCompStub      := MakeObjectInstance(BrowserCompWndProc);
+          FOldBrowserCompWndPrc := Pointer(SetWindowLongPtr(FBrowserCompHWND,
+                                                            GWL_WNDPROC,
+                                                            NativeInt(FBrowserCompStub)));
+        end;
+
+      if assigned(FOnWidgetCompMsg) and (FWidgetCompHWND <> 0) then
+        begin
+          FWidgetCompStub      := MakeObjectInstance(WidgetCompWndProc);
+          FOldWidgetCompWndPrc := Pointer(SetWindowLongPtr(FWidgetCompHWND,
+                                                           GWL_WNDPROC,
+                                                           NativeInt(FWidgetCompStub)));
+        end;
+
+      if assigned(FOnRenderCompMsg) and (FRenderCompHWND <> 0) then
+        begin
+          FRenderCompStub      := MakeObjectInstance(RenderCompWndProc);
+          FOldRenderCompWndPrc := Pointer(SetWindowLongPtr(FRenderCompHWND,
+                                                           GWL_WNDPROC,
+                                                           NativeInt(FRenderCompStub)));
+        end;
+    end;
+  {$ENDIF}
+
   if Assigned(FOnRenderViewReady) then FOnRenderViewReady(Self, browser);
 end;
 
@@ -3099,6 +3205,65 @@ begin
      else
       TempComp := TempComp.owner;
 end;
+
+{$IFDEF MSWINDOWS}
+procedure TFMXChromium.BrowserCompWndProc(var aMessage: TMessage);
+var
+  TempHandled : boolean;
+begin
+  TempHandled := False;
+
+  if assigned(FOnBrowserCompMsg) then
+    FOnBrowserCompMsg(aMessage, TempHandled);
+
+  if not(TempHandled)               and
+     (FOldBrowserCompWndPrc <> nil) and
+     (FBrowserCompHWND      <> 0)   then
+    aMessage.Result := CallWindowProc(FOldBrowserCompWndPrc,
+                                      FBrowserCompHWND,
+                                      aMessage.Msg,
+                                      aMessage.wParam,
+                                      aMessage.lParam);
+end;
+
+procedure TFMXChromium.WidgetCompWndProc(var aMessage: TMessage);
+var
+  TempHandled : boolean;
+begin
+  TempHandled := False;
+
+  if assigned(FOnWidgetCompMsg) then
+    FOnWidgetCompMsg(aMessage, TempHandled);
+
+  if not(TempHandled)              and
+     (FOldWidgetCompWndPrc <> nil) and
+     (FWidgetCompHWND      <> 0)   then
+    aMessage.Result := CallWindowProc(FOldWidgetCompWndPrc,
+                                      FWidgetCompHWND,
+                                      aMessage.Msg,
+                                      aMessage.wParam,
+                                      aMessage.lParam);
+end;
+
+procedure TFMXChromium.RenderCompWndProc(var aMessage: TMessage);
+var
+  TempHandled : boolean;
+begin
+  TempHandled := False;
+
+  if assigned(FOnRenderCompMsg) then
+    FOnRenderCompMsg(aMessage, TempHandled);
+
+  if not(TempHandled)              and
+     (FOldRenderCompWndPrc <> nil) and
+     (FRenderCompHWND      <> 0)   then
+    aMessage.Result := CallWindowProc(FOldRenderCompWndPrc,
+                                      FRenderCompHWND,
+                                      aMessage.Msg,
+                                      aMessage.wParam,
+                                      aMessage.lParam);
+end;
+{$ENDIF}
 
 procedure TFMXChromium.MoveFormTo(const x, y: Integer);
 var

@@ -186,11 +186,18 @@ type
       const request: ICefRequest; const callback: ICefRequestCallback;
       out Result: TCefReturnValue);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
+      out Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject;
+      const browser: ICefBrowser);
+    procedure Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
 
   protected
     FResponse : TStringList;
     FRequest  : TStringList;
-    FClosing  : boolean;
+    // Variables to control when can we destroy the form safely
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure AddURL(const aURL : string);
 
@@ -205,6 +212,7 @@ type
     procedure InspectResponse(const aResponse : ICefResponse);
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
     procedure CopyAllTextMsg(var aMessage : TMessage); message MINIBROWSER_COPYALLTEXT;
@@ -233,6 +241,12 @@ implementation
 
 uses
   uPreferences, uCefStringMultimap, uSimpleTextViewer;
+
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
 begin
@@ -276,7 +290,18 @@ end;
 procedure TMiniBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   if Chromium1.IsSameBrowser(browser) then
-    PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+    PostMessage(Handle, CEF_AFTERCREATED, 0, 0)
+   else
+    SendMessage(browser.Host.WindowHandle, WM_SETICON, 1, application.Icon.Handle); // Use the same icon in the popup window
+end;
+
+procedure TMiniBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  if (Chromium1.BrowserId = 0) then // The main browser is being destroyed
+    begin
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -367,6 +392,17 @@ begin
      (frame <> nil) and
      frame.IsMain then
     InspectRequest(request);
+end;
+
+procedure TMiniBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+begin
+  if (browser <> nil) and (Chromium1.BrowserId = browser.Identifier) then
+    begin
+      PostMessage(Handle, CEF_DESTROY, 0, 0);
+      Result := True;
+    end
+   else
+    Result := False;
 end;
 
 procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
@@ -617,6 +653,15 @@ begin
     isKeyboardShortcut := True;
 end;
 
+procedure TMiniBrowserFrm.Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
+begin
+  if not(FClosing) and (aMessage.Msg = WM_MOUSEMOVE) then
+    begin
+      StatusBar1.Panels[2].Text := 'x : ' + inttostr(aMessage.lParam and $FFFF);
+      StatusBar1.Panels[3].Text := 'y : ' + inttostr((aMessage.lParam and $FFFF0000) shr 16);
+    end;
+end;
+
 procedure TMiniBrowserFrm.Chromium1ResolvedHostAvailable(Sender: TObject;
   result: Integer; const resolvedIps: TStrings);
 begin
@@ -720,12 +765,19 @@ end;
 
 procedure TMiniBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  FClosing := True;
-  CanClose := True;
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      Chromium1.CloseBrowser(True);
+    end;
 end;
 
 procedure TMiniBrowserFrm.FormCreate(Sender: TObject);
 begin
+  FCanClose := False;
   FClosing  := False;
   FResponse := TStringList.Create;
   FRequest  := TStringList.Create;
@@ -765,6 +817,11 @@ begin
   NavControlPnl.Enabled := True;
   AddURL(MINIBROWSER_HOMEPAGE);
   Chromium1.LoadURL(MINIBROWSER_HOMEPAGE);
+end;
+
+procedure TMiniBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.Free;
 end;
 
 procedure TMiniBrowserFrm.AddURL(const aURL : string);

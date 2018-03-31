@@ -127,7 +127,7 @@ begin
   if (FChromium <> nil) then
     Result := FChromium.WindowHandle
    else
-    Result := 0;
+    Result := inherited GetChildWindowHandle;
 end;
 
 function TChromiumWindow.GetBrowserInitialized : boolean;

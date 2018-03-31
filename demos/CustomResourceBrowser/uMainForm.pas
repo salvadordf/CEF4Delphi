@@ -63,6 +63,10 @@ type
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure ChromiumWindow1Close(Sender: TObject);
+    procedure ChromiumWindow1BeforeClose(Sender: TObject);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -71,6 +75,10 @@ type
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
   protected
+    // Variables to control when can we destroy the form safely
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing  : boolean;  // Set to True in the CloseQuery event.
+
     procedure Chromium_OnAfterCreated(Sender: TObject);
     procedure Chromium_OnGetResourceHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; out Result: ICefResourceHandler);
     procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
@@ -89,9 +97,33 @@ implementation
 uses
   uCEFMiscFunctions, uCEFApplication;
 
+// Destruction steps
+// =================
+// 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
+// 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
+// 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
+
 procedure TMainForm.Button1Click(Sender: TObject);
 begin
   ChromiumWindow1.LoadURL(Edit1.Text);
+end;
+
+procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      ChromiumWindow1.CloseBrowser(True);
+    end;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  FCanClose := False;
+  FClosing  := False;
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);
@@ -110,6 +142,22 @@ begin
   Timer1.Enabled := False;
   if not(ChromiumWindow1.CreateBrowser) and not(ChromiumWindow1.Initialized) then
     Timer1.Enabled := True;
+end;
+
+procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
+begin
+  FCanClose := True;
+  Close;
+end;
+
+procedure TMainForm.ChromiumWindow1Close(Sender: TObject);
+begin
+  // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
+  if not(ChromiumWindow1.DestroyChildWindow) then
+    begin
+      FCanClose := True;
+      Close;
+    end;
 end;
 
 procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject);

@@ -82,18 +82,27 @@ type
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
       var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
+      out Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject;
+      const browser: ICefBrowser);
   protected
     FFilter        : ICefResponseFilter; // CEF Filter interface that receives the resource contents
     FStream        : TMemoryStream;      // TMemoryStream to hold the resource contents
     FStreamCS      : TCriticalSection;   // Critical section used to protect the memory stream
     FRscSize       : int64;              // size of the resource if the server sends the Content-Length header
     FRscCompleted  : boolean;            // This variable will be used to handle the results only once.
+    // Variables to control when can we destroy the form safely
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure StreamCopyCompleteMsg(var aMessage : TMessage); message STREAM_COPY_COMPLETE;
 
     procedure Filter_OnFilter(Sender: TObject; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
@@ -123,6 +132,12 @@ uses
 
 // For more information read the CEF3 code comments here :
 //      https://github.com/chromiumembedded/cef/blob/master/include/capi/cef_response_filter_capi.h
+
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure TResponseFilterBrowserFrm.Filter_OnFilter(Sender: TObject;
                                                         data_in          : Pointer;
@@ -193,6 +208,18 @@ begin
     Result := False;
 end;
 
+procedure TResponseFilterBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      Chromium1.CloseBrowser(True);
+    end;
+end;
+
 procedure TResponseFilterBrowserFrm.FormCreate(Sender: TObject);
 begin
   FRscCompleted  := False;
@@ -200,6 +227,9 @@ begin
   FStream        := TMemoryStream.Create;
   FStreamCS      := TCriticalSection.Create;
   FFilter        := TCustomResponseFilter.Create;
+
+  FCanClose := False;
+  FClosing  := False;
 
   // This event will receive the data
   TCustomResponseFilter(FFilter).OnFilter := Filter_OnFilter;
@@ -225,6 +255,13 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
+procedure TResponseFilterBrowserFrm.Chromium1BeforeClose(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TResponseFilterBrowserFrm.Chromium1BeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
@@ -235,6 +272,13 @@ procedure TResponseFilterBrowserFrm.Chromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TResponseFilterBrowserFrm.Chromium1Close(Sender: TObject;
+  const browser: ICefBrowser; out Result: Boolean);
+begin
+  PostMessage(Handle, CEF_DESTROY, 0, 0);
+  Result := True;
 end;
 
 procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(Sender : TObject;
@@ -281,6 +325,11 @@ begin
   Caption            := 'Response Filter Browser';
   AddressPnl.Enabled := True;
   GoBtn.Click;
+end;
+
+procedure TResponseFilterBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.Free;
 end;
 
 // This procedure handles the stream contents after it's fully downloaded
