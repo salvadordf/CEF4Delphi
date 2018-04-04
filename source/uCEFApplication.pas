@@ -136,6 +136,7 @@ type
       FProcessType                   : TCefProcessType;
       FShutdownWaitTime              : cardinal;
       FWidevinePath                  : string;
+      FMustFreeLibrary               : boolean;
 
       FMustCreateResourceBundleHandler : boolean;
       FMustCreateBrowserProcessHandler : boolean;
@@ -224,6 +225,7 @@ type
       function  Load_cef_trace_event_internal_h : boolean;
 
       procedure ShutDown;
+      procedure FreeLibcefLibrary;
       function  ExecuteProcess(const aApp : ICefApp) : integer;
       procedure InitializeSettings(var aSettings : TCefSettings);
       function  InitializeLibrary(const aApp : ICefApp) : boolean;
@@ -342,6 +344,7 @@ type
       property MissingLibFiles                   : string                              read FMissingLibFiles;
       property ShutdownWaitTime                  : cardinal                            read FShutdownWaitTime                  write FShutdownWaitTime;
       property WidevinePath                      : string                              read FWidevinePath                      write FWidevinePath;
+      property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
 
       property OnRegCustomSchemes                : TOnRegisterCustomSchemes            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
@@ -452,6 +455,7 @@ begin
   FProcessType                   := ParseProcessType;
   FShutdownWaitTime              := 0;
   FWidevinePath                  := '';
+  FMustFreeLibrary               := True;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -509,14 +513,7 @@ begin
         ShutDown;
       end;
 
-    if (FLibHandle <> 0) then
-      begin
-        FreeLibrary(FLibHandle);
-        FLibHandle := 0;
-        FLibLoaded := False;
-      end;
-
-    FStatus := asUnloaded;
+    FreeLibcefLibrary;
 
     if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
@@ -779,6 +776,22 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.ShutDown', e) then raise;
+  end;
+end;
+
+procedure TCefApplication.FreeLibcefLibrary;
+begin
+  try
+    try
+      if FMustFreeLibrary and (FLibHandle <> 0) then FreeLibrary(FLibHandle);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefApplication.FreeLibcefLibrary', e) then raise;
+    end;
+  finally
+    FLibHandle := 0;
+    FLibLoaded := False;
+    FStatus    := asUnloaded;
   end;
 end;
 
@@ -1305,6 +1318,15 @@ var
   TempOldDir, TempString : string;
 begin
   Result := False;
+
+  if (FStatus <> asLoading) or FLibLoaded or (FLibHandle <> 0) then
+    begin
+      FStatus    := asErrorLoadingLibrary;
+      TempString := 'GlobalCEFApp can only be initialized once per process.';
+
+      ShowErrorMessageDlg(TempString);
+      exit;
+    end;
 
   if FSetCurrentDir then
     begin
