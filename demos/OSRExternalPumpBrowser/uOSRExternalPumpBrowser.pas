@@ -139,7 +139,6 @@ type
 
 var
   OSRExternalPumpBrowserFrm : TOSRExternalPumpBrowserFrm;
-  GlobalCEFWorkScheduler    : TCEFWorkScheduler = nil;
 
 // This is a simple browser in OSR mode (off-screen rendering).
 // It was necessary to destroy the browser following the destruction sequence described in

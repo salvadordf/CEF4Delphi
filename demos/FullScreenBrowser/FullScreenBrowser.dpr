@@ -57,7 +57,6 @@ uses
 begin
   GlobalCEFApp              := TCefApplication.Create;
   GlobalCEFApp.FlashEnabled := False;
-  GlobalCEFApp.FastUnload   := True;
 
   if GlobalCEFApp.StartMainProcess then
     begin

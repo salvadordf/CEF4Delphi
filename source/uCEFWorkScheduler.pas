@@ -106,6 +106,9 @@ type
       property    DepleteWorkDelay   : cardinal         read FDepleteWorkDelay    write FDepleteWorkDelay   default  CEF_TIMER_DEPLETEWORK_DELAY;
   end;
 
+var
+  GlobalCEFWorkScheduler : TCEFWorkScheduler = nil;
+
 implementation
 
 uses

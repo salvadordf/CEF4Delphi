@@ -95,7 +95,6 @@ type
 
 var
   ExternalPumpBrowserFrm : TExternalPumpBrowserFrm;
-  GlobalCEFWorkScheduler : TCEFWorkScheduler = nil;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 

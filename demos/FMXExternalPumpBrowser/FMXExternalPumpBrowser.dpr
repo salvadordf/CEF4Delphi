@@ -59,20 +59,18 @@ uses
 {$ENDIF}
 
 begin
-  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // TFMXWorkScheduler will call cef_do_message_loop_work when
   // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalFMXWorkScheduler needs to be created before the
   // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TFMXWorkScheduler.Create(nil);
+  GlobalFMXWorkScheduler := TFMXWorkScheduler.Create(nil);
 
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.FastUnload                 := True;
   GlobalCEFApp.FlashEnabled               := False;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.SitePerProcess             := False;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
 
   if GlobalCEFApp.StartMainProcess then
@@ -84,9 +82,9 @@ begin
       // The form needs to be destroyed *BEFORE* stopping the scheduler.
       FMXExternalPumpBrowserFrm.Free;
 
-      GlobalCEFWorkScheduler.StopScheduler;
+      GlobalFMXWorkScheduler.StopScheduler;
     end;
 
   FreeAndNil(GlobalCEFApp);
-  FreeAndNil(GlobalCEFWorkScheduler);
+  FreeAndNil(GlobalFMXWorkScheduler);
 end.

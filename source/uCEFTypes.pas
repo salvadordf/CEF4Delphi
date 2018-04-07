@@ -1289,7 +1289,8 @@ type
   // /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)
   TCefExtensionHandler = record
     base                          : TCefBaseRefCounted;
-    on_extension_load_failed      : procedure(self: PCefExtensionHandler; result: TCefErrorcode); stdcall;
+
+    on_extension_load_failed      : procedure(self: PCefExtensionHandler; result: TCefErrorcode); stdcall;
     on_extension_loaded           : procedure(self: PCefExtensionHandler; extension: PCefExtension); stdcall;
     on_extension_unloaded         : procedure(self: PCefExtensionHandler; extension: PCefExtension); stdcall;
     on_before_background_browser  : function(self: PCefExtensionHandler; extension: PCefExtension; const url: PCefString; var client: PCefClient; settings: PCefBrowserSettings) : Integer; stdcall;

@@ -58,7 +58,6 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.FastUnload                 := True;
   GlobalCEFApp.SitePerProcess             := False;
 
   if GlobalCEFApp.StartMainProcess then
