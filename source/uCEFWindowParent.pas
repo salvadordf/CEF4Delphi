@@ -60,12 +60,13 @@ type
       function  GetChildWindowHandle : THandle; virtual;
 
       procedure WndProc(var aMessage: TMessage); override;
-      procedure Resize; override;
 
     public
       procedure UpdateSize;
       function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
       function  DestroyChildWindow : boolean;
+      procedure CreateHandle; override;
+      procedure Resize; override;
 
       property  ChildWindowHandle : THandle   read GetChildWindowHandle;
 
@@ -96,6 +97,11 @@ begin
   inherited Resize;
 
   UpdateSize;
+end;
+
+procedure TCEFWindowParent.CreateHandle;
+begin
+  inherited;
 end;
 
 procedure TCEFWindowParent.UpdateSize;

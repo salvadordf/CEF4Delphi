@@ -442,7 +442,7 @@ type
       procedure   AfterConstruction; override;
       procedure   BeforeDestruction; override;
       function    CreateClientHandler(aIsOSR : boolean) : boolean; overload;
-      function    CreateClientHandler(var aClient : ICefClient) : boolean; overload;
+      function    CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean = True) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
       function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
       function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
@@ -540,6 +540,7 @@ type
       property  BrowserId               : integer                      read FBrowserId;
       property  Browser                 : ICefBrowser                  read FBrowser;
       property  CefClient               : ICefClient                   read FHandler;
+      property  CefWindowInfo           : TCefWindowInfo               read FWindowInfo;
       property  VisibleNavigationEntry  : ICefNavigationEntry          read GetVisibleNavigationEntry;
       property  MultithreadApp          : boolean                      read GetMultithreadApp;
       property  IsLoading               : boolean                      read GetIsLoading;
@@ -552,6 +553,9 @@ type
       property  CanGoForward            : boolean                      read GetCanGoForward;
       property  IsPopUp                 : boolean                      read GetIsPopUp;
       property  WindowHandle            : THandle                      read GetWindowHandle;
+      property  BrowserHandle           : THandle                      read FBrowserCompHWND;
+      property  WidgetHandle            : THandle                      read FWidgetCompHWND;
+      property  RenderHandle            : THandle                      read FRenderCompHWND;
       property  FrameIsFocused          : boolean                      read GetFrameIsFocused;
       property  Initialized             : boolean                      read GetInitialized;
       property  RequestContextCache     : string                       read GetRequestContextCache;
@@ -913,9 +917,9 @@ begin
   end;
 end;
 
-function TChromium.CreateClientHandler(var aClient : ICefClient) : boolean;
+function TChromium.CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean) : boolean;
 begin
-  if CreateClientHandler(True) then
+  if CreateClientHandler(aIsOSR) then
     begin
       aClient := FHandler;
       Result  := True;
@@ -3720,7 +3724,10 @@ begin
       if FIsOSR then
         FBrowser.Host.Invalidate(kind)
        else
-        InvalidateRect(FBrowser.Host.WindowHandle, nil, False);
+        if (RenderHandle <> 0) then
+          InvalidateRect(RenderHandle, nil, False)
+         else
+          InvalidateRect(WindowHandle, nil, False);
     end;
 end;
 
