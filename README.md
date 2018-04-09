@@ -18,3 +18,6 @@ For more information about CEF4Delphi visit :
 
 Forum :
   https://www.briskbard.com/forum
+
+These components need Windows 7, 8, 8.1, 10 or newer to run. If you need Windows XP and Vista support use **OldCEF4Delphi** :
+  https://github.com/salvadordf/OldCEF4Delphi
