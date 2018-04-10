@@ -168,6 +168,9 @@ type
       FOnCDMRegistrationComplete     : TOnCDMRegistrationCompleteEvent;
 
       procedure SetCache(const aValue : ustring);
+      procedure SetCookies(const aValue : ustring);
+      procedure SetUserDataPath(const aValue : ustring);
+      procedure SetBrowserSubprocessPath(const aValue : ustring);
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
@@ -276,13 +279,13 @@ type
       procedure   Internal_OnCDMRegistrationComplete(result : TCefCDMRegistrationError; const error_message : ustring);
 
       property Cache                             : ustring                             read FCache                             write SetCache;
-      property Cookies                           : ustring                             read FCookies                           write FCookies;
-      property UserDataPath                      : ustring                             read FUserDataPath                      write FUserDataPath;
+      property Cookies                           : ustring                             read FCookies                           write SetCookies;
+      property UserDataPath                      : ustring                             read FUserDataPath                      write SetUserDataPath;
       property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
       property ProductVersion                    : ustring                             read FProductVersion                    write FProductVersion;
       property Locale                            : ustring                             read FLocale                            write FLocale;
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
-      property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write FBrowserSubprocessPath;
+      property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
       property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
@@ -607,18 +610,80 @@ end;
 
 procedure TCefApplication.SetCache(const aValue : ustring);
 begin
-  FCache           := trim(aValue);
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        FCache := GetModulePath + aValue
+       else
+        FCache := aValue;
+    end
+   else
+    FCache := '';
+
   FDisableGPUCache := (length(FCache) = 0);
 end;
 
-procedure TCefApplication.SetFrameworkDirPath(const aValue : ustring);
+procedure TCefApplication.SetCookies(const aValue : ustring);
 begin
-  if (length(aValue) > 0) and DirectoryExists(aValue) then
+  if (length(aValue) > 0) then
     begin
       if CustomPathIsRelative(aValue) then
-        FFrameworkDirPath := GetModulePath + aValue
+        FCookies := GetModulePath + aValue
        else
-        FFrameworkDirPath := aValue;
+        FCookies := aValue;
+    end
+   else
+    FCookies := '';
+end;
+
+procedure TCefApplication.SetUserDataPath(const aValue : ustring);
+begin
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        FUserDataPath := GetModulePath + aValue
+       else
+        FUserDataPath := aValue;
+    end
+   else
+    FUserDataPath := '';
+end;
+
+procedure TCefApplication.SetBrowserSubprocessPath(const aValue : ustring);
+var
+  TempPath : string;
+begin
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        TempPath := GetModulePath + aValue
+       else
+        TempPath := aValue;
+
+      if FileExists(TempPath) then
+        FBrowserSubprocessPath := TempPath
+       else
+        FBrowserSubprocessPath := '';
+    end
+   else
+    FBrowserSubprocessPath := '';
+end;
+
+procedure TCefApplication.SetFrameworkDirPath(const aValue : ustring);
+var
+  TempPath : string;
+begin
+  if (length(aValue) > 0) then
+    begin
+      if CustomPathIsRelative(aValue) then
+        TempPath := GetModulePath + aValue
+       else
+        TempPath := aValue;
+
+      if DirectoryExists(TempPath) then
+        FFrameworkDirPath := TempPath
+       else
+        FFrameworkDirPath := '';
     end
    else
     FFrameworkDirPath := '';
@@ -627,26 +692,40 @@ begin
 end;
 
 procedure TCefApplication.SetResourcesDirPath(const aValue : ustring);
+var
+  TempPath : string;
 begin
-  if (length(aValue) > 0) and DirectoryExists(aValue) then
+  if (length(aValue) > 0) then
     begin
       if CustomPathIsRelative(aValue) then
-        FResourcesDirPath := GetModulePath + aValue
+        TempPath := GetModulePath + aValue
        else
-        FResourcesDirPath := aValue;
+        TempPath := aValue;
+
+      if DirectoryExists(TempPath) then
+        FResourcesDirPath := TempPath
+       else
+        FResourcesDirPath := '';
     end
    else
     FResourcesDirPath := '';
 end;
 
 procedure TCefApplication.SetLocalesDirPath(const aValue : ustring);
+var
+  TempPath : string;
 begin
-  if (length(aValue) > 0) and DirectoryExists(aValue) then
+  if (length(aValue) > 0) then
     begin
       if CustomPathIsRelative(aValue) then
-        FLocalesDirPath := GetModulePath + aValue
+        TempPath := GetModulePath + aValue
        else
-        FLocalesDirPath := aValue;
+        TempPath := aValue;
+
+      if DirectoryExists(TempPath) then
+        FLocalesDirPath := TempPath
+       else
+        FLocalesDirPath := '';
     end
    else
     FLocalesDirPath := '';
