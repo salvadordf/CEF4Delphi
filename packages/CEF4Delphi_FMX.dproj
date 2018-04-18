@@ -277,6 +277,7 @@
         <DCCReference Include="..\source\uFMXChromium.pas"/>
         <DCCReference Include="..\source\uFMXWorkScheduler.pas"/>
         <DCCReference Include="..\source\uCEFStringList.pas"/>
+        <DCCReference Include="..\source\uFMXWindowParent.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -314,8 +315,6 @@
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule"/>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\17.0\Bpl\CEF4Delphi.bpl" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CEF4Delphi_FMX.bpl</RemoteName>
@@ -323,6 +322,14 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>CEF4Delphi_FMX.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\17.0\Bpl\CEF4Delphi.bpl" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Debug with logging" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CEF4Delphi_FMX.bpl</RemoteName>
