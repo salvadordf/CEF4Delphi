@@ -434,8 +434,11 @@ type
       function    CreateClientHandler(aIsOSR : boolean = True) : boolean; overload;
       function    CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean = True) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
-      function    CreateBrowser(const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; virtual;
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
+      function    CreateBrowser(const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
+      {$IFDEF MSWINDOWS}
+      function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
+      {$ENDIF}
 
       procedure   LoadURL(const aURL : ustring);
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
@@ -1034,6 +1037,64 @@ begin
       if CustomExceptionHandler('TFMXChromium.CreateBrowser', e) then raise;
   end;
 end;
+
+{$IFDEF MSWINDOWS}
+function TFMXChromium.CreateBrowser(      aParentHandle          : HWND;
+                                          aParentRect            : TRect;
+                                    const aWindowName            : string;
+                                    const aContext               : ICefRequestContext;
+                                    const aCookiesPath           : string;
+                                          aPersistSessionCookies : boolean) : boolean;
+var
+  TempCookieManager : ICefCookieManager;
+begin
+  Result := False;
+
+  try
+    // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+    // even if you use a custom request context.
+    // If you create a browser in the initialization of your app, make sure you call this
+    // function when GlobalCEFApp.GlobalContextInitialized is TRUE.
+    // Use the GlobalCEFApp.OnContextInitialized event to know when
+    // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
+
+    if not(csDesigning in ComponentState) and
+       not(FClosing)         and
+       (FBrowser     =  nil) and
+       (FBrowserId   =  0)   and
+       (GlobalCEFApp <> nil) and
+       GlobalCEFApp.GlobalContextInitialized  and
+       CreateClientHandler(aParentHandle = 0) then
+      begin
+        GetSettings(FBrowserSettings);
+
+        if FIsOSR then
+          WindowInfoAsWindowless(FWindowInfo, 0, aWindowName)
+         else
+          WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
+
+
+        if (aContext <> nil) and (length(aCookiesPath) > 0) then
+          begin
+            TempCookieManager := aContext.GetDefaultCookieManager(nil);
+
+            if (TempCookieManager = nil) or
+               not(TempCookieManager.SetStoragePath(aCookiesPath, aPersistSessionCookies, nil)) then
+              OutputDebugMessage('TChromium.CreateBrowser error : cookies cannot be accessed');
+          end;
+
+
+        if GlobalCEFApp.MultiThreadedMessageLoop then
+          Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aContext)
+         else
+          Result := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aContext);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TFMXChromium.CreateBrowser', e) then raise;
+  end;
+end;
+{$ENDIF}
 
 function TFMXChromium.ShareRequestContext(var   aContext : ICefRequestContext;
                                           const aHandler : ICefRequestContextHandler) : boolean;

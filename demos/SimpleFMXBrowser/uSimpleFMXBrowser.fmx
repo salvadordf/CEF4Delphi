@@ -1,0 +1,63 @@
+object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
+  Left = 0
+  Top = 0
+  Caption = 'Initializing, Please wait...'
+  ClientHeight = 600
+  ClientWidth = 917
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnCloseQuery = FormCloseQuery
+  OnResize = FormResize
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object AddressPnl: TPanel
+    Align = Top
+    Enabled = False
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 5.000000000000000000
+    Size.Width = 917.000000000000000000
+    Size.Height = 35.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object AddressEdt: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      Text = 'https://www.google.com'
+      Size.Width = 871.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object GoBtn: TButton
+      Align = Right
+      Position.X = 876.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 36.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Go'
+      OnClick = GoBtnClick
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 40
+    Top = 129
+  end
+  object FMXChromium1: TFMXChromium
+    OnBeforePopup = FMXChromium1BeforePopup
+    OnAfterCreated = FMXChromium1AfterCreated
+    OnBeforeClose = FMXChromium1BeforeClose
+    OnClose = FMXChromium1Close
+    Left = 40
+    Top = 65
+  end
+end
