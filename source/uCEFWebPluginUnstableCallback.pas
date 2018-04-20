@@ -105,6 +105,8 @@ end;
 
 constructor TCefFastWebPluginUnstableCallback.Create(const callback: TCefWebPluginIsUnstableProc);
 begin
+  inherited Create;
+
   FCallback := callback;
 end;
 

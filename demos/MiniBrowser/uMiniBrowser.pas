@@ -191,6 +191,8 @@ type
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
     procedure Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
+    procedure Chromium1LoadingProgressChange(Sender: TObject;
+      const browser: ICefBrowser; const progress: Double);
 
   protected
     FResponse : TStringList;
@@ -592,6 +594,12 @@ begin
   TempKeyMsg          := TWMKey(TempMessage);
 
   if (TempKeyMsg.CharCode = VK_F12) then aHandled := True;
+end;
+
+procedure TMiniBrowserFrm.Chromium1LoadingProgressChange(Sender: TObject;
+  const browser: ICefBrowser; const progress: Double);
+begin
+  StatusBar1.Panels[0].Text := 'Loading... ' + FloatToStrF(progress * 100, ffFixed, 3, 0) + '%';
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;

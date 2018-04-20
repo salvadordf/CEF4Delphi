@@ -149,6 +149,7 @@ type
       FOnStatusMessage                : TOnStatusMessage;
       FOnConsoleMessage               : TOnConsoleMessage;
       FOnAutoResize                   : TOnAutoResize;
+      FOnLoadingProgressChange        : TOnLoadingProgressChange;
 
       // ICefDownloadHandler
       FOnBeforeDownload               : TOnBeforeDownload;
@@ -203,6 +204,7 @@ type
       FOnUpdateDragCursor             : TOnUpdateDragCursor;
       FOnScrollOffsetChanged          : TOnScrollOffsetChanged;
       FOnIMECompositionRangeChanged   : TOnIMECompositionRangeChanged;
+      FOnTextSelectionChanged         : TOnTextSelectionChanged;
 
       // ICefDragHandler
       FOnDragEnter                    : TOnDragEnter;
@@ -365,6 +367,7 @@ type
       procedure doOnStatusMessage(const browser: ICefBrowser; const value: ustring); virtual;
       function  doOnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const aMessage, source: ustring; line: Integer): Boolean; virtual;
       function  doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
+      procedure doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
 
       // ICefDownloadHandler
       procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
@@ -419,6 +422,7 @@ type
       procedure doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); virtual;
       procedure doOnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); virtual;
       procedure doOnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); virtual;
+      procedure doOnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange); virtual;
 
       // ICefDragHandler
       function  doOnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean; virtual;
@@ -636,6 +640,7 @@ type
       property OnStatusMessage                  : TOnStatusMessage                  read FOnStatusMessage                  write FOnStatusMessage;
       property OnConsoleMessage                 : TOnConsoleMessage                 read FOnConsoleMessage                 write FOnConsoleMessage;
       property OnAutoResize                     : TOnAutoResize                     read FOnAutoResize                     write FOnAutoResize;
+      property OnLoadingProgressChange          : TOnLoadingProgressChange          read FOnLoadingProgressChange          write FOnLoadingProgressChange;
 
       // ICefDownloadHandler
       property OnBeforeDownload                 : TOnBeforeDownload                 read FOnBeforeDownload                 write FOnBeforeDownload;
@@ -690,6 +695,7 @@ type
       property OnUpdateDragCursor               : TOnUpdateDragCursor               read FOnUpdateDragCursor               write FOnUpdateDragCursor;
       property OnScrollOffsetChanged            : TOnScrollOffsetChanged            read FOnScrollOffsetChanged            write FOnScrollOffsetChanged;
       property OnIMECompositionRangeChanged     : TOnIMECompositionRangeChanged     read FOnIMECompositionRangeChanged     write FOnIMECompositionRangeChanged;
+      property OnTextSelectionChanged           : TOnTextSelectionChanged           read FOnTextSelectionChanged           write FOnTextSelectionChanged;
 
       // ICefDragHandler
       property OnDragEnter                      : TOnDragEnter                      read FOnDragEnter                      write FOnDragEnter;
@@ -963,6 +969,7 @@ begin
   FOnStatusMessage                := nil;
   FOnConsoleMessage               := nil;
   FOnAutoResize                   := nil;
+  FOnLoadingProgressChange        := nil;
 
   // ICefDownloadHandler
   FOnBeforeDownload               := nil;
@@ -1017,6 +1024,7 @@ begin
   FOnUpdateDragCursor             := nil;
   FOnScrollOffsetChanged          := nil;
   FOnIMECompositionRangeChanged   := nil;
+  FOnTextSelectionChanged         := nil;
 
   // ICefDragHandler
   FOnDragEnter                    := nil;
@@ -2686,14 +2694,15 @@ end;
 
 function TChromium.MustCreateDisplayHandler : boolean;
 begin
-  Result := assigned(FOnAddressChange)        or
-            assigned(FOnTitleChange)          or
-            assigned(FOnFavIconUrlChange)     or
-            assigned(FOnFullScreenModeChange) or
-            assigned(FOnTooltip)              or
-            assigned(FOnStatusMessage)        or
-            assigned(FOnConsoleMessage)       or
-            assigned(FOnAutoResize);
+  Result := assigned(FOnAddressChange)         or
+            assigned(FOnTitleChange)           or
+            assigned(FOnFavIconUrlChange)      or
+            assigned(FOnFullScreenModeChange)  or
+            assigned(FOnTooltip)               or
+            assigned(FOnStatusMessage)         or
+            assigned(FOnConsoleMessage)        or
+            assigned(FOnAutoResize)            or
+            assigned(FOnLoadingProgressChange);
 end;
 
 function TChromium.MustCreateDownloadHandler : boolean;
@@ -3086,6 +3095,11 @@ begin
   Result := False;
 
   if Assigned(FOnAutoResize) then FOnAutoResize(Self, browser, new_size, Result);
+end;
+
+procedure TChromium.doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
+begin
+  if assigned(FOnLoadingProgressChange) then FOnLoadingProgressChange(self, browser, progress);
 end;
 
 function TChromium.doOnContextMenuCommand(const browser    : ICefBrowser;
@@ -3518,6 +3532,14 @@ procedure TChromium.doOnIMECompositionRangeChanged(const browser               :
 begin
   if assigned(FOnIMECompositionRangeChanged) then
     FOnIMECompositionRangeChanged(self, browser, selected_range, character_boundsCount, character_bounds);
+end;
+
+procedure TChromium.doOnTextSelectionChanged(const browser        : ICefBrowser;
+                                             const selected_text  : ustring;
+                                             const selected_range : PCefRange);
+begin
+  if assigned(FOnTextSelectionChanged) then
+    FOnTextSelectionChanged(self, browser, selected_text, selected_range);
 end;
 
 function TChromium.doOnSetFocus(const browser: ICefBrowser; source: TCefFocusSource): Boolean;

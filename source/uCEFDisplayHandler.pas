@@ -65,6 +65,7 @@ type
       procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring); virtual;
       function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean; virtual;
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
+      procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -84,6 +85,7 @@ type
       procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring); override;
       function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean; override;
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; override;
+      procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); override;
 
       procedure RemoveReferences; override;
 
@@ -243,20 +245,34 @@ begin
 end;
 
 
+procedure cef_display_handler_on_loading_progress_change(self     : PCefDisplayHandler;
+                                                         browser  : PCefBrowser;
+                                                         progress : double); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
+    TCefDisplayHandlerOwn(TempObject).OnLoadingProgressChange(TCefBrowserRef.UnWrap(browser),
+                                                              progress);
+end;
+
 constructor TCefDisplayHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDisplayHandler));
 
   with PCefDisplayHandler(FData)^ do
     begin
-      on_address_change         := cef_display_handler_on_address_change;
-      on_title_change           := cef_display_handler_on_title_change;
-      on_favicon_urlchange      := cef_display_handler_on_favicon_urlchange;
-      on_fullscreen_mode_change := cef_display_handler_on_fullscreen_mode_change;
-      on_tooltip                := cef_display_handler_on_tooltip;
-      on_status_message         := cef_display_handler_on_status_message;
-      on_console_message        := cef_display_handler_on_console_message;
-      on_auto_resize            := cef_display_handler_on_auto_resize;
+      on_address_change          := cef_display_handler_on_address_change;
+      on_title_change            := cef_display_handler_on_title_change;
+      on_favicon_urlchange       := cef_display_handler_on_favicon_urlchange;
+      on_fullscreen_mode_change  := cef_display_handler_on_fullscreen_mode_change;
+      on_tooltip                 := cef_display_handler_on_tooltip;
+      on_status_message          := cef_display_handler_on_status_message;
+      on_console_message         := cef_display_handler_on_console_message;
+      on_auto_resize             := cef_display_handler_on_auto_resize;
+      on_loading_progress_change := cef_display_handler_on_loading_progress_change;
     end;
 end;
 
@@ -273,6 +289,11 @@ end;
 function TCefDisplayHandlerOwn.OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
 begin
   Result := False;
+end;
+
+procedure TCefDisplayHandlerOwn.OnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
+begin
+  //
 end;
 
 procedure TCefDisplayHandlerOwn.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
@@ -351,6 +372,11 @@ begin
     Result := IChromiumEvents(FEvents).doOnAutoResize(browser, new_size)
    else
     Result := inherited OnAutoResize(browser, new_size);
+end;
+
+procedure TCustomDisplayHandler.OnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
+begin
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnLoadingProgressChange(browser, progress);
 end;
 
 procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);

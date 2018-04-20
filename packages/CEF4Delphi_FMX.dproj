@@ -278,6 +278,7 @@
         <DCCReference Include="..\source\uFMXWorkScheduler.pas"/>
         <DCCReference Include="..\source\uCEFStringList.pas"/>
         <DCCReference Include="..\source\uFMXWindowParent.pas"/>
+        <DCCReference Include="..\source\uCEFv8ArrayBufferReleaseCallback.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

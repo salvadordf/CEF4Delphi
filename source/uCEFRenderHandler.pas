@@ -65,6 +65,7 @@ type
       procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); virtual;
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); virtual;
       procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); virtual;
+      procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -89,6 +90,7 @@ type
       procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); override;
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); override;
       procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); override;
+      procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange); override;
 
       procedure RemoveReferences; override;
 
@@ -315,6 +317,21 @@ begin
                                                                   character_bounds);
 end;
 
+procedure cef_render_handler_on_text_selection_changed(      self           : PCefRenderHandler;
+                                                             browser        : PCefBrowser;
+                                                       const selected_text  : PCefString;
+                                                       const selected_range : PCefRange); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnTextSelectionChanged(TCefBrowserRef.UnWrap(browser),
+                                                            CefString(selected_text),
+                                                            selected_range);
+end;
+
 constructor TCefRenderHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefRenderHandler));
@@ -334,6 +351,7 @@ begin
       update_drag_cursor               := cef_render_handler_update_drag_cursor;
       on_scroll_offset_changed         := cef_render_handler_on_scroll_offset_changed;
       on_ime_composition_range_changed := cef_render_handler_on_ime_composition_range_changed;
+      on_text_selection_changed        := cef_render_handler_on_text_selection_changed;
     end;
 end;
 
@@ -364,27 +382,27 @@ end;
 
 procedure TCefRenderHandlerOwn.OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
 begin
-
+  //
 end;
 
 procedure TCefRenderHandlerOwn.OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
 begin
-
+  //
 end;
 
 procedure TCefRenderHandlerOwn.OnPopupShow(const browser: ICefBrowser; show: Boolean);
 begin
-
+  //
 end;
 
 procedure TCefRenderHandlerOwn.OnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
 begin
-
+  //
 end;
 
 procedure TCefRenderHandlerOwn.OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
 begin
-
+  //
 end;
 
 procedure TCefRenderHandlerOwn.OnIMECompositionRangeChanged(const browser               : ICefBrowser;
@@ -392,7 +410,14 @@ procedure TCefRenderHandlerOwn.OnIMECompositionRangeChanged(const browser       
                                                                   character_boundsCount : NativeUInt;
                                                             const character_bounds      : PCefRect);
 begin
+  //
+end;
 
+procedure TCefRenderHandlerOwn.OnTextSelectionChanged(const browser        : ICefBrowser;
+                                                      const selected_text  : ustring;
+                                                      const selected_range : PCefRange);
+begin
+  //
 end;
 
 function TCefRenderHandlerOwn.OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean;
@@ -402,7 +427,7 @@ end;
 
 procedure TCefRenderHandlerOwn.OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
 begin
-
+  //
 end;
 
 procedure TCefRenderHandlerOwn.RemoveReferences;
@@ -508,6 +533,13 @@ procedure TCustomRenderHandler.OnIMECompositionRangeChanged(const browser       
                                                             const character_bounds      : PCefRect);
 begin
   if (FEvents <> nil) then IChromiumEvents(FEvents).doOnIMECompositionRangeChanged(browser, selected_range, character_boundsCount, character_bounds);
+end;
+
+procedure TCustomRenderHandler.OnTextSelectionChanged(const browser        : ICefBrowser;
+                                                      const selected_text  : ustring;
+                                                      const selected_range : PCefRange);
+begin
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnTextSelectionChanged(browser, selected_text, selected_range);
 end;
 
 function TCustomRenderHandler.OnStartDragging(const browser    : ICefBrowser;

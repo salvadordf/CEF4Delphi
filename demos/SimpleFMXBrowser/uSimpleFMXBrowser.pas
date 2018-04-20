@@ -298,7 +298,7 @@ end;
 
 procedure TSimpleFMXBrowserFrm.DoDestroyParent;
 begin
-  if (FMXWindowParent <> nil) then FMXWindowParent.Free;
+  if (FMXWindowParent <> nil) then FreeAndNil(FMXWindowParent);
 end;
 
 procedure TSimpleFMXBrowserFrm.LoadURL;

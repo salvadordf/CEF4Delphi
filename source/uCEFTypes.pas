@@ -96,6 +96,7 @@ type
   PCefv8Value = ^TCefv8Value;
   PCefTime = ^TCefTime;
   PCefV8Exception = ^TCefV8Exception;
+  PCefv8ArrayBufferReleaseCallback = ^TCefv8ArrayBufferReleaseCallback;
   PCefv8Handler = ^TCefv8Handler;
   PPCefV8Value = ^PCefV8ValueArray;
   PCefDomVisitor = ^TCefDomVisitor;
@@ -634,11 +635,9 @@ type
   // /include/internal/cef_types.h (cef_thread_id_t)
   TCefThreadId = (
     TID_UI,
-    TID_DB,
-    TID_FILE,
+    TID_FILE_BACKGROUND,   // TID_FILE = TID_FILE_BACKGROUND
+    TID_FILE_USER_VISIBLE,
     TID_FILE_USER_BLOCKING,
-    TID_PROCESS_LAUNCHER,
-    TID_CACHE,
     TID_IO,
     TID_RENDERER
   );
@@ -1209,15 +1208,16 @@ type
 
   // /include/capi/cef_display_handler_capi.h (cef_display_handler_t)
   TCefDisplayHandler = record
-    base                      : TCefBaseRefCounted;
-    on_address_change         : procedure(self: PCefDisplayHandler; browser: PCefBrowser; frame: PCefFrame; const url: PCefString); stdcall;
-    on_title_change           : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const title: PCefString); stdcall;
-    on_favicon_urlchange      : procedure(self: PCefDisplayHandler; browser: PCefBrowser; icon_urls: TCefStringList); stdcall;
-    on_fullscreen_mode_change : procedure(self: PCefDisplayHandler; browser: PCefBrowser; fullscreen: Integer); stdcall;
-    on_tooltip                : function(self: PCefDisplayHandler; browser: PCefBrowser; text: PCefString): Integer; stdcall;
-    on_status_message         : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const value: PCefString); stdcall;
-    on_console_message        : function(self: PCefDisplayHandler; browser: PCefBrowser; level: TCefLogSeverity; const message_, source: PCefString; line: Integer): Integer; stdcall;
-    on_auto_resize            : function(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
+    base                       : TCefBaseRefCounted;
+    on_address_change          : procedure(self: PCefDisplayHandler; browser: PCefBrowser; frame: PCefFrame; const url: PCefString); stdcall;
+    on_title_change            : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const title: PCefString); stdcall;
+    on_favicon_urlchange       : procedure(self: PCefDisplayHandler; browser: PCefBrowser; icon_urls: TCefStringList); stdcall;
+    on_fullscreen_mode_change  : procedure(self: PCefDisplayHandler; browser: PCefBrowser; fullscreen: Integer); stdcall;
+    on_tooltip                 : function(self: PCefDisplayHandler; browser: PCefBrowser; text: PCefString): Integer; stdcall;
+    on_status_message          : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const value: PCefString); stdcall;
+    on_console_message         : function(self: PCefDisplayHandler; browser: PCefBrowser; level: TCefLogSeverity; const message_, source: PCefString; line: Integer): Integer; stdcall;
+    on_auto_resize             : function(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
+    on_loading_progress_change : procedure(self: PCefDisplayHandler; browser: PCefBrowser; progress: double); stdcall;
   end;
 
   // /include/capi/cef_download_handler_capi.h (cef_download_handler_t)
@@ -1338,6 +1338,7 @@ type
     update_drag_cursor                : procedure(self: PCefRenderHandler; browser: PCefBrowser; operation: TCefDragOperation); stdcall;
     on_scroll_offset_changed          : procedure(self: PCefRenderHandler; browser: PCefBrowser; x, y: Double); stdcall;
     on_ime_composition_range_changed  : procedure(self: PCefRenderHandler; browser: PCefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); stdcall;
+    on_text_selection_changed         : procedure(self: PCefRenderHandler; browser: PCefBrowser; const selected_text: PCefString; const selected_range: PCefRange); stdcall;
   end;
 
   // /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)
@@ -1619,6 +1620,8 @@ type
     get_header      : function(self: PCefResponse; const name: PCefString): PCefStringUserFree; stdcall;
     get_header_map  : procedure(self: PCefResponse; headerMap: TCefStringMultimap); stdcall;
     set_header_map  : procedure(self: PCefResponse; headerMap: TCefStringMultimap); stdcall;
+    get_url         : function(self: PCefResponse): PCefStringUserFree; stdcall;
+    set_url         : procedure(self: PCefResponse; const url: PCefString); stdcall;
   end;
 
   // /include/capi/cef_response_filter_capi.h (cef_response_filter_t)
@@ -2275,6 +2278,12 @@ type
     get_end_column            : function(self: PCefV8Exception): Integer; stdcall;
   end;
 
+  // /include/capi/cef_v8_capi.h (cef_v8array_buffer_release_callback_t)
+  TCefv8ArrayBufferReleaseCallback = record
+    base                      : TCefBaseRefCounted;
+    release_buffer            : procedure(self: PCefv8ArrayBufferReleaseCallback; buffer : Pointer); stdcall;
+  end;
+
   // /include/capi/cef_v8_capi.h (cef_v8value_t)
   TCefv8Value = record
     base                                : TCefBaseRefCounted;
@@ -2289,6 +2298,7 @@ type
     is_string                           : function(self: PCefv8Value): Integer; stdcall;
     is_object                           : function(self: PCefv8Value): Integer; stdcall;
     is_array                            : function(self: PCefv8Value): Integer; stdcall;
+    is_array_buffer                     : function(self: PCefv8Value): Integer; stdcall;
     is_function                         : function(self: PCefv8Value): Integer; stdcall;
     is_same                             : function(self, that: PCefv8Value): Integer; stdcall;
     get_bool_value                      : function(self: PCefv8Value): Integer; stdcall;
@@ -2318,6 +2328,8 @@ type
     get_externally_allocated_memory     : function(self: PCefv8Value): Integer; stdcall;
     adjust_externally_allocated_memory  : function(self: PCefv8Value; change_in_bytes: Integer): Integer; stdcall;
     get_array_length                    : function(self: PCefv8Value): Integer; stdcall;
+    get_array_buffer_release_callback   : function(self: PCefv8Value): PCefv8ArrayBufferReleaseCallback; stdcall;
+    neuter_array_buffer                 : function(self: PCefv8Value): Integer; stdcall;
     get_function_name                   : function(self: PCefv8Value): PCefStringUserFree; stdcall;
     get_function_handler                : function(self: PCefv8Value): PCefv8Handler; stdcall;
     execute_function                    : function(self: PCefv8Value; obj: PCefv8Value; argumentsCount: NativeUInt; const arguments: PPCefV8Value): PCefv8Value; stdcall;

@@ -56,14 +56,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 3325;
-  CEF_SUPPORTED_VERSION_RELEASE = 1758;
+  CEF_SUPPORTED_VERSION_MINOR   = 3359;
+  CEF_SUPPORTED_VERSION_RELEASE = 1768;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 65;
+  CEF_CHROMEELF_VERSION_MAJOR   = 66;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3325;
-  CEF_CHROMEELF_VERSION_BUILD   = 181;
+  CEF_CHROMEELF_VERSION_RELEASE = 3359;
+  CEF_CHROMEELF_VERSION_BUILD   = 117;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -1787,6 +1787,7 @@ begin
   cef_v8value_create_string         := GetProcAddress(FLibHandle, 'cef_v8value_create_string');
   cef_v8value_create_object         := GetProcAddress(FLibHandle, 'cef_v8value_create_object');
   cef_v8value_create_array          := GetProcAddress(FLibHandle, 'cef_v8value_create_array');
+  cef_v8value_create_array_buffer   := GetProcAddress(FLibHandle, 'cef_v8value_create_array_buffer');
   cef_v8value_create_function       := GetProcAddress(FLibHandle, 'cef_v8value_create_function');
   cef_v8stack_trace_get_current     := GetProcAddress(FLibHandle, 'cef_v8stack_trace_get_current');
   cef_register_extension            := GetProcAddress(FLibHandle, 'cef_register_extension');
@@ -1804,6 +1805,7 @@ begin
             assigned(cef_v8value_create_string) and
             assigned(cef_v8value_create_object) and
             assigned(cef_v8value_create_array) and
+            assigned(cef_v8value_create_array_buffer) and
             assigned(cef_v8value_create_function) and
             assigned(cef_v8stack_trace_get_current) and
             assigned(cef_register_extension);

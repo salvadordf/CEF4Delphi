@@ -166,7 +166,8 @@ contains
   uFMXChromium in '..\source\uFMXChromium.pas',
   uFMXWorkScheduler in '..\source\uFMXWorkScheduler.pas',
   uCEFStringList in '..\source\uCEFStringList.pas',
-  uFMXWindowParent in '..\source\uFMXWindowParent.pas';
+  uFMXWindowParent in '..\source\uFMXWindowParent.pas',
+  uCEFv8ArrayBufferReleaseCallback in '..\source\uCEFv8ArrayBufferReleaseCallback.pas';
 
 end.
 

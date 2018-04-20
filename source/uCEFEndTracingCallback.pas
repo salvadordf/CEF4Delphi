@@ -50,17 +50,29 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
+  TCefEndTracingCallbackProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const tracingFile: ustring);
+
   TCefEndTracingCallbackOwn = class(TCefBaseRefCountedOwn, ICefEndTracingCallback)
-  protected
-    procedure OnEndTracingComplete(const tracingFile: ustring); virtual;
-  public
-    constructor Create; virtual;
+    protected
+      procedure OnEndTracingComplete(const tracingFile: ustring); virtual;
+    public
+      constructor Create; virtual;
+  end;
+
+  TCefFastEndTracingCallback = class(TCefEndTracingCallbackOwn)
+    protected
+      FCallback: TCefEndTracingCallbackProc;
+      procedure OnEndTracingComplete(const tracingFile: ustring); override;
+    public
+      constructor Create(const callback: TCefEndTracingCallbackProc); reintroduce;
   end;
 
 implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
+
+// TCefEndTracingCallbackOwn
 
 procedure cef_end_tracing_callback_on_end_tracing_complete(      self         : PCefEndTracingCallback;
                                                            const tracing_file : PCefString); stdcall;
@@ -83,6 +95,20 @@ end;
 procedure TCefEndTracingCallbackOwn.OnEndTracingComplete(const tracingFile: ustring);
 begin
   //
+end;
+
+// TCefFastEndTracingCallback
+
+constructor TCefFastEndTracingCallback.Create(const callback: TCefEndTracingCallbackProc);
+begin
+  inherited Create;
+
+  FCallback := callback;
+end;
+
+procedure TCefFastEndTracingCallback.OnEndTracingComplete(const tracingFile: ustring);
+begin
+  FCallback(tracingFile);
 end;
 
 end.

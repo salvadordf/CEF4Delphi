@@ -1,7 +1,7 @@
 object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
   Left = 0
   Top = 0
-  Caption = 'Initializing, Please wait...'
+  Caption = 'Initializing browser. Please wait...'
   ClientHeight = 600
   ClientWidth = 917
   Position = ScreenCenter

@@ -263,6 +263,7 @@ type
     procedure doOnStatusMessage(const browser: ICefBrowser; const value: ustring);
     function  doOnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring; line: Integer): Boolean;
     function  doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
+    procedure doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
 
     // ICefDownloadHandler
     procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
@@ -317,6 +318,7 @@ type
     procedure doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
     procedure doOnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
     procedure doOnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
+    procedure doOnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange);
 
     // ICefDragHandler
     function  doOnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean;
@@ -676,11 +678,14 @@ type
     function  GetHeader(const name: ustring): ustring;
     procedure GetHeaderMap(const headerMap: ICefStringMultimap);
     procedure SetHeaderMap(const headerMap: ICefStringMultimap);
+    function  GetURL: ustring;
+    procedure SetURL(const url: ustring);
 
     property Status     : Integer       read GetStatus      write SetStatus;
     property StatusText : ustring       read GetStatusText  write SetStatusText;
     property MimeType   : ustring       read GetMimeType    write SetMimeType;
     property Error      : TCefErrorCode read GetError       write SetError;
+    property URL        : ustring       read GetURL         write SetURL;
   end;
 
   // TCefDownloadItem
@@ -767,6 +772,13 @@ type
     property EndPosition        : Integer read GetEndPosition;
     property StartColumn        : Integer read GetStartColumn;
     property EndColumn          : Integer read GetEndColumn;
+  end;
+
+  // TCefv8ArrayBufferReleaseCallback
+  // /include/capi/cef_v8_capi.h (cef_v8array_buffer_release_callback_t)
+  ICefv8ArrayBufferReleaseCallback = interface(ICefBaseRefCounted)
+    ['{4EAAB422-D046-43DF-B1F0-5503116A5816}']
+    procedure ReleaseBuffer(buffer : Pointer);
   end;
 
   // TCefV8Context
@@ -867,6 +879,7 @@ type
     function IsString: Boolean;
     function IsObject: Boolean;
     function IsArray: Boolean;
+    function IsArrayBuffer: Boolean;
     function IsFunction: Boolean;
     function IsSame(const that: ICefv8Value): Boolean;
     function GetBoolValue: Boolean;
@@ -896,6 +909,8 @@ type
     function GetExternallyAllocatedMemory: Integer;
     function AdjustExternallyAllocatedMemory(changeInBytes: Integer): Integer;
     function GetArrayLength: Integer;
+    function GetArrayBufferReleaseCallback : ICefv8ArrayBufferReleaseCallback;
+    function NeuterArrayBuffer : boolean;
     function GetFunctionName: ustring;
     function GetFunctionHandler: ICefv8Handler;
     function ExecuteFunction(const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
@@ -1587,6 +1602,7 @@ type
     procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring);
     function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean;
     function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
+    procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
 
     procedure RemoveReferences; // custom procedure to clear all references
   end;
@@ -1678,6 +1694,7 @@ type
     procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
     procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
     procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
+    procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange);
 
     procedure RemoveReferences; // custom procedure to clear all references
   end;

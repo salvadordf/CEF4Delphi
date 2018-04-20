@@ -51,22 +51,25 @@ uses
 
 type
   TCefResponseRef = class(TCefBaseRefCountedRef, ICefResponse)
-  protected
-    function IsReadOnly: Boolean;
-    function GetError: TCefErrorCode;
-    procedure SetError(error: TCefErrorCode);
-    function GetStatus: Integer;
-    procedure SetStatus(status: Integer);
-    function GetStatusText: ustring;
-    procedure SetStatusText(const StatusText: ustring);
-    function GetMimeType: ustring;
-    procedure SetMimeType(const mimetype: ustring);
-    function GetHeader(const name: ustring): ustring;
-    procedure GetHeaderMap(const headerMap: ICefStringMultimap);
-    procedure SetHeaderMap(const headerMap: ICefStringMultimap);
-  public
-    class function UnWrap(data: Pointer): ICefResponse;
-    class function New: ICefResponse;
+    protected
+      function  IsReadOnly: Boolean;
+      function  GetError: TCefErrorCode;
+      procedure SetError(error: TCefErrorCode);
+      function  GetStatus: Integer;
+      procedure SetStatus(status: Integer);
+      function  GetStatusText: ustring;
+      procedure SetStatusText(const StatusText: ustring);
+      function  GetMimeType: ustring;
+      procedure SetMimeType(const mimetype: ustring);
+      function  GetHeader(const name: ustring): ustring;
+      procedure GetHeaderMap(const headerMap: ICefStringMultimap);
+      procedure SetHeaderMap(const headerMap: ICefStringMultimap);
+      function  GetURL: ustring;
+      procedure SetURL(const url: ustring);
+
+    public
+      class function UnWrap(data: Pointer): ICefResponse;
+      class function New: ICefResponse;
   end;
 
 implementation
@@ -87,10 +90,10 @@ end;
 
 function TCefResponseRef.GetHeader(const name: ustring): ustring;
 var
-  n: TCefString;
+  TempName : TCefString;
 begin
-  n := CefString(name);
-  Result := CefStringFreeAndGet(PCefResponse(FData)^.get_header(PCefResponse(FData), @n));
+  TempName := CefString(name);
+  Result   := CefStringFreeAndGet(PCefResponse(FData)^.get_header(PCefResponse(FData), @TempName));
 end;
 
 procedure TCefResponseRef.GetHeaderMap(const headerMap: ICefStringMultimap);
@@ -130,10 +133,10 @@ end;
 
 procedure TCefResponseRef.SetMimeType(const mimetype: ustring);
 var
-  txt: TCefString;
+  TempType : TCefString;
 begin
-  txt := CefString(mimetype);
-  PCefResponse(FData)^.set_mime_type(PCefResponse(FData), @txt);
+  TempType := CefString(mimetype);
+  PCefResponse(FData)^.set_mime_type(PCefResponse(FData), @TempType);
 end;
 
 procedure TCefResponseRef.SetStatus(status: Integer);
@@ -143,16 +146,30 @@ end;
 
 procedure TCefResponseRef.SetStatusText(const StatusText: ustring);
 var
-  txt: TCefString;
+  TempStatus : TCefString;
 begin
-  txt := CefString(StatusText);
-  PCefResponse(FData)^.set_status_text(PCefResponse(FData), @txt);
+  TempStatus := CefString(StatusText);
+  PCefResponse(FData)^.set_status_text(PCefResponse(FData), @TempStatus);
+end;
+
+function TCefResponseRef.GetURL : ustring;
+begin
+  Result := CefStringFreeAndGet(PCefResponse(FData)^.get_url(PCefResponse(FData)));
+end;
+
+procedure TCefResponseRef.SetURL(const url : ustring);
+var
+  TempURL : TCefString;
+begin
+  TempURL := CefString(url);
+  PCefResponse(FData)^.set_url(PCefResponse(FData), @TempURL);
 end;
 
 class function TCefResponseRef.UnWrap(data: Pointer): ICefResponse;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefResponse else
+  if (data <> nil) then
+    Result := Create(data) as ICefResponse
+   else
     Result := nil;
 end;
 

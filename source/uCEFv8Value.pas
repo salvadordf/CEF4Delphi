@@ -68,6 +68,7 @@ type
       function IsString: Boolean;
       function IsObject: Boolean;
       function IsArray: Boolean;
+      function IsArrayBuffer: Boolean;
       function IsFunction: Boolean;
       function IsSame(const that: ICefv8Value): Boolean;
       function GetBoolValue: Boolean;
@@ -97,6 +98,8 @@ type
       function GetExternallyAllocatedMemory: Integer;
       function AdjustExternallyAllocatedMemory(changeInBytes: Integer): Integer;
       function GetArrayLength: Integer;
+      function GetArrayBufferReleaseCallback : ICefv8ArrayBufferReleaseCallback;
+      function NeuterArrayBuffer : boolean;
       function GetFunctionName: ustring;
       function GetFunctionHandler: ICefv8Handler;
       function ExecuteFunction(const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
@@ -120,6 +123,7 @@ type
                                    const getterbyindex : TCefV8InterceptorGetterByIndexProc;
                                    const setterbyindex : TCefV8InterceptorSetterByIndexProc): ICefv8Value;
       class function NewArray(len: Integer): ICefv8Value;
+      class function NewArrayBuffer(buffer: Pointer; length: NativeUInt; const callback : ICefv8ArrayBufferReleaseCallback): ICefv8Value;
       class function NewFunction(const name: ustring; const handler: ICefv8Handler): ICefv8Value;
   end;
 
@@ -127,7 +131,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Accessor, uCEFv8Handler, uCEFv8Exception,
-  uCEFv8Interceptor, uCEFStringList;
+  uCEFv8Interceptor, uCEFStringList, uCefv8ArrayBufferReleaseCallback;
 
 function TCefv8ValueRef.AdjustExternallyAllocatedMemory(changeInBytes: Integer): Integer;
 begin
@@ -137,6 +141,13 @@ end;
 class function TCefv8ValueRef.NewArray(len: Integer): ICefv8Value;
 begin
   Result := UnWrap(cef_v8value_create_array(len));
+end;
+
+class function TCefv8ValueRef.NewArrayBuffer(      buffer   : Pointer;
+                                                   length   : NativeUInt;
+                                             const callback : ICefv8ArrayBufferReleaseCallback): ICefv8Value;
+begin
+  Result := UnWrap(cef_v8value_create_array_buffer(buffer, length, CefGetData(callback)));
 end;
 
 class function TCefv8ValueRef.NewBool(value: Boolean): ICefv8Value;
@@ -309,6 +320,16 @@ begin
   Result := PCefV8Value(FData)^.get_array_length(PCefV8Value(FData));
 end;
 
+function TCefv8ValueRef.GetArrayBufferReleaseCallback : ICefv8ArrayBufferReleaseCallback;
+begin
+  Result := TCefv8ArrayBufferReleaseCallbackRef.UnWrap(PCefV8Value(FData)^.get_array_buffer_release_callback(PCefV8Value(FData)));
+end;
+
+function TCefv8ValueRef.NeuterArrayBuffer : boolean;
+begin
+  Result := PCefV8Value(FData)^.neuter_array_buffer(PCefV8Value(FData)) <> 0;
+end;
+
 function TCefv8ValueRef.GetBoolValue: Boolean;
 begin
   Result := PCefV8Value(FData)^.get_bool_value(PCefV8Value(FData)) <> 0;
@@ -442,6 +463,11 @@ end;
 function TCefv8ValueRef.IsArray: Boolean;
 begin
   Result := PCefV8Value(FData)^.is_array(PCefV8Value(FData)) <> 0;
+end;
+
+function TCefv8ValueRef.IsArrayBuffer: Boolean;
+begin
+  Result := PCefV8Value(FData)^.is_array_buffer(PCefV8Value(FData)) <> 0;
 end;
 
 function TCefv8ValueRef.IsBool: Boolean;
