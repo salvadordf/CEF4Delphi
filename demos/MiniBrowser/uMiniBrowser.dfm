@@ -286,8 +286,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = '-'
     end
     object Openfile1: TMenuItem
-      Caption = 'Open file...'
+      Caption = 'Open file with a FILE URL...'
       OnClick = Openfile1Click
+    end
+    object OpenfilewithaDAT1: TMenuItem
+      Caption = 'Open file with a DATA URL...'
+      OnClick = OpenfilewithaDAT1Click
     end
     object N2: TMenuItem
       Caption = '-'

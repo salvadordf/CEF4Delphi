@@ -53,12 +53,16 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
-  MINIBROWSER_VISITDOM               = WM_APP + $101;
+  MINIBROWSER_VISITDOM_PARTIAL            = WM_APP + $101;
+  MINIBROWSER_VISITDOM_FULL               = WM_APP + $102;
 
-  MINIBROWSER_CONTEXTMENU_VISITDOM   = MENU_ID_USER_FIRST + 1;
+  MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL = MENU_ID_USER_FIRST + 1;
+  MINIBROWSER_CONTEXTMENU_VISITDOM_FULL    = MENU_ID_USER_FIRST + 2;
 
-  DOMVISITOR_MSGNAME  = 'domvisitor';
-  RETRIEVEDOM_MSGNAME = 'retrievedom';
+  DOMVISITOR_MSGNAME_PARTIAL  = 'domvisitorpartial';
+  DOMVISITOR_MSGNAME_FULL     = 'domvisitorfull';
+  RETRIEVEDOM_MSGNAME_PARTIAL = 'retrievedompartial';
+  RETRIEVEDOM_MSGNAME_FULL    = 'retrievedomfull';
 
 type
   TDOMVisitorFrm = class(TForm)
@@ -109,7 +113,8 @@ type
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
-    procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM;
+    procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_PARTIAL;
+    procedure VisitDOM2Msg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_FULL;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
@@ -234,10 +239,22 @@ begin
   SimpleNodeSearch(document);
 
   // Sending back some custom results to the browser process
-  // Notice that the DOMVISITOR_MSGNAME message name needs to be recognized in
+  // Notice that the DOMVISITOR_MSGNAME_PARTIAL message name needs to be recognized in
   // Chromium1ProcessMessageReceived
-  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME);
+  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_PARTIAL);
   msg.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
+  browser.SendProcessMessage(PID_BROWSER, msg);
+end;
+
+procedure DOMVisitor_OnDocAvailableFullMarkup(const browser: ICefBrowser; const document: ICefDomDocument);
+var
+  msg: ICefProcessMessage;
+begin
+  // Sending back some custom results to the browser process
+  // Notice that the DOMVISITOR_MSGNAME_FULL message name needs to be recognized in
+  // Chromium1ProcessMessageReceived
+  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_FULL);
+  msg.ArgumentList.SetString(0, document.Body.AsMarkup);
   browser.SendProcessMessage(PID_BROWSER, msg);
 end;
 
@@ -249,20 +266,36 @@ var
   TempFrame   : ICefFrame;
   TempVisitor : TCefFastDomVisitor2;
 begin
-  if (browser <> nil) and (message.name = RETRIEVEDOM_MSGNAME) then
+  aHandled := False;
+
+  if (browser <> nil) then
     begin
-      TempFrame := browser.MainFrame;
-
-      if (TempFrame <> nil) then
+      if (message.name = RETRIEVEDOM_MSGNAME_PARTIAL) then
         begin
-          TempVisitor := TCefFastDomVisitor2.Create(browser, DOMVisitor_OnDocAvailable);
-          TempFrame.VisitDom(TempVisitor);
-        end;
+          TempFrame := browser.MainFrame;
 
-      aHandled := True;
-    end
-   else
-    aHandled := False;
+          if (TempFrame <> nil) then
+            begin
+              TempVisitor := TCefFastDomVisitor2.Create(browser, DOMVisitor_OnDocAvailable);
+              TempFrame.VisitDom(TempVisitor);
+            end;
+
+          aHandled := True;
+        end
+       else
+        if (message.name = RETRIEVEDOM_MSGNAME_FULL) then
+          begin
+            TempFrame := browser.MainFrame;
+
+            if (TempFrame <> nil) then
+              begin
+                TempVisitor := TCefFastDomVisitor2.Create(browser, DOMVisitor_OnDocAvailableFullMarkup);
+                TempFrame.VisitDom(TempVisitor);
+              end;
+
+            aHandled := True;
+          end;
+    end;
 end;
 
 procedure TDOMVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -281,7 +314,8 @@ procedure TDOMVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
-  model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM, 'Visit DOM in CEF');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL,  'Visit DOM in CEF (only Title)');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM_FULL,     'Visit DOM in CEF (BODY HTML)');
 end;
 
 procedure TDOMVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -311,8 +345,11 @@ begin
   Result := False;
 
   case commandId of
-    MINIBROWSER_CONTEXTMENU_VISITDOM :
-      PostMessage(Handle, MINIBROWSER_VISITDOM, 0, 0);
+    MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL :
+      PostMessage(Handle, MINIBROWSER_VISITDOM_PARTIAL, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_VISITDOM_FULL :
+      PostMessage(Handle, MINIBROWSER_VISITDOM_FULL, 0, 0);
   end;
 end;
 
@@ -324,12 +361,20 @@ begin
 
   if (message = nil) or (message.ArgumentList = nil) then exit;
 
-  if (message.Name = DOMVISITOR_MSGNAME) then
+  // Message received from the DOMVISITOR in CEF
+
+  if (message.Name = DOMVISITOR_MSGNAME_PARTIAL) then
     begin
-      // Message received from the DOMVISITOR in CEF
       ShowStatusText('DOM Visitor result text : ' + message.ArgumentList.GetString(0));
       Result := True;
-    end;
+    end
+   else
+    if (message.Name = DOMVISITOR_MSGNAME_FULL) then
+      begin
+        Clipboard.AsText := message.ArgumentList.GetString(0);
+        ShowStatusText('HTML copied to the clipboard');
+        Result := True;
+      end;
 end;
 
 procedure TDOMVisitorFrm.FormCloseQuery(Sender: TObject;
@@ -377,7 +422,7 @@ end;
 
 procedure TDOMVisitorFrm.VisitDOMBtnClick(Sender: TObject);
 begin
-  PostMessage(Handle, MINIBROWSER_VISITDOM, 0, 0);
+  PostMessage(Handle, MINIBROWSER_VISITDOM_PARTIAL, 0, 0);
 end;
 
 procedure TDOMVisitorFrm.VisitDOMMsg(var aMessage : TMessage);
@@ -385,7 +430,16 @@ var
   TempMsg : ICefProcessMessage;
 begin
   // Use the ArgumentList property if you need to pass some parameters.
-  TempMsg := TCefProcessMessageRef.New(RETRIEVEDOM_MSGNAME); // Same name than TCefCustomRenderProcessHandler.MessageName
+  TempMsg := TCefProcessMessageRef.New(RETRIEVEDOM_MSGNAME_PARTIAL); // Same name than TCefCustomRenderProcessHandler.MessageName
+  Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
+end;
+
+procedure TDOMVisitorFrm.VisitDOM2Msg(var aMessage : TMessage);
+var
+  TempMsg : ICefProcessMessage;
+begin
+  // Use the ArgumentList property if you need to pass some parameters.
+  TempMsg := TCefProcessMessageRef.New(RETRIEVEDOM_MSGNAME_FULL); // Same name than TCefCustomRenderProcessHandler.MessageName
   Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
 end;
 

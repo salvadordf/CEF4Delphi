@@ -114,6 +114,7 @@ type
     Openfile1: TMenuItem;
     Resolvehost1: TMenuItem;
     Timer1: TTimer;
+    OpenfilewithaDAT1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -193,6 +194,7 @@ type
     procedure Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
     procedure Chromium1LoadingProgressChange(Sender: TObject;
       const browser: ICefBrowser; const progress: Double);
+    procedure OpenfilewithaDAT1Click(Sender: TObject);
 
   protected
     FResponse : TStringList;
@@ -242,7 +244,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uPreferences, uCefStringMultimap, uSimpleTextViewer;
+  uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer;
 
 // Destruction steps
 // =================
@@ -860,8 +862,42 @@ end;
 
 procedure TMiniBrowserFrm.Openfile1Click(Sender: TObject);
 begin
-  // This is a quick solution to load files. The file URL should be properly encoded.
-  if OpenDialog1.Execute then Chromium1.LoadURL('file:///' + OpenDialog1.FileName);
+  OpenDialog1.Filter := 'Any file (*.*)|*.*';
+
+  if OpenDialog1.Execute then
+    begin
+      // This is a quick solution to load files. The file URL should be properly encoded.
+      Chromium1.LoadURL('file:///' + OpenDialog1.FileName);
+    end;
+end;
+
+procedure TMiniBrowserFrm.OpenfilewithaDAT1Click(Sender: TObject);
+var
+  TempDATA : string;
+  TempFile : TMemoryStream;
+begin
+  TempFile := nil;
+
+  try
+    try
+      OpenDialog1.Filter := 'HTML files (*.html)|*.HTML;*.HTM';
+
+      if OpenDialog1.Execute then
+        begin
+          // Use TByteStream instead of TMemoryStream if your Delphi version supports it.
+          TempFile := TMemoryStream.Create;
+          TempFile.LoadFromFile(OpenDialog1.FileName);
+
+          TempDATA := 'data:text/html;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size);
+          Chromium1.LoadURL(TempDATA);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TMiniBrowserFrm.OpenfilewithaDAT1Click', e) then raise;
+    end;
+  finally
+    if (TempFile <> nil) then FreeAndNil(TempFile);
+  end;
 end;
 
 procedure TMiniBrowserFrm.PopupMenu1Popup(Sender: TObject);
