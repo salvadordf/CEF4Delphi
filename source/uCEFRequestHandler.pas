@@ -52,7 +52,7 @@ uses
 type
   TCefRequestHandlerOwn = class(TCefBaseRefCountedOwn, ICefRequestHandler)
     protected
-      function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; isRedirect: Boolean): Boolean; virtual;
+      function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; virtual;
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
       function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue; virtual;
       function  GetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest): ICefResourceHandler; virtual;
@@ -82,7 +82,7 @@ type
     protected
       FEvents : Pointer;
 
-      function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; isRedirect: Boolean): Boolean; override;
+      function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; override;
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; override;
       function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue; override;
       function  GetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest): ICefResourceHandler; override;
@@ -120,11 +120,12 @@ uses
   uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate,
   uCEFApplication;
 
-function cef_request_handler_on_before_browse(self       : PCefRequestHandler;
-                                              browser    : PCefBrowser;
-                                              frame      : PCefFrame;
-                                              request    : PCefRequest;
-                                              isRedirect : Integer): Integer; stdcall;
+function cef_request_handler_on_before_browse(self         : PCefRequestHandler;
+                                              browser      : PCefBrowser;
+                                              frame        : PCefFrame;
+                                              request      : PCefRequest;
+                                              user_gesture : Integer;
+                                              isRedirect   : Integer): Integer; stdcall;
 var
   TempObject : TObject;
 begin
@@ -135,6 +136,7 @@ begin
     Result := Ord(TCefRequestHandlerOwn(TempObject).OnBeforeBrowse(TCefBrowserRef.UnWrap(browser),
                                                                    TCefFrameRef.UnWrap(frame),
                                                                    TCefRequestRef.UnWrap(request),
+                                                                   user_gesture <> 0,
                                                                    isRedirect <> 0));
 end;
 
@@ -513,9 +515,14 @@ begin
     end;
 end;
 
-function TCefRequestHandlerOwn.GetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame;
-  isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring;
-  const callback: ICefAuthCallback): Boolean;
+function TCefRequestHandlerOwn.GetAuthCredentials(const browser  : ICefBrowser;
+                                                  const frame    : ICefFrame;
+                                                        isProxy  : Boolean;
+                                                  const host     : ustring;
+                                                        port     : Integer;
+                                                  const realm    : ustring;
+                                                  const scheme   : ustring;
+                                                  const callback : ICefAuthCallback): Boolean;
 begin
   Result := False;
 end;
@@ -535,29 +542,34 @@ begin
   Result := True;
 end;
 
-function TCefRequestHandlerOwn.GetCookieManager(const browser: ICefBrowser;
-  const mainUrl: ustring): ICefCookieManager;
+function TCefRequestHandlerOwn.GetCookieManager(const browser : ICefBrowser;
+                                                const mainUrl : ustring): ICefCookieManager;
 begin
   Result := nil;
 end;
 
-function TCefRequestHandlerOwn.OnBeforeBrowse(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest;
-  isRedirect: Boolean): Boolean;
+function TCefRequestHandlerOwn.OnBeforeBrowse(const browser      : ICefBrowser;
+                                              const frame        : ICefFrame;
+                                              const request      : ICefRequest;
+                                                    user_gesture : Boolean;
+                                                    isRedirect   : Boolean): Boolean;
 begin
   Result := False;
 end;
 
-function TCefRequestHandlerOwn.OnBeforeResourceLoad(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest;
-  const callback: ICefRequestCallback): TCefReturnValue;
+function TCefRequestHandlerOwn.OnBeforeResourceLoad(const browser  : ICefBrowser;
+                                                    const frame    : ICefFrame;
+                                                    const request  : ICefRequest;
+                                                    const callback : ICefRequestCallback): TCefReturnValue;
 begin
   Result := RV_CONTINUE;
 end;
 
-function TCefRequestHandlerOwn.OnCertificateError(const browser: ICefBrowser;
-  certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo;
-  const callback: ICefRequestCallback): Boolean;
+function TCefRequestHandlerOwn.OnCertificateError(const browser    : ICefBrowser;
+                                                        certError  : TCefErrorcode;
+                                                  const requestUrl : ustring;
+                                                  const sslInfo    : ICefSslInfo;
+                                                  const callback   : ICefRequestCallback): Boolean;
 begin
   Result := False;
 end;
@@ -573,75 +585,87 @@ begin
   Result := False;
 end;
 
-function TCefRequestHandlerOwn.OnOpenUrlFromTab(const browser: ICefBrowser;
-  const frame: ICefFrame; const targetUrl: ustring;
-  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean;
+function TCefRequestHandlerOwn.OnOpenUrlFromTab(const browser           : ICefBrowser;
+                                                const frame             : ICefFrame;
+                                                const targetUrl         : ustring;
+                                                      targetDisposition : TCefWindowOpenDisposition;
+                                                      userGesture       : Boolean): Boolean;
 begin
   Result := False;
 end;
 
-function TCefRequestHandlerOwn.GetResourceHandler(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest): ICefResourceHandler;
+function TCefRequestHandlerOwn.GetResourceHandler(const browser : ICefBrowser;
+                                                  const frame   : ICefFrame;
+                                                  const request : ICefRequest): ICefResourceHandler;
 begin
   Result := nil;
 end;
 
-procedure TCefRequestHandlerOwn.OnPluginCrashed(const browser: ICefBrowser;
-  const pluginPath: ustring);
+procedure TCefRequestHandlerOwn.OnPluginCrashed(const browser    : ICefBrowser;
+                                                const pluginPath : ustring);
 begin
-
+  //
 end;
 
-procedure TCefRequestHandlerOwn.OnProtocolExecution(const browser: ICefBrowser;
-  const url: ustring; out allowOsExecution: Boolean);
+procedure TCefRequestHandlerOwn.OnProtocolExecution(const browser          : ICefBrowser;
+                                                    const url              : ustring;
+                                                    out   allowOsExecution : Boolean);
 begin
-
+  //
 end;
 
-function TCefRequestHandlerOwn.OnQuotaRequest(const browser: ICefBrowser;
-  const originUrl: ustring; newSize: Int64;
-  const callback: ICefRequestCallback): Boolean;
+function TCefRequestHandlerOwn.OnQuotaRequest(const browser   : ICefBrowser;
+                                              const originUrl : ustring;
+                                                    newSize   : Int64;
+                                              const callback  : ICefRequestCallback): Boolean;
 begin
   Result := False;
 end;
 
-procedure TCefRequestHandlerOwn.OnRenderProcessTerminated(
-  const browser: ICefBrowser; status: TCefTerminationStatus);
+procedure TCefRequestHandlerOwn.OnRenderProcessTerminated(const browser : ICefBrowser;
+                                                                status  : TCefTerminationStatus);
 begin
-
+  //
 end;
 
 procedure TCefRequestHandlerOwn.OnRenderViewReady(const browser: ICefBrowser);
 begin
-
+  //
 end;
 
-procedure TCefRequestHandlerOwn.OnResourceRedirect(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring);
+procedure TCefRequestHandlerOwn.OnResourceRedirect(const browser  : ICefBrowser;
+                                                   const frame    : ICefFrame;
+                                                   const request  : ICefRequest;
+                                                   const response : ICefResponse;
+                                                   var   newUrl   : ustring);
 begin
-
+  //
 end;
 
-function TCefRequestHandlerOwn.OnResourceResponse(const browser: ICefBrowser;
-  const frame: ICefFrame; const request: ICefRequest;
-  const response: ICefResponse): Boolean;
+function TCefRequestHandlerOwn.OnResourceResponse(const browser  : ICefBrowser;
+                                                  const frame    : ICefFrame;
+                                                  const request  : ICefRequest;
+                                                  const response : ICefResponse): Boolean;
 begin
   Result := False;
 end;
 
-function TCefRequestHandlerOwn.GetResourceResponseFilter(
-  const browser: ICefBrowser; const frame: ICefFrame;
-  const request: ICefRequest; const response: ICefResponse): ICefResponseFilter;
+function TCefRequestHandlerOwn.GetResourceResponseFilter(const browser  : ICefBrowser;
+                                                         const frame    : ICefFrame;
+                                                         const request  : ICefRequest;
+                                                         const response : ICefResponse): ICefResponseFilter;
 begin
   Result := nil;
 end;
 
-procedure TCefRequestHandlerOwn.OnResourceLoadComplete(
-  const browser: ICefBrowser; const frame: ICefFrame;
-  const request: ICefRequest; const response: ICefResponse;
-  status: TCefUrlRequestStatus; receivedContentLength: Int64);
+procedure TCefRequestHandlerOwn.OnResourceLoadComplete(const browser               : ICefBrowser;
+                                                       const frame                 : ICefFrame;
+                                                       const request               : ICefRequest;
+                                                       const response              : ICefResponse;
+                                                             status                : TCefUrlRequestStatus;
+                                                             receivedContentLength : Int64);
 begin
-
+  //
 end;
 
 procedure TCefRequestHandlerOwn.RemoveReferences;
@@ -716,15 +740,16 @@ begin
     Result := inherited GetResourceHandler(browser, frame, request);
 end;
 
-function TCustomRequestHandler.OnBeforeBrowse(const browser    : ICefBrowser;
-                                              const frame      : ICefFrame;
-                                              const request    : ICefRequest;
-                                                    isRedirect : Boolean): Boolean;
+function TCustomRequestHandler.OnBeforeBrowse(const browser      : ICefBrowser;
+                                              const frame        : ICefFrame;
+                                              const request      : ICefRequest;
+                                                    user_gesture : Boolean;
+                                                    isRedirect   : Boolean): Boolean;
 begin
   if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnBeforeBrowse(browser, frame, request, isRedirect)
+    Result := IChromiumEvents(FEvents).doOnBeforeBrowse(browser, frame, request, user_gesture, isRedirect)
    else
-    Result := inherited OnBeforeBrowse(browser, frame, request, isRedirect);
+    Result := inherited OnBeforeBrowse(browser, frame, request, user_gesture, isRedirect);
 end;
 
 function TCustomRequestHandler.OnBeforeResourceLoad(const browser  : ICefBrowser;
@@ -829,10 +854,10 @@ begin
     Result := inherited OnResourceResponse(browser, frame, request, response);
 end;
 
-function TCustomRequestHandler.GetResourceResponseFilter(const browser: ICefBrowser;
-                                                         const frame: ICefFrame;
-                                                         const request: ICefRequest;
-                                                         const response: ICefResponse): ICefResponseFilter;
+function TCustomRequestHandler.GetResourceResponseFilter(const browser  : ICefBrowser;
+                                                         const frame    : ICefFrame;
+                                                         const request  : ICefRequest;
+                                                         const response : ICefResponse): ICefResponseFilter;
 begin
   if (FEvents <> nil) then
     Result := IChromiumEvents(FEvents).doOnGetResourceResponseFilter(browser, frame, request, response)
@@ -847,7 +872,8 @@ procedure TCustomRequestHandler.OnResourceLoadComplete(const browser            
                                                              status                : TCefUrlRequestStatus;
                                                              receivedContentLength : Int64);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnResourceLoadComplete(browser, frame, request, response, status, receivedContentLength);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnResourceLoadComplete(browser, frame, request, response, status, receivedContentLength);
 end;
 
 end.

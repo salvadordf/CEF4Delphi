@@ -376,7 +376,7 @@ type
       function  doOnClose(const browser: ICefBrowser): Boolean; virtual;
 
       // ICefRequestHandler
-      function  doOnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; isRedirect: Boolean): Boolean; virtual;
+      function  doOnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; virtual;
       function  doOnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
       function  doOnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue; virtual;
       function  doOnGetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest): ICefResourceHandler; virtual;
@@ -2666,16 +2666,17 @@ begin
   if Assigned(FOnAfterCreated) then FOnAfterCreated(Self, browser);
 end;
 
-function TFMXChromium.doOnBeforeBrowse(const browser    : ICefBrowser;
-                                       const frame      : ICefFrame;
-                                       const request    : ICefRequest;
-                                             isRedirect : Boolean): Boolean;
+function TFMXChromium.doOnBeforeBrowse(const browser      : ICefBrowser;
+                                       const frame        : ICefFrame;
+                                       const request      : ICefRequest;
+                                             user_gesture : Boolean;
+                                             isRedirect   : Boolean): Boolean;
 begin
   Result := False;
 
   if FUpdatePreferences then doUpdatePreferences(browser);
 
-  if Assigned(FOnBeforeBrowse) then FOnBeforeBrowse(Self, browser, frame, request, isRedirect, Result);
+  if Assigned(FOnBeforeBrowse) then FOnBeforeBrowse(Self, browser, frame, request, user_gesture, isRedirect, Result);
 end;
 
 procedure TFMXChromium.doOnBeforeContextMenu(const browser : ICefBrowser;

@@ -1567,7 +1567,7 @@ type
   // /include/capi/cef_request_handler_capi.h (cef_request_handler_t)
   TCefRequestHandler = record
     base                          : TCefBaseRefCounted;
-    on_before_browse              : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; isRedirect: Integer): Integer; stdcall;
+    on_before_browse              : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; user_gesture, isRedirect: Integer): Integer; stdcall;
     on_open_urlfrom_tab           : function(self: PCefRequestHandler; browser:PCefBrowser; frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer): Integer; stdcall;
     on_before_resource_load       : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; callback: PCefRequestCallback): TCefReturnValue; stdcall;
     get_resource_handler          : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest): PCefResourceHandler; stdcall;
