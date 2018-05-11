@@ -52,29 +52,29 @@ uses
 type
   TCefPrintSettingsRef = class(TCefBaseRefCountedRef, ICefPrintSettings)
   protected
-    function IsValid: Boolean;
-    function IsReadOnly: Boolean;
-    function Copy: ICefPrintSettings;
+    function  IsValid: Boolean;
+    function  IsReadOnly: Boolean;
+    function  Copy: ICefPrintSettings;
     procedure SetOrientation(landscape: Boolean);
-    function IsLandscape: Boolean;
-    procedure SetPrinterPrintableArea(const physicalSizeDeviceUnits: PCefSize; const printableAreaDeviceUnits: PCefRect; landscapeNeedsFlip: Boolean); stdcall;
+    function  IsLandscape: Boolean;
+    procedure SetPrinterPrintableArea(const physicalSizeDeviceUnits: PCefSize; const printableAreaDeviceUnits: PCefRect; landscapeNeedsFlip: Boolean);
     procedure SetDeviceName(const name: ustring);
-    function GetDeviceName: ustring;
+    function  GetDeviceName: ustring;
     procedure SetDpi(dpi: Integer);
-    function GetDpi: Integer;
+    function  GetDpi: Integer;
     procedure SetPageRanges(const ranges: TCefRangeArray);
-    function GetPageRangesCount: NativeUInt;
+    function  GetPageRangesCount: NativeUInt;
     procedure GetPageRanges(out ranges: TCefRangeArray);
     procedure SetSelectionOnly(selectionOnly: Boolean);
-    function IsSelectionOnly: Boolean;
+    function  IsSelectionOnly: Boolean;
     procedure SetCollate(collate: Boolean);
-    function WillCollate: Boolean;
+    function  WillCollate: Boolean;
     procedure SetColorModel(model: TCefColorModel);
-    function GetColorModel: TCefColorModel;
+    function  GetColorModel: TCefColorModel;
     procedure SetCopies(copies: Integer);
-    function GetCopies: Integer;
+    function  GetCopies: Integer;
     procedure SetDuplexMode(mode: TCefDuplexMode);
-    function GetDuplexMode: TCefDuplexMode;
+    function  GetDuplexMode: TCefDuplexMode;
   public
     class function New: ICefPrintSettings;
     class function UnWrap(data: Pointer): ICefPrintSettings;

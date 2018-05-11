@@ -82,15 +82,23 @@ uses
   uCEFMiscFunctions, uCEFValue;
 
 procedure cef_accessibility_handler_on_accessibility_tree_change(self: PCefAccessibilityHandler; value: PCefValue); stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCEFAccessibilityHandlerOwn(CefGetObject(self)) do
-    OnAccessibilityTreeChange(TCefValueRef.UnWrap(value));
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFAccessibilityHandlerOwn) then
+    TCEFAccessibilityHandlerOwn(TempObject).OnAccessibilityTreeChange(TCefValueRef.UnWrap(value));
 end;
 
 procedure cef_accessibility_handler_on_accessibility_location_change(self: PCefAccessibilityHandler; value: PCefValue); stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCEFAccessibilityHandlerOwn(CefGetObject(self)) do
-    OnAccessibilityLocationChange(TCefValueRef.UnWrap(value));
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCEFAccessibilityHandlerOwn) then
+    TCEFAccessibilityHandlerOwn(TempObject).OnAccessibilityLocationChange(TCefValueRef.UnWrap(value));
 end;
 
 constructor TCEFAccessibilityHandlerOwn.Create;

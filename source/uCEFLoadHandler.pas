@@ -55,7 +55,7 @@ type
       procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean); virtual;
       procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType); virtual;
       procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer); virtual;
-      procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring); virtual;
+      procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -70,7 +70,7 @@ type
       procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean); override;
       procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType); override;
       procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer); override;
-      procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring); override;
+      procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring); override;
 
       procedure RemoveReferences; override;
 
@@ -89,28 +89,70 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame;
 
-procedure cef_load_handler_on_loading_state_change(self: PCefLoadHandler; browser: PCefBrowser; isLoading, canGoBack, canGoForward: Integer); stdcall;
+procedure cef_load_handler_on_loading_state_change(self         : PCefLoadHandler;
+                                                   browser      : PCefBrowser;
+                                                   isLoading    : integer;
+                                                   canGoBack    : integer;
+                                                   canGoForward : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefLoadHandlerOwn(CefGetObject(self)) do
-    OnLoadingStateChange(TCefBrowserRef.UnWrap(browser), isLoading <> 0, canGoBack <> 0, canGoForward <> 0);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefLoadHandlerOwn) then
+    TCefLoadHandlerOwn(TempObject).OnLoadingStateChange(TCefBrowserRef.UnWrap(browser),
+                                                        isLoading <> 0,
+                                                        canGoBack <> 0,
+                                                        canGoForward <> 0);
 end;
 
-procedure cef_load_handler_on_load_start(self: PCefLoadHandler; browser: PCefBrowser; frame: PCefFrame; transition_type: TCefTransitionType); stdcall;
+procedure cef_load_handler_on_load_start(self            : PCefLoadHandler;
+                                         browser         : PCefBrowser;
+                                         frame           : PCefFrame;
+                                         transition_type : TCefTransitionType); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefLoadHandlerOwn(CefGetObject(self)) do
-    OnLoadStart(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), transition_type);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefLoadHandlerOwn) then
+    TCefLoadHandlerOwn(TempObject).OnLoadStart(TCefBrowserRef.UnWrap(browser),
+                                               TCefFrameRef.UnWrap(frame),
+                                               transition_type);
 end;
 
-procedure cef_load_handler_on_load_end(self: PCefLoadHandler; browser: PCefBrowser; frame: PCefFrame; httpStatusCode: Integer); stdcall;
+procedure cef_load_handler_on_load_end(self           : PCefLoadHandler;
+                                       browser        : PCefBrowser;
+                                       frame          : PCefFrame;
+                                       httpStatusCode : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefLoadHandlerOwn(CefGetObject(self)) do
-    OnLoadEnd(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), httpStatusCode);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefLoadHandlerOwn) then
+    TCefLoadHandlerOwn(TempObject).OnLoadEnd(TCefBrowserRef.UnWrap(browser),
+                                             TCefFrameRef.UnWrap(frame),
+                                             httpStatusCode);
 end;
 
-procedure cef_load_handler_on_load_error(self: PCefLoadHandler; browser: PCefBrowser; frame: PCefFrame; errorCode: Integer; const errorText, failedUrl: PCefString); stdcall;
+procedure cef_load_handler_on_load_error(      self      : PCefLoadHandler;
+                                               browser   : PCefBrowser;
+                                               frame     : PCefFrame;
+                                               errorCode : TCefErrorCode;
+                                         const errorText : PCefString;
+                                         const failedUrl : PCefString); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefLoadHandlerOwn(CefGetObject(self)) do
-    OnLoadError(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame), errorCode, CefString(errorText), CefString(failedUrl));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefLoadHandlerOwn) then
+    TCefLoadHandlerOwn(TempObject).OnLoadError(TCefBrowserRef.UnWrap(browser),
+                                               TCefFrameRef.UnWrap(frame),
+                                               errorCode,
+                                               CefString(errorText),
+                                               CefString(failedUrl));
 end;
 
 constructor TCefLoadHandlerOwn.Create;
@@ -131,7 +173,7 @@ begin
   //
 end;
 
-procedure TCefLoadHandlerOwn.OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+procedure TCefLoadHandlerOwn.OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
 begin
   //
 end;
@@ -181,7 +223,7 @@ end;
 
 procedure TCustomLoadHandler.OnLoadError(const browser   : ICefBrowser;
                                          const frame     : ICefFrame;
-                                               errorCode : Integer;
+                                               errorCode : TCefErrorCode;
                                          const errorText : ustring;
                                          const failedUrl : ustring);
 begin

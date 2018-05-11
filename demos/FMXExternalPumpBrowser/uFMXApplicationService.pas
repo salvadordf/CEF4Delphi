@@ -77,6 +77,7 @@ implementation
 uses
   FMX.Forms,
   uFMXExternalPumpBrowser,
+  uFMXWorkScheduler,
   {$IFDEF MSWINDOWS}
   Winapi.Messages, Winapi.Windows,
   {$ENDIF}
@@ -135,7 +136,11 @@ end;
 
 function TFMXApplicationService.Running: Boolean;
 begin
+  {$IFDEF DELPHI24_UP}
   Result := OldFMXApplicationService.Running;
+  {$ELSE}
+  Result := True;
+  {$ENDIF}
 end;
 
 function TFMXApplicationService.HandleMessage: Boolean;
@@ -179,12 +184,6 @@ begin
            (Application.MainForm is TFMXExternalPumpBrowserFrm) then
           TFMXExternalPumpBrowserFrm(Application.MainForm).HandleSYSKEYUP(TempMsg);
 
-      CEF_AFTERCREATED :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).DoBrowserCreated;
-
       CEF_PENDINGRESIZE :
         if not(Application.Terminated) and
            (Application.MainForm <> nil) and
@@ -193,8 +192,8 @@ begin
 
       CEF_PUMPHAVEWORK :
         if not(Application.Terminated) and
-           (GlobalCEFWorkScheduler <> nil) then
-          GlobalCEFWorkScheduler.ScheduleWork(TempMsg.lParam);
+           (GlobalFMXWorkScheduler <> nil) then
+          GlobalFMXWorkScheduler.ScheduleWork(TempMsg.lParam);
     end;
   {$ENDIF}
 

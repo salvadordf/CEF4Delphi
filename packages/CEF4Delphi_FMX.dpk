@@ -9,23 +9,22 @@ package CEF4Delphi_FMX;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
+{$OPTIMIZATION ON}
 {$OVERFLOWCHECKS OFF}
 {$RANGECHECKS OFF}
-{$REFERENCEINFO ON}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'CEF4Delphi'}
 {$IMPLICITBUILD OFF}
 
 requires
@@ -165,7 +164,10 @@ contains
   uCEFServerComponent in '..\source\uCEFServerComponent.pas',
   uFMXBufferPanel in '..\source\uFMXBufferPanel.pas',
   uFMXChromium in '..\source\uFMXChromium.pas',
-  uFMXWorkScheduler in '..\source\uFMXWorkScheduler.pas';
+  uFMXWorkScheduler in '..\source\uFMXWorkScheduler.pas',
+  uCEFStringList in '..\source\uCEFStringList.pas',
+  uFMXWindowParent in '..\source\uFMXWindowParent.pas',
+  uCEFv8ArrayBufferReleaseCallback in '..\source\uCEFv8ArrayBufferReleaseCallback.pas';
 
 end.
 

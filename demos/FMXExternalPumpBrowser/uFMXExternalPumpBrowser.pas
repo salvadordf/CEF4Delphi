@@ -94,11 +94,10 @@ type
     procedure chrmosrGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
     procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
-    procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
-    procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
+    procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
@@ -142,7 +141,6 @@ type
 
 var
   FMXExternalPumpBrowserFrm : TFMXExternalPumpBrowserFrm;
-  GlobalCEFWorkScheduler    : TFMXWorkScheduler = nil;
 
 // This is a simple browser using FireMonkey components in OSR mode (off-screen rendering)
 // and a external message pump.
@@ -154,7 +152,7 @@ var
 // uFMXApplicationService.pas to intercept some windows messages needed to make a CEF browser work.
 
 // The TFMXApplicationService.HandleMessages function receives many of the messages that the
-// OSRExternalPumpBrowser demo hadled in the main form or in the GlobalCEFWorkScheduler.
+// OSRExternalPumpBrowser demo hadled in the main form or in the GlobalFMXWorkScheduler.
 
 // It was necessary to destroy the browser following the destruction sequence described in
 // the MDIBrowser demo but in OSR mode there are some modifications.
@@ -178,7 +176,7 @@ uses
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
-  if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+  if (GlobalFMXWorkScheduler <> nil) then GlobalFMXWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -238,7 +236,10 @@ begin
       // opaque white background color
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 
-      if not(chrmosr.CreateBrowser) then Timer1.Enabled := True;
+      if chrmosr.CreateBrowser then
+        DoBrowserCreated
+       else
+        Timer1.Enabled := True;
     end;
 end;
 
@@ -459,17 +460,16 @@ procedure TFMXExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
 
-  if not(chrmosr.CreateBrowser) and not(chrmosr.Initialized) then Timer1.Enabled := True;
+  if chrmosr.CreateBrowser then
+    DoBrowserCreated
+   else
+    if not(chrmosr.Initialized) then
+      Timer1.Enabled := True;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.AddressEdtEnter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
-end;
-
-procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
-begin
-  SendCompMessage(CEF_AFTERCREATED);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -485,12 +485,12 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(Sender : TObject;
                                                         const targetFrameName    : ustring;
                                                               targetDisposition  : TCefWindowOpenDisposition;
                                                               userGesture        : Boolean;
-                                                        var   popupFeatures      : TCefPopupFeatures;
+                                                        const popupFeatures      : TCefPopupFeatures;
                                                         var   windowInfo         : TCefWindowInfo;
                                                         var   client             : ICefClient;
                                                         var   settings           : TCefBrowserSettings;
                                                         var   noJavascriptAccess : Boolean;
-                                                        out   Result             : Boolean);
+                                                        var   Result             : Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);

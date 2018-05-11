@@ -113,15 +113,20 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager;
 
 procedure cef_task_execute(self: PCefTask); stdcall;
+var
+  TempObject  : TObject;
 begin
-  TCefTaskOwn(CefGetObject(self)).Execute();
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefTaskOwn) then
+    TCefTaskOwn(TempObject).Execute;
 end;
 
 constructor TCefTaskOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefTask));
 
-  with PCefTask(FData)^ do execute := cef_task_execute;
+  PCefTask(FData).execute := cef_task_execute;
 end;
 
 procedure TCefTaskOwn.Execute;

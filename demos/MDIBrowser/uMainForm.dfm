@@ -4,7 +4,7 @@ object MainForm: TMainForm
   Cursor = crAppStart
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 631
-  ClientWidth = 709
+  ClientWidth = 1097
   Color = clAppWorkSpace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clBlack
@@ -21,13 +21,14 @@ object MainForm: TMainForm
   object ButtonPnl: TPanel
     Left = 0
     Top = 0
-    Width = 709
+    Width = 1097
     Height = 30
     Align = alTop
     BevelOuter = bvNone
     Enabled = False
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 933
     object NewBtn: TSpeedButton
       Left = 4
       Top = 4

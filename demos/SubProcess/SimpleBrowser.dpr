@@ -74,10 +74,9 @@ begin
 
   // Follow these steps to test this demo :
   // 1. Build the SubProcess project in this directory.
-  // 2. Copy the crash_reporter.cfg file to the BIN directory in CEF4Delphi.
-  // 3. Copy the CEF binaries to the BIN directory in CEF4Delphi.
-  // 4. Build this project : SimpleBrowser
-  // 5. Run this demo : SimpleBrowser
+  // 2. Copy the CEF binaries to the BIN directory in CEF4Delphi.
+  // 3. Build this project : SimpleBrowser
+  // 4. Run this demo : SimpleBrowser
 
   // You *MUST* call GlobalCEFApp.StartMainProcess in a if..then clause
   // with the Application initialization inside the begin..end.

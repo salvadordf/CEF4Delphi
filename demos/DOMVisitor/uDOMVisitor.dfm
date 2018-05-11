@@ -12,6 +12,8 @@ object DOMVisitorFrm: TDOMVisitorFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -96,6 +98,8 @@ object DOMVisitorFrm: TDOMVisitorFrm
     OnContextMenuCommand = Chromium1ContextMenuCommand
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     Left = 16
     Top = 40
   end

@@ -167,10 +167,11 @@ const
   UR_FLAG_NONE                     = 0;
   UR_FLAG_SKIP_CACHE               = 1 shl 0;
   UR_FLAG_ONLY_FROM_CACHE          = 1 shl 1;
-  UR_FLAG_ALLOW_CACHED_CREDENTIALS = 1 shl 2;
+  UR_FLAG_ALLOW_STORED_CREDENTIALS = 1 shl 2;
   UR_FLAG_REPORT_UPLOAD_PROGRESS   = 1 shl 3;
   UR_FLAG_NO_DOWNLOAD_DATA         = 1 shl 4;
   UR_FLAG_NO_RETRY_ON_5XX          = 1 shl 5;
+  UR_FLAG_STOP_ON_REDIRECT         = 1 shl 6;
 
   // /include/internal/cef_types.h (cef_dom_event_category_t)
   DOM_EVENT_CATEGORY_UNKNOWN                 = 0;

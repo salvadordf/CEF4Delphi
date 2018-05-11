@@ -15,6 +15,8 @@ object MainForm: TMainForm
   FormStyle = fsStayOnTop
   OldCreateOrder = False
   WindowState = wsMaximized
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -31,6 +33,8 @@ object MainForm: TMainForm
     OnKeyEvent = Chromium1KeyEvent
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     Left = 208
     Top = 120
   end

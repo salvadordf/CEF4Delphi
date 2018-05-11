@@ -90,17 +90,26 @@ type
       const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
       targetFrameName: ustring;
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+      const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
-      var noJavascriptAccess: Boolean; out Result: Boolean);
+      var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
+      out Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject;
+      const browser: ICefBrowser);
 
   private
     { Private declarations }
 
   protected
     FText : string;
+    // Variables to control when can we destroy the form safely
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowTextViewerMsg(var aMessage : TMessage); message MINIBROWSER_SHOWTEXTVIEWER;
     procedure EvalJSCodeMsg(var aMessage : TMessage); message MINIBROWSER_EVALJSCODE;
     procedure EvalJSBinParamMsg(var aMessage : TMessage); message MINIBROWSER_JSBINPARAM;
@@ -130,31 +139,29 @@ uses
 
 // Steps to evaluate some JavaScript code using the V8Context
 // ----------------------------------------------------------
-// 1. Create a TCefCustomRenderProcessHandler in the DPR file, add a message name and set the OnCustomMessage event.
-// 2. Set the TCefCustomRenderProcessHandler in the GlobalCEFApp.RenderProcessHandler property.
-// 3. To get the Javascript code in this demo we use a context menu that sends a MINIBROWSER_EVALJSCODE to the form.
-// 4. The EvalJSCodeMsg asks for the Javascript code and sends it to the renderer using a process message.
-// 5. RenderProcessHandler_OnProcessMessageReceivedEvent receives the process message and calls ParseEvalJsAnswer
+// 1. Set GlobalCEFApp.OnProcessMessageReceived to JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent in the DPR file.
+// 2. To get the Javascript code in this demo we use a context menu that sends a MINIBROWSER_EVALJSCODE to the form.
+// 3. The EvalJSCodeMsg asks for the Javascript code and sends it to the renderer using a process message.
+// 4. RenderProcessHandler_OnProcessMessageReceivedEvent receives the process message and calls ParseEvalJsAnswer
 //    to evaluate the code.
-// 6. ParseEvalJsAnswer evaluates the code and sends a message with the results to the browser process using a
+// 5. ParseEvalJsAnswer evaluates the code and sends a message with the results to the browser process using a
 //    process message.
-// 7. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
+// 6. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
 //    MINIBROWSER_SHOWTEXTVIEWER message to the form.
-// 8. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
+// 7. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
 
 
 // This demo also has an example of binary parameters in process messages
 // ----------------------------------------------------------------------
-// 1. Create a TCefCustomRenderProcessHandler in the DPR file, add a message name and set the OnCustomMessage event.
-// 2. Set the TCefCustomRenderProcessHandler in the GlobalCEFApp.RenderProcessHandler property.
-// 3. The context menu has a 'Send JPEG image' option that sends a MINIBROWSER_JSBINPARAM message to the form.
-// 4. EvalJSBinParamMsg asks for a JPEG image and sends a process message with a ICefBinaryValue parameter to the
+// 1. Set GlobalCEFApp.OnProcessMessageReceived to JSEvalFrm.RenderProcessHandler_OnProcessMessageReceivedEvent in the DPR file.
+// 2. The context menu has a 'Send JPEG image' option that sends a MINIBROWSER_JSBINPARAM message to the form.
+// 3. EvalJSBinParamMsg asks for a JPEG image and sends a process message with a ICefBinaryValue parameter to the
 //    renderer process.
-// 5. The renderer process parses the binary parameter in the ParseBinaryValue function and sends back the image
+// 4. The renderer process parses the binary parameter in the ParseBinaryValue function and sends back the image
 //    size and encoded image data to the browser process.
-// 6. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
+// 5. Chromium1ProcessMessageReceived receives the message, stores the results and sends a
 //    MINIBROWSER_SHOWTEXTVIEWER message to the form.
-// 7. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
+// 6. ShowTextViewerMsg shows the results safely using a SimpleTextViewer.
 
 
 // About binary parameters
@@ -166,10 +173,23 @@ uses
 // Compress the binary data if necessary!
 
 
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+
 
 procedure TJSEvalFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+end;
+
+procedure TJSEvalFrm.Chromium1BeforeClose(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSEvalFrm.Chromium1BeforeContextMenu(Sender : TObject;
@@ -185,13 +205,20 @@ end;
 procedure TJSEvalFrm.Chromium1BeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
-  out Result: Boolean);
+  var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TJSEvalFrm.Chromium1Close(Sender: TObject;
+  const browser: ICefBrowser; out Result: Boolean);
+begin
+  PostMessage(Handle, CEF_DESTROY, 0, 0);
+  Result := True;
 end;
 
 procedure TJSEvalFrm.Chromium1ContextMenuCommand(Sender : TObject;
@@ -208,6 +235,18 @@ begin
     MINIBROWSER_CONTEXTMENU_EVALJSCODE : PostMessage(Handle, MINIBROWSER_EVALJSCODE, 0, 0);
     MINIBROWSER_CONTEXTMENU_JSBINPARAM : PostMessage(Handle, MINIBROWSER_JSBINPARAM, 0, 0);
   end;
+end;
+
+procedure TJSEvalFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      Chromium1.CloseBrowser(True);
+    end;
 end;
 
 procedure TJSEvalFrm.FormShow(Sender: TObject);
@@ -227,6 +266,11 @@ begin
   CEFWindowParent1.UpdateSize;
   AddressBarPnl.Enabled := True;
   GoBtn.Click;
+end;
+
+procedure TJSEvalFrm.BrowserDestroyMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.Free;
 end;
 
 procedure TJSEvalFrm.ShowTextViewerMsg(var aMessage : TMessage);

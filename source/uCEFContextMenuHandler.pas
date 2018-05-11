@@ -90,39 +90,74 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFContextMenuParams,
   uCEFMenuModel, uCEFRunContextMenuCallback;
 
-procedure cef_context_menu_handler_on_before_context_menu(self: PCefContextMenuHandler;
-  browser: PCefBrowser; frame: PCefFrame; params: PCefContextMenuParams;
-  model: PCefMenuModel); stdcall;
+procedure cef_context_menu_handler_on_before_context_menu(self    : PCefContextMenuHandler;
+                                                          browser : PCefBrowser;
+                                                          frame   : PCefFrame;
+                                                          params  : PCefContextMenuParams;
+                                                          model   : PCefMenuModel); stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefContextMenuHandlerOwn(CefGetObject(self)) do
-    OnBeforeContextMenu(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame),
-      TCefContextMenuParamsRef.UnWrap(params), TCefMenuModelRef.UnWrap(model));
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefContextMenuHandlerOwn) then
+    TCefContextMenuHandlerOwn(TempObject).OnBeforeContextMenu(TCefBrowserRef.UnWrap(browser),
+                                                              TCefFrameRef.UnWrap(frame),
+                                                              TCefContextMenuParamsRef.UnWrap(params),
+                                                              TCefMenuModelRef.UnWrap(model));
 end;
 
-function cef_context_menu_handler_run_context_menu(self: PCefContextMenuHandler;
-  browser: PCefBrowser; frame: PCefFrame; params: PCefContextMenuParams;
-  model: PCefMenuModel; callback: PCefRunContextMenuCallback): Integer; stdcall;
+function cef_context_menu_handler_run_context_menu(self     : PCefContextMenuHandler;
+                                                   browser  : PCefBrowser;
+                                                   frame    : PCefFrame;
+                                                   params   : PCefContextMenuParams;
+                                                   model    : PCefMenuModel;
+                                                   callback : PCefRunContextMenuCallback): Integer; stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefContextMenuHandlerOwn(CefGetObject(self)) do
-    Result := Ord(RunContextMenu(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame),
-      TCefContextMenuParamsRef.UnWrap(params), TCefMenuModelRef.UnWrap(model),
-      TCefRunContextMenuCallbackRef.UnWrap(callback)));
+  Result      := Ord(False);
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefContextMenuHandlerOwn) then
+    Result := Ord(TCefContextMenuHandlerOwn(TempObject).RunContextMenu(TCefBrowserRef.UnWrap(browser),
+                                                                       TCefFrameRef.UnWrap(frame),
+                                                                       TCefContextMenuParamsRef.UnWrap(params),
+                                                                       TCefMenuModelRef.UnWrap(model),
+                                                                       TCefRunContextMenuCallbackRef.UnWrap(callback)));
 end;
 
-function cef_context_menu_handler_on_context_menu_command(self: PCefContextMenuHandler;
-  browser: PCefBrowser; frame: PCefFrame; params: PCefContextMenuParams;
-  command_id: Integer; event_flags: Integer): Integer; stdcall;
+function cef_context_menu_handler_on_context_menu_command(self        : PCefContextMenuHandler;
+                                                          browser     : PCefBrowser;
+                                                          frame       : PCefFrame;
+                                                          params      : PCefContextMenuParams;
+                                                          command_id  : Integer;
+                                                          event_flags : TCefEventFlags): Integer; stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefContextMenuHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnContextMenuCommand(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame),
-      TCefContextMenuParamsRef.UnWrap(params), command_id, TCefEventFlags(Pointer(@event_flags)^)));
+  Result      := Ord(False);
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefContextMenuHandlerOwn) then
+    Result := Ord(TCefContextMenuHandlerOwn(TempObject).OnContextMenuCommand(TCefBrowserRef.UnWrap(browser),
+                                                                             TCefFrameRef.UnWrap(frame),
+                                                                             TCefContextMenuParamsRef.UnWrap(params),
+                                                                             command_id,
+                                                                             event_flags));
 end;
 
-procedure cef_context_menu_handler_on_context_menu_dismissed(self: PCefContextMenuHandler;
-  browser: PCefBrowser; frame: PCefFrame); stdcall;
+procedure cef_context_menu_handler_on_context_menu_dismissed(self    : PCefContextMenuHandler;
+                                                             browser : PCefBrowser;
+                                                             frame   : PCefFrame); stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefContextMenuHandlerOwn(CefGetObject(self)) do
-    OnContextMenuDismissed(TCefBrowserRef.UnWrap(browser), TCefFrameRef.UnWrap(frame));
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefContextMenuHandlerOwn) then
+    TCefContextMenuHandlerOwn(TempObject).OnContextMenuDismissed(TCefBrowserRef.UnWrap(browser),
+                                                                 TCefFrameRef.UnWrap(frame));
 end;
 
 constructor TCefContextMenuHandlerOwn.Create;

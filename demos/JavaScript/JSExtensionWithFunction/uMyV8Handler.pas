@@ -42,7 +42,10 @@ unit uMyV8Handler;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFv8Handler;
+  uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFProcessMessage, uCEFv8Handler, uCEFv8Context;
+
+const
+  TEST_MESSAGE_NAME = 'test_message';
 
 type
   TMyV8Handler = class(TCefv8HandlerOwn)
@@ -57,9 +60,15 @@ function TMyV8Handler.Execute(const name      : ustring;
                               const arguments : TCefv8ValueArray;
                               var   retval    : ICefv8Value;
                               var   exception : ustring): Boolean;
+var
+  msg: ICefProcessMessage;
 begin
   if (name = 'myfunc') then
     begin
+      msg := TCefProcessMessageRef.New(TEST_MESSAGE_NAME);
+      msg.ArgumentList.SetString(0, 'Message received!');
+      TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+
       retval := TCefv8ValueRef.NewString('My Value!');
       Result := True;
     end

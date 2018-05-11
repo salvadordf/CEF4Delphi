@@ -114,6 +114,7 @@ type
     Openfile1: TMenuItem;
     Resolvehost1: TMenuItem;
     Timer1: TTimer;
+    OpenfilewithaDAT1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -185,10 +186,22 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const request: ICefRequest; const callback: ICefRequestCallback;
       out Result: TCefReturnValue);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
+      out Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject;
+      const browser: ICefBrowser);
+    procedure Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
+    procedure Chromium1LoadingProgressChange(Sender: TObject;
+      const browser: ICefBrowser; const progress: Double);
+    procedure OpenfilewithaDAT1Click(Sender: TObject);
 
   protected
     FResponse : TStringList;
     FRequest  : TStringList;
+    // Variables to control when can we destroy the form safely
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure AddURL(const aURL : string);
 
@@ -203,6 +216,7 @@ type
     procedure InspectResponse(const aResponse : ICefResponse);
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
     procedure CopyAllTextMsg(var aMessage : TMessage); message MINIBROWSER_COPYALLTEXT;
@@ -230,7 +244,13 @@ implementation
 {$R *.dfm}
 
 uses
-  uPreferences, uCefStringMultimap, uSimpleTextViewer;
+  uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer;
+
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
 begin
@@ -274,7 +294,18 @@ end;
 procedure TMiniBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   if Chromium1.IsSameBrowser(browser) then
-    PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+    PostMessage(Handle, CEF_AFTERCREATED, 0, 0)
+   else
+    SendMessage(browser.Host.WindowHandle, WM_SETICON, 1, application.Icon.Handle); // Use the same icon in the popup window
+end;
+
+procedure TMiniBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  if (Chromium1.BrowserId = 0) then // The main browser is being destroyed
+    begin
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -367,6 +398,17 @@ begin
     InspectRequest(request);
 end;
 
+procedure TMiniBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+begin
+  if (browser <> nil) and (Chromium1.BrowserId = browser.Identifier) then
+    begin
+      PostMessage(Handle, CEF_DESTROY, 0, 0);
+      Result := True;
+    end
+   else
+    Result := False;
+end;
+
 procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
@@ -454,6 +496,14 @@ procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
   const browser: ICefBrowser; fullscreen: Boolean);
 begin                    
   if not(Chromium1.IsSameBrowser(browser)) then exit;
+
+  // This event is executed in a CEF thread and this can cause problems when
+  // you change the 'Enabled' and 'Visible' properties from VCL components.
+  // It's recommended to change the 'Enabled' and 'Visible' properties
+  // in the main application thread and not in a CEF thread.
+  // It's much safer to use PostMessage to send a message to the main form with
+  // all this information and update those properties in the procedure handling
+  // that message.
 
   if fullscreen then
     begin
@@ -548,10 +598,24 @@ begin
   if (TempKeyMsg.CharCode = VK_F12) then aHandled := True;
 end;
 
+procedure TMiniBrowserFrm.Chromium1LoadingProgressChange(Sender: TObject;
+  const browser: ICefBrowser; const progress: Double);
+begin
+  StatusBar1.Panels[0].Text := 'Loading... ' + FloatToStrF(progress * 100, ffFixed, 3, 0) + '%';
+end;
+
 procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;
   const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
-  if not(Chromium1.IsSameBrowser(browser)) then exit;
+  if not(Chromium1.IsSameBrowser(browser)) or FClosing then exit;
+
+  // This event is executed in a CEF thread and this can cause problems when
+  // you change the 'Enabled' and 'Visible' properties from VCL components.
+  // It's recommended to change the 'Enabled' and 'Visible' properties
+  // in the main application thread and not in a CEF thread.
+  // It's much safer to use PostMessage to send a message to the main form with
+  // all this information and update those properties in the procedure handling
+  // that message.
 
   BackBtn.Enabled    := canGoBack;
   ForwardBtn.Enabled := canGoForward;
@@ -597,6 +661,15 @@ begin
      (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
      (event.windows_key_code = VK_F12) then
     isKeyboardShortcut := True;
+end;
+
+procedure TMiniBrowserFrm.Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
+begin
+  if not(FClosing) and (aMessage.Msg = WM_MOUSEMOVE) then
+    begin
+      StatusBar1.Panels[2].Text := 'x : ' + inttostr(aMessage.lParam and $FFFF);
+      StatusBar1.Panels[3].Text := 'y : ' + inttostr((aMessage.lParam and $FFFF0000) shr 16);
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1ResolvedHostAvailable(Sender: TObject;
@@ -670,7 +743,7 @@ end;
 
 procedure TMiniBrowserFrm.ShowStatusText(const aText : string);
 begin
-  StatusBar1.Panels[1].Text := aText;
+  if not(FClosing) then StatusBar1.Panels[1].Text := aText;
 end;
 
 procedure TMiniBrowserFrm.StopBtnClick(Sender: TObject);
@@ -700,8 +773,22 @@ begin
     caption := 'MiniBrowser';
 end;
 
+procedure TMiniBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      Chromium1.CloseBrowser(True);
+    end;
+end;
+
 procedure TMiniBrowserFrm.FormCreate(Sender: TObject);
 begin
+  FCanClose := False;
+  FClosing  := False;
   FResponse := TStringList.Create;
   FRequest  := TStringList.Create;
 end;
@@ -742,6 +829,11 @@ begin
   Chromium1.LoadURL(MINIBROWSER_HOMEPAGE);
 end;
 
+procedure TMiniBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.Free;
+end;
+
 procedure TMiniBrowserFrm.AddURL(const aURL : string);
 begin
   if (URLCbx.Items.IndexOf(aURL) < 0) then URLCbx.Items.Add(aURL);
@@ -770,8 +862,42 @@ end;
 
 procedure TMiniBrowserFrm.Openfile1Click(Sender: TObject);
 begin
-  // This is a quick solution to load files. The file URL should be properly encoded.
-  if OpenDialog1.Execute then Chromium1.LoadURL('file:///' + OpenDialog1.FileName);
+  OpenDialog1.Filter := 'Any file (*.*)|*.*';
+
+  if OpenDialog1.Execute then
+    begin
+      // This is a quick solution to load files. The file URL should be properly encoded.
+      Chromium1.LoadURL('file:///' + OpenDialog1.FileName);
+    end;
+end;
+
+procedure TMiniBrowserFrm.OpenfilewithaDAT1Click(Sender: TObject);
+var
+  TempDATA : string;
+  TempFile : TMemoryStream;
+begin
+  TempFile := nil;
+
+  try
+    try
+      OpenDialog1.Filter := 'HTML files (*.html)|*.HTML;*.HTM';
+
+      if OpenDialog1.Execute then
+        begin
+          // Use TByteStream instead of TMemoryStream if your Delphi version supports it.
+          TempFile := TMemoryStream.Create;
+          TempFile.LoadFromFile(OpenDialog1.FileName);
+
+          TempDATA := 'data:text/html;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size);
+          Chromium1.LoadURL(TempDATA);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TMiniBrowserFrm.OpenfilewithaDAT1Click', e) then raise;
+    end;
+  finally
+    if (TempFile <> nil) then FreeAndNil(TempFile);
+  end;
 end;
 
 procedure TMiniBrowserFrm.PopupMenu1Popup(Sender: TObject);

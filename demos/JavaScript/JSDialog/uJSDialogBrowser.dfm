@@ -12,6 +12,7 @@ object JSDialogBrowserFrm: TJSDialogBrowserFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -24,6 +25,8 @@ object JSDialogBrowserFrm: TJSDialogBrowserFrm
     Height = 594
     Align = alClient
     TabOrder = 0
+    OnClose = ChromiumWindow1Close
+    OnBeforeClose = ChromiumWindow1BeforeClose
     OnAfterCreated = ChromiumWindow1AfterCreated
   end
   object AddressPnl: TPanel

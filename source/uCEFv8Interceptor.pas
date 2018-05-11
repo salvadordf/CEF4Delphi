@@ -85,30 +85,88 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value;
 
-function cef_v8_interceptor_get_byname(self: PCefV8Interceptor; const name: PCefString; const obj: PCefV8Value; out retval: PCefv8Value; exception: PCefString): Integer; stdcall;
+function cef_v8_interceptor_get_byname(      self      : PCefV8Interceptor;
+                                       const name      : PCefString;
+                                             obj       : PCefV8Value;
+                                       out   retval    : PCefv8Value;
+                                             exception : PCefString): Integer; stdcall;
 var
   ret: ICefv8Value;
+  TempObject : TObject;
 begin
-  Result := Ord(TCefV8InterceptorOwn(CefGetObject(self)).GetByName(CefString(name), TCefv8ValueRef.UnWrap(obj), ret, CefString(exception)));
-  retval := CefGetData(ret);
+  Result     := Ord(False);
+  retval     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
+    begin
+      Result := Ord(TCefV8InterceptorOwn(TempObject).GetByName(CefString(name),
+                                                               TCefv8ValueRef.UnWrap(obj),
+                                                               ret,
+                                                               CefString(exception)));
+
+      retval := CefGetData(ret);
+    end;
 end;
 
-function cef_v8_interceptor_get_byindex(self: PCefV8Interceptor; index: integer; const obj: PCefV8Value; out retval: PCefv8Value; exception: PCefString): integer; stdcall;
+function cef_v8_interceptor_get_byindex(    self      : PCefV8Interceptor;
+                                            index     : integer;
+                                            obj       : PCefV8Value;
+                                        out retval    : PCefv8Value;
+                                            exception : PCefString): integer; stdcall;
 var
   ret: ICefv8Value;
+  TempObject : TObject;
 begin
-  Result := Ord(TCefV8InterceptorOwn(CefGetObject(self)).GetByIndex(index, TCefv8ValueRef.UnWrap(obj), ret, CefString(exception)));
-  retval := CefGetData(ret);
+  Result     := Ord(False);
+  retval     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
+    begin
+      Result := Ord(TCefV8InterceptorOwn(TempObject).GetByIndex(index,
+                                                                TCefv8ValueRef.UnWrap(obj),
+                                                                ret,
+                                                                CefString(exception)));
+
+      retval := CefGetData(ret);
+    end;
 end;
 
-function cef_v8_interceptor_set_byname(self: PCefV8Interceptor; const name: PCefString; const obj: PCefV8Value; value: PCefv8Value; exception: PCefString): integer; stdcall;
+function cef_v8_interceptor_set_byname(      self      : PCefV8Interceptor;
+                                       const name      : PCefString;
+                                             obj       : PCefV8Value;
+                                             value     : PCefv8Value;
+                                             exception : PCefString): integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := Ord(TCefV8InterceptorOwn(CefGetObject(self)).SetByName(CefString(name), TCefv8ValueRef.UnWrap(obj), TCefv8ValueRef.UnWrap(value), CefString(exception)));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
+    Result := Ord(TCefV8InterceptorOwn(TempObject).SetByName(CefString(name),
+                                                             TCefv8ValueRef.UnWrap(obj),
+                                                             TCefv8ValueRef.UnWrap(value),
+                                                             CefString(exception)));
 end;
 
-function cef_v8_interceptor_set_byindex(self: PCefV8Interceptor; index: integer; const obj: PCefV8Value; value: PCefv8Value; exception: PCefString): integer; stdcall;
+function cef_v8_interceptor_set_byindex(self      : PCefV8Interceptor;
+                                        index     : integer;
+                                        obj       : PCefV8Value;
+                                        value     : PCefv8Value;
+                                        exception : PCefString): integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := Ord(TCefV8InterceptorOwn(CefGetObject(self)).SetByIndex(index, TCefv8ValueRef.UnWrap(obj), TCefv8ValueRef.UnWrap(value), CefString(exception)));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
+    Result := Ord(TCefV8InterceptorOwn(TempObject).SetByIndex(index,
+                                                              TCefv8ValueRef.UnWrap(obj),
+                                                              TCefv8ValueRef.UnWrap(value),
+                                                              CefString(exception)));
 end;
 
 // TCefV8InterceptorOwn

@@ -66,7 +66,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
 
 procedure TCefFileDialogCallbackRef.Cancel;
 begin
@@ -75,31 +75,17 @@ end;
 
 procedure TCefFileDialogCallbackRef.Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
 var
-  TempSL : TCefStringList;
-  i : Integer;
-  TempString : TCefString;
+  TempSL : ICefStringList;
 begin
-  TempSL := nil;
-
-
   try
-    try
-      TempSL := cef_string_list_alloc;
+    TempSL := TCefStringListOwn.Create;
+    TempSL.AddStrings(filePaths);
 
-      if (filePaths <> nil) and (filePaths.Count > 0) then
-        for i := 0 to filePaths.Count - 1 do
-          begin
-            TempString := CefString(filePaths[i]);
-            cef_string_list_append(TempSL, @TempString);
-          end;
-
-      PCefFileDialogCallback(FData).cont(PCefFileDialogCallback(FData), selectedAcceptFilter, TempSL);
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefFileDialogCallbackRef.Cont', e) then raise;
-    end;
+    PCefFileDialogCallback(FData).cont(PCefFileDialogCallback(FData),
+                                       selectedAcceptFilter,
+                                       TempSL.Handle);
   finally
-    if (TempSL <> nil) then cef_string_list_free(TempSL);
+    TempSL := nil;
   end;
 end;
 

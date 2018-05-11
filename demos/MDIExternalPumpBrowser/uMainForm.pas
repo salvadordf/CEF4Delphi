@@ -89,8 +89,7 @@ type
   end;
 
 var
-  MainForm               : TMainForm;
-  GlobalCEFWorkScheduler : TCEFWorkScheduler = nil;
+  MainForm : TMainForm;
 
 procedure GlobalCEFApp_OnContextInitialized;
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);

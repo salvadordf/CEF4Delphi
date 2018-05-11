@@ -50,21 +50,31 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefStringMapOwn = class(TInterfacedObject, ICefStringMap)
+  TCefCustomStringMap = class(TInterfacedObject, ICefStringMap)
     protected
-      FStringMap: TCefStringMap;
+      FHandle : TCefStringMap;
 
-      function GetHandle: TCefStringMap; virtual;
-      function GetSize: Integer; virtual;
-      function Find(const key: ustring): ustring; virtual;
-      function GetKey(index: Integer): ustring; virtual;
-      function GetValue(index: Integer): ustring; virtual;
-      procedure Append(const key, value: ustring); virtual;
+      function  GetHandle: TCefStringMap; virtual;
+      function  GetSize: NativeUInt; virtual;
+      function  Find(const key: ustring): ustring; virtual;
+      function  GetKey(index: NativeUInt): ustring; virtual;
+      function  GetValue(index: NativeUInt): ustring; virtual;
+      function  Append(const key, value: ustring) : boolean; virtual;
       procedure Clear; virtual;
 
     public
       constructor Create; virtual;
-      destructor Destroy; override;
+  end;
+
+  TCefStringMapOwn = class(TCefCustomStringMap)
+    public
+      constructor Create; override;
+      destructor  Destroy; override;
+  end;
+
+  TCefStringMapRef = class(TCefCustomStringMap)
+    public
+      constructor Create(aHandle : TCefStringMap); reintroduce;
   end;
 
 implementation
@@ -72,66 +82,128 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure TCefStringMapOwn.Append(const key, value: ustring);
-var
-  k, v: TCefString;
+
+// ****************************************
+// ********* TCefCustomStringMap **********
+// ****************************************
+
+
+constructor TCefCustomStringMap.Create;
 begin
-  k := CefString(key);
-  v := CefString(value);
-  cef_string_map_append(FStringMap, @k, @v);
+  inherited Create;
+
+  FHandle := nil;
 end;
 
-procedure TCefStringMapOwn.Clear;
+function TCefCustomStringMap.Append(const key, value: ustring) : boolean;
+var
+  TempKey, TempValue : TCefString;
 begin
-  cef_string_map_clear(FStringMap);
+  if (FHandle <> nil) then
+    begin
+      TempKey   := CefString(key);
+      TempValue := CefString(value);
+      Result    := cef_string_map_append(FHandle, @TempKey, @TempValue) <> 0;
+    end
+   else
+    Result := False;
 end;
+
+procedure TCefCustomStringMap.Clear;
+begin
+  if (FHandle <> nil) then cef_string_map_clear(FHandle);
+end;
+
+function TCefCustomStringMap.Find(const key: ustring): ustring;
+var
+  TempKey, TempValue : TCefString;
+begin
+  Result := '';
+
+  if (FHandle <> nil) then
+    begin
+      FillChar(TempValue, SizeOf(TempValue), 0);
+      TempKey := CefString(key);
+
+      if (cef_string_map_find(FHandle, @TempKey, TempValue) <> 0) then
+        Result := CefString(@TempValue);
+    end;
+end;
+
+function TCefCustomStringMap.GetHandle: TCefStringMap;
+begin
+  Result := FHandle;
+end;
+
+function TCefCustomStringMap.GetKey(index: NativeUInt): ustring;
+var
+  TempKey : TCefString;
+begin
+  Result := '';
+
+  if (FHandle <> nil) then
+    begin
+      FillChar(TempKey, SizeOf(TempKey), 0);
+
+      if (cef_string_map_key(FHandle, index, TempKey) <> 0) then
+        Result := CefString(@TempKey);
+    end;
+end;
+
+function TCefCustomStringMap.GetSize: NativeUInt;
+begin
+  if (FHandle <> nil) then
+    Result := cef_string_map_size(FHandle)
+   else
+    Result := 0;
+end;
+
+function TCefCustomStringMap.GetValue(index: NativeUInt): ustring;
+var
+  TempValue : TCefString;
+begin
+  Result := '';
+
+  if (FHandle <> nil) then
+    begin
+      FillChar(TempValue, SizeOf(TempValue), 0);
+
+      if (cef_string_map_value(FHandle, index, TempValue) <> 0) then
+        Result := CefString(@TempValue);
+    end;
+end;
+
+
+// **************************************
+// ********* TCefStringMapOwn ***********
+// **************************************
+
 
 constructor TCefStringMapOwn.Create;
 begin
-  FStringMap := cef_string_map_alloc;
+  inherited Create;
+
+  FHandle := cef_string_map_alloc;
 end;
 
 destructor TCefStringMapOwn.Destroy;
 begin
-  cef_string_map_free(FStringMap);
+  if (FHandle <> nil) then cef_string_map_free(FHandle);
+
+  inherited Destroy;
 end;
 
-function TCefStringMapOwn.Find(const key: ustring): ustring;
-var
-  str, k: TCefString;
-begin
-  FillChar(str, SizeOf(str), 0);
-  k := CefString(key);
-  cef_string_map_find(FStringMap, @k, str);
-  Result := CefString(@str);
-end;
 
-function TCefStringMapOwn.GetHandle: TCefStringMap;
-begin
-  Result := FStringMap;
-end;
+// **************************************
+// ********* TCefStringMapRef ***********
+// **************************************
 
-function TCefStringMapOwn.GetKey(index: Integer): ustring;
-var
-  str: TCefString;
-begin
-  FillChar(str, SizeOf(str), 0);
-  cef_string_map_key(FStringMap, index, str);
-  Result := CefString(@str);
-end;
 
-function TCefStringMapOwn.GetSize: Integer;
+constructor TCefStringMapRef.Create(aHandle : TCefStringMap);
 begin
-  Result := cef_string_map_size(FStringMap);
-end;
+  inherited Create;
 
-function TCefStringMapOwn.GetValue(index: Integer): ustring;
-var
-  str: TCefString;
-begin
-  FillChar(str, SizeOf(str), 0);
-  cef_string_map_value(FStringMap, index, str);
-  Result := CefString(@str);
+  FHandle := aHandle;
 end;
 
 end.

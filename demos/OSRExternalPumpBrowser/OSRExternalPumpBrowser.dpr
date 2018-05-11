@@ -68,11 +68,9 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.FastUnload                 := True;
   GlobalCEFApp.FlashEnabled               := False;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.SitePerProcess             := False;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
 
   if GlobalCEFApp.StartMainProcess then

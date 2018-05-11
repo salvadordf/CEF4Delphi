@@ -73,20 +73,39 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-function cef_cookie_visitor_visit(self: PCefCookieVisitor; const cookie: PCefCookie;
-  count, total: Integer; deleteCookie: PInteger): Integer; stdcall;
+function cef_cookie_visitor_visit(self: PCefCookieVisitor;
+                                  const cookie: PCefCookie;
+                                  count, total: Integer;
+                                  deleteCookie: PInteger): Integer; stdcall;
 var
-  delete: Boolean;
-  exp: TDateTime;
+  delete     : Boolean;
+  exp        : TDateTime;
+  TempObject : TObject;
 begin
-  delete := False;
-  if cookie.has_expires <> 0 then
-    exp := CefTimeToDateTime(cookie.expires) else
+  delete     := False;
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (cookie.has_expires <> 0) then
+    exp := CefTimeToDateTime(cookie.expires)
+   else
     exp := 0;
-  Result := Ord(TCefCookieVisitorOwn(CefGetObject(self)).visit(CefString(@cookie.name),
-    CefString(@cookie.value), CefString(@cookie.domain), CefString(@cookie.path),
-    Boolean(cookie.secure), Boolean(cookie.httponly), Boolean(cookie.has_expires), CefTimeToDateTime(cookie.creation),
-    CefTimeToDateTime(cookie.last_access), exp, count, total, delete));
+
+  if (TempObject <> nil) and (TempObject is TCefCookieVisitorOwn) then
+    Result := Ord(TCefCookieVisitorOwn(TempObject).visit(CefString(@cookie.name),
+                                                         CefString(@cookie.value),
+                                                         CefString(@cookie.domain),
+                                                         CefString(@cookie.path),
+                                                         Boolean(cookie.secure),
+                                                         Boolean(cookie.httponly),
+                                                         Boolean(cookie.has_expires),
+                                                         CefTimeToDateTime(cookie.creation),
+                                                         CefTimeToDateTime(cookie.last_access),
+                                                         exp,
+                                                         count,
+                                                         total,
+                                                         delete));
+
   deleteCookie^ := Ord(delete);
 end;
 
@@ -95,12 +114,15 @@ end;
 constructor TCefCookieVisitorOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefCookieVisitor));
+
   PCefCookieVisitor(FData)^.visit := cef_cookie_visitor_visit;
 end;
 
 function TCefCookieVisitorOwn.visit(const name, value, domain, path: ustring;
-  secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime;
-  count, total: Integer; out deleteCookie: Boolean): Boolean;
+                                    secure, httponly, hasExpires: Boolean;
+                                    const creation, lastAccess, expires: TDateTime;
+                                    count, total: Integer;
+                                    out deleteCookie: Boolean): Boolean;
 begin
   Result := True;
 end;
@@ -110,15 +132,18 @@ end;
 constructor TCefFastCookieVisitor.Create(const visitor: TCefCookieVisitorProc);
 begin
   inherited Create;
+
   FVisitor := visitor;
 end;
 
 function TCefFastCookieVisitor.visit(const name, value, domain, path: ustring;
-  secure, httponly, hasExpires: Boolean; const creation, lastAccess,
-  expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean;
+                                     secure, httponly, hasExpires: Boolean;
+                                     const creation, lastAccess, expires: TDateTime;
+                                     count, total: Integer;
+                                     out deleteCookie: Boolean): Boolean;
 begin
   Result := FVisitor(name, value, domain, path, secure, httponly, hasExpires,
-    creation, lastAccess, expires, count, total, deleteCookie);
+                     creation, lastAccess, expires, count, total, deleteCookie);
 end;
 
 

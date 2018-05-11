@@ -65,6 +65,7 @@ type
       procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); virtual;
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); virtual;
       procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); virtual;
+      procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -89,6 +90,7 @@ type
       procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); override;
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); override;
       procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); override;
+      procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange); override;
 
       procedure RemoveReferences; override;
 
@@ -111,114 +113,228 @@ uses
 function cef_render_handler_get_accessibility_handler(self: PCefRenderHandler): PCefAccessibilityHandler; stdcall;
 var
   TempHandler : ICefAccessibilityHandler;
+  TempObject  : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
+  Result      := nil;
+  TempHandler := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
     begin
-      TempHandler := nil;
+      TCefRenderHandlerOwn(TempObject).GetAccessibilityHandler(TempHandler);
 
-      GetAccessibilityHandler(TempHandler);
-
-      if (TempHandler <> nil) then
-        Result := TempHandler.Wrap
-       else
-        Result := nil;
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
     end;
 end;
 
-function cef_render_handler_get_root_screen_rect(self: PCefRenderHandler;
-  browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
+function cef_render_handler_get_root_screen_rect(self    : PCefRenderHandler;
+                                                 browser : PCefBrowser;
+                                                 rect    : PCefRect): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetRootScreenRect(TCefBrowserRef.UnWrap(browser), rect^));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    Result := Ord(TCefRenderHandlerOwn(TempObject).GetRootScreenRect(TCefBrowserRef.UnWrap(browser),
+                                                                     rect^));
 end;
 
-function cef_render_handler_get_view_rect(self: PCefRenderHandler;
-  browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
+function cef_render_handler_get_view_rect(self    : PCefRenderHandler;
+                                          browser : PCefBrowser;
+                                          rect    : PCefRect): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetViewRect(TCefBrowserRef.UnWrap(browser), rect^));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    Result := Ord(TCefRenderHandlerOwn(TempObject).GetViewRect(TCefBrowserRef.UnWrap(browser),
+                                                               rect^));
 end;
 
-function cef_render_handler_get_screen_point(self: PCefRenderHandler;
-  browser: PCefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Integer; stdcall;
+function cef_render_handler_get_screen_point(self             : PCefRenderHandler;
+                                             browser          : PCefBrowser;
+                                             viewX, viewY     : Integer;
+                                             screenX, screenY : PInteger): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetScreenPoint(TCefBrowserRef.UnWrap(browser), viewX, viewY, screenX^, screenY^));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    Result := Ord(TCefRenderHandlerOwn(TempObject).GetScreenPoint(TCefBrowserRef.UnWrap(browser),
+                                                                  viewX,
+                                                                  viewY,
+                                                                  screenX^,
+                                                                  screenY^));
 end;
 
-function cef_render_handler_get_screen_info(self: PCefRenderHandler;
-  browser: PCefBrowser; screen_info: PCefScreenInfo): Integer; stdcall;
+function cef_render_handler_get_screen_info(self        : PCefRenderHandler;
+                                            browser     : PCefBrowser;
+                                            screen_info : PCefScreenInfo): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(GetScreenInfo(TCefBrowserRef.UnWrap(browser), screen_info^));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    Result := Ord(TCefRenderHandlerOwn(TempObject).GetScreenInfo(TCefBrowserRef.UnWrap(browser),
+                                                                 screen_info^));
 end;
 
-procedure cef_render_handler_on_popup_show(self: PCefRenderProcessHandler;
-  browser: PCefBrowser; show: Integer); stdcall;
+procedure cef_render_handler_on_popup_show(self    : PCefRenderHandler;
+                                           browser : PCefBrowser;
+                                           show    : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    OnPopupShow(TCefBrowserRef.UnWrap(browser), show <> 0);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnPopupShow(TCefBrowserRef.UnWrap(browser),
+                                                 show <> 0);
 end;
 
-procedure cef_render_handler_on_popup_size(self: PCefRenderProcessHandler;
-  browser: PCefBrowser; const rect: PCefRect); stdcall;
+procedure cef_render_handler_on_popup_size(      self    : PCefRenderHandler;
+                                                 browser : PCefBrowser;
+                                           const rect    : PCefRect); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    OnPopupSize(TCefBrowserRef.UnWrap(browser), rect);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnPopupSize(TCefBrowserRef.UnWrap(browser),
+                                                 rect);
 end;
 
-procedure cef_render_handler_on_paint(self: PCefRenderProcessHandler;
-  browser: PCefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt;
-  const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); stdcall;
+procedure cef_render_handler_on_paint(      self             : PCefRenderHandler;
+                                            browser          : PCefBrowser;
+                                            kind             : TCefPaintElementType;
+                                            dirtyRectsCount  : NativeUInt;
+                                      const dirtyRects       : PCefRectArray;
+                                      const buffer           : Pointer;
+                                            width            : Integer;
+                                            height           : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    OnPaint(TCefBrowserRef.UnWrap(browser), kind, dirtyRectsCount, dirtyRects,
-      buffer, width, height);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnPaint(TCefBrowserRef.UnWrap(browser),
+                                             kind,
+                                             dirtyRectsCount,
+                                             dirtyRects,
+                                             buffer,
+                                             width,
+                                             height);
 end;
 
-procedure cef_render_handler_on_cursor_change(self: PCefRenderProcessHandler;
-  browser: PCefBrowser; cursor: TCefCursorHandle; type_: TCefCursorType;
-  const custom_cursor_info: PCefCursorInfo); stdcall;
+procedure cef_render_handler_on_cursor_change(      self               : PCefRenderHandler;
+                                                    browser            : PCefBrowser;
+                                                    cursor             : TCefCursorHandle;
+                                                    type_              : TCefCursorType;
+                                              const custom_cursor_info : PCefCursorInfo); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    OnCursorChange(TCefBrowserRef.UnWrap(browser), cursor, type_, custom_cursor_info);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnCursorChange(TCefBrowserRef.UnWrap(browser),
+                                                    cursor,
+                                                    type_,
+                                                    custom_cursor_info);
 end;
 
-function cef_render_handler_start_dragging(self: PCefRenderProcessHandler; browser: PCefBrowser;
-  drag_data: PCefDragData; allowed_ops: TCefDragOperations; x, y: Integer): Integer; stdcall;
+function cef_render_handler_start_dragging(self        : PCefRenderHandler;
+                                           browser     : PCefBrowser;
+                                           drag_data   : PCefDragData;
+                                           allowed_ops : TCefDragOperations;
+                                           x           : Integer;
+                                           y           : Integer): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnStartDragging(TCefBrowserRef.UnWrap(browser),
-      TCefDragDataRef.UnWrap(drag_data), allowed_ops, x, y));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    Result := Ord(TCefRenderHandlerOwn(TempObject).OnStartDragging(TCefBrowserRef.UnWrap(browser),
+                                                                   TCefDragDataRef.UnWrap(drag_data),
+                                                                   allowed_ops,
+                                                                   x,
+                                                                   y));
 end;
 
-procedure cef_render_handler_update_drag_cursor(self: PCefRenderProcessHandler;
-  browser: PCefBrowser; operation: TCefDragOperation); stdcall;
+procedure cef_render_handler_update_drag_cursor(self      : PCefRenderHandler;
+                                                browser   : PCefBrowser;
+                                                operation : TCefDragOperation); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    OnUpdateDragCursor(TCefBrowserRef.UnWrap(browser), operation);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnUpdateDragCursor(TCefBrowserRef.UnWrap(browser), operation);
 end;
 
-procedure cef_render_handler_on_scroll_offset_changed(self: PCefRenderProcessHandler;
-  browser: PCefBrowser; x, y: Double); stdcall;
+procedure cef_render_handler_on_scroll_offset_changed(self    : PCefRenderHandler;
+                                                      browser : PCefBrowser;
+                                                      x       : Double;
+                                                      y       : Double); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    OnScrollOffsetChanged(TCefBrowserRef.UnWrap(browser), x, y);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnScrollOffsetChanged(TCefBrowserRef.UnWrap(browser),
+                                                           x,
+                                                           y);
 end;
 
-procedure cef_render_handler_on_ime_composition_range_changed(self: PCefRenderProcessHandler;
-                                                                    browser: PCefBrowser;
-                                                              const selected_range: PCefRange;
-                                                                    character_boundsCount: NativeUInt;
-                                                              const character_bounds: PCefRect); stdcall;
+procedure cef_render_handler_on_ime_composition_range_changed(      self                  : PCefRenderHandler;
+                                                                    browser               : PCefBrowser;
+                                                              const selected_range        : PCefRange;
+                                                                    character_boundsCount : NativeUInt;
+                                                              const character_bounds      : PCefRect); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRenderHandlerOwn(CefGetObject(self)) do
-    OnIMECompositionRangeChanged(TCefBrowserRef.UnWrap(browser), selected_range, character_boundsCount, character_bounds);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnIMECompositionRangeChanged(TCefBrowserRef.UnWrap(browser),
+                                                                  selected_range,
+                                                                  character_boundsCount,
+                                                                  character_bounds);
+end;
+
+procedure cef_render_handler_on_text_selection_changed(      self           : PCefRenderHandler;
+                                                             browser        : PCefBrowser;
+                                                       const selected_text  : PCefString;
+                                                       const selected_range : PCefRange); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnTextSelectionChanged(TCefBrowserRef.UnWrap(browser),
+                                                            CefString(selected_text),
+                                                            selected_range);
 end;
 
 constructor TCefRenderHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefRenderHandler));
+  inherited CreateData(SizeOf(TCefRenderHandler));
 
   with PCefRenderHandler(FData)^ do
     begin
@@ -235,6 +351,7 @@ begin
       update_drag_cursor               := cef_render_handler_update_drag_cursor;
       on_scroll_offset_changed         := cef_render_handler_on_scroll_offset_changed;
       on_ime_composition_range_changed := cef_render_handler_on_ime_composition_range_changed;
+      on_text_selection_changed        := cef_render_handler_on_text_selection_changed;
     end;
 end;
 
@@ -253,8 +370,7 @@ begin
   Result := False;
 end;
 
-function TCefRenderHandlerOwn.GetScreenPoint(const browser: ICefBrowser; viewX,
-  viewY: Integer; var screenX, screenY: Integer): Boolean;
+function TCefRenderHandlerOwn.GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
 begin
   Result := False;
 end;
@@ -264,36 +380,29 @@ begin
   Result := False;
 end;
 
-procedure TCefRenderHandlerOwn.OnCursorChange(const browser: ICefBrowser;
-  cursor: TCefCursorHandle; CursorType: TCefCursorType;
-  const customCursorInfo: PCefCursorInfo);
+procedure TCefRenderHandlerOwn.OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
 begin
-
+  //
 end;
 
-procedure TCefRenderHandlerOwn.OnPaint(const browser: ICefBrowser;
-  kind: TCefPaintElementType; dirtyRectsCount: NativeUInt;
-  const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
+procedure TCefRenderHandlerOwn.OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
 begin
-
+  //
 end;
 
-procedure TCefRenderHandlerOwn.OnPopupShow(const browser: ICefBrowser;
-  show: Boolean);
+procedure TCefRenderHandlerOwn.OnPopupShow(const browser: ICefBrowser; show: Boolean);
 begin
-
+  //
 end;
 
-procedure TCefRenderHandlerOwn.OnPopupSize(const browser: ICefBrowser;
-  const rect: PCefRect);
+procedure TCefRenderHandlerOwn.OnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
 begin
-
+  //
 end;
 
-procedure TCefRenderHandlerOwn.OnScrollOffsetChanged(
-  const browser: ICefBrowser; x, y: Double);
+procedure TCefRenderHandlerOwn.OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
 begin
-
+  //
 end;
 
 procedure TCefRenderHandlerOwn.OnIMECompositionRangeChanged(const browser               : ICefBrowser;
@@ -301,20 +410,24 @@ procedure TCefRenderHandlerOwn.OnIMECompositionRangeChanged(const browser       
                                                                   character_boundsCount : NativeUInt;
                                                             const character_bounds      : PCefRect);
 begin
-
+  //
 end;
 
-function TCefRenderHandlerOwn.OnStartDragging(const browser: ICefBrowser;
-  const dragData: ICefDragData; allowedOps: TCefDragOperations; x,
-  y: Integer): Boolean;
+procedure TCefRenderHandlerOwn.OnTextSelectionChanged(const browser        : ICefBrowser;
+                                                      const selected_text  : ustring;
+                                                      const selected_range : PCefRange);
+begin
+  //
+end;
+
+function TCefRenderHandlerOwn.OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean;
 begin
   Result := False;
 end;
 
-procedure TCefRenderHandlerOwn.OnUpdateDragCursor(const browser: ICefBrowser;
-  operation: TCefDragOperation);
+procedure TCefRenderHandlerOwn.OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
 begin
-
+  //
 end;
 
 procedure TCefRenderHandlerOwn.RemoveReferences;
@@ -420,6 +533,13 @@ procedure TCustomRenderHandler.OnIMECompositionRangeChanged(const browser       
                                                             const character_bounds      : PCefRect);
 begin
   if (FEvents <> nil) then IChromiumEvents(FEvents).doOnIMECompositionRangeChanged(browser, selected_range, character_boundsCount, character_bounds);
+end;
+
+procedure TCustomRenderHandler.OnTextSelectionChanged(const browser        : ICefBrowser;
+                                                      const selected_text  : ustring;
+                                                      const selected_range : PCefRange);
+begin
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnTextSelectionChanged(browser, selected_text, selected_range);
 end;
 
 function TCustomRenderHandler.OnStartDragging(const browser    : ICefBrowser;

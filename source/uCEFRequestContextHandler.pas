@@ -89,35 +89,53 @@ uses
 
 // TCefRequestContextHandlerOwn
 
-procedure cef_request_context_handler_on_request_context_initialized(self: PCefRequestContextHandler; request_context: PCefRequestContext); stdcall;
+procedure cef_request_context_handler_on_request_context_initialized(self            : PCefRequestContextHandler;
+                                                                     request_context : PCefRequestContext); stdcall;
+var
+  TempObject : TObject;
 begin
-  TCefRequestContextHandlerOwn(CefGetObject(self)).OnRequestContextInitialized(TCefRequestContextRef.UnWrap(request_context));
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
+    TCefRequestContextHandlerOwn(TempObject).OnRequestContextInitialized(TCefRequestContextRef.UnWrap(request_context));
 end;
 
 function cef_request_context_handler_get_cookie_manager(self: PCefRequestContextHandler): PCefCookieManager; stdcall;
+var
+  TempObject : TObject;
 begin
-  Result := CefGetData(TCefRequestContextHandlerOwn(CefGetObject(self)).GetCookieManager());
+  Result     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
+    Result := CefGetData(TCefRequestContextHandlerOwn(TempObject).GetCookieManager());
 end;
 
-function cef_request_context_handler_on_before_plugin_load(self: PCefRequestContextHandler;
-                                                           const mime_type, plugin_url : PCefString;
-                                                                 is_main_frame : integer;
-                                                           const top_origin_url: PCefString;
-                                                                 plugin_info: PCefWebPluginInfo;
-                                                                 plugin_policy: PCefPluginPolicy): Integer; stdcall;
+function cef_request_context_handler_on_before_plugin_load(      self           : PCefRequestContextHandler;
+                                                           const mime_type      : PCefString;
+                                                           const plugin_url     : PCefString;
+                                                                 is_main_frame  : integer;
+                                                           const top_origin_url : PCefString;
+                                                                 plugin_info    : PCefWebPluginInfo;
+                                                                 plugin_policy  : PCefPluginPolicy): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefRequestContextHandlerOwn(CefGetObject(self)) do
-    Result := Ord(OnBeforePluginLoad(CefString(mime_type),
-                                     CefString(plugin_url),
-                                     (is_main_frame <> 0),
-                                     CefString(top_origin_url),
-                                     TCefWebPluginInfoRef.UnWrap(plugin_info),
-                                     plugin_policy));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
+    Result := Ord(TCefRequestContextHandlerOwn(TempObject).OnBeforePluginLoad(CefString(mime_type),
+                                                                              CefString(plugin_url),
+                                                                              (is_main_frame <> 0),
+                                                                              CefString(top_origin_url),
+                                                                              TCefWebPluginInfoRef.UnWrap(plugin_info),
+                                                                              plugin_policy));
 end;
 
 constructor TCefRequestContextHandlerOwn.Create;
 begin
-  CreateData(SizeOf(TCefRequestContextHandler));
+  inherited CreateData(SizeOf(TCefRequestContextHandler));
 
   with PCefRequestContextHandler(FData)^ do
     begin
@@ -186,6 +204,7 @@ end;
 constructor TCefFastRequestContextHandler.Create(const proc: TCefRequestContextHandlerProc);
 begin
   FProc := proc;
+
   inherited Create;
 end;
 

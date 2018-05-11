@@ -68,7 +68,6 @@ begin
 
   GlobalCEFApp                           := TCefApplication.Create;
   GlobalCEFApp.FlashEnabled              := False;
-  GlobalCEFApp.FastUnload                := True;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;

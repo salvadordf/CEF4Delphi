@@ -85,47 +85,25 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
 
 
 function TCefContextMenuParamsRef.GetDictionarySuggestions(const suggestions : TStringList): Boolean;
 var
-  TempSL : TCefStringList;
-  i, j : NativeUInt;
-  TempString : TCefString;
+  TempSL : ICefStringList;
 begin
-  TempSL := nil;
   Result := False;
 
-  try
-    try
-      if (suggestions <> nil) then
+  if (suggestions <> nil) then
+    begin
+      TempSL := TCefStringListOwn.Create;
+
+      if (PCefContextMenuParams(FData).get_dictionary_suggestions(PCefContextMenuParams(FData), TempSL.Handle) <> 0) then
         begin
-          TempSL := cef_string_list_alloc;
-
-          if (PCefContextMenuParams(FData).get_dictionary_suggestions(PCefContextMenuParams(FData), TempSL) <> 0) then
-            begin
-              i := 0;
-              j := cef_string_list_size(TempSL);
-
-              while (i < j) do
-                begin
-                  FillChar(TempString, SizeOf(TempString), 0);
-                  cef_string_list_value(TempSL, i, @TempString);
-                  suggestions.Add(CefStringClearAndGet(TempString));
-                  inc(i);
-                end;
-
-              Result := True;
-            end;
+          TempSL.CopyToStrings(suggestions);
+          Result := True;
         end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefContextMenuParamsRef.GetDictionarySuggestions', e) then raise;
     end;
-  finally
-    if (TempSL <> nil) then cef_string_list_free(TempSL);
-  end;
 end;
 
 function TCefContextMenuParamsRef.GetEditStateFlags: TCefContextMenuEditStateFlags;
@@ -228,11 +206,11 @@ begin
   Result := PCefContextMenuParams(FData).has_image_contents(PCefContextMenuParams(FData)) <> 0;
 end;
 
-class function TCefContextMenuParamsRef.UnWrap(
-  data: Pointer): ICefContextMenuParams;
+class function TCefContextMenuParamsRef.UnWrap(data: Pointer): ICefContextMenuParams;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefContextMenuParams else
+  if (data <> nil) then
+    Result := Create(data) as ICefContextMenuParams
+   else
     Result := nil;
 end;
 

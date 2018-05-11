@@ -61,7 +61,7 @@ type
       procedure SendHttp200response(connection_id: Integer; const content_type: ustring; const data: Pointer; data_size: NativeUInt); virtual;
       procedure SendHttp404response(connection_id: Integer); virtual;
       procedure SendHttp500response(connection_id: Integer; const error_message: ustring); virtual;
-      procedure SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; const headerMap: ICefStringMultimap); virtual;
+      procedure SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; const extra_headers: ICefStringMultimap); virtual;
       procedure SendRawData(connection_id: Integer; const data: Pointer; data_size: NativeUInt); virtual;
       procedure CloseConnection(connection_id: Integer); virtual;
       procedure SendWebSocketMessage(connection_id: Integer; const data: Pointer; data_size: NativeUInt); virtual;
@@ -138,12 +138,12 @@ begin
   PCefServer(FData).send_http500response(PCefServer(FData), connection_id, @TempError);
 end;
 
-procedure TCEFServerRef.SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; const headerMap: ICefStringMultimap);
+procedure TCEFServerRef.SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; const extra_headers: ICefStringMultimap);
 var
   TempContentType : TCefString;
 begin
   TempContentType := CefString(content_type);
-  PCefServer(FData).send_http_response(PCefServer(FData), connection_id, response_code, @TempContentType, content_length, headerMap.Handle);
+  PCefServer(FData).send_http_response(PCefServer(FData), connection_id, response_code, @TempContentType, content_length, extra_headers.Handle);
 end;
 
 procedure TCEFServerRef.SendRawData(connection_id: Integer; const data: Pointer; data_size: NativeUInt);

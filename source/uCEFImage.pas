@@ -59,23 +59,17 @@ type
   protected
     function IsEmpty: Boolean;
     function IsSame(const that: ICefImage): Boolean;
-    function AddBitmap(scaleFactor: Single; pixelWidth, pixelHeight: Integer;
-      colorType: TCefColorType; alphaType: TCefAlphaType; pixelData: Pointer;
-      pixelDataSize: NativeUInt): Boolean;
+    function AddBitmap(scaleFactor: Single; pixelWidth, pixelHeight: Integer; colorType: TCefColorType; alphaType: TCefAlphaType; const pixelData: Pointer; pixelDataSize: NativeUInt): Boolean;
     function AddPng(scaleFactor: Single; const pngData: Pointer; pngDataSize: NativeUInt): Boolean;
     function AddJpeg(scaleFactor: Single; const jpegData: Pointer; jpegDataSize: NativeUInt): Boolean;
     function GetWidth: NativeUInt;
     function GetHeight: NativeUInt;
     function HasRepresentation(scaleFactor: Single): Boolean;
     function RemoveRepresentation(scaleFactor: Single): Boolean;
-    function GetRepresentationInfo(scaleFactor: Single; actualScaleFactor: PSingle;
-      pixelWidth, pixelHeight: PInteger): Boolean;
-    function GetAsBitmap(scaleFactor: Single; colorType: TCefColorType;
-      alphaType: TCefAlphaType; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
-    function GetAsPng(scaleFactor: Single; withTransparency: Boolean;
-      pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
-    function GetAsJpeg(scaleFactor: Single; quality: Integer;
-      pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
+    function GetRepresentationInfo(scaleFactor: Single; actualScaleFactor: PSingle; pixelWidth, pixelHeight: PInteger): Boolean;
+    function GetAsBitmap(scaleFactor: Single; colorType: TCefColorType; alphaType: TCefAlphaType; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
+    function GetAsPng(scaleFactor: Single; withTransparency: Boolean; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
+    function GetAsJpeg(scaleFactor: Single; quality: Integer; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
   public
     class function UnWrap(data: Pointer): ICefImage;
     class function New: ICefImage;
@@ -86,45 +80,40 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBinaryValue;
 
-function TCefImageRef.AddBitmap(scaleFactor: Single; pixelWidth,
-  pixelHeight: Integer; colorType: TCefColorType; alphaType: TCefAlphaType;
-  pixelData: Pointer; pixelDataSize: NativeUInt): Boolean;
+function TCefImageRef.AddBitmap(scaleFactor     : Single;
+                                pixelWidth      : Integer;
+                                pixelHeight     : Integer;
+                                colorType       : TCefColorType;
+                                alphaType       : TCefAlphaType;
+                                const pixelData : Pointer;
+                                pixelDataSize   : NativeUInt): Boolean;
 begin
-  Result := PCefImage(FData).add_bitmap(FData, scaleFactor, pixelWidth,
-    pixelHeight, colorType, alphaType, pixelData, pixelDataSize) <> 0;
+  Result := PCefImage(FData).add_bitmap(FData, scaleFactor, pixelWidth, pixelHeight, colorType, alphaType, pixelData, pixelDataSize) <> 0;
 end;
 
-function TCefImageRef.AddJpeg(scaleFactor: Single; const jpegData: Pointer;
-  jpegDataSize: NativeUInt): Boolean;
+function TCefImageRef.AddJpeg(scaleFactor: Single; const jpegData: Pointer; jpegDataSize: NativeUInt): Boolean;
 begin
   Result := PCefImage(FData).add_jpeg(FData, scaleFactor, jpegData, jpegDataSize) <> 0;
 end;
 
-function TCefImageRef.AddPng(scaleFactor: Single; const pngData: Pointer;
-  pngDataSize: NativeUInt): Boolean;
+function TCefImageRef.AddPng(scaleFactor: Single; const pngData: Pointer; pngDataSize: NativeUInt): Boolean;
 begin
   Result := PCefImage(FData).add_png(FData, scaleFactor, pngData, pngDataSize) <> 0;
 end;
 
-function TCefImageRef.GetAsBitmap(scaleFactor: Single; colorType: TCefColorType;
-  alphaType: TCefAlphaType; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
+function TCefImageRef.GetAsBitmap(scaleFactor: Single; colorType: TCefColorType; alphaType: TCefAlphaType; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_bitmap(
-    FData, scaleFactor, colorType, alphaType, pixelWidth, pixelHeight));
+  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_bitmap(FData, scaleFactor, colorType, alphaType, pixelWidth, pixelHeight));
 end;
 
-function TCefImageRef.GetAsJpeg(scaleFactor: Single; quality: Integer;
-  pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
+function TCefImageRef.GetAsJpeg(scaleFactor: Single; quality: Integer; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_jpeg(
-    FData, scaleFactor, quality, pixelWidth, pixelHeight));
+  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_jpeg(FData, scaleFactor, quality, pixelWidth, pixelHeight));
 end;
 
-function TCefImageRef.GetAsPng(scaleFactor: Single; withTransparency: Boolean;
-  pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
+function TCefImageRef.GetAsPng(scaleFactor: Single; withTransparency: Boolean; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_png(
-    FData, scaleFactor, Ord(withTransparency), pixelWidth, pixelHeight));
+  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_png(FData, scaleFactor, Ord(withTransparency), pixelWidth, pixelHeight));
 end;
 
 function TCefImageRef.GetHeight: NativeUInt;
@@ -132,11 +121,9 @@ begin
   Result := PCefImage(FData).get_height(FData);
 end;
 
-function TCefImageRef.GetRepresentationInfo(scaleFactor: Single;
-  actualScaleFactor: PSingle; pixelWidth, pixelHeight: PInteger): Boolean;
+function TCefImageRef.GetRepresentationInfo(scaleFactor: Single; actualScaleFactor: PSingle; pixelWidth, pixelHeight: PInteger): Boolean;
 begin
-  Result := PCefImage(FData).get_representation_info(FData, scaleFactor,
-    actualScaleFactor, pixelWidth, pixelHeight) <> 0;
+  Result := PCefImage(FData).get_representation_info(FData, scaleFactor, actualScaleFactor, pixelWidth, pixelHeight) <> 0;
 end;
 
 function TCefImageRef.GetWidth: NativeUInt;
@@ -171,8 +158,9 @@ end;
 
 class function TCefImageRef.UnWrap(data: Pointer): ICefImage;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefImage else
+  if (data <> nil) then
+    Result := Create(data) as ICefImage
+   else
     Result := nil;
 end;
 

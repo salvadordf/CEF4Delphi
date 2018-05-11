@@ -70,43 +70,89 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCallback, uCEFRequest, uCEFResponse;
 
-function cef_resource_handler_process_request(self: PCefResourceHandler; request: PCefRequest; callback: PCefCallback): Integer; stdcall;
-begin
-  with TCefResourceHandlerOwn(CefGetObject(self)) do
-    Result := Ord(ProcessRequest(TCefRequestRef.UnWrap(request), TCefCallbackRef.UnWrap(callback)));
-end;
-
-procedure cef_resource_handler_get_response_headers(self: PCefResourceHandler; response: PCefResponse; response_length: PInt64; redirectUrl: PCefString); stdcall;
+function cef_resource_handler_process_request(self     : PCefResourceHandler;
+                                              request  : PCefRequest;
+                                              callback : PCefCallback): Integer; stdcall;
 var
-  ru: ustring;
+  TempObject : TObject;
 begin
-  ru := '';
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
 
-  with TCefResourceHandlerOwn(CefGetObject(self)) do
-    GetResponseHeaders(TCefResponseRef.UnWrap(response), response_length^, ru);
-
-  if ru <> '' then CefStringSet(redirectUrl, ru);
+  if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
+    Result := Ord(TCefResourceHandlerOwn(TempObject).ProcessRequest(TCefRequestRef.UnWrap(request),
+                                                                    TCefCallbackRef.UnWrap(callback)));
 end;
 
-function cef_resource_handler_read_response(self: PCefResourceHandler; data_out: Pointer; bytes_to_read: Integer; bytes_read: PInteger; callback: PCefCallback): Integer; stdcall;
+procedure cef_resource_handler_get_response_headers(self            : PCefResourceHandler;
+                                                    response        : PCefResponse;
+                                                    response_length : PInt64;
+                                                    redirectUrl     : PCefString); stdcall;
+var
+  TempRedirect : ustring;
+  TempObject   : TObject;
 begin
-  with TCefResourceHandlerOwn(CefGetObject(self)) do
-    Result := Ord(ReadResponse(data_out, bytes_to_read, bytes_read^, TCefCallbackRef.UnWrap(callback)));
+  TempRedirect := '';
+  TempObject   := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
+    TCefResourceHandlerOwn(TempObject).GetResponseHeaders(TCefResponseRef.UnWrap(response),
+                                                          response_length^,
+                                                          TempRedirect);
+
+  if (TempRedirect <> '') then CefStringSet(redirectUrl, TempRedirect);
 end;
 
-function cef_resource_handler_can_get_cookie(self: PCefResourceHandler; const cookie: PCefCookie): Integer; stdcall;
+function cef_resource_handler_read_response(self          : PCefResourceHandler;
+                                            data_out      : Pointer;
+                                            bytes_to_read : Integer;
+                                            bytes_read    : PInteger;
+                                            callback      : PCefCallback): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefResourceHandlerOwn(CefGetObject(self)) do Result := Ord(CanGetCookie(cookie));
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
+    Result := Ord(TCefResourceHandlerOwn(TempObject).ReadResponse(data_out,
+                                                                  bytes_to_read,
+                                                                  bytes_read^,
+                                                                  TCefCallbackRef.UnWrap(callback)));
 end;
 
-function cef_resource_handler_can_set_cookie(self: PCefResourceHandler; const cookie: PCefCookie): Integer; stdcall;
+function cef_resource_handler_can_get_cookie(      self   : PCefResourceHandler;
+                                             const cookie : PCefCookie): Integer; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefResourceHandlerOwn(CefGetObject(self)) do Result := Ord(CanSetCookie(cookie));
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
+    Result := Ord(TCefResourceHandlerOwn(TempObject).CanGetCookie(cookie));
+end;
+
+function cef_resource_handler_can_set_cookie(      self   : PCefResourceHandler;
+                                             const cookie : PCefCookie): Integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
+    Result := Ord(TCefResourceHandlerOwn(TempObject).CanSetCookie(cookie));
 end;
 
 procedure cef_resource_handler_cancel(self: PCefResourceHandler); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefResourceHandlerOwn(CefGetObject(self)) do Cancel;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
+    TCefResourceHandlerOwn(TempObject).Cancel;
 end;
 
 procedure TCefResourceHandlerOwn.Cancel;
@@ -149,7 +195,8 @@ begin
 
 end;
 
-function TCefResourceHandlerOwn.ProcessRequest(const request: ICefRequest; const callback: ICefCallback): Boolean;
+function TCefResourceHandlerOwn.ProcessRequest(const request  : ICefRequest;
+                                               const callback : ICefCallback): Boolean;
 begin
   Result := False;
 end;

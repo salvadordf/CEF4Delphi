@@ -47,16 +47,31 @@ unit uCEFBaseRefCounted;
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFInterfaces;
 
 type
-  TCefBaseRefCountedOwn = class(TInterfacedObject, ICefBaseRefCounted)
+  TLoggingInterfacedObject = class(TInterfacedObject)
+    protected
+      function _AddRef: Integer; reintroduce; stdcall;
+      function _Release: Integer; reintroduce; stdcall;
+    public
+      class function NewInstance: TObject; override;
+  end;
+
+
+  TCefBaseRefCountedOwn = class({$IFDEF INTFLOG}TLoggingInterfacedObject{$ELSE}TInterfacedObject{$ENDIF}, ICefBaseRefCounted)
     protected
       FData: Pointer;
 
     public
       constructor CreateData(size: Cardinal; owned : boolean = False); virtual;
       destructor  Destroy; override;
+      function    SameAs(aData : Pointer) : boolean;
       function    Wrap: Pointer;
   end;
 
@@ -67,6 +82,7 @@ type
     public
       constructor Create(data: Pointer); virtual;
       destructor  Destroy; override;
+      function    SameAs(aData : Pointer) : boolean;
       function    Wrap: Pointer;
       class function UnWrap(data: Pointer): ICefBaseRefCounted;
   end;
@@ -76,7 +92,13 @@ type
 implementation
 
 uses
-  uCEFTypes, uCEFMiscFunctions;
+  uCEFTypes, uCEFMiscFunctions, uCEFConstants, uCEFApplication;
+
+
+// ***********************************************
+// ************ TCefBaseRefCountedOwn ************
+// ***********************************************
+
 
 procedure cef_base_add_ref(self: PCefBaseRefCounted); stdcall;
 var
@@ -153,13 +175,23 @@ destructor TCefBaseRefCountedOwn.Destroy;
 var
   TempPointer : pointer;
 begin
-  TempPointer := FData;
-  FData       := nil;
+  try
+    if (FData <> nil) then
+      begin
+        TempPointer := FData;
+        Dec(PByte(TempPointer), SizeOf(Pointer));
+        FillChar(TempPointer^, SizeOf(Pointer) + SizeOf(TCefBaseRefCounted), 0);
+        FreeMem(TempPointer);
+      end;
+  finally
+    FData := nil;
+    inherited Destroy;
+  end;
+end;
 
-  Dec(PByte(TempPointer), SizeOf(Pointer));
-  FreeMem(TempPointer);
-
-  inherited Destroy;
+function TCefBaseRefCountedOwn.SameAs(aData : Pointer) : boolean;
+begin
+  Result := (FData = aData);
 end;
 
 function TCefBaseRefCountedOwn.Wrap: Pointer;
@@ -170,7 +202,11 @@ begin
     PCefBaseRefCounted(FData)^.add_ref(PCefBaseRefCounted(FData));
 end;
 
-// TCefBaseRefCountedRef
+
+// ***********************************************
+// ************ TCefBaseRefCountedRef ************
+// ***********************************************
+
 
 constructor TCefBaseRefCountedRef.Create(data: Pointer);
 begin
@@ -180,15 +216,25 @@ end;
 
 destructor TCefBaseRefCountedRef.Destroy;
 begin
-  if (FData <> nil) then
-    begin
-      if assigned(PCefBaseRefCounted(FData)^.release) then
+  try
+    if (FData <> nil) and assigned(PCefBaseRefCounted(FData)^.release) then
+      begin
+        {$IFDEF INTFLOG}
+        CefDebugLog(ClassName + '.Destroy -> FRefCount = ' +
+                    IntToStr(PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData))));
+        {$ELSE}
         PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData));
+        {$ENDIF}
+      end;
+  finally
+    FData := nil;
+    inherited Destroy;
+  end;
+end;
 
-      FData := nil;
-    end;
-
-  inherited Destroy;
+function TCefBaseRefCountedRef.SameAs(aData : Pointer) : boolean;
+begin
+  Result := (FData = aData);
 end;
 
 class function TCefBaseRefCountedRef.UnWrap(data: Pointer): ICefBaseRefCounted;
@@ -204,7 +250,36 @@ begin
   Result := FData;
 
   if (FData <> nil) and Assigned(PCefBaseRefCounted(FData)^.add_ref) then
-    PCefBaseRefCounted(FData)^.add_ref(PCefBaseRefCounted(FData));
+    begin
+      PCefBaseRefCounted(FData)^.add_ref(PCefBaseRefCounted(FData));
+      {$IFDEF INTFLOG}
+      CefDebugLog(ClassName + '.Wrap');
+      {$ENDIF}
+    end;
+end;
+
+
+// ************************************************
+// *********** TLoggingInterfacedObject ***********
+// ************************************************
+
+
+function TLoggingInterfacedObject._AddRef: Integer;
+begin
+  Result := inherited _AddRef;
+  CefDebugLog(ClassName + '._AddRef -> FRefCount = ' + IntToStr(Result));
+end;
+
+function TLoggingInterfacedObject._Release: Integer;
+begin
+  CefDebugLog(ClassName + '._Release -> FRefCount = ' + IntToStr(pred(RefCount)));
+  Result := inherited _Release;
+end;
+
+class function TLoggingInterfacedObject.NewInstance: TObject;
+begin
+  Result := inherited NewInstance;
+  CefDebugLog(ClassName + '.NewInstance -> FRefCount = ' + IntToStr(TInterfacedObject(Result).RefCount));
 end;
 
 end.

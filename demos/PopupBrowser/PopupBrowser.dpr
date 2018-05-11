@@ -62,7 +62,6 @@ begin
   GlobalCEFApp.FlashEnabled               := False;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.FastUnload                 := True;
   GlobalCEFApp.SitePerProcess             := False;
 
   if GlobalCEFApp.StartMainProcess then

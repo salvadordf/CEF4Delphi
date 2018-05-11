@@ -70,12 +70,17 @@ function cef_scheme_handler_factory_create(      self        : PCefSchemeHandler
                                                  frame       : PCefFrame;
                                            const scheme_name : PCefString;
                                                  request     : PCefRequest): PCefResourceHandler; stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefSchemeHandlerFactoryOwn(CefGetObject(self)) do
-    Result := CefGetData(New(TCefBrowserRef.UnWrap(browser),
-                             TCefFrameRef.UnWrap(frame),
-                             CefString(scheme_name),
-                             TCefRequestRef.UnWrap(request)));
+  Result     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefSchemeHandlerFactoryOwn) then
+    Result := CefGetData(TCefSchemeHandlerFactoryOwn(TempObject).New(TCefBrowserRef.UnWrap(browser),
+                                                                     TCefFrameRef.UnWrap(frame),
+                                                                     CefString(scheme_name),
+                                                                     TCefRequestRef.UnWrap(request)));
 end;
 
 constructor TCefSchemeHandlerFactoryOwn.Create(const AClass: TCefResourceHandlerClass);
@@ -84,8 +89,7 @@ begin
 
   FClass := AClass;
 
-  with PCefSchemeHandlerFactory(FData)^ do
-    create := cef_scheme_handler_factory_create;
+  PCefSchemeHandlerFactory(FData).create := cef_scheme_handler_factory_create;
 end;
 
 function TCefSchemeHandlerFactoryOwn.New(const browser    : ICefBrowser;

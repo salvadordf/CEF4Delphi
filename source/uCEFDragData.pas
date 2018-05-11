@@ -90,7 +90,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFImage;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFImage, uCEFStringList;
 
 procedure TCefDragDataRef.AddFile(const path, displayName: ustring);
 var
@@ -134,42 +134,20 @@ end;
 
 function TCefDragDataRef.GetFileNames(var names: TStrings): Integer;
 var
-  TempSL : TCefStringList;
-  i, j : NativeUInt;
-  TempString : TCefString;
+  TempSL : ICefStringList;
 begin
-  TempSL := nil;
   Result := 0;
 
-  try
-    try
-      if (names <> nil) then
+  if (names <> nil) then
+    begin
+      TempSL := TCefStringListOwn.Create;
+
+      if (PCefDragData(FData).get_file_names(FData, TempSL.Handle) <> 0) then
         begin
-          TempSL := cef_string_list_alloc;
-
-          if (PCefDragData(FData).get_file_names(FData, TempSL) <> 0) then
-            begin
-              i := 0;
-              j := cef_string_list_size(TempSL);
-
-              while (i < j) do
-                begin
-                  FillChar(TempString, SizeOf(TempString), 0);
-                  cef_string_list_value(TempSL, i, @TempString);
-                  names.Add(CefStringClearAndGet(TempString));
-                  inc(i);
-                end;
-
-              Result := j;
-            end;
+          TempSL.CopyToStrings(names);
+          Result := names.Count;
         end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefDragDataRef.GetFileNames', e) then raise;
     end;
-  finally
-    if (TempSL <> nil) then cef_string_list_free(TempSL);
-  end;
 end;
 
 function TCefDragDataRef.GetFragmentBaseUrl: ustring;

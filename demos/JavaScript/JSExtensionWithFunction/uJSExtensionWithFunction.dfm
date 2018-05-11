@@ -12,6 +12,8 @@ object JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -56,13 +58,26 @@ object JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm
     Left = 0
     Top = 30
     Width = 978
-    Height = 559
+    Height = 540
     Align = alClient
     TabOrder = 1
   end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 570
+    Width = 978
+    Height = 19
+    Panels = <
+      item
+        Width = 500
+      end>
+  end
   object Chromium1: TChromium
+    OnProcessMessageReceived = Chromium1ProcessMessageReceived
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     Left = 32
     Top = 224
   end

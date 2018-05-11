@@ -73,25 +73,30 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure cef_set_cookie_callback_on_complete(self: PCefSetCookieCallback; success: Integer); stdcall;
+procedure cef_set_cookie_callback_on_complete(self    : PCefSetCookieCallback;
+                                              success : Integer); stdcall;
+var
+  TempObject : TObject;
 begin
-  with TCefSetCookieCallbackOwn(CefGetObject(self)) do
-    OnComplete(success <> 0);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefSetCookieCallbackOwn) then
+    TCefSetCookieCallbackOwn(TempObject).OnComplete(success <> 0);
 end;
 
 constructor TCefSetCookieCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefSetCookieCallback));
-  with PCefSetCookieCallback(FData)^ do
-    on_complete := cef_set_cookie_callback_on_complete;
+
+  PCefSetCookieCallback(FData).on_complete := cef_set_cookie_callback_on_complete;
 end;
 
 // TCefFastSetCookieCallback
 
-constructor TCefFastSetCookieCallback.Create(
-  const callback: TCefSetCookieCallbackProc);
+constructor TCefFastSetCookieCallback.Create(const callback: TCefSetCookieCallbackProc);
 begin
   inherited Create;
+
   FCallback := callback;
 end;
 

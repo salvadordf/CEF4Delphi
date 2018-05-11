@@ -99,7 +99,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value, uCEFConstants;
 
-function cef_v8_handler_execute(self : PCefv8Handler;
+function cef_v8_handler_execute(      self           : PCefv8Handler;
                                 const name           : PCefString;
                                       obj            : PCefv8Value;
                                       argumentsCount : NativeUInt;
@@ -111,22 +111,29 @@ var
   i, j : NativeInt;
   ret  : ICefv8Value;
   exc  : ustring;
+  TempObject : TObject;
 begin
-  i := 0;
-  j := argumentsCount;
+  Result     := -Ord(False);
+  TempObject := CefGetObject(self);
 
-  SetLength(args, j);
-
-  while (i < j) do
+  if (TempObject <> nil) and (TempObject is TCefv8HandlerOwn) then
     begin
-      args[i] := TCefv8ValueRef.UnWrap(arguments[i]);
-      inc(i);
-    end;
+      i := 0;
+      j := argumentsCount;
 
-  Result    := -Ord(TCefv8HandlerOwn(CefGetObject(self)).Execute(CefString(name), TCefv8ValueRef.UnWrap(obj), args, ret, exc));
-  retval    := CefGetData(ret);
-  ret       := nil;
-  exception := CefString(exc);
+      SetLength(args, j);
+
+      while (i < j) do
+        begin
+          args[i] := TCefv8ValueRef.UnWrap(arguments[i]);
+          inc(i);
+        end;
+
+      Result    := -Ord(TCefv8HandlerOwn(TempObject).Execute(CefString(name), TCefv8ValueRef.UnWrap(obj), args, ret, exc));
+      retval    := CefGetData(ret);
+      ret       := nil;
+      exception := CefString(exc);
+    end;
 end;
 
 function TCefv8HandlerRef.Execute(const name      : ustring;
@@ -162,8 +169,9 @@ end;
 
 class function TCefv8HandlerRef.UnWrap(data: Pointer): ICefv8Handler;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefv8Handler else
+  if (data <> nil) then
+    Result := Create(data) as ICefv8Handler
+   else
     Result := nil;
 end;
 
@@ -173,7 +181,7 @@ constructor TCefv8HandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefv8Handler));
 
-  with PCefv8Handler(FData)^ do execute := cef_v8_handler_execute;
+  PCefv8Handler(FData).execute := cef_v8_handler_execute;
 end;
 
 function TCefv8HandlerOwn.Execute(const name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean;

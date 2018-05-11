@@ -57,8 +57,8 @@ uses
 type
   TCefCustomStreamReader = class(TCefBaseRefCountedOwn, ICefCustomStreamReader)
     protected
-      FStream: TStream;
-      FOwned: Boolean;
+      FStream : TStream;
+      FOwned  : Boolean;
 
       function Read(ptr: Pointer; size, n: NativeUInt): NativeUInt; virtual;
       function Seek(offset: Int64; whence: Integer): Integer; virtual;
@@ -69,7 +69,7 @@ type
     public
       constructor Create(Stream: TStream; Owned: Boolean); overload; virtual;
       constructor Create(const filename: string); overload; virtual;
-      destructor Destroy; override;
+      destructor  Destroy; override;
   end;
 
 implementation
@@ -78,49 +78,76 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
 function cef_stream_reader_read(self: PCefReadHandler; ptr: Pointer; size, n: NativeUInt): NativeUInt; stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefCustomStreamReader(CefGetObject(self)) do
-    Result := Read(ptr, size, n);
+  Result      := 0;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
+    Result := TCefCustomStreamReader(TempObject).Read(ptr, size, n);
 end;
 
 function cef_stream_reader_seek(self: PCefReadHandler; offset: Int64; whence: Integer): Integer; stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefCustomStreamReader(CefGetObject(self)) do
-    Result := Seek(offset, whence);
+  Result      := 0;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
+    Result := TCefCustomStreamReader(TempObject).Seek(offset, whence);
 end;
 
 function cef_stream_reader_tell(self: PCefReadHandler): Int64; stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefCustomStreamReader(CefGetObject(self)) do
-    Result := Tell;
+  Result      := 0;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
+    Result := TCefCustomStreamReader(TempObject).Tell;
 end;
 
 function cef_stream_reader_eof(self: PCefReadHandler): Integer; stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefCustomStreamReader(CefGetObject(self)) do
-    Result := Ord(Eof);
+  Result      := Ord(True);
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
+    Result := Ord(TCefCustomStreamReader(TempObject).Eof);
 end;
 
 function cef_stream_reader_may_block(self: PCefReadHandler): Integer; stdcall;
+var
+  TempObject  : TObject;
 begin
-  with TCefCustomStreamReader(CefGetObject(self)) do
-    Result := Ord(MayBlock);
+  Result      := Ord(False);
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
+    Result := Ord(TCefCustomStreamReader(TempObject).MayBlock);
 end;
 
 
 constructor TCefCustomStreamReader.Create(Stream: TStream; Owned: Boolean);
 begin
   inherited CreateData(SizeOf(TCefReadHandler));
+
   FStream := stream;
-  FOwned := Owned;
+  FOwned  := Owned;
+
   with PCefReadHandler(FData)^ do
-  begin
-    read := cef_stream_reader_read;
-    seek := cef_stream_reader_seek;
-    tell := cef_stream_reader_tell;
-    eof := cef_stream_reader_eof;
-    may_block := cef_stream_reader_may_block;
-  end;
+    begin
+      read      := cef_stream_reader_read;
+      seek      := cef_stream_reader_seek;
+      tell      := cef_stream_reader_tell;
+      eof       := cef_stream_reader_eof;
+      may_block := cef_stream_reader_may_block;
+    end;
 end;
 
 constructor TCefCustomStreamReader.Create(const filename: string);
@@ -147,7 +174,7 @@ end;
 
 function TCefCustomStreamReader.Read(ptr: Pointer; size, n: NativeUInt): NativeUInt;
 begin
-  result := NativeUInt(FStream.Read(ptr^, n * size)) div size;
+  Result := NativeUInt(FStream.Read(ptr^, n * size)) div size;
 end;
 
 function TCefCustomStreamReader.Seek(offset: Int64; whence: Integer): Integer;

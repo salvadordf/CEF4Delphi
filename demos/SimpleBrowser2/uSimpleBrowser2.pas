@@ -67,10 +67,20 @@ type
       const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
       targetFrameName: ustring;
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+      const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
-      var noJavascriptAccess: Boolean; out Result: Boolean);
-  private
+      var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure FormCreate(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
+      out Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject;
+      const browser: ICefBrowser);
+  protected
+    // Variables to control when can we destroy the form safely
+    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing  : boolean;  // Set to True in the CloseQuery event.
+
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -79,6 +89,7 @@ type
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
+    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
   public
     { Public declarations }
   end;
@@ -107,6 +118,24 @@ uses
 
 // This demo uses a TChromium and a TCEFWindowParent
 
+procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := FCanClose;
+
+  if not(FClosing) then
+    begin
+      FClosing := True;
+      Visible  := False;
+      Chromium1.CloseBrowser(True);
+    end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  FCanClose := False;
+  FClosing  := False;
+end;
+
 procedure TForm1.FormShow(Sender: TObject);
 begin
   // You *MUST* call CreateBrowser to create and initialize the browser.
@@ -124,16 +153,30 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
+procedure TForm1.Chromium1BeforeClose(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TForm1.Chromium1BeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
-  out Result: Boolean);
+  var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TForm1.Chromium1Close(Sender: TObject;
+  const browser: ICefBrowser; out Result: Boolean);
+begin
+  PostMessage(Handle, CEF_DESTROY, 0, 0);
+  Result := True;
 end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
@@ -141,6 +184,11 @@ begin
   Caption            := 'Simple Browser 2';
   AddressPnl.Enabled := True;
   GoBtn.Click;
+end;
+
+procedure TForm1.BrowserDestroyMsg(var aMessage : TMessage);
+begin
+  CEFWindowParent1.Free;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);

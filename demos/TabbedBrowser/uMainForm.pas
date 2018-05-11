@@ -55,6 +55,7 @@ const
   CEFBROWSER_DESTROYWNDPARENT = WM_APP + $100;
   CEFBROWSER_DESTROYTAB       = WM_APP + $101;
   CEFBROWSER_INITIALIZED      = WM_APP + $102;
+  CEFBROWSER_CHECKTAGGEDTABS  = WM_APP + $103;
 
 type
   TMainForm = class(TForm)
@@ -81,27 +82,32 @@ type
     procedure ReloadBtnClick(Sender: TObject);
     procedure StopBtnClick(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
   protected
-    FDestroying : boolean;
+    FClosingTab : boolean;
+    FCanClose   : boolean;
+    FClosing    : boolean;
 
     procedure Chromium_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
     procedure Chromium_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
-
+    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyWindowParentMsg(var aMessage : TMessage); message CEFBROWSER_DESTROYWNDPARENT;
     procedure BrowserDestroyTabMsg(var aMessage : TMessage); message CEFBROWSER_DESTROYTAB;
+    procedure BrowserCheckTaggedTabsMsg(var aMessage : TMessage); message CEFBROWSER_CHECKTAGGEDTABS;
     procedure CEFInitializedMsg(var aMessage : TMessage); message CEFBROWSER_INITIALIZED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
+    function  AllTabSheetsAreTagged : boolean;
+    procedure CloseAllBrowsers;
     function  GetPageIndex(const aSender : TObject; var aPageIndex : integer) : boolean;
     procedure NotifyMoveOrResizeStarted;
     function  SearchChromium(aPageIndex : integer; var aChromium : TChromium) : boolean;
@@ -130,10 +136,15 @@ implementation
 // For simplicity the Button panel and the PageControl are disabled while adding or removing tab sheets.
 // The Form can't be closed if it's destroying a tab.
 
-// This is the destruction sequence when you remove a tab sheet:
+// This is the destruction sequence when a user closes a tab sheet:
 // 1. RemoveTabBtnClick calls TChromium.CloseBrowser of the selected tab which triggers a TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROYWNDPARENT message to destroy TCEFWindowParent in the main thread which triggers a TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sends a CEFBROWSER_DESTROYTAB message to destroy the tab in the main thread.
+
+// This is the destruction sequence when the user closes the main form
+// 1. FormCloseQuery hides the form and calls CloseAllBrowsers which calls TChromium.CloseBrowser in all tabs and triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROYWNDPARENT message to destroy TCEFWindowParent in the main thread which triggers a TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sends a CEFBROWSER_CHECKTAGGEDTABS message to set the TAG property to 1 in the TabSheet containing the TChromium. Then sends WM_CLOSE in case all tabsheets have a TAG = 1.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
@@ -176,7 +187,7 @@ var
 begin
   if SearchChromium(PageControl1.TabIndex, TempChromium) then
     begin
-      FDestroying          := True;
+      FClosingTab          := True;
       ButtonPnl.Enabled    := False;
       PageControl1.Enabled := False;
       TempChromium.CloseBrowser(True);
@@ -185,7 +196,60 @@ end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  CanClose := not(FDestroying);
+  if FClosingTab then
+    CanClose := False
+   else
+    begin
+      CanClose := FCanClose;
+
+      if not(FClosing) then
+        begin
+          FClosing := True;
+          Visible  := False;
+
+          CloseAllBrowsers;
+        end;
+    end;
+end;
+
+procedure TMainForm.CloseAllBrowsers;
+var
+  i, j, k : integer;
+  TempComponent : TComponent;
+  TempSheet : TTabSheet;
+  TempCtnue : boolean;
+begin
+  k := pred(PageControl1.PageCount);
+
+  while (k >= 0) do
+    begin
+      TempSheet := PageControl1.Pages[k];
+      TempCtnue := True;
+      i         := 0;
+      j         := TempSheet.ComponentCount;
+
+      while (i < j) and TempCtnue do
+        begin
+          TempComponent := TempSheet.Components[i];
+
+          if (TempComponent <> nil) and (TempComponent is TChromium) then
+            begin
+              TChromium(TempComponent).CloseBrowser(True);
+              TempCtnue := False;
+            end
+           else
+            inc(i);
+        end;
+
+      dec(k);
+    end;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  FClosingTab := False;
+  FCanClose   := False;
+  FClosing    := False;
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);
@@ -264,9 +328,38 @@ begin
      (aMessage.lParam < PageControl1.PageCount) then
     PageControl1.Pages[aMessage.lParam].Free;
 
+  FClosingTab          := False;
   ButtonPnl.Enabled    := True;
   PageControl1.Enabled := True;
-  FDestroying          := False;
+end;
+
+procedure TMainForm.BrowserCheckTaggedTabsMsg(var aMessage : TMessage);
+begin
+  if (aMessage.lParam >= 0) and
+     (aMessage.lParam < PageControl1.PageCount) then
+    begin
+      PageControl1.Pages[aMessage.lParam].Tag := 1;
+
+      if AllTabSheetsAreTagged then
+        begin
+          FCanClose := True;
+          PostMessage(Handle, WM_CLOSE, 0, 0);
+        end;
+    end;
+end;
+
+function TMainForm.AllTabSheetsAreTagged : boolean;
+var
+  i : integer;
+begin
+  Result := True;
+  i      := pred(PageControl1.PageCount);
+
+  while (i >= 0) and Result do
+    if (PageControl1.Pages[i].Tag <> 1) then
+      Result := False
+     else
+      dec(i);
 end;
 
 procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -281,7 +374,8 @@ procedure TMainForm.Chromium_OnAddressChange(Sender: TObject; const browser: ICe
 var
   TempPageIndex : integer;
 begin
-  if (PageControl1.TabIndex >= 0) and
+  if not(FClosing) and
+     (PageControl1.TabIndex >= 0) and
      GetPageIndex(Sender, TempPageIndex) and
      (PageControl1.TabIndex = TempPageIndex) then
     URLCbx.Text := url;
@@ -306,7 +400,7 @@ procedure TMainForm.Chromium_OnTitleChange(Sender: TObject; const browser: ICefB
 var
   TempPageIndex : integer;
 begin
-  if GetPageIndex(Sender, TempPageIndex) then
+  if not(FClosing) and GetPageIndex(Sender, TempPageIndex) then
     PageControl1.Pages[TempPageIndex].Caption := title;
 end;
 
@@ -325,16 +419,21 @@ var
   TempPageIndex : integer;
 begin
   if GetPageIndex(Sender, TempPageIndex) then
-    PostMessage(Handle, CEFBROWSER_DESTROYTAB, 0, TempPageIndex);
+    begin
+      if FClosing then
+        PostMessage(Handle, CEFBROWSER_CHECKTAGGEDTABS, 0, TempPageIndex)
+       else
+        PostMessage(Handle, CEFBROWSER_DESTROYTAB, 0, TempPageIndex);
+    end;
 end;
 
 procedure TMainForm.Chromium_OnBeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
-  out Result: Boolean);
+  var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
@@ -405,7 +504,7 @@ var
   i, j : integer;
   TempChromium : TChromium;
 begin
-  if not(showing) or (PageControl1 = nil) then exit;
+  if not(showing) or (PageControl1 = nil) or FClosing then exit;
 
   i := 0;
   j := PageControl1.PageCount;
@@ -436,14 +535,16 @@ procedure TMainForm.WMEnterMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+  if not(FClosing) and (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then
+    GlobalCEFApp.OsmodalLoop := True;
 end;
 
 procedure TMainForm.WMExitMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
+  if not(FClosing) and (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then
+    GlobalCEFApp.OsmodalLoop := False;
 end;
 
 procedure TMainForm.PageControl1Change(Sender: TObject);

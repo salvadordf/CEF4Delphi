@@ -71,7 +71,7 @@ type
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
     procedure ChromiumWindow1Close(Sender: TObject);
-    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
+    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
 
   protected
     FCanClose : boolean;
@@ -85,7 +85,6 @@ type
 
 var
   SimpleExternalPumpBrowserFrm : TSimpleExternalPumpBrowserFrm;
-  GlobalCEFWorkScheduler : TCEFWorkScheduler = nil;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 
@@ -141,10 +140,10 @@ end;
 procedure TSimpleExternalPumpBrowserFrm.Chromium_OnBeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; var popupFeatures: TCefPopupFeatures;
+  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
-  out Result: Boolean);
+  var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
@@ -166,7 +165,11 @@ end;
 procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1Close(Sender: TObject);
 begin
   // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  ChromiumWindow1.DestroyChildWindow;
+  if not(ChromiumWindow1.DestroyChildWindow) then
+    begin
+      FCanClose := True;
+      Close;
+    end;
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);

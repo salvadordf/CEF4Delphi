@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 573
-  ClientWidth = 732
+  ClientWidth = 897
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,13 +13,14 @@ object MainForm: TMainForm
   OldCreateOrder = False
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object ButtonPnl: TPanel
     Left = 0
     Top = 0
-    Width = 732
+    Width = 897
     Height = 35
     Align = alTop
     BevelOuter = bvNone
@@ -132,7 +133,7 @@ object MainForm: TMainForm
       end
     end
     object ConfigPnl: TPanel
-      Left = 695
+      Left = 860
       Top = 5
       Width = 32
       Height = 25
@@ -158,7 +159,7 @@ object MainForm: TMainForm
     object URLEditPnl: TPanel
       Left = 188
       Top = 5
-      Width = 507
+      Width = 672
       Height = 25
       Align = alClient
       BevelOuter = bvNone
@@ -168,7 +169,7 @@ object MainForm: TMainForm
       object URLCbx: TComboBox
         Left = 0
         Top = 2
-        Width = 507
+        Width = 672
         Height = 21
         Align = alClient
         ItemIndex = 0
@@ -198,7 +199,7 @@ object MainForm: TMainForm
   object PageControl1: TPageControl
     Left = 0
     Top = 35
-    Width = 732
+    Width = 897
     Height = 538
     Align = alClient
     TabOrder = 1

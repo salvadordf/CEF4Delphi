@@ -76,7 +76,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
 
   protected
     FChildForm       : TChildForm;
@@ -97,7 +97,7 @@ type
     procedure ChildDestroyedMsg(var aMessage : TMessage); message CEF_CHILDDESTROYED;
 
   public
-    function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; var popupFeatures : TCefPopupFeatures) : boolean;
+    function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
 
     property  PopupChildCount : integer  read  GetPopupChildCount;
   end;
@@ -181,12 +181,12 @@ procedure TMainForm.Chromium1BeforePopup(Sender : TObject;
                                          const targetFrameName    : ustring;
                                                targetDisposition  : TCefWindowOpenDisposition;
                                                userGesture        : Boolean;
-                                         var   popupFeatures      : TCefPopupFeatures;
+                                         const popupFeatures      : TCefPopupFeatures;
                                          var   windowInfo         : TCefWindowInfo;
                                          var   client             : ICefClient;
                                          var   settings           : TCefBrowserSettings;
                                          var   noJavascriptAccess : Boolean;
-                                         out   Result             : Boolean);
+                                         var   Result             : Boolean);
 begin
   case targetDisposition of
     WOD_NEW_FOREGROUND_TAB,
@@ -202,7 +202,7 @@ end;
 function TMainForm.CreateClientHandler(var   windowInfo      : TCefWindowInfo;
                                        var   client          : ICefClient;
                                        const targetFrameName : string;
-                                       var   popupFeatures   : TCefPopupFeatures) : boolean;
+                                       const popupFeatures   : TCefPopupFeatures) : boolean;
 begin
   try
     FCriticalSection.Acquire;
@@ -288,7 +288,11 @@ begin
     FCriticalSection.Acquire;
 
     if (FChildForm <> nil) then
-      PostMessage(FChildForm.Handle, CEF_SHOWCHILD, 0, 0);
+      begin
+        //FChildForm.ApplyPopupFeatures;
+        //FChildForm.Show;
+        PostMessage(FChildForm.Handle, CEF_SHOWCHILD, 0, 0);
+      end;
 
     FChildForm := TChildForm.Create(self);
   finally

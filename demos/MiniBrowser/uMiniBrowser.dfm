@@ -12,6 +12,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -239,6 +240,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
       end
       item
         Width = 500
+      end
+      item
+        Width = 100
+      end
+      item
+        Width = 100
       end>
   end
   object Chromium1: TChromium
@@ -246,6 +253,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnPdfPrintFinished = Chromium1PdfPrintFinished
     OnPrefsAvailable = Chromium1PrefsAvailable
     OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
+    OnRenderCompMsg = Chromium1RenderCompMsg
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
@@ -255,9 +263,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnTitleChange = Chromium1TitleChange
     OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
+    OnLoadingProgressChange = Chromium1LoadingProgressChange
     OnBeforeDownload = Chromium1BeforeDownload
     OnDownloadUpdated = Chromium1DownloadUpdated
     OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     Left = 32
@@ -275,8 +286,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = '-'
     end
     object Openfile1: TMenuItem
-      Caption = 'Open file...'
+      Caption = 'Open file with a FILE URL...'
       OnClick = Openfile1Click
+    end
+    object OpenfilewithaDAT1: TMenuItem
+      Caption = 'Open file with a DATA URL...'
+      OnClick = OpenfilewithaDAT1Click
     end
     object N2: TMenuItem
       Caption = '-'
