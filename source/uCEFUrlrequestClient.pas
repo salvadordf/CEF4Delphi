@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFUrlrequestClient;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -152,11 +156,11 @@ begin
 
   with PCefUrlrequestClient(FData)^ do
     begin
-      on_request_complete  := cef_url_request_client_on_request_complete;
-      on_upload_progress   := cef_url_request_client_on_upload_progress;
-      on_download_progress := cef_url_request_client_on_download_progress;
-      on_download_data     := cef_url_request_client_on_download_data;
-      get_auth_credentials := cef_url_request_client_get_auth_credentials;
+      on_request_complete  := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_request_complete;
+      on_upload_progress   := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_upload_progress;
+      on_download_progress := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_download_progress;
+      on_download_data     := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_download_data;
+      get_auth_credentials := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_get_auth_credentials;
     end;
 end;
 

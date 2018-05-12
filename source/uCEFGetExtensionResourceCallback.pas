@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFGetExtensionResourceCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -66,12 +70,12 @@ uses
 
 procedure TCefGetExtensionResourceCallbackRef.Cont(const stream: ICefStreamReader);
 begin
-  PCefGetExtensionResourceCallback(FData).cont(FData, CefGetData(stream));
+  PCefGetExtensionResourceCallback(FData)^.cont(FData, CefGetData(stream));
 end;
 
 procedure TCefGetExtensionResourceCallbackRef.Cancel;
 begin
-  PCefGetExtensionResourceCallback(FData).cancel(FData);
+  PCefGetExtensionResourceCallback(FData)^.cancel(FData);
 end;
 
 class function TCefGetExtensionResourceCallbackRef.UnWrap(data: Pointer): ICefGetExtensionResourceCallback;

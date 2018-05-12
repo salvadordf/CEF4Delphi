@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFInterfaces;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -119,6 +123,8 @@ type
   ICefCallback = interface;
   ICefDragHandler = interface;
   ICefFindHandler = interface;
+  ICefCookieManager = interface;
+  ICefWebPluginInfo = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -132,7 +138,7 @@ type
   // *******************************************
 
 
-  TOnRegisterCustomSchemes           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const registrar: TCefSchemeRegistrarRef) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnRegisterCustomSchemesEvent      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const registrar: TCefSchemeRegistrarRef) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnRenderThreadCreatedEvent        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const extraInfo: ICefListValue) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnWebKitInitializedEvent          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure() {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnBrowserCreatedEvent             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser: ICefBrowser) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
@@ -149,31 +155,44 @@ type
   TOnGetDataResourceEvent            = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(resourceId: Integer; out data: Pointer; out dataSize: NativeUInt; var aResult : Boolean) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnGetLocalizedStringEvent         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(stringId: Integer; out stringVal: ustring; var aResult : Boolean) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
   TOnGetDataResourceForScaleEvent    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(resourceId: Integer; scaleFactor: TCefScaleFactor; out data: Pointer; out dataSize: NativeUInt; var aResult : Boolean) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
-  TOnCDMRegistrationCompleteEvent    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(result : TCefCDMRegistrationError; const error_message : ustring) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
+  TOnCDMRegistrationCompleteEvent    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(result : TCefCDMRegistrationError; const error_message : ustring) {$IFNDEF DELPHI12_UP}of object{$ENDIF};
 
 
-  // *******************************************
-  // **** Callback procedures and functions ****
-  // *******************************************
+  // *******************************************
+  // **** Callback procedures and functions ****
+  // *******************************************
 
 
-  TOnPdfPrintFinishedProc            = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; ok: Boolean);
-  TCefDomVisitorProc                 = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const document: ICefDomDocument);
-  TCefDomVisitorProc2                = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser : ICefBrowser; const document: ICefDomDocument);
-  TCefStringVisitorProc              = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const str: ustring);
-  TCefRunFileDialogCallbackProc      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(selectedAcceptFilter: Integer; const filePaths: TStrings);
-  TCefCompletionCallbackProc         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure;
-  TCefSetCookieCallbackProc          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(success: Boolean);
-  TCefDeleteCookiesCallbackProc      = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(numDeleted: Integer);
-  TCefNavigationEntryVisitorProc     = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer): Boolean;
-  TOnDownloadImageFinishedProc       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
-  TCefCookieVisitorProc              = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean;
+  TCefEndTracingCallbackProc           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const tracingFile: ustring);
+  TCefRegisterCDMProc                  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(result: TCefCDMRegistrationError; const error_message: ustring);
+  TCefRequestContextHandlerProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function: ICefCookieManager;
+  TCefFastTaskProc                     = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure();
+  TCefv8ArrayBufferReleaseCallbackProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(buffer : Pointer);
+  TCefWebPluginInfoVisitorProc         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const info: ICefWebPluginInfo; count, total: Integer): Boolean;
+  TCefWebPluginIsUnstableProc          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; unstable: Boolean);
+  TCefV8AccessorGetterProc             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8AccessorSetterProc             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8InterceptorGetterByNameProc    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8InterceptorSetterByNameProc    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8InterceptorGetterByIndexProc   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(index: integer; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8InterceptorSetterByIndexProc   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(index: integer; const obj, value: ICefv8Value; const exception: ustring): Boolean;
+  TOnPdfPrintFinishedProc              = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; ok: Boolean);
+  TCefDomVisitorProc                   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const document: ICefDomDocument);
+  TCefDomVisitorProc2                  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser : ICefBrowser; const document: ICefDomDocument);
+  TCefStringVisitorProc                = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const str: ustring);
+  TCefRunFileDialogCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(selectedAcceptFilter: Integer; const filePaths: TStrings);
+  TCefCompletionCallbackProc           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure();
+  TCefSetCookieCallbackProc            = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(success: Boolean);
+  TCefDeleteCookiesCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(numDeleted: Integer);
+  TCefNavigationEntryVisitorProc       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer): Boolean;
+  TOnDownloadImageFinishedProc         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
+  TCefCookieVisitorProc                = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean;
 
 
 
   // *******************************************
   // ************ Custom interfaces ************
-  // *******************************************
+  // *******************************************
 
 
   ICefStringList = interface
@@ -219,11 +238,11 @@ type
     function  Append(const Key, Value: ustring) : boolean;
     procedure Clear;
 
-    property Handle                                                : TCefStringMultimap read GetHandle;
-    property Size                                                  : NativeUInt         read GetSize;
-    property Key[index: NativeUInt]                                : ustring            read GetKey;
-    property Value[index: NativeUInt]                              : ustring            read GetValue;
-    property Enumerate[const Key: ustring; ValueIndex: NativeUInt] : ustring            read GetEnumerate;
+    property Handle                                                  : TCefStringMultimap read GetHandle;
+    property Size                                                    : NativeUInt         read GetSize;
+    property Key[index: NativeUInt]                                  : ustring            read GetKey;
+    property Value[index: NativeUInt]                                : ustring            read GetValue;
+    property Enumerate[const aKey: ustring; aValueIndex: NativeUInt] : ustring            read GetEnumerate;
   end;
 
   IChromiumEvents = interface
@@ -330,7 +349,7 @@ type
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
-    procedure doTextResultAvailable(const aText : string);
+    procedure doTextResultAvailable(const aText : ustring);
     procedure doUpdatePreferences(const aBrowser: ICefBrowser);
     procedure doUpdateOwnPreferences;
     function  doSavePreferences : boolean;
@@ -353,7 +372,7 @@ type
 
   // *******************************************
   // ************** CEF interfaces *************
-  // *******************************************
+  // *******************************************
 
 
   // TCefBaseRefCounted
@@ -433,7 +452,7 @@ type
     procedure SendMouseClickEvent(const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
     procedure SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
     procedure SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
-    procedure SendFocusEvent(setFocus: Boolean);
+    procedure SendFocusEvent(aSetFocus: Boolean);
     procedure SendCaptureLostEvent;
     procedure NotifyMoveOrResizeStarted;
     function  GetWindowlessFrameRate : Integer;

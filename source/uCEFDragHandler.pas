@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFDragHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -122,8 +126,8 @@ begin
 
   with PCefDragHandler(FData)^ do
     begin
-      on_drag_enter                := cef_drag_handler_on_drag_enter;
-      on_draggable_regions_changed := cef_drag_handler_on_draggable_regions_changed;
+      on_drag_enter                := {$IFDEF FPC}@{$ENDIF}cef_drag_handler_on_drag_enter;
+      on_draggable_regions_changed := {$IFDEF FPC}@{$ENDIF}cef_drag_handler_on_draggable_regions_changed;
     end;
 end;
 

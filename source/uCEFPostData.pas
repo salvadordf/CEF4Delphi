@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFPostData;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -116,7 +120,7 @@ begin
 
       while (i < Count) do
         begin
-          Result.Add(TCefPostDataElementRef.UnWrap(items[i]));
+          Result.Add(TCefPostDataElementRef.UnWrap(items^[i]));
           inc(i);
         end;
     except
@@ -130,11 +134,10 @@ end;
 
 class function TCefPostDataRef.New: ICefPostData;
 begin
-  Result := UnWrap(cef_post_data_create);
+  Result := UnWrap(cef_post_data_create());
 end;
 
-function TCefPostDataRef.RemoveElement(
-  const element: ICefPostDataElement): Integer;
+function TCefPostDataRef.RemoveElement(const element: ICefPostDataElement): Integer;
 begin
   Result := PCefPostData(FData)^.remove_element(PCefPostData(FData), CefGetData(element));
 end;
@@ -146,8 +149,9 @@ end;
 
 class function TCefPostDataRef.UnWrap(data: Pointer): ICefPostData;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefPostData else
+  if (data <> nil) then
+    Result := Create(data) as ICefPostData
+   else
     Result := nil;
 end;
 

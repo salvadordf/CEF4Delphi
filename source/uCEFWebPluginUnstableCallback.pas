@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFWebPluginUnstableCallback;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -50,8 +54,6 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefWebPluginIsUnstableProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; unstable: Boolean);
-
   TCefWebPluginUnstableCallbackOwn = class(TCefBaseRefCountedOwn, ICefWebPluginUnstableCallback)
     protected
       procedure IsUnstable(const path: ustring; unstable: Boolean); virtual;
@@ -93,7 +95,7 @@ constructor TCefWebPluginUnstableCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefWebPluginUnstableCallback));
 
-  PCefWebPluginUnstableCallback(FData).is_unstable := cef_web_plugin_unstable_callback_is_unstable;
+  PCefWebPluginUnstableCallback(FData)^.is_unstable := {$IFDEF FPC}@{$ENDIF}cef_web_plugin_unstable_callback_is_unstable;
 end;
 
 procedure TCefWebPluginUnstableCallbackOwn.IsUnstable(const path: ustring; unstable: Boolean);

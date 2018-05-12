@@ -9,22 +9,23 @@ package CEF4Delphi_FMX;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'CEF4Delphi'}
 {$IMPLICITBUILD OFF}
 
 requires
@@ -130,7 +131,6 @@ contains
   uCEFResponseFilter in '..\source\uCEFResponseFilter.pas',
   uCEFImage in '..\source\uCEFImage.pas',
   uCEFMenuModelDelegate in '..\source\uCEFMenuModelDelegate.pas',
-  uCEFv8Types in '..\source\uCEFv8Types.pas',
   uCEFWindowParent in '..\source\uCEFWindowParent.pas',
   uCEFChromium in '..\source\uCEFChromium.pas',
   uCEFChromiumEvents in '..\source\uCEFChromiumEvents.pas',

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFFileDialogCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -70,7 +74,7 @@ uses
 
 procedure TCefFileDialogCallbackRef.Cancel;
 begin
-  PCefFileDialogCallback(FData).cancel(FData);
+  PCefFileDialogCallback(FData)^.cancel(FData);
 end;
 
 procedure TCefFileDialogCallbackRef.Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
@@ -81,9 +85,9 @@ begin
     TempSL := TCefStringListOwn.Create;
     TempSL.AddStrings(filePaths);
 
-    PCefFileDialogCallback(FData).cont(PCefFileDialogCallback(FData),
-                                       selectedAcceptFilter,
-                                       TempSL.Handle);
+    PCefFileDialogCallback(FData)^.cont(PCefFileDialogCallback(FData),
+                                        selectedAcceptFilter,
+                                        TempSL.Handle);
   finally
     TempSL := nil;
   end;

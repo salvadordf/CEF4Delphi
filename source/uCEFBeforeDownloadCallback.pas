@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFBeforeDownloadCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -63,20 +67,19 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure TCefBeforeDownloadCallbackRef.Cont(const downloadPath: ustring;
-  showDialog: Boolean);
+procedure TCefBeforeDownloadCallbackRef.Cont(const downloadPath: ustring; showDialog: Boolean);
 var
-  dp: TCefString;
+  TempPath : TCefString;
 begin
-  dp := CefString(downloadPath);
-  PCefBeforeDownloadCallback(FData).cont(PCefBeforeDownloadCallback(FData), @dp, Ord(showDialog));
+  TempPath := CefString(downloadPath);
+  PCefBeforeDownloadCallback(FData)^.cont(PCefBeforeDownloadCallback(FData), @TempPath, Ord(showDialog));
 end;
 
-class function TCefBeforeDownloadCallbackRef.UnWrap(
-  data: Pointer): ICefBeforeDownloadCallback;
+class function TCefBeforeDownloadCallbackRef.UnWrap(data: Pointer): ICefBeforeDownloadCallback;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefBeforeDownloadCallback else
+  if (data <> nil) then
+    Result := Create(data) as ICefBeforeDownloadCallback
+   else
     Result := nil;
 end;
 

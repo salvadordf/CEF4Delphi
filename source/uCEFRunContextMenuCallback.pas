@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFRunContextMenuCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -65,20 +69,19 @@ uses
 
 procedure TCefRunContextMenuCallbackRef.Cancel;
 begin
-  PCefRunContextMenuCallback(FData).cancel(FData);
+  PCefRunContextMenuCallback(FData)^.cancel(PCefRunContextMenuCallback(FData));
 end;
 
-procedure TCefRunContextMenuCallbackRef.Cont(commandId: Integer;
-  eventFlags: TCefEventFlags);
+procedure TCefRunContextMenuCallbackRef.Cont(commandId: Integer; eventFlags: TCefEventFlags);
 begin
-  PCefRunContextMenuCallback(FData).cont(FData, commandId, eventFlags);
+  PCefRunContextMenuCallback(FData)^.cont(PCefRunContextMenuCallback(FData), commandId, eventFlags);
 end;
 
-class function TCefRunContextMenuCallbackRef.UnWrap(
-  data: Pointer): ICefRunContextMenuCallback;
+class function TCefRunContextMenuCallbackRef.UnWrap(data: Pointer): ICefRunContextMenuCallback;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefRunContextMenuCallback else
+  if (data <> nil) then
+    Result := Create(data) as ICefRunContextMenuCallback
+   else
     Result := nil;
 end;
 

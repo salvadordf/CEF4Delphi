@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFChromium;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -50,11 +54,17 @@ uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX,
+    Windows, Classes, Forms, Controls, Graphics, ActiveX,
+    {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    {$ELSE}
+    Messages,
+    {$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
-  uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions, uCEFDragAndDropMgr;
+  {$IFNDEF FPC}uCEFDragAndDropMgr,{$ENDIF}
+  uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions;
 
 type
   TChromium = class(TComponent, IChromiumEvents)
@@ -70,15 +80,15 @@ type
       FDefaultEncoding        : ustring;
       FProxyType              : integer;
       FProxyScheme            : TCefProxyScheme;
-      FProxyServer            : string;
+      FProxyServer            : ustring;
       FProxyPort              : integer;
-      FProxyUsername          : string;
-      FProxyPassword          : string;
-      FProxyScriptURL         : string;
-      FProxyByPassList        : string;
+      FProxyUsername          : ustring;
+      FProxyPassword          : ustring;
+      FProxyScriptURL         : ustring;
+      FProxyByPassList        : ustring;
       FUpdatePreferences      : boolean;
-      FCustomHeaderName       : string;
-      FCustomHeaderValue      : string;
+      FCustomHeaderName       : ustring;
+      FCustomHeaderValue      : ustring;
       FAddCustomHeader        : boolean;
       FDoNotTrack             : boolean;
       FSendReferrer           : boolean;
@@ -89,7 +99,6 @@ type
       FCookiePrefs            : integer;
       FImagesPrefs            : integer;
       FZoomStep               : byte;
-      FWindowName             : string;
       FPrefsFileName          : string;
       FIsOSR                  : boolean;
       FInitialized            : boolean;
@@ -99,22 +108,25 @@ type
       FDevWindowInfo          : TCefWindowInfo;
       FDevBrowserSettings     : TCefBrowserSettings;
       FDragOperations         : TCefDragOperations;
+      {$IFNDEF FPC}
       FDragDropManager        : TCEFDragAndDropMgr;
+      {$ENDIF}
       FDropTargetCtrl         : TWinControl;
       FDragAndDropInitialized : boolean;
       FWebRTCIPHandlingPolicy : TCefWebRTCHandlingPolicy;
       FWebRTCMultipleRoutes   : TCefState;
       FWebRTCNonProxiedUDP    : TCefState;
-
+      {$IFNDEF FPC}
       FOldBrowserCompWndPrc   : TFNWndProc;
       FOldWidgetCompWndPrc    : TFNWndProc;
       FOldRenderCompWndPrc    : TFNWndProc;
-      FBrowserCompHWND        : THandle;
-      FWidgetCompHWND         : THandle;
-      FRenderCompHWND         : THandle;
       FBrowserCompStub        : Pointer;
       FWidgetCompStub         : Pointer;
       FRenderCompStub         : Pointer;
+      {$ENDIF}                            
+      FBrowserCompHWND        : THandle;
+      FWidgetCompHWND         : THandle;
+      FRenderCompHWND         : THandle;
 
       // ICefClient
       FOnProcessMessageReceived       : TOnProcessMessageReceived;
@@ -219,9 +231,11 @@ type
       FOnPrefsAvailable               : TOnPrefsAvailableEvent;
       FOnCookiesDeleted               : TOnCookiesDeletedEvent;
       FOnResolvedHostAvailable        : TOnResolvedIPsAvailableEvent;
+      {$IFNDEF FPC}
       FOnBrowserCompMsg               : TOnCompMsgEvent;
       FOnWidgetCompMsg                : TOnCompMsgEvent;
       FOnRenderCompMsg                : TOnCompMsgEvent;
+      {$ENDIF}
 
       function  GetIsLoading : boolean;
       function  GetMultithreadApp : boolean;
@@ -232,7 +246,7 @@ type
       function  GetHasBrowser : boolean;
       function  GetCanGoBack : boolean;
       function  GetCanGoForward : boolean;
-      function  GetDocumentURL : string;
+      function  GetDocumentURL : ustring;
       function  GetZoomLevel : double;
       function  GetZoomPct : double;
       function  GetIsPopUp : boolean;
@@ -243,7 +257,7 @@ type
       function  GetVisibleNavigationEntry : ICefNavigationEntry;
       function  GetHasValidMainFrame : boolean;
       function  GetFrameCount : NativeUInt;
-      function  GetRequestContextCache : string;
+      function  GetRequestContextCache : ustring;
       function  GetRequestContextIsGlobal : boolean;
 
       procedure SetDoNotTrack(aValue : boolean);
@@ -259,14 +273,14 @@ type
       procedure SetImagesPrefs(aValue : integer);
       procedure SetProxyType(aValue : integer);
       procedure SetProxyScheme(aValue : TCefProxyScheme);
-      procedure SetProxyServer(const aValue : string);
+      procedure SetProxyServer(const aValue : ustring);
       procedure SetProxyPort(aValue : integer);
-      procedure SetProxyUsername(const aValue : string);
-      procedure SetProxyPassword(const aValue : string);
-      procedure SetProxyScriptURL(const aValue : string);
-      procedure SetProxyByPassList(const aValue : string);
-      procedure SetCustomHeaderName(const aValue : string);
-      procedure SetCustomHeaderValue(const aValue : string);
+      procedure SetProxyUsername(const aValue : ustring);
+      procedure SetProxyPassword(const aValue : ustring);
+      procedure SetProxyScriptURL(const aValue : ustring);
+      procedure SetProxyByPassList(const aValue : ustring);
+      procedure SetCustomHeaderName(const aValue : ustring);
+      procedure SetCustomHeaderValue(const aValue : ustring);
       procedure SetZoomLevel(const aValue : double);
       procedure SetZoomPct(const aValue : double);
       procedure SetZoomStep(aValue : byte);
@@ -283,13 +297,13 @@ type
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
 
-      procedure GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : string);
+      procedure GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : ustring);
 
       function  UpdateProxyPrefs(const aBrowser: ICefBrowser) : boolean;
-      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : string; aValue : boolean) : boolean; overload;
-      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : string; aValue : integer) : boolean; overload;
-      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : string; const aValue : double) : boolean; overload;
-      function  UpdatePreference(const aBrowser: ICefBrowser; const aName, aValue : string) : boolean; overload;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; aValue : boolean) : boolean; overload;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; aValue : integer) : boolean; overload;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; const aValue : double) : boolean; overload;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName, aValue : ustring) : boolean; overload;
 
       procedure HandleDictionary(const aDict : ICefDictionaryValue; var aResultSL : TStringList; const aRoot : string);
       procedure HandleNull(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
@@ -322,9 +336,11 @@ type
       procedure FreeAndNilStub(var aStub : pointer);
       procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
       procedure WndProc(var aMessage: TMessage);
+      {$IFNDEF FPC}
       procedure BrowserCompWndProc(var aMessage: TMessage);
       procedure WidgetCompWndProc(var aMessage: TMessage);
       procedure RenderCompWndProc(var aMessage: TMessage);
+      {$ENDIF}
 
       procedure DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
       procedure DragDropManager_OnDragOver(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
@@ -434,7 +450,7 @@ type
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
       procedure doPdfPrintFinished(aResultOK : boolean); virtual;
-      procedure doTextResultAvailable(const aText : string); virtual;
+      procedure doTextResultAvailable(const aText : ustring); virtual;
       procedure doUpdatePreferences(const aBrowser: ICefBrowser); virtual;
       procedure doUpdateOwnPreferences; virtual;
       function  doSavePreferences : boolean; virtual;
@@ -451,8 +467,8 @@ type
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
       procedure   InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
       procedure   ShutdownDragAndDrop;
-      function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
-      function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : string = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : string = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
+      function    CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : ustring = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
+      function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : ustring = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
 
       procedure   LoadURL(const aURL : ustring);
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
@@ -562,18 +578,17 @@ type
       property  RenderHandle            : THandle                      read FRenderCompHWND;
       property  FrameIsFocused          : boolean                      read GetFrameIsFocused;
       property  Initialized             : boolean                      read GetInitialized;
-      property  RequestContextCache     : string                       read GetRequestContextCache;
+      property  RequestContextCache     : ustring                      read GetRequestContextCache;
       property  RequestContextIsGlobal  : boolean                      read GetRequestContextIsGlobal;
       property  CookiePrefs             : integer                      read FCookiePrefs              write SetCookiePrefs;
       property  ImagesPrefs             : integer                      read FImagesPrefs              write SetImagesPrefs;
-      property  DocumentURL             : string                       read GetDocumentURL;
-      property  WindowName              : string                       read FWindowName               write FWindowName;
+      property  DocumentURL             : ustring                      read GetDocumentURL;
       property  ZoomLevel               : double                       read GetZoomLevel              write SetZoomLevel;
       property  ZoomPct                 : double                       read GetZoomPct                write SetZoomPct;
       property  ZoomStep                : byte                         read FZoomStep                 write SetZoomStep;
       property  WindowlessFrameRate     : integer                      read GetWindowlessFrameRate    write SetWindowlessFrameRate;
-      property  CustomHeaderName        : string                       read FCustomHeaderName         write SetCustomHeaderName;
-      property  CustomHeaderValue       : string                       read FCustomHeaderValue        write SetCustomHeaderValue;
+      property  CustomHeaderName        : ustring                      read FCustomHeaderName         write SetCustomHeaderName;
+      property  CustomHeaderValue       : ustring                      read FCustomHeaderValue        write SetCustomHeaderValue;
       property  DoNotTrack              : boolean                      read FDoNotTrack               write SetDoNotTrack;
       property  SendReferrer            : boolean                      read FSendReferrer             write SetSendReferrer;
       property  HyperlinkAuditing       : boolean                      read FHyperlinkAuditing        write SetHyperlinkAuditing;
@@ -590,12 +605,12 @@ type
 
       property  ProxyType               : integer                      read FProxyType                write SetProxyType;
       property  ProxyScheme             : TCefProxyScheme              read FProxyScheme              write SetProxyScheme;
-      property  ProxyServer             : string                       read FProxyServer              write SetProxyServer;
+      property  ProxyServer             : ustring                      read FProxyServer              write SetProxyServer;
       property  ProxyPort               : integer                      read FProxyPort                write SetProxyPort;
-      property  ProxyUsername           : string                       read FProxyUsername            write SetProxyUsername;
-      property  ProxyPassword           : string                       read FProxyPassword            write SetProxyPassword;
-      property  ProxyScriptURL          : string                       read FProxyScriptURL           write SetProxyScriptURL;
-      property  ProxyByPassList         : string                       read FProxyByPassList          write SetProxyByPassList;
+      property  ProxyUsername           : ustring                      read FProxyUsername            write SetProxyUsername;
+      property  ProxyPassword           : ustring                      read FProxyPassword            write SetProxyPassword;
+      property  ProxyScriptURL          : ustring                      read FProxyScriptURL           write SetProxyScriptURL;
+      property  ProxyByPassList         : ustring                      read FProxyByPassList          write SetProxyByPassList;
 
     published
       property  OnTextResultAvailable   : TOnTextResultAvailableEvent  read FOnTextResultAvailable    write FOnTextResultAvailable;
@@ -603,9 +618,11 @@ type
       property  OnPrefsAvailable        : TOnPrefsAvailableEvent       read FOnPrefsAvailable         write FOnPrefsAvailable;
       property  OnCookiesDeleted        : TOnCookiesDeletedEvent       read FOnCookiesDeleted         write FOnCookiesDeleted;
       property  OnResolvedHostAvailable : TOnResolvedIPsAvailableEvent read FOnResolvedHostAvailable  write FOnResolvedHostAvailable;
+      {$IFNDEF FPC}
       property  OnBrowserCompMsg        : TOnCompMsgEvent              read FOnBrowserCompMsg         write FOnBrowserCompMsg;
       property  OnWidgetCompMsg         : TOnCompMsgEvent              read FOnWidgetCompMsg          write FOnWidgetCompMsg;
       property  OnRenderCompMsg         : TOnCompMsgEvent              read FOnRenderCompMsg          write FOnRenderCompMsg;
+      {$ENDIF}
 
       // ICefClient
       property OnProcessMessageReceived         : TOnProcessMessageReceived         read FOnProcessMessageReceived         write FOnProcessMessageReceived;
@@ -706,6 +723,10 @@ type
 
   end;
 
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
+
 implementation
 
 uses
@@ -715,7 +736,7 @@ uses
   SysUtils, Math,
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
-  uCEFApplication, uCEFProcessMessage, uCEFRequestContext, uOLEDragAndDrop,
+  uCEFApplication, uCEFProcessMessage, uCEFRequestContext, {$IFNDEF FPC}uOLEDragAndDrop,{$ENDIF}
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor;
 
 constructor TChromium.Create(AOwner: TComponent);
@@ -746,19 +767,22 @@ begin
   FCookiePrefs            := CEF_CONTENT_SETTING_ALLOW;
   FImagesPrefs            := CEF_CONTENT_SETTING_ALLOW;
   FZoomStep               := ZOOM_STEP_DEF;
-  FWindowName             := '';
+  {$IFNDEF FPC}
   FOldBrowserCompWndPrc   := nil;
   FOldWidgetCompWndPrc    := nil;
   FOldRenderCompWndPrc    := nil;
-  FBrowserCompHWND        := 0;
-  FWidgetCompHWND         := 0;
-  FRenderCompHWND         := 0;
   FBrowserCompStub        := nil;
   FWidgetCompStub         := nil;
   FRenderCompStub         := nil;
+  {$ENDIF}                    
+  FBrowserCompHWND        := 0;
+  FWidgetCompHWND         := 0;
+  FRenderCompHWND         := 0;
 
   FDragOperations         := DRAG_OPERATION_NONE;
+  {$IFNDEF FPC}
   FDragDropManager        := nil;
+  {$ENDIF}
   FDropTargetCtrl         := nil;
   FDragAndDropInitialized := False;
 
@@ -790,7 +814,9 @@ destructor TChromium.Destroy;
 begin
   try
     try
+      {$IFNDEF FPC}
       if (FDragDropManager <> nil) then FreeAndNil(FDragDropManager);
+      {$ENDIF}
 
       if (FCompHandle <> 0) then
         begin
@@ -814,6 +840,7 @@ end;
 
 procedure TChromium.BeforeDestruction;
 begin
+  {$IFNDEF FPC}
   if (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc <> nil) then
     begin
       SetWindowLongPtr(FBrowserCompHWND, GWL_WNDPROC, NativeInt(FOldBrowserCompWndPrc));
@@ -834,6 +861,7 @@ begin
       FreeAndNilStub(FRenderCompStub);
       FOldRenderCompWndPrc := nil;
     end;
+  {$ENDIF}
 
   DestroyClientHandler;
 
@@ -875,13 +903,22 @@ begin
 end;
 
 procedure TChromium.AfterConstruction;
+{$IFDEF FPC}
+var
+  TempWndMethod : TWndMethod;
+{$ENDIF}
 begin
   inherited AfterConstruction;
 
   try
     if not(csDesigning in ComponentState) then
       begin
+        {$IFDEF FPC}
+        TempWndMethod    := @WndProc;
+        FCompHandle      := AllocateHWnd(TempWndMethod);
+        {$ELSE}
         FCompHandle      := AllocateHWnd(WndProc);
+        {$ENDIF}
         FOptions         := TChromiumOptions.Create;
         FFontOptions     := TChromiumFontOptions.Create;
         FPDFPrintOptions := TPDFPrintOptions.Create;
@@ -1039,15 +1076,17 @@ begin
   FOnPrefsAvailable               := nil;
   FOnCookiesDeleted               := nil;
   FOnResolvedHostAvailable        := nil;
+  {$IFNDEF FPC}
   FOnBrowserCompMsg               := nil;
   FOnWidgetCompMsg                := nil;
   FOnRenderCompMsg                := nil;
+  {$ENDIF}
 end;
 
 function TChromium.CreateBrowser(const aBrowserParent         : TWinControl;
-                                 const aWindowName            : string;
+                                 const aWindowName            : ustring;
                                  const aContext               : ICefRequestContext;
-                                 const aCookiesPath           : string;
+                                 const aCookiesPath           : ustring;
                                        aPersistSessionCookies : boolean) : boolean;
 var
   TempHandle : HWND;
@@ -1069,9 +1108,9 @@ end;
 
 function TChromium.CreateBrowser(      aParentHandle          : HWND;
                                        aParentRect            : TRect;
-                                 const aWindowName            : string;
+                                 const aWindowName            : ustring;
                                  const aContext               : ICefRequestContext;
-                                 const aCookiesPath           : string;
+                                 const aCookiesPath           : ustring;
                                        aPersistSessionCookies : boolean) : boolean;
 var
   TempCookieManager : ICefCookieManager;
@@ -1127,6 +1166,7 @@ procedure TChromium.InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
 var
   TempDropTarget : IDropTarget;
 begin
+  {$IFNDEF FPC}
   if FIsOSR and
      not(FDragAndDropInitialized) and
      (FDragDropManager = nil) and
@@ -1146,6 +1186,7 @@ begin
 
       FDragAndDropInitialized := True;
     end;
+  {$ENDIF}
 end;
 
 function TChromium.ShareRequestContext(var   aContext : ICefRequestContext;
@@ -1394,7 +1435,7 @@ begin
     end;
 end;
 
-procedure TChromium.GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : string);
+procedure TChromium.GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : ustring);
 begin
   if (FPDFPrintOptions <> nil) then
     begin
@@ -1630,7 +1671,7 @@ begin
     Result := 0;
 end;
 
-function TChromium.GetRequestContextCache : string;
+function TChromium.GetRequestContextCache : ustring;
 begin
   if Initialized then
     Result := FBrowser.host.RequestContext.CachePath
@@ -1671,7 +1712,7 @@ begin
   Result := FInitialized and not(FClosing) and (FBrowser <> nil);
 end;
 
-function TChromium.GetDocumentURL : string;
+function TChromium.GetDocumentURL : ustring;
 var
   TempFrame : ICefFrame;
 begin
@@ -1877,7 +1918,7 @@ begin
     end;
 end;
 
-procedure TChromium.SetProxyServer(const aValue : string);
+procedure TChromium.SetProxyServer(const aValue : ustring);
 begin
   if (FProxyServer <> aValue) then
     begin
@@ -1895,7 +1936,7 @@ begin
     end;
 end;
 
-procedure TChromium.SetProxyUsername(const aValue : string);
+procedure TChromium.SetProxyUsername(const aValue : ustring);
 begin
   if (FProxyUsername <> aValue) then
     begin
@@ -1904,7 +1945,7 @@ begin
     end;
 end;
 
-procedure TChromium.SetProxyPassword(const aValue : string);
+procedure TChromium.SetProxyPassword(const aValue : ustring);
 begin
   if (FProxyPassword <> aValue) then
     begin
@@ -1913,7 +1954,7 @@ begin
     end;
 end;
 
-procedure TChromium.SetProxyScriptURL(const aValue : string);
+procedure TChromium.SetProxyScriptURL(const aValue : ustring);
 begin
   if (FProxyScriptURL <> aValue) then
     begin
@@ -1922,7 +1963,7 @@ begin
     end;
 end;
 
-procedure TChromium.SetProxyByPassList(const aValue : string);
+procedure TChromium.SetProxyByPassList(const aValue : ustring);
 begin
   if (FProxyByPassList <> aValue) then
     begin
@@ -1931,7 +1972,7 @@ begin
     end;
 end;
 
-procedure TChromium.SetCustomHeaderName(const aValue : string);
+procedure TChromium.SetCustomHeaderName(const aValue : ustring);
 begin
   if (FCustomHeaderName <> aValue) then
     begin
@@ -1940,7 +1981,7 @@ begin
     end;
 end;
 
-procedure TChromium.SetCustomHeaderValue(const aValue : string);
+procedure TChromium.SetCustomHeaderValue(const aValue : ustring);
 begin
   if (FCustomHeaderValue <> aValue) then
     begin
@@ -2293,7 +2334,7 @@ begin
   end;
 end;
 
-function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : string; aValue : boolean) : boolean;
+function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; aValue : boolean) : boolean;
 var
   TempError : ustring;
   TempValue : ICefValue;
@@ -2323,7 +2364,7 @@ begin
   end;
 end;
 
-function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : string; aValue : integer) : boolean;
+function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; aValue : integer) : boolean;
 var
   TempError : ustring;
   TempValue : ICefValue;
@@ -2348,7 +2389,7 @@ begin
   end;
 end;
 
-function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : string; const aValue : double) : boolean;
+function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; const aValue : double) : boolean;
 var
   TempError : ustring;
   TempValue : ICefValue;
@@ -2373,7 +2414,7 @@ begin
   end;
 end;
 
-function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName, aValue : string) : boolean;
+function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName, aValue : ustring) : boolean;
 var
   TempError : ustring;
   TempValue : ICefValue;
@@ -2740,7 +2781,7 @@ begin
   Result := (FCompHandle <> 0) and PostMessage(FCompHandle, aMsg, wParam, lParam);
 end;
 
-procedure TChromium.doTextResultAvailable(const aText : string);
+procedure TChromium.doTextResultAvailable(const aText : ustring);
 begin
   if assigned(FOnTextResultAvailable) then FOnTextResultAvailable(self, aText);
 end;
@@ -2861,6 +2902,7 @@ begin
   end;
 end;
 
+{$IFNDEF FPC}
 procedure TChromium.BrowserCompWndProc(var aMessage: TMessage);
 var
   TempHandled : boolean;
@@ -2932,6 +2974,7 @@ begin
       if CustomExceptionHandler('TChromium.RenderCompWndProc', e) then raise;
   end;
 end;
+{$ENDIF}
 
 function TChromium.doOnClose(const browser: ICefBrowser): Boolean;
 begin
@@ -3448,6 +3491,7 @@ begin
       if (FWidgetCompHWND <> 0) then
         FRenderCompHWND := FindWindowEx(FWidgetCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
 
+      {$IFNDEF FPC}
       if assigned(FOnBrowserCompMsg) and (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc = nil) then
         begin
           CreateStub(BrowserCompWndProc, FBrowserCompStub);
@@ -3471,6 +3515,7 @@ begin
                                                               GWL_WNDPROC,
                                                               NativeInt(FRenderCompStub)));
         end;
+      {$ENDIF}
     end;
 
   if Assigned(FOnRenderViewReady) then FOnRenderViewReady(Self, browser);
@@ -3557,7 +3602,7 @@ function TChromium.doOnStartDragging(const browser    : ICefBrowser;
                                            y          : Integer): Boolean;
 begin
   Result := False;
-
+  {$IFNDEF FPC}
   if FDragAndDropInitialized and
      FDragDropManager.CloneDragData(dragData, allowedOps) then
     begin
@@ -3566,6 +3611,7 @@ begin
     end;
 
   if Assigned(FOnStartDragging) then FOnStartDragging(Self, browser, dragData, allowedOps, x, y, Result);
+  {$ENDIF}
 end;
 
 procedure TChromium.DelayedDragging;
@@ -3573,6 +3619,7 @@ var
   TempOperation : TCefDragOperation;
   TempPoint     : TPoint;
 begin
+  {$IFNDEF FPC}
   if FDragAndDropInitialized and (FDropTargetCtrl <> nil) and (GlobalCEFApp <> nil) then
     begin
       FDragOperations := DRAG_OPERATION_NONE;
@@ -3586,6 +3633,7 @@ begin
       DragSourceEndedAt(TempPoint.x, TempPoint.y, TempOperation);
       DragSourceSystemDragEnded;
     end;
+  {$ENDIF}
 end;
 
 procedure TChromium.doOnStatusMessage(const browser: ICefBrowser; const value: ustring);
@@ -3831,5 +3879,13 @@ procedure TChromium.DragSourceSystemDragEnded;
 begin
   if Initialized then FBrowser.Host.DragSourceSystemDragEnded;
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I tchromium.lrs}
+  RegisterComponents('Chromium', [TChromium]);
+end;
+{$ENDIF}
 
 end.

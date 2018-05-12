@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFWorkScheduler;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -50,7 +54,12 @@ uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics, Forms,
+    Windows, Classes, Forms, Controls, Graphics,
+    {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    {$ELSE}
+    Messages,
+    {$ENDIF}
   {$ENDIF}
   uCEFConstants, uCEFWorkSchedulerThread;
 
@@ -109,6 +118,10 @@ type
 var
   GlobalCEFWorkScheduler : TCEFWorkScheduler = nil;
 
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
+
 implementation
 
 uses
@@ -146,12 +159,22 @@ begin
 end;
 
 procedure TCEFWorkScheduler.AfterConstruction;
+{$IFDEF FPC}
+var
+  TempWndMethod : TWndMethod;
+{$ENDIF}
 begin
   inherited AfterConstruction;
 
   if not(csDesigning in ComponentState) then
     begin
-      FCompHandle := AllocateHWnd(WndProc);
+      {$IFDEF FPC}
+      TempWndMethod    := @WndProc;
+      FCompHandle      := AllocateHWnd(TempWndMethod);
+      {$ELSE}
+      FCompHandle      := AllocateHWnd(WndProc);
+      {$ENDIF}
+
       CreateThread;
     end;
 end;
@@ -163,7 +186,7 @@ begin
   FThread.Priority        := FPriority;
   {$ENDIF}
   FThread.DefaultInterval := FDefaultInterval;
-  FThread.OnPulse         := Thread_OnPulse;
+  FThread.OnPulse         := {$IFDEF FPC}@{$ENDIF}Thread_OnPulse;
   {$IFDEF DELPHI14_UP}
   FThread.Start;
   {$ELSE}
@@ -279,5 +302,13 @@ procedure TCEFWorkScheduler.NextPulse(aInterval : integer);
 begin
   if (FThread <> nil) then FThread.NextPulse(aInterval);
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I tcefworkscheduler.lrs}
+  RegisterComponents('Chromium', [TCEFWorkScheduler]);
+end;
+{$ENDIF}
 
 end.

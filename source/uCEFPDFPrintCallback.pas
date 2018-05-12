@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFPDFPrintCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -107,7 +111,8 @@ constructor TCefPdfPrintCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefPdfPrintCallback));
 
-  PCefPdfPrintCallback(FData).on_pdf_print_finished := cef_pdf_print_callback_on_pdf_print_finished;
+  with PCefPdfPrintCallback(FData)^ do
+    on_pdf_print_finished := {$IFDEF FPC}@{$ENDIF}cef_pdf_print_callback_on_pdf_print_finished;
 end;
 
 // TCefFastPdfPrintCallback

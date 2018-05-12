@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFNavigationEntryVisitor;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -97,8 +101,7 @@ constructor TCefNavigationEntryVisitorOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefNavigationEntryVisitor));
 
-  with PCefNavigationEntryVisitor(FData)^ do
-    visit := cef_navigation_entry_visitor_visit;
+  PCefNavigationEntryVisitor(FData)^.visit := {$IFDEF FPC}@{$ENDIF}cef_navigation_entry_visitor_visit;
 end;
 
 function TCefNavigationEntryVisitorOwn.Visit(const entry   : ICefNavigationEntry;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFZipReader;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -76,12 +80,12 @@ uses
 
 function TCefZipReaderRef.Close: Boolean;
 begin
-  Result := PCefZipReader(FData).close(FData) <> 0;
+  Result := PCefZipReader(FData)^.close(PCefZipReader(FData)) <> 0;
 end;
 
 function TCefZipReaderRef.CloseFile: Boolean;
 begin
-  Result := PCefZipReader(FData).close_file(FData) <> 0;
+  Result := PCefZipReader(FData)^.close_file(PCefZipReader(FData)) <> 0;
 end;
 
 class function TCefZipReaderRef.New(const stream: ICefStreamReader): ICefZipReader;
@@ -91,66 +95,65 @@ end;
 
 function TCefZipReaderRef.Eof: Boolean;
 begin
-  Result := PCefZipReader(FData).eof(FData) <> 0;
+  Result := PCefZipReader(FData)^.eof(PCefZipReader(FData)) <> 0;
 end;
 
 function TCefZipReaderRef.GetFileLastModified: TCefTime;
 begin
-  Result := PCefZipReader(FData).get_file_last_modified(FData);
+  Result := PCefZipReader(FData)^.get_file_last_modified(PCefZipReader(FData));
 end;
 
 function TCefZipReaderRef.GetFileName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefZipReader(FData).get_file_name(FData));
+  Result := CefStringFreeAndGet(PCefZipReader(FData)^.get_file_name(PCefZipReader(FData)));
 end;
 
 function TCefZipReaderRef.GetFileSize: Int64;
 begin
-  Result := PCefZipReader(FData).get_file_size(FData);
+  Result := PCefZipReader(FData)^.get_file_size(PCefZipReader(FData));
 end;
 
-function TCefZipReaderRef.MoveToFile(const fileName: ustring;
-  caseSensitive: Boolean): Boolean;
+function TCefZipReaderRef.MoveToFile(const fileName: ustring; caseSensitive: Boolean): Boolean;
 var
-  f: TCefString;
+  TempFilename : TCefString;
 begin
-  f := CefString(fileName);
-  Result := PCefZipReader(FData).move_to_file(FData, @f, Ord(caseSensitive)) <> 0;
+  TempFilename := CefString(fileName);
+  Result       := PCefZipReader(FData)^.move_to_file(PCefZipReader(FData), @TempFilename, Ord(caseSensitive)) <> 0;
 end;
 
 function TCefZipReaderRef.MoveToFirstFile: Boolean;
 begin
-  Result := PCefZipReader(FData).move_to_first_file(FData) <> 0;
+  Result := PCefZipReader(FData)^.move_to_first_file(PCefZipReader(FData)) <> 0;
 end;
 
 function TCefZipReaderRef.MoveToNextFile: Boolean;
 begin
-  Result := PCefZipReader(FData).move_to_next_file(FData) <> 0;
+  Result := PCefZipReader(FData)^.move_to_next_file(PCefZipReader(FData)) <> 0;
 end;
 
 function TCefZipReaderRef.OpenFile(const password: ustring): Boolean;
 var
-  p: TCefString;
+  TempPassword : TCefString;
 begin
-  p := CefString(password);
-  Result := PCefZipReader(FData).open_file(FData, @p) <> 0;
+  TempPassword := CefString(password);
+  Result       := PCefZipReader(FData)^.open_file(PCefZipReader(FData), @TempPassword) <> 0;
 end;
 
-function TCefZipReaderRef.ReadFile(buffer: Pointer;
-  bufferSize: NativeUInt): Integer;
+function TCefZipReaderRef.ReadFile(buffer: Pointer; bufferSize: NativeUInt): Integer;
 begin
-    Result := PCefZipReader(FData).read_file(FData, buffer, buffersize);
+  Result := PCefZipReader(FData)^.read_file(PCefZipReader(FData), buffer, buffersize);
 end;
 
 function TCefZipReaderRef.Tell: Int64;
 begin
-  Result := PCefZipReader(FData).tell(FData);
+  Result := PCefZipReader(FData)^.tell(PCefZipReader(FData));
 end;
 
 class function TCefZipReaderRef.UnWrap(data: Pointer): ICefZipReader;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefZipReader else
+  if (data <> nil) then
+    Result := Create(data) as ICefZipReader
+   else
     Result := nil;
 end;
 

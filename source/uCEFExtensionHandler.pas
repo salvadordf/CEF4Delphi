@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFExtensionHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -130,10 +134,10 @@ function TCefExtensionHandlerRef.GetActiveBrowser(const extension         : ICef
                                                   const browser           : ICefBrowser;
                                                         include_incognito : boolean): ICefBrowser;
 begin
-  Result := TCefBrowserRef.UnWrap(PCefExtensionHandler(FData).get_active_browser(PCefExtensionHandler(FData),
-                                                                                 CefGetData(extension),
-                                                                                 CefGetData(browser),
-                                                                                 Ord(include_incognito)));
+  Result := TCefBrowserRef.UnWrap(PCefExtensionHandler(FData)^.get_active_browser(PCefExtensionHandler(FData),
+                                                                                  CefGetData(extension),
+                                                                                  CefGetData(browser),
+                                                                                  Ord(include_incognito)));
 end;
 
 function TCefExtensionHandlerRef.CanAccessBrowser(const extension         : ICefExtension;
@@ -141,11 +145,11 @@ function TCefExtensionHandlerRef.CanAccessBrowser(const extension         : ICef
                                                         include_incognito : boolean;
                                                   const target_browser    : ICefBrowser): boolean;
 begin
-  Result := PCefExtensionHandler(FData).can_access_browser(PCefExtensionHandler(FData),
-                                                           CefGetData(extension),
-                                                           CefGetData(browser),
-                                                           Ord(include_incognito),
-                                                           CefGetData(target_browser)) <> 0;
+  Result := PCefExtensionHandler(FData)^.can_access_browser(PCefExtensionHandler(FData),
+                                                            CefGetData(extension),
+                                                            CefGetData(browser),
+                                                            Ord(include_incognito),
+                                                            CefGetData(target_browser)) <> 0;
 end;
 
 function TCefExtensionHandlerRef.GetExtensionResource(const extension : ICefExtension;
@@ -156,11 +160,11 @@ var
   TempFile : TCefString;
 begin
   TempFile := CefString(file_);
-  Result   := PCefExtensionHandler(FData).get_extension_resource(PCefExtensionHandler(FData),
-                                                                 CefGetData(extension),
-                                                                 CefGetData(browser),
-                                                                 @TempFile,
-                                                                 CefGetData(callback)) <> 0;
+  Result   := PCefExtensionHandler(FData)^.get_extension_resource(PCefExtensionHandler(FData),
+                                                                  CefGetData(extension),
+                                                                  CefGetData(browser),
+                                                                  @TempFile,
+                                                                  CefGetData(callback)) <> 0;
 end;
 
 class function TCefExtensionHandlerRef.UnWrap(data: Pointer): ICefExtensionHandler;
@@ -337,14 +341,14 @@ begin
 
   with PCefExtensionHandler(FData)^ do
     begin
-      on_extension_load_failed     := cef_extension_handler_on_extension_load_failed;
-      on_extension_loaded          := cef_extension_handler_on_extension_loaded;
-      on_extension_unloaded        := cef_extension_handler_on_extension_unloaded;
-      on_before_background_browser := cef_extension_handler_on_before_background_browser;
-      on_before_browser            := cef_extension_handler_on_before_browser;
-      get_active_browser           := cef_extension_handler_get_active_browser;
-      can_access_browser           := cef_extension_handler_can_access_browser;
-      get_extension_resource       := cef_extension_handler_get_extension_resource;
+      on_extension_load_failed     := {$IFDEF FPC}@{$ENDIF}cef_extension_handler_on_extension_load_failed;
+      on_extension_loaded          := {$IFDEF FPC}@{$ENDIF}cef_extension_handler_on_extension_loaded;
+      on_extension_unloaded        := {$IFDEF FPC}@{$ENDIF}cef_extension_handler_on_extension_unloaded;
+      on_before_background_browser := {$IFDEF FPC}@{$ENDIF}cef_extension_handler_on_before_background_browser;
+      on_before_browser            := {$IFDEF FPC}@{$ENDIF}cef_extension_handler_on_before_browser;
+      get_active_browser           := {$IFDEF FPC}@{$ENDIF}cef_extension_handler_get_active_browser;
+      can_access_browser           := {$IFDEF FPC}@{$ENDIF}cef_extension_handler_can_access_browser;
+      get_extension_resource       := {$IFDEF FPC}@{$ENDIF}cef_extension_handler_get_extension_resource;
     end;
 end;
 

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFRequest;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -52,26 +56,26 @@ uses
 type
   TCefRequestRef = class(TCefBaseRefCountedRef, ICefRequest)
   protected
-    function IsReadOnly: Boolean;
-    function GetUrl: ustring;
-    function GetMethod: ustring;
-    function GetPostData: ICefPostData;
+    function  IsReadOnly: Boolean;
+    function  GetUrl: ustring;
+    function  GetMethod: ustring;
+    function  GetPostData: ICefPostData;
     procedure GetHeaderMap(const HeaderMap: ICefStringMultimap);
     procedure SetUrl(const value: ustring);
     procedure SetMethod(const value: ustring);
     procedure SetReferrer(const referrerUrl: ustring; policy: TCefReferrerPolicy);
-    function GetReferrerUrl: ustring;
-    function GetReferrerPolicy: TCefReferrerPolicy;
+    function  GetReferrerUrl: ustring;
+    function  GetReferrerPolicy: TCefReferrerPolicy;
     procedure SetPostData(const value: ICefPostData);
     procedure SetHeaderMap(const HeaderMap: ICefStringMultimap);
-    function GetFlags: TCefUrlRequestFlags;
+    function  GetFlags: TCefUrlRequestFlags;
     procedure SetFlags(flags: TCefUrlRequestFlags);
-    function GetFirstPartyForCookies: ustring;
+    function  GetFirstPartyForCookies: ustring;
     procedure SetFirstPartyForCookies(const url: ustring);
     procedure Assign(const url, method: ustring; const postData: ICefPostData; const headerMap: ICefStringMultimap);
-    function GetResourceType: TCefResourceType;
-    function GetTransitionType: TCefTransitionType;
-    function GetIdentifier: UInt64;
+    function  GetResourceType: TCefResourceType;
+    function  GetTransitionType: TCefTransitionType;
+    function  GetIdentifier: UInt64;
   public
     class function UnWrap(data: Pointer): ICefRequest;
     class function New: ICefRequest;
@@ -84,21 +88,21 @@ uses
 
 function TCefRequestRef.IsReadOnly: Boolean;
 begin
-  Result := PCefRequest(FData).is_read_only(PCefRequest(FData)) <> 0;
+  Result := PCefRequest(FData)^.is_read_only(PCefRequest(FData)) <> 0;
 end;
 
 procedure TCefRequestRef.Assign(const url, method: ustring; const postData: ICefPostData; const headerMap: ICefStringMultimap);
 var
-  u, m: TCefString;
+  TempURL, TempMethod : TCefString;
 begin
-  u := cefstring(url);
-  m := cefstring(method);
-  PCefRequest(FData).set_(PCefRequest(FData), @u, @m, CefGetData(postData), headerMap.Handle);
+  TempURL    := cefstring(url);
+  TempMethod := cefstring(method);
+  PCefRequest(FData)^.set_(PCefRequest(FData), @TempURL, @TempMethod, CefGetData(postData), headerMap.Handle);
 end;
 
 function TCefRequestRef.GetFirstPartyForCookies: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefRequest(FData).get_first_party_for_cookies(PCefRequest(FData)));
+  Result := CefStringFreeAndGet(PCefRequest(FData)^.get_first_party_for_cookies(PCefRequest(FData)));
 end;
 
 function TCefRequestRef.GetFlags: TCefUrlRequestFlags;
@@ -128,12 +132,12 @@ end;
 
 function TCefRequestRef.GetResourceType: TCefResourceType;
 begin
-  Result := PCefRequest(FData).get_resource_type(FData);
+  Result := PCefRequest(FData)^.get_resource_type(FData);
 end;
 
 function TCefRequestRef.GetTransitionType: TCefTransitionType;
 begin
-    Result := PCefRequest(FData).get_transition_type(FData);
+  Result := PCefRequest(FData)^.get_transition_type(FData);
 end;
 
 function TCefRequestRef.GetUrl: ustring;
@@ -143,15 +147,15 @@ end;
 
 class function TCefRequestRef.New: ICefRequest;
 begin
-  Result := UnWrap(cef_request_create);
+  Result := UnWrap(cef_request_create());
 end;
 
 procedure TCefRequestRef.SetFirstPartyForCookies(const url: ustring);
 var
-  str: TCefString;
+  TempURL : TCefString;
 begin
-  str := CefString(url);
-  PCefRequest(FData).set_first_party_for_cookies(PCefRequest(FData), @str);
+  TempURL := CefString(url);
+  PCefRequest(FData)^.set_first_party_for_cookies(PCefRequest(FData), @TempURL);
 end;
 
 procedure TCefRequestRef.SetFlags(flags: TCefUrlRequestFlags);
@@ -166,18 +170,18 @@ end;
 
 procedure TCefRequestRef.SetMethod(const value: ustring);
 var
-  v: TCefString;
+  TempValue : TCefString;
 begin
-  v := CefString(value);
-  PCefRequest(FData)^.set_method(PCefRequest(FData), @v);
+  TempValue := CefString(value);
+  PCefRequest(FData)^.set_method(PCefRequest(FData), @TempValue);
 end;
 
 procedure TCefRequestRef.SetReferrer(const referrerUrl: ustring; policy: TCefReferrerPolicy);
 var
-  u: TCefString;
+  TempURL : TCefString;
 begin
-  u := CefString(referrerUrl);
-  PCefRequest(FData)^.set_referrer(PCefRequest(FData), @u, policy);
+  TempURL := CefString(referrerUrl);
+  PCefRequest(FData)^.set_referrer(PCefRequest(FData), @TempURL, policy);
 end;
 
 function TCefRequestRef.GetReferrerUrl: ustring;
@@ -192,22 +196,23 @@ end;
 
 procedure TCefRequestRef.SetPostData(const value: ICefPostData);
 begin
-  if value <> nil then
+  if (value <> nil) then
     PCefRequest(FData)^.set_post_data(PCefRequest(FData), CefGetData(value));
 end;
 
 procedure TCefRequestRef.SetUrl(const value: ustring);
 var
-  v: TCefString;
+  TempURL : TCefString;
 begin
-  v := CefString(value);
-  PCefRequest(FData)^.set_url(PCefRequest(FData), @v);
+  TempURL := CefString(value);
+  PCefRequest(FData)^.set_url(PCefRequest(FData), @TempURL);
 end;
 
 class function TCefRequestRef.UnWrap(data: Pointer): ICefRequest;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefRequest else
+  if (data <> nil) then
+    Result := Create(data) as ICefRequest
+   else
     Result := nil;
 end;
 

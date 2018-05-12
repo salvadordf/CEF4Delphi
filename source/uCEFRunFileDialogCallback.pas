@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFRunFileDialogCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -114,7 +118,8 @@ constructor TCefRunFileDialogCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefRunFileDialogCallback));
 
-  PCefRunFileDialogCallback(FData).on_file_dialog_dismissed := cef_run_file_dialog_callback_on_file_dialog_dismissed;
+  with PCefRunFileDialogCallback(FData)^ do
+    on_file_dialog_dismissed := {$IFDEF FPC}@{$ENDIF}cef_run_file_dialog_callback_on_file_dialog_dismissed;
 end;
 
 procedure TCefRunFileDialogCallbackOwn.OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings);

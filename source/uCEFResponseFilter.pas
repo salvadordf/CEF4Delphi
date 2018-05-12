@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFResponseFilter;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -120,8 +124,8 @@ begin
 
   with PCefResponseFilter(FData)^ do
     begin
-      init_filter := cef_response_filter_init_filter;
-      filter      := cef_response_filter_filter;
+      init_filter := {$IFDEF FPC}@{$ENDIF}cef_response_filter_init_filter;
+      filter      := {$IFDEF FPC}@{$ENDIF}cef_response_filter_filter;
     end;
 end;
 

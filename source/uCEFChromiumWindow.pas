@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFChromiumWindow;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -48,11 +52,16 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Messages, Classes,
+    Windows, Classes, Forms, Controls, Graphics,
+    {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    {$ELSE}
+    Messages,
+    {$ENDIF}
   {$ENDIF}
-  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants;
+  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes;
 
 type
   TChromiumWindow = class(TCEFWindowParent)
@@ -78,7 +87,7 @@ type
       procedure   AfterConstruction; override;
       function    CreateBrowser : boolean;
       procedure   CloseBrowser(aForceClose : boolean);
-      procedure   LoadURL(const aURL : string);
+      procedure   LoadURL(const aURL : ustring);
       procedure   NotifyMoveOrResizeStarted;
 
       property ChromiumBrowser    : TChromium       read FChromium;
@@ -89,6 +98,10 @@ type
       property OnBeforeClose    : TNotifyEvent    read FOnBeforeClose    write FOnBeforeClose;
       property OnAfterCreated   : TNotifyEvent    read FOnAfterCreated   write FOnAfterCreated;
   end;
+
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
 
 implementation
 
@@ -116,9 +129,9 @@ begin
   if not(csDesigning in ComponentState) then
     begin
       FChromium                := TChromium.Create(self);
-      FChromium.OnClose        := WebBrowser_OnClose;
-      FChromium.OnBeforeClose  := WebBrowser_OnBeforeClose;
-      FChromium.OnAfterCreated := WebBrowser_OnAfterCreated;
+      FChromium.OnClose        := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnClose;
+      FChromium.OnBeforeClose  := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnBeforeClose;
+      FChromium.OnAfterCreated := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnAfterCreated;
     end;
 end;
 
@@ -184,7 +197,7 @@ begin
   if (FChromium <> nil) then FChromium.CloseBrowser(aForceClose);
 end;
 
-procedure TChromiumWindow.LoadURL(const aURL : string);
+procedure TChromiumWindow.LoadURL(const aURL : ustring);
 begin
   if not(csDesigning in ComponentState) and (FChromium <> nil) then
     FChromium.LoadURL(aURL);
@@ -194,5 +207,13 @@ procedure TChromiumWindow.NotifyMoveOrResizeStarted;
 begin
   if (FChromium <> nil) then FChromium.NotifyMoveOrResizeStarted;
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I tchromiumwindow.lrs}
+  RegisterComponents('Chromium', [TChromiumWindow]);
+end;
+{$ENDIF}
 
 end.

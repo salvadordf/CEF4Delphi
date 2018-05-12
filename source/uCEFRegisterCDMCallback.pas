@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFRegisterCDMCallback;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -50,8 +54,6 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplication;
 
 type
-  TCefRegisterCDMProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(result: TCefCDMRegistrationError; const error_message: ustring);
-
   TCefRegisterCDMCallbackOwn = class(TCefBaseRefCountedOwn, ICefRegisterCDMCallback)
     protected
       procedure OnCDMRegistrationComplete(result: TCefCDMRegistrationError; const error_message: ustring); virtual;
@@ -114,7 +116,8 @@ constructor TCefRegisterCDMCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefRegisterCDMCallback));
 
-  PCefRegisterCDMCallback(FData).on_cdm_registration_complete := cef_register_cdm_callback_on_cdm_registration_complete;
+  with PCefRegisterCDMCallback(FData)^ do
+    on_cdm_registration_complete := {$IFDEF FPC}@{$ENDIF}cef_register_cdm_callback_on_cdm_registration_complete;
 end;
 
 procedure TCefRegisterCDMCallbackOwn.OnCDMRegistrationComplete(result: TCefCDMRegistrationError;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFCookieVisitor;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -86,21 +90,21 @@ begin
   Result     := Ord(True);
   TempObject := CefGetObject(self);
 
-  if (cookie.has_expires <> 0) then
-    exp := CefTimeToDateTime(cookie.expires)
+  if (cookie^.has_expires <> 0) then
+    exp := CefTimeToDateTime(cookie^.expires)
    else
     exp := 0;
 
   if (TempObject <> nil) and (TempObject is TCefCookieVisitorOwn) then
-    Result := Ord(TCefCookieVisitorOwn(TempObject).visit(CefString(@cookie.name),
-                                                         CefString(@cookie.value),
-                                                         CefString(@cookie.domain),
-                                                         CefString(@cookie.path),
-                                                         Boolean(cookie.secure),
-                                                         Boolean(cookie.httponly),
-                                                         Boolean(cookie.has_expires),
-                                                         CefTimeToDateTime(cookie.creation),
-                                                         CefTimeToDateTime(cookie.last_access),
+    Result := Ord(TCefCookieVisitorOwn(TempObject).visit(CefString(@cookie^.name),
+                                                         CefString(@cookie^.value),
+                                                         CefString(@cookie^.domain),
+                                                         CefString(@cookie^.path),
+                                                         Boolean(cookie^.secure),
+                                                         Boolean(cookie^.httponly),
+                                                         Boolean(cookie^.has_expires),
+                                                         CefTimeToDateTime(cookie^.creation),
+                                                         CefTimeToDateTime(cookie^.last_access),
                                                          exp,
                                                          count,
                                                          total,
@@ -115,7 +119,7 @@ constructor TCefCookieVisitorOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefCookieVisitor));
 
-  PCefCookieVisitor(FData)^.visit := cef_cookie_visitor_visit;
+  PCefCookieVisitor(FData)^.visit := {$IFDEF FPC}@{$ENDIF}cef_cookie_visitor_visit;
 end;
 
 function TCefCookieVisitorOwn.visit(const name, value, domain, path: ustring;

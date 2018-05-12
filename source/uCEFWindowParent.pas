@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFWindowParent;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -50,7 +54,12 @@ uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics,
+    Windows, Classes, Forms, Controls, Graphics,
+    {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    {$ELSE}
+    Messages,
+    {$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces;
 
@@ -82,6 +91,10 @@ type
       property  Hint;
   end;
 
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
+
 implementation
 
 uses
@@ -89,7 +102,10 @@ uses
 
 function TCEFWindowParent.GetChildWindowHandle : THandle;
 begin
-  Result := GetWindow(Handle, GW_CHILD);
+  if not(csDesigning in ComponentState) and HandleAllocated then
+    Result := GetWindow(Handle, GW_CHILD)
+   else
+    Result := 0;
 end;
 
 procedure TCEFWindowParent.Resize;
@@ -140,7 +156,7 @@ begin
     WM_ERASEBKGND:
       begin
         TempHandle := ChildWindowHandle;
-        if (csDesigning in ComponentState) or (TempHandle = 0) then inherited WndProc(aMessage);
+        if (TempHandle = 0) then inherited WndProc(aMessage);
       end;
 
     CM_WANTSPECIALKEY:
@@ -191,5 +207,13 @@ begin
   TempHWND := ChildWindowHandle;
   Result   := (TempHWND <> 0) and DestroyWindow(TempHWND);
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I tcefwindowparent.lrs}
+  RegisterComponents('Chromium', [TCEFWindowParent]);
+end;
+{$ENDIF}
 
 end.

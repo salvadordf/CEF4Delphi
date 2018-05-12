@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFPrintSettings;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -88,148 +92,150 @@ uses
 
 function TCefPrintSettingsRef.Copy: ICefPrintSettings;
 begin
-  Result := UnWrap(PCefPrintSettings(FData).copy(FData))
+  Result := UnWrap(PCefPrintSettings(FData)^.copy(FData))
 end;
 
 function TCefPrintSettingsRef.GetColorModel: TCefColorModel;
 begin
-  Result := PCefPrintSettings(FData).get_color_model(FData);
+  Result := PCefPrintSettings(FData)^.get_color_model(FData);
 end;
 
 function TCefPrintSettingsRef.GetCopies: Integer;
 begin
-  Result := PCefPrintSettings(FData).get_copies(FData);
+  Result := PCefPrintSettings(FData)^.get_copies(FData);
 end;
 
 function TCefPrintSettingsRef.GetDeviceName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefPrintSettings(FData).get_device_name(FData));
+  Result := CefStringFreeAndGet(PCefPrintSettings(FData)^.get_device_name(FData));
 end;
 
 function TCefPrintSettingsRef.GetDpi: Integer;
 begin
-  Result := PCefPrintSettings(FData).get_dpi(FData);
+  Result := PCefPrintSettings(FData)^.get_dpi(FData);
 end;
 
 function TCefPrintSettingsRef.GetDuplexMode: TCefDuplexMode;
 begin
-  Result := PCefPrintSettings(FData).get_duplex_mode(FData);
+  Result := PCefPrintSettings(FData)^.get_duplex_mode(FData);
 end;
 
-procedure TCefPrintSettingsRef.GetPageRanges(
-  out ranges: TCefRangeArray);
+procedure TCefPrintSettingsRef.GetPageRanges(out ranges: TCefRangeArray);
 var
-  len: NativeUInt;
+  TempLen : NativeUInt;
 begin
-  len := GetPageRangesCount;
-  SetLength(ranges, len);
-  if len > 0 then
-    PCefPrintSettings(FData).get_page_ranges(FData, @len, @ranges[0]);
+  TempLen := GetPageRangesCount;
+  SetLength(ranges, TempLen);
+
+  if (TempLen > 0) then PCefPrintSettings(FData)^.get_page_ranges(FData, @TempLen, @ranges[0]);
 end;
 
 function TCefPrintSettingsRef.GetPageRangesCount: NativeUInt;
 begin
-  Result := PCefPrintSettings(FData).get_page_ranges_count(FData);
+  Result := PCefPrintSettings(FData)^.get_page_ranges_count(FData);
 end;
 
 function TCefPrintSettingsRef.IsLandscape: Boolean;
 begin
-  Result := PCefPrintSettings(FData).is_landscape(FData) <> 0;
+  Result := PCefPrintSettings(FData)^.is_landscape(FData) <> 0;
 end;
 
 function TCefPrintSettingsRef.IsReadOnly: Boolean;
 begin
-  Result := PCefPrintSettings(FData).is_read_only(FData) <> 0;
+  Result := PCefPrintSettings(FData)^.is_read_only(FData) <> 0;
 end;
 
 function TCefPrintSettingsRef.IsSelectionOnly: Boolean;
 begin
-  Result := PCefPrintSettings(FData).is_selection_only(FData) <> 0;
+  Result := PCefPrintSettings(FData)^.is_selection_only(FData) <> 0;
 end;
 
 function TCefPrintSettingsRef.IsValid: Boolean;
 begin
-  Result := PCefPrintSettings(FData).is_valid(FData) <> 0;
+  Result := PCefPrintSettings(FData)^.is_valid(FData) <> 0;
 end;
 
 class function TCefPrintSettingsRef.New: ICefPrintSettings;
 begin
-  Result := UnWrap(cef_print_settings_create);
+  Result := UnWrap(cef_print_settings_create());
 end;
 
 procedure TCefPrintSettingsRef.SetCollate(collate: Boolean);
 begin
-  PCefPrintSettings(FData).set_collate(FData, Ord(collate));
+  PCefPrintSettings(FData)^.set_collate(FData, Ord(collate));
 end;
 
 procedure TCefPrintSettingsRef.SetColorModel(model: TCefColorModel);
 begin
-  PCefPrintSettings(FData).set_color_model(FData, model);
+  PCefPrintSettings(FData)^.set_color_model(FData, model);
 end;
 
 procedure TCefPrintSettingsRef.SetCopies(copies: Integer);
 begin
-  PCefPrintSettings(FData).set_copies(FData, copies);
+  PCefPrintSettings(FData)^.set_copies(FData, copies);
 end;
 
 procedure TCefPrintSettingsRef.SetDeviceName(const name: ustring);
 var
-  s: TCefString;
+  TempName : TCefString;
 begin
-  s := CefString(name);
-  PCefPrintSettings(FData).set_device_name(FData, @s);
+  TempName := CefString(name);
+  PCefPrintSettings(FData)^.set_device_name(FData, @TempName);
 end;
 
 procedure TCefPrintSettingsRef.SetDpi(dpi: Integer);
 begin
-  PCefPrintSettings(FData).set_dpi(FData, dpi);
+  PCefPrintSettings(FData)^.set_dpi(FData, dpi);
 end;
 
 procedure TCefPrintSettingsRef.SetDuplexMode(mode: TCefDuplexMode);
 begin
-  PCefPrintSettings(FData).set_duplex_mode(FData, mode);
+  PCefPrintSettings(FData)^.set_duplex_mode(FData, mode);
 end;
 
 procedure TCefPrintSettingsRef.SetOrientation(landscape: Boolean);
 begin
-  PCefPrintSettings(FData).set_orientation(FData, Ord(landscape));
+  PCefPrintSettings(FData)^.set_orientation(FData, Ord(landscape));
 end;
 
-procedure TCefPrintSettingsRef.SetPageRanges(
-  const ranges: TCefRangeArray);
+procedure TCefPrintSettingsRef.SetPageRanges(const ranges: TCefRangeArray);
 var
-  len: NativeUInt;
+  TempLen : NativeUInt;
 begin
-  len := Length(ranges);
-  if len > 0 then
-    PCefPrintSettings(FData).set_page_ranges(FData, len, @ranges[0]) else
-    PCefPrintSettings(FData).set_page_ranges(FData, 0, nil);
+  TempLen := Length(ranges);
+
+  if (TempLen > 0) then
+    PCefPrintSettings(FData)^.set_page_ranges(FData, TempLen, @ranges[0])
+   else
+    PCefPrintSettings(FData)^.set_page_ranges(FData, 0, nil);
 end;
 
-procedure TCefPrintSettingsRef.SetPrinterPrintableArea(
-  const physicalSizeDeviceUnits: PCefSize;
-  const printableAreaDeviceUnits: PCefRect; landscapeNeedsFlip: Boolean);
+procedure TCefPrintSettingsRef.SetPrinterPrintableArea(const physicalSizeDeviceUnits  : PCefSize;
+                                                       const printableAreaDeviceUnits : PCefRect;
+                                                             landscapeNeedsFlip       : Boolean);
 begin
-  PCefPrintSettings(FData).set_printer_printable_area(FData, physicalSizeDeviceUnits,
-    printableAreaDeviceUnits, Ord(landscapeNeedsFlip));
+  PCefPrintSettings(FData)^.set_printer_printable_area(FData,
+                                                       physicalSizeDeviceUnits,
+                                                       printableAreaDeviceUnits,
+                                                       Ord(landscapeNeedsFlip));
 end;
 
 procedure TCefPrintSettingsRef.SetSelectionOnly(selectionOnly: Boolean);
 begin
-  PCefPrintSettings(FData).set_selection_only(FData, Ord(selectionOnly));
+  PCefPrintSettings(FData)^.set_selection_only(FData, Ord(selectionOnly));
 end;
 
-class function TCefPrintSettingsRef.UnWrap(
-  data: Pointer): ICefPrintSettings;
+class function TCefPrintSettingsRef.UnWrap(data: Pointer): ICefPrintSettings;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefPrintSettings else
+  if (data <> nil) then
+    Result := Create(data) as ICefPrintSettings
+   else
     Result := nil;
 end;
 
 function TCefPrintSettingsRef.WillCollate: Boolean;
 begin
-  Result := PCefPrintSettings(FData).will_collate(FData) <> 0;
+  Result := PCefPrintSettings(FData)^.will_collate(FData) <> 0;
 end;
 
 end.

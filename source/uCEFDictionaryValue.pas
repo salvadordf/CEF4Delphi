@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFDictionaryValue;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -99,52 +103,52 @@ uses
 
 function TCefDictionaryValueRef.Clear: Boolean;
 begin
-  Result := PCefDictionaryValue(FData).clear(PCefDictionaryValue(FData)) <> 0;
+  Result := PCefDictionaryValue(FData)^.clear(PCefDictionaryValue(FData)) <> 0;
 end;
 
 function TCefDictionaryValueRef.Copy(excludeEmptyChildren: Boolean): ICefDictionaryValue;
 begin
-  Result := UnWrap(PCefDictionaryValue(FData).copy(PCefDictionaryValue(FData), Ord(excludeEmptyChildren)));
+  Result := UnWrap(PCefDictionaryValue(FData)^.copy(PCefDictionaryValue(FData), Ord(excludeEmptyChildren)));
 end;
 
 function TCefDictionaryValueRef.GetBinary(const key: ustring): ICefBinaryValue;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := TCefBinaryValueRef.UnWrap(PCefDictionaryValue(FData).get_binary(PCefDictionaryValue(FData), @k));
+  TempKey := CefString(key);
+  Result  := TCefBinaryValueRef.UnWrap(PCefDictionaryValue(FData)^.get_binary(PCefDictionaryValue(FData), @TempKey));
 end;
 
 function TCefDictionaryValueRef.GetBool(const key: ustring): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).get_bool(PCefDictionaryValue(FData), @k) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.get_bool(PCefDictionaryValue(FData), @TempKey) <> 0;
 end;
 
 function TCefDictionaryValueRef.GetDictionary(const key: ustring): ICefDictionaryValue;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := UnWrap(PCefDictionaryValue(FData).get_dictionary(PCefDictionaryValue(FData), @k));
+  TempKey := CefString(key);
+  Result  := UnWrap(PCefDictionaryValue(FData)^.get_dictionary(PCefDictionaryValue(FData), @TempKey));
 end;
 
 function TCefDictionaryValueRef.GetDouble(const key: ustring): Double;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).get_double(PCefDictionaryValue(FData), @k);
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.get_double(PCefDictionaryValue(FData), @TempKey);
 end;
 
 function TCefDictionaryValueRef.GetInt(const key: ustring): Integer;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).get_int(PCefDictionaryValue(FData), @k);
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.get_int(PCefDictionaryValue(FData), @TempKey);
 end;
 
 function TCefDictionaryValueRef.GetKeys(const keys : TStrings): Boolean;
@@ -157,7 +161,7 @@ begin
     begin
       TempSL := TCefStringListOwn.Create;
 
-      if (PCefDictionaryValue(FData).get_keys(PCefDictionaryValue(FData), TempSL.Handle) <> 0) then
+      if (PCefDictionaryValue(FData)^.get_keys(PCefDictionaryValue(FData), TempSL.Handle) <> 0) then
         begin
           TempSL.CopyToStrings(keys);
           Result := True;
@@ -167,169 +171,165 @@ end;
 
 function TCefDictionaryValueRef.GetList(const key: ustring): ICefListValue;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := TCefListValueRef.UnWrap(PCefDictionaryValue(FData).get_list(PCefDictionaryValue(FData), @k));
+  TempKey := CefString(key);
+  Result  := TCefListValueRef.UnWrap(PCefDictionaryValue(FData)^.get_list(PCefDictionaryValue(FData), @TempKey));
 end;
 
 function TCefDictionaryValueRef.GetSize: NativeUInt;
 begin
-  Result := PCefDictionaryValue(FData).get_size(PCefDictionaryValue(FData));
+  Result := PCefDictionaryValue(FData)^.get_size(PCefDictionaryValue(FData));
 end;
 
 function TCefDictionaryValueRef.GetString(const key: ustring): ustring;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := CefStringFreeAndGet(PCefDictionaryValue(FData).get_string(PCefDictionaryValue(FData), @k));
+  TempKey := CefString(key);
+  Result  := CefStringFreeAndGet(PCefDictionaryValue(FData)^.get_string(PCefDictionaryValue(FData), @TempKey));
 end;
 
 function TCefDictionaryValueRef.GetType(const key: ustring): TCefValueType;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).get_type(PCefDictionaryValue(FData), @k);
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.get_type(PCefDictionaryValue(FData), @TempKey);
 end;
 
 function TCefDictionaryValueRef.GetValue(const key: ustring): ICefValue;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := TCefValueRef.UnWrap(PCefDictionaryValue(FData).get_value(PCefDictionaryValue(FData), @k));
+  TempKey := CefString(key);
+  Result  := TCefValueRef.UnWrap(PCefDictionaryValue(FData)^.get_value(PCefDictionaryValue(FData), @TempKey));
 end;
 
 function TCefDictionaryValueRef.HasKey(const key: ustring): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).has_key(PCefDictionaryValue(FData), @k) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.has_key(PCefDictionaryValue(FData), @TempKey) <> 0;
 end;
 
-function TCefDictionaryValueRef.IsEqual(
-  const that: ICefDictionaryValue): Boolean;
+function TCefDictionaryValueRef.IsEqual(const that: ICefDictionaryValue): Boolean;
 begin
-  Result := PCefDictionaryValue(FData).is_equal(PCefDictionaryValue(FData), CefGetData(that)) <> 0;
+  Result := PCefDictionaryValue(FData)^.is_equal(PCefDictionaryValue(FData), CefGetData(that)) <> 0;
 end;
 
 function TCefDictionaryValueRef.isOwned: Boolean;
 begin
-  Result := PCefDictionaryValue(FData).is_owned(PCefDictionaryValue(FData)) <> 0;
+  Result := PCefDictionaryValue(FData)^.is_owned(PCefDictionaryValue(FData)) <> 0;
 end;
 
 function TCefDictionaryValueRef.IsReadOnly: Boolean;
 begin
-  Result := PCefDictionaryValue(FData).is_read_only(PCefDictionaryValue(FData)) <> 0;
+  Result := PCefDictionaryValue(FData)^.is_read_only(PCefDictionaryValue(FData)) <> 0;
 end;
 
-function TCefDictionaryValueRef.IsSame(
-  const that: ICefDictionaryValue): Boolean;
+function TCefDictionaryValueRef.IsSame(const that: ICefDictionaryValue): Boolean;
 begin
-  Result := PCefDictionaryValue(FData).is_same(PCefDictionaryValue(FData), CefGetData(that)) <> 0;
+  Result := PCefDictionaryValue(FData)^.is_same(PCefDictionaryValue(FData), CefGetData(that)) <> 0;
 end;
 
 function TCefDictionaryValueRef.IsValid: Boolean;
 begin
-  Result := PCefDictionaryValue(FData).is_valid(PCefDictionaryValue(FData)) <> 0;
+  Result := PCefDictionaryValue(FData)^.is_valid(PCefDictionaryValue(FData)) <> 0;
 end;
 
 class function TCefDictionaryValueRef.New: ICefDictionaryValue;
 begin
-  Result := UnWrap(cef_dictionary_value_create);
+  Result := UnWrap(cef_dictionary_value_create());
 end;
 
 function TCefDictionaryValueRef.Remove(const key: ustring): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).remove(PCefDictionaryValue(FData), @k) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.remove(PCefDictionaryValue(FData), @TempKey) <> 0;
 end;
 
 function TCefDictionaryValueRef.SetBinary(const key: ustring; const value: ICefBinaryValue): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).set_binary(PCefDictionaryValue(FData), @k, CefGetData(value)) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.set_binary(PCefDictionaryValue(FData), @TempKey, CefGetData(value)) <> 0;
 end;
 
 function TCefDictionaryValueRef.SetBool(const key: ustring; value: Boolean): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).set_bool(PCefDictionaryValue(FData), @k, Ord(value)) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.set_bool(PCefDictionaryValue(FData), @TempKey, Ord(value)) <> 0;
 end;
 
 function TCefDictionaryValueRef.SetDictionary(const key: ustring; const value: ICefDictionaryValue): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).set_dictionary(PCefDictionaryValue(FData), @k, CefGetData(value)) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.set_dictionary(PCefDictionaryValue(FData), @TempKey, CefGetData(value)) <> 0;
 end;
 
-function TCefDictionaryValueRef.SetDouble(const key: ustring;
-  value: Double): Boolean;
+function TCefDictionaryValueRef.SetDouble(const key: ustring; value: Double): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).set_double(PCefDictionaryValue(FData), @k, value) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.set_double(PCefDictionaryValue(FData), @TempKey, value) <> 0;
 end;
 
 function TCefDictionaryValueRef.SetInt(const key: ustring; value: Integer): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).set_int(PCefDictionaryValue(FData), @k, value) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.set_int(PCefDictionaryValue(FData), @TempKey, value) <> 0;
 end;
 
 function TCefDictionaryValueRef.SetList(const key: ustring; const value: ICefListValue): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).set_list(PCefDictionaryValue(FData), @k, CefGetData(value)) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.set_list(PCefDictionaryValue(FData), @TempKey, CefGetData(value)) <> 0;
 end;
 
 function TCefDictionaryValueRef.SetNull(const key: ustring): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).set_null(PCefDictionaryValue(FData), @k) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.set_null(PCefDictionaryValue(FData), @TempKey) <> 0;
 end;
 
 function TCefDictionaryValueRef.SetString(const key, value: ustring): Boolean;
 var
-  k, v: TCefString;
+  TempKey, TempValue : TCefString;
 begin
-  k := CefString(key);
-  v := CefString(value);
-  Result := PCefDictionaryValue(FData).set_string(PCefDictionaryValue(FData), @k, @v) <> 0;
+  TempKey   := CefString(key);
+  TempValue := CefString(value);
+  Result    := PCefDictionaryValue(FData)^.set_string(PCefDictionaryValue(FData), @TempKey, @TempValue) <> 0;
 end;
 
-function TCefDictionaryValueRef.SetValue(const key: ustring;
-  const value: ICefValue): Boolean;
+function TCefDictionaryValueRef.SetValue(const key: ustring; const value: ICefValue): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k := CefString(key);
-  Result := PCefDictionaryValue(FData).set_value(PCefDictionaryValue(FData), @k, CefGetData(value)) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefDictionaryValue(FData)^.set_value(PCefDictionaryValue(FData), @TempKey, CefGetData(value)) <> 0;
 end;
 
-class function TCefDictionaryValueRef.UnWrap(
-  data: Pointer): ICefDictionaryValue;
+class function TCefDictionaryValueRef.UnWrap(data: Pointer): ICefDictionaryValue;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefDictionaryValue else
+  if (data <> nil) then
+    Result := Create(data) as ICefDictionaryValue
+   else
     Result := nil;
 end;
 

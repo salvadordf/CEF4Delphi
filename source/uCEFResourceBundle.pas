@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFResourceBundle;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -66,24 +70,31 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
 
-function TCefResourceBundleRef.GetDataResource(resourceId   : Integer;
-                                               var data     : Pointer;
-                                               var dataSize : NativeUInt): Boolean;
+function TCefResourceBundleRef.GetDataResource(    resourceId   : Integer;
+                                               var data         : Pointer;
+                                               var dataSize     : NativeUInt): Boolean;
 begin
-  Result := PCefResourceBundle(FData).get_data_resource(FData, resourceId, data, dataSize) <> 0;
+  Result := PCefResourceBundle(FData)^.get_data_resource(PCefResourceBundle(FData),
+                                                         resourceId,
+                                                         data,
+                                                         dataSize) <> 0;
 end;
 
-function TCefResourceBundleRef.GetDataResourceForScale(resourceId : Integer;
+function TCefResourceBundleRef.GetDataResourceForScale(    resourceId  : Integer;
                                                            scaleFactor : TCefScaleFactor;
                                                        var data        : Pointer;
                                                        var dataSize    : NativeUInt): Boolean;
 begin
-  Result := PCefResourceBundle(FData).get_data_resource_for_scale(FData, resourceId, scaleFactor, data, dataSize) <> 0;
+  Result := PCefResourceBundle(FData)^.get_data_resource_for_scale(PCefResourceBundle(FData),
+                                                                   resourceId,
+                                                                   scaleFactor,
+                                                                   data,
+                                                                   dataSize) <> 0;
 end;
 
 function TCefResourceBundleRef.GetLocalizedString(stringId: Integer): ustring;
 begin
-  Result := CefStringFreeAndGet(PCefResourceBundle(FData).get_localized_string(FData, stringId));
+  Result := CefStringFreeAndGet(PCefResourceBundle(FData)^.get_localized_string(PCefResourceBundle(FData), stringId));
 end;
 
 class function TCefResourceBundleRef.Global: ICefResourceBundle;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFv8Context;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -75,7 +79,7 @@ uses
 
 class function TCefv8ContextRef.Current: ICefv8Context;
 begin
-  Result := UnWrap(cef_v8context_get_current_context)
+  Result := UnWrap(cef_v8context_get_current_context())
 end;
 
 function TCefv8ContextRef.Enter: Boolean;
@@ -85,7 +89,7 @@ end;
 
 class function TCefv8ContextRef.Entered: ICefv8Context;
 begin
-  Result := UnWrap(cef_v8context_get_entered_context)
+  Result := UnWrap(cef_v8context_get_entered_context())
 end;
 
 function TCefv8ContextRef.Exit: Boolean;
@@ -120,14 +124,14 @@ end;
 
 function TCefv8ContextRef.IsValid: Boolean;
 begin
-  Result := PCefv8Context(FData)^.is_valid(FData) <> 0;
+  Result := PCefv8Context(FData)^.is_valid(PCefv8Context(FData)) <> 0;
 end;
 
-function TCefv8ContextRef.Eval(const code: ustring;
-                               const script_url: ustring;
-                                     start_line: integer;
-                               var   retval: ICefv8Value;
-                               var   exception: ICefV8Exception): Boolean;
+function TCefv8ContextRef.Eval(const code       : ustring;
+                               const script_url : ustring;
+                                     start_line : integer;
+                               var   retval     : ICefv8Value;
+                               var   exception  : ICefV8Exception): Boolean;
 var
   TempCode, TempScriptURL : TCefString;
   TempValue : PCefv8Value;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFX509Certificate;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -57,14 +61,14 @@ uses
 type
   TCEFX509CertificateRef = class(TCefBaseRefCountedRef, ICefX509Certificate)
     protected
-      function GetSubject: ICefX509CertPrincipal;
-      function GetIssuer: ICefX509CertPrincipal;
-      function GetSerialNumber: ICefBinaryValue;
-      function GetValidStart: TCefTime;
-      function GetValidExpiry: TCefTime;
-      function GetDerEncoded: ICefBinaryValue;
-      function GetPemEncoded: ICefBinaryValue;
-      function GetIssuerChainSize: NativeUInt;
+      function  GetSubject: ICefX509CertPrincipal;
+      function  GetIssuer: ICefX509CertPrincipal;
+      function  GetSerialNumber: ICefBinaryValue;
+      function  GetValidStart: TCefTime;
+      function  GetValidExpiry: TCefTime;
+      function  GetDerEncoded: ICefBinaryValue;
+      function  GetPemEncoded: ICefBinaryValue;
+      function  GetIssuerChainSize: NativeUInt;
       procedure GetDEREncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
       procedure GetPEMEncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
 
@@ -79,42 +83,42 @@ uses
 
 function TCEFX509CertificateRef.GetSubject: ICefX509CertPrincipal;
 begin
-  Result := TCefX509CertPrincipalRef.UnWrap(PCefX509Certificate(FData).get_subject(FData));
+  Result := TCefX509CertPrincipalRef.UnWrap(PCefX509Certificate(FData)^.get_subject(PCefX509Certificate(FData)));
 end;
 
 function TCEFX509CertificateRef.GetIssuer: ICefX509CertPrincipal;
 begin
-  Result := TCefX509CertPrincipalRef.UnWrap(PCefX509Certificate(FData).get_issuer(FData));
+  Result := TCefX509CertPrincipalRef.UnWrap(PCefX509Certificate(FData)^.get_issuer(PCefX509Certificate(FData)));
 end;
 
 function TCEFX509CertificateRef.GetSerialNumber: ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefX509Certificate(FData).get_serial_number(FData));
+  Result := TCefBinaryValueRef.UnWrap(PCefX509Certificate(FData)^.get_serial_number(PCefX509Certificate(FData)));
 end;
 
 function TCEFX509CertificateRef.GetValidStart: TCefTime;
 begin
-  Result := PCefX509Certificate(FData).get_valid_start(FData);
+  Result := PCefX509Certificate(FData)^.get_valid_start(PCefX509Certificate(FData));
 end;
 
 function TCEFX509CertificateRef.GetValidExpiry: TCefTime;
 begin
-  Result := PCefX509Certificate(FData).get_valid_expiry(FData);
+  Result := PCefX509Certificate(FData)^.get_valid_expiry(PCefX509Certificate(FData));
 end;
 
 function TCEFX509CertificateRef.GetDerEncoded: ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefX509Certificate(FData).get_derencoded(FData));
+  Result := TCefBinaryValueRef.UnWrap(PCefX509Certificate(FData)^.get_derencoded(PCefX509Certificate(FData)));
 end;
 
 function TCEFX509CertificateRef.GetPemEncoded: ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefX509Certificate(FData).get_pemencoded(FData));
+  Result := TCefBinaryValueRef.UnWrap(PCefX509Certificate(FData)^.get_pemencoded(PCefX509Certificate(FData)));
 end;
 
 function TCEFX509CertificateRef.GetIssuerChainSize: NativeUInt;
 begin
-  Result := PCefX509Certificate(FData).get_issuer_chain_size(FData);
+  Result := PCefX509Certificate(FData)^.get_issuer_chain_size(PCefX509Certificate(FData));
 end;
 
 procedure TCEFX509CertificateRef.GetDEREncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
@@ -137,7 +141,7 @@ begin
               inc(i);
             end;
 
-          PCefX509Certificate(FData).get_derencoded_issuer_chain(FData, chainCount, TempArray[0]);
+          PCefX509Certificate(FData)^.get_derencoded_issuer_chain(PCefX509Certificate(FData), chainCount, TempArray[0]);
 
           if (chainCount > 0) then
             begin
@@ -184,7 +188,7 @@ begin
               inc(i);
             end;
 
-          PCefX509Certificate(FData).get_pemencoded_issuer_chain(FData, chainCount, TempArray[0]);
+          PCefX509Certificate(FData)^.get_pemencoded_issuer_chain(PCefX509Certificate(FData), chainCount, TempArray[0]);
 
           if (chainCount > 0) then
             begin

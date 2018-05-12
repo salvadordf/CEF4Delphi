@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFSSLStatus;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -74,27 +78,27 @@ uses
 
 function TCefSSLStatusRef.IsSecureConnection: boolean;
 begin
-  Result := (PCefSSLStatus(FData).is_secure_connection(FData) <> 0);
+  Result := (PCefSSLStatus(FData)^.is_secure_connection(PCefSSLStatus(FData)) <> 0);
 end;
 
 function TCefSSLStatusRef.GetCertStatus: TCefCertStatus;
 begin
-  Result := PCefSSLStatus(FData).get_cert_status(FData);
+  Result := PCefSSLStatus(FData)^.get_cert_status(PCefSSLStatus(FData));
 end;
 
 function TCefSSLStatusRef.GetSSLVersion: TCefSSLVersion;
 begin
-  Result := PCefSSLStatus(FData).get_sslversion(FData);
+  Result := PCefSSLStatus(FData)^.get_sslversion(PCefSSLStatus(FData));
 end;
 
 function TCefSSLStatusRef.GetContentStatus: TCefSSLContentStatus;
 begin
-  Result := PCefSSLStatus(FData).get_content_status(FData);
+  Result := PCefSSLStatus(FData)^.get_content_status(PCefSSLStatus(FData));
 end;
 
 function TCefSSLStatusRef.GetX509Certificate: ICefX509Certificate;
 begin
-  Result := TCEFX509CertificateRef.UnWrap(PCefSSLStatus(FData).get_x509certificate(FData));
+  Result := TCEFX509CertificateRef.UnWrap(PCefSSLStatus(FData)^.get_x509certificate(PCefSSLStatus(FData)));
 end;
 
 class function TCefSSLStatusRef.UnWrap(data: Pointer): ICefSSLStatus;

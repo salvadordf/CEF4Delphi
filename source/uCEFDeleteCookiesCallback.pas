@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFDeleteCookiesCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -106,7 +110,7 @@ constructor TCefDeleteCookiesCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDeleteCookiesCallback));
 
-  PCefDeleteCookiesCallback(FData).on_complete := cef_delete_cookie_callback_on_complete;
+  PCefDeleteCookiesCallback(FData)^.on_complete := {$IFDEF FPC}@{$ENDIF}cef_delete_cookie_callback_on_complete;
 end;
 
 // TCefFastDeleteCookiesCallback

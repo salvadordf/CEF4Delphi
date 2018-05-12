@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFMenuModelDelegate;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -163,13 +167,13 @@ begin
 
   with PCefMenuModelDelegate(FData)^ do
     begin
-      execute_command         := cef_menu_model_delegate_execute_command;
-      mouse_outside_menu      := cef_menu_model_delegate_mouse_outside_menu;
-      unhandled_open_submenu  := cef_menu_model_delegate_unhandled_open_submenu;
-      unhandled_close_submenu := cef_menu_model_delegate_unhandled_close_submenu;
-      menu_will_show          := cef_menu_model_delegate_menu_will_show;
-      menu_closed             := cef_menu_model_delegate_menu_closed;
-      format_label            := cef_menu_model_delegate_format_label;
+      execute_command         := {$IFDEF FPC}@{$ENDIF}cef_menu_model_delegate_execute_command;
+      mouse_outside_menu      := {$IFDEF FPC}@{$ENDIF}cef_menu_model_delegate_mouse_outside_menu;
+      unhandled_open_submenu  := {$IFDEF FPC}@{$ENDIF}cef_menu_model_delegate_unhandled_open_submenu;
+      unhandled_close_submenu := {$IFDEF FPC}@{$ENDIF}cef_menu_model_delegate_unhandled_close_submenu;
+      menu_will_show          := {$IFDEF FPC}@{$ENDIF}cef_menu_model_delegate_menu_will_show;
+      menu_closed             := {$IFDEF FPC}@{$ENDIF}cef_menu_model_delegate_menu_closed;
+      format_label            := {$IFDEF FPC}@{$ENDIF}cef_menu_model_delegate_format_label;
     end;
 end;
 
@@ -177,32 +181,32 @@ procedure TCefMenuModelDelegateOwn.ExecuteCommand(const menuModel  : ICefMenuMod
                                                         commandId  : Integer;
                                                         eventFlags : TCefEventFlags);
 begin
-
+  //
 end;
 
 procedure TCefMenuModelDelegateOwn.MouseOutsideMenu(const menuModel: ICefMenuModel; const screenPoint: PCefPoint);
 begin
-
+  //
 end;
 
 procedure TCefMenuModelDelegateOwn.UnhandledOpenSubmenu(const menuModel: ICefMenuModel; isRTL: boolean);
 begin
-
+  //
 end;
 
 procedure TCefMenuModelDelegateOwn.UnhandledCloseSubmenu(const menuModel: ICefMenuModel; isRTL: boolean);
 begin
-
+  //
 end;
 
 procedure TCefMenuModelDelegateOwn.MenuWillShow(const menuModel: ICefMenuModel);
 begin
-
+  //
 end;
 
 procedure TCefMenuModelDelegateOwn.MenuClosed(const menuModel: ICefMenuModel);
 begin
-
+  //
 end;
 
 function TCefMenuModelDelegateOwn.FormatLabel(const menuModel: ICefMenuModel; const label_ : uString) : boolean;

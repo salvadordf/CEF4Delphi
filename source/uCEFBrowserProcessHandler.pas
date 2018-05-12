@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFBrowserProcessHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -152,11 +156,11 @@ begin
 
   with PCefBrowserProcessHandler(FData)^ do
     begin
-      on_context_initialized           := cef_browser_process_handler_on_context_initialized;
-      on_before_child_process_launch   := cef_browser_process_handler_on_before_child_process_launch;
-      on_render_process_thread_created := cef_browser_process_handler_on_render_process_thread_created;
-      get_print_handler                := cef_browser_process_handler_get_print_handler;
-      on_schedule_message_pump_work    := cef_browser_process_handler_on_schedule_message_pump_work;
+      on_context_initialized           := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_context_initialized;
+      on_before_child_process_launch   := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_before_child_process_launch;
+      on_render_process_thread_created := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_render_process_thread_created;
+      get_print_handler                := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_get_print_handler;
+      on_schedule_message_pump_work    := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_schedule_message_pump_work;
     end;
 end;
 

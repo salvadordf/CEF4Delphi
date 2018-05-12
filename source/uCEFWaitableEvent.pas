@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFWaitableEvent;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -70,27 +74,27 @@ uses
 
 procedure TCefWaitableEventRef.Reset;
 begin
-  PCefWaitableEvent(FData).reset(FData);
+  PCefWaitableEvent(FData)^.reset(PCefWaitableEvent(FData));
 end;
 
 procedure TCefWaitableEventRef.Signal;
 begin
-  PCefWaitableEvent(FData).signal(FData);
+  PCefWaitableEvent(FData)^.signal(PCefWaitableEvent(FData));
 end;
 
 function TCefWaitableEventRef.IsSignaled : boolean;
 begin
-  Result := (PCefWaitableEvent(FData).is_signaled(FData) <> 0);
+  Result := (PCefWaitableEvent(FData)^.is_signaled(PCefWaitableEvent(FData)) <> 0);
 end;
 
 procedure TCefWaitableEventRef.Wait;
 begin
-  PCefWaitableEvent(FData).wait(FData);
+  PCefWaitableEvent(FData)^.wait(PCefWaitableEvent(FData));
 end;
 
 function TCefWaitableEventRef.TimedWait(max_ms: int64): boolean;
 begin
-  Result := (PCefWaitableEvent(FData).timed_wait(FData, max_ms) <> 0);
+  Result := (PCefWaitableEvent(FData)^.timed_wait(PCefWaitableEvent(FData), max_ms) <> 0);
 end;
 
 class function TCefWaitableEventRef.UnWrap(data: Pointer): ICefWaitableEvent;

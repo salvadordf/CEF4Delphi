@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFTaskRunner;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -71,12 +75,12 @@ uses
 
 function TCefTaskRunnerRef.BelongsToCurrentThread: Boolean;
 begin
-  Result := PCefTaskRunner(FData).belongs_to_current_thread(FData) <> 0;
+  Result := PCefTaskRunner(FData)^.belongs_to_current_thread(PCefTaskRunner(FData)) <> 0;
 end;
 
 function TCefTaskRunnerRef.BelongsToThread(threadId: TCefThreadId): Boolean;
 begin
-  Result := PCefTaskRunner(FData).belongs_to_thread(FData, threadId) <> 0;
+  Result := PCefTaskRunner(FData)^.belongs_to_thread(PCefTaskRunner(FData), threadId) <> 0;
 end;
 
 class function TCefTaskRunnerRef.GetForCurrentThread: ICefTaskRunner;
@@ -91,17 +95,17 @@ end;
 
 function TCefTaskRunnerRef.IsSame(const that: ICefTaskRunner): Boolean;
 begin
-  Result := PCefTaskRunner(FData).is_same(FData, CefGetData(that)) <> 0;
+  Result := PCefTaskRunner(FData)^.is_same(PCefTaskRunner(FData), CefGetData(that)) <> 0;
 end;
 
 function TCefTaskRunnerRef.PostDelayedTask(const task: ICefTask; delayMs: Int64): Boolean;
 begin
-  Result := PCefTaskRunner(FData).post_delayed_task(FData, CefGetData(task), delayMs) <> 0;
+  Result := PCefTaskRunner(FData)^.post_delayed_task(PCefTaskRunner(FData), CefGetData(task), delayMs) <> 0;
 end;
 
 function TCefTaskRunnerRef.PostTask(const task: ICefTask): Boolean;
 begin
-  Result := PCefTaskRunner(FData).post_task(FData, CefGetData(task)) <> 0;
+  Result := PCefTaskRunner(FData)^.post_task(PCefTaskRunner(FData), CefGetData(task)) <> 0;
 end;
 
 class function TCefTaskRunnerRef.UnWrap(data: Pointer): ICefTaskRunner;

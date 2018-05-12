@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFRequestCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -66,12 +70,12 @@ uses
 
 procedure TCefRequestCallbackRef.Cont(allow: Boolean);
 begin
-  PCefRequestCallback(FData).cont(FData, Ord(allow));
+  PCefRequestCallback(FData)^.cont(PCefRequestCallback(FData), Ord(allow));
 end;
 
 procedure TCefRequestCallbackRef.Cancel;
 begin
-  PCefRequestCallback(FData).cancel(FData);
+  PCefRequestCallback(FData)^.cancel(PCefRequestCallback(FData));
 end;
 
 class function TCefRequestCallbackRef.UnWrap(data: Pointer): ICefRequestCallback;

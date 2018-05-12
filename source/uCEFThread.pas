@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFThread;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -68,22 +72,22 @@ uses
 
 function TCefThreadRef.GetTaskRunner : ICefTaskRunner;
 begin
-  Result := TCefTaskRunnerRef.UnWrap(PCefThread(FData).get_task_runner(FData));
+  Result := TCefTaskRunnerRef.UnWrap(PCefThread(FData)^.get_task_runner(PCefThread(FData)));
 end;
 
 function TCefThreadRef.GetPlatformThreadID : TCefPlatformThreadId;
 begin
-  Result := PCefThread(FData).get_platform_thread_id(FData);
+  Result := PCefThread(FData)^.get_platform_thread_id(PCefThread(FData));
 end;
 
 procedure TCefThreadRef.Stop;
 begin
-  PCefThread(FData).stop(FData);
+  PCefThread(FData)^.stop(PCefThread(FData));
 end;
 
 function TCefThreadRef.IsRunning: Boolean;
 begin
-  Result := (PCefThread(FData).is_running(FData) <> 0);
+  Result := (PCefThread(FData)^.is_running(PCefThread(FData)) <> 0);
 end;
 
 class function TCefThreadRef.UnWrap(data: Pointer): ICefThread;

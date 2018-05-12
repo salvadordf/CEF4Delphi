@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFStringVisitor;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -106,7 +110,7 @@ constructor TCefStringVisitorOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefStringVisitor));
 
-  with PCefStringVisitor(FData)^ do visit := cef_string_visitor_visit;
+  PCefStringVisitor(FData)^.visit := {$IFDEF FPC}@{$ENDIF}cef_string_visitor_visit;
 end;
 
 procedure TCefStringVisitorOwn.Visit(const str: ustring);

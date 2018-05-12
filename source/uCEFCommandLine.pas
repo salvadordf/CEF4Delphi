@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFCommandLine;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -94,7 +98,7 @@ var
   TempArgument : TCefString;
 begin
   TempArgument := CefString(argument);
-  PCefCommandLine(FData).append_argument(PCefCommandLine(FData), @TempArgument);
+  PCefCommandLine(FData)^.append_argument(PCefCommandLine(FData), @TempArgument);
 end;
 
 procedure TCefCommandLineRef.AppendSwitch(const name: ustring);
@@ -102,7 +106,7 @@ var
   TempName : TCefString;
 begin
   TempName := CefString(name);
-  PCefCommandLine(FData).append_switch(PCefCommandLine(FData), @TempName);
+  PCefCommandLine(FData)^.append_switch(PCefCommandLine(FData), @TempName);
 end;
 
 procedure TCefCommandLineRef.AppendSwitchWithValue(const name, value: ustring);
@@ -111,12 +115,12 @@ var
 begin
   TempName  := CefString(name);
   TempValue := CefString(value);
-  PCefCommandLine(FData).append_switch_with_value(PCefCommandLine(FData), @TempName, @TempValue);
+  PCefCommandLine(FData)^.append_switch_with_value(PCefCommandLine(FData), @TempName, @TempValue);
 end;
 
 function TCefCommandLineRef.Copy: ICefCommandLine;
 begin
-  Result := UnWrap(PCefCommandLine(FData).copy(PCefCommandLine(FData)));
+  Result := UnWrap(PCefCommandLine(FData)^.copy(PCefCommandLine(FData)));
 end;
 
 procedure TCefCommandLineRef.GetArguments(var arguments : TStrings);
@@ -126,7 +130,7 @@ begin
   if (arguments <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefCommandLine(FData).get_arguments(PCefCommandLine(FData), TempSL.Handle);
+      PCefCommandLine(FData)^.get_arguments(PCefCommandLine(FData), TempSL.Handle);
       TempSL.CopyToStrings(arguments);
     end;
 end;
@@ -138,26 +142,26 @@ begin
   if (args <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefCommandLine(FData).get_argv(PCefCommandLine(FData), TempSL.Handle);
+      PCefCommandLine(FData)^.get_argv(PCefCommandLine(FData), TempSL.Handle);
       TempSL.CopyToStrings(args);
     end;
 end;
 
 function TCefCommandLineRef.GetCommandLineString: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefCommandLine(FData).get_command_line_string(PCefCommandLine(FData)));
+  Result := CefStringFreeAndGet(PCefCommandLine(FData)^.get_command_line_string(PCefCommandLine(FData)));
 end;
 
 function TCefCommandLineRef.GetProgram: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefCommandLine(FData).get_program(PCefCommandLine(FData)));
+  Result := CefStringFreeAndGet(PCefCommandLine(FData)^.get_program(PCefCommandLine(FData)));
 end;
 
 procedure TCefCommandLineRef.GetSwitches(var switches: TStrings);
 var
   TempStrMap : ICefStringMap;
   i, j : NativeUInt;
-  TempKey, TempValue : string;
+  TempKey, TempValue : ustring;
 begin
   TempStrMap := nil;
 
@@ -166,7 +170,7 @@ begin
       if (switches <> nil) then
         begin
           TempStrMap := TCefStringMapOwn.Create;
-          PCefCommandLine(FData).get_switches(PCefCommandLine(FData), TempStrMap.Handle);
+          PCefCommandLine(FData)^.get_switches(PCefCommandLine(FData), TempStrMap.Handle);
 
           i := 0;
           j := TempStrMap.Size;
@@ -202,17 +206,17 @@ var
   TempName : TCefString;
 begin
   TempName := CefString(name);
-  Result   := CefStringFreeAndGet(PCefCommandLine(FData).get_switch_value(PCefCommandLine(FData), @TempName));
+  Result   := CefStringFreeAndGet(PCefCommandLine(FData)^.get_switch_value(PCefCommandLine(FData), @TempName));
 end;
 
 class function TCefCommandLineRef.Global: ICefCommandLine;
 begin
-  Result := UnWrap(cef_command_line_get_global);
+  Result := UnWrap(cef_command_line_get_global());
 end;
 
 function TCefCommandLineRef.HasArguments: Boolean;
 begin
-  Result := PCefCommandLine(FData).has_arguments(PCefCommandLine(FData)) <> 0;
+  Result := PCefCommandLine(FData)^.has_arguments(PCefCommandLine(FData)) <> 0;
 end;
 
 function TCefCommandLineRef.HasSwitch(const name: ustring): Boolean;
@@ -220,17 +224,17 @@ var
   TempName : TCefString;
 begin
   TempName := CefString(name);
-  Result   := PCefCommandLine(FData).has_switch(PCefCommandLine(FData), @TempName) <> 0;
+  Result   := PCefCommandLine(FData)^.has_switch(PCefCommandLine(FData), @TempName) <> 0;
 end;
 
 function TCefCommandLineRef.HasSwitches: Boolean;
 begin
-  Result := PCefCommandLine(FData).has_switches(PCefCommandLine(FData)) <> 0;
+  Result := PCefCommandLine(FData)^.has_switches(PCefCommandLine(FData)) <> 0;
 end;
 
 procedure TCefCommandLineRef.InitFromArgv(argc: Integer; const argv: PPAnsiChar);
 begin
-  PCefCommandLine(FData).init_from_argv(PCefCommandLine(FData), argc, argv);
+  PCefCommandLine(FData)^.init_from_argv(PCefCommandLine(FData), argc, argv);
 end;
 
 procedure TCefCommandLineRef.InitFromString(const commandLine: ustring);
@@ -238,22 +242,22 @@ var
   TempCommandLine : TCefString;
 begin
   TempCommandLine := CefString(commandLine);
-  PCefCommandLine(FData).init_from_string(PCefCommandLine(FData), @TempCommandLine);
+  PCefCommandLine(FData)^.init_from_string(PCefCommandLine(FData), @TempCommandLine);
 end;
 
 function TCefCommandLineRef.IsReadOnly: Boolean;
 begin
-  Result := PCefCommandLine(FData).is_read_only(PCefCommandLine(FData)) <> 0;
+  Result := PCefCommandLine(FData)^.is_read_only(PCefCommandLine(FData)) <> 0;
 end;
 
 function TCefCommandLineRef.IsValid: Boolean;
 begin
-  Result := PCefCommandLine(FData).is_valid(PCefCommandLine(FData)) <> 0;
+  Result := PCefCommandLine(FData)^.is_valid(PCefCommandLine(FData)) <> 0;
 end;
 
 class function TCefCommandLineRef.New: ICefCommandLine;
 begin
-  Result := UnWrap(cef_command_line_create);
+  Result := UnWrap(cef_command_line_create());
 end;
 
 procedure TCefCommandLineRef.PrependWrapper(const wrapper: ustring);
@@ -261,12 +265,12 @@ var
   TempWrapper : TCefString;
 begin
   TempWrapper := CefString(wrapper);
-  PCefCommandLine(FData).prepend_wrapper(PCefCommandLine(FData), @TempWrapper);
+  PCefCommandLine(FData)^.prepend_wrapper(PCefCommandLine(FData), @TempWrapper);
 end;
 
 procedure TCefCommandLineRef.Reset;
 begin
-  PCefCommandLine(FData).reset(PCefCommandLine(FData));
+  PCefCommandLine(FData)^.reset(PCefCommandLine(FData));
 end;
 
 procedure TCefCommandLineRef.SetProgram(const prog: ustring);
@@ -274,7 +278,7 @@ var
   TempProgram : TCefString;
 begin
   TempProgram := CefString(prog);
-  PCefCommandLine(FData).set_program(PCefCommandLine(FData), @TempProgram);
+  PCefCommandLine(FData)^.set_program(PCefCommandLine(FData), @TempProgram);
 end;
 
 class function TCefCommandLineRef.UnWrap(data: Pointer): ICefCommandLine;

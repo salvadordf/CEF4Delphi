@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFServerHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -217,14 +221,14 @@ begin
 
   with PCEFServerHandler(FData)^ do
     begin
-      on_server_created       := cef_server_handler_on_server_created;
-      on_server_destroyed     := cef_server_handler_on_server_destroyed;
-      on_client_connected     := cef_server_handler_on_client_connected;
-      on_client_disconnected  := cef_server_handler_on_client_disconnected;
-      on_http_request         := cef_server_handler_on_http_request;
-      on_web_socket_request   := cef_server_handler_on_web_socket_request;
-      on_web_socket_connected := cef_server_handler_on_web_socket_connected;
-      on_web_socket_message   := cef_server_handler_on_web_socket_message;
+      on_server_created       := {$IFDEF FPC}@{$ENDIF}cef_server_handler_on_server_created;
+      on_server_destroyed     := {$IFDEF FPC}@{$ENDIF}cef_server_handler_on_server_destroyed;
+      on_client_connected     := {$IFDEF FPC}@{$ENDIF}cef_server_handler_on_client_connected;
+      on_client_disconnected  := {$IFDEF FPC}@{$ENDIF}cef_server_handler_on_client_disconnected;
+      on_http_request         := {$IFDEF FPC}@{$ENDIF}cef_server_handler_on_http_request;
+      on_web_socket_request   := {$IFDEF FPC}@{$ENDIF}cef_server_handler_on_web_socket_request;
+      on_web_socket_connected := {$IFDEF FPC}@{$ENDIF}cef_server_handler_on_web_socket_connected;
+      on_web_socket_message   := {$IFDEF FPC}@{$ENDIF}cef_server_handler_on_web_socket_message;
     end;
 end;
 

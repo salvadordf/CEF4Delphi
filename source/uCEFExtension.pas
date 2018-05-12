@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFExtension;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -72,42 +76,42 @@ uses
 
 function TCefExtensionRef.GetIdentifier : ustring;
 begin
-  Result := CefStringFreeAndGet(PCefExtension(FData).get_identifier(PCefExtension(FData)));
+  Result := CefStringFreeAndGet(PCefExtension(FData)^.get_identifier(PCefExtension(FData)));
 end;
 
 function TCefExtensionRef.GetPath : ustring;
 begin
-  Result := CefStringFreeAndGet(PCefExtension(FData).get_path(PCefExtension(FData)));
+  Result := CefStringFreeAndGet(PCefExtension(FData)^.get_path(PCefExtension(FData)));
 end;
 
 function TCefExtensionRef.GetManifest : ICefDictionaryValue;
 begin
-  Result := TCefDictionaryValueRef.UnWrap(PCefExtension(FData).get_manifest(PCefExtension(FData)));
+  Result := TCefDictionaryValueRef.UnWrap(PCefExtension(FData)^.get_manifest(PCefExtension(FData)));
 end;
 
 function TCefExtensionRef.IsSame(const that : ICefExtension) : boolean;
 begin
-  Result:= PCefExtension(FData).is_same(PCefExtension(FData), PCefExtension(CefGetData(that))) <> 0;
+  Result:= PCefExtension(FData)^.is_same(PCefExtension(FData), PCefExtension(CefGetData(that))) <> 0;
 end;
 
 function TCefExtensionRef.GetHandler : ICefExtensionHandler;
 begin
-  Result := TCefExtensionHandlerRef.UnWrap(PCefExtension(FData).get_handler(PCefExtension(FData)));
+  Result := TCefExtensionHandlerRef.UnWrap(PCefExtension(FData)^.get_handler(PCefExtension(FData)));
 end;
 
 function TCefExtensionRef.GetLoaderContext: ICefRequestContext;
 begin
-  Result := TCefRequestContextRef.UnWrap(PCefExtension(FData).get_loader_context(PCefExtension(FData)));
+  Result := TCefRequestContextRef.UnWrap(PCefExtension(FData)^.get_loader_context(PCefExtension(FData)));
 end;
 
 function TCefExtensionRef.IsLoaded : boolean;
 begin
-  Result := PCefExtension(FData).is_loaded(PCefExtension(FData)) <> 0;
+  Result := PCefExtension(FData)^.is_loaded(PCefExtension(FData)) <> 0;
 end;
 
 procedure TCefExtensionRef.unload;
 begin
-  PCefExtension(FData).unload(PCefExtension(FData));
+  PCefExtension(FData)^.unload(PCefExtension(FData));
 end;
 
 class function TCefExtensionRef.UnWrap(data: Pointer): ICefExtension;

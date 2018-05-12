@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFDomDocument;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -88,10 +92,10 @@ end;
 
 function TCefDomDocumentRef.GetCompleteUrl(const partialURL: ustring): ustring;
 var
-  p: TCefString;
+  TempPartialURL : TCefString;
 begin
-  p := CefString(partialURL);
-  Result := CefStringFreeAndGet(PCefDomDocument(FData)^.get_complete_url(PCefDomDocument(FData), @p));
+  TempPartialURL := CefString(partialURL);
+  Result         := CefStringFreeAndGet(PCefDomDocument(FData)^.get_complete_url(PCefDomDocument(FData), @TempPartialURL));
 end;
 
 function TCefDomDocumentRef.GetDocument: ICefDomNode;
@@ -101,10 +105,10 @@ end;
 
 function TCefDomDocumentRef.GetElementById(const id: ustring): ICefDomNode;
 var
-  i: TCefString;
+  TempID : TCefString;
 begin
-  i := CefString(id);
-  Result := TCefDomNodeRef.UnWrap(PCefDomDocument(FData)^.get_element_by_id(PCefDomDocument(FData), @i));
+  TempID := CefString(id);
+  Result := TCefDomNodeRef.UnWrap(PCefDomDocument(FData)^.get_element_by_id(PCefDomDocument(FData), @TempID));
 end;
 
 function TCefDomDocumentRef.GetFocusedNode: ICefDomNode;
@@ -154,8 +158,9 @@ end;
 
 class function TCefDomDocumentRef.UnWrap(data: Pointer): ICefDomDocument;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefDomDocument else
+  if (data <> nil) then
+    Result := Create(data) as ICefDomDocument
+   else
     Result := nil;
 end;
 

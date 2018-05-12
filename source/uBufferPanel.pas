@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uBufferPanel;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$I cef.inc}
 
 interface
@@ -46,8 +50,13 @@ uses
   {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics,{$ENDIF}
   System.Classes, System.SyncObjs, System.SysUtils;
   {$ELSE}
-  Windows, Messages, Classes, Controls,
-  ExtCtrls, Graphics, SyncObjs, SysUtils;
+    Windows, Classes, Forms, Controls, Graphics,
+    {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    {$ELSE}
+    Messages,
+    {$ENDIF}
+    ExtCtrls, SyncObjs, SysUtils;
   {$ENDIF}
 
 type
@@ -98,9 +107,16 @@ type
       property Alignment;
       property Anchors;
       property AutoSize;
+      {$IFNDEF FPC}
       property BevelEdges;
+      property BevelKind;  
+      property Ctl3D;     
+      property Locked;     
+      property ParentBackground;      
+      property ParentCtl3D;    
+      property OnCanResize;
+      {$ENDIF}
       property BevelInner;
-      property BevelKind;
       property BevelOuter;
       property BevelWidth;
       property BiDiMode;
@@ -109,7 +125,6 @@ type
       property Caption;
       property Color;
       property Constraints;
-      property Ctl3D;
       property UseDockManager default True;
       property DockSite;
       property DoubleBuffered;
@@ -119,11 +134,8 @@ type
       property Enabled;
       property FullRepaint;
       property Font;
-      property Locked;
       property ParentBiDiMode;
-      property ParentBackground;
       property ParentColor;
-      property ParentCtl3D;
       property ParentFont;
       property ParentShowHint;
       property PopupMenu;
@@ -131,7 +143,6 @@ type
       property TabOrder;
       property TabStop;
       property Visible;
-      property OnCanResize;
       property OnClick;
       property OnConstrainedResize;
       property OnContextPopup;
@@ -178,6 +189,10 @@ type
       property StyleElements;
       {$ENDIF}
   end;
+
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
 
 implementation
 
@@ -395,5 +410,13 @@ begin
       if aUseMutex then EndBufferDraw;
     end;
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I tbufferpanel.lrs}
+  RegisterComponents('Chromium', [TBufferPanel]);
+end;
+{$ENDIF}
 
 end.

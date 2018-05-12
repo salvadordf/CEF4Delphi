@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFFindHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -108,7 +112,7 @@ constructor TCefFindHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefFindHandler));
 
-  PCefFindHandler(FData).on_find_result := cef_find_handler_on_find_result;
+  PCefFindHandler(FData)^.on_find_result := {$IFDEF FPC}@{$ENDIF}cef_find_handler_on_find_result;
 end;
 
 procedure TCefFindHandlerOwn.RemoveReferences;

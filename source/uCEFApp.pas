@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFApp;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -198,11 +202,11 @@ begin
 
   with PCefApp(FData)^ do
     begin
-      on_before_command_line_processing := cef_app_on_before_command_line_processing;
-      on_register_custom_schemes        := cef_app_on_register_custom_schemes;
-      get_resource_bundle_handler       := cef_app_get_resource_bundle_handler;
-      get_browser_process_handler       := cef_app_get_browser_process_handler;
-      get_render_process_handler        := cef_app_get_render_process_handler;
+      on_before_command_line_processing := {$IFDEF FPC}@{$ENDIF}cef_app_on_before_command_line_processing;
+      on_register_custom_schemes        := {$IFDEF FPC}@{$ENDIF}cef_app_on_register_custom_schemes;
+      get_resource_bundle_handler       := {$IFDEF FPC}@{$ENDIF}cef_app_get_resource_bundle_handler;
+      get_browser_process_handler       := {$IFDEF FPC}@{$ENDIF}cef_app_get_browser_process_handler;
+      get_render_process_handler        := {$IFDEF FPC}@{$ENDIF}cef_app_get_render_process_handler;
     end;
 end;
 

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFv8Accessor;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -47,7 +51,7 @@ unit uCEFv8Accessor;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFv8Types;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefV8AccessorOwn = class(TCefBaseRefCountedOwn, ICefV8Accessor)
@@ -128,8 +132,11 @@ constructor TCefV8AccessorOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefV8Accessor));
 
-  PCefV8Accessor(FData)^.get := cef_v8_accessor_get;
-  PCefV8Accessor(FData)^.put := cef_v8_accessor_put;
+  with PCefV8Accessor(FData)^ do
+    begin
+      get := {$IFDEF FPC}@{$ENDIF}cef_v8_accessor_get;
+      put := {$IFDEF FPC}@{$ENDIF}cef_v8_accessor_put;
+    end;
 end;
 
 function TCefV8AccessorOwn.Get(const name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; var exception: ustring): Boolean;

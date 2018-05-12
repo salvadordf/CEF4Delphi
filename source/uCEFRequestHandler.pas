@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFRequestHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -453,7 +457,7 @@ begin
           i := 0;
           while (i < certificatesCount) do
             begin
-              TempCertArray[i] := TCEFX509CertificateRef.UnWrap(PPointerArray(certificates)[i]);
+              TempCertArray[i] := TCEFX509CertificateRef.UnWrap(PPointerArray(certificates)^[i]);
               inc(i);
             end;
 
@@ -494,24 +498,24 @@ begin
 
   with PCefRequestHandler(FData)^ do
     begin
-      on_before_browse              := cef_request_handler_on_before_browse;
-      on_open_urlfrom_tab           := cef_request_handler_on_open_urlfrom_tab;
-      on_before_resource_load       := cef_request_handler_on_before_resource_load;
-      get_resource_handler          := cef_request_handler_get_resource_handler;
-      on_resource_redirect          := cef_request_handler_on_resource_redirect;
-      on_resource_response          := cef_request_handler_on_resource_response;
-      get_resource_response_filter  := cef_request_handler_get_resource_response_filter;
-      on_resource_load_complete     := cef_request_handler_on_resource_load_complete;
-      get_auth_credentials          := cef_request_handler_get_auth_credentials;
-      can_get_cookies               := cef_request_handler_can_get_cookies;
-      can_set_cookie                := cef_request_handler_can_set_cookie;
-      on_quota_request              := cef_request_handler_on_quota_request;
-      on_protocol_execution         := cef_request_handler_on_protocol_execution;
-      on_certificate_error          := cef_request_handler_on_certificate_error;
-      on_select_client_certificate  := cef_request_handler_on_select_client_certificate;
-      on_plugin_crashed             := cef_request_handler_on_plugin_crashed;
-      on_render_view_ready          := cef_request_handler_on_render_view_ready;
-      on_render_process_terminated  := cef_request_handler_on_render_process_terminated;
+      on_before_browse              := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_before_browse;
+      on_open_urlfrom_tab           := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_open_urlfrom_tab;
+      on_before_resource_load       := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_before_resource_load;
+      get_resource_handler          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_resource_handler;
+      on_resource_redirect          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_resource_redirect;
+      on_resource_response          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_resource_response;
+      get_resource_response_filter  := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_resource_response_filter;
+      on_resource_load_complete     := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_resource_load_complete;
+      get_auth_credentials          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_auth_credentials;
+      can_get_cookies               := {$IFDEF FPC}@{$ENDIF}cef_request_handler_can_get_cookies;
+      can_set_cookie                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_can_set_cookie;
+      on_quota_request              := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_quota_request;
+      on_protocol_execution         := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_protocol_execution;
+      on_certificate_error          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_certificate_error;
+      on_select_client_certificate  := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_select_client_certificate;
+      on_plugin_crashed             := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_plugin_crashed;
+      on_render_view_ready          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_view_ready;
+      on_render_process_terminated  := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_process_terminated;
     end;
 end;
 

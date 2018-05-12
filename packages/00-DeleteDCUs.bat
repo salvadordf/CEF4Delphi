@@ -6,8 +6,8 @@ del /s /q *.identcache
 del /s /q *.stat
 del /s /q *.local
 del /s /q *.~*
-rmdir Win32\Debug
-rmdir Win32\Release
-rmdir Win32
-rmdir __history
-rmdir __recovery
+rmdir /S /Q Win32
+rmdir /S /Q backup
+rmdir /S /Q lib
+rmdir /S /Q __history
+rmdir /S /Q __recovery

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFSslInfo;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -72,12 +76,12 @@ uses
 
 function TCefSslInfoRef.GetCertStatus: TCefCertStatus;
 begin
-  Result := PCefSslInfo(FData).get_cert_status(FData);
+  Result := PCefSslInfo(FData)^.get_cert_status(PCefSslInfo(FData));
 end;
 
 function TCefSslInfoRef.GetX509Certificate: ICefX509Certificate;
 begin
-  Result := TCEFX509CertificateRef.UnWrap(PCefSslInfo(FData).get_x509certificate(FData));
+  Result := TCEFX509CertificateRef.UnWrap(PCefSslInfo(FData)^.get_x509certificate(PCefSslInfo(FData)));
 end;
 
 class function TCefSslInfoRef.UnWrap(data: Pointer): ICefSslInfo;

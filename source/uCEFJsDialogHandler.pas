@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFJsDialogHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -163,10 +167,10 @@ begin
 
   with PCefJsDialogHandler(FData)^ do
     begin
-      on_jsdialog             := cef_jsdialog_handler_on_jsdialog;
-      on_before_unload_dialog := cef_jsdialog_handler_on_before_unload_dialog;
-      on_reset_dialog_state   := cef_jsdialog_handler_on_reset_dialog_state;
-      on_dialog_closed        := cef_jsdialog_handler_on_dialog_closed;
+      on_jsdialog             := {$IFDEF FPC}@{$ENDIF}cef_jsdialog_handler_on_jsdialog;
+      on_before_unload_dialog := {$IFDEF FPC}@{$ENDIF}cef_jsdialog_handler_on_before_unload_dialog;
+      on_reset_dialog_state   := {$IFDEF FPC}@{$ENDIF}cef_jsdialog_handler_on_reset_dialog_state;
+      on_dialog_closed        := {$IFDEF FPC}@{$ENDIF}cef_jsdialog_handler_on_dialog_closed;
     end;
 end;
 

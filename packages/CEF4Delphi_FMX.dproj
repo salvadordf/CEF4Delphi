@@ -241,7 +241,6 @@
         <DCCReference Include="..\source\uCEFResponseFilter.pas"/>
         <DCCReference Include="..\source\uCEFImage.pas"/>
         <DCCReference Include="..\source\uCEFMenuModelDelegate.pas"/>
-        <DCCReference Include="..\source\uCEFv8Types.pas"/>
         <DCCReference Include="..\source\uCEFWindowParent.pas"/>
         <DCCReference Include="..\source\uCEFChromium.pas"/>
         <DCCReference Include="..\source\uCEFChromiumEvents.pas"/>

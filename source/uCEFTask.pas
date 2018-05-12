@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFTask;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -65,8 +69,6 @@ type
     public
       class function UnWrap(data: Pointer): ICefTask;
   end;
-
-  TCefFastTaskProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure;
 
   TCefFastTask = class(TCefTaskOwn)
     protected
@@ -114,9 +116,9 @@ uses
 
 procedure cef_task_execute(self: PCefTask); stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
 begin
-  TempObject  := CefGetObject(self);
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefTaskOwn) then
     TCefTaskOwn(TempObject).Execute;
@@ -126,7 +128,7 @@ constructor TCefTaskOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefTask));
 
-  PCefTask(FData).execute := cef_task_execute;
+  PCefTask(FData)^.execute := {$IFDEF FPC}@{$ENDIF}cef_task_execute;
 end;
 
 procedure TCefTaskOwn.Execute;
@@ -140,7 +142,7 @@ end;
 
 procedure TCefTaskRef.Execute;
 begin
-  PCefTask(FData).execute(FData);
+  PCefTask(FData)^.execute(PCefTask(FData));
 end;
 
 class function TCefTaskRef.UnWrap(data: Pointer): ICefTask;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFSchemeHandlerFactory;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -89,7 +93,7 @@ begin
 
   FClass := AClass;
 
-  PCefSchemeHandlerFactory(FData).create := cef_scheme_handler_factory_create;
+  PCefSchemeHandlerFactory(FData)^.create := {$IFDEF FPC}@{$ENDIF}cef_scheme_handler_factory_create;
 end;
 
 function TCefSchemeHandlerFactoryOwn.New(const browser    : ICefBrowser;

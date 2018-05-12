@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFResourceBundleHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -137,9 +141,9 @@ begin
 
   with PCefResourceBundleHandler(FData)^ do
     begin
-      get_localized_string        := cef_resource_bundle_handler_get_localized_string;
-      get_data_resource           := cef_resource_bundle_handler_get_data_resource;
-      get_data_resource_for_scale := cef_resource_bundle_handler_get_data_resource_for_scale;
+      get_localized_string        := {$IFDEF FPC}@{$ENDIF}cef_resource_bundle_handler_get_localized_string;
+      get_data_resource           := {$IFDEF FPC}@{$ENDIF}cef_resource_bundle_handler_get_data_resource;
+      get_data_resource_for_scale := {$IFDEF FPC}@{$ENDIF}cef_resource_bundle_handler_get_data_resource_for_scale;
     end;
 end;
 

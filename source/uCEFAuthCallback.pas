@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFAuthCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -66,22 +70,23 @@ uses
 
 procedure TCefAuthCallbackRef.Cancel;
 begin
-  PCefAuthCallback(FData).cancel(PCefAuthCallback(FData));
+  PCefAuthCallback(FData)^.cancel(PCefAuthCallback(FData));
 end;
 
 procedure TCefAuthCallbackRef.Cont(const username, password: ustring);
 var
-  u, p: TCefString;
+  TempUsername, TempPassword : TCefString;
 begin
-  u := CefString(username);
-  p := CefString(password);
-  PCefAuthCallback(FData).cont(PCefAuthCallback(FData), @u, @p);
+  TempUsername := CefString(username);
+  TempPassword := CefString(password);
+  PCefAuthCallback(FData)^.cont(PCefAuthCallback(FData), @TempUsername, @TempPassword);
 end;
 
 class function TCefAuthCallbackRef.UnWrap(data: Pointer): ICefAuthCallback;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefAuthCallback else
+  if (data <> nil) then
+    Result := Create(data) as ICefAuthCallback
+   else
     Result := nil;
 end;
 

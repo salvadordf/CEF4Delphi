@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFKeyboardHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -129,8 +133,8 @@ begin
 
   with PCefKeyboardHandler(FData)^ do
     begin
-      on_pre_key_event  := cef_keyboard_handler_on_pre_key_event;
-      on_key_event      := cef_keyboard_handler_on_key_event;
+      on_pre_key_event  := {$IFDEF FPC}@{$ENDIF}cef_keyboard_handler_on_pre_key_event;
+      on_key_event      := {$IFDEF FPC}@{$ENDIF}cef_keyboard_handler_on_key_event;
     end;
 end;
 

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFImage;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -88,62 +92,62 @@ function TCefImageRef.AddBitmap(scaleFactor     : Single;
                                 const pixelData : Pointer;
                                 pixelDataSize   : NativeUInt): Boolean;
 begin
-  Result := PCefImage(FData).add_bitmap(FData, scaleFactor, pixelWidth, pixelHeight, colorType, alphaType, pixelData, pixelDataSize) <> 0;
+  Result := PCefImage(FData)^.add_bitmap(FData, scaleFactor, pixelWidth, pixelHeight, colorType, alphaType, pixelData, pixelDataSize) <> 0;
 end;
 
 function TCefImageRef.AddJpeg(scaleFactor: Single; const jpegData: Pointer; jpegDataSize: NativeUInt): Boolean;
 begin
-  Result := PCefImage(FData).add_jpeg(FData, scaleFactor, jpegData, jpegDataSize) <> 0;
+  Result := PCefImage(FData)^.add_jpeg(FData, scaleFactor, jpegData, jpegDataSize) <> 0;
 end;
 
 function TCefImageRef.AddPng(scaleFactor: Single; const pngData: Pointer; pngDataSize: NativeUInt): Boolean;
 begin
-  Result := PCefImage(FData).add_png(FData, scaleFactor, pngData, pngDataSize) <> 0;
+  Result := PCefImage(FData)^.add_png(FData, scaleFactor, pngData, pngDataSize) <> 0;
 end;
 
 function TCefImageRef.GetAsBitmap(scaleFactor: Single; colorType: TCefColorType; alphaType: TCefAlphaType; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_bitmap(FData, scaleFactor, colorType, alphaType, pixelWidth, pixelHeight));
+  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData)^.get_as_bitmap(FData, scaleFactor, colorType, alphaType, pixelWidth, pixelHeight));
 end;
 
 function TCefImageRef.GetAsJpeg(scaleFactor: Single; quality: Integer; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_jpeg(FData, scaleFactor, quality, pixelWidth, pixelHeight));
+  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData)^.get_as_jpeg(FData, scaleFactor, quality, pixelWidth, pixelHeight));
 end;
 
 function TCefImageRef.GetAsPng(scaleFactor: Single; withTransparency: Boolean; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData).get_as_png(FData, scaleFactor, Ord(withTransparency), pixelWidth, pixelHeight));
+  Result := TCefBinaryValueRef.UnWrap(PCefImage(FData)^.get_as_png(FData, scaleFactor, Ord(withTransparency), pixelWidth, pixelHeight));
 end;
 
 function TCefImageRef.GetHeight: NativeUInt;
 begin
-  Result := PCefImage(FData).get_height(FData);
+  Result := PCefImage(FData)^.get_height(FData);
 end;
 
 function TCefImageRef.GetRepresentationInfo(scaleFactor: Single; actualScaleFactor: PSingle; pixelWidth, pixelHeight: PInteger): Boolean;
 begin
-  Result := PCefImage(FData).get_representation_info(FData, scaleFactor, actualScaleFactor, pixelWidth, pixelHeight) <> 0;
+  Result := PCefImage(FData)^.get_representation_info(FData, scaleFactor, actualScaleFactor, pixelWidth, pixelHeight) <> 0;
 end;
 
 function TCefImageRef.GetWidth: NativeUInt;
 begin
-  Result := PCefImage(FData).get_width(FData);
+  Result := PCefImage(FData)^.get_width(FData);
 end;
 
 function TCefImageRef.HasRepresentation(scaleFactor: Single): Boolean;
 begin
-  Result := PCefImage(FData).has_representation(FData, scaleFactor) <> 0;
+  Result := PCefImage(FData)^.has_representation(FData, scaleFactor) <> 0;
 end;
 
 function TCefImageRef.IsEmpty: Boolean;
 begin
-  Result := PCefImage(FData).is_empty(FData) <> 0;
+  Result := PCefImage(FData)^.is_empty(FData) <> 0;
 end;
 
 function TCefImageRef.IsSame(const that: ICefImage): Boolean;
 begin
-  Result := PCefImage(FData).is_same(FData, CefGetData(that)) <> 0;
+  Result := PCefImage(FData)^.is_same(FData, CefGetData(that)) <> 0;
 end;
 
 class function TCefImageRef.New: ICefImage;
@@ -153,7 +157,7 @@ end;
 
 function TCefImageRef.RemoveRepresentation(scaleFactor: Single): Boolean;
 begin
-  Result := PCefImage(FData).remove_representation(FData, scaleFactor) <> 0;
+  Result := PCefImage(FData)^.remove_representation(FData, scaleFactor) <> 0;
 end;
 
 class function TCefImageRef.UnWrap(data: Pointer): ICefImage;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFMiscFunctions;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -51,7 +55,7 @@ uses
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX,{$ENDIF}
   System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-  Windows, Classes, SysUtils, Controls, ActiveX, Math,
+  Windows, Classes, SysUtils, Controls, Graphics, ActiveX, Math,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
   uCEFRegisterCDMCallback;
@@ -85,7 +89,6 @@ procedure CefStringFree(const str: PCefString);
 function  CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
 procedure CefStringSet(const str: PCefString; const value: ustring);
 
-function  CefExecuteProcess(var app : ICefApp; aWindowsSandboxInfo : Pointer = nil) : integer;
 function  CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
 procedure CefPostTask(ThreadId: TCefThreadId; const task: ICefTask);
 procedure CefPostDelayedTask(ThreadId: TCefThreadId; const task: ICefTask; delayMs: Int64);
@@ -100,9 +103,9 @@ function cef_string_utf8_copy(const src: PAnsiChar; src_len: NativeUInt; output:
 function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: PCefStringUtf16): Integer;
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : string = '');
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : string = '');
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : string = '');
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : ustring = '');
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring = '');
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring = '');
 
 function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
@@ -111,11 +114,10 @@ function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
 
 {$IFNDEF DELPHI12_UP}
-function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: Longint): Longint; stdcall;
 {$IFDEF WIN64}
-function SetWindowLongPtr; external user32 name 'SetWindowLongPtrW';
-{$ELSE}
-function SetWindowLongPtr; external user32 name 'SetWindowLongW';
+function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: int64): int64; stdcall; external user32 name 'SetWindowLongPtrW';
+{$ELSE}                                                                 
+function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: LongInt): LongInt; stdcall; external user32 name 'SetWindowLongW';
 {$ENDIF}
 {$ENDIF}
 
@@ -274,7 +276,7 @@ end;
 function CefString(const str: PCefString): ustring;
 begin
   if (str <> nil) then
-    SetString(Result, str.str, str.length)
+    SetString(Result, str^.str, str^.length)
    else
     Result := '';
 end;
@@ -320,16 +322,11 @@ end;
 
 function CefUserFreeString(const str: ustring): PCefStringUserFree;
 begin
-  Result        := cef_string_userfree_utf16_alloc;
-  Result.length := Length(str);
-  GetMem(Result.str, Result.length * SizeOf(TCefChar));
-  Move(PCefChar(str)^, Result.str^, Result.length * SizeOf(TCefChar));
-  Result.dtor   := @_free_string;
-end;
-
-function CefExecuteProcess(var app : ICefApp; aWindowsSandboxInfo : Pointer) : integer;
-begin
-  Result := cef_execute_process(@HInstance, CefGetData(app), aWindowsSandboxInfo);
+  Result         := cef_string_userfree_utf16_alloc();
+  Result^.length := Length(str);
+  GetMem(Result^.str, Result^.length * SizeOf(TCefChar));
+  Move(PCefChar(str)^, Result^.str^, Result^.length * SizeOf(TCefChar));
+  Result^.dtor   := @_free_string;
 end;
 
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
@@ -413,7 +410,7 @@ begin
   Result := cef_string_utf16_set(src, src_len, output, ord(True));
 end;
 
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : string);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : ustring);
 begin
   aWindowInfo.ex_style                     := 0;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -428,7 +425,7 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : string);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring);
 begin
   aWindowInfo.ex_style                     := 0;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -443,7 +440,7 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : string);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring);
 begin
   aWindowInfo.ex_style                     := 0;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -470,7 +467,7 @@ end;
 
 function CefCrashReportingEnabled : boolean;
 begin
-  Result := (cef_crash_reporting_enabled <> 0);
+  Result := (cef_crash_reporting_enabled() <> 0);
 end;
 
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
@@ -551,7 +548,7 @@ end;
 
 function CefClearSchemeHandlerFactories : boolean;
 begin
-  Result := cef_clear_scheme_handler_factories <> 0;
+  Result := cef_clear_scheme_handler_factories() <> 0;
 end;
 
 function CefAddCrossOriginWhitelistEntry(const SourceOrigin          : ustring;
@@ -588,7 +585,7 @@ end;
 
 function CefClearCrossOriginWhitelist: Boolean;
 begin
-  Result := cef_clear_cross_origin_whitelist <> 0;
+  Result := cef_clear_cross_origin_whitelist() <> 0;
 end;
 
 function SplitLongString(aSrcString : string) : string;
@@ -857,9 +854,9 @@ begin
           if GetFileVersionInfo(PChar(aFileName), TempHandle, TempSize, TempBuffer) and
              VerQueryValue(TempBuffer, '\', Pointer(TempInfo), TempLen) then
             begin
-              Result := TempInfo.dwFileVersionMS;
+              Result := TempInfo^.dwFileVersionMS;
               Result := Result shl 32;
-              Result := Result or TempInfo.dwFileVersionLS;
+              Result := Result or TempInfo^.dwFileVersionLS;
             end;
         end;
     except
@@ -912,8 +909,8 @@ begin
 
                   while (i < j) do
                     begin
-                      TempArray[i].wLanguage := TempLang.wLanguage;
-                      TempArray[i].wCodePage := TempLang.wCodePage;
+                      TempArray[i].wLanguage := TempLang^.wLanguage;
+                      TempArray[i].wCodePage := TempLang^.wCodePage;
                       inc(TempLang);
                       inc(i);
                     end;

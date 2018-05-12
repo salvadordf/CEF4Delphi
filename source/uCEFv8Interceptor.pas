@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFv8Interceptor;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -47,7 +51,7 @@ unit uCEFv8Interceptor;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFv8Types;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefV8InterceptorOwn = class(TCefBaseRefCountedOwn, ICefV8Interceptor)
@@ -177,10 +181,10 @@ begin
 
   with PCefV8Interceptor(FData)^ do
     begin
-      get_byname  := cef_v8_interceptor_get_byname;
-      get_byindex := cef_v8_interceptor_get_byindex;
-      set_byname  := cef_v8_interceptor_set_byname;
-      set_byindex := cef_v8_interceptor_set_byindex;
+      get_byname  := {$IFDEF FPC}@{$ENDIF}cef_v8_interceptor_get_byname;
+      get_byindex := {$IFDEF FPC}@{$ENDIF}cef_v8_interceptor_get_byindex;
+      set_byname  := {$IFDEF FPC}@{$ENDIF}cef_v8_interceptor_set_byname;
+      set_byindex := {$IFDEF FPC}@{$ENDIF}cef_v8_interceptor_set_byindex;
     end;
 end;
 

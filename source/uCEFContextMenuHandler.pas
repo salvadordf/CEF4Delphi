@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFContextMenuHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -166,10 +170,10 @@ begin
 
   with PCefContextMenuHandler(FData)^ do
     begin
-      on_before_context_menu    := cef_context_menu_handler_on_before_context_menu;
-      run_context_menu          := cef_context_menu_handler_run_context_menu;
-      on_context_menu_command   := cef_context_menu_handler_on_context_menu_command;
-      on_context_menu_dismissed := cef_context_menu_handler_on_context_menu_dismissed;
+      on_before_context_menu    := {$IFDEF FPC}@{$ENDIF}cef_context_menu_handler_on_before_context_menu;
+      run_context_menu          := {$IFDEF FPC}@{$ENDIF}cef_context_menu_handler_run_context_menu;
+      on_context_menu_command   := {$IFDEF FPC}@{$ENDIF}cef_context_menu_handler_on_context_menu_command;
+      on_context_menu_dismissed := {$IFDEF FPC}@{$ENDIF}cef_context_menu_handler_on_context_menu_dismissed;
     end;
 end;
 

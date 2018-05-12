@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFX509CertPrincipal;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -83,27 +87,27 @@ uses
 
 function TCefX509CertPrincipalRef.GetDisplayName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData).get_display_name(FData));
+  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData)^.get_display_name(PCefX509CertPrincipal(FData)));
 end;
 
 function TCefX509CertPrincipalRef.GetCommonName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData).get_common_name(FData));
+  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData)^.get_common_name(PCefX509CertPrincipal(FData)));
 end;
 
 function TCefX509CertPrincipalRef.GetLocalityName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData).get_locality_name(FData));
+  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData)^.get_locality_name(PCefX509CertPrincipal(FData)));
 end;
 
 function TCefX509CertPrincipalRef.GetStateOrProvinceName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData).get_state_or_province_name(FData));
+  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData)^.get_state_or_province_name(PCefX509CertPrincipal(FData)));
 end;
 
 function TCefX509CertPrincipalRef.GetCountryName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData).get_country_name(FData));
+  Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData)^.get_country_name(PCefX509CertPrincipal(FData)));
 end;
 
 procedure TCefX509CertPrincipalRef.GetStreetAddresses(const addresses: TStrings);
@@ -113,7 +117,7 @@ begin
   if (addresses <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefX509CertPrincipal(FData).get_street_addresses(FData, TempSL.Handle);
+      PCefX509CertPrincipal(FData)^.get_street_addresses(PCefX509CertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(addresses);
     end;
 end;
@@ -125,7 +129,7 @@ begin
   if (names <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefX509CertPrincipal(FData).get_organization_names(FData, TempSL.Handle);
+      PCefX509CertPrincipal(FData)^.get_organization_names(PCefX509CertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(names);
     end;
 end;
@@ -137,7 +141,7 @@ begin
   if (names <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefX509CertPrincipal(FData).get_organization_unit_names(FData, TempSL.Handle);
+      PCefX509CertPrincipal(FData)^.get_organization_unit_names(PCefX509CertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(names);
     end;
 end;
@@ -149,7 +153,7 @@ begin
   if (components <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefX509CertPrincipal(FData).get_domain_components(FData, TempSL.Handle);
+      PCefX509CertPrincipal(FData)^.get_domain_components(PCefX509CertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(components);
     end;
 end;

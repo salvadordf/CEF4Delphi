@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFDisplayHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -264,15 +268,15 @@ begin
 
   with PCefDisplayHandler(FData)^ do
     begin
-      on_address_change          := cef_display_handler_on_address_change;
-      on_title_change            := cef_display_handler_on_title_change;
-      on_favicon_urlchange       := cef_display_handler_on_favicon_urlchange;
-      on_fullscreen_mode_change  := cef_display_handler_on_fullscreen_mode_change;
-      on_tooltip                 := cef_display_handler_on_tooltip;
-      on_status_message          := cef_display_handler_on_status_message;
-      on_console_message         := cef_display_handler_on_console_message;
-      on_auto_resize             := cef_display_handler_on_auto_resize;
-      on_loading_progress_change := cef_display_handler_on_loading_progress_change;
+      on_address_change          := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_address_change;
+      on_title_change            := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_title_change;
+      on_favicon_urlchange       := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_favicon_urlchange;
+      on_fullscreen_mode_change  := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_fullscreen_mode_change;
+      on_tooltip                 := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_tooltip;
+      on_status_message          := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_status_message;
+      on_console_message         := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_console_message;
+      on_auto_resize             := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_auto_resize;
+      on_loading_progress_change := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_loading_progress_change;
     end;
 end;
 

@@ -130,7 +130,6 @@ contains
   uCEFResponseFilter in '..\source\uCEFResponseFilter.pas',
   uCEFImage in '..\source\uCEFImage.pas',
   uCEFMenuModelDelegate in '..\source\uCEFMenuModelDelegate.pas',
-  uCEFv8Types in '..\source\uCEFv8Types.pas',
   uCEFWindowParent in '..\source\uCEFWindowParent.pas',
   uCEFChromium in '..\source\uCEFChromium.pas',
   uCEFChromiumEvents in '..\source\uCEFChromiumEvents.pas',

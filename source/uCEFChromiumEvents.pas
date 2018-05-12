@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFChromiumEvents;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -153,7 +157,7 @@ type
   TOnFindResult                   = procedure(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean) of Object;
 
   // Custom
-  TOnTextResultAvailableEvent     = procedure(Sender: TObject; const aText : string) of object;
+  TOnTextResultAvailableEvent     = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent        = procedure(Sender: TObject; aResultOK : boolean) of object;
   TOnPrefsAvailableEvent          = procedure(Sender: TObject; aResultOK : boolean) of object;
   TOnCookiesDeletedEvent          = procedure(Sender: TObject; numDeleted : integer) of object;

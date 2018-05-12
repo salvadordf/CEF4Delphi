@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFResourceHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -157,7 +161,7 @@ end;
 
 procedure TCefResourceHandlerOwn.Cancel;
 begin
-
+  //
 end;
 
 function TCefResourceHandlerOwn.CanGetCookie(const cookie: PCefCookie): Boolean;
@@ -179,12 +183,12 @@ begin
 
   with PCefResourceHandler(FData)^ do
     begin
-      process_request      := cef_resource_handler_process_request;
-      get_response_headers := cef_resource_handler_get_response_headers;
-      read_response        := cef_resource_handler_read_response;
-      can_get_cookie       := cef_resource_handler_can_get_cookie;
-      can_set_cookie       := cef_resource_handler_can_set_cookie;
-      cancel               := cef_resource_handler_cancel;
+      process_request      := {$IFDEF FPC}@{$ENDIF}cef_resource_handler_process_request;
+      get_response_headers := {$IFDEF FPC}@{$ENDIF}cef_resource_handler_get_response_headers;
+      read_response        := {$IFDEF FPC}@{$ENDIF}cef_resource_handler_read_response;
+      can_get_cookie       := {$IFDEF FPC}@{$ENDIF}cef_resource_handler_can_get_cookie;
+      can_set_cookie       := {$IFDEF FPC}@{$ENDIF}cef_resource_handler_can_set_cookie;
+      cancel               := {$IFDEF FPC}@{$ENDIF}cef_resource_handler_cancel;
     end;
 end;
 
@@ -192,7 +196,7 @@ procedure TCefResourceHandlerOwn.GetResponseHeaders(const response       : ICefR
                                                     out   responseLength : Int64;
                                                     out   redirectUrl    : ustring);
 begin
-
+  //
 end;
 
 function TCefResourceHandlerOwn.ProcessRequest(const request  : ICefRequest;

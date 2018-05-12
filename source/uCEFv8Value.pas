@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFv8Value;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -52,7 +56,7 @@ uses
   {$ELSE}
   Classes, SysUtils,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFv8Types;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefv8ValueRef = class(TCefBaseRefCountedRef, ICefv8Value)
@@ -116,8 +120,8 @@ type
       class function NewDate(value: TDateTime): ICefv8Value;
       class function NewString(const str: ustring): ICefv8Value;
       class function NewObject(const Accessor: ICefV8Accessor; const Interceptor: ICefV8Interceptor): ICefv8Value;
-      class function NewObjectProc(const getter: TCefV8AccessorGetterProc;
-                                   const setter: TCefV8AccessorSetterProc;
+      class function NewObjectProc(const getter        : TCefV8AccessorGetterProc;
+                                   const setter        : TCefV8AccessorSetterProc;
                                    const getterbyname  : TCefV8InterceptorGetterByNameProc;
                                    const setterbyname  : TCefV8InterceptorSetterByNameProc;
                                    const getterbyindex : TCefV8InterceptorGetterByIndexProc;
@@ -157,10 +161,10 @@ end;
 
 class function TCefv8ValueRef.NewDate(value: TDateTime): ICefv8Value;
 var
-  dt: TCefTime;
+  TempValue : TCefTime;
 begin
-  dt := DateTimeToCefTime(value);
-  Result := UnWrap(cef_v8value_create_date(@dt));
+  TempValue := DateTimeToCefTime(value);
+  Result    := UnWrap(cef_v8value_create_date(@TempValue));
 end;
 
 class function TCefv8ValueRef.NewDouble(value: Double): ICefv8Value;
@@ -168,13 +172,12 @@ begin
   Result := UnWrap(cef_v8value_create_double(value));
 end;
 
-class function TCefv8ValueRef.NewFunction(const name: ustring;
-  const handler: ICefv8Handler): ICefv8Value;
+class function TCefv8ValueRef.NewFunction(const name: ustring; const handler: ICefv8Handler): ICefv8Value;
 var
-  n: TCefString;
+  TempName : TCefString;
 begin
-  n := CefString(name);
-  Result := UnWrap(cef_v8value_create_function(@n, CefGetData(handler)));
+  TempName := CefString(name);
+  Result   := UnWrap(cef_v8value_create_function(@TempName, CefGetData(handler)));
 end;
 
 class function TCefv8ValueRef.NewInt(value: Integer): ICefv8Value;
@@ -189,7 +192,7 @@ end;
 
 class function TCefv8ValueRef.NewNull: ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_null);
+  Result := UnWrap(cef_v8value_create_null());
 end;
 
 class function TCefv8ValueRef.NewObject(const Accessor: ICefV8Accessor; const Interceptor: ICefV8Interceptor): ICefv8Value;
@@ -197,8 +200,8 @@ begin
   Result := UnWrap(cef_v8value_create_object(CefGetData(Accessor), CefGetData(Interceptor)));
 end;
 
-class function TCefv8ValueRef.NewObjectProc(const getter: TCefV8AccessorGetterProc;
-                                            const setter: TCefV8AccessorSetterProc;
+class function TCefv8ValueRef.NewObjectProc(const getter        : TCefV8AccessorGetterProc;
+                                            const setter        : TCefV8AccessorSetterProc;
                                             const getterbyname  : TCefV8InterceptorGetterByNameProc;
                                             const setterbyname  : TCefV8InterceptorSetterByNameProc;
                                             const getterbyindex : TCefV8InterceptorGetterByIndexProc;
@@ -210,15 +213,15 @@ end;
 
 class function TCefv8ValueRef.NewString(const str: ustring): ICefv8Value;
 var
-  s: TCefString;
+  TempString : TCefString;
 begin
-  s := CefString(str);
-  Result := UnWrap(cef_v8value_create_string(@s));
+  TempString := CefString(str);
+  Result     := UnWrap(cef_v8value_create_string(@TempString));
 end;
 
 class function TCefv8ValueRef.NewUndefined: ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_undefined);
+  Result := UnWrap(cef_v8value_create_undefined());
 end;
 
 function TCefv8ValueRef.DeleteValueByIndex(index: Integer): Boolean;
@@ -228,10 +231,10 @@ end;
 
 function TCefv8ValueRef.DeleteValueByKey(const key: ustring): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k      := CefString(key);
-  Result := PCefV8Value(FData)^.delete_value_bykey(PCefV8Value(FData), @k) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefV8Value(FData)^.delete_value_bykey(PCefV8Value(FData), @TempKey) <> 0;
 end;
 
 function TCefv8ValueRef.ExecuteFunction(const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
@@ -253,17 +256,17 @@ begin
 
           while (i < j) do
             begin
-              args[i] := CefGetData(arguments[i]);
+              args^[i] := CefGetData(arguments[i]);
               inc(i);
             end;
         end
        else
         j := 0;
 
-      Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData).execute_function(PCefV8Value(FData),
-                                                                          CefGetData(obj),
-                                                                          j,
-                                                                          args));
+      Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.execute_function(PCefV8Value(FData),
+                                                                           CefGetData(obj),
+                                                                           j,
+                                                                           args));
     except
       on e : exception do
         if CustomExceptionHandler('TCefv8ValueRef.ExecuteFunction', e) then raise;
@@ -294,18 +297,18 @@ begin
 
           while (i < j) do
             begin
-              args[i] := CefGetData(arguments[i]);
+              args^[i] := CefGetData(arguments[i]);
               inc(i);
             end;
         end
        else
         j := 0;
 
-      Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData).execute_function_with_context(PCefV8Value(FData),
-                                                                                       CefGetData(context),
-                                                                                       CefGetData(obj),
-                                                                                       j,
-                                                                                       args));
+      Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.execute_function_with_context(PCefV8Value(FData),
+                                                                                        CefGetData(context),
+                                                                                        CefGetData(obj),
+                                                                                        j,
+                                                                                        args));
     except
       on e : exception do
         if CustomExceptionHandler('TCefv8ValueRef.ExecuteFunctionWithContext', e) then raise;
@@ -377,7 +380,7 @@ begin
   Result := 0;
   TempSL := TCefStringListOwn.Create;
 
-  if (PCefV8Value(FData).get_keys(PCefV8Value(FData), TempSL.Handle) <> 0) then
+  if (PCefV8Value(FData)^.get_keys(PCefV8Value(FData), TempSL.Handle) <> 0) then
     begin
       TempSL.CopyToStrings(keys);
       Result := keys.Count;
@@ -436,15 +439,15 @@ end;
 
 function TCefv8ValueRef.GetValueByIndex(index: Integer): ICefv8Value;
 begin
-  Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.get_value_byindex(PCefV8Value(FData), index))
+  Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.get_value_byindex(PCefV8Value(FData), index));
 end;
 
 function TCefv8ValueRef.GetValueByKey(const key: ustring): ICefv8Value;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k      := CefString(key);
-  Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.get_value_bykey(PCefV8Value(FData), @k))
+  TempKey := CefString(key);
+  Result  := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.get_value_bykey(PCefV8Value(FData), @TempKey));
 end;
 
 function TCefv8ValueRef.HasValueByIndex(index: Integer): Boolean;
@@ -454,10 +457,10 @@ end;
 
 function TCefv8ValueRef.HasValueByKey(const key: ustring): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k      := CefString(key);
-  Result := PCefV8Value(FData)^.has_value_bykey(PCefV8Value(FData), @k) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefV8Value(FData)^.has_value_bykey(PCefV8Value(FData), @TempKey) <> 0;
 end;
 
 function TCefv8ValueRef.IsArray: Boolean;
@@ -527,10 +530,10 @@ end;
 
 function TCefv8ValueRef.SetValueByAccessor(const key: ustring; settings: TCefV8AccessControls; attribute: TCefV8PropertyAttributes): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k      := CefString(key);
-  Result := PCefV8Value(FData)^.set_value_byaccessor(PCefV8Value(FData), @k, PByte(@settings)^, PByte(@attribute)^) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefV8Value(FData)^.set_value_byaccessor(PCefV8Value(FData), @TempKey, PByte(@settings)^, PByte(@attribute)^) <> 0;
 end;
 
 function TCefv8ValueRef.SetValueByIndex(index: Integer; const value: ICefv8Value): Boolean;
@@ -540,10 +543,10 @@ end;
 
 function TCefv8ValueRef.SetValueByKey(const key: ustring; const value: ICefv8Value; attribute: TCefV8PropertyAttributes): Boolean;
 var
-  k: TCefString;
+  TempKey : TCefString;
 begin
-  k      := CefString(key);
-  Result := PCefV8Value(FData)^.set_value_bykey(PCefV8Value(FData), @k, CefGetData(value), PByte(@attribute)^) <> 0;
+  TempKey := CefString(key);
+  Result  := PCefV8Value(FData)^.set_value_bykey(PCefV8Value(FData), @TempKey, CefGetData(value), PByte(@attribute)^) <> 0;
 end;
 
 class function TCefv8ValueRef.UnWrap(data: Pointer): ICefv8Value;

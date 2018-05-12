@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFDownloadItemCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -66,23 +70,24 @@ uses
 
 procedure TCefDownloadItemCallbackRef.cancel;
 begin
-  PCefDownloadItemCallback(FData).cancel(PCefDownloadItemCallback(FData));
+  PCefDownloadItemCallback(FData)^.cancel(PCefDownloadItemCallback(FData));
 end;
 
 procedure TCefDownloadItemCallbackRef.Pause;
 begin
-  PCefDownloadItemCallback(FData).pause(PCefDownloadItemCallback(FData));
+  PCefDownloadItemCallback(FData)^.pause(PCefDownloadItemCallback(FData));
 end;
 
 procedure TCefDownloadItemCallbackRef.Resume;
 begin
-  PCefDownloadItemCallback(FData).resume(PCefDownloadItemCallback(FData));
+  PCefDownloadItemCallback(FData)^.resume(PCefDownloadItemCallback(FData));
 end;
 
 class function TCefDownloadItemCallbackRef.UnWrap(data: Pointer): ICefDownloadItemCallback;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefDownloadItemCallback else
+  if (data <> nil) then
+    Result := Create(data) as ICefDownloadItemCallback
+   else
     Result := nil;
 end;
 

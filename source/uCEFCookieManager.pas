@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFCookieManager;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -108,11 +112,11 @@ function TCefCookieManagerRef.DeleteCookies(const url        : ustring;
                                             const cookieName : ustring;
                                             const callback   : ICefDeleteCookiesCallback): Boolean;
 var
-  u, n: TCefString;
+  TempURL, TempName : TCefString;
 begin
-  u      := CefString(url);
-  n      := CefString(cookieName);
-  Result := PCefCookieManager(FData).delete_cookies(PCefCookieManager(FData), @u, @n, CefGetData(callback)) <> 0;
+  TempURL  := CefString(url);
+  TempName := CefString(cookieName);
+  Result   := PCefCookieManager(FData)^.delete_cookies(PCefCookieManager(FData), @TempURL, @TempName, CefGetData(callback)) <> 0;
 end;
 
 function TCefCookieManagerRef.DeleteCookiesProc(const url        : ustring;
@@ -124,7 +128,7 @@ end;
 
 function TCefCookieManagerRef.FlushStore(const handler: ICefCompletionCallback): Boolean;
 begin
-  Result := PCefCookieManager(FData).flush_store(PCefCookieManager(FData), CefGetData(handler)) <> 0;
+  Result := PCefCookieManager(FData)^.flush_store(PCefCookieManager(FData), CefGetData(handler)) <> 0;
 end;
 
 function TCefCookieManagerRef.FlushStoreProc(const proc: TCefCompletionCallbackProc): Boolean;
@@ -139,7 +143,7 @@ end;
 
 class function TCefCookieManagerRef.Blocking : ICefCookieManager;
 begin
-  Result := UnWrap(cef_cookie_manager_get_blocking_manager);
+  Result := UnWrap(cef_cookie_manager_get_blocking_manager());
 end;
 
 class function TCefCookieManagerRef.GlobalProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
@@ -171,7 +175,7 @@ begin
    else
     FillChar(cook.expires, SizeOf(TCefTime), 0);
 
-  Result := PCefCookieManager(FData).set_cookie(PCefCookieManager(FData), @str, @cook, CefGetData(callback)) <> 0;
+  Result := PCefCookieManager(FData)^.set_cookie(PCefCookieManager(FData), @str, @cook, CefGetData(callback)) <> 0;
 end;
 
 function TCefCookieManagerRef.SetCookieProc(const url, name, value, domain, path: ustring;
@@ -210,9 +214,9 @@ begin
     TempSL := TCefStringListOwn.Create;
     TempSL.AddStrings(schemes);
 
-    PCefCookieManager(FData).set_supported_schemes(PCefCookieManager(FData),
-                                                   TempSL.Handle,
-                                                   CefGetData(callback));
+    PCefCookieManager(FData)^.set_supported_schemes(PCefCookieManager(FData),
+                                                    TempSL.Handle,
+                                                    CefGetData(callback));
   finally
     TempSL := nil;
   end;
@@ -233,7 +237,7 @@ end;
 
 function TCefCookieManagerRef.VisitAllCookies(const visitor: ICefCookieVisitor): Boolean;
 begin
-  Result := PCefCookieManager(FData).visit_all_cookies(PCefCookieManager(FData), CefGetData(visitor)) <> 0;
+  Result := PCefCookieManager(FData)^.visit_all_cookies(PCefCookieManager(FData), CefGetData(visitor)) <> 0;
 end;
 
 function TCefCookieManagerRef.VisitAllCookiesProc(const visitor: TCefCookieVisitorProc): Boolean;
@@ -245,10 +249,10 @@ function TCefCookieManagerRef.VisitUrlCookies(const url             : ustring;
                                                     includeHttpOnly : Boolean;
                                               const visitor         : ICefCookieVisitor): Boolean;
 var
-  str : TCefString;
+  TempURL : TCefString;
 begin
-  str    := CefString(url);
-  Result := PCefCookieManager(FData).visit_url_cookies(PCefCookieManager(FData), @str, Ord(includeHttpOnly), CefGetData(visitor)) <> 0;
+  TempURL := CefString(url);
+  Result  := PCefCookieManager(FData)^.visit_url_cookies(PCefCookieManager(FData), @TempURL, Ord(includeHttpOnly), CefGetData(visitor)) <> 0;
 end;
 
 function TCefCookieManagerRef.VisitUrlCookiesProc(const url             : ustring;

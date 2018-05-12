@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFRenderProcessHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -246,16 +250,16 @@ begin
 
   with PCefRenderProcessHandler(FData)^ do
     begin
-      on_render_thread_created    := cef_render_process_handler_on_render_thread_created;
-      on_web_kit_initialized      := cef_render_process_handler_on_web_kit_initialized;
-      on_browser_created          := cef_render_process_handler_on_browser_created;
-      on_browser_destroyed        := cef_render_process_handler_on_browser_destroyed;
-      get_load_handler            := cef_render_process_handler_get_load_handler;
-      on_context_created          := cef_render_process_handler_on_context_created;
-      on_context_released         := cef_render_process_handler_on_context_released;
-      on_uncaught_exception       := cef_render_process_handler_on_uncaught_exception;
-      on_focused_node_changed     := cef_render_process_handler_on_focused_node_changed;
-      on_process_message_received := cef_render_process_handler_on_process_message_received;
+      on_render_thread_created    := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_render_thread_created;
+      on_web_kit_initialized      := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_web_kit_initialized;
+      on_browser_created          := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_browser_created;
+      on_browser_destroyed        := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_browser_destroyed;
+      get_load_handler            := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_get_load_handler;
+      on_context_created          := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_context_created;
+      on_context_released         := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_context_released;
+      on_uncaught_exception       := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_uncaught_exception;
+      on_focused_node_changed     := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_focused_node_changed;
+      on_process_message_received := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_process_message_received;
     end;
 end;
 

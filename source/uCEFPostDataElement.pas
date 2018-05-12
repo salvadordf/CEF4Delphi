@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFPostDataElement;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -126,7 +130,7 @@ end;
 
 class function TCefPostDataElementRef.New: ICefPostDataElement;
 begin
-  Result := UnWrap(cef_post_data_element_create);
+  Result := UnWrap(cef_post_data_element_create());
 end;
 
 procedure TCefPostDataElementRef.SetToBytes(size: NativeUInt; const bytes: Pointer);
@@ -278,14 +282,14 @@ begin
 
   with PCefPostDataElement(FData)^ do
     begin
-      is_read_only    := cef_post_data_element_is_read_only;
-      set_to_empty    := cef_post_data_element_set_to_empty;
-      set_to_file     := cef_post_data_element_set_to_file;
-      set_to_bytes    := cef_post_data_element_set_to_bytes;
-      get_type        := cef_post_data_element_get_type;
-      get_file        := cef_post_data_element_get_file;
-      get_bytes_count := cef_post_data_element_get_bytes_count;
-      get_bytes       := cef_post_data_element_get_bytes;
+      is_read_only    := {$IFDEF FPC}@{$ENDIF}cef_post_data_element_is_read_only;
+      set_to_empty    := {$IFDEF FPC}@{$ENDIF}cef_post_data_element_set_to_empty;
+      set_to_file     := {$IFDEF FPC}@{$ENDIF}cef_post_data_element_set_to_file;
+      set_to_bytes    := {$IFDEF FPC}@{$ENDIF}cef_post_data_element_set_to_bytes;
+      get_type        := {$IFDEF FPC}@{$ENDIF}cef_post_data_element_get_type;
+      get_file        := {$IFDEF FPC}@{$ENDIF}cef_post_data_element_get_file;
+      get_bytes_count := {$IFDEF FPC}@{$ENDIF}cef_post_data_element_get_bytes_count;
+      get_bytes       := {$IFDEF FPC}@{$ENDIF}cef_post_data_element_get_bytes;
     end;
 end;
 

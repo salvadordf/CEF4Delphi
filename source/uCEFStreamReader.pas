@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFStreamReader;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -75,8 +79,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCustomStreamReader;
 
-class function TCefStreamReaderRef.CreateForCustomStream(
-  const stream: ICefCustomStreamReader): ICefStreamReader;
+class function TCefStreamReaderRef.CreateForCustomStream(const stream: ICefCustomStreamReader): ICefStreamReader;
 begin
   Result := UnWrap(cef_stream_reader_create_for_handler(CefGetData(stream)))
 end;
@@ -88,14 +91,13 @@ end;
 
 class function TCefStreamReaderRef.CreateForFile(const filename: ustring): ICefStreamReader;
 var
-  f: TCefString;
+  TempFileName : TCefString;
 begin
-  f := CefString(filename);
-  Result := UnWrap(cef_stream_reader_create_for_file(@f))
+  TempFileName := CefString(filename);
+  Result       := UnWrap(cef_stream_reader_create_for_file(@TempFileName))
 end;
 
-class function TCefStreamReaderRef.CreateForStream(const stream: TSTream;
-  owned: Boolean): ICefStreamReader;
+class function TCefStreamReaderRef.CreateForStream(const stream: TSTream; owned: Boolean): ICefStreamReader;
 begin
   Result := CreateForCustomStream(TCefCustomStreamReader.Create(stream, owned) as ICefCustomStreamReader);
 end;
@@ -107,7 +109,7 @@ end;
 
 function TCefStreamReaderRef.MayBlock: Boolean;
 begin
-  Result := PCefStreamReader(FData)^.may_block(FData) <> 0;
+  Result := PCefStreamReader(FData)^.may_block(PCefStreamReader(FData)) <> 0;
 end;
 
 function TCefStreamReaderRef.Read(ptr: Pointer; size, n: NativeUInt): NativeUInt;
@@ -127,8 +129,9 @@ end;
 
 class function TCefStreamReaderRef.UnWrap(data: Pointer): ICefStreamReader;
 begin
-  if data <> nil then
-    Result := Create(data) as ICefStreamReader else
+  if (data <> nil) then
+    Result := Create(data) as ICefStreamReader
+   else
     Result := nil;
 end;
 

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFv8Handler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -90,7 +94,7 @@ type
     public
       constructor Create(const value: TValue; SyncMainThread: Boolean = False); reintroduce;
       destructor Destroy; override;
-      class procedure Register(const name: string; const value: TValue; SyncMainThread: Boolean = False);
+      class procedure Register(const name: ustring; const value: TValue; SyncMainThread: Boolean = False);
   end;
 {$ENDIF}
 
@@ -125,7 +129,7 @@ begin
 
       while (i < j) do
         begin
-          args[i] := TCefv8ValueRef.UnWrap(arguments[i]);
+          args[i] := TCefv8ValueRef.UnWrap(arguments^[i]);
           inc(i);
         end;
 
@@ -162,7 +166,7 @@ begin
   FillChar(exc, SizeOf(exc), 0);
   ret       := nil;
   n         := CefString(name);
-  Result    := PCefv8Handler(FData).execute(PCefv8Handler(FData), @n, CefGetData(obj), Length(arguments), @args, ret, exc) <> 0;
+  Result    := PCefv8Handler(FData)^.execute(PCefv8Handler(FData), @n, CefGetData(obj), Length(arguments), @args, ret, exc) <> 0;
   retval    := TCefv8ValueRef.UnWrap(ret);
   exception := CefStringClearAndGet(exc);
 end;
@@ -181,7 +185,7 @@ constructor TCefv8HandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefv8Handler));
 
-  PCefv8Handler(FData).execute := cef_v8_handler_execute;
+  PCefv8Handler(FData)^.execute := {$IFDEF FPC}@{$ENDIF}cef_v8_handler_execute;
 end;
 
 function TCefv8HandlerOwn.Execute(const name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean;
@@ -746,7 +750,7 @@ begin
   Result := True;
 end;
 
-class procedure TCefRTTIExtension.Register(const name: string; const value: TValue; SyncMainThread: Boolean);
+class procedure TCefRTTIExtension.Register(const name: ustring; const value: TValue; SyncMainThread: Boolean);
 var
   TempCode    : ustring;
   TempHandler : ICefv8Handler;

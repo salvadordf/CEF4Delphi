@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFServerComponent;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -51,7 +55,12 @@ uses
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX,{$ENDIF}
   System.Classes, System.Math,
   {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX, Math,
+    Windows, Classes, Forms, Controls, Graphics, ActiveX, Math,
+    {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    {$ELSE}
+    Messages,
+    {$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFServer, uCEFServerEvents, uCEFServerHandler;
 
@@ -124,6 +133,10 @@ type
       property OnWebSocketConnected   : TOnWebSocketConnected   read FOnWebSocketConnected  write FOnWebSocketConnected;
       property OnWebSocketMessage     : TOnWebSocketMessage     read FOnWebSocketMessage    write FOnWebSocketMessage;
   end;
+
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
 
 implementation
 
@@ -322,5 +335,13 @@ procedure TCEFServerComponent.SendWebSocketMessage(connection_id: Integer; const
 begin
   if Initialized then FServer.SendWebSocketMessage(connection_id, data, data_size);
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I tcefservercomponent.lrs}
+  RegisterComponents('Chromium', [TCEFServerComponent]);
+end;
+{$ENDIF}
 
 end.

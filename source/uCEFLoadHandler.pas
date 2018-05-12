@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFLoadHandler;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -161,10 +165,10 @@ begin
 
   with PCefLoadHandler(FData)^ do
     begin
-      on_loading_state_change := cef_load_handler_on_loading_state_change;
-      on_load_start           := cef_load_handler_on_load_start;
-      on_load_end             := cef_load_handler_on_load_end;
-      on_load_error           := cef_load_handler_on_load_error;
+      on_loading_state_change := {$IFDEF FPC}@{$ENDIF}cef_load_handler_on_loading_state_change;
+      on_load_start           := {$IFDEF FPC}@{$ENDIF}cef_load_handler_on_load_start;
+      on_load_end             := {$IFDEF FPC}@{$ENDIF}cef_load_handler_on_load_end;
+      on_load_error           := {$IFDEF FPC}@{$ENDIF}cef_load_handler_on_load_error;
     end;
 end;
 

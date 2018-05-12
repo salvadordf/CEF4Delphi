@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -36,6 +36,10 @@
  *)
 
 unit uCEFBaseRefCounted;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$IFNDEF CPUX64}
   {$ALIGN ON}
@@ -159,15 +163,15 @@ begin
 
   if owned then
     begin
-      PCefBaseRefCounted(FData)^.add_ref     := cef_base_add_ref_owned;
-      PCefBaseRefCounted(FData)^.release     := cef_base_release_owned;
-      PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref_owned;
+      PCefBaseRefCounted(FData)^.add_ref     := {$IFDEF FPC}@{$ENDIF}cef_base_add_ref_owned;
+      PCefBaseRefCounted(FData)^.release     := {$IFDEF FPC}@{$ENDIF}cef_base_release_owned;
+      PCefBaseRefCounted(FData)^.has_one_ref := {$IFDEF FPC}@{$ENDIF}cef_base_has_one_ref_owned;
     end
    else
     begin
-      PCefBaseRefCounted(FData)^.add_ref     := cef_base_add_ref;
-      PCefBaseRefCounted(FData)^.release     := cef_base_release_ref;
-      PCefBaseRefCounted(FData)^.has_one_ref := cef_base_has_one_ref;
+      PCefBaseRefCounted(FData)^.add_ref     := {$IFDEF FPC}@{$ENDIF}cef_base_add_ref;
+      PCefBaseRefCounted(FData)^.release     := {$IFDEF FPC}@{$ENDIF}cef_base_release_ref;
+      PCefBaseRefCounted(FData)^.has_one_ref := {$IFDEF FPC}@{$ENDIF}cef_base_has_one_ref;
     end;
 end;
 
@@ -264,13 +268,13 @@ end;
 // ************************************************
 
 
-function TLoggingInterfacedObject._AddRef: Integer;
+function TLoggingInterfacedObject._AddRef: Integer; stdcall;
 begin
   Result := inherited _AddRef;
   CefDebugLog(ClassName + '._AddRef -> FRefCount = ' + IntToStr(Result));
 end;
 
-function TLoggingInterfacedObject._Release: Integer;
+function TLoggingInterfacedObject._Release: Integer; stdcall;
 begin
   CefDebugLog(ClassName + '._Release -> FRefCount = ' + IntToStr(pred(RefCount)));
   Result := inherited _Release;

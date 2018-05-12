@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,10 @@
 
 unit uCEFv8ArrayBufferReleaseCallback;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$IFNDEF CPUX64}
   {$ALIGN ON}
   {$MINENUMSIZE 4}
@@ -50,8 +54,6 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefv8ArrayBufferReleaseCallbackProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(buffer : Pointer);
-
   TCefv8ArrayBufferReleaseCallbackOwn = class(TCefBaseRefCountedOwn, ICefv8ArrayBufferReleaseCallback)
     protected
       procedure ReleaseBuffer(buffer : Pointer); virtual;
@@ -101,7 +103,8 @@ constructor TCefv8ArrayBufferReleaseCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefv8ArrayBufferReleaseCallback));
 
-  PCefv8ArrayBufferReleaseCallback(FData).release_buffer := cef_v8array_buffer_release_callback_release_buffer;
+  with PCefv8ArrayBufferReleaseCallback(FData)^ do
+    release_buffer := {$IFDEF FPC}@{$ENDIF}cef_v8array_buffer_release_callback_release_buffer;
 end;
 
 procedure TCefv8ArrayBufferReleaseCallbackOwn.ReleaseBuffer(buffer: Pointer);
@@ -129,7 +132,7 @@ end;
 
 procedure TCefv8ArrayBufferReleaseCallbackRef.ReleaseBuffer(buffer : Pointer);
 begin
-  PCefv8ArrayBufferReleaseCallback(FData).release_buffer(PCefv8ArrayBufferReleaseCallback(FData), buffer);
+  PCefv8ArrayBufferReleaseCallback(FData)^.release_buffer(PCefv8ArrayBufferReleaseCallback(FData), buffer);
 end;
 
 class function TCefv8ArrayBufferReleaseCallbackRef.UnWrap(data: Pointer): ICefv8ArrayBufferReleaseCallback;
