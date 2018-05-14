@@ -500,8 +500,8 @@ begin
 
   UpdateDeviceScaleFactor;
 
+  FillChar(FAppSettings, SizeOf(TCefSettings), 0);
   FAppSettings.size := SizeOf(TCefSettings);
-  FillChar(FAppSettings, FAppSettings.size, 0);
 
   FChromeVersionInfo.MajorVer    := CEF_CHROMEELF_VERSION_MAJOR;
   FChromeVersionInfo.MinorVer    := CEF_CHROMEELF_VERSION_MINOR;
@@ -952,7 +952,7 @@ begin
 
           InitializeSettings(FAppSettings);
 
-          TempArgs.instance := HINSTANCE;
+          TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
 
           if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
             begin

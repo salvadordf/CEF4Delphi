@@ -234,23 +234,28 @@ type
   TCefSSLContentStatus             = Cardinal;    // /include/internal/cef_types.h (cef_ssl_content_status_t)
   TCefLogSeverity                  = Cardinal;    // /include/internal/cef_types.h (cef_log_severity_t)
 
-{$IFNDEF DELPHI12_UP}
-  NativeUInt  = Cardinal;
+{$IFDEF FPC}
+  NativeInt   = PtrInt;
+  NativeUInt  = PtrUInt;
+  PNativeInt  = ^NativeInt;
   PNativeUInt = ^NativeUInt;
-  NativeInt   = Integer;
-  uint16      = Word;
-  {$IFDEF FPC}
   ustring     = type UnicodeString;
-  {$ELSE}
-  ustring     = type WideString;
-  {$ENDIF}
   rbstring    = type AnsiString;
 {$ELSE}
-  ustring     = type string;
-  rbstring    = type RawByteString;
-  {$IFNDEF DELPHI15_UP}
-  NativeUInt  = Cardinal;
-  PNativeUInt = ^NativeUInt;
+  {$IFNDEF DELPHI12_UP}
+    NativeUInt  = Cardinal;
+    PNativeUInt = ^NativeUInt;
+    NativeInt   = Integer;
+    uint16      = Word;
+    ustring     = type WideString;
+    rbstring    = type AnsiString;
+  {$ELSE}
+    ustring     = type string;
+    rbstring    = type RawByteString;
+    {$IFNDEF DELPHI15_UP}
+      NativeUInt  = Cardinal;
+      PNativeUInt = ^NativeUInt;
+    {$ENDIF}
   {$ENDIF}
 {$ENDIF}
 

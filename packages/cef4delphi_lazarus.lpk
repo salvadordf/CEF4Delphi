@@ -4,6 +4,7 @@
     <PathDelim Value="\"/>
     <Name Value="CEF4Delphi_Lazarus"/>
     <Type Value="RunAndDesignTime"/>
+    <Author Value="Salvador Diaz Fau"/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
@@ -12,7 +13,14 @@
         <OtherUnitFiles Value="..\source"/>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <AllowLabel Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
     </CompilerOptions>
+    <Description Value="CEF4Delphi"/>
+    <Version Major="1"/>
     <Files Count="133">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>

@@ -144,7 +144,7 @@
   {$DEFINE DELPHI15_UP}
 {$ENDIF}
 
-// Delphi XE2
+// Delphi XE2  (First 64bit compiler)
 {$IFDEF VER230}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}

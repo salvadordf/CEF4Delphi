@@ -1007,7 +1007,7 @@ end;
 
 function GetModulePath : string;
 begin
-  Result := IncludeTrailingPathDelimiter(ExtractFileDir(GetModuleName(HInstance)));
+  Result := IncludeTrailingPathDelimiter(ExtractFileDir(GetModuleName(HINSTANCE{$IFDEF FPC}(){$ENDIF})));
 end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
