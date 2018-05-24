@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright ?2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -93,21 +93,24 @@ type
     FStreamCS      : TCriticalSection;   // Critical section used to protect the memory stream
     FRscSize       : int64;              // size of the resource if the server sends the Content-Length header
     FRscCompleted  : boolean;            // This variable will be used to handle the results only once.
+    FRscEncoding   : TEncoding;          // The resource response Encoding. When encoding is unicode. The response data may be sent by multi chains, will cause encoding parsing problem.
+    FRscMimeType   : String;
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
-    procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
-    procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
+    procedure WMMove(var aMessage: TWMMove); message WM_MOVE;
+    procedure WMMoving(var aMessage: TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
-    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
+    procedure BrowserDestroyMsg(var aMessage: TMessage); message CEF_DESTROY;
     procedure StreamCopyCompleteMsg(var aMessage : TMessage); message STREAM_COPY_COMPLETE;
 
     procedure Filter_OnFilter(Sender: TObject; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
 
     function  IsMyResource(const aRequest : ICefRequest) : boolean;
+    procedure GetResponseEncoding(const aContentType: string);
   public
     { Public declarations }
   end;
@@ -161,14 +164,15 @@ begin
           data_out_written := 0;
           aResult          := RESPONSE_FILTER_DONE;
 
-          if not(FRscCompleted) then
-            FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
-        end
-       else
+        if not(FRscCompleted) and (FStream.Size > 0) and
+          ((FRscSize = -1) or (FRscSize = FStream.Size)) then
+          FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+      end
+      else
+      begin
+        if (data_out <> nil) then
         begin
-          if (data_out <> nil) then
-            begin
-              data_out_written := min(data_in_size, data_out_size);
+          data_out_written := min(data_in_size, data_out_size);
 
               if (data_out_written > 0) then
                 Move(data_in^, data_out^, data_out_written);
@@ -227,6 +231,7 @@ begin
   FStream        := TMemoryStream.Create;
   FStreamCS      := TCriticalSection.Create;
   FFilter        := TCustomResponseFilter.Create;
+  FRscEncoding := TEncoding.Default;
 
   FCanClose := False;
   FClosing  := False;
@@ -292,16 +297,25 @@ var
   TempLen : integer;
 begin
   if (response <> nil) and IsMyResource(request) then
-    begin
-      Result     := FFilter;
-      TempHeader := trim(response.GetHeader('Content-Length'));
+  begin
+    Result := FFilter;
+    TempHeader := trim(response.GetHeader('Content-Length'));
 
-      if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
-        FRscSize := TempLen
-       else
-        FRscSize := -1;
-    end
-   else
+    if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
+      FRscSize := TempLen
+    else
+      FRscSize := -1;
+
+    FRscMimeType := response.MimeType;
+    if (response.MimeType = 'application/json') or
+      (response.MimeType = 'text/json') or
+      (response.MimeType = 'text/javascript') or
+      (response.MimeType = 'application/javascript') then
+    begin
+      GetResponseEncoding(response.GetHeader('Content-Type'));
+    end;
+  end
+  else
     Result := nil;
 end;
 
@@ -317,7 +331,17 @@ begin
   // and CEF didn't send a data_in = nil in Filter_OnFilter
   // we still can use this event to know when the resource is complete
   if not(FRscCompleted) and IsMyResource(request) then
+  begin
+    FRscMimeType := response.MimeType;
+    if (response.MimeType = 'application/json')
+      or (response.MimeType = 'text/json')
+      or (response.MimeType = 'text/javascript')
+      or (response.MimeType = 'application/javascript')
+    then begin
+      GetResponseEncoding(response.GetHeader('Content-Type'));
+    end;
     FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+  end;
 end;
 
 procedure TResponseFilterBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
@@ -334,24 +358,46 @@ end;
 
 // This procedure handles the stream contents after it's fully downloaded
 procedure TResponseFilterBrowserFrm.StreamCopyCompleteMsg(var aMessage : TMessage);
+var
+  LAS: AnsiString;
+  LS: String;
 begin
   try
     FStreamCS.Acquire;
 
     if (FStream.Size > 0) then
-      begin
-        FStream.Seek(0, soBeginning);
+    begin
+      FStream.Seek(0, soBeginning);
 
-        Memo1.Lines.Clear;
+      Memo1.Lines.Clear;
+      if (FRscMimeType = 'application/json') or (FRscMimeType = 'text/json') or
+        (FRscMimeType = 'text/javascript') or
+        (FRscMimeType = 'application/javascript') then
+      begin
+        SetLength(LAS, FStream.Size);
+        FStream.Read(LAS[Low(LAS)], FStream.Size);
+        if FRscEncoding = TEncoding.UTF8 then
+        begin
+          // UTF8 Here
+          LS := UTF8Decode(LAS);
+        end
+        else
+        begin
+          // Others encoding text
+          LS := string(LAS);
+        end;
+        Memo1.Lines.Add(LS);
+      end
+      else
+        // Image or others
         Memo1.Lines.LoadFromStream(FStream);
 
-        FStream.Clear;
-      end
-     else
+      FStream.Clear;
+      FRscSize := -1;
+      FRscCompleted := False;
+    end
+    else
       Memo1.Lines.Clear;
-
-    FRscSize      := -1;
-    FRscCompleted := False;
   finally
     FStreamCS.Release;
   end;
@@ -395,6 +441,106 @@ begin
   inherited;
 
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
+end;
+
+procedure TResponseFilterBrowserFrm.GetResponseEncoding
+  (const aContentType: string);
+var
+  LEncoding: String;
+begin
+  {
+    (Name: 'Latin-US (DOS)'; CodePage: 437),
+    (Name: 'Western (DOS Latin 1)'; CodePage: 850),
+    (Name: 'Thai (Windows, DOS)'; CodePage: 874),
+    (Name: 'Japanese (Windows, DOS)'; CodePage: 932),
+    (Name: 'Simplified Chinese (Windows, DOS)'; CodePage: 936),
+    (Name: 'Korean (Windows, DOS)'; CodePage: 949),
+    (Name: 'Traditional Chinese (Windows, DOS)'; CodePage: 950),
+    (Name: 'Unicode (UTF-16)'; CodePage: 1200),
+    (Name: 'Unicode (UTF-16LE)'; CodePage: 1200),
+    (Name: 'Unicode (UTF-16BE)'; CodePage: 1201),
+    (Name: 'Central European (Windows Latin 2)'; CodePage: 1250),
+    (Name: 'Cyrillic (Windows)'; CodePage: 1251),
+    (Name: 'Western (Windows Latin 1)'; CodePage: 1252),
+    (Name: 'Greek (Windows)'; CodePage: 1253),
+    (Name: 'Turkish (Windows Latin 5)'; CodePage: 1254),
+    (Name: 'Hebrew (Windows)'; CodePage: 1255),
+    (Name: 'Arabic (Windows)'; CodePage: 1256),
+    (Name: 'Baltic (Windows)'; CodePage: 1257),
+    (Name: 'Vietnamese (Windows)'; CodePage: 1258),
+    (Name: 'Western (ASCII)'; CodePage: 20127),
+    (Name: 'Unicode (UTF-7)'; CodePage: CP_UTF7),
+    (Name: 'Unicode (UTF-8)'; CodePage: CP_UTF8),
+    // Windows code pages...
+    (Name: 'Windows-1252'; CodePage: 1252),
+    (Name: 'US-ASCII'; CodePage: 20127),
+    (Name: 'UTF-7'; CodePage: CP_UTF7),
+    (Name: 'UTF-8'; CodePage: CP_UTF8),
+    (Name: 'UTF-16'; CodePage: 1200),
+    (Name: 'UTF-16BE'; CodePage: 1201),
+    (Name: 'UTF-16LE'; CodePage: 1200),
+    (Name: 'SHIFT-JIS'; CodePage: 932),
+    (Name: 'ISO-8859-1'; CodePage: 28591),
+    (Name: 'iso-8859-1'; CodePage: 28591),
+    (Name: 'MACCROATIAN'; CodePage: 10082),
+    (Name: 'ASCII'; CodePage: 20127),
+    (Name: ''; CodePage: 0)
+  }
+  LEncoding := Trim(Copy(UpperCase(aContentType), Pos('CHARSET=',
+    UpperCase(aContentType)) + Length('CHARSET='), MaxInt));
+
+  if LEncoding = 'ANSI' then
+  begin
+    FRscEncoding := TEncoding.ANSI;
+  end
+  else if LEncoding = 'ASCII' then
+  begin
+    FRscEncoding := TEncoding.ASCII;
+  end
+  else if LEncoding = 'UTF-8' then
+  begin
+    FRscEncoding := TEncoding.UTF8;
+  end
+  else if LEncoding = 'UTF-7' then
+  begin
+    FRscEncoding := TEncoding.UTF7;
+  end
+  else if LEncoding = 'UTF-16' then
+  begin
+    FRscEncoding := TEncoding.Unicode;
+  end
+  else if LEncoding = 'UNICODEFFFE' then
+  begin
+    FRscEncoding := TEncoding.GetEncoding(1201);
+  end
+  else if LEncoding = 'UNICODE' then
+  begin
+    FRscEncoding := TEncoding.Unicode;
+  end
+  else if LEncoding = 'GB2312' then
+  begin
+    FRscEncoding := TEncoding.GetEncoding(936);
+  end
+  else if LEncoding = 'GBK' then
+  begin
+    FRscEncoding := TEncoding.GetEncoding(936);
+  end
+  else if LEncoding = 'GB18030' then
+  begin
+    FRscEncoding := TEncoding.GetEncoding(54936);
+  end
+  else if LEncoding = 'ISO-8859-1' then
+  begin
+    FRscEncoding := TEncoding.GetEncoding(28591);
+  end
+  else if LEncoding = 'BIG5' then
+  begin
+    FRscEncoding := TEncoding.GetEncoding(950);
+  end
+  else
+  begin
+    FRscEncoding := TEncoding.Default;
+  end;
 end;
 
 end.
