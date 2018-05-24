@@ -443,7 +443,9 @@ type
       function    CreateBrowser(aParentHandle : HWND; aParentRect : TRect; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aCookiesPath : ustring = ''; aPersistSessionCookies : boolean = False) : boolean; overload; virtual;
       {$ENDIF}
 
-      procedure   LoadURL(const aURL : ustring);
+      procedure   LoadURL(const aURL : ustring; const aFrameName : ustring = ''); overload;
+      procedure   LoadURL(const aURL : ustring; const aFrame : ICefFrame); overload;
+      procedure   LoadURL(const aURL : ustring; const aFrameIdentifier : int64); overload;
       procedure   LoadString(const aString : ustring; const aURL : ustring = '');
       procedure   LoadRequest(const aRequest: ICefRequest);
 
@@ -455,7 +457,7 @@ type
       procedure   StartDownload(const aURL : ustring);
 
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
-      function    DeleteCookies : boolean;
+      function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = '') : boolean;
       procedure   RetrieveHTML(const aFrameName : ustring = ''); overload;
       procedure   RetrieveHTML(const aFrame : ICefFrame); overload;
       procedure   RetrieveHTML(const aFrameIdentifier : int64); overload;
@@ -1365,13 +1367,38 @@ begin
   aSettings.accept_language_list            := CefString('');
 end;
 
-procedure TFMXChromium.LoadURL(const aURL : ustring);
+// Leave aFrameName empty to load the URL in the main frame
+procedure TFMXChromium.LoadURL(const aURL : ustring; const aFrameName : ustring = '');
 var
   TempFrame : ICefFrame;
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.MainFrame;
+      if (length(aFrameName) > 0) then
+        TempFrame := FBrowser.GetFrame(aFrameName)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) then TempFrame.LoadUrl(aURL);
+    end;
+end;
+
+procedure TFMXChromium.LoadURL(const aURL : ustring; const aFrame : ICefFrame);
+begin
+  if Initialized and (aFrame <> nil) then aFrame.LoadUrl(aURL);
+end;
+
+procedure TFMXChromium.LoadURL(const aURL : ustring; const aFrameIdentifier : int64);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized then
+    begin
+      if (aFrameIdentifier <> 0) then
+        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+       else
+        TempFrame := FBrowser.MainFrame;
+
       if (TempFrame <> nil) then TempFrame.LoadUrl(aURL);
     end;
 end;
@@ -1824,7 +1851,7 @@ begin
     end;
 end;
 
-function TFMXChromium.DeleteCookies : boolean;
+function TFMXChromium.DeleteCookies(const url, cookieName: ustring) : boolean;
 var
   TempManager  : ICefCookieManager;
   TempCallback : ICefDeleteCookiesCallback;
@@ -1838,7 +1865,7 @@ begin
       if (TempManager <> nil) then
         begin
           TempCallback := TCefCustomDeleteCookiesCallback.Create(self);
-          Result       := TempManager.DeleteCookies('', '', TempCallback);
+          Result       := TempManager.DeleteCookies(url, cookieName, TempCallback);
         end;
     end;
 end;

@@ -101,7 +101,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFv8Value, uMyV8Accessor;
+  uCEFv8Value, uMyV8Accessor, uCEFMiscFunctions;
 
 // The CEF3 document describing JavaScript integration is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md

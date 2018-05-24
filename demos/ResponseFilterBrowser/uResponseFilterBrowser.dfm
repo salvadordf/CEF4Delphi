@@ -2,7 +2,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   Left = 0
   Top = 0
   Caption = 'Initializing browser. Please wait...'
-  ClientHeight = 624
+  ClientHeight = 710
   ClientWidth = 1038
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 532
+    Top = 407
     Width = 1038
     Height = 3
     Cursor = crVSplit
@@ -50,7 +50,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       Margins.Right = 5
       Align = alClient
       TabOrder = 0
-      Text = 'https://www.wikipedia.org'
+      Text = 'https://www.briskbard.com'
       ExplicitHeight = 21
     end
     object Panel1: TPanel
@@ -88,7 +88,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Height = 20
         Align = alRight
         TabOrder = 1
-        Text = 'index-47f5f07682.js'
+        Text = 'script.js'
         ExplicitHeight = 21
       end
     end
@@ -97,15 +97,15 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Left = 0
     Top = 30
     Width = 1038
-    Height = 502
+    Height = 377
     Align = alClient
     TabOrder = 1
   end
   object Memo1: TMemo
     Left = 0
-    Top = 535
+    Top = 410
     Width = 1038
-    Height = 89
+    Height = 300
     Align = alBottom
     ReadOnly = True
     ScrollBars = ssBoth

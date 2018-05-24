@@ -7,11 +7,16 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, uSimpleLazarusBrowser
+  Forms, uSimpleLazarusBrowser,
   { you can add units after this }
-  ,uCEFApplication;
+  uCEFApplication;
 
 {$R *.res}
+
+{$IFDEF MSWINDOWS}
+  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+  {$SetPEFlags $20}
+{$ENDIF}
 
 begin
   GlobalCEFApp := TCefApplication.Create;
@@ -24,6 +29,7 @@ begin
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
+  GlobalCEFApp.Free;   
+  GlobalCEFApp := nil;
 end.
 

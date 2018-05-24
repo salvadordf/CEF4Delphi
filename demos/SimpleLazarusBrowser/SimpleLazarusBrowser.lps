@@ -4,13 +4,15 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="30">
+    <Units Count="34">
       <Unit0>
         <Filename Value="SimpleLazarusBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
-        <CursorPos X="3" Y="26"/>
-        <UsageCount Value="33"/>
+        <TopLine Value="2"/>
+        <CursorPos X="47" Y="22"/>
+        <UsageCount Value="38"/>
       </Unit0>
       <Unit1>
         <Filename Value="usimplelazarusbrowser.pas"/>
@@ -19,25 +21,22 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="166"/>
-        <CursorPos X="53" Y="110"/>
-        <UsageCount Value="33"/>
+        <TopLine Value="56"/>
+        <CursorPos X="53" Y="69"/>
+        <UsageCount Value="38"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\..\source\uCEFChromium.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="34"/>
-        <CursorPos Y="49"/>
-        <UsageCount Value="16"/>
-        <Bookmarks Count="6">
-          <Item0 X="35" Y="771" ID="1"/>
-          <Item1 X="46" Y="119" ID="2"/>
-          <Item2 X="17" Y="843" ID="3"/>
-          <Item3 X="20" Y="621" ID="4"/>
-          <Item4 X="57" Y="3494" ID="5"/>
-          <Item5 X="3" Y="1079" ID="6"/>
+        <TopLine Value="1272"/>
+        <CursorPos X="61" Y="1295"/>
+        <UsageCount Value="17"/>
+        <Bookmarks Count="4">
+          <Item0 X="20" Y="621" ID="4"/>
+          <Item1 X="57" Y="3494" ID="5"/>
+          <Item2 X="3" Y="1079" ID="6"/>
+          <Item3 X="3" Y="1295" ID="2"/>
         </Bookmarks>
       </Unit2>
       <Unit3>
@@ -140,9 +139,13 @@
       <Unit17>
         <Filename Value="..\..\source\uCEFApplication.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1498"/>
-        <CursorPos X="50" Y="1521"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="43"/>
+        <CursorPos Y="44"/>
+        <UsageCount Value="13"/>
+        <Bookmarks Count="2">
+          <Item0 X="60" Y="956" ID="1"/>
+          <Item1 X="9" Y="894" ID="3"/>
+        </Bookmarks>
       </Unit17>
       <Unit18>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
@@ -222,31 +225,48 @@
       <Unit28>
         <Filename Value="..\..\source\uCEFTypes.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1248"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="235"/>
+        <CursorPos X="34" Y="252"/>
+        <UsageCount Value="13"/>
       </Unit28>
       <Unit29>
         <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="106"/>
-        <CursorPos X="50" Y="124"/>
+        <TopLine Value="996"/>
+        <CursorPos X="67" Y="1003"/>
         <UsageCount Value="10"/>
       </Unit29>
+      <Unit30>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\ctypes.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="64"/>
+        <UsageCount Value="10"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\dynlibs.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="147"/>
+        <CursorPos X="35" Y="164"/>
+        <UsageCount Value="10"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\dynlibs.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="48"/>
+        <CursorPos X="33" Y="51"/>
+        <UsageCount Value="10"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="330"/>
+        <CursorPos X="3" Y="338"/>
+        <UsageCount Value="10"/>
+      </Unit33>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="-1"/>
     </General>
     <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints Count="1">
-      <Item1>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="..\..\source\uCEFChromium.pas"/>
-        <Line Value="2233"/>
-      </Item1>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

@@ -54,6 +54,7 @@ uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math;
   {$ELSE}
+  {$IFDEF FPC}{$IFDEF LINUX}xlib,{$ENDIF}{$ENDIF}
   Windows, Math;
   {$ENDIF}
 
@@ -204,11 +205,53 @@ type
   PCefX509CertPrincipal = ^TCefX509CertPrincipal;
   PCefX509Certificate = ^TCefX509Certificate;
   PPCefX509Certificate = ^PCefX509Certificate;
+  PCefDisplay = ^TCefDisplay;
+  PCefLayout = ^TCefLayout;
+  PCefBoxLayout = ^TCefBoxLayout;
+  PCefFillLayout = ^TCefFillLayout;
+  PCefView = ^TCefView;
+  PCefViewDelegate = ^TCefViewDelegate;
+  PCefTextfield = ^TCefTextfield;
+  PCefTextfieldDelegate = ^TCefTextfieldDelegate;
+  PCefScrollView = ^TCefScrollView;
+  PCefPanel = ^TCefPanel;
+  PCefPanelDelegate = ^TCefPanelDelegate;
+  PCefBrowserView = ^TCefBrowserView;
+  PCefBrowserViewDelegate = ^TCefBrowserViewDelegate;
+  PCefButton = ^TCefButton;
+  PCefButtonDelegate = ^TCefButtonDelegate;
+  PCefLabelButton = ^TCefLabelButton;
+  PCefMenuButton = ^TCefMenuButton;
+  PCefMenuButtonPressedLock = ^TCefMenuButtonPressedLock;
+  PCefMenuButtonDelegate = ^TCefMenuButtonDelegate;
+  PCefWindow = ^TCefWindow;
+  PCefWindowDelegate = ^TCefWindowDelegate;
+  PCefBoxLayoutSettings = ^TCefBoxLayoutSettings;
+
+  {$IFDEF LINUX}
+  PXEvent   = Pointer;
+  TXDisplay = record end;
+  PXDisplay = ^TXDisplay;
+  {$ENDIF}
 
 
-  TCefWindowHandle                 = HWND;        // /include/internal/cef_types_win.h (cef_window_handle_t)
-  TCefCursorHandle                 = HCURSOR;     // /include/internal/cef_types_win.h (cef_cursor_handle_t)
-  TCefEventHandle                  = PMsg;        // /include/internal/cef_types_win.h (cef_event_handle_t)
+  {$IFDEF MSWINDOWS}
+  TCefWindowHandle = HWND;     // /include/internal/cef_types_win.h (cef_window_handle_t)
+  TCefCursorHandle = HCURSOR;  // /include/internal/cef_types_win.h (cef_cursor_handle_t)
+  TCefEventHandle  = PMsg;     // /include/internal/cef_types_win.h (cef_event_handle_t)
+  {$ENDIF}
+  {$IFDEF MACOS}
+  TCefWindowHandle = Pointer;  // /include/internal/cef_types_win.h (cef_window_handle_t)
+  TCefCursorHandle = Pointer;  // /include/internal/cef_types_win.h (cef_cursor_handle_t)
+  TCefEventHandle  = Pointer;  // /include/internal/cef_types_win.h (cef_event_handle_t)
+  {$ENDIF}
+  {$IFDEF LINUX}
+  TCefWindowHandle = cardinal; // /include/internal/cef_types_win.h (cef_window_handle_t)
+  TCefCursorHandle = cardinal; // /include/internal/cef_types_win.h (cef_cursor_handle_t)
+  TCefEventHandle  = PXEvent;  // /include/internal/cef_types_win.h (cef_event_handle_t)
+  {$ENDIF}
+
+
   TCefPlatformThreadId             = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_id_t)
   TCefPlatformThreadHandle         = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_handle_t)
   TCefTransitionType               = Cardinal;    // /include/internal/cef_types.h (cef_transition_type_t)
@@ -325,7 +368,12 @@ type
 
   // /include/internal/cef_types_win.h (cef_main_args_t)
   TCefMainArgs = record
+    {$IFDEF MSWINDOWS}
     instance : HINST;
+    {$ELSE}
+    argc     : Integer;
+    argv     : PPChar;
+    {$ENDIF}
   end;
 
   // /include/internal/cef_types.h (cef_rect_t)
@@ -965,6 +1013,7 @@ type
 
   // /include/internal/cef_types_win.h (cef_window_info_t)
   TCefWindowInfo = record
+    {$IFDEF MSWINDOWS}
     ex_style                      : DWORD;
     window_name                   : TCefString;
     style                         : DWORD;
@@ -976,6 +1025,27 @@ type
     menu                          : HMENU;
     windowless_rendering_enabled  : Integer;
     window                        : TCefWindowHandle;
+    {$ENDIF}
+    {$IFDEF MACOS}
+    window_name                   : TCefString;
+    x                             : Integer;
+    y                             : Integer;
+    width                         : Integer;
+    height                        : Integer;
+    hidden                        : Integer;
+    parent_view                   : TCefWindowHandle;
+    windowless_rendering_enabled  : Integer;
+    view                          : TCefWindowHandle;
+    {$ENDIF}
+    {$IFDEF LINUX}
+    x                             : uint32;
+    y                             : uint32;
+    width                         : uint32;
+    height                        : uint32;
+    parent_window                 : TCefWindowHandle;
+    windowless_rendering_enabled  : Integer;
+    window                        : TCefWindowHandle;
+    {$ENDIF}
   end;
 
   // /include/internal/cef_types.h (cef_draggable_region_t)
@@ -2585,6 +2655,312 @@ type
     on_web_socket_request   : procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer; const client_address: PCefString; request: PCefRequest; callback: PCefCallback); stdcall;
     on_web_socket_connected : procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer); stdcall;
     on_web_socket_message   : procedure(self: PCefServerHandler; server: PCefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt); stdcall;
+  end;
+
+
+
+  // *********************************
+  // ************* Views *************
+  // *********************************
+
+
+  // /include/capi/views/cef_display_capi.h (cef_display_t)
+  TCefDisplay = record
+    base                      : TCefBaseRefCounted;
+    get_id                    : function(self: PCefDisplay): int64; stdcall;
+    get_device_scale_factor   : function(self: PCefDisplay): Single; stdcall;
+    convert_point_to_pixels   : procedure(self: PCefDisplay; point: PCefPoint); stdcall;
+    convert_point_from_pixels : procedure(self: PCefDisplay; point: PCefPoint); stdcall;
+    get_bounds                : function(self: PCefDisplay): TCefRect; stdcall;
+    get_work_area             : function(self: PCefDisplay): TCefRect; stdcall;
+    get_rotation              : function(self: PCefDisplay): Integer; stdcall;
+  end;
+
+  // /include/capi/views/cef_layout_capi.h (cef_layout_t)
+  TCefLayout = record
+    base                    : TCefBaseRefCounted;
+    as_box_layout           : function(self: PCefLayout): PCefBoxLayout; stdcall;
+    as_fill_layout          : function(self: PCefLayout): PCefFillLayout; stdcall;
+    is_valid                : function(self: PCefLayout): Integer; stdcall;
+  end;
+
+  // /include/capi/views/cef_box_layout_capi.h (cef_box_layout_t)
+  TCefBoxLayout = record
+    base                    : TCefLayout;
+    set_flex_for_view       : procedure(self: PCefBoxLayout; view: PCefView; flex: Integer); stdcall;
+    clear_flex_for_view     : procedure(self: PCefBoxLayout; view: PCefView); stdcall;
+  end;
+
+  // /include/capi/views/cef_fill_layout_capi.h (cef_fill_layout_t)
+  TCefFillLayout = record
+    base                    : TCefLayout;
+  end;
+
+  // /include/capi/views/cef_view_capi.h (cef_view_t)
+  TCefView = record
+    base                        : TCefBaseRefCounted;
+    as_browser_view             : function(self: PCefView): PCefBrowserView; stdcall;
+    as_button                   : function(self: PCefView): PCefButton; stdcall;
+    as_panel                    : function(self: PCefView): PCefPanel; stdcall;
+    as_scroll_view              : function(self: PCefView): PCefScrollView; stdcall;
+    as_textfield                : function(self: PCefView): PCefTextfield; stdcall;
+    get_type_string             : function(self: PCefView): PCefStringUserFree; stdcall;
+    to_string                   : function(self: PCefView; include_children: Integer): PCefStringUserFree; stdcall;
+    is_valid                    : function(self: PCefView): Integer; stdcall;
+    is_attached                 : function(self: PCefView): Integer; stdcall;
+    is_same                     : function(self, that: PCefView): Integer; stdcall;
+    get_delegate                : function(self: PCefView): PCefViewDelegate; stdcall;
+    get_window                  : function(self: PCefView): PCefWindow; stdcall;
+    get_id                      : function(self: PCefView): Integer; stdcall;
+    set_id                      : procedure(self: PCefView; id: Integer); stdcall;
+    get_group_id                : function(self: PCefView): Integer; stdcall;
+    set_group_id                : procedure(self: PCefView; group_id: Integer); stdcall;
+    get_parent_view             : function(self: PCefView): PCefView; stdcall;
+    get_view_for_id             : function(self: PCefView; id: Integer): PCefView; stdcall;
+    set_bounds                  : procedure(self: PCefView; const bounds: PCefRect); stdcall;
+    get_bounds                  : function(self: PCefView): TCefRect; stdcall;
+    get_bounds_in_screen        : function(self: PCefView): TCefRect; stdcall;
+    set_size                    : procedure(self: PCefView; const size: PCefSize); stdcall;
+    get_size                    : function(self: PCefView): TCefSize; stdcall;
+    set_position                : procedure(self: PCefView; const position: PCefPoint); stdcall;
+    get_position                : function(self: PCefView): TCefPoint; stdcall;
+    get_preferred_size          : function(self: PCefView): TCefSize; stdcall;
+    size_to_preferred_size      : procedure(self: PCefView); stdcall;
+    get_minimum_size            : function(self: PCefView): TCefSize; stdcall;
+    get_maximum_size            : function(self: PCefView): TCefSize; stdcall;
+    get_height_for_width        : function(self: PCefView; width: Integer): Integer; stdcall;
+    invalidate_layout           : procedure(self: PCefView); stdcall;
+    set_visible                 : procedure(self: PCefView; visible: Integer); stdcall;
+    is_visible                  : function(self: PCefView): Integer; stdcall;
+    is_drawn                    : function(self: PCefView): Integer; stdcall;
+    set_enabled                 : procedure(self: PCefView; enabled: Integer); stdcall;
+    is_enabled                  : function(self: PCefView): Integer; stdcall;
+    set_focusable               : procedure(self: PCefView; focusable: Integer); stdcall;
+    is_focusable                : function(self: PCefView): Integer; stdcall;
+    is_accessibility_focusable  : function(self: PCefView): Integer; stdcall;
+    request_focus               : procedure(self: PCefView); stdcall;
+    set_background_color        : procedure(self: PCefView; color: TCefColor); stdcall;
+    get_background_color        : function(self: PCefView): TCefColor; stdcall;
+    convert_point_to_screen     : function(self: PCefView; point: PCefPoint): Integer; stdcall;
+    convert_point_from_screen   : function(self: PCefView; point: PCefPoint): Integer; stdcall;
+    convert_point_to_window     : function(self: PCefView; point: PCefPoint): Integer; stdcall;
+    convert_point_from_window   : function(self: PCefView; point: PCefPoint): Integer; stdcall;
+    convert_point_to_view       : function(self, view: PCefView; point: PCefPoint): Integer; stdcall;
+    convert_point_from_view     : function(self, view: PCefView; point: PCefPoint): Integer; stdcall;
+  end;
+
+  // /include/capi/views/cef_view_delegate_capi.h (cef_view_delegate_t)
+  TCefViewDelegate = record
+    base                        : TCefBaseRefCounted;
+    get_preferred_size          : function(self: PCefViewDelegate; view: PCefView): TCefSize; stdcall;
+    get_minimum_size            : function(self: PCefViewDelegate; view: PCefView): TCefSize; stdcall;
+    get_maximum_size            : function(self: PCefViewDelegate; view: PCefView): TCefSize; stdcall;
+    get_height_for_width        : function(self: PCefViewDelegate; view: PCefView; width: Integer): Integer; stdcall;
+    on_parent_view_changed      : procedure(self: PCefViewDelegate; view: PCefView; added: Integer; parent: PCefView); stdcall;
+    on_child_view_changed       : procedure(self: PCefViewDelegate; view: PCefView; added: Integer; child: PCefView); stdcall;
+    on_focus                    : procedure(self: PCefViewDelegate; view: PCefView); stdcall;
+    on_blur                     : procedure(self: PCefViewDelegate; view: PCefView); stdcall;
+  end;
+
+  // /include/capi/views/cef_textfield_capi.h (cef_textfield_t)
+  TCefTextfield = record
+    base                           : TCefView;
+    set_password_input             : procedure(self: PCefTextfield; password_input: Integer); stdcall;
+    is_password_input              : function(self: PCefTextfield): Integer; stdcall;
+    set_read_only                  : procedure(self: PCefTextfield; read_only: Integer); stdcall;
+    is_read_only                   : function(self: PCefTextfield): Integer; stdcall;
+    get_text                       : function(self: PCefTextfield): PCefStringUserFree; stdcall;
+    set_text                       : procedure(self: PCefTextfield; const text: PCefString); stdcall;
+    append_text                    : procedure(self: PCefTextfield; const text: PCefString); stdcall;
+    insert_or_replace_text         : procedure(self: PCefTextfield; const text: PCefString); stdcall;
+    has_selection                  : function(self: PCefTextfield): Integer; stdcall;
+    get_selected_text              : function(self: PCefTextfield): PCefStringUserFree; stdcall;
+    select_all                     : procedure(self: PCefTextfield; reversed: Integer); stdcall;
+    clear_selection                : procedure(self: PCefTextfield); stdcall;
+    get_selected_range             : function(self: PCefTextfield): TCefRange; stdcall;
+    select_range                   : procedure(self: PCefTextfield; const range: PCefRange); stdcall;
+    get_cursor_position            : function(self: PCefTextfield): NativeUInt; stdcall;
+    set_text_color                 : procedure(self: PCefTextfield; color: TCefColor); stdcall;
+    get_text_color                 : function(self: PCefTextfield): TCefColor; stdcall;
+    set_selection_text_color       : procedure(self: PCefTextfield; color: TCefColor); stdcall;
+    get_selection_text_color       : function(self: PCefTextfield): TCefColor; stdcall;
+    set_selection_background_color : procedure(self: PCefTextfield; color: TCefColor); stdcall;
+    get_selection_background_color : function(self: PCefTextfield): TCefColor; stdcall;
+    set_font_list                  : procedure(self: PCefTextfield; const font_list: PCefString); stdcall;
+    apply_text_color               : procedure(self: PCefTextfield; color: TCefColor; const range: PCefRange); stdcall;
+    apply_text_style               : procedure(self: PCefTextfield; style: TCefTextStyle; add: Integer; const range: PCefRange); stdcall;
+    is_command_enabled             : function(self: PCefTextfield; command_id: Integer): Integer; stdcall;
+    execute_command                : procedure(self: PCefTextfield; command_id: Integer); stdcall;
+    clear_edit_history             : procedure(self: PCefTextfield); stdcall;
+    set_placeholder_text           : procedure(self: PCefTextfield; const text: PCefString); stdcall;
+    get_placeholder_text           : function(self: PCefTextfield): PCefStringUserFree; stdcall;
+    set_placeholder_text_color     : procedure(self: PCefTextfield; color: TCefColor); stdcall;
+    set_accessible_name            : procedure(self: PCefTextfield; const name: PCefString); stdcall;
+  end;
+
+  // /include/capi/views/cef_textfield_delegate_capi.h (cef_textfield_delegate_t)
+  TCefTextfieldDelegate = record
+    base                           : TCefViewDelegate;
+    on_key_event                   : function(self: PCefTextfieldDelegate; textfield: PCefTextfield; const event: PCefKeyEvent): Integer; stdcall;
+    on_after_user_action           : procedure(self: PCefTextfieldDelegate; textfield: PCefTextfield); stdcall;
+  end;
+
+  // /include/capi/views/cef_scroll_view_capi.h (cef_scroll_view_t)
+  TCefScrollView = record
+    base                            : TCefView;
+    set_content_view                : procedure(self: PCefScrollView; view: PCefView); stdcall;
+    get_content_view                : function(self: PCefScrollView): PCefView; stdcall;
+    get_visible_content_rect        : function(self: PCefScrollView): TCefRect; stdcall;
+    has_horizontal_scrollbar        : function(self: PCefScrollView): Integer; stdcall;
+    get_horizontal_scrollbar_height : function(self: PCefScrollView): Integer; stdcall;
+    has_vertical_scrollbar          : function(self: PCefScrollView): Integer; stdcall;
+    get_vertical_scrollbar_width    : function(self: PCefScrollView): Integer; stdcall;
+  end;
+
+  // /include/capi/views/cef_panel_capi.h (cef_panel_t)
+  TCefPanel = record
+    base                            : TCefView;
+    as_window                       : function(self: PCefPanel): PCefWindow; stdcall;
+    set_to_fill_layout              : function(self: PCefPanel): PCefFillLayout; stdcall;
+    set_to_box_layout               : function(self: PCefPanel; const settings: PCefBoxLayoutSettings): PCefBoxLayout; stdcall;
+    get_layout                      : function(self: PCefPanel): PCefLayout; stdcall;
+    layout                          : procedure(self: PCefPanel); stdcall;
+    add_child_view                  : procedure(self: PCefPanel; view: PCefView); stdcall;
+    add_child_view_at               : procedure(self: PCefPanel; view: PCefView; index: Integer); stdcall;
+    reorder_child_view              : procedure(self: PCefPanel; view: PCefView; index: Integer); stdcall;
+    remove_child_view               : procedure(self: PCefPanel; view: PCefView); stdcall;
+    remove_all_child_views          : procedure(self: PCefPanel); stdcall;
+    get_child_view_count            : function(self: PCefPanel): NativeUInt; stdcall;
+    get_child_view_at               : function(self: PCefPanel; index: Integer): PCefView; stdcall;
+  end;
+
+  // /include/capi/views/cef_panel_delegate_capi.h (cef_panel_delegate_t)
+  TCefPanelDelegate = record
+    base                            : TCefViewDelegate;
+  end;
+
+  // /include/capi/views/cef_browser_view_capi.h (cef_browser_view_t)
+  TCefBrowserView = record
+    base                            : TCefView;
+    get_browser                     : function(self: PCefBrowserView): PCefBrowser; stdcall;
+    set_prefer_accelerators         : procedure(self: PCefBrowserView; prefer_accelerators: Integer); stdcall;
+  end;
+
+  // /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)
+  TCefBrowserViewDelegate = record
+    base                                : TCefViewDelegate;
+    on_browser_created                  : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
+    on_browser_destroyed                : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
+    get_delegate_for_popup_browser_view : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; const settings: PCefBrowserSettings; client: PCefClient; is_devtools: Integer): PCefBrowserViewDelegate; stdcall;
+    on_popup_browser_view_created       : function(self: PCefBrowserViewDelegate; browser_view, popup_browser_view: PCefBrowserView; is_devtools: Integer): Integer; stdcall;
+  end;
+
+  // /include/capi/views/cef_button_capi.h (cef_button_t)
+  TCefButton = record
+    base                            : TCefView;
+    as_label_button                 : function(self: PCefButton): PCefLabelButton; stdcall;
+    set_state                       : procedure(self: PCefButton; state: TCefButtonState); stdcall;
+    get_state                       : function(self: PCefButton): TCefButtonState; stdcall;
+    set_ink_drop_enabled            : procedure(self: PCefButton; enabled: Integer); stdcall;
+    set_tooltip_text                : procedure(self: PCefButton; const tooltip_text: PCefString); stdcall;
+    set_accessible_name             : procedure(self: PCefButton; const name: PCefString); stdcall;
+  end;
+
+  // /include/capi/views/cef_button_delegate_capi.h (cef_button_delegate_t)
+  TCefButtonDelegate = record
+    base                            : TCefViewDelegate;
+    on_button_pressed               : procedure(self: PCefButtonDelegate; button: PCefButton); stdcall;
+    on_button_state_changed         : procedure(self: PCefButtonDelegate; button: PCefButton); stdcall;
+  end;
+
+  // /include/capi/views/cef_label_button_capi.h (cef_label_button_t)
+  TCefLabelButton = record
+    base                            : TCefButton;
+    get_state                       : function(self: PCefLabelButton): PCefMenuButton; stdcall;
+    set_text                        : procedure(self: PCefLabelButton; const text: PCefString); stdcall;
+    get_text                        : function(self: PCefLabelButton): PCefStringUserFree; stdcall;
+    set_image                       : procedure(self: PCefLabelButton; button_state: TCefButtonState; image: PCefImage); stdcall;
+    get_image                       : function(self: PCefLabelButton; button_state: TCefButtonState): PCefImage; stdcall;
+    set_text_color                  : procedure(self: PCefLabelButton; for_state: TCefButtonState; color: TCefColor); stdcall;
+    set_enabled_text_colors         : procedure(self: PCefLabelButton; color: TCefColor); stdcall;
+    set_font_list                   : procedure(self: PCefLabelButton; const font_list: PCefString); stdcall;
+    set_horizontal_alignment        : procedure(self: PCefLabelButton; alignment: TCefHorizontalAlignment); stdcall;
+    set_minimum_size                : procedure(self: PCefLabelButton; const size: PCefSize); stdcall;
+    set_maximum_size                : procedure(self: PCefLabelButton; const size: PCefSize); stdcall;
+  end;
+
+  // /include/capi/views/cef_menu_button_capi.h (cef_menu_button_t)
+  TCefMenuButton = record
+    base                            : TCefLabelButton;
+    show_menu                       : procedure(self: PCefMenuButton; menu_model: PCefMenuModel; const screen_point: PCefPoint; anchor_position: TCefMenuAnchorPosition); stdcall;
+    trigger_menu                    : procedure(self: PCefMenuButton); stdcall;
+  end;
+
+  // /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_pressed_lock_t)
+  TCefMenuButtonPressedLock = record
+    base                    : TCefBaseRefCounted;
+  end;
+
+  // /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_delegate_t)
+  TCefMenuButtonDelegate = record
+    base                    : TCefButtonDelegate;
+    on_menu_button_pressed  : procedure(self: PCefMenuButtonDelegate; menu_button: PCefMenuButton; const screen_point: PCefPoint; button_pressed_lock: PCefMenuButtonPressedLock); stdcall;
+  end;
+
+  // /include/capi/views/cef_window_capi.h (cef_window_t)
+  TCefWindow = record
+    base                             : TCefPanel;
+    show                             : procedure(self: PCefWindow); stdcall;
+    hide                             : procedure(self: PCefWindow); stdcall;
+    center_window                    : procedure(self: PCefWindow; const size: PCefSize); stdcall;
+    close                            : procedure(self: PCefWindow); stdcall;
+    is_closed                        : function(self: PCefWindow): Integer; stdcall;
+    activate                         : procedure(self: PCefWindow); stdcall;
+    deactivate                       : procedure(self: PCefWindow); stdcall;
+    is_active                        : function(self: PCefWindow): Integer; stdcall;
+    bring_to_top                     : procedure(self: PCefWindow); stdcall;
+    set_always_on_top                : procedure(self: PCefWindow; on_top: Integer); stdcall;
+    is_always_on_top                 : function(self: PCefWindow): Integer; stdcall;
+    maximize                         : procedure(self: PCefWindow); stdcall;
+    minimize                         : procedure(self: PCefWindow); stdcall;
+    restore                          : procedure(self: PCefWindow); stdcall;
+    set_fullscreen                   : procedure(self: PCefWindow; fullscreen: Integer); stdcall;
+    is_maximized                     : function(self: PCefWindow): Integer; stdcall;
+    is_minimized                     : function(self: PCefWindow): Integer; stdcall;
+    is_fullscreen                    : function(self: PCefWindow): Integer; stdcall;
+    set_title                        : procedure(self: PCefWindow; const title: PCefString); stdcall;
+    get_title                        : function(self: PCefWindow): PCefStringUserFree; stdcall;
+    set_window_icon                  : procedure(self: PCefWindow; image: PCefImage); stdcall;
+    get_window_icon                  : function(self: PCefWindow): PCefImage; stdcall;
+    set_window_app_icon              : procedure(self: PCefWindow; image: PCefImage); stdcall;
+    get_window_app_icon              : function(self: PCefWindow): PCefImage; stdcall;
+    show_menu                        : procedure(self: PCefWindow; menu_model: PCefMenuModel; const screen_point: PCefPoint; anchor_position : TCefMenuAnchorPosition); stdcall;
+    cancel_menu                      : procedure(self: PCefWindow); stdcall;
+    get_display                      : function(self: PCefWindow): PCefDisplay; stdcall;
+    get_client_area_bounds_in_screen : function(self: PCefWindow): TCefRect; stdcall;
+    set_draggable_regions            : procedure(self: PCefWindow; regionsCount: NativeUInt; regions: PCefDraggableRegionArray); stdcall;
+    get_window_handle                : function(self: PCefWindow): TCefWindowHandle; stdcall;
+    send_key_press                   : procedure(self: PCefWindow; key_code: Integer; event_flags: cardinal); stdcall;
+    send_mouse_move                  : procedure(self: PCefWindow; screen_x, screen_y: Integer); stdcall;
+    send_mouse_events                : procedure(self: PCefWindow; button: TCefMouseButtonType; mouse_down, mouse_up: Integer); stdcall;
+    set_accelerator                  : procedure(self: PCefWindow; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer); stdcall;
+    remove_accelerator               : procedure(self: PCefWindow; command_id: Integer); stdcall;
+    remove_all_accelerators          : procedure(self: PCefWindow); stdcall;
+  end;
+
+  // /include/capi/views/cef_window_delegate_capi.h (cef_window_delegate_t)
+  TCefWindowDelegate = record
+    base                             : TCefPanelDelegate;
+    on_window_created                : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
+    on_window_destroyed              : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
+    get_parent_window                : function(self: PCefWindowDelegate; window: PCefWindow; is_menu, can_activate_menu: PInteger): PCefWindow; stdcall;
+    is_frameless                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+    can_resize                       : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+    can_maximize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+    can_minimize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+    can_close                        : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+    on_accelerator                   : function(self: PCefWindowDelegate; window: PCefWindow; command_id: Integer): Integer; stdcall;
+    on_key_event                     : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyEvent): Integer; stdcall;
   end;
 
 implementation

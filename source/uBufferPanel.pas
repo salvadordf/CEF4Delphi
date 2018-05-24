@@ -381,6 +381,7 @@ var
   TempDevWidth, TempLogWidth, TempDevHeight, TempLogHeight : integer;
 begin
   Result := False;
+  if (GlobalCEFApp = nil) then exit;
 
   if not(aUseMutex) or BeginBufferDraw then
     begin

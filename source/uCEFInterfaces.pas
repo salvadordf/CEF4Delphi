@@ -125,6 +125,20 @@ type
   ICefFindHandler = interface;
   ICefCookieManager = interface;
   ICefWebPluginInfo = interface;
+  ICefDisplay = interface;
+  ICefLayout = interface;
+  ICefBoxLayout = interface;
+  ICefFillLayout = interface;
+  ICefView = interface;
+  ICefBrowserView = interface;
+  ICefButton = interface;
+  ICefPanel = interface;
+  ICefScrollView = interface;
+  ICefTextfield = interface;
+  ICefViewDelegate = interface;
+  ICefWindow = interface;
+  ICefLabelButton = interface;
+  ICefMenuButton = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -2126,6 +2140,332 @@ type
     procedure OnWebSocketRequest(const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest; const callback: ICefCallback);
     procedure OnWebSocketConnected(const server: ICefServer; connection_id: Integer);
     procedure OnWebSocketMessage(const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
+  end;
+
+
+  // *********************************
+  // ************* Views *************
+  // *********************************
+
+
+  // TCefDisplay
+  // /include/capi/views/cef_display_capi.h (cef_display_t)
+  ICefDisplay = interface(ICefBaseRefCounted)
+    ['{EC2D3606-DB4C-4894-8D38-B8F99E091965}']
+    function  GetID : int64;
+    function  GetDeviceScaleFactor : Single;
+    procedure ConvertPointToPixels(var point: TCefPoint);
+    procedure ConvertPointFromPixels(var point: TCefPoint);
+    function  GetBounds : TCefRect;
+    function  GetWorkArea : TCefRect;
+    function  GetRotation : Integer;
+  end;
+
+  // TCefLayout
+  // /include/capi/views/cef_layout_capi.h (cef_layout_t)
+  ICefLayout = interface(ICefBaseRefCounted)
+    ['{0EC7AE4B-1672-4D0B-B617-0BDA72F3C7F4}']
+    function AsBoxLayout : ICefBoxLayout;
+    function AsFillLayout : ICefFillLayout;
+    function IsValid : boolean;
+  end;
+
+  // TCefBoxLayout
+  // /include/capi/views/cef_box_layout_capi.h (cef_box_layout_t)
+  ICefBoxLayout = interface(ICefLayout)
+    ['{E59FCCAE-A371-4C21-98D3-93D3217016AE}']
+    procedure SetFlexForView(const view: ICefView; flex: Integer);
+    procedure ClearFlexForView(const view: ICefView);
+  end;
+
+  // TCefFillLayout
+  // /include/capi/views/cef_fill_layout_capi.h (cef_fill_layout_t)
+  ICefFillLayout = interface(ICefLayout)
+    ['{3DB214F2-7F27-4306-82C9-8166160422B1}']
+  end;
+
+  // TCefView
+  // /include/capi/views/cef_view_capi.h (cef_view_t)
+  ICefView = interface(ICefBaseRefCounted)
+    ['{E9AF950A-F4E8-420C-BD1F-F26F4FDFA48D}']
+    function  AsBrowserView : ICefBrowserView;
+    function  AsButton : ICefButton;
+    function  AsPanel : ICefPanel;
+    function  AsScrollView : ICefScrollView;
+    function  AsTextfield : ICefTextfield;
+    function  GetTypeString : ustring;
+    function  ToString(include_children: boolean): ustring;
+    function  IsValid : boolean;
+    function  IsAttached : boolean;
+    function  IsSame(const that: ICefView): boolean;
+    function  GetDelegate : ICefViewDelegate;
+    function  GetWindow : ICefWindow;
+    function  GetID : Integer;
+    procedure SetID(id: Integer);
+    function  GetGroupID : Integer;
+    procedure SetGroupID(group_id: Integer);
+    function  GetParentView : ICefView;
+    function  GetViewForID(id: Integer): ICefView;
+    procedure SetBounds(const bounds: PCefRect);
+    function  GetBounds : TCefRect;
+    function  GetBoundsInScreen : TCefRect;
+    procedure SetSize(const size: PCefSize);
+    function  GetSize : TCefSize;
+    procedure SetPosition(const position: PCefPoint);
+    function  GetPosition : TCefPoint;
+    function  GetPreferredSize : TCefSize;
+    procedure SizeToPreferredSize;
+    function  GetMinimumSize : TCefSize;
+    function  GetMaximumSize : TCefSize;
+    function  GetHeightForWidth(width: Integer): Integer;
+    procedure InvalidateLayout;
+    procedure SetVisible(visible: boolean);
+    function  IsVisible : boolean;
+    function  IsDrawn : boolean;
+    procedure SetEnabled(enabled: boolean);
+    function  IsEnabled : boolean;
+    procedure SetFocusable(focusable: boolean);
+    function  IsFocusable : boolean;
+    function  IsAccessibilityFocusable : boolean;
+    procedure RequestFocus;
+    procedure SetBackgroundColor(color: TCefColor);
+    function  GetBackgroundColor : TCefColor;
+    function  ConvertPointToScreen(point: PCefPoint): boolean;
+    function  ConvertPointFromScreen(point: PCefPoint): boolean;
+    function  ConvertPointToWindow(point: PCefPoint): boolean;
+    function  ConvertPointFromWindow(point: PCefPoint): boolean;
+    function  ConvertPointToView(const view : ICefView; point: PCefPoint): boolean;
+    function  ConvertPointFromView(const view : ICefView; point: PCefPoint): boolean;
+  end;
+
+  // TCefViewDelegate
+  // /include/capi/views/cef_view_delegate_capi.h (cef_view_delegate_t)
+  ICefViewDelegate = interface(ICefBaseRefCounted)
+    ['{5F900206-B969-4E51-B56C-0FF38D749C72}']
+    function  GetPreferredSize(const view: ICefView): TCefSize;
+    function  GetMinimumSize(const view: ICefView): TCefSize;
+    function  GetMaximumSize(const view: ICefView): TCefSize;
+    function  GetHeightForWidth(const view: ICefView; width: Integer): Integer;
+    procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
+    procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+    procedure OnFocus(const view: ICefView);
+    procedure OnBlur(const view: ICefView);
+  end;
+
+  // TCefTextfield
+  // /include/capi/views/cef_textfield_capi.h (cef_textfield_t)
+  ICefTextfield = interface(ICefView)
+    ['{B5E30155-DEA5-4CBF-BC9D-578CBCA586D9}']
+    procedure SetPasswordInput(password_input: boolean);
+    function  IsPasswordInput : boolean;
+    procedure SetReadOnly(read_only: boolean);
+    function  IsReadOnly : boolean;
+    function  GetText : ustring;
+    procedure SetText(const text: ustring);
+    procedure AppendText(const text: ustring);
+    procedure InsertOrReplaceText(const text: ustring);
+    function  HasSelection : boolean;
+    function  GetSelectedText : ustring;
+    procedure SelectAll(reversed: boolean);
+    procedure ClearSelection;
+    function  GetSelectedRange : TCefRange;
+    procedure SelectRange(const range: PCefRange);
+    function  GetCursorPosition : NativeUInt;
+    procedure SetTextColor(color: TCefColor);
+    function  GetTextColor : TCefColor;
+    procedure SetSelectionTextColor(color: TCefColor);
+    function  GetSelectionTextColor : TCefColor;
+    procedure SetSelectionBackgroundColor(color: TCefColor);
+    function  GetSelectionBackgroundColor : TCefColor;
+    procedure SetFontList(const font_list: ustring);
+    procedure ApplyTextColor(color: TCefColor; const range: PCefRange);
+    procedure ApplyTextStyle(style: TCefTextStyle; add: boolean; const range: PCefRange);
+    function  IsCommandEnabled(command_id: Integer): boolean;
+    procedure ExecuteCommand(command_id: Integer);
+    procedure ClearEditHistory;
+    procedure SetPlaceholderText(const text: ustring);
+    function  GgetPlaceholderText : ustring;
+    procedure SetPlaceholderTextColor(color: TCefColor);
+    procedure SetAccessibleName(const name: ustring);
+  end;
+
+  // TCefTextfieldDelegate
+  // /include/capi/views/cef_textfield_delegate_capi.h (cef_textfield_delegate_t)
+  ICefTextfieldDelegate = interface(ICefViewDelegate)
+    ['{72612994-92BB-4DE9-BB38-6F49FB45F94B}']
+    function  OnKeyEvent(const textfield: ICefTextfield; const event: PCefKeyEvent): boolean;
+    procedure OnAfterUserAction(const textfield: ICefTextfield);
+  end;
+
+  // TCefScrollView
+  // /include/capi/views/cef_scroll_view_capi.h (cef_scroll_view_t)
+  ICefScrollView = interface(ICefView)
+    ['{55DF2883-0574-4F10-B6F5-DE4730964B5B}']
+    procedure SetContentView(const view: ICefView);
+    function  GetContentView : ICefView;
+    function  GetVisibleContentRect : TCefRect;
+    function  HasHorizontalScrollbar : boolean;
+    function  GetHorizontalScrollbarHeight : Integer;
+    function  HasVerticalScrollbar : boolean;
+    function  GetVerticalScrollbarWidth : Integer;
+  end;
+
+  // TCefPanel
+  // /include/capi/views/cef_panel_capi.h (cef_panel_t)
+  ICefPanel = interface(ICefView)
+    ['{6F2F680A-3637-4438-81B8-79AD6C02252D}']
+    function  AsWindow : ICefWindow;
+    function  SetToFillLayout : ICefFillLayout;
+    function  SetToBoxLayout(const settings: PCefBoxLayoutSettings): ICefBoxLayout;
+    function  GetLayout : ICefLayout;
+    procedure Layout;
+    procedure AddChildView(const view: ICefView);
+    procedure AddChildViewAt(const view: ICefView; index: Integer);
+    procedure ReorderChildView(const view: ICefView; index: Integer);
+    procedure RemoveChildView(const view: ICefView);
+    procedure RemoveAllChildViews;
+    function  GetChildViewCount : NativeUInt;
+    function  GetChildViewAt(index: Integer): ICefView;
+  end;
+
+  // TCefPanelDelegate
+  // /include/capi/views/cef_panel_delegate_capi.h (cef_panel_delegate_t)
+  ICefPanelDelegate = interface(ICefViewDelegate)
+    ['{305D453F-FEBA-48ED-AE33-5D978823EA96}']
+  end;
+
+  // TCefBrowserView
+  // /include/capi/views/cef_browser_view_capi.h (cef_browser_view_t)
+  ICefBrowserView = interface(ICefView)
+    ['{A617EE5D-B933-4E14-9FC0-7E88E9B6C051}']
+    function  GetBrowser : ICefBrowser;
+    procedure SetPreferAccelerators(prefer_accelerators: boolean);
+  end;
+
+  // TCefBrowserViewDelegate
+  // /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)
+  ICefBrowserViewDelegate = interface(ICefViewDelegate)
+    ['{578A0DD4-2E7D-4061-B4DB-7C3CDC7A90C0}']
+    procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
+    procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
+    function  GetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: PCefBrowserSettings; const client: ICefClient; is_devtools: boolean): ICefBrowserViewDelegate;
+    function  OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean): boolean;
+  end;
+
+  // TCefButton
+  // /include/capi/views/cef_button_capi.h (cef_button_t)
+  ICefButton = interface(ICefView)
+    ['{D3D2E8A0-9F9C-4BD8-B495-655976534281}']
+    function  AsLabelButton : ICefLabelButton;
+    procedure SetState(state: TCefButtonState);
+    function  GetState : TCefButtonState;
+    procedure SetInkDropEnabled(enabled: boolean);
+    procedure SetTooltipText(const tooltip_text: ustring);
+    procedure SetAccessibleName(const name: ustring);
+  end;
+
+  // TCefButtonDelegate
+  // /include/capi/views/cef_button_delegate_capi.h (cef_button_delegate_t)
+  ICefButtonDelegate = interface(ICefViewDelegate)
+    ['{EA1EB5A4-DFB0-4A13-A23B-54FAF9401B39}']
+    procedure OnButtonPressed(const button: ICefButton);
+    procedure OnButtonStateChanged(const button: ICefButton);
+  end;
+
+  // TCefLabelButton
+  // /include/capi/views/cef_label_button_capi.h (cef_label_button_t)
+  ICefLabelButton = interface(ICefButton)
+    ['{A99FD4F3-7EE6-4796-8BF6-EC367D51EED8}']
+    function  GetState : ICefMenuButton;
+    procedure SetText(const text: ustring);
+    function  GetText : ustring;
+    procedure SetImage(button_state: TCefButtonState; const image: ICefImage);
+    function  GetImage(button_state: TCefButtonState): ICefImage;
+    procedure SetTextColor(for_state: TCefButtonState; color: TCefColor);
+    procedure SetEnabledTextColors(color: TCefColor);
+    procedure SetFontList(const font_list: ustring);
+    procedure SetHorizontalAlignment(alignment: TCefHorizontalAlignment);
+    procedure SetMinimumSize(const size: PCefSize);
+    procedure SetMaximumSize(const size: PCefSize);
+  end;
+
+  // TCefMenuButton
+  // /include/capi/views/cef_menu_button_capi.h (cef_menu_button_t)
+  ICefMenuButton = interface(ICefLabelButton)
+    ['{62BFE81A-7810-400B-83C6-76D1DF133710}']
+    procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: PCefPoint; anchor_position: TCefMenuAnchorPosition);
+    procedure TriggerMenu;
+  end;
+
+  // TCefMenuButtonPressedLock
+  // /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_pressed_lock_t)
+  ICefMenuButtonPressedLock = interface(ICefBaseRefCounted)
+    ['{71498C53-0B1D-4A05-98A0-3E589F2A1683}']
+  end;
+
+  // TCefMenuButtonDelegate
+  // /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_delegate_t)
+  ICefMenuButtonDelegate = interface(ICefButtonDelegate)
+    ['{D0E89A75-463A-4766-8701-BD8D24B11E9F}']
+    procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: PCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
+  end;
+
+  // TCefWindow
+  // /include/capi/views/cef_window_capi.h (cef_window_t)
+  ICefWindow = interface(ICefPanel)
+    ['{C450C974-BF0A-4968-A6BE-153CEAD10DA6}']
+    procedure Show;
+    procedure Hide;
+    procedure CenterWindow(const size: PCefSize);
+    procedure Close;
+    function  IsClosed : boolean;
+    procedure Activate;
+    procedure deactivate;
+    function  IsActive : boolean;
+    procedure BringToTop;
+    procedure SetAlwaysOnTop(on_top: boolean);
+    function  IsAlwaysOnTop : boolean;
+    procedure Maximize;
+    procedure Minimize;
+    procedure Restore;
+    procedure SetFullscreen(fullscreen: boolean);
+    function  IsMaximized : boolean;
+    function  IsMinimized : boolean;
+    function  IsFullscreen : boolean;
+    procedure SetTitle(const title: ustring);
+    function  GetTitle : ustring;
+    procedure SetWindowIcon(const image: ICefImage);
+    function  GetWindowIcon : ICefImage;
+    procedure SetWindowAppIcon(const image: ICefImage);
+    function  GetWindowAppIcon : ICefImage;
+    procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: PCefPoint; anchor_position : TCefMenuAnchorPosition);
+    procedure CancelMenu;
+    function  GetDisplay : ICefDisplay;
+    function  GetClientAreaBoundsInScreen : TCefRect;
+    procedure SetDraggableRegions(regionsCount: NativeUInt; regions: PCefDraggableRegionArray);
+    function  GetWindowHandle : TCefWindowHandle;
+    procedure SendKeyPress(key_code: Integer; event_flags: cardinal);
+    procedure SendMouseMove(screen_x, screen_y: Integer);
+    procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: Integer);
+    procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
+    procedure RemoveAccelerator(command_id: Integer);
+    procedure RemoveAllAccelerators;
+  end;
+
+  // TCefWindowDelegate
+  // /include/capi/views/cef_window_delegate_capi.h (cef_window_delegate_t)
+  ICefWindowDelegate = interface(ICefPanelDelegate)
+    ['{52D4EE2C-303B-42B6-A35F-30D03834A23F}']
+    procedure OnWindowCreated(const window: ICefWindow);
+    procedure OnWindowDestroyed(const window: ICefWindow);
+    function  GetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean): ICefWindow;
+    function  IsFrameless(const window: ICefWindow): boolean;
+    function  CanResize(const window: ICefWindow): boolean;
+    function  CanMaximize(const window: ICefWindow): boolean;
+    function  CanMinimize(const window: ICefWindow): boolean;
+    function  CanClose(const window: ICefWindow): boolean;
+    function  OnAccelerator(const window: ICefWindow; command_id: Integer): boolean;
+    function  OnKeyEvent(const window: ICefWindow; const event: PCefKeyEvent): boolean;
   end;
 
 implementation

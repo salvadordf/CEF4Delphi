@@ -103,9 +103,23 @@ function cef_string_utf8_copy(const src: PAnsiChar; src_len: NativeUInt; output:
 function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: PCefStringUtf16): Integer;
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 
+{$IFDEF MSWINDOWS}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : ustring = '');
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring = '');
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring = '');
+{$ENDIF}
+
+{$IFDEF MACOS}
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; aHidden : boolean = False; const aWindowName : ustring = '');
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean = False; const aWindowName : ustring = '');
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean = False; const aWindowName : ustring = '');
+{$ENDIF}
+
+{$IFDEF LINUX}
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
+{$ENDIF}
 
 function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
@@ -410,6 +424,7 @@ begin
   Result := cef_string_utf16_set(src, src_len, output, ord(True));
 end;
 
+{$IFDEF MSWINDOWS}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : ustring);
 begin
   aWindowInfo.ex_style                     := 0;
@@ -454,6 +469,84 @@ begin
   aWindowInfo.windowless_rendering_enabled := ord(True);
   aWindowInfo.window                       := 0;
 end;
+{$ENDIF}
+
+{$IFDEF MACOS}
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; aHidden : boolean; const aWindowName : ustring);
+begin
+  aWindowInfo.window_name                  := CefString(aWindowName);
+  aWindowInfo.x                            := aRect.left;
+  aWindowInfo.y                            := aRect.top;
+  aWindowInfo.width                        := aRect.right  - aRect.left;
+  aWindowInfo.height                       := aRect.bottom - aRect.top;
+  aWindowInfo.hidden                       := Ord(aHidden);
+  aWindowInfo.parent_view                  := aParent;
+  aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.view                         := 0;
+end;
+
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; aHidden : boolean; const aWindowName : ustring);
+begin
+  aWindowInfo.window_name                  := CefString(aWindowName);
+  aWindowInfo.x                            := integer(CW_USEDEFAULT);
+  aWindowInfo.y                            := integer(CW_USEDEFAULT);
+  aWindowInfo.width                        := integer(CW_USEDEFAULT);
+  aWindowInfo.height                       := integer(CW_USEDEFAULT);
+  aWindowInfo.hidden                       := Ord(aHidden);
+  aWindowInfo.parent_view                  := aParent;
+  aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.view                         := 0;
+end;
+
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; aHidden : boolean; const aWindowName : ustring);
+begin
+
+  aWindowInfo.window_name                  := CefString(aWindowName);
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
+  aWindowInfo.hidden                       := Ord(aHidden);
+  aWindowInfo.parent_view                  := aParent;
+  aWindowInfo.windowless_rendering_enabled := ord(True);
+  aWindowInfo.view                         := 0;
+end;
+{$ENDIF}
+
+{$IFDEF LINUX}
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect);
+begin
+  aWindowInfo.x                            := aRect.left;
+  aWindowInfo.y                            := aRect.top;
+  aWindowInfo.width                        := aRect.right  - aRect.left;
+  aWindowInfo.height                       := aRect.bottom - aRect.top;
+  aWindowInfo.parent_window                := aParent;
+  aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.window                       := 0;
+end;
+
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle);
+begin
+  aWindowInfo.x                            := integer(CW_USEDEFAULT);
+  aWindowInfo.y                            := integer(CW_USEDEFAULT);
+  aWindowInfo.width                        := integer(CW_USEDEFAULT);
+  aWindowInfo.height                       := integer(CW_USEDEFAULT);
+  aWindowInfo.parent_window                := aParent;
+  aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.window                       := 0;
+end;
+
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle);
+begin
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
+  aWindowInfo.parent_window                := aParent;
+  aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.window                       := 0;
+end;
+{$ENDIF}
 
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
 begin

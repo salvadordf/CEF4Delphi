@@ -44,10 +44,13 @@ object DOMVisitorFrm: TDOMVisitorFrm
     object AddressEdt: TEdit
       Left = 5
       Top = 5
-      Width = 764
-      Height = 21
+      Width = 754
+      Height = 20
+      Align = alClient
       TabOrder = 0
       Text = 'https://www.google.com'
+      ExplicitWidth = 764
+      ExplicitHeight = 21
     end
     object Panel1: TPanel
       Left = 759

@@ -109,6 +109,7 @@ type
 
     procedure Filter_OnFilter(Sender: TObject; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
 
+    procedure UpdateRscEncoding(const aMimeType, aContentType : string);
     function  IsMyResource(const aRequest : ICefRequest) : boolean;
     procedure GetResponseEncoding(const aContentType: string);
   public
@@ -153,10 +154,10 @@ procedure TResponseFilterBrowserFrm.Filter_OnFilter(Sender: TObject;
 begin
   try
     try
+      FStreamCS.Acquire;
+
       // This event will be called repeatedly until the input buffer has been fully read.
       // When there's no more data then data_in is nil and you can show the stream contents.
-
-      FStreamCS.Acquire;
 
       if (data_in = nil) then
         begin
@@ -164,30 +165,32 @@ begin
           data_out_written := 0;
           aResult          := RESPONSE_FILTER_DONE;
 
-        if not(FRscCompleted) and (FStream.Size > 0) and
-          ((FRscSize = -1) or (FRscSize = FStream.Size)) then
-          FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
-      end
-      else
-      begin
-        if (data_out <> nil) then
+          if not(FRscCompleted) and
+             (FStream <> nil)   and
+             (FStream.Size > 0) and
+             ((FRscSize = -1) or (FRscSize = FStream.Size)) then
+            FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+        end
+       else
         begin
-          data_out_written := min(data_in_size, data_out_size);
+          if (data_out <> nil) then
+            begin
+              data_out_written := min(data_in_size, data_out_size);
 
               if (data_out_written > 0) then
                 Move(data_in^, data_out^, data_out_written);
             end;
 
-          if (data_in_size > 0) then
-            data_in_read := FStream.Write(data_in^, data_in_size);
+            if (data_in_size > 0) then
+              data_in_read := FStream.Write(data_in^, data_in_size);
 
-          // Send the STREAM_COPY_COMPLETE message only if the server sent the data size in
-          // a Content-Length header and we can compare it with the stream size
-          if not(FRscCompleted) and (FRscSize <> -1) and (FRscSize = FStream.Size) then
-            FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+            // Send the STREAM_COPY_COMPLETE message only if the server sent the data size in
+            // a Content-Length header and we can compare it with the stream size
+            if not(FRscCompleted) and (FRscSize <> -1) and (FRscSize = FStream.Size) then
+              FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
 
-          aResult := RESPONSE_FILTER_NEED_MORE_DATA;
-        end;
+            aResult := RESPONSE_FILTER_NEED_MORE_DATA;
+          end;
     except
       on e : exception do
         begin
@@ -231,7 +234,7 @@ begin
   FStream        := TMemoryStream.Create;
   FStreamCS      := TCriticalSection.Create;
   FFilter        := TCustomResponseFilter.Create;
-  FRscEncoding := TEncoding.Default;
+  FRscEncoding   := TEncoding.Default;
 
   FCanClose := False;
   FClosing  := False;
@@ -260,8 +263,7 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
-procedure TResponseFilterBrowserFrm.Chromium1BeforeClose(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TResponseFilterBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
@@ -294,11 +296,11 @@ procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(Sender : 
                                                                        out   Result    : ICefResponseFilter);
 var
   TempHeader : string;
-  TempLen : integer;
+  TempLen    : integer;
 begin
   if (response <> nil) and IsMyResource(request) then
   begin
-    Result := FFilter;
+    Result     := FFilter;
     TempHeader := trim(response.GetHeader('Content-Length'));
 
     if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
@@ -306,17 +308,21 @@ begin
     else
       FRscSize := -1;
 
-    FRscMimeType := response.MimeType;
-    if (response.MimeType = 'application/json') or
-      (response.MimeType = 'text/json') or
-      (response.MimeType = 'text/javascript') or
-      (response.MimeType = 'application/javascript') then
-    begin
-      GetResponseEncoding(response.GetHeader('Content-Type'));
-    end;
+    UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
   end
   else
     Result := nil;
+end;
+
+procedure TResponseFilterBrowserFrm.UpdateRscEncoding(const aMimeType, aContentType : string);
+begin
+  FRscMimeType := aMimeType;
+
+  if (aMimeType = 'application/json') or
+     (aMimeType = 'text/json')        or
+     (aMimeType = 'text/javascript')  or
+     (aMimeType = 'application/javascript') then
+    GetResponseEncoding(aContentType);
 end;
 
 procedure TResponseFilterBrowserFrm.Chromium1ResourceLoadComplete(Sender : TObject;
@@ -327,20 +333,21 @@ procedure TResponseFilterBrowserFrm.Chromium1ResourceLoadComplete(Sender : TObje
                                                                         status                : TCefUrlRequestStatus;
                                                                         receivedContentLength : Int64);
 begin
-  // In case the server didn't send a Content-Length header
-  // and CEF didn't send a data_in = nil in Filter_OnFilter
-  // we still can use this event to know when the resource is complete
-  if not(FRscCompleted) and IsMyResource(request) then
-  begin
-    FRscMimeType := response.MimeType;
-    if (response.MimeType = 'application/json')
-      or (response.MimeType = 'text/json')
-      or (response.MimeType = 'text/javascript')
-      or (response.MimeType = 'application/javascript')
-    then begin
-      GetResponseEncoding(response.GetHeader('Content-Type'));
-    end;
-    FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+  try
+    FStreamCS.Acquire;
+
+    // In case the server didn't send a Content-Length header
+    // and CEF didn't send a data_in = nil in Filter_OnFilter
+    // we still can use this event to know when the resource is complete
+    if IsMyResource(request) then
+      begin
+        UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
+
+        if not(FRscCompleted) then
+          FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+      end;
+  finally
+    FStreamCS.Release;
   end;
 end;
 
@@ -366,37 +373,34 @@ begin
     FStreamCS.Acquire;
 
     if (FStream.Size > 0) then
-    begin
-      FStream.Seek(0, soBeginning);
-
-      Memo1.Lines.Clear;
-      if (FRscMimeType = 'application/json') or (FRscMimeType = 'text/json') or
-        (FRscMimeType = 'text/javascript') or
-        (FRscMimeType = 'application/javascript') then
       begin
-        SetLength(LAS, FStream.Size);
-        FStream.Read(LAS[Low(LAS)], FStream.Size);
-        if FRscEncoding = TEncoding.UTF8 then
-        begin
-          // UTF8 Here
-          LS := UTF8Decode(LAS);
-        end
-        else
-        begin
-          // Others encoding text
-          LS := string(LAS);
-        end;
-        Memo1.Lines.Add(LS);
-      end
-      else
-        // Image or others
-        Memo1.Lines.LoadFromStream(FStream);
+        FStream.Seek(0, soBeginning);
 
-      FStream.Clear;
-      FRscSize := -1;
-      FRscCompleted := False;
-    end
-    else
+        Memo1.Lines.Clear;
+
+        if (FRscMimeType = 'application/json') or
+           (FRscMimeType = 'text/json')        or
+           (FRscMimeType = 'text/javascript')  or
+           (FRscMimeType = 'application/javascript') then
+          begin
+            SetLength(LAS, FStream.Size);
+            FStream.Read(LAS[Low(LAS)], FStream.Size);
+
+            if (FRscEncoding = TEncoding.UTF8) then
+              LS := UTF8Decode(LAS) // UTF8 Here
+             else
+              LS := string(LAS); // Others encoding text
+
+            Memo1.Lines.Add(LS);
+          end
+         else
+          Memo1.Lines.LoadFromStream(FStream); // Image or others
+
+        FStream.Clear;
+        FRscSize := -1;
+        FRscCompleted := False;
+      end
+     else
       Memo1.Lines.Clear;
   finally
     FStreamCS.Release;
@@ -443,8 +447,7 @@ begin
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
-procedure TResponseFilterBrowserFrm.GetResponseEncoding
-  (const aContentType: string);
+procedure TResponseFilterBrowserFrm.GetResponseEncoding(const aContentType: string);
 var
   LEncoding: String;
 begin

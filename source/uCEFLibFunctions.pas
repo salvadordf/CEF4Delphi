@@ -230,6 +230,35 @@ var
   // /include/capi/cef_zip_reader_capi.h
   cef_zip_reader_create : function(stream: PCefStreamReader): PCefZipReader; cdecl;
 
+  // /include/capi/views/cef_browser_view_capi.h
+  cef_browser_view_create          : function(client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; request_context: PCefRequestContext; delegate: PCefBrowserViewDelegate): PCefBrowserView; cdecl;
+  cef_browser_view_get_for_browser : function(browser: PCefBrowser): PCefBrowserView; cdecl;
+
+  // /include/capi/views/cef_display_capi.h
+  cef_display_get_primary         : function : PCefDisplay; cdecl;
+  cef_display_get_nearest_point   : function(const point: PCefPoint; input_pixel_coords: Integer): PCefDisplay; cdecl;
+  cef_display_get_matching_bounds : function(const bounds: PCefRect; input_pixel_coords: Integer): PCefDisplay; cdecl;
+  cef_display_get_count           : function : NativeUInt; cdecl;
+  cef_display_get_alls            : procedure(var displaysCount: NativeUInt; var displays: PCefDisplay); cdecl;
+
+  // /include/capi/views/cef_label_button_capi.h
+  cef_label_button_create         : function(delegate: PCefButtonDelegate; const text: PCefString; with_frame: Integer): PCefLabelButton; cdecl;
+
+  // /include/capi/views/cef_menu_button_capi.h
+  cef_menu_button_create          : function(delegate: PCefMenuButtonDelegate; const text: PCefString; with_frame, with_menu_marker: Integer): PCefMenuButton; cdecl;
+
+  // /include/capi/views/cef_panel_capi.h
+  cef_panel_create                : function(delegate: PCefPanelDelegate): PCefPanel; cdecl;
+
+  // /include/capi/views/cef_scroll_view_capi.h
+  cef_scroll_view_create          : function(delegate: PCefViewDelegate): PCefScrollView; cdecl;
+
+  // /include/capi/views/cef_textfield_capi.h
+  cef_textfield_create            : function(delegate: PCefTextfieldDelegate): PCefTextfield; cdecl;
+
+  // /include/capi/views/cef_window_capi.h
+  cef_window_create_top_level     : function(delegate: PCefWindowDelegate): PCefWindow; cdecl;
+
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;
   cef_get_vlog_level    : function(const file_start: PAnsiChar; N: NativeInt): Integer; cdecl;
@@ -307,6 +336,10 @@ var
   cef_trace_event_async_step_past : procedure(const category, name: PAnsiChar; id, step: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64; copy: Integer); cdecl;
   cef_trace_event_async_end       : procedure(const category, name: PAnsiChar; id: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64; copy: Integer); cdecl;
 
+  {$IFDEF LINUX}
+  // /include/internal/cef_types_linux.h
+  cef_get_xdisplay                : function : PXDisplay; cdecl;
+  {$ENDIF}
 
 implementation
 

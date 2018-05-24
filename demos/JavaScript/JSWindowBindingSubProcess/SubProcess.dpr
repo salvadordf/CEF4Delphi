@@ -87,5 +87,6 @@ begin
 
   GlobalCEFApp.StartSubProcess;
   GlobalCEFApp.Free;
+  GlobalCEFApp := nil;
 end.
 

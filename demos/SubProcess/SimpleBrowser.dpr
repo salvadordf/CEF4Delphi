@@ -92,4 +92,5 @@ begin
     end;
 
   GlobalCEFApp.Free;
+  GlobalCEFApp := nil;
 end.

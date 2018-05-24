@@ -54,7 +54,7 @@ uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
   {$ELSE}
-  Windows, Classes,
+  Windows, Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
@@ -129,7 +129,11 @@ type
       FSitePerProcess                : boolean;
       FDisableWebSecurity            : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
+      {$IFDEF FPC}
+      FLibHandle                     : TLibHandle;
+      {$ELSE}
       FLibHandle                     : THandle;
+      {$ENDIF}
       FOnRegisterCustomSchemes       : TOnRegisterCustomSchemesEvent;
       FAppSettings                   : TCefSettings;
       FDeviceScaleFactor             : single;
@@ -230,6 +234,15 @@ type
       function  Load_cef_string_types_h : boolean;
       function  Load_cef_thread_internal_h : boolean;
       function  Load_cef_trace_event_internal_h : boolean;
+      function  Load_cef_browser_view_capi_h : boolean;
+      function  Load_cef_display_capi_h : boolean;
+      function  Load_cef_label_button_capi_h : boolean;
+      function  Load_cef_menu_button_capi_h : boolean;
+      function  Load_cef_panel_capi_h : boolean;
+      function  Load_cef_scroll_view_capi_h : boolean;
+      function  Load_cef_textfield_capi_h : boolean;
+      function  Load_cef_window_capi_h : boolean;
+      function  Load_cef_types_linux_h : boolean;
 
       procedure ShutDown;
       procedure FreeLibcefLibrary;
@@ -467,7 +480,7 @@ begin
   FProcessType                   := ParseProcessType;
   FShutdownWaitTime              := 0;
   FWidevinePath                  := '';
-  FMustFreeLibrary               := True;
+  FMustFreeLibrary               := False;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -810,7 +823,6 @@ begin
 
   try
     if not(FSingleProcess)        and
-       (FStatus = asLoading)      and
        (ProcessType <> ptBrowser) and
        LoadCEFlibrary             then
       begin
@@ -891,8 +903,14 @@ begin
   try
     if (aApp <> nil) then
       begin
+        {$IFDEF MSWINDOWS}
         TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
-        Result            := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
+        {$ELSE}
+        TempArgs.argc     := argc;
+        TempArgs.argv     := argv;
+        {$ENDIF}
+
+        Result := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
       end;
   except
     on e : exception do
@@ -952,7 +970,12 @@ begin
 
           InitializeSettings(FAppSettings);
 
+          {$IFDEF MSWINDOWS}
           TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
+          {$ELSE}
+          TempArgs.argc     := argc;
+          TempArgs.argv     := argv;
+          {$ENDIF}
 
           if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
             begin
@@ -1422,7 +1445,11 @@ begin
       chdir(GetModulePath);
     end;
 
+  {$IFDEF MSWINDOWS}
   FLibHandle := LoadLibraryEx(PChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
+  {$ELSE}
+  FLibHandle := LoadLibrary(PChar(LibCefPath));
+  {$ENDIF}
 
   if (FLibHandle = 0) then
     begin
@@ -1474,7 +1501,16 @@ begin
      Load_cef_string_multimap_h and
      Load_cef_string_types_h and
      Load_cef_thread_internal_h and
-     Load_cef_trace_event_internal_h then
+     Load_cef_trace_event_internal_h and
+     Load_cef_browser_view_capi_h and
+     Load_cef_display_capi_h and
+     Load_cef_label_button_capi_h and
+     Load_cef_menu_button_capi_h and
+     Load_cef_panel_capi_h and
+     Load_cef_scroll_view_capi_h and
+     Load_cef_textfield_capi_h and
+     Load_cef_window_capi_h and
+     Load_cef_types_linux_h then
     begin
       FStatus    := asLoaded;
       FLibLoaded := True;
@@ -2030,6 +2066,83 @@ begin
             assigned(cef_trace_event_async_step_into) and
             assigned(cef_trace_event_async_step_past) and
             assigned(cef_trace_event_async_end);
+end;
+
+function TCefApplication.Load_cef_browser_view_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_view_create{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_browser_view_create');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_view_get_for_browser{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_browser_view_get_for_browser');
+
+  Result := assigned(cef_browser_view_create) and
+            assigned(cef_browser_view_get_for_browser);
+end;
+
+function TCefApplication.Load_cef_display_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_primary{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_display_get_primary');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_nearest_point{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_display_get_nearest_point');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_matching_bounds{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_display_get_matching_bounds');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_count{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_display_get_count');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_alls{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_display_get_alls');
+
+  Result := assigned(cef_display_get_primary) and
+            assigned(cef_display_get_nearest_point) and
+            assigned(cef_display_get_matching_bounds) and
+            assigned(cef_display_get_count) and
+            assigned(cef_display_get_alls);
+end;
+
+function TCefApplication.Load_cef_label_button_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_label_button_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_label_button_create');
+
+  Result := assigned(cef_label_button_create);
+end;
+
+function TCefApplication.Load_cef_menu_button_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_menu_button_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_menu_button_create');
+
+  Result := assigned(cef_menu_button_create);
+end;
+
+function TCefApplication.Load_cef_panel_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_panel_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_panel_create');
+
+  Result := assigned(cef_panel_create);
+end;
+
+function TCefApplication.Load_cef_scroll_view_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_scroll_view_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_scroll_view_create');
+
+  Result := assigned(cef_scroll_view_create);
+end;
+
+function TCefApplication.Load_cef_textfield_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_textfield_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_textfield_create');
+
+  Result := assigned(cef_textfield_create);
+end;
+
+function TCefApplication.Load_cef_window_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_window_create_top_level{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_window_create_top_level');
+
+  Result := assigned(cef_window_create_top_level);
+end;
+
+function TCefApplication.Load_cef_types_linux_h : boolean;
+begin
+  {$IFDEF LINUX}
+  {$IFDEF FPC}Pointer({$ENDIF}cef_get_xdisplay{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_get_xdisplay');
+
+  Result := assigned(cef_get_xdisplay);
+  {$ELSE}
+  Result := True;
+  {$ENDIF}
 end;
 
 end.

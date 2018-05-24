@@ -54,7 +54,8 @@ begin
   GlobalCEFApp := TCefApplication.Create;
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
+
+{
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
@@ -71,4 +72,5 @@ begin
     end;
 
   GlobalCEFApp.Free;
+  GlobalCEFApp := nil;
 end.
