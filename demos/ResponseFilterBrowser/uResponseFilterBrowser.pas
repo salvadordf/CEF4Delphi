@@ -298,19 +298,19 @@ var
   TempHeader : string;
   TempLen    : integer;
 begin
-  if (response <> nil) and IsMyResource(request) then
-  begin
-    Result     := FFilter;
-    TempHeader := trim(response.GetHeader('Content-Length'));
+  if not(FRscCompleted) and (response <> nil) and IsMyResource(request) then
+    begin
+      Result     := FFilter;
+      TempHeader := trim(response.GetHeader('Content-Length'));
 
-    if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
-      FRscSize := TempLen
-    else
-      FRscSize := -1;
+      if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
+        FRscSize := TempLen
+       else
+        FRscSize := -1;
 
-    UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
-  end
-  else
+      UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
+    end
+   else
     Result := nil;
 end;
 
@@ -398,7 +398,6 @@ begin
 
         FStream.Clear;
         FRscSize := -1;
-        FRscCompleted := False;
       end
      else
       Memo1.Lines.Clear;
@@ -409,6 +408,7 @@ end;
 
 procedure TResponseFilterBrowserFrm.GoBtnClick(Sender: TObject);
 begin
+  FRscCompleted := False;
   Chromium1.LoadURL(AddressEdt.Text);
 end;
 
