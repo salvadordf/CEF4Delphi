@@ -433,6 +433,7 @@ begin
   try
     FStreamCS.Acquire;
 
+    FFilterInit               := False;
     FRscCompleted             := False;
     FRscSize                  := -1;
     StatusBar1.Panels[0].Text := '';
