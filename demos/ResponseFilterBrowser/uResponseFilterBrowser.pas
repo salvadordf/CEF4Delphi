@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter,
+  Vcl.ComCtrls;
 
 const
   STREAM_COPY_COMPLETE    = WM_APP + $B00;
@@ -62,11 +63,13 @@ type
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
     Splitter1: TSplitter;
-    Memo1: TMemo;
     Panel1: TPanel;
     GoBtn: TButton;
     Label1: TLabel;
     RscNameEdt: TEdit;
+    Panel2: TPanel;
+    Memo1: TMemo;
+    StatusBar1: TStatusBar;
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -95,6 +98,7 @@ type
     FRscCompleted  : boolean;            // This variable will be used to handle the results only once.
     FRscEncoding   : TEncoding;          // The resource response Encoding. When encoding is unicode. The response data may be sent by multi chains, will cause encoding parsing problem.
     FRscMimeType   : String;
+    FFilterInit    : boolean;
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
@@ -156,41 +160,43 @@ begin
     try
       FStreamCS.Acquire;
 
-      // This event will be called repeatedly until the input buffer has been fully read.
-      // When there's no more data then data_in is nil and you can show the stream contents.
-
-      if (data_in = nil) then
+      if FFilterInit then
         begin
-          data_in_read     := 0;
-          data_out_written := 0;
-          aResult          := RESPONSE_FILTER_DONE;
+          // This event will be called repeatedly until the input buffer has been fully read.
+          // When there's no more data then data_in is nil and you can show the stream contents.
 
-          if not(FRscCompleted) and
-             (FStream <> nil)   and
-             (FStream.Size > 0) and
-             ((FRscSize = -1) or (FRscSize = FStream.Size)) then
-            FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
-        end
-       else
-        begin
-          if (data_out <> nil) then
+          if (data_in = nil) then
             begin
-              data_out_written := min(data_in_size, data_out_size);
+              data_in_read     := 0;
+              data_out_written := 0;
+              aResult          := RESPONSE_FILTER_DONE;
 
-              if (data_out_written > 0) then
-                Move(data_in^, data_out^, data_out_written);
-            end;
+              if not(FRscCompleted) and
+                 (FStream.Size > 0) and
+                 ((FRscSize = -1) or (FRscSize = FStream.Size)) then
+                FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+            end
+           else
+            begin
+              if (data_out <> nil) then
+                begin
+                  data_out_written := min(data_in_size, data_out_size);
 
-            if (data_in_size > 0) then
-              data_in_read := FStream.Write(data_in^, data_in_size);
+                  if (data_out_written > 0) then
+                    Move(data_in^, data_out^, data_out_written);
+                end;
 
-            // Send the STREAM_COPY_COMPLETE message only if the server sent the data size in
-            // a Content-Length header and we can compare it with the stream size
-            if not(FRscCompleted) and (FRscSize <> -1) and (FRscSize = FStream.Size) then
-              FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+                if (data_in_size > 0) then
+                  data_in_read := FStream.Write(data_in^, data_in_size);
 
-            aResult := RESPONSE_FILTER_NEED_MORE_DATA;
-          end;
+                // Send the STREAM_COPY_COMPLETE message only if the server sent the data size in
+                // a Content-Length header and we can compare it with the stream size
+                if not(FRscCompleted) and (FRscSize <> -1) and (FRscSize = FStream.Size) then
+                  FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+
+                aResult := RESPONSE_FILTER_NEED_MORE_DATA;
+              end;
+        end;
     except
       on e : exception do
         begin
@@ -229,6 +235,7 @@ end;
 
 procedure TResponseFilterBrowserFrm.FormCreate(Sender: TObject);
 begin
+  FFilterInit    := False;
   FRscCompleted  := False;
   FRscSize       := -1;
   FStream        := TMemoryStream.Create;
@@ -281,8 +288,7 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TResponseFilterBrowserFrm.Chromium1Close(Sender: TObject;
-  const browser: ICefBrowser; out Result: Boolean);
+procedure TResponseFilterBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
 begin
   PostMessage(Handle, CEF_DESTROY, 0, 0);
   Result := True;
@@ -300,15 +306,28 @@ var
 begin
   if not(FRscCompleted) and (response <> nil) and IsMyResource(request) then
     begin
-      Result     := FFilter;
-      TempHeader := trim(response.GetHeader('Content-Length'));
+      try
+        FStreamCS.Acquire;
 
-      if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
-        FRscSize := TempLen
-       else
-        FRscSize := -1;
+        Result      := FFilter;
+        FFilterInit := True;
+        TempHeader  := trim(response.GetHeader('Content-Length'));
 
-      UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
+        if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
+          begin
+            FRscSize := TempLen;
+            StatusBar1.Panels[0].Text := 'Content-Length : ' + inttostr(FRscSize);
+          end
+         else
+          begin
+            FRscSize := -1;
+            StatusBar1.Panels[0].Text := 'Content-Length : not available';
+          end;
+
+        UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
+      finally
+        FStreamCS.Release;
+      end;
     end
    else
     Result := nil;
@@ -383,6 +402,8 @@ begin
            (FRscMimeType = 'text/javascript')  or
            (FRscMimeType = 'application/javascript') then
           begin
+            StatusBar1.Panels[1].Text := 'Stream size : ' + inttostr(FStream.Size);
+
             SetLength(LAS, FStream.Size);
             FStream.Read(LAS[Low(LAS)], FStream.Size);
 
@@ -392,12 +413,13 @@ begin
               LS := string(LAS); // Others encoding text
 
             Memo1.Lines.Add(LS);
+
+            StatusBar1.Panels[2].Text := 'Decoded size : ' + inttostr(length(LS));
           end
          else
           Memo1.Lines.LoadFromStream(FStream); // Image or others
 
         FStream.Clear;
-        FRscSize := -1;
       end
      else
       Memo1.Lines.Clear;
@@ -408,7 +430,20 @@ end;
 
 procedure TResponseFilterBrowserFrm.GoBtnClick(Sender: TObject);
 begin
-  FRscCompleted := False;
+  try
+    FStreamCS.Acquire;
+
+    FRscCompleted             := False;
+    FRscSize                  := -1;
+    StatusBar1.Panels[0].Text := '';
+    StatusBar1.Panels[1].Text := '';
+    StatusBar1.Panels[2].Text := '';
+    Memo1.Lines.Clear;
+    FStream.Clear;
+  finally
+    FStreamCS.Release;
+  end;
+
   Chromium1.LoadURL(AddressEdt.Text);
 end;
 

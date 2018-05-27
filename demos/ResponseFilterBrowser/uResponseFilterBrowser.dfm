@@ -20,13 +20,13 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 407
+    Top = 477
     Width = 1038
     Height = 3
     Cursor = crVSplit
     Align = alBottom
     ExplicitTop = 30
-    ExplicitWidth = 505
+    ExplicitWidth = 450
   end
   object AddressPnl: TPanel
     Left = 0
@@ -97,19 +97,53 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Left = 0
     Top = 30
     Width = 1038
-    Height = 377
+    Height = 447
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 291
   end
-  object Memo1: TMemo
+  object Panel2: TPanel
     Left = 0
-    Top = 410
+    Top = 480
     Width = 1038
-    Height = 300
+    Height = 230
     Align = alBottom
-    ReadOnly = True
-    ScrollBars = ssBoth
+    BevelOuter = bvNone
+    ShowCaption = False
     TabOrder = 2
+    object Memo1: TMemo
+      Left = 0
+      Top = 0
+      Width = 1038
+      Height = 211
+      Align = alClient
+      ReadOnly = True
+      ScrollBars = ssBoth
+      TabOrder = 0
+      ExplicitLeft = 5
+      ExplicitTop = 31
+      ExplicitWidth = 760
+      ExplicitHeight = 159
+    end
+    object StatusBar1: TStatusBar
+      Left = 0
+      Top = 211
+      Width = 1038
+      Height = 19
+      Panels = <
+        item
+          Width = 250
+        end
+        item
+          Width = 250
+        end
+        item
+          Width = 250
+        end>
+      ExplicitLeft = 696
+      ExplicitTop = 216
+      ExplicitWidth = 0
+    end
   end
   object Timer1: TTimer
     Enabled = False
