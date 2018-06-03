@@ -52,9 +52,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms,{$ENDIF} System.Classes,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,  Vcl.Controls, Vcl.Graphics, Vcl.Forms,
   {$ELSE}
-    Windows, Classes, Forms, Controls, Graphics,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -306,7 +306,7 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$I tcefworkscheduler.lrs}
+  {$I res/tcefworkscheduler.lrs}
   RegisterComponents('Chromium', [TCEFWorkScheduler]);
 end;
 {$ENDIF}

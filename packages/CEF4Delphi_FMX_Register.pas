@@ -37,7 +37,7 @@
 
 unit CEF4Delphi_FMX_Register;
 
-{$R chromium.dcr}
+{$R res\chromium.dcr}
 
 {$I cef.inc}
 

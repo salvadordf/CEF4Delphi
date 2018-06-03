@@ -50,7 +50,7 @@ uses
   {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics,{$ENDIF}
   System.Classes, System.SyncObjs, System.SysUtils;
   {$ELSE}
-    Windows, Classes, Forms, Controls, Graphics,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -415,7 +415,7 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$I tbufferpanel.lrs}
+  {$I res/tbufferpanel.lrs}
   RegisterComponents('Chromium', [TBufferPanel]);
 end;
 {$ENDIF}

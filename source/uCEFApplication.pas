@@ -52,22 +52,22 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
   {$ELSE}
-  Windows, Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 3359;
-  CEF_SUPPORTED_VERSION_RELEASE = 1774;
+  CEF_SUPPORTED_VERSION_MINOR   = 3396;
+  CEF_SUPPORTED_VERSION_RELEASE = 1775;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 66;
+  CEF_CHROMEELF_VERSION_MAJOR   = 67;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3359;
-  CEF_CHROMEELF_VERSION_BUILD   = 181;
+  CEF_CHROMEELF_VERSION_RELEASE = 3396;
+  CEF_CHROMEELF_VERSION_BUILD   = 62;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -406,9 +406,9 @@ uses
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
-    jwatlhelp32,
+      {$IFDEF MSWINDOWS}jwatlhelp32,{$ENDIF}
     {$ELSE}
-    TlHelp32,
+      TlHelp32,
     {$ENDIF}
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
@@ -1184,6 +1184,9 @@ function TCefApplication.Internal_GetLocalizedString(stringid: Integer; var stri
 begin
   Result := False;
 
+  // The stringId must be one of the values defined in the CEF file :
+  // /include/cef_pack_strings.h
+  // That file is available in the CEF3 binaries package.
   if assigned(FOnGetLocalizedString) then FOnGetLocalizedString(stringId, stringVal, Result);
 end;
 
@@ -1191,6 +1194,9 @@ function TCefApplication.Internal_GetDataResource(resourceId: Integer; var data:
 begin
   Result := False;
 
+  // The resourceId must be one of the values defined in the CEF file :
+  // /include/cef_pack_resources.h
+  // That file is available in the CEF3 binaries package.
   if assigned(FOnGetDataResource) then FOnGetDataResource(resourceId, data, dataSize, Result);
 end;
 
@@ -1198,6 +1204,9 @@ function TCefApplication.Internal_GetDataResourceForScale(resourceId: Integer; s
 begin
   Result := False;
 
+  // The resourceId must be one of the values defined in the CEF file :
+  // /include/cef_pack_resources.h
+  // That file is available in the CEF3 binaries package.
   if assigned(FOnGetDataResourceForScale) then FOnGetDataResourceForScale(resourceId, scaleFactor, data, dataSize, Result);
 end;
 

@@ -54,7 +54,7 @@ uses
   {$IFDEF DELPHI16_UP}
   System.Classes, System.UITypes,
   {$ELSE}
-  Windows, Classes,
+  Classes,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar, uCEFApplication;
 

@@ -47,9 +47,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ShlObj, WinApi.ActiveX,{$ENDIF} System.Classes, System.Math;
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ShlObj, WinApi.ActiveX,{$ENDIF} System.Classes, System.Math;
   {$ELSE}
-  Windows, Classes, Math, ShlObj, ActiveX;
+    {$IFDEF MSWINDOWS}Windows, ShlObj, ActiveX,{$ENDIF} Classes, Math;
   {$ENDIF}
 
 const

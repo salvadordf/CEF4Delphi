@@ -79,9 +79,9 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.SysUtils,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.SysUtils,
   {$ELSE}
-  Windows, SysUtils,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} SysUtils,
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFApplication, uCEFStringList;
 

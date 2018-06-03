@@ -52,10 +52,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX,{$ENDIF}
-  System.Classes, System.SysUtils, System.UITypes, System.Math,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX,{$ENDIF} System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-  Windows, Classes, SysUtils, Controls, Graphics, ActiveX, Math,
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, SysUtils, Controls, Graphics, Math,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
   uCEFRegisterCDMCallback;
@@ -121,6 +120,7 @@ procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
 {$ENDIF}
 
+{$IFDEF MSWINDOWS}
 function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 
@@ -128,11 +128,13 @@ function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
 
 {$IFNDEF DELPHI12_UP}
-{$IFDEF WIN64}
-function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: int64): int64; stdcall; external user32 name 'SetWindowLongPtrW';
-{$ELSE}                                                                 
-function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: LongInt): LongInt; stdcall; external user32 name 'SetWindowLongW';
+  {$IFDEF WIN64}
+    function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: int64): int64; stdcall; external user32 name 'SetWindowLongPtrW';
+  {$ELSE}
+    function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: LongInt): LongInt; stdcall; external user32 name 'SetWindowLongW';
+  {$ENDIF}
 {$ENDIF}
+
 {$ENDIF}
 
 function CustomPathIsRelative(const aPath : string) : boolean;

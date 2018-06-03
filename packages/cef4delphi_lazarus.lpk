@@ -9,7 +9,7 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <IncludeFiles Value="..\source"/>
+        <IncludeFiles Value="..\source;..\source\res"/>
         <OtherUnitFiles Value="..\source"/>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
@@ -537,27 +537,27 @@
         <UnitName Value="uCEFServerHandler"/>
       </Item127>
       <Item128>
-        <Filename Value="..\source\tbufferpanel.lrs"/>
+        <Filename Value="..\source\res\tbufferpanel.lrs"/>
         <Type Value="LRS"/>
       </Item128>
       <Item129>
-        <Filename Value="..\source\tcefservercomponent.lrs"/>
+        <Filename Value="..\source\res\tcefservercomponent.lrs"/>
         <Type Value="LRS"/>
       </Item129>
       <Item130>
-        <Filename Value="..\source\tcefwindowparent.lrs"/>
+        <Filename Value="..\source\res\tcefwindowparent.lrs"/>
         <Type Value="LRS"/>
       </Item130>
       <Item131>
-        <Filename Value="..\source\tcefworkscheduler.lrs"/>
+        <Filename Value="..\source\res\tcefworkscheduler.lrs"/>
         <Type Value="LRS"/>
       </Item131>
       <Item132>
-        <Filename Value="..\source\tchromium.lrs"/>
+        <Filename Value="..\source\res\tchromium.lrs"/>
         <Type Value="LRS"/>
       </Item132>
       <Item133>
-        <Filename Value="..\source\tchromiumwindow.lrs"/>
+        <Filename Value="..\source\res\tchromiumwindow.lrs"/>
         <Type Value="LRS"/>
       </Item133>
     </Files>

@@ -47,11 +47,11 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX, WinApi.ShlObj, WinApi.ShellApi, Vcl.Controls,{$ENDIF}
-  System.Classes, System.SysUtils, System.Math, System.StrUtils, System.AnsiStrings,
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX, WinApi.ShlObj, WinApi.ShellApi,{$ENDIF}
+  System.Classes, Vcl.Controls, System.SysUtils, System.Math, System.StrUtils, System.AnsiStrings,
   {$ELSE}
-  Windows, Classes, Controls, SysUtils, Math,
-  ActiveX, ShlObj, Shellapi, StrUtils, 
+  {$IFDEF MSWINDOWS}Windows, ActiveX, ShlObj, Shellapi,{$ENDIF}
+  Classes, Controls, SysUtils, Math, StrUtils,
   {$ENDIF}
   uCEFDragData, uCEFInterfaces, uCEFTypes, uOLEDragAndDrop;
 

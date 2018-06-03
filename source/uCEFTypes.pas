@@ -52,10 +52,10 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math;
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math;
   {$ELSE}
-  {$IFDEF FPC}{$IFDEF LINUX}xlib,{$ENDIF}{$ENDIF}
-  Windows, Math;
+    {$IFDEF FPC}{$IFDEF LINUX}xlib,{$ENDIF}{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math;
   {$ENDIF}
 
 type
@@ -699,6 +699,7 @@ type
     TID_FILE_BACKGROUND,   // TID_FILE = TID_FILE_BACKGROUND
     TID_FILE_USER_VISIBLE,
     TID_FILE_USER_BLOCKING,
+    TID_PROCESS_LAUNCHER,
     TID_IO,
     TID_RENDERER
   );

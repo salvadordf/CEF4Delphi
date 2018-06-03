@@ -52,9 +52,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math,
   {$ELSE}
-  Windows, Math,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math,
   {$ENDIF}
   uCEFTypes;
 

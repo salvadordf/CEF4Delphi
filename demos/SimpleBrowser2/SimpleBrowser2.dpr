@@ -66,11 +66,12 @@ begin
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
-  GlobalCEFApp.DisableGPUCache      := True;      // Disable the creation of a 'GPUCache' directory in the hard drive.
   GlobalCEFApp.cache                := 'cef\cache';
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
+
+  GlobalCEFApp.SetCurrentDir := True;
 
   // You *MUST* call GlobalCEFApp.StartMainProcess in a if..then clause
   // with the Application initialization inside the begin..end.

@@ -52,10 +52,10 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX,{$ENDIF}
-  System.Classes, System.Math,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX,{$ENDIF}
+    System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms, System.Math,
   {$ELSE}
-    Windows, Classes, Forms, Controls, Graphics, ActiveX, Math,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics, ActiveX, Math,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -339,7 +339,7 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$I tcefservercomponent.lrs}
+  {$I res/tcefservercomponent.lrs}
   RegisterComponents('Chromium', [TCEFServerComponent]);
 end;
 {$ENDIF}

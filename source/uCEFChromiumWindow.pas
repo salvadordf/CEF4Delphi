@@ -54,7 +54,7 @@ uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,
   {$ELSE}
-    Windows, Classes, Forms, Controls, Graphics,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -211,7 +211,7 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$I tchromiumwindow.lrs}
+  {$I res/tchromiumwindow.lrs}
   RegisterComponents('Chromium', [TChromiumWindow]);
 end;
 {$ENDIF}

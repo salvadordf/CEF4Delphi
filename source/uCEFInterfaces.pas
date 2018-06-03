@@ -52,9 +52,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Classes,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes,
   {$ENDIF}
   uCEFTypes, uCEFSchemeRegistrar;
 

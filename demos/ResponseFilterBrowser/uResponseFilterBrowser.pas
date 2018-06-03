@@ -171,6 +171,7 @@ begin
               data_out_written := 0;
               aResult          := RESPONSE_FILTER_DONE;
 
+              // Send the message only if this is the first time that this event has data_in = nil
               if not(FRscCompleted) and
                  (FStream.Size > 0) and
                  ((FRscSize = -1) or (FRscSize = FStream.Size)) then
@@ -301,27 +302,39 @@ procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(Sender : 
                                                                        const response  : ICefResponse;
                                                                        out   Result    : ICefResponseFilter);
 var
-  TempHeader : string;
-  TempLen    : integer;
+  TempContentLength, TempContentEncoding : string;
+  TempLen : integer;
 begin
   if not(FRscCompleted) and (response <> nil) and IsMyResource(request) then
     begin
       try
         FStreamCS.Acquire;
 
-        Result      := FFilter;
-        FFilterInit := True;
-        TempHeader  := trim(response.GetHeader('Content-Length'));
+        Result              := FFilter;
+        FFilterInit         := True;
+        TempContentEncoding := trim(lowercase(response.GetHeader('Content-Encoding')));
 
-        if TryStrToInt(TempHeader, TempLen) and (TempLen > 0) then
+        if (length(TempContentEncoding) > 0) and (TempContentEncoding <> 'identity') then
           begin
-            FRscSize := TempLen;
-            StatusBar1.Panels[0].Text := 'Content-Length : ' + inttostr(FRscSize);
+            // We can't use this information because Content-Length has the
+            // compressed length but the OnFilter event has uncompressed data.
+            FRscSize := -1;
+            StatusBar1.Panels[0].Text := 'Content-Length : compressed';
           end
          else
           begin
-            FRscSize := -1;
-            StatusBar1.Panels[0].Text := 'Content-Length : not available';
+            TempContentLength := trim(response.GetHeader('Content-Length'));
+
+            if TryStrToInt(TempContentLength, TempLen) and (TempLen > 0) then
+              begin
+                FRscSize := TempLen;
+                StatusBar1.Panels[0].Text := 'Content-Length : ' + inttostr(FRscSize);
+              end
+             else
+              begin
+                FRscSize := -1;
+                StatusBar1.Panels[0].Text := 'Content-Length : not available';
+              end;
           end;
 
         UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
@@ -362,6 +375,7 @@ begin
       begin
         UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
 
+        // Only send the message if this event is triggered before we have a OnFilter event with data_in = nil
         if not(FRscCompleted) then
           FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
       end;
@@ -419,6 +433,10 @@ begin
          else
           Memo1.Lines.LoadFromStream(FStream); // Image or others
 
+        StatusBar1.Panels[3].Text := 'Memo size : ' + inttostr(length(trim(Memo1.Lines.Text)));
+
+        // There might be a small difference in sizes because of the text decoding
+
         FStream.Clear;
       end
      else
@@ -439,6 +457,7 @@ begin
     StatusBar1.Panels[0].Text := '';
     StatusBar1.Panels[1].Text := '';
     StatusBar1.Panels[2].Text := '';
+    StatusBar1.Panels[3].Text := '';
     Memo1.Lines.Clear;
     FStream.Clear;
   finally

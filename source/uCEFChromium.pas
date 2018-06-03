@@ -52,9 +52,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX,{$ENDIF} System.Classes,
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX,{$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms,
   {$ELSE}
-    Windows, Classes, Forms, Controls, Graphics, ActiveX,
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -3910,7 +3910,7 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$I tchromium.lrs}
+  {$I res/tchromium.lrs}
   RegisterComponents('Chromium', [TChromium]);
 end;
 {$ENDIF}

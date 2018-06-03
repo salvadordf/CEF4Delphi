@@ -100,7 +100,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Height = 447
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 291
   end
   object Panel2: TPanel
     Left = 0
@@ -120,10 +119,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       ReadOnly = True
       ScrollBars = ssBoth
       TabOrder = 0
-      ExplicitLeft = 5
-      ExplicitTop = 31
-      ExplicitWidth = 760
-      ExplicitHeight = 159
     end
     object StatusBar1: TStatusBar
       Left = 0
@@ -132,17 +127,17 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       Height = 19
       Panels = <
         item
-          Width = 250
+          Width = 200
         end
         item
-          Width = 250
+          Width = 200
         end
         item
-          Width = 250
+          Width = 200
+        end
+        item
+          Width = 200
         end>
-      ExplicitLeft = 696
-      ExplicitTop = 216
-      ExplicitWidth = 0
     end
   end
   object Timer1: TTimer
