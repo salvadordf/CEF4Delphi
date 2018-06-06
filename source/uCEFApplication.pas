@@ -111,7 +111,6 @@ type
       FCustomCommandLines            : TStringList;
       FCustomCommandLineValues       : TStringList;
       FFlashEnabled                  : boolean;
-      FEnableSpellingService         : boolean;
       FEnableMediaStream             : boolean;
       FEnableSpeechInput             : boolean;
       FEnableGPU                     : boolean;
@@ -327,7 +326,6 @@ type
       property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
       property DeleteCookies                     : boolean                             read FDeleteCookies                     write FDeleteCookies;
       property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;
-      property EnableSpellingService             : boolean                             read FEnableSpellingService             write FEnableSpellingService;
       property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
       property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;
@@ -454,7 +452,6 @@ begin
   FDeleteCache                   := False;
   FDeleteCookies                 := False;
   FFlashEnabled                  := True;
-  FEnableSpellingService         := True;
   FEnableMediaStream             := True;
   FEnableSpeechInput             := True;
   FEnableGPU                     := False;
@@ -1290,7 +1287,6 @@ begin
             commandLine.AppendSwitch('--enable-system-flash');
           end;
 
-      commandLine.AppendSwitchWithValue('--enable-spelling-service', IntToStr(Ord(FEnableSpellingService)));
       commandLine.AppendSwitchWithValue('--enable-media-stream',     IntToStr(Ord(FEnableMediaStream)));
       commandLine.AppendSwitchWithValue('--enable-speech-input',     IntToStr(Ord(FEnableSpeechInput)));
 
