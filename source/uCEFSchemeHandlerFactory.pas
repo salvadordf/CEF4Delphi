@@ -101,7 +101,10 @@ function TCefSchemeHandlerFactoryOwn.New(const browser    : ICefBrowser;
                                          const schemeName : ustring;
                                          const request    : ICefRequest): ICefResourceHandler;
 begin
-  Result := FClass.Create(browser, frame, schemeName, request);
+  if (FClass <> nil) then
+    Result := FClass.Create(browser, frame, schemeName, request)
+   else
+    Result := nil;
 end;
 
 

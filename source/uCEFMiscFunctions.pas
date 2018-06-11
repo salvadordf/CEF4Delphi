@@ -151,7 +151,7 @@ procedure CefDebugLog(const aMessage : string);
 procedure OutputDebugMessage(const aMessage : string);
 function  CustomExceptionHandler(const aFunctionName : string; const aException : exception) : boolean;
 
-function CefRegisterSchemeHandlerFactory(const SchemeName, HostName: ustring; const handler: TCefResourceHandlerClass): Boolean;
+function CefRegisterSchemeHandlerFactory(const SchemeName, DomainName : ustring; const handler: TCefResourceHandlerClass = nil): Boolean;
 function CefClearSchemeHandlerFactories : boolean;
 
 function CefAddCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
@@ -670,21 +670,31 @@ begin
 end;
 
 function CefRegisterSchemeHandlerFactory(const SchemeName : ustring;
-                                         const HostName   : ustring;
+                                         const DomainName : ustring;
                                          const handler    : TCefResourceHandlerClass) : boolean;
 var
-  TempScheme, TempHostName : TCefString;
+  TempScheme, TempDomainName : TCefString;
   TempFactory : ICefSchemeHandlerFactory;
+  TempDomainNamePtr : PCefString;
 begin
   Result := False;
 
   try
-    if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    if (GlobalCEFApp <> nil)    and
+       GlobalCEFApp.LibLoaded   and
+       (length(SchemeName) > 0) then
       begin
-        TempScheme   := CefString(SchemeName);
-        TempHostName := CefString(HostName);
-        TempFactory  := TCefSchemeHandlerFactoryOwn.Create(handler);
-        Result       := cef_register_scheme_handler_factory(@TempScheme, @TempHostName, TempFactory.Wrap) <> 0;
+        if (length(DomainName) > 0) then
+          begin
+            TempDomainName    := CefString(DomainName);
+            TempDomainNamePtr := @TempDomainName;
+          end
+         else
+          TempDomainNamePtr := nil;
+
+        TempScheme  := CefString(SchemeName);
+        TempFactory := TCefSchemeHandlerFactoryOwn.Create(handler);
+        Result      := cef_register_scheme_handler_factory(@TempScheme, TempDomainNamePtr, TempFactory.Wrap) <> 0;
       end;
   finally
     TempFactory := nil;
