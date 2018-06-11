@@ -266,8 +266,13 @@ end;
 
 function CefStringClearAndGet(var str: TCefString): ustring;
 begin
-  Result := CefString(@str);
-  cef_string_utf16_clear(@str);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      Result := CefString(@str);
+      cef_string_utf16_clear(@str);
+    end
+   else
+    Result := '';
 end;
 
 function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
@@ -306,17 +311,19 @@ end;
 
 procedure CefStringFree(const str: PCefString);
 begin
-  if (str <> nil) then cef_string_utf16_clear(str);
+  if (str <> nil) and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_string_utf16_clear(str);
 end;
 
 procedure CefStringSet(const str: PCefString; const value: ustring);
 begin
-  if (str <> nil) then cef_string_utf16_set(PWideChar(value), Length(value), str, 1);
+  if (str <> nil) and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_string_utf16_set(PWideChar(value), Length(value), str, 1);
 end;
 
 function CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
 begin
-  if (str <> nil) then
+  if (str <> nil) and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
       Result := CefString(PCefString(str));
       cef_string_userfree_utf16_free(str);
@@ -328,7 +335,8 @@ end;
 function CefStringAlloc(const str: ustring): TCefString;
 begin
   FillChar(Result, SizeOf(Result), 0);
-  if (str <> '') then cef_string_wide_to_utf16(PWideChar(str), Length(str), @Result);
+  if (str <> '') and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_string_wide_to_utf16(PWideChar(str), Length(str), @Result);
 end;
 
 procedure _free_string(str: PChar16); stdcall;
@@ -338,30 +346,42 @@ end;
 
 function CefUserFreeString(const str: ustring): PCefStringUserFree;
 begin
-  Result         := cef_string_userfree_utf16_alloc();
-  Result^.length := Length(str);
-  GetMem(Result^.str, Result^.length * SizeOf(TCefChar));
-  Move(PCefChar(str)^, Result^.str^, Result^.length * SizeOf(TCefChar));
-  Result^.dtor   := @_free_string;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      Result         := cef_string_userfree_utf16_alloc();
+      Result^.length := Length(str);
+      GetMem(Result^.str, Result^.length * SizeOf(TCefChar));
+      Move(PCefChar(str)^, Result^.str^, Result^.length * SizeOf(TCefChar));
+      Result^.dtor   := @_free_string;
+    end
+   else
+    Result := nil;
 end;
 
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
 var
-  n, c : TCefString;
+  TempName, TempCode : TCefString;
 begin
-  n      := CefString(name);
-  c      := CefString(code);
-  Result := cef_register_extension(@n, @c, CefGetData(handler)) <> 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempName := CefString(name);
+      TempCode := CefString(code);
+      Result   := cef_register_extension(@TempName, @TempCode, CefGetData(handler)) <> 0;
+    end
+   else
+    Result := False;
 end;
 
 procedure CefPostTask(ThreadId: TCefThreadId; const task: ICefTask);
 begin
-  cef_post_task(ThreadId, CefGetData(task));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_post_task(ThreadId, CefGetData(task));
 end;
 
 procedure CefPostDelayedTask(ThreadId: TCefThreadId; const task: ICefTask; delayMs: Int64);
 begin
-  cef_post_delayed_task(ThreadId, CefGetData(task), delayMs);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_post_delayed_task(ThreadId, CefGetData(task), delayMs);
 end;
 
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
@@ -390,40 +410,52 @@ end;
 
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 var
-  st: TSystemTime;
+  TempTime : TSystemTime;
 begin
-  st     := CefTimeToSystemTime(dt);
-  SystemTimeToTzSpecificLocalTime(nil, @st, @st);
-  Result := SystemTimeToDateTime(st);
+  TempTime := CefTimeToSystemTime(dt);
+  SystemTimeToTzSpecificLocalTime(nil, @TempTime, @TempTime);
+  Result   := SystemTimeToDateTime(TempTime);
 end;
 
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 var
-  st: TSystemTime;
+  TempTime : TSystemTime;
 begin
-  DateTimeToSystemTime(dt, st);
-  TzSpecificLocalTimeToSystemTime(nil, @st, @st);
-  Result := SystemTimeToCefTime(st);
+  DateTimeToSystemTime(dt, TempTime);
+  TzSpecificLocalTimeToSystemTime(nil, @TempTime, @TempTime);
+  Result := SystemTimeToCefTime(TempTime);
 end;
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
 begin
-  Result := cef_string_wide_set(src, src_len, output, ord(True));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_string_wide_set(src, src_len, output, ord(True))
+   else
+    Result := 0;
 end;
 
 function cef_string_utf8_copy(const src: PAnsiChar; src_len: NativeUInt; output: PCefStringUtf8): Integer;
 begin
-  Result := cef_string_utf8_set(src, src_len, output, ord(True));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_string_utf8_set(src, src_len, output, ord(True))
+   else
+    Result := 0;
 end;
 
 function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: PCefStringUtf16): Integer;
 begin
-  Result := cef_string_utf16_set(src, src_len, output, ord(True));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_string_utf16_set(src, src_len, output, ord(True))
+   else
+    Result := 0;
 end;
 
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 begin
-  Result := cef_string_utf16_set(src, src_len, output, ord(True));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_string_utf16_set(src, src_len, output, ord(True))
+   else
+    Result := 0;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -552,26 +584,35 @@ end;
 
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
 begin
-  Result := (cef_is_cert_status_error(Status) <> 0);
+  Result := (GlobalCEFApp <> nil)  and
+            GlobalCEFApp.LibLoaded and
+            (cef_is_cert_status_error(Status) <> 0);
 end;
 
 function CefIsCertStatusMinorError(Status : TCefCertStatus) : boolean;
 begin
-  Result := (cef_is_cert_status_minor_error(Status) <> 0);
+  Result := (GlobalCEFApp <> nil)  and
+            GlobalCEFApp.LibLoaded and
+            (cef_is_cert_status_minor_error(Status) <> 0);
 end;
 
 function CefCrashReportingEnabled : boolean;
 begin
-  Result := (cef_crash_reporting_enabled() <> 0);
+  Result := (GlobalCEFApp <> nil)  and
+            GlobalCEFApp.LibLoaded and
+            (cef_crash_reporting_enabled() <> 0);
 end;
 
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 var
   TempKey, TempValue : TCefString;
 begin
-  TempKey   := CefString(aKey);
-  TempValue := CefString(aValue);
-  cef_set_crash_key_value(@TempKey, @TempValue);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempKey   := CefString(aKey);
+      TempValue := CefString(aValue);
+      cef_set_crash_key_value(@TempKey, @TempValue);
+    end;
 end;
 
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
@@ -635,15 +676,26 @@ var
   TempScheme, TempHostName : TCefString;
   TempFactory : ICefSchemeHandlerFactory;
 begin
-  TempScheme   := CefString(SchemeName);
-  TempHostName := CefString(HostName);
-  TempFactory  := TCefSchemeHandlerFactoryOwn.Create(handler);
-  Result       := cef_register_scheme_handler_factory(@TempScheme, @TempHostName, TempFactory.Wrap) <> 0;
+  Result := False;
+
+  try
+    if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+      begin
+        TempScheme   := CefString(SchemeName);
+        TempHostName := CefString(HostName);
+        TempFactory  := TCefSchemeHandlerFactoryOwn.Create(handler);
+        Result       := cef_register_scheme_handler_factory(@TempScheme, @TempHostName, TempFactory.Wrap) <> 0;
+      end;
+  finally
+    TempFactory := nil;
+  end;
 end;
 
 function CefClearSchemeHandlerFactories : boolean;
 begin
-  Result := cef_clear_scheme_handler_factories() <> 0;
+  Result := (GlobalCEFApp <> nil)  and
+            GlobalCEFApp.LibLoaded and
+            (cef_clear_scheme_handler_factories() <> 0);
 end;
 
 function CefAddCrossOriginWhitelistEntry(const SourceOrigin          : ustring;
@@ -653,13 +705,18 @@ function CefAddCrossOriginWhitelistEntry(const SourceOrigin          : ustring;
 var
   TempSourceOrigin, TempTargetProtocol, TempTargetDomain : TCefString;
 begin
-  TempSourceOrigin   := CefString(SourceOrigin);
-  TempTargetProtocol := CefString(TargetProtocol);
-  TempTargetDomain   := CefString(TargetDomain);
-  Result             := cef_add_cross_origin_whitelist_entry(@TempSourceOrigin,
-                                                             @TempTargetProtocol,
-                                                             @TempTargetDomain,
-                                                             Ord(AllowTargetSubdomains)) <> 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempSourceOrigin   := CefString(SourceOrigin);
+      TempTargetProtocol := CefString(TargetProtocol);
+      TempTargetDomain   := CefString(TargetDomain);
+      Result             := cef_add_cross_origin_whitelist_entry(@TempSourceOrigin,
+                                                                 @TempTargetProtocol,
+                                                                 @TempTargetDomain,
+                                                                 Ord(AllowTargetSubdomains)) <> 0;
+    end
+   else
+    Result := False;
 end;
 
 function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin          : ustring;
@@ -669,13 +726,18 @@ function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin          : ustrin
 var
   TempSourceOrigin, TempTargetProtocol, TempTargetDomain : TCefString;
 begin
-  TempSourceOrigin   := CefString(SourceOrigin);
-  TempTargetProtocol := CefString(TargetProtocol);
-  TempTargetDomain   := CefString(TargetDomain);
-  Result             := cef_remove_cross_origin_whitelist_entry(@TempSourceOrigin,
-                                                                @TempTargetProtocol,
-                                                                @TempTargetDomain,
-                                                                Ord(AllowTargetSubdomains)) <> 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempSourceOrigin   := CefString(SourceOrigin);
+      TempTargetProtocol := CefString(TargetProtocol);
+      TempTargetDomain   := CefString(TargetDomain);
+      Result             := cef_remove_cross_origin_whitelist_entry(@TempSourceOrigin,
+                                                                    @TempTargetProtocol,
+                                                                    @TempTargetDomain,
+                                                                    Ord(AllowTargetSubdomains)) <> 0;
+    end
+   else
+    Result := False;
 end;
 
 function CefClearCrossOriginWhitelist: Boolean;
@@ -1107,61 +1169,76 @@ end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 var
-  u: TCefString;
-  p: TCefUrlParts;
+  TempURL   : TCefString;
+  TempParts : TCefUrlParts;
 begin
-  FillChar(p, sizeof(p), 0);
-  u := CefString(url);
-  Result := cef_parse_url(@u, p) <> 0;
-  if Result then
-  begin
-    //parts.spec := CefString(@p.spec);
-    parts.scheme := CefString(@p.scheme);
-    parts.username := CefString(@p.username);
-    parts.password := CefString(@p.password);
-    parts.host := CefString(@p.host);
-    parts.port := CefString(@p.port);
-    parts.origin := CefString(@p.origin);
-    parts.path := CefString(@p.path);
-    parts.query := CefString(@p.query);
-  end;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      FillChar(TempParts, sizeof(TempParts), 0);
+      TempURL := CefString(url);
+      Result  := cef_parse_url(@TempURL, TempParts) <> 0;
+
+      if Result then
+        begin
+          //parts.spec     := CefString(@TempParts.spec);
+          parts.scheme   := CefString(@TempParts.scheme);
+          parts.username := CefString(@TempParts.username);
+          parts.password := CefString(@TempParts.password);
+          parts.host     := CefString(@TempParts.host);
+          parts.port     := CefString(@TempParts.port);
+          parts.origin   := CefString(@TempParts.origin);
+          parts.path     := CefString(@TempParts.path);
+          parts.query    := CefString(@TempParts.query);
+        end;
+    end
+   else
+    Result := False;
 end;
 
 function CefCreateUrl(var parts: TUrlParts): ustring;
 var
-  p: TCefUrlParts;
-  u: TCefString;
+  TempURL   : TCefString;
+  TempParts : TCefUrlParts;
 begin
-  FillChar(p, sizeof(p), 0);
-  p.spec := CefString(parts.spec);
-  p.scheme := CefString(parts.scheme);
-  p.username := CefString(parts.username);
-  p.password := CefString(parts.password);
-  p.host := CefString(parts.host);
-  p.port := CefString(parts.port);
-  p.origin := CefString(parts.origin);
-  p.path := CefString(parts.path);
-  p.query := CefString(parts.query);
-  FillChar(u, SizeOf(u), 0);
-  if cef_create_url(@p, @u) <> 0 then
-    Result := CefString(@u) else
-    Result := '';
+  Result := '';
+
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      FillChar(TempParts, sizeof(TempParts), 0);
+      TempParts.spec     := CefString(parts.spec);
+      TempParts.scheme   := CefString(parts.scheme);
+      TempParts.username := CefString(parts.username);
+      TempParts.password := CefString(parts.password);
+      TempParts.host     := CefString(parts.host);
+      TempParts.port     := CefString(parts.port);
+      TempParts.origin   := CefString(parts.origin);
+      TempParts.path     := CefString(parts.path);
+      TempParts.query    := CefString(parts.query);
+
+      FillChar(TempURL, SizeOf(TempURL), 0);
+      if cef_create_url(@TempParts, @TempURL) <> 0 then Result := CefString(@TempURL);
+    end;
 end;
 
 function CefFormatUrlForSecurityDisplay(const originUrl: string): string;
 var
-  o: TCefString;
+  TempOrigin : TCefString;
 begin
-  o := CefString(originUrl);
-  Result := CefStringFreeAndGet(cef_format_url_for_security_display(@o));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempOrigin := CefString(originUrl);
+      Result     := CefStringFreeAndGet(cef_format_url_for_security_display(@TempOrigin));
+    end
+   else
+    Result := '';
 end;
 
 function CefGetMimeType(const extension: ustring): ustring;
 var
-  s: TCefString;
+  TempExt : TCefString;
 begin
-  s := CefString(extension);
-  Result := CefStringFreeAndGet(cef_get_mime_type(@s));
+  TempExt := CefString(extension);
+  Result  := CefStringFreeAndGet(cef_get_mime_type(@TempExt));
 end;
 
 procedure CefGetExtensionsForMimeType(const mimeType: ustring; var extensions: TStringList);
@@ -1169,7 +1246,7 @@ var
   TempSL       : ICefStringList;
   TempMimeType : TCefString;
 begin
-  if (extensions <> nil) then
+  if (extensions <> nil) and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
       TempSL       := TCefStringListOwn.Create;
       TempMimeType := CefString(mimeType);
@@ -1180,40 +1257,62 @@ end;
 
 function CefBase64Encode(const data: Pointer; dataSize: NativeUInt): ustring;
 begin
-  Result:= CefStringFreeAndGet(cef_base64encode(data, dataSize));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := CefStringFreeAndGet(cef_base64encode(data, dataSize))
+   else
+    Result := '';
 end;
 
 function CefBase64Decode(const data: ustring): ICefBinaryValue;
 var
-  s: TCefString;
+  TempData : TCefString;
 begin
-  s := CefString(data);
-  Result := TCefBinaryValueRef.UnWrap(cef_base64decode(@s));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempData := CefString(data);
+      Result   := TCefBinaryValueRef.UnWrap(cef_base64decode(@TempData));
+    end
+   else
+    Result := nil;
 end;
 
 function CefUriEncode(const text: ustring; usePlus: Boolean): ustring;
 var
-  s: TCefString;
+  TempText : TCefString;
 begin
-  s := CefString(text);
-  Result := CefStringFreeAndGet(cef_uriencode(@s, Ord(usePlus)));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempText := CefString(text);
+      Result   := CefStringFreeAndGet(cef_uriencode(@TempText, Ord(usePlus)));
+    end
+   else
+    Result := '';
 end;
 
-function CefUriDecode(const text: ustring; convertToUtf8: Boolean;
-  unescapeRule: TCefUriUnescapeRule): ustring;
+function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule: TCefUriUnescapeRule): ustring;
 var
-  s: TCefString;
+  TempText : TCefString;
 begin
-  s := CefString(text);
-  Result := CefStringFreeAndGet(cef_uridecode(@s, Ord(convertToUtf8), unescapeRule));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempText := CefString(text);
+      Result   := CefStringFreeAndGet(cef_uridecode(@TempText, Ord(convertToUtf8), unescapeRule));
+    end
+   else
+    Result := '';
 end;
 
 function CefParseJson(const jsonString: ustring; options: TCefJsonParserOptions): ICefValue;
 var
-  s: TCefString;
+  TempJSON : TCefString;
 begin
-  s := CefString(jsonString);
-  Result := TCefValueRef.UnWrap(cef_parse_json(@s, options));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempJSON := CefString(jsonString);
+      Result   := TCefValueRef.UnWrap(cef_parse_json(@TempJSON, options));
+    end
+   else
+    Result := nil;
 end;
 
 function CefParseJsonAndReturnError(const jsonString   : ustring;
@@ -1221,89 +1320,147 @@ function CefParseJsonAndReturnError(const jsonString   : ustring;
                                     out   errorCodeOut : TCefJsonParserError;
                                     out   errorMsgOut  : ustring): ICefValue;
 var
-  s, e: TCefString;
+  TempJSON, TempError : TCefString;
 begin
-  s := CefString(jsonString);
-  FillChar(e, SizeOf(e), 0);
-  Result := TCefValueRef.UnWrap(cef_parse_jsonand_return_error(@s, options, @errorCodeOut, @e));
-  errorMsgOut := CefString(@e);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      FillChar(TempError, SizeOf(TempError), 0);
+      TempJSON    := CefString(jsonString);
+      Result      := TCefValueRef.UnWrap(cef_parse_jsonand_return_error(@TempJSON, options, @errorCodeOut, @TempError));
+      errorMsgOut := CefString(@TempError);
+    end
+   else
+    begin
+      errorCodeOut := JSON_NO_ERROR;
+      Result       := nil;
+      errorMsgOut  := '';
+    end;
 end;
 
 function CefWriteJson(const node: ICefValue; options: TCefJsonWriterOptions): ustring;
 begin
-  Result := CefStringFreeAndGet(cef_write_json(CefGetData(node), options));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := CefStringFreeAndGet(cef_write_json(CefGetData(node), options))
+   else
+    Result := '';
 end;
 
 function CefCreateDirectory(const fullPath: ustring): Boolean;
 var
-  path: TCefString;
+  TempPath : TCefString;
 begin
-  path := CefString(fullPath);
-  Result := cef_create_directory(@path) <> 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempPath := CefString(fullPath);
+      Result   := cef_create_directory(@TempPath) <> 0;
+    end
+   else
+    Result := False;
 end;
 
 function CefGetTempDirectory(out tempDir: ustring): Boolean;
 var
-  path: TCefString;
+  TempPath : TCefString;
 begin
-  FillChar(path, SizeOf(path), 0);
-  Result := cef_get_temp_directory(@path) <> 0;
-  tempDir := CefString(@path);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      FillChar(TempPath, SizeOf(TempPath), 0);
+      Result  := cef_get_temp_directory(@TempPath) <> 0;
+      tempDir := CefString(@TempPath);
+    end
+   else
+    begin
+      Result  := False;
+      tempDir := '';
+    end;
 end;
 
 function CefCreateNewTempDirectory(const prefix: ustring; out newTempPath: ustring): Boolean;
 var
-  path, pref: TCefString;
+  TempPath, TempPref : TCefString;
 begin
-  FillChar(path, SizeOf(path), 0);
-  pref := CefString(prefix);
-  Result := cef_create_new_temp_directory(@pref, @path) <> 0;
-  newTempPath := CefString(@path);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      FillChar(TempPath, SizeOf(TempPath), 0);
+      TempPref    := CefString(prefix);
+      Result      := cef_create_new_temp_directory(@TempPref, @TempPath) <> 0;
+      newTempPath := CefString(@TempPath);
+    end
+   else
+    begin
+      Result      := False;
+      newTempPath := '';
+    end;
 end;
 
-function CefCreateTempDirectoryInDirectory(const baseDir, prefix: ustring;
-  out newDir: ustring): Boolean;
+function CefCreateTempDirectoryInDirectory(const baseDir, prefix: ustring; out newDir: ustring): Boolean;
 var
-  base, path, pref: TCefString;
+  TempBase, TempPath, TempPref: TCefString;
 begin
-  FillChar(path, SizeOf(path), 0);
-  pref := CefString(prefix);
-  base := CefString(baseDir);
-  Result := cef_create_temp_directory_in_directory(@base, @pref, @path) <> 0;
-  newDir := CefString(@path);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      FillChar(TempPath, SizeOf(TempPath), 0);
+      TempPref := CefString(prefix);
+      TempBase := CefString(baseDir);
+      Result   := cef_create_temp_directory_in_directory(@TempBase, @TempPref, @TempPath) <> 0;
+      newDir   := CefString(@TempPath);
+    end
+   else
+    begin
+      Result   := False;
+      newDir   := '';
+    end;
 end;
 
 function CefDirectoryExists(const path: ustring): Boolean;
 var
-  str: TCefString;
+  TempPath : TCefString;
 begin
-  str := CefString(path);
-  Result := cef_directory_exists(@str) <> 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempPath := CefString(path);
+      Result   := cef_directory_exists(@TempPath) <> 0;
+    end
+   else
+    Result := False;
 end;
 
 function CefDeleteFile(const path: ustring; recursive: Boolean): Boolean;
 var
-  str: TCefString;
+  TempPath : TCefString;
 begin
-  str := CefString(path);
-  Result := cef_delete_file(@str, Ord(recursive)) <> 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempPath := CefString(path);
+      Result   := cef_delete_file(@TempPath, Ord(recursive)) <> 0;
+    end
+   else
+    Result := False;
 end;
 
 function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Boolean): Boolean;
 var
-  src, dst: TCefString;
+  TempSrc, TempDst : TCefString;
 begin
-  src := CefString(srcDir);
-  dst := CefString(destFile);
-  Result := cef_zip_directory(@src, @dst, Ord(includeHiddenFiles)) <> 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempSrc := CefString(srcDir);
+      TempDst := CefString(destFile);
+      Result  := cef_zip_directory(@TempSrc, @TempDst, Ord(includeHiddenFiles)) <> 0;
+    end
+   else
+    Result := False;
 end;
 
 procedure CefLoadCRLSetsFile(const path : ustring);
 var
   TempPath : TCefString;
 begin
-  TempPath := CefString(path);
-  cef_load_crlsets_file(@TempPath);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempPath := CefString(path);
+      cef_load_crlsets_file(@TempPath);
+    end;
 end;
 
 function CefIsKeyDown(aWparam : WPARAM) : boolean;
