@@ -1061,7 +1061,8 @@ type
     function  HasElementAttributes: Boolean;
     function  HasElementAttribute(const attrName: ustring): Boolean;
     function  GetElementAttribute(const attrName: ustring): ustring;
-    procedure GetElementAttributes(const attrMap: ICefStringMap);
+    procedure GetElementAttributes(const attrMap: ICefStringMap); overload;
+    procedure GetElementAttributes(var attrList: TStrings); overload;
     function  SetElementAttribute(const attrName, value: ustring): Boolean;
     function  GetElementInnerText: ustring;
     function  GetElementBounds: TCefRect;

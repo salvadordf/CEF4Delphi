@@ -51,6 +51,11 @@ unit uCEFDomNode;
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.SysUtils,
+  {$ELSE}
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, SysUtils,
+  {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
@@ -78,7 +83,8 @@ type
       function  HasElementAttributes: Boolean;
       function  HasElementAttribute(const attrName: ustring): Boolean;
       function  GetElementAttribute(const attrName: ustring): ustring;
-      procedure GetElementAttributes(const attrMap: ICefStringMap);
+      procedure GetElementAttributes(const attrMap: ICefStringMap); overload;
+      procedure GetElementAttributes(var attrList: TStrings); overload;
       function  SetElementAttribute(const attrName, value: ustring): Boolean;
       function  GetElementInnerText: ustring;
       function  GetElementBounds: TCefRect;
@@ -90,7 +96,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFDomDocument;
+  uCEFMiscFunctions, uCEFDomDocument, uCEFStringMap;
 
 function TCefDomNodeRef.GetAsMarkup: ustring;
 begin
@@ -113,6 +119,50 @@ end;
 procedure TCefDomNodeRef.GetElementAttributes(const attrMap: ICefStringMap);
 begin
   PCefDomNode(FData)^.get_element_attributes(PCefDomNode(FData), attrMap.Handle);
+end;
+
+procedure TCefDomNodeRef.GetElementAttributes(var attrList: TStrings);
+var
+  TempStrMap : ICefStringMap;
+  i, j : NativeUInt;
+  TempKey, TempValue : ustring;
+begin
+  TempStrMap := nil;
+
+  try
+    try
+      if (attrList <> nil) then
+        begin
+          TempStrMap := TCefStringMapOwn.Create;
+          PCefDomNode(FData)^.get_element_attributes(PCefDomNode(FData), TempStrMap.Handle);
+
+          i := 0;
+          j := TempStrMap.Size;
+
+          while (i < j) do
+            begin
+              TempKey   := TempStrMap.Key[i];
+              TempValue := TempStrMap.Value[i];
+
+              if (length(TempKey) > 0) and (length(TempValue) > 0) then
+                attrList.Add(TempKey + attrList.NameValueSeparator + TempValue)
+               else
+                if (length(TempKey) > 0) then
+                  attrList.Add(TempKey)
+                 else
+                  if (length(TempValue) > 0) then
+                    attrList.Add(TempValue);
+
+              inc(i);
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefDomNodeRef.GetElementAttributes', e) then raise;
+    end;
+  finally
+    TempStrMap := nil;
+  end;
 end;
 
 function TCefDomNodeRef.GetElementInnerText: ustring;
