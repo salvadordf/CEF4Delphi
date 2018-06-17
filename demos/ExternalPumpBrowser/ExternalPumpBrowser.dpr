@@ -43,11 +43,9 @@ uses
   {$IFDEF DELPHI16_UP}
   Vcl.Forms,
   WinApi.Windows,
-  System.SysUtils,
   {$ELSE}
   Forms,
   Windows,
-  SysUtils,
   {$ENDIF }
   uCEFApplication,
   uCEFWorkScheduler,
@@ -60,17 +58,9 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  // TCEFWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalCEFWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
-
-  GlobalCEFApp                           := TCefApplication.Create;
-  GlobalCEFApp.FlashEnabled              := False;
-  GlobalCEFApp.ExternalMessagePump       := True;
-  GlobalCEFApp.MultiThreadedMessageLoop  := False;
-  GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
+  // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
+  // https://github.com/salvadordf/CEF4Delphi/issues/89
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -87,6 +77,6 @@ begin
       GlobalCEFWorkScheduler.StopScheduler;
     end;
 
-  FreeAndNil(GlobalCEFApp);
-  FreeAndNil(GlobalCEFWorkScheduler);
+  DestroyGlobalCEFApp;
+  DestroyGlobalCEFWorkScheduler;
 end.

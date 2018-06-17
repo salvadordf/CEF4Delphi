@@ -126,10 +126,7 @@ type
 var
   DOMVisitorFrm: TDOMVisitorFrm;
 
-procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
-                                                      sourceProcess : TCefProcessId;
-                                                const message       : ICefProcessMessage;
-                                                var   aHandled      : boolean);
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -296,6 +293,19 @@ begin
             aHandled := True;
           end;
     end;
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                          := TCefApplication.Create;
+  GlobalCEFApp.RemoteDebuggingPort      := 9000;
+  GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
+
+  // Enabling the debug log file for then DOM visitor demo.
+  // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
+  // Remove it if you don't want to use the DOM visitor
+  GlobalCEFApp.LogFile              := 'debug.log';
+  GlobalCEFApp.LogSeverity          := LOGSEVERITY_ERROR;
 end;
 
 procedure TDOMVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);

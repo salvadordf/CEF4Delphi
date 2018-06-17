@@ -57,8 +57,9 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
+  // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
+  // https://github.com/salvadordf/CEF4Delphi/issues/89
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -70,6 +71,5 @@ begin
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.

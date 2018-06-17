@@ -110,11 +110,7 @@ var
   GlobalCallbackFunc       : ICefv8Value = nil;
   GlobalCallbackContext    : ICefv8Context = nil;
 
-procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
-                                                      sourceProcess : TCefProcessId;
-                                                const aMessage      : ICefProcessMessage;
-                                                var   aHandled      : boolean);
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -169,6 +165,13 @@ begin
     end
    else
     aHandled := False;
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                          := TCefApplication.Create;
+  GlobalCEFApp.OnContextCreated         := GlobalCEFApp_OnContextCreated;
+  GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
 end;
 
 procedure TJSExecutingFunctionsFrm.GoBtnClick(Sender: TObject);

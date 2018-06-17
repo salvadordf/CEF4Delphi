@@ -18,8 +18,7 @@ uses
 {$ENDIF}
 
 begin
-  GlobalCEFApp                 := TCefApplication.Create;
-  GlobalCEFApp.MustFreeLibrary := False;
+  GlobalCEFApp := TCefApplication.Create;
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
   // If you don't set a cache directory the browser will use in-memory cache.
@@ -28,7 +27,6 @@ begin
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
-  GlobalCEFApp.DisableGPUCache      := True;      // Disable the creation of a 'GPUCache' directory in the hard drive.
   GlobalCEFApp.cache                := 'cef\cache';
   GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
@@ -46,6 +44,5 @@ begin
       SimpleFMXBrowserFrm.Free;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.

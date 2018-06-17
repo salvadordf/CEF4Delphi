@@ -127,6 +127,7 @@ type
       FGlobalContextInitialized      : boolean;
       FSitePerProcess                : boolean;
       FDisableWebSecurity            : boolean;
+      FDisablePDFExtension           : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       {$IFDEF FPC}
       FLibHandle                     : TLibHandle;
@@ -348,6 +349,7 @@ type
       property MuteAudio                         : boolean                             read FMuteAudio                         write FMuteAudio;
       property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;
       property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;
+      property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
@@ -396,6 +398,8 @@ type
 var
   GlobalCEFApp : TCefApplication = nil;
 
+procedure DestroyGlobalCEFApp;
+
 implementation
 
 uses
@@ -411,6 +415,11 @@ uses
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFRegisterCDMCallback;
+
+procedure DestroyGlobalCEFApp;
+begin
+  if (GlobalCEFApp <> nil) then FreeAndNil(GlobalCEFApp);
+end;
 
 constructor TCefApplication.Create;
 begin
@@ -466,6 +475,7 @@ begin
   FMuteAudio                     := False;
   FSitePerProcess                := False;
   FDisableWebSecurity            := False;
+  FDisablePDFExtension           := False;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
   FShowMessageDlg                := True;
@@ -1319,6 +1329,9 @@ begin
 
       if FDisableWebSecurity then
         commandLine.AppendSwitch('--disable-web-security');
+
+      if FDisablePDFExtension then
+        commandLine.AppendSwitch('--disable-pdf-extension');
 
       if FSitePerProcess then
         commandLine.AppendSwitch('--site-per-process');

@@ -238,31 +238,31 @@ const
   // /include/internal/cef_types.h (cef_menu_id_t)
   MENU_ID_BACK                       = 100;
   MENU_ID_FORWARD                    = 101;
-  MENU_ID_RELOAD                     = 102;
-  MENU_ID_RELOAD_NOCACHE             = 103;
-  MENU_ID_STOPLOAD                   = 104;
-  MENU_ID_UNDO                       = 110;
-  MENU_ID_REDO                       = 111;
-  MENU_ID_CUT                        = 112;
-  MENU_ID_COPY                       = 113;
-  MENU_ID_PASTE                      = 114;
-  MENU_ID_DELETE                     = 115;
-  MENU_ID_SELECT_ALL                 = 116;
-  MENU_ID_FIND                       = 130;
-  MENU_ID_PRINT                      = 131;
-  MENU_ID_VIEW_SOURCE                = 132;
-  MENU_ID_SPELLCHECK_SUGGESTION_0    = 200;
-  MENU_ID_SPELLCHECK_SUGGESTION_1    = 201;
-  MENU_ID_SPELLCHECK_SUGGESTION_2    = 202;
-  MENU_ID_SPELLCHECK_SUGGESTION_3    = 203;
-  MENU_ID_SPELLCHECK_SUGGESTION_4    = 204;
-  MENU_ID_SPELLCHECK_SUGGESTION_LAST = 204;
-  MENU_ID_NO_SPELLING_SUGGESTIONS    = 205;
-  MENU_ID_ADD_TO_DICTIONARY          = 206;
-  MENU_ID_CUSTOM_FIRST               = 220;
-  MENU_ID_CUSTOM_LAST                = 250;
-  MENU_ID_USER_FIRST                 = 26500;
-  MENU_ID_USER_LAST                  = 28500;
+  MENU_ID_RELOAD                     = 102;
+  MENU_ID_RELOAD_NOCACHE             = 103;
+  MENU_ID_STOPLOAD                   = 104;
+  MENU_ID_UNDO                       = 110;
+  MENU_ID_REDO                       = 111;
+  MENU_ID_CUT                        = 112;
+  MENU_ID_COPY                       = 113;
+  MENU_ID_PASTE                      = 114;
+  MENU_ID_DELETE                     = 115;
+  MENU_ID_SELECT_ALL                 = 116;
+  MENU_ID_FIND                       = 130;
+  MENU_ID_PRINT                      = 131;
+  MENU_ID_VIEW_SOURCE                = 132;
+  MENU_ID_SPELLCHECK_SUGGESTION_0    = 200;
+  MENU_ID_SPELLCHECK_SUGGESTION_1    = 201;
+  MENU_ID_SPELLCHECK_SUGGESTION_2    = 202;
+  MENU_ID_SPELLCHECK_SUGGESTION_3    = 203;
+  MENU_ID_SPELLCHECK_SUGGESTION_4    = 204;
+  MENU_ID_SPELLCHECK_SUGGESTION_LAST = 204;
+  MENU_ID_NO_SPELLING_SUGGESTIONS    = 205;
+  MENU_ID_ADD_TO_DICTIONARY          = 206;
+  MENU_ID_CUSTOM_FIRST               = 220;
+  MENU_ID_CUSTOM_LAST                = 250;
+  MENU_ID_USER_FIRST                 = 26500;
+  MENU_ID_USER_LAST                  = 28500;
 
   // /include/internal/cef_types.h (cef_context_menu_type_flags_t)
   CM_TYPEFLAG_NONE      = 0;
@@ -335,9 +335,9 @@ const
 
   CEF_PROXYTYPE_DIRECT        = 0;
   CEF_PROXYTYPE_AUTODETECT    = 1;
-  CEF_PROXYTYPE_SYSTEM        = 2;
-  CEF_PROXYTYPE_FIXED_SERVERS = 3;
-  CEF_PROXYTYPE_PAC_SCRIPT    = 4;
+  CEF_PROXYTYPE_SYSTEM        = 2;
+  CEF_PROXYTYPE_FIXED_SERVERS = 3;
+  CEF_PROXYTYPE_PAC_SCRIPT    = 4;
 
   CEF_CONTENT_SETTING_DEFAULT       = 0;
   CEF_CONTENT_SETTING_ALLOW         = 1;
@@ -379,7 +379,8 @@ const
   CEF_PENDINGRESIZE      = WM_APP + $A04;
   CEF_PUMPHAVEWORK       = WM_APP + $A05;
   CEF_DESTROY            = WM_APP + $A06;
-  CEF_DOONBEFORECLOSE    = WM_APP + $A07;
+  CEF_DOONBEFORECLOSE    = WM_APP + $A07;   
+  CEF_PENDINGINVALIDATE  = WM_APP + $A08;
   {$ENDIF}
 
   CEF_TIMER_MINIMUM            = $0000000A;

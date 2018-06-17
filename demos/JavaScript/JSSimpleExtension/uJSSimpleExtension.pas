@@ -94,7 +94,7 @@ type
 var
   JSSimpleExtensionFrm: TJSSimpleExtensionFrm;
 
-procedure GlobalCEFApp_OnWebKitInitializedEvent;
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -130,6 +130,12 @@ begin
                        '})();';
 
   CefRegisterExtension('v8/test', TempExtensionCode, nil);
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitializedEvent;
 end;
 
 procedure TJSSimpleExtensionFrm.GoBtnClick(Sender: TObject);

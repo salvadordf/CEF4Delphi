@@ -94,7 +94,7 @@ type
 var
   JSWindowBindingWithFunctionFrm: TJSWindowBindingWithFunctionFrm;
 
-procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -127,6 +127,12 @@ begin
   TempFunction := TCefv8ValueRef.NewFunction('myfunc', TempHandler);
 
   context.Global.SetValueByKey('myfunc', TempFunction, V8_PROPERTY_ATTRIBUTE_NONE);
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
 end;
 
 procedure TJSWindowBindingWithFunctionFrm.GoBtnClick(Sender: TObject);

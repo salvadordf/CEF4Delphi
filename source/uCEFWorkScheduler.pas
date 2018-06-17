@@ -122,6 +122,8 @@ var
 procedure Register;
 {$ENDIF}
 
+procedure DestroyGlobalCEFWorkScheduler;
+
 implementation
 
 uses
@@ -132,6 +134,10 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFApplication;
 
+procedure DestroyGlobalCEFWorkScheduler;
+begin
+  if (GlobalCEFWorkScheduler <> nil) then FreeAndNil(GlobalCEFWorkScheduler);
+end;
 
 constructor TCEFWorkScheduler.Create(AOwner: TComponent);
 begin

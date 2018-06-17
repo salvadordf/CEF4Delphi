@@ -104,12 +104,19 @@ type
 var
   GlobalFMXWorkScheduler : TFMXWorkScheduler = nil;
 
+procedure DestroyGlobalFMXWorkScheduler;
+
 implementation
 
 uses
   {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.SysUtils, System.Math,
   FMX.Platform, FMX.Platform.Win, FMX.Forms,
   uCEFMiscFunctions, uCEFApplication;
+
+procedure DestroyGlobalFMXWorkScheduler;
+begin
+  if (GlobalFMXWorkScheduler <> nil) then FreeAndNil(GlobalFMXWorkScheduler);
+end;
 
 constructor TFMXWorkScheduler.Create(AOwner: TComponent);
 begin

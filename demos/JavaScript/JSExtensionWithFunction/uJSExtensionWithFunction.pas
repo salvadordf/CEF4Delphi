@@ -98,7 +98,7 @@ type
 var
   JSExtensionWithFunctionFrm: TJSExtensionWithFunctionFrm;
 
-procedure GlobalCEFApp_OnWebKitInitializedEvent;
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -140,6 +140,12 @@ begin
   TempHandler := TMyV8Handler.Create;
 
   CefRegisterExtension('v8/test', TempExtensionCode, TempHandler);
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitializedEvent;
 end;
 
 procedure TJSExtensionWithFunctionFrm.GoBtnClick(Sender: TObject);

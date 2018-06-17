@@ -95,7 +95,7 @@ type
 var
   JSSimpleWindowBindingFrm: TJSSimpleWindowBindingFrm;
 
-procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -123,6 +123,12 @@ begin
   TempValue := TCefv8ValueRef.NewString('My Value!');
 
   context.Global.SetValueByKey('myval', TempValue, V8_PROPERTY_ATTRIBUTE_NONE);
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
 end;
 
 procedure TJSSimpleWindowBindingFrm.GoBtnClick(Sender: TObject);

@@ -114,7 +114,7 @@ type
 var
   JSRTTIExtensionFrm: TJSRTTIExtensionFrm;
 
-procedure GlobalCEFApp_OnWebKitInitialized;
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -154,6 +154,12 @@ begin
   // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
   TCefRTTIExtension.Register('myextension', TTestExtension);
 {$ENDIF}
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
 end;
 
 procedure TJSRTTIExtensionFrm.GoBtnClick(Sender: TObject);

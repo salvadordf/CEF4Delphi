@@ -48,7 +48,7 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics,{$ENDIF}
-  System.Classes, System.SyncObjs, System.SysUtils;
+  System.Classes, System.SyncObjs, System.SysUtils,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
@@ -56,8 +56,9 @@ uses
     {$ELSE}
     Messages,
     {$ENDIF}
-    ExtCtrls, SyncObjs, SysUtils;
+    ExtCtrls, SyncObjs, SysUtils,
   {$ENDIF}
+  uCEFConstants;
 
 type
   TBufferPanel = class(TCustomPanel)
@@ -158,7 +159,8 @@ type
       property OnGetSiteInfo;
       property OnMouseDown;
       property OnMouseMove;
-      property OnMouseUp;
+      property OnMouseUp;   
+      property OnMouseWheel;
       property OnKeyDown;
       property OnKeyPress;
       property OnKeyUp;

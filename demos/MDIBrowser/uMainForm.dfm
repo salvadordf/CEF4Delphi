@@ -28,7 +28,6 @@ object MainForm: TMainForm
     Enabled = False
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 933
     object NewBtn: TSpeedButton
       Left = 4
       Top = 4

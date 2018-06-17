@@ -151,6 +151,7 @@ var
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
 //    Now we set FCanClose to True and send WM_CLOSE to the form.
 
+procedure CreateGlobalCEFApp;
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 
 implementation
@@ -168,6 +169,22 @@ uses
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
+
+  GlobalCEFApp                            := TCefApplication.Create;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.EnableHighDPISupport       := True;
+  GlobalCEFApp.ExternalMessagePump        := True;
+  GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 
 procedure TOSRExternalPumpBrowserFrm.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);

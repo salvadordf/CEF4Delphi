@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright Â© 2018 Salvador DÃ­az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,39 +35,32 @@
  *
  *)
 
-program JSExecutingFunctions;
+program SimpleLazOSRBrowser;
 
-{$I cef.inc}
+{$MODE OBJFPC}{$H+}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
   Forms,
-  Windows,
-  {$ENDIF }
+  LCLIntf, LCLType, LMessages, Interfaces,
   uCEFApplication,
-  uJSExecutingFunctions in 'uJSExecutingFunctions.pas' {JSExecutingFunctionsFrm},
-  uMyV8Handler in 'uMyV8Handler.pas';
+  usimplelazosrbrowser in 'uSimpleOSRBrowser.pas' {Form1};
+
+{$IFDEF MSWINDOWS}
+  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+  {$SetPEFlags $20}
+{$ENDIF}
 
 {$R *.res}
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
 begin
-  // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
-  // https://github.com/salvadordf/CEF4Delphi/issues/89
-  CreateGlobalCEFApp;
+  GlobalCEFApp                            := TCefApplication.Create;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.EnableHighDPISupport       := True;
 
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TJSExecutingFunctionsFrm, JSExecutingFunctionsFrm);
+      Application.CreateForm(TForm1, Form1);
       Application.Run;
     end;
 

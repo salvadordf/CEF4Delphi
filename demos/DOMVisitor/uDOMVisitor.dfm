@@ -49,7 +49,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
       Align = alClient
       TabOrder = 0
       Text = 'https://www.google.com'
-      ExplicitWidth = 764
       ExplicitHeight = 21
     end
     object Panel1: TPanel

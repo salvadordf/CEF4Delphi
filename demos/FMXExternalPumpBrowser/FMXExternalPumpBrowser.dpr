@@ -45,7 +45,6 @@ uses
   {$IFDEF MSWINDOWS}
   WinApi.Windows,
   {$ENDIF}
-  System.SysUtils,
   uCEFApplication,
   uFMXWorkScheduler,
   uFMXExternalPumpBrowser in 'uFMXExternalPumpBrowser.pas' {FMXExternalPumpBrowserFrm},
@@ -59,19 +58,9 @@ uses
 {$ENDIF}
 
 begin
-  // TFMXWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalFMXWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalFMXWorkScheduler := TFMXWorkScheduler.Create(nil);
-
-  GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.FlashEnabled               := False;
-  GlobalCEFApp.ExternalMessagePump        := True;
-  GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
+  // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
+  // https://github.com/salvadordf/CEF4Delphi/issues/89
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -85,6 +74,6 @@ begin
       GlobalFMXWorkScheduler.StopScheduler;
     end;
 
-  FreeAndNil(GlobalCEFApp);
-  FreeAndNil(GlobalFMXWorkScheduler);
+  DestroyGlobalCEFApp;
+  DestroyGlobalFMXWorkScheduler;
 end.

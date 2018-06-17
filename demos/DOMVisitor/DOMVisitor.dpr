@@ -48,7 +48,6 @@ uses
   Windows,
   {$ENDIF }
   uCEFApplication,
-  uCEFConstants,
   uDOMVisitor in 'uDOMVisitor.pas' {DOMVisitorFrm};
 
 {$R *.res}
@@ -56,25 +55,21 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp                          := TCefApplication.Create;
-  GlobalCEFApp.RemoteDebuggingPort      := 9000;
-  GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
-
-  // Enabling the debug log file for then DOM visitor demo.
-  // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
-  // Remove it if you don't want to use the DOM visitor
-  GlobalCEFApp.LogFile              := 'debug.log';
-  GlobalCEFApp.LogSeverity          := LOGSEVERITY_ERROR;
-
+  // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
+  // https://github.com/salvadordf/CEF4Delphi/issues/89
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
+      //ReportMemoryLeaksOnShutdown := True;
+
       Application.Initialize;
       Application.MainFormOnTaskbar := True;
       Application.CreateForm(TDOMVisitorFrm, DOMVisitorFrm);
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  // This is not really necessary to fix the bug #89 but if you free GlobalCEFApp in a different unit
+  // then you can call 'FreeAndNil' without adding SysUtils to this DPR.
+  DestroyGlobalCEFApp;
 end.

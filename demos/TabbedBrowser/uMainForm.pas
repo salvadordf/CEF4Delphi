@@ -120,7 +120,7 @@ type
 var
   MainForm: TMainForm;
 
-procedure GlobalCEFApp_OnContextInitialized;
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -150,6 +150,12 @@ procedure GlobalCEFApp_OnContextInitialized;
 begin
   if (MainForm <> nil) and MainForm.HandleAllocated then
     PostMessage(MainForm.Handle, CEFBROWSER_INITIALIZED, 0, 0);
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                      := TCefApplication.Create;
+  GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
 end;
 
 procedure TMainForm.AddTabBtnClick(Sender: TObject);

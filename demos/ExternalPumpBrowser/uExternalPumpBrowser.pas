@@ -96,7 +96,7 @@ type
 var
   ExternalPumpBrowserFrm : TExternalPumpBrowserFrm;
 
-procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -111,6 +111,21 @@ uses
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
+
+  GlobalCEFApp                           := TCefApplication.Create;
+  GlobalCEFApp.FlashEnabled              := False;
+  GlobalCEFApp.ExternalMessagePump       := True;
+  GlobalCEFApp.MultiThreadedMessageLoop  := False;
+  GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 
 procedure TExternalPumpBrowserFrm.FormCreate(Sender: TObject);
