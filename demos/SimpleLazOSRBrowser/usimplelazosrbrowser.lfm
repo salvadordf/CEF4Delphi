@@ -91,6 +91,7 @@ object Form1: TForm1
     Top = 21
     Width = 800
     Align = alClient
+    OnUTF8KeyPress = Panel1UTF8KeyPress
     Caption = 'Panel1'
     TabOrder = 1
     TabStop = True
@@ -102,7 +103,6 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnMouseWheel = Panel1MouseWheel
     OnKeyDown = Panel1KeyDown
-    OnKeyPress = Panel1KeyPress
     OnKeyUp = Panel1KeyUp
     OnResize = Panel1Resize
   end

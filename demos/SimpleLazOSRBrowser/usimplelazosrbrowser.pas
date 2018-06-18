@@ -75,7 +75,7 @@ type
     procedure Panel1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);   
     procedure Panel1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Panel1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);      
-    procedure Panel1KeyPress(Sender: TObject; var Key: char);
+    procedure Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -183,6 +183,31 @@ procedure TForm1.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser)
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
+procedure TForm1.Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+var
+  TempKeyEvent : TCefKeyEvent;
+  TempString   : UnicodeString;
+begin
+  if Panel1.Focused then
+    begin
+      TempString := UTF8Decode(UTF8Key);
+
+      if (length(TempString) > 0) then
+        begin
+          TempKeyEvent.kind                    := KEYEVENT_CHAR;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(WParam(TempString[1]), 0);
+          TempKeyEvent.windows_key_code        := ord(TempString[1]);
+          TempKeyEvent.native_key_code         := 0;
+          TempKeyEvent.is_system_key           := ord(False);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
+
+          chrmosr.SendKeyEvent(@TempKeyEvent);
+        end;
+    end;
 end;
 
 procedure TForm1.chrmosrBeforePopup(Sender: TObject;
@@ -777,25 +802,6 @@ end;
 procedure TForm1.Panel1Exit(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
-end;
-
-procedure TForm1.Panel1KeyPress(Sender: TObject; var Key: char);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if Panel1.Focused then
-    begin
-      TempKeyEvent.kind                    := KEYEVENT_CHAR;         
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(WParam(Key), 0);
-      TempKeyEvent.windows_key_code        := ord(Key);
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-    end;
 end;
 
 procedure TForm1.Panel1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

@@ -108,13 +108,15 @@ type
       property Alignment;
       property Anchors;
       property AutoSize;
-      {$IFNDEF FPC}
+      {$IFDEF FPC}
+      property OnUTF8KeyPress;
+      {$ELSE}
       property BevelEdges;
-      property BevelKind;  
-      property Ctl3D;     
-      property Locked;     
-      property ParentBackground;      
-      property ParentCtl3D;    
+      property BevelKind;
+      property Ctl3D;
+      property Locked;
+      property ParentBackground;
+      property ParentCtl3D;
       property OnCanResize;
       {$ENDIF}
       property BevelInner;
