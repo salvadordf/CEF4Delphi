@@ -134,6 +134,7 @@
         <DCCReference Include="uSimpleBrowser.pas">
             <Form>Form1</Form>
         </DCCReference>
+        <DCCReference Include="uCEFLoader.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -162,6 +163,12 @@
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="Win32\Debug\SimpleBrowser.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\bin\SimpleBrowser.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>SimpleBrowser.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>

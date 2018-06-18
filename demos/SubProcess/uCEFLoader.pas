@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,39 +35,50 @@
  *
  *)
 
-program SimpleBrowser;
+unit uCEFLoader;
 
-{$I cef.inc}
+interface
+
+implementation
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
-  Forms,
-  Windows,
-  {$ENDIF }
-  uCEFApplication,
-  uSimpleBrowser in 'uSimpleBrowser.pas' {Form1},
-  uCEFLoader in 'uCEFLoader.pas';
+  uCEFApplication;
 
-{$R *.res}
+  // Follow these steps to test this demo :
+  // 1. Build the SubProcess project in this directory.
+  // 2. Copy the CEF binaries to the BIN directory in CEF4Delphi.
+  // 3. Build this project : SimpleBrowser
+  // 4. Run this demo : SimpleBrowser
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-// If you don't add this flag the rederer process will crash when you try to load large images.
-// The IMAGE_FILE_LARGE_ADDRESS_AWARE constant is declared in WinApi.Windows. If you don't want to add
-// WinApi.Windows to the 'uses' section in this file just replace the following line by
-// {$SetPEFlags $20}
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
+procedure CreateGlobalCEFApp;
 begin
-  // This demo has the GlobalCEFApp creation, initialization and destruction in uCEFLoader.pas
-  // Read the code comments in uCEFLoader.pas for more details.
+  GlobalCEFApp := TCefApplication.Create;
 
-  Application.Initialize;
-  {$IFDEF DELPHI11_UP}
-  Application.MainFormOnTaskbar := True;
-  {$ENDIF}
-  Application.CreateForm(TForm1, Form1);
-  Application.Run;
+  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
+  // If you don't set a cache directory the browser will use in-memory cache.
+  // The cache, cookies and user data directories must be writable.
+{
+  GlobalCEFApp.FrameworkDirPath     := 'cef';
+  GlobalCEFApp.ResourcesDirPath     := 'cef';
+  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  GlobalCEFApp.cache                := 'cef\cache';
+  GlobalCEFApp.cookies              := 'cef\cookies';
+  GlobalCEFApp.UserDataPath         := 'cef\User Data';
+}
+
+  GlobalCEFApp.BrowserSubprocessPath := 'SubProcess.exe';
+
+  // This demo uses a different EXE for the subprocesses.
+  // With this configuration it's not necessary to have the
+  // GlobalCEFApp.StartMainProcess call in a if..then clause.
+
+  GlobalCEFApp.StartMainProcess;
+end;
+
+initialization
+  CreateGlobalCEFApp;
+
+finalization
+  DestroyGlobalCEFApp;
+
 end.
