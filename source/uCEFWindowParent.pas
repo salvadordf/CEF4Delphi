@@ -87,8 +87,13 @@ type
       property  TabStop;
       property  TabOrder;
       property  Visible;
+      property  Enabled;
       property  ShowHint;
       property  Hint;
+      property  DoubleBuffered;
+      {$IFDEF DELPHI12_UP}
+      property  ParentDoubleBuffered;
+      {$ENDIF}
   end;
 
 {$IFDEF FPC}
