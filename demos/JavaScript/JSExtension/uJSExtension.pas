@@ -125,23 +125,40 @@ implementation
 uses
   uSimpleTextViewer, uCEFMiscFunctions, uTestExtensionHandler;
 
+// To test this demo follow these steps :
+// ======================================
+// 1. Run the demo and wait until google.com is loaded
+// 2. Right-click and select the "Set the mouseover event" menu option.
+// 3. Move the mouse pointer over the web page and see the HTML elements in the status bar.
+
 // The CEF3 document describing extensions is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
-// This demo has a Javascrit extension class that is registered in the
+// This demo has a JavaScript extension class that is registered in the
 // GlobalCEFApp.OnWebKitInitialized event when the application is initializing.
 
-// TTestExtensionHandler can send information back to the browser with a process message.
-// The "mouseover" function do this by calling
-// TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+// The extension in this demo is called "myextension" and it has 2 functions called "mouseover" and "sendresulttobrowser".
+// When the JavaScript code uses those functions it executes the TTestExtensionHandler.Execute function in uTestExtensionHandler.pas
 
-// TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing JS,
-// TCefv8ContextRef.Current.Browser.SendProcessMessage should send a message to the right browser even
+// The TTestExtensionHandler.Execute function is executed in the renderer process and it can use the
+// TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg) to send a message with the results to the browser process.
+
+// TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing JavaScript,
+// TCefv8ContextRef.Current.Browser.SendProcessMessage sends a message to the right browser even
 // if you have created several browsers in one app.
 
 // That message is received in the TChromium.OnProcessMessageReceived event.
 // Even if you create several TChromium objects you should have no problem because each of them will have its own
 // TChromium.OnProcessMessageReceived event to receive the messages from the extension.
+
+// When run this demo and you select the "Set the mouseover event" menu option, the Chromium1ContextMenuCommand event
+// is triggered and it adds an event listener to the document's body. That listener calls one of the functions
+// available in the registered extension called "myextension.mouseover".
+
+// TChromium.OnProcessMessageReceived receives that message and shows the information in the status bar.
+
+// If you have to debug the code executed by the extension you will need to use the debugging methods described in
+// https://www.briskbard.com/index.php?lang=en&pageid=cef
 
 // Destruction steps
 // =================
