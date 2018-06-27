@@ -134,36 +134,49 @@ uses
 // The CEF3 document describing extensions is here :
 // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
+// The Chromium project document describing Chromium's architecture is here :
+// http://www.chromium.org/developers/design-documents/multi-process-architecture
+
 // This demo has a JavaScript extension class that is registered in the
 // GlobalCEFApp.OnWebKitInitialized event when the application is initializing.
 
-// The extension in this demo is called "myextension" and it has 2 functions called "mouseover" and "sendresulttobrowser".
-// When the JavaScript code uses those functions it executes the TTestExtensionHandler.Execute function in uTestExtensionHandler.pas
+// The extension in this demo is called "myextension" and it has 2 functions called
+// "mouseover" and "sendresulttobrowser".
 
-// The TTestExtensionHandler.Execute function is executed in the renderer process and it can use the
-// TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg) to send a message with the results to the browser process.
+// When the JavaScript code uses those functions it executes the TTestExtensionHandler.Execute
+// function in uTestExtensionHandler.pas.
 
-// TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing JavaScript,
-// TCefv8ContextRef.Current.Browser.SendProcessMessage sends a message to the right browser even
-// if you have created several browsers in one app.
+// When you run this demo and you select the "Set the mouseover event" menu option, the
+// TChromium.OnContextMenuCommand event is triggered and it adds an event listener to the
+// document's body. That listener calls one of the functions available in the registered
+// extension called "myextension.mouseover".
+
+// The TTestExtensionHandler.Execute function is executed in the renderer process and it
+// can use the TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg) function
+// to send a message with the results to the browser process.
+
+// TCefv8ContextRef.Current returns the v8 context for the frame that is currently
+// executing JavaScript, TCefv8ContextRef.Current.Browser.SendProcessMessage sends a message
+// to the right browser even if you have created several browsers in one app.
 
 // That message is received in the TChromium.OnProcessMessageReceived event.
-// Even if you create several TChromium objects you should have no problem because each of them will have its own
-// TChromium.OnProcessMessageReceived event to receive the messages from the extension.
+// Even if you create several TChromium objects you should have no problem because each of
+// them will have its own TChromium.OnProcessMessageReceived event to receive the messages
+// from the extension.
 
-// When run this demo and you select the "Set the mouseover event" menu option, the Chromium1ContextMenuCommand event
-// is triggered and it adds an event listener to the document's body. That listener calls one of the functions
-// available in the registered extension called "myextension.mouseover".
+// TChromium.OnProcessMessageReceived receives that message and shows the information in
+// the status bar.
 
-// TChromium.OnProcessMessageReceived receives that message and shows the information in the status bar.
-
-// If you have to debug the code executed by the extension you will need to use the debugging methods described in
+// If you have to debug the code executed by the extension you will need to use the
+// debugging methods described in
 // https://www.briskbard.com/index.php?lang=en&pageid=cef
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers
+//    the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1
+//    in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnWebKitInitialized;

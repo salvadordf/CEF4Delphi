@@ -136,6 +136,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
             'rowser-sending'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_loc_assign'
           'https://www.w3schools.com/html/html5_video.asp'
           'http://www.adobe.com/software/flash/about/'
           'http://isflashinstalled.com/'
@@ -254,6 +255,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnPrefsAvailable = Chromium1PrefsAvailable
     OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
     OnRenderCompMsg = Chromium1RenderCompMsg
+    OnLoadEnd = Chromium1LoadEnd
     OnLoadingStateChange = Chromium1LoadingStateChange
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand

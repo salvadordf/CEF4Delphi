@@ -135,7 +135,7 @@ type
     procedure Chromium1StatusMessage(Sender: TObject;
       const browser: ICefBrowser; const value: ustring);
     procedure Chromium1TextResultAvailable(Sender: TObject;
-      const aText: string);
+      const aText: ustring);
     procedure PopupMenu1Popup(Sender: TObject);
     procedure DevTools1Click(Sender: TObject);
     procedure Preferences1Click(Sender: TObject);
@@ -195,6 +195,8 @@ type
     procedure Chromium1LoadingProgressChange(Sender: TObject;
       const browser: ICefBrowser; const progress: Double);
     procedure OpenfilewithaDAT1Click(Sender: TObject);
+    procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser;
+      const frame: ICefFrame; httpStatusCode: Integer);
 
   protected
     FResponse : TStringList;
@@ -598,6 +600,16 @@ begin
   if (TempKeyMsg.CharCode = VK_F12) then aHandled := True;
 end;
 
+procedure TMiniBrowserFrm.Chromium1LoadEnd(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  httpStatusCode: Integer);
+begin
+  if frame.IsMain then
+    StatusBar1.Panels[1].Text := 'main frame loaded : ' + quotedstr(frame.name)
+   else
+    StatusBar1.Panels[1].Text := 'frame loaded : ' + quotedstr(frame.name);
+end;
+
 procedure TMiniBrowserFrm.Chromium1LoadingProgressChange(Sender: TObject;
   const browser: ICefBrowser; const progress: Double);
 begin
@@ -757,7 +769,7 @@ begin
   if Chromium1.IsSameBrowser(browser) then ShowStatusText(value);
 end;
 
-procedure TMiniBrowserFrm.Chromium1TextResultAvailable(Sender: TObject; const aText: string);
+procedure TMiniBrowserFrm.Chromium1TextResultAvailable(Sender: TObject; const aText: ustring);
 begin
   clipboard.AsText := aText;
 end;
