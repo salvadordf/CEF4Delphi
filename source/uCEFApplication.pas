@@ -762,7 +762,7 @@ end;
 
 function TCefApplication.CheckCEFLibrary : boolean;
 var
-  TempString : string;
+  TempString, TempOldDir : string;
   TempMissingFrm, TempMissingRsc, TempMissingLoc : boolean;
 begin
   Result := False;
@@ -771,6 +771,12 @@ begin
     Result := True
    else
     begin
+      if FSetCurrentDir then
+        begin
+          TempOldDir := GetCurrentDir;
+          chdir(GetModulePath);
+        end;
+
       TempMissingFrm := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
       TempMissingRsc := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources));
       TempMissingLoc := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
@@ -804,6 +810,9 @@ begin
 
             ShowErrorMessageDlg(TempString);
           end;
+
+      if FSetCurrentDir then chdir(TempOldDir);
+
     end;
 end;
 
