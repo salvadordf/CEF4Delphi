@@ -61,7 +61,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3396;
-  CEF_SUPPORTED_VERSION_RELEASE = 1782;
+  CEF_SUPPORTED_VERSION_RELEASE = 1783;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 67;
@@ -812,7 +812,6 @@ begin
           end;
 
       if FSetCurrentDir then chdir(TempOldDir);
-
     end;
 end;
 
