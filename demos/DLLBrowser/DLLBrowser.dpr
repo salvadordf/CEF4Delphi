@@ -115,7 +115,7 @@ begin
   DestroyGlobalCEFApp;
 end;
 
-procedure ShowBrowser;
+procedure ShowBrowser; stdcall;
 begin
   WebBrowserFrm := TWebBrowserFrm.Create(nil);
   WebBrowserFrm.Show;
