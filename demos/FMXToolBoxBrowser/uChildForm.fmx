@@ -1,0 +1,28 @@
+object ChildForm: TChildForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Form1'
+  ClientHeight = 600
+  ClientWidth = 800
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnDestroy = FormDestroy
+  OnResize = FormResize
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object FMXChromium1: TFMXChromium
+    OnBeforePopup = FMXChromium1BeforePopup
+    OnAfterCreated = FMXChromium1AfterCreated
+    OnBeforeClose = FMXChromium1BeforeClose
+    OnClose = FMXChromium1Close
+    Left = 40
+    Top = 32
+  end
+end

@@ -1,0 +1,44 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 23
+  ClientWidth = 404
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object ButtonPnl: TPanel
+    Align = Client
+    Enabled = False
+    Size.Width = 404.000000000000000000
+    Size.Height = 23.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object AddressEdt: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 0
+      Text = 'https://www.google.com'
+      Size.Width = 324.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object OpenBtn: TButton
+      Align = Right
+      Position.X = 324.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Open'
+      OnClick = OpenBtnClick
+    end
+  end
+end
