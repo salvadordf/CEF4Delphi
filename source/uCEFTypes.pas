@@ -276,6 +276,9 @@ type
   TCefJsonWriterOptions            = Cardinal;    // /include/internal/cef_types.h (cef_json_writer_options_t)
   TCefSSLContentStatus             = Cardinal;    // /include/internal/cef_types.h (cef_ssl_content_status_t)
   TCefLogSeverity                  = Cardinal;    // /include/internal/cef_types.h (cef_log_severity_t)
+  TCefFileDialogMode               = Cardinal;    // /include/internal/cef_types.h (cef_file_dialog_mode_t)
+  TCefDuplexMode                   = Integer;     // /include/internal/cef_types.h (cef_duplex_mode_t)
+
 
 {$IFDEF FPC}
   NativeInt   = PtrInt;
@@ -577,17 +580,6 @@ type
     MENUITEMTYPE_SUBMENU
   );
 
-  // /include/internal/cef_types.h (cef_file_dialog_mode_t)
-  TCefFileDialogMode = (
-    FILE_DIALOG_OPEN,
-    FILE_DIALOG_OPEN_MULTIPLE,
-    FILE_DIALOG_OPEN_FOLDER,
-    FILE_DIALOG_SAVE,
-    FILE_DIALOG_TYPE_MASK = $FF,
-    FILE_DIALOG_OVERWRITEPROMPT_FLAG = $01000000,
-    FILE_DIALOG_HIDEREADONLY_FLAG = $02000000
-  );
-
   // /include/internal/cef_types.h (cef_focus_source_t)
   TCefFocusSource = (
     FOCUS_SOURCE_NAVIGATION = 0,
@@ -858,14 +850,6 @@ type
     COLOR_MODEL_PROCESSCOLORMODEL_CMYK,
     COLOR_MODEL_PROCESSCOLORMODEL_GREYSCALE,
     COLOR_MODEL_PROCESSCOLORMODEL_RGB
-  );
-
-  // /include/internal/cef_types.h (cef_duplex_mode_t)
-  TCefDuplexMode = (
-    DUPLEX_MODE_UNKNOWN = -1,
-    DUPLEX_MODE_SIMPLEX,
-    DUPLEX_MODE_LONG_EDGE,
-    DUPLEX_MODE_SHORT_EDGE
   );
 
   // /include/internal/cef_types.h (cef_json_parser_options_t)

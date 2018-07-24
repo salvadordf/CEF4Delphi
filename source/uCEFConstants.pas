@@ -222,6 +222,10 @@ const
   DRAG_OPERATION_EVERY    = $FFFFFFFF;
 
   // /include/internal/cef_types.h (cef_file_dialog_mode_t)
+  FILE_DIALOG_OPEN                 = $00000000;
+  FILE_DIALOG_OPEN_MULTIPLE        = $00000001;
+  FILE_DIALOG_OPEN_FOLDER          = $00000002;
+  FILE_DIALOG_SAVE                 = $00000003;
   FILE_DIALOG_TYPE_MASK            = $000000FF;
   FILE_DIALOG_OVERWRITEPROMPT_FLAG = $01000000;
   FILE_DIALOG_HIDEREADONLY_FLAG    = $02000000;
@@ -325,6 +329,12 @@ const
   LOGSEVERITY_WARNING  = 3;
   LOGSEVERITY_ERROR    = 4;
   LOGSEVERITY_DISABLE  = 99;
+
+  // /include/internal/cef_types.h (cef_duplex_mode_t)
+  DUPLEX_MODE_UNKNOWN    = -1;
+  DUPLEX_MODE_SIMPLEX    = 0;
+  DUPLEX_MODE_LONG_EDGE  = 1;
+  DUPLEX_MODE_SHORT_EDGE = 2;
 
 
 //******************************************************

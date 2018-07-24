@@ -126,7 +126,8 @@ end;
 procedure TForm1.FormShow(Sender: TObject);
 begin
   Caption := 'Simple Browser - Initializing browser. Please wait...';
-  ChromiumWindow1.ChromiumBrowser.OnBeforePopup        := Chromium_OnBeforePopup;
+
+  ChromiumWindow1.ChromiumBrowser.OnBeforePopup        := Chromium_OnBeforePopup;
 
   // You *MUST* call CreateBrowser to create and initialize the browser.
   // This will trigger the AfterCreated event when the browser is fully

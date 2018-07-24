@@ -79,7 +79,7 @@ uses
 
 class function TCefv8ContextRef.Current: ICefv8Context;
 begin
-  Result := UnWrap(cef_v8context_get_current_context())
+  Result := UnWrap(cef_v8context_get_current_context());
 end;
 
 function TCefv8ContextRef.Enter: Boolean;
@@ -89,7 +89,7 @@ end;
 
 class function TCefv8ContextRef.Entered: ICefv8Context;
 begin
-  Result := UnWrap(cef_v8context_get_entered_context())
+  Result := UnWrap(cef_v8context_get_entered_context());
 end;
 
 function TCefv8ContextRef.Exit: Boolean;

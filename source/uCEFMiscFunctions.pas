@@ -362,7 +362,10 @@ function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Ha
 var
   TempName, TempCode : TCefString;
 begin
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+  if (GlobalCEFApp <> nil)  and
+     GlobalCEFApp.LibLoaded and
+     (length(name) > 0)     and
+     (length(code) > 0)     then
     begin
       TempName := CefString(name);
       TempCode := CefString(code);
