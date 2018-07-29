@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Simple OSR Browser - Initializing browser. Please wait...'
-  ClientHeight = 530
-  ClientWidth = 800
+  ClientHeight = 668
+  ClientWidth = 988
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object Form1: TForm1
   object NavControlPnl: TPanel
     Left = 0
     Top = 0
-    Width = 800
+    Width = 988
     Height = 30
     Align = alTop
     BevelOuter = bvNone
@@ -37,7 +37,7 @@ object Form1: TForm1
     object ComboBox1: TComboBox
       Left = 5
       Top = 5
-      Width = 721
+      Width = 875
       Height = 21
       Align = alClient
       ItemIndex = 0
@@ -54,9 +54,9 @@ object Form1: TForm1
         'https://frames-per-second.appspot.com/')
     end
     object Panel2: TPanel
-      Left = 726
+      Left = 880
       Top = 5
-      Width = 69
+      Width = 103
       Height = 20
       Margins.Left = 2
       Margins.Top = 2
@@ -80,7 +80,7 @@ object Form1: TForm1
         OnEnter = GoBtnEnter
       end
       object SnapshotBtn: TButton
-        Left = 38
+        Left = 72
         Top = 0
         Width = 31
         Height = 20
@@ -100,13 +100,32 @@ object Form1: TForm1
         OnClick = SnapshotBtnClick
         OnEnter = SnapshotBtnEnter
       end
+      object KeyboardBtn: TButton
+        Left = 38
+        Top = 0
+        Width = 31
+        Height = 20
+        Hint = 'Touch keyboard'
+        Margins.Left = 5
+        Caption = '7'
+        Font.Charset = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Wingdings'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+        OnClick = KeyboardBtnClick
+      end
     end
   end
   object Panel1: TBufferPanel
     Left = 0
     Top = 30
-    Width = 800
-    Height = 500
+    Width = 988
+    Height = 458
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 1
@@ -119,6 +138,17 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
+  end
+  object TouchKeyboard1: TTouchKeyboard
+    Left = 0
+    Top = 488
+    Width = 988
+    Height = 180
+    Align = alBottom
+    GradientEnd = clSilver
+    GradientStart = clGray
+    Layout = 'Standard'
+    Visible = False
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip

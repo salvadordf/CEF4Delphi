@@ -45,10 +45,10 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   System.SyncObjs, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Vcl.AppEvnts,
+  Vcl.ExtCtrls, Vcl.AppEvnts, Vcl.Touch.Keyboard,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
-  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
+  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts, Keyboard,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uBufferPanel;
 
@@ -64,6 +64,8 @@ type
     SaveDialog1: TSaveDialog;
     Timer1: TTimer;
     Panel1: TBufferPanel;
+    KeyboardBtn: TButton;
+    TouchKeyboard1: TTouchKeyboard;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 
@@ -103,6 +105,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
+    procedure KeyboardBtnClick(Sender: TObject);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -811,6 +814,11 @@ begin
   FLastClickPoint.x := 0;
   FLastClickPoint.y := 0;
   FLastClickButton  := mbLeft;
+end;
+
+procedure TForm1.KeyboardBtnClick(Sender: TObject);
+begin
+  TouchKeyboard1.Visible := not(TouchKeyboard1.Visible);
 end;
 
 function TForm1.CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
