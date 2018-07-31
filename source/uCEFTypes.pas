@@ -967,7 +967,6 @@ type
   // /include/internal/cef_types.h (cef_settings_t)
   TCefSettings = record
     size                           : NativeUInt;
-    single_process                 : Integer;
     no_sandbox                     : Integer;
     browser_subprocess_path        : TCefString;
     framework_dir_path             : TCefString;

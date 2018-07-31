@@ -60,14 +60,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 3396;
-  CEF_SUPPORTED_VERSION_RELEASE = 1786;
+  CEF_SUPPORTED_VERSION_MINOR   = 3440;
+  CEF_SUPPORTED_VERSION_RELEASE = 1802;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 67;
+  CEF_CHROMEELF_VERSION_MAJOR   = 68;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3396;
-  CEF_CHROMEELF_VERSION_BUILD   = 79;
+  CEF_CHROMEELF_VERSION_RELEASE = 3440;
+  CEF_CHROMEELF_VERSION_BUILD   = 75;
 
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
@@ -473,7 +473,7 @@ begin
   FOnRegisterCustomSchemes       := nil;
   FEnableHighDPISupport          := False;
   FMuteAudio                     := False;
-  FSitePerProcess                := False;
+  FSitePerProcess                := True;
   FDisableWebSecurity            := False;
   FDisablePDFExtension           := False;
   FReRaiseExceptions             := False;
@@ -939,7 +939,6 @@ end;
 procedure TCefApplication.InitializeSettings(var aSettings : TCefSettings);
 begin
   aSettings.size                            := SizeOf(TCefSettings);
-  aSettings.single_process                  := Ord(FSingleProcess);
   aSettings.no_sandbox                      := Ord(FNoSandbox);
   aSettings.browser_subprocess_path         := CefString(FBrowserSubprocessPath);
   aSettings.framework_dir_path              := CefString(FFrameworkDirPath);
@@ -1313,6 +1312,9 @@ begin
           commandLine.AppendSwitch('--disable-gpu');
           commandLine.AppendSwitch('--disable-gpu-compositing');
         end;
+
+      if FSingleProcess then
+        commandLine.AppendSwitch('--single-process');
 
       case FSmoothScrolling of
         STATE_ENABLED  : commandLine.AppendSwitch('--enable-smooth-scrolling');

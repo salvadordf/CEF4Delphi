@@ -96,6 +96,8 @@ type
       FRunAllFlashInAllowMode : boolean;
       FAllowOutdatedPlugins   : boolean;
       FAlwaysAuthorizePlugins : boolean;
+      FSpellChecking          : boolean;
+      FSpellCheckerDicts      : ustring;
       FCookiePrefs            : integer;
       FImagesPrefs            : integer;
       FZoomStep               : byte;
@@ -266,6 +268,8 @@ type
       procedure SetRunAllFlashInAllowMode(aValue : boolean);
       procedure SetAllowOutdatedPlugins(aValue : boolean);
       procedure SetAlwaysAuthorizePlugins(aValue : boolean);
+      procedure SetSpellChecking(aValue : boolean);
+      procedure SetSpellCheckerDicts(const aValue : ustring);
       procedure SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
       procedure SetWebRTCMultipleRoutes(aValue : TCefState);
       procedure SetWebRTCNonProxiedUDP(aValue : TCefState);
@@ -304,6 +308,8 @@ type
       function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; aValue : integer) : boolean; overload;
       function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; const aValue : double) : boolean; overload;
       function  UpdatePreference(const aBrowser: ICefBrowser; const aName, aValue : ustring) : boolean; overload;
+      function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; const aValue : TStringList) : boolean; overload;
+      function  UpdateStringListPref(const aBrowser: ICefBrowser; const aName, aValue : ustring) : boolean;
 
       procedure HandleDictionary(const aDict : ICefDictionaryValue; var aResultSL : TStringList; const aRoot : string);
       procedure HandleNull(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
@@ -597,6 +603,8 @@ type
       property  RunAllFlashInAllowMode  : boolean                      read FRunAllFlashInAllowMode   write SetRunAllFlashInAllowMode;
       property  AllowOutdatedPlugins    : boolean                      read FAllowOutdatedPlugins     write SetAllowOutdatedPlugins;
       property  AlwaysAuthorizePlugins  : boolean                      read FAlwaysAuthorizePlugins   write SetAlwaysAuthorizePlugins;
+      property  SpellChecking           : boolean                      read FSpellChecking            write SetSpellChecking;
+      property  SpellCheckerDicts       : ustring                      read FSpellCheckerDicts        write SetSpellCheckerDicts;
       property  HasValidMainFrame       : boolean                      read GetHasValidMainFrame;
       property  FrameCount              : NativeUInt                   read GetFrameCount;
       property  DragOperations          : TCefDragOperations           read FDragOperations           write FDragOperations;
@@ -739,7 +747,8 @@ uses
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplication, uCEFProcessMessage, uCEFRequestContext, {$IFNDEF FPC}uOLEDragAndDrop,{$ENDIF}
-  uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor;
+  uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
+  uCEFListValue;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
@@ -766,6 +775,8 @@ begin
   FRunAllFlashInAllowMode := False;
   FAllowOutdatedPlugins   := False;
   FAlwaysAuthorizePlugins := False;
+  FSpellChecking          := True;
+  FSpellCheckerDicts      := '';
   FCookiePrefs            := CEF_CONTENT_SETTING_ALLOW;
   FImagesPrefs            := CEF_CONTENT_SETTING_ALLOW;
   FZoomStep               := ZOOM_STEP_DEF;
@@ -1882,6 +1893,24 @@ begin
     end;
 end;
 
+procedure TChromium.SetSpellChecking(aValue : boolean);
+begin
+  if (FSpellChecking <> aValue) then
+    begin
+      FSpellChecking     := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
+procedure TChromium.SetSpellCheckerDicts(const aValue : ustring);
+begin
+  if (FSpellCheckerDicts <> aValue) then
+    begin
+      FSpellCheckerDicts := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
 procedure TChromium.SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
 begin
   if (FWebRTCIPHandlingPolicy <> aValue) then
@@ -2263,6 +2292,8 @@ begin
   UpdatePreference(aBrowser, 'plugins.run_all_flash_in_allow_mode',  FRunAllFlashInAllowMode);
   UpdatePreference(aBrowser, 'plugins.allow_outdated',               FAllowOutdatedPlugins);
   UpdatePreference(aBrowser, 'plugins.always_authorize',             FAlwaysAuthorizePlugins);
+  UpdatePreference(aBrowser, 'browser.enable_spellchecking',         FSpellChecking);
+  UpdateStringListPref(aBrowser, 'spellcheck.dictionaries',          FSpellCheckerDicts);
 
   if FRunAllFlashInAllowMode then
     UpdatePreference(aBrowser, 'profile.default_content_setting_values.plugins', 1);
@@ -2466,6 +2497,68 @@ begin
   end;
 end;
 
+function TChromium.UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; const aValue : TStringList) : boolean;
+var
+  TempError : ustring;
+  TempValue : ICefValue;
+  TempList  : ICefListValue;
+  i         : NativeUInt;
+  TempSize  : NativeUInt;
+begin
+  Result := False;
+
+  try
+    if (aValue        <> nil) and
+       (aValue.Count   > 0)   and
+       (aBrowser      <> nil) and
+       (aBrowser.Host <> nil) and
+       aBrowser.Host.RequestContext.CanSetPreference(aName) then
+      begin
+        TempSize := aValue.Count;
+        TempList := TCefListValueRef.New;
+
+        if TempList.SetSize(TempSize) then
+          begin
+            i := 0;
+            while (i < TempSize) do
+              begin
+                TempList.SetString(i, aValue[i]);
+                inc(i);
+              end;
+
+            TempValue := TCefValueRef.New;
+            Result    := TempValue.SetList(TempList) and
+                         aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+
+            if not(Result) then
+              OutputDebugMessage('TChromium.UpdatePreference error : ' + quotedstr(TempError));
+          end;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.UpdatePreference', e) then raise;
+  end;
+end;
+
+function TChromium.UpdateStringListPref(const aBrowser: ICefBrowser; const aName, aValue : ustring) : boolean;
+var
+  TempSL : TStringList;
+begin
+  Result := False;
+  TempSL := nil;
+
+  try
+    if (length(name) > 0) and (length(aValue) > 0) then
+      begin
+        TempSL           := TStringList.Create;
+        TempSL.CommaText := aValue;
+        Result           := UpdatePreference(aBrowser, aName, TempSL);
+      end;
+  finally
+    if (TempSL <> nil) then FreeAndNil(TempSL);
+  end;
+end;
+
 procedure TChromium.HandleNull(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
 var
   TempKey : string;
@@ -2583,10 +2676,10 @@ begin
 
       case TempValue.GetType of
         VTYPE_NULL       : TempResult := TempResult + '-null-,';
-        VTYPE_BOOL       : TempResult := TempResult + BoolToStr(aValue.GetBool, true) + ',';
-        VTYPE_INT        : TempResult := TempResult + IntToStr(aValue.GetInt) + ',';
-        VTYPE_DOUBLE     : TempResult := TempResult + FloatToStr(aValue.GetDouble) + ',';
-        VTYPE_STRING     : TempResult := TempResult + aValue.GetString + ',';
+        VTYPE_BOOL       : TempResult := TempResult + BoolToStr(TempValue.GetBool, true) + ',';
+        VTYPE_INT        : TempResult := TempResult + IntToStr(TempValue.GetInt) + ',';
+        VTYPE_DOUBLE     : TempResult := TempResult + FloatToStr(TempValue.GetDouble) + ',';
+        VTYPE_STRING     : TempResult := TempResult + TempValue.GetString + ',';
         VTYPE_BINARY     : TempResult := TempResult + '-binary-,';
         VTYPE_DICTIONARY :
           begin
