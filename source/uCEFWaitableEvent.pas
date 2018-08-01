@@ -64,7 +64,7 @@ type
 
     public
       class function UnWrap(data: Pointer): ICefWaitableEvent;
-      class function New(automatic_reset, initially_signaled : integer): ICefWaitableEvent;
+      class function New(automatic_reset, initially_signaled : boolean): ICefWaitableEvent;
   end;
 
 implementation
@@ -105,9 +105,9 @@ begin
     Result := nil;
 end;
 
-class function TCefWaitableEventRef.New(automatic_reset, initially_signaled : integer): ICefWaitableEvent;
+class function TCefWaitableEventRef.New(automatic_reset, initially_signaled : boolean): ICefWaitableEvent;
 begin
-  Result := UnWrap(cef_waitable_event_create(automatic_reset, initially_signaled));
+  Result := UnWrap(cef_waitable_event_create(Ord(automatic_reset), Ord(initially_signaled)));
 end;
 
 end.

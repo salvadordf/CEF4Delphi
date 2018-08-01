@@ -249,7 +249,6 @@ type
       function  ExecuteProcess(const aApp : ICefApp) : integer;
       procedure InitializeSettings(var aSettings : TCefSettings);
       function  InitializeLibrary(const aApp : ICefApp) : boolean;
-      function  InitializeCookies : boolean;
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       function  CheckCEFLibrary : boolean;
@@ -395,6 +394,17 @@ type
       property OnCDMRegistrationComplete         : TOnCDMRegistrationCompleteEvent     read FOnCDMRegistrationComplete         write FOnCDMRegistrationComplete;
   end;
 
+  TCEFCookieInitializerThread = class(TThread)
+    protected
+      FCookies               : string;
+      FPersistSessionCookies : boolean;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aCookies : string; aPersistSessionCookies : boolean);
+  end;
+
 var
   GlobalCEFApp : TCefApplication = nil;
 
@@ -414,7 +424,8 @@ uses
     {$ENDIF}
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
-  uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFRegisterCDMCallback;
+  uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFRegisterCDMCallback,
+  uCEFCompletionCallback, uCEFWaitableEvent;
 
 procedure DestroyGlobalCEFApp;
 begin
@@ -1006,31 +1017,6 @@ begin
   end;
 end;
 
-function TCefApplication.InitializeCookies : boolean;
-var
-  TempCookieManager : ICefCookieManager;
-begin
-  Result := False;
-
-  try
-    if (length(FCookies) > 0) then
-      begin
-        TempCookieManager := TCefCookieManagerRef.Global(nil);
-
-        if (TempCookieManager <> nil) and
-           TempCookieManager.SetStoragePath(FCookies, FPersistSessionCookies, nil) then
-          Result := True
-         else
-          OutputDebugMessage('TCefApplication.InitializeCookies error : cookies cannot be accessed');
-      end
-     else
-      Result := True;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplication.InitializeCookies', e) then raise;
-  end;
-end;
-
 procedure TCefApplication.DeleteDirContents(const aDirectory : string);
 {$IFNDEF DELPHI14_UP}
 var
@@ -1172,9 +1158,20 @@ begin
 end;
 
 procedure TCefApplication.Internal_OnContextInitialized;
+var
+  TempThread : TCEFCookieInitializerThread;
 begin
-  InitializeCookies;
   FGlobalContextInitialized := True;
+
+  if (length(FCookies) > 0) then
+    begin
+      TempThread := TCEFCookieInitializerThread.Create(FCookies, FPersistSessionCookies);
+      {$IFDEF DELPHI14_UP}
+      TempThread.Start;
+      {$ELSE}
+      TempThread.Resume;
+      {$ENDIF}
+    end;
 
   if assigned(FOnContextInitialized) then FOnContextInitialized();
 end;
@@ -2171,6 +2168,46 @@ begin
   {$ELSE}
   Result := True;
   {$ENDIF}
+end;
+
+
+// TCEFCookieInitializerThread
+
+constructor TCEFCookieInitializerThread.Create(const aCookies : string; aPersistSessionCookies : boolean);
+begin
+  inherited Create(True);
+
+  FCookies               := aCookies;
+  FPersistSessionCookies := aPersistSessionCookies;
+  FreeOnTerminate        := True;
+end;
+
+procedure TCEFCookieInitializerThread.Execute;
+var
+  TempCookieManager : ICefCookieManager;
+  TempCallBack      : ICefCompletionCallback;
+  TempEvent         : ICefWaitableEvent;
+begin
+  try
+    try
+      if (length(FCookies) > 0) then
+        begin
+          TempEvent         := TCefWaitableEventRef.New(True, False);
+          TempCallBack      := TCefEventCompletionCallback.Create(TempEvent);
+          TempCookieManager := TCefCookieManagerRef.Global(TempCallBack);
+
+          if TempEvent.TimedWait(5000) and (TempCookieManager <> nil) then
+            TempCookieManager.SetStoragePath(FCookies, FPersistSessionCookies, nil);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCEFCookieInitializerThread.Execute', e) then raise;
+    end;
+  finally
+    TempCookieManager := nil;
+    TempCallBack      := nil;
+    TempEvent         := nil;
+  end;
 end;
 
 end.
