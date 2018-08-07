@@ -50,7 +50,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       Margins.Right = 5
       Align = alClient
       TabOrder = 0
-      Text = 'https://www.wikipedia.org/'
+      Text = 'https://www.briskbard.com'
       ExplicitHeight = 21
     end
     object Panel1: TPanel
@@ -88,7 +88,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Height = 20
         Align = alRight
         TabOrder = 1
-        Text = 'index-475f3bca23.js'
+        Text = 'script.js'
         ExplicitHeight = 21
       end
     end

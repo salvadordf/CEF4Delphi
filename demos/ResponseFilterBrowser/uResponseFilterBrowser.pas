@@ -44,13 +44,12 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.SyncObjs,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.SyncObjs, Vcl.ComCtrls,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs, ComCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter,
-  Vcl.ComCtrls;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter;
 
 const
   STREAM_COPY_COMPLETE    = WM_APP + $B00;
@@ -147,6 +146,19 @@ uses
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
+// TCustomResponseFilter.OnFilter event might be called multiple times when the resource is too big. In that case the resource will be split into
+// "chunks of data" and each chunk will be passed in the "data_in" parameter.
+
+// For example, if the original resource is 95 Kb long you could see that the TCustomResponseFilter.OnFilter event is triggered 10 times with
+// different "data_in_size" values.
+
+// If you replace the original resource with a shorter resource then you might need less chucks to send the data. In that case you would just set
+// "aResult" to RESPONSE_FILTER_DONE when you write the last chunk of the new resource.
+
+// If you replace the original resource with a larger resource then you might need more chunks to send all the data. In that case you would set
+// "aResult" to RESPONSE_FILTER_NEED_MORE_DATA in the last chunk of the original resource. This will trigger the TCustomResponseFilter.OnFilter event
+// again and you will be able to send another chunk.
+
 procedure TResponseFilterBrowserFrm.Filter_OnFilter(Sender: TObject;
                                                         data_in          : Pointer;
                                                         data_in_size     : NativeUInt;
@@ -193,9 +205,12 @@ begin
                 // Send the STREAM_COPY_COMPLETE message only if the server sent the data size in
                 // a Content-Length header and we can compare it with the stream size
                 if not(FRscCompleted) and (FRscSize <> -1) and (FRscSize = FStream.Size) then
-                  FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
-
-                aResult := RESPONSE_FILTER_NEED_MORE_DATA;
+                  begin
+                    FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+                    aResult       := RESPONSE_FILTER_DONE;
+                  end
+                 else
+                  aResult := RESPONSE_FILTER_NEED_MORE_DATA;
               end;
         end;
     except
