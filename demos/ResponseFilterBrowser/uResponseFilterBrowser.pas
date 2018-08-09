@@ -45,9 +45,10 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.SyncObjs, Vcl.ComCtrls,
+  Vcl.Imaging.pngimage,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs, ComCtrls,
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs, ComCtrls, pngimage,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter;
 
@@ -64,31 +65,29 @@ type
     Splitter1: TSplitter;
     Panel1: TPanel;
     GoBtn: TButton;
-    Label1: TLabel;
     RscNameEdt: TEdit;
     Panel2: TPanel;
     Memo1: TMemo;
     StatusBar1: TStatusBar;
-    procedure GoBtnClick(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
+    Image1: TImage;
+    CopyScriptBtn: TRadioButton;
+    ReplaceLogoBtn: TRadioButton;
+
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1GetResourceResponseFilter(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: ICefResponseFilter);
     procedure Chromium1ResourceLoadComplete(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: Int64);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1LoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: Cardinal);
+
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure Chromium1BeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-      var client: ICefClient; var settings: TCefBrowserSettings;
-      var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      out Result: Boolean);
-    procedure Chromium1BeforeClose(Sender: TObject;
-      const browser: ICefBrowser);
+
+    procedure GoBtnClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   protected
     FFilter        : ICefResponseFilter; // CEF Filter interface that receives the resource contents
     FStream        : TMemoryStream;      // TMemoryStream to hold the resource contents
@@ -98,6 +97,8 @@ type
     FRscEncoding   : TEncoding;          // The resource response Encoding. When encoding is unicode. The response data may be sent by multi chains, will cause encoding parsing problem.
     FRscMimeType   : String;
     FFilterInit    : boolean;
+    FReload        : boolean;
+
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
@@ -112,6 +113,8 @@ type
 
     procedure Filter_OnFilter(Sender: TObject; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
 
+    procedure CopyScript(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
+    procedure ReplaceLogo(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
     procedure UpdateRscEncoding(const aMimeType, aContentType : string);
     function  IsMyResource(const aRequest : ICefRequest) : boolean;
     procedure GetResponseEncoding(const aContentType: string);
@@ -134,32 +137,43 @@ uses
   {$ENDIF}
   uCEFApplication, uCEFMiscFunctions;
 
-// This demo uses a TCustomResponseFilter to read the contents from a JavaScript file in wikipedia.org into a TMemoryStream.
-// The stream is shown in the TMemo when it's finished.
+// This demo uses a TCustomResponseFilter to read the contents from a
+// JavaScript file in briskbard.com into a TMemoryStream. The stream
+// is shown in the TMemo when it's finished.
 
 // For more information read the CEF3 code comments here :
 //      https://github.com/chromiumembedded/cef/blob/master/include/capi/cef_response_filter_capi.h
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser
+//    which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy
+//    CEFWindowParent1 in the main thread, which triggers the
+//    TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE
+//    to the form.
 
-// TCustomResponseFilter.OnFilter event might be called multiple times when the resource is too big. In that case the resource will be split into
+// TCustomResponseFilter.OnFilter event might be called multiple times
+// when the resource is too big. In that case the resource will be split into
 // "chunks of data" and each chunk will be passed in the "data_in" parameter.
 
-// For example, if the original resource is 95 Kb long you could see that the TCustomResponseFilter.OnFilter event is triggered 10 times with
-// different "data_in_size" values.
+// For example, if the original resource is 95 Kb long you could see that the
+// TCustomResponseFilter.OnFilter event is triggered 10 times with different
+// "data_in_size" values.
 
-// If you replace the original resource with a shorter resource then you might need less chucks to send the data. In that case you would just set
-// "aResult" to RESPONSE_FILTER_DONE when you write the last chunk of the new resource.
+// If you replace the original resource with a shorter resource then you might
+// need less chunks to send the data. In that case you would just set
+// "aResult" to RESPONSE_FILTER_DONE when you write the last chunk of the new
+// resource.
 
-// If you replace the original resource with a larger resource then you might need more chunks to send all the data. In that case you would set
-// "aResult" to RESPONSE_FILTER_NEED_MORE_DATA in the last chunk of the original resource. This will trigger the TCustomResponseFilter.OnFilter event
-// again and you will be able to send another chunk.
+// If you replace the original resource with a larger resource then you might
+// need more chunks to send all the data. In that case you would set "aResult"
+// to RESPONSE_FILTER_NEED_MORE_DATA in the last chunk of the original resource.
+// This will trigger the TCustomResponseFilter.OnFilter event again and you
+// will be able to send another chunk.
 
-procedure TResponseFilterBrowserFrm.Filter_OnFilter(Sender: TObject;
+procedure TResponseFilterBrowserFrm.Filter_OnFilter(    Sender           : TObject;
                                                         data_in          : Pointer;
                                                         data_in_size     : NativeUInt;
                                                     var data_in_read     : NativeUInt;
@@ -167,6 +181,20 @@ procedure TResponseFilterBrowserFrm.Filter_OnFilter(Sender: TObject;
                                                         data_out_size    : NativeUInt;
                                                     var data_out_written : NativeUInt;
                                                     var aResult          : TCefResponseFilterStatus);
+begin
+  if CopyScriptBtn.Checked then
+    CopyScript(data_in, data_in_size, data_in_read, data_out, data_out_size, data_out_written, aResult)
+   else
+    ReplaceLogo(data_in, data_in_size, data_in_read, data_out, data_out_size, data_out_written, aResult);
+end;
+
+procedure TResponseFilterBrowserFrm.CopyScript(    data_in          : Pointer;
+                                                   data_in_size     : NativeUInt;
+                                               var data_in_read     : NativeUInt;
+                                                   data_out         : Pointer;
+                                                   data_out_size    : NativeUInt;
+                                               var data_out_written : NativeUInt;
+                                               var aResult          : TCefResponseFilterStatus);
 begin
   try
     try
@@ -179,7 +207,7 @@ begin
 
           if (data_in = nil) then
             begin
-              data_in_read     := 0;
+              data_in_read     := 0; // data_in_size is 0 too in this situation
               data_out_written := 0;
               aResult          := RESPONSE_FILTER_DONE;
 
@@ -199,25 +227,82 @@ begin
                     Move(data_in^, data_out^, data_out_written);
                 end;
 
-                if (data_in_size > 0) then
-                  data_in_read := FStream.Write(data_in^, data_in_size);
+              if (data_in_size > 0) then
+                data_in_read := FStream.Write(data_in^, data_in_size);
 
-                // Send the STREAM_COPY_COMPLETE message only if the server sent the data size in
-                // a Content-Length header and we can compare it with the stream size
-                if not(FRscCompleted) and (FRscSize <> -1) and (FRscSize = FStream.Size) then
-                  begin
-                    FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
-                    aResult       := RESPONSE_FILTER_DONE;
-                  end
+              // Send the STREAM_COPY_COMPLETE message only if the server sent the data size in
+              // a Content-Length header and we can compare it with the stream size
+              if not(FRscCompleted) and (FRscSize <> -1) and (FRscSize = FStream.Size) then
+                begin
+                  FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+                  aResult       := RESPONSE_FILTER_DONE;
+                end
+               else
+                aResult := RESPONSE_FILTER_NEED_MORE_DATA;
+            end;
+        end;
+    except
+      on e : exception do
+        begin
+          aResult := RESPONSE_FILTER_ERROR;
+          if CustomExceptionHandler('TResponseFilterBrowserFrm.CopyScript', e) then raise;
+        end;
+    end;
+  finally
+    FStreamCS.Release;
+  end;
+end;
+
+procedure TResponseFilterBrowserFrm.ReplaceLogo(    data_in          : Pointer;
+                                                    data_in_size     : NativeUInt;
+                                                var data_in_read     : NativeUInt;
+                                                    data_out         : Pointer;
+                                                    data_out_size    : NativeUInt;
+                                                var data_out_written : NativeUInt;
+                                                var aResult          : TCefResponseFilterStatus);
+begin
+  // The default return value is RESPONSE_FILTER_DONE to stop the filter
+  aResult := RESPONSE_FILTER_DONE;
+
+  try
+    try
+      FStreamCS.Acquire;
+
+      // FStream has the new logo and it has a much larger size than the original so we'll have to
+      // return RESPONSE_FILTER_NEED_MORE_DATA until we send all its contents.
+
+      if FFilterInit and (FStream <> nil) and (FStream.Size > 0) then
+        begin
+          // This event will be called repeatedly until the input buffer has been fully read.
+          // When there's no more data then data_in is nil and you can show the stream contents.
+
+          if (data_in = nil) and (FStream.Position >= FStream.Size) then
+            begin
+              // This is the last filter call
+              data_in_read     := 0;  // data_in_size is 0 too in this situation
+              data_out_written := 0;
+
+              // Send the message only if this is the first time that this event has data_in = nil
+              if not(FRscCompleted) then
+                FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0);
+            end
+           else
+            if (data_out <> nil) then
+              begin
+                data_in_read     := data_in_size;
+                data_out_written := FStream.Read(data_out^, data_out_size); // Write the next chunk with a data_out_size size at most.
+
+                if not(FRscCompleted) and (FStream.Position >= FStream.Size) then
+                  FRscCompleted := PostMessage(Handle, STREAM_COPY_COMPLETE, 0, 0)
                  else
-                  aResult := RESPONSE_FILTER_NEED_MORE_DATA;
+                  aResult := RESPONSE_FILTER_NEED_MORE_DATA; // We still need to send more stream data
               end;
         end;
     except
       on e : exception do
         begin
           aResult := RESPONSE_FILTER_ERROR;
-          if CustomExceptionHandler('TResponseFilterBrowserFrm.Filter_OnFilter', e) then raise;
+          if CustomExceptionHandler('TResponseFilterBrowserFrm.ReplaceLogo', e) then raise;
         end;
     end;
   finally
@@ -229,12 +314,18 @@ function TResponseFilterBrowserFrm.IsMyResource(const aRequest : ICefRequest) : 
 var
   TempName : string;
 begin
-  TempName := trim(RscNameEdt.Text);
+  Result := False;
 
-  if (aRequest <> nil) and (length(TempName) > 0) then
-    Result := (pos(TempName, aRequest.URL) > 0)
+  if CopyScriptBtn.Checked then
+    begin
+      TempName := trim(RscNameEdt.Text);
+
+      if (aRequest <> nil) and (length(TempName) > 0) then
+        Result := (pos(TempName, aRequest.URL) > 0);
+    end
    else
-    Result := False;
+    Result := (aRequest <> nil) and
+              (CompareText(aRequest.URL, 'https://www.briskbard.com/images/logo.png') = 0);
 end;
 
 procedure TResponseFilterBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -251,6 +342,7 @@ end;
 
 procedure TResponseFilterBrowserFrm.FormCreate(Sender: TObject);
 begin
+  FReload        := False;
   FFilterInit    := False;
   FRscCompleted  := False;
   FRscSize       := -1;
@@ -361,6 +453,26 @@ begin
     Result := nil;
 end;
 
+procedure TResponseFilterBrowserFrm.Chromium1LoadStart(      Sender         : TObject;
+                                                       const browser        : ICefBrowser;
+                                                       const frame          : ICefFrame;
+                                                             transitionType : Cardinal);
+begin
+  if frame.IsMain then
+    try
+      FStreamCS.Acquire;
+      FStream.Clear;
+
+      if ReplaceLogoBtn.Checked then
+        begin
+          Image1.Picture.SavetoStream(FStream);
+          FStream.Seek(0, soBeginning);
+        end;
+    finally
+      FStreamCS.Release;
+    end;
+end;
+
 procedure TResponseFilterBrowserFrm.UpdateRscEncoding(const aMimeType, aContentType : string);
 begin
   FRscMimeType := aMimeType;
@@ -386,7 +498,7 @@ begin
     // In case the server didn't send a Content-Length header
     // and CEF didn't send a data_in = nil in Filter_OnFilter
     // we still can use this event to know when the resource is complete
-    if IsMyResource(request) then
+    if IsMyResource(request) and CopyScriptBtn.Checked then
       begin
         UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
 
@@ -420,42 +532,47 @@ begin
   try
     FStreamCS.Acquire;
 
-    if (FStream.Size > 0) then
+    if CopyScriptBtn.Checked then
       begin
-        FStream.Seek(0, soBeginning);
-
-        Memo1.Lines.Clear;
-
-        if (FRscMimeType = 'application/json') or
-           (FRscMimeType = 'text/json')        or
-           (FRscMimeType = 'text/javascript')  or
-           (FRscMimeType = 'application/javascript') then
+        if (FStream.Size > 0) then
           begin
-            StatusBar1.Panels[1].Text := 'Stream size : ' + inttostr(FStream.Size);
+            FStream.Seek(0, soBeginning);
 
-            SetLength(LAS, FStream.Size);
-            FStream.Read(LAS[Low(LAS)], FStream.Size);
+            Memo1.Lines.Clear;
 
-            if (FRscEncoding = TEncoding.UTF8) then
-              LS := UTF8Decode(LAS) // UTF8 Here
+            if (FRscMimeType = 'application/json') or
+               (FRscMimeType = 'text/json')        or
+               (FRscMimeType = 'text/javascript')  or
+               (FRscMimeType = 'application/javascript') then
+              begin
+                StatusBar1.Panels[1].Text := 'Stream size : ' + inttostr(FStream.Size);
+
+                SetLength(LAS, FStream.Size);
+                FStream.Read(LAS[Low(LAS)], FStream.Size);
+
+                if (FRscEncoding = TEncoding.UTF8) then
+                  LS := UTF8Decode(LAS) // UTF8 Here
+                 else
+                  LS := string(LAS); // Others encoding text
+
+                Memo1.Lines.Add(LS);
+
+                StatusBar1.Panels[2].Text := 'Decoded size : ' + inttostr(length(LS));
+              end
              else
-              LS := string(LAS); // Others encoding text
+              Memo1.Lines.LoadFromStream(FStream); // Image or others
 
-            Memo1.Lines.Add(LS);
+            StatusBar1.Panels[3].Text := 'Memo size : ' + inttostr(length(trim(Memo1.Lines.Text)));
 
-            StatusBar1.Panels[2].Text := 'Decoded size : ' + inttostr(length(LS));
+            // There might be a small difference in sizes because of the text decoding
+
+            FStream.Clear;
           end
          else
-          Memo1.Lines.LoadFromStream(FStream); // Image or others
-
-        StatusBar1.Panels[3].Text := 'Memo size : ' + inttostr(length(trim(Memo1.Lines.Text)));
-
-        // There might be a small difference in sizes because of the text decoding
-
-        FStream.Clear;
+          Memo1.Lines.Clear;
       end
      else
-      Memo1.Lines.Clear;
+      StatusBar1.Panels[1].Text := 'Stream size : ' + inttostr(FStream.Size);
   finally
     FStreamCS.Release;
   end;
@@ -479,7 +596,20 @@ begin
     FStreamCS.Release;
   end;
 
-  Chromium1.LoadURL(AddressEdt.Text);
+
+  // In this demo we just reload the same web page ignoring the cache because the filter only works
+  // if the resources are downloaded, not if they are read from the cache.
+  // If you need to add this code to your app set some custom HTTP headers to download all
+  // resources in all cases.
+
+  if FReload then
+    Chromium1.ReloadIgnoreCache
+   else
+    begin
+      FReload       := True;
+      GoBtn.Caption := 'Reload';
+      Chromium1.LoadURL(AddressEdt.Text);
+    end;
 end;
 
 procedure TResponseFilterBrowserFrm.Timer1Timer(Sender: TObject);
