@@ -2548,7 +2548,7 @@ begin
   TempSL := nil;
 
   try
-    if (length(name) > 0) and (length(aValue) > 0) then
+    if (length(aName) > 0) and (length(aValue) > 0) then
       begin
         TempSL           := TStringList.Create;
         TempSL.CommaText := aValue;
