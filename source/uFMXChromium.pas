@@ -2077,6 +2077,8 @@ begin
   UpdatePreference(aBrowser, 'plugins.run_all_flash_in_allow_mode',  FRunAllFlashInAllowMode);
   UpdatePreference(aBrowser, 'plugins.allow_outdated',               FAllowOutdatedPlugins);
   UpdatePreference(aBrowser, 'plugins.always_authorize',             FAlwaysAuthorizePlugins);
+  UpdatePreference(aBrowser, 'browser.enable_spellchecking',         FSpellChecking);
+  UpdateStringListPref(aBrowser, 'spellcheck.dictionaries',          FSpellCheckerDicts);
 
   if FRunAllFlashInAllowMode then
     UpdatePreference(aBrowser, 'profile.default_content_setting_values.plugins', 1);
@@ -2331,7 +2333,7 @@ begin
   TempSL := nil;
 
   try
-    if (length(name) > 0) and (length(aValue) > 0) then
+    if (length(aName) > 0) and (length(aValue) > 0) then
       begin
         TempSL           := TStringList.Create;
         TempSL.CommaText := aValue;
