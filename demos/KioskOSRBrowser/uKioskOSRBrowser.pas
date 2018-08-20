@@ -35,7 +35,7 @@
  *
  *)
 
-unit uSimpleOSRBrowser;
+unit uKioskOSRBrowser;
 
 {$I cef.inc}
 
@@ -45,12 +45,19 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   System.SyncObjs, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Vcl.AppEvnts,
+  Vcl.ExtCtrls, Vcl.AppEvnts, Vcl.Touch.Keyboard,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
-  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
+  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts, Keyboard,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uBufferPanel;
+
+const
+  SHOWKEYBOARD_PROCMSG = 'showkeyboard';
+  HIDEKEYBOARD_PROCMSG = 'hidekeyboard';
+
+  CEF_SHOWKEYBOARD     = WM_APP + $B01;
+  CEF_HIDEKEYBOARD     = WM_APP + $B02;
 
 type
   TForm1 = class(TForm)
@@ -64,11 +71,10 @@ type
     SaveDialog1: TSaveDialog;
     Timer1: TTimer;
     Panel1: TBufferPanel;
+    KeyboardBtn: TButton;
+    TouchKeyboard1: TTouchKeyboard;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
-
-    procedure GoBtnClick(Sender: TObject);
-    procedure GoBtnEnter(Sender: TObject);
 
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
@@ -98,11 +104,20 @@ type
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure chrmosrProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
+    procedure chrmosrTakeFocus(Sender: TObject; const browser: ICefBrowser; next: Boolean);
+
+    procedure GoBtnClick(Sender: TObject);
+    procedure GoBtnEnter(Sender: TObject);
 
     procedure SnapshotBtnClick(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
+
     procedure ComboBox1Enter(Sender: TObject);
+    procedure ComboBox1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+
+    procedure KeyboardBtnClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -133,6 +148,8 @@ type
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
+    procedure ShowKeyboardMsg(var aMessage : TMessage); message CEF_SHOWKEYBOARD;
+    procedure HideKeyboardMsg(var aMessage : TMessage); message CEF_HIDEKEYBOARD;
 
   public
     { Public declarations }
@@ -140,6 +157,8 @@ type
 
 var
   Form1: TForm1;
+
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -151,7 +170,7 @@ uses
   {$ELSE}
   Math,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFApplication;
+  uCEFMiscFunctions, uCEFApplication, uCEFProcessMessage;
 
 // This is the destruction sequence in OSR mode :
 // 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and calls chrmosr.CloseBrowser(True).
@@ -159,6 +178,37 @@ uses
 //    set "Result" to false and CEF3 will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
 //    Now we set FCanClose to True and send WM_CLOSE to the form.
+
+procedure GlobalCEFApp_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
+var
+  TempMsg : ICefProcessMessage;
+begin
+  // This procedure is called in the Render process and checks if the focused node is an
+  // INPUT or TEXTAREA to show or hide the virtual keyboard.
+
+  if (node <> nil) and
+     ((CompareText(node.ElementTagName, 'textarea') = 0) or
+      ((CompareText(node.ElementTagName, 'input') = 0) and
+       node.HasElementAttribute('type') and
+       (CompareText(node.GetElementAttribute('type'), 'text') = 0))) then
+    begin
+      TempMsg := TCefProcessMessageRef.New(SHOWKEYBOARD_PROCMSG);
+      browser.SendProcessMessage(PID_BROWSER, TempMsg);
+    end
+   else
+    begin
+      TempMsg := TCefProcessMessageRef.New(HIDEKEYBOARD_PROCMSG);
+      browser.SendProcessMessage(PID_BROWSER, TempMsg);
+    end;
+end;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                            := TCefApplication.Create;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.EnableHighDPISupport       := True;
+  GlobalCEFApp.OnFocusedNodeChanged       := GlobalCEFApp_OnFocusedNodeChanged;
+end;
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
@@ -217,6 +267,13 @@ begin
     WM_KEYDOWN :
       if Panel1.Focused then
         begin
+          // Close the demo when the user presses ESC
+          if (Msg.wParam = VK_ESCAPE) then
+            begin
+              PostMessage(Handle, WM_CLOSE, 0, 0);
+              Handled := True;
+            end;
+
           TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
           TempKeyEvent.windows_key_code        := Msg.wParam;
@@ -539,6 +596,28 @@ begin
     end;
 end;
 
+procedure TForm1.chrmosrProcessMessageReceived(Sender: TObject;
+  const browser: ICefBrowser; sourceProcess: TCefProcessId;
+  const message: ICefProcessMessage; out Result: Boolean);
+begin
+  if (message.Name = SHOWKEYBOARD_PROCMSG) then
+    begin
+      PostMessage(Handle, CEF_SHOWKEYBOARD, 0 ,0);
+      Result := True;
+    end
+   else
+    if (message.Name = HIDEKEYBOARD_PROCMSG) then
+      begin
+        PostMessage(Handle, CEF_HIDEKEYBOARD, 0 ,0);
+        Result := True;
+      end;
+end;
+
+procedure TForm1.chrmosrTakeFocus(Sender: TObject; const browser: ICefBrowser; next: Boolean);
+begin
+  PostMessage(Handle, CEF_HIDEKEYBOARD, 0 ,0);
+end;
+
 procedure TForm1.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
 begin
   Panel1.hint     := text;
@@ -549,6 +628,12 @@ end;
 procedure TForm1.ComboBox1Enter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
+end;
+
+procedure TForm1.ComboBox1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  // Close the demo when the user presses ESC
+  if (Key = VK_ESCAPE) then PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 function TForm1.getModifiers(Shift: TShiftState): TCefEventFlags;
@@ -616,7 +701,6 @@ end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
 begin
-  Caption               := 'Simple OSR Browser';
   NavControlPnl.Enabled := True;
   GoBtn.Click;
 end;
@@ -784,6 +868,16 @@ begin
   DoResize;
 end;
 
+procedure TForm1.ShowKeyboardMsg(var aMessage : TMessage);
+begin
+  TouchKeyboard1.Visible := True;
+end;
+
+procedure TForm1.HideKeyboardMsg(var aMessage : TMessage);
+begin
+  TouchKeyboard1.Visible := False;
+end;
+
 procedure TForm1.DoResize;
 begin
   try
@@ -813,6 +907,11 @@ begin
   FLastClickButton  := mbLeft;
 end;
 
+procedure TForm1.KeyboardBtnClick(Sender: TObject);
+begin
+  TouchKeyboard1.Visible := not(TouchKeyboard1.Visible);
+end;
+
 function TForm1.CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
 begin
   aCurrentTime := GetMessageTime;
@@ -829,6 +928,7 @@ end;
 
 procedure TForm1.Panel1Exit(Sender: TObject);
 begin
+  TouchKeyboard1.Visible := False;
   chrmosr.SendFocusEvent(False);
 end;
 
