@@ -61,7 +61,9 @@ const
   CEF_SHOWKEYBOARD     = WM_APP + $B01;
   CEF_HIDEKEYBOARD     = WM_APP + $B02;
 
-  KIOSKBROWSER_CONTEXTMENU_EXIT = MENU_ID_USER_FIRST + 1;
+  KIOSKBROWSER_CONTEXTMENU_EXIT         = MENU_ID_USER_FIRST + 1;
+  KIOSKBROWSER_CONTEXTMENU_HIDEKEYBOARD = MENU_ID_USER_FIRST + 2;
+  KIOSKBROWSER_CONTEXTMENU_SHOWKEYBOARD = MENU_ID_USER_FIRST + 3;
 
 type
   TForm1 = class(TForm)
@@ -179,9 +181,27 @@ begin
 end;
 
 function InputNeedsKeyboard(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+var
+  TempType : string;
 begin
-  Result := not(aNode.HasElementAttribute('type')) or
-            (CompareText(aNode.GetElementAttribute('type'), 'text') = 0);
+  if not(aNode.HasElementAttribute('type')) then
+    Result := True
+   else
+    begin
+      TempType := aNode.GetElementAttribute('type');
+      Result   := (CompareText(TempType, 'date')           = 0) or
+                  (CompareText(TempType, 'datetime-local') = 0) or
+                  (CompareText(TempType, 'email')          = 0) or
+                  (CompareText(TempType, 'month')          = 0) or
+                  (CompareText(TempType, 'number')         = 0) or
+                  (CompareText(TempType, 'password')       = 0) or
+                  (CompareText(TempType, 'search')         = 0) or
+                  (CompareText(TempType, 'tel')            = 0) or
+                  (CompareText(TempType, 'text')           = 0) or
+                  (CompareText(TempType, 'time')           = 0) or
+                  (CompareText(TempType, 'url')            = 0) or
+                  (CompareText(TempType, 'week')           = 0);
+    end;
 end;
 
 function NodeNeedsKeyboard(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
@@ -199,15 +219,11 @@ begin
   // It sends a process message to the browser process to handle the virtual keyboard.
 
   if (node <> nil) and NodeNeedsKeyboard(node) then
-    begin
-      TempMsg := TCefProcessMessageRef.New(SHOWKEYBOARD_PROCMSG);
-      browser.SendProcessMessage(PID_BROWSER, TempMsg);
-    end
+    TempMsg := TCefProcessMessageRef.New(SHOWKEYBOARD_PROCMSG)
    else
-    begin
-      TempMsg := TCefProcessMessageRef.New(HIDEKEYBOARD_PROCMSG);
-      browser.SendProcessMessage(PID_BROWSER, TempMsg);
-    end;
+    TempMsg := TCefProcessMessageRef.New(HIDEKEYBOARD_PROCMSG);
+
+  browser.SendProcessMessage(PID_BROWSER, TempMsg);
 end;
 
 procedure CreateGlobalCEFApp;
@@ -351,6 +367,14 @@ procedure TForm1.chrmosrBeforeContextMenu(      Sender  : TObject;
                                           const params  : ICefContextMenuParams;
                                           const model   : ICefMenuModel);
 begin
+  model.AddSeparator;
+
+  if TouchKeyboard1.Visible then
+    model.AddItem(KIOSKBROWSER_CONTEXTMENU_HIDEKEYBOARD, 'Hide virtual keyboard')
+   else
+    model.AddItem(KIOSKBROWSER_CONTEXTMENU_SHOWKEYBOARD, 'Show virtual keyboard');
+
+  model.AddSeparator;
   model.AddItem(KIOSKBROWSER_CONTEXTMENU_EXIT, 'Exit');
 end;
 
@@ -364,7 +388,11 @@ procedure TForm1.chrmosrContextMenuCommand(      Sender     : TObject;
 begin
   Result := False;
 
-  if (commandId = KIOSKBROWSER_CONTEXTMENU_EXIT) then PostMessage(Handle, WM_CLOSE, 0, 0);
+  case commandId of
+    KIOSKBROWSER_CONTEXTMENU_EXIT         : PostMessage(Handle, WM_CLOSE, 0, 0);
+    KIOSKBROWSER_CONTEXTMENU_HIDEKEYBOARD : PostMessage(Handle, CEF_HIDEKEYBOARD, 0, 0);
+    KIOSKBROWSER_CONTEXTMENU_SHOWKEYBOARD : PostMessage(Handle, CEF_SHOWKEYBOARD, 0, 0);
+  end;
 end;
 
 procedure TForm1.chrmosrBeforePopup(      Sender             : TObject;
