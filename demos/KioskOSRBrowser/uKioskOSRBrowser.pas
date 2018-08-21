@@ -53,28 +53,26 @@ uses
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uBufferPanel;
 
 const
+  HOMEPAGE_URL         = 'https://www.google.com';
+
   SHOWKEYBOARD_PROCMSG = 'showkeyboard';
   HIDEKEYBOARD_PROCMSG = 'hidekeyboard';
 
   CEF_SHOWKEYBOARD     = WM_APP + $B01;
   CEF_HIDEKEYBOARD     = WM_APP + $B02;
 
+  KIOSKBROWSER_CONTEXTMENU_EXIT = MENU_ID_USER_FIRST + 1;
+
 type
   TForm1 = class(TForm)
-    NavControlPnl: TPanel;
     chrmosr: TChromium;
     AppEvents: TApplicationEvents;
-    ComboBox1: TComboBox;
-    Panel2: TPanel;
-    GoBtn: TButton;
-    SnapshotBtn: TButton;
-    SaveDialog1: TSaveDialog;
     Timer1: TTimer;
     Panel1: TBufferPanel;
-    KeyboardBtn: TButton;
     TouchKeyboard1: TTouchKeyboard;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+    procedure Timer1Timer(Sender: TObject);
 
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
@@ -105,21 +103,10 @@ type
     procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
-    procedure chrmosrTakeFocus(Sender: TObject; const browser: ICefBrowser; next: Boolean);
+    procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure chrmosrContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
 
-    procedure GoBtnClick(Sender: TObject);
-    procedure GoBtnEnter(Sender: TObject);
-
-    procedure SnapshotBtnClick(Sender: TObject);
-    procedure SnapshotBtnEnter(Sender: TObject);
-
-    procedure ComboBox1Enter(Sender: TObject);
-    procedure ComboBox1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-
-    procedure KeyboardBtnClick(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
-
-  protected
+    protected
     FPopUpBitmap     : TBitmap;
     FPopUpRect       : TRect;
     FShowPopUp       : boolean;
@@ -146,7 +133,6 @@ type
     procedure WMCancelMode(var aMessage : TMessage); message WM_CANCELMODE;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
-    procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
     procedure ShowKeyboardMsg(var aMessage : TMessage); message CEF_SHOWKEYBOARD;
     procedure HideKeyboardMsg(var aMessage : TMessage); message CEF_HIDEKEYBOARD;
@@ -172,6 +158,10 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFApplication, uCEFProcessMessage;
 
+// This is a simplified Kiosk browser using the off-screen mode (OSR) and a virtual keyboard.
+// The default URL is defined in the HOMEPAGE_URL constant.
+// To close this app press the ESC key or select the 'Exit' option in the context menu.
+
 // This is the destruction sequence in OSR mode :
 // 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and calls chrmosr.CloseBrowser(True).
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
@@ -179,18 +169,37 @@ uses
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
 //    Now we set FCanClose to True and send WM_CLOSE to the form.
 
+function NodeIsTextArea(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+begin
+  Result := (CompareText(aNode.ElementTagName, 'textarea') = 0);
+end;
+
+function NodeIsInput(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+begin
+  Result := (CompareText(aNode.ElementTagName, 'input') = 0);
+end;
+
+function InputNeedsKeyboard(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+begin
+  Result := not(aNode.HasElementAttribute('type')) or
+            (CompareText(aNode.GetElementAttribute('type'), 'text') = 0);
+end;
+
+function NodeNeedsKeyboard(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+begin
+  Result := NodeIsTextArea(aNode) or
+            (NodeIsInput(aNode) and InputNeedsKeyboard(aNode));
+end;
+
 procedure GlobalCEFApp_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
 var
   TempMsg : ICefProcessMessage;
 begin
   // This procedure is called in the Render process and checks if the focused node is an
   // INPUT or TEXTAREA to show or hide the virtual keyboard.
+  // It sends a process message to the browser process to handle the virtual keyboard.
 
-  if (node <> nil) and
-     ((CompareText(node.ElementTagName, 'textarea') = 0) or
-      ((CompareText(node.ElementTagName, 'input') = 0) and
-       node.HasElementAttribute('type') and
-       (CompareText(node.GetElementAttribute('type'), 'text') = 0))) then
+  if (node <> nil) and NodeNeedsKeyboard(node) then
     begin
       TempMsg := TCefProcessMessageRef.New(SHOWKEYBOARD_PROCMSG);
       browser.SendProcessMessage(PID_BROWSER, TempMsg);
@@ -331,21 +340,6 @@ begin
   end;
 end;
 
-procedure TForm1.GoBtnClick(Sender: TObject);
-begin
-  FResizeCS.Acquire;
-  FResizing      := False;
-  FPendingResize := False;
-  FResizeCS.Release;
-
-  chrmosr.LoadURL(ComboBox1.Text);
-end;
-
-procedure TForm1.GoBtnEnter(Sender: TObject);
-begin
-  chrmosr.SendFocusEvent(False);
-end;
-
 procedure TForm1.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
@@ -357,7 +351,29 @@ begin
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TForm1.chrmosrBeforePopup(Sender : TObject;
+procedure TForm1.chrmosrBeforeContextMenu(      Sender  : TObject;
+                                          const browser : ICefBrowser;
+                                          const frame   : ICefFrame;
+                                          const params  : ICefContextMenuParams;
+                                          const model   : ICefMenuModel);
+begin
+  model.AddItem(KIOSKBROWSER_CONTEXTMENU_EXIT, 'Exit');
+end;
+
+procedure TForm1.chrmosrContextMenuCommand(      Sender     : TObject;
+                                           const browser    : ICefBrowser;
+                                           const frame      : ICefFrame;
+                                           const params     : ICefContextMenuParams;
+                                                 commandId  : Integer;
+                                                 eventFlags : Cardinal;
+                                           out   Result     : Boolean);
+begin
+  Result := False;
+
+  if (commandId = KIOSKBROWSER_CONTEXTMENU_EXIT) then PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
+procedure TForm1.chrmosrBeforePopup(      Sender             : TObject;
                                     const browser            : ICefBrowser;
                                     const frame              : ICefFrame;
                                     const targetUrl          : ustring;
@@ -380,7 +396,7 @@ begin
   Result := False;
 end;
 
-procedure TForm1.chrmosrCursorChange(Sender : TObject;
+procedure TForm1.chrmosrCursorChange(      Sender           : TObject;
                                      const browser          : ICefBrowser;
                                            cursor           : HICON;
                                            cursorType       : TCefCursorType;
@@ -389,7 +405,7 @@ begin
   Panel1.Cursor := GefCursorToWindowsCursor(cursorType);
 end;
 
-procedure TForm1.chrmosrGetScreenInfo(Sender : TObject;
+procedure TForm1.chrmosrGetScreenInfo(      Sender     : TObject;
                                       const browser    : ICefBrowser;
                                       var   screenInfo : TCefScreenInfo;
                                       out   Result     : Boolean);
@@ -416,7 +432,7 @@ begin
     Result := False;
 end;
 
-procedure TForm1.chrmosrGetScreenPoint(Sender : TObject;
+procedure TForm1.chrmosrGetScreenPoint(      Sender  : TObject;
                                        const browser : ICefBrowser;
                                              viewX   : Integer;
                                              viewY   : Integer;
@@ -439,7 +455,7 @@ begin
     Result := False;
 end;
 
-procedure TForm1.chrmosrGetViewRect(Sender : TObject;
+procedure TForm1.chrmosrGetViewRect(      Sender  : TObject;
                                     const browser : ICefBrowser;
                                     var   rect    : TCefRect;
                                     out   Result  : Boolean);
@@ -456,7 +472,7 @@ begin
     Result := False;
 end;
 
-procedure TForm1.chrmosrPaint(Sender : TObject;
+procedure TForm1.chrmosrPaint(      Sender          : TObject;
                               const browser         : ICefBrowser;
                                     kind            : TCefPaintElementType;
                                     dirtyRectsCount : NativeUInt;
@@ -566,7 +582,7 @@ begin
   end;
 end;
 
-procedure TForm1.chrmosrPopupShow(Sender : TObject;
+procedure TForm1.chrmosrPopupShow(      Sender  : TObject;
                                   const browser : ICefBrowser;
                                         show    : Boolean);
 begin
@@ -581,7 +597,7 @@ begin
     end;
 end;
 
-procedure TForm1.chrmosrPopupSize(Sender : TObject;
+procedure TForm1.chrmosrPopupSize(      Sender  : TObject;
                                   const browser : ICefBrowser;
                                   const rect    : PCefRect);
 begin
@@ -596,10 +612,16 @@ begin
     end;
 end;
 
-procedure TForm1.chrmosrProcessMessageReceived(Sender: TObject;
-  const browser: ICefBrowser; sourceProcess: TCefProcessId;
-  const message: ICefProcessMessage; out Result: Boolean);
+procedure TForm1.chrmosrProcessMessageReceived(      Sender        : TObject;
+                                               const browser       : ICefBrowser;
+                                                     sourceProcess : TCefProcessId;
+                                               const message       : ICefProcessMessage;
+                                               out   Result        : Boolean);
 begin
+  // This function receives the process message from the render process to show or hide the virtual keyboard.
+  // This event is not executed in the main thread so it has to send a custom windows message to the form
+  // to handle the keyboard in the main thread.
+
   if (message.Name = SHOWKEYBOARD_PROCMSG) then
     begin
       PostMessage(Handle, CEF_SHOWKEYBOARD, 0 ,0);
@@ -613,27 +635,11 @@ begin
       end;
 end;
 
-procedure TForm1.chrmosrTakeFocus(Sender: TObject; const browser: ICefBrowser; next: Boolean);
-begin
-  PostMessage(Handle, CEF_HIDEKEYBOARD, 0 ,0);
-end;
-
 procedure TForm1.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
 begin
   Panel1.hint     := text;
   Panel1.ShowHint := (length(text) > 0);
   Result          := True;
-end;
-
-procedure TForm1.ComboBox1Enter(Sender: TObject);
-begin
-  chrmosr.SendFocusEvent(False);
-end;
-
-procedure TForm1.ComboBox1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  // Close the demo when the user presses ESC
-  if (Key = VK_ESCAPE) then PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 function TForm1.getModifiers(Shift: TShiftState): TCefEventFlags;
@@ -699,12 +705,6 @@ begin
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
-procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
-begin
-  NavControlPnl.Enabled := True;
-  GoBtn.Click;
-end;
-
 procedure TForm1.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
 begin
   if (chrmosr <> nil) then
@@ -764,6 +764,7 @@ begin
     begin
       // opaque white background color
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+      chrmosr.DefaultURL              := HOMEPAGE_URL;
 
       if chrmosr.CreateBrowser(nil, '') then
         chrmosr.InitializeDragAndDrop(Panel1)
@@ -907,11 +908,6 @@ begin
   FLastClickButton  := mbLeft;
 end;
 
-procedure TForm1.KeyboardBtnClick(Sender: TObject);
-begin
-  TouchKeyboard1.Visible := not(TouchKeyboard1.Visible);
-end;
-
 function TForm1.CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
 begin
   aCurrentTime := GetMessageTime;
@@ -929,16 +925,6 @@ end;
 procedure TForm1.Panel1Exit(Sender: TObject);
 begin
   TouchKeyboard1.Visible := False;
-  chrmosr.SendFocusEvent(False);
-end;
-
-procedure TForm1.SnapshotBtnClick(Sender: TObject);
-begin
-  if SaveDialog1.Execute then Panel1.SaveToFile(SaveDialog1.FileName);
-end;
-
-procedure TForm1.SnapshotBtnEnter(Sender: TObject);
-begin
   chrmosr.SendFocusEvent(False);
 end;
 
