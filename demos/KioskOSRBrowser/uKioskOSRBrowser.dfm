@@ -39,8 +39,6 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitTop = 30
-    ExplicitHeight = 496
   end
   object TouchKeyboard1: TTouchKeyboard
     Left = 0
@@ -59,7 +57,6 @@ object Form1: TForm1
     OnContextMenuCommand = chrmosrContextMenuCommand
     OnTooltip = chrmosrTooltip
     OnBeforePopup = chrmosrBeforePopup
-    OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
     OnClose = chrmosrClose
     OnGetViewRect = chrmosrGetViewRect
