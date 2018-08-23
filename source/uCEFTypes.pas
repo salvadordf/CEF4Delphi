@@ -362,6 +362,12 @@ type
 
   TCefProxyScheme = (psHTTP, psSOCKS4, psSOCKS5);
 
+  TCefAutoplayPolicy = (appDefault,
+                        appDocumentUserActivationRequired,
+                        appNoUserGestureRequired,
+                        appUserGestureRequired,
+                        appUserGestureRequiredForCrossOrigin);
+
   TCefWebRTCHandlingPolicy = (
     hpDefault,
     hpDefaultPublicAndPrivateInterfaces,

@@ -145,6 +145,7 @@ type
       FShutdownWaitTime              : cardinal;
       FWidevinePath                  : ustring;
       FMustFreeLibrary               : boolean;
+      FAutoplayPolicy                : TCefAutoplayPolicy;
 
       FMustCreateResourceBundleHandler : boolean;
       FMustCreateBrowserProcessHandler : boolean;
@@ -364,6 +365,7 @@ type
       property ShutdownWaitTime                  : cardinal                            read FShutdownWaitTime                  write FShutdownWaitTime;
       property WidevinePath                      : ustring                             read FWidevinePath                      write FWidevinePath;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
+      property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
 
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
@@ -499,6 +501,7 @@ begin
   FShutdownWaitTime              := 0;
   FWidevinePath                  := '';
   FMustFreeLibrary               := False;
+  FAutoplayPolicy                := appDefault;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -1316,6 +1319,20 @@ begin
       case FSmoothScrolling of
         STATE_ENABLED  : commandLine.AppendSwitch('--enable-smooth-scrolling');
         STATE_DISABLED : commandLine.AppendSwitch('--disable-smooth-scrolling');
+      end;
+
+      case FAutoplayPolicy of
+        appDocumentUserActivationRequired    :
+          commandLine.AppendSwitchWithValue('--autoplay-policy', 'document-user-activation-required');
+
+        appNoUserGestureRequired             :
+          commandLine.AppendSwitchWithValue('--autoplay-policy', 'no-user-gesture-required');
+
+        appUserGestureRequired               :
+          commandLine.AppendSwitchWithValue('--autoplay-policy', 'user-gesture-required');
+
+        appUserGestureRequiredForCrossOrigin :
+          commandLine.AppendSwitchWithValue('--autoplay-policy', 'user-gesture-required-for-cross-origin');
       end;
 
       if FFastUnload then
