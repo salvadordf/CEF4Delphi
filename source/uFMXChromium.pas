@@ -1296,10 +1296,10 @@ begin
       aSettings.margin_bottom         := FPDFPrintOptions.margin_bottom;
       aSettings.margin_left           := FPDFPrintOptions.margin_left;
       aSettings.margin_type           := FPDFPrintOptions.margin_type;
-      aSettings.header_footer_enabled := FPDFPrintOptions.header_footer_enabled;
-      aSettings.selection_only        := FPDFPrintOptions.selection_only;
-      aSettings.landscape             := FPDFPrintOptions.landscape;
-      aSettings.backgrounds_enabled   := FPDFPrintOptions.backgrounds_enabled;
+      aSettings.header_footer_enabled := Ord(FPDFPrintOptions.header_footer_enabled);
+      aSettings.selection_only        := Ord(FPDFPrintOptions.selection_only);
+      aSettings.landscape             := Ord(FPDFPrintOptions.landscape);
+      aSettings.backgrounds_enabled   := Ord(FPDFPrintOptions.backgrounds_enabled);
     end;
 end;
 

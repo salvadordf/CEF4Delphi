@@ -69,10 +69,10 @@ type
       Fmargin_bottom         : double;
       Fmargin_left           : double;
       Fmargin_type           : TCefPdfPrintMarginType;
-      Fheader_footer_enabled : integer;
-      Fselection_only        : integer;
-      Flandscape             : integer;
-      Fbackgrounds_enabled   : integer;
+      Fheader_footer_enabled : boolean;
+      Fselection_only        : boolean;
+      Flandscape             : boolean;
+      Fbackgrounds_enabled   : boolean;
 
     public
       constructor Create; virtual;
@@ -86,10 +86,10 @@ type
       property margin_bottom         : double                  read Fmargin_bottom            write Fmargin_bottom;
       property margin_left           : double                  read Fmargin_left              write Fmargin_left;
       property margin_type           : TCefPdfPrintMarginType  read Fmargin_type              write Fmargin_type           default PDF_PRINT_MARGIN_DEFAULT;
-      property header_footer_enabled : integer                 read Fheader_footer_enabled    write Fheader_footer_enabled default 0;
-      property selection_only        : integer                 read Fselection_only           write Fselection_only        default 0;
-      property landscape             : integer                 read Flandscape                write Flandscape             default 0;
-      property backgrounds_enabled   : integer                 read Fbackgrounds_enabled      write Fbackgrounds_enabled   default 0;
+      property header_footer_enabled : boolean                 read Fheader_footer_enabled    write Fheader_footer_enabled default False;
+      property selection_only        : boolean                 read Fselection_only           write Fselection_only        default False;
+      property landscape             : boolean                 read Flandscape                write Flandscape             default False;
+      property backgrounds_enabled   : boolean                 read Fbackgrounds_enabled      write Fbackgrounds_enabled   default False;
   end;
 
 implementation
@@ -104,10 +104,10 @@ begin
   Fmargin_bottom         := 0;
   Fmargin_left           := 0;
   Fmargin_type           := PDF_PRINT_MARGIN_DEFAULT;
-  Fheader_footer_enabled := 0;
-  Fselection_only        := 0;
-  Flandscape             := 0;
-  Fbackgrounds_enabled   := 0;
+  Fheader_footer_enabled := False;
+  Fselection_only        := False;
+  Flandscape             := False;
+  Fbackgrounds_enabled   := False;
 end;
 
 end.
