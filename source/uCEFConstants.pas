@@ -402,7 +402,6 @@ const
   CEF4DELPHI_URL = 'https://github.com/salvadordf/CEF4Delphi';
   CRLF           = #13 + #10;
 
-  // Bitness constants used in
   IMAGE_FILE_MACHINE_UNKNOWN  = 0;
   IMAGE_FILE_MACHINE_I386     = $014c; // Intel x86
   IMAGE_FILE_MACHINE_IA64     = $0200; // Intel Itanium Processor Family (IPF)

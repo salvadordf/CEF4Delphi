@@ -1204,7 +1204,7 @@ begin
         end;
     except
       on e : exception do
-        if CustomExceptionHandler('GetDLLBitness', e) then raise;
+        if CustomExceptionHandler('GetDLLHeaderMachine', e) then raise;
     end;
   finally
     if (TempStream <> nil) then FreeAndNil(TempStream);
@@ -1222,7 +1222,62 @@ begin
     exit;
   {$ENDIF}
 
+  {$IFDEF CPU386}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF CPUi386}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF CPUPOWERPC32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF CPUSPARC32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF CPU32BITS}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF CPUARM32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
   {$IFDEF WIN32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF IOS32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF MACOS32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF LINUX32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF POSIX32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF ANDROID32}
     Result := True;
     exit;
   {$ENDIF}
