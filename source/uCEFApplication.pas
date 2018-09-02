@@ -186,6 +186,7 @@ type
       procedure SetOsmodalLoop(aValue : boolean);
 
       function  GetChromeVersion : string;
+      function  GetLibCefVersion : string;
       function  GetLibCefPath : string;
       function  GetChromeElfPath : string;
       function  GetMustCreateResourceBundleHandler : boolean;
@@ -339,6 +340,7 @@ type
       property ChromeRelease                     : uint16                              read FChromeVersionInfo.Release;
       property ChromeBuild                       : uint16                              read FChromeVersionInfo.Build;
       property ChromeVersion                     : string                              read GetChromeVersion;
+      property LibCefVersion                     : string                              read GetLibCefVersion;
       property LibCefPath                        : string                              read GetLibCefPath;
       property ChromeElfPath                     : string                              read GetChromeElfPath;
       property SmoothScrolling                   : TCefState                           read FSmoothScrolling                   write FSmoothScrolling;
@@ -635,6 +637,14 @@ begin
   Result := FileVersionInfoToString(FChromeVersionInfo);
 end;
 
+function TCefApplication.GetLibCefVersion : string;
+begin
+  Result := IntToStr(CEF_SUPPORTED_VERSION_MAJOR)    + '.' +
+            IntToStr(CEF_SUPPORTED_VERSION_MINOR)    + '.' +
+            IntToStr(CEF_SUPPORTED_VERSION_RELEASE)  + '.' +
+            IntToStr(CEF_SUPPORTED_VERSION_BUILD);
+end;
+
 function TCefApplication.GetLibCefPath : string;
 begin
   if (length(FFrameworkDirPath) > 0) then
@@ -778,6 +788,8 @@ function TCefApplication.CheckCEFLibrary : boolean;
 var
   TempString, TempOldDir : string;
   TempMissingFrm, TempMissingRsc, TempMissingLoc : boolean;
+  TempMachine : integer;
+  TempVersionInfo : TFileVersionInfo;
 begin
   Result := False;
 
@@ -813,14 +825,61 @@ begin
                            CEF_SUPPORTED_VERSION_MINOR,
                            CEF_SUPPORTED_VERSION_RELEASE,
                            CEF_SUPPORTED_VERSION_BUILD) then
-          Result := True
+          begin
+            if GetDLLHeaderMachine(LibCefPath, TempMachine) then
+              case TempMachine of
+                IMAGE_FILE_MACHINE_I386 :
+                  if Is32BitProcess then
+                    Result := True
+                   else
+                    begin
+                      FStatus    := asErrorDLLVersion;
+                      TempString := 'Wrong CEF3 binaries !' +
+                                    CRLF + CRLF +
+                                    'Use the 32 bit CEF3 binaries with 32 bits applications only.';
+
+                      ShowErrorMessageDlg(TempString);
+                    end;
+
+                IMAGE_FILE_MACHINE_AMD64 :
+                  if not(Is32BitProcess) then
+                    Result := True
+                   else
+                    begin
+                      FStatus    := asErrorDLLVersion;
+                      TempString := 'Wrong CEF3 binaries !' +
+                                    CRLF + CRLF +
+                                    'Use the 64 bit CEF3 binaries with 64 bits applications only.';
+
+                      ShowErrorMessageDlg(TempString);
+                    end;
+
+                else
+                  begin
+                    FStatus    := asErrorDLLVersion;
+                    TempString := 'Unknown CEF3 binaries !' +
+                                  CRLF + CRLF +
+                                  'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
+                                  CEF4DELPHI_URL;
+
+                    ShowErrorMessageDlg(TempString);
+                  end;
+              end
+             else
+              Result := True;
+          end
          else
           begin
             FStatus    := asErrorDLLVersion;
             TempString := 'Unsupported CEF version !' +
                           CRLF + CRLF +
                           'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
-                          CRLF + CEF4DELPHI_URL;
+                          CEF4DELPHI_URL;
+
+            if GetDLLVersion(LibCefPath, TempVersionInfo) then
+              TempString := TempString + CRLF + CRLF +
+                            'Expected ' + LIBCEF_DLL + ' version : ' + LibCefVersion + CRLF +
+                            'Found ' + LIBCEF_DLL + ' version : ' + FileVersionInfoToString(TempVersionInfo);
 
             ShowErrorMessageDlg(TempString);
           end;

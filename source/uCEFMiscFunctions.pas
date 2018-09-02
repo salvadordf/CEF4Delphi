@@ -121,6 +121,7 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
+function ProcessUnderWow64(hProcess: THandle; var Wow64Process: BOOL): BOOL; external Kernel32DLL name 'IsWow64Process';
 function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 
@@ -171,6 +172,8 @@ function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string)
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
+function GetDLLHeaderMachine(const aDLLFile : string; var aMachine : integer) : boolean;
+function Is32BitProcess : boolean;
 
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 function  CefCreateUrl(var parts: TUrlParts): ustring;
@@ -1164,6 +1167,76 @@ begin
             (TempVersionInfo.MinorVer = aMinor)      and
             (TempVersionInfo.Release  = aRelease)    and
             (TempVersionInfo.Build    = aBuild);
+end;
+
+// This function is based on the answer given by 'Alex' in StackOverflow
+// https://stackoverflow.com/questions/2748474/how-to-determine-if-dll-file-was-compiled-as-x64-or-x86-bit-using-either-delphi
+function GetDLLHeaderMachine(const aDLLFile : string; var aMachine : integer) : boolean;
+var
+  TempHeader         : TImageDosHeader;
+  TempImageNtHeaders : TImageNtHeaders;
+  TempStream         : TFileStream;
+begin
+  Result     := False;
+  aMachine   := IMAGE_FILE_MACHINE_UNKNOWN;
+  TempStream := nil;
+
+  try
+    try
+      if FileExists(aDLLFile) then
+        begin
+          TempStream := TFileStream.Create(aDLLFile, fmOpenRead);
+          TempStream.seek(0, soFromBeginning);
+          TempStream.ReadBuffer(TempHeader, SizeOf(TempHeader));
+
+          if (TempHeader.e_magic = IMAGE_DOS_SIGNATURE) and
+             (TempHeader._lfanew <> 0) then
+            begin
+              TempStream.Position := TempHeader._lfanew;
+              TempStream.ReadBuffer(TempImageNtHeaders, SizeOf(TempImageNtHeaders));
+
+              if (TempImageNtHeaders.Signature = IMAGE_NT_SIGNATURE) then
+                begin
+                  aMachine := TempImageNtHeaders.FileHeader.Machine;
+                  Result   := True;
+                end;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('GetDLLBitness', e) then raise;
+    end;
+  finally
+    if (TempStream <> nil) then FreeAndNil(TempStream);
+  end;
+end;
+
+function Is32BitProcess : boolean;
+{$IFDEF MSWINDOWS}
+var
+  TempResult : BOOL;
+{$ENDIF}
+begin
+  {$IFDEF CPUX32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF WIN32}
+    Result := True;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF MSWINDOWS}
+    Result := ProcessUnderWow64(GetCurrentProcess, TempResult) and TempResult;
+    exit;
+  {$ENDIF}
+
+  {$IFDEF DELPHI16_UP}
+    Result := TOSVersion.Architecture in [arIntelX86, arARM32];
+  {$ELSE}
+    Result := False;
+  {$ENDIF}
 end;
 
 function CustomPathIsRelative(const aPath : string) : boolean;
