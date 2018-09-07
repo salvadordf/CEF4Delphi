@@ -144,6 +144,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.w3schools.com/'
           'http://webglsamples.org/'
           'https://get.webgl.org/'
+          'https://www.briskbard.com'
           'https://www.youtube.com'
           'https://html5demos.com/drag/'
           

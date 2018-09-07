@@ -20,8 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
         <TopLine Value="73"/>
         <CursorPos X="53" Y="69"/>
         <UsageCount Value="38"/>
@@ -138,14 +138,15 @@
       </Unit16>
       <Unit17>
         <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="43"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="2169"/>
         <CursorPos Y="44"/>
         <UsageCount Value="13"/>
         <Bookmarks Count="2">
           <Item0 X="60" Y="956" ID="1"/>
           <Item1 X="9" Y="894" ID="3"/>
         </Bookmarks>
+        <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
@@ -264,9 +265,6 @@
         <UsageCount Value="10"/>
       </Unit33>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="-1"/>
-    </General>
     <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>
 </CONFIG>

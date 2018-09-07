@@ -892,7 +892,7 @@ begin
 
   try
     try
-      OpenDialog1.Filter := 'HTML files (*.html)|*.HTML;*.HTM';
+      OpenDialog1.Filter := 'HTML files (*.html)|*.HTML;*.HTM|PDF files (*.pdf)|*.PDF';
 
       if OpenDialog1.Execute then
         begin
@@ -900,7 +900,11 @@ begin
           TempFile := TMemoryStream.Create;
           TempFile.LoadFromFile(OpenDialog1.FileName);
 
-          TempDATA := 'data:text/html;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size);
+          if (OpenDialog1.FilterIndex = 0) then
+            TempDATA := 'data:text/html;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size)
+           else
+            TempDATA := 'data:application/pdf;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size);
+
           Chromium1.LoadURL(TempDATA);
         end;
     except

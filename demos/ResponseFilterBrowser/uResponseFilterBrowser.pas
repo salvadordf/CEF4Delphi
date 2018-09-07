@@ -69,7 +69,6 @@ type
     Panel2: TPanel;
     Memo1: TMemo;
     StatusBar1: TStatusBar;
-    Image1: TImage;
     CopyScriptBtn: TRadioButton;
     ReplaceLogoBtn: TRadioButton;
 
@@ -459,17 +458,28 @@ procedure TResponseFilterBrowserFrm.Chromium1LoadStart(      Sender         : TO
                                                        const browser        : ICefBrowser;
                                                        const frame          : ICefFrame;
                                                              transitionType : Cardinal);
+const
+  IMAGE_FILENAME = 'jupiter.png';
+var
+  TempPath : string;
 begin
   if frame.IsMain then
     try
-      FStreamCS.Acquire;
-      FStream.Clear;
+      try
+        FStreamCS.Acquire;
+        FStream.Clear;
 
-      if ReplaceLogoBtn.Checked then
-        begin
-          Image1.Picture.SavetoStream(FStream);
-          FStream.Seek(0, soBeginning);
-        end;
+        TempPath := IncludeTrailingPathDelimiter(ExtractFileDir(GetModuleName(HInstance))) + IMAGE_FILENAME;
+
+        if ReplaceLogoBtn.Checked and FileExists(TempPath) then
+          begin
+            FStream.LoadFromFile(TempPath);
+            FStream.Seek(0, soBeginning);
+          end;
+      except
+        on e : exception do
+          if CustomExceptionHandler('TResponseFilterBrowserFrm.Chromium1LoadStart', e) then raise;
+      end;
     finally
       FStreamCS.Release;
     end;

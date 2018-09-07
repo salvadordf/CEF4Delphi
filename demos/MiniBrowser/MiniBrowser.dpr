@@ -49,6 +49,7 @@ uses
   Windows,
   {$ENDIF }
   uCEFApplication,
+  uCEFTypes,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uPreferences in 'uPreferences.pas' {PreferencesFrm},
   uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
@@ -72,6 +73,5 @@ begin
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.

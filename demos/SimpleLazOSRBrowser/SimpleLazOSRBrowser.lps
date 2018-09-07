@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="18">
+    <Units Count="19">
       <Unit0>
         <Filename Value="SimpleLazOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,7 +20,6 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="186"/>
         <CursorPos X="15" Y="191"/>
@@ -107,10 +106,11 @@
       </Unit10>
       <Unit11>
         <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1505"/>
-        <CursorPos X="51" Y="1534"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="1220"/>
+        <CursorPos Y="1231"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="..\..\source\uCEFConstants.pas"/>
@@ -156,8 +156,17 @@
         <CursorPos X="15" Y="580"/>
         <UsageCount Value="10"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="839"/>
+        <CursorPos X="58" Y="846"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit18>
     </Units>
-    <JumpHistory Count="26" HistoryIndex="25">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
         <Filename Value="..\..\source\uBufferPanel.pas"/>
         <Caret Line="163" Column="28" TopLine="43"/>
@@ -262,6 +271,14 @@
         <Filename Value="usimplelazosrbrowser.pas"/>
         <Caret Line="201" TopLine="186"/>
       </Position26>
+      <Position27>
+        <Filename Value="usimplelazosrbrowser.pas"/>
+        <Caret Line="191" Column="15" TopLine="186"/>
+      </Position27>
+      <Position28>
+        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
+        <Caret Line="1231" TopLine="1220"/>
+      </Position28>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>
