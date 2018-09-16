@@ -23,6 +23,7 @@ object Form1: TForm1
     Width = 1038
     Height = 594
     Align = alClient
+    TabStop = True
     TabOrder = 0
     OnClose = ChromiumWindow1Close
     OnBeforeClose = ChromiumWindow1BeforeClose

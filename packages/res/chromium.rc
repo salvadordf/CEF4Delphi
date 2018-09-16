@@ -1,6 +1,7 @@
 TChromium BITMAP "chromium.bmp"
 TFMXChromium BITMAP "chromium.bmp"
 TCEFWindowParent BITMAP "windowparent.bmp"
+TCEFLinkedWindowParent BITMAP "windowparent.bmp"
 TChromiumWindow BITMAP "chromiumwindow.bmp"
 TBufferPanel BITMAP "bufferpanel.bmp"
 TFMXBufferPanel BITMAP "bufferpanel.bmp"

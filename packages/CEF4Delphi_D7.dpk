@@ -159,6 +159,8 @@ contains
   uCEFServerEvents in '..\source\uCEFServerEvents.pas',
   uCEFServerComponent in '..\source\uCEFServerComponent.pas',
   uCEFStringList in '..\source\uCEFStringList.pas',
-  uCEFv8ArrayBufferReleaseCallback in '..\source\uCEFv8ArrayBufferReleaseCallback.pas';
+  uCEFv8ArrayBufferReleaseCallback in '..\source\uCEFv8ArrayBufferReleaseCallback.pas',
+  uCEFWinControl in '..\source\uCEFWinControl.pas',
+  uCEFLinkedWindowParent in '..\source\uCEFLinkedWindowParent.pas';
 
 end.

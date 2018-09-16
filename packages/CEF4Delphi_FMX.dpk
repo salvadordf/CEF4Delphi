@@ -12,18 +12,17 @@ package CEF4Delphi_FMX;
 {$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
+{$OPTIMIZATION ON}
 {$OVERFLOWCHECKS ON}
 {$RANGECHECKS ON}
 {$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'CEF4Delphi'}
 {$IMPLICITBUILD OFF}
@@ -167,7 +166,9 @@ contains
   uFMXWorkScheduler in '..\source\uFMXWorkScheduler.pas',
   uCEFStringList in '..\source\uCEFStringList.pas',
   uFMXWindowParent in '..\source\uFMXWindowParent.pas',
-  uCEFv8ArrayBufferReleaseCallback in '..\source\uCEFv8ArrayBufferReleaseCallback.pas';
+  uCEFv8ArrayBufferReleaseCallback in '..\source\uCEFv8ArrayBufferReleaseCallback.pas',
+  uCEFWinControl in '..\source\uCEFWinControl.pas',
+  uCEFLinkedWindowParent in '..\source\uCEFLinkedWindowParent.pas';
 
 end.
 

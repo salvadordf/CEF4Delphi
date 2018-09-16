@@ -54,12 +54,12 @@ uses
   Classes,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler,
-  uCEFServerComponent;
+  uCEFServerComponent, uCEFLinkedWindowParent;
 
 procedure Register;
 begin
   RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
-                                  TCEFWorkScheduler, TCEFServerComponent]);
+                                  TCEFWorkScheduler, TCEFServerComponent, TCEFLinkedWindowParent]);
 end;
 
 end.

@@ -4,13 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="34">
+    <Units Count="36">
       <Unit0>
         <Filename Value="SimpleLazarusBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="7"/>
-        <CursorPos X="47" Y="22"/>
+        <TopLine Value="5"/>
+        <CursorPos X="43" Y="5"/>
         <UsageCount Value="38"/>
       </Unit0>
       <Unit1>
@@ -138,7 +138,8 @@
       </Unit16>
       <Unit17>
         <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
         <TopLine Value="2169"/>
         <CursorPos Y="44"/>
         <UsageCount Value="13"/>
@@ -146,7 +147,6 @@
           <Item0 X="60" Y="956" ID="1"/>
           <Item1 X="9" Y="894" ID="3"/>
         </Bookmarks>
-        <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
@@ -264,6 +264,22 @@
         <CursorPos X="3" Y="338"/>
         <UsageCount Value="10"/>
       </Unit33>
+      <Unit34>
+        <Filename Value="..\..\packages\cef4delphi_lazarus.pas"/>
+        <UnitName Value="CEF4Delphi_Lazarus"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="50"/>
+        <CursorPos X="16" Y="62"/>
+        <UsageCount Value="10"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="..\..\source\uCEFLinkedWindowParent.pas"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="31"/>
+        <CursorPos X="28" Y="38"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit35>
     </Units>
     <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>

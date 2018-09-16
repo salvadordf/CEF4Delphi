@@ -21,7 +21,7 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi"/>
     <Version Major="1"/>
-    <Files Count="133">
+    <Files Count="135">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -560,6 +560,15 @@
         <Filename Value="..\source\res\tchromiumwindow.lrs"/>
         <Type Value="LRS"/>
       </Item133>
+      <Item134>
+        <Filename Value="..\source\uCEFWinControl.pas"/>
+        <UnitName Value="uCEFWinControl"/>
+      </Item134>
+      <Item135>
+        <Filename Value="..\source\uCEFLinkedWindowParent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFLinkedWindowParent"/>
+      </Item135>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

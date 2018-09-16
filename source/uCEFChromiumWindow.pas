@@ -52,7 +52,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes, Vcl.Controls,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
@@ -61,18 +61,20 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes;
+  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFWinControl;
 
 type
-  TChromiumWindow = class(TCEFWindowParent)
+  TChromiumWindow = class(TCEFWinControl)
     protected
       FChromium       : TChromium;
       FOnClose        : TNotifyEvent;
       FOnBeforeClose  : TNotifyEvent;
       FOnAfterCreated : TNotifyEvent;
 
-      function    GetChildWindowHandle : THandle; override;
       function    GetBrowserInitialized : boolean;
+      function    GetChildWindowHandle : THandle; override;
+
+      procedure   WndProc(var aMessage: TMessage); override;
 
       procedure   OnCloseMsg(var aMessage : TMessage); message CEF_DOONCLOSE;
       procedure   OnBeforeCloseMsg(var aMessage : TMessage); message CEF_DOONBEFORECLOSE;
@@ -142,6 +144,39 @@ begin
   if (FChromium <> nil) then Result := FChromium.WindowHandle;
 
   if (Result = 0) then Result := inherited GetChildWindowHandle;
+end;
+
+procedure TChromiumWindow.WndProc(var aMessage: TMessage);
+var
+  TempHandle : THandle;
+begin
+  case aMessage.Msg of
+    WM_SETFOCUS:
+      begin
+        if (FChromium <> nil) then
+          FChromium.SetFocus(True)
+         else
+          begin
+            TempHandle := ChildWindowHandle;
+            if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
+          end;
+
+        inherited WndProc(aMessage);
+      end;
+
+    WM_ERASEBKGND:
+      if (ChildWindowHandle = 0) then inherited WndProc(aMessage);
+
+    CM_WANTSPECIALKEY:
+      if not(TWMKey(aMessage).CharCode in [VK_LEFT .. VK_DOWN, VK_RETURN, VK_ESCAPE]) then
+        aMessage.Result := 1
+       else
+        inherited WndProc(aMessage);
+
+    WM_GETDLGCODE : aMessage.Result := DLGC_WANTARROWS or DLGC_WANTCHARS;
+
+    else inherited WndProc(aMessage);
+  end;
 end;
 
 function TChromiumWindow.GetBrowserInitialized : boolean;

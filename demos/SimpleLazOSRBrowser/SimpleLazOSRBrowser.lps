@@ -8,10 +8,10 @@
       <Unit0>
         <Filename Value="SimpleLazOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="31"/>
         <CursorPos X="10" Y="43"/>
         <UsageCount Value="40"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -20,7 +20,7 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="186"/>
         <CursorPos X="15" Y="191"/>
         <UsageCount Value="40"/>
@@ -28,8 +28,6 @@
           <Item0 Y="189" ID="1"/>
           <Item1 X="5" Y="805" ID="2"/>
         </Bookmarks>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
@@ -44,11 +42,10 @@
       </Unit2>
       <Unit3>
         <Filename Value="..\..\source\uBufferPanel.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="95"/>
         <CursorPos X="41" Y="126"/>
         <UsageCount Value="17"/>
-        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\..\lcl\lcltype.pp"/>
@@ -106,11 +103,10 @@
       </Unit10>
       <Unit11>
         <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1220"/>
         <CursorPos Y="1231"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="..\..\source\uCEFConstants.pas"/>
@@ -159,126 +155,15 @@
       <Unit18>
         <Filename Value="..\..\source\uCEFApplication.pas"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="839"/>
         <CursorPos X="58" Y="846"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit18>
     </Units>
-    <JumpHistory Count="28" HistoryIndex="27">
-      <Position1>
-        <Filename Value="..\..\source\uBufferPanel.pas"/>
-        <Caret Line="163" Column="28" TopLine="43"/>
-      </Position1>
-      <Position2>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="800" Column="81" TopLine="787"/>
-      </Position2>
-      <Position3>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="191" Column="3" TopLine="180"/>
-      </Position3>
-      <Position4>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="78" Column="25" TopLine="73"/>
-      </Position4>
-      <Position5>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="789" TopLine="788"/>
-      </Position5>
-      <Position6>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="203" Column="48" TopLine="173"/>
-      </Position6>
-      <Position7>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="800" Column="5" TopLine="785"/>
-      </Position7>
-      <Position8>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="190" TopLine="172"/>
-      </Position8>
-      <Position9>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="78" TopLine="62"/>
-      </Position9>
-      <Position10>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="191" Column="23" TopLine="188"/>
-      </Position10>
-      <Position11>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="197" Column="53" TopLine="185"/>
-      </Position11>
-      <Position12>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="206" Column="76" TopLine="179"/>
-      </Position12>
-      <Position13>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="76" Column="15" TopLine="61"/>
-      </Position13>
-      <Position14>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="814" Column="3" TopLine="810"/>
-      </Position14>
-      <Position15>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="78" Column="15" TopLine="59"/>
-      </Position15>
-      <Position16>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="203" Column="68" TopLine="188"/>
-      </Position16>
-      <Position17>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="206" Column="66" TopLine="188"/>
-      </Position17>
-      <Position18>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="196" TopLine="186"/>
-      </Position18>
-      <Position19>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="198" TopLine="186"/>
-      </Position19>
-      <Position20>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="200" TopLine="186"/>
-      </Position20>
-      <Position21>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="196" Column="47" TopLine="186"/>
-      </Position21>
-      <Position22>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="195" TopLine="186"/>
-      </Position22>
-      <Position23>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="197" TopLine="186"/>
-      </Position23>
-      <Position24>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="199" TopLine="186"/>
-      </Position24>
-      <Position25>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="200" TopLine="186"/>
-      </Position25>
-      <Position26>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="201" TopLine="186"/>
-      </Position26>
-      <Position27>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="191" Column="15" TopLine="186"/>
-      </Position27>
-      <Position28>
-        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="1231" TopLine="1220"/>
-      </Position28>
-    </JumpHistory>
+    <General>
+      <ActiveWindowIndexAtStart Value="-1"/>
+    </General>
+    <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>
 </CONFIG>

@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFWindowParent;
+unit uCEFLinkedWindowParent;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
@@ -61,15 +61,29 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWinControl, uCEFTypes, uCEFInterfaces;
+  uCEFWinControl, uCEFTypes, uCEFInterfaces, uCEFChromium;
 
 type
-  TCEFWindowParent = class(TCEFWinControl)
+  TCEFLinkedWindowParent = class(TCEFWinControl)
     protected
+      FChromium : TChromium;
+
+      procedure SetChromium(aValue : TChromium);
+
+      function  GetChildWindowHandle : THandle; override;
       procedure WndProc(var aMessage: TMessage); override;
+      procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+
+    public
+      constructor Create(AOwner : TComponent); override;
+
+    published
+      property Chromium : TChromium    read FChromium     write SetChromium;
   end;
 
+
 {$IFDEF FPC}
+
 procedure Register;
 {$ENDIF}
 
@@ -78,15 +92,37 @@ implementation
 uses
   uCEFMiscFunctions, uCEFClient, uCEFConstants;
 
-procedure TCEFWindowParent.WndProc(var aMessage: TMessage);
+constructor TCEFLinkedWindowParent.Create(AOwner : TComponent);
+begin
+  inherited Create(AOwner);
+
+  FChromium := nil;
+end;
+
+function TCEFLinkedWindowParent.GetChildWindowHandle : THandle;
+begin
+  Result := 0;
+
+  if (FChromium <> nil) then Result := FChromium.WindowHandle;
+
+  if (Result = 0) then Result := inherited GetChildWindowHandle;
+end;
+
+procedure TCEFLinkedWindowParent.WndProc(var aMessage: TMessage);
 var
   TempHandle : THandle;
 begin
   case aMessage.Msg of
     WM_SETFOCUS:
       begin
-        TempHandle := ChildWindowHandle;
-        if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
+        if (FChromium <> nil) then
+          FChromium.SetFocus(True)
+         else
+          begin
+            TempHandle := ChildWindowHandle;
+            if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
+          end;
+
         inherited WndProc(aMessage);
       end;
 
@@ -105,11 +141,24 @@ begin
   end;
 end;
 
+procedure TCEFLinkedWindowParent.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+
+  if (Operation = opRemove) and (AComponent = FChromium) then FChromium := nil;
+end;
+
+procedure TCEFLinkedWindowParent.SetChromium(aValue : TChromium);
+begin
+  FChromium := aValue;
+  if (aValue <> nil) then aValue.FreeNotification(Self);
+end;
+
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$I res/tcefwindowparent.lrs}
-  RegisterComponents('Chromium', [TCEFWindowParent]);
+  {$I res/tceflinkedwindowparent.lrs}
+  RegisterComponents('Chromium', [TCEFLinkedWindowParent]);
 end;
 {$ENDIF}
 
