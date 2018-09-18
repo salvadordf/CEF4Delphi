@@ -420,18 +420,32 @@ function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 var
   TempTime : TSystemTime;
 begin
-  TempTime := CefTimeToSystemTime(dt);
-  SystemTimeToTzSpecificLocalTime(nil, @TempTime, @TempTime);
-  Result   := SystemTimeToDateTime(TempTime);
+  Result := 0;
+
+  try
+    TempTime := CefTimeToSystemTime(dt);
+    SystemTimeToTzSpecificLocalTime(nil, @TempTime, @TempTime);
+    Result   := SystemTimeToDateTime(TempTime);
+  except
+    on e : exception do
+      if CustomExceptionHandler('CefTimeToDateTime', e) then raise;
+  end;
 end;
 
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 var
   TempTime : TSystemTime;
 begin
-  DateTimeToSystemTime(dt, TempTime);
-  TzSpecificLocalTimeToSystemTime(nil, @TempTime, @TempTime);
-  Result := SystemTimeToCefTime(TempTime);
+  FillChar(Result, SizeOf(TCefTime), 0);
+
+  try
+    DateTimeToSystemTime(dt, TempTime);
+    TzSpecificLocalTimeToSystemTime(nil, @TempTime, @TempTime);
+    Result := SystemTimeToCefTime(TempTime);
+  except
+    on e : exception do
+      if CustomExceptionHandler('DateTimeToCefTime', e) then raise;
+  end;
 end;
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
