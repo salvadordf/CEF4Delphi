@@ -251,10 +251,10 @@ type
       function  ExecuteProcess(const aApp : ICefApp) : integer;
       procedure InitializeSettings(var aSettings : TCefSettings);
       function  InitializeLibrary(const aApp : ICefApp) : boolean;
+      procedure RenameAndDeleteDir(const aDirectory : string);
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       function  CheckCEFLibrary : boolean;
-      procedure DeleteDirContents(const aDirectory : string);
       procedure RegisterWidevineCDM;
       function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
@@ -407,6 +407,16 @@ type
 
     public
       constructor Create(const aCookies : string; aPersistSessionCookies : boolean);
+  end;
+
+  TCEFDirectoryDeleterThread = class(TThread)
+    protected
+      FDirectory : string;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aDirectory : string);
   end;
 
 var
@@ -1050,8 +1060,8 @@ begin
     try
       if (aApp <> nil) then
         begin
-          if FDeleteCache   then DeleteDirContents(FCache);
-          if FDeleteCookies then DeleteDirContents(FCookies);
+          if FDeleteCache   then RenameAndDeleteDir(FCache);
+          if FDeleteCookies then RenameAndDeleteDir(FCookies);
 
           RegisterWidevineCDM;
 
@@ -1079,39 +1089,44 @@ begin
   end;
 end;
 
-procedure TCefApplication.DeleteDirContents(const aDirectory : string);
-{$IFNDEF DELPHI14_UP}
+procedure TCefApplication.RenameAndDeleteDir(const aDirectory : string);
 var
-  TempRec : TSearchRec;
-{$ENDIF}
+  TempOldDir, TempNewDir : string;
+  i : integer;
+  TempThread : TCEFDirectoryDeleterThread;
 begin
   try
-    if (length(aDirectory) > 0) and DirectoryExists(aDirectory) then
+    if (length(aDirectory) = 0) or not(DirectoryExists(aDirectory)) then exit;
+
+    TempOldDir := ExcludeTrailingPathDelimiter(aDirectory);
+
+    if (Pos(PathDelim, TempOldDir, 1) > 0) and
+       (length(ExtractFileName(TempOldDir)) > 0) then
       begin
-        {$IFDEF DELPHI14_UP}
-        TDirectory.Delete(aDirectory, True);
-        {$ELSE}
-        if (FindFirst(aDirectory + '\*', faAnyFile, TempRec) = 0) then
+        i := 0;
+
+        repeat
+          inc(i);
+          TempNewDir := TempOldDir + '(' + inttostr(i) + ')';
+        until not(DirectoryExists(TempNewDir));
+
+        if MoveFileW(PWideChar(TempOldDir + chr(0)), PWideChar(TempNewDir + chr(0))) then
           begin
-            try
-              repeat
-                if ((TempRec.Attr and faDirectory) <> 0) then
-                  begin
-                    if (TempRec.Name <> '.') and (TempRec.Name <> '..') then
-                      DeleteDirContents(aDirectory + '\' + TempRec.Name)
-                  end
-                else
-                 DeleteFile(aDirectory + '\' + TempRec.Name);
-              until (FindNext(TempRec) <> 0);
-            finally
-              FindClose(TempRec);
-            end;
-          end;
-        {$ENDIF}
-      end;
+            TempThread := TCEFDirectoryDeleterThread.Create(TempNewDir);
+            {$IFDEF DELPHI14_UP}
+            TempThread.Start;
+            {$ELSE}
+            TempThread.Resume;
+            {$ENDIF}
+          end
+         else
+          DeleteDirContents(aDirectory);
+      end
+     else
+      DeleteDirContents(aDirectory);
   except
     on e : exception do
-      if CustomExceptionHandler('TCefApplication.DeleteDirContents', e) then raise;
+      if CustomExceptionHandler('TCefApplication.RenameAndDeleteDir', e) then raise;
   end;
 end;
 
@@ -2283,6 +2298,32 @@ begin
     TempCookieManager := nil;
     TempCallBack      := nil;
     TempEvent         := nil;
+  end;
+end;
+
+
+
+// TCEFDirectoryDeleterThread
+
+constructor TCEFDirectoryDeleterThread.Create(const aDirectory : string);
+begin
+  inherited Create(True);
+
+  FDirectory      := aDirectory;
+  FreeOnTerminate := True;
+end;
+
+procedure TCEFDirectoryDeleterThread.Execute;
+begin
+  try
+    {$IFDEF DELPHI14_UP}
+    TDirectory.Delete(FDirectory, True);
+    {$ELSE}
+    if DeleteDirContents(FDirectory) then RemoveDir(FDirectory);
+    {$ENDIF}
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCEFDirectoryDeleterThread.Execute', e) then raise;
   end;
 end;
 
