@@ -1100,7 +1100,7 @@ begin
 
     TempOldDir := ExcludeTrailingPathDelimiter(aDirectory);
 
-    if (Pos(PathDelim, TempOldDir {$IFNDEF FPC}, 1{$ENDIF}) > 0) and
+    if (Pos(PathDelim, TempOldDir) > 0) and
        (length(ExtractFileName(TempOldDir)) > 0) then
       begin
         i := 0;
