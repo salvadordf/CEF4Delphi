@@ -167,7 +167,7 @@ function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersion
 function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
 function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;
-function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True) : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True; aCheckExtensions: boolean = True) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
@@ -909,7 +909,7 @@ begin
   end;
 end;
 
-function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean) : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources, aCheckExtensions: boolean) : boolean;
 var
   TempDir    : string;
   TempList   : TStringList;
@@ -928,8 +928,8 @@ begin
       TempList.Add(TempDir + 'cef.pak');
       TempList.Add(TempDir + 'cef_100_percent.pak');
       TempList.Add(TempDir + 'cef_200_percent.pak');
-      TempList.Add(TempDir + 'cef_extensions.pak');
 
+      if aCheckExtensions then TempList.Add(TempDir + 'cef_extensions.pak');
       if aCheckDevResources then TempList.Add(TempDir + 'devtools_resources.pak');
 
       if TempExists then
