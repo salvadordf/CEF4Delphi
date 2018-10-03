@@ -138,7 +138,7 @@ type
       FAppSettings                   : TCefSettings;
       FDeviceScaleFactor             : single;
       FCheckDevToolsResources        : boolean;
-      FCheckExtensions               : boolean;
+      FDisableExtensions             : boolean;
       FDisableGPUCache               : boolean;
       FStatus                        : TCefAplicationStatus;
       FMissingLibFiles               : string;
@@ -260,7 +260,6 @@ type
       function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
-      procedure DisableExtensions;
 
     public
       constructor Create;
@@ -357,7 +356,7 @@ type
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
-      property CheckExtensions                   : boolean                             read FCheckExtensions                   write FCheckExtensions;
+      property DisableExtensions                 : boolean                             read FDisableExtensions                 write FDisableExtensions;
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
       property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
       property ProcessType                       : TCefProcessType                     read FProcessType;
@@ -510,7 +509,7 @@ begin
   FSetCurrentDir                 := False;
   FGlobalContextInitialized      := False;
   FCheckDevToolsResources        := True;
-  FCheckExtensions               := True;
+  FDisableExtensions             := False;
   FDisableGPUCache               := True;
   FLocalesRequired               := '';
   FProcessType                   := ParseProcessType;
@@ -582,12 +581,6 @@ begin
   finally
     inherited Destroy;
   end;
-end;
-
-procedure TCefApplication.DisableExtensions;
-begin
-  CheckExtensions := False;
-  AddCustomCommandLine('--disable-extensions');
 end;
 
 procedure TCefApplication.AfterConstruction;
@@ -824,7 +817,7 @@ begin
         end;
 
       TempMissingFrm := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
-      TempMissingRsc := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, FCheckExtensions));
+      TempMissingRsc := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
       TempMissingLoc := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
 
       if TempMissingFrm or TempMissingRsc or TempMissingLoc then
@@ -1444,6 +1437,9 @@ begin
 
       if FSitePerProcess then
         commandLine.AppendSwitch('--site-per-process');
+
+      if FDisableExtensions then
+        commandLine.AppendSwitch('--disable-extensions');
 
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and
