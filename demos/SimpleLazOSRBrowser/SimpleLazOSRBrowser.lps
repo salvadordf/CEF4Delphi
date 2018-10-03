@@ -155,15 +155,24 @@
       <Unit18>
         <Filename Value="..\..\source\uCEFApplication.pas"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="839"/>
-        <CursorPos X="58" Y="846"/>
+        <TopLine Value="1096"/>
+        <CursorPos X="59" Y="1103"/>
         <UsageCount Value="10"/>
+        <Bookmarks Count="1">
+          <Item0 X="74" Y="1103" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
       </Unit18>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="-1"/>
-    </General>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <Caret Line="40" TopLine="37"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <Caret Line="47" TopLine="40"/>
+      </Position2>
+    </JumpHistory>
   </ProjectSession>
 </CONFIG>

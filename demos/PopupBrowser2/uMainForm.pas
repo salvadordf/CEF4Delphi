@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm,
-  Vcl.AppEvnts;
+  Vcl.AppEvnts, uCEFWinControl;
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;
@@ -112,7 +112,7 @@ uses
 
 // This is demo shows how to create popup windows in CEF.
 
-// You need to understand The SimpleBrowser2 and SimpleOSRBrowser demos completely before trying to understand this demo.
+// You need to understand the SimpleBrowser2 demo completely before trying to understand this demo.
 
 // When TChromium needs to show a new popup window it executes TChromium.OnBeforePopup.
 
