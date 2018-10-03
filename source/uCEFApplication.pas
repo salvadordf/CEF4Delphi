@@ -138,6 +138,7 @@ type
       FAppSettings                   : TCefSettings;
       FDeviceScaleFactor             : single;
       FCheckDevToolsResources        : boolean;
+      FCheckExtensions               : boolean;
       FDisableGPUCache               : boolean;
       FStatus                        : TCefAplicationStatus;
       FMissingLibFiles               : string;
@@ -259,6 +260,7 @@ type
       function  FindFlashDLL(var aFileName : string) : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
+      procedure DisableExtensions;
 
     public
       constructor Create;
@@ -355,6 +357,7 @@ type
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
+      property CheckExtensions                   : boolean                             read FCheckExtensions                   write FCheckExtensions;
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
       property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
       property ProcessType                       : TCefProcessType                     read FProcessType;
@@ -507,6 +510,7 @@ begin
   FSetCurrentDir                 := False;
   FGlobalContextInitialized      := False;
   FCheckDevToolsResources        := True;
+  FCheckExtensions               := True;
   FDisableGPUCache               := True;
   FLocalesRequired               := '';
   FProcessType                   := ParseProcessType;
@@ -578,6 +582,12 @@ begin
   finally
     inherited Destroy;
   end;
+end;
+
+procedure TCefApplication.DisableExtensions;
+begin
+  CheckExtensions := False;
+  AddCustomCommandLine('--disable-extensions');
 end;
 
 procedure TCefApplication.AfterConstruction;
@@ -814,7 +824,7 @@ begin
         end;
 
       TempMissingFrm := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
-      TempMissingRsc := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources));
+      TempMissingRsc := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, FCheckExtensions));
       TempMissingLoc := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
 
       if TempMissingFrm or TempMissingRsc or TempMissingLoc then
@@ -855,6 +865,7 @@ begin
                   if not(Is32BitProcess) then
                     Result := True
                    else
+
                     begin
                       FStatus    := asErrorDLLVersion;
                       TempString := 'Wrong CEF3 binaries !' +
