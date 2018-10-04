@@ -350,7 +350,11 @@ begin
   try
     EnterCriticalSection(FCriticalSection);
 
-    TempTotal := max(size, FGrow);
+    if (size < FGrow) then
+      TempTotal := FGrow
+     else
+      TempTotal := size;
+
     inc(TempTotal, FBufferSize);
 
     ReallocMem(FBuffer, TempTotal);
