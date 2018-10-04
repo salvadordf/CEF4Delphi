@@ -615,12 +615,12 @@ end;
 
 function TCefBrowserHostRef.IsMouseCursorChangeDisabled: Boolean;
 begin
-  Result := PCefBrowserHost(FData)^.is_mouse_cursor_change_disabled(FData) <> 0
+  Result := PCefBrowserHost(FData)^.is_mouse_cursor_change_disabled(FData) <> 0;
 end;
 
 function TCefBrowserHostRef.IsWindowRenderingDisabled: Boolean;
 begin
-  Result := PCefBrowserHost(FData)^.is_window_rendering_disabled(FData) <> 0
+  Result := PCefBrowserHost(FData)^.is_window_rendering_disabled(FData) <> 0;
 end;
 
 procedure TCefBrowserHostRef.NotifyMoveOrResizeStarted;

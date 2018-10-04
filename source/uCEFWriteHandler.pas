@@ -98,6 +98,11 @@ type
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.Math,
+  {$ELSE}
+  Math,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
 
@@ -246,18 +251,21 @@ end;
 function TCefBytesWriteHandler.Write(const ptr: Pointer; size, n: NativeUInt): NativeUInt;
 var
   TempPointer : pointer;
+  TempSize    : int64;
 begin
   EnterCriticalSection(FCriticalSection);
 
-  if ((FOffset + (size * n)) >= FBufferSize) and (Grow(size * n) = 0) then
+  TempSize := size * n;
+
+  if ((FOffset + TempSize) >= FBufferSize) and (Grow(TempSize) = 0) then
     Result := 0
    else
     begin
       TempPointer := Pointer(cardinal(FBuffer) + FOffset);
 
-      CopyMemory(TempPointer, ptr, size * n);
+      CopyMemory(TempPointer, ptr, TempSize);
 
-      FOffset := FOffset + (size * n);
+      FOffset := FOffset + TempSize;
       Result  := n;
     end;
 
@@ -337,21 +345,21 @@ end;
 
 function TCefBytesWriteHandler.Grow(size : NativeUInt) : NativeUInt;
 var
-  s : NativeUInt;
+  TempTotal : int64;
 begin
-  EnterCriticalSection(FCriticalSection);
+  try
+    EnterCriticalSection(FCriticalSection);
 
-  if (size > FGrow) then
-    s := size
-   else
-    s := FGrow;
+    TempTotal := max(size, FGrow);
+    inc(TempTotal, FBufferSize);
 
-  ReallocMem(FBuffer, FBufferSize + s);
+    ReallocMem(FBuffer, TempTotal);
 
-  FBufferSize := FBufferSize + s;
-  Result      := FBufferSize;
-
-  LeaveCriticalSection(FCriticalSection);
+    FBufferSize := TempTotal;
+    Result      := FBufferSize;
+  finally
+    LeaveCriticalSection(FCriticalSection);
+  end;
 end;
 
 end.

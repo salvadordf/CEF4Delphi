@@ -2971,28 +2971,42 @@ end;
 
 procedure TChromium.ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);
 var
-  TempPoint : TCefPoint;
+  TempPoint  : TCefPoint;
+  TempClient : ICefClient;
+  TempPPoint : PCefPoint;
 begin
-  if not(Initialized) or HasDevTools then Exit;
+  try
+    try
+      if Initialized then
+        begin
+          InitializeSettings(FDevBrowserSettings);
 
-  InitializeSettings(FDevBrowserSettings);
+          if (aDevTools <> nil) then
+            WindowInfoAsChild(FDevWindowInfo, aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
+           else
+            WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
 
-  if (aDevTools <> nil) then
-    WindowInfoAsChild(FDevWindowInfo, aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
-   else
-    WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
+          TempClient := TCefClientOwn.Create;
 
+          if (inspectElementAt.x <> low(integer)) and
+             (inspectElementAt.y <> low(integer)) then
+            begin
+              TempPoint.x := inspectElementAt.x;
+              TempPoint.y := inspectElementAt.y;
+              TempPPoint  := @TempPoint;
+            end
+           else
+            TempPPoint := nil;
 
-  if (inspectElementAt.x <> low(integer)) and
-     (inspectElementAt.y <> low(integer)) then
-    begin
-      TempPoint.x := inspectElementAt.x;
-      TempPoint.y := inspectElementAt.y;
-
-      FBrowser.Host.ShowDevTools(@FDevWindowInfo, TCefClientOwn.Create as ICefClient, @FDevBrowserSettings, @TempPoint);
-    end
-   else
-    FBrowser.Host.ShowDevTools(@FDevWindowInfo, TCefClientOwn.Create as ICefClient, @FDevBrowserSettings, nil);
+          FBrowser.Host.ShowDevTools(@FDevWindowInfo, TempClient, @FDevBrowserSettings, TempPPoint);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TChromium.ShowDevTools', e) then raise;
+    end;
+  finally
+    TempClient := nil;
+  end;
 end;
 
 procedure TChromium.CloseDevTools(const aDevTools : TWinControl);
