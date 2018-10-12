@@ -61,7 +61,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3497;
-  CEF_SUPPORTED_VERSION_RELEASE = 1836;
+  CEF_SUPPORTED_VERSION_RELEASE = 1840;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 69;
@@ -716,20 +716,13 @@ begin
 end;
 
 procedure TCefApplication.SetBrowserSubprocessPath(const aValue : ustring);
-var
-  TempPath : string;
 begin
   if (length(aValue) > 0) then
     begin
       if CustomPathIsRelative(aValue) then
-        TempPath := GetModulePath + aValue
+        FBrowserSubprocessPath := GetModulePath + aValue
        else
-        TempPath := aValue;
-
-      if FileExists(TempPath) then
-        FBrowserSubprocessPath := TempPath
-       else
-        FBrowserSubprocessPath := '';
+        FBrowserSubprocessPath := aValue;
     end
    else
     FBrowserSubprocessPath := '';
@@ -800,7 +793,7 @@ end;
 function TCefApplication.CheckCEFLibrary : boolean;
 var
   TempString, TempOldDir : string;
-  TempMissingFrm, TempMissingRsc, TempMissingLoc : boolean;
+  TempMissingFrm, TempMissingRsc, TempMissingLoc, TempMissingSubProc : boolean;
   TempMachine : integer;
   TempVersionInfo : TFileVersionInfo;
 begin
@@ -816,11 +809,12 @@ begin
           chdir(GetModulePath);
         end;
 
-      TempMissingFrm := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
-      TempMissingRsc := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
-      TempMissingLoc := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
+      TempMissingSubProc := not(CheckSubprocessPath(FBrowserSubprocessPath, FMissingLibFiles));
+      TempMissingFrm     := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
+      TempMissingRsc     := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
+      TempMissingLoc     := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
 
-      if TempMissingFrm or TempMissingRsc or TempMissingLoc then
+      if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
         begin
           FStatus    := asErrorMissingFiles;
           TempString := 'CEF3 binaries missing !';
@@ -1638,6 +1632,8 @@ begin
       FStatus    := asLoaded;
       FLibLoaded := True;
       Result     := True;
+
+      {$IFDEF DEBUG}CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);{$ENDIF}
 
       if FEnableHighDPISupport then cef_enable_highdpi_support();
     end

@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="36">
+    <Units Count="38">
       <Unit0>
         <Filename Value="SimpleLazarusBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -274,13 +274,38 @@
       </Unit34>
       <Unit35>
         <Filename Value="..\..\source\uCEFLinkedWindowParent.pas"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="31"/>
         <CursorPos X="28" Y="38"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit35>
+      <Unit36>
+        <Filename Value="..\..\source\uCEFWriteHandler.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="336"/>
+        <CursorPos Y="358"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\math.pp"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="158"/>
+        <CursorPos X="10" Y="180"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit37>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="..\..\source\uCEFLinkedWindowParent.pas"/>
+        <Caret Line="38" Column="28" TopLine="31"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\source\uCEFWriteHandler.pas"/>
+        <Caret Line="353" Column="19" TopLine="321"/>
+      </Position2>
+    </JumpHistory>
   </ProjectSession>
 </CONFIG>

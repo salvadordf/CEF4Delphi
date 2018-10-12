@@ -220,6 +220,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Width = 1179
     Height = 652
     Align = alClient
+    TabStop = True
     TabOrder = 1
   end
   object DevTools: TCEFWindowParent

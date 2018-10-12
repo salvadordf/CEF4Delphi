@@ -57,7 +57,7 @@ uses
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} Classes, SysUtils, Controls, Graphics, Math,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
-  uCEFRegisterCDMCallback;
+  uCEFRegisterCDMCallback, uCEFConstants;
 
 const
   Kernel32DLL = 'kernel32.dll';
@@ -148,7 +148,7 @@ function  CefCrashReportingEnabled : boolean;
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
-procedure CefDebugLog(const aMessage : string);
+procedure CefDebugLog(const aMessage : string; aSeverity : integer = CEF_LOG_SEVERITY_ERROR);
 procedure OutputDebugMessage(const aMessage : string);
 function  CustomExceptionHandler(const aFunctionName : string; const aException : exception) : boolean;
 
@@ -166,6 +166,7 @@ function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersion
 
 function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
+function CheckSubprocessPath(const aSubprocessPath : string; var aMissingFiles : string) : boolean;
 function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;
 function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True; aCheckExtensions: boolean = True) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
@@ -226,7 +227,7 @@ function DeleteDirContents(const aDirectory : string) : boolean;
 implementation
 
 uses
-  uCEFConstants, uCEFApplication, uCEFSchemeHandlerFactory, uCEFValue,
+  uCEFApplication, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
 function CefColorGetA(color: TCefColor): Byte;
@@ -650,7 +651,7 @@ begin
     end;
 end;
 
-procedure CefDebugLog(const aMessage : string);
+procedure CefDebugLog(const aMessage : string; aSeverity : integer);
 const
   DEFAULT_LINE = 1;
 var
@@ -668,7 +669,7 @@ begin
         else          TempString := TempString + ', PT: Other';
       end;
 
-      CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, TempString + ' - ' + aMessage);
+      CefLog('CEF4Delphi', DEFAULT_LINE, aSeverity, TempString + ' - ' + aMessage);
     end;
 end;
 
@@ -942,6 +943,21 @@ begin
     end;
   finally
     if (TempList <> nil) then FreeAndNil(TempList);
+  end;
+end;
+
+function CheckSubprocessPath(const aSubprocessPath : string; var aMissingFiles : string) : boolean;
+begin
+  Result := False;
+
+  try
+    if (length(aSubprocessPath) = 0) or FileExists(aSubprocessPath) then
+      Result := True
+     else
+      aMissingFiles := trim(aMissingFiles) + CRLF + ExtractFileName(aSubprocessPath);
+  except
+    on e : exception do
+      if CustomExceptionHandler('CheckSubprocessPath', e) then raise;
   end;
 end;
 

@@ -50,7 +50,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
+  uCEFWinControl;
 
 const
   MINIBROWSER_VISITDOM_PARTIAL            = WM_APP + $101;
@@ -305,7 +306,7 @@ begin
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
   // Remove it if you don't want to use the DOM visitor
   GlobalCEFApp.LogFile              := 'debug.log';
-  GlobalCEFApp.LogSeverity          := LOGSEVERITY_ERROR;
+  GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
 end;
 
 procedure TDOMVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);

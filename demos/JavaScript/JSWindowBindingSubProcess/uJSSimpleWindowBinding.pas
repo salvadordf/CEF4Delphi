@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
-  uCEFConstants, uCEFv8Value;
+  uCEFConstants, uCEFv8Value, uCEFWinControl;
 
 type
   TJSSimpleWindowBindingFrm = class(TForm)
@@ -201,14 +201,19 @@ end;
 procedure TJSSimpleWindowBindingFrm.FormCloseQuery(
   Sender: TObject; var CanClose: Boolean);
 begin
-  CanClose := FCanClose;
-
-  if not(FClosing) then
+  if GlobalCEFApp.LibLoaded then
     begin
-      FClosing := True;
-      Visible  := False;
-      Chromium1.CloseBrowser(True);
-    end;
+      CanClose := FCanClose;
+
+      if not(FClosing) then
+        begin
+          FClosing := True;
+          Visible  := False;
+          Chromium1.CloseBrowser(True);
+        end;
+    end
+   else
+    CanClose := True;
 end;
 
 procedure TJSSimpleWindowBindingFrm.FormCreate(Sender: TObject);
