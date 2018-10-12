@@ -1633,7 +1633,13 @@ begin
       FLibLoaded := True;
       Result     := True;
 
-      {$IFDEF DEBUG}CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);{$ENDIF}
+      {$IFDEF DEBUG}
+      // Enable the following code line to add the PROCESSID of each process
+      // to the "debug.log" file. That information will help you select the
+      // right process when you need to debug the render process.
+
+      //CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
+      {$ENDIF}
 
       if FEnableHighDPISupport then cef_enable_highdpi_support();
     end
