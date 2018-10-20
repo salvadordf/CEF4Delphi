@@ -125,7 +125,7 @@ type
       FBrowserCompStub        : Pointer;
       FWidgetCompStub         : Pointer;
       FRenderCompStub         : Pointer;
-      {$ENDIF}                            
+      {$ENDIF}
       FBrowserCompHWND        : THandle;
       FWidgetCompHWND         : THandle;
       FRenderCompHWND         : THandle;

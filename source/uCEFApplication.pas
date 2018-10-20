@@ -61,7 +61,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3497;
-  CEF_SUPPORTED_VERSION_RELEASE = 1840;
+  CEF_SUPPORTED_VERSION_RELEASE = 1841;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 69;
@@ -128,6 +128,7 @@ type
       FSitePerProcess                : boolean;
       FDisableWebSecurity            : boolean;
       FDisablePDFExtension           : boolean;
+      FLogProcessInfo                : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       {$IFDEF FPC}
       FLibHandle                     : TLibHandle;
@@ -353,6 +354,7 @@ type
       property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;
       property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;
       property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;
+      property LogProcessInfo                    : boolean                             read FLogProcessInfo                    write FLogProcessInfo;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
@@ -503,6 +505,7 @@ begin
   FSitePerProcess                := True;
   FDisableWebSecurity            := False;
   FDisablePDFExtension           := False;
+  FLogProcessInfo                := False;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
   FShowMessageDlg                := True;
@@ -1633,14 +1636,7 @@ begin
       FLibLoaded := True;
       Result     := True;
 
-      {$IFDEF DEBUG}
-      // Enable the following code line to add the PROCESSID of each process
-      // to the "debug.log" file. That information will help you select the
-      // right process when you need to debug the render process.
-
-      //CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
-      {$ENDIF}
-
+      if FLogProcessInfo       then CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
       if FEnableHighDPISupport then cef_enable_highdpi_support();
     end
    else
