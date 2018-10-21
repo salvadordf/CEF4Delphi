@@ -50,13 +50,15 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFCookieManager, uCEFCookieVisitor;
+  uCEFCookieManager, uCEFCookieVisitor, uCEFWinControl;
 
 const
   MINIBROWSER_SHOWCOOKIES   = WM_APP + $101;
+  MINIBROWSER_SETCOOKIERSLT = WM_APP + $102;
 
   MINIBROWSER_CONTEXTMENU_DELETECOOKIES = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_GETCOOKIES    = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_SETCOOKIE     = MENU_ID_USER_FIRST + 3;
 
 type
   TCookieVisitorFrm = class(TForm)
@@ -102,6 +104,7 @@ type
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowCookiesMsg(var aMessage : TMessage); message MINIBROWSER_SHOWCOOKIES;
+    procedure SetCookieRsltMsg(var aMessage : TMessage); message MINIBROWSER_SETCOOKIERSLT;
 
   protected
     FText     : string;
@@ -196,6 +199,14 @@ begin
   SimpleTextViewerFrm.ShowModal;
 end;
 
+procedure TCookieVisitorFrm.SetCookieRsltMsg(var aMessage : TMessage);
+begin
+  if (aMessage.wParam = 0) then
+    showmessage('There was a problem setting the cookie')
+   else
+    showmessage('Cookie set successfully !');
+end;
+
 procedure TCookieVisitorFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
@@ -227,6 +238,7 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_DELETECOOKIES,  'Delete cookies');
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_GETCOOKIES,     'Visit cookies');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SETCOOKIE,      'Set cookie');
 end;
 
 procedure TCookieVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -259,12 +271,34 @@ begin
 
   case commandId of
     MINIBROWSER_CONTEXTMENU_DELETECOOKIES : Chromium1.DeleteCookies;
+
     MINIBROWSER_CONTEXTMENU_GETCOOKIES :
       begin
         // This should be protected by a mutex
         FText       := '';
         TempManager := TCefCookieManagerRef.Global(nil);
         TempManager.VisitAllCookies(FVisitor);
+      end;
+
+    MINIBROWSER_CONTEXTMENU_SETCOOKIE :
+      begin
+        TempManager := TCefCookieManagerRef.Global(nil);
+
+        if TempManager.SetCookie('https://www.example.com',
+                                 'example_cookie_name',
+                                 '1234',
+                                 '',
+                                 '/',
+                                 True,
+                                 True,
+                                 False,
+                                 now,
+                                 now,
+                                 now,
+                                 nil) then
+        PostMessage(Handle, MINIBROWSER_SETCOOKIERSLT, ord(True), 0)
+       else
+        PostMessage(Handle, MINIBROWSER_SETCOOKIERSLT, ord(False), 0);
       end;
   end;
 end;
