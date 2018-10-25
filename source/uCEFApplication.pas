@@ -196,6 +196,10 @@ type
       function  GetMustCreateRenderProcessHandler : boolean;
       function  GetGlobalContextInitialized : boolean;
       function  GetChildProcessesCount : integer;
+      function  GetUsedMemory : cardinal;
+      function  GetTotalSystemMemory : uint64;
+      function  GetAvailableSystemMemory : uint64;
+      function  GetSystemMemoryLoad : cardinal;
 
       function  LoadCEFlibrary : boolean; virtual;
       function  Load_cef_app_capi_h : boolean;
@@ -373,6 +377,10 @@ type
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
       property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
+      property UsedMemory                        : cardinal                            read GetUsedMemory;
+      property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
+      property AvailableSystemMemory             : uint64                              read GetAvailableSystemMemory;
+      property SystemMemoryLoad                  : cardinal                            read GetSystemMemoryLoad;
 
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
@@ -432,13 +440,13 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Math, System.IOUtils, System.SysUtils, {$IFDEF MSWINDOWS}WinApi.TlHelp32,{$ENDIF}
+  System.Math, System.IOUtils, System.SysUtils, {$IFDEF MSWINDOWS}WinApi.TlHelp32, PSAPI,{$ENDIF}
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
-      {$IFDEF MSWINDOWS}jwatlhelp32,{$ENDIF}
+      {$IFDEF MSWINDOWS}jwatlhelp32, jwapsapi,{$ENDIF}
     {$ELSE}
-      TlHelp32,
+      TlHelp32, {$IFDEF MSWINDOWS}PSAPI,{$ENDIF}
     {$ENDIF}
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
@@ -1519,7 +1527,10 @@ begin
   Result := 0;
 
 {$IFDEF MSWINDOWS}
-  TempHandle         := CreateToolHelp32SnapShot(TH32CS_SNAPPROCESS, 0);
+  TempHandle := CreateToolHelp32SnapShot(TH32CS_SNAPPROCESS, 0);
+  if (TempHandle = INVALID_HANDLE_VALUE) then exit;
+
+  ZeroMemory(@TempProcess, SizeOf(TProcessEntry32));
   TempProcess.dwSize := Sizeof(TProcessEntry32);
   TempPID            := GetCurrentProcessID;
   TempMain           := ExtractFileName(paramstr(0));
@@ -1542,6 +1553,109 @@ begin
 
   CloseHandle(TempHandle);
 {$ENDIF}
+end;
+
+function TCefApplication.GetUsedMemory : cardinal;
+{$IFDEF MSWINDOWS}
+var
+  TempHandle   : THandle;
+  TempProcess  : TProcessEntry32;
+  TempPID      : DWORD;
+  TempProcHWND : HWND;
+  TempMemCtrs  : TProcessMemoryCounters;
+  TempMain, TempSubProc, TempName : string;
+{$ENDIF}
+begin
+  Result := 0;
+
+{$IFDEF MSWINDOWS}
+  TempHandle := CreateToolHelp32SnapShot(TH32CS_SNAPPROCESS, 0);
+  if (TempHandle = INVALID_HANDLE_VALUE) then exit;
+
+  ZeroMemory(@TempProcess, SizeOf(TProcessEntry32));
+  TempProcess.dwSize := Sizeof(TProcessEntry32);
+  TempPID            := GetCurrentProcessID;
+  TempMain           := ExtractFileName(paramstr(0));
+  TempSubProc        := ExtractFileName(FBrowserSubprocessPath);
+
+  Process32First(TempHandle, TempProcess);
+
+  repeat
+    if (TempProcess.th32ProcessID       = TempPID) or
+       (TempProcess.th32ParentProcessID = TempPID) then
+      begin
+        TempName := TempProcess.szExeFile;
+        TempName := ExtractFileName(TempName);
+
+        if (CompareText(TempName, TempMain) = 0) or
+           ((length(TempSubProc) > 0) and (CompareText(TempName, TempSubProc) = 0)) then
+          begin
+            TempProcHWND := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, TempProcess.th32ProcessID);
+
+            if (TempProcHWND <> 0) then
+              begin
+                ZeroMemory(@TempMemCtrs, SizeOf(TProcessMemoryCounters));
+                TempMemCtrs.cb := SizeOf(TProcessMemoryCounters);
+
+                {$IFDEF FPC}
+                if GetProcessMemoryInfo(TempProcHWND, TempMemCtrs, TempMemCtrs.cb) then inc(Result, TempMemCtrs.WorkingSetSize);
+                {$ELSE}
+                if GetProcessMemoryInfo(TempProcHWND, @TempMemCtrs, TempMemCtrs.cb) then inc(Result, TempMemCtrs.WorkingSetSize);
+                {$ENDIF}
+
+                CloseHandle(TempProcHWND);
+              end;
+          end;
+      end;
+  until not(Process32Next(TempHandle, TempProcess));
+
+  CloseHandle(TempHandle);
+{$ENDIF}
+end;
+
+function TCefApplication.GetTotalSystemMemory : uint64;
+{$IFDEF MSWINDOWS}
+var
+  TempMemStatus : TMyMemoryStatusEx;
+{$ENDIF}
+begin
+  Result := 0;
+
+  {$IFDEF MSWINDOWS}
+  ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
+  TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
+  if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.ullTotalPhys;
+  {$ENDIF}
+end;
+
+function TCefApplication.GetAvailableSystemMemory : uint64;
+{$IFDEF MSWINDOWS}
+var
+  TempMemStatus : TMyMemoryStatusEx;
+{$ENDIF}
+begin
+  Result := 0;
+
+  {$IFDEF MSWINDOWS}
+  ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
+  TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
+  if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.ullAvailPhys;
+  {$ENDIF}
+end;
+
+function TCefApplication.GetSystemMemoryLoad : cardinal;
+{$IFDEF MSWINDOWS}
+var
+  TempMemStatus : TMyMemoryStatusEx;
+{$ENDIF}
+begin
+  Result := 0;
+
+  {$IFDEF MSWINDOWS}
+  ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
+  TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
+  if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.dwMemoryLoad;
+  {$ENDIF}
 end;
 
 function TCefApplication.LoadCEFlibrary : boolean;

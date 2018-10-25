@@ -103,7 +103,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFApplication;
+  uCEFApplication, uCefMiscFunctions;
 
 // This is a demo with the simplest web browser you can build using CEF4Delphi and
 // it doesn't show any sign of progress like other web browsers do.
@@ -141,6 +141,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+  Chromium1.DefaultURL := AddressEdt.Text;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -190,7 +191,6 @@ procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   Caption            := 'Simple Browser 2';
   AddressPnl.Enabled := True;
-  GoBtn.Click;
 end;
 
 procedure TForm1.BrowserDestroyMsg(var aMessage : TMessage);

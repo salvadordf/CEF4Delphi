@@ -126,7 +126,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uSimpleTextViewer;
+  uSimpleTextViewer, uCEFTask, uCEFMiscFunctions;
 
 // This demo has a context menu to test the DeleteCookies function and a CookieVisitor example.
 

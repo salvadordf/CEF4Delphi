@@ -2953,6 +2953,20 @@ type
     on_key_event                     : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyEvent): Integer; stdcall;
   end;
 
+  {$IFDEF MSWINDOWS}
+  TMyMemoryStatusEx = record
+     dwLength : DWORD;
+     dwMemoryLoad : DWORD;
+     ullTotalPhys : uint64;
+     ullAvailPhys : uint64;
+     ullTotalPageFile : uint64;
+     ullAvailPageFile : uint64;
+     ullTotalVirtual : uint64;
+     ullAvailVirtual : uint64;
+     ullAvailExtendedVirtual : uint64;
+  end;
+  {$ENDIF}
+
 implementation
 
 end.

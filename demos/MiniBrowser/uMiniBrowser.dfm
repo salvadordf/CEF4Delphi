@@ -38,7 +38,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     BevelOuter = bvNone
     Enabled = False
     ShowCaption = False
-    TabOrder = 0
+    TabOrder = 1
     object NavButtonPnl: TPanel
       Left = 0
       Top = 0
@@ -221,7 +221,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Height = 652
     Align = alClient
     TabStop = True
-    TabOrder = 1
+    TabOrder = 0
   end
   object DevTools: TCEFWindowParent
     Left = 1184
@@ -336,6 +336,13 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object Resolvehost1: TMenuItem
       Caption = 'Resolve host...'
       OnClick = Resolvehost1Click
+    end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object Memoryinfo1: TMenuItem
+      Caption = 'Memory info...'
+      OnClick = Memoryinfo1Click
     end
   end
   object SaveDialog1: TSaveDialog

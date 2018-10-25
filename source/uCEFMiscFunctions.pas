@@ -127,6 +127,7 @@ function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInforma
 
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
+function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
 
 {$IFNDEF DELPHI12_UP}
   {$IFDEF WIN64}

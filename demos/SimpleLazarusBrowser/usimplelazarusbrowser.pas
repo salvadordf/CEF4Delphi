@@ -47,9 +47,7 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFChromiumEvents;
 
 type
-
   { TForm1 }
-
   TForm1 = class(TForm)
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;

@@ -47,7 +47,7 @@ uses
   Forms,
   Windows,
   {$ENDIF }
-  uCEFApplication,
+  uCEFApplication, uCEFConstants,
   uSimpleBrowser2 in 'uSimpleBrowser2.pas' {Form1};
 
 {$R *.res}
