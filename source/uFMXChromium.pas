@@ -319,6 +319,7 @@ type
       function  GetParentForm : TCustomForm;
 
       {$IFDEF MSWINDOWS}
+      procedure InitializeWindowInfo(aParentHandle : HWND; aParentRect : TRect; const aWindowName : ustring); virtual;
       procedure FreeAndNilStub(var aStub : pointer);
       procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
       procedure BrowserCompWndProc(var aMessage: TMessage);
@@ -1085,11 +1086,7 @@ begin
        CreateClientHandler(aParentHandle = 0) then
       begin
         GetSettings(FBrowserSettings);
-
-        if FIsOSR then
-          WindowInfoAsWindowless(FWindowInfo, 0, aWindowName)
-         else
-          WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
+        InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
 
 
         if (aContext <> nil) and (length(aCookiesPath) > 0) then
@@ -1111,6 +1108,16 @@ begin
     on e : exception do
       if CustomExceptionHandler('TFMXChromium.CreateBrowser', e) then raise;
   end;
+end;
+
+procedure TFMXChromium.InitializeWindowInfo(      aParentHandle : HWND;
+                                                  aParentRect   : TRect;
+                                            const aWindowName   : ustring);
+begin
+  if FIsOSR then
+    WindowInfoAsWindowless(FWindowInfo, 0, aWindowName)
+   else
+    WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
 end;
 {$ENDIF}
 

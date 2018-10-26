@@ -751,7 +751,8 @@ type
   TCefTerminationStatus = (
     TS_ABNORMAL_TERMINATION,
     TS_PROCESS_WAS_KILLED,
-    TS_PROCESS_CRASHED
+    TS_PROCESS_CRASHED,
+    TS_PROCESS_OOM
   );
 
   // /include/internal/cef_types.h (cef_path_key_t)
@@ -1185,10 +1186,11 @@ type
 
   // /include/capi/cef_base_capi.h (cef_base_ref_counted_t)
   TCefBaseRefCounted = record
-    size        : NativeUInt;
-    add_ref     : procedure(self: PCefBaseRefCounted); stdcall;
-    release     : function(self: PCefBaseRefCounted): Integer; stdcall;
-    has_one_ref : function(self: PCefBaseRefCounted): Integer; stdcall;
+    size                 : NativeUInt;
+    add_ref              : procedure(self: PCefBaseRefCounted); stdcall;
+    release              : function(self: PCefBaseRefCounted): Integer; stdcall;
+    has_one_ref          : function(self: PCefBaseRefCounted): Integer; stdcall;
+    has_at_least_one_ref : function(self: PCefBaseRefCounted): Integer; stdcall;
   end;
 
   // /include/capi/cef_base_capi.h (cef_base_scoped_t)

@@ -339,6 +339,9 @@ type
       function  SendCompMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
       procedure ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);
 
+      procedure InitializeWindowInfo(aParentHandle : HWND; aParentRect : TRect; const aWindowName : ustring); virtual;
+      procedure InitializeDevToolsWindowInfo(aDevTools : TWinControl); virtual;
+
       procedure FreeAndNilStub(var aStub : pointer);
       procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
       procedure WndProc(var aMessage: TMessage);
@@ -1147,11 +1150,7 @@ begin
        CreateClientHandler(aParentHandle = 0) then
       begin
         GetSettings(FBrowserSettings);
-
-        if FIsOSR then
-          WindowInfoAsWindowless(FWindowInfo, FCompHandle, aWindowName)
-         else
-          WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
+        InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
 
 
         if (aContext <> nil) and (length(aCookiesPath) > 0) then
@@ -1173,6 +1172,24 @@ begin
     on e : exception do
       if CustomExceptionHandler('TChromium.CreateBrowser', e) then raise;
   end;
+end;
+
+procedure TChromium.InitializeWindowInfo(      aParentHandle : HWND;
+                                               aParentRect   : TRect;
+                                         const aWindowName   : ustring);
+begin
+  if FIsOSR then
+    WindowInfoAsWindowless(FWindowInfo, FCompHandle, aWindowName)
+   else
+    WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
+end;
+
+procedure TChromium.InitializeDevToolsWindowInfo(aDevTools : TWinControl);
+begin
+  if (aDevTools <> nil) then
+    WindowInfoAsChild(FDevWindowInfo, aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
+   else
+    WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
 end;
 
 procedure TChromium.InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
@@ -2980,11 +2997,7 @@ begin
       if Initialized then
         begin
           InitializeSettings(FDevBrowserSettings);
-
-          if (aDevTools <> nil) then
-            WindowInfoAsChild(FDevWindowInfo, aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
-           else
-            WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
+          InitializeDevToolsWindowInfo(aDevTools);
 
           TempClient := TCefClientOwn.Create;
 

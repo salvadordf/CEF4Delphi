@@ -395,6 +395,8 @@ type
     ['{1F9A7B44-DCDC-4477-9180-3ADD44BDEB7B}']
     function Wrap: Pointer;
     function SameAs(aData : Pointer) : boolean;
+    function HasOneRef : boolean;
+    function HasAtLeastOneRef : boolean;
   end;
 
   // TCefRunFileDialogCallback
