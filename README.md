@@ -3,10 +3,10 @@ CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chro
 
 CEF4Delphi is based on DCEF3, made by Henri Gourvest. The original license of DCEF3 still applies to CEF4Delphi. Read the license terms in the first lines of any *.pas file.
 
-CEF4Delphi uses CEF 3.3538.1851.g5622787 which includes Chromium 70.0.3538.102. 
+CEF4Delphi uses CEF 3.3538.1852.gcb937fc which includes Chromium 70.0.3538.102. 
 The CEF3 binaries used by CEF4Delphi are available for download at spotify :
-* [32 bits](http://opensource.spotify.com/cefbuilds/cef_binary_3.3538.1851.g5622787_windows32.tar.bz2)
-* [64 bits](http://opensource.spotify.com/cefbuilds/cef_binary_3.3538.1851.g5622787_windows64.tar.bz2)
+* [32 bits](http://opensource.spotify.com/cefbuilds/cef_binary_3.3538.1852.gcb937fc_windows32.tar.bz2)
+* [64 bits](http://opensource.spotify.com/cefbuilds/cef_binary_3.3538.1852.gcb937fc_windows64.tar.bz2)
 
 
 CEF4Delphi was developed and tested on Delphi 10.2 Tokyo and it has been tested in Delphi 7, Delphi XE, Delphi 10 and Lazarus 1.8.4/FPC 3.0.4. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
