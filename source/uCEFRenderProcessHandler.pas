@@ -79,12 +79,14 @@ type
 
   TCefCustomRenderProcessHandler = class(TCefRenderProcessHandlerOwn)
     protected
-      FCefApp : TCefApplication;
+      FCefApp      : TCefApplication;
+      FLoadHandler : ICefLoadHandler;
 
       procedure OnRenderThreadCreated(const extraInfo: ICefListValue); override;
       procedure OnWebKitInitialized; override;
       procedure OnBrowserCreated(const browser: ICefBrowser); override;
       procedure OnBrowserDestroyed(const browser: ICefBrowser); override;
+      function  GetLoadHandler: ICefLoadHandler; override;
       procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
       procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context); override;
       procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const V8Exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); override;
@@ -104,7 +106,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFConstants;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFConstants, uCEFLoadHandler;
 
 procedure cef_render_process_handler_on_render_thread_created(self       : PCefRenderProcessHandler;
                                                               extra_info : PCefListValue); stdcall;
@@ -284,11 +286,17 @@ begin
   inherited Create;
 
   FCefApp := aCefApp;
+
+  if (FCefApp <> nil) and FCefApp.MustCreateLoadHandler then
+    FLoadHandler := TCustomRenderLoadHandler.Create(FCefApp)
+   else
+    FLoadHandler := nil;
 end;
 
 destructor TCefCustomRenderProcessHandler.Destroy;
 begin
-  FCefApp := nil;
+  FCefApp      := nil;
+  FLoadHandler := nil;
 
   inherited Destroy;
 end;
@@ -331,6 +339,14 @@ begin
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnBrowserDestroyed', e) then raise;
   end;
+end;
+
+function TCefCustomRenderProcessHandler.GetLoadHandler: ICefLoadHandler;
+begin
+  if (FLoadHandler <> nil) then
+    Result := FLoadHandler
+   else
+    Result := inherited GetLoadHandler;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnContextCreated(const browser : ICefBrowser;

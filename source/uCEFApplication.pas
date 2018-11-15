@@ -52,16 +52,16 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
+    {$IFDEF MSWINDOWS}WinApi.Windows, Vcl.Forms,{$ENDIF} System.Classes, System.UITypes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, Forms,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 3;
   CEF_SUPPORTED_VERSION_MINOR   = 3538;
-  CEF_SUPPORTED_VERSION_RELEASE = 1851;
+  CEF_SUPPORTED_VERSION_RELEASE = 1852;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 70;
@@ -129,6 +129,7 @@ type
       FDisableWebSecurity            : boolean;
       FDisablePDFExtension           : boolean;
       FLogProcessInfo                : boolean;
+      FDestroyAppWindows             : boolean;
       FChromeVersionInfo             : TFileVersionInfo;
       {$IFDEF FPC}
       FLibHandle                     : TLibHandle;
@@ -152,6 +153,7 @@ type
       FMustCreateResourceBundleHandler : boolean;
       FMustCreateBrowserProcessHandler : boolean;
       FMustCreateRenderProcessHandler  : boolean;
+      FMustCreateLoadHandler           : boolean;
 
       // ICefBrowserProcessHandler
       FOnContextInitialized          : TOnContextInitializedEvent;
@@ -178,6 +180,12 @@ type
       // ICefRegisterCDMCallback
       FOnCDMRegistrationComplete     : TOnCDMRegistrationCompleteEvent;
 
+      // ICefLoadHandler
+      FOnLoadingStateChange          : TOnRenderLoadingStateChange;
+      FOnLoadStart                   : TOnRenderLoadStart;
+      FOnLoadEnd                     : TOnRenderLoadEnd;
+      FOnLoadError                   : TOnRenderLoadError;
+
       procedure SetCache(const aValue : ustring);
       procedure SetCookies(const aValue : ustring);
       procedure SetUserDataPath(const aValue : ustring);
@@ -194,6 +202,7 @@ type
       function  GetMustCreateResourceBundleHandler : boolean;
       function  GetMustCreateBrowserProcessHandler : boolean;
       function  GetMustCreateRenderProcessHandler : boolean;
+      function  GetMustCreateLoadHandler : boolean;
       function  GetGlobalContextInitialized : boolean;
       function  GetChildProcessesCount : integer;
       function  GetUsedMemory : cardinal;
@@ -280,8 +289,8 @@ type
       procedure   UpdateDeviceScaleFactor;
 
       // Internal procedures. Only TInternalApp, TCefCustomBrowserProcessHandler,
-      // ICefResourceBundleHandler, ICefRenderProcessHandler and ICefRegisterCDMCallback
-      // should use them.
+      // ICefResourceBundleHandler, ICefRenderProcessHandler, ICefRegisterCDMCallback
+      // and ICefLoadHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
       procedure   Internal_OnContextInitialized;
@@ -301,6 +310,10 @@ type
       procedure   Internal_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
       procedure   Internal_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
       procedure   Internal_OnCDMRegistrationComplete(result : TCefCDMRegistrationError; const error_message : ustring);
+      procedure   Internal_OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+      procedure   Internal_OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
+      procedure   Internal_OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
+      procedure   Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
 
       property Cache                             : ustring                             read FCache                             write SetCache;
       property Cookies                           : ustring                             read FCookies                           write SetCookies;
@@ -359,6 +372,7 @@ type
       property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;
       property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;
       property LogProcessInfo                    : boolean                             read FLogProcessInfo                    write FLogProcessInfo;
+      property DestroyAppWindows                 : boolean                             read FDestroyAppWindows                 write FDestroyAppWindows;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
@@ -369,6 +383,7 @@ type
       property MustCreateResourceBundleHandler   : boolean                             read GetMustCreateResourceBundleHandler write FMustCreateResourceBundleHandler;
       property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
       property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
+      property MustCreateLoadHandler             : boolean                             read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
@@ -408,6 +423,12 @@ type
 
       // ICefRegisterCDMCallback
       property OnCDMRegistrationComplete         : TOnCDMRegistrationCompleteEvent     read FOnCDMRegistrationComplete         write FOnCDMRegistrationComplete;
+
+      // ICefLoadHandler
+      property OnLoadingStateChange              : TOnRenderLoadingStateChange         read FOnLoadingStateChange              write FOnLoadingStateChange;
+      property OnLoadStart                       : TOnRenderLoadStart                  read FOnLoadStart                       write FOnLoadStart;
+      property OnLoadEnd                         : TOnRenderLoadEnd                    read FOnLoadEnd                         write FOnLoadEnd;
+      property OnLoadError                       : TOnRenderLoadError                  read FOnLoadError                       write FOnLoadError;
   end;
 
   TCEFCookieInitializerThread = class(TThread)
@@ -514,6 +535,7 @@ begin
   FDisableWebSecurity            := False;
   FDisablePDFExtension           := False;
   FLogProcessInfo                := False;
+  FDestroyAppWindows             := True;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
   FShowMessageDlg                := True;
@@ -532,6 +554,7 @@ begin
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
   FMustCreateRenderProcessHandler  := False;
+  FMustCreateLoadHandler           := False;
 
   // ICefBrowserProcessHandler
   FOnContextInitialized          := nil;
@@ -557,6 +580,12 @@ begin
 
   // ICefRegisterCDMCallback
   FOnCDMRegistrationComplete     := nil;
+
+  // ICefLoadHandler
+  FOnLoadingStateChange          := nil;
+  FOnLoadStart                   := nil;
+  FOnLoadEnd                     := nil;
+  FOnLoadError                   := nil;
 
   UpdateDeviceScaleFactor;
 
@@ -648,6 +677,21 @@ begin
   try
     if CheckCEFLibrary and LoadCEFlibrary then
       begin
+        {$IFNDEF FPC}
+        if FDestroyAppWindows and (ProcessType <> ptBrowser) and (Application <> nil) then
+          begin
+            // This is the fix for the issue #139
+            // https://github.com/salvadordf/CEF4Delphi/issues/139
+            // Subprocesses will never use these window handles but TApplication creates them
+            // before executing the code in the DPR file. Any other application trying to
+            // initiate a DDE conversation will use SendMessage or SendMessageTimeout to
+            // broadcast the WM_DDE_INITIATE to all top-level windows. The subprocesses never
+            // call Application.Run so the SendMessage freezes the other applications.
+            if (Application.Handle          <> 0) then DestroyWindow(Application.Handle);
+            if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
+          end;
+        {$ENDIF}
+
         TempApp := TCustomCefApp.Create(self);
         Result  := (ExecuteProcess(TempApp) < 0) and InitializeLibrary(TempApp);
       end;
@@ -1360,6 +1404,26 @@ begin
   if assigned(FOnCDMRegistrationComplete) then FOnCDMRegistrationComplete(result, error_message);
 end;
 
+procedure TCefApplication.Internal_OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+begin
+  if assigned(FOnLoadingStateChange) then FOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+end;
+
+procedure TCefApplication.Internal_OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
+begin
+  if assigned(FOnLoadStart) then FOnLoadStart(browser, frame, transitionType);
+end;
+
+procedure TCefApplication.Internal_OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
+begin
+  if assigned(FOnLoadEnd) then FOnLoadEnd(browser, frame, httpStatusCode);
+end;
+
+procedure TCefApplication.Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+begin
+  if assigned(FOnLoadError) then FOnLoadError(browser, frame, errorCode, errorText, failedUrl);
+end;
+
 procedure TCefApplication.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
                                                                  const commandLine : ICefCommandLine);
 var
@@ -1499,6 +1563,7 @@ begin
   Result := FSingleProcess or
             ((FProcessType = ptRenderer) and
              (FMustCreateRenderProcessHandler     or
+              MustCreateLoadHandler               or
               assigned(FOnRenderThreadCreated)    or
               assigned(FOnWebKitInitialized)      or
               assigned(FOnBrowserCreated)         or
@@ -1508,6 +1573,17 @@ begin
               assigned(FOnUncaughtException)      or
               assigned(FOnFocusedNodeChanged)     or
               assigned(FOnProcessMessageReceived)));
+end;
+
+function TCefApplication.GetMustCreateLoadHandler : boolean;
+begin
+  Result := FSingleProcess or
+            ((FProcessType = ptRenderer) and
+             (FMustCreateLoadHandler          or
+              assigned(FOnLoadingStateChange) or
+              assigned(FOnLoadStart)          or
+              assigned(FOnLoadEnd)            or
+              assigned(FOnLoadError)));
 end;
 
 function TCefApplication.GetGlobalContextInitialized : boolean;
