@@ -387,6 +387,7 @@ type
   end;
 
   ICEFUrlRequestClientEvents = interface
+    ['{1AA800A7-56A1-43CA-A224-49368F18BDD8}']
     // ICefUrlrequestClient
     procedure doOnRequestComplete(const request: ICefUrlRequest);
     procedure doOnUploadProgress(const request: ICefUrlRequest; current, total: Int64);

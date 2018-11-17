@@ -40,7 +40,6 @@ program URLRequest;
 {$I cef.inc}
 
 uses
-  FastMM4,
   {$IFDEF DELPHI16_UP}
   Vcl.Forms,
   WinApi.Windows,
