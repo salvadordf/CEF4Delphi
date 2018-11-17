@@ -35,17 +35,20 @@
  *
  *)
 
-unit CEF4Delphi_Register;
+unit uCEFUrlRequestClientEvents;
 
-{$R res\chromium.dcr}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}
+  {$ALIGN ON}
+  {$MINENUMSIZE 4}
+{$ENDIF}
 
 {$I cef.inc}
 
 interface
-
-procedure Register;
-
-implementation
 
 uses
   {$IFDEF DELPHI16_UP}
@@ -53,14 +56,15 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler,
-  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent;
+  uCEFTypes, uCEFInterfaces;
 
-procedure Register;
-begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
-                                  TCEFWorkScheduler, TCEFServerComponent, TCEFLinkedWindowParent,
-				  TCEFUrlRequestClientComponent]);
-end;
+type
+  TOnRequestComplete    = procedure(Sender: TObject; const request: ICefUrlRequest) of object;
+  TOnUploadProgress     = procedure(Sender: TObject; const request: ICefUrlRequest; current, total: Int64) of object;
+  TOnDownloadProgress   = procedure(Sender: TObject; const request: ICefUrlRequest; current, total: Int64) of object;
+  TOnDownloadData       = procedure(Sender: TObject; const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt) of object;
+  TOnGetAuthCredentials = procedure(Sender: TObject; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; var aResult : Boolean) of object;
+
+implementation
 
 end.

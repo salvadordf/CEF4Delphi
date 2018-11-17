@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,32 +35,40 @@
  *
  *)
 
-unit CEF4Delphi_Register;
-
-{$R res\chromium.dcr}
+program URLRequest;
 
 {$I cef.inc}
 
-interface
-
-procedure Register;
-
-implementation
-
 uses
+  FastMM4,
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  Vcl.Forms,
+  WinApi.Windows,
   {$ELSE}
-  Classes,
-  {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler,
-  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent;
+  Forms,
+  Windows,
+  {$ENDIF }
+  uCEFApplication,
+  uURLRequest in 'uURLRequest.pas' {URLRequestFrm};
 
-procedure Register;
+{$R *.res}
+
+// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+// If you don't add this flag the rederer process will crash when you try to load large images.
+{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+
 begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
-                                  TCEFWorkScheduler, TCEFServerComponent, TCEFLinkedWindowParent,
-				  TCEFUrlRequestClientComponent]);
-end;
+  GlobalCEFApp := TCefApplication.Create;
 
+  if GlobalCEFApp.StartMainProcess then
+    begin
+      Application.Initialize;
+      {$IFDEF DELPHI11_UP}
+      Application.MainFormOnTaskbar := True;
+      {$ENDIF}
+      Application.CreateForm(TURLRequestFrm, URLRequestFrm);
+      Application.Run;
+    end;
+
+  DestroyGlobalCEFApp;
 end.

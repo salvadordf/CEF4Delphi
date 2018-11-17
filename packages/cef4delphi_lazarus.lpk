@@ -21,7 +21,7 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi"/>
     <Version Major="1"/>
-    <Files Count="135">
+    <Files Count="137">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -569,6 +569,15 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFLinkedWindowParent"/>
       </Item135>
+      <Item136>
+        <Filename Value="..\source\uCEFUrlRequestClientEvents.pas"/>
+        <UnitName Value="uCEFUrlRequestClientEvents"/>
+      </Item136>
+      <Item137>
+        <Filename Value="..\source\uCEFUrlRequestClientComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFUrlRequestClientComponent"/>
+      </Item137>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

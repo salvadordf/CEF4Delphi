@@ -51,14 +51,15 @@ uses
   System.Classes,
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel,
   uCEFWorkScheduler, uFMXBufferPanel, uFMXChromium, uFMXWorkScheduler,
-  uCEFServerComponent, uCEFLinkedWindowParent;
+  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent;
 
 procedure Register;
 begin
   RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
                                   TBufferPanel, TFMXBufferPanel, TFMXChromium,
                                   TFMXWorkScheduler, TCEFWorkScheduler,
-                                  TCEFServerComponent, TCEFLinkedWindowParent]);
+                                  TCEFServerComponent, TCEFLinkedWindowParent,
+                                  TCEFUrlRequestClientComponent]);
 end;
 
 end.

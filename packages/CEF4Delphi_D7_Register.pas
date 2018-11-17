@@ -50,12 +50,13 @@ implementation
 uses
   Classes,
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel, uCEFWorkScheduler, 
-  uCEFServerComponent, uCEFLinkedWindowParent;
+  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent;
 
 procedure Register;
 begin
   RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
-                                  TCEFWorkScheduler, TCEFServerComponent, TCEFLinkedWindowParent]);
+                                  TCEFWorkScheduler, TCEFServerComponent, TCEFLinkedWindowParent,
+				  TCEFUrlRequestClientComponent]);
 end;
 
 end.

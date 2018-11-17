@@ -104,6 +104,17 @@ type
       destructor  Destroy; override;
   end;
 
+  TCefURLRequestTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : ICEFUrlRequestClientEvents); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
@@ -112,7 +123,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFUrlRequest;
 
 procedure cef_task_execute(self: PCefTask); stdcall;
 var
@@ -241,6 +252,37 @@ begin
   finally
     FEvents := nil;
   end;
+end;
+
+
+// TCefURLRequestTask
+
+procedure TCefURLRequestTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then ICEFUrlRequestClientEvents(FEvents).doOnCreateURLRequest;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefURLRequestTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefURLRequestTask.Create(const aEvents : ICEFUrlRequestClientEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+end;
+
+destructor TCefURLRequestTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
 end;
 
 end.

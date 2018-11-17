@@ -139,6 +139,7 @@ type
   ICefWindow = interface;
   ICefLabelButton = interface;
   ICefMenuButton = interface;
+  ICefUrlRequest = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -385,6 +386,17 @@ type
     procedure doOnWebSocketMessage(const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
   end;
 
+  ICEFUrlRequestClientEvents = interface
+    // ICefUrlrequestClient
+    procedure doOnRequestComplete(const request: ICefUrlRequest);
+    procedure doOnUploadProgress(const request: ICefUrlRequest; current, total: Int64);
+    procedure doOnDownloadProgress(const request: ICefUrlRequest; current, total: Int64);
+    procedure doOnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt);
+    function  doOnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean;
+
+    // Custom
+    procedure doOnCreateURLRequest;
+  end;
 
 
   // *******************************************

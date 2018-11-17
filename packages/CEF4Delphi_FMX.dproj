@@ -270,6 +270,8 @@
         <DCCReference Include="..\source\uCEFv8ArrayBufferReleaseCallback.pas"/>
         <DCCReference Include="..\source\uCEFWinControl.pas"/>
         <DCCReference Include="..\source\uCEFLinkedWindowParent.pas"/>
+        <DCCReference Include="..\source\uCEFUrlRequestClientEvents.pas"/>
+        <DCCReference Include="..\source\uCEFUrlRequestClientComponent.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
