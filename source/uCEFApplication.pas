@@ -688,7 +688,9 @@ begin
             // broadcast the WM_DDE_INITIATE to all top-level windows. The subprocesses never
             // call Application.Run so the SendMessage freezes the other applications.
             if (Application.Handle          <> 0) then DestroyWindow(Application.Handle);
+            {$IFDEF DELPHI9_UP}
             if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
+            {$ENDIF}
           end;
         {$ENDIF}
 
