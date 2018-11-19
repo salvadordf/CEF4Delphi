@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="45">
+    <Units Count="47">
       <Unit0>
         <Filename Value="SimpleLazarusBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,10 +20,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="43"/>
-        <CursorPos X="24" Y="68"/>
+        <TopLine Value="166"/>
+        <CursorPos X="62" Y="176"/>
         <UsageCount Value="39"/>
       </Unit1>
       <Unit2>
@@ -138,22 +138,23 @@
       </Unit16>
       <Unit17>
         <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="1633"/>
-        <CursorPos X="53" Y="1656"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="673"/>
+        <CursorPos X="17" Y="693"/>
         <UsageCount Value="13"/>
-        <Bookmarks Count="2">
-          <Item0 X="60" Y="956" ID="1"/>
-          <Item1 X="9" Y="894" ID="3"/>
+        <Bookmarks Count="3">
+          <Item0 X="9" Y="896" ID="3"/>
+          <Item1 X="94" Y="688" ID="1"/>
+          <Item2 X="31" Y="41" ID="2"/>
         </Bookmarks>
-        <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
         <UnitName Value="Forms"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="556"/>
-        <CursorPos X="15" Y="581"/>
+        <TopLine Value="1221"/>
+        <CursorPos X="3" Y="1243"/>
         <UsageCount Value="11"/>
       </Unit18>
       <Unit19>
@@ -225,18 +226,16 @@
       </Unit27>
       <Unit28>
         <Filename Value="..\..\source\uCEFTypes.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="538"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit28>
       <Unit29>
         <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="99"/>
         <CursorPos X="36" Y="131"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit29>
       <Unit30>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\ctypes.pp"/>
@@ -269,15 +268,16 @@
         <Filename Value="..\..\packages\cef4delphi_lazarus.pas"/>
         <UnitName Value="CEF4Delphi_Lazarus"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="50"/>
-        <CursorPos X="16" Y="62"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="43"/>
+        <CursorPos X="53" Y="62"/>
         <UsageCount Value="10"/>
       </Unit34>
       <Unit35>
         <Filename Value="..\..\source\uCEFLinkedWindowParent.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="31"/>
-        <CursorPos X="28" Y="38"/>
+        <TopLine Value="77"/>
+        <CursorPos Y="85"/>
         <UsageCount Value="10"/>
       </Unit35>
       <Unit36>
@@ -310,125 +310,56 @@
       </Unit39>
       <Unit40>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\filutilh.inc"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="49"/>
         <CursorPos X="3" Y="62"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit40>
       <Unit41>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-jedi\src\jwawindows.pas"/>
         <UnitName Value="JwaWindows"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit41>
       <Unit42>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-jedi\src\jwapsapi.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="200"/>
         <CursorPos X="10" Y="212"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit42>
       <Unit43>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\redef.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="636"/>
         <CursorPos X="48" Y="649"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit43>
       <Unit44>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\struct.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="4666"/>
         <CursorPos X="6" Y="4679"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit44>
+      <Unit45>
+        <Filename Value="C:\lazarus\lcl\include\application.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="139"/>
+        <CursorPos X="3" Y="137"/>
+        <UsageCount Value="10"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="..\..\source\uCEFUrlRequestClientComponent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="96"/>
+        <CursorPos X="12" Y="112"/>
+        <UsageCount Value="10"/>
+      </Unit46>
     </Units>
-    <JumpHistory Count="20" HistoryIndex="19">
-      <Position1>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="445" Column="58" TopLine="427"/>
-      </Position1>
-      <Position2>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1190" Column="17" TopLine="1173"/>
-      </Position2>
-      <Position3>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="447" Column="51" TopLine="428"/>
-      </Position3>
-      <Position4>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1182" Column="72" TopLine="1160"/>
-      </Position4>
-      <Position5>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1190" Column="39" TopLine="1121"/>
-      </Position5>
-      <Position6>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1571" Column="46" TopLine="1556"/>
-      </Position6>
-      <Position7>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1190" Column="64" TopLine="1165"/>
-      </Position7>
-      <Position8>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="447" Column="38" TopLine="439"/>
-      </Position8>
-      <Position9>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1190" Column="20" TopLine="436"/>
-      </Position9>
-      <Position10>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\filutilh.inc"/>
-        <Caret Line="165" Column="60" TopLine="154"/>
-      </Position10>
-      <Position11>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1196" Column="49" TopLine="1162"/>
-      </Position11>
-      <Position12>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\filutilh.inc"/>
-        <Caret Line="80" Column="3" TopLine="67"/>
-      </Position12>
-      <Position13>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\filutilh.inc"/>
-        <Caret Line="62" Column="3" TopLine="49"/>
-      </Position13>
-      <Position14>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="447" Column="46" TopLine="424"/>
-      </Position14>
-      <Position15>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1599" Column="55" TopLine="1587"/>
-      </Position15>
-      <Position16>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1620" Column="73" TopLine="1604"/>
-      </Position16>
-      <Position17>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\redef.inc"/>
-        <Caret Line="649" Column="48" TopLine="636"/>
-      </Position17>
-      <Position18>
-        <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <Caret Line="1618" Column="62" TopLine="1604"/>
-      </Position18>
-      <Position19>
-        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="132" Column="48" TopLine="51"/>
-      </Position19>
-      <Position20>
-        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="131" Column="36" TopLine="99"/>
-      </Position20>
-    </JumpHistory>
+    <General>
+      <ActiveWindowIndexAtStart Value="-1"/>
+    </General>
+    <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>
 </CONFIG>

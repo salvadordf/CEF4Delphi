@@ -172,7 +172,7 @@ begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   //if not(Chromium1.CreateBrowser(CEFWindowParent1)) then Timer1.Enabled := True;
-  Chromium1.CreateBrowser(CEFWindowParent1);
+  if not(Chromium1.CreateBrowser(CEFWindowParent1)) then Timer1.Enabled := True;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
