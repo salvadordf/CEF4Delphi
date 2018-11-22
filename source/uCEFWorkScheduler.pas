@@ -41,10 +41,8 @@ unit uCEFWorkScheduler;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$IFNDEF CPUX64}
-  {$ALIGN ON}
-  {$MINENUMSIZE 4}
-{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
@@ -132,7 +130,7 @@ uses
   {$ELSE}
   SysUtils, Math,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFApplication;
+  uCEFMiscFunctions, uCEFApplication, uCEFTypes;
 
 procedure DestroyGlobalCEFWorkScheduler;
 begin
@@ -174,12 +172,16 @@ begin
 
   if not(csDesigning in ComponentState) then
     begin
-      {$IFDEF FPC}
-      TempWndMethod    := @WndProc;
-      FCompHandle      := AllocateHWnd(TempWndMethod);
-      {$ELSE}
-      FCompHandle      := AllocateHWnd(WndProc);
-      {$ENDIF}
+      if (GlobalCEFApp <> nil) and
+         ((GlobalCEFApp.ProcessType = ptBrowser) or GlobalCEFApp.SingleProcess) then
+        begin
+          {$IFDEF FPC}
+          TempWndMethod    := @WndProc;
+          FCompHandle      := AllocateHWnd(TempWndMethod);
+          {$ELSE}
+          FCompHandle      := AllocateHWnd(WndProc);
+          {$ENDIF}
+        end;
 
       CreateThread;
     end;
