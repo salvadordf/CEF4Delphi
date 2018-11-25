@@ -26,7 +26,6 @@ object SimpleServerFrm: TSimpleServerFrm
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 557
     object AddressLbl: TLabel
       Left = 14
       Top = 11
@@ -106,7 +105,6 @@ object SimpleServerFrm: TSimpleServerFrm
     ReadOnly = True
     ScrollBars = ssBoth
     TabOrder = 1
-    ExplicitWidth = 557
   end
   object CEFServerComponent1: TCEFServerComponent
     OnServerCreated = CEFServerComponent1ServerCreated
@@ -114,6 +112,9 @@ object SimpleServerFrm: TSimpleServerFrm
     OnClientConnected = CEFServerComponent1ClientConnected
     OnClientDisconnected = CEFServerComponent1ClientDisconnected
     OnHttpRequest = CEFServerComponent1HttpRequest
+    OnWebSocketRequest = CEFServerComponent1WebSocketRequest
+    OnWebSocketConnected = CEFServerComponent1WebSocketConnected
+    OnWebSocketMessage = CEFServerComponent1WebSocketMessage
     Left = 456
     Top = 304
   end

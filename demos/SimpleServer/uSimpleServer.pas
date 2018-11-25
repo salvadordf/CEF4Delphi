@@ -80,6 +80,15 @@ type
     procedure CEFServerComponent1HttpRequest(Sender: TObject;
       const server: ICefServer; connection_id: Integer;
       const client_address: ustring; const request: ICefRequest);
+    procedure CEFServerComponent1WebSocketConnected(Sender: TObject;
+      const server: ICefServer; connection_id: Integer);
+    procedure CEFServerComponent1WebSocketMessage(Sender: TObject;
+      const server: ICefServer; connection_id: Integer;
+      const data: Pointer; data_size: NativeUInt);
+    procedure CEFServerComponent1WebSocketRequest(Sender: TObject;
+      const server: ICefServer; connection_id: Integer;
+      const client_address: ustring; const request: ICefRequest;
+      const callback: ICefCallback);
   protected
     FClosing : boolean;
 
@@ -100,11 +109,20 @@ implementation
 // Server capacity is limited and is intended to handle only a small number of
 // simultaneous connections (e.g. for communicating between applications on localhost).
 
-// To test it follow these steps :
+// To test the HTTP server follow these steps :
 // 1- Build and run this demo.
 // 2- Click on the Start button.
 // 3- Open your web browser and visit this address http://127.0.0.1:8099
 // 4- You should see some connection details in the server log and a "Hellow world" text in your web browser.
+
+// To test the websockets server follow these steps :
+// 1- Build and run this demo.
+// 2- Click on the "Start" button.
+// 3- Open your web browser and visit this address https://www.websocket.org/echo.html
+// 4- Type this in the "Location" field ws://127.0.0.1:8099
+// 5- Click the "Connect" button.
+// 6- Click the "Send" button.
+// 7- You should see some connection details in the server log and the default text message "Rock it with HTML5 WebSocket"
 
 procedure TSimpleServerFrm.AddressEdtChange(Sender: TObject);
 begin
@@ -248,6 +266,40 @@ begin
       StartBtn.Enabled := True;
       StopBtn.Enabled  := False;
     end;
+end;
+
+procedure TSimpleServerFrm.CEFServerComponent1WebSocketConnected(
+  Sender: TObject; const server: ICefServer; connection_id: Integer);
+begin
+  ConnectionLogMem.Lines.Add('Client connected : ' + inttostr(connection_id));
+end;
+
+procedure TSimpleServerFrm.CEFServerComponent1WebSocketMessage(
+  Sender: TObject; const server: ICefServer; connection_id: Integer;
+  const data: Pointer; data_size: NativeUInt);
+var
+  TempStream : TStringStream;
+begin
+  TempStream := nil;
+
+  try
+    if (data_size > 0) and (data <> nil) then
+      begin
+        TempStream := TStringStream.Create;
+        TempStream.WriteBuffer(data^, data_size);
+        ConnectionLogMem.Lines.Add('Client message received : ' + quotedstr(TempStream.DataString));
+      end;
+  finally
+    if (TempStream <> nil) then FreeAndNil(TempStream);
+  end;
+end;
+
+procedure TSimpleServerFrm.CEFServerComponent1WebSocketRequest(
+  Sender: TObject; const server: ICefServer; connection_id: Integer;
+  const client_address: ustring; const request: ICefRequest;
+  const callback: ICefCallback);
+begin
+  if (callback <> nil) then callback.cont;
 end;
 
 procedure TSimpleServerFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
