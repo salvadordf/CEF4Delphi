@@ -201,6 +201,13 @@ type
     procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser;
       const frame: ICefFrame; httpStatusCode: Integer);
     procedure Memoryinfo1Click(Sender: TObject);
+    procedure Chromium1LoadError(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      errorCode: Integer; const errorText, failedUrl: ustring);
+    procedure Chromium1CertificateError(Sender: TObject;
+      const browser: ICefBrowser; certError: Integer;
+      const requestUrl: ustring; const sslInfo: ICefSslInfo;
+      const callback: ICefRequestCallback; out Result: Boolean);
 
   protected
     FResponse : TStringList;
@@ -402,6 +409,16 @@ begin
      (frame <> nil) and
      frame.IsMain then
     InspectRequest(request);
+end;
+
+procedure TMiniBrowserFrm.Chromium1CertificateError(Sender: TObject;
+  const browser: ICefBrowser; certError: Integer;
+  const requestUrl: ustring; const sslInfo: ICefSslInfo;
+  const callback: ICefRequestCallback; out Result: Boolean);
+begin
+  CefDebugLog('Certificate error code:' + inttostr(certError) +
+              ' - URL:' + requestUrl, CEF_LOG_SEVERITY_ERROR);
+  Result := False;
 end;
 
 procedure TMiniBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
@@ -612,6 +629,15 @@ begin
     StatusBar1.Panels[1].Text := 'main frame loaded : ' + quotedstr(frame.name)
    else
     StatusBar1.Panels[1].Text := 'frame loaded : ' + quotedstr(frame.name);
+end;
+
+procedure TMiniBrowserFrm.Chromium1LoadError(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
+  const errorText, failedUrl: ustring);
+begin
+  CefDebugLog('Error code:' + inttostr(errorCode) +
+              ' - Error text :' + quotedstr(errorText) +
+              ' - URL:' + failedUrl, CEF_LOG_SEVERITY_ERROR);
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadingProgressChange(Sender: TObject;
@@ -917,7 +943,7 @@ begin
           TempFile := TMemoryStream.Create;
           TempFile.LoadFromFile(OpenDialog1.FileName);
 
-          if (OpenDialog1.FilterIndex = 0) then
+          if (OpenDialog1.FilterIndex = 1) then
             TempDATA := 'data:text/html;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size)
            else
             TempDATA := 'data:application/pdf;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size);
