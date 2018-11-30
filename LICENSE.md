@@ -13,7 +13,7 @@ For more information about CEF4Delphi visit :
 
 ## Original DCEF3 license
 
-## Delphi Chromium Embedded 3
+### Delphi Chromium Embedded 3
 
  Usage allowed under the restrictions of the Lesser GNU General Public License
  or alternatively the restrictions of the Mozilla Public License 1.1
@@ -22,10 +22,12 @@ For more information about CEF4Delphi visit :
  WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
  the specific language governing rights and limitations under the License.
 
- Unit owner : Henri Gourvest <hgourvest@gmail.com>
- Web site   : http://www.progdigy.com
- Repository : http://code.google.com/p/delphichromiumembedded/
- Group      : http://groups.google.com/group/delphichromiumembedded
+<dl>
+ <dt>Unit owner :</dt> <dd>Henri Gourvest <hgourvest@gmail.com></dd>
+ <dt>Web site :</dt> <dd>http://www.progdigy.com</dd>
+ <dt>Repository :</dt> <dd>http://code.google.com/p/delphichromiumembedded/</dd>
+ <dt>Group :</dt> <dd>http://groups.google.com/group/delphichromiumembedded</dd>
+</dl>
 
  Embarcadero Technologies, Inc is not permitted to use or redistribute
  this source code without explicit permission.
