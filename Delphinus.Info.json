@@ -1,0 +1,24 @@
+{
+    "id": "{45F23B07-EB18-4F94-B753-CDAA46B6B6D4}",
+    "name": "",
+    "picture": "packages\\res\\tchromium.png",
+    "licenses":
+    [
+        {
+          "type": "LGPL-2.1-only",
+          "file": "LICENSE.md"
+        }
+        {
+          "type": "MPL-1.1",
+          "file": "LICENSE.md"
+        }
+    ],
+    "platforms": "Win32;Win64",
+    "package_compiler_min": ,
+    "package_compiler_max": ,
+    "compiler_min": ,
+    "compiler_max": ,
+    "first_version": "v70.0.3538.102",
+    "report_url": "",
+    "dependencies": []
+}
