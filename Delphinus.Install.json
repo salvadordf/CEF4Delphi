@@ -35,8 +35,7 @@
 		}
 		{
 			"project": "packages\\CEF4Delphi_FMX.dproj",
-      "compiler_min": 32,
-      "compiler_max": ,      
+      "compiler_min": 32
 		}
 	],
 
