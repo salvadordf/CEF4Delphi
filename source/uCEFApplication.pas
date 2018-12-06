@@ -147,6 +147,8 @@ type
       FWidevinePath                  : ustring;
       FMustFreeLibrary               : boolean;
       FAutoplayPolicy                : TCefAutoplayPolicy;
+      FDisableBackgroundNetworking   : boolean;
+      FMetricsRecordingOnly          : boolean;
 
       FMustCreateResourceBundleHandler : boolean;
       FMustCreateBrowserProcessHandler : boolean;
@@ -389,6 +391,8 @@ type
       property WidevinePath                      : ustring                             read FWidevinePath                      write FWidevinePath;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
       property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;
+      property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;
+      property MetricsRecordingOnly              : boolean                             read FMetricsRecordingOnly              write FMetricsRecordingOnly;
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
       property UsedMemory                        : cardinal                            read GetUsedMemory;
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
@@ -548,6 +552,8 @@ begin
   FWidevinePath                  := '';
   FMustFreeLibrary               := False;
   FAutoplayPolicy                := appDefault;
+  FDisableBackgroundNetworking   := False;
+  FMetricsRecordingOnly          := False;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -1509,6 +1515,12 @@ begin
 
       if FDisableExtensions then
         commandLine.AppendSwitch('--disable-extensions');
+
+      if FDisableBackgroundNetworking then
+        commandLine.AppendSwitch('--disable-background-networking');
+
+      if FMetricsRecordingOnly then
+        commandLine.AppendSwitch('--metrics-recording-only');
 
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and

@@ -59,19 +59,25 @@ type
       procedure OnDownloadProgress(const request: ICefUrlRequest; current, total: Int64); virtual;
       procedure OnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt); virtual;
       function  OnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
+
+      procedure RemoveReferences; virtual;
+
     public
       constructor Create; virtual;
   end;
 
   TCustomCefUrlrequestClient = class(TCefUrlrequestClientOwn)
     protected
-      FEvents : ICEFUrlRequestClientEvents;
+      FEvents : Pointer;
 
       procedure OnRequestComplete(const request: ICefUrlRequest); override;
       procedure OnUploadProgress(const request: ICefUrlRequest; current, total: Int64); override;
       procedure OnDownloadProgress(const request: ICefUrlRequest; current, total: Int64); override;
       procedure OnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt); override;
       function  OnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; override;
+
+      procedure RemoveReferences; override;
+
     public
       constructor Create(const events: ICEFUrlRequestClientEvents); reintroduce;
       destructor  Destroy; override;
@@ -198,6 +204,11 @@ begin
   Result := False;
 end;
 
+procedure TCefUrlrequestClientOwn.RemoveReferences;
+begin
+  //
+end;
+
 procedure TCefUrlrequestClientOwn.OnRequestComplete(const request: ICefUrlRequest);
 begin
   //
@@ -215,12 +226,12 @@ constructor TCustomCefUrlrequestClient.Create(const events: ICEFUrlRequestClient
 begin
   inherited Create;
 
-  FEvents := events;
+  FEvents := Pointer(events);
 end;
 
 destructor TCustomCefUrlrequestClient.Destroy;
 begin
-  FEvents := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
@@ -228,7 +239,8 @@ end;
 procedure TCustomCefUrlrequestClient.OnRequestComplete(const request: ICefUrlRequest);
 begin
   try
-    if (FEvents <> nil) then FEvents.doOnRequestComplete(request);
+    if (FEvents <> nil) then
+      ICEFUrlRequestClientEvents(FEvents).doOnRequestComplete(request);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefUrlrequestClient.OnRequestComplete', e) then raise;
@@ -238,7 +250,8 @@ end;
 procedure TCustomCefUrlrequestClient.OnUploadProgress(const request: ICefUrlRequest; current, total: Int64);
 begin
   try
-    if (FEvents <> nil) then FEvents.doOnUploadProgress(request, current, total);
+    if (FEvents <> nil) then
+      ICEFUrlRequestClientEvents(FEvents).doOnUploadProgress(request, current, total);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefUrlrequestClient.OnUploadProgress', e) then raise;
@@ -248,7 +261,8 @@ end;
 procedure TCustomCefUrlrequestClient.OnDownloadProgress(const request: ICefUrlRequest; current, total: Int64);
 begin
   try
-    if (FEvents <> nil) then FEvents.doOnDownloadProgress(request, current, total);
+    if (FEvents <> nil) then
+      ICEFUrlRequestClientEvents(FEvents).doOnDownloadProgress(request, current, total);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefUrlrequestClient.OnDownloadProgress', e) then raise;
@@ -258,7 +272,8 @@ end;
 procedure TCustomCefUrlrequestClient.OnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt);
 begin
   try
-    if (FEvents <> nil) then FEvents.doOnDownloadData(request, data, dataLength);
+    if (FEvents <> nil) then
+      ICEFUrlRequestClientEvents(FEvents).doOnDownloadData(request, data, dataLength);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefUrlrequestClient.OnDownloadData', e) then raise;
@@ -269,12 +284,17 @@ function TCustomCefUrlrequestClient.OnGetAuthCredentials(isProxy: Boolean; const
 begin
   Result := False;
   try
-    if (FEvents <> nil) then Result := FEvents.doOnGetAuthCredentials(isProxy, host, port, realm, scheme, callback);
+    if (FEvents <> nil) then
+      Result := ICEFUrlRequestClientEvents(FEvents).doOnGetAuthCredentials(isProxy, host, port, realm, scheme, callback);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefUrlrequestClient.OnGetAuthCredentials', e) then raise;
   end;
 end;
 
+procedure TCustomCefUrlrequestClient.RemoveReferences;
+begin
+  FEvents := nil;
+end;
 
 end.

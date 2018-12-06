@@ -85,10 +85,12 @@ type
       // Custom
       procedure doOnCreateURLRequest;
 
+      procedure DestroyRequestClient;
+
     public
       constructor Create(AOwner: TComponent); override;
-      destructor  Destroy; override;
       procedure   AfterConstruction; override;
+      procedure   BeforeDestruction; override;
 
       procedure   AddURLRequest;
 
@@ -133,19 +135,33 @@ begin
   FOnCreateURLRequest   := nil;
 end;
 
-destructor TCEFUrlRequestClientComponent.Destroy;
-begin
-  FClient := nil;
-
-  inherited Destroy;
-end;
-
 procedure TCEFUrlRequestClientComponent.AfterConstruction;
 begin
   inherited AfterConstruction;
 
   if not(csDesigning in ComponentState) then
     FClient := TCustomCefUrlrequestClient.Create(self);
+end;
+
+procedure TCEFUrlRequestClientComponent.BeforeDestruction;
+begin
+  DestroyRequestClient;
+
+  inherited BeforeDestruction;
+end;
+
+procedure TCEFUrlRequestClientComponent.DestroyRequestClient;
+begin
+  try
+    if (FClient <> nil) then
+      begin
+        FClient.RemoveReferences;
+        FClient := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCEFUrlRequestClientComponent.DestroyRequestClient', e) then raise;
+  end;
 end;
 
 procedure TCEFUrlRequestClientComponent.doOnRequestComplete(const request: ICefUrlRequest);

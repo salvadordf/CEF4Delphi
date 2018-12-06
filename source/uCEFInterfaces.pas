@@ -1798,6 +1798,8 @@ type
     procedure OnDownloadProgress(const request: ICefUrlRequest; current, total: Int64);
     procedure OnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt);
     function  OnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   // TCefWebPluginInfoVisitor
