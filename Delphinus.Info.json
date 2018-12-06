@@ -1,0 +1,17 @@
+{
+    "id": "{45F23B07-EB18-4F94-B753-CDAA46B6B6D4}",
+    "picture": "packages\\res\\tchromium.png",
+    "licenses":
+    [
+        {
+          "type": "LGPL-2.1-only",
+          "file": "LICENSE.md"
+        }
+        {
+          "type": "MPL-1.1",
+          "file": "LICENSE.md"
+        }
+    ],
+    "platforms": "Win32;Win64",
+    "dependencies": []
+}

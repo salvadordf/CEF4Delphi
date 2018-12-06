@@ -1,0 +1,43 @@
+{
+        "search_pathes": 
+	[
+		{
+			"pathes": "source",
+			"platforms": "Win32;Win64"
+		}
+	],
+	"browsing_pathes": 
+	[
+		{
+			"pathes": "source",
+			"platforms": "Win32;Win64"
+		}
+	],
+	
+	"source_folders":
+	[
+		{
+			"folder": "\\",
+			"base": "\\",
+			"recursive": true,
+			"filter": "*;*.*"
+		}
+	],
+
+    "raw_folders": [],
+	
+	"projects":
+	[
+		{
+			"project": "packages\\CEF4Delphi.dproj",
+      "compiler_min": 22,
+      "compiler_max": 31,      
+		}
+		{
+			"project": "packages\\CEF4Delphi_FMX.dproj",
+      "compiler_min": 32
+		}
+	],
+
+    "experts": []
+}
