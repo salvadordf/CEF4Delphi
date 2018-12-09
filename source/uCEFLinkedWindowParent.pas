@@ -62,6 +62,7 @@ uses
   uCEFWinControl, uCEFTypes, uCEFInterfaces, uCEFChromium;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFLinkedWindowParent = class(TCEFWinControl)
     protected
       FChromium : TChromium;

@@ -1,13 +1,13 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{4BC9C886-B196-4B7F-931A-6134EB9A8DA6}</ProjectGuid>
-        <ProjectVersion>18.2</ProjectVersion>
+        <ProjectVersion>18.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <MainSource>MiniBrowser.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <TargetedPlatforms>1</TargetedPlatforms>
+        <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -104,20 +104,20 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
         <DCC_RangeChecking>true</DCC_RangeChecking>
+        <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -127,12 +127,12 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
         <BT_BuildType>Debug</BT_BuildType>
+        <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -168,10 +168,11 @@
                     <Source Name="MainSource">MiniBrowser.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\19.0\Bpl\DCLComponentes_UI.bpl">DCLComponentes_UI</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclIPIndyImpl250.bpl">IP Abstraction Indy Implementation Design Time</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclemsedge260.bpl">File c:\program files (x86)\embarcadero\studio\20.0\bin\dclemsedge260.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclIPIndyImpl260.bpl">IP Abstraction Indy Implementation Design Time</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\DataExplorerDBXPluginEnt260.bpl">DBExpress Enterprise Data Explorer Integration</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp260.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
@@ -191,13 +192,18 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="AndroidClassesDexFile">
                     <Platform Name="Android">
                         <RemoteDir>classes</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidFileProvider">
+                    <Platform Name="Android">
+                        <RemoteDir>res\xml</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -234,6 +240,12 @@
                 <DeployClass Name="AndroidSplashStyles">
                     <Platform Name="Android">
                         <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV21">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v21</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -315,6 +327,11 @@
                         <Operation>1</Operation>
                         <Extensions>.framework</Extensions>
                     </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.framework</Extensions>
+                    </Platform>
                     <Platform Name="Win32">
                         <Operation>0</Operation>
                     </Platform>
@@ -333,6 +350,11 @@
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
@@ -360,6 +382,11 @@
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
                     <Platform Name="Win32">
                         <Operation>0</Operation>
                         <Extensions>.bpl</Extensions>
@@ -379,6 +406,10 @@
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
@@ -518,8 +549,18 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="ProjectOSXDebug">
+                    <Platform Name="OSX64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="ProjectOSXEntitlements">
                     <Platform Name="OSX32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>..\</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -529,9 +570,17 @@
                         <RemoteDir>Contents</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -554,6 +603,10 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -596,11 +649,12 @@
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">False</Platform>
+                <Platform value="Win64">True</Platform>
             </Platforms>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

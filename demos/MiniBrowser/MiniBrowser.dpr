@@ -50,6 +50,7 @@ uses
   {$ENDIF }
   uCEFApplication,
   uCEFTypes,
+  uCEFConstants,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uPreferences in 'uPreferences.pas' {PreferencesFrm},
   uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
@@ -60,6 +61,9 @@ uses
 
 begin
   GlobalCEFApp := TCefApplication.Create;
+
+  GlobalCEFApp.LogFile              := 'debug.log';
+  GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
 
   if GlobalCEFApp.StartMainProcess then
     begin

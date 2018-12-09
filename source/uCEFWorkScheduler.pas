@@ -62,6 +62,7 @@ uses
   uCEFConstants, uCEFWorkSchedulerThread;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFWorkScheduler = class(TComponent)
     protected
       FCompHandle         : HWND;

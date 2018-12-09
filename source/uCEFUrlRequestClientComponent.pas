@@ -63,6 +63,7 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFUrlRequestClientEvents, uCEFUrlrequestClient, uCEFUrlRequest;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFUrlRequestClientComponent = class(TComponent, ICEFUrlRequestClientEvents)
     protected
       FClient               : ICefUrlrequestClient;

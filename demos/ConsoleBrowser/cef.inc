@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2017 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2017 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -39,11 +39,6 @@
  // http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Compiler_Versions
 
 {$DEFINE DELPHI_VERSION_UNKNOW}
-
-{$IFDEF FPC}
-  {$DEFINE CEF_MULTI_THREADED_MESSAGE_LOOP}
-  {$DEFINE SUPPORTS_INLINE}
-{$ENDIF}
 
 // Delphi 5
 {$IFDEF VER130}
@@ -149,7 +144,7 @@
   {$DEFINE DELPHI15_UP}
 {$ENDIF}
 
-// Delphi XE2
+// Delphi XE2  (First FireMonkey and 64bit compiler)
 {$IFDEF VER230}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
@@ -354,8 +349,9 @@
   {$DEFINE DELPHI25_UP}
 {$ENDIF}
 
-
-{$IFDEF DELPHI_VERSION_UNKNOW}
+// Rad Studio 10.3 - Delphi Rio
+{$IFDEF VER330}
+  {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
   {$DEFINE DELPHI6_UP}
   {$DEFINE DELPHI7_UP}
@@ -376,6 +372,35 @@
   {$DEFINE DELPHI23_UP}
   {$DEFINE DELPHI24_UP}
   {$DEFINE DELPHI25_UP}
+  {$DEFINE DELPHI26_UP}
+{$ENDIF}
+
+{$IFDEF FPC}
+  {$DEFINE SUPPORTS_INLINE}
+{$ELSE}
+  {$IFDEF DELPHI_VERSION_UNKNOW}
+    {$DEFINE DELPHI5_UP}
+    {$DEFINE DELPHI6_UP}
+    {$DEFINE DELPHI7_UP}
+    {$DEFINE DELPHI8_UP}
+    {$DEFINE DELPHI9_UP}
+    {$DEFINE DELPHI10_UP}
+    {$DEFINE DELPHI11_UP}
+    {$DEFINE DELPHI12_UP}
+    {$DEFINE DELPHI14_UP}
+    {$DEFINE DELPHI15_UP}
+    {$DEFINE DELPHI16_UP}
+    {$DEFINE DELPHI17_UP}
+    {$DEFINE DELPHI18_UP}
+    {$DEFINE DELPHI19_UP}
+    {$DEFINE DELPHI20_UP}
+    {$DEFINE DELPHI21_UP}
+    {$DEFINE DELPHI22_UP}
+    {$DEFINE DELPHI23_UP}
+    {$DEFINE DELPHI24_UP}
+    {$DEFINE DELPHI25_UP}
+    {$DEFINE DELPHI26_UP}
+  {$ENDIF}
 {$ENDIF}
 
 {$IFDEF DELPHI9_UP}

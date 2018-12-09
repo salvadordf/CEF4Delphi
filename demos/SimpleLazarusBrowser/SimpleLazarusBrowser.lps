@@ -4,14 +4,14 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="47">
+    <Units Count="49">
       <Unit0>
         <Filename Value="SimpleLazarusBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="5"/>
         <CursorPos X="43" Y="5"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="42"/>
       </Unit0>
       <Unit1>
         <Filename Value="usimplelazarusbrowser.pas"/>
@@ -20,23 +20,24 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="166"/>
-        <CursorPos X="62" Y="176"/>
-        <UsageCount Value="39"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="26"/>
+        <CursorPos Y="168"/>
+        <UsageCount Value="42"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\..\source\uCEFChromium.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1272"/>
-        <CursorPos X="61" Y="1295"/>
-        <UsageCount Value="17"/>
-        <Bookmarks Count="4">
+        <TopLine Value="1497"/>
+        <CursorPos Y="1524"/>
+        <UsageCount Value="19"/>
+        <Bookmarks Count="5">
           <Item0 X="20" Y="621" ID="4"/>
           <Item1 X="57" Y="3494" ID="5"/>
           <Item2 X="3" Y="1079" ID="6"/>
           <Item3 X="3" Y="1295" ID="2"/>
+          <Item4 X="51" Y="1152" ID="1"/>
         </Bookmarks>
       </Unit2>
       <Unit3>
@@ -227,8 +228,9 @@
       <Unit28>
         <Filename Value="..\..\source\uCEFTypes.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="538"/>
-        <UsageCount Value="13"/>
+        <TopLine Value="453"/>
+        <CursorPos X="3" Y="472"/>
+        <UsageCount Value="15"/>
       </Unit28>
       <Unit29>
         <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
@@ -356,6 +358,20 @@
         <CursorPos X="12" Y="112"/>
         <UsageCount Value="10"/>
       </Unit46>
+      <Unit47>
+        <Filename Value="..\..\source\cef.inc"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="136"/>
+        <UsageCount Value="10"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="..\ConsoleBrowser\cef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="124"/>
+        <CursorPos X="37" Y="147"/>
+        <UsageCount Value="10"/>
+      </Unit48>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="-1"/>

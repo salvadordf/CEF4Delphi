@@ -55,6 +55,7 @@ uses
   uCEFPDFPrintOptions;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TFMXChromium = class(TComponent, IChromiumEvents)
     protected
       FHandler                : ICefClient;

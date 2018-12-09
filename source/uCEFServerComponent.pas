@@ -68,6 +68,7 @@ const
   DEFAULT_CEFSERVER_BACKLOG  = 10;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFServerComponent = class(TComponent, IServerEvents)
     protected
       FHandler                : ICefServerHandler;

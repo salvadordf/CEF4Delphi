@@ -70,8 +70,9 @@ type
     procedure FormShow(Sender: TObject);
   private
     // Variables to control when can we destroy the form safely
-    FCanClose : boolean;  // Set to True when all the child forms are closed
-    FClosing  : boolean;  // Set to True in the CloseQuery event.
+    FCanClose     : boolean;  // Set to True when all the child forms are closed
+    FClosing      : boolean;  // Set to True in the CloseQuery event.
+    FBrowserCount : integer;
 
     procedure CreateMDIChild(const Name: string);
     procedure CloseAllChildForms;
@@ -85,6 +86,7 @@ type
     function CloseQuery: Boolean; override;
 
     property ChildClosing : boolean read GetChildClosing;
+    property BrowserCount : integer read FBrowserCount;
   end;
 
 var
@@ -158,13 +160,15 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  FCanClose := False;
-  FClosing  := False;
+  FCanClose     := False;
+  FClosing      := False;
+  FBrowserCount := 0;
 end;
 
 procedure TMainForm.NewBtnClick(Sender: TObject);
 begin
-  CreateMDIChild('ChildForm' + IntToStr(MDIChildCount + 1));
+  inc(FBrowserCount);
+  CreateMDIChild('ChildForm' + IntToStr(FBrowserCount));
 end;
 
 procedure TMainForm.ExitBtnClick(Sender: TObject);

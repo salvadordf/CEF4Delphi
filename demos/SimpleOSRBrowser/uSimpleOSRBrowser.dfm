@@ -52,7 +52,6 @@ object Form1: TForm1
           't_form'
         'https://www.briskbard.com'
         'https://frames-per-second.appspot.com/')
-      ExplicitWidth = 875
     end
     object Panel2: TPanel
       Left = 914

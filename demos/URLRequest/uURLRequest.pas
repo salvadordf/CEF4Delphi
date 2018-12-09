@@ -47,7 +47,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ComCtrls, StdCtrls,
   {$ENDIF}
-  uCEFInterfaces, uCEFUrlRequestClientComponent;
+  uCEFInterfaces, uCEFUrlRequestClientComponent, uCEFRequest, uCEFUrlRequest;
 
 const
   URLREQUEST_SUCCESS    = WM_APP + $101;
@@ -110,7 +110,7 @@ implementation
 // 3- in the TCEFUrlRequestClientComponent.OnRequestComplete event we set FCanClose to TRUE and send WM_CLOSE to the form.
 
 uses
-  uCEFMiscFunctions, uCEFTypes, uCEFUrlRequest, uCEFRequest, uCEFPostData, uCEFPostDataElement;
+  uCEFMiscFunctions, uCEFTypes, uCEFPostData, uCEFPostDataElement, uCEFConstants;
 
 procedure TURLRequestFrm.DownloadBtnClick(Sender: TObject);
 var
@@ -192,6 +192,7 @@ begin
         TempRequest        := TCefRequestRef.New;
         TempRequest.URL    := FPendingURL;
         TempRequest.Method := 'GET';
+        TempRequest.Flags  := UR_FLAG_ALLOW_STORED_CREDENTIALS;
 
         // POST request example
         // --------------------

@@ -52,6 +52,7 @@ uses
   FMX.Controls, FMX.Types, FMX.Forms;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TFMXWindowParent = class(TCommonCustomForm)
     protected
       {$IFDEF MSWINDOWS}

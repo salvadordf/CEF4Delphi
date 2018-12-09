@@ -62,6 +62,7 @@ uses
   uCEFWinControl, uCEFTypes, uCEFInterfaces;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFWindowParent = class(TCEFWinControl)
     protected
       procedure WndProc(var aMessage: TMessage); override;

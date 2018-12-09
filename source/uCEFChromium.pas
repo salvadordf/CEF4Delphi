@@ -65,6 +65,7 @@ uses
   uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions;
 
 type
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TChromium = class(TComponent, IChromiumEvents)
     protected
       FCompHandle             : HWND;
