@@ -894,6 +894,7 @@ begin
                            CEF_SUPPORTED_VERSION_RELEASE,
                            CEF_SUPPORTED_VERSION_BUILD) then
           begin
+            {$IFDEF MSWINDOWS}
             if GetDLLHeaderMachine(LibCefPath, TempMachine) then
               case TempMachine of
                 IMAGE_FILE_MACHINE_I386 :
@@ -936,6 +937,9 @@ begin
               end
              else
               Result := True;
+            {$ELSE}
+            Result := True;
+            {$ENDIF}
           end
          else
           begin
