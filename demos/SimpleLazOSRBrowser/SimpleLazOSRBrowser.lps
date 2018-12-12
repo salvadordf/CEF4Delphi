@@ -8,9 +8,10 @@
       <Unit0>
         <Filename Value="SimpleLazOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="31"/>
-        <CursorPos X="10" Y="43"/>
+        <TopLine Value="24"/>
+        <CursorPos X="46" Y="33"/>
         <UsageCount Value="40"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -20,15 +21,14 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="639"/>
-        <CursorPos X="3" Y="641"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="285"/>
+        <CursorPos Y="296"/>
         <UsageCount Value="40"/>
         <Bookmarks Count="2">
           <Item0 Y="189" ID="1"/>
-          <Item1 X="5" Y="805" ID="2"/>
+          <Item1 X="5" Y="801" ID="2"/>
         </Bookmarks>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
@@ -164,11 +164,9 @@
         </Bookmarks>
       </Unit18>
     </Units>
-    <JumpHistory Count="1">
-      <Position1>
-        <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="82" Column="21" TopLine="67"/>
-      </Position1>
-    </JumpHistory>
+    <General>
+      <ActiveWindowIndexAtStart Value="-1"/>
+    </General>
+    <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>
 </CONFIG>

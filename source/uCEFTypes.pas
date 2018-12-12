@@ -1013,6 +1013,8 @@ type
     parent_window                 : TCefWindowHandle;
     menu                          : HMENU;
     windowless_rendering_enabled  : Integer;
+    shared_texture_enabled        : Integer;
+    external_begin_frame_enabled  : Integer;
     window                        : TCefWindowHandle;
     {$ENDIF}
     {$IFDEF MACOS}
@@ -1024,6 +1026,8 @@ type
     hidden                        : Integer;
     parent_view                   : TCefWindowHandle;
     windowless_rendering_enabled  : Integer;
+    shared_texture_enabled        : Integer;
+    external_begin_frame_enabled  : Integer;
     view                          : TCefWindowHandle;
     {$ENDIF}
     {$IFDEF LINUX}
@@ -1033,6 +1037,8 @@ type
     height                        : uint32;
     parent_window                 : TCefWindowHandle;
     windowless_rendering_enabled  : Integer;
+    shared_texture_enabled        : Integer;
+    external_begin_frame_enabled  : Integer;
     window                        : TCefWindowHandle;
     {$ENDIF}
   end;
@@ -1399,12 +1405,13 @@ type
     base                              : TCefBaseRefCounted;
     get_accessibility_handler         : function(self: PCefRenderHandler): PCefAccessibilityHandler; stdcall;
     get_root_screen_rect              : function(self: PCefRenderHandler; browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
-    get_view_rect                     : function(self: PCefRenderHandler; browser: PCefBrowser; rect: PCefRect): Integer; stdcall;
+    get_view_rect                     : procedure(self: PCefRenderHandler; browser: PCefBrowser; rect: PCefRect); stdcall;
     get_screen_point                  : function(self: PCefRenderHandler; browser: PCefBrowser; viewX, viewY: Integer; screenX, screenY: PInteger): Integer; stdcall;
     get_screen_info                   : function(self: PCefRenderHandler; browser: PCefBrowser; screen_info: PCefScreenInfo): Integer; stdcall;
     on_popup_show                     : procedure(self: PCefRenderHandler; browser: PCefBrowser; show: Integer); stdcall;
     on_popup_size                     : procedure(self: PCefRenderHandler; browser: PCefBrowser; const rect: PCefRect); stdcall;
     on_paint                          : procedure(self: PCefRenderHandler; browser: PCefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); stdcall;
+    on_accelerated_paint              : procedure(self: PCefRenderHandler; browser: PCefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); stdcall;
     on_cursor_change                  : procedure(self: PCefRenderHandler; browser: PCefBrowser; cursor: TCefCursorHandle; type_: TCefCursorType; const custom_cursor_info: PCefCursorInfo); stdcall;
     start_dragging                    : function(self: PCefRenderHandler; browser: PCefBrowser; drag_data: PCefDragData; allowed_ops: TCefDragOperations; x, y: Integer): Integer; stdcall;
     update_drag_cursor                : procedure(self: PCefRenderHandler; browser: PCefBrowser; operation: TCefDragOperation); stdcall;
@@ -2536,6 +2543,7 @@ type
     was_hidden                        : procedure(self: PCefBrowserHost; hidden: Integer); stdcall;
     notify_screen_info_changed        : procedure(self: PCefBrowserHost); stdcall;
     invalidate                        : procedure(self: PCefBrowserHost; kind: TCefPaintElementType); stdcall;
+    send_external_begin_frame         : procedure(self: PCefBrowserHost); stdcall;
     send_key_event                    : procedure(self: PCefBrowserHost; const event: PCefKeyEvent); stdcall;
     send_mouse_click_event            : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp, clickCount: Integer); stdcall;
     send_mouse_move_event             : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; mouseLeave: Integer); stdcall;

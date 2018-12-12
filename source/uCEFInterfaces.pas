@@ -342,12 +342,13 @@ type
     // ICefRenderHandler
     procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
     function  doOnGetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
-    function  doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
+    procedure doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect);
     function  doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
     function  doOnGetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
     procedure doOnPopupShow(const browser: ICefBrowser; show: Boolean);
     procedure doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
     procedure doOnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
+    procedure doOnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer);
     procedure doOnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
     function  doOnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean;
     procedure doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
@@ -478,6 +479,7 @@ type
     procedure WasHidden(hidden: Boolean);
     procedure NotifyScreenInfoChanged;
     procedure Invalidate(kind: TCefPaintElementType);
+    procedure SendExternalBeginFrame;
     procedure SendKeyEvent(const event: PCefKeyEvent);
     procedure SendMouseClickEvent(const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
     procedure SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
@@ -1733,12 +1735,13 @@ type
     ['{1FC1C22B-085A-4741-9366-5249B88EC410}']
     procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
     function  GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
-    function  GetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
+    procedure GetViewRect(const browser: ICefBrowser; var rect: TCefRect);
     function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
     function  GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
     procedure OnPopupShow(const browser: ICefBrowser; show: Boolean);
     procedure OnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
     procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
+    procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer);
     procedure OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
     function  OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean;
     procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);

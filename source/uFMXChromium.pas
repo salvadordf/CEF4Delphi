@@ -198,6 +198,7 @@ type
       FOnPopupShow                    : TOnPopupShow;
       FOnPopupSize                    : TOnPopupSize;
       FOnPaint                        : TOnPaint;
+      FOnAcceleratedPaint             : TOnAcceleratedPaint;
       FOnCursorChange                 : TOnCursorChange;
       FOnScrollOffsetChanged          : TOnScrollOffsetChanged;
       FOnIMECompositionRangeChanged   : TOnIMECompositionRangeChanged;
@@ -406,12 +407,13 @@ type
       // ICefRenderHandler
       procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); virtual;
       function  doOnGetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; virtual;
-      function  doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean; virtual;
+      procedure doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect); virtual;
       function  doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean; virtual;
       function  doOnGetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean; virtual;
       procedure doOnPopupShow(const browser: ICefBrowser; show: Boolean); virtual;
       procedure doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect); virtual;
       procedure doOnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); virtual;
+      procedure doOnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); virtual;
       procedure doOnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo); virtual;
       function  doOnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean; virtual;
       procedure doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); virtual;
@@ -510,6 +512,7 @@ type
       procedure   NotifyScreenInfoChanged;
       procedure   NotifyMoveOrResizeStarted;
       procedure   Invalidate(kind: TCefPaintElementType = PET_VIEW);
+      procedure   SendExternalBeginFrame;
       procedure   SendKeyEvent(const event: PCefKeyEvent);
       procedure   SendMouseClickEvent(const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
       procedure   SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
@@ -684,6 +687,7 @@ type
       property OnPopupShow                      : TOnPopupShow                      read FOnPopupShow                      write FOnPopupShow;
       property OnPopupSize                      : TOnPopupSize                      read FOnPopupSize                      write FOnPopupSize;
       property OnPaint                          : TOnPaint                          read FOnPaint                          write FOnPaint;
+      property OnAcceleratedPaint               : TOnAcceleratedPaint               read FOnAcceleratedPaint               write FOnAcceleratedPaint;
       property OnCursorChange                   : TOnCursorChange                   read FOnCursorChange                   write FOnCursorChange;
       property OnScrollOffsetChanged            : TOnScrollOffsetChanged            read FOnScrollOffsetChanged            write FOnScrollOffsetChanged;
       property OnIMECompositionRangeChanged     : TOnIMECompositionRangeChanged     read FOnIMECompositionRangeChanged     write FOnIMECompositionRangeChanged;
@@ -988,6 +992,7 @@ begin
   FOnPopupShow                    := nil;
   FOnPopupSize                    := nil;
   FOnPaint                        := nil;
+  FOnAcceleratedPaint             := nil;
   FOnCursorChange                 := nil;
   FOnScrollOffsetChanged          := nil;
   FOnIMECompositionRangeChanged   := nil;
@@ -3087,11 +3092,9 @@ begin
   if Assigned(FOnGetScreenPoint) then FOnGetScreenPoint(Self, browser, viewX, viewY, screenX, screenY, Result);
 end;
 
-function TFMXChromium.doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
+procedure TFMXChromium.doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect);
 begin
-  Result := False;
-
-  if Assigned(FOnGetViewRect) then FOnGetViewRect(Self, browser, rect, Result);
+  if Assigned(FOnGetViewRect) then FOnGetViewRect(Self, browser, rect);
 end;
 
 procedure TFMXChromium.doOnGotFocus(const browser: ICefBrowser);
@@ -3177,6 +3180,15 @@ procedure TFMXChromium.doOnPaint(const browser         : ICefBrowser;
                                        height          : Integer);
 begin
   if Assigned(FOnPaint) then FOnPaint(Self, browser, kind, dirtyRectsCount, dirtyRects, buffer, width, height);
+end;
+
+procedure TFMXChromium.doOnAcceleratedPaint(const browser         : ICefBrowser;
+                                                  kind            : TCefPaintElementType;
+                                                  dirtyRectsCount : NativeUInt;
+                                            const dirtyRects      : PCefRectArray;
+                                                  shared_handle   : Pointer);
+begin
+  if Assigned(FOnAcceleratedPaint) then FOnAcceleratedPaint(Self, browser, kind, dirtyRectsCount, dirtyRects, shared_handle);
 end;
 
 function TFMXChromium.doOnSelectClientCertificate(const browser           : ICefBrowser;
@@ -3645,6 +3657,11 @@ begin
          else
           InvalidateRect(WindowHandle, nil, False);
     end;
+end;
+
+procedure TFMXChromium.SendExternalBeginFrame;
+begin
+  if Initialized then FBrowser.Host.SendExternalBeginFrame;
 end;
 
 procedure TFMXChromium.SendKeyEvent(const event: PCefKeyEvent);

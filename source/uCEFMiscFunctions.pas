@@ -493,6 +493,8 @@ begin
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 
@@ -508,6 +510,8 @@ begin
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 
@@ -523,6 +527,8 @@ begin
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(True);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 {$ENDIF}
@@ -538,6 +544,8 @@ begin
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.view                         := 0;
 end;
 
@@ -551,6 +559,8 @@ begin
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.view                         := 0;
 end;
 
@@ -565,6 +575,8 @@ begin
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(True);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.view                         := 0;
 end;
 {$ENDIF}
@@ -578,6 +590,8 @@ begin
   aWindowInfo.height                       := aRect.bottom - aRect.top;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 
@@ -589,6 +603,8 @@ begin
   aWindowInfo.height                       := integer(CW_USEDEFAULT);
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 
@@ -600,6 +616,8 @@ begin
   aWindowInfo.height                       := 0;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.shared_texture_enabled       := ord(False);
+  aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 {$ENDIF}

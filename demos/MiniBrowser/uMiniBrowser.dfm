@@ -153,6 +153,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
             '_name'
+          
+            'http://www-db.deis.unibo.it/courses/TW/DOCS/w3schools/html/tryit' +
+            '.asp-filename=tryhtml5_html_manifest.html'
           'https://www.browserleaks.com/webrtc'
           'https://frames-per-second.appspot.com/'
           'chrome://version/'
