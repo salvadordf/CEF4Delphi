@@ -400,6 +400,12 @@ const
   CEF4DELPHI_URL = 'https://github.com/salvadordf/CEF4Delphi';
   CRLF           = #13 + #10;
 
+  // These contants are declared in the "Windows" unit but
+  // some old Delphi versions don't have them.
+  // We have to add "CEF_" to be compatible with C++ Builder.
+  CEF_IMAGE_FILE_MACHINE_I386  = $014C;
+  CEF_IMAGE_FILE_MACHINE_AMD64 = $8664;
+
 implementation
 
 end.
