@@ -69,6 +69,7 @@ type
       FOnClose        : TNotifyEvent;
       FOnBeforeClose  : TNotifyEvent;
       FOnAfterCreated : TNotifyEvent;
+      FUseSetFocus    : boolean;
 
       function    GetBrowserInitialized : boolean;
       function    GetChildWindowHandle : THandle; override;
@@ -95,6 +96,7 @@ type
       property Initialized        : boolean         read GetBrowserInitialized;
 
     published
+      property UseSetFocus      : boolean         read FUseSetFocus      write FUseSetFocus default True;
       property OnClose          : TNotifyEvent    read FOnClose          write FOnClose;
       property OnBeforeClose    : TNotifyEvent    read FOnBeforeClose    write FOnBeforeClose;
       property OnAfterCreated   : TNotifyEvent    read FOnAfterCreated   write FOnAfterCreated;
@@ -121,6 +123,7 @@ begin
   FOnClose        := nil;
   FOnBeforeClose  := nil;
   FOnAfterCreated := nil;
+  FUseSetFocus    := True;
 end;
 
 procedure TChromiumWindow.AfterConstruction;
@@ -152,7 +155,7 @@ begin
   case aMessage.Msg of
     WM_SETFOCUS:
       begin
-        if (FChromium <> nil) then
+        if FUseSetFocus and (FChromium <> nil) then
           FChromium.SetFocus(True)
          else
           begin
