@@ -9,7 +9,7 @@ The CEF3 binaries used by CEF4Delphi are available for download at spotify :
 * [64 bits](http://opensource.spotify.com/cefbuilds/cef_binary_3.3578.1860.g36610bd_windows64.tar.bz2)
 
 
-CEF4Delphi was developed and tested on Delphi 10.3 Rio and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2 and Lazarus 1.8.4/FPC 3.0.4. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
+CEF4Delphi was developed and tested on Delphi 10.3 Rio and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2 and Lazarus 2.0RC3/FPC 3.0.4. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
 
 ## Links
 * [Installation instructions and more information about CEF4Delphi](https://www.briskbard.com/index.php?lang=en&pageid=cef)
