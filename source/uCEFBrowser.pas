@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -131,7 +131,7 @@ type
       procedure NotifyMoveOrResizeStarted;
       function  GetWindowlessFrameRate : Integer;
       procedure SetWindowlessFrameRate(frameRate: Integer);
-      procedure IMESetComposition(const text: ustring; underlinesCount : NativeUInt; const underlines : PCefCompositionUnderline; const replacement_range, selection_range : PCefRange);
+      procedure IMESetComposition(const text: ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : PCefRange);
       procedure IMECommitText(const text: ustring; const replacement_range : PCefRange; relative_cursor_pos : integer);
       procedure IMEFinishComposingText(keep_selection : boolean);
       procedure IMECancelComposition;
@@ -577,20 +577,50 @@ begin
 end;
 
 procedure TCefBrowserHostRef.IMESetComposition(const text              : ustring;
-                                                     underlinesCount   : NativeUInt;
-                                               const underlines        : PCefCompositionUnderline;
+                                               const underlines        : TCefCompositionUnderlineDynArray;
                                                const replacement_range : PCefRange;
                                                const selection_range   : PCefRange);
 var
-  TempString : TCefString;
+  TempString     : TCefString;
+  TempCount, i   : NativeUInt;
+  TempUnderlines : PCefCompositionUnderline;
+  TempItem       : PCefCompositionUnderline;
 begin
-  TempString := CefString(text);
-  PCefBrowserHost(FData)^.ime_set_composition(PCefBrowserHost(FData),
-                                              @TempString,
-                                              underlinesCount,
-                                              underlines,
-                                              replacement_range,
-                                              selection_range);
+  TempCount      := 0;
+  TempUnderlines := nil;
+
+  try
+    TempString := CefString(text);
+
+    if (underlines <> nil) then
+      begin
+        TempCount := length(underlines);
+        GetMem(TempUnderlines, TempCount * SizeOf(TCefCompositionUnderline));
+
+        TempItem := TempUnderlines;
+        i        := 0;
+
+        while (i < TempCount) do
+          begin
+            TempItem^.range            := underlines[i].range;
+            TempItem^.color            := underlines[i].color;
+            TempItem^.background_color := underlines[i].background_color;
+            TempItem^.thick            := underlines[i].thick;
+
+            inc(i);
+            inc(TempItem);
+          end;
+      end;
+
+    PCefBrowserHost(FData)^.ime_set_composition(PCefBrowserHost(FData),
+                                                @TempString,
+                                                TempCount,
+                                                TempUnderlines,
+                                                replacement_range,
+                                                selection_range);
+  finally
+    if (TempUnderlines <> nil) then FreeMem(TempUnderlines);
+  end;
 end;
 
 procedure TCefBrowserHostRef.IMECommitText(const text: ustring; const replacement_range : PCefRange; relative_cursor_pos : integer);

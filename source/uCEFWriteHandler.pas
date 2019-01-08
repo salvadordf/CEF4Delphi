@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -49,10 +49,12 @@ unit uCEFWriteHandler;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF}
-  {$ELSE}
-  Windows,
+  {$IFDEF MSWINDOWS}
+    {$IFDEF DELPHI16_UP}
+    WinApi.Windows,
+    {$ELSE}
+    Windows,
+    {$ENDIF}
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -218,9 +220,11 @@ end;
 constructor TCefBytesWriteHandler.Create(aGrow : NativeUInt);
 begin
   inherited Create;
-
+  {$IFDEF MSWINDOWS}
   InitializeCriticalSection(FCriticalSection);
-
+  {$ELSE}
+  InitCriticalSection(FCriticalSection);
+  {$ENDIF}
   FGrow       := aGrow;
   FBufferSize := aGrow;
   FOffset     := 0;
@@ -232,15 +236,18 @@ destructor TCefBytesWriteHandler.Destroy;
 begin
   if (FBuffer <> nil) then FreeMem(FBuffer);
 
-  DeleteCriticalSection(FCriticalSection);
-
-  FCriticalSection.DebugInfo      := nil;
-  FCriticalSection.LockCount      := 0;
-  FCriticalSection.RecursionCount := 0;
-  FCriticalSection.OwningThread   := 0;
-  FCriticalSection.LockSemaphore  := 0;
-  {$IFNDEF FPC}
-  FCriticalSection.Reserved       := 0;
+  {$IFDEF MSWINDOWS}
+    DeleteCriticalSection(FCriticalSection);
+    FCriticalSection.DebugInfo      := nil;
+    FCriticalSection.LockCount      := 0;
+    FCriticalSection.RecursionCount := 0;
+    FCriticalSection.OwningThread   := 0;
+    FCriticalSection.LockSemaphore  := 0;
+    {$IFNDEF FPC}
+    FCriticalSection.Reserved       := 0;
+    {$ENDIF}
+  {$ELSE}
+    DoneCriticalSection(FCriticalSection);
   {$ENDIF}
 
   inherited Destroy;
@@ -261,7 +268,7 @@ begin
     begin
       TempPointer := Pointer(cardinal(FBuffer) + FOffset);
 
-      CopyMemory(TempPointer, ptr, TempSize);
+      Move(ptr^, TempPointer^, TempSize);
 
       FOffset := FOffset + TempSize;
       Result  := n;

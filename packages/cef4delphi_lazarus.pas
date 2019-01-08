@@ -46,7 +46,8 @@ uses
   uCEFWriteHandler, uCEFX509Certificate, uCEFX509CertPrincipal, uCEFXmlReader, 
   uCEFZipReader, uCEFChromium, uBufferPanel, uCEFServer, uCEFServerComponent, 
   uCEFServerEvents, uCEFServerHandler, uCEFWinControl, uCEFLinkedWindowParent, 
-  uCEFUrlRequestClientEvents, uCEFUrlRequestClientComponent, LazarusPackageIntf;
+  uCEFUrlRequestClientEvents, uCEFUrlRequestClientComponent, 
+  uCEFOSRIMEHandler, LazarusPackageIntf;
 
 implementation
 

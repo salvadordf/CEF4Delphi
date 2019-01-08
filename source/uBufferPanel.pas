@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -47,10 +47,10 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics,{$ENDIF}
+  {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics, WinApi.Imm,{$ENDIF}
   System.Classes, System.SyncObjs, System.SysUtils,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
+    {$IFDEF MSWINDOWS}Windows, imm, {$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -58,15 +58,24 @@ uses
     {$ENDIF}
     ExtCtrls, SyncObjs, SysUtils,
   {$ENDIF}
-  uCEFConstants;
+  {$IFDEF MSWINDOWS}uCEFOSRIMEHandler,{$ENDIF} uCEFConstants, uCEFTypes;
 
 type
+  TOnIMECommitTextEvent     = procedure(Sender: TObject; const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer) of object;
+  TOnIMESetCompositionEvent = procedure(Sender: TObject; const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange) of object;
+
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TBufferPanel = class(TCustomPanel)
     protected
-      FMutex          : THandle;
-      FBuffer         : TBitmap;
-      FScanlineSize   : integer;
+      FMutex                  : THandle;
+      FBuffer                 : TBitmap;
+      FScanlineSize           : integer;
+      {$IFDEF MSWINDOWS}
+      FIMEHandler             : TCEFOSRIMEHandler;
+      FOnIMECancelComposition : TNotifyEvent;
+      FOnIMECommitText        : TOnIMECommitTextEvent;
+      FOnIMESetComposition    : TOnIMESetCompositionEvent;
+      {$ENDIF}
 
       procedure CreateSyncObj;
 
@@ -81,8 +90,14 @@ type
       function  SaveBufferToFile(const aFilename : string) : boolean;
 
       procedure Paint; override;
-
+      {$IFDEF MSWINDOWS}
+      procedure WndProc(var aMessage: TMessage); override;
       procedure WMEraseBkgnd(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;
+      procedure WMIMEStartComp(var aMessage: TMessage);
+      procedure WMIMEEndComp(var aMessage: TMessage);
+      procedure WMIMESetContext(var aMessage: TMessage);
+      procedure WMIMEComposition(var aMessage: TMessage);
+      {$ENDIF}
 
     public
       constructor Create(AOwner: TComponent); override;
@@ -95,6 +110,8 @@ type
       procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap);
       function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
+      procedure   CreateIMEHandler;
+      procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
 
       property Buffer         : TBitmap            read FBuffer;
       property ScanlineSize   : integer            read FScanlineSize;
@@ -105,6 +122,12 @@ type
       property DockManager;
 
     published
+      {$IFDEF MSWINDOWS}
+      property OnIMECancelComposition    : TNotifyEvent              read FOnIMECancelComposition    write FOnIMECancelComposition;
+      property OnIMECommitText           : TOnIMECommitTextEvent     read FOnIMECommitText           write FOnIMECommitText;
+      property OnIMESetComposition       : TOnIMESetCompositionEvent read FOnIMESetComposition       write FOnIMESetComposition;
+      {$ENDIF}
+
       property Align;
       property Alignment;
       property Anchors;
@@ -210,12 +233,23 @@ begin
 
   FMutex  := 0;
   FBuffer := nil;
+
+  {$IFDEF MSWINDOWS}
+  FIMEHandler             := nil;
+  FOnIMECancelComposition := nil;
+  FOnIMECommitText        := nil;
+  FOnIMESetComposition    := nil;
+  {$ENDIF}
 end;
 
 destructor TBufferPanel.Destroy;
 begin
   DestroyBuffer;
   DestroySyncObj;
+
+  {$IFDEF MSWINDOWS}
+  if (FIMEHandler <> nil) then FreeAndNil(FIMEHandler);
+  {$ENDIF}
 
   inherited Destroy;
 end;
@@ -225,20 +259,48 @@ begin
   inherited AfterConstruction;
 
   CreateSyncObj;
+
+  {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
+    ImeMode := imDontCare;
+    ImeName := '';
+    {$ENDIF}
+  {$ENDIF}
+end;
+
+procedure TBufferPanel.CreateIMEHandler;
+begin
+  {$IFDEF MSWINDOWS}
+  if (FIMEHandler = nil) and HandleAllocated then
+    FIMEHandler := TCEFOSRIMEHandler.Create(Handle);
+  {$ENDIF}
+end;
+
+procedure TBufferPanel.ChangeCompositionRange(const selection_range  : TCefRange;
+                                              const character_bounds : TCefRectDynArray);
+begin
+  {$IFDEF MSWINDOWS}
+  if (FIMEHandler <> nil) then
+    FIMEHandler.ChangeCompositionRange(selection_range, character_bounds);
+  {$ENDIF}
 end;
 
 procedure TBufferPanel.CreateSyncObj;
 begin
+  {$IFDEF MSWINDOWS}
   FMutex := CreateMutex(nil, False, nil);
+  {$ENDIF}
 end;
 
 procedure TBufferPanel.DestroySyncObj;
 begin
+  {$IFDEF MSWINDOWS}
   if (FMutex <> 0) then
     begin
       CloseHandle(FMutex);
       FMutex := 0;
     end;
+  {$ENDIF}
 end;
 
 procedure TBufferPanel.DestroyBuffer;
@@ -279,17 +341,23 @@ end;
 
 function TBufferPanel.InvalidatePanel : boolean;
 begin
+  {$IFDEF MSWINDOWS}
   Result := HandleAllocated and PostMessage(Handle, CM_INVALIDATE, 0, 0);
+  {$ENDIF}
 end;
 
 function TBufferPanel.BeginBufferDraw : boolean;
 begin
+  {$IFDEF MSWINDOWS}
   Result := (FMutex <> 0) and (WaitForSingleObject(FMutex, 5000) = WAIT_OBJECT_0);
+  {$ENDIF}
 end;
 
 procedure TBufferPanel.EndBufferDraw;
 begin
+  {$IFDEF MSWINDOWS}
   if (FMutex <> 0) then ReleaseMutex(FMutex);
+  {$ENDIF}
 end;
 
 function TBufferPanel.CopyBuffer : boolean;
@@ -327,10 +395,129 @@ begin
       end;
 end;
 
+{$IFDEF MSWINDOWS}
+procedure TBufferPanel.WndProc(var aMessage: TMessage);
+begin
+  case aMessage.Msg of
+    WM_IME_STARTCOMPOSITION : WMIMEStartComp(aMessage);
+    WM_IME_COMPOSITION      : WMIMEComposition(aMessage);
+
+    WM_IME_ENDCOMPOSITION :
+      begin
+        WMIMEEndComp(aMessage);
+        inherited WndProc(aMessage);
+      end;
+
+    WM_IME_SETCONTEXT :
+      begin
+        aMessage.LParam := aMessage.LParam and not(ISC_SHOWUICOMPOSITIONWINDOW);
+        inherited WndProc(aMessage);
+        WMIMESetContext(aMessage);
+      end;
+
+    else inherited WndProc(aMessage);
+  end;
+end;
+
 procedure TBufferPanel.WMEraseBkgnd(var aMessage : TWMEraseBkgnd);
 begin
   aMessage.Result := 1;
 end;
+
+procedure TBufferPanel.WMIMEStartComp(var aMessage: TMessage);
+begin
+  if (FIMEHandler <> nil) then
+    begin
+      {$IFNDEF FPC}
+      FInImeComposition := False;
+      {$ENDIF}
+
+      FIMEHandler.CreateImeWindow;
+      FIMEHandler.MoveImeWindow;
+      FIMEHandler.ResetComposition;
+    end;
+end;
+
+procedure TBufferPanel.WMIMEEndComp(var aMessage: TMessage);
+begin
+  if assigned(FOnIMECancelComposition) then FOnIMECancelComposition(self);
+
+  if (FIMEHandler <> nil) then
+    begin
+      FIMEHandler.ResetComposition;
+      FIMEHandler.DestroyImeWindow;
+    end;
+end;
+
+procedure TBufferPanel.WMIMESetContext(var aMessage: TMessage);
+begin
+  if (FIMEHandler <> nil) then
+    begin
+      FIMEHandler.CreateImeWindow;
+      FIMEHandler.MoveImeWindow;
+    end;
+end;
+
+procedure TBufferPanel.WMIMEComposition(var aMessage: TMessage);
+var
+  TempText        : ustring;
+  TempRange       : TCefRange;
+  TempCompStart   : integer;
+  TempUnderlines  : TCefCompositionUnderlineDynArray;
+  TempSelection   : TCefRange;
+begin
+  TempText       := '';
+  TempCompStart  := 0;
+  TempUnderlines := nil;
+
+  try
+    if (FIMEHandler <> nil) then
+      begin
+        if FIMEHandler.GetResult(aMessage.LParam, TempText) then
+          begin
+            if assigned(FOnIMECommitText) then
+              begin
+                TempRange.from := high(Integer);
+                TempRange.to_  := high(Integer);
+
+                FOnIMECommitText(self, TempText, @TempRange, 0);
+              end;
+
+            FIMEHandler.ResetComposition;
+          end;
+
+        if FIMEHandler.GetComposition(aMessage.LParam, TempText, TempUnderlines, TempCompStart) then
+          begin
+            if assigned(FOnIMESetComposition) then
+              begin
+                TempRange.from := high(Integer);
+                TempRange.to_  := high(Integer);
+
+                TempSelection.from := TempCompStart;
+                TempSelection.to_  := TempCompStart + length(TempText);
+
+                FOnIMESetComposition(self, TempText, TempUnderlines, TempRange, TempSelection);
+              end;
+
+            FIMEHandler.UpdateCaretPosition(pred(TempCompStart));
+          end
+         else
+          begin
+            if assigned(FOnIMECancelComposition) then FOnIMECancelComposition(self);
+
+            FIMEHandler.ResetComposition;
+            FIMEHandler.DestroyImeWindow;
+          end;
+      end;
+  finally
+    if (TempUnderlines <> nil) then
+      begin
+        Finalize(TempUnderlines);
+        TempUnderlines := nil;
+      end;
+  end;
+end;
+{$ENDIF}
 
 function TBufferPanel.GetBufferBits : pointer;
 begin

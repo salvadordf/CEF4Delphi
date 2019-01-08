@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -390,7 +390,8 @@ type
     width  : Integer;
     height : Integer;
   end;
-  TCefRectArray = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
+  TCefRectArray    = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
+  TCefRectDynArray = array of TCefRect;
 
   // /include/internal/cef_types.h (cef_point_t)
   TCefPoint = record
@@ -943,6 +944,7 @@ type
     background_color : TCefColor;
     thick            : integer;
   end;
+  TCefCompositionUnderlineDynArray = array of TCefCompositionUnderline;
 
   // /include/internal/cef_time.h (cef_time_t)
   TCefTime = record

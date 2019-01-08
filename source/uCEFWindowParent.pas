@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -65,7 +65,9 @@ type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFWindowParent = class(TCEFWinControl)
     protected
+      {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage); override;
+      {$ENDIF}
   end;
 
 {$IFDEF FPC}
@@ -77,6 +79,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFClient, uCEFConstants;
 
+{$IFDEF MSWINDOWS}
 procedure TCEFWindowParent.WndProc(var aMessage: TMessage);
 var
   TempHandle : THandle;
@@ -103,6 +106,7 @@ begin
     else inherited WndProc(aMessage);
   end;
 end;
+{$ENDIF}
 
 {$IFDEF FPC}
 procedure Register;

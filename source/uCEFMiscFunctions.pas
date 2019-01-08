@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -53,6 +53,7 @@ uses
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX,{$ENDIF} System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} Classes, SysUtils, Controls, Graphics, Math,
+    {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
   uCEFRegisterCDMCallback, uCEFConstants;
@@ -159,9 +160,11 @@ function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, 
 function CefClearCrossOriginWhitelist: Boolean;
 
 procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
+{$IFDEF MSWINDOWS}
 function  GetExtendedFileVersion(const aFileName : string) : uint64;
 function  GetStringFileInfo(const aFileName, aField : string; var aValue : string) : boolean;
 function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersionInfo) : boolean;
+{$ENDIF}
 
 function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
@@ -169,10 +172,12 @@ function CheckSubprocessPath(const aSubprocessPath : string; var aMissingFiles :
 function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;
 function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True; aCheckExtensions: boolean = True) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
-function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
+{$IFDEF MSWINDOWS}
+function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;   
+function GetDLLHeaderMachine(const aDLLFile : string; var aMachine : integer) : boolean;
+{$ENDIF}
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
-function GetDLLHeaderMachine(const aDLLFile : string; var aMachine : integer) : boolean;
 function Is32BitProcess : boolean;
 
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
@@ -202,15 +207,17 @@ function CefDeleteFile(const path: ustring; recursive: Boolean): Boolean;
 function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Boolean): Boolean;
 procedure CefLoadCRLSetsFile(const path : ustring);
 
+{$IFDEF MSWINDOWS}
 function CefIsKeyDown(aWparam : WPARAM) : boolean;
 function CefIsKeyToggled(aWparam : WPARAM) : boolean;
+function GetCefMouseModifiers : TCefEventFlags; overload;                                
 function GetCefMouseModifiers(awparam : WPARAM) : TCefEventFlags; overload;
-function GetCefMouseModifiers : TCefEventFlags; overload;
-function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;
+function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;  
 function GefCursorToWindowsCursor(aCefCursor : TCefCursorType) : TCursor;
 
 procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDragOperations);
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
+{$ENDIF}
 
 function  DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;
 procedure DeviceToLogical(var aEvent : TCEFMouseEvent; const aDeviceScaleFactor : double); overload;
@@ -394,6 +401,7 @@ end;
 
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 begin
+  {$IFDEF MSWINDOWS}
   Result.wYear          := dt.year;
   Result.wMonth         := dt.month;
   Result.wDayOfWeek     := dt.day_of_week;
@@ -402,10 +410,21 @@ begin
   Result.wMinute        := dt.minute;
   Result.wSecond        := dt.second;
   Result.wMilliseconds  := dt.millisecond;
+  {$ELSE}
+  Result.Year          := dt.year;
+  Result.Month         := dt.month;
+  Result.DayOfWeek     := dt.day_of_week;
+  Result.Day           := dt.day_of_month;
+  Result.Hour          := dt.hour;
+  Result.Minute        := dt.minute;
+  Result.Second        := dt.second;
+  Result.Millisecond   := dt.millisecond;
+  {$ENDIF}
 end;
 
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 begin
+  {$IFDEF MSWINDOWS}
   Result.year         := dt.wYear;
   Result.month        := dt.wMonth;
   Result.day_of_week  := dt.wDayOfWeek;
@@ -414,12 +433,25 @@ begin
   Result.minute       := dt.wMinute;
   Result.second       := dt.wSecond;
   Result.millisecond  := dt.wMilliseconds;
+  {$ELSE}
+  Result.year         := dt.Year;
+  Result.month        := dt.Month;
+  Result.day_of_week  := dt.DayOfWeek;
+  Result.day_of_month := dt.Day;
+  Result.hour         := dt.Hour;
+  Result.minute       := dt.Minute;
+  Result.second       := dt.Second;
+  Result.millisecond  := dt.Millisecond;
+  {$ENDIF}
 end;
 
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
+{$IFDEF MSWINDOWS}
 var
   TempTime : TSystemTime;
+{$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
   Result := 0;
 
   try
@@ -430,12 +462,20 @@ begin
     on e : exception do
       if CustomExceptionHandler('CefTimeToDateTime', e) then raise;
   end;
+  {$ELSE}
+  Result := EncodeDate(dt.year, dt.month, dt.day_of_month) + EncodeTime(dt.hour, dt.minute, dt.second, dt.millisecond);
+  {$ENDIF}
 end;
 
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 var
+  {$IFDEF MSWINDOWS}
   TempTime : TSystemTime;
+  {$ELSE}
+  TempYear, TempMonth, TempDay, TempHour, TempMin, TempSec, TempMSec : Word;
+  {$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
   FillChar(Result, SizeOf(TCefTime), 0);
 
   try
@@ -446,6 +486,19 @@ begin
     on e : exception do
       if CustomExceptionHandler('DateTimeToCefTime', e) then raise;
   end;
+  {$ELSE}
+  DecodeDate(dt, TempYear, TempMonth, TempDay);
+  DecodeTime(dt, TempHour, TempMin, TempSec, TempMSec);
+
+  Result.year         := TempYear;
+  Result.month        := TempMonth;
+  Result.day_of_week  := DayOfWeek(dt);
+  Result.day_of_month := TempMonth;
+  Result.hour         := TempHour;
+  Result.minute       := TempMin;
+  Result.second       := TempSec;
+  Result.millisecond  := TempMSec;
+  {$ENDIF}
 end;
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
@@ -595,12 +648,12 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
 begin
-  aWindowInfo.x                            := integer(CW_USEDEFAULT);
-  aWindowInfo.y                            := integer(CW_USEDEFAULT);
-  aWindowInfo.width                        := integer(CW_USEDEFAULT);
-  aWindowInfo.height                       := integer(CW_USEDEFAULT);
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
@@ -608,7 +661,7 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
 begin
   aWindowInfo.x                            := 0;
   aWindowInfo.y                            := 0;
@@ -676,7 +729,11 @@ var
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
+      {$IFDEF MSWINDOWS}
       TempString := 'PID: ' + IntToStr(GetCurrentProcessID) + ', TID: ' + IntToStr(GetCurrentThreadID);
+      {$ELSE}
+      TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+      {$ENDIF}
 
       case GlobalCEFApp.ProcessType of
         ptBrowser   : TempString := TempString + ', PT: Browser';
@@ -1054,6 +1111,7 @@ begin
   aVersionInfo.Build    := uint16(aVersion and $FFFF);
 end;
 
+{$IFDEF MSWINDOWS}
 function GetExtendedFileVersion(const aFileName : string) : uint64;
 var
   TempSize   : DWORD;
@@ -1197,7 +1255,8 @@ begin
     on e : exception do
       if CustomExceptionHandler('GetDLLVersion', e) then raise;
   end;
-end;
+end;      
+{$ENDIF}
 
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 begin
@@ -1207,6 +1266,7 @@ begin
             IntToStr(aVersionInfo.Build);
 end;
 
+{$IFDEF MSWINDOWS}
 function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 var
   TempVersionInfo : TFileVersionInfo;
@@ -1258,7 +1318,8 @@ begin
   finally
     if (TempStream <> nil) then FreeAndNil(TempStream);
   end;
-end;
+end;   
+{$ENDIF}
 
 function Is32BitProcess : boolean;
 {$IFDEF MSWINDOWS}
@@ -1348,7 +1409,11 @@ begin
   {$IFDEF DELPHI12_UP}
   Result := PathIsRelativeUnicode(PChar(aPath));
   {$ELSE}
-  Result := PathIsRelativeAnsi(PChar(aPath));
+    {$IFDEF MSWINDOWS}
+    Result := PathIsRelativeAnsi(PChar(aPath));
+    {$ELSE}
+    Result := (length(aPath) > 0) and (aPath[1] <> '/');
+    {$ENDIF}
   {$ENDIF}
 end;
 
@@ -1653,6 +1718,7 @@ begin
     end;
 end;
 
+{$IFDEF MSWINDOWS}
 function CefIsKeyDown(aWparam : WPARAM) : boolean;
 begin
   Result := (GetKeyState(aWparam) < 0);
@@ -1799,7 +1865,7 @@ begin
 
     else Result := crDefault;
   end;
-end;
+end;  
 
 procedure DropEffectToDragOperation(aEffect: Longint; var aAllowedOps : TCefDragOperations);
 begin
@@ -1817,7 +1883,8 @@ begin
   if ((aDragOperations and DRAG_OPERATION_COPY) <> 0) then aEffect := aEffect or DROPEFFECT_COPY;
   if ((aDragOperations and DRAG_OPERATION_LINK) <> 0) then aEffect := aEffect or DROPEFFECT_LINK;
   if ((aDragOperations and DRAG_OPERATION_MOVE) <> 0) then aEffect := aEffect or DROPEFFECT_MOVE;
-end;
+end;    
+{$ENDIF}
 
 function DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer;
 begin
@@ -1850,12 +1917,18 @@ begin
 end;
 
 function GetScreenDPI : integer;
+{$IFDEF MSWINDOWS}
 var
   TempDC : HDC;
+{$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
   TempDC := GetDC(0);
   Result := GetDeviceCaps(TempDC, LOGPIXELSX);
   ReleaseDC(0, TempDC);
+  {$ELSE}
+  Result := screen.PrimaryMonitor.PixelsPerInch;
+  {$ENDIF}
 end;
 
 function GetDeviceScaleFactor : single;

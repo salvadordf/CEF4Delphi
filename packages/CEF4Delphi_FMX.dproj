@@ -272,6 +272,7 @@
         <DCCReference Include="..\source\uCEFLinkedWindowParent.pas"/>
         <DCCReference Include="..\source\uCEFUrlRequestClientEvents.pas"/>
         <DCCReference Include="..\source\uCEFUrlRequestClientComponent.pas"/>
+        <DCCReference Include="..\source\uCEFOSRIMEHandler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

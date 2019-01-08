@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="10"/>
+    <Units Count="10">
+      <Unit0>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="1397"/>
+        <CursorPos Y="1412"/>
+        <UsageCount Value="11"/>
+        <Bookmarks Count="5">
+          <Item0 X="31" Y="209" ID="1"/>
+          <Item1 X="19" Y="1717" ID="2"/>
+          <Item2 X="45" Y="404" ID="3"/>
+          <Item3 X="71" Y="736" ID="4"/>
+          <Item4 X="25" Y="1270" ID="5"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="../source/uCEFImage.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="40"/>
+        <CursorPos X="41" Y="55"/>
+        <UsageCount Value="11"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="../source/uCEFv8Handler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="41"/>
+        <CursorPos Y="56"/>
+        <UsageCount Value="11"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/sysutils/datih.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="106"/>
+        <CursorPos X="11" Y="120"/>
+        <UsageCount Value="11"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../../fpCEF3/cef3lib.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="315"/>
+        <CursorPos X="3" Y="325"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../source/uCEFApplication.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="46" Y="36"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/typinfo.pp"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-db/src/dbase/dbf_wnix.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="170"/>
+        <CursorPos X="37" Y="185"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/linux/ossysc.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="595"/>
+        <CursorPos X="10" Y="609"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/bsd/system.pp"/>
+        <UnitName Value="System"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="303"/>
+        <CursorPos X="22" Y="315"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+    </Units>
+    <JumpHistory Count="28" HistoryIndex="27">
+      <Position1>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="56" Column="41" TopLine="42"/>
+      </Position1>
+      <Position2>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="56" Column="37" TopLine="42"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="733" Column="71" TopLine="719"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="55" Column="85" TopLine="41"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="64" Column="54" TopLine="42"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="731" Column="52" TopLine="719"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="55" Column="130" TopLine="42"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1113" Column="16" TopLine="1099"/>
+      </Position8>
+      <Position9>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="727" Column="7" TopLine="718"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1109" Column="19" TopLine="1099"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="163" Column="22" TopLine="148"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1111" Column="19" TopLine="1101"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="419" Column="3" TopLine="401"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1147" Column="10" TopLine="1128"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="13" Column="82"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="164" Column="16" TopLine="141"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1256" Column="11" TopLine="1230"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1269" Column="36" TopLine="1259"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="176" Column="12" TopLine="160"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1270" Column="25" TopLine="1256"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1287" Column="45" TopLine="1271"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="180" Column="18" TopLine="165"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1329" Column="3" TopLine="1323"/>
+      </Position23>
+      <Position24>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="177" Column="22" TopLine="166"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1321" Column="10" TopLine="1307"/>
+      </Position25>
+      <Position26>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1411" Column="13" TopLine="1397"/>
+      </Position26>
+      <Position27>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="736" Column="71" TopLine="722"/>
+      </Position27>
+      <Position28>
+        <Filename Value="../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1411" Column="13" TopLine="1857"/>
+      </Position28>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

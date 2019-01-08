@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -67,8 +67,13 @@ const
   CEF_CHROMEELF_VERSION_RELEASE = 3578;
   CEF_CHROMEELF_VERSION_BUILD   = 80;
 
+  {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
   CHROMEELF_DLL                 = 'chrome_elf.dll';
+  {$ELSE}
+  LIBCEF_DLL                    = 'libcef.so';
+  CHROMEELF_DLL                 = '';
+  {$ENDIF}
 
 type
   TCefApplication = class
@@ -271,7 +276,9 @@ type
       function  SingleExeProcessing : boolean;
       function  CheckCEFLibrary : boolean;
       procedure RegisterWidevineCDM;
+      {$IFDEF MSWINDOWS}
       function  FindFlashDLL(var aFileName : string) : boolean;
+      {$ENDIF}
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
 
@@ -601,7 +608,9 @@ begin
   FChromeVersionInfo.Release     := CEF_CHROMEELF_VERSION_RELEASE;
   FChromeVersionInfo.Build       := CEF_CHROMEELF_VERSION_BUILD;
 
+  {$IFDEF MSWINDOWS}
   if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  {$ENDIF}
 
   IsMultiThread := True;
 
@@ -808,7 +817,9 @@ begin
    else
     FFrameworkDirPath := '';
 
+  {$IFDEF MSWINDOWS}
   if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  {$ENDIF}
 end;
 
 procedure TCefApplication.SetResourcesDirPath(const aValue : ustring);
@@ -858,6 +869,9 @@ var
   TempMachine : integer;
   TempVersionInfo : TFileVersionInfo;
 begin
+  {$IFNDEF MSWINDOWS}
+  Result := True;
+  {$ELSE}
   Result := False;
 
   if not(FCheckCEFFiles) or (FProcessType <> ptBrowser) then
@@ -894,7 +908,6 @@ begin
                            CEF_SUPPORTED_VERSION_RELEASE,
                            CEF_SUPPORTED_VERSION_BUILD) then
           begin
-            {$IFDEF MSWINDOWS}
             if GetDLLHeaderMachine(LibCefPath, TempMachine) then
               case TempMachine of
                 CEF_IMAGE_FILE_MACHINE_I386 :
@@ -937,9 +950,6 @@ begin
               end
              else
               Result := True;
-            {$ELSE}
-            Result := True;
-            {$ENDIF}
           end
          else
           begin
@@ -959,6 +969,7 @@ begin
 
       if FSetCurrentDir then chdir(TempOldDir);
     end;
+  {$ENDIF}
 end;
 
 function TCefApplication.StartMainProcess : boolean;
@@ -1173,7 +1184,11 @@ begin
           TempNewDir := TempOldDir + '(' + inttostr(i) + ')';
         until not(DirectoryExists(TempNewDir));
 
+        {$IFDEF MSWINDOWS}
         if MoveFileW(PWideChar(TempOldDir + chr(0)), PWideChar(TempNewDir + chr(0))) then
+        {$ELSE}
+        if RenameFile(TempOldDir, TempNewDir) then
+        {$ENDIF}
           begin
             TempThread := TCEFDirectoryDeleterThread.Create(TempNewDir);
             {$IFDEF DELPHI14_UP}
@@ -1216,6 +1231,7 @@ begin
   end;
 end;
 
+{$IFDEF MSWINDOWS}
 function TCefApplication.FindFlashDLL(var aFileName : string) : boolean;
 var
   TempSearchRec : TSearchRec;
@@ -1249,6 +1265,7 @@ begin
       if CustomExceptionHandler('TCefApplication.FindFlashDLL', e) then raise;
   end;
 end;
+{$ENDIF}
 
 procedure TCefApplication.ShowErrorMessageDlg(const aError : string);
 begin
@@ -1443,6 +1460,7 @@ var
 begin
   if (commandLine <> nil) and (FProcessType = ptBrowser) and (processType = '') then
     begin
+      {$IFDEF MSWINDOWS}
       if FindFlashDLL(TempFileName) and
          GetDLLVersion(TempFileName, TempVersionInfo) then
         begin
@@ -1453,6 +1471,7 @@ begin
           commandLine.AppendSwitchWithValue('--ppapi-flash-version', FileVersionInfoToString(TempVersionInfo));
         end
        else
+       {$ENDIF}
         if FFlashEnabled then
           begin
             if FEnableGPU then commandLine.AppendSwitch('--enable-gpu-plugin');
@@ -1779,9 +1798,14 @@ begin
 
   if (FLibHandle = 0) then
     begin
-      FStatus    := asErrorLoadingLibrary;
+      FStatus := asErrorLoadingLibrary;
+
+      {$IFDEF MSWINDOWS}
       TempString := 'Error loading libcef.dll' + CRLF + CRLF +
                     'Error code : 0x' + inttohex(GetLastError, 8);
+      {$ELSE}
+      TempString := 'Error loading the CEF binaries';
+      {$ENDIF}
 
       ShowErrorMessageDlg(TempString);
       exit;

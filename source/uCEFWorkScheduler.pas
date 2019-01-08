@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -81,7 +81,9 @@ type
       procedure DestroyThread;
       procedure DeallocateWindowHandle;
       procedure DepleteWork;
+      {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage);
+      {$ENDIF}
       procedure NextPulse(aInterval : integer);
       procedure ScheduleWork(const delay_ms : int64);
       procedure DoWork;
@@ -173,6 +175,7 @@ begin
 
   if not(csDesigning in ComponentState) then
     begin
+      {$IFDEF MSWINDOWS}
       if (GlobalCEFApp <> nil) and
          ((GlobalCEFApp.ProcessType = ptBrowser) or GlobalCEFApp.SingleProcess) then
         begin
@@ -183,6 +186,7 @@ begin
           FCompHandle      := AllocateHWnd(WndProc);
           {$ENDIF}
         end;
+      {$ENDIF}
 
       CreateThread;
     end;
@@ -219,6 +223,7 @@ begin
   end;
 end;
 
+{$IFDEF MSWINDOWS}
 procedure TCEFWorkScheduler.WndProc(var aMessage: TMessage);
 begin
   if (aMessage.Msg = CEF_PUMPHAVEWORK) then
@@ -226,6 +231,7 @@ begin
    else
     aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
 end;
+{$ENDIF}
 
 procedure TCEFWorkScheduler.DeallocateWindowHandle;
 begin
@@ -273,8 +279,10 @@ end;
 
 procedure TCEFWorkScheduler.ScheduleMessagePumpWork(const delay_ms : int64);
 begin
+  {$IFDEF MSWINDOWS}
   if not(FStopped) and (FCompHandle <> 0) then
     PostMessage(FCompHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
+  {$ENDIF}
 end;
 
 procedure TCEFWorkScheduler.StopScheduler;

@@ -166,7 +166,8 @@ contains
   uCEFWinControl in '..\source\uCEFWinControl.pas',
   uCEFLinkedWindowParent in '..\source\uCEFLinkedWindowParent.pas',
   uCEFUrlRequestClientEvents in '..\source\uCEFUrlRequestClientEvents.pas',
-  uCEFUrlRequestClientComponent in '..\source\uCEFUrlRequestClientComponent.pas';
+  uCEFUrlRequestClientComponent in '..\source\uCEFUrlRequestClientComponent.pas',
+  uCEFOSRIMEHandler in '..\source\uCEFOSRIMEHandler.pas';
 
 end.
 

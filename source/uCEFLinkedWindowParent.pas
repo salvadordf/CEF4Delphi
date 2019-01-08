@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -70,7 +70,9 @@ type
       procedure SetChromium(aValue : TChromium);
 
       function  GetChildWindowHandle : THandle; override;
+      {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage); override;
+      {$ENDIF}
       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
     public
@@ -107,6 +109,7 @@ begin
   if (Result = 0) then Result := inherited GetChildWindowHandle;
 end;
 
+{$IFDEF MSWINDOWS}
 procedure TCEFLinkedWindowParent.WndProc(var aMessage: TMessage);
 var
   TempHandle : THandle;
@@ -139,6 +142,7 @@ begin
     else inherited WndProc(aMessage);
   end;
 end;
+{$ENDIF}
 
 procedure TCEFLinkedWindowParent.Notification(AComponent: TComponent; Operation: TOperation);
 begin

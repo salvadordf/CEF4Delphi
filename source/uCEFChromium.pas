@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -252,7 +252,7 @@ type
       function  GetZoomLevel : double;
       function  GetZoomPct : double;
       function  GetIsPopUp : boolean;
-      function  GetWindowHandle : THandle;
+      function  GetWindowHandle : TCefWindowHandle;
       function  GetWindowlessFrameRate : integer;
       function  GetFrameIsFocused : boolean;
       function  GetInitialized : boolean;
@@ -331,8 +331,9 @@ type
       function  MustCreateJsDialogHandler : boolean; virtual;
       function  MustCreateDragHandler : boolean; virtual;
       function  MustCreateFindHandler : boolean; virtual;
-
+      {$IFDEF MSWINDOWS}
       procedure PrefsAvailableMsg(var aMessage : TMessage);
+      {$ENDIF}
       function  GetParentForm : TCustomForm;
       procedure ApplyZoomStep;
       procedure DelayedDragging;
@@ -342,10 +343,12 @@ type
       procedure InitializeWindowInfo(aParentHandle : HWND; aParentRect : TRect; const aWindowName : ustring); virtual;
       procedure InitializeDevToolsWindowInfo(aDevTools : TWinControl); virtual;
 
-      procedure FreeAndNilStub(var aStub : pointer);
-      procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
+      {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage);
-      {$IFNDEF FPC}
+      {$ENDIF}
+      {$IFNDEF FPC}                                   
+      procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
+      procedure FreeAndNilStub(var aStub : pointer);
       procedure BrowserCompWndProc(var aMessage: TMessage);
       procedure WidgetCompWndProc(var aMessage: TMessage);
       procedure RenderCompWndProc(var aMessage: TMessage);
@@ -564,6 +567,11 @@ type
       procedure   DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
       procedure   DragSourceSystemDragEnded;
 
+      procedure   IMESetComposition(const text: ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : PCefRange);
+      procedure   IMECommitText(const text: ustring; const replacement_range : PCefRange; relative_cursor_pos : integer);
+      procedure   IMEFinishComposingText(keep_selection : boolean);
+      procedure   IMECancelComposition;
+
 
       property  DefaultUrl              : ustring                      read FDefaultUrl               write FDefaultUrl;
       property  Options                 : TChromiumOptions             read FOptions                  write FOptions;
@@ -585,7 +593,7 @@ type
       property  CanGoBack               : boolean                      read GetCanGoBack;
       property  CanGoForward            : boolean                      read GetCanGoForward;
       property  IsPopUp                 : boolean                      read GetIsPopUp;
-      property  WindowHandle            : THandle                      read GetWindowHandle;
+      property  WindowHandle            : TCefWindowHandle             read GetWindowHandle;
       property  BrowserHandle           : THandle                      read FBrowserCompHWND;
       property  WidgetHandle            : THandle                      read FWidgetCompHWND;
       property  RenderHandle            : THandle                      read FRenderCompHWND;
@@ -793,7 +801,7 @@ begin
   FBrowserCompStub        := nil;
   FWidgetCompStub         := nil;
   FRenderCompStub         := nil;
-  {$ENDIF}                    
+  {$ENDIF}
   FBrowserCompHWND        := 0;
   FWidgetCompHWND         := 0;
   FRenderCompHWND         := 0;
@@ -893,6 +901,7 @@ begin
   FBrowserId := 0;
 end;
 
+{$IFNDEF FPC}
 procedure TChromium.CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
 begin
   if (aStub = nil) then aStub := MakeObjectInstance(aMethod);
@@ -906,6 +915,7 @@ begin
       aStub := nil;
     end;
 end;
+{$ENDIF}
 
 procedure TChromium.DestroyClientHandler;
 begin
@@ -933,8 +943,10 @@ begin
     if not(csDesigning in ComponentState) then
       begin
         {$IFDEF FPC}
+        {$IFDEF MSWINDOWS}
         TempWndMethod    := @WndProc;
         FCompHandle      := AllocateHWnd(TempWndMethod);
+        {$ENDIF}
         {$ELSE}
         FCompHandle      := AllocateHWnd(WndProc);
         {$ENDIF}
@@ -1182,23 +1194,39 @@ procedure TChromium.InitializeWindowInfo(      aParentHandle : HWND;
                                                aParentRect   : TRect;
                                          const aWindowName   : ustring);
 begin
+  {$IFDEF MSWINDOWS}
   if FIsOSR then
     WindowInfoAsWindowless(FWindowInfo, FCompHandle, aWindowName)
    else
     WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
+  {$ELSE}
+  if FIsOSR then
+    WindowInfoAsWindowless(FWindowInfo, FCompHandle)
+   else
+    WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect);
+  {$ENDIF}
 end;
 
 procedure TChromium.InitializeDevToolsWindowInfo(aDevTools : TWinControl);
 begin
+  {$IFDEF MSWINDOWS}
   if (aDevTools <> nil) then
     WindowInfoAsChild(FDevWindowInfo, aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
    else
-    WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
+    WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);     
+  {$ELSE}
+  if (aDevTools <> nil) then
+    WindowInfoAsChild(FDevWindowInfo, aDevTools.Handle, aDevTools.ClientRect)
+   else
+    WindowInfoAsPopUp(FDevWindowInfo, WindowHandle);
+  {$ENDIF}
 end;
 
 procedure TChromium.InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
+{$IFNDEF FPC}
 var
   TempDropTarget : IDropTarget;
+{$ENDIF}
 begin
   {$IFNDEF FPC}
   if FIsOSR and
@@ -1238,15 +1266,18 @@ end;
 
 procedure TChromium.ShutdownDragAndDrop;
 begin
+  {$IFDEF MSWINDOWS}
   if FDragAndDropInitialized and (FDropTargetCtrl <> nil) then
     begin
       RevokeDragDrop(FDropTargetCtrl.Handle);
       FDragAndDropInitialized := False;
     end;
+  {$ENDIF}
 end;
 
 procedure TChromium.ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);
 begin
+  {$IFDEF MSWINDOWS}
   if (FDropTargetCtrl <> nil) then
     begin
       pt                    := FDropTargetCtrl.ScreenToClient(pt);
@@ -1254,6 +1285,7 @@ begin
       aMouseEvent.y         := pt.y;
       aMouseEvent.modifiers := GetCefMouseModifiers(grfKeyState);
     end;
+  {$ENDIF}
 end;
 
 procedure TChromium.DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
@@ -1263,6 +1295,7 @@ var
 begin
   if (GlobalCEFApp <> nil) then
     begin
+      {$IFDEF MSWINDOWS}
       ToMouseEvent(grfKeyState, pt, TempMouseEvent);
       DropEffectToDragOperation(dwEffect, TempAllowedOps);
       DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
@@ -1271,6 +1304,7 @@ begin
       DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
 
       DragOperationToDropEffect(FDragOperations, dwEffect);
+      {$ENDIF}
     end;
 end;
 
@@ -1281,6 +1315,7 @@ var
 begin
   if (GlobalCEFApp <> nil) then
     begin
+      {$IFDEF MSWINDOWS}
       ToMouseEvent(grfKeyState, pt, TempMouseEvent);
       DropEffectToDragOperation(dwEffect, TempAllowedOps);
       DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
@@ -1288,6 +1323,7 @@ begin
       DragTargetDragOver(@TempMouseEvent, TempAllowedOps);
 
       DragOperationToDropEffect(FDragOperations, dwEffect);
+      {$ENDIF}
     end;
 end;
 
@@ -1303,6 +1339,7 @@ var
 begin
   if (GlobalCEFApp <> nil) then
     begin
+      {$IFDEF MSWINDOWS}
       ToMouseEvent(grfKeyState, pt, TempMouseEvent);
       DropEffectToDragOperation(dwEffect, TempAllowedOps);
       DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
@@ -1311,6 +1348,7 @@ begin
       DragTargetDrop(@TempMouseEvent);
 
       DragOperationToDropEffect(FDragOperations, dwEffect);
+      {$ENDIF}
     end;
 end;
 
@@ -1688,7 +1726,7 @@ begin
   Result := (FBrowser <> nil);
 end;
 
-function TChromium.GetWindowHandle : THandle;
+function TChromium.GetWindowHandle : TCefWindowHandle;
 begin
   if Initialized then
     Result := FBrowser.Host.WindowHandle
@@ -2258,6 +2296,7 @@ var
 begin
   Result := False;
 
+  {$IFDEF MSWINDOWS}
   if not(FIsOSR) then
     begin
       TempHWND := GetWindowHandle;
@@ -2282,6 +2321,7 @@ begin
           ReleaseDC(TempHWND, TempDC);
         end;
     end;
+  {$ENDIF}
 end;
 
 function TChromium.IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
@@ -2813,6 +2853,7 @@ var
   TempPrefs : TStringList;
 begin
   Result    := False;
+  {$IFDEF MSWINDOWS}
   TempPrefs := nil;
 
   try
@@ -2833,6 +2874,7 @@ begin
     SendCompMessage(CEF_PREFERENCES_SAVED, Ord(Result));
     if (TempPrefs <> nil) then FreeAndNil(TempPrefs);
   end;
+  {$ENDIF}
 end;
 
 procedure TChromium.doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
@@ -2912,10 +2954,12 @@ begin
   Result := assigned(FOnFindResult);
 end;
 
+{$IFDEF MSWINDOWS}
 procedure TChromium.PrefsAvailableMsg(var aMessage : TMessage);
 begin
   if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self, (aMessage.WParam <> 0));
 end;
+{$ENDIF}
 
 function TChromium.SendCompMessage(aMsg : cardinal; wParam : cardinal; lParam : integer) : boolean;
 begin
@@ -3035,7 +3079,9 @@ begin
           {$IFDEF DELPHI16_UP}
           WinApi.Windows.SetParent(GetWindow(aDevTools.Handle, GW_CHILD), 0);
           {$ELSE}
+          {$IFDEF MSWINDOWS}
           Windows.SetParent(GetWindow(aDevTools.Handle, GW_CHILD), 0);
+          {$ENDIF}
           {$ENDIF}
         end;
 
@@ -3043,6 +3089,7 @@ begin
     end;
 end;
 
+{$IFDEF MSWINDOWS}
 procedure TChromium.WndProc(var aMessage: TMessage);
 begin
   case aMessage.Msg of
@@ -3052,6 +3099,7 @@ begin
     else aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
   end;
 end;
+{$ENDIF}
 
 {$IFNDEF FPC}
 procedure TChromium.BrowserCompWndProc(var aMessage: TMessage);
@@ -3642,13 +3690,13 @@ begin
      (browser.Identifier =  FBrowserId) then
     begin
       FBrowserCompHWND := browser.Host.WindowHandle;
-
+      {$IFDEF MSWINDOWS}
       if (FBrowserCompHWND <> 0) then
         FWidgetCompHWND := FindWindowEx(FBrowserCompHWND, 0, 'Chrome_WidgetWin_0', '');
 
       if (FWidgetCompHWND <> 0) then
         FRenderCompHWND := FindWindowEx(FWidgetCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
-
+      {$ENDIF}
       {$IFNDEF FPC}
       if assigned(FOnBrowserCompMsg) and (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc = nil) then
         begin
@@ -4041,6 +4089,33 @@ end;
 procedure TChromium.DragSourceSystemDragEnded;
 begin
   if Initialized then FBrowser.Host.DragSourceSystemDragEnded;
+end;
+
+procedure TChromium.IMESetComposition(const text              : ustring;
+                                      const underlines        : TCefCompositionUnderlineDynArray;
+                                      const replacement_range : PCefRange;
+                                      const selection_range   : PCefRange);
+begin
+  if Initialized then
+    FBrowser.Host.IMESetComposition(text, underlines, replacement_range, selection_range);
+end;
+
+procedure TChromium.IMECommitText(const text                : ustring;
+                                  const replacement_range   : PCefRange;
+                                        relative_cursor_pos : integer);
+begin
+  if Initialized then
+    FBrowser.Host.IMECommitText(text, replacement_range, relative_cursor_pos);
+end;
+
+procedure TChromium.IMEFinishComposingText(keep_selection : boolean);
+begin
+  if Initialized then FBrowser.Host.IMEFinishComposingText(keep_selection);
+end;
+
+procedure TChromium.IMECancelComposition;
+begin
+  if Initialized then FBrowser.Host.IMECancelComposition;
 end;
 
 {$IFDEF FPC}

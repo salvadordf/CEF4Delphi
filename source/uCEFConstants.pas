@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -389,6 +389,7 @@ const
   CEF_DESTROY            = WM_APP + $A06;
   CEF_DOONBEFORECLOSE    = WM_APP + $A07;   
   CEF_PENDINGINVALIDATE  = WM_APP + $A08;
+  CEF_IMERANGECHANGED    = WM_APP + $A09;
   {$ENDIF}
 
   CEF_TIMER_MINIMUM            = $0000000A;

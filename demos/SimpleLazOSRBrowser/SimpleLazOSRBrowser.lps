@@ -2,17 +2,17 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="19">
+    <Units Count="25">
       <Unit0>
         <Filename Value="SimpleLazOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
         <TopLine Value="24"/>
         <CursorPos X="46" Y="33"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="42"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -21,14 +21,14 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="285"/>
-        <CursorPos Y="296"/>
-        <UsageCount Value="40"/>
-        <Bookmarks Count="2">
-          <Item0 Y="189" ID="1"/>
-          <Item1 X="5" Y="801" ID="2"/>
+        <TopLine Value="19"/>
+        <CursorPos X="63" Y="204"/>
+        <UsageCount Value="42"/>
+        <Bookmarks Count="1">
+          <Item0 X="40" Y="252" ID="4"/>
         </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
@@ -43,10 +43,11 @@
       </Unit2>
       <Unit3>
         <Filename Value="..\..\source\uBufferPanel.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="95"/>
-        <CursorPos X="41" Y="126"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="32"/>
+        <CursorPos Y="284"/>
         <UsageCount Value="17"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\..\lcl\lcltype.pp"/>
@@ -60,10 +61,11 @@
       <Unit5>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
         <UnitName Value="Forms"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1549"/>
-        <CursorPos X="15" Y="1493"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="243"/>
+        <CursorPos X="43" Y="268"/>
         <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\lazarus\lcl\graphics.pp"/>
@@ -155,18 +157,187 @@
       </Unit17>
       <Unit18>
         <Filename Value="..\..\source\uCEFApplication.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1096"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="28"/>
         <CursorPos X="59" Y="1103"/>
         <UsageCount Value="10"/>
-        <Bookmarks Count="1">
-          <Item0 X="74" Y="1103" ID="1"/>
-        </Bookmarks>
+        <Loaded Value="True"/>
       </Unit18>
+      <Unit19>
+        <Filename Value="..\..\source\uCEFChromium.pas"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="559"/>
+        <CursorPos Y="570"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="97"/>
+        <CursorPos Y="651"/>
+        <UsageCount Value="10"/>
+        <Bookmarks Count="2">
+          <Item0 X="23" Y="177" ID="2"/>
+          <Item1 X="58" Y="279" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="..\..\source\uCEFTypes.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="264"/>
+        <CursorPos X="35" Y="286"/>
+        <UsageCount Value="10"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-base\src\imm.pas"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="286"/>
+        <CursorPos X="33" Y="323"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-base\src\imm_dyn.pas"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="23" Y="17"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-base\src\buildwinutilsbase.pp"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="67" Y="17"/>
+        <UsageCount Value="10"/>
+      </Unit24>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="-1"/>
-    </General>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="612" TopLine="591"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="624" TopLine="620"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="626" TopLine="620"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="627" TopLine="620"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="629" TopLine="620"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="632" TopLine="620"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="633" TopLine="620"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="635" TopLine="620"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="638" TopLine="620"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="639" TopLine="620"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="640" TopLine="620"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="648" TopLine="635"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="650" TopLine="635"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="651" TopLine="635"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="652" TopLine="635"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="666" TopLine="653"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="673" TopLine="653"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="676" TopLine="667"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="677" TopLine="667"/>
+      </Position19>
+      <Position20>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="678" TopLine="667"/>
+      </Position20>
+      <Position21>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="679" TopLine="667"/>
+      </Position21>
+      <Position22>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="680" TopLine="667"/>
+      </Position22>
+      <Position23>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="681" TopLine="667"/>
+      </Position23>
+      <Position24>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="682" TopLine="667"/>
+      </Position24>
+      <Position25>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="683" TopLine="667"/>
+      </Position25>
+      <Position26>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <Caret Line="685" TopLine="667"/>
+      </Position26>
+      <Position27>
+        <Filename Value="usimplelazosrbrowser.pas"/>
+        <Caret Line="204" Column="63" TopLine="19"/>
+      </Position27>
+      <Position28>
+        <Filename Value="C:\lazarus\lcl\forms.pp"/>
+        <Caret Line="750" Column="3" TopLine="728"/>
+      </Position28>
+      <Position29>
+        <Filename Value="C:\lazarus\lcl\forms.pp"/>
+        <Caret Line="445" Column="50" TopLine="408"/>
+      </Position29>
+      <Position30>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-base\src\imm_dyn.pas"/>
+        <Caret Line="17" Column="23"/>
+      </Position30>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode="default"/>
+    </RunParams>
   </ProjectSession>
 </CONFIG>

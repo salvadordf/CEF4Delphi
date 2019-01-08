@@ -2,16 +2,16 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="49">
+    <Units Count="52">
       <Unit0>
         <Filename Value="SimpleLazarusBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="5"/>
         <CursorPos X="43" Y="5"/>
-        <UsageCount Value="42"/>
+        <UsageCount Value="43"/>
       </Unit0>
       <Unit1>
         <Filename Value="usimplelazarusbrowser.pas"/>
@@ -20,11 +20,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
         <TopLine Value="26"/>
-        <CursorPos Y="168"/>
-        <UsageCount Value="42"/>
+        <CursorPos Y="40"/>
+        <UsageCount Value="43"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\..\source\uCEFChromium.pas"/>
@@ -84,9 +84,13 @@
       <Unit9>
         <Filename Value="..\..\source\uBufferPanel.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="40"/>
-        <CursorPos X="36" Y="62"/>
+        <TopLine Value="418"/>
+        <CursorPos X="55" Y="426"/>
         <UsageCount Value="10"/>
+        <Bookmarks Count="2">
+          <Item0 X="3" Y="265" ID="3"/>
+          <Item1 X="52" Y="413" ID="4"/>
+        </Bookmarks>
       </Unit9>
       <Unit10>
         <Filename Value="..\..\source\uCEFServerComponent.pas"/>
@@ -360,8 +364,8 @@
       </Unit46>
       <Unit47>
         <Filename Value="..\..\source\cef.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
         <TopLine Value="136"/>
         <UsageCount Value="10"/>
       </Unit47>
@@ -372,10 +376,39 @@
         <CursorPos X="37" Y="147"/>
         <UsageCount Value="10"/>
       </Unit48>
+      <Unit49>
+        <Filename Value="..\..\source\uCEFOSRIMEHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="116"/>
+        <CursorPos X="30" Y="116"/>
+        <UsageCount Value="10"/>
+        <Bookmarks Count="2">
+          <Item0 X="33" Y="176" ID="1"/>
+          <Item1 X="3" Y="138" ID="2"/>
+        </Bookmarks>
+      </Unit49>
+      <Unit50>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-base\src\imm.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="529"/>
+        <CursorPos X="30" Y="551"/>
+        <UsageCount Value="10"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-base\src\imm_dyn.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="104"/>
+        <CursorPos X="3" Y="133"/>
+        <UsageCount Value="10"/>
+      </Unit51>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="-1"/>
     </General>
     <JumpHistory HistoryIndex="-1"/>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode="default"/>
+    </RunParams>
   </ProjectSession>
 </CONFIG>

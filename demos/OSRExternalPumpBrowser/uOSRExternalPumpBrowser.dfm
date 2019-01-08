@@ -108,6 +108,9 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     Top = 30
     Width = 913
     Height = 554
+    OnIMECancelComposition = Panel1IMECancelComposition
+    OnIMECommitText = Panel1IMECommitText
+    OnIMESetComposition = Panel1IMESetComposition
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 1
@@ -134,6 +137,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
+    OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
     Left = 24
     Top = 56
   end

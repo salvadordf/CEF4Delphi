@@ -107,6 +107,9 @@ object Form1: TForm1
     Top = 30
     Width = 988
     Height = 638
+    OnIMECancelComposition = Panel1IMECancelComposition
+    OnIMECommitText = Panel1IMECommitText
+    OnIMESetComposition = Panel1IMESetComposition
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 1
@@ -133,6 +136,7 @@ object Form1: TForm1
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
+    OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
     Left = 24
     Top = 56
   end

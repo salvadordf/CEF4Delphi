@@ -21,7 +21,7 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi"/>
     <Version Major="1"/>
-    <Files Count="137">
+    <Files Count="138">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -578,6 +578,10 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFUrlRequestClientComponent"/>
       </Item137>
+      <Item138>
+        <Filename Value="..\source\uCEFOSRIMEHandler.pas"/>
+        <UnitName Value="uCEFOSRIMEHandler"/>
+      </Item138>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

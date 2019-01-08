@@ -16,7 +16,7 @@ object Form1: TForm1
   OnHide = FormHide
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '2.0.0.3'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -90,6 +90,9 @@ object Form1: TForm1
     Height = 544
     Top = 21
     Width = 800
+    OnIMECancelComposition = Panel1IMECancelComposition
+    OnIMECommitText = Panel1IMECommitText
+    OnIMESetComposition = Panel1IMESetComposition
     Align = alClient
     OnUTF8KeyPress = Panel1UTF8KeyPress
     Caption = 'Panel1'
@@ -119,6 +122,7 @@ object Form1: TForm1
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
+    OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
     left = 24
     top = 56
   end

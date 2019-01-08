@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -78,6 +78,9 @@ type
     procedure Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Panel1MouseLeave(Sender: TObject);
+    procedure Panel1IMECancelComposition(Sender: TObject);
+    procedure Panel1IMECommitText(Sender: TObject; const aText: ustring; const replacement_range: PCefRange; relative_cursor_pos: Integer);
+    procedure Panel1IMESetComposition(Sender: TObject; const aText: ustring; const underlines: TCefCompositionUnderlineDynArray; const replacement_range, selection_range: TCefRange);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -98,6 +101,7 @@ type
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure chrmosrIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
@@ -665,6 +669,7 @@ begin
   chrmosr.ShutdownDragAndDrop;
 
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
+  if (FResizeCS    <> nil) then FreeAndNil(FResizeCS);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.FormHide(Sender: TObject);
@@ -684,6 +689,8 @@ begin
     begin
       // opaque white background color
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+
+      Panel1.CreateIMEHandler;
 
       if chrmosr.CreateBrowser(nil, '') then
         chrmosr.InitializeDragAndDrop(Panel1)
@@ -854,6 +861,68 @@ begin
     chrmosr.InitializeDragAndDrop(Panel1)
    else
     if not(chrmosr.Initialized) then Timer1.Enabled := True;
+end;
+
+procedure TOSRExternalPumpBrowserFrm.Panel1IMECancelComposition(Sender: TObject);
+begin
+  chrmosr.IMECancelComposition;
+end;
+
+procedure TOSRExternalPumpBrowserFrm.Panel1IMECommitText(      Sender              : TObject;
+                                                         const aText               : ustring;
+                                                         const replacement_range   : PCefRange;
+                                                               relative_cursor_pos : Integer);
+begin
+  chrmosr.IMECommitText(aText, replacement_range, relative_cursor_pos);
+end;
+
+procedure TOSRExternalPumpBrowserFrm.Panel1IMESetComposition(      Sender            : TObject;
+                                                             const aText             : ustring;
+                                                             const underlines        : TCefCompositionUnderlineDynArray;
+                                                             const replacement_range : TCefRange;
+                                                             const selection_range   : TCefRange);
+begin
+  chrmosr.IMESetComposition(aText, underlines, @replacement_range, @selection_range);
+end;
+
+procedure TOSRExternalPumpBrowserFrm.chrmosrIMECompositionRangeChanged(      Sender                : TObject;
+                                                                       const browser               : ICefBrowser;
+                                                                       const selected_range        : PCefRange;
+                                                                             character_boundsCount : NativeUInt;
+                                                                       const character_bounds      : PCefRect);
+var
+  TempDeviceBounds : TCefRectDynArray;
+  TempPRect        : PCefRect;
+  i                : NativeUInt;
+begin
+  TempDeviceBounds := nil;
+
+  try
+    if (character_boundsCount > 0) then
+      begin
+        SetLength(TempDeviceBounds, character_boundsCount);
+
+        i         := 0;
+        TempPRect := character_bounds;
+
+        while (i < character_boundsCount) do
+          begin
+            TempDeviceBounds[i] := TempPRect^;
+            LogicalToDevice(TempDeviceBounds[i], GlobalCEFApp.DeviceScaleFactor);
+
+            inc(TempPRect);
+            inc(i);
+          end;
+      end;
+
+    Panel1.ChangeCompositionRange(selected_range^, TempDeviceBounds);
+  finally
+    if (TempDeviceBounds <> nil) then
+      begin
+        Finalize(TempDeviceBounds);
+        TempDeviceBounds := nil;
+      end;
+  end;
 end;
 
 end.
