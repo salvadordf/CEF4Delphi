@@ -593,7 +593,7 @@ begin
   {$IFDEF MSWINDOWS}
   if Initialized then
     begin
-      {$IFDEF DELPHI16_UP}
+      {$IFDEF DELPHI22_UP}
       ImmAssociateContextEx(FHWND, 0, IACE_DEFAULT);
       {$ELSE}
       ImmAssociateContext(FHWND, 0);
@@ -608,7 +608,7 @@ begin
   if Initialized then
     begin
       CleanupComposition();
-      {$IFDEF DELPHI16_UP}
+      {$IFDEF DELPHI22_UP}
       ImmAssociateContextEx(FHWND, 0, 0);
       {$ELSE}
       ImmAssociateContext(FHWND, 0);
