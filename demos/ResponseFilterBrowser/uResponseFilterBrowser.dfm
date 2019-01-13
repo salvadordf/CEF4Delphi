@@ -51,7 +51,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       Align = alClient
       ReadOnly = True
       TabOrder = 0
-      Text = 'https://www.briskbard.com'
+      Text = 'https://www.briskbard.com/'
       ExplicitHeight = 21
     end
     object Panel1: TPanel
@@ -74,6 +74,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Caption = 'Go'
         TabOrder = 0
         OnClick = GoBtnClick
+        ExplicitTop = -1
       end
       object RscNameEdt: TEdit
         Left = 176
@@ -89,7 +90,9 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Width = 96
         Height = 17
         Caption = 'Copy script :'
+        Checked = True
         TabOrder = 2
+        TabStop = True
       end
       object ReplaceLogoBtn: TRadioButton
         Left = 74
@@ -97,9 +100,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Width = 96
         Height = 17
         Caption = 'Replace logo'
-        Checked = True
         TabOrder = 3
-        TabStop = True
       end
     end
   end
@@ -163,6 +164,8 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
+    OnBeforeResourceLoad = Chromium1BeforeResourceLoad
+    OnResourceResponse = Chromium1ResourceResponse
     OnGetResourceResponseFilter = Chromium1GetResourceResponseFilter
     OnResourceLoadComplete = Chromium1ResourceLoadComplete
     Left = 56

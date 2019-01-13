@@ -79,7 +79,7 @@ type
 
     procedure Chromium1Paint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
     procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
-    procedure Chromium1GetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect; out Result: Boolean);
+    procedure Chromium1GetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
     procedure Chromium1GetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
     procedure Chromium1GetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
     procedure Chromium1PopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
@@ -421,8 +421,7 @@ end;
 
 procedure TChildForm.Chromium1GetViewRect(Sender : TObject;
                                           const browser : ICefBrowser;
-                                          var   rect    : TCefRect;
-                                          out   Result  : Boolean);
+                                          var   rect    : TCefRect);
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -430,10 +429,7 @@ begin
       rect.y      := 0;
       rect.width  := DeviceToLogical(Panel1.Width,  GlobalCEFApp.DeviceScaleFactor);
       rect.height := DeviceToLogical(Panel1.Height, GlobalCEFApp.DeviceScaleFactor);
-      Result      := True;
-    end
-   else
-    Result := False;
+    end;
 end;
 
 procedure TChildForm.Chromium1Paint(Sender : TObject;

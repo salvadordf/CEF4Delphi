@@ -81,7 +81,7 @@ type
 
     procedure chrmosrPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
-    procedure chrmosrGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect; out Result: Boolean);
+    procedure chrmosrGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
     procedure chrmosrGetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
     procedure chrmosrGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
     procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
@@ -283,42 +283,44 @@ begin
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TWebBrowserFrm.chrmosrBeforePopup(Sender : TObject;
-                                    const browser            : ICefBrowser;
-                                    const frame              : ICefFrame;
-                                    const targetUrl          : ustring;
-                                    const targetFrameName    : ustring;
-                                          targetDisposition  : TCefWindowOpenDisposition;
-                                          userGesture        : Boolean;
-                                    const popupFeatures      : TCefPopupFeatures;
-                                    var   windowInfo         : TCefWindowInfo;
-                                    var   client             : ICefClient;
-                                    var   settings           : TCefBrowserSettings;
-                                    var   noJavascriptAccess : Boolean;
-                                    var   Result             : Boolean);
+procedure TWebBrowserFrm.chrmosrBeforePopup(      Sender             : TObject;
+                                            const browser            : ICefBrowser;
+                                            const frame              : ICefFrame;
+                                            const targetUrl          : ustring;
+                                            const targetFrameName    : ustring;
+                                                  targetDisposition  : TCefWindowOpenDisposition;
+                                                  userGesture        : Boolean;
+                                            const popupFeatures      : TCefPopupFeatures;
+                                            var   windowInfo         : TCefWindowInfo;
+                                            var   client             : ICefClient;
+                                            var   settings           : TCefBrowserSettings;
+                                            var   noJavascriptAccess : Boolean;
+                                            var   Result             : Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TWebBrowserFrm.chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TWebBrowserFrm.chrmosrClose(      Sender  : TObject;
+                                      const browser : ICefBrowser;
+                                      out   Result  : Boolean);
 begin
   Result := False;
 end;
 
-procedure TWebBrowserFrm.chrmosrCursorChange(Sender : TObject;
-                                     const browser          : ICefBrowser;
-                                           cursor           : HICON;
-                                           cursorType       : TCefCursorType;
-                                     const customCursorInfo : PCefCursorInfo);
+procedure TWebBrowserFrm.chrmosrCursorChange(      Sender           : TObject;
+                                             const browser          : ICefBrowser;
+                                                   cursor           : HICON;
+                                                   cursorType       : TCefCursorType;
+                                             const customCursorInfo : PCefCursorInfo);
 begin
   Panel1.Cursor := GefCursorToWindowsCursor(cursorType);
 end;
 
-procedure TWebBrowserFrm.chrmosrGetScreenInfo(Sender : TObject;
-                                      const browser    : ICefBrowser;
-                                      var   screenInfo : TCefScreenInfo;
-                                      out   Result     : Boolean);
+procedure TWebBrowserFrm.chrmosrGetScreenInfo(      Sender     : TObject;
+                                              const browser    : ICefBrowser;
+                                              var   screenInfo : TCefScreenInfo;
+                                              out   Result     : Boolean);
 var
   TempRect : TCEFRect;
 begin
@@ -342,13 +344,13 @@ begin
     Result := False;
 end;
 
-procedure TWebBrowserFrm.chrmosrGetScreenPoint(Sender : TObject;
-                                       const browser : ICefBrowser;
-                                             viewX   : Integer;
-                                             viewY   : Integer;
-                                       var   screenX : Integer;
-                                       var   screenY : Integer;
-                                       out   Result  : Boolean);
+procedure TWebBrowserFrm.chrmosrGetScreenPoint(      Sender  : TObject;
+                                               const browser : ICefBrowser;
+                                                     viewX   : Integer;
+                                                     viewY   : Integer;
+                                               var   screenX : Integer;
+                                               var   screenY : Integer;
+                                               out   Result  : Boolean);
 var
   TempScreenPt, TempViewPt : TPoint;
 begin
@@ -365,10 +367,9 @@ begin
     Result := False;
 end;
 
-procedure TWebBrowserFrm.chrmosrGetViewRect(Sender : TObject;
-                                    const browser : ICefBrowser;
-                                    var   rect    : TCefRect;
-                                    out   Result  : Boolean);
+procedure TWebBrowserFrm.chrmosrGetViewRect(      Sender  : TObject;
+                                            const browser : ICefBrowser;
+                                            var   rect    : TCefRect);
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -376,20 +377,17 @@ begin
       rect.y      := 0;
       rect.width  := DeviceToLogical(Panel1.Width,  GlobalCEFApp.DeviceScaleFactor);
       rect.height := DeviceToLogical(Panel1.Height, GlobalCEFApp.DeviceScaleFactor);
-      Result      := True;
-    end
-   else
-    Result := False;
+    end;
 end;
 
-procedure TWebBrowserFrm.chrmosrPaint(Sender : TObject;
-                              const browser         : ICefBrowser;
-                                    kind            : TCefPaintElementType;
-                                    dirtyRectsCount : NativeUInt;
-                              const dirtyRects      : PCefRectArray;
-                              const buffer          : Pointer;
-                                    width           : Integer;
-                                    height          : Integer);
+procedure TWebBrowserFrm.chrmosrPaint(      Sender          : TObject;
+                                      const browser         : ICefBrowser;
+                                            kind            : TCefPaintElementType;
+                                            dirtyRectsCount : NativeUInt;
+                                      const dirtyRects      : PCefRectArray;
+                                      const buffer          : Pointer;
+                                            width           : Integer;
+                                            height          : Integer);
 var
   src, dst: PByte;
   i, j, TempLineSize, TempSrcOffset, TempDstOffset, SrcStride, DstStride : Integer;
@@ -492,9 +490,9 @@ begin
   end;
 end;
 
-procedure TWebBrowserFrm.chrmosrPopupShow(Sender : TObject;
-                                  const browser : ICefBrowser;
-                                        show    : Boolean);
+procedure TWebBrowserFrm.chrmosrPopupShow(      Sender  : TObject;
+                                          const browser : ICefBrowser;
+                                                show    : Boolean);
 begin
   if show then
     FShowPopUp := True
@@ -507,9 +505,9 @@ begin
     end;
 end;
 
-procedure TWebBrowserFrm.chrmosrPopupSize(Sender : TObject;
-                                  const browser : ICefBrowser;
-                                  const rect    : PCefRect);
+procedure TWebBrowserFrm.chrmosrPopupSize(      Sender  : TObject;
+                                          const browser : ICefBrowser;
+                                          const rect    : PCefRect);
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -522,7 +520,10 @@ begin
     end;
 end;
 
-procedure TWebBrowserFrm.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
+procedure TWebBrowserFrm.chrmosrTooltip(      Sender  : TObject;
+                                        const browser : ICefBrowser;
+                                        var   text    : ustring;
+                                        out   Result  : Boolean);
 begin
   Panel1.hint     := text;
   Panel1.ShowHint := (length(text) > 0);

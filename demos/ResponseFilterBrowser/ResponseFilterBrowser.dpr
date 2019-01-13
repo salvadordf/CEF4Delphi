@@ -47,7 +47,7 @@ uses
   Forms,
   Windows,
   {$ENDIF }
-  uCEFApplication,
+  uCEFApplication, uCEFConstants,
   uResponseFilterBrowser in 'uResponseFilterBrowser.pas' {ResponseFilterBrowserFrm};
 
 {$R *.res}
@@ -57,6 +57,9 @@ uses
 
 begin
   GlobalCEFApp := TCefApplication.Create;
+
+  GlobalCEFApp.LogFile := 'cef.log';
+  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
 
   if GlobalCEFApp.StartMainProcess then
     begin

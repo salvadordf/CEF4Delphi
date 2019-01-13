@@ -27,9 +27,9 @@ object ChildForm: TChildForm
     Width = 352
     Height = 256
     Align = alClient
+    ParentBackground = False
     Caption = 'Panel1'
     Color = clWhite
-    ParentBackground = False
     TabOrder = 0
     TabStop = True
     OnClick = Panel1Click
@@ -44,7 +44,6 @@ object ChildForm: TChildForm
   object Chromium1: TChromium
     OnTitleChange = Chromium1TitleChange
     OnTooltip = Chromium1Tooltip
-    OnBeforePopup = Chromium1BeforePopup
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
     OnGetViewRect = Chromium1GetViewRect

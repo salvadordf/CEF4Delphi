@@ -39,9 +39,6 @@ object WebBrowserFrm: TWebBrowserFrm
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitTop = 30
-    ExplicitWidth = 988
-    ExplicitHeight = 638
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip

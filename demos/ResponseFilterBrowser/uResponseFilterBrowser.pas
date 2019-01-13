@@ -50,7 +50,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs, ComCtrls, pngimage,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter,
+  uCEFWinControl;
 
 const
   STREAM_COPY_COMPLETE    = WM_APP + $B00;
@@ -79,6 +80,8 @@ type
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1LoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: Cardinal);
+    procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback; out Result: TCefReturnValue);
+    procedure Chromium1ResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: Boolean);
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -87,6 +90,7 @@ type
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+
   protected
     FFilter        : ICefResponseFilter; // CEF Filter interface that receives the resource contents
     FStream        : TMemoryStream;      // TMemoryStream to hold the resource contents
@@ -116,6 +120,7 @@ type
     procedure ReplaceLogo(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
     procedure UpdateRscEncoding(const aMimeType, aContentType : string);
     function  IsMyResource(const aRequest : ICefRequest) : boolean;
+    procedure CheckResponseHeaders(const response  : ICefResponse);
     {$IFDEF DELPHI15_UP}
     procedure GetResponseEncoding(const aContentType: string);
     {$ENDIF}
@@ -136,7 +141,7 @@ uses
   {$ELSE}
   Math,
   {$ENDIF}
-  uCEFApplication, uCEFMiscFunctions;
+  uCEFApplication, uCEFMiscFunctions, uCEFStringMultimap;
 
 // This demo uses a TCustomResponseFilter to read the contents from a
 // JavaScript file in briskbard.com into a TMemoryStream. The stream
@@ -173,6 +178,14 @@ uses
 // to RESPONSE_FILTER_NEED_MORE_DATA in the last chunk of the original resource.
 // This will trigger the TCustomResponseFilter.OnFilter event again and you
 // will be able to send another chunk.
+
+// If the server sends compressed data or it doesn't include a "Content-Length"
+// HTTP response header then the filter *might* fail. In this case,
+// Filter_OnFilter will receive a NIL value in data_in before the recource
+// response is really complete.
+
+// If this demo is too complicated or the filter fails, consider using the
+// URLRequest demo if possible.
 
 procedure TResponseFilterBrowserFrm.Filter_OnFilter(    Sender           : TObject;
                                                         data_in          : Pointer;
@@ -385,16 +398,68 @@ begin
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TResponseFilterBrowserFrm.Chromium1BeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
-  var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
-  var Result: Boolean);
+procedure TResponseFilterBrowserFrm.Chromium1BeforePopup(      Sender             : TObject;
+                                                         const browser            : ICefBrowser;
+                                                         const frame              : ICefFrame;
+                                                         const targetUrl          : ustring;
+                                                         const targetFrameName    : ustring;
+                                                               targetDisposition  : TCefWindowOpenDisposition;
+                                                               userGesture        : Boolean;
+                                                         const popupFeatures      : TCefPopupFeatures;
+                                                         var   windowInfo         : TCefWindowInfo;
+                                                         var   client             : ICefClient;
+                                                         var   settings           : TCefBrowserSettings;
+                                                         var   noJavascriptAccess : Boolean;
+                                                         var   Result             : Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TResponseFilterBrowserFrm.Chromium1BeforeResourceLoad(      Sender   : TObject;
+                                                                const browser  : ICefBrowser;
+                                                                const frame    : ICefFrame;
+                                                                const request  : ICefRequest;
+                                                                const callback : ICefRequestCallback;
+                                                                out   Result   : TCefReturnValue);
+var
+  TempOldMap, TempNewMap : ICefStringMultimap;
+  i : NativeUInt;
+  TempReplaced : boolean;
+begin
+  Result := RV_CONTINUE;
+
+  try
+    // We replace the Accept-Encoding HTTP header to request uncompressed resources.
+    // If the server sends uncompressed resources it should be easier to handle the
+    // end of the resource reception because we may know its length.
+
+    TempNewMap := TCefStringMultimapOwn.Create;
+    TempOldMap := TCefStringMultimapOwn.Create;
+
+    request.GetHeaderMap(TempOldMap);
+
+    TempReplaced := False;
+    i := 0;
+    while (i < TempOldMap.Size) do
+      begin
+        if (CompareText(TempOldMap.Key[i], 'Accept-Encoding') = 0) then
+          begin
+            TempNewMap.Append('Accept-Encoding', 'identity');
+            TempReplaced := True;
+          end
+         else
+          TempNewMap.Append(TempOldMap.Key[i], TempOldMap.Value[i]);
+
+        inc(i);
+      end;
+
+    if not(TempReplaced) then TempNewMap.Append('Accept-Encoding', 'identity');
+    request.SetHeaderMap(TempNewMap);
+  finally
+    TempNewMap := nil;
+    TempOldMap := nil;
+  end;
 end;
 
 procedure TResponseFilterBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
@@ -403,52 +468,20 @@ begin
   Result := True;
 end;
 
-procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(Sender : TObject;
+procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(      Sender    : TObject;
                                                                        const browser   : ICefBrowser;
                                                                        const frame     : ICefFrame;
                                                                        const request   : ICefRequest;
                                                                        const response  : ICefResponse;
                                                                        out   Result    : ICefResponseFilter);
-var
-  TempContentLength, TempContentEncoding : string;
-  TempLen : integer;
 begin
   if not(FRscCompleted) and (response <> nil) and IsMyResource(request) then
     begin
-      try
-        FStreamCS.Acquire;
+      Result      := FFilter;
+      FFilterInit := True;
 
-        Result              := FFilter;
-        FFilterInit         := True;
-        TempContentEncoding := trim(lowercase(response.GetHeader('Content-Encoding')));
-
-        if (length(TempContentEncoding) > 0) and (TempContentEncoding <> 'identity') then
-          begin
-            // We can't use this information because Content-Length has the
-            // compressed length but the OnFilter event has uncompressed data.
-            FRscSize := -1;
-            StatusBar1.Panels[0].Text := 'Content-Length : compressed';
-          end
-         else
-          begin
-            TempContentLength := trim(response.GetHeader('Content-Length'));
-
-            if TryStrToInt(TempContentLength, TempLen) and (TempLen > 0) then
-              begin
-                FRscSize := TempLen;
-                StatusBar1.Panels[0].Text := 'Content-Length : ' + inttostr(FRscSize);
-              end
-             else
-              begin
-                FRscSize := -1;
-                StatusBar1.Panels[0].Text := 'Content-Length : not available';
-              end;
-          end;
-
-        UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
-      finally
-        FStreamCS.Release;
-      end;
+      CheckResponseHeaders(response);
+      UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
     end
    else
     Result := nil;
@@ -498,7 +531,43 @@ begin
   {$ENDIF}
 end;
 
-procedure TResponseFilterBrowserFrm.Chromium1ResourceLoadComplete(Sender : TObject;
+procedure TResponseFilterBrowserFrm.CheckResponseHeaders(const response : ICefResponse);
+var
+  TempContentLength, TempContentEncoding : string;
+  TempLen : integer;
+begin
+  try
+    FStreamCS.Acquire;
+
+    TempContentEncoding := trim(lowercase(response.GetHeader('Content-Encoding')));
+
+    if (length(TempContentEncoding) > 0) and (TempContentEncoding <> 'identity') then
+      begin
+        // We can't use this information because Content-Length has the
+        // compressed length but the OnFilter event has uncompressed data.
+        FRscSize := -1;
+        StatusBar1.Panels[0].Text := 'Content-Length : compressed';
+      end
+     else
+      begin
+        TempContentLength := trim(response.GetHeader('Content-Length'));
+
+        if (length(TempContentLength) > 0) and
+           TryStrToInt(TempContentLength, TempLen) and
+           (TempLen > 0) then
+          begin
+            FRscSize := TempLen;
+            StatusBar1.Panels[0].Text := 'Content-Length : ' + inttostr(FRscSize);
+          end
+         else
+          StatusBar1.Panels[0].Text := 'Content-Length : not available';
+      end;
+  finally
+    FStreamCS.Release;
+  end;
+end;
+
+procedure TResponseFilterBrowserFrm.Chromium1ResourceLoadComplete(      Sender                : TObject;
                                                                   const browser               : ICefBrowser;
                                                                   const frame                 : ICefFrame;
                                                                   const request               : ICefRequest;
@@ -523,6 +592,22 @@ begin
   finally
     FStreamCS.Release;
   end;
+end;
+
+procedure TResponseFilterBrowserFrm.Chromium1ResourceResponse(      Sender   : TObject;
+                                                              const browser  : ICefBrowser;
+                                                              const frame    : ICefFrame;
+                                                              const request  : ICefRequest;
+                                                              const response : ICefResponse;
+                                                              out   Result   : Boolean);
+begin
+  Result := False;
+
+  if not(FRscCompleted) and (response <> nil) and IsMyResource(request) then
+    begin
+      CheckResponseHeaders(response);
+      UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
+    end;
 end;
 
 procedure TResponseFilterBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
