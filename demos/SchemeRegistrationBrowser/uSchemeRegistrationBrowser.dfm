@@ -52,7 +52,7 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
       Align = alClient
       ItemIndex = 1
       TabOrder = 1
-      Text = 'hello://simplexsl.xml'
+      Text = 'hello://test.html'
       Items.Strings = (
         'https://www.google.com'
         'hello://test.html')

@@ -201,9 +201,11 @@ function THelloScheme.ReadResponse(const dataOut     : Pointer;
 begin
   if (FStream <> nil) and (DataOut <> nil) then
     begin
-      FStream.Seek(0, soFromBeginning);
+      // This function will be called several times because the stream is bigger
+      // than bytesToRead. Each time we will copy a chunk of the stream to
+      // DataOut.
       BytesRead := FStream.Read(DataOut^, BytesToRead);
-      Result    := True;
+      Result    := (BytesRead > 0);
     end
    else
     Result := False;
