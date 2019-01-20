@@ -156,6 +156,10 @@ begin
   if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
     TCefRenderHandlerOwn(TempObject).GetViewRect(TCefBrowserRef.UnWrap(browser),
                                                  rect^);
+
+  // CEF3 needs a rect with valid height and width
+  if (rect^.width  <= 0) then rect^.width  := 800;
+  if (rect^.height <= 0) then rect^.height := 600;
 end;
 
 function cef_render_handler_get_screen_point(self             : PCefRenderHandler;
