@@ -8,7 +8,7 @@ The original license of DCEF3 still applies to CEF4Delphi.
 For more information about CEF4Delphi visit :
         https://www.briskbard.com/index.php?lang=en&pageid=cef
 
-        Copyright © 2018 Salvador Diaz Fau. All rights reserved.
+        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 
 
 ## Original DCEF3 license
