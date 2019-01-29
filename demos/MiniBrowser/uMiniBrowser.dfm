@@ -141,6 +141,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'http://www.adobe.com/software/flash/about/'
           'http://isflashinstalled.com/'
           'http://html5test.com/'
+          'https://test.webrtc.org/'
           'https://www.w3schools.com/'
           'http://webglsamples.org/'
           'https://get.webgl.org/'

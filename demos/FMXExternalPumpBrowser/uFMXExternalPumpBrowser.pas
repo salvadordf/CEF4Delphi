@@ -58,13 +58,13 @@ type
   TFMXExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
     AddressEdt: TEdit;
-    Panel1: TFMXBufferPanel;
     chrmosr: TFMXChromium;
     Timer1: TTimer;
     Panel2: TPanel;
     GoBtn: TButton;
     SnapshotBtn: TButton;
     SaveDialog1: TSaveDialog;
+    Panel1: TFMXBufferPanel;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);

@@ -205,17 +205,20 @@ begin
   if FClosingTab then
     CanClose := False
    else
-    begin
-      CanClose := FCanClose;
+    if (PageControl1.PageCount = 0) then
+      CanClose := True
+     else
+      begin
+        CanClose := FCanClose;
 
-      if not(FClosing) then
-        begin
-          FClosing := True;
-          Visible  := False;
+        if not(FClosing) then
+          begin
+            FClosing := True;
+            Visible  := False;
 
-          CloseAllBrowsers;
-        end;
-    end;
+            CloseAllBrowsers;
+          end;
+      end;
 end;
 
 procedure TMainForm.CloseAllBrowsers;

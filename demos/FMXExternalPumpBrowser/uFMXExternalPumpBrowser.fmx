@@ -70,6 +70,20 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
       end
     end
   end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 40
+    Top = 137
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'bmp'
+    Filter = 'Bitmap files (*.bmp)|*.BMP'
+    Title = 'Save snapshot'
+    Left = 40
+    Top = 201
+  end
   object Panel1: TFMXBufferPanel
     Align = Client
     TabOrder = 0
@@ -89,20 +103,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnMouseWheel = Panel1MouseWheel
     OnKeyUp = Panel1KeyUp
     OnKeyDown = Panel1KeyDown
-  end
-  object Timer1: TTimer
-    Enabled = False
-    Interval = 300
-    OnTimer = Timer1Timer
-    Left = 40
-    Top = 137
-  end
-  object SaveDialog1: TSaveDialog
-    DefaultExt = 'bmp'
-    Filter = 'Bitmap files (*.bmp)|*.BMP'
-    Title = 'Save snapshot'
-    Left = 40
-    Top = 201
   end
   object chrmosr: TFMXChromium
     OnTooltip = chrmosrTooltip
