@@ -326,6 +326,7 @@ const
   LOGSEVERITY_INFO     = 2;
   LOGSEVERITY_WARNING  = 3;
   LOGSEVERITY_ERROR    = 4;
+  LOGSEVERITY_FATAL    = 5;
   LOGSEVERITY_DISABLE  = 99;
 
   // /include/internal/cef_types.h (cef_duplex_mode_t)
