@@ -243,7 +243,7 @@ var
   cef_label_button_create         : function(delegate: PCefButtonDelegate; const text: PCefString; with_frame: Integer): PCefLabelButton; cdecl;
 
   // /include/capi/views/cef_menu_button_capi.h
-  cef_menu_button_create          : function(delegate: PCefMenuButtonDelegate; const text: PCefString; with_frame, with_menu_marker: Integer): PCefMenuButton; cdecl;
+  cef_menu_button_create          : function(delegate: PCefMenuButtonDelegate; const text: PCefString; with_frame: Integer): PCefMenuButton; cdecl;
 
   // /include/capi/views/cef_panel_capi.h
   cef_panel_create                : function(delegate: PCefPanelDelegate): PCefPanel; cdecl;
