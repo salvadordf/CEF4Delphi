@@ -70,9 +70,25 @@ type
       constructor Create(const proc: TCefNavigationEntryVisitorProc); reintroduce;
   end;
 
+  TCustomCefNavigationEntryVisitor = class(TCefNavigationEntryVisitorOwn)
+    protected
+      FEvents : Pointer;
+
+      function Visit(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer): Boolean; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFTypes, uCEFMiscFunctions, uCEFNavigationEntry;
 
 function cef_navigation_entry_visitor_visit(self    : PCefNavigationEntryVisitor;
@@ -125,6 +141,38 @@ function TCefFastNavigationEntryVisitor.Visit(const entry   : ICefNavigationEntr
                                                     total   : Integer): Boolean;
 begin
   Result := FVisitor(entry, current, index, total);
+end;
+
+// TCustomCefNavigationEntryVisitor
+
+constructor TCustomCefNavigationEntryVisitor.Create(const aEvents : IChromiumEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+end;
+
+destructor TCustomCefNavigationEntryVisitor.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+function TCustomCefNavigationEntryVisitor.Visit(const entry   : ICefNavigationEntry;
+                                                      current : Boolean;
+                                                      index   : Integer;
+                                                      total   : Integer): Boolean;
+begin
+  Result := False;
+
+  try
+    if (FEvents <> nil) then
+      Result := IChromiumEvents(FEvents).doNavigationVisitorResultAvailable(entry, current, index, total);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomCefNavigationEntryVisitor.Visit', e) then raise;
+  end;
 end;
 
 end.

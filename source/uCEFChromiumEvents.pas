@@ -156,13 +156,14 @@ type
   TOnFindResult                   = procedure(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean) of Object;
 
   // Custom
-  TOnTextResultAvailableEvent     = procedure(Sender: TObject; const aText : ustring) of object;
-  TOnPdfPrintFinishedEvent        = procedure(Sender: TObject; aResultOK : boolean) of object;
-  TOnPrefsAvailableEvent          = procedure(Sender: TObject; aResultOK : boolean) of object;
-  TOnCookiesDeletedEvent          = procedure(Sender: TObject; numDeleted : integer) of object;
-  TOnResolvedIPsAvailableEvent    = procedure(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings) of object;
+  TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
+  TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;
+  TOnPrefsAvailableEvent                   = procedure(Sender: TObject; aResultOK : boolean) of object;
+  TOnCookiesDeletedEvent                   = procedure(Sender: TObject; numDeleted : integer) of object;
+  TOnResolvedIPsAvailableEvent             = procedure(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings) of object;
+  TOnNavigationVisitorResultAvailableEvent = procedure(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult : boolean) of object;
   {$IFDEF MSWINDOWS}
-  TOnCompMsgEvent                 = procedure (var aMessage: TMessage; var aHandled: Boolean) of object;
+  TOnCompMsgEvent                          = procedure (var aMessage: TMessage; var aHandled: Boolean) of object;
   {$ENDIF}
 
 implementation

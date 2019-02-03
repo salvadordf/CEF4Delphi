@@ -260,6 +260,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnPdfPrintFinished = Chromium1PdfPrintFinished
     OnPrefsAvailable = Chromium1PrefsAvailable
     OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
+    OnNavigationVisitorResultAvailable = Chromium1NavigationVisitorResultAvailable
     OnRenderCompMsg = Chromium1RenderCompMsg
     OnLoadEnd = Chromium1LoadEnd
     OnLoadError = Chromium1LoadError

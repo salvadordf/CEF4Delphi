@@ -371,6 +371,7 @@ type
     procedure doUpdateOwnPreferences;
     function  doSavePreferences : boolean;
     procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
+    function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean;
   end;
 
   IServerEvents = interface

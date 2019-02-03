@@ -63,6 +63,7 @@ const
   MINIBROWSER_SAVEPREFERENCES = WM_APP + $107;
   MINIBROWSER_COPYALLTEXT     = WM_APP + $108;
   MINIBROWSER_TAKESNAPSHOT    = WM_APP + $109;
+  MINIBROWSER_SHOWNAVIGATION  = WM_APP + $10A;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -77,6 +78,7 @@ const
   MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES = MENU_ID_USER_FIRST + 9;
   MINIBROWSER_CONTEXTMENU_COPYALLTEXT     = MENU_ID_USER_FIRST + 10;
   MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT    = MENU_ID_USER_FIRST + 11;
+  MINIBROWSER_CONTEXTMENU_GETNAVIGATION   = MENU_ID_USER_FIRST + 12;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -208,10 +210,14 @@ type
       const browser: ICefBrowser; certError: Integer;
       const requestUrl: ustring; const sslInfo: ICefSslInfo;
       const callback: ICefRequestCallback; out Result: Boolean);
+    procedure Chromium1NavigationVisitorResultAvailable(
+      const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
+      var aResult: Boolean);
 
   protected
-    FResponse : TStringList;
-    FRequest  : TStringList;
+    FResponse   : TStringList;
+    FRequest    : TStringList;
+    FNavigation : TStringList;
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
@@ -237,6 +243,7 @@ type
     procedure CopyFramesIDsMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMEIDS;
     procedure CopyFramesNamesMsg(var aMessage : TMessage); message MINIBROWSER_COPYFRAMENAMES;
     procedure ShowResponseMsg(var aMessage : TMessage); message MINIBROWSER_SHOWRESPONSE;
+    procedure ShowNavigationMsg(var aMessage : TMessage); message MINIBROWSER_SHOWNAVIGATION;
     procedure SavePreferencesMsg(var aMessage : TMessage); message MINIBROWSER_SAVEPREFERENCES;
     procedure TakeSnapshotMsg(var aMessage : TMessage); message MINIBROWSER_TAKESNAPSHOT;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -329,6 +336,7 @@ begin
 
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT,    'Take snapshot...');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_GETNAVIGATION,   'Get navigation entries');
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYALLTEXT,     'Copy displayed text to clipboard');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,        'Copy HTML to clipboard');
@@ -474,6 +482,12 @@ begin
 
     MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT :
       PostMessage(Handle, MINIBROWSER_TAKESNAPSHOT, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_GETNAVIGATION :
+      begin
+        FNavigation.Clear;
+        Chromium1.GetNavigationEntries(False);
+      end;
 
     MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
       if (browser <> nil) and (browser.MainFrame <> nil) then
@@ -677,6 +691,21 @@ begin
     end;
 end;
 
+procedure TMiniBrowserFrm.Chromium1NavigationVisitorResultAvailable(
+  const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
+  var aResult: Boolean);
+begin
+  if (entry <> nil) and entry.IsValid then FNavigation.Add(entry.Url);
+
+  if (index < pred(total)) then
+    aResult := True
+   else
+    begin
+      aResult := False;
+      PostMessage(Handle, MINIBROWSER_SHOWNAVIGATION, 0, 0);
+    end;
+end;
+
 procedure TMiniBrowserFrm.Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
 begin
   if aResultOK then
@@ -844,10 +873,11 @@ end;
 
 procedure TMiniBrowserFrm.FormCreate(Sender: TObject);
 begin
-  FCanClose := False;
-  FClosing  := False;
-  FResponse := TStringList.Create;
-  FRequest  := TStringList.Create;
+  FCanClose            := False;
+  FClosing             := False;
+  FResponse            := TStringList.Create;
+  FRequest             := TStringList.Create;
+  FNavigation          := TStringList.Create;
   Chromium1.DefaultURL := MINIBROWSER_HOMEPAGE;
 end;
 
@@ -855,6 +885,7 @@ procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
 begin
   FResponse.Free;
   FRequest.Free;
+  FNavigation.Free;
 end;
 
 procedure TMiniBrowserFrm.FormShow(Sender: TObject);
@@ -1096,6 +1127,13 @@ begin
   SimpleTextViewerFrm.Memo1.Lines.Add('--------------------------');
   if (FResponse <> nil) then SimpleTextViewerFrm.Memo1.Lines.AddStrings(FResponse);
 
+  SimpleTextViewerFrm.ShowModal;
+end;
+
+procedure TMiniBrowserFrm.ShowNavigationMsg(var aMessage : TMessage);
+begin
+  SimpleTextViewerFrm.Memo1.Lines.Clear;
+  SimpleTextViewerFrm.Memo1.Lines.AddStrings(FNavigation);
   SimpleTextViewerFrm.ShowModal;
 end;
 

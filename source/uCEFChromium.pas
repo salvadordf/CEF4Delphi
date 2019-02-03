@@ -228,15 +228,16 @@ type
       FOnFindResult                   : TOnFindResult;
 
       // Custom
-      FOnTextResultAvailable          : TOnTextResultAvailableEvent;
-      FOnPdfPrintFinished             : TOnPdfPrintFinishedEvent;
-      FOnPrefsAvailable               : TOnPrefsAvailableEvent;
-      FOnCookiesDeleted               : TOnCookiesDeletedEvent;
-      FOnResolvedHostAvailable        : TOnResolvedIPsAvailableEvent;
+      FOnTextResultAvailable              : TOnTextResultAvailableEvent;
+      FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
+      FOnPrefsAvailable                   : TOnPrefsAvailableEvent;
+      FOnCookiesDeleted                   : TOnCookiesDeletedEvent;
+      FOnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent;
+      FOnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent;
       {$IFNDEF FPC}
-      FOnBrowserCompMsg               : TOnCompMsgEvent;
-      FOnWidgetCompMsg                : TOnCompMsgEvent;
-      FOnRenderCompMsg                : TOnCompMsgEvent;
+      FOnBrowserCompMsg                   : TOnCompMsgEvent;
+      FOnWidgetCompMsg                    : TOnCompMsgEvent;
+      FOnRenderCompMsg                    : TOnCompMsgEvent;
       {$ENDIF}
 
       function  GetIsLoading : boolean;
@@ -468,6 +469,7 @@ type
       procedure doUpdateOwnPreferences; virtual;
       function  doSavePreferences : boolean; virtual;
       procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings); virtual;
+      function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean; virtual;
 
     public
       constructor Create(AOwner: TComponent); override;
@@ -504,6 +506,7 @@ type
       procedure   RetrieveText(const aFrameName : ustring = ''); overload;
       procedure   RetrieveText(const aFrame : ICefFrame); overload;
       procedure   RetrieveText(const aFrameIdentifier : int64); overload;
+      procedure   GetNavigationEntries(currentOnly: Boolean);
       function    GetFrameNames(var aFrameNames : TStrings) : boolean;
       function    GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameName : ustring = ''; aStartLine : integer = 0); overload;
@@ -636,15 +639,16 @@ type
       property  ProxyByPassList         : ustring                      read FProxyByPassList          write SetProxyByPassList;
 
     published
-      property  OnTextResultAvailable   : TOnTextResultAvailableEvent  read FOnTextResultAvailable    write FOnTextResultAvailable;
-      property  OnPdfPrintFinished      : TOnPdfPrintFinishedEvent     read FOnPdfPrintFinished       write FOnPdfPrintFinished;
-      property  OnPrefsAvailable        : TOnPrefsAvailableEvent       read FOnPrefsAvailable         write FOnPrefsAvailable;
-      property  OnCookiesDeleted        : TOnCookiesDeletedEvent       read FOnCookiesDeleted         write FOnCookiesDeleted;
-      property  OnResolvedHostAvailable : TOnResolvedIPsAvailableEvent read FOnResolvedHostAvailable  write FOnResolvedHostAvailable;
+      property  OnTextResultAvailable              : TOnTextResultAvailableEvent              read FOnTextResultAvailable              write FOnTextResultAvailable;
+      property  OnPdfPrintFinished                 : TOnPdfPrintFinishedEvent                 read FOnPdfPrintFinished                 write FOnPdfPrintFinished;
+      property  OnPrefsAvailable                   : TOnPrefsAvailableEvent                   read FOnPrefsAvailable                   write FOnPrefsAvailable;
+      property  OnCookiesDeleted                   : TOnCookiesDeletedEvent                   read FOnCookiesDeleted                   write FOnCookiesDeleted;
+      property  OnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent             read FOnResolvedHostAvailable            write FOnResolvedHostAvailable;
+      property  OnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent read FOnNavigationVisitorResultAvailable write FOnNavigationVisitorResultAvailable;
       {$IFNDEF FPC}
-      property  OnBrowserCompMsg        : TOnCompMsgEvent              read FOnBrowserCompMsg         write FOnBrowserCompMsg;
-      property  OnWidgetCompMsg         : TOnCompMsgEvent              read FOnWidgetCompMsg          write FOnWidgetCompMsg;
-      property  OnRenderCompMsg         : TOnCompMsgEvent              read FOnRenderCompMsg          write FOnRenderCompMsg;
+      property  OnBrowserCompMsg                   : TOnCompMsgEvent                     read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
+      property  OnWidgetCompMsg                    : TOnCompMsgEvent                     read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
+      property  OnRenderCompMsg                    : TOnCompMsgEvent                     read FOnRenderCompMsg                    write FOnRenderCompMsg;
       {$ENDIF}
 
       // ICefClient
@@ -762,7 +766,7 @@ uses
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplication, uCEFProcessMessage, uCEFRequestContext, {$IFNDEF FPC}uOLEDragAndDrop,{$ENDIF}
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
-  uCEFListValue;
+  uCEFListValue, uCEFNavigationEntryVisitor;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
@@ -1103,15 +1107,16 @@ begin
   FOnFindResult                   := nil;
 
   // Custom
-  FOnTextResultAvailable          := nil;
-  FOnPdfPrintFinished             := nil;
-  FOnPrefsAvailable               := nil;
-  FOnCookiesDeleted               := nil;
-  FOnResolvedHostAvailable        := nil;
+  FOnTextResultAvailable              := nil;
+  FOnPdfPrintFinished                 := nil;
+  FOnPrefsAvailable                   := nil;
+  FOnCookiesDeleted                   := nil;
+  FOnResolvedHostAvailable            := nil;
+  FOnNavigationVisitorResultAvailable := nil;
   {$IFNDEF FPC}
-  FOnBrowserCompMsg               := nil;
-  FOnWidgetCompMsg                := nil;
-  FOnRenderCompMsg                := nil;
+  FOnBrowserCompMsg                   := nil;
+  FOnWidgetCompMsg                    := nil;
+  FOnRenderCompMsg                    := nil;
   {$ENDIF}
 end;
 
@@ -2228,6 +2233,17 @@ begin
     end;
 end;
 
+procedure TChromium.GetNavigationEntries(currentOnly: Boolean);
+var
+  TempVisitor : TCustomCefNavigationEntryVisitor;
+begin
+  if Initialized then
+    begin
+      TempVisitor := TCustomCefNavigationEntryVisitor.Create(self);
+      FBrowser.Host.GetNavigationEntries(TempVisitor, currentOnly);
+    end;
+end;
+
 function TChromium.GetFrameNames(var aFrameNames : TStrings) : boolean;
 begin
   Result := Initialized and FBrowser.GetFrameNames(aFrameNames);
@@ -2880,6 +2896,17 @@ end;
 procedure TChromium.doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
 begin
   if assigned(FOnResolvedHostAvailable) then FOnResolvedHostAvailable(self, result, resolvedIps);
+end;
+
+function TChromium.doNavigationVisitorResultAvailable(const entry   : ICefNavigationEntry;
+                                                            current : Boolean;
+                                                            index   : Integer;
+                                                            total   : Integer) : boolean;
+begin
+  Result := False;
+
+  if assigned(FOnNavigationVisitorResultAvailable) then
+    FOnNavigationVisitorResultAvailable(entry, current, index, total, Result);
 end;
 
 function TChromium.MustCreateLoadHandler : boolean;

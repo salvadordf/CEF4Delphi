@@ -212,14 +212,15 @@ type
       FOnFindResult                   : TOnFindResult;
 
       // Custom
-      FOnTextResultAvailable          : TOnTextResultAvailableEvent;
-      FOnPdfPrintFinished             : TOnPdfPrintFinishedEvent;
-      FOnCookiesDeleted               : TOnCookiesDeletedEvent;
-      FOnResolvedHostAvailable        : TOnResolvedIPsAvailableEvent;
+      FOnTextResultAvailable              : TOnTextResultAvailableEvent;
+      FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
+      FOnCookiesDeleted                   : TOnCookiesDeletedEvent;
+      FOnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent;
+      FOnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent;
       {$IFDEF MSWINDOWS}
-      FOnBrowserCompMsg               : TOnCompMsgEvent;
-      FOnWidgetCompMsg                : TOnCompMsgEvent;
-      FOnRenderCompMsg                : TOnCompMsgEvent;
+      FOnBrowserCompMsg                   : TOnCompMsgEvent;
+      FOnWidgetCompMsg                    : TOnCompMsgEvent;
+      FOnRenderCompMsg                    : TOnCompMsgEvent;
       {$ENDIF}
 
       function  GetIsLoading : boolean;
@@ -436,6 +437,7 @@ type
       procedure doUpdateOwnPreferences; virtual;
       function  doSavePreferences : boolean; virtual;
       procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings); virtual;
+      function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean; virtual;
 
     public
       constructor Create(AOwner: TComponent); override;
@@ -472,6 +474,7 @@ type
       procedure   RetrieveText(const aFrameName : ustring = ''); overload;
       procedure   RetrieveText(const aFrame : ICefFrame); overload;
       procedure   RetrieveText(const aFrameIdentifier : int64); overload;
+      procedure   GetNavigationEntries(currentOnly: Boolean);
       function    GetFrameNames(var aFrameNames : TStrings) : boolean;
       function    GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameName : ustring = ''; aStartLine : integer = 0); overload;
@@ -594,10 +597,11 @@ type
       property  ProxyByPassList         : ustring                      read FProxyByPassList          write SetProxyByPassList;
 
     published
-      property  OnTextResultAvailable   : TOnTextResultAvailableEvent  read FOnTextResultAvailable    write FOnTextResultAvailable;
-      property  OnPdfPrintFinished      : TOnPdfPrintFinishedEvent     read FOnPdfPrintFinished       write FOnPdfPrintFinished;
-      property  OnCookiesDeleted        : TOnCookiesDeletedEvent       read FOnCookiesDeleted         write FOnCookiesDeleted;
-      property  OnResolvedHostAvailable : TOnResolvedIPsAvailableEvent read FOnResolvedHostAvailable  write FOnResolvedHostAvailable;
+      property  OnTextResultAvailable              : TOnTextResultAvailableEvent              read FOnTextResultAvailable              write FOnTextResultAvailable;
+      property  OnPdfPrintFinished                 : TOnPdfPrintFinishedEvent                 read FOnPdfPrintFinished                 write FOnPdfPrintFinished;
+      property  OnCookiesDeleted                   : TOnCookiesDeletedEvent                   read FOnCookiesDeleted                   write FOnCookiesDeleted;
+      property  OnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent             read FOnResolvedHostAvailable            write FOnResolvedHostAvailable;
+      property  OnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent read FOnNavigationVisitorResultAvailable write FOnNavigationVisitorResultAvailable;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg        : TOnCompMsgEvent              read FOnBrowserCompMsg         write FOnBrowserCompMsg;
       property  OnWidgetCompMsg         : TOnCompMsgEvent              read FOnWidgetCompMsg          write FOnWidgetCompMsg;
@@ -709,7 +713,7 @@ uses
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplication, uCEFProcessMessage, uCEFRequestContext,
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
-  uCEFListValue;
+  uCEFListValue, uCEFNavigationEntryVisitor;
 
 constructor TFMXChromium.Create(AOwner: TComponent);
 begin
@@ -1006,10 +1010,11 @@ begin
   FOnFindResult                   := nil;
 
   // Custom
-  FOnTextResultAvailable          := nil;
-  FOnPdfPrintFinished             := nil;
-  FOnCookiesDeleted               := nil;
-  FOnResolvedHostAvailable        := nil;
+  FOnTextResultAvailable              := nil;
+  FOnPdfPrintFinished                 := nil;
+  FOnCookiesDeleted                   := nil;
+  FOnResolvedHostAvailable            := nil;
+  FOnNavigationVisitorResultAvailable := nil;
 end;
 
 function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
@@ -2014,6 +2019,17 @@ begin
     end;
 end;
 
+procedure TFMXChromium.GetNavigationEntries(currentOnly: Boolean);
+var
+  TempVisitor : TCustomCefNavigationEntryVisitor;
+begin
+  if Initialized then
+    begin
+      TempVisitor := TCustomCefNavigationEntryVisitor.Create(self);
+      FBrowser.Host.GetNavigationEntries(TempVisitor, currentOnly);
+    end;
+end;
+
 function TFMXChromium.GetFrameNames(var aFrameNames : TStrings) : boolean;
 begin
   Result := Initialized and FBrowser.GetFrameNames(aFrameNames);
@@ -2612,6 +2628,17 @@ end;
 procedure TFMXChromium.doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
 begin
   if assigned(FOnResolvedHostAvailable) then FOnResolvedHostAvailable(self, result, resolvedIps);
+end;
+
+function TFMXChromium.doNavigationVisitorResultAvailable(const entry   : ICefNavigationEntry;
+                                                               current : Boolean;
+                                                               index   : Integer;
+                                                               total   : Integer) : boolean;
+begin
+  Result := False;
+
+  if assigned(FOnNavigationVisitorResultAvailable) then
+    FOnNavigationVisitorResultAvailable(entry, current, index, total, Result);
 end;
 
 function TFMXChromium.MustCreateLoadHandler : boolean;
