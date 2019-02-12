@@ -1,0 +1,35 @@
+object ChildForm: TChildForm
+  Left = 224
+  Height = 600
+  Top = 175
+  Width = 800
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'ChildForm'
+  ClientHeight = 600
+  ClientWidth = 800
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  LCLVersion = '2.0.0.4'
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 600
+    Top = 0
+    Width = 800
+    Align = alClient
+    TabOrder = 0
+  end
+  object Chromium1: TChromium
+    OnPreKeyEvent = Chromium1PreKeyEvent
+    OnKeyEvent = Chromium1KeyEvent
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 80
+    top = 53
+  end
+end
