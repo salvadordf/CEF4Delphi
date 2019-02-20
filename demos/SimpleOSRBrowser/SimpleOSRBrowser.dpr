@@ -55,9 +55,7 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -69,6 +67,5 @@ begin
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.

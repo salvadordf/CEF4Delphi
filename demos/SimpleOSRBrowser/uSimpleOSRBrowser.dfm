@@ -37,7 +37,7 @@ object Form1: TForm1
     object ComboBox1: TComboBox
       Left = 5
       Top = 5
-      Width = 909
+      Width = 907
       Height = 21
       Align = alClient
       ItemIndex = 0
@@ -51,12 +51,14 @@ object Form1: TForm1
           'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_selec' +
           't_form'
         'https://www.briskbard.com'
-        'https://frames-per-second.appspot.com/')
+        'https://frames-per-second.appspot.com/'
+        'file:///transparency.html')
+      ExplicitWidth = 909
     end
     object Panel2: TPanel
-      Left = 914
+      Left = 912
       Top = 5
-      Width = 69
+      Width = 71
       Height = 20
       Margins.Left = 2
       Margins.Top = 2
@@ -80,7 +82,7 @@ object Form1: TForm1
         OnEnter = GoBtnEnter
       end
       object SnapshotBtn: TButton
-        Left = 38
+        Left = 40
         Top = 0
         Width = 31
         Height = 20
@@ -99,6 +101,7 @@ object Form1: TForm1
         TabOrder = 1
         OnClick = SnapshotBtnClick
         OnEnter = SnapshotBtnEnter
+        ExplicitLeft = 38
       end
     end
   end
@@ -110,8 +113,11 @@ object Form1: TForm1
     OnIMECancelComposition = Panel1IMECancelComposition
     OnIMECommitText = Panel1IMECommitText
     OnIMESetComposition = Panel1IMESetComposition
+    OnPaintParentBkg = Panel1PaintParentBkg
     Align = alClient
-    Caption = 'Panel1'
+    Ctl3D = False
+    ParentCtl3D = False
+    BevelOuter = bvNone
     TabOrder = 1
     TabStop = True
     OnClick = Panel1Click
@@ -122,6 +128,7 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
+    ShowCaption = False
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip

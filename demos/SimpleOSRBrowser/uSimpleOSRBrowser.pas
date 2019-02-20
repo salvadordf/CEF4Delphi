@@ -52,6 +52,11 @@ uses
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uBufferPanel;
 
+const
+  // Set this constant to True and load "file://transparency.html" to test a
+  // transparent browser.
+  TRANSPARENT_BROWSER = False;
+
 type
   TForm1 = class(TForm)
     NavControlPnl: TPanel;
@@ -107,6 +112,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
+    procedure Panel1PaintParentBkg(Sender: TObject);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -149,6 +155,8 @@ type
 var
   Form1: TForm1;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.dfm}
@@ -167,6 +175,20 @@ uses
 //    set "Result" to false and CEF3 will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
 //    Now we set FCanClose to True and send WM_CLOSE to the form.
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                            := TCefApplication.Create;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.EnableHighDPISupport       := True;
+
+  // If you need transparency leave the GlobalCEFApp.BackgroundColor property
+  // with the default value or set the alpha channel to 0
+  if TRANSPARENT_BROWSER then
+    GlobalCEFApp.BackgroundColor := CefColorSetARGB($00, $FF, $FF, $FF)
+   else
+    GlobalCEFApp.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+end;
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
@@ -663,6 +685,8 @@ begin
   FResizeCS       := TCriticalSection.Create;
   FIMECS          := TCriticalSection.Create;
 
+  Panel1.Transparent := TRANSPARENT_BROWSER;
+
   InitializeLastClick;
 end;
 
@@ -696,8 +720,12 @@ begin
     end
    else
     begin
-      // opaque white background color
-      chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+      // If you need transparency leave the chrmosr.Options.BackgroundColor property
+      // with the default value or set the alpha channel to 0
+      if TRANSPARENT_BROWSER then
+        chrmosr.Options.BackgroundColor := CefColorSetARGB($00, $FF, $FF, $FF)
+       else
+        chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 
       // The IME handler needs to be created when Panel1 has a valid handle
       // and before the browser creation.
@@ -794,6 +822,21 @@ begin
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
       chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
+    end;
+end;
+
+procedure TForm1.Panel1PaintParentBkg(Sender: TObject);
+begin
+  // This event should only be used if you enabled transparency in the browser
+  if TRANSPARENT_BROWSER then
+    begin
+      // This event should copy the background image into Panel1.Canvas
+      // The TBufferPanel uses "AlphaBlend" to draw the browser contents over
+      // this background image.
+      // For simplicity, we just paint it green.
+      Panel1.Canvas.Brush.Color := clGreen;
+      Panel1.Canvas.Brush.Style := bsSolid;
+      Panel1.Canvas.FillRect(Rect(0, 0, Panel1.Width, Panel1.Height));
     end;
 end;
 

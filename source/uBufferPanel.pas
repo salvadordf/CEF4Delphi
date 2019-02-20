@@ -52,7 +52,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, imm, {$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, Win32Extra,
     {$ELSE}
     Messages,
     {$ENDIF}
@@ -70,6 +70,8 @@ type
       FMutex                  : THandle;
       FBuffer                 : TBitmap;
       FScanlineSize           : integer;
+      FTransparent            : boolean;
+      FOnPaintParentBkg       : TNotifyEvent;
       {$IFDEF MSWINDOWS}
       FIMEHandler             : TCEFOSRIMEHandler;
       FOnIMECancelComposition : TNotifyEvent;
@@ -86,11 +88,14 @@ type
       function  GetBufferWidth : integer;
       function  GetBufferHeight : integer;
 
+      procedure SetTransparent(aValue : boolean);
+
       function  CopyBuffer : boolean;
       function  SaveBufferToFile(const aFilename : string) : boolean;
 
       procedure Paint; override;
       {$IFDEF MSWINDOWS}
+      procedure CreateParams(var Params: TCreateParams); override;
       procedure WndProc(var aMessage: TMessage); override;
       procedure WMEraseBkgnd(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;
       procedure WMIMEStartComp(var aMessage: TMessage);
@@ -120,6 +125,7 @@ type
       property BufferBits     : pointer            read GetBufferBits;
 
       property DockManager;
+      property Canvas;
 
     published
       {$IFDEF MSWINDOWS}
@@ -127,6 +133,9 @@ type
       property OnIMECommitText           : TOnIMECommitTextEvent     read FOnIMECommitText           write FOnIMECommitText;
       property OnIMESetComposition       : TOnIMESetCompositionEvent read FOnIMESetComposition       write FOnIMESetComposition;
       {$ENDIF}
+      property OnPaintParentBkg          : TNotifyEvent              read FOnPaintParentBkg          write FOnPaintParentBkg;
+
+      property Transparent               : boolean                   read FTransparent               write SetTransparent     default False;
 
       property Align;
       property Alignment;
@@ -231,8 +240,9 @@ constructor TBufferPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FMutex  := 0;
-  FBuffer := nil;
+  FMutex       := 0;
+  FBuffer      := nil;
+  FTransparent := False;
 
   {$IFDEF MSWINDOWS}
   FIMEHandler             := nil;
@@ -361,16 +371,38 @@ begin
 end;
 
 function TBufferPanel.CopyBuffer : boolean;
+var
+  TempFunction : TBlendFunction;
 begin
   Result := False;
 
   if BeginBufferDraw then
-    begin
-      Result := (FBuffer <> nil) and
-                BitBlt(Canvas.Handle, 0, 0, Width, Height,
-                       FBuffer.Canvas.Handle, 0, 0,
-                       SrcCopy);
+    try
+      if (FBuffer <> nil) then
+        begin
+          if FTransparent then
+            begin
+              // TODO : To avoid flickering we should be using another bitmap
+              // for the background image. We should blend "FBuffer" with the
+              // "background bitmap" and then blit the result to the canvas.
 
+              if assigned(FOnPaintParentBkg) then FOnPaintParentBkg(self);
+
+              TempFunction.BlendOp             := AC_SRC_OVER;
+              TempFunction.BlendFlags          := 0;
+              TempFunction.SourceConstantAlpha := 255;
+              TempFunction.AlphaFormat         := AC_SRC_ALPHA;
+
+              Result := AlphaBlend(Canvas.Handle, 0, 0, Width, Height,
+                                   FBuffer.Canvas.Handle, 0, 0, FBuffer.Width, FBuffer.Height,
+                                   TempFunction);
+            end
+           else
+            Result := BitBlt(Canvas.Handle, 0, 0, Width, Height,
+                             FBuffer.Canvas.Handle, 0, 0,
+                             SrcCopy);
+        end;
+    finally
       EndBufferDraw;
     end;
 end;
@@ -387,7 +419,7 @@ begin
       Canvas.Rectangle(0, 0, Width, Height);
     end
    else
-    if not(CopyBuffer) then
+    if not(CopyBuffer) and not(FTransparent) then
       begin
         Canvas.Brush.Color := Color;
         Canvas.Brush.Style := bsSolid;
@@ -396,6 +428,14 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
+procedure TBufferPanel.CreateParams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+
+  if FTransparent then
+    Params.ExStyle := Params.ExStyle and not WS_EX_TRANSPARENT;
+end;
+
 procedure TBufferPanel.WndProc(var aMessage: TMessage);
 begin
   case aMessage.Msg of
@@ -543,6 +583,18 @@ begin
     Result := 0;
 end;
 
+procedure TBufferPanel.SetTransparent(aValue : boolean);
+begin
+  if (FTransparent <> aValue) then
+    begin
+      FTransparent := aValue;
+
+      {$IFDEF MSWINDOWS}
+      RecreateWnd{$IFDEF FPC}(self){$ENDIF};
+      {$ENDIF}
+    end;
+end;
+
 procedure TBufferPanel.BufferDraw(x, y : integer; const aBitmap : TBitmap);
 begin
   if (FBuffer <> nil) then FBuffer.Canvas.Draw(x, y, aBitmap);
@@ -563,8 +615,9 @@ begin
       FBuffer.HandleType  := bmDIB;
       FBuffer.Width       := aWidth;
       FBuffer.Height      := aHeight;
-      FScanlineSize       := FBuffer.Width * SizeOf(TRGBQuad);
-      Result              := True;
+
+      FScanlineSize := FBuffer.Width * SizeOf(TRGBQuad);
+      Result        := True;
     end;
 end;
 
