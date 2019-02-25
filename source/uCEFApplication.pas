@@ -154,6 +154,8 @@ type
       FAutoplayPolicy                : TCefAutoplayPolicy;
       FDisableBackgroundNetworking   : boolean;
       FMetricsRecordingOnly          : boolean;
+      FAllowFileAccessFromFiles      : boolean;
+      FAllowRunningInsecureContent   : boolean;
 
       FMustCreateResourceBundleHandler : boolean;
       FMustCreateBrowserProcessHandler : boolean;
@@ -400,6 +402,8 @@ type
       property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;
       property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;
       property MetricsRecordingOnly              : boolean                             read FMetricsRecordingOnly              write FMetricsRecordingOnly;
+      property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;
+      property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
       property UsedMemory                        : cardinal                            read GetUsedMemory;
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
@@ -561,6 +565,8 @@ begin
   FAutoplayPolicy                := appDefault;
   FDisableBackgroundNetworking   := False;
   FMetricsRecordingOnly          := False;
+  FAllowFileAccessFromFiles      := False;
+  FAllowRunningInsecureContent   := False;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -1546,6 +1552,12 @@ begin
 
       if FMetricsRecordingOnly then
         commandLine.AppendSwitch('--metrics-recording-only');
+
+      if FAllowFileAccessFromFiles then
+        commandLine.AppendSwitch('--allow-file-access-from-files');
+
+      if FAllowRunningInsecureContent then
+        commandLine.AppendSwitch('--allow-running-insecure-content');
 
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and
