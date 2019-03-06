@@ -107,7 +107,11 @@ end;
 
 function TFMXApplicationService.GetVersionString: string;
 begin
+  {$IFDEF DELPHI22_UP}
   Result := OldFMXApplicationService.GetVersionString;
+  {$ELSE DELPHI22_UP}
+  Result := 'unsupported yet';
+  {$ENDIF DELPHI22_UP}
 end;
 
 procedure TFMXApplicationService.Run;

@@ -49,7 +49,7 @@ uses
   {$IFDEF MSWINDOWS}
   WinApi.Windows, WinApi.Messages,
   {$ENDIF}
-  FMX.Types, FMX.Platform, FMX.Controls, FMX.Forms,
+  FMX.Types, FMX.Platform, FMX.Forms,
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFChromiumEvents, uCEFChromiumOptions, uCEFChromiumFontOptions,
   uCEFPDFPrintOptions;
