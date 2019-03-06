@@ -136,18 +136,9 @@ begin
 end;
 
 procedure TChildForm.ResizeChild;
-var
-  TempRect : System.Types.TRect;
 begin
   if (FMXWindowParent <> nil) then
-    begin
-      TempRect.Top    := 0;
-      TempRect.Left   := 0;
-      TempRect.Right  := ClientWidth  - 1;
-      TempRect.Bottom := ClientHeight - 1;
-
-      FMXWindowParent.SetBounds(TempRect);
-    end;
+    FMXWindowParent.SetBounds(0, 0, ClientWidth - 1, ClientHeight -  1);
 end;
 
 procedure TChildForm.FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
