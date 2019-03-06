@@ -207,18 +207,9 @@ begin
 end;
 
 procedure TSimpleFMXBrowserFrm.ResizeChild;
-var
-  TempRect : System.Types.TRect;
 begin
   if (FMXWindowParent <> nil) then
-    begin
-      TempRect.Top    := round(AddressPnl.Height);
-      TempRect.Left   := 0;
-      TempRect.Right  := ClientWidth  - 1;
-      TempRect.Bottom := ClientHeight - 1;
-
-      FMXWindowParent.SetBounds(TempRect);
-    end;
+    FMXWindowParent.SetBounds(0, round(AddressPnl.Height), ClientWidth - 1, ClientHeight -  1);
 end;
 
 procedure TSimpleFMXBrowserFrm.CreateFMXWindowParent;
