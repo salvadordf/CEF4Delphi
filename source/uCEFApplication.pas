@@ -50,7 +50,13 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, Vcl.Forms,{$ENDIF} System.Classes, System.UITypes,
+    {$IFDEF MSWINDOWS}WinApi.Windows,
+      {$IFDEF FMX}
+      FMX.Forms, FMX.Platform.Win,
+      {$ELSE}
+      Vcl.Forms,
+      {$ENDIF}
+    {$ENDIF} System.Classes, System.UITypes,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, Forms,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
@@ -706,9 +712,11 @@ begin
             // initiate a DDE conversation will use SendMessage or SendMessageTimeout to
             // broadcast the WM_DDE_INITIATE to all top-level windows. The subprocesses never
             // call Application.Run so the SendMessage freezes the other applications.
+            {$IFNDEF FMX}
             if (Application.Handle          <> 0) then DestroyWindow(Application.Handle);
             {$IFDEF DELPHI9_UP}
             if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
+            {$ENDIF}
             {$ENDIF}
           end;
         {$ENDIF}

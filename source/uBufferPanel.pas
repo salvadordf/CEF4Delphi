@@ -47,7 +47,14 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics, WinApi.Imm,{$ENDIF}
+  {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages,
+    {$IFDEF FMX}
+    FMX.ExtCtrls, FMX.Controls, FMX.Graphics,
+    {$ELSE}
+    Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics,
+    {$ENDIF}
+  WinApi.Imm,
+  {$ENDIF}
   System.Classes, System.SyncObjs, System.SysUtils,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, imm, {$ENDIF} Classes, Forms, Controls, Graphics,
