@@ -54,6 +54,7 @@ uses
 type
   TCefClientRef = class(TCefBaseRefCountedRef, ICefClient)
     protected
+      procedure GetAudioHandler(var aHandler : ICefAudioHandler); virtual;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); virtual;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); virtual;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); virtual;
@@ -77,6 +78,7 @@ type
 
   TCefClientOwn = class(TCefBaseRefCountedOwn, ICefClient)
     protected
+      procedure GetAudioHandler(var aHandler : ICefAudioHandler); virtual;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); virtual;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); virtual;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); virtual;
@@ -114,7 +116,9 @@ type
       FRequestHandler     : ICefRequestHandler;
       FDragHandler        : ICefDragHandler;
       FFindHandler        : ICefFindHandler;
+      FAudioHandler       : ICefAudioHandler;
 
+      procedure GetAudioHandler(var aHandler : ICefAudioHandler); override;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); override;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); override;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); override;
@@ -137,7 +141,7 @@ type
                          aCreateLoadHandler, aCreateFocusHandler, aCreateContextMenuHandler, aCreateDialogHandler,
                          aCreateKeyboardHandler, aCreateDisplayHandler, aCreateDownloadHandler, aCreateJsDialogHandler,
                          aCreateLifeSpanHandler, aCreateRenderHandler, aCreateRequestHandler, aCreateDragHandler,
-                         aCreateFindHandler : boolean); reintroduce; virtual;
+                         aCreateFindHandler, aCreateAudioHandler : boolean); reintroduce; virtual;
       procedure   BeforeDestruction; override;
       procedure   RemoveReferences; override;
   end;
@@ -154,7 +158,7 @@ uses
   uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
   uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
-  uCEFFindHandler, uCEFConstants, uCEFApplication;
+  uCEFFindHandler, uCEFAudioHandler, uCEFConstants, uCEFApplication;
 
 
 // ******************************************************
@@ -167,6 +171,11 @@ begin
     Result := Create(data) as ICefClient
    else
     Result := nil;
+end;
+
+procedure TCefClientRef.GetAudioHandler(var aHandler : ICefAudioHandler);
+begin
+  aHandler := nil;
 end;
 
 procedure TCefClientRef.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
@@ -249,6 +258,23 @@ end;
 // ****************** TCefClientOwn *********************
 // ******************************************************
 
+
+function cef_client_own_get_audio_handler(self: PCefClient): PCefAudioHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefAudioHandler;
+begin
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetAudioHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
+end;
 
 function cef_client_own_get_context_menu_handler(self: PCefClient): PCefContextMenuHandler; stdcall;
 var
@@ -493,6 +519,7 @@ begin
 
   with PCefClient(FData)^ do
     begin
+      get_audio_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_audio_handler;
       get_context_menu_handler    := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_context_menu_handler;
       get_dialog_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_dialog_handler;
       get_display_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_display_handler;
@@ -508,6 +535,11 @@ begin
       get_request_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_request_handler;
       on_process_message_received := {$IFDEF FPC}@{$ENDIF}cef_client_own_on_process_message_received;
     end;
+end;
+
+procedure TCefClientOwn.GetAudioHandler(var aHandler : ICefAudioHandler);
+begin
+  aHandler := nil;
 end;
 
 procedure TCefClientOwn.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
@@ -606,7 +638,8 @@ constructor TCustomClientHandler.Create(const events                     : IChro
                                               aCreateRenderHandler       : boolean;
                                               aCreateRequestHandler      : boolean;
                                               aCreateDragHandler         : boolean;
-                                              aCreateFindHandler         : boolean);
+                                              aCreateFindHandler         : boolean;
+                                              aCreateAudioHandler        : boolean);
 begin
   inherited Create;
 
@@ -629,6 +662,7 @@ begin
       if aCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(FEvents);
       if aCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(FEvents);
       if aCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(FEvents);
+      if aCreateAudioHandler       then FAudioHandler       := TCustomAudioHandler.Create(self);
     end;
 end;
 
@@ -656,6 +690,7 @@ begin
   if (FRenderHandler      <> nil) then FRenderHandler.RemoveReferences;
   if (FDragHandler        <> nil) then FDragHandler.RemoveReferences;
   if (FFindHandler        <> nil) then FFindHandler.RemoveReferences;
+  if (FAudioHandler       <> nil) then FAudioHandler.RemoveReferences;
 end;
 
 procedure TCustomClientHandler.InitializeVars;
@@ -673,7 +708,16 @@ begin
   FRenderHandler      := nil;
   FDragHandler        := nil;
   FFindHandler        := nil;
+  FAudioHandler       := nil;
   FEvents             := nil;
+end;
+
+procedure TCustomClientHandler.GetAudioHandler(var aHandler : ICefAudioHandler);
+begin
+  if (FAudioHandler <> nil) then
+    aHandler := FAudioHandler
+   else
+    aHandler := nil;
 end;
 
 procedure TCustomClientHandler.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);

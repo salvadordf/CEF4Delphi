@@ -127,7 +127,7 @@ uses
 
 procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
-  registrar.AddCustomScheme('hello', True, True, False, False, False, False);
+  registrar.AddCustomScheme('hello', CEF_SCHEME_OPTION_STANDARD or CEF_SCHEME_OPTION_LOCAL);
 end;
 
 procedure CreateGlobalCEFApp;

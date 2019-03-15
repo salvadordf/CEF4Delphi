@@ -147,6 +147,7 @@ type
   TOnScrollOffsetChanged          = procedure(Sender: TObject; const browser: ICefBrowser; x, y: Double) of Object;
   TOnIMECompositionRangeChanged   = procedure(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect) of Object;
   TOnTextSelectionChanged         = procedure(Sender: TObject; const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange) of Object;
+  TOnVirtualKeyboardRequested     = procedure(Sender: TObject; const browser: ICefBrowser; input_mode: TCefTextInpuMode) of Object;
 
   // ICefDragHandler
   TOnDragEnter                    = procedure(Sender: TObject; const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations; out Result: Boolean) of Object;
@@ -154,6 +155,11 @@ type
 
   // ICefFindHandler
   TOnFindResult                   = procedure(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean) of Object;
+
+  // ICefAudioHandler
+  TOnAudioStreamStarted           = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer) of Object;
+  TOnAudioStreamPacket            = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64) of Object;
+  TOnAudioStreamStopped           = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id: integer) of Object;
 
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;

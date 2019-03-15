@@ -65,7 +65,7 @@ type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFLinkedWindowParent = class(TCEFWinControl)
     protected
-      FChromium : TChromium;
+      FChromium               : TChromium;
 
       procedure SetChromium(aValue : TChromium);
 
@@ -79,7 +79,7 @@ type
       constructor Create(AOwner : TComponent); override;
 
     published
-      property Chromium : TChromium    read FChromium     write SetChromium;
+      property Chromium   : TChromium    read FChromium   write SetChromium;
   end;
 
 

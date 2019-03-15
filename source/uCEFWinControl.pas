@@ -66,13 +66,13 @@ type
       procedure Resize; override;
 
     public
-      function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
-      function  DestroyChildWindow : boolean;
-      procedure CreateHandle; override;
-      procedure InvalidateChildren;
-      procedure UpdateSize;
+      function    TakeSnapshot(var aBitmap : TBitmap) : boolean;
+      function    DestroyChildWindow : boolean;
+      procedure   CreateHandle; override;
+      procedure   InvalidateChildren;
+      procedure   UpdateSize;
 
-      property  ChildWindowHandle : THandle   read GetChildWindowHandle;
+      property  ChildWindowHandle : THandle  read GetChildWindowHandle;
 
     published
       property  Align;

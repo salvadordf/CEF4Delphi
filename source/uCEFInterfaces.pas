@@ -138,6 +138,7 @@ type
   ICefLabelButton = interface;
   ICefMenuButton = interface;
   ICefUrlRequest = interface;
+  ICefAudioHandler = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -355,6 +356,7 @@ type
     procedure doOnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
     procedure doOnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
     procedure doOnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange);
+    procedure doOnVirtualKeyboardRequested(const browser: ICefBrowser; input_mode: TCefTextInpuMode);
 
     // ICefDragHandler
     function  doOnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean;
@@ -362,6 +364,11 @@ type
 
     // ICefFindHandler
     procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
+
+    // ICefAudioHandler
+    procedure doOnAudioStreamStarted(const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer);
+    procedure doOnAudioStreamPacket(const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64);
+    procedure doOnAudioStreamStopped(const browser: ICefBrowser; audio_stream_id: integer);
 
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
@@ -485,6 +492,7 @@ type
     procedure SendMouseClickEvent(const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
     procedure SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
     procedure SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
+    procedure SendTouchEvent(const event: PCefTouchEvent);
     procedure SendFocusEvent(aSetFocus: Boolean);
     procedure SendCaptureLostEvent;
     procedure NotifyMoveOrResizeStarted;
@@ -505,6 +513,8 @@ type
     procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
     function  GetExtension : ICefExtension;
     function  IsBackgroundHost : boolean;
+    procedure SetAudioMuted(mute: boolean);
+    function  IsAudioMuted : boolean;
 
     property Browser                : ICefBrowser              read GetBrowser;
     property WindowHandle           : TCefWindowHandle         read GetWindowHandle;
@@ -1693,6 +1703,17 @@ type
     procedure RemoveReferences; // custom procedure to clear all references
   end;
 
+  // TCefAudioHandler
+  // /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)
+  ICefAudioHandler = interface(ICefBaseRefCounted)
+    ['{8963271A-0B94-4279-82C8-FB2EA7B3CDEC}']
+    procedure OnAudioStreamStarted(const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer);
+    procedure OnAudioStreamPacket(const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64);
+    procedure OnAudioStreamStopped(const browser: ICefBrowser; audio_stream_id: integer);
+
+    procedure RemoveReferences; // custom procedure to clear all references
+  end;
+
   // TCefRunContextMenuCallback
   // /include/capi/cef_context_menu_handler_capi.h (cef_run_context_menu_callback_t)
   ICefRunContextMenuCallback = interface(ICefBaseRefCounted)
@@ -1749,6 +1770,7 @@ type
     procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
     procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
     procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange);
+    procedure OnVirtualKeyboardRequested(const browser: ICefBrowser; input_mode: TCefTextInpuMode);
 
     procedure RemoveReferences; // custom procedure to clear all references
   end;
@@ -1757,6 +1779,7 @@ type
   // /include/capi/cef_client_capi.h (cef_client_t)
   ICefClient = interface(ICefBaseRefCounted)
     ['{1D502075-2FF0-4E13-A112-9E541CD811F4}']
+    procedure GetAudioHandler(var aHandler : ICefAudioHandler);
     procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
     procedure GetDialogHandler(var aHandler : ICefDialogHandler);
     procedure GetDisplayHandler(var aHandler : ICefDisplayHandler);

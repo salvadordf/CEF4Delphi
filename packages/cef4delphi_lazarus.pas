@@ -47,7 +47,7 @@ uses
   uCEFZipReader, uCEFChromium, uBufferPanel, uCEFServer, uCEFServerComponent, 
   uCEFServerEvents, uCEFServerHandler, uCEFWinControl, uCEFLinkedWindowParent, 
   uCEFUrlRequestClientEvents, uCEFUrlRequestClientComponent, 
-  uCEFOSRIMEHandler, LazarusPackageIntf;
+  uCEFOSRIMEHandler, uCEFAudioHandler, LazarusPackageIntf;
 
 implementation
 

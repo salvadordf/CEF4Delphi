@@ -52,7 +52,6 @@ object Form1: TForm1
     Visible = False
   end
   object chrmosr: TChromium
-    OnProcessMessageReceived = chrmosrProcessMessageReceived
     OnBeforeContextMenu = chrmosrBeforeContextMenu
     OnContextMenuCommand = chrmosrContextMenuCommand
     OnTooltip = chrmosrTooltip
@@ -66,6 +65,7 @@ object Form1: TForm1
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
+    OnVirtualKeyboardRequested = chrmosrVirtualKeyboardRequested
     Left = 24
     Top = 56
   end

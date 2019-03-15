@@ -54,7 +54,7 @@ uses
 type
   TCefSchemeRegistrarRef = class(TCEFBaseScopedWrapperRef)
     public
-      function AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated, IsSecure, IsCorsEnabled, IsCSPBypassing: Boolean): Boolean;
+      function AddCustomScheme(const schemeName: ustring; options : TCefSchemeOptions): Boolean;
   end;
 
 implementation
@@ -62,25 +62,15 @@ implementation
 uses
   uCEFMiscFunctions;
 
-function TCefSchemeRegistrarRef.AddCustomScheme(const schemeName        : ustring;
-                                                      IsStandard        : Boolean;
-                                                      IsLocal           : Boolean;
-                                                      IsDisplayIsolated : Boolean;
-                                                      IsSecure          : Boolean;
-                                                      IsCorsEnabled     : Boolean;
-                                                      IsCSPBypassing    : Boolean): Boolean;
+function TCefSchemeRegistrarRef.AddCustomScheme(const schemeName : ustring;
+                                                      options    : TCefSchemeOptions): Boolean;
 var
   TempName : TCefString;
 begin
   TempName := CefString(schemeName);
   Result   := PCefSchemeRegistrar(FData)^.add_custom_scheme(PCefSchemeRegistrar(FData),
                                                             @TempName,
-                                                            Ord(IsStandard),
-                                                            Ord(IsLocal),
-                                                            Ord(IsDisplayIsolated),
-                                                            Ord(isSecure),
-                                                            Ord(IsCorsEnabled),
-                                                            Ord(IsCSPBypassing)) <> 0;
+                                                            options) <> 0;
 end;
 
 end.

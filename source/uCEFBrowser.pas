@@ -126,6 +126,7 @@ type
       procedure SendMouseClickEvent(const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
       procedure SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
       procedure SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
+      procedure SendTouchEvent(const event: PCefTouchEvent);
       procedure SendFocusEvent(aSetFocus: Boolean);
       procedure SendCaptureLostEvent;
       procedure NotifyMoveOrResizeStarted;
@@ -146,6 +147,8 @@ type
       procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
       function  GetExtension : ICefExtension;
       function  IsBackgroundHost : boolean;
+      procedure SetAudioMuted(mute: boolean);
+      function  IsAudioMuted : boolean;
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -378,6 +381,16 @@ begin
   Result := PCefBrowserHost(FData)^.is_background_host(PCefBrowserHost(FData)) <> 0;
 end;
 
+procedure TCefBrowserHostRef.SetAudioMuted(mute: boolean);
+begin
+  PCefBrowserHost(FData)^.set_audio_muted(PCefBrowserHost(FData), Ord(mute));
+end;
+
+function TCefBrowserHostRef.IsAudioMuted : boolean;
+begin
+  Result := PCefBrowserHost(FData)^.is_audio_muted(PCefBrowserHost(FData)) <> 0;
+end;
+
 procedure TCefBrowserHostRef.DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);
 begin
   PCefBrowserHost(FData)^.drag_target_drag_enter(PCefBrowserHost(FData), CefGetData(dragData), event, allowedOps);
@@ -524,6 +537,11 @@ end;
 procedure TCefBrowserHostRef.SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
 begin
   PCefBrowserHost(FData)^.send_mouse_wheel_event(PCefBrowserHost(FData), event, deltaX, deltaY);
+end;
+
+procedure TCefBrowserHostRef.SendTouchEvent(const event: PCefTouchEvent);
+begin
+  PCefBrowserHost(FData)^.send_touch_event(PCefBrowserHost(FData), event);
 end;
 
 procedure TCefBrowserHostRef.SetFocus(focus: Boolean);

@@ -103,11 +103,11 @@ type
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure chrmosrProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
     procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
     procedure chrmosrContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
+    procedure chrmosrVirtualKeyboardRequested(Sender: TObject; const browser: ICefBrowser; input_mode: TCefTextInpuMode);
 
-    protected
+  protected
     FPopUpBitmap     : TBitmap;
     FPopUpRect       : TRect;
     FShowPopUp       : boolean;
@@ -170,68 +170,11 @@ uses
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
 //    Now we set FCanClose to True and send WM_CLOSE to the form.
 
-function NodeIsTextArea(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
-begin
-  Result := (CompareText(aNode.ElementTagName, 'textarea') = 0);
-end;
-
-function NodeIsInput(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
-begin
-  Result := (CompareText(aNode.ElementTagName, 'input') = 0);
-end;
-
-function InputNeedsKeyboard(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
-var
-  TempType : string;
-begin
-  if not(aNode.HasElementAttribute('type')) then
-    Result := True
-   else
-    begin
-      TempType := aNode.GetElementAttribute('type');
-      Result   := (CompareText(TempType, 'date')           = 0) or
-                  (CompareText(TempType, 'datetime-local') = 0) or
-                  (CompareText(TempType, 'email')          = 0) or
-                  (CompareText(TempType, 'month')          = 0) or
-                  (CompareText(TempType, 'number')         = 0) or
-                  (CompareText(TempType, 'password')       = 0) or
-                  (CompareText(TempType, 'search')         = 0) or
-                  (CompareText(TempType, 'tel')            = 0) or
-                  (CompareText(TempType, 'text')           = 0) or
-                  (CompareText(TempType, 'time')           = 0) or
-                  (CompareText(TempType, 'url')            = 0) or
-                  (CompareText(TempType, 'week')           = 0);
-    end;
-end;
-
-function NodeNeedsKeyboard(const aNode : ICefDomNode) : boolean; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
-begin
-  Result := NodeIsTextArea(aNode) or
-            (NodeIsInput(aNode) and InputNeedsKeyboard(aNode));
-end;
-
-procedure GlobalCEFApp_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
-var
-  TempMsg : ICefProcessMessage;
-begin
-  // This procedure is called in the Render process and checks if the focused node is an
-  // INPUT or TEXTAREA to show or hide the virtual keyboard.
-  // It sends a process message to the browser process to handle the virtual keyboard.
-
-  if (node <> nil) and NodeNeedsKeyboard(node) then
-    TempMsg := TCefProcessMessageRef.New(SHOWKEYBOARD_PROCMSG)
-   else
-    TempMsg := TCefProcessMessageRef.New(HIDEKEYBOARD_PROCMSG);
-
-  browser.SendProcessMessage(PID_BROWSER, TempMsg);
-end;
-
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.OnFocusedNodeChanged       := GlobalCEFApp_OnFocusedNodeChanged;
 end;
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
@@ -630,34 +573,21 @@ begin
     end;
 end;
 
-procedure TForm1.chrmosrProcessMessageReceived(      Sender        : TObject;
-                                               const browser       : ICefBrowser;
-                                                     sourceProcess : TCefProcessId;
-                                               const message       : ICefProcessMessage;
-                                               out   Result        : Boolean);
-begin
-  // This function receives the process message from the render process to show or hide the virtual keyboard.
-  // This event is not executed in the main thread so it has to send a custom windows message to the form
-  // to handle the keyboard in the main thread.
-
-  if (message.Name = SHOWKEYBOARD_PROCMSG) then
-    begin
-      PostMessage(Handle, CEF_SHOWKEYBOARD, 0 ,0);
-      Result := True;
-    end
-   else
-    if (message.Name = HIDEKEYBOARD_PROCMSG) then
-      begin
-        PostMessage(Handle, CEF_HIDEKEYBOARD, 0 ,0);
-        Result := True;
-      end;
-end;
-
 procedure TForm1.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
 begin
   Panel1.hint     := text;
   Panel1.ShowHint := (length(text) > 0);
   Result          := True;
+end;
+
+procedure TForm1.chrmosrVirtualKeyboardRequested(      Sender     : TObject;
+                                                 const browser    : ICefBrowser;
+                                                       input_mode : TCefTextInpuMode);
+begin
+  if (input_mode = CEF_TEXT_INPUT_MODE_NONE) then
+    PostMessage(Handle, CEF_HIDEKEYBOARD, 0, 0)
+   else
+    PostMessage(Handle, CEF_SHOWKEYBOARD, 0, 0);
 end;
 
 function TForm1.getModifiers(Shift: TShiftState): TCefEventFlags;

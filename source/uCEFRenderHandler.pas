@@ -69,6 +69,7 @@ type
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); virtual;
       procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); virtual;
       procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange); virtual;
+      procedure OnVirtualKeyboardRequested(const browser: ICefBrowser; input_mode: TCefTextInpuMode); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -95,6 +96,7 @@ type
       procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); override;
       procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); override;
       procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange); override;
+      procedure OnVirtualKeyboardRequested(const browser: ICefBrowser; input_mode: TCefTextInpuMode); override;
 
       procedure RemoveReferences; override;
 
@@ -358,6 +360,19 @@ begin
                                                             selected_range);
 end;
 
+procedure cef_render_handler_on_virtual_keyboard_requested(self       : PCefRenderHandler;
+                                                           browser    : PCefBrowser;
+                                                           input_mode : TCefTextInpuMode); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
+    TCefRenderHandlerOwn(TempObject).OnVirtualKeyboardRequested(TCefBrowserRef.UnWrap(browser),
+                                                                input_mode);
+end;
+
 constructor TCefRenderHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefRenderHandler));
@@ -379,6 +394,7 @@ begin
       on_scroll_offset_changed         := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_scroll_offset_changed;
       on_ime_composition_range_changed := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_ime_composition_range_changed;
       on_text_selection_changed        := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_text_selection_changed;
+      on_virtual_keyboard_requested    := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_virtual_keyboard_requested;
     end;
 end;
 
@@ -448,6 +464,12 @@ end;
 procedure TCefRenderHandlerOwn.OnTextSelectionChanged(const browser        : ICefBrowser;
                                                       const selected_text  : ustring;
                                                       const selected_range : PCefRange);
+begin
+  //
+end;
+
+procedure TCefRenderHandlerOwn.OnVirtualKeyboardRequested(const browser    : ICefBrowser;
+                                                                input_mode : TCefTextInpuMode);
 begin
   //
 end;
@@ -581,6 +603,12 @@ procedure TCustomRenderHandler.OnTextSelectionChanged(const browser        : ICe
                                                       const selected_range : PCefRange);
 begin
   if (FEvents <> nil) then IChromiumEvents(FEvents).doOnTextSelectionChanged(browser, selected_text, selected_range);
+end;
+
+procedure TCustomRenderHandler.OnVirtualKeyboardRequested(const browser    : ICefBrowser;
+                                                                input_mode : TCefTextInpuMode);
+begin
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnVirtualKeyboardRequested(browser, input_mode);
 end;
 
 function TCustomRenderHandler.OnStartDragging(const browser    : ICefBrowser;

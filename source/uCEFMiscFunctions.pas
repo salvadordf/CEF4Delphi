@@ -114,9 +114,9 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect);
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
@@ -635,8 +635,9 @@ end;
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
 begin
+  aWindowInfo.window_name                  := aWindowName;
   aWindowInfo.x                            := aRect.left;
   aWindowInfo.y                            := aRect.top;
   aWindowInfo.width                        := aRect.right  - aRect.left;
@@ -648,8 +649,9 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
+  aWindowInfo.window_name                  := aWindowName;
   aWindowInfo.x                            := 0;
   aWindowInfo.y                            := 0;
   aWindowInfo.width                        := 0;
@@ -661,8 +663,9 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
+  aWindowInfo.window_name                  := aWindowName;
   aWindowInfo.x                            := 0;
   aWindowInfo.y                            := 0;
   aWindowInfo.width                        := 0;

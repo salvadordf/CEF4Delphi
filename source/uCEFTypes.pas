@@ -134,6 +134,7 @@ type
   PCefLifeSpanHandler = ^TCefLifeSpanHandler;
   PCefGetExtensionResourceCallback = ^TCefGetExtensionResourceCallback;
   PCefExtensionHandler = ^TCefExtensionHandler;
+  PCefAudioHandler = ^TCefAudioHandler;
   PCefExtension = ^TCefExtension;
   PCefPopupFeatures = ^TCefPopupFeatures;
   PCefBrowserSettings = ^TCefBrowserSettings;
@@ -177,6 +178,7 @@ type
   PCefNavigationEntryVisitor = ^TCefNavigationEntryVisitor;
   PCefNavigationEntry = ^TCefNavigationEntry;
   PCefMouseEvent = ^TCefMouseEvent;
+  PCefTouchEvent = ^TCefTouchEvent;
   PCefPrintSettings = ^TCefPrintSettings;
   PCefPrintDialogCallback = ^TCefPrintDialogCallback;
   PCefPrintJobCallback = ^TCefPrintJobCallback;
@@ -276,6 +278,7 @@ type
   TCefLogSeverity                  = Cardinal;    // /include/internal/cef_types.h (cef_log_severity_t)
   TCefFileDialogMode               = Cardinal;    // /include/internal/cef_types.h (cef_file_dialog_mode_t)
   TCefDuplexMode                   = Integer;     // /include/internal/cef_types.h (cef_duplex_mode_t)
+  TCefSchemeOptions                = Integer;     // /include/internal/cef_types.h (cef_scheme_options_t)
 
 
 {$IFDEF FPC}
@@ -302,6 +305,8 @@ type
     {$ENDIF}
   {$ENDIF}
 {$ENDIF}
+
+  PPSingle = ^PSingle;
 
   Char16  = WideChar;
   PChar16 = PWideChar;
@@ -510,8 +515,7 @@ type
     REFERRER_POLICY_ORIGIN,
     REFERRER_POLICY_CLEAR_REFERRER_ON_TRANSITION_CROSS_ORIGIN,
     REFERRER_POLICY_ORIGIN_CLEAR_ON_TRANSITION_FROM_SECURE_TO_INSECURE,
-    REFERRER_POLICY_NO_REFERRER,
-    REFERRER_POLICY_LAST_VALUE
+    REFERRER_POLICY_NO_REFERRER // REFERRER_POLICY_LAST_VALUE = REFERRER_POLICY_NO_REFERRER
   );
 
   // /include/internal/cef_types.h (cef_postdataelement_type_t)
@@ -618,6 +622,73 @@ type
     WOD_SAVE_TO_DISK,
     WOD_OFF_THE_RECORD,
     WOD_IGNORE_ACTION
+  );
+
+  // /include/internal/cef_types.h (cef_text_input_mode_t)
+  TCefTextInpuMode = (
+    CEF_TEXT_INPUT_MODE_DEFAULT,
+    CEF_TEXT_INPUT_MODE_NONE,
+    CEF_TEXT_INPUT_MODE_TEXT,
+    CEF_TEXT_INPUT_MODE_TEL,
+    CEF_TEXT_INPUT_MODE_URL,
+    CEF_TEXT_INPUT_MODE_EMAIL,
+    CEF_TEXT_INPUT_MODE_NUMERIC,
+    CEF_TEXT_INPUT_MODE_DECIMAL,
+    CEF_TEXT_INPUT_MODE_SEARCH    // CEF_TEXT_INPUT_MODE_MAX = CEF_TEXT_INPUT_MODE_SEARCH
+  );
+
+  // /include/internal/cef_types.h (cef_touch_event_type_t)
+  TCefTouchEeventType = (
+    CEF_TET_RELEASED = 0,
+    CEF_TET_PRESSED,
+    CEF_TET_MOVED,
+    CEF_TET_CANCELLED
+  );
+
+  // /include/internal/cef_types.h (cef_pointer_type_t)
+  TCefPointerType = (
+    CEF_POINTER_TYPE_TOUCH = 0,
+    CEF_POINTER_TYPE_MOUSE,
+    CEF_POINTER_TYPE_PEN,
+    CEF_POINTER_TYPE_ERASER,
+    CEF_POINTER_TYPE_UNKNOWN
+  );
+
+  // /include/internal/cef_types.h (cef_channel_layout_t)
+  TCefChannelLayout = (
+    CEF_CHANNEL_LAYOUT_NONE = 0,
+    CEF_CHANNEL_LAYOUT_UNSUPPORTED,
+    CEF_CHANNEL_LAYOUT_MONO,
+    CEF_CHANNEL_LAYOUT_STEREO,
+    CEF_CHANNEL_LAYOUT_2_1,
+    CEF_CHANNEL_LAYOUT_SURROUND,
+    CEF_CHANNEL_LAYOUT_4_0,
+    CEF_CHANNEL_LAYOUT_2_2,
+    CEF_CHANNEL_LAYOUT_QUAD,
+    CEF_CHANNEL_LAYOUT_5_0,
+    CEF_CHANNEL_LAYOUT_5_1,
+    CEF_CHANNEL_LAYOUT_5_0_BACK,
+    CEF_CHANNEL_LAYOUT_5_1_BACK,
+    CEF_CHANNEL_LAYOUT_7_0,
+    CEF_CHANNEL_LAYOUT_7_1,
+    CEF_CHANNEL_LAYOUT_7_1_WIDE,
+    CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX,
+    CEF_CHANNEL_LAYOUT_2POINT1,
+    CEF_CHANNEL_LAYOUT_3_1,
+    CEF_CHANNEL_LAYOUT_4_1,
+    CEF_CHANNEL_LAYOUT_6_0,
+    CEF_CHANNEL_LAYOUT_6_0_FRONT,
+    CEF_CHANNEL_LAYOUT_HEXAGONAL,
+    CEF_CHANNEL_LAYOUT_6_1,
+    CEF_CHANNEL_LAYOUT_6_1_BACK,
+    CEF_CHANNEL_LAYOUT_6_1_FRONT,
+    CEF_CHANNEL_LAYOUT_7_0_FRONT,
+    CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK,
+    CEF_CHANNEL_LAYOUT_OCTAGONAL,
+    CEF_CHANNEL_LAYOUT_DISCRETE,
+    CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC,
+    CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE,
+    CEF_CHANNEL_LAYOUT_BITSTREAM  // CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_BITSTREAM
   );
 
   // /include/internal/cef_types.h (cef_paint_element_type_t)
@@ -1033,6 +1104,7 @@ type
     view                          : TCefWindowHandle;
     {$ENDIF}
     {$IFDEF LINUX}
+    window_name                   : TCefString;
     x                             : uint32;
     y                             : uint32;
     width                         : uint32;
@@ -1188,6 +1260,20 @@ type
     x         : Integer;
     y         : Integer;
     modifiers : TCefEventFlags;
+  end;
+
+  // /include/internal/cef_types.h (cef_touch_event_t)
+  TCefTouchEvent = record
+    id             : integer;
+    x              : single;
+    y              : single;
+    radius_x       : single;
+    radius_y       : single;
+    rotation_angle : single;
+    pressure       : single;
+    type_          : TCefTouchEeventType;
+    modifiers      : TCefEventFlags;
+    pointer_type   : TCefPointerType;
   end;
 
   // /include/capi/cef_base_capi.h (cef_base_ref_counted_t)
@@ -1380,6 +1466,14 @@ type
     get_extension_resource        : function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; const file_: PCefString; callback: PCefGetExtensionResourceCallback): Integer; stdcall;
   end;
 
+  // /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)
+  TCefAudioHandler = record
+    base                          : TCefBaseRefCounted;
+    on_audio_stream_started       : procedure(self: PCefAudioHandler; browser: PCefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer); stdcall;
+    on_audio_stream_packet        : procedure(self: PCefAudioHandler; browser: PCefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64); stdcall;
+    on_audio_stream_stopped       : procedure(self: PCefAudioHandler; browser: PCefBrowser; audio_stream_id: integer); stdcall;
+  end;
+
   // /include/capi/cef_extension_capi.h (cef_extension_t)
   TCefExtension = record
     base                : TCefBaseRefCounted;
@@ -1420,6 +1514,7 @@ type
     on_scroll_offset_changed          : procedure(self: PCefRenderHandler; browser: PCefBrowser; x, y: Double); stdcall;
     on_ime_composition_range_changed  : procedure(self: PCefRenderHandler; browser: PCefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect); stdcall;
     on_text_selection_changed         : procedure(self: PCefRenderHandler; browser: PCefBrowser; const selected_text: PCefString; const selected_range: PCefRange); stdcall;
+    on_virtual_keyboard_requested     : procedure(self: PCefRenderHandler; browser: PCefBrowser; input_mode: TCefTextInpuMode); stdcall;
   end;
 
   // /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)
@@ -1986,7 +2081,7 @@ type
   // /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)
   TCefSchemeRegistrar = record
     base              : TCefBaseScoped;
-    add_custom_scheme : function(self: PCefSchemeRegistrar; const scheme_name: PCefString; is_standard, is_local, is_display_isolated, is_secure, is_cors_enabled, is_csp_bypassing: Integer): Integer; stdcall;
+    add_custom_scheme : function(self: PCefSchemeRegistrar; const scheme_name: PCefString; options : TCefSchemeOptions): Integer; stdcall;
   end;
 
   // /include/capi/cef_values_capi.h (cef_binary_value_t)
@@ -2495,6 +2590,7 @@ type
   // /include/capi/cef_client_capi.h (cef_client_t)
   TCefClient = record
     base                        : TCefBaseRefCounted;
+    get_audio_handler           : function(self: PCefClient): PCefAudioHandler; stdcall;
     get_context_menu_handler    : function(self: PCefClient): PCefContextMenuHandler; stdcall;
     get_dialog_handler          : function(self: PCefClient): PCefDialogHandler; stdcall;
     get_display_handler         : function(self: PCefClient): PCefDisplayHandler; stdcall;
@@ -2550,6 +2646,7 @@ type
     send_mouse_click_event            : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp, clickCount: Integer); stdcall;
     send_mouse_move_event             : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; mouseLeave: Integer); stdcall;
     send_mouse_wheel_event            : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; deltaX, deltaY: Integer); stdcall;
+    send_touch_event                  : procedure(self: PCefBrowserHost; const event: PCefTouchEvent); stdcall;
     send_focus_event                  : procedure(self: PCefBrowserHost; setFocus: Integer); stdcall;
     send_capture_lost_event           : procedure(self: PCefBrowserHost); stdcall;
     notify_move_or_resize_started     : procedure(self: PCefBrowserHost); stdcall;
@@ -2570,6 +2667,8 @@ type
     set_auto_resize_enabled           : procedure(self: PCefBrowserHost; enabled: integer; const min_size, max_size: PCefSize); stdcall;
     get_extension                     : function(self: PCefBrowserHost): PCefExtension; stdcall;
     is_background_host                : function(self: PCefBrowserHost): integer; stdcall;
+    set_audio_muted                   : procedure(self: PCefBrowserHost; mute: integer); stdcall;
+    is_audio_muted                    : function(self: PCefBrowserHost): integer; stdcall;
   end;
 
   // /include/capi/cef_browser_capi.h (cef_browser_t)

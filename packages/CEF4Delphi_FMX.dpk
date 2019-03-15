@@ -9,13 +9,13 @@ package CEF4Delphi_FMX;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
 {$OPTIMIZATION ON}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
 {$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
@@ -23,8 +23,8 @@ package CEF4Delphi_FMX;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'CEF4Delphi'}
 {$IMPLICITBUILD OFF}
 
 requires
@@ -171,7 +171,8 @@ contains
   uCEFLinkedWindowParent in '..\source\uCEFLinkedWindowParent.pas',
   uCEFUrlRequestClientEvents in '..\source\uCEFUrlRequestClientEvents.pas',
   uCEFUrlRequestClientComponent in '..\source\uCEFUrlRequestClientComponent.pas',
-  uCEFOSRIMEHandler in '..\source\uCEFOSRIMEHandler.pas';
+  uCEFOSRIMEHandler in '..\source\uCEFOSRIMEHandler.pas',
+  uCEFAudioHandler in '..\source\uCEFAudioHandler.pas';
 
 end.
 

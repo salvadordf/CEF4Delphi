@@ -273,6 +273,7 @@
         <DCCReference Include="..\source\uCEFUrlRequestClientEvents.pas"/>
         <DCCReference Include="..\source\uCEFUrlRequestClientComponent.pas"/>
         <DCCReference Include="..\source\uCEFOSRIMEHandler.pas"/>
+        <DCCReference Include="..\source\uCEFAudioHandler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
