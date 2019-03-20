@@ -62,8 +62,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FMXChromium1AfterCreated(Sender: TObject;
-      const browser: ICefBrowser);
     procedure FMXChromium1Close(Sender: TObject;
       const browser: ICefBrowser; out Result: Boolean);
     procedure FMXChromium1BeforeClose(Sender: TObject;
@@ -77,6 +75,8 @@ type
       var settings: TCefBrowserSettings; var noJavascriptAccess,
       Result: Boolean);
     procedure FormResize(Sender: TObject);
+    procedure FMXChromium1AfterCreated(Sender: TObject;
+      const browser: ICefBrowser);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -118,6 +118,11 @@ implementation
 // This demo uses a TFMXChromium and a TFMXWindowParent.
 // TFMXApplicationService is used to handle custom Windows messages
 
+// All FMX applications using CEF4Delphi should add the $(FrameworkType) conditional define
+// in the project options to avoid duplicated resources.
+// This demo has that define in the menu option :
+// Project -> Options -> Building -> Delphi compiler -> Conditional defines (All configurations)
+
 // Destruction steps
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TFMXChromium.CloseBrowser which triggers the TFMXChromium.OnClose event.
@@ -128,7 +133,8 @@ uses
   FMX.Platform, FMX.Platform.Win,
   uCEFMiscFunctions, uCEFApplication, uFMXApplicationService;
 
-procedure TSimpleFMXBrowserFrm.FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+procedure TSimpleFMXBrowserFrm.FMXChromium1AfterCreated(Sender: TObject;
+  const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
   PostCustomMessage(CEF_AFTERCREATED);
@@ -247,6 +253,7 @@ begin
       TempRect.Right  := round(TempClientRect.Right);
       TempRect.Bottom := round(TempClientRect.Bottom);
 
+      FMXChromium1.DefaultUrl := AddressEdt.Text;
       if not(FMXChromium1.CreateBrowser(TempHandle, TempRect)) then Timer1.Enabled := True;
     end;
 end;
@@ -284,7 +291,6 @@ begin
   // Now the browser is fully initialized
   Caption            := 'Simple FMX Browser';
   AddressPnl.Enabled := True;
-  LoadURL;
 end;
 
 procedure TSimpleFMXBrowserFrm.DoDestroyParent;

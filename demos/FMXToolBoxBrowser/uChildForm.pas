@@ -59,7 +59,6 @@ type
     procedure FormDestroy(Sender: TObject);
 
     procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess, Result: Boolean);
-    procedure FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure FMXChromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
 
@@ -78,7 +77,6 @@ type
 
   public
     procedure NotifyMoveOrResizeStarted;
-    procedure DoBrowserCreated;
     procedure DoDestroyParent;
     procedure SendCloseMsg;
 
@@ -139,12 +137,6 @@ procedure TChildForm.ResizeChild;
 begin
   if (FMXWindowParent <> nil) then
     FMXWindowParent.SetBounds(0, 0, ClientWidth - 1, ClientHeight -  1);
-end;
-
-procedure TChildForm.FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-begin
-  // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
-  PostCustomMessage(CEF_AFTERCREATED, 0, BrowserID);
 end;
 
 procedure TChildForm.FMXChromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -230,6 +222,7 @@ begin
       TempRect.Right  := round(TempClientRect.Right);
       TempRect.Bottom := round(TempClientRect.Bottom);
 
+      FMXChromium1.DefaultUrl := FHomepage;
       FMXChromium1.CreateBrowser(TempHandle, TempRect);
     end;
 end;
@@ -238,12 +231,6 @@ procedure TChildForm.NotifyMoveOrResizeStarted;
 begin
   // This is needed to display some HTML elements correctly
   if (FMXChromium1 <> nil) then FMXChromium1.NotifyMoveOrResizeStarted;
-end;
-
-procedure TChildForm.DoBrowserCreated;
-begin
-  // Load the homepage after the browser is fully initialized
-  if (length(FHomepage) > 0) then FMXChromium1.LoadURL(FHomepage);
 end;
 
 procedure TChildForm.DoDestroyParent;

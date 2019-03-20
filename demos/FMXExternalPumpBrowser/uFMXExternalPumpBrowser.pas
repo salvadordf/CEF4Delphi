@@ -157,6 +157,11 @@ var
 // It was necessary to destroy the browser following the destruction sequence described in
 // the MDIBrowser demo but in OSR mode there are some modifications.
 
+// All FMX applications using CEF4Delphi should add the $(FrameworkType) conditional define
+// in the project options to avoid duplicated resources.
+// This demo has that define in the menu option :
+// Project -> Options -> Building -> Delphi compiler -> Conditional defines (All configurations)
+
 // This is the destruction sequence in OSR mode :
 // 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and calls chrmosr.CloseBrowser(True).
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
@@ -252,6 +257,7 @@ begin
     begin
       // opaque white background color
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+      chrmosr.DefaultUrl              := AddressEdt.Text;
 
       if chrmosr.CreateBrowser then
         DoBrowserCreated
@@ -857,7 +863,6 @@ begin
   Caption            := 'FMX External Pump Browser';
   AddressPnl.Enabled := True;
   Panel1.SetFocus;
-  LoadURL;
 end;
 
 function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;

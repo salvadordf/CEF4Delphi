@@ -50,7 +50,10 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, Vcl.Forms,{$ENDIF} System.Classes, System.UITypes,
+    {$IFDEF MSWINDOWS}
+      WinApi.Windows, {$IFNDEF FMX}Vcl.Forms,{$ENDIF}
+    {$ENDIF}
+    System.Classes, System.UITypes,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, Forms,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
@@ -697,6 +700,7 @@ begin
     if CheckCEFLibrary and LoadCEFlibrary then
       begin
         {$IFNDEF FPC}
+        {$IFNDEF FMX}
         if FDestroyAppWindows and (ProcessType <> ptBrowser) and (Application <> nil) then
           begin
             // This is the fix for the issue #139
@@ -711,6 +715,7 @@ begin
             if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
             {$ENDIF}
           end;
+        {$ENDIF}
         {$ENDIF}
 
         TempApp := TCustomCefApp.Create(self);

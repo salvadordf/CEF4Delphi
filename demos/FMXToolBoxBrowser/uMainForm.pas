@@ -99,6 +99,25 @@ uses
   FMX.Platform, FMX.Platform.Win,
   uCEFMiscFunctions, uFMXApplicationService, uChildForm, uCEFApplication;
 
+// This Firemonkey demo shows how to create child windows with browsers using CEF4Delphi.
+// It uses a custom IFMXApplicationService to handle Windows messages.
+
+// The application must not try to create browsers before GlobalCEFApp.GlobalContextInitialized
+// is TRUE, which is set in a different thread when the GlobalCEFApp.OnContextInitialized
+// event is triggered.
+// There are several ways to handle the race between the form creation and the
+// GlobalCEFApp.OnContextInitialized event but this demo is using a simple check
+// in the TForm.OnShow event.
+
+// All FMX applications using CEF4Delphi should add the $(FrameworkType) conditional define
+// in the project options to avoid duplicated resources.
+// This demo has that define in the menu option :
+// Project -> Options -> Building -> Delphi compiler -> Conditional defines (All configurations)
+
+// It's very important to close all the browsers before closing the main form.
+// Always follow these destruction steps in your applications to avoid
+// crashes when it's closed. Read the code comments in uChildForm.pas
+
 // Main form destruction steps
 // ===========================
 // 1. Destroy all child forms

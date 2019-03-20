@@ -19,7 +19,6 @@ object ChildForm: TChildForm
   DesignerMasterStyle = 0
   object FMXChromium1: TFMXChromium
     OnBeforePopup = FMXChromium1BeforePopup
-    OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose
     OnClose = FMXChromium1Close
     Left = 40

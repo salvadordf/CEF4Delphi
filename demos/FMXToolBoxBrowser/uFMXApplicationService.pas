@@ -189,22 +189,6 @@ begin
            (Application.MainForm is TMainForm) then
           TMainForm(Application.MainForm).DoChildDestroyed;
 
-      CEF_AFTERCREATED :
-        if not(Application.Terminated) then
-          begin
-            i := 0;
-
-            while (i < screen.FormCount) do
-              if (screen.Forms[i] is TChildForm) and
-                 (TChildForm(screen.Forms[i]).BrowserID = TempMsg.lParam) then
-                begin
-                  TChildForm(screen.Forms[i]).DoBrowserCreated;
-                  i := screen.FormCount;
-                end
-               else
-                inc(i);
-          end;
-
       CEF_DESTROY :
         if not(Application.Terminated) then
           begin
