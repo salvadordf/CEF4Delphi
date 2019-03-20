@@ -60,9 +60,9 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 3;
-  CEF_SUPPORTED_VERSION_MINOR   = 3683;
-  CEF_SUPPORTED_VERSION_RELEASE = 1920;
+  CEF_SUPPORTED_VERSION_MAJOR   = 73;
+  CEF_SUPPORTED_VERSION_MINOR   = 1;
+  CEF_SUPPORTED_VERSION_RELEASE = 11;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 73;
@@ -117,8 +117,8 @@ type
       FCustomCommandLines            : TStringList;
       FCustomCommandLineValues       : TStringList;
       FFlashEnabled                  : boolean;
-      //FEnableMediaStream             : boolean;
-      //FEnableSpeechInput             : boolean;
+      FEnableMediaStream             : boolean;
+      FEnableSpeechInput             : boolean;
       FEnableGPU                     : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
@@ -359,8 +359,8 @@ type
       property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
       property DeleteCookies                     : boolean                             read FDeleteCookies                     write FDeleteCookies;
       property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;
-      //property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
-      //property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
+      property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
+      property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
       property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;
       property CheckCEFFiles                     : boolean                             read FCheckCEFFiles                     write FCheckCEFFiles;
       property ShowMessageDlg                    : boolean                             read FShowMessageDlg                    write FShowMessageDlg;
@@ -535,8 +535,8 @@ begin
   FDeleteCache                   := False;
   FDeleteCookies                 := False;
   FFlashEnabled                  := True;
-  //FEnableMediaStream             := True;
-  //FEnableSpeechInput             := True;
+  FEnableMediaStream             := True;
+  FEnableSpeechInput             := True;
   FEnableGPU                     := False;
   FCustomCommandLines            := nil;
   FCustomCommandLineValues       := nil;
@@ -1491,10 +1491,8 @@ begin
             commandLine.AppendSwitch('--enable-system-flash');
           end;
 
-      // These switches appear in the CEF3 source but they didn't seem to do anything in last tests
-      //
-      //commandLine.AppendSwitchWithValue('--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
-      //commandLine.AppendSwitchWithValue('--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
+      commandLine.AppendSwitchWithValue('--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
+      commandLine.AppendSwitchWithValue('--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
 
       if not(FEnableGPU) then
         begin
