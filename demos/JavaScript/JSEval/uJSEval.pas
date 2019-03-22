@@ -50,15 +50,18 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, EncdDecd,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
+  uCEFWinControl;
 
 const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $101;
   MINIBROWSER_EVALJSCODE     = WM_APP + $102;
   MINIBROWSER_JSBINPARAM     = WM_APP + $103;
+  MINIBROWSER_GETSCROLLPOS   = WM_APP + $104;
 
-  MINIBROWSER_CONTEXTMENU_EVALJSCODE  = MENU_ID_USER_FIRST + 1;
-  MINIBROWSER_CONTEXTMENU_JSBINPARAM  = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_EVALJSCODE   = MENU_ID_USER_FIRST + 1;
+  MINIBROWSER_CONTEXTMENU_JSBINPARAM   = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_GETSCROLLPOS = MENU_ID_USER_FIRST + 3;
 
   EVAL_JS         = 'JSContextEvalDemo';
   BINARY_PARAM_JS = 'JSBinaryParameter';
@@ -112,6 +115,7 @@ type
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowTextViewerMsg(var aMessage : TMessage); message MINIBROWSER_SHOWTEXTVIEWER;
     procedure EvalJSCodeMsg(var aMessage : TMessage); message MINIBROWSER_EVALJSCODE;
+    procedure GetScrollPosMsg(var aMessage : TMessage); message MINIBROWSER_GETSCROLLPOS;
     procedure EvalJSBinParamMsg(var aMessage : TMessage); message MINIBROWSER_JSBINPARAM;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -194,8 +198,9 @@ procedure TJSEvalFrm.Chromium1BeforeContextMenu(Sender : TObject;
                                                 const params  : ICefContextMenuParams;
                                                 const model   : ICefMenuModel);
 begin
-  model.AddItem(MINIBROWSER_CONTEXTMENU_EVALJSCODE, 'Evaluate JavaScript code...');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSBINPARAM, 'Send JPEG image...');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_EVALJSCODE,   'Evaluate JavaScript code...');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_GETSCROLLPOS, 'Get vertical scroll position...');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSBINPARAM,   'Send JPEG image...');
 end;
 
 procedure TJSEvalFrm.Chromium1BeforePopup(Sender: TObject;
@@ -228,8 +233,9 @@ begin
   Result := False;
 
   case commandId of
-    MINIBROWSER_CONTEXTMENU_EVALJSCODE : PostMessage(Handle, MINIBROWSER_EVALJSCODE, 0, 0);
-    MINIBROWSER_CONTEXTMENU_JSBINPARAM : PostMessage(Handle, MINIBROWSER_JSBINPARAM, 0, 0);
+    MINIBROWSER_CONTEXTMENU_EVALJSCODE   : PostMessage(Handle, MINIBROWSER_EVALJSCODE, 0, 0);
+    MINIBROWSER_CONTEXTMENU_JSBINPARAM   : PostMessage(Handle, MINIBROWSER_JSBINPARAM, 0, 0);
+    MINIBROWSER_CONTEXTMENU_GETSCROLLPOS : PostMessage(Handle, MINIBROWSER_GETSCROLLPOS, 0, 0);
   end;
 end;
 
@@ -324,6 +330,16 @@ begin
       if TempMsg.ArgumentList.SetString(0, TempScript) then
         Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
     end;
+end;
+
+procedure TJSEvalFrm.GetScrollPosMsg(var aMessage : TMessage);
+var
+  TempMsg : ICefProcessMessage;
+begin
+  TempMsg := TCefProcessMessageRef.New(EVAL_JS);
+
+  if TempMsg.ArgumentList.SetString(0, 'window.pageYOffset') then
+    Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
 end;
 
 procedure TJSEvalFrm.EvalJSBinParamMsg(var aMessage : TMessage);

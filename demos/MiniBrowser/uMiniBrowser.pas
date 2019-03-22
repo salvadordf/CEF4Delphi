@@ -573,8 +573,6 @@ var
 begin
   Result := False;
 
-  if not(Chromium1.IsSameBrowser(browser)) then exit;
-
   if (event <> nil) and (osEvent <> nil) then
     case osEvent.Message of
       WM_KEYUP :
@@ -728,8 +726,7 @@ procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;
 begin
   Result := False;
 
-  if Chromium1.IsSameBrowser(browser) and
-     (event <> nil) and
+  if (event <> nil) and
      (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
      (event.windows_key_code = VK_F12) then
     isKeyboardShortcut := True;
@@ -940,6 +937,7 @@ end;
 procedure TMiniBrowserFrm.HideDevToolsMsg(var aMessage : TMessage);
 begin
   HideDevTools;
+  Chromium1.SetFocus(True);
 end;
 
 procedure TMiniBrowserFrm.Inczoom1Click(Sender: TObject);
