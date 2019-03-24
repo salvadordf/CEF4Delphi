@@ -79,6 +79,8 @@ const
   MINIBROWSER_CONTEXTMENU_COPYALLTEXT     = MENU_ID_USER_FIRST + 10;
   MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT    = MENU_ID_USER_FIRST + 11;
   MINIBROWSER_CONTEXTMENU_GETNAVIGATION   = MENU_ID_USER_FIRST + 12;
+  MINIBROWSER_CONTEXTMENU_MUTEAUDIO       = MENU_ID_USER_FIRST + 13;
+  MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO     = MENU_ID_USER_FIRST + 14;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -354,6 +356,11 @@ begin
     model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
    else
     model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
+
+  if Chromium1.AudioMuted then
+    model.AddItem(MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO, 'Unmute audio')
+   else
+    model.AddItem(MINIBROWSER_CONTEXTMENU_MUTEAUDIO,   'Mute audio');
 end;
 
 function PathToMyDocuments : string;
@@ -502,6 +509,12 @@ begin
     MINIBROWSER_CONTEXTMENU_JSPRINTDOC :
       if (browser <> nil) and (browser.MainFrame <> nil) then
         browser.MainFrame.ExecuteJavaScript('window.print();', 'about:blank', 0);
+
+    MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO :
+      Chromium1.AudioMuted := False;
+
+    MINIBROWSER_CONTEXTMENU_MUTEAUDIO :
+      Chromium1.AudioMuted := True;
   end;
 end;
 
