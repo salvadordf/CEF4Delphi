@@ -237,6 +237,7 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.FormDestroy(Sender: TObject);
 begin
+  fResizeCS.Free;
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
 end;
 
