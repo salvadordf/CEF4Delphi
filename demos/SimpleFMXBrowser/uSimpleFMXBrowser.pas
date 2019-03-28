@@ -63,7 +63,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FMXChromium1Close(Sender: TObject;
-      const browser: ICefBrowser; out Result: Boolean);
+      const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure FMXChromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
     procedure FMXChromium1BeforePopup(Sender: TObject;
@@ -164,10 +164,10 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TSimpleFMXBrowserFrm.FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TSimpleFMXBrowserFrm.FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   PostCustomMessage(CEF_DESTROY);
-  Result := True;
+  aAction := cbaDelay;
 end;
 
 function TSimpleFMXBrowserFrm.PostCustomMessage(aMessage, wParam : cardinal; lParam : integer) : boolean;

@@ -45,7 +45,6 @@ object WebBrowserFrm: TWebBrowserFrm
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
-    OnClose = chrmosrClose
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
     OnGetScreenInfo = chrmosrGetScreenInfo

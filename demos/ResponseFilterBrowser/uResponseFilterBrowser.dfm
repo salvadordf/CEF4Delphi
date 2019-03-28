@@ -74,7 +74,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Caption = 'Go'
         TabOrder = 0
         OnClick = GoBtnClick
-        ExplicitTop = -1
       end
       object RscNameEdt: TEdit
         Left = 176

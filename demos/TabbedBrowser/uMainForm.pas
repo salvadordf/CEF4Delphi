@@ -92,7 +92,7 @@ type
     procedure Chromium_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
     procedure Chromium_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
-    procedure Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+    procedure Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
 
@@ -413,14 +413,12 @@ begin
     PageControl1.Pages[TempPageIndex].Caption := title;
 end;
 
-procedure TMainForm.Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TMainForm.Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 var
   TempPageIndex : integer;
 begin
   if GetPageIndex(Sender, TempPageIndex) then
     PostMessage(Handle, CEFBROWSER_DESTROYWNDPARENT, 0, TempPageIndex);
-
-  Result := False;
 end;
 
 procedure TMainForm.Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);

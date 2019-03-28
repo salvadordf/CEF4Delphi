@@ -218,14 +218,10 @@ begin
   if not(FStopped) then
     begin
       {$IFDEF MSWINDOWS}
-      {$IFDEF DELPHI17_UP}
-      TempHandle := ApplicationHWND;
-      {$ELSE}
       if (Application <> nil) and (Application.MainForm <> nil) then
         TempHandle := FmxHandleToHWND(Application.MainForm.Handle)
        else
         TempHandle := 0;
-      {$ENDIF}
 
       if (TempHandle <> 0) then
         WinApi.Windows.PostMessage(TempHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));

@@ -87,7 +87,6 @@ type
     procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; var popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; out Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 
   protected
@@ -353,11 +352,6 @@ begin
 
     else Result := False;
   end;
-end;
-
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
-begin
-  Result := False;
 end;
 
 procedure TChildForm.Chromium1CursorChange(Sender : TObject;

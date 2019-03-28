@@ -64,7 +64,7 @@ type
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: Boolean);
     procedure Chromium1PreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean; out Result: Boolean);
 
@@ -151,10 +151,10 @@ begin
 end;
 
 procedure TChildForm.Chromium1Close(Sender: TObject;
-  const browser: ICefBrowser; out Result: Boolean);
+  const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   PostMessage(Handle, CEFBROWSER_DESTROY, 0, 0);
-  Result := False;
+  aAction := cbaDelay;
 end;
 
 procedure TChildForm.Chromium1KeyEvent(Sender: TObject;

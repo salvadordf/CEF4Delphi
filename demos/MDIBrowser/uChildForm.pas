@@ -68,7 +68,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      out Result: Boolean);
+      var aAction : TCefCloseBrowserAction);
     procedure FormDestroy(Sender: TObject);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
@@ -143,10 +143,10 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   PostMessage(Handle, CEFBROWSER_DESTROY, 0, 0);
-  Result := False;
+  aAction := cbaDelay;
 end;
 
 procedure TChildForm.Chromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);

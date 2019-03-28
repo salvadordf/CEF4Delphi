@@ -64,8 +64,8 @@ type
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
       var noJavascriptAccess: Boolean; var Result: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; out
-      Result: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
+      var aAction : TCefCloseBrowserAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -157,10 +157,10 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TForm1.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TForm1.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   PostMessage(Handle, CEF_DESTROY, 0, 0);
-  Result := True;
+  aAction := cbaDelay;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);

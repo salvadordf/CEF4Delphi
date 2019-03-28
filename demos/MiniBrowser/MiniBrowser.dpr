@@ -65,9 +65,6 @@ begin
   GlobalCEFApp.LogFile              := 'debug.log';
   GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
 
-  GlobalCEFApp.EnableMediaStream := False;
-  GlobalCEFApp.EnableSpeechInput := False;
-
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;

@@ -57,7 +57,6 @@ object Form1: TForm1
     OnTooltip = chrmosrTooltip
     OnBeforePopup = chrmosrBeforePopup
     OnBeforeClose = chrmosrBeforeClose
-    OnClose = chrmosrClose
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
     OnGetScreenInfo = chrmosrGetScreenInfo

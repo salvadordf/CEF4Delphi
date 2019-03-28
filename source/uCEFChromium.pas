@@ -3258,12 +3258,34 @@ end;
 {$ENDIF}
 
 function TChromium.doOnClose(const browser: ICefBrowser): Boolean;
+var
+  TempAction : TCefCloseBrowserAction;
 begin
-  Result := False;
+  Result     := False;
+  TempAction := cbaClose;
 
-  if (browser <> nil) and (FBrowserId = browser.Identifier) then FClosing := True;
+  // TempAction values
+  // -----------------
+  // cbaCancel : stop closing the browser
+  // cbaClose  : continue closing the browser
+  // cbaDelay  : stop closing the browser momentarily. Used when the application
+  //             needs to execute some custom processes before closing the
+  //             browser. This is usually needed to destroy a TCEFWindowParent
+  //             in the main thread before closing the browser.
+  if Assigned(FOnClose) then FOnClose(Self, browser, TempAction);
 
-  if Assigned(FOnClose) then FOnClose(Self, browser, Result);
+  case TempAction of
+    cbaCancel : Result := True;
+
+    cbaDelay :
+      begin
+        Result := True;
+        if (browser <> nil) and (FBrowserId = browser.Identifier) then FClosing := True;
+      end;
+
+    else
+      if (browser <> nil) and (FBrowserId = browser.Identifier) then FClosing := True;
+  end;
 end;
 
 procedure TChromium.doOnBeforeClose(const browser: ICefBrowser);

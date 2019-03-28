@@ -94,10 +94,10 @@ type
     procedure chrmosrGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
     procedure chrmosrPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
-    procedure chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
@@ -237,7 +237,7 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.FormDestroy(Sender: TObject);
 begin
-  fResizeCS.Free;
+  FResizeCS.Free;
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
 end;
 
@@ -258,12 +258,8 @@ begin
     begin
       // opaque white background color
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
-      chrmosr.DefaultUrl              := AddressEdt.Text;
 
-      if chrmosr.CreateBrowser then
-        DoBrowserCreated
-       else
-        Timer1.Enabled := True;
+      if not(chrmosr.CreateBrowser) then Timer1.Enabled := True;
     end;
 end;
 
@@ -484,16 +480,21 @@ procedure TFMXExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
 
-  if chrmosr.CreateBrowser then
-    DoBrowserCreated
-   else
-    if not(chrmosr.Initialized) then
-      Timer1.Enabled := True;
+  if not(chrmosr.CreateBrowser) and not(chrmosr.Initialized) then
+    Timer1.Enabled := True;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.AddressEdtEnter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  // Now the browser is fully initialized we can send a message to the
+  // main form to load the initial web page.
+  SendCompMessage(CEF_AFTERCREATED);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -518,11 +519,6 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(Sender : TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
-end;
-
-procedure TFMXExternalPumpBrowserFrm.chrmosrClose(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
-begin
-  Result := False;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrCursorChange(Sender : TObject;
@@ -864,6 +860,7 @@ begin
   Caption            := 'FMX External Pump Browser';
   AddressPnl.Enabled := True;
   Panel1.SetFocus;
+  LoadURL;
 end;
 
 function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;

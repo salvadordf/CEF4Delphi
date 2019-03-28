@@ -49,7 +49,7 @@ uses
   Controls, Forms, Dialogs,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFTypes, uCEFConstants,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls, uCEFWinControl;
 
 type
   TMainForm = class(TForm)
@@ -78,7 +78,7 @@ type
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      out Result: Boolean);
+      var aAction : TCefCloseBrowserAction);
   private
     { Private declarations }
   protected
@@ -170,10 +170,10 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TMainForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TMainForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   PostMessage(Handle, CEF_DESTROY, 0, 0);
-  Result := True;
+  aAction := cbaDelay;
 end;
 
 procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);

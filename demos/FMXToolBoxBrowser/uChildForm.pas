@@ -60,7 +60,7 @@ type
 
     procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess, Result: Boolean);
     procedure FMXChromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+    procedure FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -157,10 +157,10 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TChildForm.FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; out Result: Boolean);
+procedure TChildForm.FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   PostCustomMessage(CEF_DESTROY, 0, BrowserID);
-  Result := True;
+  aAction := cbaDelay;
 end;
 
 procedure TChildForm.FormClose(Sender: TObject; var Action: TCloseAction);

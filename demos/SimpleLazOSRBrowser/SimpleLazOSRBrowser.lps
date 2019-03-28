@@ -22,11 +22,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="83"/>
-        <CursorPos X="43" Y="92"/>
+        <TopLine Value="94"/>
+        <CursorPos Y="100"/>
         <UsageCount Value="42"/>
         <Bookmarks Count="1">
-          <Item0 X="40" Y="252" ID="4"/>
+          <Item0 X="40" Y="251" ID="4"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -206,11 +206,19 @@
         <UsageCount Value="10"/>
       </Unit24>
     </Units>
-    <JumpHistory Count="1">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
         <Filename Value="usimplelazosrbrowser.pas"/>
         <Caret Line="204" Column="63" TopLine="19"/>
       </Position1>
+      <Position2>
+        <Filename Value="usimplelazosrbrowser.pas"/>
+        <Caret Line="100" Column="24" TopLine="89"/>
+      </Position2>
+      <Position3>
+        <Filename Value="usimplelazosrbrowser.pas"/>
+        <Caret Line="279" Column="33" TopLine="273"/>
+      </Position3>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -53,7 +53,6 @@ object Form1: TForm1
         'https://www.briskbard.com'
         'https://frames-per-second.appspot.com/'
         'file:///transparency.html')
-      ExplicitWidth = 909
     end
     object Panel2: TPanel
       Left = 912
@@ -101,7 +100,6 @@ object Form1: TForm1
         TabOrder = 1
         OnClick = SnapshotBtnClick
         OnEnter = SnapshotBtnEnter
-        ExplicitLeft = 38
       end
     end
   end
@@ -135,7 +133,6 @@ object Form1: TForm1
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
-    OnClose = chrmosrClose
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
     OnGetScreenInfo = chrmosrGetScreenInfo

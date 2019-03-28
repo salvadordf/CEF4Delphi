@@ -129,7 +129,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
-    OnClose = chrmosrClose
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
     OnGetScreenInfo = chrmosrGetScreenInfo
