@@ -77,7 +77,6 @@ implementation
 uses
   FMX.Forms,
   uSimpleFMXBrowser,
-  uFMXWorkScheduler,
   uCEFApplication,
   {$IFDEF MSWINDOWS}
   Winapi.Messages, Winapi.Windows,

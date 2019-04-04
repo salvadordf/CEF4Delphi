@@ -47,7 +47,7 @@ uses
   {$ENDIF}
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Edit, FMX.Controls.Presentation, uFMXWindowParent, uFMXChromium,
+  FMX.Edit, FMX.Controls.Presentation, uCEFFMXWindowParent, uCEFFMXChromium,
   uCEFInterfaces, uCEFConstants, uCEFTypes;
 
 type

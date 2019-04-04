@@ -35,7 +35,7 @@
  *
  *)
 
-unit uFMXBufferPanel;
+unit uCEFFMXBufferPanel;
 
 {$I cef.inc}
 

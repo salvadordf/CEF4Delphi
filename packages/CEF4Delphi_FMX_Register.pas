@@ -49,8 +49,8 @@ implementation
 
 uses
   System.Classes,
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uBufferPanel,
-  uCEFWorkScheduler, uFMXBufferPanel, uFMXChromium, uFMXWorkScheduler,
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
+  uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
   uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent;
 
 procedure Register;

@@ -53,7 +53,7 @@ uses
   {$IFDEF MSWINDOWS}Windows, ActiveX, ShlObj, Shellapi,{$ENDIF}
   Classes, Controls, SysUtils, Math, StrUtils,
   {$ENDIF}
-  uCEFDragData, uCEFInterfaces, uCEFTypes, uOLEDragAndDrop;
+  uCEFDragData, uCEFInterfaces, uCEFTypes, uCEFOLEDragAndDrop;
 
 type
   TDragEnterEvent = procedure(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint) of object;
@@ -549,6 +549,7 @@ begin
         begin
           TempText := PWideChar(TempPointer);
           TempPos  := LastDelimiter(#13, TempText);
+          if (TempPos <= 0) then TempPos := LastDelimiter(#10, TempText);
 
           if (TempPos > 0) then
             begin

@@ -9,13 +9,13 @@ package CEF4Delphi_FMX;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS OFF}
+{$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
 {$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
 {$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
@@ -23,9 +23,9 @@ package CEF4Delphi_FMX;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
 {$DEFINE $(FrameworkType)}
 {$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'CEF4Delphi'}
 {$IMPLICITBUILD OFF}
 
 requires
@@ -149,12 +149,12 @@ contains
   uCEFBaseRefCounted in '..\source\uCEFBaseRefCounted.pas',
   uCEFBaseScopedWrapper in '..\source\uCEFBaseScopedWrapper.pas',
   uCEFAccessibilityHandler in '..\source\uCEFAccessibilityHandler.pas',
-  uOLEDragAndDrop in '..\source\uOLEDragAndDrop.pas',
+  uCEFOLEDragAndDrop in '..\source\uCEFOLEDragAndDrop.pas',
   uCEFDragAndDropMgr in '..\source\uCEFDragAndDropMgr.pas',
   uCEFGetExtensionResourceCallback in '..\source\uCEFGetExtensionResourceCallback.pas',
   uCEFExtension in '..\source\uCEFExtension.pas',
   uCEFExtensionHandler in '..\source\uCEFExtensionHandler.pas',
-  uBufferPanel in '..\source\uBufferPanel.pas',
+  uCEFBufferPanel in '..\source\uCEFBufferPanel.pas',
   uCEFApp in '..\source\uCEFApp.pas',
   uCEFWorkScheduler in '..\source\uCEFWorkScheduler.pas',
   uCEFWorkSchedulerThread in '..\source\uCEFWorkSchedulerThread.pas',
@@ -162,11 +162,11 @@ contains
   uCEFServerHandler in '..\source\uCEFServerHandler.pas',
   uCEFServerEvents in '..\source\uCEFServerEvents.pas',
   uCEFServerComponent in '..\source\uCEFServerComponent.pas',
-  uFMXBufferPanel in '..\source\uFMXBufferPanel.pas',
-  uFMXChromium in '..\source\uFMXChromium.pas',
-  uFMXWorkScheduler in '..\source\uFMXWorkScheduler.pas',
+  uCEFFMXBufferPanel in '..\source\uCEFFMXBufferPanel.pas',
+  uCEFFMXChromium in '..\source\uCEFFMXChromium.pas',
+  uCEFFMXWorkScheduler in '..\source\uCEFFMXWorkScheduler.pas',
   uCEFStringList in '..\source\uCEFStringList.pas',
-  uFMXWindowParent in '..\source\uFMXWindowParent.pas',
+  uCEFFMXWindowParent in '..\source\uCEFFMXWindowParent.pas',
   uCEFv8ArrayBufferReleaseCallback in '..\source\uCEFv8ArrayBufferReleaseCallback.pas',
   uCEFWinControl in '..\source\uCEFWinControl.pas',
   uCEFLinkedWindowParent in '..\source\uCEFLinkedWindowParent.pas',

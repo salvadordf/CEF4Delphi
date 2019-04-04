@@ -35,7 +35,7 @@
  *
  *)
 
-unit uFMXWindowParent;
+unit uCEFFMXWindowParent;
 
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}

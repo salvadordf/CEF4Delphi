@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -44,7 +44,7 @@ interface
 uses
   Windows, LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, SyncObjs,
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types,
-  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uBufferPanel, uCEFChromiumEvents;
+  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel, uCEFChromiumEvents;
 
 type
 

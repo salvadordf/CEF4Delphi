@@ -45,7 +45,7 @@ uses
   {$ENDIF}
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  uFMXChromium, uFMXWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes;
+  uCEFFMXChromium, uCEFFMXWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes;
 
 type
   TChildForm = class(TForm)

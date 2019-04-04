@@ -77,7 +77,7 @@ implementation
 uses
   FMX.Forms,
   uFMXExternalPumpBrowser,
-  uFMXWorkScheduler,
+  uCEFFMXWorkScheduler,
   {$IFDEF MSWINDOWS}
   Winapi.Messages, Winapi.Windows,
   {$ENDIF}

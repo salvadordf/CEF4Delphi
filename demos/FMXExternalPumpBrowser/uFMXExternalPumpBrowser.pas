@@ -51,7 +51,7 @@ uses
   {$IFDEF DELPHI17_UP}
   FMX.Graphics,
   {$ENDIF}
-  uFMXChromium, uFMXBufferPanel, uFMXWorkScheduler,
+  uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
   uCEFInterfaces, uCEFTypes, uCEFConstants;
 
 type

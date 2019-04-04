@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
@@ -516,9 +516,9 @@
         <UnitName Value="uCEFChromium"/>
       </Item122>
       <Item123>
-        <Filename Value="..\source\uBufferPanel.pas"/>
+        <Filename Value="..\source\uCEFBufferPanel.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="uBufferPanel"/>
+        <UnitName Value="uCEFBufferPanel"/>
       </Item123>
       <Item124>
         <Filename Value="..\source\uCEFServer.pas"/>

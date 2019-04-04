@@ -323,7 +323,8 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  if (Chromium1.BrowserId = 0) then // The main browser is being destroyed
+  // The main browser is being destroyed
+  if (Chromium1.BrowserId = 0) then
     begin
       FCanClose := True;
       PostMessage(Handle, WM_CLOSE, 0, 0);

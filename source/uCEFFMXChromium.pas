@@ -35,7 +35,7 @@
  *
  *)
 
-unit uFMXChromium;
+unit uCEFFMXChromium;
 
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}

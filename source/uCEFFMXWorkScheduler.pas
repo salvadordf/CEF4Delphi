@@ -35,7 +35,7 @@
  *
  *)
 
-unit uFMXWorkScheduler;
+unit uCEFFMXWorkScheduler;
 
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}

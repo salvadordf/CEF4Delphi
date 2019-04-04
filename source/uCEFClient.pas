@@ -662,7 +662,7 @@ begin
       if aCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(FEvents);
       if aCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(FEvents);
       if aCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(FEvents);
-      if aCreateAudioHandler       then FAudioHandler       := TCustomAudioHandler.Create(self);
+      if aCreateAudioHandler       then FAudioHandler       := TCustomAudioHandler.Create(FEvents);
     end;
 end;
 

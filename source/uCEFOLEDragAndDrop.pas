@@ -35,7 +35,7 @@
  *
  *)
 
-unit uOLEDragAndDrop;
+unit uCEFOLEDragAndDrop;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}

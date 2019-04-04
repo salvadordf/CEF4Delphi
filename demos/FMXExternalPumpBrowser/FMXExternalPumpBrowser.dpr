@@ -46,7 +46,7 @@ uses
   WinApi.Windows,
   {$ENDIF}
   uCEFApplication,
-  uFMXWorkScheduler,
+  uCEFFMXWorkScheduler,
   uFMXExternalPumpBrowser in 'uFMXExternalPumpBrowser.pas' {FMXExternalPumpBrowserFrm},
   uFMXApplicationService in 'uFMXApplicationService.pas';
 

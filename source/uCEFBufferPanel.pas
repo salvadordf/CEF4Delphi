@@ -35,7 +35,7 @@
  *
  *)
 
-unit uBufferPanel;
+unit uCEFBufferPanel;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}

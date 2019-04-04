@@ -242,12 +242,12 @@
         <DCCReference Include="..\source\uCEFBaseRefCounted.pas"/>
         <DCCReference Include="..\source\uCEFBaseScopedWrapper.pas"/>
         <DCCReference Include="..\source\uCEFAccessibilityHandler.pas"/>
-        <DCCReference Include="..\source\uOLEDragAndDrop.pas"/>
+        <DCCReference Include="..\source\uCEFOLEDragAndDrop.pas"/>
         <DCCReference Include="..\source\uCEFDragAndDropMgr.pas"/>
         <DCCReference Include="..\source\uCEFGetExtensionResourceCallback.pas"/>
         <DCCReference Include="..\source\uCEFExtension.pas"/>
         <DCCReference Include="..\source\uCEFExtensionHandler.pas"/>
-        <DCCReference Include="..\source\uBufferPanel.pas"/>
+        <DCCReference Include="..\source\uCEFBufferPanel.pas"/>
         <DCCReference Include="..\source\uCEFApp.pas"/>
         <DCCReference Include="..\source\uCEFWorkScheduler.pas"/>
         <DCCReference Include="..\source\uCEFWorkSchedulerThread.pas"/>
