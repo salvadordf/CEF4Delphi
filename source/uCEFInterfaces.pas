@@ -1953,7 +1953,6 @@ type
     procedure ClearCertificateExceptions(const callback: ICefCompletionCallback);
     procedure CloseAllConnections(const callback: ICefCompletionCallback);
     procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
-    function  ResolveHostCached(const origin: ustring; const resolvedIps: TStrings): TCefErrorCode;
     procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
     function  DidLoadExtension(const extension_id: ustring): boolean;
     function  HasExtension(const extension_id: ustring): boolean;

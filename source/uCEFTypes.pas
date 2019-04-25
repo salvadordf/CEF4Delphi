@@ -1851,7 +1851,6 @@ type
     clear_certificate_exceptions    : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
     close_all_connections           : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
     resolve_host                    : procedure(self: PCefRequestContext; const origin: PCefString; callback: PCefResolveCallback); stdcall;
-    resolve_host_cached             : function(self: PCefRequestContext; const origin: PCefString; resolved_ips: TCefStringList): TCefErrorCode; stdcall;
     load_extension                  : procedure(self: PCefRequestContext; const root_directory: PCefString; manifest: PCefDictionaryValue; handler: PCefExtensionHandler); stdcall;
     did_load_extension              : function(self: PCefRequestContext; const extension_id: PCefString): Integer; stdcall;
     has_extension                   : function(self: PCefRequestContext; const extension_id: PCefString): Integer; stdcall;

@@ -77,7 +77,6 @@ type
       procedure ClearCertificateExceptions(const callback: ICefCompletionCallback);
       procedure CloseAllConnections(const callback: ICefCompletionCallback);
       procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
-      function  ResolveHostCached(const origin: ustring; const resolvedIps: TStrings): TCefErrorCode;
       procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
       function  DidLoadExtension(const extension_id: ustring): boolean;
       function  HasExtension(const extension_id: ustring): boolean;
@@ -233,18 +232,6 @@ var
 begin
   TempOrigin := CefString(origin);
   PCefRequestContext(FData)^.resolve_host(PCefRequestContext(FData), @TempOrigin, CefGetData(callback));
-end;
-
-function TCefRequestContextRef.ResolveHostCached(const origin      : ustring;
-                                                 const resolvedIps : TStrings): TCefErrorCode;
-var
-  TempSL     : ICefStringList;
-  TempOrigin : TCefString;
-begin
-  TempSL     := TCefStringListOwn.Create;
-  TempOrigin := CefString(origin);
-  Result     := PCefRequestContext(FData)^.resolve_host_cached(PCefRequestContext(FData), @TempOrigin, TempSL.Handle);
-  TempSL.CopyToStrings(resolvedIps);
 end;
 
 procedure TCefRequestContextRef.LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
