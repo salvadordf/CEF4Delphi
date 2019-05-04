@@ -52,7 +52,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, imm, {$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, Win32Extra,
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFDEF MSWINDOWS}Win32Extra,{$ENDIF}
     {$ELSE}
     Messages,
     {$ENDIF}
@@ -371,11 +371,13 @@ begin
 end;
 
 function TBufferPanel.CopyBuffer : boolean;
+{$IFDEF MSWINDOWS}
 var
   TempFunction : TBlendFunction;
+{$ENDIF}
 begin
   Result := False;
-
+  {$IFDEF MSWINDOWS}
   if BeginBufferDraw then
     try
       if (FBuffer <> nil) then
@@ -405,6 +407,7 @@ begin
     finally
       EndBufferDraw;
     end;
+  {$ENDIF}
 end;
 
 procedure TBufferPanel.Paint;

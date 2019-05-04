@@ -637,7 +637,7 @@ end;
 {$IFDEF LINUX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
 begin
-  aWindowInfo.window_name                  := aWindowName;
+  aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := aRect.left;
   aWindowInfo.y                            := aRect.top;
   aWindowInfo.width                        := aRect.right  - aRect.left;
@@ -651,7 +651,7 @@ end;
 
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
-  aWindowInfo.window_name                  := aWindowName;
+  aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := 0;
   aWindowInfo.y                            := 0;
   aWindowInfo.width                        := 0;
@@ -665,7 +665,7 @@ end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
-  aWindowInfo.window_name                  := aWindowName;
+  aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := 0;
   aWindowInfo.y                            := 0;
   aWindowInfo.width                        := 0;
