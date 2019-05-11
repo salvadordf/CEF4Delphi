@@ -223,6 +223,7 @@ type
       FOnCookiesDeleted                   : TOnCookiesDeletedEvent;
       FOnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent;
       FOnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent;
+      FOnDownloadImageFinished            : TOnDownloadImageFinishedEvent;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -453,6 +454,7 @@ type
       function  doSavePreferences : boolean; virtual;
       procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings); virtual;
       function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean; virtual;
+      procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
 
     public
       constructor Create(AOwner: TComponent); override;
@@ -480,6 +482,7 @@ type
       procedure   ReloadIgnoreCache;
       procedure   StopLoad;
       procedure   StartDownload(const aURL : ustring);
+      procedure   DownloadImage(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean);
 
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = '') : boolean;
@@ -619,6 +622,7 @@ type
       property  OnCookiesDeleted                   : TOnCookiesDeletedEvent                   read FOnCookiesDeleted                   write FOnCookiesDeleted;
       property  OnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent             read FOnResolvedHostAvailable            write FOnResolvedHostAvailable;
       property  OnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent read FOnNavigationVisitorResultAvailable write FOnNavigationVisitorResultAvailable;
+      property  OnDownloadImageFinishedEvent       : TOnDownloadImageFinishedEvent            read FOnDownloadImageFinished       write FOnDownloadImageFinished;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg        : TOnCompMsgEvent              read FOnBrowserCompMsg         write FOnBrowserCompMsg;
       property  OnWidgetCompMsg         : TOnCompMsgEvent              read FOnWidgetCompMsg          write FOnWidgetCompMsg;
@@ -736,7 +740,7 @@ uses
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplication, uCEFProcessMessage, uCEFRequestContext,
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
-  uCEFListValue, uCEFNavigationEntryVisitor;
+  uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack;
 
 constructor TFMXChromium.Create(AOwner: TComponent);
 begin
@@ -1045,6 +1049,7 @@ begin
   FOnCookiesDeleted                   := nil;
   FOnResolvedHostAvailable            := nil;
   FOnNavigationVisitorResultAvailable := nil;
+  FOnDownloadImageFinished       := nil;
 end;
 
 function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
@@ -1510,6 +1515,25 @@ end;
 procedure TFMXChromium.StartDownload(const aURL : ustring);
 begin
   if Initialized then FBrowser.Host.StartDownload(aURL);
+end;
+
+// Use the OnDownloadImageFinished event to receive the image
+procedure TFMXChromium.DownloadImage(const imageUrl     : ustring;
+                                           isFavicon    : boolean;
+                                           maxImageSize : cardinal;
+                                           bypassCache  : boolean);
+var
+  TempCallback : ICefDownloadImageCallback;
+begin
+  try
+    if Initialized and (FBrowser.Host <> nil) then
+      begin
+        TempCallback := TCefCustomDownloadImageCallback.Create(self);
+        FBrowser.Host.DownloadImage(imageUrl, isFavicon, maxImageSize, bypassCache, TempCallback);
+      end;
+  finally
+    TempCallback := nil;
+  end;
 end;
 
 function TFMXChromium.GetIsLoading : boolean;
@@ -2679,6 +2703,14 @@ begin
 
   if assigned(FOnNavigationVisitorResultAvailable) then
     FOnNavigationVisitorResultAvailable(entry, current, index, total, Result);
+end;
+
+procedure TFMXChromium.doDownloadImageFinished(const imageUrl       : ustring;
+                                                     httpStatusCode : Integer;
+                                               const image          : ICefImage);
+begin
+  if assigned(FOnDownloadImageFinished) then
+    FOnDownloadImageFinished(self, imageUrl, httpStatusCode, image);
 end;
 
 function TFMXChromium.MustCreateLoadHandler : boolean;

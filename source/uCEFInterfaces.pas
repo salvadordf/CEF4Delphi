@@ -379,6 +379,8 @@ type
     function  doSavePreferences : boolean;
     procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
     function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean;
+    procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
+
   end;
 
   IServerEvents = interface
@@ -2132,10 +2134,10 @@ type
     function GetHeight: NativeUInt;
     function HasRepresentation(scaleFactor: Single): Boolean;
     function RemoveRepresentation(scaleFactor: Single): Boolean;
-    function GetRepresentationInfo(scaleFactor: Single; actualScaleFactor: PSingle; pixelWidth, pixelHeight: PInteger): Boolean;
-    function GetAsBitmap(scaleFactor: Single; colorType: TCefColorType; alphaType: TCefAlphaType; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
-    function GetAsPng(scaleFactor: Single; withTransparency: Boolean; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
-    function GetAsJpeg(scaleFactor: Single; quality: Integer; pixelWidth, pixelHeight: PInteger): ICefBinaryValue;
+    function GetRepresentationInfo(scaleFactor: Single; var actualScaleFactor: Single; var pixelWidth, pixelHeight: Integer): Boolean;
+    function GetAsBitmap(scaleFactor: Single; colorType: TCefColorType; alphaType: TCefAlphaType; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
+    function GetAsPng(scaleFactor: Single; withTransparency: Boolean; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
+    function GetAsJpeg(scaleFactor: Single; quality: Integer; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
 
     property Width  : NativeUInt read GetWidth;
     property Height : NativeUInt read GetHeight;

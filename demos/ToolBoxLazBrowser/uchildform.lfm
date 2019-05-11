@@ -1,22 +1,22 @@
 object ChildForm: TChildForm
-  Left = 224
-  Height = 600
-  Top = 175
+  Left = 45
+  Height = 503
+  Top = 239
   Width = 800
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'ChildForm'
-  ClientHeight = 600
+  ClientHeight = 503
   ClientWidth = 800
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.0.2.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
-    Height = 600
+    Height = 503
     Top = 0
     Width = 800
     Align = alClient

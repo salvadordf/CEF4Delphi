@@ -70,10 +70,30 @@ type
       constructor Create(const proc: TOnDownloadImageFinishedProc); reintroduce;
   end;
 
+  TCefCustomDownloadImageCallback = class(TCefDownloadImageCallbackOwn)
+    protected
+      FEvents : Pointer;
+
+      procedure OnDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage); override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
+
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFImage;
+
+
+// TCefDownloadImageCallbackOwn
 
 procedure cef_download_image_callback_on_download_image_finished(      self             : PCefDownloadImageCallback;
                                                                  const image_url        : PCefString;
@@ -98,6 +118,9 @@ begin
     on_download_image_finished := {$IFDEF FPC}@{$ENDIF}cef_download_image_callback_on_download_image_finished;
 end;
 
+
+// TCefFastDownloadImageCallback
+
 constructor TCefFastDownloadImageCallback.Create(const proc: TOnDownloadImageFinishedProc);
 begin
   inherited Create;
@@ -110,6 +133,38 @@ begin
   FProc(imageUrl, httpStatusCode, image);
 end;
 
+
+// TCefCustomDownloadImageCallback
+
+constructor TCefCustomDownloadImageCallback.Create(const aEvents : IChromiumEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+end;
+
+destructor TCefCustomDownloadImageCallback.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomDownloadImageCallback.OnDownloadImageFinished(const imageUrl       : ustring;
+                                                                        httpStatusCode : Integer;
+                                                                  const image          : ICefImage);
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doDownloadImageFinished(imageUrl, httpStatusCode, image);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCustomDownloadImageCallback.OnDownloadImageFinished', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
 
 end.
 

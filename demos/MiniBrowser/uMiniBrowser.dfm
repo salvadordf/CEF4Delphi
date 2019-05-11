@@ -137,6 +137,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_loc_assign'
+          
+            'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_styl' +
+            'e_backgroundcolor'
           'https://www.w3schools.com/html/html5_video.asp'
           'http://www.adobe.com/software/flash/about/'
           'http://isflashinstalled.com/'
@@ -264,6 +267,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnPrefsAvailable = Chromium1PrefsAvailable
     OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
     OnNavigationVisitorResultAvailable = Chromium1NavigationVisitorResultAvailable
+    OnDownloadImageFinished = Chromium1DownloadImageFinished
     OnRenderCompMsg = Chromium1RenderCompMsg
     OnLoadEnd = Chromium1LoadEnd
     OnLoadError = Chromium1LoadError
@@ -346,6 +350,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object Resolvehost1: TMenuItem
       Caption = 'Resolve host...'
       OnClick = Resolvehost1Click
+    end
+    object Downloadimage1: TMenuItem
+      Caption = 'Download image...'
+      OnClick = Downloadimage1Click
     end
     object N5: TMenuItem
       Caption = '-'

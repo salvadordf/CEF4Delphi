@@ -1057,7 +1057,6 @@ begin
       TempList := TStringList.Create;
       TempList.Add(TempDir + CHROMEELF_DLL);
       TempList.Add(TempDir + LIBCEF_DLL);
-      TempList.Add(TempDir + 'd3dcompiler_43.dll');
       TempList.Add(TempDir + 'd3dcompiler_47.dll');
       TempList.Add(TempDir + 'libEGL.dll');
       TempList.Add(TempDir + 'libGLESv2.dll');

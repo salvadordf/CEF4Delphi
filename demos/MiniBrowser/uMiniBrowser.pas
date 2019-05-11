@@ -122,6 +122,7 @@ type
     OpenfilewithaDAT1: TMenuItem;
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
+    Downloadimage1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -215,6 +216,10 @@ type
     procedure Chromium1NavigationVisitorResultAvailable(
       const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
       var aResult: Boolean);
+    procedure Downloadimage1Click(Sender: TObject);
+    procedure Chromium1DownloadImageFinished(Sender: TObject;
+      const imageUrl: ustring; httpStatusCode: Integer;
+      const image: ICefImage);
 
   protected
     FResponse   : TStringList;
@@ -1214,6 +1219,82 @@ begin
     HideDevTools
    else
     ShowDevTools;
+end;
+
+procedure TMiniBrowserFrm.Downloadimage1Click(Sender: TObject);
+var
+  TempURL : string;
+begin
+  TempURL := InputBox('Download Image', 'URL:', 'https://www.briskbard.com/images/logo.png');
+
+  if (length(TempURL) > 0) then
+    Chromium1.DownloadImage(TempURL, False, 0, False);
+end;
+
+procedure TMiniBrowserFrm.Chromium1DownloadImageFinished(      Sender         : TObject;
+                                                         const imageUrl       : ustring;
+                                                               httpStatusCode : Integer;
+                                                         const image          : ICefImage);
+var
+  TempBinValue : ICefBinaryValue;
+  TempWidth    : integer;
+  TempHeight   : integer;
+  TempBuffer   : TBytes;
+  TempPointer  : pointer;
+  TempSize     : NativeUInt;
+  TempStream   : TFileStream;
+  TempParts    : TUrlParts;
+  i            : integer;
+begin
+  TempStream := nil;
+
+  try
+    try
+      if (httpStatusCode = 200) and (image <> nil) and not(image.IsEmpty) then
+        begin
+          TempBinValue := image.GetAsPng(1, True, TempWidth, TempHeight);
+
+          if (TempBinValue <> nil) and
+             TempBinValue.IsValid  then
+            begin
+              TempSize := TempBinValue.Size;
+
+              SaveDialog1.DefaultExt := 'png';
+              SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+
+              CefParseUrl(imageUrl, TempParts);
+              i := LastDelimiter('/', TempParts.path);
+
+              // TODO : The file name should be sanitized.
+              if (i > 0) then
+                SaveDialog1.FileName := copy(TempParts.path, succ(i), length(TempParts.path))
+               else
+                SaveDialog1.FileName := TempParts.path;
+
+              if (TempSize > 0) and
+                 SaveDialog1.Execute and
+                 (length(SaveDialog1.FileName) > 0) then
+                begin
+                  SetLength(TempBuffer, TempSize);
+                  TempPointer := @TempBuffer[0];
+                  TempSize    := TempBinValue.GetData(TempPointer, TempSize, 0);
+
+                  if (TempSize > 0) then
+                    begin
+                      TempStream := TFileStream.Create(SaveDialog1.FileName, fmCreate);
+                      TempStream.Write(TempBuffer, TempSize);
+                    end;
+                end;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('Chromium1DownloadImageFinishedEvent', e) then raise;
+    end;
+  finally
+    if (TempStream <> nil) then FreeAndNil(TempStream);
+    SetLength(TempBuffer, 0);
+  end;
 end;
 
 procedure TMiniBrowserFrm.ShowDevTools(aPoint : TPoint);

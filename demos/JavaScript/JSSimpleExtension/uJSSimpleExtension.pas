@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -88,6 +88,7 @@ type
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
+
     {$IFNDEF DELPHI12_UP}class procedure GlobalCEFApp_OnWebKitInitializedEvent;{$ENDIF}
   public
     { Public declarations }
