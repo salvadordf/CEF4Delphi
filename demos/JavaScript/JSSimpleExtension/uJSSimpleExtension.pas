@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
+//        Copyright Â© 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -88,6 +88,7 @@ type
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
+    {$IFNDEF DELPHI12_UP}class procedure GlobalCEFApp_OnWebKitInitializedEvent;{$ENDIF}
   public
     { Public declarations }
   end;
@@ -116,7 +117,8 @@ uses
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
-procedure GlobalCEFApp_OnWebKitInitializedEvent;
+{$IFDEF DELPHI12_UP}procedure
+{$ELSE}class procedure TJSSimpleExtensionFrm.{$ENDIF}GlobalCEFApp_OnWebKitInitializedEvent;
 var
   TempExtensionCode : string;
 begin
@@ -136,7 +138,8 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitializedEvent;
+  GlobalCEFApp.OnWebKitInitialized := {$IFNDEF DELPHI12_UP}TJSSimpleExtensionFrm.{$ENDIF}
+      GlobalCEFApp_OnWebKitInitializedEvent;
 end;
 
 procedure TJSSimpleExtensionFrm.GoBtnClick(Sender: TObject);
