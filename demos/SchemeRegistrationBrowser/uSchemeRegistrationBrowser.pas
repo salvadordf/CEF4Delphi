@@ -119,6 +119,17 @@ implementation
 uses
   uCEFSchemeHandlerFactory, uCEFMiscFunctions, uHelloScheme;
 
+// This demo shows how to register a custom 'hello' scheme.
+
+// To register the scheme we use a resource handler in uHelloScheme.pas that inherits from TCefResourceHandlerOwn
+// You can register the scheme in TForm.OnCreate or later.
+
+// IMPORTANT : If you notice that some functionality is missing in your application and the debug.log file shows
+// weird warnings then register the 'http' or 'https' schemes instead of creating a custom scheme.
+
+// For more information about the resource handler read this page :
+// https://magpcss.org/ceforum/apidocs3/projects/(default)/CefResourceHandler.html
+
 // Destruction steps
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
@@ -134,6 +145,9 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnRegCustomSchemes   := GlobalCEFApp_OnRegCustomSchemes;
+
+  // GlobalCEFApp.LogFile              := 'debug.log';
+  // GlobalCEFApp.LogSeverity          := LOGSEVERITY_VERBOSE;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
