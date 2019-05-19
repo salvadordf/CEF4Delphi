@@ -1,0 +1,98 @@
+object Form1: TForm1
+  Left = 71
+  Height = 699
+  Top = 65
+  Width = 1038
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 699
+  ClientWidth = 1038
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 3
+    Top = 469
+    Width = 1038
+    Align = alBottom
+    ResizeAnchor = akBottom
+  end
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 1038
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 1038
+    Enabled = False
+    TabOrder = 0
+    object GoBtn: TButton
+      Left = 1007
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 0
+    end
+    object AddressCb: TComboBox
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 1007
+      Align = alClient
+      ItemHeight = 13
+      ItemIndex = 0
+      Items.Strings = (
+        'https://www.w3schools.com/php/showphp.asp?filename=demo_form_post'
+        'https://www.w3schools.com/php/showphp.asp?filename=demo_form_get'
+      )
+      TabOrder = 1
+      Text = 'https://www.w3schools.com/php/showphp.asp?filename=demo_form_post'
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 448
+    Top = 21
+    Width = 1038
+    Align = alClient
+    TabOrder = 1
+  end
+  object Memo1: TMemo
+    Left = 0
+    Height = 227
+    Top = 472
+    Width = 1038
+    Align = alBottom
+    ScrollBars = ssVertical
+    TabOrder = 2
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 56
+    top = 88
+  end
+  object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    OnBeforeResourceLoad = Chromium1BeforeResourceLoad
+    left = 56
+    top = 152
+  end
+end

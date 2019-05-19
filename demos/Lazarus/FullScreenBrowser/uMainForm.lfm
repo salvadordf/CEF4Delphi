@@ -1,0 +1,46 @@
+object MainForm: TMainForm
+  Left = -8
+  Height = 327
+  Top = -8
+  Width = 450
+  BorderIcons = []
+  BorderStyle = bsNone
+  Caption = 'MainForm'
+  ClientHeight = 327
+  ClientWidth = 450
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  FormStyle = fsStayOnTop
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  LCLVersion = '2.0.1.0'
+  WindowState = wsMaximized
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 296
+    Top = 0
+    Width = 442
+    Align = alClient
+    TabOrder = 0
+  end
+  object Chromium1: TChromium
+    OnPreKeyEvent = Chromium1PreKeyEvent
+    OnKeyEvent = Chromium1KeyEvent
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 208
+    top = 120
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 272
+    top = 120
+  end
+end

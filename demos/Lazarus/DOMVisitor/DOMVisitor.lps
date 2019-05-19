@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="4">
+      <Unit0>
+        <Filename Value="DOMVisitor.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="40"/>
+        <CursorPos X="13" Y="44"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uDOMVisitor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DOMVisitorFrm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="458"/>
+        <CursorPos X="86" Y="471"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="420"/>
+        <CursorPos X="16" Y="438"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\source\uCEFInterfaces.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="147"/>
+        <CursorPos X="78" Y="159"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+    </Units>
+    <JumpHistory Count="19" HistoryIndex="18">
+      <Position1>
+        <Filename Value="DOMVisitor.lpr"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="303" Column="44" TopLine="285"/>
+      </Position2>
+      <Position3>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="39" TopLine="19"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="305" Column="44" TopLine="287"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="306" Column="64" TopLine="287"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="261" Column="11" TopLine="243"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="305" Column="81" TopLine="287"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="305" Column="113" TopLine="287"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="311" Column="59" TopLine="287"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="261" Column="11" TopLine="109"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="305" Column="44" TopLine="287"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="305" Column="44" TopLine="287"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="483" TopLine="449"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="52" TopLine="33"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uDOMVisitor.pas"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="136" Column="8" TopLine="106"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="305" Column="67" TopLine="289"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="378" Column="16" TopLine="364"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="121" Column="15" TopLine="111"/>
+      </Position19>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

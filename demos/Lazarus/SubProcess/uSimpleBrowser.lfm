@@ -1,0 +1,66 @@
+object Form1: TForm1
+  Left = 49
+  Height = 624
+  Top = 86
+  Width = 1038
+  Caption = 'Simple Browser'
+  ClientHeight = 624
+  ClientWidth = 1038
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object ChromiumWindow1: TChromiumWindow
+    Left = 0
+    Height = 603
+    Top = 21
+    Width = 1038
+    Align = alClient
+    TabOrder = 0
+    OnClose = ChromiumWindow1Close
+    OnBeforeClose = ChromiumWindow1BeforeClose
+    OnAfterCreated = ChromiumWindow1AfterCreated
+  end
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 1038
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 1038
+    Enabled = False
+    TabOrder = 1
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 1007
+      Align = alClient
+      TabOrder = 0
+      Text = 'http://www.google.com'
+    end
+    object GoBtn: TButton
+      Left = 1007
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 1
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 80
+    top = 88
+  end
+end

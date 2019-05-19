@@ -487,7 +487,7 @@ type
       function  doSavePreferences : boolean; virtual;
       procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings); virtual;
       function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean; virtual;
-      procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
+      procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage); virtual;
 
     public
       constructor Create(AOwner: TComponent); override;

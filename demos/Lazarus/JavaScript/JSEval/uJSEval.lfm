@@ -1,0 +1,76 @@
+object JSEvalFrm: TJSEvalFrm
+  Left = 147
+  Height = 571
+  Top = 117
+  Width = 878
+  Caption = 'JSEval'
+  ClientHeight = 571
+  ClientWidth = 878
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 550
+    Top = 21
+    Width = 878
+    Align = alClient
+    TabOrder = 0
+  end
+  object AddressBarPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 878
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 878
+    DoubleBuffered = True
+    Enabled = False
+    ParentDoubleBuffered = False
+    TabOrder = 1
+    object GoBtn: TButton
+      Left = 847
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 0
+    end
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 847
+      Align = alClient
+      TabOrder = 1
+      Text = 'https://www.google.com'
+    end
+  end
+  object Chromium1: TChromium
+    OnProcessMessageReceived = Chromium1ProcessMessageReceived
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 16
+    top = 40
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 16
+    top = 96
+  end
+end

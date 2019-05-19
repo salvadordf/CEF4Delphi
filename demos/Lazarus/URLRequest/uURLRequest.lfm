@@ -1,0 +1,66 @@
+object URLRequestFrm: TURLRequestFrm
+  Left = 301
+  Height = 116
+  Top = 177
+  Width = 494
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'URL request'
+  ClientHeight = 116
+  ClientWidth = 494
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object Label1: TLabel
+    Left = 16
+    Height = 13
+    Top = 19
+    Width = 19
+    Caption = 'URL'
+    ParentColor = False
+  end
+  object Edit1: TEdit
+    Left = 48
+    Height = 21
+    Top = 16
+    Width = 433
+    TabOrder = 0
+    Text = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+  end
+  object DownloadBtn: TButton
+    Left = 16
+    Height = 25
+    Top = 51
+    Width = 465
+    Caption = 'Download'
+    OnClick = DownloadBtnClick
+    TabOrder = 1
+  end
+  object StatusPnl: TPanel
+    Left = 0
+    Height = 23
+    Top = 93
+    Width = 494
+    Align = alBottom
+    BevelOuter = bvLowered
+    TabOrder = 2
+  end
+  object SaveDialog1: TSaveDialog
+    left = 384
+    top = 64
+  end
+  object CEFUrlRequestClientComponent1: TCEFUrlRequestClientComponent
+    OnRequestComplete = CEFUrlRequestClientComponent1RequestComplete
+    OnDownloadProgress = CEFUrlRequestClientComponent1DownloadProgress
+    OnDownloadData = CEFUrlRequestClientComponent1DownloadData
+    OnCreateURLRequest = CEFUrlRequestClientComponent1CreateURLRequest
+    left = 80
+    top = 64
+  end
+end

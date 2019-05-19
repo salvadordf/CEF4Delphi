@@ -1,0 +1,48 @@
+object MainForm: TMainForm
+  Left = 162
+  Height = 37
+  Top = 154
+  Width = 357
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 37
+  ClientWidth = 357
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object ButtonPnl: TPanel
+    Left = 0
+    Height = 37
+    Top = 0
+    Width = 357
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 37
+    ClientWidth = 357
+    Enabled = False
+    TabOrder = 0
+    object Edit1: TEdit
+      Left = 8
+      Height = 21
+      Top = 8
+      Width = 286
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+    object Button1: TButton
+      Left = 300
+      Height = 25
+      Top = 6
+      Width = 51
+      Caption = 'Open'
+      OnClick = Button1Click
+      TabOrder = 1
+    end
+  end
+end

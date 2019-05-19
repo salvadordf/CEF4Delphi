@@ -1,0 +1,40 @@
+object ChildForm: TChildForm
+  Left = 0
+  Height = 394
+  Top = 0
+  Width = 602
+  BorderStyle = bsToolWindow
+  Caption = 'Browser'
+  ClientHeight = 394
+  ClientWidth = 602
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  ShowInTaskBar = stAlways
+  LCLVersion = '2.0.2.0'
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 394
+    Top = 0
+    Width = 602
+    Align = alClient
+    TabOrder = 0
+  end
+  object Chromium1: TChromium
+    OnPreKeyEvent = Chromium1PreKeyEvent
+    OnKeyEvent = Chromium1KeyEvent
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 184
+    top = 128
+  end
+end

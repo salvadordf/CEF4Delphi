@@ -1,0 +1,94 @@
+object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
+  Left = 37
+  Height = 624
+  Top = 74
+  Width = 1038
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 624
+  ClientWidth = 1038
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 1038
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 1038
+    Enabled = False
+    TabOrder = 0
+    object GoBtn: TButton
+      Left = 1007
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 0
+    end
+    object URLCbx: TComboBox
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 1007
+      Align = alClient
+      ItemHeight = 13
+      ItemIndex = 0
+      Items.Strings = (
+        'https://www.google.com'
+        'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+        'https://www.w3schools.com/html/html5_video.asp'
+        'http://www.adobe.com/software/flash/about/'
+        'http://isflashinstalled.com/'
+        'chrome://version/'
+        'http://html5test.com/'
+        'https://www.w3schools.com/'
+        'http://webglsamples.org/'
+        'https://get.webgl.org/'
+        'https://www.youtube.com'
+        'https://html5demos.com/drag/'
+        'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+        'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+        'https://www.browserleaks.com/webrtc'
+        'https://frames-per-second.appspot.com/'
+      )
+      TabOrder = 1
+      Text = 'https://www.google.com'
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 603
+    Top = 21
+    Width = 1038
+    Align = alClient
+    TabOrder = 1
+    OnResize = CEFWindowParent1Resize
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 56
+    top = 88
+  end
+  object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 56
+    top = 152
+  end
+end

@@ -1,0 +1,75 @@
+object JSExecutingFunctionsFrm: TJSExecutingFunctionsFrm
+  Left = 188
+  Height = 587
+  Top = 128
+  Width = 978
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 587
+  ClientWidth = 978
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object NavControlPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 978
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 978
+    Enabled = False
+    TabOrder = 0
+    object Edit1: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 947
+      Align = alClient
+      TabOrder = 0
+      Text = 'file:///JSExecutingFunctions.html'
+    end
+    object GoBtn: TButton
+      Left = 947
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 1
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 566
+    Top = 21
+    Width = 978
+    Align = alClient
+    TabOrder = 1
+  end
+  object Chromium1: TChromium
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 32
+    top = 224
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 32
+    top = 288
+  end
+end

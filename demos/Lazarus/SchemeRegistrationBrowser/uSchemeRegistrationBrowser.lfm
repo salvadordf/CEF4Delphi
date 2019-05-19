@@ -1,0 +1,82 @@
+object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
+  Left = 116
+  Height = 652
+  Top = 102
+  Width = 980
+  Caption = 'SchemeRegistrationBrowser'
+  ClientHeight = 652
+  ClientWidth = 980
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object AddressBarPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 980
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 980
+    DoubleBuffered = True
+    Enabled = False
+    ParentDoubleBuffered = False
+    TabOrder = 0
+    object GoBtn: TButton
+      Left = 949
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 0
+    end
+    object AddressCbx: TComboBox
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 949
+      Align = alClient
+      ItemHeight = 13
+      ItemIndex = 1
+      Items.Strings = (
+        'https://www.google.com'
+        'hello://test.html'
+      )
+      TabOrder = 1
+      Text = 'hello://test.html'
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 631
+    Top = 21
+    Width = 980
+    Align = alClient
+    TabOrder = 1
+  end
+  object Chromium1: TChromium
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 16
+    top = 40
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 16
+    top = 96
+  end
+end

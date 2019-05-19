@@ -1,0 +1,124 @@
+object SimpleServerFrm: TSimpleServerFrm
+  Left = 0
+  Height = 436
+  Top = 0
+  Width = 554
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Simple Server'
+  ClientHeight = 436
+  ClientWidth = 554
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.0.1.0'
+  object ButtonPnl: TPanel
+    Left = 0
+    Height = 94
+    Top = 0
+    Width = 554
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 94
+    ClientWidth = 554
+    TabOrder = 0
+    object AddressLbl: TLabel
+      Left = 14
+      Height = 13
+      Top = 11
+      Width = 39
+      Caption = 'Address'
+      ParentColor = False
+    end
+    object PortLbl: TLabel
+      Left = 14
+      Height = 13
+      Top = 39
+      Width = 20
+      Caption = 'Port'
+      ParentColor = False
+    end
+    object BacklogLbl: TLabel
+      Left = 14
+      Height = 13
+      Top = 68
+      Width = 36
+      Caption = 'Backlog'
+      ParentColor = False
+    end
+    object AddressEdt: TEdit
+      Left = 87
+      Height = 21
+      Top = 8
+      Width = 211
+      OnChange = AddressEdtChange
+      TabOrder = 0
+      Text = '127.0.0.1'
+    end
+    object PortEdt: TSpinEdit
+      Left = 87
+      Height = 22
+      Top = 36
+      Width = 211
+      MaxValue = 65535
+      MinValue = 1025
+      TabOrder = 1
+      Value = 8099
+    end
+    object BacklogEdt: TSpinEdit
+      Left = 87
+      Height = 22
+      Top = 65
+      Width = 211
+      MaxValue = 512
+      MinValue = 1
+      TabOrder = 2
+      Value = 10
+    end
+    object StartBtn: TButton
+      Left = 312
+      Height = 79
+      Top = 8
+      Width = 105
+      Caption = 'Start'
+      OnClick = StartBtnClick
+      TabOrder = 3
+    end
+    object StopBtn: TButton
+      Left = 434
+      Height = 79
+      Top = 8
+      Width = 105
+      Caption = 'Stop'
+      Enabled = False
+      OnClick = StopBtnClick
+      TabOrder = 4
+    end
+  end
+  object ConnectionLogMem: TMemo
+    Left = 0
+    Height = 342
+    Top = 94
+    Width = 554
+    Align = alClient
+    ReadOnly = True
+    ScrollBars = ssBoth
+    TabOrder = 1
+  end
+  object CEFServerComponent1: TCEFServerComponent
+    OnServerCreated = CEFServerComponent1ServerCreated
+    OnServerDestroyed = CEFServerComponent1ServerDestroyed
+    OnClientConnected = CEFServerComponent1ClientConnected
+    OnClientDisconnected = CEFServerComponent1ClientDisconnected
+    OnHttpRequest = CEFServerComponent1HttpRequest
+    OnWebSocketRequest = CEFServerComponent1WebSocketRequest
+    OnWebSocketConnected = CEFServerComponent1WebSocketConnected
+    OnWebSocketMessage = CEFServerComponent1WebSocketMessage
+    left = 456
+    top = 304
+  end
+end

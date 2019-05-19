@@ -1,0 +1,68 @@
+object Form1: TForm1
+  Left = 201
+  Height = 574
+  Top = 182
+  Width = 878
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 574
+  ClientWidth = 878
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 23
+    Top = 0
+    Width = 878
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 23
+    ClientWidth = 878
+    Enabled = False
+    TabOrder = 0
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 23
+      Top = 0
+      Width = 843
+      Align = alClient
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+    object GoBtn: TButton
+      Left = 843
+      Height = 23
+      Top = 0
+      Width = 35
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 1
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 551
+    Top = 23
+    Width = 878
+    Align = alClient
+    TabOrder = 1
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = Timer1Timer
+    left = 40
+    top = 64
+  end
+  object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 40
+    top = 136
+  end
+end

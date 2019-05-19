@@ -1,0 +1,223 @@
+object PreferencesFrm: TPreferencesFrm
+  Left = 0
+  Height = 363
+  Top = 0
+  Width = 428
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Preferences'
+  ClientHeight = 363
+  ClientWidth = 428
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  FormStyle = fsStayOnTop
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object Button1: TButton
+    Left = 232
+    Height = 25
+    Top = 330
+    Width = 75
+    Caption = 'Ok'
+    ModalResult = 1
+    TabOrder = 2
+  end
+  object Button2: TButton
+    Left = 345
+    Height = 25
+    Top = 330
+    Width = 75
+    Caption = 'Cancel'
+    ModalResult = 2
+    TabOrder = 3
+  end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Height = 223
+    Top = 8
+    Width = 412
+    Caption = ' Proxy '
+    ClientHeight = 205
+    ClientWidth = 408
+    TabOrder = 0
+    object ProxyTypeLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 12
+      Width = 24
+      Caption = 'Type'
+      ParentColor = False
+    end
+    object ProxyServerLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 41
+      Width = 32
+      Caption = 'Server'
+      ParentColor = False
+    end
+    object ProxyPortLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 68
+      Width = 20
+      Caption = 'Port'
+      ParentColor = False
+    end
+    object ProxyUsernameLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 95
+      Width = 48
+      Caption = 'Username'
+      ParentColor = False
+    end
+    object ProxyPasswordLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 122
+      Width = 46
+      Caption = 'Password'
+      ParentColor = False
+    end
+    object ProxyScriptURLLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 149
+      Width = 49
+      Caption = 'Script URL'
+      ParentColor = False
+    end
+    object ProxyByPassListLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 176
+      Width = 50
+      Caption = 'ByPass list'
+      ParentColor = False
+    end
+    object ProxyTypeCbx: TComboBox
+      Left = 108
+      Height = 21
+      Top = 9
+      Width = 292
+      ItemHeight = 13
+      ItemIndex = 0
+      Items.Strings = (
+        'Direct'
+        'Autodetect'
+        'System'
+        'Fixed servers'
+        'PAC script'
+      )
+      Style = csDropDownList
+      TabOrder = 0
+      Text = 'Direct'
+    end
+    object ProxyServerEdt: TEdit
+      Left = 184
+      Height = 21
+      Top = 38
+      Width = 216
+      TabOrder = 2
+    end
+    object ProxyPortEdt: TEdit
+      Left = 108
+      Height = 21
+      Top = 65
+      Width = 292
+      MaxLength = 5
+      NumbersOnly = True
+      TabOrder = 3
+      Text = '80'
+    end
+    object ProxyUsernameEdt: TEdit
+      Left = 108
+      Height = 21
+      Top = 92
+      Width = 292
+      TabOrder = 4
+    end
+    object ProxyPasswordEdt: TEdit
+      Left = 108
+      Height = 21
+      Top = 119
+      Width = 292
+      EchoMode = emPassword
+      PasswordChar = '*'
+      TabOrder = 5
+    end
+    object ProxyScriptURLEdt: TEdit
+      Left = 108
+      Height = 21
+      Top = 146
+      Width = 292
+      TabOrder = 6
+    end
+    object ProxyByPassListEdt: TEdit
+      Left = 108
+      Height = 21
+      Top = 173
+      Width = 292
+      TabOrder = 7
+    end
+    object ProxySchemeCb: TComboBox
+      Left = 108
+      Height = 21
+      Top = 38
+      Width = 70
+      ItemHeight = 13
+      ItemIndex = 0
+      Items.Strings = (
+        'HTTP'
+        'SOCKS4'
+        'SOCKS5'
+      )
+      Style = csDropDownList
+      TabOrder = 1
+      Text = 'HTTP'
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 8
+    Height = 84
+    Top = 237
+    Width = 412
+    Caption = ' Custom header '
+    ClientHeight = 66
+    ClientWidth = 408
+    TabOrder = 1
+    object HeaderNameLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 10
+      Width = 27
+      Caption = 'Name'
+      ParentColor = False
+    end
+    object HeaderValueLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 37
+      Width = 26
+      Caption = 'Value'
+      ParentColor = False
+    end
+    object HeaderNameEdt: TEdit
+      Left = 108
+      Height = 21
+      Top = 7
+      Width = 292
+      TabOrder = 0
+    end
+    object HeaderValueEdt: TEdit
+      Left = 108
+      Height = 21
+      Top = 34
+      Width = 292
+      TabOrder = 1
+    end
+  end
+end

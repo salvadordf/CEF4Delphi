@@ -1,0 +1,196 @@
+object MainForm: TMainForm
+  Left = 344
+  Height = 573
+  Top = 127
+  Width = 897
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 573
+  ClientWidth = 897
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object ButtonPnl: TPanel
+    Left = 0
+    Height = 25
+    Top = 0
+    Width = 897
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'ButtonPnl'
+    ClientHeight = 25
+    ClientWidth = 897
+    Enabled = False
+    TabOrder = 0
+    object NavButtonPnl: TPanel
+      Left = 0
+      Height = 25
+      Top = 0
+      Width = 183
+      Align = alLeft
+      BevelOuter = bvNone
+      ClientHeight = 25
+      ClientWidth = 183
+      TabOrder = 1
+      object BackBtn: TButton
+        Left = 63
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '3'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        OnClick = BackBtnClick
+        ParentFont = False
+        TabOrder = 2
+      end
+      object ForwardBtn: TButton
+        Left = 93
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '4'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        OnClick = ForwardBtnClick
+        ParentFont = False
+        TabOrder = 3
+      end
+      object ReloadBtn: TButton
+        Left = 123
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = 'q'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        OnClick = ReloadBtnClick
+        ParentFont = False
+        TabOrder = 4
+      end
+      object StopBtn: TButton
+        Left = 153
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '='
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        OnClick = StopBtnClick
+        ParentFont = False
+        TabOrder = 5
+      end
+      object AddTabBtn: TButton
+        Left = 1
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '+'
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        OnClick = AddTabBtnClick
+        ParentFont = False
+        TabOrder = 0
+      end
+      object RemoveTabBtn: TButton
+        Left = 32
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '-'
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        OnClick = RemoveTabBtnClick
+        ParentFont = False
+        TabOrder = 1
+      end
+    end
+    object ConfigPnl: TPanel
+      Left = 865
+      Height = 25
+      Top = 0
+      Width = 32
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 25
+      ClientWidth = 32
+      TabOrder = 2
+      object GoBtn: TButton
+        Left = 6
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '►'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -17
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        OnClick = GoBtnClick
+        ParentFont = False
+        TabOrder = 0
+      end
+    end
+    object URLEditPnl: TPanel
+      Left = 183
+      Height = 25
+      Top = 0
+      Width = 682
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 25
+      ClientWidth = 682
+      TabOrder = 0
+      object URLCbx: TComboBox
+        Left = 0
+        Height = 21
+        Top = 3
+        Width = 682
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        ItemHeight = 13
+        ItemIndex = 0
+        Items.Strings = (
+          'https://www.google.com'
+          'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+          'https://www.w3schools.com/html/html5_video.asp'
+          'http://www.adobe.com/software/flash/about/'
+          'http://isflashinstalled.com/'
+          'chrome://version/'
+          'http://html5test.com/'
+          'https://www.w3schools.com/'
+          'http://webglsamples.org/'
+          'https://www.youtube.com'
+          'https://html5demos.com/drag/'
+          'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+        )
+        TabOrder = 0
+        Text = 'https://www.google.com'
+      end
+    end
+  end
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 548
+    Top = 25
+    Width = 897
+    Align = alClient
+    TabOrder = 1
+    OnChange = PageControl1Change
+  end
+end

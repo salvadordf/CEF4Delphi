@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="8">
+      <Unit0>
+        <Filename Value="PopupBrowser2.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="38"/>
+        <CursorPos X="3" Y="54"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uMainForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="90"/>
+        <CursorPos X="11" Y="108"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="uChildForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChildForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="231"/>
+        <CursorPos X="32" Y="250"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="C:\lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="7431"/>
+        <CursorPos Y="7444"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1016"/>
+        <CursorPos Y="1028"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="526"/>
+        <CursorPos Y="538"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2319"/>
+        <CursorPos Y="2332"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="C:\lazarus\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1623"/>
+        <CursorPos X="15" Y="1633"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+    </Units>
+    <JumpHistory Count="25" HistoryIndex="24">
+      <Position1>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="292" TopLine="280"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="294" TopLine="280"/>
+      </Position2>
+      <Position3>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="295" Column="27" TopLine="280"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="298" Column="15" TopLine="280"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="86" Column="15" TopLine="75"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="223" Column="26" TopLine="203"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="224" Column="25" TopLine="204"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="277" Column="13" TopLine="257"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="292" Column="19" TopLine="272"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="294" Column="19" TopLine="274"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="295" Column="19" TopLine="275"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="298" Column="15" TopLine="278"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="86" Column="15" TopLine="75"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="223" Column="26" TopLine="203"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="224" Column="25" TopLine="204"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="277" Column="13" TopLine="257"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="292" TopLine="281"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="295" TopLine="281"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="62" Column="23" TopLine="54"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="222" Column="3" TopLine="220"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="77" Column="22" TopLine="48"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="286" Column="54" TopLine="260"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="98" Column="33" TopLine="77"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="78" Column="22" TopLine="71"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="253" Column="14" TopLine="231"/>
+      </Position25>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

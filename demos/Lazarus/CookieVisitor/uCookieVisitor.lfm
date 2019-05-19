@@ -1,0 +1,78 @@
+object CookieVisitorFrm: TCookieVisitorFrm
+  Left = 183
+  Height = 762
+  Top = 77
+  Width = 884
+  Caption = 'Cookie Visitor'
+  ClientHeight = 762
+  ClientWidth = 884
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object AddressBarPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 884
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 884
+    DoubleBuffered = True
+    Enabled = False
+    ParentDoubleBuffered = False
+    TabOrder = 0
+    object Edit1: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 853
+      Align = alClient
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+    object GoBtn: TButton
+      Left = 853
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 1
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 741
+    Top = 21
+    Width = 884
+    Align = alClient
+    TabOrder = 1
+  end
+  object Chromium1: TChromium
+    OnCookiesDeleted = Chromium1CookiesDeleted
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 32
+    top = 224
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 32
+    top = 280
+  end
+end

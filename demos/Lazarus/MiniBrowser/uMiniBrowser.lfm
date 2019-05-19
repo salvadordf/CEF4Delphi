@@ -1,0 +1,354 @@
+object MiniBrowserFrm: TMiniBrowserFrm
+  Left = 51
+  Height = 712
+  Top = 127
+  Width = 1184
+  Caption = 'MiniBrowser'
+  ClientHeight = 712
+  ClientWidth = 1184
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object Splitter1: TSplitter
+    Left = 1179
+    Height = 663
+    Top = 25
+    Width = 5
+    Align = alRight
+    ResizeAnchor = akRight
+    Visible = False
+  end
+  object NavControlPnl: TPanel
+    Left = 0
+    Height = 25
+    Top = 0
+    Width = 1184
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 25
+    ClientWidth = 1184
+    Enabled = False
+    TabOrder = 1
+    object NavButtonPnl: TPanel
+      Left = 0
+      Height = 25
+      Top = 0
+      Width = 133
+      Align = alLeft
+      BevelOuter = bvNone
+      ClientHeight = 25
+      ClientWidth = 133
+      TabOrder = 0
+      object BackBtn: TButton
+        Left = 8
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '3'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        OnClick = BackBtnClick
+        ParentFont = False
+        TabOrder = 0
+      end
+      object ForwardBtn: TButton
+        Left = 39
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '4'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        OnClick = ForwardBtnClick
+        ParentFont = False
+        TabOrder = 1
+      end
+      object ReloadBtn: TButton
+        Left = 70
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = 'q'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        OnClick = ReloadBtnClick
+        ParentFont = False
+        TabOrder = 2
+      end
+      object StopBtn: TButton
+        Left = 101
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '='
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        OnClick = StopBtnClick
+        ParentFont = False
+        TabOrder = 3
+      end
+    end
+    object URLEditPnl: TPanel
+      Left = 133
+      Height = 25
+      Top = 0
+      Width = 978
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 25
+      ClientWidth = 978
+      TabOrder = 1
+      object URLCbx: TComboBox
+        Left = 0
+        Height = 21
+        Top = 3
+        Width = 978
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        ItemHeight = 13
+        ItemIndex = 0
+        Items.Strings = (
+          'https://www.google.com'
+          'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_loc_assign'
+          'https://www.w3schools.com/html/html5_video.asp'
+          'http://www.adobe.com/software/flash/about/'
+          'http://isflashinstalled.com/'
+          'http://html5test.com/'
+          'https://webrtc.github.io/samples/src/content/devices/input-output/'
+          'https://test.webrtc.org/'
+          'https://www.w3schools.com/'
+          'http://webglsamples.org/'
+          'https://get.webgl.org/'
+          'https://www.briskbard.com'
+          'https://www.youtube.com'
+          'https://html5demos.com/drag/'
+          'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+          'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+          'http://www-db.deis.unibo.it/courses/TW/DOCS/w3schools/html/tryit.asp-filename=tryhtml5_html_manifest.html'
+          'https://www.browserleaks.com/webrtc'
+          'https://frames-per-second.appspot.com/'
+          'chrome://version/'
+          'chrome://net-internals/'
+          'chrome://tracing/'
+          'chrome://appcache-internals/'
+          'chrome://blob-internals/'
+          'chrome://view-http-cache/'
+          'chrome://credits/'
+          'chrome://histograms/'
+          'chrome://media-internals/'
+          'chrome://kill'
+          'chrome://crash'
+          'chrome://hang'
+          'chrome://shorthang'
+          'chrome://gpuclean'
+          'chrome://gpucrash'
+          'chrome://gpuhang'
+          'chrome://extensions-support'
+        )
+        TabOrder = 0
+        Text = 'https://www.google.com'
+      end
+    end
+    object ConfigPnl: TPanel
+      Left = 1111
+      Height = 25
+      Top = 0
+      Width = 73
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 25
+      ClientWidth = 73
+      TabOrder = 2
+      object ConfigBtn: TButton
+        Left = 40
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '≡'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -17
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        OnClick = ConfigBtnClick
+        ParentFont = False
+        TabOrder = 0
+      end
+      object GoBtn: TButton
+        Left = 8
+        Height = 25
+        Top = 0
+        Width = 25
+        Caption = '►'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -17
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        OnClick = GoBtnClick
+        ParentFont = False
+        TabOrder = 1
+      end
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 663
+    Top = 25
+    Width = 1179
+    Align = alClient
+    TabStop = True
+    TabOrder = 0
+  end
+  object DevTools: TCEFWindowParent
+    Left = 1184
+    Height = 663
+    Top = 25
+    Width = 0
+    Align = alRight
+    TabOrder = 2
+    Visible = False
+  end
+  object StatusPnl: TPanel
+    Left = 0
+    Height = 24
+    Top = 688
+    Width = 1184
+    Align = alBottom
+    BevelOuter = bvLowered
+    TabOrder = 4
+  end
+  object Chromium1: TChromium
+    OnTextResultAvailable = Chromium1TextResultAvailable
+    OnPdfPrintFinished = Chromium1PdfPrintFinished
+    OnPrefsAvailable = Chromium1PrefsAvailable
+    OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
+    OnNavigationVisitorResultAvailable = Chromium1NavigationVisitorResultAvailable
+    OnLoadEnd = Chromium1LoadEnd
+    OnLoadError = Chromium1LoadError
+    OnLoadingStateChange = Chromium1LoadingStateChange
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnPreKeyEvent = Chromium1PreKeyEvent
+    OnKeyEvent = Chromium1KeyEvent
+    OnAddressChange = Chromium1AddressChange
+    OnTitleChange = Chromium1TitleChange
+    OnFullScreenModeChange = Chromium1FullScreenModeChange
+    OnStatusMessage = Chromium1StatusMessage
+    OnLoadingProgressChange = Chromium1LoadingProgressChange
+    OnBeforeDownload = Chromium1BeforeDownload
+    OnDownloadUpdated = Chromium1DownloadUpdated
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    OnBeforeResourceLoad = Chromium1BeforeResourceLoad
+    OnResourceResponse = Chromium1ResourceResponse
+    OnCertificateError = Chromium1CertificateError
+    left = 32
+    top = 224
+  end
+  object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
+    left = 32
+    top = 168
+    object DevTools1: TMenuItem
+      Caption = 'DevTools'
+      OnClick = DevTools1Click
+    end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object Openfile1: TMenuItem
+      Caption = 'Open file with a FILE URL...'
+      OnClick = Openfile1Click
+    end
+    object OpenfilewithaDAT1: TMenuItem
+      Caption = 'Open file with a DATA URL...'
+      OnClick = OpenfilewithaDAT1Click
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object Print1: TMenuItem
+      Caption = 'Print'
+      OnClick = Print1Click
+    end
+    object PrintinPDF1: TMenuItem
+      Caption = 'Print to PDF'
+      OnClick = PrintinPDF1Click
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object Zoom1: TMenuItem
+      Caption = 'Zoom'
+      object Inczoom1: TMenuItem
+        Caption = 'Inc zoom'
+        OnClick = Inczoom1Click
+      end
+      object Deczoom1: TMenuItem
+        Caption = 'Dec zoom'
+        OnClick = Deczoom1Click
+      end
+      object Resetzoom1: TMenuItem
+        Caption = 'Reset zoom'
+        OnClick = Resetzoom1Click
+      end
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object Preferences1: TMenuItem
+      Caption = 'Preferences...'
+      OnClick = Preferences1Click
+    end
+    object Resolvehost1: TMenuItem
+      Caption = 'Resolve host...'
+      OnClick = Resolvehost1Click
+    end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object Memoryinfo1: TMenuItem
+      Caption = 'Memory info...'
+      OnClick = Memoryinfo1Click
+    end
+  end
+  object SaveDialog1: TSaveDialog
+    left = 32
+    top = 112
+  end
+  object ApplicationEvents1: TApplicationProperties
+    left = 32
+    top = 56
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'HTML files|*.htm;*.html|Text files|*.txt|PDF files|*.pdf|Image files|*.jpg;*.jpeg;*.png;*.bmp;*.gif'
+    left = 32
+    top = 280
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 32
+    top = 344
+  end
+end

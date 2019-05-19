@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="6">
+      <Unit0>
+        <Filename Value="MiniBrowser.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="38"/>
+        <CursorPos X="18" Y="50"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uMiniBrowser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MiniBrowserFrm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="573"/>
+        <CursorPos X="52" Y="601"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="uPreferences.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="PreferencesFrm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="uSimpleTextViewer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SimpleTextViewerFrm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="2356"/>
+        <CursorPos X="41" Y="2374"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32object.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="396"/>
+        <CursorPos X="77" Y="404"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+    </Units>
+    <JumpHistory Count="24" HistoryIndex="23">
+      <Position1>
+        <Filename Value="uMiniBrowser.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="51" Column="83" TopLine="51"/>
+      </Position2>
+      <Position3>
+        <Filename Value="uSimpleTextViewer.pas"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="51" Column="83" TopLine="33"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="266" Column="8" TopLine="237"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="252" Column="76" TopLine="81"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="251" Column="76" TopLine="229"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="659" Column="10" TopLine="627"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="674" Column="20" TopLine="637"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="701" Column="32" TopLine="676"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="755" Column="28" TopLine="726"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="844" Column="42" TopLine="807"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="564" TopLine="553"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="576" Column="79" TopLine="51"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="310" Column="64" TopLine="305"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
+        <Caret Line="537" Column="19" TopLine="517"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="310" Column="64" TopLine="305"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="182" Column="15" TopLine="160"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="763" Column="26" TopLine="756"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="768" Column="69" TopLine="749"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="769" Column="69" TopLine="750"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="768" Column="69" TopLine="749"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="162" Column="61" TopLine="143"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="601" Column="52" TopLine="573"/>
+      </Position24>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

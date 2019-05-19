@@ -1,0 +1,69 @@
+object MainForm: TMainForm
+  Left = 150
+  Height = 658
+  Top = 86
+  Width = 781
+  Caption = 'Custom Resource Browser'
+  ClientHeight = 658
+  ClientWidth = 781
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object ChromiumWindow1: TChromiumWindow
+    Left = 0
+    Height = 637
+    Top = 21
+    Width = 781
+    Align = alClient
+    TabOrder = 0
+    OnClose = ChromiumWindow1Close
+    OnBeforeClose = ChromiumWindow1BeforeClose
+    OnAfterCreated = ChromiumWindow1AfterCreated
+  end
+  object AddressBarPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 781
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 781
+    DoubleBuffered = True
+    Enabled = False
+    ParentDoubleBuffered = False
+    TabOrder = 1
+    object Edit1: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 750
+      Align = alClient
+      TabOrder = 0
+      Text = 'http://www.example.com'
+    end
+    object Button1: TButton
+      Left = 750
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = Button1Click
+      TabOrder = 1
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 48
+    top = 240
+  end
+end

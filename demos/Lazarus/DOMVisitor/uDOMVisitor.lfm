@@ -1,0 +1,107 @@
+object DOMVisitorFrm: TDOMVisitorFrm
+  Left = 299
+  Height = 579
+  Top = 127
+  Width = 878
+  Caption = 'DOMVisitor'
+  ClientHeight = 579
+  ClientWidth = 878
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.2.0'
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 539
+    Top = 21
+    Width = 878
+    Align = alClient
+    TabOrder = 0
+  end
+  object AddressBarPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 878
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 878
+    DoubleBuffered = True
+    Enabled = False
+    ParentDoubleBuffered = False
+    TabOrder = 1
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 764
+      Align = alClient
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+    object Panel1: TPanel
+      Left = 764
+      Height = 21
+      Top = 0
+      Width = 114
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 21
+      ClientWidth = 114
+      TabOrder = 1
+      object GoBtn: TButton
+        Left = 0
+        Height = 21
+        Top = 0
+        Width = 31
+        Align = alLeft
+        Caption = 'Go'
+        OnClick = GoBtnClick
+        TabOrder = 0
+      end
+      object VisitDOMBtn: TButton
+        Left = 39
+        Height = 21
+        Top = 0
+        Width = 75
+        Align = alRight
+        Caption = 'Visit DOM'
+        OnClick = VisitDOMBtnClick
+        TabOrder = 1
+      end
+    end
+  end
+  object StatusPnl: TPanel
+    Left = 0
+    Height = 19
+    Top = 560
+    Width = 878
+    Align = alBottom
+    BevelOuter = bvLowered
+    TabOrder = 2
+  end
+  object Chromium1: TChromium
+    OnProcessMessageReceived = Chromium1ProcessMessageReceived
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    left = 16
+    top = 40
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    left = 16
+    top = 96
+  end
+end
