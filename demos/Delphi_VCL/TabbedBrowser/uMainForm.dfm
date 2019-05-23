@@ -30,7 +30,6 @@ object MainForm: TMainForm
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
-    ShowCaption = False
     TabOrder = 0
     object NavButtonPnl: TPanel
       Left = 5
@@ -39,7 +38,6 @@ object MainForm: TMainForm
       Height = 25
       Align = alLeft
       BevelOuter = bvNone
-      ShowCaption = False
       TabOrder = 1
       object BackBtn: TButton
         Left = 63
@@ -164,7 +162,6 @@ object MainForm: TMainForm
       Align = alClient
       BevelOuter = bvNone
       Padding.Top = 2
-      ShowCaption = False
       TabOrder = 0
       object URLCbx: TComboBox
         Left = 0

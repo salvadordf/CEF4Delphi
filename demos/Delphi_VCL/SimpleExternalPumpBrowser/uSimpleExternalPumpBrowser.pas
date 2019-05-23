@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFTypes, uCEFConstants, uCEFInterfaces, uCEFWorkScheduler,
-  uCEFChromiumWindow, Vcl.ComCtrls, Vcl.AppEvnts;
+  uCEFChromiumWindow, Vcl.ComCtrls, Vcl.AppEvnts, uCEFWinControl;
 
 type
   TSimpleExternalPumpBrowserFrm = class(TForm)

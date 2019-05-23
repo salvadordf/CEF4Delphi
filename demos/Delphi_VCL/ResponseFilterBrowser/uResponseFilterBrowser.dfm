@@ -40,7 +40,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
-    ShowCaption = False
     TabOrder = 0
     object AddressEdt: TEdit
       Left = 5
@@ -62,7 +61,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       Align = alRight
       BevelOuter = bvNone
       Padding.Left = 5
-      ShowCaption = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 5
@@ -118,7 +116,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Height = 230
     Align = alBottom
     BevelOuter = bvNone
-    ShowCaption = False
     TabOrder = 2
     object Memo1: TMemo
       Left = 0

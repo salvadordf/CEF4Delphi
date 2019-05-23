@@ -32,7 +32,6 @@ object Form1: TForm1
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
-    ShowCaption = False
     TabOrder = 0
     object ComboBox1: TComboBox
       Left = 5
@@ -66,7 +65,6 @@ object Form1: TForm1
       Align = alRight
       BevelOuter = bvNone
       Padding.Left = 4
-      ShowCaption = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 4
@@ -126,7 +124,6 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ShowCaption = False
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip

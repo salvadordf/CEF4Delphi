@@ -29,7 +29,6 @@ object Form1: TForm1
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
-    ShowCaption = False
     TabOrder = 0
     object AddressEdt: TEdit
       Left = 5

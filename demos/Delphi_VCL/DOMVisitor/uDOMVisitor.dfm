@@ -39,7 +39,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
     Padding.Right = 5
     Padding.Bottom = 5
     ParentDoubleBuffered = False
-    ShowCaption = False
     TabOrder = 1
     object AddressEdt: TEdit
       Left = 5
@@ -59,7 +58,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
       Align = alRight
       BevelOuter = bvNone
       Padding.Left = 5
-      ShowCaption = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 5

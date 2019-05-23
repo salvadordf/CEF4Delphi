@@ -29,7 +29,6 @@ object JSWindowBindingWithFunctionFrm: TJSWindowBindingWithFunctionFrm
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
-    ShowCaption = False
     TabOrder = 0
     object Edit1: TEdit
       Left = 5

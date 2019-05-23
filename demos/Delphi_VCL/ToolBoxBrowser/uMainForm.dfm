@@ -26,7 +26,6 @@ object MainForm: TMainForm
     Align = alClient
     BevelOuter = bvNone
     Enabled = False
-    ShowCaption = False
     TabOrder = 0
     object Edit1: TEdit
       Left = 8

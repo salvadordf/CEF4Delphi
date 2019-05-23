@@ -38,7 +38,6 @@ object JSEvalFrm: TJSEvalFrm
     Padding.Right = 5
     Padding.Bottom = 5
     ParentDoubleBuffered = False
-    ShowCaption = False
     TabOrder = 1
     object GoBtn: TButton
       Left = 842

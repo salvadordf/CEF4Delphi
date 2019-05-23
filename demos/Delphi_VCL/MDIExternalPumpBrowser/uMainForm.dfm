@@ -26,9 +26,7 @@ object MainForm: TMainForm
     Align = alTop
     BevelOuter = bvNone
     Enabled = False
-    ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 709
     object NewBtn: TSpeedButton
       Left = 4
       Top = 4

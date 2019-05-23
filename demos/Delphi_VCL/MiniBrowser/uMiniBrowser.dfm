@@ -37,7 +37,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Align = alTop
     BevelOuter = bvNone
     Enabled = False
-    ShowCaption = False
     TabOrder = 1
     object NavButtonPnl: TPanel
       Left = 0
@@ -46,7 +45,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Height = 41
       Align = alLeft
       BevelOuter = bvNone
-      ShowCaption = False
       TabOrder = 0
       object BackBtn: TButton
         Left = 8
@@ -118,7 +116,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
       BevelOuter = bvNone
       Padding.Top = 9
       Padding.Bottom = 8
-      ShowCaption = False
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0

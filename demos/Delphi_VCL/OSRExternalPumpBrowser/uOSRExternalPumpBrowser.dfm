@@ -32,7 +32,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
-    ShowCaption = False
     TabOrder = 0
     object ComboBox1: TComboBox
       Left = 5
@@ -66,7 +65,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
       Align = alRight
       BevelOuter = bvNone
       Padding.Left = 4
-      ShowCaption = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 4

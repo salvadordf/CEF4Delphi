@@ -26,7 +26,6 @@ object MainForm: TMainForm
     Align = alTop
     BevelOuter = bvNone
     Enabled = False
-    ShowCaption = False
     TabOrder = 0
     object NewBtn: TSpeedButton
       Left = 4

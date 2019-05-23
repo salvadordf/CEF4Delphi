@@ -31,7 +31,6 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
     Padding.Right = 5
     Padding.Bottom = 5
     ParentDoubleBuffered = False
-    ShowCaption = False
     TabOrder = 0
     object GoBtn: TButton
       Left = 944

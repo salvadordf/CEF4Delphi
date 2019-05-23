@@ -41,7 +41,6 @@ object MainForm: TMainForm
     Padding.Right = 5
     Padding.Bottom = 5
     ParentDoubleBuffered = False
-    ShowCaption = False
     TabOrder = 1
     object Edit1: TEdit
       Left = 5

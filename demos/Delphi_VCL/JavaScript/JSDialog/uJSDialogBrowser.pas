@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCEFTypes, uCEFConstants,
+  uCEFWinControl;
 
 const
   CEFBROWSER_SHOWJSDIALOG               = WM_APP + $101;
