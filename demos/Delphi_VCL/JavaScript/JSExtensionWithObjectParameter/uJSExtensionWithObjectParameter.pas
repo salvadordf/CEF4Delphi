@@ -70,6 +70,7 @@ type
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
+      var extra_info: ICefDictionaryValue;
       var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -154,6 +155,7 @@ begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.OnWebKitInitialized := {$IFNDEF DELPHI12_UP}TJSSimpleExtensionFrm.{$ENDIF}
       GlobalCEFApp_OnWebKitInitializedEvent;
+  GlobalCEFApp.DisableFeatures     := 'NetworkService';
 end;
 
 procedure TJSExtensionWithObjectParameterFrm.GoBtnClick(Sender: TObject);
@@ -179,6 +181,7 @@ procedure TJSExtensionWithObjectParameterFrm.Chromium1BeforePopup(
   targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
   const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
   var client: ICefClient; var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue;
   var noJavascriptAccess: Boolean; var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs

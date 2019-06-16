@@ -64,8 +64,8 @@ type
       function  IsGlobal: Boolean;
       function  GetHandler: ICefRequestContextHandler;
       function  GetCachePath: ustring;
-      function  GetDefaultCookieManager(const callback: ICefCompletionCallback): ICefCookieManager;
-      function  GetDefaultCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
+      function  GetCookieManager(const callback: ICefCompletionCallback): ICefCookieManager;
+      function  GetCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
       function  RegisterSchemeHandlerFactory(const schemeName, domainName: ustring; const factory: ICefSchemeHandlerFactory): Boolean;
       function  ClearSchemeHandlerFactories: Boolean;
       procedure PurgePluginListCache(reloadPages: Boolean);
@@ -107,14 +107,14 @@ begin
   Result := CefStringFreeAndGet(PCefRequestContext(FData)^.get_cache_path(PCefRequestContext(FData)));
 end;
 
-function TCefRequestContextRef.GetDefaultCookieManager(const callback: ICefCompletionCallback): ICefCookieManager;
+function TCefRequestContextRef.GetCookieManager(const callback: ICefCompletionCallback): ICefCookieManager;
 begin
-  Result := TCefCookieManagerRef.UnWrap(PCefRequestContext(FData)^.get_default_cookie_manager(PCefRequestContext(FData), CefGetData(callback)));
+  Result := TCefCookieManagerRef.UnWrap(PCefRequestContext(FData)^.get_cookie_manager(PCefRequestContext(FData), CefGetData(callback)));
 end;
 
-function TCefRequestContextRef.GetDefaultCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
+function TCefRequestContextRef.GetCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
 begin
-  Result := GetDefaultCookieManager(TCefFastCompletionCallback.Create(callback));
+  Result := GetCookieManager(TCefFastCompletionCallback.Create(callback));
 end;
 
 function TCefRequestContextRef.GetHandler: ICefRequestContextHandler;

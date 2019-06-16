@@ -102,7 +102,6 @@ begin
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
   GlobalCEFApp.LogFile              := 'debug.log';
   GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;

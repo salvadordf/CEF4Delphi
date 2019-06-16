@@ -39,7 +39,7 @@ program CRBrowser;
 
 {$I cef.inc}
 
-uses
+uses            
   {$IFDEF DELPHI16_UP}
   Vcl.Forms,
   WinApi.Windows,
@@ -56,7 +56,7 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -68,6 +68,5 @@ begin
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.

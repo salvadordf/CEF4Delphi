@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="191"/>
-        <CursorPos X="3" Y="211"/>
+        <TopLine Value="174"/>
+        <CursorPos X="39" Y="180"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -46,7 +46,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="10" HistoryIndex="9">
       <Position1>
         <Filename Value="ExternalPumpBrowser.lpr"/>
       </Position1>
@@ -81,6 +81,10 @@
         <Filename Value="uExternalPumpBrowser.pas"/>
         <Caret Line="108" TopLine="72"/>
       </Position9>
+      <Position10>
+        <Filename Value="uExternalPumpBrowser.pas"/>
+        <Caret Line="84" Column="43" TopLine="57"/>
+      </Position10>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

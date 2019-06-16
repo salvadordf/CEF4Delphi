@@ -8,9 +8,8 @@
       <Unit0>
         <Filename Value="JSSimpleWindowBinding.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="42"/>
-        <CursorPos X="43" Y="46"/>
+        <CursorPos X="36" Y="68"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -21,17 +20,24 @@
         <ComponentName Value="JSSimpleWindowBindingFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
+        <TopLine Value="62"/>
+        <CursorPos X="39" Y="134"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="1">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="uJSSimpleWindowBinding.pas"/>
       </Position1>
+      <Position2>
+        <Filename Value="uJSSimpleWindowBinding.pas"/>
+        <Caret Line="75" Column="43" TopLine="55"/>
+      </Position2>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

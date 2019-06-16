@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
-  uCEFApplication, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCEFTypes, uCEFConstants;
+  uCEFApplication, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCEFTypes, uCEFConstants,
+  uCEFWinControl;
 
 type
   TWebBrowserFrm = class(TForm)
@@ -57,19 +58,23 @@ type
     Timer1: TTimer;
     procedure FormShow(Sender: TObject);
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
-    procedure Chromium_OnBeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-      userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
-      var windowInfo: TCefWindowInfo; var client: ICefClient;
-      var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
-      var Result: Boolean);
     procedure Timer1Timer(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
     procedure ChromiumWindow1Close(Sender: TObject);
   private
+
+    procedure Chromium_OnBeforePopup(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+      targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+      userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
+      var windowInfo: TCefWindowInfo; var client: ICefClient;
+      var settings: TCefBrowserSettings;
+      var extra_info: ICefDictionaryValue;
+      var noJavascriptAccess: Boolean;
+      var Result: Boolean);
+
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -173,7 +178,9 @@ procedure TWebBrowserFrm.Chromium_OnBeforePopup(Sender: TObject;
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue;
+  var noJavascriptAccess: Boolean;
   var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs

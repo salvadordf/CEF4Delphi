@@ -8,8 +8,7 @@
       <Unit0>
         <Filename Value="JSExtensionWithFunction.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="41"/>
+        <TopLine Value="45"/>
         <CursorPos X="17" Y="59"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -22,8 +21,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="107"/>
-        <CursorPos X="11" Y="125"/>
+        <TopLine Value="63"/>
+        <CursorPos X="15" Y="78"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -32,8 +31,12 @@
       <Unit2>
         <Filename Value="uMyV8Handler.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="50"/>
+        <CursorPos X="74" Y="69"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -53,7 +56,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="10" HistoryIndex="9">
       <Position1>
         <Filename Value="uJSExtensionWithFunction.pas"/>
       </Position1>
@@ -65,6 +68,34 @@
         <Filename Value="uJSExtensionWithFunction.pas"/>
         <Caret Line="151" Column="39" TopLine="133"/>
       </Position3>
+      <Position4>
+        <Filename Value="JSExtensionWithFunction.lpr"/>
+        <Caret Line="59" Column="17" TopLine="45"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uJSExtensionWithFunction.pas"/>
+        <Caret Line="104" Column="11" TopLine="94"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uJSExtensionWithFunction.pas"/>
+        <Caret Line="77" Column="7" TopLine="68"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uJSExtensionWithFunction.pas"/>
+        <Caret Line="179" Column="39" TopLine="172"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uJSExtensionWithFunction.pas"/>
+        <Caret Line="79" Column="59" TopLine="57"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uJSExtensionWithFunction.pas"/>
+        <Caret Line="198" Column="60" TopLine="188"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uJSExtensionWithFunction.pas"/>
+        <Caret Line="78" Column="15" TopLine="63"/>
+      </Position10>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

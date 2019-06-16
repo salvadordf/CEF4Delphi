@@ -72,8 +72,9 @@ type
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
       const popupFeatures: TCefPopupFeatures;
       var windowInfo: TCefWindowInfo; var client: ICefClient;
-      var settings: TCefBrowserSettings; var noJavascriptAccess,
-      Result: Boolean);
+      var settings: TCefBrowserSettings;
+      var extra_info: ICefDictionaryValue;
+      var noJavascriptAccess, Result: Boolean);
     procedure FormResize(Sender: TObject);
     procedure FMXChromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
@@ -157,6 +158,7 @@ procedure TSimpleFMXBrowserFrm.FMXChromium1BeforePopup(      Sender             
                                                        var   windowInfo         : TCefWindowInfo;
                                                        var   client             : ICefClient;
                                                        var   settings           : TCefBrowserSettings;
+                                                       var   extra_info         : ICefDictionaryValue;
                                                        var   noJavascriptAccess : boolean;
                                                        var   Result             : boolean);
 begin

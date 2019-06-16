@@ -88,7 +88,7 @@ type
       const params: ICefContextMenuParams; commandId: Integer;
       eventFlags: Cardinal; out Result: Boolean);
     procedure Chromium1ProcessMessageReceived(Sender: TObject;
-      const browser: ICefBrowser; sourceProcess: TCefProcessId;
+      const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
       const message: ICefProcessMessage; out Result: Boolean);
     procedure Timer1Timer(Sender: TObject);
     procedure VisitDOMBtnClick(Sender: TObject);
@@ -98,6 +98,7 @@ type
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
+      var extra_info: ICefDictionaryValue;
       var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -216,7 +217,7 @@ begin
   end;
 end;
 
-procedure DOMVisitor_OnDocAvailable(const browser: ICefBrowser; const document: ICefDomDocument);
+procedure DOMVisitor_OnDocAvailable(const browser: ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument);
 var
   msg: ICefProcessMessage;
 begin
@@ -241,10 +242,10 @@ begin
   // Chromium1ProcessMessageReceived
   msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_PARTIAL);
   msg.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
-  browser.SendProcessMessage(PID_BROWSER, msg);
+  frame.SendProcessMessage(PID_BROWSER, msg);
 end;
 
-procedure DOMVisitor_OnDocAvailableFullMarkup(const browser: ICefBrowser; const document: ICefDomDocument);
+procedure DOMVisitor_OnDocAvailableFullMarkup(const browser: ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument);
 var
   msg: ICefProcessMessage;
 begin
@@ -253,10 +254,11 @@ begin
   // Chromium1ProcessMessageReceived
   msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_FULL);
   msg.ArgumentList.SetString(0, document.Body.AsMarkup);
-  browser.SendProcessMessage(PID_BROWSER, msg);
+  frame.SendProcessMessage(PID_BROWSER, msg);
 end;
 
 procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                const frame         : ICefFrame;
                                                       sourceProcess : TCefProcessId;
                                                 const message       : ICefProcessMessage;
                                                 var   aHandled      : boolean);
@@ -274,7 +276,7 @@ begin
 
           if (TempFrame <> nil) then
             begin
-              TempVisitor := TCefFastDomVisitor2.Create(browser, DOMVisitor_OnDocAvailable);
+              TempVisitor := TCefFastDomVisitor2.Create(browser, TempFrame, DOMVisitor_OnDocAvailable);
               TempFrame.VisitDom(TempVisitor);
             end;
 
@@ -287,7 +289,7 @@ begin
 
             if (TempFrame <> nil) then
               begin
-                TempVisitor := TCefFastDomVisitor2.Create(browser, DOMVisitor_OnDocAvailableFullMarkup);
+                TempVisitor := TCefFastDomVisitor2.Create(browser, TempFrame, DOMVisitor_OnDocAvailableFullMarkup);
                 TempFrame.VisitDom(TempVisitor);
               end;
 
@@ -334,7 +336,9 @@ procedure TDOMVisitorFrm.Chromium1BeforePopup(Sender: TObject;
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue;
+  var noJavascriptAccess: Boolean;
   var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
@@ -365,7 +369,7 @@ begin
 end;
 
 procedure TDOMVisitorFrm.Chromium1ProcessMessageReceived(Sender: TObject;
-  const browser: ICefBrowser; sourceProcess: TCefProcessId;
+  const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
   const message: ICefProcessMessage; out Result: Boolean);
 begin
   Result := False;

@@ -86,6 +86,7 @@ type
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
+      var extra_info: ICefDictionaryValue;
       var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
@@ -134,8 +135,9 @@ end;
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.OnRegCustomSchemes   := GlobalCEFApp_OnRegCustomSchemes;
+  GlobalCEFApp                    := TCefApplication.Create;
+  GlobalCEFApp.OnRegCustomSchemes := GlobalCEFApp_OnRegCustomSchemes;
+  GlobalCEFApp.DisableFeatures    := 'NetworkService';
 end;
 
 procedure TSchemeRegistrationBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -164,6 +166,7 @@ procedure TSchemeRegistrationBrowserFrm.Chromium1BeforePopup(
   targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
   const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
   var client: ICefClient; var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue;
   var noJavascriptAccess: Boolean; var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs

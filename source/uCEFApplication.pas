@@ -60,15 +60,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 74;
-  CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 19;
+  CEF_SUPPORTED_VERSION_MAJOR   = 75;
+  CEF_SUPPORTED_VERSION_MINOR   = 0;
+  CEF_SUPPORTED_VERSION_RELEASE = 7;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 74;
+  CEF_CHROMEELF_VERSION_MAJOR   = 75;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3729;
-  CEF_CHROMEELF_VERSION_BUILD   = 157;
+  CEF_CHROMEELF_VERSION_RELEASE = 3770;
+  CEF_CHROMEELF_VERSION_BUILD   = 80;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -82,7 +82,7 @@ type
   TCefApplication = class
     protected
       FCache                         : ustring;
-      FCookies                       : ustring;
+      FRootCache                     : ustring;
       FUserDataPath                  : ustring;
       FUserAgent                     : ustring;
       FProductVersion                : ustring;
@@ -108,12 +108,12 @@ type
       FEnableNetSecurityExpiration   : boolean;
       FBackgroundColor               : TCefColor;
       FAcceptLanguageList            : ustring;
+      FApplicationClientID           : ustring;
       FWindowsSandboxInfo            : Pointer;
       FWindowlessRenderingEnabled    : Boolean;
       FMultiThreadedMessageLoop      : boolean;
       FExternalMessagePump           : boolean;
       FDeleteCache                   : boolean;
-      FDeleteCookies                 : boolean;
       FCustomCommandLines            : TStringList;
       FCustomCommandLineValues       : TStringList;
       FFlashEnabled                  : boolean;
@@ -136,6 +136,10 @@ type
       FDisablePDFExtension           : boolean;
       FLogProcessInfo                : boolean;
       FDestroyAppWindows             : boolean;
+      FEnableFeatures                : string;
+      FDisableFeatures               : string;
+      FEnableBlinkFeatures           : string;
+      FDisableBlinkFeatures          : string;
       FChromeVersionInfo             : TFileVersionInfo;
       {$IFDEF FPC}
       FLibHandle                     : TLibHandle;
@@ -197,7 +201,7 @@ type
       FOnLoadError                   : TOnRenderLoadError;
 
       procedure SetCache(const aValue : ustring);
-      procedure SetCookies(const aValue : ustring);
+      procedure SetRootCache(const aValue : ustring);
       procedure SetUserDataPath(const aValue : ustring);
       procedure SetBrowserSubprocessPath(const aValue : ustring);
       procedure SetFrameworkDirPath(const aValue : ustring);
@@ -314,13 +318,13 @@ type
       function    Internal_GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt) : boolean;
       procedure   Internal_OnRenderThreadCreated(const extraInfo: ICefListValue);
       procedure   Internal_OnWebKitInitialized;
-      procedure   Internal_OnBrowserCreated(const browser: ICefBrowser);
+      procedure   Internal_OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
       procedure   Internal_OnBrowserDestroyed(const browser: ICefBrowser);
       procedure   Internal_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
       procedure   Internal_OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
       procedure   Internal_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
       procedure   Internal_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
-      procedure   Internal_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
+      procedure   Internal_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
       procedure   Internal_OnCDMRegistrationComplete(result : TCefCDMRegistrationError; const error_message : ustring);
       procedure   Internal_OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
       procedure   Internal_OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
@@ -328,7 +332,7 @@ type
       procedure   Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
 
       property Cache                             : ustring                             read FCache                             write SetCache;
-      property Cookies                           : ustring                             read FCookies                           write SetCookies;
+      property RootCache                         : ustring                             read FRootCache                         write SetRootCache;
       property UserDataPath                      : ustring                             read FUserDataPath                      write SetUserDataPath;
       property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
       property ProductVersion                    : ustring                             read FProductVersion                    write FProductVersion;
@@ -352,12 +356,12 @@ type
       property EnableNetSecurityExpiration       : boolean                             read FEnableNetSecurityExpiration       write FEnableNetSecurityExpiration;
       property BackgroundColor                   : TCefColor                           read FBackgroundColor                   write FBackgroundColor;
       property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
+      property ApplicationClientID               : ustring                             read FApplicationClientID               write FApplicationClientID;
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
       property WindowlessRenderingEnabled        : Boolean                             read FWindowlessRenderingEnabled        write FWindowlessRenderingEnabled;
       property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
       property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
       property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
-      property DeleteCookies                     : boolean                             read FDeleteCookies                     write FDeleteCookies;
       property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;
       property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
@@ -374,6 +378,10 @@ type
       property LibCefVersion                     : string                              read GetLibCefVersion;
       property LibCefPath                        : string                              read GetLibCefPath;
       property ChromeElfPath                     : string                              read GetChromeElfPath;
+      property EnableFeatures                    : string                              read FEnableFeatures                    write FEnableFeatures;
+      property DisableFeatures                   : string                              read FDisableFeatures                   write FDisableFeatures;
+      property EnableBlinkFeatures               : string                              read FEnableBlinkFeatures               write FEnableBlinkFeatures;
+      property DisableBlinkFeatures              : string                              read FDisableBlinkFeatures              write FDisableBlinkFeatures;
       property SmoothScrolling                   : TCefState                           read FSmoothScrolling                   write FSmoothScrolling;
       property FastUnload                        : boolean                             read FFastUnload                        write FFastUnload;
       property DisableSafeBrowsing               : boolean                             read FDisableSafeBrowsing               write FDisableSafeBrowsing;
@@ -447,17 +455,6 @@ type
       property OnLoadError                       : TOnRenderLoadError                  read FOnLoadError                       write FOnLoadError;
   end;
 
-  TCEFCookieInitializerThread = class(TThread)
-    protected
-      FCookies               : string;
-      FPersistSessionCookies : boolean;
-
-      procedure Execute; override;
-
-    public
-      constructor Create(const aCookies : string; aPersistSessionCookies : boolean);
-  end;
-
   TCEFDirectoryDeleterThread = class(TThread)
     protected
       FDirectory : string;
@@ -503,7 +500,7 @@ begin
   FMissingLibFiles               := '';
   FLibHandle                     := 0;
   FCache                         := '';
-  FCookies                       := '';
+  FRootCache                     := '';
   FUserDataPath                  := '';
   FUserAgent                     := '';
   FProductVersion                := '';
@@ -528,12 +525,12 @@ begin
   FEnableNetSecurityExpiration   := False;
   FBackgroundColor               := 0;
   FAcceptLanguageList            := '';
+  FApplicationClientID           := '';
   FWindowsSandboxInfo            := nil;
   FWindowlessRenderingEnabled    := False;
   FMultiThreadedMessageLoop      := True;
   FExternalMessagePump           := False;
   FDeleteCache                   := False;
-  FDeleteCookies                 := False;
   FFlashEnabled                  := True;
   FEnableMediaStream             := True;
   FEnableSpeechInput             := True;
@@ -570,6 +567,10 @@ begin
   FMetricsRecordingOnly          := False;
   FAllowFileAccessFromFiles      := False;
   FAllowRunningInsecureContent   := False;
+  FEnableFeatures                := '';
+  FDisableFeatures               := '';
+  FEnableBlinkFeatures           := '';
+  FDisableBlinkFeatures          := '';
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -770,17 +771,17 @@ begin
   FDisableGPUCache := (length(FCache) = 0);
 end;
 
-procedure TCefApplication.SetCookies(const aValue : ustring);
+procedure TCefApplication.SetRootCache(const aValue : ustring);
 begin
   if (length(aValue) > 0) then
     begin
       if CustomPathIsRelative(aValue) then
-        FCookies := GetModulePath + aValue
+        FRootCache := GetModulePath + aValue
        else
-        FCookies := aValue;
+        FRootCache := aValue;
     end
    else
-    FCookies := '';
+    FRootCache := '';
 end;
 
 procedure TCefApplication.SetUserDataPath(const aValue : ustring);
@@ -1106,33 +1107,35 @@ end;
 
 procedure TCefApplication.InitializeSettings(var aSettings : TCefSettings);
 begin
-  aSettings.size                            := SizeOf(TCefSettings);
-  aSettings.no_sandbox                      := Ord(FNoSandbox);
-  aSettings.browser_subprocess_path         := CefString(FBrowserSubprocessPath);
-  aSettings.framework_dir_path              := CefString(FFrameworkDirPath);
-  aSettings.multi_threaded_message_loop     := Ord(FMultiThreadedMessageLoop);
-  aSettings.external_message_pump           := Ord(FExternalMessagePump);
-  aSettings.windowless_rendering_enabled    := Ord(FWindowlessRenderingEnabled);
-  aSettings.command_line_args_disabled      := Ord(FCommandLineArgsDisabled);
-  aSettings.cache_path                      := CefString(FCache);
-  aSettings.user_data_path                  := CefString(FUserDataPath);
-  aSettings.persist_session_cookies         := Ord(FPersistSessionCookies);
-  aSettings.persist_user_preferences        := Ord(FPersistUserPreferences);
-  aSettings.user_agent                      := CefString(FUserAgent);
-  aSettings.product_version                 := CefString(FProductVersion);
-  aSettings.locale                          := CefString(FLocale);
-  aSettings.log_file                        := CefString(FLogFile);
-  aSettings.log_severity                    := FLogSeverity;
-  aSettings.javascript_flags                := CefString(FJavaScriptFlags);
-  aSettings.resources_dir_path              := CefString(FResourcesDirPath);
-  aSettings.locales_dir_path                := CefString(FLocalesDirPath);
-  aSettings.pack_loading_disabled           := Ord(FPackLoadingDisabled);
-  aSettings.remote_debugging_port           := FRemoteDebuggingPort;
-  aSettings.uncaught_exception_stack_size   := FUncaughtExceptionStackSize;
-  aSettings.ignore_certificate_errors       := Ord(FIgnoreCertificateErrors);
-  aSettings.enable_net_security_expiration  := Ord(FEnableNetSecurityExpiration);
-  aSettings.background_color                := FBackgroundColor;
-  aSettings.accept_language_list            := CefString(FAcceptLanguageList);
+  aSettings.size                                    := SizeOf(TCefSettings);
+  aSettings.no_sandbox                              := Ord(FNoSandbox);
+  aSettings.browser_subprocess_path                 := CefString(FBrowserSubprocessPath);
+  aSettings.framework_dir_path                      := CefString(FFrameworkDirPath);
+  aSettings.multi_threaded_message_loop             := Ord(FMultiThreadedMessageLoop);
+  aSettings.external_message_pump                   := Ord(FExternalMessagePump);
+  aSettings.windowless_rendering_enabled            := Ord(FWindowlessRenderingEnabled);
+  aSettings.command_line_args_disabled              := Ord(FCommandLineArgsDisabled);
+  aSettings.cache_path                              := CefString(FCache);
+  aSettings.root_cache_path                         := CefString(FRootCache);
+  aSettings.user_data_path                          := CefString(FUserDataPath);
+  aSettings.persist_session_cookies                 := Ord(FPersistSessionCookies);
+  aSettings.persist_user_preferences                := Ord(FPersistUserPreferences);
+  aSettings.user_agent                              := CefString(FUserAgent);
+  aSettings.product_version                         := CefString(FProductVersion);
+  aSettings.locale                                  := CefString(FLocale);
+  aSettings.log_file                                := CefString(FLogFile);
+  aSettings.log_severity                            := FLogSeverity;
+  aSettings.javascript_flags                        := CefString(FJavaScriptFlags);
+  aSettings.resources_dir_path                      := CefString(FResourcesDirPath);
+  aSettings.locales_dir_path                        := CefString(FLocalesDirPath);
+  aSettings.pack_loading_disabled                   := Ord(FPackLoadingDisabled);
+  aSettings.remote_debugging_port                   := FRemoteDebuggingPort;
+  aSettings.uncaught_exception_stack_size           := FUncaughtExceptionStackSize;
+  aSettings.ignore_certificate_errors               := Ord(FIgnoreCertificateErrors);
+  aSettings.enable_net_security_expiration          := Ord(FEnableNetSecurityExpiration);
+  aSettings.background_color                        := FBackgroundColor;
+  aSettings.accept_language_list                    := CefString(FAcceptLanguageList);
+  aSettings.application_client_id_for_file_scanning := CefString(FApplicationClientID);
 end;
 
 function TCefApplication.InitializeLibrary(const aApp : ICefApp) : boolean;
@@ -1145,8 +1148,7 @@ begin
     try
       if (aApp <> nil) then
         begin
-          if FDeleteCache   then RenameAndDeleteDir(FCache);
-          if FDeleteCookies then RenameAndDeleteDir(FCookies);
+          if FDeleteCache then RenameAndDeleteDir(FCache);
 
           RegisterWidevineCDM;
 
@@ -1318,7 +1320,10 @@ begin
               if (CompareText(TempValue, 'gpu-process') = 0) then
                 Result := ptGPU
                else
-                Result := ptOther;
+                if (CompareText(TempValue, 'utility') = 0) then
+                  Result := ptUtility
+                 else
+                  Result := ptOther;
         end;
 
       dec(i);
@@ -1326,20 +1331,8 @@ begin
 end;
 
 procedure TCefApplication.Internal_OnContextInitialized;
-var
-  TempThread : TCEFCookieInitializerThread;
 begin
   FGlobalContextInitialized := True;
-
-  if (length(FCookies) > 0) then
-    begin
-      TempThread := TCEFCookieInitializerThread.Create(FCookies, FPersistSessionCookies);
-      {$IFDEF DELPHI14_UP}
-      TempThread.Start;
-      {$ELSE}
-      TempThread.Resume;
-      {$ENDIF}
-    end;
 
   if assigned(FOnContextInitialized) then FOnContextInitialized();
 end;
@@ -1399,9 +1392,9 @@ begin
   if assigned(FOnWebKitInitialized) then FOnWebKitInitialized();
 end;
 
-procedure TCefApplication.Internal_OnBrowserCreated(const browser: ICefBrowser);
+procedure TCefApplication.Internal_OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
 begin
-  if assigned(FOnBrowserCreated) then FOnBrowserCreated(browser);
+  if assigned(FOnBrowserCreated) then FOnBrowserCreated(browser, extra_info);
 end;
 
 procedure TCefApplication.Internal_OnBrowserDestroyed(const browser: ICefBrowser);
@@ -1429,10 +1422,10 @@ begin
   if assigned(FOnFocusedNodeChanged) then FOnFocusedNodeChanged(browser, frame, node);
 end;
 
-procedure TCefApplication.Internal_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
+procedure TCefApplication.Internal_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
 begin
   if assigned(FOnProcessMessageReceived) then
-    FOnProcessMessageReceived(browser, sourceProcess, aMessage, aHandled)
+    FOnProcessMessageReceived(browser, frame, sourceProcess, aMessage, aHandled)
    else
     aHandled := False;
 end;
@@ -1561,6 +1554,26 @@ begin
 
       if FAllowRunningInsecureContent then
         commandLine.AppendSwitch('--allow-running-insecure-content');
+
+      // The list of features you can enable is here :
+      // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
+      if (length(FEnableFeatures) > 0) then
+        commandLine.AppendSwitchWithValue('--enable-features', FEnableFeatures);
+
+      // The list of features you can disable is here :
+      // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
+      if (length(FDisableFeatures) > 0) then
+        commandLine.AppendSwitchWithValue('--disable-features', FDisableFeatures);
+
+      // The list of Blink features you can enable is here :
+      // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
+      if (length(FEnableBlinkFeatures) > 0) then
+        commandLine.AppendSwitchWithValue('--enable-blink-features', FEnableBlinkFeatures);
+
+      // The list of Blink features you can disable is here :
+      // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
+      if (length(FDisableBlinkFeatures) > 0) then
+        commandLine.AppendSwitchWithValue('--disable-blink-features', FDisableBlinkFeatures);
 
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and
@@ -1942,12 +1955,8 @@ end;
 function TCefApplication.Load_cef_cookie_capi_h : boolean;
 begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_cookie_manager_get_global_manager{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_cookie_manager_get_global_manager');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_cookie_manager_get_blocking_manager{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_cookie_manager_get_blocking_manager');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_cookie_manager_create_manager{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_cookie_manager_create_manager');
 
-  Result := assigned(cef_cookie_manager_get_global_manager) and
-            assigned(cef_cookie_manager_get_blocking_manager) and
-            assigned(cef_cookie_manager_create_manager);
+  Result := assigned(cef_cookie_manager_get_global_manager);
 end;
 
 function TCefApplication.Load_cef_crash_util_h : boolean;
@@ -2512,47 +2521,6 @@ begin
   Result := True;
   {$ENDIF}
 end;
-
-
-// TCEFCookieInitializerThread
-
-constructor TCEFCookieInitializerThread.Create(const aCookies : string; aPersistSessionCookies : boolean);
-begin
-  inherited Create(True);
-
-  FCookies               := aCookies;
-  FPersistSessionCookies := aPersistSessionCookies;
-  FreeOnTerminate        := True;
-end;
-
-procedure TCEFCookieInitializerThread.Execute;
-var
-  TempCookieManager : ICefCookieManager;
-  TempCallBack      : ICefCompletionCallback;
-  TempEvent         : ICefWaitableEvent;
-begin
-  try
-    try
-      if (length(FCookies) > 0) then
-        begin
-          TempEvent         := TCefWaitableEventRef.New(True, False);
-          TempCallBack      := TCefEventCompletionCallback.Create(TempEvent);
-          TempCookieManager := TCefCookieManagerRef.Global(TempCallBack);
-
-          if TempEvent.TimedWait(5000) and (TempCookieManager <> nil) then
-            TempCookieManager.SetStoragePath(FCookies, FPersistSessionCookies, nil);
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCEFCookieInitializerThread.Execute', e) then raise;
-    end;
-  finally
-    TempCookieManager := nil;
-    TempCallBack      := nil;
-    TempEvent         := nil;
-  end;
-end;
-
 
 
 // TCEFDirectoryDeleterThread

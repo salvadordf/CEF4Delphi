@@ -79,7 +79,6 @@ type
       function  GetFrameCount: NativeUInt;
       function  GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
       function  GetFrameNames(var aFrameNames : TStrings) : boolean;
-      function  SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
 
     public
       class function UnWrap(data: Pointer): ICefBrowser;
@@ -242,11 +241,6 @@ begin
       TempSL.CopyToStrings(aFrameNames);
       Result := True;
     end;
-end;
-
-function TCefBrowserRef.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage): Boolean;
-begin
-  Result := PCefBrowser(FData)^.send_process_message(PCefBrowser(FData), targetProcess, CefGetData(ProcMessage)) <> 0;
 end;
 
 function TCefBrowserRef.GetMainFrame: ICefFrame;

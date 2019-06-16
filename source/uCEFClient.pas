@@ -68,7 +68,7 @@ type
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
-      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -92,7 +92,7 @@ type
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
-      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -132,7 +132,7 @@ type
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); override;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); override;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); override;
-      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; override;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; override;
 
       procedure InitializeVars;
 
@@ -158,7 +158,7 @@ uses
   uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
   uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
-  uCEFFindHandler, uCEFAudioHandler, uCEFConstants, uCEFApplication;
+  uCEFFindHandler, uCEFAudioHandler, uCEFConstants, uCEFApplication, uCEFFrame;
 
 
 // ******************************************************
@@ -243,7 +243,7 @@ begin
   aHandler := nil;
 end;
 
-function TCefClientRef.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean;
+function TCefClientRef.OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean;
 begin
   Result := False;
 end;
@@ -499,6 +499,7 @@ end;
 
 function cef_client_own_on_process_message_received(self           : PCefClient;
                                                     browser        : PCefBrowser;
+                                                    frame          : PCefFrame;
                                                     source_process : TCefProcessId;
                                                     message_       : PCefProcessMessage): Integer; stdcall;
 var
@@ -509,6 +510,7 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     Result := Ord(TCefClientOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
+                                                                     TCefFrameRef.UnWrap(frame),
                                                                      source_process,
                                                                      TCefProcessMessageRef.UnWrap(message_)));
 end;
@@ -608,6 +610,7 @@ begin
 end;
 
 function TCefClientOwn.OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                const frame         : ICefFrame;
                                                       sourceProcess : TCefProcessId;
                                                 const message_      : ICefProcessMessage): Boolean;
 begin
@@ -825,13 +828,14 @@ begin
 end;
 
 function TCustomClientHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                       const frame         : ICefFrame;
                                                              sourceProcess : TCefProcessId;
                                                        const message_      : ICefProcessMessage): Boolean;
 begin
   if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnProcessMessageReceived(browser, sourceProcess, message_)
+    Result := IChromiumEvents(FEvents).doOnProcessMessageReceived(browser, frame, sourceProcess, message_)
    else
-    Result := inherited OnProcessMessageReceived(browser, sourceProcess, message_);
+    Result := inherited OnProcessMessageReceived(browser, frame, sourceProcess, message_);
 end;
 
 end.

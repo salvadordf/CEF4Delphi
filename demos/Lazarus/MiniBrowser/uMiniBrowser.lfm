@@ -1,7 +1,7 @@
 object MiniBrowserFrm: TMiniBrowserFrm
-  Left = 51
+  Left = 347
   Height = 712
-  Top = 127
+  Top = 163
   Width = 1184
   Caption = 'MiniBrowser'
   ClientHeight = 712
@@ -258,9 +258,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
+    OnCertificateError = Chromium1CertificateError
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
-    OnCertificateError = Chromium1CertificateError
     left = 32
     top = 224
   end

@@ -1,7 +1,7 @@
 object SimpleServerFrm: TSimpleServerFrm
-  Left = 0
+  Left = 498
   Height = 436
-  Top = 0
+  Top = 311
   Width = 554
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -15,7 +15,7 @@ object SimpleServerFrm: TSimpleServerFrm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.0.1.0'
+  LCLVersion = '2.0.2.0'
   object ButtonPnl: TPanel
     Left = 0
     Height = 94
@@ -61,7 +61,7 @@ object SimpleServerFrm: TSimpleServerFrm
     end
     object PortEdt: TSpinEdit
       Left = 87
-      Height = 22
+      Height = 21
       Top = 36
       Width = 211
       MaxValue = 65535
@@ -71,7 +71,7 @@ object SimpleServerFrm: TSimpleServerFrm
     end
     object BacklogEdt: TSpinEdit
       Left = 87
-      Height = 22
+      Height = 21
       Top = 65
       Width = 211
       MaxValue = 512

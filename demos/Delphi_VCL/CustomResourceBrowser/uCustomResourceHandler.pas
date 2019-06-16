@@ -58,8 +58,10 @@ type
 
     protected
       function  ProcessRequest(const request: ICefRequest; const callback: ICefCallback): Boolean; override;
-      procedure GetResponseHeaders(const response: ICefResponse; out responseLength: Int64; out redirectUrl: ustring); override;
       function  ReadResponse(const dataOut: Pointer; bytesToRead: Integer; var bytesRead: Integer; const callback: ICefCallback): Boolean; override;
+      procedure GetResponseHeaders(const response: ICefResponse; out responseLength: Int64; out redirectUrl: ustring); override;
+      //function  open(const request: ICefRequest; var handle_request: boolean; const callback: ICefCallback): boolean; override;
+      //function  read(const data_out: Pointer; bytes_to_read: Integer; var bytes_read: Integer; const callback: ICefResourceReadCallback): boolean; override;
 
     public
       constructor Create(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest; const aStream : TStream; const aMimeType : ustring); reintroduce;
@@ -112,6 +114,32 @@ begin
    else
     responseLength := 0;
 end;
+        {
+function TCustomResourceHandler.open(const request        : ICefRequest;
+                                     var   handle_request : boolean;
+                                     const callback       : ICefCallback): boolean;
+begin
+  Result         := True;
+  handle_request := True;
+  FStatus        := 200;
+  FStatusText    := 'OK';
+
+  if (FStream  <> nil) then FStream.Seek(0, soFromBeginning);
+end;
+
+function TCustomResourceHandler.read(const data_out      : Pointer;
+                                           bytes_to_read : Integer;
+                                     var   bytes_read    : Integer;
+                                     const callback      : ICefResourceReadCallback): boolean;
+begin
+  if (FStream <> nil) and (data_out <> nil) then
+    begin
+      bytes_read := FStream.Read(data_out^, bytes_to_read);
+      Result     := True;
+    end
+   else
+    Result := False;
+end;   }
 
 function TCustomResourceHandler.ProcessRequest(const request : ICefRequest; const callback : ICefCallback): Boolean;
 begin

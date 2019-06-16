@@ -74,11 +74,12 @@ type
     protected
       FProc    : TCefDomVisitorProc2;
       FBrowser : ICefBrowser;
+      FFrame   : ICefFrame;
 
       procedure visit(const document: ICefDomDocument); override;
 
     public
-      constructor Create(const browser: ICefBrowser; const proc: TCefDomVisitorProc2); reintroduce; virtual;
+      constructor Create(const browser: ICefBrowser; const frame: ICefFrame; const proc: TCefDomVisitorProc2); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -128,24 +129,26 @@ end;
 
 // TCefFastDomVisitor2
 
-constructor TCefFastDomVisitor2.Create(const browser: ICefBrowser; const proc: TCefDomVisitorProc2);
+constructor TCefFastDomVisitor2.Create(const browser: ICefBrowser; const frame: ICefFrame; const proc: TCefDomVisitorProc2);
 begin
   inherited Create;
 
   FBrowser := browser;
+  FFrame   := frame;
   FProc    := proc;
 end;
 
 destructor TCefFastDomVisitor2.Destroy;
 begin
   FBrowser := nil;
+  FFrame   := nil;
 
   inherited Destroy;
 end;
 
 procedure TCefFastDomVisitor2.visit(const document: ICefDomDocument);
 begin
-  FProc(FBrowser, document);
+  FProc(FBrowser, FFrame, document);
 end;
 
 end.

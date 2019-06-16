@@ -44,10 +44,12 @@ uses
   uCEFWebPluginInfo, uCEFWebPluginInfoVisitor, uCEFWebPluginUnstableCallback, 
   uCEFWindowParent, uCEFWorkScheduler, uCEFWorkSchedulerThread, 
   uCEFWriteHandler, uCEFX509Certificate, uCEFX509CertPrincipal, uCEFXmlReader, 
-  uCEFZipReader, uCEFChromium, uCEFBufferPanel, uCEFServer, uCEFServerComponent,
-  uCEFServerEvents, uCEFServerHandler, uCEFWinControl, uCEFLinkedWindowParent, 
-  uCEFUrlRequestClientEvents, uCEFUrlRequestClientComponent, 
-  uCEFOSRIMEHandler, uCEFAudioHandler, LazarusPackageIntf;
+  uCEFZipReader, uCEFChromium, uCEFBufferPanel, uCEFServer, 
+  uCEFServerComponent, uCEFServerEvents, uCEFServerHandler, uCEFWinControl, 
+  uCEFLinkedWindowParent, uCEFUrlRequestClientEvents, 
+  uCEFUrlRequestClientComponent, uCEFOSRIMEHandler, uCEFAudioHandler, 
+  uCEFCookieAccessFilter, uCEFResourceReadCallback, 
+  uCEFResourceRequestHandler, uCEFResourceSkipCallback, LazarusPackageIntf;
 
 implementation
 

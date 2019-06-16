@@ -8,8 +8,7 @@
       <Unit0>
         <Filename Value="TabBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="37"/>
+        <TopLine Value="41"/>
         <CursorPos X="3" Y="53"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -21,16 +20,17 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="110"/>
-        <CursorPos X="8" Y="127"/>
+        <TopLine Value="436"/>
+        <CursorPos X="39" Y="444"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="TabBrowser.lpr"/>
       </Position1>
@@ -38,6 +38,14 @@
         <Filename Value="uMainForm.pas"/>
         <Caret Line="127" Column="8" TopLine="110"/>
       </Position2>
+      <Position3>
+        <Filename Value="TabBrowser.lpr"/>
+        <Caret Line="53" Column="3" TopLine="41"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="97" Column="386" TopLine="91"/>
+      </Position4>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

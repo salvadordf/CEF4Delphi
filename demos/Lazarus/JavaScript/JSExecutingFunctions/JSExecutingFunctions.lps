@@ -8,7 +8,6 @@
       <Unit0>
         <Filename Value="JSExecutingFunctions.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="41"/>
         <CursorPos X="17" Y="59"/>
         <UsageCount Value="20"/>
@@ -21,9 +20,10 @@
         <ComponentName Value="JSExecutingFunctionsFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="157"/>
-        <CursorPos X="73" Y="175"/>
+        <TopLine Value="206"/>
+        <CursorPos X="39" Y="213"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -53,7 +53,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="uJSExecutingFunctions.pas"/>
       </Position1>
@@ -61,6 +61,26 @@
         <Filename Value="uJSExecutingFunctions.pas"/>
         <Caret Line="175" Column="73" TopLine="157"/>
       </Position2>
+      <Position3>
+        <Filename Value="JSExecutingFunctions.lpr"/>
+        <Caret Line="59" Column="17" TopLine="41"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uJSExecutingFunctions.pas"/>
+        <Caret Line="115" Column="11" TopLine="99"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uJSExecutingFunctions.pas"/>
+        <Caret Line="176" Column="3" TopLine="163"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uJSExecutingFunctions.pas"/>
+        <Caret Line="178" Column="41" TopLine="162"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uJSExecutingFunctions.pas"/>
+        <Caret Line="87" Column="43" TopLine="84"/>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

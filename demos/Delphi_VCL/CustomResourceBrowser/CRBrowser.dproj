@@ -131,7 +131,6 @@
         </DelphiCompile>
         <DCCReference Include="uMainForm.pas">
             <Form>MainForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uCustomResourceHandler.pas"/>
         <BuildConfiguration Include="Release">

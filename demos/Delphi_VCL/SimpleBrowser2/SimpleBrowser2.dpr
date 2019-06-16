@@ -67,7 +67,6 @@ begin
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
   GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
 

@@ -52,6 +52,7 @@ uses
 
 begin
   GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures := 'NetworkService';
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
 
@@ -60,7 +61,6 @@ begin
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
 

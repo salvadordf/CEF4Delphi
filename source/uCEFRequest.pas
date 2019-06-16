@@ -66,6 +66,8 @@ type
     function  GetReferrerPolicy: TCefReferrerPolicy;
     procedure SetPostData(const value: ICefPostData);
     procedure SetHeaderMap(const HeaderMap: ICefStringMultimap);
+    function  GetHeaderByName(const name: ustring): ustring;
+    procedure SetHeaderByName(const name, value: ustring; overwrite: boolean);
     function  GetFlags: TCefUrlRequestFlags;
     procedure SetFlags(flags: TCefUrlRequestFlags);
     function  GetFirstPartyForCookies: ustring;
@@ -164,6 +166,23 @@ end;
 procedure TCefRequestRef.SetHeaderMap(const HeaderMap: ICefStringMultimap);
 begin
   PCefRequest(FData)^.set_header_map(PCefRequest(FData), HeaderMap.Handle);
+end;
+
+function TCefRequestRef.GetHeaderByName(const name: ustring): ustring;
+var
+  TempName : TCefString;
+begin
+  TempName := CefString(name);
+  Result   := CefStringFreeAndGet(PCefRequest(FData)^.get_header_by_name(PCefRequest(FData), @TempName));
+end;
+
+procedure TCefRequestRef.SetHeaderByName(const name, value: ustring; overwrite: boolean);
+var
+  TempName, TempValue : TCefString;
+begin
+  TempName  := CefString(name);
+  TempValue := CefString(value);
+  PCefRequest(FData)^.set_header_by_name(PCefRequest(FData), @TempName, @TempValue, ord(overwrite));
 end;
 
 procedure TCefRequestRef.SetMethod(const value: ustring);

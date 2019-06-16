@@ -8,8 +8,7 @@
       <Unit0>
         <Filename Value="SimpleExternalPumpBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="56"/>
+        <TopLine Value="50"/>
         <CursorPos X="3" Y="54"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -21,16 +20,17 @@
         <ComponentName Value="SimpleExternalPumpBrowserFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="61"/>
-        <CursorPos X="8" Y="93"/>
+        <TopLine Value="154"/>
+        <CursorPos X="39" Y="160"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="SimpleExternalPumpBrowser.lpr"/>
       </Position1>
@@ -42,6 +42,14 @@
         <Filename Value="uSimpleExternalPumpBrowser.pas"/>
         <Caret Line="93" Column="8" TopLine="61"/>
       </Position3>
+      <Position4>
+        <Filename Value="SimpleExternalPumpBrowser.lpr"/>
+        <Caret Line="54" Column="3" TopLine="50"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uSimpleExternalPumpBrowser.pas"/>
+        <Caret Line="74" Column="386" TopLine="52"/>
+      </Position5>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

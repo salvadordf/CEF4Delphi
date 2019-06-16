@@ -84,8 +84,8 @@ type
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure Chromium_OnAfterCreated(Sender: TObject);
-    procedure Chromium_OnGetResourceHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; out Result: ICefResourceHandler);
-    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium_OnGetResourceHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var Result: ICefResourceHandler);
+    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
 
   public
     { Public declarations }
@@ -93,6 +93,8 @@ type
 
 var
   MainForm: TMainForm;
+                      
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -106,6 +108,14 @@ uses
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
 // 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures  := 'NetworkService';
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+end;
 
 procedure TMainForm.Button1Click(Sender: TObject);
 begin
@@ -179,7 +189,7 @@ procedure TMainForm.Chromium_OnGetResourceHandler(Sender : TObject;
                                                   const browser : ICefBrowser;
                                                   const frame   : ICefFrame;
                                                   const request : ICefRequest;
-                                                  out   Result  : ICefResourceHandler);
+                                                  var   Result  : ICefResourceHandler);
 var
   TempStream : TStringStream;
 begin
@@ -205,7 +215,9 @@ procedure TMainForm.Chromium_OnBeforePopup(Sender: TObject;
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue;
+  var noJavascriptAccess: Boolean;
   var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs

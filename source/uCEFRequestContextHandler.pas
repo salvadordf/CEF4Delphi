@@ -55,8 +55,8 @@ type
   TCefRequestContextHandlerRef = class(TCefBaseRefCountedRef, ICefRequestContextHandler)
     protected
       procedure OnRequestContextInitialized(const request_context: ICefRequestContext);
-      function  GetCookieManager: ICefCookieManager;
       function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): Boolean;
+      procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
 
     public
       class function UnWrap(data: Pointer): ICefRequestContextHandler;
@@ -64,28 +64,19 @@ type
 
   TCefRequestContextHandlerOwn = class(TCefBaseRefCountedOwn, ICefRequestContextHandler)
     protected
-      procedure OnRequestContextInitialized(const request_context: ICefRequestContext);
-      function  GetCookieManager: ICefCookieManager; virtual;
+      procedure OnRequestContextInitialized(const request_context: ICefRequestContext); virtual;
       function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): Boolean; virtual;
+      procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
 
     public
       constructor Create; virtual;
   end;
 
-  TCefFastRequestContextHandler = class(TCefRequestContextHandlerOwn)
-    protected
-      FProc: TCefRequestContextHandlerProc;
-
-      function GetCookieManager: ICefCookieManager; override;
-
-    public
-      constructor Create(const proc: TCefRequestContextHandlerProc); reintroduce;
-  end;
-
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFWebPluginInfo, uCEFRequestContext;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest,
+  uCEFCookieManager, uCEFWebPluginInfo, uCEFRequestContext, uCEFResourceRequestHandler;
 
 // TCefRequestContextHandlerOwn
 
@@ -98,17 +89,6 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
     TCefRequestContextHandlerOwn(TempObject).OnRequestContextInitialized(TCefRequestContextRef.UnWrap(request_context));
-end;
-
-function cef_request_context_handler_get_cookie_manager(self: PCefRequestContextHandler): PCefCookieManager; stdcall;
-var
-  TempObject : TObject;
-begin
-  Result     := nil;
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
-    Result := CefGetData(TCefRequestContextHandlerOwn(TempObject).GetCookieManager());
 end;
 
 function cef_request_context_handler_on_before_plugin_load(      self           : PCefRequestContextHandler;
@@ -133,6 +113,42 @@ begin
                                                                               plugin_policy));
 end;
 
+function cef_request_context_handler_get_resource_request_handler(      self                     : PCefRequestContextHandler;
+                                                                        browser                  : PCefBrowser;
+                                                                        frame                    : PCefFrame;
+                                                                        request                  : PCefRequest;
+                                                                        is_navigation            : Integer;
+                                                                        is_download              : Integer;
+                                                                  const request_initiator        : PCefString;
+                                                                        disable_default_handling : PInteger): PCefResourceRequestHandler; stdcall;
+var
+  TempObject : TObject;
+  TempDisableDefHandling : Boolean;
+  TempResourceRequestHandler : ICefResourceRequestHandler;
+begin
+  Result                     := nil;
+  TempResourceRequestHandler := nil;
+  TempObject                 := CefGetObject(self);
+  TempDisableDefHandling     := disable_default_handling^ <> 0;
+
+  if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
+    try
+      TCefRequestContextHandlerOwn(TempObject).GetResourceRequestHandler(TCefBrowserRef.UnWrap(browser),
+                                                                         TCefFrameRef.UnWrap(frame),
+                                                                         TCefRequestRef.UnWrap(request),
+                                                                         is_navigation <> 0,
+                                                                         is_download <> 0,
+                                                                         CefString(request_initiator),
+                                                                         TempDisableDefHandling,
+                                                                         TempResourceRequestHandler);
+
+      Result                     := CefGetData(TempResourceRequestHandler);
+      disable_default_handling^  := Ord(TempDisableDefHandling);
+    finally
+      TempResourceRequestHandler := nil;
+    end;
+end;
+
 constructor TCefRequestContextHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefRequestContextHandler));
@@ -140,19 +156,14 @@ begin
   with PCefRequestContextHandler(FData)^ do
     begin
       on_request_context_initialized := {$IFDEF FPC}@{$ENDIF}cef_request_context_handler_on_request_context_initialized;
-      get_cookie_manager             := {$IFDEF FPC}@{$ENDIF}cef_request_context_handler_get_cookie_manager;
       on_before_plugin_load          := {$IFDEF FPC}@{$ENDIF}cef_request_context_handler_on_before_plugin_load;
+      get_resource_request_handler   := {$IFDEF FPC}@{$ENDIF}cef_request_context_handler_get_resource_request_handler;
     end;
 end;
 
 procedure TCefRequestContextHandlerOwn.OnRequestContextInitialized(const request_context: ICefRequestContext);
 begin
   //
-end;
-
-function TCefRequestContextHandlerOwn.GetCookieManager: ICefCookieManager;
-begin
-  Result:= nil;
 end;
 
 function TCefRequestContextHandlerOwn.OnBeforePluginLoad(const mimeType     : ustring;
@@ -165,16 +176,23 @@ begin
   Result := False;
 end;
 
+procedure TCefRequestContextHandlerOwn.GetResourceRequestHandler(const browser                  : ICefBrowser;
+                                                                 const frame                    : ICefFrame;
+                                                                 const request                  : ICefRequest;
+                                                                       is_navigation            : boolean;
+                                                                       is_download              : boolean;
+                                                                 const request_initiator        : ustring;
+                                                                 var   disable_default_handling : boolean;
+                                                                 var   aResourceRequestHandler  : ICefResourceRequestHandler);
+begin
+  aResourceRequestHandler := nil;
+end;
+
 // TCefRequestContextHandlerRef
 
 procedure TCefRequestContextHandlerRef.OnRequestContextInitialized(const request_context: ICefRequestContext);
 begin
   PCefRequestContextHandler(FData)^.on_request_context_initialized(PCefRequestContextHandler(FData), CefGetData(request_context));
-end;
-
-function TCefRequestContextHandlerRef.GetCookieManager: ICefCookieManager;
-begin
-  Result := TCefCookieManagerRef.UnWrap(PCefRequestContextHandler(FData)^.get_cookie_manager(PCefRequestContextHandler(FData)));
 end;
 
 function TCefRequestContextHandlerRef.OnBeforePluginLoad(const mimeType     : ustring;
@@ -199,26 +217,45 @@ begin
                                                                     pluginPolicy) <> 0;
 end;
 
+
+procedure TCefRequestContextHandlerRef.GetResourceRequestHandler(const browser                  : ICefBrowser;
+                                                                 const frame                    : ICefFrame;
+                                                                 const request                  : ICefRequest;
+                                                                       is_navigation            : boolean;
+                                                                       is_download              : boolean;
+                                                                 const request_initiator        : ustring;
+                                                                 var   disable_default_handling : boolean;
+                                                                 var   aResourceRequestHandler  : ICefResourceRequestHandler);
+var
+  TempRequestInitiator       : TCefString;
+  TempDisableDefaultHandling : integer;
+  TempResourceRequestHandler : PCefResourceRequestHandler;
+begin
+  TempRequestInitiator       := CefString(request_initiator);
+  TempDisableDefaultHandling := ord(disable_default_handling);
+  TempResourceRequestHandler := PCefRequestContextHandler(FData)^.get_resource_request_handler(PCefRequestContextHandler(FData),
+                                                                                               CefGetData(browser),
+                                                                                               CefGetData(frame),
+                                                                                               CefGetData(request),
+                                                                                               ord(is_navigation),
+                                                                                               ord(is_download),
+                                                                                               @TempRequestInitiator,
+                                                                                               @TempDisableDefaultHandling);
+
+  disable_default_handling := TempDisableDefaultHandling <> 0;
+
+  if (TempResourceRequestHandler <> nil) then
+    aResourceRequestHandler := TCefResourceRequestHandlerRef.UnWrap(TempResourceRequestHandler)
+   else
+    aResourceRequestHandler := nil;
+end;
+
 class function TCefRequestContextHandlerRef.UnWrap(data: Pointer): ICefRequestContextHandler;
 begin
   if (data <> nil) then
     Result := Create(data) as ICefRequestContextHandler
    else
     Result := nil;
-end;
-
-// TCefFastRequestContextHandler
-
-constructor TCefFastRequestContextHandler.Create(const proc: TCefRequestContextHandlerProc);
-begin
-  FProc := proc;
-
-  inherited Create;
-end;
-
-function TCefFastRequestContextHandler.GetCookieManager: ICefCookieManager;
-begin
-  Result := FProc();
 end;
 
 end.

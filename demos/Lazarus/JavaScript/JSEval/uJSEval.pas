@@ -75,7 +75,7 @@ type
     procedure FormShow(Sender: TObject);
 
     procedure Chromium1ProcessMessageReceived(Sender: TObject;
-      const browser: ICefBrowser; sourceProcess: TCefProcessId;
+      const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
       const message: ICefProcessMessage; out Result: Boolean);
     procedure Chromium1BeforeContextMenu(Sender: TObject;
       const browser: ICefBrowser; const frame: ICefFrame;
@@ -91,6 +91,7 @@ type
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
+      var extra_info: ICefDictionaryValue;
       var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
@@ -205,7 +206,9 @@ procedure TJSEvalFrm.Chromium1BeforePopup(Sender: TObject;
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue;
+  var noJavascriptAccess: Boolean;
   var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
@@ -390,9 +393,10 @@ begin
 end;
 
 procedure ParseEvalJsAnswer(const pMessage     : ICefProcessMessage;
-                                  pBrowser     : ICefBrowser;
-                                  pReturnValue : ICefv8Value;
-                                  pException   : ICefV8Exception);
+                            const pBrowser     : ICefBrowser;
+                            const pFrame       : ICefFrame;
+                            const pReturnValue : ICefv8Value;
+                            const pException   : ICefV8Exception);
 var
   pAnswer       : ICefProcessMessage;
   strResult     : String;
@@ -428,10 +432,10 @@ begin
         end;
     end;
 
-  pBrowser.SendProcessMessage(PID_BROWSER, pAnswer);
+  pFrame.SendProcessMessage(PID_BROWSER, pAnswer);
 end;
 
-procedure ParseBinaryValue(const pBrowser : ICefBrowser; const aBinaryValue : ICefBinaryValue);
+procedure ParseBinaryValue(const pBrowser : ICefBrowser; const pFrame: ICefFrame; const aBinaryValue : ICefBinaryValue);
 var
   pAnswer     : ICefProcessMessage;
   TempBuffer  : TBytes;
@@ -473,7 +477,7 @@ begin
                             'Encoded image : ' + TempEncodedStream.DataString;
 
               if pAnswer.ArgumentList.SetString(0, TempString) then
-                pBrowser.SendProcessMessage(PID_BROWSER, pAnswer);
+                pFrame.SendProcessMessage(PID_BROWSER, pAnswer);
             end;
         end;
     except
@@ -489,6 +493,7 @@ begin
 end;
 
 procedure RenderProcessHandler_OnProcessMessageReceivedEvent(const pBrowser       : ICefBrowser;
+                                                             const pFrame         : ICefFrame;
                                                                    uSourceProcess : TCefProcessId;
                                                              const pMessage       : ICefProcessMessage;
                                                              var   aHandled       : boolean);
@@ -514,7 +519,7 @@ begin
           if pV8Context.Enter then
             begin
               pV8Context.Eval(TempScript, '', 1, pReturnValue, pException);
-              ParseEvalJsAnswer(pMessage, pBrowser, pReturnValue, pException);
+              ParseEvalJsAnswer(pMessage, pBrowser, pFrame, pReturnValue, pException);
               pV8Context.Exit;
             end;
         end;
@@ -525,7 +530,7 @@ begin
     if (pMessage.Name = BINARY_PARAM_JS) then
       begin
         TempBinValue := pMessage.ArgumentList.GetBinary(0);
-        ParseBinaryValue(pBrowser, TempBinValue);
+        ParseBinaryValue(pBrowser, pFrame, TempBinValue);
         aHandled := True;
       end;
 end;
@@ -534,11 +539,12 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.OnProcessMessageReceived := RenderProcessHandler_OnProcessMessageReceivedEvent;
-  GlobalCEFApp.SingleProcess := True;
+  GlobalCEFApp.DisableFeatures          := 'NetworkService';
 end;
 
 procedure TJSEvalFrm.Chromium1ProcessMessageReceived(Sender : TObject;
                                                      const browser       : ICefBrowser;
+                                                     const frame         : ICefFrame;
                                                            sourceProcess : TCefProcessId;
                                                      const message       : ICefProcessMessage;
                                                      out   Result        : Boolean);

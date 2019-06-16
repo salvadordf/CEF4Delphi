@@ -68,8 +68,9 @@ begin
 end;
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp                  := TCefApplication.Create;
   GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
+  GlobalCEFApp.DisableFeatures  := 'NetworkService';
 
   // The main process and the subprocess *MUST* have the same FrameworkDirPath, ResourcesDirPath,
   // LocalesDirPath, cache, cookies and UserDataPath paths
@@ -83,7 +84,6 @@ begin
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
   GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.cookies              := 'cef\cookies';
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
 

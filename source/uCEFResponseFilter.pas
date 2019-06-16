@@ -55,6 +55,14 @@ type
   TOnFilterEvent     = procedure(Sender: TObject; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus) of object;
   TOnInitFilterEvent = procedure(Sender: TObject; var aResult : boolean) of object;
 
+  TCefResponseFilterRef = class(TCefBaseRefCountedRef, ICefResponseFilter)
+    protected
+      function InitFilter: Boolean; virtual;
+      function Filter(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt): TCefResponseFilterStatus; virtual;
+
+    public
+      class function UnWrap(data: Pointer): ICefResponseFilter;
+  end;
 
   TCefResponseFilterOwn = class(TCefBaseRefCountedOwn, ICefResponseFilter)
     protected
@@ -161,5 +169,36 @@ begin
               Result);
 end;
 
+
+// TCefResponseFilterRef
+
+class function TCefResponseFilterRef.UnWrap(data: Pointer): ICefResponseFilter;
+begin
+  if (data <> nil) then
+    Result := Create(data) as ICefResponseFilter
+   else
+    Result := nil;
+end;
+
+function TCefResponseFilterRef.InitFilter: Boolean;
+begin
+  Result := PCefResponseFilter(FData)^.init_filter(PCefResponseFilter(FData)) <> 0;
+end;
+
+function TCefResponseFilterRef.Filter(    data_in          : Pointer;
+                                          data_in_size     : NativeUInt;
+                                      var data_in_read     : NativeUInt;
+                                          data_out         : Pointer;
+                                          data_out_size    : NativeUInt;
+                                      var data_out_written : NativeUInt) : TCefResponseFilterStatus;
+begin
+  Result := PCefResponseFilter(FData)^.filter(PCefResponseFilter(FData),
+                                              data_in,
+                                              data_in_size,
+                                              data_in_read,
+                                              data_out,
+                                              data_out_size,
+                                              data_out_written);
+end;
 
 end.

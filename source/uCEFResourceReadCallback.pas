@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,38 +35,47 @@
  *
  *)
 
-program ResponseFilterBrowser;
+unit uCEFResourceReadCallback;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
+interface
+
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
-  Forms,
-  Windows,
-  {$ENDIF }
-  uCEFApplication,
-  uResponseFilterBrowser in 'uResponseFilterBrowser.pas' {ResponseFilterBrowserFrm};
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
-{$R *.res}
+type
+  TCefResourceReadCallbackRef = class(TCefBaseRefCountedRef, ICefResourceReadCallback)
+    protected
+      procedure Cont(bytes_read: int64);
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+    public
+      class function UnWrap(data: Pointer): ICefResourceReadCallback;
+  end;
 
+implementation
+
+uses
+  uCEFMiscFunctions, uCEFLibFunctions;
+
+procedure TCefResourceReadCallbackRef.Cont(bytes_read: int64);
 begin
-  CreateGlobalCEFApp;
+  PCefResourceReadCallback(FData)^.cont(PCefResourceReadCallback(FData), bytes_read);
+end;
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TResponseFilterBrowserFrm, ResponseFilterBrowserFrm);
-      Application.Run;
-    end;
+class function TCefResourceReadCallbackRef.UnWrap(data: Pointer): ICefResourceReadCallback;
+begin
+  if (data <> nil) then
+    Result := Create(data) as ICefResourceReadCallback
+   else
+    Result := nil;
+end;
 
-  DestroyGlobalCEFApp;
 end.

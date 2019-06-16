@@ -58,9 +58,9 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.FlashEnabled               := False;
-  GlobalCEFApp.EnableHighDPISupport       := True;
+  GlobalCEFApp                      := TCefApplication.Create;
+  GlobalCEFApp.EnableHighDPISupport := True;
+  GlobalCEFApp.DisableFeatures      := 'NetworkService';
 
   if GlobalCEFApp.StartMainProcess then
     begin

@@ -16,7 +16,7 @@ object Form1: TForm1
   OnHide = FormHide
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.0.2.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21

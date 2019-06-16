@@ -76,7 +76,7 @@ begin
           msg := TCefProcessMessageRef.New(MOUSEOVER_MESSAGE_NAME);
           msg.ArgumentList.SetString(0, arguments[0].GetStringValue);
 
-          TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+          TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage(PID_BROWSER, msg);
         end;
 
       Result := True;
@@ -89,7 +89,7 @@ begin
             msg := TCefProcessMessageRef.New(arguments[1].GetStringValue);
             msg.ArgumentList.SetString(0, arguments[0].GetStringValue);
 
-            TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+            TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage(PID_BROWSER, msg);
           end;
 
         Result := True;

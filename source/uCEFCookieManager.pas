@@ -59,8 +59,8 @@ uses
 type
   TCefCookieManagerRef = class(TCefBaseRefCountedRef, ICefCookieManager)
     protected
-      procedure SetSupportedSchemes(const schemes: TStrings; const callback: ICefCompletionCallback);
-      procedure SetSupportedSchemesProc(const schemes: TStrings; const callback: TCefCompletionCallbackProc);
+      procedure SetSupportedSchemes(const schemes: TStrings; include_defaults: boolean; const callback: ICefCompletionCallback);
+      procedure SetSupportedSchemesProc(const schemes: TStrings; include_defaults: boolean; const callback: TCefCompletionCallbackProc);
       function  VisitAllCookies(const visitor: ICefCookieVisitor): Boolean;
       function  VisitAllCookiesProc(const visitor: TCefCookieVisitorProc): Boolean;
       function  VisitUrlCookies(const url: ustring; includeHttpOnly: Boolean; const visitor: ICefCookieVisitor): Boolean;
@@ -69,8 +69,6 @@ type
       function  SetCookieProc(const url: ustring; const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; const callback: TCefSetCookieCallbackProc): Boolean;
       function  DeleteCookies(const url, cookieName: ustring; const callback: ICefDeleteCookiesCallback): Boolean;
       function  DeleteCookiesProc(const url, cookieName: ustring; const callback: TCefDeleteCookiesCallbackProc): Boolean;
-      function  SetStoragePath(const path: ustring; persistSessionCookies: Boolean; const callback: ICefCompletionCallback): Boolean;
-      function  SetStoragePathProc(const path: ustring; persistSessionCookies: Boolean; const callback: TCefCompletionCallbackProc): Boolean;
       function  FlushStore(const handler: ICefCompletionCallback): Boolean;
       function  FlushStoreProc(const proc: TCefCompletionCallbackProc): Boolean;
 
@@ -78,9 +76,6 @@ type
       class function UnWrap(data: Pointer): ICefCookieManager;
       class function Global(const callback: ICefCompletionCallback): ICefCookieManager;
       class function GlobalProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
-      class function Blocking : ICefCookieManager;
-      class function New(const path: ustring; persistSessionCookies: Boolean; const callback: ICefCompletionCallback): ICefCookieManager;
-      class function NewProc(const path: ustring; persistSessionCookies: Boolean; const callback: TCefCompletionCallbackProc): ICefCookieManager;
   end;
 
 implementation
@@ -89,22 +84,6 @@ uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCompletionCallback, uCEFDeleteCookiesCallback,
   uCEFSetCookieCallback, uCEFCookieVisitor, uCEFStringList;
 
-class function TCefCookieManagerRef.New(const path                  : ustring;
-                                              persistSessionCookies : Boolean;
-                                        const callback              : ICefCompletionCallback): ICefCookieManager;
-var
-  pth: TCefString;
-begin
-  pth := CefString(path);
-  Result := UnWrap(cef_cookie_manager_create_manager(@pth, Ord(persistSessionCookies), CefGetData(callback)));
-end;
-
-class function TCefCookieManagerRef.NewProc(const path                  : ustring;
-                                                  persistSessionCookies : Boolean;
-                                            const callback              : TCefCompletionCallbackProc): ICefCookieManager;
-begin
-  Result := New(path, persistSessionCookies, TCefFastCompletionCallback.Create(callback));
-end;
 
 function TCefCookieManagerRef.DeleteCookies(const url        : ustring;
                                             const cookieName : ustring;
@@ -137,11 +116,6 @@ end;
 class function TCefCookieManagerRef.Global(const callback: ICefCompletionCallback): ICefCookieManager;
 begin
   Result := UnWrap(cef_cookie_manager_get_global_manager(CefGetData(callback)));
-end;
-
-class function TCefCookieManagerRef.Blocking : ICefCookieManager;
-begin
-  Result := UnWrap(cef_cookie_manager_get_blocking_manager());
 end;
 
 class function TCefCookieManagerRef.GlobalProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
@@ -187,24 +161,7 @@ begin
                       TCefFastSetCookieCallback.Create(callback));
 end;
 
-function TCefCookieManagerRef.SetStoragePath(const path                  : ustring;
-                                                   persistSessionCookies : Boolean;
-                                             const callback              : ICefCompletionCallback): Boolean;
-var
-  p: TCefString;
-begin
-  p      := CefString(path);
-  Result := PCefCookieManager(FData)^.set_storage_path(PCefCookieManager(FData), @p, Ord(persistSessionCookies), CefGetData(callback)) <> 0;
-end;
-
-function TCefCookieManagerRef.SetStoragePathProc(const path                  : ustring;
-                                                       persistSessionCookies : Boolean;
-                                                 const callback              : TCefCompletionCallbackProc): Boolean;
-begin
-  Result := SetStoragePath(path, persistSessionCookies, TCefFastCompletionCallback.Create(callback));
-end;
-
-procedure TCefCookieManagerRef.SetSupportedSchemes(const schemes: TStrings; const callback: ICefCompletionCallback);
+procedure TCefCookieManagerRef.SetSupportedSchemes(const schemes: TStrings; include_defaults: boolean; const callback: ICefCompletionCallback);
 var
   TempSL : ICefStringList;
 begin
@@ -214,15 +171,16 @@ begin
 
     PCefCookieManager(FData)^.set_supported_schemes(PCefCookieManager(FData),
                                                     TempSL.Handle,
+                                                    ord(include_defaults),
                                                     CefGetData(callback));
   finally
     TempSL := nil;
   end;
 end;
 
-procedure TCefCookieManagerRef.SetSupportedSchemesProc(const schemes: TStrings; const callback: TCefCompletionCallbackProc);
+procedure TCefCookieManagerRef.SetSupportedSchemesProc(const schemes: TStrings; include_defaults: boolean; const callback: TCefCompletionCallbackProc);
 begin
-  SetSupportedSchemes(schemes, TCefFastCompletionCallback.Create(callback));
+  SetSupportedSchemes(schemes, include_defaults, TCefFastCompletionCallback.Create(callback));
 end;
 
 class function TCefCookieManagerRef.UnWrap(data: Pointer): ICefCookieManager;

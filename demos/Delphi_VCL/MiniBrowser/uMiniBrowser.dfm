@@ -140,6 +140,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.w3schools.com/html/html5_video.asp'
           'http://www.adobe.com/software/flash/about/'
           'http://isflashinstalled.com/'
+          'https://helpx.adobe.com/flash-player.html'
+          'https://www.ultrasounds.com/'
+          'https://www.whatismybrowser.com/detect/is-flash-installed'
           'http://html5test.com/'
           
             'https://webrtc.github.io/samples/src/content/devices/input-outpu' +

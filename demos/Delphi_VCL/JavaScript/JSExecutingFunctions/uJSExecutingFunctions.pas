@@ -82,6 +82,7 @@ type
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
       const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
       var client: ICefClient; var settings: TCefBrowserSettings;
+      var extra_info: ICefDictionaryValue;
       var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -150,6 +151,7 @@ begin
 end;
 
 procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                const frame         : ICefFrame;
                                                       sourceProcess : TCefProcessId;
                                                 const aMessage      : ICefProcessMessage;
                                                 var   aHandled      : boolean);
@@ -172,6 +174,7 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.OnContextCreated         := GlobalCEFApp_OnContextCreated;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
+  GlobalCEFApp.DisableFeatures          := 'NetworkService';
 end;
 
 procedure TJSExecutingFunctionsFrm.GoBtnClick(Sender: TObject);
@@ -204,7 +207,9 @@ procedure TJSExecutingFunctionsFrm.Chromium1BeforePopup(Sender: TObject;
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
+  var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue;
+  var noJavascriptAccess: Boolean;
   var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs

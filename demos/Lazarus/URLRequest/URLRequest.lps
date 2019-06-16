@@ -8,8 +8,9 @@
       <Unit0>
         <Filename Value="URLRequest.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="49"/>
-        <CursorPos X="37" Y="55"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="43"/>
+        <CursorPos X="32" Y="62"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -20,10 +21,9 @@
         <ComponentName Value="URLRequestFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="101"/>
-        <CursorPos X="37" Y="58"/>
+        <CursorPos X="47" Y="115"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

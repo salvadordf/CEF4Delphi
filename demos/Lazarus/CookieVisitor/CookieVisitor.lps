@@ -8,9 +8,10 @@
       <Unit0>
         <Filename Value="CookieVisitor.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="41"/>
-        <CursorPos X="16" Y="58"/>
-        <UsageCount Value="20"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="53"/>
+        <CursorPos Y="63"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -21,9 +22,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="209"/>
-        <CursorPos X="8" Y="126"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="244"/>
+        <CursorPos X="45" Y="263"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -34,16 +35,16 @@
         <ComponentName Value="SimpleTextViewerFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
+        <TopLine Value="7"/>
         <CursorPos X="8" Y="29"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="11" HistoryIndex="10">
       <Position1>
         <Filename Value="CookieVisitor.lpr"/>
       </Position1>
@@ -83,6 +84,10 @@
         <Filename Value="uSimpleTextViewer.pas"/>
         <Caret Line="31"/>
       </Position10>
+      <Position11>
+        <Filename Value="uCookieVisitor.pas"/>
+        <Caret Line="86" Column="26" TopLine="72"/>
+      </Position11>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

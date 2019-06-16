@@ -54,7 +54,7 @@ uses
 type
   TCefLifeSpanHandlerOwn = class(TCefBaseRefCountedOwn, ICefLifeSpanHandler)
     protected
-      function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean): Boolean; virtual;
+      function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; virtual;
       procedure OnAfterCreated(const browser: ICefBrowser); virtual;
       function  DoClose(const browser: ICefBrowser): Boolean; virtual;
       procedure OnBeforeClose(const browser: ICefBrowser); virtual;
@@ -69,7 +69,7 @@ type
     protected
       FEvents : Pointer;
 
-      function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean): Boolean; override;
+      function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; override;
       procedure OnAfterCreated(const browser: ICefBrowser); override;
       function  DoClose(const browser: ICefBrowser): Boolean; override;
       procedure OnBeforeClose(const browser: ICefBrowser); override;
@@ -89,7 +89,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFClient, uCEFBrowser, uCEFFrame;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFClient, uCEFBrowser, uCEFFrame, uCEFDictionaryValue;
 
 function cef_life_span_handler_on_before_popup(      self                 : PCefLifeSpanHandler;
                                                      browser              : PCefBrowser;
@@ -102,11 +102,13 @@ function cef_life_span_handler_on_before_popup(      self                 : PCef
                                                      windowInfo           : PCefWindowInfo;
                                                  var client               : PCefClient;
                                                      settings             : PCefBrowserSettings;
+                                                 var extra_info           : PCefDictionaryValue;
                                                      no_javascript_access : PInteger): Integer; stdcall;
 var
-  TempClient : ICefClient;
-  TempNoJS   : Boolean;
-  TempObject : TObject;
+  TempClient    : ICefClient;
+  TempExtraInfo : ICefDictionaryValue;
+  TempNoJS      : boolean;
+  TempObject    : TObject;
 begin
   try
     Result     := Ord(False);
@@ -114,19 +116,22 @@ begin
 
     if (TempObject <> nil) and (TempObject is TCefLifeSpanHandlerOwn) then
       begin
-        TempNoJS   := (no_javascript_access^ <> 0);
-        TempClient := TCefClientRef.UnWrap(client);
-        Result     := Ord(TCefLifeSpanHandlerOwn(TempObject).OnBeforePopup(TCefBrowserRef.UnWrap(browser),
-                                                                           TCefFrameRef.UnWrap(frame),
-                                                                           CefString(target_url),
-                                                                           CefString(target_frame_name),
-                                                                           target_disposition,
-                                                                           user_gesture <> 0,
-                                                                           popupFeatures^,
-                                                                           windowInfo^,
-                                                                           TempClient,
-                                                                           settings^,
-                                                                           TempNoJS));
+        TempNoJS      := (no_javascript_access^ <> 0);
+        TempClient    := TCefClientRef.UnWrap(client);
+        TempExtraInfo := TCefDictionaryValueRef.UnWrap(extra_info);
+
+        Result := Ord(TCefLifeSpanHandlerOwn(TempObject).OnBeforePopup(TCefBrowserRef.UnWrap(browser),
+                                                                       TCefFrameRef.UnWrap(frame),
+                                                                       CefString(target_url),
+                                                                       CefString(target_frame_name),
+                                                                       target_disposition,
+                                                                       user_gesture <> 0,
+                                                                       popupFeatures^,
+                                                                       windowInfo^,
+                                                                       TempClient,
+                                                                       settings^,
+                                                                       TempExtraInfo,
+                                                                       TempNoJS));
 
         no_javascript_access^ := Ord(TempNoJS);
 
@@ -135,9 +140,16 @@ begin
          else
           if not(TempClient.SameAs(client)) then
             client := TempClient.Wrap;
+
+        if (TempExtraInfo = nil) then
+          extra_info := nil
+         else
+          if not(TempExtraInfo.SameAs(extra_info)) then
+            extra_info := TempExtraInfo.Wrap;
       end;
   finally
-    TempClient := nil;
+    TempClient    := nil;
+    TempExtraInfo := nil;
   end;
 end;
 
@@ -208,6 +220,7 @@ function TCefLifeSpanHandlerOwn.OnBeforePopup(const browser            : ICefBro
                                               var   windowInfo         : TCefWindowInfo;
                                               var   client             : ICefClient;
                                               var   settings           : TCefBrowserSettings;
+                                              var   extra_info         : ICefDictionaryValue;
                                               var   noJavascriptAccess : Boolean): Boolean;
 begin
   Result := False;
@@ -272,16 +285,17 @@ function TCustomLifeSpanHandler.OnBeforePopup(const browser            : ICefBro
                                               var   windowInfo         : TCefWindowInfo;
                                               var   client             : ICefClient;
                                               var   settings           : TCefBrowserSettings;
+                                              var   extra_info         : ICefDictionaryValue;
                                               var   noJavascriptAccess : Boolean): Boolean;
 begin
   if (FEvents <> nil) then
     Result := IChromiumEvents(FEvents).doOnBeforePopup(browser, frame, targetUrl, targetFrameName,
                                                        targetDisposition, userGesture, popupFeatures,
-                                                       windowInfo, client, settings, noJavascriptAccess)
+                                                       windowInfo, client, settings, extra_info, noJavascriptAccess)
    else
     Result := inherited OnBeforePopup(browser, frame, targetUrl, targetFrameName,
                                       targetDisposition, userGesture, popupFeatures,
-                                      windowInfo, client, settings, noJavascriptAccess);
+                                      windowInfo, client, settings, extra_info, noJavascriptAccess);
 end;
 
 end.

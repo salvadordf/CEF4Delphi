@@ -8,7 +8,6 @@
       <Unit0>
         <Filename Value="PostInspectorBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="38"/>
         <CursorPos X="3" Y="53"/>
         <UsageCount Value="20"/>
@@ -21,16 +20,17 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="91"/>
-        <CursorPos X="8" Y="122"/>
+        <TopLine Value="361"/>
+        <CursorPos X="39" Y="368"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="PostInspectorBrowser.lpr"/>
       </Position1>
@@ -42,6 +42,10 @@
         <Filename Value="uPostInspectorBrowser.pas"/>
         <Caret Line="122" Column="8" TopLine="91"/>
       </Position3>
+      <Position4>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="78" Column="43" TopLine="68"/>
+      </Position4>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

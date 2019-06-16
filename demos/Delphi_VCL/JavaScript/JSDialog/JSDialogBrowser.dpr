@@ -56,6 +56,7 @@ uses
 
 begin
   GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures := 'NetworkService';
 
   if GlobalCEFApp.StartMainProcess then
     begin

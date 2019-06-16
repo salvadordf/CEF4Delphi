@@ -65,6 +65,7 @@ begin
   // 4. Run this demo : JSSimpleWindowBinding
 
   GlobalCEFApp.BrowserSubprocessPath := 'SubProcess.exe';
+  GlobalCEFApp.DisableFeatures       := 'NetworkService';
 
   if GlobalCEFApp.StartMainProcess then
     begin

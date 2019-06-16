@@ -8,8 +8,9 @@
       <Unit0>
         <Filename Value="FullScreenBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="34"/>
-        <CursorPos X="18" Y="49"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="39"/>
+        <CursorPos X="3" Y="61"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -20,17 +21,16 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="40"/>
-        <CursorPos X="3" Y="250"/>
+        <TopLine Value="87"/>
+        <CursorPos X="113" Y="252"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="uMainForm.pas"/>
       </Position1>
@@ -38,6 +38,18 @@
         <Filename Value="uMainForm.pas"/>
         <Caret Line="54" Column="14" TopLine="36"/>
       </Position2>
+      <Position3>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="77" Column="43" TopLine="52"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="54" Column="3" TopLine="219"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="246" Column="3" TopLine="219"/>
+      </Position5>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

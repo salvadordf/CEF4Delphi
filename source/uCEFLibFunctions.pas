@@ -68,8 +68,8 @@ var
   cef_enable_highdpi_support : procedure; cdecl;
 
   // /include/capi/cef_browser_capi.h
-  cef_browser_host_create_browser      : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; request_context: PCefRequestContext): Integer; cdecl;
-  cef_browser_host_create_browser_sync : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; request_context: PCefRequestContext): PCefBrowser; cdecl;
+  cef_browser_host_create_browser      : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): Integer; cdecl;
+  cef_browser_host_create_browser_sync : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): PCefBrowser; cdecl;
 
   // /include/capi/cef_command_line_capi.h
   cef_command_line_create     : function : PCefCommandLine; cdecl;
@@ -77,8 +77,6 @@ var
 
   // /include/capi/cef_cookie_capi.h
   cef_cookie_manager_get_global_manager   : function(callback: PCefCompletionCallback): PCefCookieManager; cdecl;
-  cef_cookie_manager_get_blocking_manager : function : PCefCookieManager; cdecl;
-  cef_cookie_manager_create_manager       : function(const path: PCefString; persist_session_cookies: Integer; callback: PCefCompletionCallback): PCefCookieManager; cdecl;
 
   // /include/capi/cef_crash_util.h
   cef_crash_reporting_enabled : function : integer; cdecl;
@@ -229,7 +227,7 @@ var
   cef_zip_reader_create : function(stream: PCefStreamReader): PCefZipReader; cdecl;
 
   // /include/capi/views/cef_browser_view_capi.h
-  cef_browser_view_create          : function(client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; request_context: PCefRequestContext; delegate: PCefBrowserViewDelegate): PCefBrowserView; cdecl;
+  cef_browser_view_create          : function(client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext; delegate: PCefBrowserViewDelegate): PCefBrowserView; cdecl;
   cef_browser_view_get_for_browser : function(browser: PCefBrowser): PCefBrowserView; cdecl;
 
   // /include/capi/views/cef_display_capi.h

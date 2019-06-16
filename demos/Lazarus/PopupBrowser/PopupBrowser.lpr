@@ -59,9 +59,9 @@ uses
 
 begin
   GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.FlashEnabled               := False;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
+  GlobalCEFApp.DisableFeatures            := 'NetworkService';
 
   if GlobalCEFApp.StartMainProcess then
     begin

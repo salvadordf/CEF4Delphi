@@ -60,11 +60,14 @@ type
     Button1: TButton;
     Timer1: TTimer;
 
-    procedure FormShow(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+
+    procedure Button1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+
     procedure ChromiumWindow1Close(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
 
@@ -79,9 +82,11 @@ type
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
+    FHandler  : ICefResourceHandler;
+
     procedure Chromium_OnAfterCreated(Sender: TObject);
-    procedure Chromium_OnGetResourceHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; out Result: ICefResourceHandler);
-    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium_OnGetResourceHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler : ICefResourceHandler);
+    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
 
   public
     { Public declarations }
@@ -89,6 +94,8 @@ type
 
 var
   MainForm: TMainForm;
+
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -103,9 +110,22 @@ uses
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
 // 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
 
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures  := 'NetworkService';
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+end;
+
 procedure TMainForm.Button1Click(Sender: TObject);
 begin
   ChromiumWindow1.LoadURL(Edit1.Text);
+end;
+
+procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FHandler := nil;
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -121,9 +141,24 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
+var
+  TempStream : TStringStream;
 begin
-  FCanClose := False;
-  FClosing  := False;
+  TempStream := nil;
+  FCanClose  := False;
+  FClosing   := False;
+
+  try
+    try
+      TempStream := TStringStream.Create('<!DOCTYPE html><html><body><p>test</p></body></html>', TEncoding.UTF8, false);
+      FHandler   := TCustomResourceHandler.Create(nil, nil, '', nil, TStream(TempStream), CefGetMimeType('html'));
+    except
+      on e : exception do
+        if CustomExceptionHandler('TMainForm.FormCreate', e) then raise;
+    end;
+  finally
+    if (TempStream <> nil) then FreeAndNil(TempStream);
+  end;
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);
@@ -166,38 +201,29 @@ begin
   AddressBarPnl.Enabled := True;
 end;
 
-procedure TMainForm.Chromium_OnGetResourceHandler(Sender : TObject;
-                                                  const browser : ICefBrowser;
-                                                  const frame   : ICefFrame;
-                                                  const request : ICefRequest;
-                                                  out   Result  : ICefResourceHandler);
-var
-  TempStream : TStringStream;
+procedure TMainForm.Chromium_OnGetResourceHandler(      Sender           : TObject;
+                                                  const browser          : ICefBrowser;
+                                                  const frame            : ICefFrame;
+                                                  const request          : ICefRequest;
+                                                  var   aResourceHandler : ICefResourceHandler);
 begin
-  // This event is called from the IO thread. Use mutexes if necessary.
-  TempStream := nil;
-  Result     := nil;
-
-  try
-    try
-      TempStream := TStringStream.Create('<!DOCTYPE html><html><body><p>test</p></body></html>', TEncoding.UTF8, false);
-      Result     := TCustomResourceHandler.Create(browser, frame, '', request, TStream(TempStream), CefGetMimeType('html'));
-    except
-      on e : exception do
-        if CustomExceptionHandler('TMainForm.Chromium_OnGetResourceHandler', e) then raise;
-    end;
-  finally
-    if (TempStream <> nil) then FreeAndNil(TempStream);
-  end;
+  aResourceHandler := FHandler;
 end;
 
-procedure TMainForm.Chromium_OnBeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
-  var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean;
-  var Result: Boolean);
+procedure TMainForm.Chromium_OnBeforePopup(      Sender             : TObject;
+                                           const browser            : ICefBrowser;
+                                           const frame              : ICefFrame;
+                                           const targetUrl          : ustring;
+                                           const targetFrameName    : ustring;
+                                                 targetDisposition  : TCefWindowOpenDisposition;
+                                                 userGesture        : Boolean;
+                                           const popupFeatures      : TCefPopupFeatures;
+                                           var   windowInfo         : TCefWindowInfo;
+                                           var   client             : ICefClient;
+                                           var   settings           : TCefBrowserSettings;
+                                           var   extra_info         : ICefDictionaryValue;
+                                           var   noJavascriptAccess : Boolean;
+                                           var   Result             : Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);

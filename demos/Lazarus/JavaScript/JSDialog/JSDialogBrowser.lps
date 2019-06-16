@@ -8,9 +8,8 @@
       <Unit0>
         <Filename Value="JSDialogBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="36"/>
-        <CursorPos X="3" Y="53"/>
+        <TopLine Value="40"/>
+        <CursorPos X="32" Y="58"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -21,16 +20,17 @@
         <ComponentName Value="JSDialogBrowserFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="69"/>
-        <CursorPos X="8" Y="103"/>
+        <TopLine Value="254"/>
+        <CursorPos X="39" Y="261"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="JSDialogBrowser.lpr"/>
       </Position1>
@@ -42,6 +42,10 @@
         <Filename Value="uJSDialogBrowser.pas"/>
         <Caret Line="103" Column="8" TopLine="69"/>
       </Position3>
+      <Position4>
+        <Filename Value="uJSDialogBrowser.pas"/>
+        <Caret Line="88" Column="386" TopLine="70"/>
+      </Position4>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
