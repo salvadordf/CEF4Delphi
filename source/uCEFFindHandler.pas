@@ -71,7 +71,7 @@ type
       procedure RemoveReferences; override;
 
     public
-      constructor Create(const events: Pointer); reintroduce; virtual;
+      constructor Create(const events : IChromiumEvents); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -120,11 +120,11 @@ end;
 
 // TCustomFindHandler
 
-constructor TCustomFindHandler.Create(const events: Pointer);
+constructor TCustomFindHandler.Create(const events : IChromiumEvents);
 begin
   inherited Create;
 
-  FEvents := events;
+  FEvents := Pointer(events);
 end;
 
 destructor TCustomFindHandler.Destroy;

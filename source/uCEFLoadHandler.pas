@@ -77,7 +77,7 @@ type
       procedure RemoveReferences; override;
 
     public
-      constructor Create(const events: Pointer); reintroduce; virtual;
+      constructor Create(const events : IChromiumEvents); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -211,11 +211,11 @@ end;
 
 // TCustomLoadHandler
 
-constructor TCustomLoadHandler.Create(const events : Pointer);
+constructor TCustomLoadHandler.Create(const events : IChromiumEvents);
 begin
   inherited Create;
 
-  FEvents := events;
+  FEvents := Pointer(events);
 end;
 
 destructor TCustomLoadHandler.Destroy;

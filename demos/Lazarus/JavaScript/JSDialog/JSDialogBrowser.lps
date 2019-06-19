@@ -8,8 +8,8 @@
       <Unit0>
         <Filename Value="JSDialogBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="40"/>
-        <CursorPos X="32" Y="58"/>
+        <TopLine Value="39"/>
+        <CursorPos X="23" Y="58"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="254"/>
-        <CursorPos X="39" Y="261"/>
+        <TopLine Value="107"/>
+        <CursorPos X="40" Y="105"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

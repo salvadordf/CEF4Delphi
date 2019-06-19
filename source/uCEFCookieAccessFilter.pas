@@ -82,7 +82,7 @@ type
       function CanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean; override;
 
     public
-      constructor Create(const events: Pointer); reintroduce;
+      constructor Create(const events : IChromiumEvents); reintroduce;
       procedure   BeforeDestruction; override;
       procedure   RemoveReferences; override;
   end;
@@ -150,12 +150,12 @@ end;
 
 function TCefCookieAccessFilterOwn.CanSendCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie): boolean;
 begin
-  Result := False;
+  Result := True;
 end;
 
 function TCefCookieAccessFilterOwn.CanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean;
 begin
-  Result := False;
+  Result := True;
 end;
 
 procedure TCefCookieAccessFilterOwn.RemoveReferences;
@@ -202,11 +202,11 @@ end;
 // TCustomCookieAccessFilter
 
 
-constructor TCustomCookieAccessFilter.Create(const events: Pointer);
+constructor TCustomCookieAccessFilter.Create(const events : IChromiumEvents);
 begin
   inherited Create;
 
-  FEvents := events;
+  FEvents := Pointer(events);
 end;
 
 procedure TCustomCookieAccessFilter.BeforeDestruction;

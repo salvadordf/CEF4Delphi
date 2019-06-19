@@ -9,8 +9,8 @@
         <Filename Value="FullScreenBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="39"/>
-        <CursorPos X="3" Y="61"/>
+        <TopLine Value="38"/>
+        <CursorPos X="22" Y="60"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -22,15 +22,15 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="87"/>
-        <CursorPos X="113" Y="252"/>
+        <TopLine Value="90"/>
+        <CursorPos X="11" Y="108"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="uMainForm.pas"/>
       </Position1>
@@ -44,12 +44,8 @@
       </Position3>
       <Position4>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="54" Column="3" TopLine="219"/>
-      </Position4>
-      <Position5>
-        <Filename Value="uMainForm.pas"/>
         <Caret Line="246" Column="3" TopLine="219"/>
-      </Position5>
+      </Position4>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

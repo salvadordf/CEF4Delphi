@@ -8,7 +8,7 @@
       <Unit0>
         <Filename Value="SimpleBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="21"/>
+        <TopLine Value="36"/>
         <CursorPos X="14" Y="44"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -20,9 +20,8 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="162"/>
+        <TopLine Value="75"/>
         <CursorPos X="39" Y="169"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -32,6 +31,7 @@
       <Unit2>
         <Filename Value="uCEFLoader.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="51"/>
         <CursorPos Y="65"/>

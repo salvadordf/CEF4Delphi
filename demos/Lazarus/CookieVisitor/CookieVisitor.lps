@@ -4,13 +4,12 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="CookieVisitor.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="53"/>
-        <CursorPos Y="63"/>
+        <TopLine Value="44"/>
+        <CursorPos X="25" Y="74"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -21,9 +20,10 @@
         <ComponentName Value="CookieVisitorFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="244"/>
-        <CursorPos X="45" Y="263"/>
+        <TopLine Value="124"/>
+        <CursorPos X="38" Y="130"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -35,14 +35,18 @@
         <ComponentName Value="SimpleTextViewerFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="7"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="8" Y="29"/>
         <UsageCount Value="22"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32object.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="395"/>
+        <CursorPos X="61" Y="409"/>
+        <UsageCount Value="10"/>
+      </Unit3>
     </Units>
     <JumpHistory Count="11" HistoryIndex="10">
       <Position1>
@@ -81,12 +85,12 @@
         <Caret Line="58" Column="31" TopLine="36"/>
       </Position9>
       <Position10>
-        <Filename Value="uSimpleTextViewer.pas"/>
-        <Caret Line="31"/>
+        <Filename Value="uCookieVisitor.pas"/>
+        <Caret Line="86" Column="26" TopLine="72"/>
       </Position10>
       <Position11>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="86" Column="26" TopLine="72"/>
+        <Caret Line="125" Column="11" TopLine="115"/>
       </Position11>
     </JumpHistory>
     <RunParams>

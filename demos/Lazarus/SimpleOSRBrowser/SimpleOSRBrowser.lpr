@@ -53,9 +53,7 @@ uses
 {$R *.res}
 
 begin
-  GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin

@@ -62,7 +62,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 75;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 7;
+  CEF_SUPPORTED_VERSION_RELEASE = 8;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 75;
@@ -114,6 +114,7 @@ type
       FMultiThreadedMessageLoop      : boolean;
       FExternalMessagePump           : boolean;
       FDeleteCache                   : boolean;
+      FDeleteCookies                 : boolean;
       FCustomCommandLines            : TStringList;
       FCustomCommandLineValues       : TStringList;
       FFlashEnabled                  : boolean;
@@ -280,7 +281,10 @@ type
       function  ExecuteProcess(const aApp : ICefApp) : integer;
       procedure InitializeSettings(var aSettings : TCefSettings);
       function  InitializeLibrary(const aApp : ICefApp) : boolean;
-      procedure RenameAndDeleteDir(const aDirectory : string);
+      procedure RenameAndDeleteDir(const aDirectory : string; aKeepCookies : boolean = False);
+      procedure DeleteCacheContents(const aDirectory : string);
+      procedure DeleteCookiesDB(const aDirectory : string);
+      procedure MoveCookiesDB(const aSrcDirectory, aDstDirectory : string);
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       function  CheckCEFLibrary : boolean;
@@ -362,6 +366,7 @@ type
       property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
       property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
       property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
+      property DeleteCookies                     : boolean                             read FDeleteCookies                     write FDeleteCookies;
       property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;
       property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
@@ -531,6 +536,7 @@ begin
   FMultiThreadedMessageLoop      := True;
   FExternalMessagePump           := False;
   FDeleteCache                   := False;
+  FDeleteCookies                 := False;
   FFlashEnabled                  := True;
   FEnableMediaStream             := True;
   FEnableSpeechInput             := True;
@@ -544,7 +550,7 @@ begin
   FOnRegisterCustomSchemes       := nil;
   FEnableHighDPISupport          := False;
   FMuteAudio                     := False;
-  FSitePerProcess                := True;
+  FSitePerProcess                := False;
   FDisableWebSecurity            := False;
   FDisablePDFExtension           := False;
   FLogProcessInfo                := False;
@@ -1148,7 +1154,14 @@ begin
     try
       if (aApp <> nil) then
         begin
-          if FDeleteCache then RenameAndDeleteDir(FCache);
+          if FDeleteCache and FDeleteCookies then
+            RenameAndDeleteDir(FCache)
+           else
+            if FDeleteCookies then
+              DeleteCookiesDB(FCache)
+             else
+              if FDeleteCache then
+                RenameAndDeleteDir(FCache, True);
 
           RegisterWidevineCDM;
 
@@ -1176,7 +1189,55 @@ begin
   end;
 end;
 
-procedure TCefApplication.RenameAndDeleteDir(const aDirectory : string);
+procedure TCefApplication.DeleteCacheContents(const aDirectory : string);
+var
+  TempFiles : TStringList;
+begin
+  TempFiles := TStringList.Create;
+
+  try
+    TempFiles.Add('Cookies');
+    TempFiles.Add('Cookies-journal');
+
+    DeleteDirContents(aDirectory, TempFiles);
+  finally
+    FreeAndNil(TempFiles);
+  end;
+end;
+
+procedure TCefApplication.DeleteCookiesDB(const aDirectory : string);
+var
+  TempFiles : TStringList;
+begin
+  TempFiles := TStringList.Create;
+
+  try
+    TempFiles.Add(IncludeTrailingPathDelimiter(aDirectory) + 'Cookies');
+    TempFiles.Add(IncludeTrailingPathDelimiter(aDirectory) + 'Cookies-journal');
+
+    DeleteFileList(TempFiles);
+  finally
+    FreeAndNil(TempFiles);
+  end;
+end;
+
+procedure TCefApplication.MoveCookiesDB(const aSrcDirectory, aDstDirectory : string);
+var
+  TempFiles : TStringList;
+begin
+  TempFiles := TStringList.Create;
+
+  try
+    TempFiles.Add('Cookies');
+    TempFiles.Add('Cookies-journal');
+
+    MoveFileList(TempFiles, aSrcDirectory, aDstDirectory);
+  finally
+    FreeAndNil(TempFiles);
+  end;
+end;
+
+procedure TCefApplication.RenameAndDeleteDir(const aDirectory : string; aKeepCookies : boolean);
 var
   TempOldDir, TempNewDir : string;
   i : integer;
@@ -1197,12 +1258,10 @@ begin
           TempNewDir := TempOldDir + '(' + inttostr(i) + ')';
         until not(DirectoryExists(TempNewDir));
 
-        {$IFDEF MSWINDOWS}
-        if MoveFileW(PWideChar(TempOldDir + chr(0)), PWideChar(TempNewDir + chr(0))) then
-        {$ELSE}
         if RenameFile(TempOldDir, TempNewDir) then
-        {$ENDIF}
           begin
+            if aKeepCookies then MoveCookiesDB(TempNewDir, TempOldDir);
+
             TempThread := TCEFDirectoryDeleterThread.Create(TempNewDir);
             {$IFDEF DELPHI14_UP}
             TempThread.Start;
@@ -1211,10 +1270,16 @@ begin
             {$ENDIF}
           end
          else
-          DeleteDirContents(aDirectory);
+          if aKeepCookies then
+            DeleteCacheContents(aDirectory)
+           else
+            DeleteDirContents(aDirectory);
       end
      else
-      DeleteDirContents(aDirectory);
+      if aKeepCookies then
+        DeleteCacheContents(aDirectory)
+       else
+        DeleteDirContents(aDirectory);
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.RenameAndDeleteDir', e) then raise;

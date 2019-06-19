@@ -105,12 +105,20 @@ type
 var
   MainForm: TMainForm;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.lfm}
 
 uses
-  uCEFApplication;
+  uCEFApplication;   
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+end;
 
 procedure TMainForm.HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
 var

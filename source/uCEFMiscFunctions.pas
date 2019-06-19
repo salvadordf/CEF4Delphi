@@ -228,7 +228,9 @@ procedure LogicalToDevice(var aRect : TCEFRect; const aDeviceScaleFactor : doubl
 function GetScreenDPI : integer;
 function GetDeviceScaleFactor : single;
 
-function DeleteDirContents(const aDirectory : string) : boolean;
+function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList = nil) : boolean;
+function DeleteFileList(const aFileList : TStringList) : boolean;
+function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;
 
 implementation
 
@@ -1938,10 +1940,11 @@ begin
   Result := GetScreenDPI / 96;
 end;
 
-function DeleteDirContents(const aDirectory : string) : boolean;
+function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList) : boolean;
 var
   TempRec  : TSearchRec;
   TempPath : string;
+  TempIdx  : integer;
 begin
   Result := True;
 
@@ -1957,14 +1960,23 @@ begin
             begin
               if (TempRec.Name <> '.') and (TempRec.Name <> '..') then
                 begin
-                  if DeleteDirContents(TempPath) then
+                  if DeleteDirContents(TempPath, aExcludeFiles) then
                     Result := RemoveDir(TempPath) and Result
                    else
                     Result := False;
                 end;
             end
            else
-            Result := DeleteFile(TempPath) and Result;
+            if (aExcludeFiles <> nil) then
+              begin
+                TempIdx := aExcludeFiles.IndexOf(TempRec.Name);
+                Result  := ((TempIdx >= 0) or
+                            ((TempIdx < 0) and DeleteFile(TempPath))) and
+                           Result;
+              end
+             else
+              Result := DeleteFile(TempPath) and Result;
+
         until (FindNext(TempRec) <> 0) or not(Result);
       finally
         FindClose(TempRec);
@@ -1972,6 +1984,67 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('DeleteDirContents', e) then raise;
+  end;
+end;
+
+function DeleteFileList(const aFileList : TStringList) : boolean;
+var
+  i, TempCount : integer;
+begin
+  Result := False;
+
+  try
+    if (aFileList <> nil) then
+      begin
+        i         := 0;
+        TempCount := 0;
+
+        while (i < aFileList.Count) do
+          begin
+            if FileExists(aFileList[i]) and DeleteFile(aFileList[i]) then inc(TempCount);
+            inc(i);
+          end;
+
+        Result := (aFileList.Count = TempCount);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('DeleteFileList', e) then raise;
+  end;
+end;
+
+function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;
+var
+  i, TempCount : integer;
+  TempSrcPath, TempDstPath : string;
+begin
+  Result := False;
+
+  try
+    if (aFileList <> nil) and
+       (length(aSrcDirectory) > 0) and
+       (length(aDstDirectory) > 0) and
+       DirectoryExists(aSrcDirectory) and
+       (DirectoryExists(aDstDirectory) or CreateDir(aDstDirectory)) then
+      begin
+        i         := 0;
+        TempCount := 0;
+
+        while (i < aFileList.Count) do
+          begin
+            TempSrcPath := IncludeTrailingPathDelimiter(aSrcDirectory) + aFileList[i];
+            TempDstPath := IncludeTrailingPathDelimiter(aDstDirectory) + aFileList[i];
+
+            if FileExists(TempSrcPath) and RenameFile(TempSrcPath, TempDstPath) then inc(TempCount);
+
+            inc(i);
+          end;
+
+        Result := (aFileList.Count = TempCount);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('MoveFileList', e) then raise;
   end;
 end;
 

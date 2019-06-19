@@ -137,11 +137,7 @@ type
       procedure InitializeVars;
 
     public
-      constructor Create(const events: IChromiumEvents;
-                         aCreateLoadHandler, aCreateFocusHandler, aCreateContextMenuHandler, aCreateDialogHandler,
-                         aCreateKeyboardHandler, aCreateDisplayHandler, aCreateDownloadHandler, aCreateJsDialogHandler,
-                         aCreateLifeSpanHandler, aCreateRenderHandler, aCreateRequestHandler, aCreateDragHandler,
-                         aCreateFindHandler, aCreateAudioHandler : boolean); reintroduce; virtual;
+      constructor Create(const events: IChromiumEvents; aDevToolsClient : boolean = False); reintroduce; virtual;
       procedure   BeforeDestruction; override;
       procedure   RemoveReferences; override;
   end;
@@ -628,21 +624,7 @@ end;
 // ******************************************************
 
 
-constructor TCustomClientHandler.Create(const events                     : IChromiumEvents;
-                                              aCreateLoadHandler         : boolean;
-                                              aCreateFocusHandler        : boolean;
-                                              aCreateContextMenuHandler  : boolean;
-                                              aCreateDialogHandler       : boolean;
-                                              aCreateKeyboardHandler     : boolean;
-                                              aCreateDisplayHandler      : boolean;
-                                              aCreateDownloadHandler     : boolean;
-                                              aCreateJsDialogHandler     : boolean;
-                                              aCreateLifeSpanHandler     : boolean;
-                                              aCreateRenderHandler       : boolean;
-                                              aCreateRequestHandler      : boolean;
-                                              aCreateDragHandler         : boolean;
-                                              aCreateFindHandler         : boolean;
-                                              aCreateAudioHandler        : boolean);
+constructor TCustomClientHandler.Create(const events : IChromiumEvents; aDevToolsClient : boolean);
 begin
   inherited Create;
 
@@ -650,22 +632,29 @@ begin
 
   FEvents := Pointer(events);
 
-  if (FEvents <> nil) then
+  if (events <> nil) then
     begin
-      if aCreateLoadHandler        then FLoadHandler        := TCustomLoadHandler.Create(FEvents);
-      if aCreateFocusHandler       then FFocusHandler       := TCustomFocusHandler.Create(FEvents);
-      if aCreateContextMenuHandler then FContextMenuHandler := TCustomContextMenuHandler.Create(FEvents);
-      if aCreateDialogHandler      then FDialogHandler      := TCustomDialogHandler.Create(FEvents);
-      if aCreateKeyboardHandler    then FKeyboardHandler    := TCustomKeyboardHandler.Create(FEvents);
-      if aCreateDisplayHandler     then FDisplayHandler     := TCustomDisplayHandler.Create(FEvents);
-      if aCreateDownloadHandler    then FDownloadHandler    := TCustomDownloadHandler.Create(FEvents);
-      if aCreateJsDialogHandler    then FJsDialogHandler    := TCustomJsDialogHandler.Create(FEvents);
-      if aCreateLifeSpanHandler    then FLifeSpanHandler    := TCustomLifeSpanHandler.Create(FEvents);
-      if aCreateRenderHandler      then FRenderHandler      := TCustomRenderHandler.Create(FEvents);
-      if aCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(FEvents);
-      if aCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(FEvents);
-      if aCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(FEvents);
-      if aCreateAudioHandler       then FAudioHandler       := TCustomAudioHandler.Create(FEvents);
+      if aDevToolsClient then
+        begin
+          if events.MustCreateKeyboardHandler    then FKeyboardHandler    := TCustomKeyboardHandler.Create(events);
+        end
+       else
+        begin
+          if events.MustCreateLoadHandler        then FLoadHandler        := TCustomLoadHandler.Create(events);
+          if events.MustCreateFocusHandler       then FFocusHandler       := TCustomFocusHandler.Create(events);
+          if events.MustCreateContextMenuHandler then FContextMenuHandler := TCustomContextMenuHandler.Create(events);
+          if events.MustCreateDialogHandler      then FDialogHandler      := TCustomDialogHandler.Create(events);
+          if events.MustCreateKeyboardHandler    then FKeyboardHandler    := TCustomKeyboardHandler.Create(events);
+          if events.MustCreateDisplayHandler     then FDisplayHandler     := TCustomDisplayHandler.Create(events);
+          if events.MustCreateDownloadHandler    then FDownloadHandler    := TCustomDownloadHandler.Create(events);
+          if events.MustCreateJsDialogHandler    then FJsDialogHandler    := TCustomJsDialogHandler.Create(events);
+          if events.MustCreateLifeSpanHandler    then FLifeSpanHandler    := TCustomLifeSpanHandler.Create(events);
+          if events.MustCreateRenderHandler      then FRenderHandler      := TCustomRenderHandler.Create(events);
+          if events.MustCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(events);
+          if events.MustCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(events);
+          if events.MustCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(events);
+          if events.MustCreateAudioHandler       then FAudioHandler       := TCustomAudioHandler.Create(events);
+        end;
     end;
 end;
 

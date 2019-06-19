@@ -90,7 +90,7 @@ type
       procedure InitializeVars;
 
     public
-      constructor Create(const events: Pointer); reintroduce; virtual;
+      constructor Create(const events : IChromiumEvents); reintroduce; virtual;
       procedure   BeforeDestruction; override;
       procedure   RemoveReferences; override;
   end;
@@ -457,14 +457,16 @@ end;
 
 // TCustomRequestHandler
 
-constructor TCustomRequestHandler.Create(const events: Pointer);
+constructor TCustomRequestHandler.Create(const events : IChromiumEvents);
 begin
   inherited Create;
 
   InitializeVars;
 
-  FEvents                 := events;
-  FResourceRequestHandler := TCustomResourceRequestHandler.Create(FEvents);
+  FEvents := Pointer(events);
+
+  if (events <> nil) and events.MustCreateResourceRequestHandler then
+    FResourceRequestHandler := TCustomResourceRequestHandler.Create(events);
 end;
 
 procedure TCustomRequestHandler.BeforeDestruction;

@@ -152,6 +152,8 @@ type
 var
   Form1: TForm1;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.lfm}
@@ -166,6 +168,15 @@ uses
 //    set "Result" to false and CEF3 will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
 //    Now we set FCanClose to True and send WM_CLOSE to the form.
+                  
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                            := TCefApplication.Create;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.EnableHighDPISupport       := True;
+  //GlobalCEFApp.DisableFeatures            := 'NetworkService';
+end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
@@ -921,6 +932,8 @@ begin
       TempKeyEvent.focus_on_editable_field := ord(False);
 
       chrmosr.SendKeyEvent(@TempKeyEvent);
+
+      if (Key in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]) then Key := 0;
     end;
 end;
 

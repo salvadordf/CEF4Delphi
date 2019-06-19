@@ -89,6 +89,8 @@ type
 var
   Form1: TForm1;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.lfm}
@@ -113,7 +115,22 @@ uses
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
 // 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
+                 
 
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+
+  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
+{
+  GlobalCEFApp.FrameworkDirPath     := 'cef';
+  GlobalCEFApp.ResourcesDirPath     := 'cef';
+  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  GlobalCEFApp.cache                := 'cef\cache';
+  GlobalCEFApp.UserDataPath         := 'cef\User Data';
+}
+end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin

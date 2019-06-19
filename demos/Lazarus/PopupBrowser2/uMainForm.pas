@@ -107,6 +107,8 @@ type
 var
   MainForm: TMainForm;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.lfm}
@@ -138,7 +140,14 @@ uses
 // 2. When all the child forms are closed then FormCloseQuery is triggered again, sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 3. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 4. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+             
 
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                      := TCefApplication.Create;
+  GlobalCEFApp.EnableHighDPISupport := True;
+  GlobalCEFApp.DisableFeatures      := 'NetworkService';
+end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin

@@ -8,9 +8,8 @@
       <Unit0>
         <Filename Value="PopupBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="42"/>
-        <CursorPos X="35" Y="63"/>
+        <CursorPos X="61" Y="64"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -21,9 +20,10 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="198"/>
-        <CursorPos X="39" Y="205"/>
+        <TopLine Value="141"/>
+        <CursorPos X="11" Y="110"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

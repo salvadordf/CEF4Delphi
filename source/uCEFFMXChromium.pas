@@ -319,18 +319,6 @@ type
       procedure HandleList(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
       procedure HandleInvalid(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
 
-      function  MustCreateLoadHandler : boolean; virtual;
-      function  MustCreateFocusHandler : boolean; virtual;
-      function  MustCreateContextMenuHandler : boolean; virtual;
-      function  MustCreateDialogHandler : boolean; virtual;
-      function  MustCreateKeyboardHandler : boolean; virtual;
-      function  MustCreateDisplayHandler : boolean; virtual;
-      function  MustCreateDownloadHandler : boolean; virtual;
-      function  MustCreateJsDialogHandler : boolean; virtual;
-      function  MustCreateDragHandler : boolean; virtual;
-      function  MustCreateFindHandler : boolean; virtual;
-      function  MustCreateAudioHandler : boolean; virtual;
-
       procedure ApplyZoomStep;
       function  GetParentForm : TCustomForm;
 
@@ -465,6 +453,22 @@ type
       procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings); virtual;
       function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean; virtual;
       procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage); virtual;
+      function  MustCreateLoadHandler : boolean; virtual;
+      function  MustCreateFocusHandler : boolean; virtual;
+      function  MustCreateContextMenuHandler : boolean; virtual;
+      function  MustCreateDialogHandler : boolean; virtual;
+      function  MustCreateKeyboardHandler : boolean; virtual;
+      function  MustCreateDisplayHandler : boolean; virtual;
+      function  MustCreateDownloadHandler : boolean; virtual;
+      function  MustCreateJsDialogHandler : boolean; virtual;
+      function  MustCreateLifeSpanHandler : boolean; virtual;
+      function  MustCreateRenderHandler : boolean; virtual;
+      function  MustCreateRequestHandler : boolean; virtual;
+      function  MustCreateDragHandler : boolean; virtual;
+      function  MustCreateFindHandler : boolean; virtual;
+      function  MustCreateAudioHandler : boolean; virtual;
+      function  MustCreateResourceRequestHandler : boolean; virtual;
+      function  MustCreateCookieAccessFilter : boolean; virtual;
 
     public
       constructor Create(AOwner: TComponent); override;
@@ -928,22 +932,7 @@ begin
     if (FHandler = nil) then
       begin
         FIsOSR   := aIsOsr;
-        FHandler := TCustomClientHandler.Create(Self,
-                                                MustCreateLoadHandler,
-                                                MustCreateFocusHandler,
-                                                MustCreateContextMenuHandler,
-                                                MustCreateDialogHandler,
-                                                MustCreateKeyboardHandler,
-                                                MustCreateDisplayHandler,
-                                                MustCreateDownloadHandler,
-                                                MustCreateJsDialogHandler,
-                                                True,
-                                                FIsOSR,
-                                                True,
-                                                MustCreateDragHandler,
-                                                MustCreateFindHandler,
-                                                MustCreateAudioHandler);
-
+        FHandler := TCustomClientHandler.Create(Self);
         Result   := True;
       end;
   except
@@ -2778,6 +2767,21 @@ begin
             assigned(FOnDialogClosed);
 end;
 
+function TFMXChromium.MustCreateLifeSpanHandler : boolean;
+begin
+  Result := True;
+end;
+
+function TFMXChromium.MustCreateRenderHandler : boolean;
+begin
+  Result := FIsOSR;
+end;
+
+function TFMXChromium.MustCreateRequestHandler : boolean;
+begin
+  Result := True;
+end;
+
 function TFMXChromium.MustCreateDragHandler : boolean;
 begin
   Result := assigned(FOnDragEnter) or
@@ -2794,6 +2798,23 @@ begin
   Result := assigned(FOnAudioStreamStarted) or
             assigned(FOnAudioStreamPacket)  or
             assigned(FOnAudioStreamStopped);
+end;
+
+function TFMXChromium.MustCreateResourceRequestHandler : boolean;
+begin
+  Result := assigned(FOnBeforeResourceLoad) or
+            assigned(FOnGetResourceHandler) or
+            assigned(FOnResourceRedirect) or
+            assigned(FOnResourceResponse) or
+            assigned(FOnGetResourceResponseFilter) or
+            assigned(FOnResourceLoadComplete) or
+            assigned(FOnProtocolExecution);
+end;
+
+function TFMXChromium.MustCreateCookieAccessFilter : boolean;
+begin
+  Result := assigned(FOnCanSendCookie) or
+            assigned(FOnCanSaveCookie);
 end;
 
 procedure TFMXChromium.doTextResultAvailable(const aText : ustring);

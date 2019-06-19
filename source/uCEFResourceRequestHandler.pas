@@ -102,7 +102,7 @@ type
       procedure InitializeVars;
 
     public
-      constructor Create(const events: Pointer); reintroduce;
+      constructor Create(const events : IChromiumEvents); reintroduce;
       procedure   BeforeDestruction; override;
       procedure   RemoveReferences; override;
   end;
@@ -534,14 +534,16 @@ end;
 
 // TCustomResourceRequestHandler
 
-constructor TCustomResourceRequestHandler.Create(const events: Pointer);
+constructor TCustomResourceRequestHandler.Create(const events : IChromiumEvents);
 begin
   inherited Create;
 
   InitializeVars;
 
-  FEvents             := events;
-  FCookieAccessFilter := TCustomCookieAccessFilter.Create(FEvents);
+  FEvents := Pointer(events);
+
+  if (events <> nil) and events.MustCreateCookieAccessFilter then
+    FCookieAccessFilter := TCustomCookieAccessFilter.Create(events);
 end;
 
 procedure TCustomResourceRequestHandler.BeforeDestruction;

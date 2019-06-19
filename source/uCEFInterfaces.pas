@@ -388,7 +388,22 @@ type
     procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
     function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean;
     procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
-
+    function  MustCreateLoadHandler : boolean;
+    function  MustCreateFocusHandler : boolean;
+    function  MustCreateContextMenuHandler : boolean;
+    function  MustCreateDialogHandler : boolean;
+    function  MustCreateKeyboardHandler : boolean;
+    function  MustCreateDisplayHandler : boolean;
+    function  MustCreateDownloadHandler : boolean;
+    function  MustCreateJsDialogHandler : boolean;
+    function  MustCreateLifeSpanHandler : boolean;
+    function  MustCreateRenderHandler : boolean;
+    function  MustCreateRequestHandler : boolean;
+    function  MustCreateDragHandler : boolean;
+    function  MustCreateFindHandler : boolean;
+    function  MustCreateAudioHandler : boolean;
+    function  MustCreateResourceRequestHandler : boolean;
+    function  MustCreateCookieAccessFilter : boolean;
   end;
 
   IServerEvents = interface

@@ -8,7 +8,11 @@
       <Unit0>
         <Filename Value="SimpleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="34" Y="26"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="uSimpleBrowser2.pas"/>
@@ -31,9 +35,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="148"/>
-        <CursorPos X="39" Y="155"/>
+        <TopLine Value="69"/>
+        <CursorPos X="11" Y="96"/>
         <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

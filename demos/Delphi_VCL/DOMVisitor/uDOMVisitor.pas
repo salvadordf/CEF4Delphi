@@ -56,14 +56,19 @@ uses
 const
   MINIBROWSER_VISITDOM_PARTIAL            = WM_APP + $101;
   MINIBROWSER_VISITDOM_FULL               = WM_APP + $102;
+  MINIBROWSER_COPYFRAMEIDS_1              = WM_APP + $103;
+  MINIBROWSER_COPYFRAMEIDS_2              = WM_APP + $104;
 
   MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_VISITDOM_FULL    = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1   = MENU_ID_USER_FIRST + 3;
+  MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2   = MENU_ID_USER_FIRST + 4;
 
   DOMVISITOR_MSGNAME_PARTIAL  = 'domvisitorpartial';
   DOMVISITOR_MSGNAME_FULL     = 'domvisitorfull';
   RETRIEVEDOM_MSGNAME_PARTIAL = 'retrievedompartial';
   RETRIEVEDOM_MSGNAME_FULL    = 'retrievedomfull';
+  FRAMEIDS_MSGNAME            = 'getframeids';
 
 type
   TDOMVisitorFrm = class(TForm)
@@ -117,6 +122,8 @@ type
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_PARTIAL;
     procedure VisitDOM2Msg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_FULL;
+    procedure CopyFrameIDs1(var aMessage : TMessage);  message MINIBROWSER_COPYFRAMEIDS_1;
+    procedure CopyFrameIDs2(var aMessage : TMessage);  message MINIBROWSER_COPYFRAMEIDS_2;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
@@ -257,6 +264,33 @@ begin
   frame.SendProcessMessage(PID_BROWSER, msg);
 end;
 
+procedure DOMVisitor_GetFrameIDs(const browser: ICefBrowser; const frame : ICefFrame);
+var
+  i          : NativeUInt;
+  TempCount  : NativeUInt;
+  TempArray  : TCefFrameIdentifierArray;
+  TempString : string;
+  TempMsg    : ICefProcessMessage;
+begin
+  TempCount := browser.FrameCount;
+
+  if browser.GetFrameIdentifiers(TempCount, TempArray) then
+    begin
+      TempString := '';
+      i          := 0;
+
+      while (i < TempCount) do
+        begin
+          TempString := TempString + inttostr(TempArray[i]) + CRLF;
+          inc(i);
+        end;
+
+      TempMsg := TCefProcessMessageRef.New(FRAMEIDS_MSGNAME);
+      TempMsg.ArgumentList.SetString(0, TempString);
+      frame.SendProcessMessage(PID_BROWSER, TempMsg);
+    end;
+end;
+
 procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
                                                 const frame         : ICefFrame;
                                                       sourceProcess : TCefProcessId;
@@ -294,7 +328,13 @@ begin
               end;
 
             aHandled := True;
-          end;
+          end
+         else
+          if (message.name = FRAMEIDS_MSGNAME) then
+            begin
+              DOMVisitor_GetFrameIDs(browser, frame);
+              aHandled := True;
+            end;
     end;
 end;
 
@@ -303,6 +343,7 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.RemoteDebuggingPort      := 9000;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
+  GlobalCEFApp.DisableFeatures          := 'NetworkService';
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
@@ -329,6 +370,8 @@ procedure TDOMVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;
 begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL,  'Visit DOM in CEF (only Title)');
   model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM_FULL,     'Visit DOM in CEF (BODY HTML)');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1,    'Copy frame IDs in the browser process');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2,    'Copy frame IDs in the render process');
 end;
 
 procedure TDOMVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -365,6 +408,12 @@ begin
 
     MINIBROWSER_CONTEXTMENU_VISITDOM_FULL :
       PostMessage(Handle, MINIBROWSER_VISITDOM_FULL, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1 :
+      PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS_1, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2 :
+      PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS_2, 0, 0);
   end;
 end;
 
@@ -389,7 +438,14 @@ begin
         Clipboard.AsText := message.ArgumentList.GetString(0);
         ShowStatusText('HTML copied to the clipboard');
         Result := True;
-      end;
+      end
+     else
+      if (message.Name = FRAMEIDS_MSGNAME) then
+        begin
+          Clipboard.AsText := message.ArgumentList.GetString(0);
+          ShowStatusText('Frame IDs copied to the clipboard in the render process.');
+          Result := True;
+        end;
 end;
 
 procedure TDOMVisitorFrm.FormCloseQuery(Sender: TObject;
@@ -455,6 +511,39 @@ var
 begin
   // Use the ArgumentList property if you need to pass some parameters.
   TempMsg := TCefProcessMessageRef.New(RETRIEVEDOM_MSGNAME_FULL); // Same name than TCefCustomRenderProcessHandler.MessageName
+  Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
+end;
+
+procedure TDOMVisitorFrm.CopyFrameIDs1(var aMessage : TMessage);
+var
+  i          : NativeUInt;
+  TempCount  : NativeUInt;
+  TempArray  : TCefFrameIdentifierArray;
+  TempString : string;
+begin
+  TempCount := Chromium1.FrameCount;
+
+  if Chromium1.GetFrameIdentifiers(TempCount, TempArray) then
+    begin
+      TempString := '';
+      i          := 0;
+
+      while (i < TempCount) do
+        begin
+          TempString := TempString + inttostr(TempArray[i]) + CRLF;
+          inc(i);
+        end;
+
+      clipboard.AsText := TempString;
+      ShowStatusText('Frame IDs copied to the clipboard in the browser process (' + inttostr(TempCount) + ')');
+    end;
+end;
+
+procedure TDOMVisitorFrm.CopyFrameIDs2(var aMessage : TMessage);
+var
+  TempMsg : ICefProcessMessage;
+begin
+  TempMsg := TCefProcessMessageRef.New(FRAMEIDS_MSGNAME);
   Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
 end;
 

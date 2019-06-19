@@ -19,17 +19,16 @@ uses
 {$ENDIF}
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
-      RequireDerivedFormResource:=True;
+      RequireDerivedFormResource := True;
       Application.Initialize;
       Application.CreateForm(TForm1, Form1);
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;   
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.
 

@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="243"/>
-        <CursorPos X="11" Y="259"/>
+        <TopLine Value="294"/>
+        <CursorPos X="39" Y="305"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -61,7 +61,7 @@
         <UsageCount Value="10"/>
       </Unit5>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="DOMVisitor.lpr"/>
       </Position1>
@@ -176,10 +176,6 @@
         <Filename Value="DOMVisitor.lpr"/>
         <Caret Line="44" Column="13" TopLine="38"/>
       </Position29>
-      <Position30>
-        <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="130" Column="11" TopLine="290"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

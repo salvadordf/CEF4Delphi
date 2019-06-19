@@ -8,8 +8,8 @@
       <Unit0>
         <Filename Value="MiniBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="47"/>
-        <CursorPos X="18" Y="50"/>
+        <TopLine Value="46"/>
+        <CursorPos Y="54"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="191"/>
-        <CursorPos X="78" Y="204"/>
+        <TopLine Value="277"/>
+        <CursorPos X="3" Y="279"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -64,7 +64,7 @@
         <UsageCount Value="10"/>
       </Unit5>
     </Units>
-    <JumpHistory Count="23" HistoryIndex="22">
+    <JumpHistory Count="25" HistoryIndex="24">
       <Position1>
         <Filename Value="uMiniBrowser.pas"/>
       </Position1>
@@ -156,6 +156,14 @@
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="590" Column="20" TopLine="573"/>
       </Position23>
+      <Position24>
+        <Filename Value="MiniBrowser.lpr"/>
+        <Caret Line="54" TopLine="46"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="261" Column="11" TopLine="245"/>
+      </Position25>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

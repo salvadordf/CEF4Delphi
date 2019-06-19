@@ -20,9 +20,10 @@
         <ComponentName Value="JSExtensionWithFunctionFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="63"/>
-        <CursorPos X="15" Y="78"/>
+        <TopLine Value="149"/>
+        <CursorPos X="3" Y="151"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -31,7 +32,6 @@
       <Unit2>
         <Filename Value="uMyV8Handler.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="50"/>
         <CursorPos X="74" Y="69"/>
@@ -56,7 +56,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="12" HistoryIndex="11">
       <Position1>
         <Filename Value="uJSExtensionWithFunction.pas"/>
       </Position1>
@@ -96,6 +96,14 @@
         <Filename Value="uJSExtensionWithFunction.pas"/>
         <Caret Line="78" Column="15" TopLine="63"/>
       </Position10>
+      <Position11>
+        <Filename Value="JSExtensionWithFunction.lpr"/>
+        <Caret Line="59" Column="17" TopLine="45"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uJSExtensionWithFunction.pas"/>
+        <Caret Line="105" Column="11" TopLine="89"/>
+      </Position12>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

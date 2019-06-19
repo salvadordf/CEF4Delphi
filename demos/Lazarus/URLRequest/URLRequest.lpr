@@ -59,8 +59,7 @@ uses
 {$SetPEFlags $20}
 
 begin
-  GlobalCEFApp                 := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures := 'NetworkService';
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin

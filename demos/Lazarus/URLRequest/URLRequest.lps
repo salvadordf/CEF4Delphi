@@ -8,9 +8,8 @@
       <Unit0>
         <Filename Value="URLRequest.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="43"/>
-        <CursorPos X="32" Y="62"/>
+        <CursorPos X="18" Y="52"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -21,9 +20,10 @@
         <ComponentName Value="URLRequestFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="101"/>
-        <CursorPos X="47" Y="115"/>
+        <TopLine Value="104"/>
+        <CursorPos X="20" Y="115"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -52,7 +52,7 @@
         <UsageCount Value="10"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="21" HistoryIndex="20">
+    <JumpHistory Count="24" HistoryIndex="23">
       <Position1>
         <Filename Value="uURLRequest.pas"/>
       </Position1>
@@ -136,6 +136,18 @@
         <Filename Value="uURLRequest.pas"/>
         <Caret Line="150" Column="54" TopLine="47"/>
       </Position21>
+      <Position22>
+        <Filename Value="URLRequest.lpr"/>
+        <Caret Line="62" Column="22" TopLine="43"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uURLRequest.pas"/>
+        <Caret Line="91" Column="29" TopLine="75"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uURLRequest.pas"/>
+        <Caret Line="120" Column="3" TopLine="118"/>
+      </Position24>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

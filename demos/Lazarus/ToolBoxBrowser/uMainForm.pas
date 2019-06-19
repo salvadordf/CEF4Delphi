@@ -113,7 +113,8 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;    
+  GlobalCEFApp.DisableFeatures      := 'NetworkService';
 end;
 
 procedure TMainForm.CreateToolboxChild(const ChildCaption, URL: string);

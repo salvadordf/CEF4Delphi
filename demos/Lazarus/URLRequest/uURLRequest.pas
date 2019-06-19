@@ -88,6 +88,8 @@ type
 var
   URLRequestFrm: TURLRequestFrm;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.lfm}
@@ -110,7 +112,14 @@ implementation
 // 3- in the TCEFUrlRequestClientComponent.OnRequestComplete event we set FCanClose to TRUE and send WM_CLOSE to the form.
 
 uses
-  uCEFMiscFunctions, uCEFTypes, uCEFPostData, uCEFPostDataElement, uCEFConstants;
+  uCEFApplication, uCEFMiscFunctions, uCEFTypes, uCEFPostData, uCEFPostDataElement, uCEFConstants;
+                  
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+end;
 
 procedure TURLRequestFrm.DownloadBtnClick(Sender: TObject);
 var

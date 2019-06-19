@@ -75,7 +75,7 @@ type
       procedure RemoveReferences; override;
 
     public
-      constructor Create(const events : Pointer); reintroduce; virtual;
+      constructor Create(const events : IChromiumEvents); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -161,11 +161,11 @@ end;
 
 // TCustomFocusHandler
 
-constructor TCustomFocusHandler.Create(const events: Pointer);
+constructor TCustomFocusHandler.Create(const events : IChromiumEvents);
 begin
   inherited Create;
 
-  FEvents := events;
+  FEvents := Pointer(events);
 end;
 
 destructor TCustomFocusHandler.Destroy;

@@ -93,6 +93,8 @@ type
 var
   Form1 : TForm1;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.lfm}
@@ -115,6 +117,13 @@ uses
   uCEFApplication;
 
 { TForm1 }
+                          
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin

@@ -51,18 +51,7 @@ uses
 {$SetPEFlags $20}
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures := 'NetworkService';
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -71,6 +60,5 @@ begin
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.
