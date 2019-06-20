@@ -192,7 +192,7 @@ begin
       TempKeyEvent.focus_on_editable_field := ord(False);
 
       Chromium1.SendKeyEvent(@TempKeyEvent);
-      Handled := (Msg.wParam in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]);
+      Handled := True;
     end
    else
     Handled := False;
@@ -236,7 +236,7 @@ begin
       TempKeyEvent.focus_on_editable_field := ord(False);
 
       Chromium1.SendKeyEvent(@TempKeyEvent);
-      Handled := (Msg.wParam = VK_TAB);
+      Handled := (Msg.wParam in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]);
     end
    else
     Handled := False;

@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="34"/>
-        <CursorPos X="22" Y="56"/>
+        <CursorPos X="16" Y="46"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -38,8 +38,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="919"/>
-        <CursorPos X="78" Y="936"/>
+        <TopLine Value="161"/>
+        <CursorPos X="29" Y="173"/>
         <UsageCount Value="42"/>
         <Bookmarks Count="1">
           <Item0 X="40" Y="262" ID="4"/>
@@ -229,7 +229,7 @@
         <UsageCount Value="10"/>
       </Unit26>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="usimplelazosrbrowser.pas"/>
         <Caret Line="204" Column="63" TopLine="19"/>
@@ -250,6 +250,14 @@
         <Filename Value="usimplelazosrbrowser.pas"/>
         <Caret Line="155" Column="11" TopLine="140"/>
       </Position5>
+      <Position6>
+        <Filename Value="usimplelazosrbrowser.pas"/>
+        <Caret Line="936" Column="78" TopLine="919"/>
+      </Position6>
+      <Position7>
+        <Filename Value="usimplelazosrbrowser.pas"/>
+        <Caret Line="155" Column="29" TopLine="139"/>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

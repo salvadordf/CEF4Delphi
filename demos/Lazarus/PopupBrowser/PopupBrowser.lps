@@ -9,7 +9,7 @@
         <Filename Value="PopupBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="33"/>
+        <TopLine Value="42"/>
         <CursorPos X="54" Y="47"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
@@ -21,8 +21,9 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="42"/>
-        <CursorPos X="39" Y="189"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="145"/>
+        <CursorPos X="5" Y="150"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -34,9 +35,8 @@
         <ComponentName Value="ChildForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="888"/>
+        <TopLine Value="882"/>
         <CursorPos X="78" Y="906"/>
         <UsageCount Value="22"/>
         <Bookmarks Count="2">
@@ -44,6 +44,7 @@
           <Item1 Y="704" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -55,7 +56,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="14" HistoryIndex="13">
+    <JumpHistory Count="16" HistoryIndex="15">
       <Position1>
         <Filename Value="uMainForm.pas"/>
         <Caret Line="81" Column="34" TopLine="68"/>
@@ -112,6 +113,14 @@
         <Filename Value="uChildForm.pas"/>
         <Caret Line="75" Column="33" TopLine="62"/>
       </Position14>
+      <Position15>
+        <Filename Value="PopupBrowser.lpr"/>
+        <Caret Line="47" Column="54" TopLine="42"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="110" Column="11" TopLine="94"/>
+      </Position16>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
