@@ -62,7 +62,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 75;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 11;
+  CEF_SUPPORTED_VERSION_RELEASE = 13;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 75;
@@ -1575,9 +1575,6 @@ begin
 
         appUserGestureRequired               :
           commandLine.AppendSwitchWithValue('--autoplay-policy', 'user-gesture-required');
-
-        appUserGestureRequiredForCrossOrigin :
-          commandLine.AppendSwitchWithValue('--autoplay-policy', 'user-gesture-required-for-cross-origin');
       end;
 
       if FFastUnload then

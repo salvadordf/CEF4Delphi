@@ -65,6 +65,8 @@ begin
   GlobalCEFApp.LogFile              := 'debug.log';
   GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
 
+  GlobalCEFApp.DisableFeatures := 'NetworkService';
+
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;

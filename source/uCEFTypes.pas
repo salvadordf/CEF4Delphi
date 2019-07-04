@@ -382,8 +382,7 @@ type
   TCefAutoplayPolicy = (appDefault,
                         appDocumentUserActivationRequired,
                         appNoUserGestureRequired,
-                        appUserGestureRequired,
-                        appUserGestureRequiredForCrossOrigin);
+                        appUserGestureRequired);
 
   TCefWebRTCHandlingPolicy = (
     hpDefault,

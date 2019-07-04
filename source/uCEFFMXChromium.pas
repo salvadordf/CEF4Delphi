@@ -1965,9 +1965,11 @@ begin
       TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
 
       if (TempManager <> nil) then
-        begin
+        try
           TempCallback := TCefCustomDeleteCookiesCallback.Create(self);
           Result       := TempManager.DeleteCookies(url, cookieName, TempCallback);
+        finally
+          TempCallback := nil;
         end;
     end;
 end;
@@ -1986,9 +1988,11 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) then
-        begin
+        try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetSource(TempVisitor);
+        finally
+          TempVisitor := nil;
         end;
     end;
 end;
@@ -1998,9 +2002,11 @@ var
   TempVisitor : ICefStringVisitor;
 begin
   if Initialized and (aFrame <> nil) then
-    begin
+    try
       TempVisitor := TCustomCefStringVisitor.Create(self);
       aFrame.GetSource(TempVisitor);
+    finally
+      TempVisitor := nil;
     end;
 end;
 
@@ -2017,9 +2023,11 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) then
-        begin
+        try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetSource(TempVisitor);
+        finally
+          TempVisitor := nil;
         end;
     end;
 end;
@@ -2038,9 +2046,11 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) then
-        begin
+        try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetText(TempVisitor);
+        finally
+          TempVisitor := nil;
         end;
     end;
 end;
@@ -2050,9 +2060,11 @@ var
   TempVisitor : ICefStringVisitor;
 begin
   if Initialized and (aFrame <> nil) then
-    begin
+    try
       TempVisitor := TCustomCefStringVisitor.Create(self);
       aFrame.GetText(TempVisitor);
+    finally
+      TempVisitor := nil;
     end;
 end;
 
@@ -2069,21 +2081,25 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) then
-        begin
+        try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetText(TempVisitor);
+        finally
+          TempVisitor := nil;
         end;
     end;
 end;
 
 procedure TFMXChromium.GetNavigationEntries(currentOnly: Boolean);
 var
-  TempVisitor : TCustomCefNavigationEntryVisitor;
+  TempVisitor : ICefNavigationEntryVisitor;
 begin
   if Initialized then
-    begin
+    try
       TempVisitor := TCustomCefNavigationEntryVisitor.Create(self);
       FBrowser.Host.GetNavigationEntries(TempVisitor, currentOnly);
+    finally
+      TempVisitor := nil;
     end;
 end;
 
@@ -2102,9 +2118,11 @@ var
   TempTask: ICefTask;
 begin
   if Initialized then
-    begin
+    try
       TempTask := TCefUpdatePrefsTask.Create(self);
       CefPostTask(TID_UI, TempTask);
+    finally
+      TempTask := nil;
     end;
 end;
 
@@ -2113,10 +2131,12 @@ var
   TempTask: ICefTask;
 begin
   if Initialized and (length(aFileName) > 0) then
-    begin
+    try
       FPrefsFileName := aFileName;
       TempTask       := TCefSavePrefsTask.Create(self);
       CefPostTask(TID_UI, TempTask);
+    finally
+      TempTask := nil;
     end;
 end;
 
@@ -2126,9 +2146,11 @@ var
 begin
   // Results will be received in the OnResolvedHostAvailable event of this class
   if Initialized and (length(aURL) > 0) then
-    begin
+    try
       TempCallback := TCefCustomResolveCallback.Create(self);
       FBrowser.Host.RequestContext.ResolveHost(aURL, TempCallback);
+    finally
+      TempCallback := nil;
     end;
 end;
 
