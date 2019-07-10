@@ -175,7 +175,7 @@ end;
 procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
   FCanClose := True;
-  Close;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1Close(Sender: TObject);

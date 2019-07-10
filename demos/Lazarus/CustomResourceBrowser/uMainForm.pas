@@ -166,7 +166,7 @@ end;
 procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
   FCanClose := True;
-  Close;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.ChromiumWindow1Close(Sender: TObject);

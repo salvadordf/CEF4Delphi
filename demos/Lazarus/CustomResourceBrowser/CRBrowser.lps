@@ -8,9 +8,8 @@
       <Unit0>
         <Filename Value="CRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="40"/>
-        <CursorPos X="10" Y="71"/>
+        <CursorPos X="61" Y="62"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -21,9 +20,10 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="89"/>
-        <CursorPos Y="106"/>
+        <TopLine Value="166"/>
+        <CursorPos Y="169"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -71,7 +71,7 @@
         <Loaded Value="True"/>
       </Unit6>
     </Units>
-    <JumpHistory Count="13" HistoryIndex="12">
+    <JumpHistory Count="14" HistoryIndex="13">
       <Position1>
         <Filename Value="uMainForm.pas"/>
       </Position1>
@@ -123,6 +123,10 @@
         <Filename Value="uMainForm.pas"/>
         <Caret Line="117" Column="69" TopLine="109"/>
       </Position13>
+      <Position14>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="73" Column="30" TopLine="59"/>
+      </Position14>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

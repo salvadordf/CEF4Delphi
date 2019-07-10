@@ -1,8 +1,8 @@
 {
   "UpdateLazPackages" : [
     {
-      "ForceNotify" : false,
-      "InternalVersion" : 14,
+      "ForceNotify" : true,
+      "InternalVersion" : 15,
       "Name" : "cef4delphi_lazarus.lpk",
       "Version" : "75.0.13.0"
     }

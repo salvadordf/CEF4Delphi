@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 150
+  Left = 386
   Height = 658
-  Top = 86
+  Top = 91
   Width = 781
   Caption = 'Custom Resource Browser'
   ClientHeight = 658
