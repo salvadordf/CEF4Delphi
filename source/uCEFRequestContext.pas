@@ -75,6 +75,7 @@ type
       function  CanSetPreference(const name: ustring): Boolean;
       function  SetPreference(const name: ustring; const value: ICefValue; out error: ustring): Boolean;
       procedure ClearCertificateExceptions(const callback: ICefCompletionCallback);
+      procedure ClearHttpAuthCredentials(const callback: ICefCompletionCallback);
       procedure CloseAllConnections(const callback: ICefCompletionCallback);
       procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
       procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
@@ -218,6 +219,11 @@ end;
 procedure TCefRequestContextRef.ClearCertificateExceptions(const callback: ICefCompletionCallback);
 begin
   PCefRequestContext(FData)^.clear_certificate_exceptions(PCefRequestContext(FData), CefGetData(callback));
+end;
+
+procedure TCefRequestContextRef.ClearHttpAuthCredentials(const callback: ICefCompletionCallback);
+begin
+  PCefRequestContext(FData)^.clear_http_auth_credentials(PCefRequestContext(FData), CefGetData(callback));
 end;
 
 procedure TCefRequestContextRef.CloseAllConnections(const callback: ICefCompletionCallback);

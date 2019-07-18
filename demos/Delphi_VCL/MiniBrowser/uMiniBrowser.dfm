@@ -355,6 +355,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Download image...'
       OnClick = Downloadimage1Click
     end
+    object Simulatekeyboardpresses1: TMenuItem
+      Caption = 'Simulate keyboard presses'
+      OnClick = Simulatekeyboardpresses1Click
+    end
     object N5: TMenuItem
       Caption = '-'
     end

@@ -389,7 +389,7 @@ type
       function  doOnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; virtual;
       function  doOnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
       procedure doOnGetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler; var aUseInternalHandler : boolean); virtual;
-      function  doOnGetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
+      function  doOnGetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
       function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; virtual;
       function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): Boolean; virtual;
       function  doOnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
@@ -517,6 +517,9 @@ type
       procedure   SavePreferences(const aFileName : string);
       procedure   ResolveHost(const aURL : ustring);
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
+
+      procedure   ShowDevTools(inspectElementAt: TPoint);
+      procedure   CloseDevTools;
 
       procedure   Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
       procedure   StopFinding(aClearSelection : Boolean);
@@ -2907,6 +2910,47 @@ begin
   if assigned(FOnPdfPrintFinished) then FOnPdfPrintFinished(self, aResultOK);
 end;
 
+procedure TFMXChromium.ShowDevTools(inspectElementAt: TPoint);
+var
+  TempPoint  : TCefPoint;
+  TempClient : ICefClient;
+  TempPPoint : PCefPoint;
+begin
+  try
+    try
+      if Initialized then
+        begin
+          InitializeSettings(FDevBrowserSettings);
+          WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
+
+          TempClient := TCustomClientHandler.Create(Self, True);
+
+          if (inspectElementAt.x <> low(integer)) and
+             (inspectElementAt.y <> low(integer)) then
+            begin
+              TempPoint.x := inspectElementAt.x;
+              TempPoint.y := inspectElementAt.y;
+              TempPPoint  := @TempPoint;
+            end
+           else
+            TempPPoint := nil;
+
+          FBrowser.Host.ShowDevTools(@FDevWindowInfo, TempClient, @FDevBrowserSettings, TempPPoint);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TFMXChromium.ShowDevTools', e) then raise;
+    end;
+  finally
+    TempClient := nil;
+  end;
+end;
+
+procedure TFMXChromium.CloseDevTools;
+begin
+  if Initialized then FBrowser.Host.CloseDevTools;
+end;
+
 function TFMXChromium.doOnClose(const browser: ICefBrowser): Boolean;
 var
   TempAction : TCefCloseBrowserAction;
@@ -3218,14 +3262,14 @@ begin
   if Assigned(FOnFullScreenModeChange) then FOnFullScreenModeChange(Self, browser, fullscreen);
 end;
 
-function TFMXChromium.doOnGetAuthCredentials(const browser  : ICefBrowser;
-                                             const frame    : ICefFrame;
-                                                   isProxy  : Boolean;
-                                             const host     : ustring;
-                                                   port     : Integer;
-                                             const realm    : ustring;
-                                             const scheme   : ustring;
-                                             const callback : ICefAuthCallback): Boolean;
+function TFMXChromium.doOnGetAuthCredentials(const browser   : ICefBrowser;
+                                             const originUrl : ustring;
+                                                   isProxy   : Boolean;
+                                             const host      : ustring;
+                                                   port      : Integer;
+                                             const realm     : ustring;
+                                             const scheme    : ustring;
+                                             const callback  : ICefAuthCallback): Boolean;
 begin
   Result := False;
 
@@ -3238,8 +3282,8 @@ begin
         end;
     end
    else
-    if (frame <> nil) and frame.IsMain and Assigned(FOnGetAuthCredentials) then
-      FOnGetAuthCredentials(Self, browser, frame, isProxy, host, port, realm, scheme, callback, Result);
+    if Assigned(FOnGetAuthCredentials) then
+      FOnGetAuthCredentials(Self, browser, originUrl, isProxy, host, port, realm, scheme, callback, Result);
 end;
 
 function TFMXChromium.doCanSendCookie(const browser : ICefBrowser;

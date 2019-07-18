@@ -50,6 +50,9 @@ uses
   FMX.Edit, FMX.Controls.Presentation, uCEFFMXWindowParent, uCEFFMXChromium,
   uCEFInterfaces, uCEFConstants, uCEFTypes;
 
+const
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS    = MENU_ID_USER_FIRST + 1;
+
 type
   TSimpleFMXBrowserFrm = class(TForm)
     AddressPnl: TPanel;
@@ -78,6 +81,13 @@ type
     procedure FormResize(Sender: TObject);
     procedure FMXChromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
+    procedure FMXChromium1BeforeContextMenu(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure FMXChromium1ContextMenuCommand(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const params: ICefContextMenuParams; commandId: Integer;
+      eventFlags: Cardinal; out Result: Boolean);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -147,6 +157,13 @@ begin
   PostCustomMessage(WM_CLOSE);
 end;
 
+procedure TSimpleFMXBrowserFrm.FMXChromium1BeforeContextMenu(
+  Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+  const params: ICefContextMenuParams; const model: ICefMenuModel);
+begin
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
+end;
+
 procedure TSimpleFMXBrowserFrm.FMXChromium1BeforePopup(      Sender             : TObject;
                                                        const browser            : ICefBrowser;
                                                        const frame              : ICefFrame;
@@ -170,6 +187,22 @@ procedure TSimpleFMXBrowserFrm.FMXChromium1Close(Sender: TObject; const browser:
 begin
   PostCustomMessage(CEF_DESTROY);
   aAction := cbaDelay;
+end;
+
+procedure TSimpleFMXBrowserFrm.FMXChromium1ContextMenuCommand(
+  Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+  const params: ICefContextMenuParams; commandId: Integer;
+  eventFlags: Cardinal; out Result: Boolean);
+var
+  TempPoint : TPoint;
+begin
+  if (commandId = MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS) then
+    begin
+      TempPoint.x := params.XCoord;
+      TempPoint.y := params.YCoord;
+
+      FMXChromium1.ShowDevTools(TempPoint);
+    end;
 end;
 
 function TSimpleFMXBrowserFrm.PostCustomMessage(aMessage, wParam : cardinal; lParam : integer) : boolean;

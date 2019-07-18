@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright Â© 2018 Salvador DÃ­az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,53 +35,47 @@
  *
  *)
 
-program OSRSubProcess;
+program EditorBrowser;
+
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF}
 
 {$I cef.inc}
 
 uses
   {$IFDEF DELPHI16_UP}
+  Vcl.Forms,
   WinApi.Windows,
   {$ELSE}
+{$IFnDEF FPC}
+{$ELSE}
+  Interfaces,
+{$ENDIF}
+  Forms,
   Windows,
-  {$ENDIF}
+  {$ENDIF }
   uCEFApplication,
-  uCEFConstants;
+  uEditorBrowser in 'uEditorBrowser.pas' {Form1};
+
+{.$R *.res}
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+// If you don't add this flag the rederer process will crash when you try to load large images.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
-// To test this demo you need to build the ConsoleLoader, OSRDLLBrowser and OSRSubProcess projects found in this directory.
-
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  CreateGlobalCEFApp;
 
-  // The main process and the subprocess *MUST* have the same FrameworkDirPath, ResourcesDirPath,
-  // LocalesDirPath, cache, cookies and UserDataPath paths
+  if GlobalCEFApp.StartMainProcess then
+    begin
+      Application.Initialize;
+      {$IFDEF DELPHI11_UP}
+      Application.MainFormOnTaskbar := True;
+      {$ENDIF}
+      Application.CreateForm(TForm1, Form1);
+      Application.Run;
+    end;
 
-  // The demos are compiled into the BIN directory. Make sure SubProcess.exe and SimpleBrowser.exe are in that
-  // directory or this demo won't work.
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-  GlobalCEFApp.LogFile              := 'debug.log';
-  GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
-}
-
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.SetCurrentDir              := True;
-  GlobalCEFApp.ExternalMessagePump        := False;
-  GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.DisableFeatures            := 'NetworkService,VizDisplayCompositor';
-
-  GlobalCEFApp.StartSubProcess;
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.
-

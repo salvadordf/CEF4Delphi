@@ -1761,7 +1761,7 @@ type
     on_before_browse              : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; user_gesture, isRedirect: Integer): Integer; stdcall;
     on_open_urlfrom_tab           : function(self: PCefRequestHandler; browser:PCefBrowser; frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer): Integer; stdcall;
     get_resource_request_handler  : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; is_navigation, is_download: Integer; const request_initiator: PCefString; disable_default_handling: PInteger): PCefResourceRequestHandler; stdcall;
-    get_auth_credentials          : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
+    get_auth_credentials          : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
     on_quota_request              : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefRequestCallback): Integer; stdcall;
     on_certificate_error          : function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefRequestCallback): Integer; stdcall;
     on_select_client_certificate  : function(self: PCefRequestHandler; browser: PCefBrowser; isProxy: integer; const host: PCefString; port: integer; certificatesCount: NativeUInt; const certificates: PPCefX509Certificate; callback: PCefSelectClientCertificateCallback): integer; stdcall;
@@ -1881,6 +1881,7 @@ type
     can_set_preference              : function(self: PCefRequestContext; const name: PCefString): Integer; stdcall;
     set_preference                  : function(self: PCefRequestContext; const name: PCefString; value: PCefValue; error: PCefString): Integer; stdcall;
     clear_certificate_exceptions    : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
+    clear_http_auth_credentials     : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
     close_all_connections           : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
     resolve_host                    : procedure(self: PCefRequestContext; const origin: PCefString; callback: PCefResolveCallback); stdcall;
     load_extension                  : procedure(self: PCefRequestContext; const root_directory: PCefString; manifest: PCefDictionaryValue; handler: PCefExtensionHandler); stdcall;

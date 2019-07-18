@@ -123,6 +123,7 @@ type
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
     Downloadimage1: TMenuItem;
+    Simulatekeyboardpresses1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -220,6 +221,7 @@ type
     procedure Chromium1DownloadImageFinished(Sender: TObject;
       const imageUrl: ustring; httpStatusCode: Integer;
       const image: ICefImage);
+    procedure Simulatekeyboardpresses1Click(Sender: TObject);
 
   protected
     FResponse   : TStringList;
@@ -844,6 +846,40 @@ end;
 procedure TMiniBrowserFrm.ShowStatusText(const aText : string);
 begin
   if not(FClosing) then StatusBar1.Panels[1].Text := aText;
+end;
+
+procedure TMiniBrowserFrm.Simulatekeyboardpresses1Click(Sender: TObject);
+const
+  SIMULATED_KEY_PRESSES = 'QWERTY';
+var
+  i : integer;
+  TempKeyEvent : TCefKeyEvent;
+begin
+  // This procedure is extremely simplified.
+  // Use the SimpleOSRBrowser demo to log the real TCefKeyEvent values
+  // if you use anything different than uppercase letters.
+
+  for i := 1 to length(SIMULATED_KEY_PRESSES) do
+    begin
+      // WM_KEYDOWN
+      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.modifiers               := 0;
+      TempKeyEvent.windows_key_code        := ord(SIMULATED_KEY_PRESSES[i]);
+      TempKeyEvent.native_key_code         := 0;
+      TempKeyEvent.is_system_key           := ord(False);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+      Chromium1.SendKeyEvent(@TempKeyEvent);
+
+      // WM_CHAR
+      TempKeyEvent.kind := KEYEVENT_CHAR;
+      Chromium1.SendKeyEvent(@TempKeyEvent);
+
+      // WM_KEYUP
+      TempKeyEvent.kind := KEYEVENT_KEYUP;
+      Chromium1.SendKeyEvent(@TempKeyEvent);
+    end;
 end;
 
 procedure TMiniBrowserFrm.StopBtnClick(Sender: TObject);

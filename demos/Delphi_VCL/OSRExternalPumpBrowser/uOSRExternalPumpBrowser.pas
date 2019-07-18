@@ -187,6 +187,7 @@ begin
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  GlobalCEFApp.DisableFeatures            := 'NetworkService,VizDisplayCompositor';
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 
