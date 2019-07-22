@@ -872,6 +872,13 @@ type
     PLUGIN_POLICY_DISABLE
   );
 
+  // cef/libcef/common/cef_switches.cc (values for the --plugin-policy switch)
+  TCefPluginPolicySwitch = (
+    PLUGIN_POLICY_SWITCH_ALLOW, // Default value
+    PLUGIN_POLICY_SWITCH_DETECT,
+    PLUGIN_POLICY_SWITCH_BLOCK
+  );
+
   // /include/internal/cef_types.h (cef_color_type_t)
   TCefColorType = (
     CEF_COLOR_TYPE_RGBA_8888,

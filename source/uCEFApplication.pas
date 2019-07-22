@@ -165,10 +165,27 @@ type
       FAllowFileAccessFromFiles      : boolean;
       FAllowRunningInsecureContent   : boolean;
 
-      FMustCreateResourceBundleHandler : boolean;
-      FMustCreateBrowserProcessHandler : boolean;
-      FMustCreateRenderProcessHandler  : boolean;
-      FMustCreateLoadHandler           : boolean;
+      FPluginPolicy                      : TCefPluginPolicySwitch;
+      FDefaultEncoding                   : string;
+      FDisableJavascript                 : boolean;
+      FDisableJavascriptCloseWindows     : boolean;
+      FDisableJavascriptAccessClipboard  : boolean;
+      FDisableJavascriptDomPaste         : boolean;
+      FAllowUniversalAccessFromFileUrls  : boolean;
+      FDisableImageLoading               : boolean;
+      FImageShrinkStandaloneToFit        : boolean;
+      FDisableTextAreaResize             : boolean;
+      FDisableTabToLinks                 : boolean;
+      FDisablePlugins                    : boolean;
+      FEnableProfanityFilter             : boolean;
+      FDisableSpellChecking              : boolean;
+      FOverrideSpellCheckLang            : string;
+      //FEnablePrintPreview               : boolean;
+
+      FMustCreateResourceBundleHandler   : boolean;
+      FMustCreateBrowserProcessHandler   : boolean;
+      FMustCreateRenderProcessHandler    : boolean;
+      FMustCreateLoadHandler             : boolean;
 
       // ICefBrowserProcessHandler
       FOnContextInitialized          : TOnContextInitializedEvent;
@@ -420,6 +437,24 @@ type
       property MetricsRecordingOnly              : boolean                             read FMetricsRecordingOnly              write FMetricsRecordingOnly;
       property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;
       property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;
+      //property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;
+      property PluginPolicy                      : TCefPluginPolicySwitch              read FPluginPolicy                      write FPluginPolicy;
+      property DefaultEncoding                   : string                              read FDefaultEncoding                   write FDefaultEncoding;
+      property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;
+
+      property DisableJavascriptCloseWindows     : boolean                             read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;
+      property DisableJavascriptAccessClipboard  : boolean                             read FDisableJavascriptAccessClipboard  write FDisableJavascriptAccessClipboard;
+      property DisableJavascriptDomPaste         : boolean                             read FDisableJavascriptDomPaste         write FDisableJavascriptDomPaste;
+      property AllowUniversalAccessFromFileUrls  : boolean                             read FAllowUniversalAccessFromFileUrls  write FAllowUniversalAccessFromFileUrls;
+      property DisableImageLoading               : boolean                             read FDisableImageLoading               write FDisableImageLoading;
+      property ImageShrinkStandaloneToFit        : boolean                             read FImageShrinkStandaloneToFit        write FImageShrinkStandaloneToFit;
+      property DisableTextAreaResize             : boolean                             read FDisableTextAreaResize             write FDisableTextAreaResize;
+      property DisableTabToLinks                 : boolean                             read FDisableTabToLinks                 write FDisableTabToLinks;
+      property DisablePlugins                    : boolean                             read FDisablePlugins                    write FDisablePlugins;
+      property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;
+      property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;
+      property OverrideSpellCheckLang            : string                              read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;
+
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
       property UsedMemory                        : cardinal                            read GetUsedMemory;
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
@@ -573,10 +608,27 @@ begin
   FMetricsRecordingOnly          := False;
   FAllowFileAccessFromFiles      := False;
   FAllowRunningInsecureContent   := False;
+  FPluginPolicy                  := PLUGIN_POLICY_SWITCH_ALLOW;
+  FDefaultEncoding               := '';
+  FDisableJavascript             := False;
   FEnableFeatures                := '';
   FDisableFeatures               := '';
   FEnableBlinkFeatures           := '';
   FDisableBlinkFeatures          := '';
+
+  FDisableJavascriptCloseWindows     := False;
+  FDisableJavascriptAccessClipboard  := False;
+  FDisableJavascriptDomPaste         := False;
+  FAllowUniversalAccessFromFileUrls  := False;
+  FDisableImageLoading               := False;
+  FImageShrinkStandaloneToFit        := False;
+  FDisableTextAreaResize             := False;
+  FDisableTabToLinks                 := False;
+  FDisablePlugins                    := False;
+  FEnableProfanityFilter             := False;
+  FDisableSpellChecking              := False;
+  FOverrideSpellCheckLang            := '';
+  //FEnablePrintPreview                := False;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -1616,6 +1668,56 @@ begin
 
       if FAllowRunningInsecureContent then
         commandLine.AppendSwitch('--allow-running-insecure-content');
+
+      //if FEnablePrintPreview then commandLine.AppendSwitch('--enable-print-preview');
+
+      case FPluginPolicy of
+        PLUGIN_POLICY_SWITCH_DETECT : commandLine.AppendSwitchWithValue('--plugin-policy', 'detect');
+        PLUGIN_POLICY_SWITCH_BLOCK  : commandLine.AppendSwitchWithValue('--plugin-policy', 'block');
+      end;
+
+      if (length(FDefaultEncoding) > 0) then
+        commandLine.AppendSwitchWithValue('--default-encoding', FDefaultEncoding);
+
+      if FDisableJavascript then
+        commandLine.AppendSwitch('--disable-javascript');
+
+      if FDisableJavascriptCloseWindows then
+        commandLine.AppendSwitch('--disable-javascript-close-windows');
+
+      if FDisableJavascriptAccessClipboard then
+        commandLine.AppendSwitch('--disable-javascript-access-clipboard');
+
+      if FDisableJavascriptDomPaste then
+        commandLine.AppendSwitch('--disable-javascript-dom-paste');
+
+      if FAllowUniversalAccessFromFileUrls then
+        commandLine.AppendSwitch('--allow-universal-access-from-files');
+
+      if FDisableImageLoading then
+        commandLine.AppendSwitch('--disable-image-loading');
+
+      if FImageShrinkStandaloneToFit then
+        commandLine.AppendSwitch('--image-shrink-standalone-to-fit');
+
+      if FDisableTextAreaResize then
+        commandLine.AppendSwitch('--disable-text-area-resize');
+
+      if FDisableTabToLinks then
+        commandLine.AppendSwitch('--disable-tab-to-links');
+
+      if FDisablePlugins then
+        commandLine.AppendSwitch('--disable-plugins');
+
+      if FEnableProfanityFilter then
+        commandLine.AppendSwitch('--enable-profanity-filter');
+
+      if FDisableSpellChecking then
+        commandLine.AppendSwitch('--disable-spell-checking');
+
+      if (length(FOverrideSpellCheckLang) > 0) then
+        commandLine.AppendSwitchWithValue('--override-spell-check-lang', FOverrideSpellCheckLang);
+
 
       // The list of features you can enable is here :
       // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
