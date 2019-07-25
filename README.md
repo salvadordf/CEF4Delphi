@@ -18,9 +18,11 @@ CEF4Delphi was developed and tested on Delphi 10.3 Rio and it has been tested in
 
 ## Suppport
 If you find this project useful, please consider making a donation.
+
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTSD2CCGXTD86)
 
 You can also support this project with Patreon.
+
 <a href="https://patreon.com/salvadordf"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Patreon donate button" /></a>
 
 Additional:
