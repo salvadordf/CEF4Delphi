@@ -1,12 +1,12 @@
-﻿# CEF4Delphi [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Use%20CEF4Delphi%20to%20embed%20Chromium-based%20browsers%20in%20your%20application&url=https://github.com/salvadordf/CEF4Delphi&via=briskbard&hashtags=cef4delphi,delphi,lazarus,fpc)
-CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC.
+# CEF4Delphi [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Use%20CEF4Delphi%20to%20embed%20Chromium-based%20browsers%20in%20your%20application&url=https://github.com/salvadordf/CEF4Delphi&via=briskbard&hashtags=cef4delphi,delphi,lazarus,fpc)
+CEF4Delphi is an open source project created by Salvador D�az Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC.
 
 CEF4Delphi is based on DCEF3, made by Henri Gourvest. The original license of DCEF3 still applies to CEF4Delphi. Read the license terms in the first lines of any *.pas file.
 
-CEF4Delphi uses CEF 75.1.8 which includes Chromium 75.0.3770.100. 
+CEF4Delphi uses CEF 75.1.14 which includes Chromium 75.0.3770.100. 
 The CEF binaries used by CEF4Delphi are available for download at spotify :
-* [32 bits](http://opensource.spotify.com/cefbuilds/cef_binary_75.1.8%2Bg84fed5d%2Bchromium-75.0.3770.100_windows32.tar.bz2)
-* [64 bits](http://opensource.spotify.com/cefbuilds/cef_binary_75.1.8%2Bg84fed5d%2Bchromium-75.0.3770.100_windows64.tar.bz2)
+* [32 bits](http://opensource.spotify.com/cefbuilds/cef_binary_75.1.14%2Bgc81164e%2Bchromium-75.0.3770.100_windows32.tar.bz2)
+* [64 bits](http://opensource.spotify.com/cefbuilds/cef_binary_75.1.14%2Bgc81164e%2Bchromium-75.0.3770.100_windows64.tar.bz2)
 
 
 CEF4Delphi was developed and tested on Delphi 10.3 Rio and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2 and Lazarus 2.0.2/FPC 3.0.4. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
