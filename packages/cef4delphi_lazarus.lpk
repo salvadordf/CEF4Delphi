@@ -21,7 +21,7 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="75" Minor="1" Release="4"/>
+    <Version Major="75" Minor="1" Release="14"/>
     <Files Count="143">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
