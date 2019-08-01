@@ -129,6 +129,7 @@ begin
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
   GlobalCEFApp.OnContextInitialized      := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.DisableFeatures           := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.CreateMDIChild(const Name: string);

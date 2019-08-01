@@ -20,7 +20,6 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="147"/>
         <CursorPos X="41" Y="160"/>
@@ -32,9 +31,10 @@
       <Unit2>
         <Filename Value="uCEFLoader.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="36"/>
-        <CursorPos Y="65"/>
+        <TopLine Value="45"/>
+        <CursorPos X="37" Y="68"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>

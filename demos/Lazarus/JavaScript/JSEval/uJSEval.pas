@@ -539,7 +539,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.OnProcessMessageReceived := RenderProcessHandler_OnProcessMessageReceivedEvent;
-  GlobalCEFApp.DisableFeatures          := 'NetworkService';
+  GlobalCEFApp.DisableFeatures          := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TJSEvalFrm.Chromium1ProcessMessageReceived(Sender : TObject;

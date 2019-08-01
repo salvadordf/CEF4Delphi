@@ -302,7 +302,7 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.RemoteDebuggingPort      := 9000;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;       
-  GlobalCEFApp.DisableFeatures          := 'NetworkService';
+  GlobalCEFApp.DisableFeatures          := 'NetworkService,OutOfBlinkCors';
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.

@@ -70,7 +70,8 @@ begin
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
 
-  GlobalCEFApp.SetCurrentDir := True;
+  GlobalCEFApp.DisableFeatures := 'NetworkService,OutOfBlinkCors';
+  GlobalCEFApp.SetCurrentDir   := True;
 
   GlobalCEFApp.StartSubProcess;
   GlobalCEFApp.Free;

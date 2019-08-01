@@ -59,14 +59,18 @@ type
     AddressEdt: TEdit;
     GoBtn: TButton;
     Timer1: TTimer;
+
     procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+
+    procedure FormShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
+
+    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure ChromiumWindow1Close(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
+
   private
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -159,19 +163,24 @@ begin
   if not(ChromiumWindow1.DestroyChildWindow) then
     begin
       FCanClose := True;
-      Close;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
     end;
 end;
 
-procedure TForm1.Chromium_OnBeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
-  var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings;
-  var extra_info: ICefDictionaryValue;
-  var noJavascriptAccess: Boolean;
-  var Result: Boolean);
+procedure TForm1.Chromium_OnBeforePopup(      Sender             : TObject;
+                                        const browser            : ICefBrowser;
+                                        const frame              : ICefFrame;
+                                        const targetUrl          : ustring;
+                                        const targetFrameName    : ustring;
+                                              targetDisposition  : TCefWindowOpenDisposition;
+                                              userGesture        : Boolean;
+                                        const popupFeatures      : TCefPopupFeatures;
+                                        var   windowInfo         : TCefWindowInfo;
+                                        var   client             : ICefClient;
+                                        var   settings           : TCefBrowserSettings;
+                                        var   extra_info         : ICefDictionaryValue;
+                                        var   noJavascriptAccess : Boolean;
+                                        var   Result             : Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);

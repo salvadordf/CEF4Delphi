@@ -99,6 +99,8 @@ type
 var
   JSDialogBrowserFrm: TJSDialogBrowserFrm;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.dfm}
@@ -113,6 +115,14 @@ uses
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
 // 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+end;
 
 procedure TJSDialogBrowserFrm.FormCreate(Sender: TObject);
 begin

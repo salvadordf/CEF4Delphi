@@ -114,7 +114,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;    
-  GlobalCEFApp.DisableFeatures      := 'NetworkService';
+  GlobalCEFApp.DisableFeatures      := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.CreateToolboxChild(const ChildCaption, URL: string);

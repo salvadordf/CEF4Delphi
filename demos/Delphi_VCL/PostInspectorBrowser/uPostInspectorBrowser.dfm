@@ -77,7 +77,6 @@ object Form1: TForm1
     Height = 439
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 27
   end
   object Memo1: TMemo
     Left = 0

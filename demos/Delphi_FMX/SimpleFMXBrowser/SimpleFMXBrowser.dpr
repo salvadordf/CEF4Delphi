@@ -18,19 +18,7 @@ uses
 {$ENDIF}
 
 begin
-  GlobalCEFApp                 := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures := 'NetworkService';
-
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
-  // If you don't set a cache directory the browser will use in-memory cache.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
+  CreateGlobalCEFApp;
 
   // You *MUST* call GlobalCEFApp.StartMainProcess in a if..then clause
   // with the Application initialization inside the begin..end.

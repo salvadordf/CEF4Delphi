@@ -113,7 +113,7 @@ begin
   GlobalCEFApp.BrowserSubprocessPath      := 'OSRSubProcess.exe';
   GlobalCEFApp.ExternalMessagePump        := False;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.DisableFeatures            := 'NetworkService,VizDisplayCompositor';
+  GlobalCEFApp.DisableFeatures            := 'NetworkService,OutOfBlinkCors';
 
   // This demo uses a different EXE for the subprocesses.
   // With this configuration it's not necessary to have the

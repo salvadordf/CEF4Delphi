@@ -56,19 +56,7 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
-
-  // This is the same demo than the JSSimpleWindowBinding but using a different executable for the subprocesses.
-  // Notice that GlobalCEFApp.OnContextCreated is now defined in the SubProcess.
-
-  // Follow these steps to test this demo :
-  // 1. Build the SubProcess project in this directory.
-  // 2. Copy the CEF binaries to the BIN directory in CEF4Delphi.
-  // 3. Build this project : JSSimpleWindowBinding
-  // 4. Run this demo : JSSimpleWindowBinding
-
-  GlobalCEFApp.BrowserSubprocessPath := 'SubProcess.exe';
-  GlobalCEFApp.DisableFeatures       := 'NetworkService';
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
@@ -80,6 +68,5 @@ begin
       Application.Run;
     end;
 
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  DestroyGlobalCEFApp;
 end.

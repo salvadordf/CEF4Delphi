@@ -110,6 +110,8 @@ type
 var
   SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.fmx}
@@ -143,6 +145,25 @@ implementation
 uses
   FMX.Platform, FMX.Platform.Win,
   uCEFMiscFunctions, uCEFApplication, uFMXApplicationService;
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+
+  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
+  // If you don't set a cache directory the browser will use in-memory cache.
+{
+  GlobalCEFApp.FrameworkDirPath     := 'cef';
+  GlobalCEFApp.ResourcesDirPath     := 'cef';
+  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
+  GlobalCEFApp.cache                := 'cef\cache';
+  GlobalCEFApp.UserDataPath         := 'cef\User Data';
+}
+end;
 
 procedure TSimpleFMXBrowserFrm.FMXChromium1AfterCreated(Sender: TObject;
   const browser: ICefBrowser);

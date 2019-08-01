@@ -119,7 +119,7 @@ begin
   GlobalCEFApp                           := TCefApplication.Create;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;      
-  GlobalCEFApp.DisableFeatures           := 'NetworkService';
+  GlobalCEFApp.DisableFeatures           := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 

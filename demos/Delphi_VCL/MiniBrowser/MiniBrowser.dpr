@@ -49,8 +49,6 @@ uses
   Windows,
   {$ENDIF }
   uCEFApplication,
-  uCEFTypes,
-  uCEFConstants,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uPreferences in 'uPreferences.pas' {PreferencesFrm},
   uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
@@ -60,12 +58,7 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
-
-  GlobalCEFApp.LogFile              := 'debug.log';
-  GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
-
-  GlobalCEFApp.DisableFeatures := 'NetworkService';
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin

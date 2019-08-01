@@ -8,7 +8,6 @@
       <Unit0>
         <Filename Value="SimpleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="34" Y="26"/>
         <UsageCount Value="20"/>
@@ -35,8 +34,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
-        <TopLine Value="69"/>
-        <CursorPos X="11" Y="96"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="98"/>
+        <CursorPos X="69" Y="125"/>
         <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -417,7 +417,7 @@
         <UsageCount Value="10"/>
       </Unit53>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
         <Filename Value="usimplelazarusbrowser.pas"/>
         <Caret Line="67" Column="29" TopLine="57"/>
@@ -426,6 +426,10 @@
         <Filename Value="usimplelazarusbrowser.pas"/>
         <Caret Line="66" Column="43" TopLine="60"/>
       </Position2>
+      <Position3>
+        <Filename Value="SimpleBrowser2.lpr"/>
+        <Caret Line="26" Column="34"/>
+      </Position3>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -60,15 +60,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 75;
+  CEF_SUPPORTED_VERSION_MAJOR   = 76;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 14;
+  CEF_SUPPORTED_VERSION_RELEASE = 5;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 75;
+  CEF_CHROMEELF_VERSION_MAJOR   = 76;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3770;
-  CEF_CHROMEELF_VERSION_BUILD   = 100;
+  CEF_CHROMEELF_VERSION_RELEASE = 3809;
+  CEF_CHROMEELF_VERSION_BUILD   = 87;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -92,6 +92,7 @@ type
       FBrowserSubprocessPath         : ustring;
       FCustomFlashPath               : ustring;
       FFrameworkDirPath              : ustring;
+      FMainBundlePath                : ustring; // Only used in macOS
       FLogSeverity                   : TCefLogSeverity;
       FJavaScriptFlags               : ustring;
       FResourcesDirPath              : ustring;
@@ -361,6 +362,7 @@ type
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
       property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
       property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
+      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;  // Only used in macOS
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
       property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
@@ -549,6 +551,7 @@ begin
   FBrowserSubprocessPath         := '';
   FCustomFlashPath               := '';
   FFrameworkDirPath              := '';
+  FMainBundlePath                := '';
   FLogSeverity                   := LOGSEVERITY_DISABLE;
   FJavaScriptFlags               := '';
   FResourcesDirPath              := '';
@@ -1169,6 +1172,7 @@ begin
   aSettings.no_sandbox                              := Ord(FNoSandbox);
   aSettings.browser_subprocess_path                 := CefString(FBrowserSubprocessPath);
   aSettings.framework_dir_path                      := CefString(FFrameworkDirPath);
+  aSettings.main_bundle_path                        := CefString(FMainBundlePath);
   aSettings.multi_threaded_message_loop             := Ord(FMultiThreadedMessageLoop);
   aSettings.external_message_pump                   := Ord(FExternalMessagePump);
   aSettings.windowless_rendering_enabled            := Ord(FWindowlessRenderingEnabled);

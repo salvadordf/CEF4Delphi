@@ -65,6 +65,7 @@ begin
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
 
+  GlobalCEFApp.DisableFeatures       := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.BrowserSubprocessPath := 'SubProcess.exe';
 
   // This demo uses a different EXE for the subprocesses.

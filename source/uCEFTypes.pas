@@ -1068,6 +1068,7 @@ type
     no_sandbox                               : Integer;
     browser_subprocess_path                  : TCefString;
     framework_dir_path                       : TCefString;
+    main_bundle_path                         : TCefString;  // Only used in macOS
     multi_threaded_message_loop              : Integer;
     external_message_pump                    : Integer;
     windowless_rendering_enabled             : Integer;

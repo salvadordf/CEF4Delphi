@@ -20,10 +20,9 @@
         <ComponentName Value="CookieVisitorFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="124"/>
-        <CursorPos X="38" Y="130"/>
+        <TopLine Value="139"/>
+        <CursorPos X="69" Y="149"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -42,13 +41,15 @@
       </Unit2>
       <Unit3>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32object.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="395"/>
-        <CursorPos X="61" Y="409"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="355"/>
+        <CursorPos Y="413"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="11" HistoryIndex="10">
+    <JumpHistory Count="12" HistoryIndex="11">
       <Position1>
         <Filename Value="CookieVisitor.lpr"/>
       </Position1>
@@ -92,6 +93,10 @@
         <Filename Value="uCookieVisitor.pas"/>
         <Caret Line="125" Column="11" TopLine="115"/>
       </Position11>
+      <Position12>
+        <Filename Value="uCookieVisitor.pas"/>
+        <Caret Line="149" Column="69" TopLine="139"/>
+      </Position12>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -279,7 +279,7 @@ begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
