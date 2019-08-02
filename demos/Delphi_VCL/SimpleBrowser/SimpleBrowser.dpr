@@ -69,6 +69,9 @@ begin
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
 
+  // Disabling some features to improve stability
+  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
+
   // You *MUST* call GlobalCEFApp.StartMainProcess in a if..then clause
   // with the Application initialization inside the begin..end.
   // Read this https://www.briskbard.com/index.php?lang=en&pageid=cef
