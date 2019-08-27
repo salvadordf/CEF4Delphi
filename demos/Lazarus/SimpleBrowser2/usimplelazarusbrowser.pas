@@ -67,6 +67,10 @@ type
       var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
       var aAction : TCefCloseBrowserAction);
+    procedure Chromium1OpenUrlFromTab(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition;
+      userGesture: Boolean; out Result: Boolean);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -164,6 +168,15 @@ procedure TForm1.Chromium1BeforePopup(Sender: TObject;
   var extra_info: ICefDictionaryValue;
   var noJavascriptAccess: Boolean;
   var Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;    
+
+procedure TForm1.Chromium1OpenUrlFromTab(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out
+  Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);

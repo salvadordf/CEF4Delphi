@@ -422,7 +422,7 @@ begin
     end;
 end;
 
-procedure TForm1.chrmosrPaint(Sender : TObject;
+procedure TForm1.chrmosrPaint(      Sender          : TObject;
                               const browser         : ICefBrowser;
                                     kind            : TCefPaintElementType;
                                     dirtyRectsCount : NativeUInt;

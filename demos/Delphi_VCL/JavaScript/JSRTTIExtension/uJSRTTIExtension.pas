@@ -135,10 +135,10 @@ uses
 
 // TTestExtension can send information back to the browser with a process message.
 // The TTestExtension.mouseover function do this by calling
-// TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg);
+// TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage(PID_BROWSER, msg);
 
 // TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing JS,
-// TCefv8ContextRef.Current.Browser.SendProcessMessage should send a message to the right browser even
+// TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage should send a message to the right browser even
 // if you have created several browsers in one app.
 
 // That message is received in the TChromium.OnProcessMessageReceived event.

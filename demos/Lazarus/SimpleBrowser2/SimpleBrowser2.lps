@@ -4,11 +4,11 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="54">
+    <Units Count="55">
       <Unit0>
         <Filename Value="SimpleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <CursorPos X="34" Y="26"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -35,8 +35,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="98"/>
-        <CursorPos X="69" Y="125"/>
+        <TopLine Value="158"/>
+        <CursorPos X="7" Y="183"/>
         <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -416,8 +416,15 @@
         <CursorPos X="3" Y="133"/>
         <UsageCount Value="10"/>
       </Unit53>
+      <Unit54>
+        <Filename Value="..\..\..\source\uCEFApplication.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="37"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit54>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="usimplelazarusbrowser.pas"/>
         <Caret Line="67" Column="29" TopLine="57"/>
@@ -430,6 +437,22 @@
         <Filename Value="SimpleBrowser2.lpr"/>
         <Caret Line="26" Column="34"/>
       </Position3>
+      <Position4>
+        <Filename Value="usimplelazarusbrowser.pas"/>
+        <Caret Line="118" Column="47" TopLine="56"/>
+      </Position4>
+      <Position5>
+        <Filename Value="usimplelazarusbrowser.pas"/>
+        <Caret Line="179" Column="36" TopLine="176"/>
+      </Position5>
+      <Position6>
+        <Filename Value="usimplelazarusbrowser.pas"/>
+        <Caret Line="181" TopLine="19"/>
+      </Position6>
+      <Position7>
+        <Filename Value="usimplelazarusbrowser.pas"/>
+        <Caret Line="75" Column="83" TopLine="43"/>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

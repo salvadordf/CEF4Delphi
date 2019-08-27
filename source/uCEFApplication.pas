@@ -62,7 +62,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 76;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 9;
+  CEF_SUPPORTED_VERSION_RELEASE = 10;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 76;
@@ -121,6 +121,7 @@ type
       FFlashEnabled                  : boolean;
       FEnableMediaStream             : boolean;
       FEnableSpeechInput             : boolean;
+      FUseFakeUIForMediaStream       : boolean;
       FEnableGPU                     : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
@@ -389,6 +390,7 @@ type
       property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;
       property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
+      property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;
       property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;
       property CheckCEFFiles                     : boolean                             read FCheckCEFFiles                     write FCheckCEFFiles;
       property ShowMessageDlg                    : boolean                             read FShowMessageDlg                    write FShowMessageDlg;
@@ -578,6 +580,7 @@ begin
   FFlashEnabled                  := True;
   FEnableMediaStream             := True;
   FEnableSpeechInput             := True;
+  FUseFakeUIForMediaStream       := False;
   FEnableGPU                     := False;
   FCustomCommandLines            := nil;
   FCustomCommandLineValues       := nil;
@@ -1607,6 +1610,9 @@ begin
 
       commandLine.AppendSwitchWithValue('--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
       commandLine.AppendSwitchWithValue('--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
+
+      if FUseFakeUIForMediaStream then
+        commandLine.AppendSwitch('--use-fake-ui-for-media-stream');
 
       if not(FEnableGPU) then
         begin

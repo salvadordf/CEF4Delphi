@@ -442,7 +442,8 @@ type
   ICefBaseRefCounted = interface
     ['{1F9A7B44-DCDC-4477-9180-3ADD44BDEB7B}']
     function Wrap: Pointer;
-    function SameAs(aData : Pointer) : boolean;
+    function SameAs(aData : Pointer) : boolean; overload;
+    function SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean; overload;
     function HasOneRef : boolean;
     function HasAtLeastOneRef : boolean;
   end;

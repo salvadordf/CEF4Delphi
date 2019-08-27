@@ -76,7 +76,8 @@ type
     public
       constructor CreateData(size: Cardinal; owned : boolean = False); virtual;
       destructor  Destroy; override;
-      function    SameAs(aData : Pointer) : boolean;
+      function    SameAs(aData : Pointer) : boolean; overload;
+      function    SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean; overload;
       function    Wrap: Pointer;
   end;
 
@@ -90,7 +91,8 @@ type
     public
       constructor Create(data: Pointer); virtual;
       destructor  Destroy; override;
-      function    SameAs(aData : Pointer) : boolean;
+      function    SameAs(aData : Pointer) : boolean; overload;
+      function    SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean; overload;
       function    Wrap: Pointer;
       class function UnWrap(data: Pointer): ICefBaseRefCounted;
   end;
@@ -221,6 +223,26 @@ begin
   Result := (FData = aData);
 end;
 
+function TCefBaseRefCountedOwn.SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean;
+var
+  TempData : Pointer;
+begin
+  Result := False;
+
+  if (aBaseRefCounted <> nil) then
+    begin
+      TempData := aBaseRefCounted.Wrap;
+
+      if (TempData <> nil) then
+        begin
+          Result := SameAs(TempData);
+
+          if assigned(PCefBaseRefCounted(TempData)^.release) then
+            PCefBaseRefCounted(TempData)^.release(PCefBaseRefCounted(TempData));
+        end;
+    end;
+end;
+
 function TCefBaseRefCountedOwn.Wrap: Pointer;
 begin
   Result := FData;
@@ -278,6 +300,26 @@ end;
 function TCefBaseRefCountedRef.SameAs(aData : Pointer) : boolean;
 begin
   Result := (FData = aData);
+end;
+
+function TCefBaseRefCountedRef.SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean;
+var
+  TempData : Pointer;
+begin
+  Result := False;
+
+  if (aBaseRefCounted <> nil) then
+    begin
+      TempData := aBaseRefCounted.Wrap;
+
+      if (TempData <> nil) then
+        begin
+          Result := SameAs(TempData);
+
+          if assigned(PCefBaseRefCounted(TempData)^.release) then
+            PCefBaseRefCounted(TempData)^.release(PCefBaseRefCounted(TempData));
+        end;
+    end;
 end;
 
 class function TCefBaseRefCountedRef.UnWrap(data: Pointer): ICefBaseRefCounted;

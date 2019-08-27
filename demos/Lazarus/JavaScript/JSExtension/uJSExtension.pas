@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -159,11 +159,11 @@ uses
 // extension called "myextension.mouseover".
 
 // The TTestExtensionHandler.Execute function is executed in the renderer process and it
-// can use the TCefv8ContextRef.Current.Browser.SendProcessMessage(PID_BROWSER, msg) function
+// can use the TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage(PID_BROWSER, msg) function
 // to send a message with the results to the browser process.
 
 // TCefv8ContextRef.Current returns the v8 context for the frame that is currently
-// executing JavaScript, TCefv8ContextRef.Current.Browser.SendProcessMessage sends a message
+// executing JavaScript, TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage sends a message
 // to the right browser even if you have created several browsers in one app.
 
 // That message is received in the TChromium.OnProcessMessageReceived event.

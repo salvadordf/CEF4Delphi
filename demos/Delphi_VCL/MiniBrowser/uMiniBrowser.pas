@@ -289,6 +289,7 @@ begin
   GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.LogFile          := 'debug.log';
   GlobalCEFApp.LogSeverity      := LOGSEVERITY_INFO;
+  //GlobalCEFApp.RemoteDebuggingPort := 19999;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);

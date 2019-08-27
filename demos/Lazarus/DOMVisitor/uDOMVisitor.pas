@@ -144,7 +144,7 @@ uses
 // procedure with a PID_RENDERER parameter. The render process receives those messages in
 // the GlobalCEFApp.OnProcessMessageReceived event.
 
-// To send messages from the render process you must use the browser.SendProcessMessage
+// To send messages from the render process you must use the frame.SendProcessMessage
 // procedure with a PID_BROWSER parameter. The browser process receives those messages in
 // the TChromium.OnProcessMessageReceived event.
 
