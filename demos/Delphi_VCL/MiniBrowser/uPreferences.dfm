@@ -179,10 +179,10 @@ object PreferencesFrm: TPreferencesFrm
       Top = 215
       Width = 216
       Height = 22
-      MaxValue = 1024
-      MinValue = 1
+      MaxValue = 99
+      MinValue = 7
       TabOrder = 8
-      Value = 16
+      Value = 32
     end
   end
   object GroupBox2: TGroupBox

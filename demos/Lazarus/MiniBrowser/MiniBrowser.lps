@@ -20,10 +20,9 @@
         <ComponentName Value="MiniBrowserFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="1031"/>
-        <CursorPos X="39" Y="1039"/>
+        <CursorPos X="93" Y="1044"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -35,6 +34,7 @@
         <ComponentName Value="PreferencesFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="69"/>
         <CursorPos X="17" Y="92"/>
@@ -76,7 +76,7 @@
         <UsageCount Value="10"/>
       </Unit6>
     </Units>
-    <JumpHistory Count="28" HistoryIndex="27">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="uMiniBrowser.pas"/>
       </Position1>
@@ -177,17 +177,13 @@
         <Caret Line="261" Column="11" TopLine="245"/>
       </Position25>
       <Position26>
-        <Filename Value="uPreferences.pas"/>
-        <Caret TopLine="55"/>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="290" Column="76" TopLine="277"/>
       </Position26>
       <Position27>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="290" Column="76" TopLine="277"/>
-      </Position27>
-      <Position28>
-        <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="1032" Column="50" TopLine="1015"/>
-      </Position28>
+      </Position27>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

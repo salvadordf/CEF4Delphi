@@ -2168,7 +2168,8 @@ end;
 
 procedure TChromium.SetMaxConnectionsPerProxy(const aValue : integer);
 begin
-  if (FMaxConnectionsPerProxy <> aValue) then
+  if (FMaxConnectionsPerProxy <> aValue) and
+     (aValue in [CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE..CEF_MAX_CONNECTIONS_PER_PROXY_MAX_VALUE]) then
     begin
       FMaxConnectionsPerProxy := aValue;
       FUpdatePreferences      := True;
