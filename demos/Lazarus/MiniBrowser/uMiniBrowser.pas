@@ -1023,27 +1023,29 @@ begin
     else       PreferencesFrm.ProxySchemeCb.ItemIndex := 0;
   end;
 
-  PreferencesFrm.ProxyTypeCbx.ItemIndex  := Chromium1.ProxyType;
-  PreferencesFrm.ProxyServerEdt.Text     := Chromium1.ProxyServer;
-  PreferencesFrm.ProxyPortEdt.Text       := inttostr(Chromium1.ProxyPort);
-  PreferencesFrm.ProxyUsernameEdt.Text   := Chromium1.ProxyUsername;
-  PreferencesFrm.ProxyPasswordEdt.Text   := Chromium1.ProxyPassword;
-  PreferencesFrm.ProxyScriptURLEdt.Text  := Chromium1.ProxyScriptURL;
-  PreferencesFrm.ProxyByPassListEdt.Text := Chromium1.ProxyByPassList;
-  PreferencesFrm.HeaderNameEdt.Text      := Chromium1.CustomHeaderName;
-  PreferencesFrm.HeaderValueEdt.Text     := Chromium1.CustomHeaderValue;
+  PreferencesFrm.ProxyTypeCbx.ItemIndex           := Chromium1.ProxyType;
+  PreferencesFrm.ProxyServerEdt.Text              := Chromium1.ProxyServer;
+  PreferencesFrm.ProxyPortEdt.Text                := inttostr(Chromium1.ProxyPort);
+  PreferencesFrm.ProxyUsernameEdt.Text            := Chromium1.ProxyUsername;
+  PreferencesFrm.ProxyPasswordEdt.Text            := Chromium1.ProxyPassword;
+  PreferencesFrm.ProxyScriptURLEdt.Text           := Chromium1.ProxyScriptURL;
+  PreferencesFrm.ProxyByPassListEdt.Text          := Chromium1.ProxyByPassList;
+  PreferencesFrm.HeaderNameEdt.Text               := Chromium1.CustomHeaderName;
+  PreferencesFrm.HeaderValueEdt.Text              := Chromium1.CustomHeaderValue;
+  PreferencesFrm.MaxConnectionsPerProxyEdt.Value  := Chromium1.MaxConnectionsPerProxy;
 
   if (PreferencesFrm.ShowModal = mrOk) then
     begin
-      Chromium1.ProxyType         := PreferencesFrm.ProxyTypeCbx.ItemIndex;
-      Chromium1.ProxyServer       := PreferencesFrm.ProxyServerEdt.Text;
-      Chromium1.ProxyPort         := strtoint(PreferencesFrm.ProxyPortEdt.Text);
-      Chromium1.ProxyUsername     := PreferencesFrm.ProxyUsernameEdt.Text;
-      Chromium1.ProxyPassword     := PreferencesFrm.ProxyPasswordEdt.Text;
-      Chromium1.ProxyScriptURL    := PreferencesFrm.ProxyScriptURLEdt.Text;
-      Chromium1.ProxyByPassList   := PreferencesFrm.ProxyByPassListEdt.Text;
-      Chromium1.CustomHeaderName  := PreferencesFrm.HeaderNameEdt.Text;
-      Chromium1.CustomHeaderValue := PreferencesFrm.HeaderValueEdt.Text;
+      Chromium1.ProxyType              := PreferencesFrm.ProxyTypeCbx.ItemIndex;
+      Chromium1.ProxyServer            := PreferencesFrm.ProxyServerEdt.Text;
+      Chromium1.ProxyPort              := strtoint(PreferencesFrm.ProxyPortEdt.Text);
+      Chromium1.ProxyUsername          := PreferencesFrm.ProxyUsernameEdt.Text;
+      Chromium1.ProxyPassword          := PreferencesFrm.ProxyPasswordEdt.Text;
+      Chromium1.ProxyScriptURL         := PreferencesFrm.ProxyScriptURLEdt.Text;
+      Chromium1.ProxyByPassList        := PreferencesFrm.ProxyByPassListEdt.Text;
+      Chromium1.CustomHeaderName       := PreferencesFrm.HeaderNameEdt.Text;
+      Chromium1.CustomHeaderValue      := PreferencesFrm.HeaderValueEdt.Text;
+      Chromium1.MaxConnectionsPerProxy := PreferencesFrm.MaxConnectionsPerProxyEdt.Value;
 
       case PreferencesFrm.ProxySchemeCb.ItemIndex of
         1  : Chromium1.ProxyScheme := psSOCKS4;

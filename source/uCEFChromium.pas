@@ -85,6 +85,7 @@ type
       FProxyPassword          : ustring;
       FProxyScriptURL         : ustring;
       FProxyByPassList        : ustring;
+      FMaxConnectionsPerProxy : integer;
       FUpdatePreferences      : boolean;
       FCustomHeaderName       : ustring;
       FCustomHeaderValue      : ustring;
@@ -297,6 +298,7 @@ type
       procedure SetProxyPassword(const aValue : ustring);
       procedure SetProxyScriptURL(const aValue : ustring);
       procedure SetProxyByPassList(const aValue : ustring);
+      procedure SetMaxConnectionsPerProxy(const aValue : integer);
       procedure SetCustomHeaderName(const aValue : ustring);
       procedure SetCustomHeaderValue(const aValue : ustring);
       procedure SetZoomLevel(const aValue : double);
@@ -681,6 +683,7 @@ type
       property  ProxyPassword           : ustring                      read FProxyPassword            write SetProxyPassword;
       property  ProxyScriptURL          : ustring                      read FProxyScriptURL           write SetProxyScriptURL;
       property  ProxyByPassList         : ustring                      read FProxyByPassList          write SetProxyByPassList;
+      property  MaxConnectionsPerProxy  : integer                      read FMaxConnectionsPerProxy   write SetMaxConnectionsPerProxy;
 
     published
       property  OnTextResultAvailable              : TOnTextResultAvailableEvent              read FOnTextResultAvailable              write FOnTextResultAvailable;
@@ -877,14 +880,15 @@ begin
   FWebRTCMultipleRoutes   := STATE_DEFAULT;
   FWebRTCNonProxiedUDP    := STATE_DEFAULT;
 
-  FProxyType         := CEF_PROXYTYPE_DIRECT;
-  FProxyScheme       := psHTTP;
-  FProxyServer       := '';
-  FProxyPort         := 80;
-  FProxyUsername     := '';
-  FProxyPassword     := '';
-  FProxyScriptURL    := '';
-  FProxyByPassList   := '';
+  FProxyType              := CEF_PROXYTYPE_DIRECT;
+  FProxyScheme            := psHTTP;
+  FProxyServer            := '';
+  FProxyPort              := 80;
+  FProxyUsername          := '';
+  FProxyPassword          := '';
+  FProxyScriptURL         := '';
+  FProxyByPassList        := '';
+  FMaxConnectionsPerProxy := CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE;
 
   FillChar(FWindowInfo,    SizeOf(TCefWindowInfo), 0);
   FillChar(FDevWindowInfo, SizeOf(TCefWindowInfo), 0);
@@ -2162,6 +2166,15 @@ begin
     end;
 end;
 
+procedure TChromium.SetMaxConnectionsPerProxy(const aValue : integer);
+begin
+  if (FMaxConnectionsPerProxy <> aValue) then
+    begin
+      FMaxConnectionsPerProxy := aValue;
+      FUpdatePreferences      := True;
+    end;
+end;
+
 procedure TChromium.SetCustomHeaderName(const aValue : ustring);
 begin
   if (FCustomHeaderName <> aValue) then
@@ -2463,6 +2476,9 @@ begin
   UpdatePreference(aBrowser, 'plugins.always_authorize',             FAlwaysAuthorizePlugins);
   UpdatePreference(aBrowser, 'browser.enable_spellchecking',         FSpellChecking);
   UpdateStringListPref(aBrowser, 'spellcheck.dictionaries',          FSpellCheckerDicts);
+
+  if (FMaxConnectionsPerProxy <> CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE) then
+    UpdatePreference(aBrowser, 'net.max_connections_per_proxy', FMaxConnectionsPerProxy);
 
   if FRunAllFlashInAllowMode then
     UpdatePreference(aBrowser, 'profile.default_content_setting_values.plugins', 1);
