@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="220"/>
-        <CursorPos X="3" Y="222"/>
+        <TopLine Value="173"/>
+        <CursorPos X="17" Y="207"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -50,7 +50,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="22" HistoryIndex="21">
       <Position1>
         <Filename Value="uJSExtension.pas"/>
       </Position1>
@@ -86,6 +86,58 @@
         <Filename Value="uJSExtension.pas"/>
         <Caret Line="126" TopLine="111"/>
       </Position9>
+      <Position10>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="136" Column="39" TopLine="127"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="144" Column="114" TopLine="127"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="150" Column="74" TopLine="127"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="199" Column="41" TopLine="173"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="201" Column="92" TopLine="173"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="205" Column="77" TopLine="173"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="207" Column="18" TopLine="173"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="31" Column="76"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="149" Column="96" TopLine="108"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="150" Column="73" TopLine="127"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="199" Column="40" TopLine="173"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="201" Column="91" TopLine="173"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uJSExtension.pas"/>
+        <Caret Line="205" Column="75" TopLine="173"/>
+      </Position22>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -127,23 +127,29 @@ implementation
 uses
   uSimpleTextViewer, uCEFv8Handler, uTestExtension, uCEFMiscFunctions;
 
-// The CEF3 document describing extensions is here :
-// https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
 
-// This demo has a TTestExtension class that is registered in the
-// GlobalCEFApp.OnWebKitInitialized event when the application is initializing.
+// Please, read the code comments in the JSExtension demo (uJSExtension.pas) before using this demo!
+
+// This demo is almost identical to JSExtension but it uses a slightly easier
+// way to register JavaScript extensions inherited from the DCEF3 project.
+
+// Instead of creating a custom class inherited from TCefv8HandlerOwn and calling the
+// CefRegisterExtension function, this demo uses the TCefRTTIExtension.Register
+// class procedure to register the TTestExtension class, which is a custom Delphi
+// class with 2 class procedures.
+
+// TCefRTTIExtension uses the RTTI from the TTestExtension class to generate the
+// JS code and the ICefv8Handler parameters needed by CefRegisterExtension.
+
+// You still need to call TCefRTTIExtension.Register in the GlobalCEFApp.OnWebKitInitialized event
+// and use process messages to send information between processes.
 
 // TTestExtension can send information back to the browser with a process message.
 // The TTestExtension.mouseover function do this by calling
 // TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage(PID_BROWSER, msg);
 
-// TCefv8ContextRef.Current returns the v8 context for the frame that is currently executing JS,
-// TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage should send a message to the right browser even
-// if you have created several browsers in one app.
-
 // That message is received in the TChromium.OnProcessMessageReceived event.
-// Even if you create several TChromium objects you should have no problem because each of them will have its own
-// TChromium.OnProcessMessageReceived event to receive the messages from the extension.
+
 
 // Destruction steps
 // =================
@@ -205,6 +211,8 @@ procedure TJSRTTIExtensionFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
   eventFlags: Cardinal; out Result: Boolean);
+const
+  ELEMENT_ID = 'keywords'; // ID attribute in the search box at https://www.briskbard.com/forum/
 begin
   Result := False;
 
@@ -238,12 +246,12 @@ begin
       // Delphi receives the the information in the Chromium1ProcessMessageReceived procedure and shows it in the status bar.
       if (browser <> nil) and (browser.MainFrame <> nil) then
         browser.MainFrame.ExecuteJavaScript(
-          'var targetNode = document.getElementById(' + quotedstr('lst-ib') + ');' +  // 'lst-ib' is the ID attribute in the search box at google.com
+          'var targetNode = document.getElementById(' + quotedstr(ELEMENT_ID) + ');' +
           'var config = { attributes: true, childList: false, subtree: false };'+
           'var callback = function(mutationsList, observer) {' +
           '    for(var mutation of mutationsList) {' +
           '         if (mutation.type == ' + quotedstr('attributes') + ') {' +
-          '            myextension.sendresulttobrowser(document.getElementById(' + quotedstr('lst-ib') + ').value, ' + quotedstr(MUTATIONOBSERVER_MESSAGE_NAME) + ');' +
+          '            myextension.sendresulttobrowser(document.getElementById(' + quotedstr(ELEMENT_ID) + ').value, ' + quotedstr(MUTATIONOBSERVER_MESSAGE_NAME) + ');' +
           '        }' +
           '    }' +
           '};' +
@@ -294,6 +302,8 @@ procedure TJSRTTIExtensionFrm.FormShow(Sender: TObject);
 begin
   StatusBar1.Panels[0].Text := 'Initializing browser. Please wait...';
 
+  Chromium1.DefaultURL := Edit1.Text;
+
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
@@ -332,7 +342,6 @@ begin
   StatusBar1.Panels[0].Text := '';
   CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
-  GoBtn.Click;
 end;
 
 procedure TJSRTTIExtensionFrm.Chromium1BeforeClose(
