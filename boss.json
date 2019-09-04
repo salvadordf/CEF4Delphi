@@ -5,8 +5,7 @@
 	"homepage": "https://github.com/salvadordf/CEF4Delphi",
 	"mainsrc": "source/",
 	"projects": [
-		"packages/CEF4Delphi_FMX.dproj",
-		"packages/CEF4Delphi.dproj"
+		"packages/CEF4Delphi_FMX.dproj"
 	],
 	"dependencies": {}
 }
