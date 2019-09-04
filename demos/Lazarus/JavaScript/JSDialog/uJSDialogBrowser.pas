@@ -119,7 +119,7 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TJSDialogBrowserFrm.FormCreate(Sender: TObject);
@@ -248,7 +248,7 @@ end;
 procedure TJSDialogBrowserFrm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
   FCanClose := True;
-  Close;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSDialogBrowserFrm.ChromiumWindow1Close(Sender: TObject);

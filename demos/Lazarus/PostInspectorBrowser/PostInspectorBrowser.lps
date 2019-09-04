@@ -8,7 +8,6 @@
       <Unit0>
         <Filename Value="PostInspectorBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="41"/>
         <CursorPos Y="73"/>
         <UsageCount Value="20"/>
@@ -21,9 +20,10 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="109"/>
-        <CursorPos X="11" Y="121"/>
+        <TopLine Value="130"/>
+        <CursorPos X="69" Y="150"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

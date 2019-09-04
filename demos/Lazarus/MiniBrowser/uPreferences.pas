@@ -49,14 +49,18 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
   {$ELSE}
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, StdCtrls;
+  Controls, Forms, Dialogs, StdCtrls, Spin;
   {$ENDIF}
 
 type
+
+  { TPreferencesFrm }
+
   TPreferencesFrm = class(TForm)
     Button1: TButton;
     Button2: TButton;
     GroupBox1: TGroupBox;
+    MaxConnectionsPerProxyLbl: TLabel;
     ProxyTypeCbx: TComboBox;
     ProxyTypeLbl: TLabel;
     ProxyServerLbl: TLabel;
@@ -77,6 +81,7 @@ type
     HeaderValueEdt: TEdit;
     HeaderValueLbl: TLabel;
     ProxySchemeCb: TComboBox;
+    MaxConnectionsPerProxyEdt: TSpinEdit;
   private
     { Private declarations }
   public

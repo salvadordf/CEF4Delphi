@@ -153,7 +153,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitializedEvent;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TJSExtensionWithObjectParameterFrm.GoBtnClick(Sender: TObject);

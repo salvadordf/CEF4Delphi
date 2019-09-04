@@ -50,6 +50,9 @@ uses
   FMX.Edit, FMX.Controls.Presentation, uCEFFMXWindowParent, uCEFFMXChromium,
   uCEFInterfaces, uCEFConstants, uCEFTypes;
 
+const
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS    = MENU_ID_USER_FIRST + 1;
+
 type
   TSimpleFMXBrowserFrm = class(TForm)
     AddressPnl: TPanel;
@@ -78,6 +81,13 @@ type
     procedure FormResize(Sender: TObject);
     procedure FMXChromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
+    procedure FMXChromium1BeforeContextMenu(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure FMXChromium1ContextMenuCommand(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const params: ICefContextMenuParams; commandId: Integer;
+      eventFlags: Cardinal; out Result: Boolean);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -99,6 +109,8 @@ type
 
 var
   SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm;
+
+procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -134,6 +146,25 @@ uses
   FMX.Platform, FMX.Platform.Win,
   uCEFMiscFunctions, uCEFApplication, uFMXApplicationService;
 
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+
+  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
+  // If you don't set a cache directory the browser will use in-memory cache.
+{
+  GlobalCEFApp.FrameworkDirPath     := 'cef';
+  GlobalCEFApp.ResourcesDirPath     := 'cef';
+  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
+  GlobalCEFApp.cache                := 'cef\cache';
+  GlobalCEFApp.UserDataPath         := 'cef\User Data';
+}
+end;
+
 procedure TSimpleFMXBrowserFrm.FMXChromium1AfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
@@ -145,6 +176,13 @@ procedure TSimpleFMXBrowserFrm.FMXChromium1BeforeClose(Sender: TObject; const br
 begin
   FCanClose := True;
   PostCustomMessage(WM_CLOSE);
+end;
+
+procedure TSimpleFMXBrowserFrm.FMXChromium1BeforeContextMenu(
+  Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+  const params: ICefContextMenuParams; const model: ICefMenuModel);
+begin
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
 end;
 
 procedure TSimpleFMXBrowserFrm.FMXChromium1BeforePopup(      Sender             : TObject;
@@ -170,6 +208,22 @@ procedure TSimpleFMXBrowserFrm.FMXChromium1Close(Sender: TObject; const browser:
 begin
   PostCustomMessage(CEF_DESTROY);
   aAction := cbaDelay;
+end;
+
+procedure TSimpleFMXBrowserFrm.FMXChromium1ContextMenuCommand(
+  Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+  const params: ICefContextMenuParams; commandId: Integer;
+  eventFlags: Cardinal; out Result: Boolean);
+var
+  TempPoint : TPoint;
+begin
+  if (commandId = MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS) then
+    begin
+      TempPoint.x := params.XCoord;
+      TempPoint.y := params.YCoord;
+
+      FMXChromium1.ShowDevTools(TempPoint);
+    end;
 end;
 
 function TSimpleFMXBrowserFrm.PostCustomMessage(aMessage, wParam : cardinal; lParam : integer) : boolean;

@@ -112,7 +112,7 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService';
+  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
@@ -166,7 +166,7 @@ end;
 procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
   FCanClose := True;
-  Close;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.ChromiumWindow1Close(Sender: TObject);

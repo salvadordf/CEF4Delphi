@@ -152,7 +152,7 @@ uses
 // procedure with a PID_RENDERER parameter. The render process receives those messages in
 // the GlobalCEFApp.OnProcessMessageReceived event.
 
-// To send messages from the render process you must use the browser.SendProcessMessage
+// To send messages from the render process you must use the frame.SendProcessMessage
 // procedure with a PID_BROWSER parameter. The browser process receives those messages in
 // the TChromium.OnProcessMessageReceived event.
 
@@ -343,7 +343,7 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.RemoteDebuggingPort      := 9000;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
-  GlobalCEFApp.DisableFeatures          := 'NetworkService';
+  GlobalCEFApp.DisableFeatures          := 'NetworkService,OutOfBlinkCors';
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.

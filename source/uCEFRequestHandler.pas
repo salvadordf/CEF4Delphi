@@ -57,7 +57,7 @@ type
       function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; virtual;
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
-      function  GetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
+      function  GetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
       function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; virtual;
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): Boolean; virtual;
       function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
@@ -79,7 +79,7 @@ type
       function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; override;
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; override;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); override;
-      function  GetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; override;
+      function  GetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; override;
       function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; override;
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): Boolean; override;
       function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; override;
@@ -183,15 +183,15 @@ begin
     end;
 end;
 
-function cef_request_handler_get_auth_credentials(      self     : PCefRequestHandler;
-                                                        browser  : PCefBrowser;
-                                                        frame    : PCefFrame;
-                                                        isProxy  : Integer;
-                                                  const host     : PCefString;
-                                                        port     : Integer;
-                                                  const realm    : PCefString;
-                                                  const scheme   : PCefString;
-                                                        callback : PCefAuthCallback): Integer; stdcall;
+function cef_request_handler_get_auth_credentials(      self       : PCefRequestHandler;
+                                                        browser    : PCefBrowser;
+                                                  const origin_url : PCefString;
+                                                        isProxy    : Integer;
+                                                  const host       : PCefString;
+                                                        port       : Integer;
+                                                  const realm      : PCefString;
+                                                  const scheme     : PCefString;
+                                                        callback   : PCefAuthCallback): Integer; stdcall;
 var
   TempObject : TObject;
 begin
@@ -200,7 +200,7 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
     Result := Ord(TCefRequestHandlerOwn(TempObject).GetAuthCredentials(TCefBrowserRef.UnWrap(browser),
-                                                                       TCefFrameRef.UnWrap(frame),
+                                                                       CefString(origin_url),
                                                                        isProxy <> 0,
                                                                        CefString(host),
                                                                        port,
@@ -363,14 +363,14 @@ begin
     end;
 end;
 
-function TCefRequestHandlerOwn.GetAuthCredentials(const browser  : ICefBrowser;
-                                                  const frame    : ICefFrame;
-                                                        isProxy  : Boolean;
-                                                  const host     : ustring;
-                                                        port     : Integer;
-                                                  const realm    : ustring;
-                                                  const scheme   : ustring;
-                                                  const callback : ICefAuthCallback): Boolean;
+function TCefRequestHandlerOwn.GetAuthCredentials(const browser   : ICefBrowser;
+                                                  const originUrl : ustring;
+                                                        isProxy   : Boolean;
+                                                  const host      : ustring;
+                                                        port      : Integer;
+                                                  const realm     : ustring;
+                                                  const scheme    : ustring;
+                                                  const callback  : ICefAuthCallback): Boolean;
 begin
   Result := False;
 end;
@@ -489,19 +489,19 @@ begin
   FEvents                 := nil;
 end;
 
-function TCustomRequestHandler.GetAuthCredentials(const browser  : ICefBrowser;
-                                                  const frame    : ICefFrame;
-                                                        isProxy  : Boolean;
-                                                  const host     : ustring;
-                                                        port     : Integer;
+function TCustomRequestHandler.GetAuthCredentials(const browser   : ICefBrowser;
+                                                  const originUrl : ustring;
+                                                        isProxy   : Boolean;
+                                                  const host      : ustring;
+                                                        port      : Integer;
                                                   const realm    : ustring;
-                                                  const scheme   : ustring;
-                                                  const callback : ICefAuthCallback): Boolean;
+                                                  const scheme    : ustring;
+                                                  const callback  : ICefAuthCallback): Boolean;
 begin
   if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnGetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback)
+    Result := IChromiumEvents(FEvents).doOnGetAuthCredentials(browser, originUrl, isProxy, host, port, realm, scheme, callback)
    else
-    Result := inherited GetAuthCredentials(browser, frame, isProxy, host, port, realm, scheme, callback);
+    Result := inherited GetAuthCredentials(browser, originUrl, isProxy, host, port, realm, scheme, callback);
 end;
 
 function TCustomRequestHandler.OnBeforeBrowse(const browser      : ICefBrowser;

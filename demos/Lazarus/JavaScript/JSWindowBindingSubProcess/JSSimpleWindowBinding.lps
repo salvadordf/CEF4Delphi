@@ -8,8 +8,9 @@
       <Unit0>
         <Filename Value="JSSimpleWindowBinding.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="42"/>
-        <CursorPos X="36" Y="68"/>
+        <CursorPos X="71" Y="68"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -20,9 +21,8 @@
         <ComponentName Value="JSSimpleWindowBindingFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="62"/>
+        <TopLine Value="77"/>
         <CursorPos X="39" Y="134"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>

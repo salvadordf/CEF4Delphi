@@ -60,15 +60,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 75;
-  CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 11;
+  CEF_SUPPORTED_VERSION_MAJOR   = 76;
+  CEF_SUPPORTED_VERSION_MINOR   = 1;
+  CEF_SUPPORTED_VERSION_RELEASE = 13;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 75;
+  CEF_CHROMEELF_VERSION_MAJOR   = 76;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3770;
-  CEF_CHROMEELF_VERSION_BUILD   = 100;
+  CEF_CHROMEELF_VERSION_RELEASE = 3809;
+  CEF_CHROMEELF_VERSION_BUILD   = 132;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -92,6 +92,7 @@ type
       FBrowserSubprocessPath         : ustring;
       FCustomFlashPath               : ustring;
       FFrameworkDirPath              : ustring;
+      FMainBundlePath                : ustring; // Only used in macOS
       FLogSeverity                   : TCefLogSeverity;
       FJavaScriptFlags               : ustring;
       FResourcesDirPath              : ustring;
@@ -120,6 +121,7 @@ type
       FFlashEnabled                  : boolean;
       FEnableMediaStream             : boolean;
       FEnableSpeechInput             : boolean;
+      FUseFakeUIForMediaStream       : boolean;
       FEnableGPU                     : boolean;
       FCheckCEFFiles                 : boolean;
       FLibLoaded                     : boolean;
@@ -165,10 +167,27 @@ type
       FAllowFileAccessFromFiles      : boolean;
       FAllowRunningInsecureContent   : boolean;
 
-      FMustCreateResourceBundleHandler : boolean;
-      FMustCreateBrowserProcessHandler : boolean;
-      FMustCreateRenderProcessHandler  : boolean;
-      FMustCreateLoadHandler           : boolean;
+      FPluginPolicy                      : TCefPluginPolicySwitch;
+      FDefaultEncoding                   : string;
+      FDisableJavascript                 : boolean;
+      FDisableJavascriptCloseWindows     : boolean;
+      FDisableJavascriptAccessClipboard  : boolean;
+      FDisableJavascriptDomPaste         : boolean;
+      FAllowUniversalAccessFromFileUrls  : boolean;
+      FDisableImageLoading               : boolean;
+      FImageShrinkStandaloneToFit        : boolean;
+      FDisableTextAreaResize             : boolean;
+      FDisableTabToLinks                 : boolean;
+      FDisablePlugins                    : boolean;
+      FEnableProfanityFilter             : boolean;
+      FDisableSpellChecking              : boolean;
+      FOverrideSpellCheckLang            : string;
+      //FEnablePrintPreview               : boolean;
+
+      FMustCreateResourceBundleHandler   : boolean;
+      FMustCreateBrowserProcessHandler   : boolean;
+      FMustCreateRenderProcessHandler    : boolean;
+      FMustCreateLoadHandler             : boolean;
 
       // ICefBrowserProcessHandler
       FOnContextInitialized          : TOnContextInitializedEvent;
@@ -344,6 +363,7 @@ type
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
       property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
       property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
+      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;  // Only used in macOS
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
       property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
@@ -370,6 +390,7 @@ type
       property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;
       property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
+      property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;
       property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;
       property CheckCEFFiles                     : boolean                             read FCheckCEFFiles                     write FCheckCEFFiles;
       property ShowMessageDlg                    : boolean                             read FShowMessageDlg                    write FShowMessageDlg;
@@ -420,6 +441,24 @@ type
       property MetricsRecordingOnly              : boolean                             read FMetricsRecordingOnly              write FMetricsRecordingOnly;
       property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;
       property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;
+      //property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;
+      property PluginPolicy                      : TCefPluginPolicySwitch              read FPluginPolicy                      write FPluginPolicy;
+      property DefaultEncoding                   : string                              read FDefaultEncoding                   write FDefaultEncoding;
+      property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;
+
+      property DisableJavascriptCloseWindows     : boolean                             read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;
+      property DisableJavascriptAccessClipboard  : boolean                             read FDisableJavascriptAccessClipboard  write FDisableJavascriptAccessClipboard;
+      property DisableJavascriptDomPaste         : boolean                             read FDisableJavascriptDomPaste         write FDisableJavascriptDomPaste;
+      property AllowUniversalAccessFromFileUrls  : boolean                             read FAllowUniversalAccessFromFileUrls  write FAllowUniversalAccessFromFileUrls;
+      property DisableImageLoading               : boolean                             read FDisableImageLoading               write FDisableImageLoading;
+      property ImageShrinkStandaloneToFit        : boolean                             read FImageShrinkStandaloneToFit        write FImageShrinkStandaloneToFit;
+      property DisableTextAreaResize             : boolean                             read FDisableTextAreaResize             write FDisableTextAreaResize;
+      property DisableTabToLinks                 : boolean                             read FDisableTabToLinks                 write FDisableTabToLinks;
+      property DisablePlugins                    : boolean                             read FDisablePlugins                    write FDisablePlugins;
+      property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;
+      property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;
+      property OverrideSpellCheckLang            : string                              read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;
+
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
       property UsedMemory                        : cardinal                            read GetUsedMemory;
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
@@ -514,6 +553,7 @@ begin
   FBrowserSubprocessPath         := '';
   FCustomFlashPath               := '';
   FFrameworkDirPath              := '';
+  FMainBundlePath                := '';
   FLogSeverity                   := LOGSEVERITY_DISABLE;
   FJavaScriptFlags               := '';
   FResourcesDirPath              := '';
@@ -540,6 +580,7 @@ begin
   FFlashEnabled                  := True;
   FEnableMediaStream             := True;
   FEnableSpeechInput             := True;
+  FUseFakeUIForMediaStream       := False;
   FEnableGPU                     := False;
   FCustomCommandLines            := nil;
   FCustomCommandLineValues       := nil;
@@ -573,10 +614,27 @@ begin
   FMetricsRecordingOnly          := False;
   FAllowFileAccessFromFiles      := False;
   FAllowRunningInsecureContent   := False;
+  FPluginPolicy                  := PLUGIN_POLICY_SWITCH_ALLOW;
+  FDefaultEncoding               := '';
+  FDisableJavascript             := False;
   FEnableFeatures                := '';
   FDisableFeatures               := '';
   FEnableBlinkFeatures           := '';
   FDisableBlinkFeatures          := '';
+
+  FDisableJavascriptCloseWindows     := False;
+  FDisableJavascriptAccessClipboard  := False;
+  FDisableJavascriptDomPaste         := False;
+  FAllowUniversalAccessFromFileUrls  := False;
+  FDisableImageLoading               := False;
+  FImageShrinkStandaloneToFit        := False;
+  FDisableTextAreaResize             := False;
+  FDisableTabToLinks                 := False;
+  FDisablePlugins                    := False;
+  FEnableProfanityFilter             := False;
+  FDisableSpellChecking              := False;
+  FOverrideSpellCheckLang            := '';
+  //FEnablePrintPreview                := False;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -1117,6 +1175,7 @@ begin
   aSettings.no_sandbox                              := Ord(FNoSandbox);
   aSettings.browser_subprocess_path                 := CefString(FBrowserSubprocessPath);
   aSettings.framework_dir_path                      := CefString(FFrameworkDirPath);
+  aSettings.main_bundle_path                        := CefString(FMainBundlePath);
   aSettings.multi_threaded_message_loop             := Ord(FMultiThreadedMessageLoop);
   aSettings.external_message_pump                   := Ord(FExternalMessagePump);
   aSettings.windowless_rendering_enabled            := Ord(FWindowlessRenderingEnabled);
@@ -1552,6 +1611,9 @@ begin
       commandLine.AppendSwitchWithValue('--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
       commandLine.AppendSwitchWithValue('--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
 
+      if FUseFakeUIForMediaStream then
+        commandLine.AppendSwitch('--use-fake-ui-for-media-stream');
+
       if not(FEnableGPU) then
         begin
           commandLine.AppendSwitch('--disable-gpu');
@@ -1575,9 +1637,6 @@ begin
 
         appUserGestureRequired               :
           commandLine.AppendSwitchWithValue('--autoplay-policy', 'user-gesture-required');
-
-        appUserGestureRequiredForCrossOrigin :
-          commandLine.AppendSwitchWithValue('--autoplay-policy', 'user-gesture-required-for-cross-origin');
       end;
 
       if FFastUnload then
@@ -1619,6 +1678,56 @@ begin
 
       if FAllowRunningInsecureContent then
         commandLine.AppendSwitch('--allow-running-insecure-content');
+
+      //if FEnablePrintPreview then commandLine.AppendSwitch('--enable-print-preview');
+
+      case FPluginPolicy of
+        PLUGIN_POLICY_SWITCH_DETECT : commandLine.AppendSwitchWithValue('--plugin-policy', 'detect');
+        PLUGIN_POLICY_SWITCH_BLOCK  : commandLine.AppendSwitchWithValue('--plugin-policy', 'block');
+      end;
+
+      if (length(FDefaultEncoding) > 0) then
+        commandLine.AppendSwitchWithValue('--default-encoding', FDefaultEncoding);
+
+      if FDisableJavascript then
+        commandLine.AppendSwitch('--disable-javascript');
+
+      if FDisableJavascriptCloseWindows then
+        commandLine.AppendSwitch('--disable-javascript-close-windows');
+
+      if FDisableJavascriptAccessClipboard then
+        commandLine.AppendSwitch('--disable-javascript-access-clipboard');
+
+      if FDisableJavascriptDomPaste then
+        commandLine.AppendSwitch('--disable-javascript-dom-paste');
+
+      if FAllowUniversalAccessFromFileUrls then
+        commandLine.AppendSwitch('--allow-universal-access-from-files');
+
+      if FDisableImageLoading then
+        commandLine.AppendSwitch('--disable-image-loading');
+
+      if FImageShrinkStandaloneToFit then
+        commandLine.AppendSwitch('--image-shrink-standalone-to-fit');
+
+      if FDisableTextAreaResize then
+        commandLine.AppendSwitch('--disable-text-area-resize');
+
+      if FDisableTabToLinks then
+        commandLine.AppendSwitch('--disable-tab-to-links');
+
+      if FDisablePlugins then
+        commandLine.AppendSwitch('--disable-plugins');
+
+      if FEnableProfanityFilter then
+        commandLine.AppendSwitch('--enable-profanity-filter');
+
+      if FDisableSpellChecking then
+        commandLine.AppendSwitch('--disable-spell-checking');
+
+      if (length(FOverrideSpellCheckLang) > 0) then
+        commandLine.AppendSwitchWithValue('--override-spell-check-lang', FOverrideSpellCheckLang);
+
 
       // The list of features you can enable is here :
       // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc

@@ -156,7 +156,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
-  GlobalCEFApp.DisableFeatures      := 'NetworkService';
+  GlobalCEFApp.DisableFeatures      := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.AddTabBtnClick(Sender: TObject);

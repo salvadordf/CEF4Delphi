@@ -117,7 +117,7 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);

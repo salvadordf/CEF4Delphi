@@ -1,12 +1,12 @@
 object PreferencesFrm: TPreferencesFrm
-  Left = 0
-  Height = 363
-  Top = 0
+  Left = 621
+  Height = 391
+  Top = 279
   Width = 428
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Preferences'
-  ClientHeight = 363
+  ClientHeight = 391
   ClientWidth = 428
   Color = clBtnFace
   Font.Color = clWindowText
@@ -14,11 +14,11 @@ object PreferencesFrm: TPreferencesFrm
   Font.Name = 'Tahoma'
   FormStyle = fsStayOnTop
   Position = poScreenCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object Button1: TButton
     Left = 232
     Height = 25
-    Top = 330
+    Top = 357
     Width = 75
     Caption = 'Ok'
     ModalResult = 1
@@ -27,7 +27,7 @@ object PreferencesFrm: TPreferencesFrm
   object Button2: TButton
     Left = 345
     Height = 25
-    Top = 330
+    Top = 357
     Width = 75
     Caption = 'Cancel'
     ModalResult = 2
@@ -35,11 +35,11 @@ object PreferencesFrm: TPreferencesFrm
   end
   object GroupBox1: TGroupBox
     Left = 8
-    Height = 223
+    Height = 248
     Top = 8
     Width = 412
     Caption = ' Proxy '
-    ClientHeight = 205
+    ClientHeight = 230
     ClientWidth = 408
     TabOrder = 0
     object ProxyTypeLbl: TLabel
@@ -179,11 +179,29 @@ object PreferencesFrm: TPreferencesFrm
       TabOrder = 1
       Text = 'HTTP'
     end
+    object MaxConnectionsPerProxyLbl: TLabel
+      Left = 12
+      Height = 13
+      Top = 204
+      Width = 154
+      Caption = 'Maximum connections per proxy'
+      ParentColor = False
+    end
+    object MaxConnectionsPerProxyEdt: TSpinEdit
+      Left = 184
+      Height = 21
+      Top = 201
+      Width = 216
+      MaxValue = 99
+      MinValue = 7
+      TabOrder = 8
+      Value = 32
+    end
   end
   object GroupBox2: TGroupBox
     Left = 8
     Height = 84
-    Top = 237
+    Top = 264
     Width = 412
     Caption = ' Custom header '
     ClientHeight = 66

@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 201
+  Left = 407
   Height = 574
-  Top = 182
+  Top = 183
   Width = 878
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 574
@@ -62,6 +62,7 @@ object Form1: TForm1
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     left = 40
     top = 136
   end

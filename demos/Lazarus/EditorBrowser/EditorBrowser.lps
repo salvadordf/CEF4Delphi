@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="3">
+      <Unit0>
+        <Filename Value="EditorBrowser.dpr"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uEditorBrowser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="151"/>
+        <CursorPos X="70" Y="174"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\..\source\uCEFApplication.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="43"/>
+        <CursorPos X="57" Y="60"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+    </Units>
+    <JumpHistory Count="6" HistoryIndex="5">
+      <Position1>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="248" Column="66" TopLine="229"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="381" Column="23" TopLine="365"/>
+      </Position2>
+      <Position3>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="353" Column="23" TopLine="337"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="381" Column="23" TopLine="354"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="352" Column="42" TopLine="337"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="354" Column="23" TopLine="337"/>
+      </Position6>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

@@ -97,6 +97,8 @@ type
 var
   JSSimpleWindowBindingFrm: TJSSimpleWindowBindingFrm;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.dfm}
@@ -112,6 +114,25 @@ implementation
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp := TCefApplication.Create;
+
+  // This is the same demo than the JSSimpleWindowBinding but using a different executable for the subprocesses.
+  // Notice that GlobalCEFApp.OnContextCreated is now defined in the SubProcess.
+
+  // Follow these steps to test this demo :
+  // 1. Build the SubProcess project in this directory.
+  // 2. Copy the CEF binaries to the BIN directory in CEF4Delphi.
+  // 3. Build this project : JSSimpleWindowBinding
+  // 4. Run this demo : JSSimpleWindowBinding
+
+  GlobalCEFApp.BrowserSubprocessPath := 'SubProcess.exe';
+  GlobalCEFApp.DisableFeatures       := 'NetworkService,OutOfBlinkCors';
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+end;
 
 procedure TJSSimpleWindowBindingFrm.GoBtnClick(Sender: TObject);
 begin

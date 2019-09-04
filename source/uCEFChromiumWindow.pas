@@ -78,7 +78,6 @@ type
       procedure   WndProc(var aMessage: TMessage); override;
 
       procedure   OnCloseMsg(var aMessage : TMessage); message CEF_DOONCLOSE;
-      procedure   OnBeforeCloseMsg(var aMessage : TMessage); message CEF_DOONBEFORECLOSE;
       procedure   OnAfterCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
       {$ENDIF}
       procedure   WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
@@ -203,9 +202,7 @@ end;
 
 procedure TChromiumWindow.WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  {$IFDEF MSWINDOWS}
-  if assigned(FOnBeforeClose) then PostMessage(Handle, CEF_DOONBEFORECLOSE, 0, 0);
-  {$ENDIF}
+  if assigned(FOnBeforeClose) then FOnBeforeClose(self);
 end;
 
 procedure TChromiumWindow.WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -219,11 +216,6 @@ end;
 procedure TChromiumWindow.OnCloseMsg(var aMessage : TMessage);
 begin
   if assigned(FOnClose) then FOnClose(self);
-end;
-
-procedure TChromiumWindow.OnBeforeCloseMsg(var aMessage : TMessage);
-begin
-  if assigned(FOnBeforeClose) then FOnBeforeClose(self);
 end;
 
 procedure TChromiumWindow.OnAfterCreatedMsg(var aMessage : TMessage);

@@ -85,6 +85,7 @@ type
       FProxyPassword          : ustring;
       FProxyScriptURL         : ustring;
       FProxyByPassList        : ustring;
+      FMaxConnectionsPerProxy : integer;
       FUpdatePreferences      : boolean;
       FCustomHeaderName       : ustring;
       FCustomHeaderValue      : ustring;
@@ -297,6 +298,7 @@ type
       procedure SetProxyPassword(const aValue : ustring);
       procedure SetProxyScriptURL(const aValue : ustring);
       procedure SetProxyByPassList(const aValue : ustring);
+      procedure SetMaxConnectionsPerProxy(const aValue : integer);
       procedure SetCustomHeaderName(const aValue : ustring);
       procedure SetCustomHeaderValue(const aValue : ustring);
       procedure SetZoomLevel(const aValue : double);
@@ -422,7 +424,7 @@ type
       function  doOnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; virtual;
       function  doOnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
       procedure doOnGetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler; var aUseInternalHandler : boolean); virtual;
-      function  doOnGetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
+      function  doOnGetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
       function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; virtual;
       function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): Boolean; virtual;
       function  doOnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
@@ -681,6 +683,7 @@ type
       property  ProxyPassword           : ustring                      read FProxyPassword            write SetProxyPassword;
       property  ProxyScriptURL          : ustring                      read FProxyScriptURL           write SetProxyScriptURL;
       property  ProxyByPassList         : ustring                      read FProxyByPassList          write SetProxyByPassList;
+      property  MaxConnectionsPerProxy  : integer                      read FMaxConnectionsPerProxy   write SetMaxConnectionsPerProxy;
 
     published
       property  OnTextResultAvailable              : TOnTextResultAvailableEvent              read FOnTextResultAvailable              write FOnTextResultAvailable;
@@ -877,14 +880,15 @@ begin
   FWebRTCMultipleRoutes   := STATE_DEFAULT;
   FWebRTCNonProxiedUDP    := STATE_DEFAULT;
 
-  FProxyType         := CEF_PROXYTYPE_DIRECT;
-  FProxyScheme       := psHTTP;
-  FProxyServer       := '';
-  FProxyPort         := 80;
-  FProxyUsername     := '';
-  FProxyPassword     := '';
-  FProxyScriptURL    := '';
-  FProxyByPassList   := '';
+  FProxyType              := CEF_PROXYTYPE_DIRECT;
+  FProxyScheme            := psHTTP;
+  FProxyServer            := '';
+  FProxyPort              := 80;
+  FProxyUsername          := '';
+  FProxyPassword          := '';
+  FProxyScriptURL         := '';
+  FProxyByPassList        := '';
+  FMaxConnectionsPerProxy := CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE;
 
   FillChar(FWindowInfo,    SizeOf(TCefWindowInfo), 0);
   FillChar(FDevWindowInfo, SizeOf(TCefWindowInfo), 0);
@@ -2162,6 +2166,16 @@ begin
     end;
 end;
 
+procedure TChromium.SetMaxConnectionsPerProxy(const aValue : integer);
+begin
+  if (FMaxConnectionsPerProxy <> aValue) and
+     (aValue in [CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE..CEF_MAX_CONNECTIONS_PER_PROXY_MAX_VALUE]) then
+    begin
+      FMaxConnectionsPerProxy := aValue;
+      FUpdatePreferences      := True;
+    end;
+end;
+
 procedure TChromium.SetCustomHeaderName(const aValue : ustring);
 begin
   if (FCustomHeaderName <> aValue) then
@@ -2192,9 +2206,11 @@ begin
       TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
 
       if (TempManager <> nil) then
-        begin
+        try
           TempCallback := TCefCustomDeleteCookiesCallback.Create(self);
           Result       := TempManager.DeleteCookies(url, cookieName, TempCallback);
+        finally
+          TempCallback := nil;
         end;
     end;
 end;
@@ -2213,9 +2229,11 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) then
-        begin
+        try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetSource(TempVisitor);
+        finally
+          TempVisitor := nil;
         end;
     end;
 end;
@@ -2225,9 +2243,11 @@ var
   TempVisitor : ICefStringVisitor;
 begin
   if Initialized and (aFrame <> nil) then
-    begin
+    try
       TempVisitor := TCustomCefStringVisitor.Create(self);
       aFrame.GetSource(TempVisitor);
+    finally
+      TempVisitor := nil;
     end;
 end;
 
@@ -2244,9 +2264,11 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) then
-        begin
+        try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetSource(TempVisitor);
+        finally
+          TempVisitor := nil;
         end;
     end;
 end;
@@ -2265,9 +2287,11 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) then
-        begin
+        try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetText(TempVisitor);
+        finally
+          TempVisitor := nil;
         end;
     end;
 end;
@@ -2277,9 +2301,11 @@ var
   TempVisitor : ICefStringVisitor;
 begin
   if Initialized and (aFrame <> nil) then
-    begin
+    try
       TempVisitor := TCustomCefStringVisitor.Create(self);
       aFrame.GetText(TempVisitor);
+    finally
+      TempVisitor := nil;
     end;
 end;
 
@@ -2296,21 +2322,25 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) then
-        begin
+        try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetText(TempVisitor);
+        finally
+          TempVisitor := nil;
         end;
     end;
 end;
 
 procedure TChromium.GetNavigationEntries(currentOnly: Boolean);
 var
-  TempVisitor : TCustomCefNavigationEntryVisitor;
+  TempVisitor : ICefNavigationEntryVisitor;
 begin
   if Initialized then
-    begin
+    try
       TempVisitor := TCustomCefNavigationEntryVisitor.Create(self);
       FBrowser.Host.GetNavigationEntries(TempVisitor, currentOnly);
+    finally
+      TempVisitor := nil;
     end;
 end;
 
@@ -2329,9 +2359,11 @@ var
   TempTask: ICefTask;
 begin
   if Initialized then
-    begin
+    try
       TempTask := TCefUpdatePrefsTask.Create(self);
       CefPostTask(TID_UI, TempTask);
+    finally
+      TempTask := nil;
     end;
 end;
 
@@ -2340,10 +2372,12 @@ var
   TempTask: ICefTask;
 begin
   if Initialized and (length(aFileName) > 0) then
-    begin
+    try
       FPrefsFileName := aFileName;
       TempTask       := TCefSavePrefsTask.Create(self);
       CefPostTask(TID_UI, TempTask);
+    finally
+      TempTask := nil;
     end;
 end;
 
@@ -2366,9 +2400,11 @@ var
 begin
   // Results will be received in the OnResolvedHostAvailable event of this class
   if Initialized and (length(aURL) > 0) then
-    begin
+    try
       TempCallback := TCefCustomResolveCallback.Create(self);
       FBrowser.Host.RequestContext.ResolveHost(aURL, TempCallback);
+    finally
+      TempCallback := nil;
     end;
 end;
 
@@ -2441,6 +2477,9 @@ begin
   UpdatePreference(aBrowser, 'plugins.always_authorize',             FAlwaysAuthorizePlugins);
   UpdatePreference(aBrowser, 'browser.enable_spellchecking',         FSpellChecking);
   UpdateStringListPref(aBrowser, 'spellcheck.dictionaries',          FSpellCheckerDicts);
+
+  if (FMaxConnectionsPerProxy <> CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE) then
+    UpdatePreference(aBrowser, 'net.max_connections_per_proxy', FMaxConnectionsPerProxy);
 
   if FRunAllFlashInAllowMode then
     UpdatePreference(aBrowser, 'profile.default_content_setting_values.plugins', 1);
@@ -3630,14 +3669,14 @@ begin
   if Assigned(FOnFullScreenModeChange) then FOnFullScreenModeChange(Self, browser, fullscreen);
 end;
 
-function TChromium.doOnGetAuthCredentials(const browser  : ICefBrowser;
-                                          const frame    : ICefFrame;
-                                                isProxy  : Boolean;
-                                          const host     : ustring;
-                                                port     : Integer;
-                                          const realm    : ustring;
-                                          const scheme   : ustring;
-                                          const callback : ICefAuthCallback): Boolean;
+function TChromium.doOnGetAuthCredentials(const browser   : ICefBrowser;
+                                          const originUrl : ustring;
+                                                isProxy   : Boolean;
+                                          const host      : ustring;
+                                                port      : Integer;
+                                          const realm     : ustring;
+                                          const scheme    : ustring;
+                                          const callback  : ICefAuthCallback): Boolean;
 begin
   Result := False;
 
@@ -3650,8 +3689,8 @@ begin
         end;
     end
    else
-    if (frame <> nil) and frame.IsMain and Assigned(FOnGetAuthCredentials) then
-      FOnGetAuthCredentials(Self, browser, frame, isProxy, host, port, realm, scheme, callback, Result);
+    if Assigned(FOnGetAuthCredentials) then
+      FOnGetAuthCredentials(Self, browser, originUrl, isProxy, host, port, realm, scheme, callback, Result);
 end;
 
 function TChromium.doCanSendCookie(const browser : ICefBrowser;

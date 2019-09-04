@@ -72,6 +72,7 @@ type
     procedure CEFUrlRequestClientComponent1DownloadProgress(Sender: TObject; const request: ICefUrlRequest; current, total: Int64);
     procedure CEFUrlRequestClientComponent1RequestComplete(Sender: TObject; const request: ICefUrlRequest);
     procedure CEFUrlRequestClientComponent1CreateURLRequest(Sender: TObject);
+
   private
     FStream         : TMemoryStream;
     FCanClose       : boolean;

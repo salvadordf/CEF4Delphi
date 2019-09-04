@@ -120,7 +120,7 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService';
+  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
 
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
 {
@@ -167,7 +167,7 @@ end;
 procedure TForm1.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
   FCanClose := True;
-  Close;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.ChromiumWindow1Close(Sender: TObject);

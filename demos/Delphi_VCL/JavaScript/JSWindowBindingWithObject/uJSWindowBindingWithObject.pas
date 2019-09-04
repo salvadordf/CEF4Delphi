@@ -136,7 +136,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
   GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService';
+  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TJSWindowBindingWithObjectFrm.GoBtnClick(Sender: TObject);

@@ -53,6 +53,8 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
     Top = 129
   end
   object FMXChromium1: TFMXChromium
+    OnBeforeContextMenu = FMXChromium1BeforeContextMenu
+    OnContextMenuCommand = FMXChromium1ContextMenuCommand
     OnBeforePopup = FMXChromium1BeforePopup
     OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose

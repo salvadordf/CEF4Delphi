@@ -175,7 +175,7 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  //GlobalCEFApp.DisableFeatures            := 'NetworkService';
+  GlobalCEFApp.DisableFeatures            := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);

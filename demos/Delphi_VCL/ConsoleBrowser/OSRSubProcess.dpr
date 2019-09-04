@@ -78,6 +78,7 @@ begin
   GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.ExternalMessagePump        := False;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  GlobalCEFApp.DisableFeatures            := 'NetworkService,OutOfBlinkCors';
 
   GlobalCEFApp.StartSubProcess;
   GlobalCEFApp.Free;

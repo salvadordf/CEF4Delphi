@@ -44,10 +44,10 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Samples.Spin;
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, StdCtrls;
+  Controls, Forms, Dialogs, StdCtrls, Spin;
   {$ENDIF}
 
 type
@@ -75,6 +75,8 @@ type
     HeaderValueEdt: TEdit;
     HeaderValueLbl: TLabel;
     ProxySchemeCb: TComboBox;
+    MaxConnectionsPerProxyLbl: TLabel;
+    MaxConnectionsPerProxyEdt: TSpinEdit;
   private
     { Private declarations }
   public

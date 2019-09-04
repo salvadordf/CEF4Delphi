@@ -55,7 +55,7 @@ uses
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin

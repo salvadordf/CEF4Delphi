@@ -14,7 +14,7 @@ object JSExtensionFrm: TJSExtensionFrm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21

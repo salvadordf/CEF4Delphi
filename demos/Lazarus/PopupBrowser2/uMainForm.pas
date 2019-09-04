@@ -146,7 +146,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.EnableHighDPISupport := True;
-  GlobalCEFApp.DisableFeatures      := 'NetworkService';
+  GlobalCEFApp.DisableFeatures      := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

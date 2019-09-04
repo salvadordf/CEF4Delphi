@@ -79,6 +79,11 @@ type
       var settings: TCefBrowserSettings;
       var extra_info: ICefDictionaryValue; var noJavascriptAccess,
       Result: Boolean);
+    procedure Chromium1OpenUrlFromTab(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const targetUrl: ustring;
+      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+      out Result: Boolean);
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
@@ -187,6 +192,15 @@ procedure TForm1.Chromium1Close(Sender: TObject;
 begin
   PostMessage(Handle, CEF_DESTROY, 0, 0);
   aAction := cbaDelay;
+end;
+
+procedure TForm1.Chromium1OpenUrlFromTab(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition;
+  userGesture: Boolean; out Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);

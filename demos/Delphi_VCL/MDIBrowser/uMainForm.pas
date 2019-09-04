@@ -116,6 +116,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.DisableFeatures      := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.CreateMDIChild(const Name: string);
@@ -184,7 +185,7 @@ end;
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
 begin
   // If there are no more child forms we can destroy the main form
-  if (MDIChildCount = 0) then
+  if FClosing and (MDIChildCount = 0) then
     begin
       ButtonPnl.Enabled := False;
       FCanClose := True;

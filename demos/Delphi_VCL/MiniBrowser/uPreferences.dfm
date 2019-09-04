@@ -4,7 +4,7 @@ object PreferencesFrm: TPreferencesFrm
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Preferences'
-  ClientHeight = 363
+  ClientHeight = 397
   ClientWidth = 428
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object PreferencesFrm: TPreferencesFrm
   TextHeight = 13
   object Button1: TButton
     Left = 232
-    Top = 330
+    Top = 364
     Width = 75
     Height = 25
     Caption = 'Ok'
@@ -28,7 +28,7 @@ object PreferencesFrm: TPreferencesFrm
   end
   object Button2: TButton
     Left = 345
-    Top = 330
+    Top = 364
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -39,7 +39,7 @@ object PreferencesFrm: TPreferencesFrm
     Left = 8
     Top = 8
     Width = 412
-    Height = 223
+    Height = 250
     Caption = ' Proxy '
     TabOrder = 0
     object ProxyTypeLbl: TLabel
@@ -90,6 +90,13 @@ object PreferencesFrm: TPreferencesFrm
       Width = 50
       Height = 13
       Caption = 'ByPass list'
+    end
+    object MaxConnectionsPerProxyLbl: TLabel
+      Left = 12
+      Top = 218
+      Width = 154
+      Height = 13
+      Caption = 'Maximum connections per proxy'
     end
     object ProxyTypeCbx: TComboBox
       Left = 108
@@ -167,10 +174,20 @@ object PreferencesFrm: TPreferencesFrm
         'SOCKS4'
         'SOCKS5')
     end
+    object MaxConnectionsPerProxyEdt: TSpinEdit
+      Left = 184
+      Top = 215
+      Width = 216
+      Height = 22
+      MaxValue = 99
+      MinValue = 7
+      TabOrder = 8
+      Value = 32
+    end
   end
   object GroupBox2: TGroupBox
     Left = 8
-    Top = 237
+    Top = 271
     Width = 412
     Height = 84
     Caption = ' Custom header '

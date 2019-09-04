@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="6">
+    <Units Count="7">
       <Unit0>
         <Filename Value="MiniBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,10 +20,9 @@
         <ComponentName Value="MiniBrowserFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="277"/>
-        <CursorPos X="3" Y="279"/>
+        <TopLine Value="1031"/>
+        <CursorPos X="93" Y="1044"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -35,8 +34,13 @@
         <ComponentName Value="PreferencesFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="69"/>
+        <CursorPos X="17" Y="92"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -63,8 +67,16 @@
         <CursorPos X="77" Y="404"/>
         <UsageCount Value="10"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="C:\lazarus\lcl\stdctrls.pp"/>
+        <UnitName Value="StdCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="962"/>
+        <CursorPos X="41" Y="979"/>
+        <UsageCount Value="10"/>
+      </Unit6>
     </Units>
-    <JumpHistory Count="25" HistoryIndex="24">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="uMiniBrowser.pas"/>
       </Position1>
@@ -164,6 +176,14 @@
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="261" Column="11" TopLine="245"/>
       </Position25>
+      <Position26>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="290" Column="76" TopLine="277"/>
+      </Position26>
+      <Position27>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="1032" Column="50" TopLine="1015"/>
+      </Position27>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
