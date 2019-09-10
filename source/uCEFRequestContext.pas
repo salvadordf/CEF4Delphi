@@ -143,8 +143,8 @@ begin
   Result := PCefRequestContext(FData)^.is_sharing_with(PCefRequestContext(FData), CefGetData(other)) <> 0;
 end;
 
-class function TCefRequestContextRef.New(const settings: PCefRequestContextSettings;
-                                         const handler: ICefRequestContextHandler): ICefRequestContext;
+class function TCefRequestContextRef.New(const settings : PCefRequestContextSettings;
+                                         const handler  : ICefRequestContextHandler): ICefRequestContext;
 begin
   Result := UnWrap(cef_request_context_create_context(settings, CefGetData(handler)));
 end;

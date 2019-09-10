@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>JS Window Binding with an ArrayBuffer demo.</h1>
+
+<p>The CEF document describing JavaScript Window Bindings is here :<br>
+<a href="https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md">https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md</a></p>
+
+<p>The following button shows the contents of the ArrayBuffer in <strong>window.myobj</strong> which was set in the GlobalCEFApp.OnContextCreated event.</p>
+<button onclick="myFunction()">Click me</button>
+
+<script>
+function myFunction() {
+    var int8View = new Int8Array(window.myobj);
+    alert(int8View[0]);
+}
+</script>
+
+</body>
+</html>

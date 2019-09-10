@@ -204,29 +204,33 @@ procedure TChildForm.FormShow(Sender: TObject);
 var
   TempContext : ICefRequestContext;
 begin
-  // The new request context overrides several GlobalCEFApp properties like :
-  // cache, AcceptLanguageList, PersistSessionCookies, PersistUserPreferences,
-  // IgnoreCertificateErrors and EnableNetSecurityExpiration
+  try
+    // The new request context overrides several GlobalCEFApp properties like :
+    // cache, AcceptLanguageList, PersistSessionCookies, PersistUserPreferences,
+    // IgnoreCertificateErrors and EnableNetSecurityExpiration
 
-  // If you use an empty cache path, CEF will use in-memory cache.
+    // If you use an empty cache path, CEF will use in-memory cache.
 
-  if MainForm.NewContextChk.Checked then
-    TempContext := TCefRequestContextRef.New('', '', False, False, False, False)
-   else
+    if MainForm.NewContextChk.Checked then
+      TempContext := TCefRequestContextRef.New('', '', False, False, False, False)
+     else
+      TempContext := nil;
+
+    {
+    // This would be a good place to set the proxy server settings for all your child
+    // browsers if you use a proxy
+    Chromium1.ProxyType     := CEF_PROXYTYPE_FIXED_SERVERS;
+    Chromium1.ProxyScheme   := psHTTP;
+    Chromium1.ProxyServer   := '1.2.3.4';
+    Chromium1.ProxyPort     := 1234;
+    Chromium1.ProxyUsername := '';
+    Chromium1.ProxyPassword := '';
+    }
+
+    Chromium1.CreateBrowser(CEFWindowParent1, '', TempContext);
+  finally
     TempContext := nil;
-
-{
-  // This would be a good place to set the proxy server settings for all your child
-  // browsers if you use a proxy
-  Chromium1.ProxyType     := CEF_PROXYTYPE_FIXED_SERVERS;
-  Chromium1.ProxyScheme   := psHTTP;
-  Chromium1.ProxyServer   := '1.2.3.4';
-  Chromium1.ProxyPort     := 1234;
-  Chromium1.ProxyUsername := '';
-  Chromium1.ProxyPassword := '';
-}
-
-  Chromium1.CreateBrowser(CEFWindowParent1, '', TempContext);
+  end;
 end;
 
 procedure TChildForm.WMMove(var aMessage : TWMMove);
