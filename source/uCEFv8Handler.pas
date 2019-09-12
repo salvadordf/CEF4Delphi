@@ -92,7 +92,7 @@ type
     public
       constructor Create(const value: TValue; SyncMainThread: Boolean = False); reintroduce;
       destructor Destroy; override;
-      class procedure Register(const name: ustring; const value: TValue; SyncMainThread: Boolean = False);
+      class function Register(const name: ustring; const value: TValue; SyncMainThread: Boolean = False) : boolean;
   end;
 {$ENDIF}
 
@@ -748,17 +748,21 @@ begin
   Result := True;
 end;
 
-class procedure TCefRTTIExtension.Register(const name: ustring; const value: TValue; SyncMainThread: Boolean);
+class function TCefRTTIExtension.Register(const name: ustring; const value: TValue; SyncMainThread: Boolean) : boolean;
 var
   TempCode    : ustring;
   TempHandler : ICefv8Handler;
 begin
-  TempHandler := TCefRTTIExtension.Create(value, SyncMainThread);
-  TempCode    := format('this.__defineSetter__(''%s'', function(v){native function $s();$s(v)});' +
-                        'this.__defineGetter__(''%0:s'', function(){native function $g();return $g()});',
-                        [name]);
+  try
+    TempHandler := TCefRTTIExtension.Create(value, SyncMainThread);
+    TempCode    := format('this.__defineSetter__(''%s'', function(v){native function $s();$s(v)});' +
+                          'this.__defineGetter__(''%0:s'', function(){native function $g();return $g()});',
+                          [name]);
 
-  CefRegisterExtension(name, TempCode, TempHandler);
+    Result := CefRegisterExtension(name, TempCode, TempHandler);
+  finally
+    TempHandler := nil;
+  end;
 end;
 
 {$IFDEF CPUX64}

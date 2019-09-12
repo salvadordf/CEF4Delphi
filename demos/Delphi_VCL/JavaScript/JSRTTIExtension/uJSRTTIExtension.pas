@@ -58,10 +58,10 @@ const
   MINIBROWSER_CONTEXTMENU_SETJSEVENT        = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_JSVISITDOM        = MENU_ID_USER_FIRST + 2;
   MINIBROWSER_CONTEXTMENU_MUTATIONOBSERVER  = MENU_ID_USER_FIRST + 3;
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS      = MENU_ID_USER_FIRST + 4;
 
   MOUSEOVER_MESSAGE_NAME        = 'mouseover';
   CUSTOMNAME_MESSAGE_NAME       = 'customname';
-  MUTATIONOBSERVER_MESSAGE_NAME = 'mutationobservermsgname';
 
 type
   TJSRTTIExtensionFrm = class(TForm)
@@ -162,7 +162,10 @@ begin
 {$IFDEF DELPHI14_UP}
   // Registering the extension. Read this document for more details :
   // https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md
-  TCefRTTIExtension.Register('myextension', TTestExtension);
+  if TCefRTTIExtension.Register('myextension', TTestExtension) then
+    {$IFDEF DEBUG}CefDebugLog('JavaScript extension registered successfully!'){$ENDIF}
+   else
+    {$IFDEF DEBUG}CefDebugLog('There was an error registering the JavaScript extension!'){$ENDIF};
 {$ENDIF}
 end;
 
@@ -171,6 +174,10 @@ begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
   GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
+  {$IFDEF DEBUG}
+  GlobalCEFApp.LogFile             := 'debug.log';
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  {$ENDIF}
 end;
 
 procedure TJSRTTIExtensionFrm.GoBtnClick(Sender: TObject);
@@ -191,7 +198,7 @@ begin
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_SETJSEVENT,       'Set mouseover event');
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSVISITDOM,       'Visit DOM in JavaScript');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_MUTATIONOBSERVER, 'Add mutation observer');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS,     'Show DevTools');
 end;
 
 procedure TJSRTTIExtensionFrm.Chromium1BeforePopup(Sender: TObject;
@@ -213,51 +220,46 @@ procedure TJSRTTIExtensionFrm.Chromium1ContextMenuCommand(Sender: TObject;
   eventFlags: Cardinal; out Result: Boolean);
 const
   ELEMENT_ID = 'keywords'; // ID attribute in the search box at https://www.briskbard.com/forum/
+var
+  TempPoint : TPoint;
+  TempJSCode : string;
 begin
   Result := False;
 
   // Here is the code executed for each custom context menu entry
-
   case commandId of
     MINIBROWSER_CONTEXTMENU_SETJSEVENT :
       if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
-          'document.body.addEventListener("mouseover", function(evt){'+
-            'function getpath(n){'+
-              'var ret = "<" + n.nodeName + ">";'+
-              'if (n.parentNode){return getpath(n.parentNode) + ret} else '+
-              'return ret'+
-            '};'+
-            'myextension.mouseover(getpath(evt.target))}'+   // This is the call from JavaScript to the extension with DELPHI code in uTestExtension.pas
-          ')', 'about:blank', 0);
+        begin
+          TempJSCode := 'document.body.addEventListener("mouseover", function(evt){'+
+                          'function getpath(n){'+
+                            'var ret = "<" + n.nodeName + ">"; '+
+                            'if (n.parentNode){return getpath(n.parentNode) + ret} else '+
+                            'return ret'+
+                          '}; '+
+                          'myextension.mouseover(getpath(evt.target))}'+   // This is the call from JavaScript to the extension with DELPHI code in uTestExtension.pas
+                        ')';
+
+          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+        end;
 
     MINIBROWSER_CONTEXTMENU_JSVISITDOM :
       if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
-          'var testhtml = document.body.innerHTML;' +
-          'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');',  // This is the call from JavaScript to the extension with DELPHI code in uTestExtension.pas
-          'about:blank', 0);
+        begin
+          // This is the call from JavaScript to the extension with DELPHI code in uTestExtension.pas
+          TempJSCode := 'var testhtml = document.body.innerHTML; ' +
+                        'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');';
 
-    MINIBROWSER_CONTEXTMENU_MUTATIONOBSERVER :
-      // This MutatioObserver is based on this example https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
-      // This observer is configured to execute the callback when the attributes in the search box at google.com
-      // changes its value. The callback calls a JavaScript extension called "myextension.sendresulttobrowser" to send
-      // the "value" attribute to Delphi.
-      // Delphi receives the the information in the Chromium1ProcessMessageReceived procedure and shows it in the status bar.
-      if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
-          'var targetNode = document.getElementById(' + quotedstr(ELEMENT_ID) + ');' +
-          'var config = { attributes: true, childList: false, subtree: false };'+
-          'var callback = function(mutationsList, observer) {' +
-          '    for(var mutation of mutationsList) {' +
-          '         if (mutation.type == ' + quotedstr('attributes') + ') {' +
-          '            myextension.sendresulttobrowser(document.getElementById(' + quotedstr(ELEMENT_ID) + ').value, ' + quotedstr(MUTATIONOBSERVER_MESSAGE_NAME) + ');' +
-          '        }' +
-          '    }' +
-          '};' +
-          'var observer = new MutationObserver(callback);' +
-          'observer.observe(targetNode, config);',
-          'about:blank', 0);
+          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+        end;
+
+    MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
+      begin
+        TempPoint.x := params.XCoord;
+        TempPoint.y := params.YCoord;
+
+        Chromium1.ShowDevTools(TempPoint, nil);
+      end;
   end;
 end;
 
@@ -289,13 +291,7 @@ begin
         FText := message.ArgumentList.GetString(0);
         PostMessage(Handle, MINIBROWSER_SHOWTEXTVIEWER, 0, 0);
         Result := True;
-      end
-     else
-      if (message.Name = MUTATIONOBSERVER_MESSAGE_NAME) then
-        begin
-          StatusBar1.Panels[0].Text := message.ArgumentList.GetString(0);
-          Result := True;
-        end;
+      end;
 end;
 
 procedure TJSRTTIExtensionFrm.FormShow(Sender: TObject);

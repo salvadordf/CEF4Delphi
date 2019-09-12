@@ -38,7 +38,7 @@ object JSRTTIExtensionFrm: TJSRTTIExtensionFrm
       Margins.Right = 5
       Align = alClient
       TabOrder = 0
-      Text = 'https://www.briskbard.com/forum/'
+      Text = 'https://www.google.com/'
       ExplicitHeight = 21
     end
     object GoBtn: TButton
@@ -60,7 +60,7 @@ object JSRTTIExtensionFrm: TJSRTTIExtensionFrm
     Height = 19
     Panels = <
       item
-        Width = 50
+        Width = 1000
       end>
   end
   object CEFWindowParent1: TCEFWindowParent

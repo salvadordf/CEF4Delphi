@@ -58,7 +58,8 @@ const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $100;
 
   MINIBROWSER_CONTEXTMENU_SETJSEVENT   = MENU_ID_USER_FIRST + 1;
-  MINIBROWSER_CONTEXTMENU_JSVISITDOM   = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_JSVISITDOM   = MENU_ID_USER_FIRST + 2;    
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS = MENU_ID_USER_FIRST + 3;
 
   MOUSEOVER_MESSAGE_NAME  = 'mouseover';
   CUSTOMNAME_MESSAGE_NAME = 'customname';
@@ -304,7 +305,11 @@ begin
 
   try
     TempHandler := TTestExtensionHandler.Create;
-    CefRegisterExtension('myextension', TempExtensionCode, TempHandler);
+
+    if CefRegisterExtension('myextension', TempExtensionCode, TempHandler) then
+      {$IFDEF DEBUG}CefDebugLog('JavaScript extension registered successfully!'){$ENDIF}
+     else
+      {$IFDEF DEBUG}CefDebugLog('There was an error registering the JavaScript extension!'){$ENDIF};
   finally
     TempHandler := nil;
   end;
@@ -315,8 +320,7 @@ begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
   GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
-
-  {$IFDEF INTFLOG}
+  {$IFDEF DEBUG}
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   {$ENDIF}
@@ -345,8 +349,9 @@ procedure TJSExtensionFrm.Chromium1BeforeContextMenu(Sender: TObject;
 begin
   // Adding some custom context menu entries
   model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SETJSEVENT,  'Set mouseover event');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSVISITDOM,  'Visit DOM in JavaScript');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SETJSEVENT,   'Set mouseover event');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSVISITDOM,   'Visit DOM in JavaScript');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
 end;
 
 procedure TJSExtensionFrm.Chromium1BeforePopup(Sender: TObject;
@@ -373,7 +378,10 @@ end;
 procedure TJSExtensionFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
-  eventFlags: Cardinal; out Result: Boolean);
+  eventFlags: Cardinal; out Result: Boolean);   
+var
+  TempPoint : TPoint;
+  TempJSCode : string;
 begin
   Result := False;
 
@@ -382,22 +390,34 @@ begin
   case commandId of
     MINIBROWSER_CONTEXTMENU_SETJSEVENT :
       if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
-          'document.body.addEventListener("mouseover", function(evt){'+
-            'function getpath(n){'+
-              'var ret = "<" + n.nodeName + ">";'+
-              'if (n.parentNode){return getpath(n.parentNode) + ret} else '+
-              'return ret'+
-            '};'+
-            'myextension.mouseover(getpath(evt.target))}'+   // This is the call from JavaScript to the extension with DELPHI code in uTestExtensionHandler.pas
-          ')', 'about:blank', 0);
+        begin
+          TempJSCode := 'document.body.addEventListener("mouseover", function(evt){'+
+                          'function getpath(n){'+
+                            'var ret = "<" + n.nodeName + ">";'+
+                            'if (n.parentNode){return getpath(n.parentNode) + ret} else '+
+                            'return ret'+
+                          '};'+
+                          'myextension.mouseover(getpath(evt.target))}'+
+                        ')';
+
+          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+        end;
 
     MINIBROWSER_CONTEXTMENU_JSVISITDOM :
       if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
-          'var testhtml = document.body.innerHTML;' +
-          'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');',  // This is the call from JavaScript to the extension with DELPHI code in uTestExtensionHandler.pas
-          'about:blank', 0);
+        begin
+          TempJSCode := 'var testhtml = document.body.innerHTML; ' +
+                        'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');';
+
+          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+        end;
+
+    MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
+      begin
+        TempPoint.x := params.XCoord;
+        TempPoint.y := params.YCoord;
+        Chromium1.ShowDevTools(TempPoint, nil);
+      end;
   end;
 end;
 

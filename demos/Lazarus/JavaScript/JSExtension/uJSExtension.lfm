@@ -1,7 +1,7 @@
 object JSExtensionFrm: TJSExtensionFrm
-  Left = 185
+  Left = 483
   Height = 589
-  Top = 131
+  Top = 152
   Width = 978
   Caption = 'JSExtension'
   ClientHeight = 589
