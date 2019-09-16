@@ -247,6 +247,7 @@ type
       FOnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent;
       FOnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent;
       FOnDownloadImageFinished            : TOnDownloadImageFinishedEvent;
+      FOnCookiesFlushed                   : TNotifyEvent;
       {$IFNDEF FPC}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -488,6 +489,7 @@ type
       procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings); virtual;
       function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean; virtual;
       procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage); virtual;
+      procedure doOnCookiesStoreFlushed; virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
       function  MustCreateContextMenuHandler : boolean; virtual;
@@ -536,6 +538,7 @@ type
 
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = '') : boolean;
+      function    FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
       procedure   RetrieveHTML(const aFrameName : ustring = ''); overload;
       procedure   RetrieveHTML(const aFrame : ICefFrame); overload;
       procedure   RetrieveHTML(const aFrameIdentifier : int64); overload;
@@ -693,6 +696,7 @@ type
       property  OnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent             read FOnResolvedHostAvailable            write FOnResolvedHostAvailable;
       property  OnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent read FOnNavigationVisitorResultAvailable write FOnNavigationVisitorResultAvailable;
       property  OnDownloadImageFinished            : TOnDownloadImageFinishedEvent            read FOnDownloadImageFinished            write FOnDownloadImageFinished;
+      property  OnCookiesFlushed                   : TNotifyEvent                             read FOnCookiesFlushed                   write FOnCookiesFlushed;
       {$IFNDEF FPC}
       property  OnBrowserCompMsg                   : TOnCompMsgEvent                     read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
       property  OnWidgetCompMsg                    : TOnCompMsgEvent                     read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
@@ -825,7 +829,7 @@ uses
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplication, uCEFProcessMessage, uCEFRequestContext, {$IFNDEF FPC}uCEFOLEDragAndDrop,{$ENDIF}
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
-  uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack;
+  uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack, uCEFCookieManager;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
@@ -1171,6 +1175,7 @@ begin
   FOnResolvedHostAvailable            := nil;
   FOnNavigationVisitorResultAvailable := nil;
   FOnDownloadImageFinished            := nil;
+  FOnCookiesFlushed                   := nil;
   {$IFNDEF FPC}
   FOnBrowserCompMsg                   := nil;
   FOnWidgetCompMsg                    := nil;
@@ -2215,6 +2220,31 @@ begin
     end;
 end;
 
+function TChromium.FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
+var
+  TempManager  : ICefCookieManager;
+  TempCallback : ICefCompletionCallback;
+begin
+  Result := False;
+
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+    begin
+      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+
+      if (TempManager <> nil) then
+        try
+          if aFlushImmediately then
+            TempCallback := nil
+           else
+            TempCallback := TCefFlushStoreCompletionCallback.Create(self);
+
+          Result := TempManager.FlushStore(TempCallback);
+        finally
+          TempCallback := nil;
+        end;
+    end;
+end;
+
 // Leave aFrameName empty to get the HTML source from the main frame
 procedure TChromium.RetrieveHTML(const aFrameName : ustring);
 var
@@ -3024,6 +3054,11 @@ procedure TChromium.doDownloadImageFinished(const imageUrl       : ustring;
 begin
   if assigned(FOnDownloadImageFinished) then
     FOnDownloadImageFinished(self, imageUrl, httpStatusCode, image);
+end;
+
+procedure TChromium.doOnCookiesStoreFlushed;
+begin
+  if assigned(FOnCookiesFlushed) then FOnCookiesFlushed(self);
 end;
 
 function TChromium.MustCreateLoadHandler : boolean;

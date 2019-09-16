@@ -45,7 +45,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, ActiveX, ShlObj,
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFChromiumEvents;
 
 const
   MINIBROWSER_SHOWDEVTOOLS    = WM_APP + $101;
@@ -57,7 +57,8 @@ const
   MINIBROWSER_SAVEPREFERENCES = WM_APP + $107;
   MINIBROWSER_COPYALLTEXT     = WM_APP + $108;
   MINIBROWSER_TAKESNAPSHOT    = WM_APP + $109;
-  MINIBROWSER_SHOWNAVIGATION  = WM_APP + $10A;
+  MINIBROWSER_SHOWNAVIGATION  = WM_APP + $10A;   
+  MINIBROWSER_COOKIESFLUSHED  = WM_APP + $10B;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -81,6 +82,9 @@ type
   { TMiniBrowserFrm }
 
   TMiniBrowserFrm = class(TForm)
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
     NavControlPnl: TPanel;
     NavButtonPnl: TPanel;
     StatusPnl: TPanel;
@@ -119,9 +123,15 @@ type
     OpenfilewithaDAT1: TMenuItem;
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
+    procedure Chromium1CookiesFlushed(Sender: TObject);
+    procedure Chromium1DownloadImageFinished(Sender: TObject;
+      const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
+    procedure MenuItem1Click(Sender: TObject);
+    procedure MenuItem2Click(Sender: TObject);
+    procedure MenuItem3Click(Sender: TObject);
     procedure ReloadBtnClick(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
@@ -245,6 +255,7 @@ type
     procedure ShowNavigationMsg(var aMessage : TMessage); message MINIBROWSER_SHOWNAVIGATION;
     procedure SavePreferencesMsg(var aMessage : TMessage); message MINIBROWSER_SAVEPREFERENCES;
     procedure TakeSnapshotMsg(var aMessage : TMessage); message MINIBROWSER_TAKESNAPSHOT;
+    procedure CookiesFlushedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESFLUSHED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -280,6 +291,7 @@ begin
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
+  GlobalCEFApp.cache               := 'cache';
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -290,6 +302,56 @@ end;
 procedure TMiniBrowserFrm.ForwardBtnClick(Sender: TObject);
 begin
   Chromium1.GoForward;
+end;
+
+procedure TMiniBrowserFrm.MenuItem1Click(Sender: TObject);
+var
+  TempURL : string;
+begin
+  TempURL := InputBox('Download Image', 'URL:', 'https://www.briskbard.com/images/logo.png');
+
+  if (length(TempURL) > 0) then
+    Chromium1.DownloadImage(TempURL, False, 0, False);
+end;
+
+procedure TMiniBrowserFrm.MenuItem2Click(Sender: TObject);
+const
+  SIMULATED_KEY_PRESSES = 'QWERTY';
+var
+  i : integer;
+  TempKeyEvent : TCefKeyEvent;
+begin
+  // This procedure is extremely simplified.
+  // Use the SimpleOSRBrowser demo to log the real TCefKeyEvent values
+  // if you use anything different than uppercase letters.
+
+  for i := 1 to length(SIMULATED_KEY_PRESSES) do
+    begin
+      // WM_KEYDOWN
+      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.modifiers               := 0;
+      TempKeyEvent.windows_key_code        := ord(SIMULATED_KEY_PRESSES[i]);
+      TempKeyEvent.native_key_code         := 0;
+      TempKeyEvent.is_system_key           := ord(False);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+      Chromium1.SendKeyEvent(@TempKeyEvent);
+
+      // WM_CHAR
+      TempKeyEvent.kind := KEYEVENT_CHAR;
+      Chromium1.SendKeyEvent(@TempKeyEvent);
+
+      // WM_KEYUP
+      TempKeyEvent.kind := KEYEVENT_KEYUP;
+      Chromium1.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+procedure TMiniBrowserFrm.MenuItem3Click(Sender: TObject);
+begin        
+  if not(Chromium1.FlushCookieStore(False)) then
+    showmessage('There was a problem flushing the cookies.');
 end;
 
 procedure TMiniBrowserFrm.GoBtnClick(Sender: TObject);
@@ -916,6 +978,80 @@ begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
+end;
+
+procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);
+begin
+  PostMessage(Handle, MINIBROWSER_COOKIESFLUSHED, 0, 0);
+end;
+
+procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);  
+begin
+  showmessage('The cookies were flushed successfully');
+end;
+
+procedure TMiniBrowserFrm.Chromium1DownloadImageFinished(Sender: TObject;
+  const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
+var
+  TempBinValue : ICefBinaryValue;
+  TempWidth    : integer;
+  TempHeight   : integer;
+  TempBuffer   : TBytes;
+  TempPointer  : pointer;
+  TempSize     : NativeUInt;
+  TempStream   : TFileStream;
+  TempParts    : TUrlParts;
+  i            : integer;
+begin
+  TempStream := nil;
+
+  try
+    try
+      if (httpStatusCode = 200) and (image <> nil) and not(image.IsEmpty) then
+        begin
+          TempBinValue := image.GetAsPng(1, True, TempWidth, TempHeight);
+
+          if (TempBinValue <> nil) and
+             TempBinValue.IsValid  then
+            begin
+              TempSize := TempBinValue.Size;
+
+              SaveDialog1.DefaultExt := 'png';
+              SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+
+              CefParseUrl(imageUrl, TempParts);
+              i := LastDelimiter('/', TempParts.path);
+
+              // TODO : The file name should be sanitized.
+              if (i > 0) then
+                SaveDialog1.FileName := copy(TempParts.path, succ(i), length(TempParts.path))
+               else
+                SaveDialog1.FileName := TempParts.path;
+
+              if (TempSize > 0) and
+                 SaveDialog1.Execute and
+                 (length(SaveDialog1.FileName) > 0) then
+                begin
+                  SetLength(TempBuffer, TempSize);
+                  TempPointer := @TempBuffer[0];
+                  TempSize    := TempBinValue.GetData(TempPointer, TempSize, 0);
+
+                  if (TempSize > 0) then
+                    begin
+                      TempStream := TFileStream.Create(SaveDialog1.FileName, fmCreate);
+                      TempStream.Write(TempBuffer, TempSize);
+                    end;
+                end;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('Chromium1DownloadImageFinishedEvent', e) then raise;
+    end;
+  finally
+    if (TempStream <> nil) then FreeAndNil(TempStream);
+    SetLength(TempBuffer, 0);
+  end;
 end;
 
 procedure TMiniBrowserFrm.Timer1Timer(Sender: TObject);

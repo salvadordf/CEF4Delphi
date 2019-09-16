@@ -64,6 +64,7 @@ const
   MINIBROWSER_COPYALLTEXT     = WM_APP + $108;
   MINIBROWSER_TAKESNAPSHOT    = WM_APP + $109;
   MINIBROWSER_SHOWNAVIGATION  = WM_APP + $10A;
+  MINIBROWSER_COOKIESFLUSHED  = WM_APP + $10B;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -124,6 +125,7 @@ type
     Memoryinfo1: TMenuItem;
     Downloadimage1: TMenuItem;
     Simulatekeyboardpresses1: TMenuItem;
+    Flushcookies1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -222,6 +224,8 @@ type
       const imageUrl: ustring; httpStatusCode: Integer;
       const image: ICefImage);
     procedure Simulatekeyboardpresses1Click(Sender: TObject);
+    procedure Flushcookies1Click(Sender: TObject);
+    procedure Chromium1CookiesFlushed(Sender: TObject);
 
   protected
     FResponse   : TStringList;
@@ -255,6 +259,7 @@ type
     procedure ShowNavigationMsg(var aMessage : TMessage); message MINIBROWSER_SHOWNAVIGATION;
     procedure SavePreferencesMsg(var aMessage : TMessage); message MINIBROWSER_SAVEPREFERENCES;
     procedure TakeSnapshotMsg(var aMessage : TMessage); message MINIBROWSER_TAKESNAPSHOT;
+    procedure CookiesFlushedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESFLUSHED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -289,6 +294,7 @@ begin
   GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.LogFile          := 'debug.log';
   GlobalCEFApp.LogSeverity      := LOGSEVERITY_INFO;
+  GlobalCEFApp.cache            := 'cache';
   //GlobalCEFApp.RemoteDebuggingPort := 19999;
 end;
 
@@ -533,6 +539,16 @@ begin
     MINIBROWSER_CONTEXTMENU_MUTEAUDIO :
       Chromium1.AudioMuted := True;
   end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);
+begin
+  PostMessage(Handle, MINIBROWSER_COOKIESFLUSHED, 0, 0);
+end;
+
+procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);
+begin
+  showmessage('The cookies were flushed successfully');
 end;
 
 procedure TMiniBrowserFrm.Chromium1DownloadUpdated(Sender: TObject;
@@ -918,6 +934,12 @@ begin
     caption := 'MiniBrowser - ' + title
    else
     caption := 'MiniBrowser';
+end;
+
+procedure TMiniBrowserFrm.Flushcookies1Click(Sender: TObject);
+begin
+  if not(Chromium1.FlushCookieStore(False)) then
+    showmessage('There was a problem flushing the cookies.');
 end;
 
 procedure TMiniBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

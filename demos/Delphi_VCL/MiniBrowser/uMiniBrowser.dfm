@@ -268,6 +268,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnResolvedHostAvailable = Chromium1ResolvedHostAvailable
     OnNavigationVisitorResultAvailable = Chromium1NavigationVisitorResultAvailable
     OnDownloadImageFinished = Chromium1DownloadImageFinished
+    OnCookiesFlushed = Chromium1CookiesFlushed
     OnRenderCompMsg = Chromium1RenderCompMsg
     OnLoadEnd = Chromium1LoadEnd
     OnLoadError = Chromium1LoadError
@@ -358,6 +359,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object Simulatekeyboardpresses1: TMenuItem
       Caption = 'Simulate keyboard presses'
       OnClick = Simulatekeyboardpresses1Click
+    end
+    object Flushcookies1: TMenuItem
+      Caption = 'Flush cookies'
+      OnClick = Flushcookies1Click
     end
     object N5: TMenuItem
       Caption = '-'

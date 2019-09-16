@@ -20,10 +20,15 @@
         <ComponentName Value="MiniBrowserFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1031"/>
-        <CursorPos X="93" Y="1044"/>
+        <TopLine Value="276"/>
+        <CursorPos X="45" Y="294"/>
         <UsageCount Value="20"/>
+        <Bookmarks Count="2">
+          <Item0 X="3" Y="985" ID="1"/>
+          <Item1 X="66" Y="989" ID="2"/>
+        </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -34,7 +39,6 @@
         <ComponentName Value="PreferencesFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="69"/>
         <CursorPos X="17" Y="92"/>
@@ -76,114 +80,127 @@
         <UsageCount Value="10"/>
       </Unit6>
     </Units>
-    <JumpHistory Count="27" HistoryIndex="26">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="576" Column="79" TopLine="51"/>
       </Position1>
       <Position2>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="51" Column="83" TopLine="51"/>
+        <Caret Line="310" Column="64" TopLine="305"/>
       </Position2>
       <Position3>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="51" Column="83" TopLine="33"/>
+        <Caret Line="310" Column="64" TopLine="305"/>
       </Position3>
       <Position4>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="266" Column="8" TopLine="237"/>
+        <Caret Line="182" Column="15" TopLine="160"/>
       </Position4>
       <Position5>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="252" Column="76" TopLine="81"/>
+        <Caret Line="763" Column="26" TopLine="756"/>
       </Position5>
       <Position6>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="251" Column="76" TopLine="229"/>
+        <Caret Line="768" Column="69" TopLine="749"/>
       </Position6>
       <Position7>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="659" Column="10" TopLine="627"/>
+        <Caret Line="769" Column="69" TopLine="750"/>
       </Position7>
       <Position8>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="674" Column="20" TopLine="637"/>
+        <Caret Line="768" Column="69" TopLine="749"/>
       </Position8>
       <Position9>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="701" Column="32" TopLine="676"/>
+        <Caret Line="162" Column="61" TopLine="143"/>
       </Position9>
       <Position10>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="755" Column="28" TopLine="726"/>
+        <Caret Line="601" Column="52" TopLine="573"/>
       </Position10>
       <Position11>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="844" Column="42" TopLine="807"/>
+        <Caret Line="590" Column="20" TopLine="573"/>
       </Position11>
       <Position12>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="564" TopLine="553"/>
+        <Filename Value="MiniBrowser.lpr"/>
+        <Caret Line="54" TopLine="46"/>
       </Position12>
       <Position13>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="576" Column="79" TopLine="51"/>
+        <Caret Line="261" Column="11" TopLine="245"/>
       </Position13>
       <Position14>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="310" Column="64" TopLine="305"/>
+        <Caret Line="290" Column="76" TopLine="277"/>
       </Position14>
       <Position15>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="310" Column="64" TopLine="305"/>
+        <Caret Line="1032" Column="50" TopLine="1015"/>
       </Position15>
       <Position16>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="182" Column="15" TopLine="160"/>
+        <Caret Line="1044" Column="93" TopLine="1031"/>
       </Position16>
       <Position17>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="763" Column="26" TopLine="756"/>
+        <Caret Line="1045" Column="93" TopLine="1032"/>
       </Position17>
       <Position18>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="768" Column="69" TopLine="749"/>
+        <Caret Line="1046" Column="93" TopLine="1033"/>
       </Position18>
       <Position19>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="769" Column="69" TopLine="750"/>
+        <Caret Line="1053" Column="93" TopLine="1040"/>
       </Position19>
       <Position20>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="768" Column="69" TopLine="749"/>
+        <Caret Line="307" Column="55" TopLine="299"/>
       </Position20>
       <Position21>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="162" Column="61" TopLine="143"/>
+        <Caret Line="342" Column="9" TopLine="314"/>
       </Position21>
       <Position22>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="601" Column="52" TopLine="573"/>
+        <Caret Line="350" TopLine="345"/>
       </Position22>
       <Position23>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="590" Column="20" TopLine="573"/>
+        <Caret Line="982" Column="56" TopLine="980"/>
       </Position23>
       <Position24>
-        <Filename Value="MiniBrowser.lpr"/>
-        <Caret Line="54" TopLine="46"/>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="1015" Column="66" TopLine="994"/>
       </Position24>
       <Position25>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="261" Column="11" TopLine="245"/>
+        <Caret Line="258" Column="5" TopLine="251"/>
       </Position25>
       <Position26>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="290" Column="76" TopLine="277"/>
+        <Caret Line="988" Column="62" TopLine="980"/>
       </Position26>
       <Position27>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="1032" Column="50" TopLine="1015"/>
+        <Caret Line="246" Column="77" TopLine="245"/>
       </Position27>
+      <Position28>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="388" Column="5" TopLine="364"/>
+      </Position28>
+      <Position29>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="988" Column="26" TopLine="969"/>
+      </Position29>
+      <Position30>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="258" Column="93" TopLine="245"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

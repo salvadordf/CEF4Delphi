@@ -388,6 +388,7 @@ type
     procedure doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
     function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean;
     procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
+    procedure doOnCookiesStoreFlushed;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
     function  MustCreateContextMenuHandler : boolean;

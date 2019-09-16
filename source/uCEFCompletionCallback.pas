@@ -81,6 +81,15 @@ type
       destructor  Destroy; override;
   end;
 
+  TCefCustomCompletionCallback = class(TCefCompletionCallbackOwn)
+    protected
+      FEvents : Pointer;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
@@ -147,5 +156,21 @@ begin
   if (FEvent <> nil) then FEvent.Signal;
 end;
 
+
+// TCefCustomCompletionCallback
+
+constructor TCefCustomCompletionCallback.Create(const aEvents : IChromiumEvents);
+begin
+  inherited Create;
+
+  FEvents := aEvents;
+end;
+
+destructor TCefCustomCompletionCallback.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
 
 end.

@@ -54,7 +54,7 @@ uses
   {$ELSE}
   Classes, SysUtils,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFCompletionCallback;
 
 type
   TCefCookieManagerRef = class(TCefBaseRefCountedRef, ICefCookieManager)
@@ -78,10 +78,15 @@ type
       class function GlobalProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
   end;
 
+  TCefFlushStoreCompletionCallback = class(TCefCustomCompletionCallback)
+    protected
+      procedure OnComplete; override;
+  end;
+
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFCompletionCallback, uCEFDeleteCookiesCallback,
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFDeleteCookiesCallback,
   uCEFSetCookieCallback, uCEFCookieVisitor, uCEFStringList;
 
 
@@ -216,6 +221,23 @@ function TCefCookieManagerRef.VisitUrlCookiesProc(const url             : ustrin
                                                   const visitor         : TCefCookieVisitorProc): Boolean;
 begin
   Result := VisitUrlCookies(url, includeHttpOnly, TCefFastCookieVisitor.Create(visitor) as ICefCookieVisitor);
+end;
+
+
+// TCefFlushStoreCompletionCallback
+
+procedure TCefFlushStoreCompletionCallback.OnComplete;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doOnCookiesStoreFlushed;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefFlushStoreCompletionCallback.OnComplete', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
 end;
 
 end.
