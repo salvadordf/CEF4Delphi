@@ -8,8 +8,9 @@
       <Unit0>
         <Filename Value="SimpleBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="36"/>
-        <CursorPos X="14" Y="44"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="39"/>
+        <CursorPos X="58" Y="57"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -21,7 +22,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="147"/>
+        <TopLine Value="138"/>
         <CursorPos X="41" Y="160"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -31,10 +32,9 @@
       <Unit2>
         <Filename Value="uCEFLoader.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="45"/>
-        <CursorPos X="37" Y="68"/>
+        <CursorPos X="15" Y="59"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>

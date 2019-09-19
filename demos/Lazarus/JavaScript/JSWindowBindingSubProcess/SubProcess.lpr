@@ -73,12 +73,12 @@ begin
   GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
 
   // The main process and the subprocess *MUST* have the same FrameworkDirPath, ResourcesDirPath,
-  // LocalesDirPath, cache, cookies and UserDataPath paths
+  // LocalesDirPath, cache and UserDataPath paths
 
   // The demos are compiled into the BIN directory. Make sure SubProcess.exe and JSSimpleWindowBinding.exe are in that
   // directory or this demo won't work.
 
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
+  // In case you want to use custom directories for the CEF3 binaries, cache and user data.
 {
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';

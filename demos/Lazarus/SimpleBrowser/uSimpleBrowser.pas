@@ -122,7 +122,7 @@ begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
 
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
+  // In case you want to use custom directories for the CEF3 binaries, cache and user data.
 {
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';

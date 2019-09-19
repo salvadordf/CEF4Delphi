@@ -54,9 +54,9 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp := TCefApplication.Create;
 
-  // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
+  // In case you want to use custom directories for the CEF3 binaries, cache and user data.
   // If you don't set a cache directory the browser will use in-memory cache.
-  // The cache, cookies and user data directories must be writable.
+  // The cache and user data directories must be writable.
 {
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';
