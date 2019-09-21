@@ -123,10 +123,11 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 function ProcessUnderWow64(hProcess: THandle; var Wow64Process: BOOL): BOOL; external Kernel32DLL name 'IsWow64Process';
 function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
-
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
 function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
+function PathCanonicalizeAnsi(pszBuf: LPSTR; pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeA';
+function PathCanonicalizeUnicode(pszBuf: LPWSTR; pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeW';
 
 {$IFNDEF DELPHI12_UP}
   {$IFDEF WIN64}
@@ -139,6 +140,8 @@ function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; 
 {$ENDIF}
 
 function CustomPathIsRelative(const aPath : string) : boolean;
+function CustomPathCanonicalize(const aOriginalPath : string; var aCanonicalPath : string) : boolean;
+function CustomAbsolutePath(const aPath : string; aMustExist : boolean = False) : string;
 function GetModulePath : string;
 
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
@@ -879,14 +882,8 @@ begin
 
   if (length(aSrcPath) > 0) then
     begin
-      aRsltPath := IncludeTrailingPathDelimiter(aSrcPath);
-
-      if DirectoryExists(aSrcPath) then
-        begin
-          if CustomPathIsRelative(aRsltPath) then aRsltPath := GetModulePath + aRsltPath;
-        end
-       else
-        Result := False;
+      aRsltPath := IncludeTrailingPathDelimiter(CustomAbsolutePath(aSrcPath));
+      Result    := DirectoryExists(aRsltPath);
     end
    else
     aRsltPath := '';
@@ -1010,7 +1007,7 @@ begin
       TempList.Add(TempDir + 'cef_100_percent.pak');
       TempList.Add(TempDir + 'cef_200_percent.pak');
 
-      if aCheckExtensions then TempList.Add(TempDir + 'cef_extensions.pak');
+      if aCheckExtensions   then TempList.Add(TempDir + 'cef_extensions.pak');
       if aCheckDevResources then TempList.Add(TempDir + 'devtools_resources.pak');
 
       if TempExists then
@@ -1420,6 +1417,50 @@ begin
     Result := (length(aPath) > 0) and (aPath[1] <> '/');
     {$ENDIF}
   {$ENDIF}
+end;
+
+function CustomPathCanonicalize(const aOriginalPath : string; var aCanonicalPath : string) : boolean;
+var
+  TempBuffer: array [0..pred(MAX_PATH)] of Char;
+begin
+  Result         := False;
+  aCanonicalPath := '';
+
+  FillChar(TempBuffer, MAX_PATH * SizeOf(Char), 0);
+
+  {$IFDEF MSWINDOWS}
+    {$IFDEF DELPHI12_UP}
+    if PathCanonicalizeUnicode(@TempBuffer[0], PChar(aOriginalPath)) then
+      begin
+        aCanonicalPath := TempBuffer;
+        Result         := True;
+      end;
+    {$ELSE}
+    if PathCanonicalizeAnsi(@TempBuffer[0], PChar(aOriginalPath)) then
+      begin
+        aCanonicalPath := TempBuffer;
+        Result         := True;
+      end;
+    {$ENDIF}
+  {$ENDIF}
+end;
+
+function CustomAbsolutePath(const aPath : string; aMustExist : boolean) : string;
+var
+  TempPath : string;
+begin
+  if (length(aPath) > 0) then
+    begin
+      if not(CustomPathIsRelative(aPath) and CustomPathCanonicalize(GetModulePath + aPath, TempPath)) then
+        TempPath := aPath;
+
+      if aMustExist and not(DirectoryExists(TempPath)) then
+        Result := ''
+       else
+        Result := TempPath;
+    end
+   else
+    Result := '';
 end;
 
 function GetModulePath : string;

@@ -163,7 +163,7 @@ constructor TCefCustomCompletionCallback.Create(const aEvents : IChromiumEvents)
 begin
   inherited Create;
 
-  FEvents := aEvents;
+  FEvents := Pointer(aEvents);
 end;
 
 destructor TCefCustomCompletionCallback.Destroy;

@@ -211,7 +211,7 @@ end;
 
 procedure TJSWindowBindingWithArrayBufferFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
-  Caption := 'JSWindowBindingWithObject';
+  Caption := 'JSWindowBindingWithArrayBuffer';
   CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
   GoBtn.Click;

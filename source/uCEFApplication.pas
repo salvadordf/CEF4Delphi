@@ -822,76 +822,28 @@ end;
 
 procedure TCefApplication.SetCache(const aValue : ustring);
 begin
-  if (length(aValue) > 0) then
-    begin
-      if CustomPathIsRelative(aValue) then
-        FCache := GetModulePath + aValue
-       else
-        FCache := aValue;
-    end
-   else
-    FCache := '';
-
+  FCache           := CustomAbsolutePath(aValue);
   FDisableGPUCache := (length(FCache) = 0);
 end;
 
 procedure TCefApplication.SetRootCache(const aValue : ustring);
 begin
-  if (length(aValue) > 0) then
-    begin
-      if CustomPathIsRelative(aValue) then
-        FRootCache := GetModulePath + aValue
-       else
-        FRootCache := aValue;
-    end
-   else
-    FRootCache := '';
+  FRootCache := CustomAbsolutePath(aValue);
 end;
 
 procedure TCefApplication.SetUserDataPath(const aValue : ustring);
 begin
-  if (length(aValue) > 0) then
-    begin
-      if CustomPathIsRelative(aValue) then
-        FUserDataPath := GetModulePath + aValue
-       else
-        FUserDataPath := aValue;
-    end
-   else
-    FUserDataPath := '';
+  FUserDataPath := CustomAbsolutePath(aValue);
 end;
 
 procedure TCefApplication.SetBrowserSubprocessPath(const aValue : ustring);
 begin
-  if (length(aValue) > 0) then
-    begin
-      if CustomPathIsRelative(aValue) then
-        FBrowserSubprocessPath := GetModulePath + aValue
-       else
-        FBrowserSubprocessPath := aValue;
-    end
-   else
-    FBrowserSubprocessPath := '';
+  FBrowserSubprocessPath := CustomAbsolutePath(aValue);
 end;
 
 procedure TCefApplication.SetFrameworkDirPath(const aValue : ustring);
-var
-  TempPath : string;
 begin
-  if (length(aValue) > 0) then
-    begin
-      if CustomPathIsRelative(aValue) then
-        TempPath := GetModulePath + aValue
-       else
-        TempPath := aValue;
-
-      if DirectoryExists(TempPath) then
-        FFrameworkDirPath := TempPath
-       else
-        FFrameworkDirPath := '';
-    end
-   else
-    FFrameworkDirPath := '';
+  FFrameworkDirPath := CustomAbsolutePath(aValue, True);
 
   {$IFDEF MSWINDOWS}
   if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
@@ -899,43 +851,13 @@ begin
 end;
 
 procedure TCefApplication.SetResourcesDirPath(const aValue : ustring);
-var
-  TempPath : string;
 begin
-  if (length(aValue) > 0) then
-    begin
-      if CustomPathIsRelative(aValue) then
-        TempPath := GetModulePath + aValue
-       else
-        TempPath := aValue;
-
-      if DirectoryExists(TempPath) then
-        FResourcesDirPath := TempPath
-       else
-        FResourcesDirPath := '';
-    end
-   else
-    FResourcesDirPath := '';
+  FResourcesDirPath := CustomAbsolutePath(aValue, True);
 end;
 
 procedure TCefApplication.SetLocalesDirPath(const aValue : ustring);
-var
-  TempPath : string;
 begin
-  if (length(aValue) > 0) then
-    begin
-      if CustomPathIsRelative(aValue) then
-        TempPath := GetModulePath + aValue
-       else
-        TempPath := aValue;
-
-      if DirectoryExists(TempPath) then
-        FLocalesDirPath := TempPath
-       else
-        FLocalesDirPath := '';
-    end
-   else
-    FLocalesDirPath := '';
+  FLocalesDirPath := CustomAbsolutePath(aValue, True);
 end;
 
 function TCefApplication.CheckCEFLibrary : boolean;
