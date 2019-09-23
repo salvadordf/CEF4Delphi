@@ -128,6 +128,10 @@ function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAP
 function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
 function PathCanonicalizeAnsi(pszBuf: LPSTR; pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeA';
 function PathCanonicalizeUnicode(pszBuf: LPWSTR; pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeW';
+function PathIsUNCAnsi(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCA';
+function PathIsUNCUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCW';
+function PathIsURLAnsi(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLA';
+function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
 
 {$IFNDEF DELPHI12_UP}
   {$IFDEF WIN64}
@@ -142,6 +146,8 @@ function PathCanonicalizeUnicode(pszBuf: LPWSTR; pszPath: LPCWSTR): BOOL; stdcal
 function CustomPathIsRelative(const aPath : string) : boolean;
 function CustomPathCanonicalize(const aOriginalPath : string; var aCanonicalPath : string) : boolean;
 function CustomAbsolutePath(const aPath : string; aMustExist : boolean = False) : string;
+function CustomPathIsURL(const aPath : string) : boolean;
+function CustomPathIsUNC(const aPath : string) : boolean;
 function GetModulePath : string;
 
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
@@ -1419,6 +1425,32 @@ begin
   {$ENDIF}
 end;
 
+function CustomPathIsURL(const aPath : string) : boolean;
+begin
+  {$IFDEF MSWINDOWS}
+    {$IFDEF DELPHI12_UP}
+    Result := PathIsURLUnicode(PChar(aPath + #0));
+    {$ELSE}
+    Result := PathIsURLAnsi(PChar(aPath + #0));
+    {$ENDIF}
+  {$ELSE}
+  Result := False;
+  {$ENDIF}
+end;
+
+function CustomPathIsUNC(const aPath : string) : boolean;
+begin
+  {$IFDEF MSWINDOWS}
+    {$IFDEF DELPHI12_UP}
+    Result := PathIsUNCUnicode(PChar(aPath + #0));
+    {$ELSE}
+    Result := PathIsUNCAnsi(PChar(aPath + #0));
+    {$ENDIF}
+  {$ELSE}
+  Result := False;
+  {$ENDIF}
+end;
+
 function CustomPathCanonicalize(const aOriginalPath : string; var aCanonicalPath : string) : boolean;
 var
   TempBuffer: array [0..pred(MAX_PATH)] of Char;
@@ -1426,17 +1458,22 @@ begin
   Result         := False;
   aCanonicalPath := '';
 
+  if (length(aOriginalPath) > MAX_PATH) or
+     (Copy(aOriginalPath, 1, 4) = '\\?\') or
+     CustomPathIsUNC(aOriginalPath) then
+    exit;
+
   FillChar(TempBuffer, MAX_PATH * SizeOf(Char), 0);
 
   {$IFDEF MSWINDOWS}
     {$IFDEF DELPHI12_UP}
-    if PathCanonicalizeUnicode(@TempBuffer[0], PChar(aOriginalPath)) then
+    if PathCanonicalizeUnicode(@TempBuffer[0], PChar(aOriginalPath + #0)) then
       begin
         aCanonicalPath := TempBuffer;
         Result         := True;
       end;
     {$ELSE}
-    if PathCanonicalizeAnsi(@TempBuffer[0], PChar(aOriginalPath)) then
+    if PathCanonicalizeAnsi(@TempBuffer[0], PChar(aOriginalPath + #0)) then
       begin
         aCanonicalPath := TempBuffer;
         Result         := True;
@@ -1451,8 +1488,14 @@ var
 begin
   if (length(aPath) > 0) then
     begin
-      if not(CustomPathIsRelative(aPath) and CustomPathCanonicalize(GetModulePath + aPath, TempPath)) then
-        TempPath := aPath;
+      if CustomPathIsRelative(aPath) then
+        begin
+          if not(CustomPathCanonicalize(GetModulePath + aPath, TempPath)) then
+            TempPath := aPath;
+        end
+       else
+        if not(CustomPathCanonicalize(aPath, TempPath)) then
+          TempPath := aPath;
 
       if aMustExist and not(DirectoryExists(TempPath)) then
         Result := ''
