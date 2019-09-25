@@ -251,59 +251,74 @@ end;
 procedure TForm1.HandlePostData(const request : ICefRequest);
 var
   TempPostData  : ICefPostData;
-  TempElement   : ICefPostDataElement;
-  TempList      : IInterfaceList;
+  TempArray     : TCefPostDataElementArray;
   i             : integer;
 begin
+  TempArray := nil;
   try
-    TempPostData := request.PostData;
+    try
+      TempPostData := request.PostData;
 
-    if (TempPostData <> nil) and (TempPostData.GetCount > 0) then
-      begin
-        FRequestSL.Add('--------------------');
-        FRequestSL.Add('POST data :');
-        if TempPostData.HasExcludedElements then
-          FRequestSL.Add('Has excluded elements! (For example, multi-part file upload data.)');
+      if (TempPostData <> nil) and (TempPostData.GetElementCount > 0) then
+        begin
+          FRequestSL.Add('--------------------');
+          FRequestSL.Add('POST data :');
+          if TempPostData.HasExcludedElements then
+            FRequestSL.Add('Has excluded elements! (For example, multi-part file upload data.)');
 
-        TempList := TempPostData.GetElements(TempPostData.GetCount);
-        i        := 0;
+          TempPostData.GetElements(TempPostData.GetElementCount, TempArray);
 
-        while (i < TempList.Count) do
-          begin
-            TempElement := TempList.Items[i] as ICefPostDataElement;
-            FRequestSL.Add('Element : ' + inttostr(i));
-            FRequestSL.Add('Size : ' + inttostr(TempElement.GetBytesCount));
+          i := 0;
+          while (i < length(TempArray)) do
+            begin
+              FRequestSL.Add('Element : ' + inttostr(i));
+              FRequestSL.Add('Size : ' + inttostr(TempArray[i].GetBytesCount));
 
-            case TempElement.GetType of
-              PDE_TYPE_BYTES :
-                begin
-                  FRequestSL.Add('Type : Bytes');
-                  HandlePostDataBytes(TempElement);
-                end;
+              case TempArray[i].GetType of
+                PDE_TYPE_BYTES :
+                  begin
+                    FRequestSL.Add('Type : Bytes');
+                    HandlePostDataBytes(TempArray[i]);
+                  end;
 
-              PDE_TYPE_FILE :
-                begin
-                  FRequestSL.Add('Type : File');
-                  // This element type can be read using a TBuffer like we do in HandlePostDataBytes
-                end
+                PDE_TYPE_FILE :
+                  begin
+                    FRequestSL.Add('Type : File');
+                    // This element type can be read using a TBuffer like we do in HandlePostDataBytes
+                  end
 
-              else
-                FRequestSL.Add('Type : Empty');
+                else
+                  FRequestSL.Add('Type : Empty');
+              end;
+
+              inc(i);
             end;
 
-            inc(i);
-          end;
+          // Set interfaces to nil to release them
+          i := 0;
+          while (i < length(TempArray)) do
+            begin
+              TempArray[i] := nil;
+              inc(i);
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TForm1.HandlePostData', e) then raise;
+    end;
+  finally
+    if (TempArray <> nil) then
+      begin
+        Finalize(TempArray);
+        TempArray := nil;
       end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TForm1.HandlePostData', e) then raise;
   end;
 end;
 
 procedure TForm1.HandlePostDataBytes(const aElement : ICefPostDataElement);
 var
   TempStream : TStringStream;
-  TempBuffer : TBytes;
+  TempBuffer : Pointer;
   TempSize   : NativeUInt;
 begin
   TempStream := nil;
@@ -311,17 +326,22 @@ begin
 
   try
     try
-      if (aElement <> nil) and (aElement.GetBytesCount > 0) then
+      if (aElement <> nil) then
         begin
-          SetLength(TempBuffer, aElement.GetBytesCount);
-          TempSize := aElement.GetBytes(aElement.GetBytesCount, @TempBuffer[0]);
+          TempSize := aElement.GetBytesCount;
 
           if (TempSize > 0) then
             begin
-              TempStream := TStringStream.Create('');
-              TempStream.WriteBuffer(TempBuffer, TempSize);
-              TempStream.Seek(0, soBeginning);
-              FRequestSL.Add(TempStream.ReadString(TempSize));
+              GetMem(TempBuffer, TempSize);
+              TempSize := aElement.GetBytes(TempSize, TempBuffer);
+
+              if (TempSize > 0) then
+                begin
+                  TempStream := TStringStream.Create('');
+                  TempStream.WriteBuffer(TempBuffer^, TempSize);
+                  TempStream.Seek(0, soBeginning);
+                  FRequestSL.Add(TempStream.ReadString(TempSize));
+                end;
             end;
         end;
     except
@@ -329,8 +349,12 @@ begin
         if CustomExceptionHandler('TForm1.HandlePostDataBytes', e) then raise;
     end;
   finally
-    if (TempStream <> nil) then FreeAndNil(TempStream);
-    SetLength(TempBuffer, 0);
+    if (TempStream <> nil) then FreeAndNil(TempStream);    
+    if (TempBuffer <> nil) then
+        begin
+          FreeMem(TempBuffer);
+          TempBuffer := nil;
+        end;
   end;
 end;
 

@@ -4,13 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="PostInspectorBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="41"/>
         <CursorPos Y="73"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -22,15 +22,23 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="130"/>
-        <CursorPos X="69" Y="150"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="325"/>
+        <CursorPos X="80" Y="341"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="860"/>
+        <CursorPos X="15" Y="873"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit2>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="26" HistoryIndex="25">
       <Position1>
         <Filename Value="PostInspectorBrowser.lpr"/>
       </Position1>
@@ -46,10 +54,106 @@
         <Filename Value="uPostInspectorBrowser.pas"/>
         <Caret Line="78" Column="43" TopLine="68"/>
       </Position4>
+      <Position5>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="292" Column="59" TopLine="263"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="113" Column="79" TopLine="100"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="281" Column="40" TopLine="257"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="287" Column="103" TopLine="263"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="353" TopLine="325"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="331" TopLine="315"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="332" TopLine="315"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="334" TopLine="315"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="336" TopLine="315"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="337" TopLine="315"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="338" TopLine="315"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="331" TopLine="315"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="332" TopLine="315"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="330" Column="61" TopLine="322"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="331" TopLine="322"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="333" TopLine="322"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="331" TopLine="322"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="333" TopLine="322"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="335" TopLine="322"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="336" TopLine="322"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="331" Column="86" TopLine="322"/>
+      </Position25>
+      <Position26>
+        <Filename Value="uPostInspectorBrowser.pas"/>
+        <Caret Line="340" TopLine="322"/>
+      </Position26>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="0" ActiveMode=""/>
     </RunParams>
   </ProjectSession>
+  <Debugging>
+    <Watches Count="1">
+      <Item1>
+        <Expression Value="pointer(TempBuffer)^"/>
+        <DisplayStyle Value="wdfChar"/>
+      </Item1>
+    </Watches>
+  </Debugging>
 </CONFIG>

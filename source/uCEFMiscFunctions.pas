@@ -1484,23 +1484,22 @@ end;
 
 function CustomAbsolutePath(const aPath : string; aMustExist : boolean) : string;
 var
-  TempPath : string;
+  TempNewPath, TempOldPath : string;
 begin
   if (length(aPath) > 0) then
     begin
       if CustomPathIsRelative(aPath) then
-        begin
-          if not(CustomPathCanonicalize(GetModulePath + aPath, TempPath)) then
-            TempPath := aPath;
-        end
+        TempOldPath := GetModulePath + aPath
        else
-        if not(CustomPathCanonicalize(aPath, TempPath)) then
-          TempPath := aPath;
+        TempOldPath := aPath;
 
-      if aMustExist and not(DirectoryExists(TempPath)) then
+      if not(CustomPathCanonicalize(TempOldPath, TempNewPath)) then
+        TempNewPath := TempOldPath;
+
+      if aMustExist and not(DirectoryExists(TempNewPath)) then
         Result := ''
        else
-        Result := TempPath;
+        Result := TempNewPath;
     end
    else
     Result := '';

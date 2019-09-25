@@ -52,12 +52,9 @@
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
-    <Target>
-      <Filename Value="..\..\..\bin\URLRequest"/>
-    </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      <UnitOutputDirectory Value="..\..\..\bin"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

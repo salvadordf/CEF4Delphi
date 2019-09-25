@@ -90,7 +90,6 @@ type
   PCefStringVisitor = ^TCefStringVisitor;
   PCefRequest = ^TCefRequest;
   PCefPostData = ^TCefPostData;
-  PCefPostDataElementArray = ^TCefPostDataElementArray;
   PCefPostDataElement = ^TCefPostDataElement;
   PPCefPostDataElement = ^PCefPostDataElement;
   PCefv8Context = ^TCefv8Context;
@@ -2245,8 +2244,6 @@ type
     visit : procedure(self: PCefStringVisitor; const str: PCefString); stdcall;
   end;
 
-  TCefPostDataElementArray = array[0..(High(Integer) div SizeOf(PCefPostDataElement)) - 1] of PCefPostDataElement;
-
   // /include/capi/cef_request_capi.h (cef_post_data_element_t)
   TCefPostDataElement = record
     base            : TCefBaseRefCounted;
@@ -2263,10 +2260,10 @@ type
   // /include/capi/cef_request_capi.h (cef_post_data_t)
   TCefPostData = record
     base                  : TCefBaseRefCounted;
-    is_read_only          : function(self: PCefPostData):Integer; stdcall;
+    is_read_only          : function(self: PCefPostData): Integer; stdcall;
     has_excluded_elements : function(self: PCefPostData): Integer; stdcall;
     get_element_count     : function(self: PCefPostData): NativeUInt; stdcall;
-    get_elements          : procedure(self: PCefPostData; elementsCount: PNativeUInt; elements: PCefPostDataElementArray); stdcall;
+    get_elements          : procedure(self: PCefPostData; var elementsCount: NativeUInt; var elements: PCefPostDataElement); stdcall;
     remove_element        : function(self: PCefPostData; element: PCefPostDataElement): Integer; stdcall;
     add_element           : function(self: PCefPostData; element: PCefPostDataElement): Integer; stdcall;
     remove_elements       : procedure(self: PCefPostData); stdcall;

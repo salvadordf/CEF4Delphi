@@ -4,12 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="5">
+    <Units Count="2">
       <Unit0>
         <Filename Value="URLRequest.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="43"/>
-        <CursorPos X="18" Y="52"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="44"/>
+        <CursorPos X="17" Y="59"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -20,134 +21,17 @@
         <ComponentName Value="URLRequestFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="104"/>
-        <CursorPos X="69" Y="121"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
-      <Unit2>
-        <Filename Value="C:\lazarus\lcl\include\statuspanels.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="15"/>
-        <CursorPos Y="28"/>
-        <UsageCount Value="10"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="C:\lazarus\lcl\comctrls.pp"/>
-        <UnitName Value="ComCtrls"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="60"/>
-        <CursorPos X="36" Y="74"/>
-        <UsageCount Value="10"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="C:\lazarus\lcl\include\statuspanel.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="122"/>
-        <CursorPos Y="132"/>
-        <UsageCount Value="10"/>
-      </Unit4>
     </Units>
-    <JumpHistory Count="24" HistoryIndex="23">
+    <JumpHistory Count="1">
       <Position1>
         <Filename Value="uURLRequest.pas"/>
       </Position1>
-      <Position2>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="75" Column="44" TopLine="65"/>
-      </Position2>
-      <Position3>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="84" Column="17" TopLine="69"/>
-      </Position3>
-      <Position4>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="70" Column="43" TopLine="53"/>
-      </Position4>
-      <Position5>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="233" TopLine="224"/>
-      </Position5>
-      <Position6>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="236" TopLine="224"/>
-      </Position6>
-      <Position7>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="233" TopLine="224"/>
-      </Position7>
-      <Position8>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="244" TopLine="236"/>
-      </Position8>
-      <Position9>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="248" TopLine="236"/>
-      </Position9>
-      <Position10>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="254" TopLine="236"/>
-      </Position10>
-      <Position11>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="79" Column="26" TopLine="63"/>
-      </Position11>
-      <Position12>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="263" TopLine="246"/>
-      </Position12>
-      <Position13>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="263" Column="27" TopLine="246"/>
-      </Position13>
-      <Position14>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="265" Column="35" TopLine="255"/>
-      </Position14>
-      <Position15>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="146" Column="58" TopLine="134"/>
-      </Position15>
-      <Position16>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="151" Column="16" TopLine="138"/>
-      </Position16>
-      <Position17>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="239" Column="42" TopLine="220"/>
-      </Position17>
-      <Position18>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="238" Column="42" TopLine="219"/>
-      </Position18>
-      <Position19>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="239" Column="42" TopLine="220"/>
-      </Position19>
-      <Position20>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="238" Column="42" TopLine="219"/>
-      </Position20>
-      <Position21>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="150" Column="54" TopLine="47"/>
-      </Position21>
-      <Position22>
-        <Filename Value="URLRequest.lpr"/>
-        <Caret Line="62" Column="22" TopLine="43"/>
-      </Position22>
-      <Position23>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="91" Column="29" TopLine="75"/>
-      </Position23>
-      <Position24>
-        <Filename Value="uURLRequest.pas"/>
-        <Caret Line="120" Column="3" TopLine="118"/>
-      </Position24>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

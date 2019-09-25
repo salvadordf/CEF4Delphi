@@ -60,14 +60,9 @@ object Form1: TForm1
       Align = alClient
       ItemIndex = 0
       TabOrder = 1
-      Text = 
-        'https://www.w3schools.com/php/showphp.asp?filename=demo_form_pos' +
-        't'
+      Text = 'https://tryphp.w3schools.com/showphp.php?filename=demo_form_post'
       Items.Strings = (
-        
-          'https://www.w3schools.com/php/showphp.asp?filename=demo_form_pos' +
-          't'
-        'https://www.w3schools.com/php/showphp.asp?filename=demo_form_get')
+        'https://tryphp.w3schools.com/showphp.php?filename=demo_form_post')
     end
   end
   object CEFWindowParent1: TCEFWindowParent

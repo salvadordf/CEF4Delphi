@@ -143,11 +143,13 @@ type
   ICefMenuButton = interface;
   ICefUrlRequest = interface;
   ICefAudioHandler = interface;
+  ICefPostDataElement = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
   TCefBinaryValueArray     = array of ICefBinaryValue;
   TCefFrameIdentifierArray = array of int64;
+  TCefPostDataElementArray = array of ICefPostDataElement;
 
 
 
@@ -616,10 +618,10 @@ type
     ['{1E677630-9339-4732-BB99-D6FE4DE4AEC0}']
     function  IsReadOnly: Boolean;
     function  HasExcludedElements: Boolean;
-    function  GetCount: NativeUInt;
-    function  GetElements(Count: NativeUInt): IInterfaceList; // list of ICefPostDataElement
-    function  RemoveElement(const element: ICefPostDataElement): Integer;
-    function  AddElement(const element: ICefPostDataElement): Integer;
+    function  GetElementCount: NativeUInt;
+    procedure GetElements(elementsCount: NativeUInt; var elements: TCefPostDataElementArray);
+    function  RemoveElement(const element: ICefPostDataElement): Boolean;
+    function  AddElement(const element: ICefPostDataElement): Boolean;
     procedure RemoveElements;
   end;
 
