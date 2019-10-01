@@ -116,8 +116,9 @@ uses
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
+  GlobalCEFApp                     := TCefApplication.Create;  
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
 
 procedure TMainForm.HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);

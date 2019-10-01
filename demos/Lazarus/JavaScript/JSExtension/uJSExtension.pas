@@ -319,7 +319,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
   {$IFDEF DEBUG}
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;

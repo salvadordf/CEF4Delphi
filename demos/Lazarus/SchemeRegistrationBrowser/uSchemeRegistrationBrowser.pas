@@ -137,7 +137,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                    := TCefApplication.Create;
   GlobalCEFApp.OnRegCustomSchemes := GlobalCEFApp_OnRegCustomSchemes;
-  GlobalCEFApp.DisableFeatures    := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TSchemeRegistrationBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);

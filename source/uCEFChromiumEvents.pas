@@ -161,11 +161,6 @@ type
   // ICefFindHandler
   TOnFindResult                   = procedure(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean) of Object;
 
-  // ICefAudioHandler
-  TOnAudioStreamStarted           = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer) of Object;
-  TOnAudioStreamPacket            = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64) of Object;
-  TOnAudioStreamStopped           = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id: integer) of Object;
-
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;

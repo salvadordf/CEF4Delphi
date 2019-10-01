@@ -146,7 +146,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                    := TCefApplication.Create;
   GlobalCEFApp.OnRegCustomSchemes := GlobalCEFApp_OnRegCustomSchemes;
-  GlobalCEFApp.DisableFeatures    := 'NetworkService,OutOfBlinkCors';
 
   // GlobalCEFApp.LogFile              := 'debug.log';
   // GlobalCEFApp.LogSeverity          := LOGSEVERITY_VERBOSE;

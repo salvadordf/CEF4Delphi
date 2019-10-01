@@ -157,7 +157,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
   GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TJSWindowBindingWithArrayBufferFrm.GoBtnClick(Sender: TObject);

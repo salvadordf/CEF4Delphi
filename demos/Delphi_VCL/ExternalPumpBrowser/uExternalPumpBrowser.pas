@@ -128,7 +128,6 @@ begin
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
-  GlobalCEFApp.DisableFeatures           := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TExternalPumpBrowserFrm.FormCreate(Sender: TObject);

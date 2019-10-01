@@ -63,7 +63,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -113,7 +112,6 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
@@ -121,11 +119,6 @@ end;
 procedure TMainForm.Button1Click(Sender: TObject);
 begin
   ChromiumWindow1.LoadURL(Edit1.Text);
-end;
-
-procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  FHandler := nil;
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -136,6 +129,7 @@ begin
     begin
       FClosing := True;
       Visible  := False;
+      FHandler := nil;
       ChromiumWindow1.CloseBrowser(True);
     end;
 end;

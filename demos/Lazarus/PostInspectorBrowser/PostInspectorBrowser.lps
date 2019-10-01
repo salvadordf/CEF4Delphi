@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="325"/>
-        <CursorPos X="80" Y="341"/>
+        <TopLine Value="135"/>
+        <CursorPos Y="152"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -31,11 +31,10 @@
       </Unit1>
       <Unit2>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\classes\classesh.inc"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="860"/>
         <CursorPos X="15" Y="873"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit2>
     </Units>
     <JumpHistory Count="26" HistoryIndex="25">

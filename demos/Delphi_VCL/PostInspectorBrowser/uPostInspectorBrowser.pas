@@ -146,7 +146,6 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
@@ -256,6 +255,7 @@ var
   i             : integer;
 begin
   TempArray := nil;
+
   try
     try
       TempPostData := request.PostData;

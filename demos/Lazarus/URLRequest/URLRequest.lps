@@ -4,11 +4,10 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="URLRequest.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="44"/>
         <CursorPos X="17" Y="59"/>
         <UsageCount Value="20"/>
@@ -21,17 +20,31 @@
         <ComponentName Value="URLRequestFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
+        <TopLine Value="133"/>
+        <CursorPos X="58" Y="148"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="..\..\..\source\uCEFAudioHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="40"/>
+        <CursorPos X="54" Y="55"/>
+        <UsageCount Value="10"/>
+      </Unit2>
     </Units>
-    <JumpHistory Count="1">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="uURLRequest.pas"/>
       </Position1>
+      <Position2>
+        <Filename Value="uURLRequest.pas"/>
+        <Caret Line="147" Column="3" TopLine="133"/>
+      </Position2>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

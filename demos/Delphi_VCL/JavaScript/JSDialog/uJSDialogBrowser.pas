@@ -44,7 +44,7 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.SyncObjs,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.SyncObjs, System.UITypes,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
@@ -119,7 +119,6 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;

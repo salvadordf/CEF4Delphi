@@ -68,7 +68,6 @@ end;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
   GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
 
   // The main process and the subprocess *MUST* have the same FrameworkDirPath, ResourcesDirPath,
   // LocalesDirPath, cache, cookies and UserDataPath paths

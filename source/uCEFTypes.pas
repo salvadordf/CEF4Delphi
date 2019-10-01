@@ -133,7 +133,6 @@ type
   PCefLifeSpanHandler = ^TCefLifeSpanHandler;
   PCefGetExtensionResourceCallback = ^TCefGetExtensionResourceCallback;
   PCefExtensionHandler = ^TCefExtensionHandler;
-  PCefAudioHandler = ^TCefAudioHandler;
   PCefExtension = ^TCefExtension;
   PCefPopupFeatures = ^TCefPopupFeatures;
   PCefBrowserSettings = ^TCefBrowserSettings;
@@ -664,43 +663,6 @@ type
     CEF_POINTER_TYPE_PEN,
     CEF_POINTER_TYPE_ERASER,
     CEF_POINTER_TYPE_UNKNOWN
-  );
-
-  // /include/internal/cef_types.h (cef_channel_layout_t)
-  TCefChannelLayout = (
-    CEF_CHANNEL_LAYOUT_NONE = 0,
-    CEF_CHANNEL_LAYOUT_UNSUPPORTED,
-    CEF_CHANNEL_LAYOUT_MONO,
-    CEF_CHANNEL_LAYOUT_STEREO,
-    CEF_CHANNEL_LAYOUT_2_1,
-    CEF_CHANNEL_LAYOUT_SURROUND,
-    CEF_CHANNEL_LAYOUT_4_0,
-    CEF_CHANNEL_LAYOUT_2_2,
-    CEF_CHANNEL_LAYOUT_QUAD,
-    CEF_CHANNEL_LAYOUT_5_0,
-    CEF_CHANNEL_LAYOUT_5_1,
-    CEF_CHANNEL_LAYOUT_5_0_BACK,
-    CEF_CHANNEL_LAYOUT_5_1_BACK,
-    CEF_CHANNEL_LAYOUT_7_0,
-    CEF_CHANNEL_LAYOUT_7_1,
-    CEF_CHANNEL_LAYOUT_7_1_WIDE,
-    CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX,
-    CEF_CHANNEL_LAYOUT_2POINT1,
-    CEF_CHANNEL_LAYOUT_3_1,
-    CEF_CHANNEL_LAYOUT_4_1,
-    CEF_CHANNEL_LAYOUT_6_0,
-    CEF_CHANNEL_LAYOUT_6_0_FRONT,
-    CEF_CHANNEL_LAYOUT_HEXAGONAL,
-    CEF_CHANNEL_LAYOUT_6_1,
-    CEF_CHANNEL_LAYOUT_6_1_BACK,
-    CEF_CHANNEL_LAYOUT_6_1_FRONT,
-    CEF_CHANNEL_LAYOUT_7_0_FRONT,
-    CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK,
-    CEF_CHANNEL_LAYOUT_OCTAGONAL,
-    CEF_CHANNEL_LAYOUT_DISCRETE,
-    CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC,
-    CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE,
-    CEF_CHANNEL_LAYOUT_BITSTREAM  // CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_BITSTREAM
   );
 
   // /include/internal/cef_types.h (cef_paint_element_type_t)
@@ -1486,14 +1448,6 @@ type
     get_active_browser            : function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; include_incognito: Integer): PCefBrowser; stdcall;
     can_access_browser            : function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; include_incognito: Integer; target_browser: PCefBrowser): Integer; stdcall;
     get_extension_resource        : function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; const file_: PCefString; callback: PCefGetExtensionResourceCallback): Integer; stdcall;
-  end;
-
-  // /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)
-  TCefAudioHandler = record
-    base                          : TCefBaseRefCounted;
-    on_audio_stream_started       : procedure(self: PCefAudioHandler; browser: PCefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer); stdcall;
-    on_audio_stream_packet        : procedure(self: PCefAudioHandler; browser: PCefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64); stdcall;
-    on_audio_stream_stopped       : procedure(self: PCefAudioHandler; browser: PCefBrowser; audio_stream_id: integer); stdcall;
   end;
 
   // /include/capi/cef_extension_capi.h (cef_extension_t)
@@ -2640,7 +2594,6 @@ type
   // /include/capi/cef_client_capi.h (cef_client_t)
   TCefClient = record
     base                        : TCefBaseRefCounted;
-    get_audio_handler           : function(self: PCefClient): PCefAudioHandler; stdcall;
     get_context_menu_handler    : function(self: PCefClient): PCefContextMenuHandler; stdcall;
     get_dialog_handler          : function(self: PCefClient): PCefDialogHandler; stdcall;
     get_display_handler         : function(self: PCefClient): PCefDisplayHandler; stdcall;

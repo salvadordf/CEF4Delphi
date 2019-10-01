@@ -142,7 +142,6 @@ type
   ICefLabelButton = interface;
   ICefMenuButton = interface;
   ICefUrlRequest = interface;
-  ICefAudioHandler = interface;
   ICefPostDataElement = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
@@ -375,11 +374,6 @@ type
     // ICefFindHandler
     procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
 
-    // ICefAudioHandler
-    procedure doOnAudioStreamStarted(const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer);
-    procedure doOnAudioStreamPacket(const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64);
-    procedure doOnAudioStreamStopped(const browser: ICefBrowser; audio_stream_id: integer);
-
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
@@ -404,7 +398,6 @@ type
     function  MustCreateRequestHandler : boolean;
     function  MustCreateDragHandler : boolean;
     function  MustCreateFindHandler : boolean;
-    function  MustCreateAudioHandler : boolean;
     function  MustCreateResourceRequestHandler : boolean;
     function  MustCreateCookieAccessFilter : boolean;
   end;
@@ -1770,17 +1763,6 @@ type
     procedure RemoveReferences; // custom procedure to clear all references
   end;
 
-  // TCefAudioHandler
-  // /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)
-  ICefAudioHandler = interface(ICefBaseRefCounted)
-    ['{8963271A-0B94-4279-82C8-FB2EA7B3CDEC}']
-    procedure OnAudioStreamStarted(const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer);
-    procedure OnAudioStreamPacket(const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64);
-    procedure OnAudioStreamStopped(const browser: ICefBrowser; audio_stream_id: integer);
-
-    procedure RemoveReferences; // custom procedure to clear all references
-  end;
-
   // TCefRunContextMenuCallback
   // /include/capi/cef_context_menu_handler_capi.h (cef_run_context_menu_callback_t)
   ICefRunContextMenuCallback = interface(ICefBaseRefCounted)
@@ -1846,7 +1828,6 @@ type
   // /include/capi/cef_client_capi.h (cef_client_t)
   ICefClient = interface(ICefBaseRefCounted)
     ['{1D502075-2FF0-4E13-A112-9E541CD811F4}']
-    procedure GetAudioHandler(var aHandler : ICefAudioHandler);
     procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
     procedure GetDialogHandler(var aHandler : ICefDialogHandler);
     procedure GetDisplayHandler(var aHandler : ICefDisplayHandler);

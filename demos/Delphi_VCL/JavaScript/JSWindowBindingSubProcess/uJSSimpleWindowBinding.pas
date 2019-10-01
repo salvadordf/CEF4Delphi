@@ -129,7 +129,6 @@ begin
   // 4. Run this demo : JSSimpleWindowBinding
 
   GlobalCEFApp.BrowserSubprocessPath := 'SubProcess.exe';
-  GlobalCEFApp.DisableFeatures       := 'NetworkService,OutOfBlinkCors';
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;

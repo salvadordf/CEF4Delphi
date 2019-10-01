@@ -120,7 +120,6 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
 
   // In case you want to use custom directories for the CEF3 binaries, cache and user data.
 {

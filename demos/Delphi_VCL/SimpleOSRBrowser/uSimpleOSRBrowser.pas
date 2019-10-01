@@ -181,7 +181,6 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.DisableFeatures            := 'NetworkService,OutOfBlinkCors';
 
   // If you need transparency leave the GlobalCEFApp.BackgroundColor property
   // with the default value or set the alpha channel to 0

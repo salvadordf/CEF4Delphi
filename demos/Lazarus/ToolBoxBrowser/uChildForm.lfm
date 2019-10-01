@@ -1,7 +1,7 @@
 object ChildForm: TChildForm
-  Left = 0
+  Left = 577
   Height = 394
-  Top = 0
+  Top = 408
   Width = 602
   BorderStyle = bsToolWindow
   Caption = 'Browser'
@@ -18,7 +18,7 @@ object ChildForm: TChildForm
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 394

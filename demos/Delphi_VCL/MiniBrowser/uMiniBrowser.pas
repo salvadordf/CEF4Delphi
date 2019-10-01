@@ -290,11 +290,11 @@ uses
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
-  GlobalCEFApp.LogFile          := 'debug.log';
-  GlobalCEFApp.LogSeverity      := LOGSEVERITY_INFO;
-  GlobalCEFApp.cache            := 'cache';
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.LogFile             := 'debug.log';
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  GlobalCEFApp.cache               := 'cache';
+  GlobalCEFApp.EnablePrintPreview  := True;
   //GlobalCEFApp.RemoteDebuggingPort := 19999;
 end;
 

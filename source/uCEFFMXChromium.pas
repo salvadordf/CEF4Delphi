@@ -218,11 +218,6 @@ type
       // ICefFindHandler
       FOnFindResult                   : TOnFindResult;
 
-      // ICefAudioHandler
-      FOnAudioStreamStarted           : TOnAudioStreamStarted;
-      FOnAudioStreamPacket            : TOnAudioStreamPacket;
-      FOnAudioStreamStopped           : TOnAudioStreamStopped;
-
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
@@ -441,11 +436,6 @@ type
       // ICefFindHandler
       procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean); virtual;
 
-      // ICefAudioHandler
-      procedure doOnAudioStreamStarted(const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer); virtual;
-      procedure doOnAudioStreamPacket(const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64); virtual;
-      procedure doOnAudioStreamStopped(const browser: ICefBrowser; audio_stream_id: integer); virtual;
-
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
       procedure doPdfPrintFinished(aResultOK : boolean); virtual;
@@ -470,7 +460,6 @@ type
       function  MustCreateRequestHandler : boolean; virtual;
       function  MustCreateDragHandler : boolean; virtual;
       function  MustCreateFindHandler : boolean; virtual;
-      function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateResourceRequestHandler : boolean; virtual;
       function  MustCreateCookieAccessFilter : boolean; virtual;
 
@@ -763,12 +752,6 @@ type
 
       // ICefFindHandler
       property OnFindResult                     : TOnFindResult                     read FOnFindResult                     write FOnFindResult;
-
-      // ICefAudioHandler
-      property OnAudioStreamStarted             : TOnAudioStreamStarted             read FOnAudioStreamStarted             write FOnAudioStreamStarted;
-      property OnAudioStreamPacket              : TOnAudioStreamPacket              read FOnAudioStreamPacket              write FOnAudioStreamPacket;
-      property OnAudioStreamStopped             : TOnAudioStreamStopped             read FOnAudioStreamStopped             write FOnAudioStreamStopped;
-
   end;
 
 implementation
@@ -1066,11 +1049,6 @@ begin
 
   // ICefFindHandler
   FOnFindResult                   := nil;
-
-  // ICefAudioHandler
-  FOnAudioStreamStarted           := nil;
-  FOnAudioStreamPacket            := nil;
-  FOnAudioStreamStopped           := nil;
 
   // Custom
   FOnTextResultAvailable              := nil;
@@ -2867,13 +2845,6 @@ begin
   Result := assigned(FOnFindResult);
 end;
 
-function TFMXChromium.MustCreateAudioHandler : boolean;
-begin
-  Result := assigned(FOnAudioStreamStarted) or
-            assigned(FOnAudioStreamPacket)  or
-            assigned(FOnAudioStreamStopped);
-end;
-
 function TFMXChromium.MustCreateResourceRequestHandler : boolean;
 begin
   Result := assigned(FOnBeforeResourceLoad) or
@@ -3276,34 +3247,6 @@ procedure TFMXChromium.doOnFindResult(const browser            : ICefBrowser;
 begin
   if Assigned(FOnFindResult) then
     FOnFindResult(Self, browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
-end;
-
-procedure TFMXChromium.doOnAudioStreamStarted(const browser           : ICefBrowser;
-                                                    audio_stream_id   : integer;
-                                                    channels          : integer;
-                                                    channel_layout    : TCefChannelLayout;
-                                                    sample_rate       : integer;
-                                                    frames_per_buffer : integer);
-begin
-  if Assigned(FOnAudioStreamStarted) then
-    FOnAudioStreamStarted(Self, browser, audio_stream_id, channels, channel_layout, sample_rate, frames_per_buffer);
-end;
-
-procedure TFMXChromium.doOnAudioStreamPacket(const browser         : ICefBrowser;
-                                                   audio_stream_id : integer;
-                                             const data            : PPSingle;
-                                                   frames          : integer;
-                                                   pts             : int64);
-begin
-  if Assigned(FOnAudioStreamPacket) then
-    FOnAudioStreamPacket(Self, browser, audio_stream_id, data, frames, pts);
-end;
-
-procedure TFMXChromium.doOnAudioStreamStopped(const browser         : ICefBrowser;
-                                                    audio_stream_id : integer);
-begin
-  if Assigned(FOnAudioStreamStopped) then
-    FOnAudioStreamStopped(Self, browser, audio_stream_id);
 end;
 
 procedure TFMXChromium.doOnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);

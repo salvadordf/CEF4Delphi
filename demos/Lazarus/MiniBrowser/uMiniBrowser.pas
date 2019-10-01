@@ -290,8 +290,8 @@ begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
-  GlobalCEFApp.cache               := 'cache';
+  GlobalCEFApp.cache               := 'cache';                
+  GlobalCEFApp.EnablePrintPreview  := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);

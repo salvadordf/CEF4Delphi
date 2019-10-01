@@ -60,15 +60,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 76;
+  CEF_SUPPORTED_VERSION_MAJOR   = 77;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 13;
+  CEF_SUPPORTED_VERSION_RELEASE = 3;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 76;
+  CEF_CHROMEELF_VERSION_MAJOR   = 77;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3809;
-  CEF_CHROMEELF_VERSION_BUILD   = 132;
+  CEF_CHROMEELF_VERSION_RELEASE = 3865;
+  CEF_CHROMEELF_VERSION_BUILD   = 90;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -182,7 +182,7 @@ type
       FEnableProfanityFilter             : boolean;
       FDisableSpellChecking              : boolean;
       FOverrideSpellCheckLang            : string;
-      //FEnablePrintPreview               : boolean;
+      FEnablePrintPreview                : boolean;
 
       FMustCreateResourceBundleHandler   : boolean;
       FMustCreateBrowserProcessHandler   : boolean;
@@ -441,7 +441,7 @@ type
       property MetricsRecordingOnly              : boolean                             read FMetricsRecordingOnly              write FMetricsRecordingOnly;
       property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;
       property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;
-      //property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;
+      property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;
       property PluginPolicy                      : TCefPluginPolicySwitch              read FPluginPolicy                      write FPluginPolicy;
       property DefaultEncoding                   : string                              read FDefaultEncoding                   write FDefaultEncoding;
       property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;
@@ -634,7 +634,7 @@ begin
   FEnableProfanityFilter             := False;
   FDisableSpellChecking              := False;
   FOverrideSpellCheckLang            := '';
-  //FEnablePrintPreview                := False;
+  FEnablePrintPreview                := False;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -1601,7 +1601,7 @@ begin
       if FAllowRunningInsecureContent then
         commandLine.AppendSwitch('--allow-running-insecure-content');
 
-      //if FEnablePrintPreview then commandLine.AppendSwitch('--enable-print-preview');
+      if FEnablePrintPreview then commandLine.AppendSwitch('--enable-print-preview');
 
       case FPluginPolicy of
         PLUGIN_POLICY_SWITCH_DETECT : commandLine.AppendSwitchWithValue('--plugin-policy', 'detect');

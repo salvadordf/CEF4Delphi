@@ -174,7 +174,6 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.DisableFeatures            := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);

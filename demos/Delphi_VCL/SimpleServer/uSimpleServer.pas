@@ -195,37 +195,55 @@ end;
 
 procedure TSimpleServerFrm.ShowPostDataInfo(const aPostData : ICefPostData);
 var
-  i, j : integer;
+  i : integer;
   TempLen : NativeUInt;
-  TempList : IInterfaceList;
-  TempElement : ICefPostDataElement;
   TempBytes : TBytes;
+  TempArray : TCefPostDataElementArray;
 begin
-  if (aPostData = nil) then exit;
+  TempArray := nil;
 
-  i := 0;
-  j := aPostData.GetCount;
-
-  TempList := aPostData.GetElements(j);
-
-  while (i < j) do
-    begin
-      TempElement := TempList.Items[i] as ICefPostDataElement;
-
-      if (TempElement.GetBytesCount > 0) then
+  try
+    try
+      if (aPostData <> nil) and (aPostData.GetElementCount > 0) then
         begin
-          SetLength(TempBytes, TempElement.GetBytesCount);
-          TempLen := TempElement.GetBytes(TempElement.GetBytesCount, @TempBytes[0]);
+          aPostData.GetElements(aPostData.GetElementCount, TempArray);
 
-          if (TempLen > 0) then
+          i := 0;
+          while (i < length(TempArray)) do
             begin
-              ConnectionLogMem.Lines.Add('Post contents length : ' + inttostr(TempLen));
-              ConnectionLogMem.Lines.Add('Post contents sample : ' + BufferToString(TempBytes));
+              if (TempArray[i].GetBytesCount > 0) then
+                begin
+                  SetLength(TempBytes, TempArray[i].GetBytesCount);
+                  TempLen := TempArray[i].GetBytes(TempArray[i].GetBytesCount, @TempBytes[0]);
+
+                  if (TempLen > 0) then
+                    begin
+                      ConnectionLogMem.Lines.Add('Post contents length : ' + inttostr(TempLen));
+                      ConnectionLogMem.Lines.Add('Post contents sample : ' + BufferToString(TempBytes));
+                    end;
+                end;
+
+              inc(i);
+            end;
+
+          i := 0;
+          while (i < length(TempArray)) do
+            begin
+              TempArray[i] := nil;
+              inc(i);
             end;
         end;
-
-      inc(i);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TSimpleServerFrm.ShowPostDataInfo', e) then raise;
     end;
+  finally
+    if (TempArray <> nil) then
+      begin
+        Finalize(TempArray);
+        TempArray := nil;
+      end;
+  end;
 end;
 
 function TSimpleServerFrm.BufferToString(const aBuffer : TBytes) : string;
