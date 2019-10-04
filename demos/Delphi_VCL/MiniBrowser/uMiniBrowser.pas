@@ -1156,8 +1156,11 @@ begin
 end;
 
 procedure TMiniBrowserFrm.CopyAllTextMsg(var aMessage : TMessage);
+var
+  TempName : string;
 begin
-  Chromium1.RetrieveText;
+  TempName := InputBox('Frame name', 'Type the fame name or leave it blank to select the main frame :', '');
+  Chromium1.RetrieveText(TempName);
 end;
 
 procedure TMiniBrowserFrm.CopyFramesIDsMsg(var aMessage : TMessage);

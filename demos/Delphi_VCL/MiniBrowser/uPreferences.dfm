@@ -4,7 +4,7 @@ object PreferencesFrm: TPreferencesFrm
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Preferences'
-  ClientHeight = 397
+  ClientHeight = 388
   ClientWidth = 428
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,33 +13,20 @@ object PreferencesFrm: TPreferencesFrm
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
+  Padding.Left = 10
+  Padding.Top = 10
+  Padding.Right = 10
+  Padding.Bottom = 10
   OldCreateOrder = False
   Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object Button1: TButton
-    Left = 232
-    Top = 364
-    Width = 75
-    Height = 25
-    Caption = 'Ok'
-    ModalResult = 1
-    TabOrder = 2
-  end
-  object Button2: TButton
-    Left = 345
-    Top = 364
-    Width = 75
-    Height = 25
-    Caption = 'Cancel'
-    ModalResult = 2
-    TabOrder = 3
-  end
   object GroupBox1: TGroupBox
-    Left = 8
-    Top = 8
-    Width = 412
+    Left = 10
+    Top = 10
+    Width = 408
     Height = 250
+    Align = alTop
     Caption = ' Proxy '
     TabOrder = 0
     object ProxyTypeLbl: TLabel
@@ -186,10 +173,11 @@ object PreferencesFrm: TPreferencesFrm
     end
   end
   object GroupBox2: TGroupBox
-    Left = 8
-    Top = 271
-    Width = 412
+    Left = 10
+    Top = 260
+    Width = 408
     Height = 84
+    Align = alTop
     Caption = ' Custom header '
     TabOrder = 1
     object HeaderNameLbl: TLabel
@@ -219,6 +207,39 @@ object PreferencesFrm: TPreferencesFrm
       Width = 292
       Height = 21
       TabOrder = 1
+    end
+  end
+  object Panel1: TPanel
+    Left = 10
+    Top = 353
+    Width = 408
+    Height = 25
+    Align = alBottom
+    BevelOuter = bvNone
+    Padding.Left = 30
+    Padding.Right = 30
+    TabOrder = 2
+    ExplicitTop = 373
+    object Button1: TButton
+      Left = 30
+      Top = 0
+      Width = 120
+      Height = 25
+      Align = alLeft
+      Caption = 'Ok'
+      ModalResult = 1
+      TabOrder = 0
+    end
+    object Button2: TButton
+      Left = 258
+      Top = 0
+      Width = 120
+      Height = 25
+      Align = alRight
+      Caption = 'Cancel'
+      ModalResult = 2
+      TabOrder = 1
+      ExplicitLeft = 278
     end
   end
 end
