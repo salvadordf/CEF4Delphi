@@ -3163,7 +3163,8 @@ begin
             assigned(FOnResourceResponse) or
             assigned(FOnGetResourceResponseFilter) or
             assigned(FOnResourceLoadComplete) or
-            assigned(FOnProtocolExecution);
+            assigned(FOnProtocolExecution) or
+            MustCreateCookieAccessFilter;
 end;
 
 function TChromium.MustCreateCookieAccessFilter : boolean;
