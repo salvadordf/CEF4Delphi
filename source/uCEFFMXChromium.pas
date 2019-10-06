@@ -94,6 +94,8 @@ type
       FIsOSR                  : boolean;
       FInitialized            : boolean;
       FClosing                : boolean;
+      FSafeSearch             : boolean;
+      FYouTubeRestrict        : integer;
       FWindowInfo             : TCefWindowInfo;
       FBrowserSettings        : TCefBrowserSettings;
       FDevWindowInfo          : TCefWindowInfo;
@@ -285,6 +287,8 @@ type
       procedure SetZoomStep(aValue : byte);
       procedure SetWindowlessFrameRate(aValue : integer);
       procedure SetAudioMuted(aValue : boolean);
+      procedure SetSafeSearch(aValue : boolean);
+      procedure SetYouTubeRestrict(aValue : integer);
 
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
@@ -622,6 +626,8 @@ type
       property  FrameCount              : NativeUInt                   read GetFrameCount;
       property  DragOperations          : TCefDragOperations           read FDragOperations           write FDragOperations;
       property  AudioMuted              : boolean                      read GetAudioMuted             write SetAudioMuted;
+      property  SafeSearch              : boolean                      read FSafeSearch               write SetSafeSearch;
+      property  YouTubeRestrict         : integer                      read FYouTubeRestrict          write SetYouTubeRestrict;
 
       property  WebRTCIPHandlingPolicy  : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy   write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes    : TCefState                    read FWebRTCMultipleRoutes     write SetWebRTCMultipleRoutes;
@@ -792,6 +798,8 @@ begin
   FCookiePrefs            := CEF_CONTENT_SETTING_ALLOW;
   FImagesPrefs            := CEF_CONTENT_SETTING_ALLOW;
   FZoomStep               := ZOOM_STEP_DEF;
+  FSafeSearch             := False;
+  FYouTubeRestrict        := YOUTUBE_RESTRICT_OFF;
 
   {$IFDEF MSWINDOWS}
   FOldBrowserCompWndPrc   := nil;
@@ -1808,6 +1816,24 @@ begin
     end;
 end;
 
+procedure TFMXChromium.SetSafeSearch(aValue : boolean);
+begin
+  if (FSafeSearch <> aValue) then
+    begin
+      FSafeSearch        := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
+procedure TFMXChromium.SetYouTubeRestrict(aValue : integer);
+begin
+  if (FYouTubeRestrict <> aValue) then
+    begin
+      FYouTubeRestrict   := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
 procedure TFMXChromium.SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
 begin
   if (FWebRTCIPHandlingPolicy <> aValue) then
@@ -2210,6 +2236,8 @@ begin
   UpdatePreference(aBrowser, 'plugins.always_authorize',             FAlwaysAuthorizePlugins);
   UpdatePreference(aBrowser, 'browser.enable_spellchecking',         FSpellChecking);
   UpdateStringListPref(aBrowser, 'spellcheck.dictionaries',          FSpellCheckerDicts);
+  UpdatePreference(aBrowser, 'settings.force_google_safesearch',     FSafeSearch);
+  UpdatePreference(aBrowser, 'settings.force_youtube_restrict',      FYouTubeRestrict);
 
   if FRunAllFlashInAllowMode then
     UpdatePreference(aBrowser, 'profile.default_content_setting_values.plugins', 1);
