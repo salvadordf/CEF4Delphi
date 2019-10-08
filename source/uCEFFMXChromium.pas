@@ -815,6 +815,7 @@ begin
   FZoomStep               := ZOOM_STEP_DEF;
   FSafeSearch             := False;
   FYouTubeRestrict        := YOUTUBE_RESTRICT_OFF;
+  FPrintingEnabled        := True;
 
   {$IFDEF MSWINDOWS}
   FOldBrowserCompWndPrc   := nil;
