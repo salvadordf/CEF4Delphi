@@ -96,6 +96,7 @@ type
       FClosing                : boolean;
       FSafeSearch             : boolean;
       FYouTubeRestrict        : integer;
+      FPrintingEnabled        : boolean;
       FWindowInfo             : TCefWindowInfo;
       FBrowserSettings        : TCefBrowserSettings;
       FDevWindowInfo          : TCefWindowInfo;
@@ -228,6 +229,9 @@ type
       FOnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent;
       FOnDownloadImageFinished            : TOnDownloadImageFinishedEvent;
       FOnCookiesFlushed                   : TNotifyEvent;
+      FOnCertificateExceptionsCleared     : TNotifyEvent;
+      FOnHttpAuthCredentialsCleared       : TNotifyEvent;
+      FOnAllConnectionsClosed             : TNotifyEvent;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -289,6 +293,7 @@ type
       procedure SetAudioMuted(aValue : boolean);
       procedure SetSafeSearch(aValue : boolean);
       procedure SetYouTubeRestrict(aValue : integer);
+      procedure SetPrintingEnabled(aValue : boolean);
 
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
@@ -451,6 +456,9 @@ type
       function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean; virtual;
       procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage); virtual;
       procedure doOnCookiesStoreFlushed; virtual;
+      procedure doCertificateExceptionsCleared; virtual;
+      procedure doHttpAuthCredentialsCleared; virtual;
+      procedure doAllConnectionsClosed; virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
       function  MustCreateContextMenuHandler : boolean; virtual;
@@ -499,6 +507,9 @@ type
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = '') : boolean;
       function    FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
+      function    ClearCertificateExceptions(aClearImmediately : boolean = True) : boolean;
+      function    ClearHttpAuthCredentials(aClearImmediately : boolean = True) : boolean;
+      function    CloseAllConnections(aCloseImmediately : boolean = True) : boolean;
       procedure   RetrieveHTML(const aFrameName : ustring = ''); overload;
       procedure   RetrieveHTML(const aFrame : ICefFrame); overload;
       procedure   RetrieveHTML(const aFrameIdentifier : int64); overload;
@@ -628,6 +639,7 @@ type
       property  AudioMuted              : boolean                      read GetAudioMuted             write SetAudioMuted;
       property  SafeSearch              : boolean                      read FSafeSearch               write SetSafeSearch;
       property  YouTubeRestrict         : integer                      read FYouTubeRestrict          write SetYouTubeRestrict;
+      property  PrintingEnabled         : boolean                      read FPrintingEnabled          write SetPrintingEnabled;
 
       property  WebRTCIPHandlingPolicy  : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy   write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes    : TCefState                    read FWebRTCMultipleRoutes     write SetWebRTCMultipleRoutes;
@@ -651,6 +663,9 @@ type
       property  OnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent read FOnNavigationVisitorResultAvailable write FOnNavigationVisitorResultAvailable;
       property  OnDownloadImageFinishedEvent       : TOnDownloadImageFinishedEvent            read FOnDownloadImageFinished            write FOnDownloadImageFinished;
       property  OnCookiesFlushed                   : TNotifyEvent                             read FOnCookiesFlushed                   write FOnCookiesFlushed;
+      property  OnCertificateExceptionsCleared     : TNotifyEvent                             read FOnCertificateExceptionsCleared     write FOnCertificateExceptionsCleared;
+      property  OnHttpAuthCredentialsCleared       : TNotifyEvent                             read FOnHttpAuthCredentialsCleared       write FOnHttpAuthCredentialsCleared;
+      property  OnAllConnectionsClosed             : TNotifyEvent                             read FOnAllConnectionsClosed             write FOnAllConnectionsClosed;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg        : TOnCompMsgEvent              read FOnBrowserCompMsg         write FOnBrowserCompMsg;
       property  OnWidgetCompMsg         : TOnCompMsgEvent              read FOnWidgetCompMsg          write FOnWidgetCompMsg;
@@ -1066,6 +1081,9 @@ begin
   FOnNavigationVisitorResultAvailable := nil;
   FOnDownloadImageFinished            := nil;
   FOnCookiesFlushed                   := nil;
+  FOnCertificateExceptionsCleared     := nil;
+  FOnHttpAuthCredentialsCleared       := nil;
+  FOnAllConnectionsClosed             := nil;
 end;
 
 function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
@@ -1834,6 +1852,15 @@ begin
     end;
 end;
 
+procedure TFMXChromium.SetPrintingEnabled(aValue : boolean);
+begin
+  if (FPrintingEnabled <> aValue) then
+    begin
+      FPrintingEnabled   := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
 procedure TFMXChromium.SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
 begin
   if (FWebRTCIPHandlingPolicy <> aValue) then
@@ -2000,7 +2027,8 @@ begin
     end;
 end;
 
-function TFMXChromium.FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
+// If aFlushImmediately is false then OnCookiesFlushed is triggered when the cookies are flushed
+function TFMXChromium.FlushCookieStore(aFlushImmediately : boolean) : boolean;
 var
   TempManager  : ICefCookieManager;
   TempCallback : ICefCompletionCallback;
@@ -2022,6 +2050,69 @@ begin
         finally
           TempCallback := nil;
         end;
+    end;
+end;
+
+// If aClearImmediately is false then OnCertificateExceptionsCleared is triggered when the exceptions are cleared
+function TFMXChromium.ClearCertificateExceptions(aClearImmediately : boolean) : boolean;
+var
+  TempCallback : ICefCompletionCallback;
+begin
+  Result := False;
+
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+    try
+      if aClearImmediately then
+        TempCallback := nil
+       else
+        TempCallback := TCefClearCertificateExceptionsCompletionCallback.Create(self);
+
+      FBrowser.Host.RequestContext.ClearCertificateExceptions(TempCallback);
+      Result := True;
+    finally
+      TempCallback := nil;
+    end;
+end;
+
+// If aClearImmediately is false then OnHttpAuthCredentialsCleared is triggered when the credeintials are cleared
+function TFMXChromium.ClearHttpAuthCredentials(aClearImmediately : boolean) : boolean;
+var
+  TempCallback : ICefCompletionCallback;
+begin
+  Result := False;
+
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+    try
+      if aClearImmediately then
+        TempCallback := nil
+       else
+        TempCallback := TCefClearHttpAuthCredentialsCompletionCallback.Create(self);
+
+      FBrowser.Host.RequestContext.ClearHttpAuthCredentials(TempCallback);
+      Result := True;
+    finally
+      TempCallback := nil;
+    end;
+end;
+
+// If aCloseImmediately is false then OnAllConnectionsClosed is triggered when the connections are closed
+function TFMXChromium.CloseAllConnections(aCloseImmediately : boolean) : boolean;
+var
+  TempCallback : ICefCompletionCallback;
+begin
+  Result := False;
+
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+    try
+      if aCloseImmediately then
+        TempCallback := nil
+       else
+        TempCallback := TCefCloseAllConnectionsCompletionCallback.Create(self);
+
+      FBrowser.Host.RequestContext.CloseAllConnections(TempCallback);
+      Result := True;
+    finally
+      TempCallback := nil;
     end;
 end;
 
@@ -2227,6 +2318,9 @@ procedure TFMXChromium.doUpdatePreferences(const aBrowser: ICefBrowser);
 begin
   FUpdatePreferences := False;
 
+  // The preferences registered in CEF are defined in :
+  // /libcef/browser/prefs/browser_prefs.cc
+
   UpdateProxyPrefs(aBrowser);
   UpdatePreference(aBrowser, 'enable_do_not_track',                  FDoNotTrack);
   UpdatePreference(aBrowser, 'enable_referrers',                     FSendReferrer);
@@ -2238,6 +2332,7 @@ begin
   UpdateStringListPref(aBrowser, 'spellcheck.dictionaries',          FSpellCheckerDicts);
   UpdatePreference(aBrowser, 'settings.force_google_safesearch',     FSafeSearch);
   UpdatePreference(aBrowser, 'settings.force_youtube_restrict',      FYouTubeRestrict);
+  UpdatePreference(aBrowser, 'printing.enabled',                     FPrintingEnabled);
 
   if FRunAllFlashInAllowMode then
     UpdatePreference(aBrowser, 'profile.default_content_setting_values.plugins', 1);
@@ -2275,64 +2370,70 @@ begin
   Result := False;
 
   try
-    if (aBrowser      <> nil) and
-       (aBrowser.Host <> nil) and
-       aBrowser.Host.RequestContext.CanSetPreference('proxy') then
-      begin
-        TempProxy := TCefValueRef.New;
-        TempValue := TCefValueRef.New;
-        TempDict  := TCefDictionaryValueRef.New;
+    try
+      if (aBrowser      <> nil) and
+         (aBrowser.Host <> nil) and
+         aBrowser.Host.RequestContext.CanSetPreference('proxy') then
+        begin
+          TempProxy := TCefValueRef.New;
+          TempValue := TCefValueRef.New;
+          TempDict  := TCefDictionaryValueRef.New;
 
-        case FProxyType of
-          CEF_PROXYTYPE_AUTODETECT :
-            begin
-              TempValue.SetString('auto_detect');
-              TempDict.SetValue('mode', TempValue);
-            end;
-
-          CEF_PROXYTYPE_SYSTEM :
-            begin
-              TempValue.SetString('system');
-              TempDict.SetValue('mode', TempValue);
-            end;
-
-          CEF_PROXYTYPE_FIXED_SERVERS :
-            begin
-              TempValue.SetString('fixed_servers');
-              TempDict.SetValue('mode', TempValue);
-
-              case FProxyScheme of
-                psSOCKS4 : TempDict.SetString('server', 'socks4://' + FProxyServer + ':' + inttostr(FProxyPort));
-                psSOCKS5 : TempDict.SetString('server', 'socks5://' + FProxyServer + ':' + inttostr(FProxyPort));
-                else       TempDict.SetString('server', FProxyServer + ':' + inttostr(FProxyPort));
+          case FProxyType of
+            CEF_PROXYTYPE_AUTODETECT :
+              begin
+                TempValue.SetString('auto_detect');
+                TempDict.SetValue('mode', TempValue);
               end;
 
-              if (length(FProxyByPassList) > 0) then TempDict.SetString('bypass_list', FProxyByPassList);
-            end;
+            CEF_PROXYTYPE_SYSTEM :
+              begin
+                TempValue.SetString('system');
+                TempDict.SetValue('mode', TempValue);
+              end;
 
-          CEF_PROXYTYPE_PAC_SCRIPT :
-            begin
-              TempValue.SetString('pac_script');
-              TempDict.SetValue('mode', TempValue);
-              TempDict.SetString('pac_url', FProxyScriptURL);
-            end;
+            CEF_PROXYTYPE_FIXED_SERVERS :
+              begin
+                TempValue.SetString('fixed_servers');
+                TempDict.SetValue('mode', TempValue);
 
-          else    // CEF_PROXYTYPE_DIRECT
-            begin
-              TempValue.SetString('direct');
-              TempDict.SetValue('mode', TempValue);
-            end;
+                case FProxyScheme of
+                  psSOCKS4 : TempDict.SetString('server', 'socks4://' + FProxyServer + ':' + inttostr(FProxyPort));
+                  psSOCKS5 : TempDict.SetString('server', 'socks5://' + FProxyServer + ':' + inttostr(FProxyPort));
+                  else       TempDict.SetString('server', FProxyServer + ':' + inttostr(FProxyPort));
+                end;
+
+                if (length(FProxyByPassList) > 0) then TempDict.SetString('bypass_list', FProxyByPassList);
+              end;
+
+            CEF_PROXYTYPE_PAC_SCRIPT :
+              begin
+                TempValue.SetString('pac_script');
+                TempDict.SetValue('mode', TempValue);
+                TempDict.SetString('pac_url', FProxyScriptURL);
+              end;
+
+            else    // CEF_PROXYTYPE_DIRECT
+              begin
+                TempValue.SetString('direct');
+                TempDict.SetValue('mode', TempValue);
+              end;
+          end;
+
+          Result := TempProxy.SetDictionary(TempDict) and
+                    aBrowser.Host.RequestContext.SetPreference('proxy', TempProxy, TempError);
+
+          if not(Result) then
+            OutputDebugMessage('TFMXChromium.UpdateProxyPrefs error : ' + quotedstr(TempError));
         end;
-
-        Result := TempProxy.SetDictionary(TempDict) and
-                  aBrowser.Host.RequestContext.SetPreference('proxy', TempProxy, TempError);
-
-        if not(Result) then
-          OutputDebugMessage('TFMXChromium.UpdateProxyPrefs error : ' + quotedstr(TempError));
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TFMXChromium.UpdateProxyPrefs', e) then raise;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TFMXChromium.UpdateProxyPrefs', e) then raise;
+    end;
+  finally
+    TempProxy := nil;
+    TempValue := nil;
+    TempDict  := nil;
   end;
 end;
 
@@ -2344,25 +2445,29 @@ begin
   Result := False;
 
   try
-    if (aBrowser      <> nil) and
-       (aBrowser.Host <> nil) and
-       aBrowser.Host.RequestContext.CanSetPreference(aName) then
-      begin
-        TempValue := TCefValueRef.New;
+    try
+      if (aBrowser      <> nil) and
+         (aBrowser.Host <> nil) and
+         aBrowser.Host.RequestContext.CanSetPreference(aName) then
+        begin
+          TempValue := TCefValueRef.New;
 
-        if aValue then
-          TempValue.SetBool(1)
-         else
-          TempValue.SetBool(0);
+          if aValue then
+            TempValue.SetBool(1)
+           else
+            TempValue.SetBool(0);
 
-        Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+          Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        if not(Result) then
-          OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+          if not(Result) then
+            OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+    end;
+  finally
+    TempValue := nil;
   end;
 end;
 
@@ -2374,20 +2479,24 @@ begin
   Result := False;
 
   try
-    if (aBrowser      <> nil) and
-       (aBrowser.Host <> nil) and
-       aBrowser.Host.RequestContext.CanSetPreference(aName) then
-      begin
-        TempValue := TCefValueRef.New;
-        TempValue.SetInt(aValue);
-        Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+    try
+      if (aBrowser      <> nil) and
+         (aBrowser.Host <> nil) and
+         aBrowser.Host.RequestContext.CanSetPreference(aName) then
+        begin
+          TempValue := TCefValueRef.New;
+          TempValue.SetInt(aValue);
+          Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        if not(Result) then
-          OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+          if not(Result) then
+            OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+    end;
+  finally
+    TempValue := nil;
   end;
 end;
 
@@ -2399,20 +2508,24 @@ begin
   Result := False;
 
   try
-    if (aBrowser      <> nil) and
-       (aBrowser.Host <> nil) and
-       aBrowser.Host.RequestContext.CanSetPreference(aName) then
-      begin
-        TempValue := TCefValueRef.New;
-        TempValue.SetDouble(aValue);
-        Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+    try
+      if (aBrowser      <> nil) and
+         (aBrowser.Host <> nil) and
+         aBrowser.Host.RequestContext.CanSetPreference(aName) then
+        begin
+          TempValue := TCefValueRef.New;
+          TempValue.SetDouble(aValue);
+          Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        if not(Result) then
-          OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+          if not(Result) then
+            OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+    end;
+  finally
+    TempValue := nil;
   end;
 end;
 
@@ -2424,20 +2537,24 @@ begin
   Result := False;
 
   try
-    if (aBrowser      <> nil) and
-       (aBrowser.Host <> nil) and
-       aBrowser.Host.RequestContext.CanSetPreference(aName) then
-      begin
-        TempValue := TCefValueRef.New;
-        TempValue.SetString(aValue);
-        Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+    try
+      if (aBrowser      <> nil) and
+         (aBrowser.Host <> nil) and
+         aBrowser.Host.RequestContext.CanSetPreference(aName) then
+        begin
+          TempValue := TCefValueRef.New;
+          TempValue.SetString(aValue);
+          Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-        if not(Result) then
-          OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+          if not(Result) then
+            OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+    end;
+  finally
+    TempValue := nil;
   end;
 end;
 
@@ -2452,35 +2569,40 @@ begin
   Result := False;
 
   try
-    if (aValue        <> nil) and
-       (aValue.Count   > 0)   and
-       (aBrowser      <> nil) and
-       (aBrowser.Host <> nil) and
-       aBrowser.Host.RequestContext.CanSetPreference(aName) then
-      begin
-        TempSize := aValue.Count;
-        TempList := TCefListValueRef.New;
+    try
+      if (aValue        <> nil) and
+         (aValue.Count   > 0)   and
+         (aBrowser      <> nil) and
+         (aBrowser.Host <> nil) and
+         aBrowser.Host.RequestContext.CanSetPreference(aName) then
+        begin
+          TempSize := aValue.Count;
+          TempList := TCefListValueRef.New;
 
-        if TempList.SetSize(TempSize) then
-          begin
-            i := 0;
-            while (i < TempSize) do
-              begin
-                TempList.SetString(i, aValue[i]);
-                inc(i);
-              end;
+          if TempList.SetSize(TempSize) then
+            begin
+              i := 0;
+              while (i < TempSize) do
+                begin
+                  TempList.SetString(i, aValue[i]);
+                  inc(i);
+                end;
 
-            TempValue := TCefValueRef.New;
-            Result    := TempValue.SetList(TempList) and
-                         aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
+              TempValue := TCefValueRef.New;
+              Result    := TempValue.SetList(TempList) and
+                           aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
-            if not(Result) then
-              OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
-          end;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+              if not(Result) then
+                OutputDebugMessage('TFMXChromium.UpdatePreference error : ' + quotedstr(TempError));
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TFMXChromium.UpdatePreference', e) then raise;
+    end;
+  finally
+    TempValue := nil;
+    TempList  := nil;
   end;
 end;
 
@@ -2784,6 +2906,21 @@ end;
 procedure TFMXChromium.doOnCookiesStoreFlushed;
 begin
   if assigned(FOnCookiesFlushed) then FOnCookiesFlushed(self);
+end;
+
+procedure TFMXChromium.doCertificateExceptionsCleared;
+begin
+  if assigned(FOnCertificateExceptionsCleared) then FOnCertificateExceptionsCleared(self);
+end;
+
+procedure TFMXChromium.doHttpAuthCredentialsCleared;
+begin
+  if assigned(FOnHttpAuthCredentialsCleared) then FOnHttpAuthCredentialsCleared(self);
+end;
+
+procedure TFMXChromium.doAllConnectionsClosed;
+begin
+  if assigned(FOnAllConnectionsClosed) then FOnAllConnectionsClosed(self);
 end;
 
 function TFMXChromium.MustCreateLoadHandler : boolean;

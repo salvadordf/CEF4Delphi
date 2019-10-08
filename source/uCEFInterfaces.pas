@@ -385,6 +385,9 @@ type
     function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean;
     procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
     procedure doOnCookiesStoreFlushed;
+    procedure doCertificateExceptionsCleared;
+    procedure doHttpAuthCredentialsCleared;
+    procedure doAllConnectionsClosed;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
     function  MustCreateContextMenuHandler : boolean;
