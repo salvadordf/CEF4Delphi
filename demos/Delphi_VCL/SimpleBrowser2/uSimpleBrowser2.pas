@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 type
   TForm1 = class(TForm)
@@ -60,6 +60,7 @@ type
     Timer1: TTimer;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
+    CEFSentinel1: TCEFSentinel;
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -84,6 +85,7 @@ type
       const targetUrl: ustring;
       targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
       out Result: Boolean);
+    procedure CEFSentinel1Close(Sender: TObject);
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
@@ -162,6 +164,12 @@ begin
   if not(Chromium1.CreateBrowser(CEFWindowParent1)) then Timer1.Enabled := True;
 end;
 
+procedure TForm1.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
@@ -171,8 +179,7 @@ end;
 procedure TForm1.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TForm1.Chromium1BeforePopup(Sender: TObject;

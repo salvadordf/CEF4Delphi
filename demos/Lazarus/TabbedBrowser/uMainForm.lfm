@@ -193,4 +193,9 @@ object MainForm: TMainForm
     TabOrder = 1
     OnChange = PageControl1Change
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 160
+    top = 121
+  end
 end

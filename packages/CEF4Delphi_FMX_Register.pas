@@ -51,7 +51,8 @@ uses
   System.Classes,
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
   uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
-  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent;
+  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
+  uCEFSentinel;
 
 procedure Register;
 begin
@@ -59,7 +60,8 @@ begin
                                   TBufferPanel, TFMXBufferPanel, TFMXChromium,
                                   TFMXWorkScheduler, TCEFWorkScheduler,
                                   TCEFServerComponent, TCEFLinkedWindowParent,
-                                  TCEFUrlRequestClientComponent]);
+                                  TCEFUrlRequestClientComponent,
+                                  TCEFSentinel]);
 end;
 
 end.

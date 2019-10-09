@@ -42,19 +42,21 @@ unit uSimpleLazarusBrowser;
 interface
 
 uses
-  Windows, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, LMessages,
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFChromiumEvents;
+  Windows, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  ExtCtrls, StdCtrls, LMessages, uCEFChromium, uCEFWindowParent, uCEFInterfaces,
+  uCEFConstants, uCEFTypes, uCEFChromiumEvents, uCEFSentinel;
 
 type
   { TForm1 }
   TForm1 = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     GoBtn: TButton;
     AddressEdt: TEdit;
     AddressPnl: TPanel;
     Timer1: TTimer;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser
       );
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -154,10 +156,15 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
-procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+procedure TForm1.CEFSentinel1Close(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
+procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  CEFSentinel1.Start;
 end;
 
 procedure TForm1.Chromium1BeforePopup(Sender: TObject;

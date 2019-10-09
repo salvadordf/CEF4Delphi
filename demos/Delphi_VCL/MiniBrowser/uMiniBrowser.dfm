@@ -395,4 +395,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Left = 32
     Top = 344
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    Left = 32
+    Top = 408
+  end
 end

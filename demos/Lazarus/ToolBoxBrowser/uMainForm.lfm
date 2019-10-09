@@ -45,4 +45,8 @@ object MainForm: TMainForm
       TabOrder = 1
     end
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 232
+  end
 end

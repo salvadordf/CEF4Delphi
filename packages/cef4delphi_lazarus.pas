@@ -49,7 +49,7 @@ uses
   uCEFLinkedWindowParent, uCEFUrlRequestClientEvents, 
   uCEFUrlRequestClientComponent, uCEFOSRIMEHandler, uCEFCookieAccessFilter, 
   uCEFResourceReadCallback, uCEFResourceRequestHandler, 
-  uCEFResourceSkipCallback, LazarusPackageIntf;
+  uCEFResourceSkipCallback, uCEFSentinel, LazarusPackageIntf;
 
 implementation
 
@@ -64,6 +64,7 @@ begin
   RegisterUnit('uCEFLinkedWindowParent', @uCEFLinkedWindowParent.Register);
   RegisterUnit('uCEFUrlRequestClientComponent', 
     @uCEFUrlRequestClientComponent.Register);
+  RegisterUnit('uCEFSentinel', @uCEFSentinel.Register);
 end;
 
 initialization

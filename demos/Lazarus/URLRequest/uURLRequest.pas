@@ -144,8 +144,8 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                 := TCefApplication.Create;
-  //GlobalCEFApp.LogFile          := 'cef.log';
-  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+  GlobalCEFApp.LogFile          := 'cef.log';
+  GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
 
 procedure TURLRequestFrm.DownloadBtnClick(Sender: TObject);

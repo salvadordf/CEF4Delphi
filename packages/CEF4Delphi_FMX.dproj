@@ -292,6 +292,7 @@
         <DCCReference Include="..\source\uCEFResourceRequestHandler.pas"/>
         <DCCReference Include="..\source\uCEFResourceSkipCallback.pas"/>
         <DCCReference Include="..\source\uCEFResourceReadCallback.pas"/>
+        <DCCReference Include="..\source\uCEFSentinel.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

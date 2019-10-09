@@ -45,7 +45,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, ActiveX, ShlObj,
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl, uCEFChromiumEvents;
+  uCEFWinControl, uCEFChromiumEvents, uCEFSentinel;
 
 const
   MINIBROWSER_SHOWDEVTOOLS    = WM_APP + $101;
@@ -82,6 +82,7 @@ type
   { TMiniBrowserFrm }
 
   TMiniBrowserFrm = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
@@ -123,6 +124,7 @@ type
     OpenfilewithaDAT1: TMenuItem;
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1DownloadImageFinished(Sender: TObject;
       const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
@@ -394,11 +396,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   // The main browser is being destroyed
-  if (Chromium1.BrowserId = 0) then
-    begin
-      FCanClose := True;
-      PostMessage(Handle, WM_CLOSE, 0, 0);
-    end;
+  if (Chromium1.BrowserId = 0) then CEFSentinel1.Start;
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -983,6 +981,12 @@ end;
 procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);
 begin
   PostMessage(Handle, MINIBROWSER_COOKIESFLUSHED, 0, 0);
+end;
+
+procedure TMiniBrowserFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);  

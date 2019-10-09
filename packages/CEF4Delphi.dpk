@@ -171,7 +171,8 @@ contains
   uCEFCookieAccessFilter in '..\source\uCEFCookieAccessFilter.pas',
   uCEFResourceRequestHandler in '..\source\uCEFResourceRequestHandler.pas',
   uCEFResourceSkipCallback in '..\source\uCEFResourceSkipCallback.pas',
-  uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas';
+  uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas',
+  uCEFSentinel in '..\source\uCEFSentinel.pas';
 
 end.
 

@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ComCtrls, Buttons, ExtCtrls, StdCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
+  uCEFSentinel;
 
 const
   CEFBROWSER_DESTROYWNDPARENT = WM_APP + $100;
@@ -72,6 +73,7 @@ type
     URLCbx: TComboBox;
     AddTabBtn: TButton;
     RemoveTabBtn: TButton;
+    CEFSentinel1: TCEFSentinel;
     procedure AddTabBtnClick(Sender: TObject);
     procedure RemoveTabBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -83,6 +85,7 @@ type
     procedure StopBtnClick(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     FClosingTab : boolean;
@@ -349,11 +352,7 @@ begin
     begin
       PageControl1.Pages[aMessage.lParam].Tag := 1;
 
-      if AllTabSheetsAreTagged then
-        begin
-          FCanClose := True;
-          PostMessage(Handle, WM_CLOSE, 0, 0);
-        end;
+      if AllTabSheetsAreTagged then CEFSentinel1.Start;
     end;
 end;
 
@@ -573,6 +572,12 @@ begin
       cursor            := crDefault;
       if (PageControl1.PageCount = 0) then AddTabBtn.Click;
     end;
+end;
+
+procedure TMainForm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 end.

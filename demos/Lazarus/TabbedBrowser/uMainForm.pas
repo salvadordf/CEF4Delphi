@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ComCtrls, Buttons, ExtCtrls, StdCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
+  uCEFConstants, uCEFSentinel;
 
 const
   CEFBROWSER_DESTROYWNDPARENT = WM_APP + $100;
@@ -58,7 +59,11 @@ const
   CEFBROWSER_CHECKTAGGEDTABS  = WM_APP + $103;
 
 type
+
+  { TMainForm }
+
   TMainForm = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     PageControl1: TPageControl;
     ButtonPnl: TPanel;
     NavButtonPnl: TPanel;
@@ -73,6 +78,7 @@ type
     AddTabBtn: TButton;
     RemoveTabBtn: TButton;
     procedure AddTabBtnClick(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure RemoveTabBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
@@ -185,6 +191,12 @@ begin
   TempChromium.OnBeforePopup   := Chromium_OnBeforePopup;
 
   TempChromium.CreateBrowser(TempWindowParent, '');
+end;
+
+procedure TMainForm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.RemoveTabBtnClick(Sender: TObject);
@@ -349,11 +361,7 @@ begin
     begin
       PageControl1.Pages[aMessage.lParam].Tag := 1;
 
-      if AllTabSheetsAreTagged then
-        begin
-          FCanClose := True;
-          PostMessage(Handle, WM_CLOSE, 0, 0);
-        end;
+      if AllTabSheetsAreTagged then CEFSentinel1.Start;
     end;
 end;
 

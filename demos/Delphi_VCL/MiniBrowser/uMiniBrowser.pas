@@ -51,7 +51,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, AppEvnts, ActiveX, ShlObj,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 const
   MINIBROWSER_SHOWDEVTOOLS    = WM_APP + $101;
@@ -126,6 +126,7 @@ type
     Downloadimage1: TMenuItem;
     Simulatekeyboardpresses1: TMenuItem;
     Flushcookies1: TMenuItem;
+    CEFSentinel1: TCEFSentinel;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -226,6 +227,7 @@ type
     procedure Simulatekeyboardpresses1Click(Sender: TObject);
     procedure Flushcookies1Click(Sender: TObject);
     procedure Chromium1CookiesFlushed(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     FResponse   : TStringList;
@@ -331,6 +333,12 @@ begin
   if (length(TempURL) > 0) then Chromium1.ResolveHost(TempURL);
 end;
 
+procedure TMiniBrowserFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TMiniBrowserFrm.Chromium1AddressChange(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
 begin
@@ -348,11 +356,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   // The main browser is being destroyed
-  if (Chromium1.BrowserId = 0) then
-    begin
-      FCanClose := True;
-      PostMessage(Handle, WM_CLOSE, 0, 0);
-    end;
+  if (Chromium1.BrowserId = 0) then CEFSentinel1.Start;
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;

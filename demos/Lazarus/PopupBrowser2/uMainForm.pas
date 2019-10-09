@@ -165,7 +165,6 @@ begin
       if not(FClosingMainForm) then
         begin
           FClosingMainForm := True;
-          Visible          := False;
           Chromium1.CloseBrowser(True);
         end;
     end;
