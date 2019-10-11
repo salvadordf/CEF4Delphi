@@ -228,6 +228,10 @@ type
     procedure Flushcookies1Click(Sender: TObject);
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure CEFSentinel1Close(Sender: TObject);
+    procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType,
+      pluginUrl: ustring; isMainFrame: Boolean;
+      const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
+      var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
 
   protected
     FResponse   : TStringList;
@@ -441,6 +445,22 @@ begin
     TempFullPath := TempName;
 
   callback.cont(TempFullPath, False);
+end;
+
+procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
+  const mimeType, pluginUrl: ustring; isMainFrame: Boolean;
+  const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
+  var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
+begin
+  // Always allow the PDF plugin to load.
+  if (pluginPolicy <> PLUGIN_POLICY_ALLOW) and
+     (CompareText(mimeType, 'application/pdf') = 0) then
+    begin
+      pluginPolicy := PLUGIN_POLICY_ALLOW;
+      aResult      := True;
+    end
+   else
+    aResult := False;
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeResourceLoad(Sender: TObject;

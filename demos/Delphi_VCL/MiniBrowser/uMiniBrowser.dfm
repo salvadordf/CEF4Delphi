@@ -290,6 +290,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnCertificateError = Chromium1CertificateError
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
+    OnBeforePluginLoad = Chromium1BeforePluginLoad
     Left = 32
     Top = 224
   end

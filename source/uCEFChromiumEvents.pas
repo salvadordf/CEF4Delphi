@@ -161,6 +161,10 @@ type
   // ICefFindHandler
   TOnFindResult                   = procedure(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean) of Object;
 
+  // ICefRequestContextHandler
+  TOnRequestContextInitialized    = procedure(Sender: TObject; const request_context: ICefRequestContext) of Object;
+  TOnBeforePluginLoad             = procedure(Sender: TObject; const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult : boolean) of Object;
+
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;

@@ -72,6 +72,7 @@ type
       FHandler                : ICefClient;
       FBrowser                : ICefBrowser;
       FBrowserId              : Integer;
+      FReqContextHandler      : ICefRequestContextHandler;
       FDefaultUrl             : ustring;
       FOptions                : TChromiumOptions;
       FFontOptions            : TChromiumFontOptions;
@@ -237,6 +238,10 @@ type
       // ICefFindHandler
       FOnFindResult                   : TOnFindResult;
 
+      // ICefRequestContextHandler
+      FOnRequestContextInitialized    : TOnRequestContextInitialized;
+      FOnBeforePluginLoad             : TOnBeforePluginLoad;
+
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
@@ -311,14 +316,16 @@ type
       procedure SetSafeSearch(aValue : boolean);
       procedure SetYouTubeRestrict(aValue : integer);
       procedure SetPrintingEnabled(aValue : boolean);
-
+      procedure SetOnRequestContextInitialized(const aValue : TOnRequestContextInitialized);
+      procedure SetOnBeforePluginLoad(const aValue : TOnBeforePluginLoad);
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): Boolean;
 
       procedure DestroyClientHandler;
-
+      procedure DestroyReqContextHandler;
       procedure ClearBrowserReference;
+      procedure CreateReqContextHandler;
 
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
@@ -478,6 +485,11 @@ type
       // ICefFindHandler
       procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean); virtual;
 
+      // ICefRequestContextHandler
+      procedure doOnRequestContextInitialized(const request_context: ICefRequestContext); virtual;
+      function  doOnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean; virtual;
+      procedure doGetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
+
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
       procedure doPdfPrintFinished(aResultOK : boolean); virtual;
@@ -507,6 +519,7 @@ type
       function  MustCreateFindHandler : boolean; virtual;
       function  MustCreateResourceRequestHandler : boolean; virtual;
       function  MustCreateCookieAccessFilter : boolean; virtual;
+      function  MustCreateRequestContextHandler : boolean; virtual;
 
     public
       constructor Create(AOwner: TComponent); override;
@@ -636,6 +649,7 @@ type
       property  BrowserId               : integer                      read FBrowserId;
       property  Browser                 : ICefBrowser                  read FBrowser;
       property  CefClient               : ICefClient                   read FHandler;
+      property  ReqContextHandler       : ICefRequestContextHandler    read FReqContextHandler;
       property  CefWindowInfo           : TCefWindowInfo               read FWindowInfo;
       property  VisibleNavigationEntry  : ICefNavigationEntry          read GetVisibleNavigationEntry;
       property  MultithreadApp          : boolean                      read GetMultithreadApp;
@@ -816,6 +830,10 @@ type
 
       // ICefFindHandler
       property OnFindResult                     : TOnFindResult                     read FOnFindResult                     write FOnFindResult;
+
+      // ICefRequestContextHandler
+      property OnRequestContextInitialized      : TOnRequestContextInitialized      read FOnRequestContextInitialized      write SetOnRequestContextInitialized;
+      property OnBeforePluginLoad               : TOnBeforePluginLoad               read FOnBeforePluginLoad               write SetOnBeforePluginLoad;
   end;
 
 {$IFDEF FPC}
@@ -833,7 +851,8 @@ uses
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplication, uCEFProcessMessage, uCEFRequestContext, {$IFNDEF FPC}uCEFOLEDragAndDrop,{$ENDIF}
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
-  uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack, uCEFCookieManager;
+  uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack, uCEFCookieManager,
+  uCEFRequestContextHandler;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
@@ -845,6 +864,7 @@ begin
   FIsOSR                  := False;
   FDefaultUrl             := 'about:blank';
   FHandler                := nil;
+  FReqContextHandler      := nil;
   FOptions                := nil;
   FFontOptions            := nil;
   FDefaultEncoding        := '';
@@ -967,6 +987,7 @@ begin
   {$ENDIF}
 
   DestroyClientHandler;
+  DestroyReqContextHandler;
 
   inherited BeforeDestruction;
 end;
@@ -1005,6 +1026,27 @@ begin
     on e : exception do
       if CustomExceptionHandler('TChromium.DestroyClientHandler', e) then raise;
   end;
+end;
+
+procedure TChromium.DestroyReqContextHandler;
+begin
+  try
+    if (FReqContextHandler <> nil) then
+      begin
+        FReqContextHandler.RemoveReferences;
+        FReqContextHandler := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.DestroyReqContextHandler', e) then raise;
+  end;
+end;
+
+procedure TChromium.CreateReqContextHandler;
+begin
+  if MustCreateRequestContextHandler and
+     (FReqContextHandler = nil) then
+    FReqContextHandler := TCustomRequestContextHandler.Create(self);
 end;
 
 procedure TChromium.AfterConstruction;
@@ -1170,6 +1212,10 @@ begin
   // ICefFindHandler
   FOnFindResult                   := nil;
 
+  // ICefRequestContextHandler
+  FOnRequestContextInitialized    := nil;
+  FOnBeforePluginLoad             := nil;
+
   // Custom
   FOnTextResultAvailable              := nil;
   FOnPdfPrintFinished                 := nil;
@@ -1216,36 +1262,57 @@ function TChromium.CreateBrowser(      aParentHandle  : HWND;
                                  const aWindowName    : ustring;
                                  const aContext       : ICefRequestContext;
                                  const aExtraInfo     : ICefDictionaryValue) : boolean;
+var
+  TempNewContext, TempGlobalContext : ICefRequestContext;
 begin
-  Result := False;
+  Result         := False;
+  TempNewContext := nil;
 
   try
-    // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
-    // even if you use a custom request context.
-    // If you create a browser in the initialization of your app, make sure you call this
-    // function when GlobalCEFApp.GlobalContextInitialized is TRUE.
-    // Use the GlobalCEFApp.OnContextInitialized event to know when
-    // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
+    try
+      // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+      // even if you use a custom request context.
+      // If you create a browser in the initialization of your app, make sure you call this
+      // function when GlobalCEFApp.GlobalContextInitialized is TRUE.
+      // Use the GlobalCEFApp.OnContextInitialized event to know when
+      // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
 
-    if not(csDesigning in ComponentState) and
-       not(FClosing)         and
-       (FBrowser     =  nil) and
-       (FBrowserId   =  0)   and
-       (GlobalCEFApp <> nil) and
-       GlobalCEFApp.GlobalContextInitialized  and
-       CreateClientHandler(aParentHandle = 0) then
-      begin
-        GetSettings(FBrowserSettings);
-        InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
+      if not(csDesigning in ComponentState) and
+         not(FClosing)         and
+         (FBrowser     =  nil) and
+         (FBrowserId   =  0)   and
+         (GlobalCEFApp <> nil) and
+         GlobalCEFApp.GlobalContextInitialized  and
+         CreateClientHandler(aParentHandle = 0) then
+        begin
+          GetSettings(FBrowserSettings);
+          InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
 
-        if GlobalCEFApp.MultiThreadedMessageLoop then
-          Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aExtraInfo, aContext)
-         else
-          Result := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aExtraInfo, aContext);
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromium.CreateBrowser', e) then raise;
+          if (aContext = nil) then
+            begin
+              CreateReqContextHandler;
+
+              if (FReqContextHandler <> nil) then
+                begin
+                  TempGlobalContext := TCefRequestContextRef.Global();
+                  TempNewContext    := TCefRequestContextRef.Shared(TempGlobalContext, FReqContextHandler);
+                end;
+            end
+           else
+            TempNewContext := aContext;
+
+          if GlobalCEFApp.MultiThreadedMessageLoop then
+            Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aExtraInfo, TempNewContext)
+           else
+            Result := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aExtraInfo, TempNewContext);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TChromium.CreateBrowser', e) then raise;
+    end;
+  finally
+    TempGlobalContext := nil;
+    TempNewContext    := nil;
   end;
 end;
 
@@ -2085,6 +2152,20 @@ begin
       FPrintingEnabled   := aValue;
       FUpdatePreferences := True;
     end;
+end;
+
+procedure TChromium.SetOnRequestContextInitialized(const aValue : TOnRequestContextInitialized);
+begin
+  FOnRequestContextInitialized := aValue;
+
+  CreateReqContextHandler;
+end;
+
+procedure TChromium.SetOnBeforePluginLoad(const aValue : TOnBeforePluginLoad);
+begin
+  FOnBeforePluginLoad := aValue;
+
+  CreateReqContextHandler;
 end;
 
 procedure TChromium.SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
@@ -3311,6 +3392,12 @@ begin
             assigned(FOnCanSaveCookie);
 end;
 
+function TChromium.MustCreateRequestContextHandler : boolean;
+begin
+  Result := assigned(FOnRequestContextInitialized) or
+            assigned(FOnBeforePluginLoad);
+end;
+
 {$IFDEF MSWINDOWS}
 procedure TChromium.PrefsAvailableMsg(var aMessage : TMessage);
 begin
@@ -3808,6 +3895,37 @@ procedure TChromium.doOnFindResult(const browser            : ICefBrowser;
 begin
   if Assigned(FOnFindResult) then
     FOnFindResult(Self, browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
+end;
+
+procedure TChromium.doOnRequestContextInitialized(const request_context: ICefRequestContext);
+begin
+  if assigned(FOnRequestContextInitialized) then FOnRequestContextInitialized(self, request_context);
+end;
+
+function TChromium.doOnBeforePluginLoad(const mimeType     : ustring;
+                                        const pluginUrl    : ustring;
+                                              isMainFrame  : boolean;
+                                        const topOriginUrl : ustring;
+                                        const pluginInfo   : ICefWebPluginInfo;
+                                        var   pluginPolicy : TCefPluginPolicy): Boolean;
+begin
+  Result := False;
+
+  if assigned(FOnBeforePluginLoad) then
+    FOnBeforePluginLoad(self, mimeType, pluginUrl, isMainFrame, topOriginUrl, pluginInfo, pluginPolicy, Result);
+end;
+
+procedure TChromium.doGetResourceRequestHandler(const browser                  : ICefBrowser;
+                                                const frame                    : ICefFrame;
+                                                const request                  : ICefRequest;
+                                                      is_navigation            : boolean;
+                                                      is_download              : boolean;
+                                                const request_initiator        : ustring;
+                                                var   disable_default_handling : boolean;
+                                                var   aResourceRequestHandler  : ICefResourceRequestHandler);
+begin
+  disable_default_handling := False;
+  aResourceRequestHandler  := nil;
 end;
 
 procedure TChromium.doOnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);

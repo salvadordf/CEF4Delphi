@@ -55,8 +55,10 @@ type
   TCefRequestContextHandlerRef = class(TCefBaseRefCountedRef, ICefRequestContextHandler)
     protected
       procedure OnRequestContextInitialized(const request_context: ICefRequestContext);
-      function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): Boolean;
+      function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
+
+      procedure RemoveReferences; virtual;
 
     public
       class function UnWrap(data: Pointer): ICefRequestContextHandler;
@@ -65,11 +67,27 @@ type
   TCefRequestContextHandlerOwn = class(TCefBaseRefCountedOwn, ICefRequestContextHandler)
     protected
       procedure OnRequestContextInitialized(const request_context: ICefRequestContext); virtual;
-      function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): Boolean; virtual;
+      function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean; virtual;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
+
+      procedure RemoveReferences; virtual;
 
     public
       constructor Create; virtual;
+  end;
+
+  TCustomRequestContextHandler = class(TCefRequestContextHandlerOwn)
+    protected
+      FEvents : Pointer;
+
+      procedure OnRequestContextInitialized(const request_context: ICefRequestContext); override;
+      function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean; override;
+      procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); override;
+
+    public
+      constructor Create(const events : IChromiumEvents); reintroduce; virtual;
+      procedure   BeforeDestruction; override;
+      procedure   RemoveReferences; override;
   end;
 
 implementation
@@ -100,9 +118,11 @@ function cef_request_context_handler_on_before_plugin_load(      self           
                                                                  plugin_policy  : PCefPluginPolicy): Integer; stdcall;
 var
   TempObject : TObject;
+  TempPolicy : TCefPluginPolicy;
 begin
   Result     := Ord(False);
   TempObject := CefGetObject(self);
+  TempPolicy := plugin_policy^;
 
   if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
     Result := Ord(TCefRequestContextHandlerOwn(TempObject).OnBeforePluginLoad(CefString(mime_type),
@@ -110,7 +130,8 @@ begin
                                                                               (is_main_frame <> 0),
                                                                               CefString(top_origin_url),
                                                                               TCefWebPluginInfoRef.UnWrap(plugin_info),
-                                                                              plugin_policy));
+                                                                              TempPolicy));
+  plugin_policy^ := TempPolicy;
 end;
 
 function cef_request_context_handler_get_resource_request_handler(      self                     : PCefRequestContextHandler;
@@ -171,7 +192,7 @@ function TCefRequestContextHandlerOwn.OnBeforePluginLoad(const mimeType     : us
                                                                isMainFrame  : boolean;
                                                          const topOriginUrl : ustring;
                                                          const pluginInfo   : ICefWebPluginInfo;
-                                                               pluginPolicy : PCefPluginPolicy): Boolean;
+                                                         var   pluginPolicy : TCefPluginPolicy): Boolean;
 begin
   Result := False;
 end;
@@ -188,6 +209,12 @@ begin
   aResourceRequestHandler := nil;
 end;
 
+procedure TCefRequestContextHandlerOwn.RemoveReferences;
+begin
+  //
+end;
+
+
 // TCefRequestContextHandlerRef
 
 procedure TCefRequestContextHandlerRef.OnRequestContextInitialized(const request_context: ICefRequestContext);
@@ -200,7 +227,7 @@ function TCefRequestContextHandlerRef.OnBeforePluginLoad(const mimeType     : us
                                                                isMainFrame  : boolean;
                                                          const topOriginUrl : ustring;
                                                          const pluginInfo   : ICefWebPluginInfo;
-                                                               pluginPolicy : PCefPluginPolicy): Boolean;
+                                                         var   pluginPolicy : TCefPluginPolicy): Boolean;
 var
   TempType, TempPluginURL, TempOriginURL : TCefString;
 begin
@@ -214,7 +241,7 @@ begin
                                                                     ord(isMainFrame),
                                                                     @TempOriginURL,
                                                                     CefGetData(pluginInfo),
-                                                                    pluginPolicy) <> 0;
+                                                                    @pluginPolicy) <> 0;
 end;
 
 
@@ -250,6 +277,11 @@ begin
     aResourceRequestHandler := nil;
 end;
 
+procedure TCefRequestContextHandlerRef.RemoveReferences;
+begin
+  //
+end;
+
 class function TCefRequestContextHandlerRef.UnWrap(data: Pointer): ICefRequestContextHandler;
 begin
   if (data <> nil) then
@@ -257,5 +289,88 @@ begin
    else
     Result := nil;
 end;
+
+
+// TCustomRequestContextHandler
+
+constructor TCustomRequestContextHandler.Create(const events : IChromiumEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(events);
+end;
+
+procedure TCustomRequestContextHandler.BeforeDestruction;
+begin
+  FEvents := nil;
+
+  inherited BeforeDestruction;
+end;
+
+procedure TCustomRequestContextHandler.RemoveReferences;
+begin
+  FEvents := nil;
+end;
+
+procedure TCustomRequestContextHandler.OnRequestContextInitialized(const request_context: ICefRequestContext);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnRequestContextInitialized(request_context)
+   else
+    inherited OnRequestContextInitialized(request_context);
+end;
+
+function TCustomRequestContextHandler.OnBeforePluginLoad(const mimeType     : ustring;
+                                                         const pluginUrl    : ustring;
+                                                               isMainFrame  : boolean;
+                                                         const topOriginUrl : ustring;
+                                                         const pluginInfo   : ICefWebPluginInfo;
+                                                         var   pluginPolicy : TCefPluginPolicy): Boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnBeforePluginLoad(mimeType,
+                                                            pluginUrl,
+                                                            isMainFrame,
+                                                            topOriginUrl,
+                                                            pluginInfo,
+                                                            pluginPolicy)
+   else
+    Result := inherited OnBeforePluginLoad(mimeType,
+                                           pluginUrl,
+                                           isMainFrame,
+                                           topOriginUrl,
+                                           pluginInfo,
+                                           pluginPolicy);
+end;
+
+procedure TCustomRequestContextHandler.GetResourceRequestHandler(const browser                  : ICefBrowser;
+                                                                 const frame                    : ICefFrame;
+                                                                 const request                  : ICefRequest;
+                                                                       is_navigation            : boolean;
+                                                                       is_download              : boolean;
+                                                                 const request_initiator        : ustring;
+                                                                 var   disable_default_handling : boolean;
+                                                                 var   aResourceRequestHandler  : ICefResourceRequestHandler);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doGetResourceRequestHandler(browser,
+                                                         frame,
+                                                         request,
+                                                         is_navigation,
+                                                         is_download,
+                                                         request_initiator,
+                                                         disable_default_handling,
+                                                         aResourceRequestHandler)
+   else
+    inherited GetResourceRequestHandler(browser,
+                                        frame,
+                                        request,
+                                        is_navigation,
+                                        is_download,
+                                        request_initiator,
+                                        disable_default_handling,
+                                        aResourceRequestHandler);
+end;
+
 
 end.

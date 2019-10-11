@@ -22,12 +22,12 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="383"/>
-        <CursorPos Y="400"/>
+        <TopLine Value="995"/>
+        <CursorPos Y="1002"/>
         <UsageCount Value="20"/>
         <Bookmarks Count="2">
-          <Item0 X="41" Y="989" ID="1"/>
-          <Item1 Y="400" ID="2"/>
+          <Item0 X="41" Y="993" ID="1"/>
+          <Item1 Y="404" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -191,15 +191,15 @@
       </Position27>
       <Position28>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="992" Column="5" TopLine="1038"/>
+        <Caret Line="401" TopLine="396"/>
       </Position28>
       <Position29>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="401" TopLine="396"/>
+        <Caret Line="989" Column="44" TopLine="989"/>
       </Position29>
       <Position30>
         <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="989" Column="44" TopLine="989"/>
+        <Caret Line="406" Column="110" TopLine="387"/>
       </Position30>
     </JumpHistory>
     <RunParams>

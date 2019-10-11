@@ -125,6 +125,10 @@ type
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
     procedure CEFSentinel1Close(Sender: TObject);
+    procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType,
+      pluginUrl: ustring; isMainFrame: boolean; const topOriginUrl: ustring;
+      const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy;
+      var aResult: boolean);
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1DownloadImageFinished(Sender: TObject;
       const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
@@ -987,6 +991,22 @@ procedure TMiniBrowserFrm.CEFSentinel1Close(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
+procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
+  const mimeType, pluginUrl: ustring; isMainFrame: boolean;
+  const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
+  var pluginPolicy: TCefPluginPolicy; var aResult: boolean);
+begin
+  // Always allow the PDF plugin to load.
+  if (pluginPolicy <> PLUGIN_POLICY_ALLOW) and
+     (CompareText(mimeType, 'application/pdf') = 0) then
+    begin
+      pluginPolicy := PLUGIN_POLICY_ALLOW;
+      aResult      := True;
+    end
+   else
+    aResult := False;
 end;
 
 procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);  

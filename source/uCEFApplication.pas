@@ -62,7 +62,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 77;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 12;
+  CEF_SUPPORTED_VERSION_RELEASE = 13;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 77;
@@ -158,7 +158,6 @@ type
       FStatus                        : TCefAplicationStatus;
       FMissingLibFiles               : string;
       FProcessType                   : TCefProcessType;
-      FShutdownWaitTime              : cardinal;
       FWidevinePath                  : ustring;
       FMustFreeLibrary               : boolean;
       FAutoplayPolicy                : TCefAutoplayPolicy;
@@ -433,7 +432,6 @@ type
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
-      property ShutdownWaitTime                  : cardinal                            read FShutdownWaitTime                  write FShutdownWaitTime;
       property WidevinePath                      : ustring                             read FWidevinePath                      write FWidevinePath;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
       property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;
@@ -606,7 +604,6 @@ begin
   FDisableGPUCache               := True;
   FLocalesRequired               := '';
   FProcessType                   := ParseProcessType;
-  FShutdownWaitTime              := 0;
   FWidevinePath                  := '';
   FMustFreeLibrary               := False;
   FAutoplayPolicy                := appDefault;
@@ -694,12 +691,7 @@ end;
 destructor TCefApplication.Destroy;
 begin
   try
-    if (FProcessType = ptBrowser) then
-      begin
-        if (FShutdownWaitTime > 0) then sleep(FShutdownWaitTime);
-
-        ShutDown;
-      end;
+    if (FProcessType = ptBrowser) then ShutDown;
 
     FreeLibcefLibrary;
 
@@ -1030,7 +1022,7 @@ end;
 
 procedure TCefApplication.SetOsmodalLoop(aValue : boolean);
 begin
-  if FLibLoaded then cef_set_osmodal_loop(Ord(aValue));
+  if (FStatus = asInitialized) then cef_set_osmodal_loop(Ord(aValue));
 end;
 
 procedure TCefApplication.UpdateDeviceScaleFactor;
@@ -1041,8 +1033,11 @@ end;
 procedure TCefApplication.ShutDown;
 begin
   try
-    FStatus := asShuttingDown;
-    if FLibLoaded then cef_shutdown();
+    if (FStatus = asInitialized) then
+      begin
+        FStatus := asShuttingDown;
+        cef_shutdown();
+      end;
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplication.ShutDown', e) then raise;
@@ -2000,7 +1995,7 @@ begin
       FStatus    := asErrorDLLVersion;
       TempString := 'Unsupported CEF version !' +
                     CRLF + CRLF +
-                    'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
+                    'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
                     CRLF + CEF4DELPHI_URL;
 
       ShowErrorMessageDlg(TempString);
