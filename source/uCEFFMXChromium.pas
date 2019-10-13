@@ -1352,7 +1352,7 @@ begin
       TempFrame := FBrowser.FocusedFrame;
       if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.Copy;
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Copy;
     end;
 end;
 
@@ -1365,7 +1365,7 @@ begin
       TempFrame := FBrowser.FocusedFrame;
       if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.Paste;
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Paste;
     end;
 end;
 
@@ -1378,7 +1378,7 @@ begin
       TempFrame := FBrowser.FocusedFrame;
       if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.Cut;
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Cut;
     end;
 end;
 
@@ -1391,7 +1391,7 @@ begin
       TempFrame := FBrowser.FocusedFrame;
       if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.Undo;
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Undo;
     end;
 end;
 
@@ -1404,7 +1404,7 @@ begin
       TempFrame := FBrowser.FocusedFrame;
       if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.Redo;
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Redo;
     end;
 end;
 
@@ -1417,7 +1417,7 @@ begin
       TempFrame := FBrowser.FocusedFrame;
       if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.Del;
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Del;
     end;
 end;
 
@@ -1430,7 +1430,7 @@ begin
       TempFrame := FBrowser.FocusedFrame;
       if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.SelectAll;
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.SelectAll;
     end;
 end;
 
@@ -1542,13 +1542,13 @@ begin
        else
         TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.LoadUrl(aURL);
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadUrl(aURL);
     end;
 end;
 
 procedure TFMXChromium.LoadURL(const aURL : ustring; const aFrame : ICefFrame);
 begin
-  if Initialized and (aFrame <> nil) then aFrame.LoadUrl(aURL);
+  if Initialized and (aFrame <> nil) and aFrame.IsValid then aFrame.LoadUrl(aURL);
 end;
 
 procedure TFMXChromium.LoadURL(const aURL : ustring; const aFrameIdentifier : int64);
@@ -1562,7 +1562,7 @@ begin
        else
         TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then TempFrame.LoadUrl(aURL);
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadUrl(aURL);
     end;
 end;
 
@@ -1573,7 +1573,7 @@ begin
   if Initialized then
     begin
       TempFrame := FBrowser.MainFrame;
-      if (TempFrame <> nil) then TempFrame.LoadString(aString, aURL);
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadString(aString, aURL);
     end;
 end;
 
@@ -1584,7 +1584,7 @@ begin
   if Initialized then
     begin
       TempFrame := FBrowser.MainFrame;
-      if (TempFrame <> nil) then TempFrame.LoadRequest(aRequest);
+      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadRequest(aRequest);
     end;
 end;
 
@@ -1774,7 +1774,7 @@ begin
   if Initialized then
     begin
       TempFrame := FBrowser.MainFrame;
-      if (TempFrame <> nil) then Result := TempFrame.URL;
+      if (TempFrame <> nil) and TempFrame.IsValid then Result := TempFrame.URL;
     end;
 end;
 
@@ -2235,7 +2235,7 @@ begin
        else
         TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then
+      if (TempFrame <> nil) and TempFrame.IsValid then
         try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetSource(TempVisitor);
@@ -2249,7 +2249,7 @@ procedure TFMXChromium.RetrieveHTML(const aFrame : ICefFrame);
 var
   TempVisitor : ICefStringVisitor;
 begin
-  if Initialized and (aFrame <> nil) then
+  if Initialized and (aFrame <> nil) and aFrame.IsValid then
     try
       TempVisitor := TCustomCefStringVisitor.Create(self);
       aFrame.GetSource(TempVisitor);
@@ -2270,7 +2270,7 @@ begin
        else
         TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then
+      if (TempFrame <> nil) and TempFrame.IsValid then
         try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetSource(TempVisitor);
@@ -2293,7 +2293,7 @@ begin
        else
         TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then
+      if (TempFrame <> nil) and TempFrame.IsValid then
         try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetText(TempVisitor);
@@ -2307,7 +2307,7 @@ procedure TFMXChromium.RetrieveText(const aFrame : ICefFrame);
 var
   TempVisitor : ICefStringVisitor;
 begin
-  if Initialized and (aFrame <> nil) then
+  if Initialized and (aFrame <> nil) and aFrame.IsValid then
     try
       TempVisitor := TCustomCefStringVisitor.Create(self);
       aFrame.GetText(TempVisitor);
@@ -2328,7 +2328,7 @@ begin
        else
         TempFrame := FBrowser.MainFrame;
 
-      if (TempFrame <> nil) then
+      if (TempFrame <> nil) and TempFrame.IsValid then
         try
           TempVisitor := TCustomCefStringVisitor.Create(self);
           TempFrame.GetText(TempVisitor);
@@ -3157,7 +3157,7 @@ begin
          else
           TempFrame := FBrowser.MainFrame;
 
-        if (TempFrame <> nil) then
+        if (TempFrame <> nil) and TempFrame.IsValid then
           TempFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
       end;
   except
@@ -3169,7 +3169,7 @@ end;
 procedure TFMXChromium.ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrame : ICefFrame; aStartLine : integer);
 begin
   try
-    if Initialized and (aFrame <> nil) then
+    if Initialized and (aFrame <> nil) and aFrame.IsValid then
       aFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
   except
     on e : exception do
@@ -3189,7 +3189,7 @@ begin
          else
           TempFrame := FBrowser.MainFrame;
 
-        if (TempFrame <> nil) then
+        if (TempFrame <> nil) and TempFrame.IsValid then
           TempFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
       end;
   except
@@ -4305,7 +4305,7 @@ begin
          else
           TempFrame := FBrowser.MainFrame;
 
-        if (TempFrame <> nil) then
+        if (TempFrame <> nil) and TempFrame.IsValid then
           TempFrame.SendProcessMessage(targetProcess, ProcMessage);
       end;
   except
@@ -4317,7 +4317,7 @@ end;
 procedure TFMXChromium.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrame : ICefFrame);
 begin
   try
-    if Initialized and (aFrame <> nil) then
+    if Initialized and (aFrame <> nil) and aFrame.IsValid then
       aFrame.SendProcessMessage(targetProcess, ProcMessage);
   except
     on e : exception do
@@ -4337,7 +4337,7 @@ begin
          else
           TempFrame := FBrowser.MainFrame;
 
-        if (TempFrame <> nil) then
+        if (TempFrame <> nil) and TempFrame.IsValid then
           TempFrame.SendProcessMessage(targetProcess, ProcMessage);
       end;
   except
@@ -4360,7 +4360,7 @@ begin
          else
           TempFrame := FBrowser.MainFrame;
 
-        if (TempFrame <> nil) then
+        if (TempFrame <> nil) and TempFrame.IsValid then
           Result := TempFrame.CreateUrlRequest(request, client);
       end;
   except
@@ -4374,7 +4374,7 @@ begin
   Result := nil;
 
   try
-    if Initialized and (aFrame <> nil) then
+    if Initialized and (aFrame <> nil) and aFrame.IsValid then
       Result := aFrame.CreateUrlRequest(request, client);
   except
     on e : exception do
@@ -4396,7 +4396,7 @@ begin
          else
           TempFrame := FBrowser.MainFrame;
 
-        if (TempFrame <> nil) then
+        if (TempFrame <> nil) and TempFrame.IsValid then
           Result := TempFrame.CreateUrlRequest(request, client);
       end;
   except

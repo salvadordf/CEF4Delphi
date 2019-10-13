@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -432,7 +432,8 @@ begin
         end;
     end;
 
-  pFrame.SendProcessMessage(PID_BROWSER, pAnswer);
+  if (pFrame <> nil) and pFrame.IsValid then
+    pFrame.SendProcessMessage(PID_BROWSER, pAnswer);
 end;
 
 procedure ParseBinaryValue(const pBrowser : ICefBrowser; const pFrame: ICefFrame; const aBinaryValue : ICefBinaryValue);
@@ -476,7 +477,7 @@ begin
               TempString := 'Image size : ' + inttostr(TempSize) + #13 + #10 +
                             'Encoded image : ' + TempEncodedStream.DataString;
 
-              if pAnswer.ArgumentList.SetString(0, TempString) then
+              if (pFrame <> nil) and pFrame.IsValid and pAnswer.ArgumentList.SetString(0, TempString) then
                 pFrame.SendProcessMessage(PID_BROWSER, pAnswer);
             end;
         end;
@@ -512,9 +513,9 @@ begin
     begin
       TempScript := pMessage.ArgumentList.GetString(0);
 
-      if (length(TempScript) > 0) then
+      if (length(TempScript) > 0) and (pFrame <> nil) and pFrame.IsValid then
         begin
-          pV8Context := pBrowser.MainFrame.GetV8Context;
+          pV8Context := pFrame.GetV8Context;
 
           if pV8Context.Enter then
             begin

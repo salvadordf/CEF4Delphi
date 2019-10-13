@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCustomResourceHandler,
-  uCEFConstants, uCEFTypes, uCEFWinControl;
+  uCEFConstants, uCEFTypes, uCEFWinControl, uCEFSentinel;
 
 type
   TMainForm = class(TForm)
@@ -59,6 +59,7 @@ type
     Edit1: TEdit;
     Button1: TButton;
     Timer1: TTimer;
+    CEFSentinel1: TCEFSentinel;
 
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -69,6 +70,7 @@ type
 
     procedure ChromiumWindow1Close(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -86,6 +88,7 @@ type
     procedure Chromium_OnAfterCreated(Sender: TObject);
     procedure Chromium_OnGetResourceHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler : ICefResourceHandler);
     procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium_OnGetResourceRequestHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aExternalResourceRequestHandler : ICefResourceRequestHandler; var aUseInternalResourceRequestHandler : boolean);
 
   public
     { Public declarations }
@@ -107,7 +110,8 @@ uses
 // =================
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
-// 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
+// 3. TChromiumWindow.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -157,9 +161,10 @@ end;
 
 procedure TMainForm.FormShow(Sender: TObject);
 begin
-  ChromiumWindow1.OnAfterCreated                       := Chromium_OnAfterCreated;
-  ChromiumWindow1.ChromiumBrowser.OnGetResourceHandler := Chromium_OnGetResourceHandler;
-  ChromiumWindow1.ChromiumBrowser.OnBeforePopup        := Chromium_OnBeforePopup;
+  ChromiumWindow1.OnAfterCreated                              := Chromium_OnAfterCreated;
+  ChromiumWindow1.ChromiumBrowser.OnGetResourceHandler        := Chromium_OnGetResourceHandler;
+  ChromiumWindow1.ChromiumBrowser.OnGetResourceRequestHandler := Chromium_OnGetResourceRequestHandler;
+  ChromiumWindow1.ChromiumBrowser.OnBeforePopup               := Chromium_OnBeforePopup;
 
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
@@ -173,20 +178,21 @@ begin
     Timer1.Enabled := True;
 end;
 
-procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
+procedure TMainForm.CEFSentinel1Close(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
+procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
+begin
+  CEFSentinel1.Start;
+end;
+
 procedure TMainForm.ChromiumWindow1Close(Sender: TObject);
 begin
   // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then
-    begin
-      FCanClose := True;
-      Close;
-    end;
+  if not(ChromiumWindow1.DestroyChildWindow) then CEFSentinel1.Start;
 end;
 
 procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject);
@@ -221,6 +227,21 @@ procedure TMainForm.Chromium_OnBeforePopup(      Sender             : TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TMainForm.Chromium_OnGetResourceRequestHandler(      Sender                             : TObject;
+                                                         const browser                            : ICefBrowser;
+                                                         const frame                              : ICefFrame;
+                                                         const request                            : ICefRequest;
+                                                               is_navigation                      : boolean;
+                                                               is_download                        : boolean;
+                                                         const request_initiator                  : ustring;
+                                                         var   disable_default_handling           : boolean;
+                                                         var   aExternalResourceRequestHandler    : ICefResourceRequestHandler;
+                                                         var   aUseInternalResourceRequestHandler : boolean);
+begin
+  disable_default_handling           := True;
+  aUseInternalResourceRequestHandler := True;
 end;
 
 procedure TMainForm.WMMove(var aMessage : TWMMove);

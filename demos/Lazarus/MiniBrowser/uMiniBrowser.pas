@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -496,6 +496,7 @@ begin
 
   if Chromium1.IsSameBrowser(browser) and
      (frame <> nil) and
+     frame.IsValid and
      frame.IsMain then
     InspectRequest(request);
 end;
@@ -568,8 +569,8 @@ begin
       end;
 
     MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
+      if (frame <> nil) and frame.IsValid then
+        frame.ExecuteJavaScript(
           'var css = ' + chr(39) + '@page {size: A4; margin: 0;} @media print {html, body {width: 210mm; height: 297mm;}}' + chr(39) + '; ' +
           'var style = document.createElement(' + chr(39) + 'style' + chr(39) + '); ' +
           'style.type = ' + chr(39) + 'text/css' + chr(39) + '; ' +
@@ -578,8 +579,8 @@ begin
           'about:blank', 0);
 
     MINIBROWSER_CONTEXTMENU_JSPRINTDOC :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript('window.print();', 'about:blank', 0);
+      if (frame <> nil) and frame.IsValid then
+        frame.ExecuteJavaScript('window.print();', 'about:blank', 0);
 
     MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO :
       Chromium1.AudioMuted := False;
@@ -720,6 +721,8 @@ procedure TMiniBrowserFrm.Chromium1LoadEnd(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   httpStatusCode: Integer);
 begin
+  if (frame = nil) or not(frame.IsValid) then exit;
+
   if frame.IsMain then
     StatusPnl.Caption := 'main frame loaded : ' + quotedstr(frame.name)
    else
@@ -902,6 +905,7 @@ begin
 
   if Chromium1.IsSameBrowser(browser) and
      (frame <> nil) and
+     frame.IsValid and
      frame.IsMain then
     InspectResponse(response);
 end;

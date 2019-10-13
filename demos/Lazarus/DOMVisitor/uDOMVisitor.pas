@@ -218,7 +218,7 @@ end;
 
 procedure DOMVisitor_OnDocAvailable(const browser: ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument);
 var
-  msg: ICefProcessMessage;
+  TempMessage : ICefProcessMessage;
 begin
   // This function is called from a different process.
   // document is only valid inside this function.
@@ -239,21 +239,33 @@ begin
   // Sending back some custom results to the browser process
   // Notice that the DOMVISITOR_MSGNAME_PARTIAL message name needs to be recognized in
   // Chromium1ProcessMessageReceived
-  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_PARTIAL);
-  msg.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
-  frame.SendProcessMessage(PID_BROWSER, msg);
+  try
+    TempMessage := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_PARTIAL);
+    TempMessage.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
+
+    if (frame <> nil) and frame.IsValid then
+      frame.SendProcessMessage(PID_BROWSER, TempMessage);
+  finally
+    TempMessage := nil;
+  end;
 end;
 
 procedure DOMVisitor_OnDocAvailableFullMarkup(const browser: ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument);
 var
-  msg: ICefProcessMessage;
+  TempMessage : ICefProcessMessage;
 begin
   // Sending back some custom results to the browser process
   // Notice that the DOMVISITOR_MSGNAME_FULL message name needs to be recognized in
   // Chromium1ProcessMessageReceived
-  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_FULL);
-  msg.ArgumentList.SetString(0, document.Body.AsMarkup);
-  frame.SendProcessMessage(PID_BROWSER, msg);
+  try
+    TempMessage := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_FULL);
+    TempMessage.ArgumentList.SetString(0, document.Body.AsMarkup);
+
+    if (frame <> nil) and frame.IsValid then
+      frame.SendProcessMessage(PID_BROWSER, TempMessage);
+  finally
+    TempMessage := nil;
+  end;
 end;
 
 procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
@@ -262,7 +274,6 @@ procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowse
                                                 const message       : ICefProcessMessage;
                                                 var   aHandled      : boolean);
 var
-  TempFrame   : ICefFrame;
   TempVisitor : TCefFastDomVisitor2;
 begin
   aHandled := False;
@@ -271,12 +282,10 @@ begin
     begin
       if (message.name = RETRIEVEDOM_MSGNAME_PARTIAL) then
         begin
-          TempFrame := browser.MainFrame;
-
-          if (TempFrame <> nil) then
+          if (frame <> nil) and frame.IsValid then
             begin
               TempVisitor := TCefFastDomVisitor2.Create(browser, frame, DOMVisitor_OnDocAvailable);
-              TempFrame.VisitDom(TempVisitor);
+              frame.VisitDom(TempVisitor);
             end;
 
           aHandled := True;
@@ -284,12 +293,10 @@ begin
        else
         if (message.name = RETRIEVEDOM_MSGNAME_FULL) then
           begin
-            TempFrame := browser.MainFrame;
-
-            if (TempFrame <> nil) then
+            if (frame <> nil) and frame.IsValid then
               begin
                 TempVisitor := TCefFastDomVisitor2.Create(browser, frame, DOMVisitor_OnDocAvailableFullMarkup);
-                TempFrame.VisitDom(TempVisitor);
+                frame.VisitDom(TempVisitor);
               end;
 
             aHandled := True;

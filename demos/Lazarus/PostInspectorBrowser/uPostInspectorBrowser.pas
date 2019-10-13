@@ -366,7 +366,9 @@ procedure TForm1.Chromium1BeforeResourceLoad(Sender: TObject;
 begin
   // This event is called before a resource request is loaded.
   // The request object may be modified.
-  HandleRequest(request, frame.IsMain);
+  if (frame <> nil) and frame.IsValid then
+    HandleRequest(request, frame.IsMain);
+
   Result := RV_CONTINUE;
 end;
 

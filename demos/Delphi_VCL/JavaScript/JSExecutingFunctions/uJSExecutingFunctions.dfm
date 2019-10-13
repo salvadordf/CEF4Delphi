@@ -79,4 +79,10 @@ object JSExecutingFunctionsFrm: TJSExecutingFunctionsFrm
     Left = 32
     Top = 288
   end
+  object CEFSentinel1: TCEFSentinel
+    MinInitDelayMs = 2000
+    OnClose = CEFSentinel1Close
+    Left = 32
+    Top = 360
+  end
 end

@@ -82,4 +82,9 @@ object CookieVisitorFrm: TCookieVisitorFrm
     Left = 32
     Top = 280
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    Left = 32
+    Top = 336
+  end
 end

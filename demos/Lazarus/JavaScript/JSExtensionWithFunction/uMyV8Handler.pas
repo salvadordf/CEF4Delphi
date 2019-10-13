@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -63,19 +63,28 @@ function TMyV8Handler.Execute(const name      : ustring;
                               var   retval    : ICefv8Value;
                               var   exception : ustring): Boolean;
 var
-  msg: ICefProcessMessage;
+  TempMessage : ICefProcessMessage;
+  TempFrame   : ICefFrame;
 begin
-  if (name = 'myfunc') then
-    begin
-      msg := TCefProcessMessageRef.New(TEST_MESSAGE_NAME);
-      msg.ArgumentList.SetString(0, 'Message received!');
-      TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage(PID_BROWSER, msg);
+  Result := False;
 
-      retval := TCefv8ValueRef.NewString('My Value!');
-      Result := True;
-    end
-   else
-    Result := False;
+  try
+    if (name = 'myfunc') then
+      begin
+        TempMessage := TCefProcessMessageRef.New(TEST_MESSAGE_NAME);
+        TempMessage.ArgumentList.SetString(0, 'Message received!');
+
+        TempFrame := TCefv8ContextRef.Current.Browser.MainFrame;
+
+        if (TempFrame <> nil) and TempFrame.IsValid then
+          TempFrame.SendProcessMessage(PID_BROWSER, TempMessage);
+
+        retval := TCefv8ValueRef.NewString('My Value!');
+        Result := True;
+      end;
+  finally
+    TempMessage := nil;
+  end;
 end;
 
 

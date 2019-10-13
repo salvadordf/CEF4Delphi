@@ -82,4 +82,9 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
     Left = 16
     Top = 96
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    Left = 16
+    Top = 152
+  end
 end

@@ -388,7 +388,7 @@ begin
 
   case commandId of
     MINIBROWSER_CONTEXTMENU_SETJSEVENT :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
+      if (frame <> nil) and frame.IsValid then
         begin
           TempJSCode := 'document.body.addEventListener("mouseover", function(evt){'+
                           'function getpath(n){'+
@@ -399,16 +399,16 @@ begin
                           'myextension.mouseover(getpath(evt.target))}'+
                         ')';
 
-          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+          frame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
         end;
 
     MINIBROWSER_CONTEXTMENU_JSVISITDOM :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
+      if (frame <> nil) and frame.IsValid then
         begin
           TempJSCode := 'var testhtml = document.body.innerHTML; ' +
                         'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');';
 
-          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+          frame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
         end;
 
     MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :

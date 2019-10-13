@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -246,7 +246,7 @@ procedure TForm1.Chromium1LoadEnd(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   httpStatusCode: Integer);
 begin
-  if (frame <> nil) and not(frame.isMain) then exit;
+  if (frame <> nil) and (not(frame.IsValid) or not(frame.isMain)) then exit;
 
   // Enable the "designMode" for all loaded files to edit them
   EnableDesignMode;

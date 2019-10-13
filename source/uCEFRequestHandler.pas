@@ -552,25 +552,25 @@ var
   TempUseInternalHandler : boolean;
 begin
   if (FEvents <> nil) then
-    begin
-      TempUseInternalHandler := True;
+    begin
+      TempUseInternalHandler := True;
 
-      IChromiumEvents(FEvents).doOnGetResourceRequestHandler(browser, frame, request,
-                                                             is_navigation, is_download,
-                                                             request_initiator,
-                                                             disable_default_handling,
-                                                             aResourceRequestHandler,
-                                                             TempUseInternalHandler);
+      IChromiumEvents(FEvents).doOnGetResourceRequestHandler(browser, frame, request,
+                                                             is_navigation, is_download,
+                                                             request_initiator,
+                                                             disable_default_handling,
+                                                             aResourceRequestHandler,
+                                                             TempUseInternalHandler);
 
-      if TempUseInternalHandler then
-        begin
-          if (FResourceRequestHandler <> nil) then
-            aResourceRequestHandler := FResourceRequestHandler
-           else
-            aResourceRequestHandler := nil;
-        end;
-    end
-   else
+      if TempUseInternalHandler then
+        begin
+          if (FResourceRequestHandler <> nil) then
+            aResourceRequestHandler := FResourceRequestHandler
+           else
+            aResourceRequestHandler := nil;
+        end;
+    end
+   else
     inherited GetResourceRequestHandler(browser, frame, request,
                                         is_navigation, is_download,
                                         request_initiator,

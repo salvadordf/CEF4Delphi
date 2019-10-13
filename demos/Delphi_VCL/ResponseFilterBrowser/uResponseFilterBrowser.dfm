@@ -167,4 +167,9 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Left = 56
     Top = 160
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    Left = 56
+    Top = 232
+  end
 end

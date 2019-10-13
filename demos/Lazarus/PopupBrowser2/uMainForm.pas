@@ -45,7 +45,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm,
-  uCEFWinControl, uCEFChromiumEvents;
+  uCEFWinControl, uCEFChromiumEvents, uCEFSentinel;
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;
@@ -325,8 +325,7 @@ begin
   Chromium1.LoadURL(AddressEdt.Text);
 end;
 
-procedure TMainForm.Chromium1BeforeClose(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TMainForm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
