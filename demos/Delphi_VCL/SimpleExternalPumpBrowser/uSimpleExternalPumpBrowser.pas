@@ -190,11 +190,7 @@ end;
 procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1Close(Sender: TObject);
 begin
   // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then
-    begin
-      FCanClose := True;
-      Close;
-    end;
+  if not(ChromiumWindow1.DestroyChildWindow) then CEFSentinel1.Start;
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);

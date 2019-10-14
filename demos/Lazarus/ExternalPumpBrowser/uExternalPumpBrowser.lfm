@@ -74,7 +74,6 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
     Width = 1038
     Align = alClient
     TabOrder = 1
-    OnResize = CEFWindowParent1Resize
   end
   object Timer1: TTimer
     Enabled = False
@@ -90,5 +89,10 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
     OnClose = Chromium1Close
     left = 56
     top = 152
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 56
+    top = 216
   end
 end

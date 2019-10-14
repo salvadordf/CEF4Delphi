@@ -22,12 +22,12 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="204"/>
-        <CursorPos X="68" Y="221"/>
+        <TopLine Value="89"/>
+        <CursorPos Y="112"/>
         <UsageCount Value="21"/>
         <Bookmarks Count="2">
-          <Item0 X="42" Y="143" ID="1"/>
-          <Item1 X="65" Y="222" ID="2"/>
+          <Item0 X="42" Y="144" ID="1"/>
+          <Item1 X="65" Y="223" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

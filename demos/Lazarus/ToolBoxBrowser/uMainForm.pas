@@ -107,7 +107,8 @@ uses
 // Destruction steps
 // =================
 // 1. Destroy all child forms
-// 2. Wait until all the child forms are closed before closing the main form and terminating the application.
+// 2. Wait until all the child forms are closed before calling TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when all renderer processes are closed
+// 3. TCEFSentinel.OnClose closes the main form.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin

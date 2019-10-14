@@ -144,4 +144,9 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     left = 24
     top = 206
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 24
+    top = 136
+  end
 end

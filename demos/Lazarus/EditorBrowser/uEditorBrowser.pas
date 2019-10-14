@@ -48,10 +48,14 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ToolWin, ComCtrls,
   ImgList,
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 type
+
+  { TForm1 }
+
   TForm1 = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     Timer1: TTimer;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
@@ -88,6 +92,7 @@ type
     OutdentBtn: TToolButton;
     Separator7: TToolButton;
 
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
 
     procedure FormShow(Sender: TObject);
@@ -166,7 +171,8 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -231,8 +237,7 @@ end;
 procedure TForm1.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TForm1.Chromium1Close(Sender: TObject;
@@ -434,6 +439,12 @@ begin
   Timer1.Enabled := False;
   if not(Chromium1.CreateBrowser(CEFWindowParent1)) and not(Chromium1.Initialized) then
     Timer1.Enabled := True;
+end;
+
+procedure TForm1.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.OpenBtnClick(Sender: TObject);

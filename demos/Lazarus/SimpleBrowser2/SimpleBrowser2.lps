@@ -35,8 +35,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="147"/>
-        <CursorPos X="22" Y="167"/>
+        <TopLine Value="97"/>
+        <CursorPos X="82" Y="127"/>
         <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -423,7 +423,7 @@
         <UsageCount Value="10"/>
       </Unit54>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
         <Filename Value="usimplelazarusbrowser.pas"/>
         <Caret Line="67" Column="29" TopLine="57"/>
@@ -458,12 +458,8 @@
       </Position8>
       <Position9>
         <Filename Value="usimplelazarusbrowser.pas"/>
-        <Caret Line="131" TopLine="136"/>
-      </Position9>
-      <Position10>
-        <Filename Value="usimplelazarusbrowser.pas"/>
         <Caret Line="133" TopLine="133"/>
-      </Position10>
+      </Position9>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

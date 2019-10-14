@@ -138,7 +138,6 @@ uses
 // After the request has been handled we send a custom message to the form (CEF_SHOWDATA)
 // to add the information to the TMemo safely in the main thread.
 
-
 // Destruction steps
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.

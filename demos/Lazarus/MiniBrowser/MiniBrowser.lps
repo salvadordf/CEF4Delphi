@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="995"/>
-        <CursorPos Y="1002"/>
+        <TopLine Value="276"/>
+        <CursorPos Y="293"/>
         <UsageCount Value="20"/>
         <Bookmarks Count="2">
           <Item0 X="41" Y="993" ID="1"/>

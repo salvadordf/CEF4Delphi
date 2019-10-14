@@ -71,7 +71,12 @@ object MainForm: TMainForm
     top = 152
   end
   object ApplicationProperties1: TApplicationProperties
-    left = 52
-    top = 36
+    left = 56
+    top = 40
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 56
+    top = 221
   end
 end

@@ -722,9 +722,9 @@ type
       property  OnHttpAuthCredentialsCleared       : TNotifyEvent                             read FOnHttpAuthCredentialsCleared       write FOnHttpAuthCredentialsCleared;
       property  OnAllConnectionsClosed             : TNotifyEvent                             read FOnAllConnectionsClosed             write FOnAllConnectionsClosed;
       {$IFNDEF FPC}
-      property  OnBrowserCompMsg                   : TOnCompMsgEvent                     read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
-      property  OnWidgetCompMsg                    : TOnCompMsgEvent                     read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
-      property  OnRenderCompMsg                    : TOnCompMsgEvent                     read FOnRenderCompMsg                    write FOnRenderCompMsg;
+      property  OnBrowserCompMsg                   : TOnCompMsgEvent                          read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
+      property  OnWidgetCompMsg                    : TOnCompMsgEvent                          read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
+      property  OnRenderCompMsg                    : TOnCompMsgEvent                          read FOnRenderCompMsg                    write FOnRenderCompMsg;
       {$ENDIF}
 
       // ICefClient
@@ -3376,13 +3376,13 @@ end;
 
 function TChromium.MustCreateResourceRequestHandler : boolean;
 begin
-  Result := assigned(FOnBeforeResourceLoad) or
-            assigned(FOnGetResourceHandler) or
-            assigned(FOnResourceRedirect) or
-            assigned(FOnResourceResponse) or
+  Result := assigned(FOnBeforeResourceLoad)        or
+            assigned(FOnGetResourceHandler)        or
+            assigned(FOnResourceRedirect)          or
+            assigned(FOnResourceResponse)          or
             assigned(FOnGetResourceResponseFilter) or
-            assigned(FOnResourceLoadComplete) or
-            assigned(FOnProtocolExecution) or
+            assigned(FOnResourceLoadComplete)      or
+            assigned(FOnProtocolExecution)         or
             MustCreateCookieAccessFilter;
 end;
 

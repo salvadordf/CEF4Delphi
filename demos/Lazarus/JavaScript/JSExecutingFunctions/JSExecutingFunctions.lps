@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="174"/>
-        <CursorPos X="74" Y="179"/>
+        <TopLine Value="194"/>
+        <CursorPos X="22" Y="200"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -53,7 +53,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="11" HistoryIndex="10">
       <Position1>
         <Filename Value="uJSExecutingFunctions.pas"/>
       </Position1>
@@ -89,6 +89,14 @@
         <Filename Value="uJSExecutingFunctions.pas"/>
         <Caret Line="116" Column="11" TopLine="100"/>
       </Position9>
+      <Position10>
+        <Filename Value="uJSExecutingFunctions.pas"/>
+        <Caret Line="140" Column="82" TopLine="138"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uJSExecutingFunctions.pas"/>
+        <Caret Line="145" Column="82" TopLine="143"/>
+      </Position11>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

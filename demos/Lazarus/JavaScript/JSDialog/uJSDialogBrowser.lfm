@@ -65,4 +65,9 @@ object JSDialogBrowserFrm: TJSDialogBrowserFrm
     left = 56
     top = 88
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 128
+    top = 88
+  end
 end

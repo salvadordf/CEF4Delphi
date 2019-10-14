@@ -85,4 +85,9 @@ object SimpleExternalPumpBrowserFrm: TSimpleExternalPumpBrowserFrm
     left = 56
     top = 88
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 56
+    top = 168
+  end
 end

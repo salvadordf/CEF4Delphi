@@ -104,4 +104,9 @@ object DOMVisitorFrm: TDOMVisitorFrm
     left = 16
     top = 96
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 16
+    top = 160
+  end
 end
