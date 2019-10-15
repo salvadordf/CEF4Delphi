@@ -248,6 +248,7 @@ begin
   end;
 end;
 
+
 function TSimpleServerFrm.BufferToString(const aBuffer : TBytes) : string;
 var
   i, j : integer;
