@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 101
+  Left = 679
   Height = 624
-  Top = 120
+  Top = 160
   Width = 1038
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 624
@@ -15,7 +15,7 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 21
@@ -71,7 +71,12 @@ object MainForm: TMainForm
     top = 152
   end
   object ApplicationProperties1: TApplicationProperties
-    left = 59
-    top = 235
+    left = 56
+    top = 216
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 56
+    top = 288
   end
 end

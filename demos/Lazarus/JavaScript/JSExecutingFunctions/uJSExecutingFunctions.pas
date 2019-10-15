@@ -52,7 +52,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
-  uCEFConstants, uCEFv8Value, uCEFWinControl;
+  uCEFConstants, uCEFv8Value, uCEFWinControl, uCEFSentinel;
 
 const
   JSDEMO_CONTEXTMENU_EXECFUNCTION = MENU_ID_USER_FIRST + 1;
@@ -60,13 +60,18 @@ const
   EXECFUNCTION_MSGNAME = 'execfunction';
 
 type
+
+  { TJSExecutingFunctionsFrm }
+
   TJSExecutingFunctionsFrm = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     NavControlPnl: TPanel;
     Edit1: TEdit;
     GoBtn: TButton;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -136,7 +141,8 @@ implementation
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 uses
   uCEFProcessMessage, uMyV8Handler;
@@ -176,7 +182,6 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.OnContextCreated         := GlobalCEFApp_OnContextCreated;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
-  GlobalCEFApp.DisableFeatures          := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TJSExecutingFunctionsFrm.GoBtnClick(Sender: TObject);
@@ -192,8 +197,7 @@ end;
 procedure TJSExecutingFunctionsFrm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TJSExecutingFunctionsFrm.Chromium1BeforeContextMenu(
@@ -272,6 +276,12 @@ begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
+end;
+
+procedure TJSExecutingFunctionsFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSExecutingFunctionsFrm.WMMove(var aMessage : TWMMove);

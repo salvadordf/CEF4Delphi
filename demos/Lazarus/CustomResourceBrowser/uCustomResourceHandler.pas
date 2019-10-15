@@ -131,7 +131,7 @@ begin
   if (FStream <> nil) and (DataOut <> nil) then
     begin
       BytesRead := FStream.Read(DataOut^, BytesToRead);
-      Result    := True;
+      Result    := (BytesRead > 0);
     end
    else
     Result := False;

@@ -16,7 +16,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   OnHide = FormHide
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -143,5 +143,10 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnTimer = Timer1Timer
     left = 24
     top = 206
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 24
+    top = 136
   end
 end

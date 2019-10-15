@@ -80,4 +80,9 @@ object MainForm: TMainForm
       TabOrder = 0
     end
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    Left = 56
+    Top = 80
+  end
 end

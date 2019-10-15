@@ -49,7 +49,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
   {$ELSE}
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, StdCtrls, ExtCtrls;
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, uCEFSentinel;
   {$ENDIF}
 
 const
@@ -59,10 +59,15 @@ const
   CEFBROWSER_INITIALIZED      = WM_APP + $103;
 
 type
+
+  { TMainForm }
+
   TMainForm = class(TForm)
     ButtonPnl: TPanel;
+    CEFSentinel1: TCEFSentinel;
     Edit1: TEdit;
     Button1: TButton;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -102,7 +107,8 @@ uses
 // Destruction steps
 // =================
 // 1. Destroy all child forms
-// 2. Wait until all the child forms are closed before closing the main form and terminating the application.
+// 2. Wait until all the child forms are closed before calling TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when all renderer processes are closed
+// 3. TCEFSentinel.OnClose closes the main form.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
@@ -114,7 +120,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;    
-  GlobalCEFApp.DisableFeatures      := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.CreateToolboxChild(const ChildCaption, URL: string);
@@ -131,6 +136,12 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+end;
+
+procedure TMainForm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.CloseAllChildForms;
@@ -208,12 +219,8 @@ end;
 
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
 begin
-  // If there are no more child forms we can destroy the main form
-  if FClosing and (ChildFormCount = 0) then
-    begin
-      FCanClose := True;
-      PostMessage(Handle, WM_CLOSE, 0, 0);
-    end;
+  // If there are no more child forms we start the sentinel
+  if FClosing and (ChildFormCount = 0) then CEFSentinel1.Start;
 end;
 
 function TMainForm.CloseQuery: Boolean;

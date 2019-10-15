@@ -168,11 +168,11 @@ contains
   uCEFUrlRequestClientEvents in '..\source\uCEFUrlRequestClientEvents.pas',
   uCEFUrlRequestClientComponent in '..\source\uCEFUrlRequestClientComponent.pas',
   uCEFOSRIMEHandler in '..\source\uCEFOSRIMEHandler.pas',
-  uCEFAudioHandler in '..\source\uCEFAudioHandler.pas',
   uCEFCookieAccessFilter in '..\source\uCEFCookieAccessFilter.pas',
   uCEFResourceRequestHandler in '..\source\uCEFResourceRequestHandler.pas',
   uCEFResourceSkipCallback in '..\source\uCEFResourceSkipCallback.pas',
-  uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas';
+  uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas',
+  uCEFSentinel in '..\source\uCEFSentinel.pas';
 
 end.
 

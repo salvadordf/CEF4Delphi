@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 const
   CEF_SHOWDATA  = WM_APP + $B00;
@@ -65,6 +65,7 @@ type
     Memo1: TMemo;
     AddressCb: TComboBox;
     Splitter1: TSplitter;
+    CEFSentinel1: TCEFSentinel;
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -88,6 +89,7 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const request: ICefRequest; const callback: ICefRequestCallback;
       out Result: TCefReturnValue);
+    procedure CEFSentinel1Close(Sender: TObject);
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
@@ -136,17 +138,16 @@ uses
 // After the request has been handled we send a custom message to the form (CEF_SHOWDATA)
 // to add the information to the TMemo safely in the main thread.
 
-
 // Destruction steps
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
@@ -256,6 +257,7 @@ var
   i             : integer;
 begin
   TempArray := nil;
+
   try
     try
       TempPostData := request.PostData;
@@ -357,7 +359,9 @@ procedure TForm1.Chromium1BeforeResourceLoad(Sender: TObject;
 begin
   // This event is called before a resource request is loaded.
   // The request object may be modified.
-  HandleRequest(request, frame.IsMain);
+  if (frame <> nil) and frame.IsValid then
+    HandleRequest(request, frame.IsMain);
+
   Result := RV_CONTINUE;
 end;
 
@@ -379,6 +383,11 @@ begin
 end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  CEFSentinel1.Start;
+end;
+
+procedure TForm1.CEFSentinel1Close(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);

@@ -39,7 +39,7 @@ program TabBrowser;
 
 {$I cef.inc}
 
-uses
+uses          
   {$IFDEF DELPHI16_UP}
   Vcl.Forms,
   WinApi.Windows,

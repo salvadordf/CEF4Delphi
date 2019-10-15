@@ -45,12 +45,13 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
   Vcl.Controls, Vcl.StdCtrls, Vcl.Dialogs, Vcl.Buttons, Winapi.Messages,
-  Vcl.ExtCtrls, Vcl.ComCtrls;
+  Vcl.ExtCtrls, Vcl.ComCtrls,
   {$ELSE}
   Windows, SysUtils, Classes, Graphics, Forms,
   Controls, StdCtrls, Dialogs, Buttons, Messages,
-  ExtCtrls, ComCtrls;
+  ExtCtrls, ComCtrls,
   {$ENDIF}
+  uCEFSentinel;
 
 const
   CEFBROWSER_CREATED          = WM_APP + $100;
@@ -64,10 +65,12 @@ type
     NewBtn: TSpeedButton;
     ExitBtn: TSpeedButton;
     NewContextChk: TCheckBox;
+    CEFSentinel1: TCEFSentinel;
     procedure FormCreate(Sender: TObject);
     procedure NewBtnClick(Sender: TObject);
     procedure ExitBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
   private
     // Variables to control when can we destroy the form safely
     FCanClose     : boolean;  // Set to True when all the child forms are closed
@@ -104,7 +107,8 @@ uses
 // Destruction steps
 // =================
 // 1. Destroy all child forms
-// 2. Wait until all the child forms are closed before closing the main form and terminating the application.
+// 2. Wait until all the child forms are closed before calling TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when all renderer processes are closed
+// 3. TCEFSentinel.OnClose closes the main form.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
@@ -116,7 +120,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
-  GlobalCEFApp.DisableFeatures      := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.CreateMDIChild(const Name: string);
@@ -182,14 +185,19 @@ begin
     CloseAllChildForms;
 end;
 
+procedure TMainForm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
 begin
   // If there are no more child forms we can destroy the main form
   if FClosing and (MDIChildCount = 0) then
     begin
       ButtonPnl.Enabled := False;
-      FCanClose := True;
-      PostMessage(Handle, WM_CLOSE, 0, 0);
+      CEFSentinel1.Start;
     end;
 end;
 

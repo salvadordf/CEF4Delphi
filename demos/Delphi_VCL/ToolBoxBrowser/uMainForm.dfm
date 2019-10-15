@@ -45,4 +45,8 @@ object MainForm: TMainForm
       OnClick = Button1Click
     end
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    Left = 224
+  end
 end

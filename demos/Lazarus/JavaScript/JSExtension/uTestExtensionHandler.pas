@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -69,35 +69,46 @@ function TTestExtensionHandler.Execute(const name      : ustring;
                                        var   retval    : ICefv8Value;
                                        var   exception : ustring): Boolean;
 var
-  msg: ICefProcessMessage;
+  TempMessage : ICefProcessMessage;
+  TempFrame   : ICefFrame;
 begin
-  if (name = 'mouseover') then
-    begin
-      if (length(arguments) > 0) and arguments[0].IsString then
-        begin
-          msg := TCefProcessMessageRef.New(MOUSEOVER_MESSAGE_NAME);
-          msg.ArgumentList.SetString(0, arguments[0].GetStringValue);
+  Result := False;
 
-          TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage(PID_BROWSER, msg);
-        end;
-
-      Result := True;
-    end
-   else
-    if (name = 'sendresulttobrowser') then
+  try
+    if (name = 'mouseover') then
       begin
-        if (length(arguments) > 1) and arguments[0].IsString and arguments[1].IsString then
+        if (length(arguments) > 0) and arguments[0].IsString then
           begin
-            msg := TCefProcessMessageRef.New(arguments[1].GetStringValue);
-            msg.ArgumentList.SetString(0, arguments[0].GetStringValue);
+            TempMessage := TCefProcessMessageRef.New(MOUSEOVER_MESSAGE_NAME);
+            TempMessage.ArgumentList.SetString(0, arguments[0].GetStringValue);
 
-            TCefv8ContextRef.Current.Browser.MainFrame.SendProcessMessage(PID_BROWSER, msg);
+            TempFrame := TCefv8ContextRef.Current.Browser.MainFrame;
+
+            if (TempFrame <> nil) and TempFrame.IsValid then
+              TempFrame.SendProcessMessage(PID_BROWSER, TempMessage);
           end;
 
         Result := True;
       end
      else
-      Result := False;
+      if (name = 'sendresulttobrowser') then
+        begin
+          if (length(arguments) > 1) and arguments[0].IsString and arguments[1].IsString then
+            begin
+              TempMessage := TCefProcessMessageRef.New(arguments[1].GetStringValue);
+              TempMessage.ArgumentList.SetString(0, arguments[0].GetStringValue);
+
+              TempFrame := TCefv8ContextRef.Current.Browser.MainFrame;
+
+              if (TempFrame <> nil) and TempFrame.IsValid then
+                TempFrame.SendProcessMessage(PID_BROWSER, TempMessage);
+            end;
+
+          Result := True;
+        end;
+  finally
+    TempMessage := nil;
+  end;
 end;
 
 end.

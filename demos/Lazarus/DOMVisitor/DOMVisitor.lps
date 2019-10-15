@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="294"/>
-        <CursorPos X="74" Y="305"/>
+        <TopLine Value="151"/>
+        <CursorPos X="82" Y="163"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -61,45 +61,46 @@
         <UsageCount Value="10"/>
       </Unit5>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="DOMVisitor.lpr"/>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="303" Column="44" TopLine="285"/>
       </Position1>
       <Position2>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="303" Column="44" TopLine="285"/>
+        <Caret Line="39" TopLine="19"/>
       </Position2>
       <Position3>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="39" TopLine="19"/>
+        <Caret Line="305" Column="44" TopLine="287"/>
       </Position3>
       <Position4>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="305" Column="44" TopLine="287"/>
+        <Caret Line="306" Column="64" TopLine="287"/>
       </Position4>
       <Position5>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="306" Column="64" TopLine="287"/>
+        <Caret Line="261" Column="11" TopLine="243"/>
       </Position5>
       <Position6>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="261" Column="11" TopLine="243"/>
+        <Caret Line="305" Column="81" TopLine="287"/>
       </Position6>
       <Position7>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="305" Column="81" TopLine="287"/>
+        <Caret Line="305" Column="113" TopLine="287"/>
       </Position7>
       <Position8>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="305" Column="113" TopLine="287"/>
+        <Caret Line="311" Column="59" TopLine="287"/>
       </Position8>
       <Position9>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="311" Column="59" TopLine="287"/>
+        <Caret Line="261" Column="11" TopLine="109"/>
       </Position9>
       <Position10>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="261" Column="11" TopLine="109"/>
+        <Caret Line="305" Column="44" TopLine="287"/>
       </Position10>
       <Position11>
         <Filename Value="uDOMVisitor.pas"/>
@@ -107,46 +108,46 @@
       </Position11>
       <Position12>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="305" Column="44" TopLine="287"/>
+        <Caret Line="483" TopLine="449"/>
       </Position12>
       <Position13>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="483" TopLine="449"/>
+        <Caret Line="52" TopLine="33"/>
       </Position13>
       <Position14>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="52" TopLine="33"/>
       </Position14>
       <Position15>
         <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="136" Column="8" TopLine="106"/>
       </Position15>
       <Position16>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="136" Column="8" TopLine="106"/>
+        <Caret Line="305" Column="67" TopLine="289"/>
       </Position16>
       <Position17>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="305" Column="67" TopLine="289"/>
+        <Caret Line="378" Column="16" TopLine="364"/>
       </Position17>
       <Position18>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="378" Column="16" TopLine="364"/>
+        <Caret Line="121" Column="15" TopLine="111"/>
       </Position18>
       <Position19>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="121" Column="15" TopLine="111"/>
+        <Caret Line="100" Column="43" TopLine="79"/>
       </Position19>
       <Position20>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="100" Column="43" TopLine="79"/>
+        <Caret Line="338" Column="39" TopLine="331"/>
       </Position20>
       <Position21>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="338" Column="39" TopLine="331"/>
+        <Caret Line="252" Column="77" TopLine="231"/>
       </Position21>
       <Position22>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="252" Column="77" TopLine="231"/>
+        <Caret Line="260" Column="81" TopLine="260"/>
       </Position22>
       <Position23>
         <Filename Value="uDOMVisitor.pas"/>
@@ -154,28 +155,32 @@
       </Position23>
       <Position24>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="260" Column="81" TopLine="260"/>
+        <Caret Line="256" Column="53" TopLine="236"/>
       </Position24>
       <Position25>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="256" Column="53" TopLine="236"/>
+        <Caret Line="276" Column="62" TopLine="263"/>
       </Position25>
       <Position26>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="276" Column="62" TopLine="263"/>
+        <Caret Line="291" Column="74" TopLine="281"/>
       </Position26>
       <Position27>
         <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="291" Column="74" TopLine="281"/>
+        <Caret Line="371" Column="55" TopLine="358"/>
       </Position27>
       <Position28>
-        <Filename Value="uDOMVisitor.pas"/>
-        <Caret Line="371" Column="55" TopLine="358"/>
-      </Position28>
-      <Position29>
         <Filename Value="DOMVisitor.lpr"/>
         <Caret Line="44" Column="13" TopLine="38"/>
+      </Position28>
+      <Position29>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="305" TopLine="294"/>
       </Position29>
+      <Position30>
+        <Filename Value="uDOMVisitor.pas"/>
+        <Caret Line="307" TopLine="296"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

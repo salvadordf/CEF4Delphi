@@ -10,7 +10,7 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 23
@@ -65,5 +65,10 @@ object Form1: TForm1
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     left = 40
     top = 136
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 40
+    top = 216
   end
 end

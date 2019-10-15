@@ -50,7 +50,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
   {$ENDIF}
-  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel, uCEFWorkScheduler;
+  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel, uCEFWorkScheduler,
+  uCEFSentinel;
 
 type
   TOSRExternalPumpBrowserFrm = class(TForm)
@@ -64,6 +65,7 @@ type
     SaveDialog1: TSaveDialog;
     Timer1: TTimer;
     Panel1: TBufferPanel;
+    CEFSentinel1: TCEFSentinel;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 
@@ -107,6 +109,7 @@ type
 
     procedure Timer1Timer(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -152,7 +155,8 @@ var
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
 //    set "Result" to false and CEF3 will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Now we set FCanClose to True and send WM_CLOSE to the form.
+//    Now we call TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4- TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
@@ -187,7 +191,6 @@ begin
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.DisableFeatures            := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 
@@ -326,6 +329,11 @@ begin
 end;
 
 procedure TOSRExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  CEFSentinel1.Start;
+end;
+
+procedure TOSRExternalPumpBrowserFrm.CEFSentinel1Close(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);

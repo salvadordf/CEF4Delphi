@@ -14,7 +14,7 @@ object JSSimpleWindowBindingFrm: TJSSimpleWindowBindingFrm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -68,5 +68,10 @@ object JSSimpleWindowBindingFrm: TJSSimpleWindowBindingFrm
     OnTimer = Timer1Timer
     left = 32
     top = 288
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 32
+    top = 360
   end
 end

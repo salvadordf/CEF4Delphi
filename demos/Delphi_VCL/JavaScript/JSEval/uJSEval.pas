@@ -51,7 +51,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, EncdDecd,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $101;
@@ -74,6 +74,7 @@ type
     GoBtn: TButton;
     AddressEdt: TEdit;
     Timer1: TTimer;
+    CEFSentinel1: TCEFSentinel;
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -102,6 +103,7 @@ type
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
+    procedure CEFSentinel1Close(Sender: TObject);
 
   private
     { Private declarations }
@@ -178,8 +180,14 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
+procedure TJSEvalFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
 
 procedure TJSEvalFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
@@ -189,8 +197,7 @@ end;
 procedure TJSEvalFrm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TJSEvalFrm.Chromium1BeforeContextMenu(Sender : TObject;
@@ -435,7 +442,8 @@ begin
         end;
     end;
 
-  pFrame.SendProcessMessage(PID_BROWSER, pAnswer);
+  if (pFrame <> nil) and pFrame.IsValid then
+    pFrame.SendProcessMessage(PID_BROWSER, pAnswer);
 end;
 
 procedure ParseBinaryValue(const pBrowser : ICefBrowser; const pFrame : ICefFrame; const aBinaryValue : ICefBinaryValue);
@@ -464,7 +472,7 @@ begin
               TempString := 'Image size : ' + inttostr(TempSize) + #13 + #10 +
                             'Encoded image : ' + EncodeBase64(TempPointer, TempSize);
 
-              if pAnswer.ArgumentList.SetString(0, TempString) then
+              if (pFrame <> nil) and pFrame.IsValid and pAnswer.ArgumentList.SetString(0, TempString) then
                 pFrame.SendProcessMessage(PID_BROWSER, pAnswer);
             end;
         end;
@@ -497,9 +505,9 @@ begin
     begin
       TempScript := pMessage.ArgumentList.GetString(0);
 
-      if (length(TempScript) > 0) then
+      if (length(TempScript) > 0) and (pFrame <> nil) and pFrame.IsValid then
         begin
-          pV8Context := pBrowser.MainFrame.GetV8Context;
+          pV8Context := pFrame.GetV8Context;
 
           if pV8Context.Enter then
             begin
@@ -524,7 +532,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.OnProcessMessageReceived := RenderProcessHandler_OnProcessMessageReceivedEvent;
-  GlobalCEFApp.DisableFeatures          := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TJSEvalFrm.Chromium1ProcessMessageReceived(      Sender        : TObject;

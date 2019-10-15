@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $100;
@@ -71,6 +71,7 @@ type
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
+    CEFSentinel1: TCEFSentinel;
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Chromium1BeforeContextMenu(Sender: TObject;
@@ -99,6 +100,7 @@ type
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
+    procedure CEFSentinel1Close(Sender: TObject);
   protected
     FText : string;
     // Variables to control when can we destroy the form safely
@@ -273,7 +275,8 @@ uses
 //    the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1
 //    in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 
 procedure GlobalCEFApp_OnWebKitInitialized;
@@ -315,7 +318,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
   {$IFDEF DEBUG}
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
@@ -327,6 +329,12 @@ begin
   Chromium1.LoadURL(Edit1.Text);
 end;
 
+procedure TJSExtensionFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TJSExtensionFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
@@ -335,8 +343,7 @@ end;
 procedure TJSExtensionFrm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TJSExtensionFrm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -383,7 +390,7 @@ begin
 
   case commandId of
     MINIBROWSER_CONTEXTMENU_SETJSEVENT :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
+      if (frame <> nil) and frame.IsValid then
         begin
           TempJSCode := 'document.body.addEventListener("mouseover", function(evt){'+
                           'function getpath(n){'+
@@ -394,16 +401,16 @@ begin
                           'myextension.mouseover(getpath(evt.target))}'+
                         ')';
 
-          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+          frame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
         end;
 
     MINIBROWSER_CONTEXTMENU_JSVISITDOM :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
+      if (frame <> nil) and frame.IsValid then
         begin
           TempJSCode := 'var testhtml = document.body.innerHTML; ' +
                         'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');';
 
-          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+          frame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
         end;
 
     MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :

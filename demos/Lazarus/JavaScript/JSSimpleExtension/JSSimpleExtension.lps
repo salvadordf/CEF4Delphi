@@ -22,15 +22,15 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="122"/>
-        <CursorPos X="69" Y="143"/>
+        <TopLine Value="209"/>
+        <CursorPos X="22" Y="234"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="uJSSimpleExtension.pas"/>
       </Position1>
@@ -46,6 +46,18 @@
         <Filename Value="uJSSimpleExtension.pas"/>
         <Caret Line="161" Column="39" TopLine="138"/>
       </Position4>
+      <Position5>
+        <Filename Value="uJSSimpleExtension.pas"/>
+        <Caret Line="143" TopLine="122"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uJSSimpleExtension.pas"/>
+        <Caret Line="148" TopLine="127"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uJSSimpleExtension.pas"/>
+        <Caret Line="233" TopLine="215"/>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

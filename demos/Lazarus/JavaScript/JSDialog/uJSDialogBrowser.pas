@@ -49,18 +49,24 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCEFTypes,
+  uCEFConstants, uCEFSentinel;
 
 const
   CEFBROWSER_SHOWJSDIALOG               = WM_APP + $101;
 
 type
+
+  { TJSDialogBrowserFrm }
+
   TJSDialogBrowserFrm = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     ChromiumWindow1: TChromiumWindow;
     AddressPnl: TPanel;
     AddressEdt: TEdit;
     GoBtn: TButton;
     Timer1: TTimer;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
@@ -113,13 +119,14 @@ uses
 // =================
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
-// 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
-                       
+// 3. TChromiumWindow.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
 
 procedure TJSDialogBrowserFrm.FormCreate(Sender: TObject);
@@ -175,6 +182,12 @@ begin
   ChromiumWindow1.LoadURL(AddressEdt.Text);
 end;
 
+procedure TJSDialogBrowserFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TJSDialogBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
@@ -210,15 +223,14 @@ begin
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
-procedure TJSDialogBrowserFrm.Chromium_OnJsdialog(Sender : TObject;
-                                                  const browser           : ICefBrowser;
-                                                  const originUrl         : ustring;
-                                                        dialogType        : TCefJsDialogType;
-                                                  const messageText       : ustring;
-                                                  const defaultPromptText : ustring;
-                                                  const callback          : ICefJsDialogCallback;
-                                                  out   suppressMessage   : Boolean;
-                                                  out   Result            : Boolean);
+procedure TJSDialogBrowserFrm.Chromium_OnJsdialog(Sender: TObject;
+                                                  const browser: ICefBrowser;
+                                                  const originUrl: ustring;
+                                                        dialogType: TCefJsDialogType;
+                                                  const messageText, defaultPromptText: ustring;
+                                                  const callback: ICefJsDialogCallback;
+                                                  out suppressMessage: Boolean;
+                                                  out Result: Boolean);
 begin
   // In this event we must store the dialog information and post a message to the main form to show the dialog
   FJSDialogInfoCS.Acquire;
@@ -247,18 +259,13 @@ end;
 
 procedure TJSDialogBrowserFrm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TJSDialogBrowserFrm.ChromiumWindow1Close(Sender: TObject);
 begin
   // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then
-    begin
-      FCanClose := True;
-      Close;
-    end;
+  if not(ChromiumWindow1.DestroyChildWindow) then CEFSentinel1.Start;
 end;
 
 procedure TJSDialogBrowserFrm.Chromium_OnBeforePopup(Sender: TObject;

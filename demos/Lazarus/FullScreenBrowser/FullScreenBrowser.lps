@@ -22,15 +22,15 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="92"/>
-        <CursorPos X="69" Y="120"/>
+        <TopLine Value="178"/>
+        <CursorPos X="71" Y="190"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="uMainForm.pas"/>
       </Position1>
@@ -50,6 +50,14 @@
         <Filename Value="FullScreenBrowser.lpr"/>
         <Caret Line="60" Column="22" TopLine="38"/>
       </Position5>
+      <Position6>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="117" TopLine="149"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="122" TopLine="122"/>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

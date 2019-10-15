@@ -8,7 +8,7 @@
       <Unit0>
         <Filename Value="CRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="40"/>
+        <TopLine Value="36"/>
         <CursorPos X="61" Y="62"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -21,9 +21,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="100"/>
-        <CursorPos X="66" Y="115"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="88"/>
+        <CursorPos X="82" Y="113"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -32,11 +32,11 @@
       <Unit2>
         <Filename Value="uCustomResourceHandler.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="92"/>
+        <CursorPos X="35" Y="134"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -56,22 +56,20 @@
       </Unit4>
       <Unit5>
         <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="750"/>
         <CursorPos X="92" Y="760"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="..\..\..\source\uCEFChromiumEvents.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="114"/>
         <CursorPos X="3" Y="125"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit6>
     </Units>
-    <JumpHistory Count="14" HistoryIndex="13">
+    <JumpHistory Count="16" HistoryIndex="15">
       <Position1>
         <Filename Value="uMainForm.pas"/>
       </Position1>
@@ -108,25 +106,33 @@
         <Caret Line="136" Column="59" TopLine="124"/>
       </Position9>
       <Position10>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="760" Column="16" TopLine="750"/>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="137" Column="84" TopLine="124"/>
       </Position10>
       <Position11>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="137" Column="84" TopLine="124"/>
+        <Caret Line="87" Column="145" TopLine="76"/>
       </Position11>
       <Position12>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="87" Column="145" TopLine="76"/>
+        <Caret Line="117" Column="69" TopLine="109"/>
       </Position12>
       <Position13>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="117" Column="69" TopLine="109"/>
+        <Caret Line="73" Column="30" TopLine="59"/>
       </Position13>
       <Position14>
-        <Filename Value="uMainForm.pas"/>
-        <Caret Line="73" Column="30" TopLine="59"/>
+        <Filename Value="CRBrowser.lpr"/>
+        <Caret Line="62" Column="61" TopLine="36"/>
       </Position14>
+      <Position15>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="122" Column="44" TopLine="100"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="124" Column="44" TopLine="102"/>
+      </Position16>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -50,15 +50,20 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 type
+
+  { TForm1 }
+
   TForm1 = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     ChromiumWindow1: TChromiumWindow;
     AddressPnl: TPanel;
     AddressEdt: TEdit;
     GoBtn: TButton;
     Timer1: TTimer;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
@@ -110,7 +115,8 @@ uses
 // =================
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
-// 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
+// 3. TChromiumWindow.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
@@ -147,17 +153,12 @@ end;
 procedure TForm1.ChromiumWindow1Close(Sender: TObject);
 begin
   // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then
-    begin
-      FCanClose := True;
-      Close;
-    end;
+  if not(ChromiumWindow1.DestroyChildWindow) then CEFSentinel1.Start;
 end;
 
 procedure TForm1.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TForm1.Chromium_OnBeforePopup(Sender: TObject;
@@ -186,6 +187,12 @@ procedure TForm1.GoBtnClick(Sender: TObject);
 begin
   // This will load the URL in the edit box
   ChromiumWindow1.LoadURL(AddressEdt.Text);
+end;
+
+procedure TForm1.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

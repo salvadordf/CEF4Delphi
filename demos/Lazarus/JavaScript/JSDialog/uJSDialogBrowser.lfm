@@ -15,7 +15,7 @@ object JSDialogBrowserFrm: TJSDialogBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object ChromiumWindow1: TChromiumWindow
     Left = 0
     Height = 603
@@ -63,6 +63,11 @@ object JSDialogBrowserFrm: TJSDialogBrowserFrm
     Interval = 300
     OnTimer = Timer1Timer
     left = 56
+    top = 88
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 128
     top = 88
   end
 end

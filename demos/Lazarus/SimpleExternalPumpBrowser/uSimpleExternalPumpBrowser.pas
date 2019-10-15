@@ -50,16 +50,21 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFTypes, uCEFConstants, uCEFInterfaces, uCEFWorkScheduler,
-  uCEFChromiumWindow {, Vcl.ComCtrls, Vcl.AppEvnts};
+  uCEFChromiumWindow, uCEFSentinel {, Vcl.ComCtrls, Vcl.AppEvnts};
 
 type
+
+  { TSimpleExternalPumpBrowserFrm }
+
   TSimpleExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
+    CEFSentinel1: TCEFSentinel;
     GoBtn: TButton;
     Timer1: TTimer;
     URLCbx: TComboBox;
     ChromiumWindow1: TChromiumWindow;
 
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -101,7 +106,8 @@ uses
 // It was necessary to destroy the browser with the following destruction sequence :
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
-// 3. TChromiumWindow.OnBeforeClose sets FCanClose to True and closes the form.
+// 3. TChromiumWindow.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
@@ -119,7 +125,6 @@ begin
   GlobalCEFApp                           := TCefApplication.Create;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;      
-  GlobalCEFApp.DisableFeatures           := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 
@@ -175,23 +180,24 @@ end;
 
 procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.ChromiumWindow1Close(Sender: TObject);
 begin
   // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then
-    begin
-      FCanClose := True;
-      Close;
-    end;
+  if not(ChromiumWindow1.DestroyChildWindow) then CEFSentinel1.Start;
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);
 begin
   ChromiumWindow1.LoadURL(URLCbx.Text);
+end;
+
+procedure TSimpleExternalPumpBrowserFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);

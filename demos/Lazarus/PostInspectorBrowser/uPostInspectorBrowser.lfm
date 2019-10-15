@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 71
+  Left = 670
   Height = 699
-  Top = 65
+  Top = 69
   Width = 1038
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 699
@@ -93,5 +93,10 @@ object Form1: TForm1
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     left = 56
     top = 152
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 56
+    top = 216
   end
 end

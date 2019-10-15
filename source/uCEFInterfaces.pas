@@ -142,7 +142,6 @@ type
   ICefLabelButton = interface;
   ICefMenuButton = interface;
   ICefUrlRequest = interface;
-  ICefAudioHandler = interface;
   ICefPostDataElement = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
@@ -375,10 +374,10 @@ type
     // ICefFindHandler
     procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
 
-    // ICefAudioHandler
-    procedure doOnAudioStreamStarted(const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer);
-    procedure doOnAudioStreamPacket(const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64);
-    procedure doOnAudioStreamStopped(const browser: ICefBrowser; audio_stream_id: integer);
+    // ICefRequestContextHandler
+    procedure doOnRequestContextInitialized(const request_context: ICefRequestContext);
+    function  doOnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean;
+    procedure doGetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
 
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
@@ -391,6 +390,9 @@ type
     function  doNavigationVisitorResultAvailable(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer) : boolean;
     procedure doDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
     procedure doOnCookiesStoreFlushed;
+    procedure doCertificateExceptionsCleared;
+    procedure doHttpAuthCredentialsCleared;
+    procedure doAllConnectionsClosed;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
     function  MustCreateContextMenuHandler : boolean;
@@ -404,7 +406,6 @@ type
     function  MustCreateRequestHandler : boolean;
     function  MustCreateDragHandler : boolean;
     function  MustCreateFindHandler : boolean;
-    function  MustCreateAudioHandler : boolean;
     function  MustCreateResourceRequestHandler : boolean;
     function  MustCreateCookieAccessFilter : boolean;
   end;
@@ -1770,17 +1771,6 @@ type
     procedure RemoveReferences; // custom procedure to clear all references
   end;
 
-  // TCefAudioHandler
-  // /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)
-  ICefAudioHandler = interface(ICefBaseRefCounted)
-    ['{8963271A-0B94-4279-82C8-FB2EA7B3CDEC}']
-    procedure OnAudioStreamStarted(const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer);
-    procedure OnAudioStreamPacket(const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64);
-    procedure OnAudioStreamStopped(const browser: ICefBrowser; audio_stream_id: integer);
-
-    procedure RemoveReferences; // custom procedure to clear all references
-  end;
-
   // TCefRunContextMenuCallback
   // /include/capi/cef_context_menu_handler_capi.h (cef_run_context_menu_callback_t)
   ICefRunContextMenuCallback = interface(ICefBaseRefCounted)
@@ -1846,7 +1836,6 @@ type
   // /include/capi/cef_client_capi.h (cef_client_t)
   ICefClient = interface(ICefBaseRefCounted)
     ['{1D502075-2FF0-4E13-A112-9E541CD811F4}']
-    procedure GetAudioHandler(var aHandler : ICefAudioHandler);
     procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
     procedure GetDialogHandler(var aHandler : ICefDialogHandler);
     procedure GetDisplayHandler(var aHandler : ICefDisplayHandler);
@@ -1987,8 +1976,10 @@ type
   ICefRequestContextHandler = interface(ICefBaseRefCounted)
     ['{76EB1FA7-78DF-4FD5-ABB3-1CDD3E73A140}']
     procedure OnRequestContextInitialized(const request_context: ICefRequestContext);
-    function  OnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): Boolean;
+    function  OnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean;
     procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   // TCefResolveCallback

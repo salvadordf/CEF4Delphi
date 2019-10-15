@@ -54,7 +54,7 @@ uses
   {$ELSE}
   Classes, SysUtils,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFCompletionCallback;
 
 type
   TCefRequestContextRef = class(TCefBaseRefCountedRef, ICefRequestContext)
@@ -92,11 +92,26 @@ type
       class function Shared(const other: ICefRequestContext; const handler: ICefRequestContextHandler): ICefRequestContext;
   end;
 
+  TCefClearCertificateExceptionsCompletionCallback = class(TCefCustomCompletionCallback)
+    protected
+      procedure OnComplete; override;
+  end;
+
+  TCefClearHttpAuthCredentialsCompletionCallback = class(TCefCustomCompletionCallback)
+    protected
+      procedure OnComplete; override;
+  end;
+
+  TCefCloseAllConnectionsCompletionCallback = class(TCefCustomCompletionCallback)
+    protected
+      procedure OnComplete; override;
+  end;
+
 implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFValue, uCEFDictionaryValue, uCEFCookieManager,
-  uCEFCompletionCallback, uCEFRequestContextHandler, uCEFExtension, uCEFStringList;
+  uCEFRequestContextHandler, uCEFExtension, uCEFStringList;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin
@@ -312,6 +327,57 @@ begin
     Result := Create(data) as ICefRequestContext
    else
     Result := nil;
+end;
+
+
+// TCefClearCertificateExceptionsCompletionCallback
+
+procedure TCefClearCertificateExceptionsCompletionCallback.OnComplete;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doCertificateExceptionsCleared;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefClearCertificateExceptionsCompletionCallback.OnComplete', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+
+// TCefClearHttpAuthCredentialsCompletionCallback
+
+procedure TCefClearHttpAuthCredentialsCompletionCallback.OnComplete;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doHttpAuthCredentialsCleared;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefClearHttpAuthCredentialsCompletionCallback.OnComplete', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+
+// TCefCloseAllConnectionsCompletionCallback
+
+procedure TCefCloseAllConnectionsCompletionCallback.OnComplete;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doAllConnectionsClosed;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCloseAllConnectionsCompletionCallback.OnComplete', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
 end;
 
 end.

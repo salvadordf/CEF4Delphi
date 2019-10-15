@@ -51,7 +51,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 const
   MINIBROWSER_VISITDOM_PARTIAL            = WM_APP + $101;
@@ -81,6 +81,7 @@ type
     Panel1: TPanel;
     GoBtn: TButton;
     VisitDOMBtn: TButton;
+    CEFSentinel1: TCEFSentinel;
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
@@ -111,6 +112,7 @@ type
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
+    procedure CEFSentinel1Close(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -165,7 +167,8 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure SimpleDOMIteration(const aDocument: ICefDomDocument);
 var
@@ -226,7 +229,7 @@ end;
 
 procedure DOMVisitor_OnDocAvailable(const browser: ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument);
 var
-  msg: ICefProcessMessage;
+  TempMessage : ICefProcessMessage;
 begin
   // This function is called from a different process.
   // document is only valid inside this function.
@@ -247,21 +250,33 @@ begin
   // Sending back some custom results to the browser process
   // Notice that the DOMVISITOR_MSGNAME_PARTIAL message name needs to be recognized in
   // Chromium1ProcessMessageReceived
-  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_PARTIAL);
-  msg.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
-  frame.SendProcessMessage(PID_BROWSER, msg);
+  try
+    TempMessage := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_PARTIAL);
+    TempMessage.ArgumentList.SetString(0, 'document.Title : ' + document.Title);
+
+    if (frame <> nil) and frame.IsValid then
+      frame.SendProcessMessage(PID_BROWSER, TempMessage);
+  finally
+    TempMessage := nil;
+  end;
 end;
 
 procedure DOMVisitor_OnDocAvailableFullMarkup(const browser: ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument);
 var
-  msg: ICefProcessMessage;
+  TempMessage : ICefProcessMessage;
 begin
   // Sending back some custom results to the browser process
   // Notice that the DOMVISITOR_MSGNAME_FULL message name needs to be recognized in
   // Chromium1ProcessMessageReceived
-  msg := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_FULL);
-  msg.ArgumentList.SetString(0, document.Body.AsMarkup);
-  frame.SendProcessMessage(PID_BROWSER, msg);
+  try
+    TempMessage := TCefProcessMessageRef.New(DOMVISITOR_MSGNAME_FULL);
+    TempMessage.ArgumentList.SetString(0, document.Body.AsMarkup);
+
+    if (frame <> nil) and frame.IsValid then
+      frame.SendProcessMessage(PID_BROWSER, TempMessage);
+  finally
+    TempMessage := nil;
+  end;
 end;
 
 procedure DOMVisitor_GetFrameIDs(const browser: ICefBrowser; const frame : ICefFrame);
@@ -285,9 +300,15 @@ begin
           inc(i);
         end;
 
-      TempMsg := TCefProcessMessageRef.New(FRAMEIDS_MSGNAME);
-      TempMsg.ArgumentList.SetString(0, TempString);
-      frame.SendProcessMessage(PID_BROWSER, TempMsg);
+      try
+        TempMsg := TCefProcessMessageRef.New(FRAMEIDS_MSGNAME);
+        TempMsg.ArgumentList.SetString(0, TempString);
+
+        if (frame <> nil) and frame.IsValid then
+          frame.SendProcessMessage(PID_BROWSER, TempMsg);
+      finally
+        TempMsg := nil;
+      end;
     end;
 end;
 
@@ -297,7 +318,6 @@ procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowse
                                                 const message       : ICefProcessMessage;
                                                 var   aHandled      : boolean);
 var
-  TempFrame   : ICefFrame;
   TempVisitor : TCefFastDomVisitor2;
 begin
   aHandled := False;
@@ -306,12 +326,10 @@ begin
     begin
       if (message.name = RETRIEVEDOM_MSGNAME_PARTIAL) then
         begin
-          TempFrame := browser.MainFrame;
-
-          if (TempFrame <> nil) then
+          if (frame <> nil) and frame.IsValid then
             begin
-              TempVisitor := TCefFastDomVisitor2.Create(browser, TempFrame, DOMVisitor_OnDocAvailable);
-              TempFrame.VisitDom(TempVisitor);
+              TempVisitor := TCefFastDomVisitor2.Create(browser, frame, DOMVisitor_OnDocAvailable);
+              frame.VisitDom(TempVisitor);
             end;
 
           aHandled := True;
@@ -319,12 +337,10 @@ begin
        else
         if (message.name = RETRIEVEDOM_MSGNAME_FULL) then
           begin
-            TempFrame := browser.MainFrame;
-
-            if (TempFrame <> nil) then
+            if (frame <> nil) and frame.IsValid then
               begin
-                TempVisitor := TCefFastDomVisitor2.Create(browser, TempFrame, DOMVisitor_OnDocAvailableFullMarkup);
-                TempFrame.VisitDom(TempVisitor);
+                TempVisitor := TCefFastDomVisitor2.Create(browser, frame, DOMVisitor_OnDocAvailableFullMarkup);
+                frame.VisitDom(TempVisitor);
               end;
 
             aHandled := True;
@@ -343,13 +359,18 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.RemoteDebuggingPort      := 9000;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
-  GlobalCEFApp.DisableFeatures          := 'NetworkService,OutOfBlinkCors';
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
   // Remove it if you don't want to use the DOM visitor
   GlobalCEFApp.LogFile              := 'debug.log';
   GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
+end;
+
+procedure TDOMVisitorFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TDOMVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -360,8 +381,7 @@ end;
 procedure TDOMVisitorFrm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TDOMVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;

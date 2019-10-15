@@ -552,6 +552,12 @@ const
   CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE     = 7;
   CEF_MAX_CONNECTIONS_PER_PROXY_MAX_VALUE     = 99;
 
+  // https://chromium.googlesource.com/chromium/src/+/refs/tags/77.0.3865.90/chrome/common/net/safe_search_util.h (YouTubeRestrictMode)
+  // https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict
+  YOUTUBE_RESTRICT_OFF      = 0;
+  YOUTUBE_RESTRICT_MODERATE = 1;
+  YOUTUBE_RESTRICT_STRICT   = 2;
+
   ZOOM_STEP_25  = 0;
   ZOOM_STEP_33  = 1;
   ZOOM_STEP_50  = 2;
@@ -583,6 +589,8 @@ const
   CEF_DOONBEFORECLOSE    = WM_APP + $A07;   
   CEF_PENDINGINVALIDATE  = WM_APP + $A08;
   CEF_IMERANGECHANGED    = WM_APP + $A09;
+  CEF_SENTINEL_START     = WM_APP + $A0A;
+  CEF_SENTINEL_DOCLOSE   = WM_APP + $A0B;
   {$ENDIF}
 
   CEF_TIMER_MINIMUM            = $0000000A;

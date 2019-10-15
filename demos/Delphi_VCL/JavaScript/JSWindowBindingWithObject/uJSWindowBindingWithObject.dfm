@@ -76,4 +76,9 @@ object JSWindowBindingWithObjectFrm: TJSWindowBindingWithObjectFrm
     Left = 32
     Top = 288
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    Left = 32
+    Top = 352
+  end
 end

@@ -8,7 +8,6 @@
       <Unit0>
         <Filename Value="SimpleBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="39"/>
         <CursorPos X="58" Y="57"/>
         <UsageCount Value="20"/>
@@ -21,9 +20,10 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="138"/>
-        <CursorPos X="41" Y="160"/>
+        <TopLine Value="149"/>
+        <CursorPos Y="157"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -33,14 +33,14 @@
         <Filename Value="uCEFLoader.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="45"/>
-        <CursorPos X="15" Y="59"/>
+        <TopLine Value="30"/>
+        <CursorPos Y="68"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="6" HistoryIndex="5">
       <Position1>
         <Filename Value="SimpleBrowser.lpr"/>
       </Position1>
@@ -56,6 +56,14 @@
         <Filename Value="uSimpleBrowser.pas"/>
         <Caret Line="81" Column="386" TopLine="60"/>
       </Position4>
+      <Position5>
+        <Filename Value="uSimpleBrowser.pas"/>
+        <Caret Line="114" Column="82" TopLine="90"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uSimpleBrowser.pas"/>
+        <Caret Line="119" Column="82" TopLine="95"/>
+      </Position6>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

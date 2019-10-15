@@ -1122,4 +1122,9 @@ object Form1: TForm1
     Left = 128
     Top = 200
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    Left = 56
+    Top = 256
+  end
 end

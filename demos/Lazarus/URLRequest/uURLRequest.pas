@@ -49,14 +49,19 @@ uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ComCtrls, StdCtrls,
   {$ENDIF}
-  uCEFInterfaces, uCEFUrlRequestClientComponent, uCEFRequest, uCEFUrlRequest;
+  uCEFInterfaces, uCEFUrlRequestClientComponent, uCEFRequest, uCEFUrlRequest,
+  uCEFSentinel;
 
 const
   URLREQUEST_SUCCESS    = WM_APP + $101;
   URLREQUEST_ERROR      = WM_APP + $102;
 
 type
+
+  { TURLRequestFrm }
+
   TURLRequestFrm = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     StatusBar1: TStatusBar;
     SaveDialog1: TSaveDialog;
     CEFUrlRequestClientComponent1: TCEFUrlRequestClientComponent;
@@ -80,6 +85,7 @@ type
     PostParam2NameEdt: TEdit;
     PostParam2ValueEdt: TEdit;
 
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure DownloadBtnClick(Sender: TObject);
     procedure SendPostReqBtnClick(Sender: TObject);
 
@@ -144,7 +150,8 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                 := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures := 'NetworkService,OutOfBlinkCors';
+  GlobalCEFApp.LogFile          := 'cef.log';
+  GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
 
 procedure TURLRequestFrm.DownloadBtnClick(Sender: TObject);
@@ -194,6 +201,12 @@ begin
           CEFUrlRequestClientComponent1.AddURLRequest;
         end;
     end;
+end;
+
+procedure TURLRequestFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TURLRequestFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -345,10 +358,7 @@ begin
   // Use request.response here to get a ICefResponse interface with all the response headers, status, error code, etc.
 
   if FClosing then
-    begin
-      FCanClose := True;
-      PostMessage(Handle, WM_CLOSE, 0, 0);
-    end
+    CEFSentinel1.Start
    else
     if (request <> nil) and (request.RequestStatus = UR_SUCCESS) then
       PostMessage(Handle, URLREQUEST_SUCCESS, 0, 0)

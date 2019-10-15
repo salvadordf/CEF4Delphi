@@ -21,8 +21,8 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="76" Minor="1" Release="13"/>
-    <Files Count="143">
+    <Version Major="77" Minor="1" Release="14"/>
+    <Files Count="144">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -584,25 +584,30 @@
         <UnitName Value="uCEFOSRIMEHandler"/>
       </Item138>
       <Item139>
-        <Filename Value="..\source\uCEFAudioHandler.pas"/>
-        <UnitName Value="uCEFAudioHandler"/>
-      </Item139>
-      <Item140>
         <Filename Value="..\source\uCEFCookieAccessFilter.pas"/>
         <UnitName Value="uCEFCookieAccessFilter"/>
-      </Item140>
-      <Item141>
+      </Item139>
+      <Item140>
         <Filename Value="..\source\uCEFResourceReadCallback.pas"/>
         <UnitName Value="uCEFResourceReadCallback"/>
-      </Item141>
-      <Item142>
+      </Item140>
+      <Item141>
         <Filename Value="..\source\uCEFResourceRequestHandler.pas"/>
         <UnitName Value="uCEFResourceRequestHandler"/>
-      </Item142>
-      <Item143>
+      </Item141>
+      <Item142>
         <Filename Value="..\source\uCEFResourceSkipCallback.pas"/>
         <UnitName Value="uCEFResourceSkipCallback"/>
+      </Item142>
+      <Item143>
+        <Filename Value="..\source\res\tcefsentinel.lrs"/>
+        <Type Value="LRS"/>
       </Item143>
+      <Item144>
+        <Filename Value="..\source\uCEFSentinel.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFSentinel"/>
+      </Item144>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

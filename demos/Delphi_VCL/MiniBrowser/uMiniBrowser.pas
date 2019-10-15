@@ -51,7 +51,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, AppEvnts, ActiveX, ShlObj,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 const
   MINIBROWSER_SHOWDEVTOOLS    = WM_APP + $101;
@@ -126,6 +126,7 @@ type
     Downloadimage1: TMenuItem;
     Simulatekeyboardpresses1: TMenuItem;
     Flushcookies1: TMenuItem;
+    CEFSentinel1: TCEFSentinel;
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -226,6 +227,11 @@ type
     procedure Simulatekeyboardpresses1Click(Sender: TObject);
     procedure Flushcookies1Click(Sender: TObject);
     procedure Chromium1CookiesFlushed(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
+    procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType,
+      pluginUrl: ustring; isMainFrame: Boolean;
+      const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
+      var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
 
   protected
     FResponse   : TStringList;
@@ -286,15 +292,16 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
-  GlobalCEFApp.LogFile          := 'debug.log';
-  GlobalCEFApp.LogSeverity      := LOGSEVERITY_INFO;
-  GlobalCEFApp.cache            := 'cache';
+  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.LogFile             := 'debug.log';
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  GlobalCEFApp.cache               := 'cache';
+  GlobalCEFApp.EnablePrintPreview  := True;
   //GlobalCEFApp.RemoteDebuggingPort := 19999;
 end;
 
@@ -331,6 +338,12 @@ begin
   if (length(TempURL) > 0) then Chromium1.ResolveHost(TempURL);
 end;
 
+procedure TMiniBrowserFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TMiniBrowserFrm.Chromium1AddressChange(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
 begin
@@ -348,11 +361,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   // The main browser is being destroyed
-  if (Chromium1.BrowserId = 0) then
-    begin
-      FCanClose := True;
-      PostMessage(Handle, WM_CLOSE, 0, 0);
-    end;
+  if (Chromium1.BrowserId = 0) then CEFSentinel1.Start;
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -439,6 +448,22 @@ begin
   callback.cont(TempFullPath, False);
 end;
 
+procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
+  const mimeType, pluginUrl: ustring; isMainFrame: Boolean;
+  const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
+  var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
+begin
+  // Always allow the PDF plugin to load.
+  if (pluginPolicy <> PLUGIN_POLICY_ALLOW) and
+     (CompareText(mimeType, 'application/pdf') = 0) then
+    begin
+      pluginPolicy := PLUGIN_POLICY_ALLOW;
+      aResult      := True;
+    end
+   else
+    aResult := False;
+end;
+
 procedure TMiniBrowserFrm.Chromium1BeforeResourceLoad(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const request: ICefRequest; const callback: ICefRequestCallback;
@@ -448,7 +473,8 @@ begin
 
   if Chromium1.IsSameBrowser(browser) and
      (frame <> nil) and
-     frame.IsMain then
+     frame.IsMain and
+     frame.IsValid then
     InspectRequest(request);
 end;
 
@@ -520,8 +546,8 @@ begin
       end;
 
     MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript(
+      if (frame <> nil) and frame.IsValid then
+        frame.ExecuteJavaScript(
           'var css = ' + chr(39) + '@page {size: A4; margin: 0;} @media print {html, body {width: 210mm; height: 297mm;}}' + chr(39) + '; ' +
           'var style = document.createElement(' + chr(39) + 'style' + chr(39) + '); ' +
           'style.type = ' + chr(39) + 'text/css' + chr(39) + '; ' +
@@ -530,8 +556,8 @@ begin
           'about:blank', 0);
 
     MINIBROWSER_CONTEXTMENU_JSPRINTDOC :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
-        browser.MainFrame.ExecuteJavaScript('window.print();', 'about:blank', 0);
+      if (frame <> nil) and frame.IsValid then
+        frame.ExecuteJavaScript('window.print();', 'about:blank', 0);
 
     MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO :
       Chromium1.AudioMuted := False;
@@ -684,6 +710,8 @@ procedure TMiniBrowserFrm.Chromium1LoadEnd(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   httpStatusCode: Integer);
 begin
+  if (frame = nil) or not(frame.IsValid) then exit;
+
   if frame.IsMain then
     StatusBar1.Panels[1].Text := 'main frame loaded : ' + quotedstr(frame.name)
    else
@@ -693,10 +721,17 @@ end;
 procedure TMiniBrowserFrm.Chromium1LoadError(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
   const errorText, failedUrl: ustring);
+var
+  TempString : string;
 begin
-  CefDebugLog('Error code:' + inttostr(errorCode) +
-              ' - Error text :' + quotedstr(errorText) +
-              ' - URL:' + failedUrl, CEF_LOG_SEVERITY_ERROR);
+  if (errorCode = ERR_ABORTED) then exit;
+
+  TempString := '<html><body bgcolor="white">' +
+                '<h2>Failed to load URL ' + failedUrl +
+                ' with error ' + errorText +
+                ' (' + inttostr(errorCode) + ').</h2></body></html>';
+
+  frame.LoadURL(CefGetDataURI(TempString, 'text/html'));
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadingProgressChange(Sender: TObject;
@@ -866,7 +901,8 @@ begin
 
   if Chromium1.IsSameBrowser(browser) and
      (frame <> nil) and
-     frame.IsMain then
+     frame.IsMain and
+     frame.IsValid then
     InspectResponse(response);
 end;
 
@@ -1060,9 +1096,9 @@ begin
           TempFile.LoadFromFile(OpenDialog1.FileName);
 
           if (OpenDialog1.FilterIndex = 1) then
-            TempDATA := 'data:text/html;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size)
+            TempDATA := CefGetDataURI(TempFile.Memory, TempFile.Size, 'text/html', 'utf-8')
            else
-            TempDATA := 'data:application/pdf;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size);
+            TempDATA := CefGetDataURI(TempFile.Memory, TempFile.Size, 'application/pdf', 'utf-8');
 
           Chromium1.LoadURL(TempDATA);
         end;
@@ -1156,8 +1192,11 @@ begin
 end;
 
 procedure TMiniBrowserFrm.CopyAllTextMsg(var aMessage : TMessage);
+var
+  TempName : string;
 begin
-  Chromium1.RetrieveText;
+  TempName := InputBox('Frame name', 'Type the fame name or leave it blank to select the main frame :', '');
+  Chromium1.RetrieveText(TempName);
 end;
 
 procedure TMiniBrowserFrm.CopyFramesIDsMsg(var aMessage : TMessage);

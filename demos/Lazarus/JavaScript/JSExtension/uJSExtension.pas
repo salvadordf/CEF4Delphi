@@ -52,7 +52,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $100;
@@ -69,6 +69,7 @@ type
   { TJSExtensionFrm }
 
   TJSExtensionFrm = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     NavControlPnl: TPanel;
     Edit1: TEdit;
     GoBtn: TButton;
@@ -76,6 +77,7 @@ type
     Chromium1: TChromium;
     StatusPnl: TPanel;
     Timer1: TTimer;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Chromium1BeforeContextMenu(Sender: TObject;
@@ -319,7 +321,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
   GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
   {$IFDEF DEBUG}
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
@@ -339,8 +340,7 @@ end;
 procedure TJSExtensionFrm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TJSExtensionFrm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -389,7 +389,7 @@ begin
 
   case commandId of
     MINIBROWSER_CONTEXTMENU_SETJSEVENT :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
+      if (frame <> nil) and frame.IsValid then
         begin
           TempJSCode := 'document.body.addEventListener("mouseover", function(evt){'+
                           'function getpath(n){'+
@@ -400,16 +400,16 @@ begin
                           'myextension.mouseover(getpath(evt.target))}'+
                         ')';
 
-          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+          frame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
         end;
 
     MINIBROWSER_CONTEXTMENU_JSVISITDOM :
-      if (browser <> nil) and (browser.MainFrame <> nil) then
+      if (frame <> nil) and frame.IsValid then
         begin
           TempJSCode := 'var testhtml = document.body.innerHTML; ' +
                         'myextension.sendresulttobrowser(testhtml, ' + quotedstr(CUSTOMNAME_MESSAGE_NAME) + ');';
 
-          browser.MainFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
+          frame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
         end;
 
     MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
@@ -478,6 +478,12 @@ begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
+end;
+
+procedure TJSExtensionFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSExtensionFrm.WMMove(var aMessage : TWMMove);

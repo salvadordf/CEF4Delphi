@@ -51,7 +51,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs, ComCtrls, pngimage,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 const
   STREAM_COPY_COMPLETE    = WM_APP + $B00;
@@ -72,6 +72,7 @@ type
     StatusBar1: TStatusBar;
     CopyScriptBtn: TRadioButton;
     ReplaceLogoBtn: TRadioButton;
+    CEFSentinel1: TCEFSentinel;
 
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1GetResourceResponseFilter(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: ICefResponseFilter);
@@ -90,6 +91,7 @@ type
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     FFilter        : ICefResponseFilter; // CEF Filter interface that receives the resource contents
@@ -159,8 +161,9 @@ uses
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy
 //    CEFWindowParent1 in the main thread, which triggers the
 //    TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE
-//    to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger
+//    TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 // TCustomResponseFilter.OnFilter event might be called multiple times
 // when the resource is too big. In that case the resource will be split into
@@ -192,7 +195,6 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures  := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.LogFile          := 'cef.log';
   GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
@@ -404,8 +406,7 @@ end;
 
 procedure TResponseFilterBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TResponseFilterBrowserFrm.Chromium1BeforePopup(      Sender             : TObject;
@@ -507,7 +508,7 @@ const
 var
   TempPath : string;
 begin
-  if frame.IsMain then
+  if (frame <> nil) and frame.IsValid and frame.IsMain then
     try
       try
         FStreamCS.Acquire;
@@ -540,6 +541,12 @@ begin
      (aMimeType = 'application/javascript') then
     GetResponseEncoding(aContentType);
   {$ENDIF}
+end;
+
+procedure TResponseFilterBrowserFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TResponseFilterBrowserFrm.CheckResponseHeaders(const response : ICefResponse);

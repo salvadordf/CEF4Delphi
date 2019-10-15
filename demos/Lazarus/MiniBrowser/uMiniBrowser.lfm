@@ -263,6 +263,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnCertificateError = Chromium1CertificateError
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
+    OnBeforePluginLoad = Chromium1BeforePluginLoad
     left = 32
     top = 224
   end
@@ -364,5 +365,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnTimer = Timer1Timer
     left = 32
     top = 344
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 32
+    top = 404
   end
 end

@@ -288,11 +288,11 @@
         <DCCReference Include="..\source\uCEFUrlRequestClientEvents.pas"/>
         <DCCReference Include="..\source\uCEFUrlRequestClientComponent.pas"/>
         <DCCReference Include="..\source\uCEFOSRIMEHandler.pas"/>
-        <DCCReference Include="..\source\uCEFAudioHandler.pas"/>
         <DCCReference Include="..\source\uCEFCookieAccessFilter.pas"/>
         <DCCReference Include="..\source\uCEFResourceRequestHandler.pas"/>
         <DCCReference Include="..\source\uCEFResourceSkipCallback.pas"/>
         <DCCReference Include="..\source\uCEFResourceReadCallback.pas"/>
+        <DCCReference Include="..\source\uCEFSentinel.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -330,7 +330,7 @@
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule"/>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\20.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CEF4Delphi_FMX.bpl</RemoteName>
                         <Overwrite>true</Overwrite>

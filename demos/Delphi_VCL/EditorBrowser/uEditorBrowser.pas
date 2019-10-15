@@ -52,7 +52,7 @@ uses
   ImageList, ImgList,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 type
   TForm1 = class(TForm)
@@ -91,6 +91,7 @@ type
     RemoveFormatBtn: TToolButton;
     OutdentBtn: TToolButton;
     Separator7: TToolButton;
+    CEFSentinel1: TCEFSentinel;
 
     procedure Timer1Timer(Sender: TObject);
 
@@ -124,6 +125,7 @@ type
     procedure FillColorBtnClick(Sender: TObject);
     procedure RemoveFormatBtnClick(Sender: TObject);
     procedure OutdentBtnClick(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -170,12 +172,14 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures      := 'NetworkService,OutOfBlinkCors';
+  GlobalCEFApp                  := TCefApplication.Create;
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
 
 procedure TForm1.FillColorBtnClick(Sender: TObject);
@@ -225,6 +229,12 @@ begin
   if not(Chromium1.CreateBrowser(CEFWindowParent1)) then Timer1.Enabled := True;
 end;
 
+procedure TForm1.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
@@ -234,8 +244,7 @@ end;
 procedure TForm1.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TForm1.Chromium1Close(Sender: TObject;
@@ -249,7 +258,7 @@ procedure TForm1.Chromium1LoadEnd(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   httpStatusCode: Integer);
 begin
-  if (frame <> nil) and not(frame.isMain) then exit;
+  if (frame <> nil) and (not(frame.IsValid) or not(frame.isMain)) then exit;
 
   // Enable the "designMode" for all loaded files to edit them
   EnableDesignMode;

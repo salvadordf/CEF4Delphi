@@ -81,4 +81,9 @@ object JSExtensionFrm: TJSExtensionFrm
     left = 32
     top = 288
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 32
+    top = 365
+  end
 end

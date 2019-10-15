@@ -42,15 +42,17 @@ unit usimplelazosrbrowser;
 interface
 
 uses
-  Windows, LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, SyncObjs,
-  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types,
-  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel, uCEFChromiumEvents;
+  Windows, LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes,
+  SyncObjs, Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types,
+  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
+  uCEFChromiumEvents, uCEFSentinel;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     NavControlPnl: TPanel;
     chrmosr: TChromium;
     ComboBox1: TComboBox;
@@ -61,6 +63,7 @@ type
     Timer1: TTimer;
     Panel1: TBufferPanel;
 
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
 
@@ -167,7 +170,8 @@ uses
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
 //    set "Result" to false and CEF3 will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Now we set FCanClose to True and send WM_CLOSE to the form.
+//    Now we call TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4- TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
                   
 
 procedure CreateGlobalCEFApp;
@@ -175,7 +179,6 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.DisableFeatures            := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
@@ -186,6 +189,12 @@ begin
   FResizeCS.Release;
 
   chrmosr.LoadURL(ComboBox1.Text);
+end;
+
+procedure TForm1.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.chrmosrIMECompositionRangeChanged(      Sender                : TObject;
@@ -249,8 +258,7 @@ end;
 
 procedure TForm1.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TForm1.Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);

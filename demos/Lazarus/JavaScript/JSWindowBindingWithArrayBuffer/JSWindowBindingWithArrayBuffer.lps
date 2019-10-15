@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="184"/>
-        <CursorPos X="45" Y="216"/>
+        <TopLine Value="96"/>
+        <CursorPos X="82" Y="126"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -38,7 +38,7 @@
         <Loaded Value="True"/>
       </Unit2>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="uJSWindowBindingWithArrayBuffer.pas"/>
         <Caret Line="145" Column="60" TopLine="124"/>
@@ -51,6 +51,14 @@
         <Filename Value="uJSWindowBindingWithArrayBuffer.pas"/>
         <Caret Line="141" Column="81" TopLine="127"/>
       </Position3>
+      <Position4>
+        <Filename Value="uJSWindowBindingWithArrayBuffer.pas"/>
+        <Caret Line="160" TopLine="142"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uJSWindowBindingWithArrayBuffer.pas"/>
+        <Caret Line="165" TopLine="147"/>
+      </Position5>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

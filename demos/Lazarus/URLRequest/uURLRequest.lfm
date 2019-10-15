@@ -203,4 +203,9 @@ object URLRequestFrm: TURLRequestFrm
     left = 304
     top = 104
   end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 152
+    top = 112
+  end
 end

@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFTypes, uCEFConstants, uCEFInterfaces, uCEFWorkScheduler,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 type
 
@@ -58,13 +58,14 @@ type
 
   TExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
+    CEFSentinel1: TCEFSentinel;
     GoBtn: TButton;
     Timer1: TTimer;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     URLCbx: TComboBox;
 
-    procedure CEFWindowParent1Resize(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -114,6 +115,13 @@ uses
 // This demo has a simple browser with a TChromium + TCEFWindowParent combination
 // It was necessary to destroy the browser following the destruction sequence described in the MDIBrowser demo.
 
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
@@ -131,7 +139,6 @@ begin
   GlobalCEFApp.FlashEnabled              := False;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;           
-  GlobalCEFApp.DisableFeatures           := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 
@@ -168,8 +175,7 @@ end;
 
 procedure TExternalPumpBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TExternalPumpBrowserFrm.Chromium1BeforePopup(Sender: TObject;
@@ -210,9 +216,10 @@ begin
   Chromium1.LoadURL(URLCbx.Text);
 end;
 
-procedure TExternalPumpBrowserFrm.CEFWindowParent1Resize(Sender: TObject);
+procedure TExternalPumpBrowserFrm.CEFSentinel1Close(Sender: TObject);
 begin
-
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);

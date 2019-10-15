@@ -47,13 +47,14 @@ uses
   Windows, Messages, SysUtils, LCLType, Variants, Classes, SyncObjs, Graphics, Controls,
   Forms, Dialogs, StdCtrls, ExtCtrls,
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFWorkScheduler, Types;
+  uCEFWorkScheduler, uCEFSentinel, Types;
 
 type
 
   { TOSRExternalPumpBrowserFrm }
 
   TOSRExternalPumpBrowserFrm = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     NavControlPnl: TPanel;
     chrmosr: TChromium;
     ComboBox1: TComboBox;
@@ -64,6 +65,7 @@ type
     Timer1: TTimer;
     Panel1: TBufferPanel;
 
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
 
@@ -164,7 +166,8 @@ var
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
 //    set "Result" to false and CEF3 will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Now we set FCanClose to True and send WM_CLOSE to the form.
+//    Now we call TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4- TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
@@ -195,7 +198,6 @@ begin
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.DisableFeatures            := 'NetworkService,OutOfBlinkCors';
   GlobalCEFApp.OnScheduleMessagePumpWork  := @GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 
@@ -209,11 +211,17 @@ begin
   chrmosr.LoadURL(ComboBox1.Text);
 end;
 
+procedure TOSRExternalPumpBrowserFrm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
 procedure TOSRExternalPumpBrowserFrm.chrmosrIMECompositionRangeChanged(      Sender                : TObject;
-                                                   const browser               : ICefBrowser;
-                                                   const selected_range        : PCefRange;
-                                                         character_boundsCount : NativeUInt;
-                                                   const character_bounds      : PCefRect);
+                                                                       const browser               : ICefBrowser;
+                                                                       const selected_range        : PCefRange;
+                                                                             character_boundsCount : NativeUInt;
+                                                                       const character_bounds      : PCefRect);
 var
   TempPRect : PCefRect;
   i         : NativeUInt;
@@ -270,8 +278,7 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TOSRExternalPumpBrowserFrm.Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -921,18 +928,18 @@ begin
 end;
 
 procedure TOSRExternalPumpBrowserFrm.Panel1IMECommitText(      Sender              : TObject;
-                                     const aText               : ustring;
-                                     const replacement_range   : PCefRange;
-                                           relative_cursor_pos : Integer);
+                                                         const aText               : ustring;
+                                                         const replacement_range   : PCefRange;
+                                                               relative_cursor_pos : Integer);
 begin
   chrmosr.IMECommitText(aText, replacement_range, relative_cursor_pos);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.Panel1IMESetComposition(      Sender            : TObject;
-                                         const aText             : ustring;
-                                         const underlines        : TCefCompositionUnderlineDynArray;
-                                         const replacement_range : TCefRange;
-                                         const selection_range   : TCefRange);
+                                                             const aText             : ustring;
+                                                             const underlines        : TCefCompositionUnderlineDynArray;
+                                                             const replacement_range : TCefRange;
+                                                             const selection_range   : TCefRange);
 begin
   chrmosr.IMESetComposition(aText, underlines, @replacement_range, @selection_range);
 end;

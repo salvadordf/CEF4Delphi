@@ -241,6 +241,9 @@ function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStr
 function DeleteFileList(const aFileList : TStringList) : boolean;
 function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;
 
+function CefGetDataURI(const aString, aMimeType : ustring) : ustring; overload;
+function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustring; const aCharset : ustring = '') : ustring; overload;
+
 implementation
 
 uses
@@ -2130,6 +2133,27 @@ begin
     on e : exception do
       if CustomExceptionHandler('MoveFileList', e) then raise;
   end;
+end;
+
+function CefGetDataURI(const aString, aMimeType : ustring) : ustring;
+var
+  TempUTF : AnsiString;
+begin
+  TempUTF := UTF8Encode(aString);
+
+  if (length(TempUTF) > 0) then
+    Result := CefGetDataURI(@TempUTF[1], length(TempUTF), aMimeType, 'utf-8')
+   else
+    Result := '';
+end;
+
+function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType, aCharset : ustring) : ustring;
+begin
+  Result := 'data:' + aMimeType;
+
+  if (length(aCharset) > 0) then Result := Result + ';charset=' + aCharset;
+
+  Result := Result + ';base64,' + CefURIEncode(CefBase64Encode(aData, aSize), false);
 end;
 
 end.

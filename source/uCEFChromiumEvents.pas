@@ -161,10 +161,9 @@ type
   // ICefFindHandler
   TOnFindResult                   = procedure(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean) of Object;
 
-  // ICefAudioHandler
-  TOnAudioStreamStarted           = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id, channels: integer; channel_layout: TCefChannelLayout; sample_rate, frames_per_buffer: integer) of Object;
-  TOnAudioStreamPacket            = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id: integer; const data : PPSingle; frames: integer; pts: int64) of Object;
-  TOnAudioStreamStopped           = procedure(Sender: TObject; const browser: ICefBrowser; audio_stream_id: integer) of Object;
+  // ICefRequestContextHandler
+  TOnRequestContextInitialized    = procedure(Sender: TObject; const request_context: ICefRequestContext) of Object;
+  TOnBeforePluginLoad             = procedure(Sender: TObject; const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult : boolean) of Object;
 
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;

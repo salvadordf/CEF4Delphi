@@ -51,13 +51,18 @@ uses
   Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFSentinel;
 
 type
+
+  { TMainForm }
+
   TMainForm = class(TForm)
+    CEFSentinel1: TCEFSentinel;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure Chromium1PreKeyEvent(Sender: TObject;
       const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
       out isKeyboardShortcut, Result: Boolean);
@@ -114,10 +119,18 @@ implementation
 uses
   uCEFApplication;   
 
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.DisableFeatures     := 'NetworkService,OutOfBlinkCors';
+  GlobalCEFApp                     := TCefApplication.Create;  
+  //GlobalCEFApp.LogFile          := 'cef.log';
+  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
 
 procedure TMainForm.HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
@@ -165,8 +178,7 @@ end;
 
 procedure TMainForm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  CEFSentinel1.Start;
 end;
 
 procedure TMainForm.Chromium1BeforePopup(Sender: TObject;
@@ -235,6 +247,12 @@ begin
      (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
      (event.windows_key_code = VK_ESCAPE) then
     isKeyboardShortcut := True;
+end;
+
+procedure TMainForm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

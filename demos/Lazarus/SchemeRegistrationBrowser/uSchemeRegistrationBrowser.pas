@@ -53,20 +53,25 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFSchemeRegistrar,
-  uCEFTypes, uCEFConstants, uCEFWinControl;
+  uCEFTypes, uCEFConstants, uCEFWinControl, uCEFSentinel;
 
 const
   MINIBROWSER_CONTEXTMENU_REGSCHEME    = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_CLEARFACT    = MENU_ID_USER_FIRST + 2;
 
 type
+
+  { TSchemeRegistrationBrowserFrm }
+
   TSchemeRegistrationBrowserFrm = class(TForm)
     AddressBarPnl: TPanel;
+    CEFSentinel1: TCEFSentinel;
     GoBtn: TButton;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     AddressCbx: TComboBox;
     Timer1: TTimer;
+    procedure CEFSentinel1Close(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
     procedure Chromium1BeforeContextMenu(Sender: TObject;
@@ -126,7 +131,8 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
@@ -137,7 +143,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                    := TCefApplication.Create;
   GlobalCEFApp.OnRegCustomSchemes := GlobalCEFApp_OnRegCustomSchemes;
-  GlobalCEFApp.DisableFeatures    := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TSchemeRegistrationBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -145,11 +150,16 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
-procedure TSchemeRegistrationBrowserFrm.Chromium1BeforeClose(
-  Sender: TObject; const browser: ICefBrowser);
+procedure TSchemeRegistrationBrowserFrm.CEFSentinel1Close(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
+end;
+
+procedure TSchemeRegistrationBrowserFrm.Chromium1BeforeClose(
+  Sender: TObject; const browser: ICefBrowser);
+begin
+  CEFSentinel1.Start;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.Chromium1BeforeContextMenu(

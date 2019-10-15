@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 386
+  Left = 377
   Height = 658
-  Top = 91
+  Top = 131
   Width = 781
   Caption = 'Custom Resource Browser'
   ClientHeight = 658
@@ -14,7 +14,7 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object ChromiumWindow1: TChromiumWindow
     Left = 0
     Height = 637
@@ -65,5 +65,10 @@ object MainForm: TMainForm
     OnTimer = Timer1Timer
     left = 48
     top = 240
+  end
+  object CEFSentinel1: TCEFSentinel
+    OnClose = CEFSentinel1Close
+    left = 48
+    top = 320
   end
 end

@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="113"/>
-        <CursorPos X="68" Y="140"/>
+        <TopLine Value="115"/>
+        <CursorPos X="82" Y="135"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -54,7 +54,7 @@
         <UsageCount Value="10"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="23" HistoryIndex="22">
+    <JumpHistory Count="25" HistoryIndex="24">
       <Position1>
         <Filename Value="uHelloScheme.pas"/>
         <Caret Line="118" TopLine="115"/>
@@ -147,6 +147,14 @@
         <Filename Value="uSchemeRegistrationBrowser.pas"/>
         <Caret Line="89" Column="43" TopLine="68"/>
       </Position23>
+      <Position24>
+        <Filename Value="uSchemeRegistrationBrowser.pas"/>
+        <Caret Line="140" TopLine="113"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uSchemeRegistrationBrowser.pas"/>
+        <Caret Line="145" TopLine="118"/>
+      </Position25>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

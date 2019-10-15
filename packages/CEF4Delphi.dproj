@@ -262,7 +262,11 @@
         <DCCReference Include="..\source\uCEFUrlRequestClientEvents.pas"/>
         <DCCReference Include="..\source\uCEFUrlRequestClientComponent.pas"/>
         <DCCReference Include="..\source\uCEFOSRIMEHandler.pas"/>
-        <DCCReference Include="..\source\uCEFAudioHandler.pas"/>
+        <DCCReference Include="..\source\uCEFCookieAccessFilter.pas"/>
+        <DCCReference Include="..\source\uCEFResourceRequestHandler.pas"/>
+        <DCCReference Include="..\source\uCEFResourceSkipCallback.pas"/>
+        <DCCReference Include="..\source\uCEFResourceReadCallback.pas"/>
+        <DCCReference Include="..\source\uCEFSentinel.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -298,13 +302,13 @@
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\17.0\Bpl\CEF4Delphi.bpl" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule"/>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\20.0\Bpl\CEF4Delphi.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CEF4Delphi.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>

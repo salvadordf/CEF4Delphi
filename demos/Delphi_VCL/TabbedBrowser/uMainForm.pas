@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ComCtrls, Buttons, ExtCtrls, StdCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
+  uCEFSentinel;
 
 const
   CEFBROWSER_DESTROYWNDPARENT = WM_APP + $100;
@@ -72,6 +73,7 @@ type
     URLCbx: TComboBox;
     AddTabBtn: TButton;
     RemoveTabBtn: TButton;
+    CEFSentinel1: TCEFSentinel;
     procedure AddTabBtnClick(Sender: TObject);
     procedure RemoveTabBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -83,6 +85,7 @@ type
     procedure StopBtnClick(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     FClosingTab : boolean;
@@ -144,7 +147,9 @@ implementation
 // This is the destruction sequence when the user closes the main form
 // 1. FormCloseQuery hides the form and calls CloseAllBrowsers which calls TChromium.CloseBrowser in all tabs and triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROYWNDPARENT message to destroy TCEFWindowParent in the main thread which triggers a TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sends a CEFBROWSER_CHECKTAGGEDTABS message to set the TAG property to 1 in the TabSheet containing the TChromium. Then sends WM_CLOSE in case all tabsheets have a TAG = 1.
+// 3. TChromium.OnBeforeClose sends a CEFBROWSER_CHECKTAGGEDTABS message to set the TAG property to 1 in the TabSheet containing the TChromium.
+//    When all tabsheets have a TAG = 1 it calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
+// 4. TCEFSentinel.OnClose sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
@@ -156,7 +161,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
-  GlobalCEFApp.DisableFeatures      := 'NetworkService,OutOfBlinkCors';
 end;
 
 procedure TMainForm.AddTabBtnClick(Sender: TObject);
@@ -350,11 +354,7 @@ begin
     begin
       PageControl1.Pages[aMessage.lParam].Tag := 1;
 
-      if AllTabSheetsAreTagged then
-        begin
-          FCanClose := True;
-          PostMessage(Handle, WM_CLOSE, 0, 0);
-        end;
+      if AllTabSheetsAreTagged then CEFSentinel1.Start;
     end;
 end;
 
@@ -574,6 +574,12 @@ begin
       cursor            := crDefault;
       if (PageControl1.PageCount = 0) then AddTabBtn.Click;
     end;
+end;
+
+procedure TMainForm.CEFSentinel1Close(Sender: TObject);
+begin
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 end.
