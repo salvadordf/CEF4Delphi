@@ -353,44 +353,85 @@ type
       procedure   Internal_OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
       procedure   Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
 
+      // Properties used to populate TCefSettings (cef_settings_t)
+      property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
+      property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
+      property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
+      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;  // Only used in macOS
+      property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
+      property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
+      property WindowlessRenderingEnabled        : Boolean                             read FWindowlessRenderingEnabled        write FWindowlessRenderingEnabled;
+      property CommandLineArgsDisabled           : Boolean                             read FCommandLineArgsDisabled           write FCommandLineArgsDisabled;
       property Cache                             : ustring                             read FCache                             write SetCache;
       property RootCache                         : ustring                             read FRootCache                         write SetRootCache;
       property UserDataPath                      : ustring                             read FUserDataPath                      write SetUserDataPath;
+      property PersistSessionCookies             : Boolean                             read FPersistSessionCookies             write FPersistSessionCookies;
+      property PersistUserPreferences            : Boolean                             read FPersistUserPreferences            write FPersistUserPreferences;
       property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
       property ProductVersion                    : ustring                             read FProductVersion                    write FProductVersion;
       property Locale                            : ustring                             read FLocale                            write FLocale;
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
-      property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
-      property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
-      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;  // Only used in macOS
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
       property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
       property LocalesDirPath                    : ustring                             read FLocalesDirPath                    write SetLocalesDirPath;
-      property SingleProcess                     : Boolean                             read FSingleProcess                     write FSingleProcess;
-      property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
-      property CommandLineArgsDisabled           : Boolean                             read FCommandLineArgsDisabled           write FCommandLineArgsDisabled;
       property PackLoadingDisabled               : Boolean                             read FPackLoadingDisabled               write FPackLoadingDisabled;
       property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
       property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
-      property PersistSessionCookies             : Boolean                             read FPersistSessionCookies             write FPersistSessionCookies;
-      property PersistUserPreferences            : Boolean                             read FPersistUserPreferences            write FPersistUserPreferences;
       property IgnoreCertificateErrors           : Boolean                             read FIgnoreCertificateErrors           write FIgnoreCertificateErrors;
       property EnableNetSecurityExpiration       : boolean                             read FEnableNetSecurityExpiration       write FEnableNetSecurityExpiration;
       property BackgroundColor                   : TCefColor                           read FBackgroundColor                   write FBackgroundColor;
       property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
       property ApplicationClientID               : ustring                             read FApplicationClientID               write FApplicationClientID;
+
+      // Properties used to set command line switches
+      property SingleProcess                     : Boolean                             read FSingleProcess                     write FSingleProcess;                    // --single-process
+      property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;                     // --enable-system-flash
+      property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;                // --enable-media-stream
+      property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;                // --enable-speech-input
+      property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;          // --use-fake-ui-for-media-stream
+      property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;                        // --enable-gpu-plugin
+      property EnableFeatures                    : string                              read FEnableFeatures                    write FEnableFeatures;                   // --enable-features
+      property DisableFeatures                   : string                              read FDisableFeatures                   write FDisableFeatures;                  // --disable-features
+      property EnableBlinkFeatures               : string                              read FEnableBlinkFeatures               write FEnableBlinkFeatures;              // --enable-blink-features
+      property DisableBlinkFeatures              : string                              read FDisableBlinkFeatures              write FDisableBlinkFeatures;             // --disable-blink-features
+      property SmoothScrolling                   : TCefState                           read FSmoothScrolling                   write FSmoothScrolling;                  // --enable-smooth-scrolling
+      property FastUnload                        : boolean                             read FFastUnload                        write FFastUnload;                       // --enable-fast-unload
+      property DisableSafeBrowsing               : boolean                             read FDisableSafeBrowsing               write FDisableSafeBrowsing;              // --safebrowsing-disable-auto-update
+      property MuteAudio                         : boolean                             read FMuteAudio                         write FMuteAudio;                        // --mute-audio
+      property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;                   // --site-per-process
+      property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;               // --disable-web-security
+      property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;              // --disable-pdf-extension
+      property DisableExtensions                 : boolean                             read FDisableExtensions                 write FDisableExtensions;                // --disable-extensions
+      property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;                   // --autoplay-policy
+      property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;      // --disable-background-networking
+      property MetricsRecordingOnly              : boolean                             read FMetricsRecordingOnly              write FMetricsRecordingOnly;             // --metrics-recording-only
+      property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;         // --allow-file-access-from-files
+      property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;      // --allow-running-insecure-content
+      property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;               // --enable-print-preview
+      property PluginPolicy                      : TCefPluginPolicySwitch              read FPluginPolicy                      write FPluginPolicy;                     // --plugin-policy
+      property DefaultEncoding                   : string                              read FDefaultEncoding                   write FDefaultEncoding;                  // --default-encoding
+      property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;                // --disable-javascript
+      property DisableJavascriptCloseWindows     : boolean                             read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;    // --disable-javascript-close-windows
+      property DisableJavascriptAccessClipboard  : boolean                             read FDisableJavascriptAccessClipboard  write FDisableJavascriptAccessClipboard; // --disable-javascript-access-clipboard
+      property DisableJavascriptDomPaste         : boolean                             read FDisableJavascriptDomPaste         write FDisableJavascriptDomPaste;        // --disable-javascript-dom-paste
+      property AllowUniversalAccessFromFileUrls  : boolean                             read FAllowUniversalAccessFromFileUrls  write FAllowUniversalAccessFromFileUrls; // --allow-universal-access-from-files
+      property DisableImageLoading               : boolean                             read FDisableImageLoading               write FDisableImageLoading;              // --disable-image-loading
+      property ImageShrinkStandaloneToFit        : boolean                             read FImageShrinkStandaloneToFit        write FImageShrinkStandaloneToFit;       // --image-shrink-standalone-to-fit
+      property DisableTextAreaResize             : boolean                             read FDisableTextAreaResize             write FDisableTextAreaResize;            // --disable-text-area-resize
+      property DisableTabToLinks                 : boolean                             read FDisableTabToLinks                 write FDisableTabToLinks;                // --disable-tab-to-links
+      property DisablePlugins                    : boolean                             read FDisablePlugins                    write FDisablePlugins;                   // --disable-plugins
+      property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;            // --enable-profanity-filter
+      property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;             // --disable-spell-checking
+      property OverrideSpellCheckLang            : string                              read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;           // --override-spell-check-lang
+
+      // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
-      property WindowlessRenderingEnabled        : Boolean                             read FWindowlessRenderingEnabled        write FWindowlessRenderingEnabled;
-      property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
-      property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
+      property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
+
+      // Custom properties
       property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
       property DeleteCookies                     : boolean                             read FDeleteCookies                     write FDeleteCookies;
-      property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;
-      property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
-      property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
-      property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;
-      property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;
       property CheckCEFFiles                     : boolean                             read FCheckCEFFiles                     write FCheckCEFFiles;
       property ShowMessageDlg                    : boolean                             read FShowMessageDlg                    write FShowMessageDlg;
       property SetCurrentDir                     : boolean                             read FSetCurrentDir                     write FSetCurrentDir;
@@ -403,25 +444,12 @@ type
       property LibCefVersion                     : string                              read GetLibCefVersion;
       property LibCefPath                        : string                              read GetLibCefPath;
       property ChromeElfPath                     : string                              read GetChromeElfPath;
-      property EnableFeatures                    : string                              read FEnableFeatures                    write FEnableFeatures;
-      property DisableFeatures                   : string                              read FDisableFeatures                   write FDisableFeatures;
-      property EnableBlinkFeatures               : string                              read FEnableBlinkFeatures               write FEnableBlinkFeatures;
-      property DisableBlinkFeatures              : string                              read FDisableBlinkFeatures              write FDisableBlinkFeatures;
-      property SmoothScrolling                   : TCefState                           read FSmoothScrolling                   write FSmoothScrolling;
-      property FastUnload                        : boolean                             read FFastUnload                        write FFastUnload;
-      property DisableSafeBrowsing               : boolean                             read FDisableSafeBrowsing               write FDisableSafeBrowsing;
       property LibLoaded                         : boolean                             read FLibLoaded;
-      property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
-      property MuteAudio                         : boolean                             read FMuteAudio                         write FMuteAudio;
-      property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;
-      property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;
-      property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;
       property LogProcessInfo                    : boolean                             read FLogProcessInfo                    write FLogProcessInfo;
       property DestroyAppWindows                 : boolean                             read FDestroyAppWindows                 write FDestroyAppWindows;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
-      property DisableExtensions                 : boolean                             read FDisableExtensions                 write FDisableExtensions;
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
       property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
       property ProcessType                       : TCefProcessType                     read FProcessType;
@@ -434,35 +462,13 @@ type
       property MissingLibFiles                   : string                              read FMissingLibFiles;
       property WidevinePath                      : ustring                             read FWidevinePath                      write FWidevinePath;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
-      property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;
-      property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;
-      property MetricsRecordingOnly              : boolean                             read FMetricsRecordingOnly              write FMetricsRecordingOnly;
-      property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;
-      property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;
-      property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;
-      property PluginPolicy                      : TCefPluginPolicySwitch              read FPluginPolicy                      write FPluginPolicy;
-      property DefaultEncoding                   : string                              read FDefaultEncoding                   write FDefaultEncoding;
-      property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;
-
-      property DisableJavascriptCloseWindows     : boolean                             read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;
-      property DisableJavascriptAccessClipboard  : boolean                             read FDisableJavascriptAccessClipboard  write FDisableJavascriptAccessClipboard;
-      property DisableJavascriptDomPaste         : boolean                             read FDisableJavascriptDomPaste         write FDisableJavascriptDomPaste;
-      property AllowUniversalAccessFromFileUrls  : boolean                             read FAllowUniversalAccessFromFileUrls  write FAllowUniversalAccessFromFileUrls;
-      property DisableImageLoading               : boolean                             read FDisableImageLoading               write FDisableImageLoading;
-      property ImageShrinkStandaloneToFit        : boolean                             read FImageShrinkStandaloneToFit        write FImageShrinkStandaloneToFit;
-      property DisableTextAreaResize             : boolean                             read FDisableTextAreaResize             write FDisableTextAreaResize;
-      property DisableTabToLinks                 : boolean                             read FDisableTabToLinks                 write FDisableTabToLinks;
-      property DisablePlugins                    : boolean                             read FDisablePlugins                    write FDisablePlugins;
-      property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;
-      property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;
-      property OverrideSpellCheckLang            : string                              read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;
-
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
       property UsedMemory                        : cardinal                            read GetUsedMemory;
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
       property AvailableSystemMemory             : uint64                              read GetAvailableSystemMemory;
       property SystemMemoryLoad                  : cardinal                            read GetSystemMemoryLoad;
 
+      // ICefApp
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
       // ICefBrowserProcessHandler

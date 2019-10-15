@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -99,8 +99,6 @@ type
       FAlwaysAuthorizePlugins : boolean;
       FSpellChecking          : boolean;
       FSpellCheckerDicts      : ustring;
-      FCookiePrefs            : integer;
-      FImagesPrefs            : integer;
       FZoomStep               : byte;
       FPrefsFileName          : string;
       FIsOSR                  : boolean;
@@ -295,8 +293,6 @@ type
       procedure SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
       procedure SetWebRTCMultipleRoutes(aValue : TCefState);
       procedure SetWebRTCNonProxiedUDP(aValue : TCefState);
-      procedure SetCookiePrefs(aValue : integer);
-      procedure SetImagesPrefs(aValue : integer);
       procedure SetProxyType(aValue : integer);
       procedure SetProxyScheme(aValue : TCefProxyScheme);
       procedure SetProxyServer(const aValue : ustring);
@@ -670,8 +666,6 @@ type
       property  Initialized             : boolean                      read GetInitialized;
       property  RequestContextCache     : ustring                      read GetRequestContextCache;
       property  RequestContextIsGlobal  : boolean                      read GetRequestContextIsGlobal;
-      property  CookiePrefs             : integer                      read FCookiePrefs              write SetCookiePrefs;
-      property  ImagesPrefs             : integer                      read FImagesPrefs              write SetImagesPrefs;
       property  DocumentURL             : ustring                      read GetDocumentURL;
       property  ZoomLevel               : double                       read GetZoomLevel              write SetZoomLevel;
       property  ZoomPct                 : double                       read GetZoomPct                write SetZoomPct;
@@ -882,8 +876,6 @@ begin
   FAlwaysAuthorizePlugins := False;
   FSpellChecking          := True;
   FSpellCheckerDicts      := '';
-  FCookiePrefs            := CEF_CONTENT_SETTING_ALLOW;
-  FImagesPrefs            := CEF_CONTENT_SETTING_ALLOW;
   FZoomStep               := ZOOM_STEP_DEF;
   FSafeSearch             := False;
   FYouTubeRestrict        := YOUTUBE_RESTRICT_OFF;
@@ -2192,24 +2184,6 @@ begin
     begin
       FWebRTCNonProxiedUDP := aValue;
       FUpdatePreferences   := True;
-    end;
-end;
-
-procedure TChromium.SetCookiePrefs(aValue : integer);
-begin
-  if (FCookiePrefs <> aValue) then
-    begin
-      FCookiePrefs       := aValue;
-      FUpdatePreferences := True;
-    end;
-end;
-
-procedure TChromium.SetImagesPrefs(aValue : integer);
-begin
-  if (FImagesPrefs <> aValue) then
-    begin
-      FImagesPrefs       := aValue;
-      FUpdatePreferences := True;
     end;
 end;
 
