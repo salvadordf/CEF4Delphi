@@ -269,6 +269,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnNavigationVisitorResultAvailable = Chromium1NavigationVisitorResultAvailable
     OnDownloadImageFinished = Chromium1DownloadImageFinished
     OnCookiesFlushed = Chromium1CookiesFlushed
+    OnExecuteTaskOnCefThread = Chromium1ExecuteTaskOnCefThread
     OnRenderCompMsg = Chromium1RenderCompMsg
     OnLoadEnd = Chromium1LoadEnd
     OnLoadError = Chromium1LoadError
