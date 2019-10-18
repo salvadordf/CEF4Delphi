@@ -182,6 +182,7 @@ type
       FDisableSpellChecking              : boolean;
       FOverrideSpellCheckLang            : string;
       FEnablePrintPreview                : boolean;
+      FTouchEvents                       : TCefState;
 
       FMustCreateResourceBundleHandler   : boolean;
       FMustCreateBrowserProcessHandler   : boolean;
@@ -424,6 +425,7 @@ type
       property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;            // --enable-profanity-filter
       property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;             // --disable-spell-checking
       property OverrideSpellCheckLang            : string                              read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;           // --override-spell-check-lang
+      property TouchEvents                       : TCefState                           read FTouchEvents                       write FTouchEvents;                      // --touch-events
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -638,6 +640,7 @@ begin
   FDisableSpellChecking              := False;
   FOverrideSpellCheckLang            := '';
   FEnablePrintPreview                := False;
+  FTouchEvents                       := STATE_DEFAULT;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -1549,6 +1552,11 @@ begin
       case FSmoothScrolling of
         STATE_ENABLED  : commandLine.AppendSwitch('--enable-smooth-scrolling');
         STATE_DISABLED : commandLine.AppendSwitch('--disable-smooth-scrolling');
+      end;
+
+      case FTouchEvents of
+        STATE_ENABLED  : commandLine.AppendSwitchWithValue('--touch-events', 'enabled');
+        STATE_DISABLED : commandLine.AppendSwitchWithValue('--touch-events', 'disabled');
       end;
 
       case FAutoplayPolicy of

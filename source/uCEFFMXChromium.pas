@@ -235,6 +235,7 @@ type
       FOnCertificateExceptionsCleared     : TNotifyEvent;
       FOnHttpAuthCredentialsCleared       : TNotifyEvent;
       FOnAllConnectionsClosed             : TNotifyEvent;
+      FOnExecuteTaskOnCefThread           : TOnExecuteTaskOnCefThread;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -467,6 +468,7 @@ type
       procedure doCertificateExceptionsCleared; virtual;
       procedure doHttpAuthCredentialsCleared; virtual;
       procedure doAllConnectionsClosed; virtual;
+      procedure doOnExecuteTaskOnCefThread(aTaskID : cardinal); virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
       function  MustCreateContextMenuHandler : boolean; virtual;
@@ -535,6 +537,7 @@ type
       procedure   SavePreferences(const aFileName : string);
       procedure   ResolveHost(const aURL : ustring);
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
+      function    ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;
 
       procedure   ShowDevTools(inspectElementAt: TPoint);
       procedure   CloseDevTools;
@@ -674,6 +677,7 @@ type
       property  OnCertificateExceptionsCleared     : TNotifyEvent                             read FOnCertificateExceptionsCleared     write FOnCertificateExceptionsCleared;
       property  OnHttpAuthCredentialsCleared       : TNotifyEvent                             read FOnHttpAuthCredentialsCleared       write FOnHttpAuthCredentialsCleared;
       property  OnAllConnectionsClosed             : TNotifyEvent                             read FOnAllConnectionsClosed             write FOnAllConnectionsClosed;
+      property  OnExecuteTaskOnCefThread           : TOnExecuteTaskOnCefThread                read FOnExecuteTaskOnCefThread           write FOnExecuteTaskOnCefThread;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg        : TOnCompMsgEvent              read FOnBrowserCompMsg         write FOnBrowserCompMsg;
       property  OnWidgetCompMsg         : TOnCompMsgEvent              read FOnWidgetCompMsg          write FOnWidgetCompMsg;
@@ -1123,6 +1127,7 @@ begin
   FOnCertificateExceptionsCleared     := nil;
   FOnHttpAuthCredentialsCleared       := nil;
   FOnAllConnectionsClosed             := nil;
+  FOnExecuteTaskOnCefThread           := nil;
 end;
 
 function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
@@ -2381,6 +2386,33 @@ begin
   Result := Initialized and (aBrowser <> nil) and FBrowser.IsSame(aBrowser);
 end;
 
+// Calling ExecuteTaskOnCefThread function will trigger the TChromium.OnExecuteTaskOnCefThread event.
+// "aCefThreadId" indicates the CEF thread on which TChromium.OnExecuteTaskOnCefThread will be executed.
+// "aTaskID" is a custom ID used to identify the task that triggered the TChromium.OnExecuteTaskOnCefThread event.
+// "aDelayMs" is an optional delay in milliseconds to trigger the TChromium.OnExecuteTaskOnCefThread event.
+function TFMXChromium.ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefGenericTask.Create(self, aTaskID);
+
+        if (aDelayMs <> 0) then
+          CefPostDelayedTask(aCefThreadId, TempTask, aDelayMs)
+         else
+          CefPostTask(aCefThreadId, TempTask);
+
+        Result := True;
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
 procedure TFMXChromium.SimulateMouseWheel(aDeltaX, aDeltaY : integer);
 var
   TempEvent : TCefMouseEvent;
@@ -3001,6 +3033,11 @@ end;
 procedure TFMXChromium.doAllConnectionsClosed;
 begin
   if assigned(FOnAllConnectionsClosed) then FOnAllConnectionsClosed(self);
+end;
+
+procedure TFMXChromium.doOnExecuteTaskOnCefThread(aTaskID : cardinal);
+begin
+  if assigned(FOnExecuteTaskOnCefThread) then FOnExecuteTaskOnCefThread(self, aTaskID);
 end;
 
 function TFMXChromium.MustCreateLoadHandler : boolean;

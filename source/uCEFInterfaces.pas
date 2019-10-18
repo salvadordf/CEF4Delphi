@@ -393,6 +393,7 @@ type
     procedure doCertificateExceptionsCleared;
     procedure doHttpAuthCredentialsCleared;
     procedure doAllConnectionsClosed;
+    procedure doOnExecuteTaskOnCefThread(aTaskID : cardinal);
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
     function  MustCreateContextMenuHandler : boolean;

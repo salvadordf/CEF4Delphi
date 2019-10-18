@@ -113,6 +113,18 @@ type
       destructor  Destroy; override;
   end;
 
+  TCefGenericTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+      FTaskID : cardinal;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aTaskID : cardinal); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
@@ -277,6 +289,38 @@ begin
 end;
 
 destructor TCefURLRequestTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+// TCefGenericTask
+
+procedure TCefGenericTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doOnExecuteTaskOnCefThread(FTaskID);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefGenericTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefGenericTask.Create(const aEvents : IChromiumEvents; aTaskID : cardinal);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FTaskID := aTaskID;
+end;
+
+destructor TCefGenericTask.Destroy;
 begin
   FEvents := nil;
 
