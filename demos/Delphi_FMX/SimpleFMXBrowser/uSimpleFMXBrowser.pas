@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -152,7 +152,7 @@ begin
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 
-  // In case you want to use custom directories for the CEF3 binaries, cache and user data.
+  // In case you want to use custom directories for the CEF binaries, cache and user data.
   // If you don't set a cache directory the browser will use in-memory cache.
 {
   GlobalCEFApp.FrameworkDirPath     := 'cef';

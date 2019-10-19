@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -151,7 +151,7 @@ uses
 // JavaScript file in briskbard.com into a TMemoryStream. The stream
 // is shown in the TMemo when it's finished.
 
-// For more information read the CEF3 code comments here :
+// For more information read the CEF code comments here :
 //      https://github.com/chromiumembedded/cef/blob/master/include/capi/cef_response_filter_capi.h
 
 // Destruction steps

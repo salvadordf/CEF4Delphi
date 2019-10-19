@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -87,9 +87,11 @@ procedure CefStringFree(const str: PCefString);
 function  CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
 procedure CefStringSet(const str: PCefString; const value: ustring);
 
-function  CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
-procedure CefPostTask(ThreadId: TCefThreadId; const task: ICefTask);
-procedure CefPostDelayedTask(ThreadId: TCefThreadId; const task: ICefTask; delayMs: Int64);
+function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
+
+function CefPostTask(aThreadId : TCefThreadId; const aTask: ICefTask) : boolean;
+function CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; aDelayMs : Int64) : boolean;
+function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
 
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
@@ -402,16 +404,28 @@ begin
     Result := False;
 end;
 
-procedure CefPostTask(ThreadId: TCefThreadId; const task: ICefTask);
+function CefPostTask(aThreadId : TCefThreadId; const aTask : ICefTask) : boolean;
 begin
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_post_task(ThreadId, CefGetData(task));
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (aTask <> nil) then
+    Result := cef_post_task(aThreadId, aTask.Wrap) <> 0
+   else
+    Result := False;
 end;
 
-procedure CefPostDelayedTask(ThreadId: TCefThreadId; const task: ICefTask; delayMs: Int64);
+function CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; aDelayMs : Int64) : boolean;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (aTask <> nil) then
+    Result := cef_post_delayed_task(aThreadId, aTask.Wrap, aDelayMs) <> 0
+   else
+    Result := False;
+end;
+
+function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_post_delayed_task(ThreadId, CefGetData(task), delayMs);
+    Result := cef_currently_on(aThreadId) <> 0
+   else
+    Result := False;
 end;
 
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;

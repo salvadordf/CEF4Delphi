@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -143,7 +143,7 @@ uses
   uCEFLibFunctions, uCEFApplication, uCEFMiscFunctions;
 
 // For more information about the TCEFServerComponent properties and functions
-// read the code comments in the CEF3 source file /include/capi/cef_server_cap.h
+// read the code comments in the CEF source file /include/capi/cef_server_cap.h
 
 constructor TCEFServerComponent.Create(AOwner: TComponent);
 begin

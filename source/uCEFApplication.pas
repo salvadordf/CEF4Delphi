@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -62,7 +62,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 77;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 14;
+  CEF_SUPPORTED_VERSION_RELEASE = 18;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 77;
@@ -891,7 +891,7 @@ begin
       if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
         begin
           FStatus    := asErrorMissingFiles;
-          TempString := 'CEF3 binaries missing !';
+          TempString := 'CEF binaries missing !';
 
           if (length(FMissingLibFiles) > 0) then
             TempString := TempString + CRLF + CRLF +
@@ -915,9 +915,9 @@ begin
                    else
                     begin
                       FStatus    := asErrorDLLVersion;
-                      TempString := 'Wrong CEF3 binaries !' +
+                      TempString := 'Wrong CEF binaries !' +
                                     CRLF + CRLF +
-                                    'Use the 32 bit CEF3 binaries with 32 bits applications only.';
+                                    'Use the 32 bit CEF binaries with 32 bits applications only.';
 
                       ShowErrorMessageDlg(TempString);
                     end;
@@ -929,9 +929,9 @@ begin
 
                     begin
                       FStatus    := asErrorDLLVersion;
-                      TempString := 'Wrong CEF3 binaries !' +
+                      TempString := 'Wrong CEF binaries !' +
                                     CRLF + CRLF +
-                                    'Use the 64 bit CEF3 binaries with 64 bits applications only.';
+                                    'Use the 64 bit CEF binaries with 64 bits applications only.';
 
                       ShowErrorMessageDlg(TempString);
                     end;
@@ -939,9 +939,9 @@ begin
                 else
                   begin
                     FStatus    := asErrorDLLVersion;
-                    TempString := 'Unknown CEF3 binaries !' +
+                    TempString := 'Unknown CEF binaries !' +
                                   CRLF + CRLF +
-                                  'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
+                                  'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
                                   CEF4DELPHI_URL;
 
                     ShowErrorMessageDlg(TempString);
@@ -955,7 +955,7 @@ begin
             FStatus    := asErrorDLLVersion;
             TempString := 'Unsupported CEF version !' +
                           CRLF + CRLF +
-                          'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
+                          'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
                           CEF4DELPHI_URL;
 
             if GetDLLVersion(LibCefPath, TempVersionInfo) then
@@ -1408,7 +1408,7 @@ begin
 
   // The stringId must be one of the values defined in the CEF file :
   // /include/cef_pack_strings.h
-  // That file is available in the CEF3 binaries package.
+  // That file is available in the CEF binaries package.
   if assigned(FOnGetLocalizedString) then FOnGetLocalizedString(stringId, stringVal, Result);
 end;
 
@@ -1418,7 +1418,7 @@ begin
 
   // The resourceId must be one of the values defined in the CEF file :
   // /include/cef_pack_resources.h
-  // That file is available in the CEF3 binaries package.
+  // That file is available in the CEF binaries package.
   if assigned(FOnGetDataResource) then FOnGetDataResource(resourceId, data, dataSize, Result);
 end;
 
@@ -1428,7 +1428,7 @@ begin
 
   // The resourceId must be one of the values defined in the CEF file :
   // /include/cef_pack_resources.h
-  // That file is available in the CEF3 binaries package.
+  // That file is available in the CEF binaries package.
   if assigned(FOnGetDataResourceForScale) then FOnGetDataResourceForScale(resourceId, scaleFactor, data, dataSize, Result);
 end;
 

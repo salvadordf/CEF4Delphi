@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -1111,7 +1111,7 @@ type
 
   // /include/internal/cef_types.h (cef_key_event_t)
   TCefKeyEvent = record
-    kind                    : TCefKeyEventType;  // called 'type' in the original CEF3 source code
+    kind                    : TCefKeyEventType;  // called 'type' in the original CEF source code
     modifiers               : TCefEventFlags;
     windows_key_code        : Integer;
     native_key_code         : Integer;

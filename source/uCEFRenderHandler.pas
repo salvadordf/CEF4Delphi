@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -159,7 +159,7 @@ begin
     TCefRenderHandlerOwn(TempObject).GetViewRect(TCefBrowserRef.UnWrap(browser),
                                                  rect^);
 
-  // CEF3 needs a rect with valid height and width
+  // CEF needs a rect with valid height and width
   if (rect^.width  <= 0) then rect^.width  := 800;
   if (rect^.height <= 0) then rect^.height := 600;
 end;

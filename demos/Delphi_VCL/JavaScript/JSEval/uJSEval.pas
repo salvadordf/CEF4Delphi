@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -170,7 +170,7 @@ uses
 // About binary parameters
 // -----------------------
 // There is a size limit in the binary parameters of only a few kilobytes.
-// For more info and alternatives read this thread in the official CEF3 forum :
+// For more info and alternatives read this thread in the official CEF forum :
 // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=10590
 //
 // Compress the binary data if necessary!
