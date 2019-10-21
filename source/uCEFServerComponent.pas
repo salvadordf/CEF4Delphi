@@ -137,6 +137,33 @@ type
 procedure Register;
 {$ENDIF}
 
+// *********************************************************
+// ********************** ATTENTION ! **********************
+// *********************************************************
+// **                                                     **
+// **  MANY OF THE EVENTS IN CEF4DELPHI COMPONENTS LIKE   **
+// **  TCHROMIUM, TFMXCHROMIUM OR TCEFAPPLICATION ARE     **
+// **  EXECUTED IN A CEF THREAD BY DEFAULT.               **
+// **                                                     **
+// **  WINDOWS CONTROLS MUST BE CREATED AND DESTROYED IN  **
+// **  THE SAME THREAD TO AVOID ERRORS.                   **
+// **  SOME OF THEM RECREATE THE HANDLERS IF THEY ARE     **
+// **  MODIFIED AND CAN CAUSE THE SAME ERRORS.            **
+// **                                                     **
+// **  DON'T CREATE, MODIFY OR DESTROY WINDOWS CONTROLS   **
+// **  INSIDE THE CEF4DELPHI EVENTS AND USE               **
+// **  SYNCHRONIZATION OBJECTS TO PROTECT VARIABLES AND   **
+// **  FIELDS IF THEY ARE ALSO USED IN THE MAIN THREAD.   **
+// **                                                     **
+// **  READ THIS FOR MORE INFORMATION :                   **
+// **  https://www.briskbard.com/index.php?pageid=cef     **
+// **                                                     **
+// **  USE OUR FORUMS FOR MORE QUESTIONS :                **
+// **  https://www.briskbard.com/forum/                   **
+// **                                                     **
+// *********************************************************
+// *********************************************************
+
 implementation
 
 uses
