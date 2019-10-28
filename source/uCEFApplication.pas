@@ -183,6 +183,8 @@ type
       FOverrideSpellCheckLang            : string;
       FEnablePrintPreview                : boolean;
       FTouchEvents                       : TCefState;
+      FDisableReadingFromCanvas          : boolean;
+      FHyperlinkAuditing                 : boolean;
 
       FMustCreateResourceBundleHandler   : boolean;
       FMustCreateBrowserProcessHandler   : boolean;
@@ -426,6 +428,8 @@ type
       property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;             // --disable-spell-checking
       property OverrideSpellCheckLang            : string                              read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;           // --override-spell-check-lang
       property TouchEvents                       : TCefState                           read FTouchEvents                       write FTouchEvents;                      // --touch-events
+      property DisableReadingFromCanvas          : boolean                             read FDisableReadingFromCanvas          write FDisableReadingFromCanvas;         // --disable-reading-from-canvas
+      property HyperlinkAuditing                 : boolean                             read FHyperlinkAuditing                 write FHyperlinkAuditing;                // --no-pings
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -668,6 +672,8 @@ begin
   FOverrideSpellCheckLang            := '';
   FEnablePrintPreview                := False;
   FTouchEvents                       := STATE_DEFAULT;
+  FDisableReadingFromCanvas          := False;
+  FHyperlinkAuditing                 := True;
 
   FMustCreateResourceBundleHandler := False;
   FMustCreateBrowserProcessHandler := True;
@@ -1585,6 +1591,12 @@ begin
         STATE_ENABLED  : commandLine.AppendSwitchWithValue('--touch-events', 'enabled');
         STATE_DISABLED : commandLine.AppendSwitchWithValue('--touch-events', 'disabled');
       end;
+
+      if FDisableReadingFromCanvas then
+        commandLine.AppendSwitch('--disable-reading-from-canvas');
+
+      if not(FHyperlinkAuditing) then
+        commandLine.AppendSwitch('--no-pings');
 
       case FAutoplayPolicy of
         appDocumentUserActivationRequired    :
