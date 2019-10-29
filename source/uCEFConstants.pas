@@ -536,13 +536,6 @@ const
   CEF_PROXYTYPE_FIXED_SERVERS = 3;
   CEF_PROXYTYPE_PAC_SCRIPT    = 4;
 
-  CEF_CONTENT_SETTING_DEFAULT       = 0;
-  CEF_CONTENT_SETTING_ALLOW         = 1;
-  CEF_CONTENT_SETTING_BLOCK         = 2;
-  CEF_CONTENT_SETTING_ASK           = 3;
-  CEF_CONTENT_SETTING_SESSION_ONLY  = 4;
-  CEF_CONTENT_SETTING_NUM_SETTINGS  = 5;
-
   // Used in the severity parameter in the 'cef_log' function, also known as 'CefLog' in CEF4Delphi.
   CEF_LOG_SEVERITY_INFO    = 0;
   CEF_LOG_SEVERITY_WARNING = 1;

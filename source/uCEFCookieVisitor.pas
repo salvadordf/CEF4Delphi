@@ -70,9 +70,26 @@ type
       constructor Create(const visitor: TCefCookieVisitorProc); reintroduce;
   end;
 
+  TCefCustomCookieVisitor = class(TCefCookieVisitorOwn)
+    protected
+      FEvents : Pointer;
+      FID     : integer;
+
+      function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aID : integer); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
 function cef_cookie_visitor_visit(self: PCefCookieVisitor;
@@ -146,6 +163,49 @@ function TCefFastCookieVisitor.visit(const name, value, domain, path: ustring;
 begin
   Result := FVisitor(name, value, domain, path, secure, httponly, hasExpires,
                      creation, lastAccess, expires, count, total, deleteCookie);
+end;
+
+
+// TCefCustomCookieVisitor
+
+constructor TCefCustomCookieVisitor.Create(const aEvents : IChromiumEvents; aID : integer);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FID     := aID;
+end;
+
+destructor TCefCustomCookieVisitor.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+function TCefCustomCookieVisitor.visit(const name, value, domain, path: ustring;
+                                       secure, httponly, hasExpires: Boolean;
+                                       const creation, lastAccess, expires: TDateTime;
+                                       count, total: Integer;
+                                       out deleteCookie: Boolean): Boolean;
+var
+  TempDelete : boolean;
+begin
+  Result     := True;
+  TempDelete := False;
+
+  try
+    try
+      if (FEvents <> nil) then
+        IChromiumEvents(FEvents).doOnCookiesVisited(name, value, domain, path, secure, httponly, hasExpires,
+                                                    creation, lastAccess, expires, count, total, FID, TempDelete, Result);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCustomCookieVisitor.visit', e) then raise;
+    end;
+  finally
+    deleteCookie := TempDelete;
+  end;
 end;
 
 end.

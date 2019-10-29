@@ -53,12 +53,14 @@ uses
   uCEFCookieManager, uCEFCookieVisitor, uCEFWinControl, uCEFSentinel;
 
 const
-  MINIBROWSER_SHOWCOOKIES   = WM_APP + $101;
-  MINIBROWSER_SETCOOKIERSLT = WM_APP + $102;
+  MINIBROWSER_SHOWCOOKIES    = WM_APP + $101;
+  MINIBROWSER_COOKIESDELETED = WM_APP + $102;
+  MINIBROWSER_COOKIESET      = WM_APP + $103;
 
-  MINIBROWSER_CONTEXTMENU_DELETECOOKIES = MENU_ID_USER_FIRST + 1;
-  MINIBROWSER_CONTEXTMENU_GETCOOKIES    = MENU_ID_USER_FIRST + 2;
-  MINIBROWSER_CONTEXTMENU_SETCOOKIE     = MENU_ID_USER_FIRST + 3;
+  MINIBROWSER_CONTEXTMENU_DELETECOOKIES     = MENU_ID_USER_FIRST + 1;
+  MINIBROWSER_CONTEXTMENU_GETCOOKIES        = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_SETCOOKIE         = MENU_ID_USER_FIRST + 3;
+  MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES  = MENU_ID_USER_FIRST + 4;
 
 type
   TCookieVisitorFrm = class(TForm)
@@ -82,7 +84,6 @@ type
     procedure Chromium1CookiesDeleted(Sender: TObject;
       numDeleted: Integer);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Chromium1BeforePopup(Sender: TObject;
       const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
@@ -98,6 +99,12 @@ type
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
     procedure CEFSentinel1Close(Sender: TObject);
+    procedure Chromium1CookiesVisited(Sender: TObject; const name_, value,
+      domain, path: ustring; secure, httponly, hasExpires: Boolean;
+      const creation, lastAccess, expires: TDateTime; count,
+      total, aID : Integer; var aDeleteCookie, aResult: Boolean);
+    procedure Chromium1CookieSet(Sender: TObject; aSuccess: Boolean;
+      aID: Integer);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -107,11 +114,11 @@ type
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowCookiesMsg(var aMessage : TMessage); message MINIBROWSER_SHOWCOOKIES;
-    procedure SetCookieRsltMsg(var aMessage : TMessage); message MINIBROWSER_SETCOOKIERSLT;
+    procedure CookiesDeletedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESDELETED;
+    procedure CookieSetMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESET;
 
   protected
     FText     : string;
-    FVisitor  : ICefCookieVisitor;
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
@@ -133,11 +140,16 @@ implementation
 uses
   uSimpleTextViewer, uCEFTask, uCEFMiscFunctions;
 
-// This demo has a context menu to test the DeleteCookies function and a CookieVisitor example.
+// This demo has a context menu to test several TChromium functions related to cookies like TChromium.VisitAllCookies,
+// TChromium.SetCookie, TChromium.DeleteCookies, etc.
 
-// The cookie visitor gets the global cookie manager to call the VisitAllCookies function.
-// The cookie visitor will call CookieVisitorProc for each cookie and it'll save the information using the AddCookieInfo function.
+// TChromium.VisitAllCookies and TChromium.VisitURLCookies trigger the TChromium.OnCookiesVisited event for each
+// cookie and it'll save the information using the AddCookieInfo function.
 // When the last cookie arrives we show the information in a SimpleTextViewer form.
+
+// TChromium.SetCookie triggers TChromium.OnCookieSet when it has set the cookie.
+
+// TChromium.DeleteCookies triggers TChromium.OnCookiesDeleted when the cookies have been deleted.
 
 // Destruction steps
 // =================
@@ -151,41 +163,6 @@ begin
   GlobalCEFApp                  := TCefApplication.Create;
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
-end;
-
-// This function is called in the IO thread.
-function CookieVisitorProc(const name, value, domain, path: ustring;
-                                 secure, httponly, hasExpires: Boolean;
-                           const creation, lastAccess, expires: TDateTime;
-                                 count, total: Integer;
-                           out   deleteCookie: Boolean): Boolean;
-var
-  TempCookie : TCookie;
-begin
-  deleteCookie := False;
-
-  TempCookie.name        := name;
-  TempCookie.value       := value;
-  TempCookie.domain      := domain;
-  TempCookie.path        := path;
-  TempCookie.secure      := secure;
-  TempCookie.httponly    := httponly;
-  TempCookie.creation    := creation;
-  TempCookie.last_access := lastAccess;
-  TempCookie.has_expires := hasExpires;
-  TempCookie.expires     := expires;
-
-  CookieVisitorFrm.AddCookieInfo(TempCookie);
-
-  if (count = pred(total)) then
-    begin
-      if (CookieVisitorFrm <> nil) and CookieVisitorFrm.HandleAllocated then
-        PostMessage(CookieVisitorFrm.Handle, MINIBROWSER_SHOWCOOKIES, 0, 0);
-
-      Result := False;
-    end
-   else
-    Result := True;
 end;
 
 procedure TCookieVisitorFrm.AddCookieInfo(const aCookie : TCookie);
@@ -212,12 +189,17 @@ begin
   SimpleTextViewerFrm.ShowModal;
 end;
 
-procedure TCookieVisitorFrm.SetCookieRsltMsg(var aMessage : TMessage);
+procedure TCookieVisitorFrm.CookiesDeletedMsg(var aMessage : TMessage);
 begin
-  if (aMessage.wParam = 0) then
-    showmessage('There was a problem setting the cookie')
+  showmessage('Deleted cookies : ' + inttostr(aMessage.lParam));
+end;
+
+procedure TCookieVisitorFrm.CookieSetMsg(var aMessage : TMessage);
+begin
+  if (aMessage.wParam <> 0) then
+    showmessage('Cookie set successfully !')
    else
-    showmessage('Cookie set successfully !');
+    showmessage('There was a problem setting the cookie');
 end;
 
 procedure TCookieVisitorFrm.Timer1Timer(Sender: TObject);
@@ -253,10 +235,11 @@ procedure TCookieVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
   model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_DELETECOOKIES,  'Delete cookies');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_DELETECOOKIES,    'Delete cookies');
   model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_GETCOOKIES,     'Visit cookies');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SETCOOKIE,      'Set cookie');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_GETCOOKIES,       'Visit all cookies');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES, 'Visit cookies from Google');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SETCOOKIE,        'Set cookie');
 end;
 
 procedure TCookieVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -284,8 +267,6 @@ procedure TCookieVisitorFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
   eventFlags: Cardinal; out Result: Boolean);
-var
-  TempManager : ICefCookieManager;
 begin
   Result := False;
 
@@ -295,37 +276,73 @@ begin
     MINIBROWSER_CONTEXTMENU_GETCOOKIES :
       begin
         // This should be protected by a mutex
-        FText       := '';
-        TempManager := TCefCookieManagerRef.Global(nil);
-        TempManager.VisitAllCookies(FVisitor);
+        FText := '';
+        Chromium1.VisitAllCookies;
+      end;
+
+    MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES :
+      begin
+        // This should be protected by a mutex
+        FText := '';
+        Chromium1.VisitURLCookies('https://www.google.com');
       end;
 
     MINIBROWSER_CONTEXTMENU_SETCOOKIE :
-      begin
-        TempManager := TCefCookieManagerRef.Global(nil);
-
-        if TempManager.SetCookie('https://www.example.com',
-                                 'example_cookie_name',
-                                 '1234',
-                                 '',
-                                 '/',
-                                 True,
-                                 True,
-                                 False,
-                                 now,
-                                 now,
-                                 now,
-                                 nil) then
-        PostMessage(Handle, MINIBROWSER_SETCOOKIERSLT, ord(True), 0)
-       else
-        PostMessage(Handle, MINIBROWSER_SETCOOKIERSLT, ord(False), 0);
-      end;
+      Chromium1.SetCookie('https://www.example.com',
+                          'example_cookie_name',
+                          '1234',
+                          '',
+                          '/',
+                          True,
+                          True,
+                          False,
+                          now,
+                          now,
+                          now,
+                          False);
   end;
 end;
 
 procedure TCookieVisitorFrm.Chromium1CookiesDeleted(Sender: TObject; numDeleted: Integer);
 begin
-  showmessage('Deleted cookies : ' + inttostr(numDeleted));
+  PostMessage(Handle, MINIBROWSER_COOKIESDELETED, 0, numDeleted);
+end;
+
+procedure TCookieVisitorFrm.Chromium1CookieSet(Sender: TObject;
+  aSuccess: Boolean; aID: Integer);
+begin
+  PostMessage(Handle, MINIBROWSER_COOKIESET, ord(aSuccess), aID);
+end;
+
+procedure TCookieVisitorFrm.Chromium1CookiesVisited(Sender: TObject;
+  const name_, value, domain, path: ustring; secure, httponly,
+  hasExpires: Boolean; const creation, lastAccess, expires: TDateTime;
+  count, total, aID: Integer; var aDeleteCookie, aResult: Boolean);
+var
+  TempCookie : TCookie;
+begin
+  aDeleteCookie := False;
+
+  TempCookie.name        := name_;
+  TempCookie.value       := value;
+  TempCookie.domain      := domain;
+  TempCookie.path        := path;
+  TempCookie.secure      := secure;
+  TempCookie.httponly    := httponly;
+  TempCookie.creation    := creation;
+  TempCookie.last_access := lastAccess;
+  TempCookie.has_expires := hasExpires;
+  TempCookie.expires     := expires;
+
+  AddCookieInfo(TempCookie);
+
+  if (count = pred(total)) then
+    begin
+      PostMessage(Handle, MINIBROWSER_SHOWCOOKIES, 0, 0);
+      aResult := False;
+    end
+   else
+    aResult := True;
 end;
 
 procedure TCookieVisitorFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -342,14 +359,8 @@ end;
 
 procedure TCookieVisitorFrm.FormCreate(Sender: TObject);
 begin
-  FVisitor  := TCefFastCookieVisitor.Create(CookieVisitorProc);
   FCanClose := False;
   FClosing  := False;
-end;
-
-procedure TCookieVisitorFrm.FormDestroy(Sender: TObject);
-begin
-  FVisitor := nil;
 end;
 
 procedure TCookieVisitorFrm.FormShow(Sender: TObject);

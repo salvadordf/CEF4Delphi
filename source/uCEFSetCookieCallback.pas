@@ -70,9 +70,26 @@ type
       constructor Create(const callback: TCefSetCookieCallbackProc); reintroduce;
   end;
 
+  TCefCustomSetCookieCallback = class(TCefSetCookieCallbackOwn)
+    protected
+      FEvents : Pointer;
+      FID     : integer;
+
+      procedure OnComplete(success: Boolean); override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aID : integer); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
 procedure cef_set_cookie_callback_on_complete(self    : PCefSetCookieCallback;
@@ -107,5 +124,38 @@ procedure TCefFastSetCookieCallback.OnComplete(success: Boolean);
 begin
   FCallback(success);
 end;
+
+
+// TCefCustomSetCookieCallback
+
+constructor TCefCustomSetCookieCallback.Create(const aEvents : IChromiumEvents; aID : integer);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FID     := aID;
+end;
+
+destructor TCefCustomSetCookieCallback.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+procedure TCefCustomSetCookieCallback.OnComplete(success: Boolean);
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doOnCookieSet(success, FID);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCustomSetCookieCallback.OnComplete', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
 
 end.

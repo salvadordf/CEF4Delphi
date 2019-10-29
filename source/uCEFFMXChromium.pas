@@ -236,6 +236,8 @@ type
       FOnHttpAuthCredentialsCleared       : TNotifyEvent;
       FOnAllConnectionsClosed             : TNotifyEvent;
       FOnExecuteTaskOnCefThread           : TOnExecuteTaskOnCefThread;
+      FOnCookiesVisited                   : TOnCookiesVisited;
+      FOnCookieSet                        : TOnCookieSet;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -469,6 +471,8 @@ type
       procedure doHttpAuthCredentialsCleared; virtual;
       procedure doAllConnectionsClosed; virtual;
       procedure doOnExecuteTaskOnCefThread(aTaskID : cardinal); virtual;
+      procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean); virtual;
+      procedure doOnCookieSet(aSuccess : boolean; aID : integer); virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
       function  MustCreateContextMenuHandler : boolean; virtual;
@@ -516,8 +520,6 @@ type
       procedure   DownloadImage(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean);
 
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
-      function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = '') : boolean;
-      function    FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
       function    ClearCertificateExceptions(aClearImmediately : boolean = True) : boolean;
       function    ClearHttpAuthCredentials(aClearImmediately : boolean = True) : boolean;
       function    CloseAllConnections(aCloseImmediately : boolean = True) : boolean;
@@ -538,6 +540,12 @@ type
       procedure   ResolveHost(const aURL : ustring);
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
       function    ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;
+
+      function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = '') : boolean;
+      function    VisitAllCookies(aID : integer = 0) : boolean;
+      function    VisitURLCookies(const url : ustring; includeHttpOnly : boolean = False; aID : integer = 0) : boolean;
+      function    SetCookie(const url: ustring; const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; aSetImmediately : boolean = True; aID : integer = 0): Boolean;
+      function    FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
 
       procedure   ShowDevTools(inspectElementAt: TPoint);
       procedure   CloseDevTools;
@@ -678,6 +686,8 @@ type
       property  OnHttpAuthCredentialsCleared       : TNotifyEvent                             read FOnHttpAuthCredentialsCleared       write FOnHttpAuthCredentialsCleared;
       property  OnAllConnectionsClosed             : TNotifyEvent                             read FOnAllConnectionsClosed             write FOnAllConnectionsClosed;
       property  OnExecuteTaskOnCefThread           : TOnExecuteTaskOnCefThread                read FOnExecuteTaskOnCefThread           write FOnExecuteTaskOnCefThread;
+      property  OnCookiesVisited                   : TOnCookiesVisited                        read FOnCookiesVisited                   write FOnCookiesVisited;
+      property  OnCookieSet                        : TOnCookieSet                             read FOnCookieSet                        write FOnCookieSet;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg        : TOnCompMsgEvent              read FOnBrowserCompMsg         write FOnBrowserCompMsg;
       property  OnWidgetCompMsg         : TOnCompMsgEvent              read FOnWidgetCompMsg          write FOnWidgetCompMsg;
@@ -826,7 +836,7 @@ uses
   uCEFApplication, uCEFProcessMessage, uCEFRequestContext, uCEFCookieManager,
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
   uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack,
-  uCEFRequestContextHandler;
+  uCEFRequestContextHandler, uCEFCookieVisitor, uCEFSetCookieCallback;
 
 constructor TFMXChromium.Create(AOwner: TComponent);
 begin
@@ -1155,6 +1165,8 @@ begin
   FOnHttpAuthCredentialsCleared       := nil;
   FOnAllConnectionsClosed             := nil;
   FOnExecuteTaskOnCefThread           := nil;
+  FOnCookiesVisited                   := nil;
+  FOnCookieSet                        := nil;
 end;
 
 function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
@@ -2139,6 +2151,89 @@ begin
     end;
 end;
 
+// TFMXChromium.VisitAllCookies triggers the TFMXChromium.OnCookiesVisited event for each cookie
+// aID is an optional parameter to identify which VisitAllCookies call has triggered the
+// OnCookiesVisited event.
+function TFMXChromium.VisitAllCookies(aID : integer) : boolean;
+var
+  TempManager : ICefCookieManager;
+  TempVisitor : ICefCookieVisitor;
+begin
+  Result := False;
+
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+    begin
+      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+
+      if (TempManager <> nil) then
+        try
+          TempVisitor := TCefCustomCookieVisitor.Create(self, aID);
+          Result      := TempManager.VisitAllCookies(TempVisitor);
+        finally
+          TempVisitor := nil;
+        end;
+    end;
+end;
+
+// TFMXChromium.VisitURLCookies triggers the TFMXChromium.OnCookiesVisited event for each cookie
+// aID is an optional parameter to identify which VisitAllCookies call has triggered the
+// OnCookiesVisited event.
+function TFMXChromium.VisitURLCookies(const url : ustring; includeHttpOnly : boolean; aID : integer) : boolean;
+var
+  TempManager : ICefCookieManager;
+  TempVisitor : ICefCookieVisitor;
+begin
+  Result := False;
+
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+    begin
+      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+
+      if (TempManager <> nil) then
+        try
+          TempVisitor := TCefCustomCookieVisitor.Create(self, aID);
+          Result      := TempManager.VisitUrlCookies(url, includeHttpOnly, TempVisitor);
+        finally
+          TempVisitor := nil;
+        end;
+    end;
+end;
+
+// TFMXChromium.SetCookie triggers the TFMXChromium.OnCookieSet event when the cookie has been set
+// aID is an optional parameter to identify which SetCookie call has triggered the
+// OnCookieSet event.
+function TFMXChromium.SetCookie(const url, name, value, domain, path: ustring;
+                                      secure, httponly, hasExpires: Boolean;
+                                const creation, lastAccess, expires: TDateTime;
+                                      aSetImmediately : boolean;
+                                      aID : integer): Boolean;
+var
+  TempManager  : ICefCookieManager;
+  TempCallback : ICefSetCookieCallback;
+begin
+  Result := False;
+
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+    begin
+      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+
+      if (TempManager <> nil) then
+        try
+          if aSetImmediately then
+            TempCallback := nil
+           else
+            TempCallback := TCefCustomSetCookieCallback.Create(self, aID);
+
+          Result := TempManager.SetCookie(url, name, value, domain, path,
+                                          secure, httponly, hasExpires,
+                                          creation, lastAccess, expires,
+                                          TempCallback);
+        finally
+          TempCallback := nil;
+        end;
+    end;
+end;
+
 // If aFlushImmediately is false then OnCookiesFlushed is triggered when the cookies are flushed
 function TFMXChromium.FlushCookieStore(aFlushImmediately : boolean) : boolean;
 var
@@ -3063,6 +3158,25 @@ end;
 procedure TFMXChromium.doOnExecuteTaskOnCefThread(aTaskID : cardinal);
 begin
   if assigned(FOnExecuteTaskOnCefThread) then FOnExecuteTaskOnCefThread(self, aTaskID);
+end;
+
+procedure TFMXChromium.doOnCookiesVisited(const name_, value, domain, path: ustring;
+                                                secure, httponly, hasExpires: Boolean;
+                                          const creation, lastAccess, expires: TDateTime;
+                                                count, total, aID : Integer;
+                                          var   aDeleteCookie, aResult : Boolean);
+begin
+  if assigned(FOnCookiesVisited) then
+    FOnCookiesVisited(self, name, value, domain, path,
+                      secure, httponly, hasExpires,
+                      creation, lastAccess, expires,
+                      count, total, aID,
+                      aDeleteCookie, aResult);
+end;
+
+procedure TFMXChromium.doOnCookieSet(aSuccess : boolean; aID : integer);
+begin
+  if assigned(FOnCookieSet) then FOnCookieSet(self, aSuccess, aID);
 end;
 
 function TFMXChromium.MustCreateLoadHandler : boolean;

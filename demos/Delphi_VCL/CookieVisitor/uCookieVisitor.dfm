@@ -14,7 +14,6 @@ object CookieVisitorFrm: TCookieVisitorFrm
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -66,6 +65,8 @@ object CookieVisitorFrm: TCookieVisitorFrm
   end
   object Chromium1: TChromium
     OnCookiesDeleted = Chromium1CookiesDeleted
+    OnCookiesVisited = Chromium1CookiesVisited
+    OnCookieSet = Chromium1CookieSet
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
     OnBeforePopup = Chromium1BeforePopup

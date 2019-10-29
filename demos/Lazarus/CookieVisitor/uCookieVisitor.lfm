@@ -1,7 +1,7 @@
 object CookieVisitorFrm: TCookieVisitorFrm
-  Left = 183
+  Left = 449
   Height = 762
-  Top = 77
+  Top = 101
   Width = 884
   Caption = 'Cookie Visitor'
   ClientHeight = 762
@@ -59,6 +59,8 @@ object CookieVisitorFrm: TCookieVisitorFrm
   end
   object Chromium1: TChromium
     OnCookiesDeleted = Chromium1CookiesDeleted
+    OnCookiesVisited = Chromium1CookiesVisited
+    OnCookieSet = Chromium1CookieSet
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
     OnBeforePopup = Chromium1BeforePopup
