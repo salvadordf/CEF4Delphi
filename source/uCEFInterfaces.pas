@@ -694,7 +694,6 @@ type
     procedure GetTextProc(const proc: TCefStringVisitorProc);
     procedure LoadRequest(const request: ICefRequest);
     procedure LoadUrl(const url: ustring);
-    procedure LoadString(const str, url: ustring);
     procedure ExecuteJavaScript(const code, scriptUrl: ustring; startLine: Integer);
     function  IsMain: Boolean;
     function  IsFocused: Boolean;
@@ -775,7 +774,8 @@ type
     procedure SetMimeType(const mimetype: ustring);
     function  GetCharset: ustring;
     procedure SetCharset(const charset: ustring);
-    function  GetHeader(const name: ustring): ustring;
+    function  GetHeaderByName(const name: ustring): ustring;
+    procedure SetHeaderByName(const name, value: ustring; overwrite: boolean);
     procedure GetHeaderMap(const headerMap: ICefStringMultimap);
     procedure SetHeaderMap(const headerMap: ICefStringMultimap);
     function  GetURL: ustring;
@@ -2031,7 +2031,6 @@ type
     ['{ACBD2395-E9C1-49E5-B7F3-344DAA4A0F12}']
     function  IsValid: Boolean;
     function  IsReadOnly: Boolean;
-    function  Copy: ICefPrintSettings;
     procedure SetOrientation(landscape: Boolean);
     function  IsLandscape: Boolean;
     procedure SetPrinterPrintableArea(const physicalSizeDeviceUnits: PCefSize; const printableAreaDeviceUnits: PCefRect; landscapeNeedsFlip: Boolean);

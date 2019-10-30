@@ -508,7 +508,6 @@ type
       procedure   LoadURL(const aURL : ustring; const aFrameName : ustring = ''); overload;
       procedure   LoadURL(const aURL : ustring; const aFrame : ICefFrame); overload;
       procedure   LoadURL(const aURL : ustring; const aFrameIdentifier : int64); overload;
-      procedure   LoadString(const aString : ustring; const aURL : ustring = '');
       procedure   LoadRequest(const aRequest: ICefRequest);
 
       procedure   GoBack;
@@ -1602,17 +1601,9 @@ begin
     end;
 end;
 
-procedure TFMXChromium.LoadString(const aString : ustring; const aURL : ustring);
-var
-  TempFrame : ICefFrame;
-begin
-  if Initialized then
-    begin
-      TempFrame := FBrowser.MainFrame;
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadString(aString, aURL);
-    end;
-end;
-
+// WARNING: This function will fail with "bad IPC message" reason
+// INVALID_INITIATOR_ORIGIN (213) unless you first navigate to the request
+// origin using some other mechanism (LoadURL, link click, etc).
 procedure TFMXChromium.LoadRequest(const aRequest: ICefRequest);
 var
   TempFrame : ICefFrame;
@@ -2176,7 +2167,7 @@ begin
 end;
 
 // TFMXChromium.VisitURLCookies triggers the TFMXChromium.OnCookiesVisited event for each cookie
-// aID is an optional parameter to identify which VisitAllCookies call has triggered the
+// aID is an optional parameter to identify which VisitURLCookies call has triggered the
 // OnCookiesVisited event.
 function TFMXChromium.VisitURLCookies(const url : ustring; includeHttpOnly : boolean; aID : integer) : boolean;
 var

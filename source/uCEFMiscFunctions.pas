@@ -153,7 +153,6 @@ function CustomPathIsUNC(const aPath : string) : boolean;
 function GetModulePath : string;
 
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
-function CefIsCertStatusMinorError(Status : TCefCertStatus) : boolean;
 
 function  CefCrashReportingEnabled : boolean;
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
@@ -712,13 +711,6 @@ begin
   Result := (GlobalCEFApp <> nil)  and
             GlobalCEFApp.LibLoaded and
             (cef_is_cert_status_error(Status) <> 0);
-end;
-
-function CefIsCertStatusMinorError(Status : TCefCertStatus) : boolean;
-begin
-  Result := (GlobalCEFApp <> nil)  and
-            GlobalCEFApp.LibLoaded and
-            (cef_is_cert_status_minor_error(Status) <> 0);
 end;
 
 function CefCrashReportingEnabled : boolean;

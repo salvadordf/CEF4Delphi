@@ -1051,7 +1051,6 @@ type
     remote_debugging_port                    : Integer;
     uncaught_exception_stack_size            : Integer;
     ignore_certificate_errors                : Integer;
-    enable_net_security_expiration           : integer;
     background_color                         : TCefColor;
     accept_language_list                     : TCefString;
     application_client_id_for_file_scanning  : TCefString;
@@ -1190,7 +1189,6 @@ type
     persist_session_cookies        : Integer;
     persist_user_preferences       : Integer;
     ignore_certificate_errors      : Integer;
-    enable_net_security_expiration : integer;
     accept_language_list           : TCefString;
   end;
 
@@ -1784,23 +1782,24 @@ type
 
   // /include/capi/cef_response_capi.h (cef_response_t)
   TCefResponse = record
-    base            : TCefBaseRefCounted;
-    is_read_only    : function(self: PCefResponse): Integer; stdcall;
-    get_error       : function(self: PCefResponse): TCefErrorCode; stdcall;
-    set_error       : procedure(self: PCefResponse; error: TCefErrorCode); stdcall;
-    get_status      : function(self: PCefResponse): Integer; stdcall;
-    set_status      : procedure(self: PCefResponse; status: Integer); stdcall;
-    get_status_text : function(self: PCefResponse): PCefStringUserFree; stdcall;
-    set_status_text : procedure(self: PCefResponse; const statusText: PCefString); stdcall;
-    get_mime_type   : function(self: PCefResponse): PCefStringUserFree; stdcall;
-    set_mime_type   : procedure(self: PCefResponse; const mimeType: PCefString); stdcall;
-    get_charset     : function(self: PCefResponse): PCefStringUserFree; stdcall;
-    set_charset     : procedure(self: PCefResponse; const charset: PCefString); stdcall;
-    get_header      : function(self: PCefResponse; const name: PCefString): PCefStringUserFree; stdcall;
-    get_header_map  : procedure(self: PCefResponse; headerMap: TCefStringMultimap); stdcall;
-    set_header_map  : procedure(self: PCefResponse; headerMap: TCefStringMultimap); stdcall;
-    get_url         : function(self: PCefResponse): PCefStringUserFree; stdcall;
-    set_url         : procedure(self: PCefResponse; const url: PCefString); stdcall;
+    base                : TCefBaseRefCounted;
+    is_read_only        : function(self: PCefResponse): Integer; stdcall;
+    get_error           : function(self: PCefResponse): TCefErrorCode; stdcall;
+    set_error           : procedure(self: PCefResponse; error: TCefErrorCode); stdcall;
+    get_status          : function(self: PCefResponse): Integer; stdcall;
+    set_status          : procedure(self: PCefResponse; status: Integer); stdcall;
+    get_status_text     : function(self: PCefResponse): PCefStringUserFree; stdcall;
+    set_status_text     : procedure(self: PCefResponse; const statusText: PCefString); stdcall;
+    get_mime_type       : function(self: PCefResponse): PCefStringUserFree; stdcall;
+    set_mime_type       : procedure(self: PCefResponse; const mimeType: PCefString); stdcall;
+    get_charset         : function(self: PCefResponse): PCefStringUserFree; stdcall;
+    set_charset         : procedure(self: PCefResponse; const charset: PCefString); stdcall;
+    get_header_by_name  : function(self: PCefResponse; const name: PCefString): PCefStringUserFree; stdcall;
+    set_header_by_name  : procedure(self: PCefResponse; const name: PCefString; const value: PCefString; overwrite: integer); stdcall;
+    get_header_map      : procedure(self: PCefResponse; headerMap: TCefStringMultimap); stdcall;
+    set_header_map      : procedure(self: PCefResponse; headerMap: TCefStringMultimap); stdcall;
+    get_url             : function(self: PCefResponse): PCefStringUserFree; stdcall;
+    set_url             : procedure(self: PCefResponse; const url: PCefString); stdcall;
   end;
 
   // /include/capi/cef_response_filter_capi.h (cef_response_filter_t)
@@ -1978,7 +1977,6 @@ type
     base                        : TCefBaseRefCounted;
     is_valid                    : function(self: PCefPrintSettings): Integer; stdcall;
     is_read_only                : function(self: PCefPrintSettings): Integer; stdcall;
-    copy                        : function(self: PCefPrintSettings): PCefPrintSettings; stdcall;
     set_orientation             : procedure(self: PCefPrintSettings; landscape: Integer); stdcall;
     is_landscape                : function(self: PCefPrintSettings): Integer; stdcall;
     set_printer_printable_area  : procedure(self: PCefPrintSettings; const physical_size_device_units: PCefSize; const printable_area_device_units: PCefRect; landscape_needs_flip: Integer); stdcall;
@@ -2560,7 +2558,6 @@ type
     get_text             : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
     load_request         : procedure(self: PCefFrame; request: PCefRequest); stdcall;
     load_url             : procedure(self: PCefFrame; const url: PCefString); stdcall;
-    load_string          : procedure(self: PCefFrame; const stringVal, url: PCefString); stdcall;
     execute_java_script  : procedure(self: PCefFrame; const code, script_url: PCefString; start_line: Integer); stdcall;
     is_main              : function(self: PCefFrame): Integer; stdcall;
     is_focused           : function(self: PCefFrame): Integer; stdcall;

@@ -157,7 +157,6 @@ var
 
   // /include/capi/cef_ssl_info_capi.h
   cef_is_cert_status_error       : function(status : TCefCertStatus) : integer; cdecl;
-  cef_is_cert_status_minor_error : function(status : TCefCertStatus) : integer; cdecl;
 
   // /include/capi/cef_stream_capi.h
   cef_stream_reader_create_for_file    : function(const fileName: PCefString): PCefStreamReader; cdecl;

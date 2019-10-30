@@ -69,7 +69,6 @@ type
       procedure GetTextProc(const proc: TCefStringVisitorProc);
       procedure LoadRequest(const request: ICefRequest);
       procedure LoadUrl(const url: ustring);
-      procedure LoadString(const str, url: ustring);
       procedure ExecuteJavaScript(const code, scriptUrl: ustring; startLine: Integer);
       function  IsMain: Boolean;
       function  IsFocused: Boolean;
@@ -186,22 +185,12 @@ begin
   PCefFrame(FData)^.load_request(PCefFrame(FData), CefGetData(request));
 end;
 
-procedure TCefFrameRef.LoadString(const str, url: ustring);
-var
-  TempString, TempURL : TCefString;
-begin
-  TempString := CefString(str);
-  TempURL    := CefString(url);
-  PCefFrame(FData)^.load_string(PCefFrame(FData), @TempString, @TempURL);
-end;
-
 procedure TCefFrameRef.LoadUrl(const url: ustring);
 var
   TempURL : TCefString;
 begin
   TempURL := CefString(url);
   PCefFrame(FData)^.load_url(PCefFrame(FData), @TempURL);
-
 end;
 
 procedure TCefFrameRef.Paste;

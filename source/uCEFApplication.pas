@@ -60,15 +60,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 77;
-  CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 18;
+  CEF_SUPPORTED_VERSION_MAJOR   = 78;
+  CEF_SUPPORTED_VERSION_MINOR   = 2;
+  CEF_SUPPORTED_VERSION_RELEASE = 9;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 77;
+  CEF_CHROMEELF_VERSION_MAJOR   = 78;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3865;
-  CEF_CHROMEELF_VERSION_BUILD   = 120;
+  CEF_CHROMEELF_VERSION_RELEASE = 3904;
+  CEF_CHROMEELF_VERSION_BUILD   = 70;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -106,7 +106,6 @@ type
       FPersistSessionCookies         : Boolean;
       FPersistUserPreferences        : boolean;
       FIgnoreCertificateErrors       : Boolean;
-      FEnableNetSecurityExpiration   : boolean;
       FBackgroundColor               : TCefColor;
       FAcceptLanguageList            : ustring;
       FApplicationClientID           : ustring;
@@ -382,7 +381,6 @@ type
       property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
       property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
       property IgnoreCertificateErrors           : Boolean                             read FIgnoreCertificateErrors           write FIgnoreCertificateErrors;
-      property EnableNetSecurityExpiration       : boolean                             read FEnableNetSecurityExpiration       write FEnableNetSecurityExpiration;
       property BackgroundColor                   : TCefColor                           read FBackgroundColor                   write FBackgroundColor;
       property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
       property ApplicationClientID               : ustring                             read FApplicationClientID               write FApplicationClientID;
@@ -604,7 +602,6 @@ begin
   FPersistSessionCookies         := False;
   FPersistUserPreferences        := False;
   FIgnoreCertificateErrors       := False;
-  FEnableNetSecurityExpiration   := False;
   FBackgroundColor               := 0;
   FAcceptLanguageList            := '';
   FApplicationClientID           := '';
@@ -1156,7 +1153,6 @@ begin
   aSettings.remote_debugging_port                   := FRemoteDebuggingPort;
   aSettings.uncaught_exception_stack_size           := FUncaughtExceptionStackSize;
   aSettings.ignore_certificate_errors               := Ord(FIgnoreCertificateErrors);
-  aSettings.enable_net_security_expiration          := Ord(FEnableNetSecurityExpiration);
   aSettings.background_color                        := FBackgroundColor;
   aSettings.accept_language_list                    := CefString(FAcceptLanguageList);
   aSettings.application_client_id_for_file_scanning := CefString(FApplicationClientID);
@@ -2276,11 +2272,9 @@ end;
 
 function TCefApplication.Load_cef_ssl_info_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_is_cert_status_error{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_is_cert_status_error');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_is_cert_status_minor_error{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_is_cert_status_minor_error');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_is_cert_status_error{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_is_cert_status_error');
 
-  Result := assigned(cef_is_cert_status_error) and
-            assigned(cef_is_cert_status_minor_error);
+  Result := assigned(cef_is_cert_status_error);
 end;
 
 function TCefApplication.Load_cef_stream_capi_h : boolean;

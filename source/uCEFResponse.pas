@@ -65,7 +65,8 @@ type
       procedure SetMimeType(const mimetype: ustring);
       function  GetCharset: ustring;
       procedure SetCharset(const charset: ustring);
-      function  GetHeader(const name: ustring): ustring;
+      function  GetHeaderByName(const name: ustring): ustring;
+      procedure SetHeaderByName(const name, value: ustring; overwrite: boolean);
       procedure GetHeaderMap(const headerMap: ICefStringMultimap);
       procedure SetHeaderMap(const headerMap: ICefStringMultimap);
       function  GetURL: ustring;
@@ -92,12 +93,21 @@ begin
   Result := PCefResponse(FData)^.get_error(FData);
 end;
 
-function TCefResponseRef.GetHeader(const name: ustring): ustring;
+function TCefResponseRef.GetHeaderByName(const name: ustring): ustring;
 var
   TempName : TCefString;
 begin
   TempName := CefString(name);
-  Result   := CefStringFreeAndGet(PCefResponse(FData)^.get_header(PCefResponse(FData), @TempName));
+  Result   := CefStringFreeAndGet(PCefResponse(FData)^.get_header_by_name(PCefResponse(FData), @TempName));
+end;
+
+procedure TCefResponseRef.SetHeaderByName(const name, value: ustring; overwrite: boolean);
+var
+  TempName, TempValue : TCefString;
+begin
+  TempName  := CefString(name);
+  TempValue := CefString(value);
+  PCefResponse(FData)^.set_header_by_name(PCefResponse(FData), @TempName, @TempValue, ord(overwrite));
 end;
 
 procedure TCefResponseRef.GetHeaderMap(const headerMap: ICefStringMultimap);

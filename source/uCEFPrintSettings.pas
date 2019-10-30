@@ -56,7 +56,6 @@ type
   protected
     function  IsValid: Boolean;
     function  IsReadOnly: Boolean;
-    function  Copy: ICefPrintSettings;
     procedure SetOrientation(landscape: Boolean);
     function  IsLandscape: Boolean;
     procedure SetPrinterPrintableArea(const physicalSizeDeviceUnits: PCefSize; const printableAreaDeviceUnits: PCefRect; landscapeNeedsFlip: Boolean);
@@ -87,11 +86,6 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-
-function TCefPrintSettingsRef.Copy: ICefPrintSettings;
-begin
-  Result := UnWrap(PCefPrintSettings(FData)^.copy(FData))
-end;
 
 function TCefPrintSettingsRef.GetColorModel: TCefColorModel;
 begin

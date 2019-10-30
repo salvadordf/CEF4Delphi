@@ -206,13 +206,16 @@ var
   TempContext : ICefRequestContext;
 begin
   // The new request context overrides several GlobalCEFApp properties like :
-  // cache, AcceptLanguageList, PersistSessionCookies, PersistUserPreferences,
-  // IgnoreCertificateErrors and EnableNetSecurityExpiration
+  // cache, AcceptLanguageList, PersistSessionCookies, PersistUserPreferences and
+  // IgnoreCertificateErrors.
 
   // If you use an empty cache path, CEF will use in-memory cache.
 
+    // The cache directories of all the browsers *MUST* be a subdirectory of
+    // GlobalCEFApp.RootCache unless you use a blank cache (in-memory).
+
   if MainForm.NewContextChk.Checked then
-    TempContext := TCefRequestContextRef.New('', '', False, False, False, False)
+    TempContext := TCefRequestContextRef.New('', '', False, False, False)
    else
     TempContext := nil;
 
