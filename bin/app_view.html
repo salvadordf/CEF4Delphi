@@ -31,7 +31,7 @@
             display: flex;
             flex-direction: column;
             height: calc(100vh - 2em);
-            width: 100vw; 
+            width: 100vw;
         }
 
         #appWinIcons {
@@ -94,20 +94,20 @@
             border: 2px solid #aaa;
             color: #aaa;
             border-radius: 5px;
-            width:100px;
-            margin:20px;
+            width: 100px;
+            margin: 20px;
             outline: none;
         }
 
-         #openJpegButton:hover {
-              border: 2px solid #fff;
-         }
+        #openJpegButton:hover {
+            border: 2px solid #fff;
+        }
 
         #canvas {
             width: 720px;
             height: 405px;
             background: black;
-             margin:20px;
+            margin: 20px;
         }
     </style>
 </head>
@@ -120,16 +120,31 @@
             <div id="winMin" class="winIco">—</div>
             <div id="winMax" class="winIco">□</div>
             <div id="winCls" class="winIco">&times;</div>
-        </div>        
+        </div>
     </div>
     <div class="form">
         <button id="openJpegButton">Open JPEG</button>
         <canvas id="canvas"></canvas>
     </div>
     <script>
+
+        let img = new Image();
+        let canvas = document.getElementById("canvas");
+        canvas.width = 720;
+        canvas.height = 405;
+        let ctx = canvas.getContext('2d');
+
+        img.onload = () => {
+            ctx.drawImage(img, 0, 0, 720, 405);
+        }
+
         function setAppCaption(caption) {
             document.getElementById("title").innerHTML = caption;
         }
+
+        document.getElementById('openJpegButton').addEventListener('mousedown', (e) => {
+            if (e.button == 0) myextension.openjpeg();
+        })
 
         document.getElementById('winMin').addEventListener('mousedown', (e) => {
             if (e.button == 0) myextension.minimize();

@@ -2,7 +2,7 @@ object CTBForm: TCTBForm
   Left = 0
   Top = 0
   BorderStyle = bsNone
-  Caption = 'CTBForm'
+  Caption = 'CEF4 Custom Title Bar'
   ClientHeight = 628
   ClientWidth = 994
   Color = clBtnFace
@@ -18,25 +18,13 @@ object CTBForm: TCTBForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object StatusBar1: TStatusBar
-    Left = 0
-    Top = 609
-    Width = 994
-    Height = 19
-    Panels = <
-      item
-        Width = 1000
-      end>
-    ExplicitTop = 570
-    ExplicitWidth = 978
-  end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Top = 0
     Width = 994
-    Height = 609
+    Height = 628
     Align = alClient
-    TabOrder = 1
+    TabOrder = 0
     ExplicitTop = 30
     ExplicitWidth = 978
     ExplicitHeight = 540
@@ -66,6 +54,7 @@ object CTBForm: TCTBForm
     Top = 352
   end
   object Timer2: TTimer
+    Enabled = False
     Interval = 1
     OnTimer = Timer2Timer
     Left = 624

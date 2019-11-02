@@ -57,18 +57,21 @@ uses
 
 const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $100;
+  MINIBROWSER_JSBINPARAM = WM_APP + $103;
 
   MINIBROWSER_CONTEXTMENU_SETJSEVENT = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_JSVISITDOM = MENU_ID_USER_FIRST + 2;
   MINIBROWSER_CONTEXTMENU_MUTATIONOBSERVER = MENU_ID_USER_FIRST + 3;
   MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS = MENU_ID_USER_FIRST + 4;
 
-  MOUSEOVER_MESSAGE_NAME = 'mouseover';
-  CUSTOMNAME_MESSAGE_NAME = 'customname';
+  MOUSEOVER_MESSAGE_NAME = 'mousestate';
+  WINDOW_MINIMIZE_MESSAGE = 'minimize';
+  WINDOW_MAXIMIZE_MESSAGE = 'maximize';
+  WINDOW_CLOSE_MESSAGE = 'close';
+  BINARY_PARAM_JS = 'JSBinaryParameter';
 
 type
   TCTBForm = class(TForm)
-    StatusBar1: TStatusBar;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
@@ -124,6 +127,8 @@ type
     procedure BrowserDestroyMsg(var aMessage: TMessage); message CEF_DESTROY;
     procedure ShowTextViewerMsg(var aMessage: TMessage);
       message MINIBROWSER_SHOWTEXTVIEWER;
+    procedure EvalJSBinParamMsg(var aMessage: TMessage);
+      message MINIBROWSER_JSBINPARAM;
     procedure WMMove(var aMessage: TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage: TMessage); message WM_MOVING;
   public
@@ -140,7 +145,8 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFv8Handler, uTestExtension, uCEFMiscFunctions;
+  uCefBinaryValue, uCefProcessMessage, uCEFv8Handler, uTestExtension,
+  uCEFMiscFunctions;
 
 
 // Please, read the code comments in the JSExtension demo (uJSExtension.pas) before using this demo!
@@ -210,7 +216,7 @@ procedure TCTBForm.Chromium1AfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
-   CTBForm.executeJS(Chromium1.Browser.MainFrame);
+  CTBForm.executeJS(Chromium1.browser.MainFrame);
 end;
 
 procedure TCTBForm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -245,11 +251,10 @@ begin
   if (frame <> nil) and frame.IsValid then
   begin
     TempJSCode := 'document.body.addEventListener("mousedown", function(evt){' +
-      'myextension.mousestate(getComputedStyle(evt.target).webkitAppRegion)'
-      + '});'+chr(13);
+      'myextension.mousestate(getComputedStyle(evt.target).webkitAppRegion)' +
+      '});' + chr(13);
 
-      TempJSCode := TempJSCode +
-      ' setAppCaption("'+CTBForm.caption +'");' ;
+    TempJSCode := TempJSCode + ' setAppCaption("' + CTBForm.caption + '");';
 
     frame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
   end;
@@ -283,10 +288,63 @@ begin
   end;
 end;
 
+procedure TCTBForm.EvalJSBinParamMsg(var aMessage: TMessage);
+var
+  TempMsg: ICefProcessMessage;
+  TempOpenDialog: TOpenDialog;
+  TempStream: TFileStream;
+  TempBinValue: ICefBinaryValue;
+  TempBuffer: TBytes;
+  TempSize: NativeUInt;
+  TempPointer: pointer;
+begin
+  TempOpenDialog := nil;
+  TempStream := nil;
+
+  try
+    try
+      TempOpenDialog := TOpenDialog.Create(nil);
+      TempOpenDialog.Filter := 'JPEG files (*.jpg)|*.JPG';
+
+      if TempOpenDialog.Execute then
+      begin
+        TempStream := TFileStream.Create(TempOpenDialog.FileName, fmOpenRead);
+        TempSize := TempStream.Size;
+
+        if (TempSize > 0) then
+        begin
+          SetLength(TempBuffer, TempSize);
+          TempSize := TempStream.Read(TempBuffer, TempSize);
+
+          if (TempSize > 0) then
+          begin
+            TempPointer := @TempBuffer[0];
+            TempBinValue := TCefBinaryValueRef.New(TempPointer, TempSize);
+            TempMsg := TCefProcessMessageRef.New(BINARY_PARAM_JS);
+
+            if TempMsg.ArgumentList.SetBinary(0, TempBinValue) then
+              Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
+          end;
+        end;
+      end;
+    except
+      on e: exception do
+        if CustomExceptionHandler('TCTBForm.EvalJSBinParamMsg', e) then
+          raise;
+    end;
+  finally
+    if (TempOpenDialog <> nil) then
+      FreeAndNil(TempOpenDialog);
+    if (TempStream <> nil) then
+      FreeAndNil(TempStream);
+    SetLength(TempBuffer, 0);
+  end;
+end;
+
 procedure TCTBForm.Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser;
   const frame: ICefFrame; httpStatusCode: Integer);
 begin
-       CTBForm.executeJS(Chromium1.Browser.MainFrame);
+  CTBForm.executeJS(Chromium1.browser.MainFrame);
 end;
 
 procedure TCTBForm.Chromium1ProcessMessageReceived(Sender: TObject;
@@ -310,7 +368,6 @@ begin
 
   if (message.Name = MOUSEOVER_MESSAGE_NAME) then
   begin
-    StatusBar1.Panels[0].Text := message.ArgumentList.GetString(0);
 
     tp := Mouse.CursorPos;
     tp := CTBForm.ScreenToClient(tp);
@@ -318,16 +375,36 @@ begin
     if message.ArgumentList.GetString(0) = 'drag' then
     begin
       mouseDrag := True;
+      Timer2.Enabled := True;
     end;
 
     Result := True;
-  end
+  end;
+
+  if (message.Name = WINDOW_MINIMIZE_MESSAGE) then
+  begin
+    CTBForm.WindowState := wsMinimized;
+  end;
+
+  if (message.Name = WINDOW_MAXIMIZE_MESSAGE) then
+  begin
+    if CTBForm.WindowState = wsNormal then
+    begin
+      CTBForm.WindowState := wsMaximized;
+    end
+    else if CTBForm.WindowState = wsMaximized then
+      CTBForm.WindowState := wsNormal;
+  end;
+
+  if (message.Name = WINDOW_CLOSE_MESSAGE) then
+  begin
+    CTBForm.close;
+  end;
 
 end;
 
 procedure TCTBForm.FormShow(Sender: TObject);
 begin
-  StatusBar1.Panels[0].Text := 'Initializing browser. Please wait...';
 
   Chromium1.DefaultURL := 'file:///app_view.html';
 
@@ -356,9 +433,7 @@ end;
 
 procedure TCTBForm.ShowTextViewerMsg(var aMessage: TMessage);
 begin
-  // This form will show the HTML received from JavaScript
-  // SimpleTextViewerFrm.Memo1.Lines.Text := FText;
-  // SimpleTextViewerFrm.ShowModal;
+
 end;
 
 procedure TCTBForm.Timer1Timer(Sender: TObject);
@@ -366,14 +441,14 @@ begin
   Timer1.Enabled := False;
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) and
     not(Chromium1.Initialized) then
-    begin
+  begin
     Timer1.Enabled := True;
-    end;
+  end;
 end;
 
 procedure TCTBForm.BrowserCreatedMsg(var aMessage: TMessage);
 begin
-  StatusBar1.Panels[0].Text := '';
+
   CEFWindowParent1.UpdateSize;
 
 end;
@@ -430,7 +505,10 @@ begin
   MouseLBtnDown := (GetKeyState(VK_LBUTTON) < 0);
 
   if not MouseLBtnDown then
+  begin
     mouseDrag := False;
+    Timer2.Enabled := False;
+  end;
 
   if mouseDrag then
   begin
@@ -438,8 +516,6 @@ begin
     CTBForm.top := tpc.y - tp.y;
   end;
 
-//  StatusBar1.Panels[0].Text := IntToStr(tp.x) + '  ' + IntToStr(tp.y) + '  ' +
-//    BoolToStr(MouseLBtnDown) + '  ' +  BoolToStr(mouseDrag);
 end;
 
 end.
