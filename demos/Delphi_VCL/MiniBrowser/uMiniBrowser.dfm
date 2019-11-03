@@ -181,7 +181,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'chrome://gpuclean'
           'chrome://gpucrash'
           'chrome://gpuhang'
-          'chrome://extensions-support')
+          'chrome://extensions-support'
+          'chrome://process-internals')
       end
     end
     object ConfigPnl: TPanel

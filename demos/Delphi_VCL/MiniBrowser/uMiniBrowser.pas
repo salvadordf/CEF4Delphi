@@ -65,6 +65,8 @@ const
   MINIBROWSER_TAKESNAPSHOT    = WM_APP + $109;
   MINIBROWSER_SHOWNAVIGATION  = WM_APP + $10A;
   MINIBROWSER_COOKIESFLUSHED  = WM_APP + $10B;
+  MINIBROWSER_PDFPRINT_END    = WM_APP + $10C;
+  MINIBROWSER_PREFS_AVLBL     = WM_APP + $10D;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -269,6 +271,8 @@ type
     procedure SavePreferencesMsg(var aMessage : TMessage); message MINIBROWSER_SAVEPREFERENCES;
     procedure TakeSnapshotMsg(var aMessage : TMessage); message MINIBROWSER_TAKESNAPSHOT;
     procedure CookiesFlushedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESFLUSHED;
+    procedure PrintPDFEndMsg(var aMessage : TMessage); message MINIBROWSER_PDFPRINT_END;
+    procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -584,6 +588,22 @@ begin
   showmessage('The cookies were flushed successfully');
 end;
 
+procedure TMiniBrowserFrm.PrintPDFEndMsg(var aMessage : TMessage);
+begin
+  if (aMessage.lParam <> 0) then
+    showmessage('The PDF file was generated successfully')
+   else
+    showmessage('There was a problem generating the PDF file.');
+end;
+
+procedure TMiniBrowserFrm.PreferencesAvailableMsg(var aMessage : TMessage);
+begin
+  if (aMessage.lParam <> 0) then
+    showmessage('The preferences file was generated successfully')
+   else
+    showmessage('There was a problem generating the preferences file.');
+end;
+
 procedure TMiniBrowserFrm.Chromium1DownloadUpdated(Sender: TObject;
   const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
   const callback: ICefDownloadItemCallback);
@@ -800,18 +820,12 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
 begin
-  if aResultOK then
-    showmessage('The PDF file was generated successfully')
-   else
-    showmessage('There was a problem generating the PDF file.');
+  PostMessage(Handle, MINIBROWSER_PDFPRINT_END, 0, ord(aResultOK));
 end;
 
 procedure TMiniBrowserFrm.Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
 begin
-  if aResultOK then
-    showmessage('The preferences file was generated successfully')
-   else
-    showmessage('There was a problem generating the preferences file.');
+  PostMessage(Handle, MINIBROWSER_PREFS_AVLBL, 0, ord(aResultOK));
 end;
 
 procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;

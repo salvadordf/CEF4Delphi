@@ -168,7 +168,7 @@ end;
 procedure TCookieVisitorFrm.AddCookieInfo(const aCookie : TCookie);
 begin
   // This should be protected by a mutex.
-  FText := FText + aCookie.name + ' : ' + aCookie.value + #13 + #10;
+  FText := FText + aCookie.name + ' : ' + aCookie.value + ' (' + aCookie.domain + ')' + #13 + #10;
 end;
 
 procedure TCookieVisitorFrm.BrowserCreatedMsg(var aMessage : TMessage);
