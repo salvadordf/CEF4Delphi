@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>App View</title>
+    <style>
+        body {
+            margin: 0;
+            user-select: none;
+            background: #222;
+            color: #aaa;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        .titleBar {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #333;
+            min-height: 2em;
+            width: 100vw;
+            -webkit-app-region: drag;
+        }
+
+        .form {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 2em);
+            width: 100vw;
+        }
+
+        #appWinIcons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            right: 0px;
+            padding-right: 15px;
+
+            min-height: 100%;
+            width: 60px;
+
+        }
+
+
+        .appicon {
+            display: flex;
+            width: 16px;
+            height: 16px;
+            background-image: url('emoji.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .title {
+            width: calc(100% - 90px);
+            pointer-events: none;
+        }
+
+
+        .winIco:hover {
+            color: #fff !important;
+        }
+
+        .winIco {
+            color: #999;
+        }
+
+        #winMin {
+            position: relative;
+        }
+
+        #winMax {
+            position: relative;
+            bottom: 2px;
+            font-size: 2em
+        }
+
+        #winCls {
+            position: relative;
+            top: 1px;
+            font-size: 2em
+        }
+
+        #openJpegButton {
+            background: none;
+            border: 2px solid #aaa;
+            color: #aaa;
+            border-radius: 5px;
+            width: 100px;
+            margin: 20px;
+            outline: none;
+        }
+
+        #openJpegButton:hover {
+            border: 2px solid #fff;
+        }
+
+        #canvas {
+            width: 720px;
+            height: 405px;
+            background: black;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="titleBar" id="titleBar">
+        <div class="appicon"></div>
+        <div class="title" id="title">title</div>
+        <div id="appWinIcons">
+            <div id="winMin" class="winIco">—</div>
+            <div id="winMax" class="winIco">□</div>
+            <div id="winCls" class="winIco">&times;</div>
+        </div>
+    </div>
+    <div class="form">
+        <button id="openJpegButton">Open JPEG</button>
+        <canvas id="canvas"></canvas>
+    </div>
+    <script>
+
+        let img = new Image();
+        let canvas = document.getElementById("canvas");
+        canvas.width = 720;
+        canvas.height = 405;
+        let ctx = canvas.getContext('2d');
+
+        img.onload = () => {
+            ctx.drawImage(img, 0, 0, 720, 405);
+        }
+
+        function setAppCaption(caption) {
+            document.getElementById("title").innerHTML = caption;
+        }
+
+        document.getElementById('openJpegButton').addEventListener('mousedown', (e) => {
+            if (e.button == 0) myextension.openjpeg();
+        })
+
+        document.getElementById('winMin').addEventListener('mousedown', (e) => {
+            if (e.button == 0) myextension.minimize();
+        })
+
+        document.getElementById('titleBar').addEventListener('dblclick', (e) => {
+            myextension.maximize();
+        })
+
+
+        document.getElementById('winMax').addEventListener('mousedown', (e) => {
+            if (e.button == 0) myextension.maximize();
+        })
+
+        document.getElementById('winCls').addEventListener('mousedown', (e) => {
+            if (e.button == 0) myextension.close();
+        })
+    </script>
+</body>
+
+</html>

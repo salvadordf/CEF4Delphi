@@ -66,6 +66,7 @@ __recovery/
 *.stat
 
 # Project specific
+bin/*.log
 bin/*.pak
 bin/locales
 bin/*.bin
