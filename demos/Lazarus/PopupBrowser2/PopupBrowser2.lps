@@ -37,7 +37,8 @@
         <ComponentName Value="ChildForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="52"/>
         <CursorPos X="54" Y="97"/>
         <UsageCount Value="23"/>
@@ -54,12 +55,10 @@
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="2395"/>
         <CursorPos X="3" Y="2406"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
@@ -84,7 +83,7 @@
         <UsageCount Value="10"/>
       </Unit7>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="20" HistoryIndex="19">
       <Position1>
         <Filename Value="uMainForm.pas"/>
         <Caret Line="346" Column="58" TopLine="320"/>
@@ -165,46 +164,6 @@
         <Filename Value="uMainForm.pas"/>
         <Caret Line="152" Column="58" TopLine="128"/>
       </Position20>
-      <Position21>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="507" Column="42" TopLine="495"/>
-      </Position21>
-      <Position22>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="582" Column="55" TopLine="568"/>
-      </Position22>
-      <Position23>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="507" Column="44" TopLine="495"/>
-      </Position23>
-      <Position24>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="582" Column="29" TopLine="568"/>
-      </Position24>
-      <Position25>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="2406" Column="3" TopLine="2395"/>
-      </Position25>
-      <Position26>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="582" Column="45" TopLine="569"/>
-      </Position26>
-      <Position27>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="2415" Column="68" TopLine="2395"/>
-      </Position27>
-      <Position28>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="507" Column="19" TopLine="497"/>
-      </Position28>
-      <Position29>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="3423" Column="60" TopLine="3410"/>
-      </Position29>
-      <Position30>
-        <Filename Value="..\..\..\source\uCEFChromium.pas"/>
-        <Caret Line="582" Column="19" TopLine="564"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

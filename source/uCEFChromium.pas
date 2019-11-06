@@ -575,7 +575,7 @@ type
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
       function    ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;
 
-      function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = '') : boolean;
+      function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
       function    VisitAllCookies(aID : integer = 0) : boolean;
       function    VisitURLCookies(const url : ustring; includeHttpOnly : boolean = False; aID : integer = 0) : boolean;
       function    SetCookie(const url, name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; aSetImmediately : boolean = True; aID : integer = 0): Boolean;
@@ -2322,7 +2322,9 @@ begin
     end;
 end;
 
-function TChromium.DeleteCookies(const url, cookieName: ustring) : boolean;
+// If aDeleteImmediately is false TChromium.DeleteCookies triggers the TChromium.OnCookiesDeleted
+// event when the cookies are deleted.
+function TChromium.DeleteCookies(const url, cookieName: ustring; aDeleteImmediately : boolean) : boolean;
 var
   TempManager  : ICefCookieManager;
   TempCallback : ICefDeleteCookiesCallback;
@@ -2335,8 +2337,12 @@ begin
 
       if (TempManager <> nil) then
         try
-          TempCallback := TCefCustomDeleteCookiesCallback.Create(self);
-          Result       := TempManager.DeleteCookies(url, cookieName, TempCallback);
+          if aDeleteImmediately then
+            TempCallBack := nil
+           else
+            TempCallback := TCefCustomDeleteCookiesCallback.Create(self);
+
+          Result := TempManager.DeleteCookies(url, cookieName, TempCallback);
         finally
           TempCallback := nil;
         end;
