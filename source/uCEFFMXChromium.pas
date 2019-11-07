@@ -894,7 +894,7 @@ begin
   FWebRTCMultipleRoutes   := STATE_DEFAULT;
   FWebRTCNonProxiedUDP    := STATE_DEFAULT;
 
-  FProxyType              := CEF_PROXYTYPE_DIRECT;
+  FProxyType              := CEF_PROXYTYPE_SYSTEM;
   FProxyScheme            := psHTTP;
   FProxyServer            := '';
   FProxyPort              := 80;
