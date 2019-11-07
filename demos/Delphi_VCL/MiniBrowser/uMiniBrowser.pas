@@ -764,7 +764,7 @@ begin
                 ' with error ' + errorText +
                 ' (' + inttostr(errorCode) + ').</h2></body></html>';
 
-  frame.LoadURL(CefGetDataURI(TempString, 'text/html'));
+  Chromium1.LoadString(TempString, frame);
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadingProgressChange(Sender: TObject;
@@ -1107,7 +1107,6 @@ end;
 
 procedure TMiniBrowserFrm.OpenfilewithaDAT1Click(Sender: TObject);
 var
-  TempDATA : string;
   TempFile : TMemoryStream;
 begin
   TempFile := nil;
@@ -1123,11 +1122,9 @@ begin
           TempFile.LoadFromFile(OpenDialog1.FileName);
 
           if (OpenDialog1.FilterIndex = 1) then
-            TempDATA := CefGetDataURI(TempFile.Memory, TempFile.Size, 'text/html', 'utf-8')
+            Chromium1.LoadResource(TempFile, 'text/html', 'utf-8')
            else
-            TempDATA := CefGetDataURI(TempFile.Memory, TempFile.Size, 'application/pdf', 'utf-8');
-
-          Chromium1.LoadURL(TempDATA);
+            Chromium1.LoadResource(TempFile, 'application/pdf', 'utf-8');
         end;
     except
       on e : exception do

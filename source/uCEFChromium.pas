@@ -541,6 +541,12 @@ type
       procedure   LoadURL(const aURL : ustring; const aFrameName : ustring = ''); overload;
       procedure   LoadURL(const aURL : ustring; const aFrame : ICefFrame); overload;
       procedure   LoadURL(const aURL : ustring; const aFrameIdentifier : int64); overload;
+      procedure   LoadString(const aHTML : ustring; const aFrameName : ustring = ''); overload;
+      procedure   LoadString(const aHTML : ustring; const aFrame : ICefFrame); overload;
+      procedure   LoadString(const aHTML : ustring; const aFrameIdentifier : int64); overload;
+      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName : ustring = ''); overload;
+      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrame : ICefFrame); overload;
+      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameIdentifier : int64); overload;
       procedure   LoadRequest(const aRequest: ICefRequest);
 
       procedure   GoBack;
@@ -1767,7 +1773,7 @@ begin
 end;
 
 // Leave aFrameName empty to load the URL in the main frame
-procedure TChromium.LoadURL(const aURL : ustring; const aFrameName : ustring = '');
+procedure TChromium.LoadURL(const aURL : ustring; const aFrameName : ustring);
 var
   TempFrame : ICefFrame;
 begin
@@ -1799,6 +1805,84 @@ begin
         TempFrame := FBrowser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadUrl(aURL);
+    end;
+end;
+
+// Leave aFrameName empty to load the URL in the main frame
+procedure TChromium.LoadString(const aHTML : ustring; const aFrameName : ustring);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized and (length(aHTML) > 0) then
+    begin
+      if (length(aFrameName) > 0) then
+        TempFrame := FBrowser.GetFrame(aFrameName)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.LoadUrl(CefGetDataURI(aHTML, 'text/html'));
+    end;
+end;
+
+procedure TChromium.LoadString(const aHTML : ustring; const aFrame : ICefFrame);
+begin
+  if Initialized and (length(aHTML) > 0) and (aFrame <> nil) and aFrame.IsValid then
+    aFrame.LoadUrl(CefGetDataURI(aHTML, 'text/html'));
+end;
+
+procedure TChromium.LoadString(const aHTML : ustring; const aFrameIdentifier : int64);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized and (length(aHTML) > 0) then
+    begin
+      if (aFrameIdentifier <> 0) then
+        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.LoadUrl(CefGetDataURI(aHTML, 'text/html'));
+    end;
+end;
+
+// Leave aFrameName empty to load the URL in the main frame
+procedure TChromium.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName : ustring);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized and (aStream <> nil) and (aStream.Size > 0) then
+    begin
+      if (length(aFrameName) > 0) then
+        TempFrame := FBrowser.GetFrame(aFrameName)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.LoadUrl(CefGetDataURI(aStream.Memory, aStream.Size, aMimeType, aCharset));
+    end;
+end;
+
+procedure TChromium.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrame : ICefFrame);
+begin
+  if Initialized and (aStream <> nil) and (aStream.Size > 0) and (aFrame <> nil) and aFrame.IsValid then
+    aFrame.LoadUrl(CefGetDataURI(aStream.Memory, aStream.Size, aMimeType, aCharset));
+end;
+
+procedure TChromium.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameIdentifier : int64);
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized and (aStream <> nil) and (aStream.Size > 0) then
+    begin
+      if (aFrameIdentifier <> 0) then
+        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+       else
+        TempFrame := FBrowser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.LoadUrl(CefGetDataURI(aStream.Memory, aStream.Size, aMimeType, aCharset));
     end;
 end;
 

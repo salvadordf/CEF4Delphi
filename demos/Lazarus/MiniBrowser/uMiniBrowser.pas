@@ -736,10 +736,17 @@ end;
 procedure TMiniBrowserFrm.Chromium1LoadError(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
   const errorText, failedUrl: ustring);
+var
+  TempString : string;
 begin
-  CefDebugLog('Error code:' + inttostr(errorCode) +
-              ' - Error text :' + quotedstr(errorText) +
-              ' - URL:' + failedUrl, CEF_LOG_SEVERITY_ERROR);
+  if (errorCode = ERR_ABORTED) then exit;
+
+  TempString := '<html><body bgcolor="white">' +
+                '<h2>Failed to load URL ' + failedUrl +
+                ' with error ' + errorText +
+                ' (' + inttostr(errorCode) + ').</h2></body></html>';
+
+  Chromium1.LoadString(TempString, frame);
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadingProgressChange(Sender: TObject;
@@ -1154,7 +1161,6 @@ end;
 
 procedure TMiniBrowserFrm.OpenfilewithaDAT1Click(Sender: TObject);
 var
-  TempDATA : string;
   TempFile : TMemoryStream;
 begin
   TempFile := nil;
@@ -1165,16 +1171,13 @@ begin
 
       if OpenDialog1.Execute then
         begin
-          // Use TByteStream instead of TMemoryStream if your Delphi version supports it.
           TempFile := TMemoryStream.Create;
           TempFile.LoadFromFile(OpenDialog1.FileName);
 
           if (OpenDialog1.FilterIndex = 1) then
-            TempDATA := 'data:text/html;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size)
+            Chromium1.LoadResource(TempFile, 'text/html', 'utf-8')
            else
-            TempDATA := 'data:application/pdf;charset=utf-8;base64,' + CefBase64Encode(TempFile.Memory, TempFile.Size);
-
-          Chromium1.LoadURL(TempDATA);
+            Chromium1.LoadResource(TempFile, 'application/pdf', 'utf-8');
         end;
     except
       on e : exception do
