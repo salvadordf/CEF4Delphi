@@ -1379,10 +1379,10 @@ var
   TempName, TempValue : string;
 begin
   Result  := ptBrowser;
-  i       := pred(paramCount);
+  i       := paramCount;
   TempLen := length(TYPE_PARAMETER_NAME);
 
-  while (i >= 0) and (Result = ptBrowser) do
+  while (i >= 1) and (Result = ptBrowser) do
     begin
       TempName := copy(paramstr(i), 1, TempLen);
 
