@@ -118,7 +118,7 @@ type
   TOnPluginCrashed                = procedure(Sender: TObject; const browser: ICefBrowser; const pluginPath: ustring) of object;
   TOnRenderViewReady              = procedure(Sender: Tobject; const browser: ICefBrowser) of Object;
   TOnRenderProcessTerminated      = procedure(Sender: TObject; const browser: ICefBrowser; status: TCefTerminationStatus) of object;
-  TOnGetResourceRequestHandler    = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aExternalResourceRequestHandler : ICefResourceRequestHandler; var aUseInternalResourceRequestHandler : boolean) of object;
+  TOnGetResourceRequestHandler    = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aExternalResourceRequestHandler : ICefResourceRequestHandler) of object;
 
   // ICefResourceRequestHandler
   TOnBeforeResourceLoad           = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback; out Result: TCefReturnValue) of object;
@@ -164,6 +164,7 @@ type
   // ICefRequestContextHandler
   TOnRequestContextInitialized    = procedure(Sender: TObject; const request_context: ICefRequestContext) of Object;
   TOnBeforePluginLoad             = procedure(Sender: TObject; const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult : boolean) of Object;
+  // ICefRequestContextHandler uses the same TOnGetResourceRequestHandler event type defined for ICefRequestHandler
 
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
@@ -175,6 +176,7 @@ type
   TOnDownloadImageFinishedEvent            = procedure(Sender: TObject; const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage) of object;
   TOnExecuteTaskOnCefThread                = procedure(Sender: TObject; aTaskID : cardinal) of object;
   TOnCookiesVisited                        = procedure(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean) of object;
+  TOnCookieVisitorDestroyed                = procedure(Sender: TObject; aID : integer) of object;
   TOnCookieSet                             = procedure(Sender: TObject; aSuccess : boolean; aID : integer) of object;
   {$IFDEF MSWINDOWS}
   TOnCompMsgEvent                          = procedure(var aMessage: TMessage; var aHandled: Boolean) of object;

@@ -105,6 +105,8 @@ type
       total, aID : Integer; var aDeleteCookie, aResult: Boolean);
     procedure Chromium1CookieSet(Sender: TObject; aSuccess: Boolean;
       aID: Integer);
+    procedure Chromium1CookieVisitorDestroyed(Sender: TObject;
+      aID: Integer);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -336,13 +338,12 @@ begin
 
   AddCookieInfo(TempCookie);
 
-  if (count = pred(total)) then
-    begin
-      PostMessage(Handle, MINIBROWSER_SHOWCOOKIES, 0, 0);
-      aResult := False;
-    end
-   else
-    aResult := True;
+  aResult := (count <> pred(total));
+end;
+
+procedure TCookieVisitorFrm.Chromium1CookieVisitorDestroyed(Sender: TObject; aID: Integer);
+begin
+  PostMessage(Handle, MINIBROWSER_SHOWCOOKIES, 0, 0);
 end;
 
 procedure TCookieVisitorFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

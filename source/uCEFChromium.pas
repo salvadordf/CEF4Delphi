@@ -73,6 +73,7 @@ type
       FBrowser                : ICefBrowser;
       FBrowserId              : Integer;
       FReqContextHandler      : ICefRequestContextHandler;
+      FResourceRequestHandler : ICefResourceRequestHandler;
       FDefaultUrl             : ustring;
       FOptions                : TChromiumOptions;
       FFontOptions            : TChromiumFontOptions;
@@ -184,16 +185,16 @@ type
       FOnClose                        : TOnClose;
 
       // ICefRequestHandler
-      FOnBeforeBrowse                 : TOnBeforeBrowse;
-      FOnOpenUrlFromTab               : TOnOpenUrlFromTab;
-      FOnGetAuthCredentials           : TOnGetAuthCredentials;
-      FOnQuotaRequest                 : TOnQuotaRequest;
-      FOnCertificateError             : TOnCertificateError;
-      FOnSelectClientCertificate      : TOnSelectClientCertificate;
-      FOnPluginCrashed                : TOnPluginCrashed;
-      FOnRenderViewReady              : TOnRenderViewReady;
-      FOnRenderProcessTerminated      : TOnRenderProcessTerminated;
-      FOnGetResourceRequestHandler    : TOnGetResourceRequestHandler;
+      FOnBeforeBrowse                      : TOnBeforeBrowse;
+      FOnOpenUrlFromTab                    : TOnOpenUrlFromTab;
+      FOnGetAuthCredentials                : TOnGetAuthCredentials;
+      FOnQuotaRequest                      : TOnQuotaRequest;
+      FOnCertificateError                  : TOnCertificateError;
+      FOnSelectClientCertificate           : TOnSelectClientCertificate;
+      FOnPluginCrashed                     : TOnPluginCrashed;
+      FOnRenderViewReady                   : TOnRenderViewReady;
+      FOnRenderProcessTerminated           : TOnRenderProcessTerminated;
+      FOnGetResourceRequestHandler_ReqHdlr : TOnGetResourceRequestHandler;
 
       // ICefResourceRequestHandler
       FOnBeforeResourceLoad           : TOnBeforeResourceLoad;
@@ -237,8 +238,9 @@ type
       FOnFindResult                   : TOnFindResult;
 
       // ICefRequestContextHandler
-      FOnRequestContextInitialized    : TOnRequestContextInitialized;
-      FOnBeforePluginLoad             : TOnBeforePluginLoad;
+      FOnRequestContextInitialized             : TOnRequestContextInitialized;
+      FOnBeforePluginLoad                      : TOnBeforePluginLoad;
+      FOnGetResourceRequestHandler_ReqCtxHdlr  : TOnGetResourceRequestHandler;
 
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
@@ -254,6 +256,7 @@ type
       FOnAllConnectionsClosed             : TNotifyEvent;
       FOnExecuteTaskOnCefThread           : TOnExecuteTaskOnCefThread;
       FOnCookiesVisited                   : TOnCookiesVisited;
+      FOnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed;
       FOnCookieSet                        : TOnCookieSet;
       {$IFNDEF FPC}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
@@ -323,8 +326,10 @@ type
 
       procedure DestroyClientHandler;
       procedure DestroyReqContextHandler;
+      procedure DestroyResourceRequestHandler;
       procedure ClearBrowserReference;
       procedure CreateReqContextHandler;
+      procedure CreateResourceRequestHandler;
 
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
@@ -434,7 +439,7 @@ type
       // ICefRequestHandler
       function  doOnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; virtual;
       function  doOnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
-      procedure doOnGetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler; var aUseInternalHandler : boolean); virtual;
+      procedure doGetResourceRequestHandler_ReqHdlr(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
       function  doOnGetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
       function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; virtual;
       function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): Boolean; virtual;
@@ -487,7 +492,7 @@ type
       // ICefRequestContextHandler
       procedure doOnRequestContextInitialized(const request_context: ICefRequestContext); virtual;
       function  doOnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean; virtual;
-      procedure doGetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
+      procedure doGetResourceRequestHandler_ReqCtxHdlr(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
 
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
@@ -505,6 +510,7 @@ type
       procedure doAllConnectionsClosed; virtual;
       procedure doOnExecuteTaskOnCefThread(aTaskID : cardinal); virtual;
       procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean); virtual;
+      procedure doOnCookieVisitorDestroyed(aID : integer); virtual;
       procedure doOnCookieSet(aSuccess : boolean; aID : integer); virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
@@ -662,6 +668,7 @@ type
       property  Browser                 : ICefBrowser                  read FBrowser;
       property  CefClient               : ICefClient                   read FHandler;
       property  ReqContextHandler       : ICefRequestContextHandler    read FReqContextHandler;
+      property  ResourceRequestHandler  : ICefResourceRequestHandler   read FResourceRequestHandler;
       property  CefWindowInfo           : TCefWindowInfo               read FWindowInfo;
       property  VisibleNavigationEntry  : ICefNavigationEntry          read GetVisibleNavigationEntry;
       property  MultithreadApp          : boolean                      read GetMultithreadApp;
@@ -733,6 +740,7 @@ type
       property  OnAllConnectionsClosed             : TNotifyEvent                             read FOnAllConnectionsClosed             write FOnAllConnectionsClosed;
       property  OnExecuteTaskOnCefThread           : TOnExecuteTaskOnCefThread                read FOnExecuteTaskOnCefThread           write FOnExecuteTaskOnCefThread;
       property  OnCookiesVisited                   : TOnCookiesVisited                        read FOnCookiesVisited                   write FOnCookiesVisited;
+      property  OnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed                read FOnCookieVisitorDestroyed           write FOnCookieVisitorDestroyed;
       property  OnCookieSet                        : TOnCookieSet                             read FOnCookieSet                        write FOnCookieSet;
       {$IFNDEF FPC}
       property  OnBrowserCompMsg                   : TOnCompMsgEvent                          read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
@@ -792,16 +800,16 @@ type
       property OnClose                          : TOnClose                          read FOnClose                          write FOnClose;
 
       // ICefRequestHandler
-      property OnBeforeBrowse                   : TOnBeforeBrowse                   read FOnBeforeBrowse                   write FOnBeforeBrowse;
-      property OnOpenUrlFromTab                 : TOnOpenUrlFromTab                 read FOnOpenUrlFromTab                 write FOnOpenUrlFromTab;
-      property OnGetAuthCredentials             : TOnGetAuthCredentials             read FOnGetAuthCredentials             write FOnGetAuthCredentials;
-      property OnQuotaRequest                   : TOnQuotaRequest                   read FOnQuotaRequest                   write FOnQuotaRequest;
-      property OnCertificateError               : TOnCertificateError               read FOnCertificateError               write FOnCertificateError;
-      property OnSelectClientCertificate        : TOnSelectClientCertificate        read FOnSelectClientCertificate        write FOnSelectClientCertificate;
-      property OnPluginCrashed                  : TOnPluginCrashed                  read FOnPluginCrashed                  write FOnPluginCrashed;
-      property OnRenderViewReady                : TOnRenderViewReady                read FOnRenderViewReady                write FOnRenderViewReady;
-      property OnRenderProcessTerminated        : TOnRenderProcessTerminated        read FOnRenderProcessTerminated        write FOnRenderProcessTerminated;
-      property OnGetResourceRequestHandler      : TOnGetResourceRequestHandler      read FOnGetResourceRequestHandler      write FOnGetResourceRequestHandler;
+      property OnBeforeBrowse                      : TOnBeforeBrowse                   read FOnBeforeBrowse                      write FOnBeforeBrowse;
+      property OnOpenUrlFromTab                    : TOnOpenUrlFromTab                 read FOnOpenUrlFromTab                    write FOnOpenUrlFromTab;
+      property OnGetAuthCredentials                : TOnGetAuthCredentials             read FOnGetAuthCredentials                write FOnGetAuthCredentials;
+      property OnQuotaRequest                      : TOnQuotaRequest                   read FOnQuotaRequest                      write FOnQuotaRequest;
+      property OnCertificateError                  : TOnCertificateError               read FOnCertificateError                  write FOnCertificateError;
+      property OnSelectClientCertificate           : TOnSelectClientCertificate        read FOnSelectClientCertificate           write FOnSelectClientCertificate;
+      property OnPluginCrashed                     : TOnPluginCrashed                  read FOnPluginCrashed                     write FOnPluginCrashed;
+      property OnRenderViewReady                   : TOnRenderViewReady                read FOnRenderViewReady                   write FOnRenderViewReady;
+      property OnRenderProcessTerminated           : TOnRenderProcessTerminated        read FOnRenderProcessTerminated           write FOnRenderProcessTerminated;
+      property OnGetResourceRequestHandler_ReqHdlr : TOnGetResourceRequestHandler      read FOnGetResourceRequestHandler_ReqHdlr write FOnGetResourceRequestHandler_ReqHdlr;
 
       // ICefResourceRequestHandler
       property OnBeforeResourceLoad             : TOnBeforeResourceLoad             read FOnBeforeResourceLoad             write FOnBeforeResourceLoad;
@@ -845,8 +853,9 @@ type
       property OnFindResult                     : TOnFindResult                     read FOnFindResult                     write FOnFindResult;
 
       // ICefRequestContextHandler
-      property OnRequestContextInitialized      : TOnRequestContextInitialized      read FOnRequestContextInitialized      write SetOnRequestContextInitialized;
-      property OnBeforePluginLoad               : TOnBeforePluginLoad               read FOnBeforePluginLoad               write SetOnBeforePluginLoad;
+      property OnRequestContextInitialized            : TOnRequestContextInitialized      read FOnRequestContextInitialized            write SetOnRequestContextInitialized;
+      property OnBeforePluginLoad                     : TOnBeforePluginLoad               read FOnBeforePluginLoad                     write SetOnBeforePluginLoad;
+      property OnGetResourceRequestHandler_ReqCtxHdlr : TOnGetResourceRequestHandler      read FOnGetResourceRequestHandler_ReqCtxHdlr write FOnGetResourceRequestHandler_ReqCtxHdlr;
   end;
 
 {$IFDEF FPC}
@@ -892,7 +901,7 @@ uses
   uCEFApplication, uCEFProcessMessage, uCEFRequestContext, {$IFNDEF FPC}uCEFOLEDragAndDrop,{$ENDIF}
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
   uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack, uCEFCookieManager,
-  uCEFRequestContextHandler, uCEFCookieVisitor, uCEFSetCookieCallback;
+  uCEFRequestContextHandler, uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler;
 
 constructor TChromium.Create(AOwner: TComponent);
 begin
@@ -905,6 +914,7 @@ begin
   FDefaultUrl             := 'about:blank';
   FHandler                := nil;
   FReqContextHandler      := nil;
+  FResourceRequestHandler := nil;
   FOptions                := nil;
   FFontOptions            := nil;
   FDefaultEncoding        := '';
@@ -1026,6 +1036,7 @@ begin
 
   DestroyClientHandler;
   DestroyReqContextHandler;
+  DestroyResourceRequestHandler;
 
   inherited BeforeDestruction;
 end;
@@ -1085,6 +1096,27 @@ begin
   if MustCreateRequestContextHandler and
      (FReqContextHandler = nil) then
     FReqContextHandler := TCustomRequestContextHandler.Create(self);
+end;
+
+procedure TChromium.DestroyResourceRequestHandler;
+begin
+  try
+    if (FResourceRequestHandler <> nil) then
+      begin
+        FResourceRequestHandler.RemoveReferences;
+        FResourceRequestHandler := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromium.DestroyResourceRequestHandler', e) then raise;
+  end;
+end;
+
+procedure TChromium.CreateResourceRequestHandler;
+begin
+  if MustCreateResourceRequestHandler and
+     (FResourceRequestHandler = nil) then
+    FResourceRequestHandler := TCustomResourceRequestHandler.Create(self);
 end;
 
 procedure TChromium.AfterConstruction;
@@ -1198,16 +1230,16 @@ begin
   FOnClose                        := nil;
 
   // ICefRequestHandler
-  FOnBeforeBrowse                 := nil;
-  FOnOpenUrlFromTab               := nil;
-  FOnGetAuthCredentials           := nil;
-  FOnQuotaRequest                 := nil;
-  FOnCertificateError             := nil;
-  FOnSelectClientCertificate      := nil;
-  FOnPluginCrashed                := nil;
-  FOnRenderViewReady              := nil;
-  FOnRenderProcessTerminated      := nil;
-  FOnGetResourceRequestHandler    := nil;
+  FOnBeforeBrowse                      := nil;
+  FOnOpenUrlFromTab                    := nil;
+  FOnGetAuthCredentials                := nil;
+  FOnQuotaRequest                      := nil;
+  FOnCertificateError                  := nil;
+  FOnSelectClientCertificate           := nil;
+  FOnPluginCrashed                     := nil;
+  FOnRenderViewReady                   := nil;
+  FOnRenderProcessTerminated           := nil;
+  FOnGetResourceRequestHandler_ReqHdlr := nil;
 
   // ICefResourceRequestHandler
   FOnBeforeResourceLoad           := nil;
@@ -1251,8 +1283,9 @@ begin
   FOnFindResult                   := nil;
 
   // ICefRequestContextHandler
-  FOnRequestContextInitialized    := nil;
-  FOnBeforePluginLoad             := nil;
+  FOnRequestContextInitialized            := nil;
+  FOnBeforePluginLoad                     := nil;
+  FOnGetResourceRequestHandler_ReqCtxHdlr := nil;
 
   // Custom
   FOnTextResultAvailable              := nil;
@@ -1268,6 +1301,7 @@ begin
   FOnAllConnectionsClosed             := nil;
   FOnExecuteTaskOnCefThread           := nil;
   FOnCookiesVisited                   := nil;
+  FOnCookieVisitorDestroyed           := nil;
   FOnCookieSet                        := nil;
   {$IFNDEF FPC}
   FOnBrowserCompMsg                   := nil;
@@ -1328,6 +1362,7 @@ begin
         begin
           GetSettings(FBrowserSettings);
           InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
+          CreateResourceRequestHandler;
 
           if (aContext = nil) then
             begin
@@ -3513,6 +3548,12 @@ begin
                       aDeleteCookie, aResult);
 end;
 
+procedure TChromium.doOnCookieVisitorDestroyed(aID : integer);
+begin
+  if assigned(FOnCookieVisitorDestroyed) then
+    FOnCookieVisitorDestroyed(self, aID);
+end;
+
 procedure TChromium.doOnCookieSet(aSuccess : boolean; aID : integer);
 begin
   if assigned(FOnCookieSet) then FOnCookieSet(self, aSuccess, aID);
@@ -3626,7 +3667,9 @@ end;
 function TChromium.MustCreateRequestContextHandler : boolean;
 begin
   Result := assigned(FOnRequestContextInitialized) or
-            assigned(FOnBeforePluginLoad);
+            assigned(FOnBeforePluginLoad) or
+            assigned(FOnGetResourceRequestHandler_ReqCtxHdlr) or
+            MustCreateResourceRequestHandler;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -3886,6 +3929,8 @@ begin
   if (browser <> nil) and (FBrowserId = browser.Identifier) then
     begin
       FInitialized := False;
+      DestroyResourceRequestHandler;
+      DestroyReqContextHandler;
       ClearBrowserReference;
       DestroyClientHandler;
     end;
@@ -4146,17 +4191,22 @@ begin
     FOnBeforePluginLoad(self, mimeType, pluginUrl, isMainFrame, topOriginUrl, pluginInfo, pluginPolicy, Result);
 end;
 
-procedure TChromium.doGetResourceRequestHandler(const browser                  : ICefBrowser;
-                                                const frame                    : ICefFrame;
-                                                const request                  : ICefRequest;
-                                                      is_navigation            : boolean;
-                                                      is_download              : boolean;
-                                                const request_initiator        : ustring;
-                                                var   disable_default_handling : boolean;
-                                                var   aResourceRequestHandler  : ICefResourceRequestHandler);
+procedure TChromium.doGetResourceRequestHandler_ReqCtxHdlr(const browser                  : ICefBrowser;
+                                                           const frame                    : ICefFrame;
+                                                           const request                  : ICefRequest;
+                                                                 is_navigation            : boolean;
+                                                                 is_download              : boolean;
+                                                           const request_initiator        : ustring;
+                                                           var   disable_default_handling : boolean;
+                                                           var   aResourceRequestHandler  : ICefResourceRequestHandler);
 begin
-  disable_default_handling := False;
-  aResourceRequestHandler  := nil;
+  if (FResourceRequestHandler <> nil) then
+    aResourceRequestHandler := FResourceRequestHandler;
+
+  if Assigned(FOnGetResourceRequestHandler_ReqCtxHdlr) then
+    FOnGetResourceRequestHandler_ReqCtxHdlr(self, browser, frame, request, is_navigation, is_download,
+                                            request_initiator, disable_default_handling,
+                                            aResourceRequestHandler);
 end;
 
 procedure TChromium.doOnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
@@ -4325,20 +4375,22 @@ begin
     FOnOpenUrlFromTab(Self, browser, frame, targetUrl, targetDisposition, userGesture, Result);
 end;
 
-procedure TChromium.doOnGetResourceRequestHandler(const browser                  : ICefBrowser;
-                                                  const frame                    : ICefFrame;
-                                                  const request                  : ICefRequest;
-                                                        is_navigation            : boolean;
-                                                        is_download              : boolean;
-                                                  const request_initiator        : ustring;
-                                                  var   disable_default_handling : boolean;
-                                                  var   aResourceRequestHandler  : ICefResourceRequestHandler;
-                                                  var   aUseInternalHandler      : boolean);
+procedure TChromium.doGetResourceRequestHandler_ReqHdlr(const browser                  : ICefBrowser;
+                                                        const frame                    : ICefFrame;
+                                                        const request                  : ICefRequest;
+                                                              is_navigation            : boolean;
+                                                              is_download              : boolean;
+                                                        const request_initiator        : ustring;
+                                                        var   disable_default_handling : boolean;
+                                                        var   aResourceRequestHandler  : ICefResourceRequestHandler);
 begin
-  if Assigned(FOnGetResourceRequestHandler) then
-    FOnGetResourceRequestHandler(self, browser, frame, request, is_navigation, is_download,
-                                 request_initiator, disable_default_handling,
-                                 aResourceRequestHandler, aUseInternalHandler);
+  if (FResourceRequestHandler <> nil) then
+    aResourceRequestHandler := FResourceRequestHandler;
+
+  if Assigned(FOnGetResourceRequestHandler_ReqHdlr) then
+    FOnGetResourceRequestHandler_ReqHdlr(self, browser, frame, request, is_navigation, is_download,
+                                         request_initiator, disable_default_handling,
+                                         aResourceRequestHandler);
 end;
 
 procedure TChromium.doOnPaint(const browser         : ICefBrowser;

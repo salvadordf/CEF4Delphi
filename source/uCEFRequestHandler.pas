@@ -73,8 +73,7 @@ type
 
   TCustomRequestHandler = class(TCefRequestHandlerOwn)
     protected
-      FEvents                 : Pointer;
-      FResourceRequestHandler : ICefResourceRequestHandler;
+      FEvents : Pointer;
 
       function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean; override;
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; override;
@@ -86,8 +85,6 @@ type
       procedure OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); override;
       procedure OnRenderViewReady(const browser: ICefBrowser); override;
       procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); override;
-
-      procedure InitializeVars;
 
     public
       constructor Create(const events : IChromiumEvents); reintroduce; virtual;
@@ -105,7 +102,7 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFRequestCallback,
   uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate,
-  uCEFApplication, uCEFResourceRequestHandler;
+  uCEFApplication;
 
 function cef_request_handler_on_before_browse(self         : PCefRequestHandler;
                                               browser      : PCefBrowser;
@@ -461,17 +458,12 @@ constructor TCustomRequestHandler.Create(const events : IChromiumEvents);
 begin
   inherited Create;
 
-  InitializeVars;
-
   FEvents := Pointer(events);
-
-  if (events <> nil) and events.MustCreateResourceRequestHandler then
-    FResourceRequestHandler := TCustomResourceRequestHandler.Create(events);
 end;
 
 procedure TCustomRequestHandler.BeforeDestruction;
 begin
-  InitializeVars;
+  FEvents := nil;
 
   inherited BeforeDestruction;
 end;
@@ -479,14 +471,6 @@ end;
 procedure TCustomRequestHandler.RemoveReferences;
 begin
   FEvents := nil;
-
-  if (FResourceRequestHandler <> nil) then FResourceRequestHandler.RemoveReferences;
-end;
-
-procedure TCustomRequestHandler.InitializeVars;
-begin
-  FResourceRequestHandler := nil;
-  FEvents                 := nil;
 end;
 
 function TCustomRequestHandler.GetAuthCredentials(const browser   : ICefBrowser;
@@ -548,31 +532,22 @@ procedure TCustomRequestHandler.GetResourceRequestHandler(const browser         
                                                           const request_initiator        : ustring;
                                                           var   disable_default_handling : boolean;
                                                           var   aResourceRequestHandler  : ICefResourceRequestHandler);
-var
-  TempUseInternalHandler : boolean;
 begin
   if (FEvents <> nil) then
-    begin
-      TempUseInternalHandler := True;
-
-      IChromiumEvents(FEvents).doOnGetResourceRequestHandler(browser, frame, request,
-                                                             is_navigation, is_download,
-                                                             request_initiator,
-                                                             disable_default_handling,
-                                                             aResourceRequestHandler,
-                                                             TempUseInternalHandler);
-
-      if TempUseInternalHandler then
-        begin
-          if (FResourceRequestHandler <> nil) then
-            aResourceRequestHandler := FResourceRequestHandler
-           else
-            aResourceRequestHandler := nil;
-        end;
-    end
+    IChromiumEvents(FEvents).doGetResourceRequestHandler_ReqHdlr(browser,
+                                                                 frame,
+                                                                 request,
+                                                                 is_navigation,
+                                                                 is_download,
+                                                                 request_initiator,
+                                                                 disable_default_handling,
+                                                                 aResourceRequestHandler)
    else
-    inherited GetResourceRequestHandler(browser, frame, request,
-                                        is_navigation, is_download,
+    inherited GetResourceRequestHandler(browser,
+                                        frame,
+                                        request,
+                                        is_navigation,
+                                        is_download,
                                         request_initiator,
                                         disable_default_handling,
                                         aResourceRequestHandler);

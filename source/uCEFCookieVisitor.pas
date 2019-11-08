@@ -178,9 +178,18 @@ end;
 
 destructor TCefCustomCookieVisitor.Destroy;
 begin
-  FEvents := nil;
-
-  inherited Destroy;
+  try
+    try
+      if (FEvents <> nil) then
+        IChromiumEvents(FEvents).doOnCookieVisitorDestroyed(FID);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCustomCookieVisitor.Destroy', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+    inherited Destroy;
+  end;
 end;
 
 function TCefCustomCookieVisitor.visit(const name, value, domain, path: ustring;

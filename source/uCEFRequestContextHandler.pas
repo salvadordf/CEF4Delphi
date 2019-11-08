@@ -353,14 +353,14 @@ procedure TCustomRequestContextHandler.GetResourceRequestHandler(const browser  
                                                                  var   aResourceRequestHandler  : ICefResourceRequestHandler);
 begin
   if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doGetResourceRequestHandler(browser,
-                                                         frame,
-                                                         request,
-                                                         is_navigation,
-                                                         is_download,
-                                                         request_initiator,
-                                                         disable_default_handling,
-                                                         aResourceRequestHandler)
+    IChromiumEvents(FEvents).doGetResourceRequestHandler_ReqCtxHdlr(browser,
+                                                                    frame,
+                                                                    request,
+                                                                    is_navigation,
+                                                                    is_download,
+                                                                    request_initiator,
+                                                                    disable_default_handling,
+                                                                    aResourceRequestHandler)
    else
     inherited GetResourceRequestHandler(browser,
                                         frame,

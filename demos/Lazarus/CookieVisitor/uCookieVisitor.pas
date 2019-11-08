@@ -82,6 +82,7 @@ type
       domain, path: ustring; secure, httponly, hasExpires: Boolean;
       const creation, lastAccess, expires: TDateTime; count, total, aID: Integer;
       var aDeleteCookie, aResult: Boolean);
+    procedure Chromium1CookieVisitorDestroyed(Sender: TObject; aID: integer);
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Chromium1BeforeContextMenu(Sender: TObject;
@@ -236,28 +237,28 @@ procedure TCookieVisitorFrm.Chromium1CookiesVisited(Sender: TObject;
 var
   TempCookie : TCookie;
 begin
-    aDeleteCookie := False;
+  aDeleteCookie := False;
 
-    TempCookie.name        := name_;
-    TempCookie.value       := value;
-    TempCookie.domain      := domain;
-    TempCookie.path        := path;
-    TempCookie.secure      := secure;
-    TempCookie.httponly    := httponly;
-    TempCookie.creation    := creation;
-    TempCookie.last_access := lastAccess;
-    TempCookie.has_expires := hasExpires;
-    TempCookie.expires     := expires;
+  TempCookie.name        := name_;
+  TempCookie.value       := value;
+  TempCookie.domain      := domain;
+  TempCookie.path        := path;
+  TempCookie.secure      := secure;
+  TempCookie.httponly    := httponly;
+  TempCookie.creation    := creation;
+  TempCookie.last_access := lastAccess;
+  TempCookie.has_expires := hasExpires;
+  TempCookie.expires     := expires;
 
-    AddCookieInfo(TempCookie);
+  AddCookieInfo(TempCookie);
 
-    if (count = pred(total)) then
-      begin
-        PostMessage(Handle, MINIBROWSER_SHOWCOOKIES, 0, 0);
-        aResult := False;
-      end
-     else
-      aResult := True;
+  aResult := (count <> pred(total));
+end;
+
+procedure TCookieVisitorFrm.Chromium1CookieVisitorDestroyed(Sender: TObject;
+  aID: integer);
+begin
+  PostMessage(Handle, MINIBROWSER_SHOWCOOKIES, 0, 0);
 end;
 
 procedure TCookieVisitorFrm.CEFSentinel1Close(Sender: TObject);

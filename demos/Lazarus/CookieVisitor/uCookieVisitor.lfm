@@ -15,7 +15,7 @@ object CookieVisitorFrm: TCookieVisitorFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object AddressBarPnl: TPanel
     Left = 0
     Height = 21
@@ -60,6 +60,7 @@ object CookieVisitorFrm: TCookieVisitorFrm
   object Chromium1: TChromium
     OnCookiesDeleted = Chromium1CookiesDeleted
     OnCookiesVisited = Chromium1CookiesVisited
+    OnCookieVisitorDestroyed = Chromium1CookieVisitorDestroyed
     OnCookieSet = Chromium1CookieSet
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand

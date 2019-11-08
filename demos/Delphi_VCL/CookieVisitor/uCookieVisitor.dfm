@@ -66,6 +66,7 @@ object CookieVisitorFrm: TCookieVisitorFrm
   object Chromium1: TChromium
     OnCookiesDeleted = Chromium1CookiesDeleted
     OnCookiesVisited = Chromium1CookiesVisited
+    OnCookieVisitorDestroyed = Chromium1CookieVisitorDestroyed
     OnCookieSet = Chromium1CookieSet
     OnBeforeContextMenu = Chromium1BeforeContextMenu
     OnContextMenuCommand = Chromium1ContextMenuCommand
