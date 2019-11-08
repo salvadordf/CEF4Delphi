@@ -848,7 +848,7 @@ implementation
 uses
   System.SysUtils, System.Math,
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
-  uCEFApplication, uCEFProcessMessage, uCEFRequestContext, uCEFCookieManager,
+  uCEFApplicationCore, uCEFProcessMessage, uCEFRequestContext, uCEFCookieManager,
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
   uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack,
   uCEFRequestContextHandler, uCEFCookieVisitor, uCEFSetCookieCallback,

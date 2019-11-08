@@ -131,7 +131,7 @@ procedure Register;
 implementation
 
 uses
-  uCEFLibFunctions, uCEFApplication, uCEFMiscFunctions, uCEFConstants;
+  uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions, uCEFConstants;
 
 constructor TCEFSentinel.Create(AOwner: TComponent);
 begin

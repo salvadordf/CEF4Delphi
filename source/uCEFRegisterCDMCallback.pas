@@ -49,7 +49,7 @@ unit uCEFRegisterCDMCallback;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplication;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplicationCore;
 
 type
   TCefRegisterCDMCallbackOwn = class(TCefBaseRefCountedOwn, ICefRegisterCDMCallback)
@@ -72,12 +72,12 @@ type
 
   TCefCustomRegisterCDMCallback = class(TCefRegisterCDMCallbackOwn)
     protected
-      FCefApp : TCefApplication;
+      FCefApp : TCefApplicationCore;
 
       procedure OnCDMRegistrationComplete(result: TCefCDMRegistrationError; const error_message: ustring); override;
 
     public
-      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
       destructor  Destroy; override;
   end;
 
@@ -147,7 +147,7 @@ end;
 // ************************************************
 
 
-constructor TCefCustomRegisterCDMCallback.Create(const aCefApp : TCefApplication);
+constructor TCefCustomRegisterCDMCallback.Create(const aCefApp : TCefApplicationCore);
 begin
   inherited Create;
 

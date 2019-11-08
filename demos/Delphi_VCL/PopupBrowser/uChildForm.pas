@@ -360,7 +360,7 @@ procedure TChildForm.Chromium1CursorChange(Sender : TObject;
                                                  cursorType       : TCefCursorType;
                                            const customCursorInfo : PCefCursorInfo);
 begin
-  Panel1.Cursor := GefCursorToWindowsCursor(cursorType);
+  Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
 procedure TChildForm.Chromium1GetScreenInfo(Sender : TObject;

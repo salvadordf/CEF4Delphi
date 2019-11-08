@@ -153,7 +153,7 @@ implementation
 
 uses
   System.SysUtils, System.Math,
-  FMX.Platform, uCEFMiscFunctions, uCEFApplication;
+  FMX.Platform, uCEFMiscFunctions, uCEFApplicationCore;
 
 constructor TFMXBufferPanel.Create(AOwner: TComponent);
 begin

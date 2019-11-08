@@ -81,7 +81,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFApplication, uCEFStringList;
+  uCEFMiscFunctions, uCEFStringList;
 
 function TCefX509CertPrincipalRef.GetDisplayName: ustring;
 begin

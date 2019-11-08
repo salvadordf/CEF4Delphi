@@ -306,7 +306,7 @@ procedure TForm1.chrmosrCursorChange(Sender : TObject;
                                            cursorType       : TCefCursorType;
                                      const customCursorInfo : PCefCursorInfo);
 begin
-  Panel1.Cursor := GefCursorToWindowsCursor(cursorType);
+  Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
 procedure TForm1.chrmosrGetScreenInfo(Sender : TObject;

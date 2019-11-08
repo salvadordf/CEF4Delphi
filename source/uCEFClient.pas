@@ -150,7 +150,7 @@ uses
   uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
   uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
-  uCEFFindHandler, uCEFConstants, uCEFApplication, uCEFFrame;
+  uCEFFindHandler, uCEFConstants, uCEFApplicationCore, uCEFFrame;
 
 
 // ******************************************************

@@ -54,7 +54,7 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar, uCEFApplication;
+  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar, uCEFApplicationCore;
 
 type
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
@@ -71,7 +71,7 @@ type
 
   TCustomCefApp = class(TCefAppOwn)
     protected
-      FCefApp                : TCefApplication;
+      FCefApp                : TCefApplicationCore;
       FResourceBundleHandler : ICefResourceBundleHandler;
       FBrowserProcessHandler : ICefBrowserProcessHandler;
       FRenderProcessHandler  : ICefRenderProcessHandler;
@@ -85,7 +85,7 @@ type
       procedure InitializeVars;
 
     public
-      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
       procedure   BeforeDestruction; override;
   end;
 
@@ -98,7 +98,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
+  uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFBrowserProcessHandler, uCEFResourceBundleHandler, uCEFRenderProcessHandler;
 
 
@@ -212,7 +212,7 @@ end;
 // TCustomCefApp
 
 
-constructor TCustomCefApp.Create(const aCefApp : TCefApplication);
+constructor TCustomCefApp.Create(const aCefApp : TCefApplicationCore);
 begin
   inherited Create;
 

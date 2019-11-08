@@ -899,7 +899,7 @@ uses
   SysUtils, Math,
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
-  uCEFApplication, uCEFProcessMessage, uCEFRequestContext, {$IFNDEF FPC}uCEFOLEDragAndDrop,{$ENDIF}
+  uCEFApplicationCore, uCEFProcessMessage, uCEFRequestContext, {$IFNDEF FPC}uCEFOLEDragAndDrop,{$ENDIF}
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
   uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack, uCEFCookieManager,
   uCEFRequestContextHandler, uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler;

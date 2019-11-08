@@ -49,7 +49,7 @@ unit uCEFLoadHandler;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplication;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplicationCore;
 
 type
   TCefLoadHandlerOwn = class(TCefBaseRefCountedOwn, ICefLoadHandler)
@@ -83,7 +83,7 @@ type
 
   TCustomRenderLoadHandler = class(TCefLoadHandlerOwn)
     protected
-      FCefApp : TCefApplication;
+      FCefApp : TCefApplicationCore;
 
       procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean); override;
       procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType); override;
@@ -91,7 +91,7 @@ type
       procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring); override;
 
     public
-      constructor Create(const aCefApp : TCefApplication); reintroduce; virtual;
+      constructor Create(const aCefApp : TCefApplicationCore); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -264,7 +264,7 @@ end;
 
 // TCustomRenderLoadHandler
 
-constructor TCustomRenderLoadHandler.Create(const aCefApp : TCefApplication);
+constructor TCustomRenderLoadHandler.Create(const aCefApp : TCefApplicationCore);
 begin
   inherited Create;
 
