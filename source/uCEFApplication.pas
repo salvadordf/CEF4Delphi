@@ -51,11 +51,11 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, {$IFNDEF FMX}Vcl.Forms,{$ENDIF}
+      WinApi.Windows, {$IFNDEF FMX}Vcl.Forms, WinApi.ActiveX,{$ENDIF}
     {$ENDIF}
     System.Classes, System.UITypes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, Forms,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, Forms, ActiveX,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
@@ -137,6 +137,7 @@ type
       FDisableWebSecurity            : boolean;
       FDisablePDFExtension           : boolean;
       FLogProcessInfo                : boolean;
+      FDestroyApplicationObject      : boolean;
       FDestroyAppWindows             : boolean;
       FEnableFeatures                : string;
       FDisableFeatures               : string;
@@ -450,6 +451,7 @@ type
       property ChromeElfPath                     : string                              read GetChromeElfPath;
       property LibLoaded                         : boolean                             read FLibLoaded;
       property LogProcessInfo                    : boolean                             read FLogProcessInfo                    write FLogProcessInfo;
+      property DestroyApplicationObject          : boolean                             read FDestroyApplicationObject          write FDestroyApplicationObject;
       property DestroyAppWindows                 : boolean                             read FDestroyAppWindows                 write FDestroyAppWindows;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
@@ -553,7 +555,7 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Math, System.IOUtils, System.SysUtils, {$IFDEF MSWINDOWS}WinApi.TlHelp32, PSAPI,{$ENDIF}
+  System.Math, System.IOUtils, System.SysUtils, {$IFDEF MSWINDOWS}WinApi.TlHelp32, WinApi.PSAPI,{$ENDIF}
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
@@ -629,6 +631,7 @@ begin
   FDisableWebSecurity            := False;
   FDisablePDFExtension           := False;
   FLogProcessInfo                := False;
+  FDestroyApplicationObject      := False;
   FDestroyAppWindows             := True;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
@@ -788,6 +791,11 @@ end;
 function TCefApplication.SingleExeProcessing : boolean;
 var
   TempApp : ICefApp;
+  {$IFNDEF FPC}
+  {$IFNDEF FMX}
+  AppDestroy: procedure(Obj: TApplication; ReleaseMemoryFlag: Byte);
+  {$ENDIF}
+  {$ENDIF}
 begin
   Result  := False;
   TempApp := nil;
@@ -797,19 +805,47 @@ begin
       begin
         {$IFNDEF FPC}
         {$IFNDEF FMX}
-        if FDestroyAppWindows and (ProcessType <> ptBrowser) and (Application <> nil) then
+        if (ProcessType <> ptBrowser) and (Application <> nil) then
           begin
-            // This is the fix for the issue #139
-            // https://github.com/salvadordf/CEF4Delphi/issues/139
-            // Subprocesses will never use these window handles but TApplication creates them
-            // before executing the code in the DPR file. Any other application trying to
-            // initiate a DDE conversation will use SendMessage or SendMessageTimeout to
-            // broadcast the WM_DDE_INITIATE to all top-level windows. The subprocesses never
-            // call Application.Run so the SendMessage freezes the other applications.
-            if (Application.Handle          <> 0) then DestroyWindow(Application.Handle);
-            {$IFDEF DELPHI9_UP}
-            if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
-            {$ENDIF}
+            if FDestroyApplicationObject then
+              begin
+                // Call the destructor in "inherited Destroy" mode. This makes it possible to undo
+                // all the code that TApplication.Create did without actually releasing the Application
+                // object so that TControl.Destroy and DoneApplication dont't crash.
+                //
+                // Undoing also includes destroying the "AppWindows" and calling OleUninitialize what
+                // allows CEF to initialize the COM thread model the way it is required in the
+                // sub-processes (debug assertion).
+                AppDestroy := @TApplication.Destroy;
+                AppDestroy(Application, 0);
+                // Set all sub-objects to nil (we destroyed them already). This prevents the second
+                // TApplication.Destroy call in DoneApplication from trying to release already released
+                // objects.
+                TApplication.InitInstance(Application);
+              end
+             else
+              begin
+                if FDestroyAppWindows then
+                  begin
+                    // This is the fix for the issue #139
+                    // https://github.com/salvadordf/CEF4Delphi/issues/139
+                    // Subprocesses will never use these window handles but TApplication creates them
+                    // before executing the code in the DPR file. Any other application trying to
+                    // initiate a DDE conversation will use SendMessage or SendMessageTimeout to
+                    // broadcast the WM_DDE_INITIATE to all top-level windows. The subprocesses never
+                    // call Application.Run so the SendMessage freezes the other applications.
+                    if (Application.Handle          <> 0) then DestroyWindow(Application.Handle);
+                    {$IFDEF DELPHI9_UP}
+                    if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
+                    {$ENDIF}
+                  end;
+                if not IsLibrary then
+                  begin
+                    // Undo the OleInitialize from TApplication.Create. The sub-processes want a different
+                    // COM thread model and fail with an assertion if the Debug-DLLs are used.
+                    OleUninitialize;
+                  end;
+              end;
           end;
         {$ENDIF}
         {$ENDIF}
