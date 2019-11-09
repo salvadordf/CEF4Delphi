@@ -51,7 +51,7 @@ uses
   System.Classes, Vcl.Controls, System.SysUtils, System.Math, System.StrUtils, System.AnsiStrings,
   {$ELSE}
   {$IFDEF MSWINDOWS}Windows, ActiveX, ShlObj, Shellapi,{$ENDIF}
-  Classes, Controls, SysUtils, Math, StrUtils,
+  Classes, Controls, SysUtils, Math, StrUtils, {$IFDEF DELPHI12_UP}AnsiStrings,{$ENDIF}
   {$ENDIF}
   uCEFDragData, uCEFInterfaces, uCEFTypes, uCEFOLEDragAndDrop;
 
@@ -352,21 +352,21 @@ begin
                 BODY_END_TAG      + CRLF +
                 HTML_END_TAG;
 
-  TempPos    := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_START_TAG, TempString) + length(HTML_START_TAG);
+  TempPos    := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_START_TAG, TempString) + length(HTML_START_TAG);
   TempDigits := ZeroFiller(TempPos, length(PATTERN1));
-  TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN1, TempDigits, [rfReplaceAll]);
+  TempString := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN1, TempDigits, [rfReplaceAll]);
 
-  TempPos    := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_END_TAG, TempString);
+  TempPos    := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(HTML_END_TAG, TempString);
   TempDigits := ZeroFiller(TempPos, length(PATTERN2));
-  TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN2, TempDigits, [rfReplaceAll]);
+  TempString := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN2, TempDigits, [rfReplaceAll]);
 
-  TempPos    := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_START, TempString) + length(FRAGMENT_START);
+  TempPos    := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_START, TempString) + length(FRAGMENT_START);
   TempDigits := ZeroFiller(TempPos, length(PATTERN3));
-  TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN3, TempDigits, [rfReplaceAll]);
+  TempString := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN3, TempDigits, [rfReplaceAll]);
 
-  TempPos    := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_END, TempString);
+  TempPos    := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_END, TempString);
   TempDigits := ZeroFiller(TempPos, length(PATTERN4));
-  TempString := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN4, TempDigits, [rfReplaceAll]);
+  TempString := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}StringReplace(TempString, PATTERN4, TempDigits, [rfReplaceAll]);
 
   Result := TempString;
 end;
@@ -443,12 +443,12 @@ begin
       TempFragStartCommentPos := pos(FRAGMENT_START, cf_html);
 
       if (TempFragStartCommentPos > 0) then
-        TempFragStartCommentPos := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx('-->', cf_html, TempFragStartCommentPos + length(FRAGMENT_START));
+        TempFragStartCommentPos := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx('-->', cf_html, TempFragStartCommentPos + length(FRAGMENT_START));
 
       if (TempFragStartCommentPos > 0) then
         begin
           TempFragStartCommentPos := TempFragStartCommentPos + 3;
-          TempFragEndCommentPos   := {$IFDEF DELPHI18_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_END, cf_html, TempFragStartCommentPos);
+          TempFragEndCommentPos   := {$IFDEF DELPHI12_UP}{$IFDEF DELPHI16_UP}System.{$ENDIF}AnsiStrings.{$ENDIF}PosEx(FRAGMENT_END, cf_html, TempFragStartCommentPos);
         end
        else
         if (TempFragStart > 0) and
