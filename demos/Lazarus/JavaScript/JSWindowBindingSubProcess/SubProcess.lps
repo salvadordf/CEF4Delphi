@@ -9,8 +9,8 @@
         <Filename Value="SubProcess.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="64"/>
-        <CursorPos Y="73"/>
+        <TopLine Value="49"/>
+        <CursorPos X="22" Y="50"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>

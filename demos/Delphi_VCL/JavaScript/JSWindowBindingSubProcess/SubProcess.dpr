@@ -45,7 +45,7 @@ uses
   {$ELSE}
   Windows,
   {$ENDIF}
-  uCEFApplication,
+  uCEFApplicationCore,
   uCEFConstants,
   uCEFv8Value,
   uCEFInterfaces;
@@ -66,7 +66,7 @@ begin
 end;
 
 begin
-  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp                  := TCefApplicationCore.Create;
   GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
 
   // The main process and the subprocess *MUST* have the same FrameworkDirPath, ResourcesDirPath,
