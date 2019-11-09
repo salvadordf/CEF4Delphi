@@ -51,7 +51,7 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, {$IFNDEF FMX}Vcl.Forms, WinApi.ActiveX,{$ENDIF}
+      WinApi.Windows, WinApi.ActiveX, {$IFNDEF FMX}Vcl.Forms,{$ENDIF}
     {$ENDIF}
     System.Classes, System.UITypes,
   {$ELSE}
@@ -847,6 +847,15 @@ begin
                   end;
               end;
           end;
+        {$ELSE} // FMX
+          {$IFDEF MSWINDOWS}
+          if ProcessType <> ptBrowser then
+            begin
+              // Undo the OleInitialize from FMX.Platform.Win::initialization. The sub-processes want a different
+              // COM thread model and fail with an assertion if the Debug-DLLs are used.
+              OleUninitialize;
+            end;
+          {$ENDIF MSWINDOWS}
         {$ENDIF}
         {$ENDIF}
 
