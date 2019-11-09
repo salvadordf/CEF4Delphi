@@ -368,13 +368,14 @@ type
 
       {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage);
-      {$ENDIF}
-      {$IFNDEF FPC}                                   
+      {$IFNDEF FPC}
       procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
       procedure FreeAndNilStub(var aStub : pointer);
+      procedure RestoreCompWndProc(var aOldWnd: THandle; aNewWnd: THandle; var aProc: TFNWndProc);
       procedure BrowserCompWndProc(var aMessage: TMessage);
       procedure WidgetCompWndProc(var aMessage: TMessage);
       procedure RenderCompWndProc(var aMessage: TMessage);
+      {$ENDIF}
       {$ENDIF}
 
       procedure DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
@@ -1011,27 +1012,17 @@ end;
 
 procedure TChromium.BeforeDestruction;
 begin
+  {$IFDEF MSWINDOWS}
   {$IFNDEF FPC}
-  if (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc <> nil) then
-    begin
-      SetWindowLongPtr(FBrowserCompHWND, GWL_WNDPROC, NativeInt(FOldBrowserCompWndPrc));
-      FreeAndNilStub(FBrowserCompStub);
-      FOldBrowserCompWndPrc := nil;
-    end;
+  RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
+  FreeAndNilStub(FBrowserCompStub);
 
-  if (FWidgetCompHWND <> 0) and (FOldWidgetCompWndPrc <> nil) then
-    begin
-      SetWindowLongPtr(FWidgetCompHWND, GWL_WNDPROC, NativeInt(FOldWidgetCompWndPrc));
-      FreeAndNilStub(FWidgetCompStub);
-      FOldWidgetCompWndPrc := nil;
-    end;
+  RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
+  FreeAndNilStub(FWidgetCompStub);
 
-  if (FRenderCompHWND <> 0) and (FOldRenderCompWndPrc <> nil) then
-    begin
-      SetWindowLongPtr(FRenderCompHWND, GWL_WNDPROC, NativeInt(FOldRenderCompWndPrc));
-      FreeAndNilStub(FRenderCompStub);
-      FOldRenderCompWndPrc := nil;
-    end;
+  RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
+  FreeAndNilStub(FRenderCompStub);
+  {$ENDIF}
   {$ENDIF}
 
   DestroyClientHandler;
@@ -1047,6 +1038,7 @@ begin
   FBrowserId := 0;
 end;
 
+{$IFDEF MSWINDOWS}
 {$IFNDEF FPC}
 procedure TChromium.CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
 begin
@@ -1061,6 +1053,17 @@ begin
       aStub := nil;
     end;
 end;
+
+procedure TChromium.RestoreCompWndProc(var aOldWnd: THandle; aNewWnd: THandle; var aProc: TFNWndProc);
+begin
+  if (aOldWnd <> 0) and (aOldWnd <> aNewWnd) and (aProc <> nil) then
+    begin
+      SetWindowLongPtr(aOldWnd, GWLP_WNDPROC, NativeInt(aProc));
+      aProc := nil;
+      aOldWnd := 0;
+    end;
+end;
+{$ENDIF}
 {$ENDIF}
 
 procedure TChromium.DestroyClientHandler;
@@ -3817,7 +3820,6 @@ begin
     else aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
   end;
 end;
-{$ENDIF}
 
 {$IFNDEF FPC}
 procedure TChromium.BrowserCompWndProc(var aMessage: TMessage);
@@ -3827,17 +3829,22 @@ begin
   try
     TempHandled := False;
 
-    if assigned(FOnBrowserCompMsg) then
-      FOnBrowserCompMsg(aMessage, TempHandled);
+    try
+      if assigned(FOnBrowserCompMsg) then
+        FOnBrowserCompMsg(aMessage, TempHandled);
 
-    if not(TempHandled)               and
-       (FOldBrowserCompWndPrc <> nil) and
-       (FBrowserCompHWND      <> 0)   then
-      aMessage.Result := CallWindowProc(FOldBrowserCompWndPrc,
-                                        FBrowserCompHWND,
-                                        aMessage.Msg,
-                                        aMessage.wParam,
-                                        aMessage.lParam);
+      if not(TempHandled)               and
+         (FOldBrowserCompWndPrc <> nil) and
+         (FBrowserCompHWND      <> 0)   then
+        aMessage.Result := CallWindowProc(FOldBrowserCompWndPrc,
+                                          FBrowserCompHWND,
+                                          aMessage.Msg,
+                                          aMessage.wParam,
+                                          aMessage.lParam);
+    finally
+      if aMessage.Msg = WM_DESTROY then
+        RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
+    end;
   except
     on e : exception do
       if CustomExceptionHandler('TChromium.BrowserCompWndProc', e) then raise;
@@ -3851,17 +3858,22 @@ begin
   try
     TempHandled := False;
 
-    if assigned(FOnWidgetCompMsg) then
-      FOnWidgetCompMsg(aMessage, TempHandled);
+    try
+      if assigned(FOnWidgetCompMsg) then
+        FOnWidgetCompMsg(aMessage, TempHandled);
 
-    if not(TempHandled)              and
-       (FOldWidgetCompWndPrc <> nil) and
-       (FWidgetCompHWND      <> 0)   then
-      aMessage.Result := CallWindowProc(FOldWidgetCompWndPrc,
-                                        FWidgetCompHWND,
-                                        aMessage.Msg,
-                                        aMessage.wParam,
-                                        aMessage.lParam);
+      if not(TempHandled)              and
+         (FOldWidgetCompWndPrc <> nil) and
+         (FWidgetCompHWND      <> 0)   then
+        aMessage.Result := CallWindowProc(FOldWidgetCompWndPrc,
+                                          FWidgetCompHWND,
+                                          aMessage.Msg,
+                                          aMessage.wParam,
+                                          aMessage.lParam);
+    finally
+      if aMessage.Msg = WM_DESTROY then
+        RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
+    end;
   except
     on e : exception do
       if CustomExceptionHandler('TChromium.WidgetCompWndProc', e) then raise;
@@ -3875,22 +3887,28 @@ begin
   try
     TempHandled := False;
 
-    if assigned(FOnRenderCompMsg) then
-      FOnRenderCompMsg(aMessage, TempHandled);
+    try
+      if assigned(FOnRenderCompMsg) then
+        FOnRenderCompMsg(aMessage, TempHandled);
 
-    if not(TempHandled)              and
-       (FOldRenderCompWndPrc <> nil) and
-       (FRenderCompHWND      <> 0)   then
-      aMessage.Result := CallWindowProc(FOldRenderCompWndPrc,
-                                        FRenderCompHWND,
-                                        aMessage.Msg,
-                                        aMessage.wParam,
-                                        aMessage.lParam);
+      if not(TempHandled)              and
+         (FOldRenderCompWndPrc <> nil) and
+         (FRenderCompHWND      <> 0)   then
+        aMessage.Result := CallWindowProc(FOldRenderCompWndPrc,
+                                          FRenderCompHWND,
+                                          aMessage.Msg,
+                                          aMessage.wParam,
+                                          aMessage.lParam);
+    finally
+      if aMessage.Msg = WM_DESTROY then
+        RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
+    end;
   except
     on e : exception do
       if CustomExceptionHandler('TChromium.RenderCompWndProc', e) then raise;
   end;
 end;
+{$ENDIF}
 {$ENDIF}
 
 function TChromium.doOnClose(const browser: ICefBrowser): Boolean;
@@ -4487,11 +4505,25 @@ begin
 end;
 
 procedure TChromium.doOnRenderViewReady(const browser: ICefBrowser);
+{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
+var
+  OldBrowserCompHWND, OldWidgetCompHWND, OldRenderCompHWND: THandle;
+{$ENDIF}
+{$ENDIF}
 begin
   if (browser            <> nil)        and
      (browser.Host       <> nil)        and
      (browser.Identifier =  FBrowserId) then
     begin
+      {$IFDEF MSWINDOWS}
+      {$IFNDEF FPC}
+      OldBrowserCompHWND := FBrowserCompHWND;
+      OldWidgetCompHWND := FWidgetCompHWND;
+      OldRenderCompHWND := FRenderCompHWND;
+      {$ENDIF}
+      {$ENDIF}
+
       FBrowserCompHWND := browser.Host.WindowHandle;
       {$IFDEF MSWINDOWS}
       if (FBrowserCompHWND <> 0) then
@@ -4499,31 +4531,34 @@ begin
 
       if (FWidgetCompHWND <> 0) then
         FRenderCompHWND := FindWindowEx(FWidgetCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
-      {$ENDIF}
       {$IFNDEF FPC}
+      RestoreCompWndProc(OldBrowserCompHWND, FBrowserCompHWND, FOldBrowserCompWndPrc);
       if assigned(FOnBrowserCompMsg) and (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc = nil) then
         begin
           CreateStub(BrowserCompWndProc, FBrowserCompStub);
           FOldBrowserCompWndPrc := TFNWndProc(SetWindowLongPtr(FBrowserCompHWND,
-                                                               GWL_WNDPROC,
+                                                               GWLP_WNDPROC,
                                                                NativeInt(FBrowserCompStub)));
         end;
 
+      RestoreCompWndProc(OldWidgetCompHWND, FWidgetCompHWND, FOldWidgetCompWndPrc);
       if assigned(FOnWidgetCompMsg) and (FWidgetCompHWND <> 0) and (FOldWidgetCompWndPrc = nil) then
         begin
           CreateStub(WidgetCompWndProc, FWidgetCompStub);
           FOldWidgetCompWndPrc := TFNWndProc(SetWindowLongPtr(FWidgetCompHWND,
-                                                              GWL_WNDPROC,
+                                                              GWLP_WNDPROC,
                                                               NativeInt(FWidgetCompStub)));
         end;
 
+      RestoreCompWndProc(OldRenderCompHWND, FRenderCompHWND, FOldRenderCompWndPrc);
       if assigned(FOnRenderCompMsg) and (FRenderCompHWND <> 0) and (FOldRenderCompWndPrc = nil) then
         begin
           CreateStub(RenderCompWndProc, FRenderCompStub);
           FOldRenderCompWndPrc := TFNWndProc(SetWindowLongPtr(FRenderCompHWND,
-                                                              GWL_WNDPROC,
+                                                              GWLP_WNDPROC,
                                                               NativeInt(FRenderCompStub)));
         end;
+      {$ENDIF}
       {$ENDIF}
     end;
 
