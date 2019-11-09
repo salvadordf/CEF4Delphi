@@ -104,9 +104,9 @@ function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: 
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 
 {$IFDEF MSWINDOWS}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
 {$ENDIF}
 
 {$IFDEF MACOS}
@@ -561,7 +561,7 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : ustring; aExStyle : cardinal);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aExStyle : cardinal);
 begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -578,7 +578,7 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring; aExStyle : cardinal);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : cardinal);
 begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -595,7 +595,7 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring; aExStyle : cardinal);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : cardinal);
 begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -629,7 +629,7 @@ begin
   aWindowInfo.view                         := 0;
 end;
 
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; aHidden : boolean; const aWindowName : ustring);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean; const aWindowName : ustring);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := integer(CW_USEDEFAULT);
@@ -644,7 +644,7 @@ begin
   aWindowInfo.view                         := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; aHidden : boolean; const aWindowName : ustring);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean; const aWindowName : ustring);
 begin
 
   aWindowInfo.window_name                  := CefString(aWindowName);
