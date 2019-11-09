@@ -51,9 +51,9 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX,{$ENDIF}
-    System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms, System.Math,
+    System.Classes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Forms, Controls, Graphics, Math,
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Math,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -167,7 +167,7 @@ procedure Register;
 implementation
 
 uses
-  uCEFLibFunctions, uCEFApplication, uCEFMiscFunctions;
+  uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions;
 
 // For more information about the TCEFServerComponent properties and functions
 // read the code comments in the CEF source file /include/capi/cef_server_cap.h

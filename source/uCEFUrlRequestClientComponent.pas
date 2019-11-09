@@ -51,9 +51,9 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX,{$ENDIF}
-    System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms, System.Math,
+    System.Classes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Forms, Controls, Graphics, Math,
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Math,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}

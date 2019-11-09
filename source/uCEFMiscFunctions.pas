@@ -52,8 +52,8 @@ uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX,{$ENDIF} System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} Classes, SysUtils, Controls, Graphics, Math,
-    {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} Classes, SysUtils, Math,
+    {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase,{$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
   uCEFRegisterCDMCallback, uCEFConstants;
@@ -223,7 +223,6 @@ function CefIsKeyToggled(aWparam : WPARAM) : boolean;
 function GetCefMouseModifiers : TCefEventFlags; overload;                                
 function GetCefMouseModifiers(awparam : WPARAM) : TCefEventFlags; overload;
 function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;  
-function GefCursorToWindowsCursor(aCefCursor : TCefCursorType) : TCursor;
 
 procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDragOperations);
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
@@ -248,7 +247,7 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 implementation
 
 uses
-  uCEFApplication, uCEFSchemeHandlerFactory, uCEFValue,
+  uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
 function CefColorGetA(color: TCefColor): Byte;
@@ -1928,41 +1927,6 @@ begin
       Result := Result or EVENTFLAG_IS_RIGHT;
   end;
 end;
-
-function GefCursorToWindowsCursor(aCefCursor : TCefCursorType) : TCursor;
-begin
-  case aCefCursor of
-    CT_POINTER                  : Result := crArrow;
-    CT_CROSS                    : Result := crCross;
-    CT_HAND                     : Result := crHandPoint;
-    CT_IBEAM                    : Result := crIBeam;
-    CT_WAIT                     : Result := crHourGlass;
-    CT_HELP                     : Result := crHelp;
-    CT_EASTRESIZE               : Result := crSizeWE;
-    CT_NORTHRESIZE              : Result := crSizeNS;
-    CT_NORTHEASTRESIZE          : Result := crSizeNESW;
-    CT_NORTHWESTRESIZE          : Result := crSizeNWSE;
-    CT_SOUTHRESIZE              : Result := crSizeNS;
-    CT_SOUTHEASTRESIZE          : Result := crSizeNWSE;
-    CT_SOUTHWESTRESIZE          : Result := crSizeNESW;
-    CT_WESTRESIZE               : Result := crSizeWE;
-    CT_NORTHSOUTHRESIZE         : Result := crSizeNS;
-    CT_EASTWESTRESIZE           : Result := crSizeWE;
-    CT_NORTHEASTSOUTHWESTRESIZE : Result := crSizeNESW;
-    CT_NORTHWESTSOUTHEASTRESIZE : Result := crSizeNWSE;
-    CT_COLUMNRESIZE             : Result := crHSplit;
-    CT_ROWRESIZE                : Result := crVSplit;
-    CT_MOVE                     : Result := crSizeAll;
-    CT_PROGRESS                 : Result := crAppStart;
-    CT_NONE                     : Result := crNone;
-    CT_NODROP,
-    CT_NOTALLOWED               : Result := crNo;
-    CT_GRAB,
-    CT_GRABBING                 : Result := crDrag;
-
-    else Result := crDefault;
-  end;
-end;  
 
 procedure DropEffectToDragOperation(aEffect: Longint; var aAllowedOps : TCefDragOperations);
 begin

@@ -49,7 +49,7 @@ unit uCEFResourceBundleHandler;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplication;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplicationCore;
 
 type
   TCefResourceBundleHandlerOwn = class(TCefBaseRefCountedOwn, ICefResourceBundleHandler)
@@ -64,14 +64,14 @@ type
 
   TCefCustomResourceBundleHandler = class(TCefResourceBundleHandlerOwn)
     protected
-      FCefApp : TCefApplication;
+      FCefApp : TCefApplicationCore;
 
       function GetLocalizedString(stringid: Integer; var stringVal: ustring): Boolean; override;
       function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean; override;
       function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean; override;
 
     public
-      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
       destructor  Destroy; override;
   end;
 
@@ -149,7 +149,7 @@ end;
 // TCefCustomResourceBundleHandler
 
 
-constructor TCefCustomResourceBundleHandler.Create(const aCefApp : TCefApplication);
+constructor TCefCustomResourceBundleHandler.Create(const aCefApp : TCefApplicationCore);
 begin
   inherited Create;
 

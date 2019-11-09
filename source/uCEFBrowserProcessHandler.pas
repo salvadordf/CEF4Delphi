@@ -49,7 +49,7 @@ unit uCEFBrowserProcessHandler;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplication;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplicationCore;
 
 type
   TCefBrowserProcessHandlerOwn = class(TCefBaseRefCountedOwn, ICefBrowserProcessHandler)
@@ -66,7 +66,7 @@ type
 
   TCefCustomBrowserProcessHandler = class(TCefBrowserProcessHandlerOwn)
     protected
-      FCefApp : TCefApplication;
+      FCefApp : TCefApplicationCore;
 
       procedure OnContextInitialized; override;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
@@ -74,7 +74,7 @@ type
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
 
     public
-      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
       destructor  Destroy; override;
   end;
 
@@ -171,7 +171,7 @@ end;
 // TCefCustomBrowserProcessHandler
 
 
-constructor TCefCustomBrowserProcessHandler.Create(const aCefApp : TCefApplication);
+constructor TCefCustomBrowserProcessHandler.Create(const aCefApp : TCefApplicationCore);
 begin
   inherited Create;
 

@@ -43,14 +43,14 @@ program SubProcess;
 
 uses
   LCLIntf, LCLType, LMessages, Forms, Interfaces,
-  uCEFApplication;
+  uCEFApplicationCore;
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes
 // to use up to 3GB of RAM.
 {$SetPEFlags $20}
 
 begin
-  GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp                  := TCefApplicationCore.Create;
 
   // The main process and the subprocess *MUST* have the same GlobalCEFApp
   // properties and events, specially FrameworkDirPath, ResourcesDirPath,

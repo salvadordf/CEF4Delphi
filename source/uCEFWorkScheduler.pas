@@ -50,9 +50,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,  Vcl.Controls, Vcl.Graphics, Vcl.Forms,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -133,7 +133,7 @@ uses
   {$ELSE}
   SysUtils, Math,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFApplication, uCEFTypes;
+  uCEFMiscFunctions, uCEFApplicationCore, uCEFTypes;
 
 procedure DestroyGlobalCEFWorkScheduler;
 begin

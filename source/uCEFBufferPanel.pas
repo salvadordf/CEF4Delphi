@@ -234,7 +234,7 @@ procedure Register;
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFApplication;
+  uCEFMiscFunctions, uCEFApplicationCore;
 
 constructor TBufferPanel.Create(AOwner: TComponent);
 begin

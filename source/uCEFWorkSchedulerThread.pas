@@ -89,11 +89,10 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Math,
+  System.SysUtils, System.Math;
   {$ELSE}
-  SysUtils, Math,
+  SysUtils, Math;
   {$ENDIF}
-  uCEFApplication;
 
 constructor TCEFWorkSchedulerThread.Create;
 begin

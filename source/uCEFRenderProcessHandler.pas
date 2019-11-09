@@ -55,7 +55,7 @@ uses
   Classes,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFListValue, uCEFBrowser, uCEFFrame, uCEFRequest,
-  uCEFv8Context, uCEFv8Exception, uCEFv8StackTrace, uCEFDomNode, uCEFProcessMessage, uCEFApplication;
+  uCEFv8Context, uCEFv8Exception, uCEFv8StackTrace, uCEFDomNode, uCEFProcessMessage, uCEFApplicationCore;
 
 type
   TCefRenderProcessHandlerOwn = class(TCefBaseRefCountedOwn, ICefRenderProcessHandler)
@@ -77,7 +77,7 @@ type
 
   TCefCustomRenderProcessHandler = class(TCefRenderProcessHandlerOwn)
     protected
-      FCefApp      : TCefApplication;
+      FCefApp      : TCefApplicationCore;
       FLoadHandler : ICefLoadHandler;
 
       procedure OnRenderThreadCreated(const extraInfo: ICefListValue); override;
@@ -92,7 +92,7 @@ type
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage : ICefProcessMessage): Boolean; override;
 
     public
-      constructor Create(const aCefApp : TCefApplication); reintroduce;
+      constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
       destructor  Destroy; override;
   end;
 
@@ -284,7 +284,7 @@ end;
 // TCefCustomRenderProcessHandler
 
 
-constructor TCefCustomRenderProcessHandler.Create(const aCefApp : TCefApplication);
+constructor TCefCustomRenderProcessHandler.Create(const aCefApp : TCefApplicationCore);
 begin
   inherited Create;
 

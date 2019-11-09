@@ -102,7 +102,7 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFRequestCallback,
   uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate,
-  uCEFApplication;
+  uCEFApplicationCore;
 
 function cef_request_handler_on_before_browse(self         : PCefRequestHandler;
                                               browser      : PCefBrowser;

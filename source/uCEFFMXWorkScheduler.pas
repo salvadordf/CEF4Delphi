@@ -110,7 +110,7 @@ implementation
 uses
   {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.SysUtils, System.Math,
   FMX.Platform, FMX.Platform.Win, FMX.Forms,
-  uCEFMiscFunctions, uCEFApplication;
+  uCEFMiscFunctions, uCEFApplicationCore;
 
 procedure DestroyGlobalFMXWorkScheduler;
 begin

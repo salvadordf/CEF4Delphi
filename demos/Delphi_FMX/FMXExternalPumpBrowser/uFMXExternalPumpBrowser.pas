@@ -530,7 +530,7 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrCursorChange(Sender : TObject;
                                                                cursorType       : TCefCursorType;
                                                          const customCursorInfo : PCefCursorInfo);
 begin
-  Panel1.Cursor := GefCursorToWindowsCursor(cursorType);
+  Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrGetScreenInfo(Sender : TObject;
