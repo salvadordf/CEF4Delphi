@@ -493,7 +493,7 @@ begin
       FFilterInit := True;
 
       CheckResponseHeaders(response);
-      UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
+      UpdateRscEncoding(response.MimeType, response.GetHeaderByName('Content-Type'));
     end
    else
     Result := nil;
@@ -557,7 +557,7 @@ begin
   try
     FStreamCS.Acquire;
 
-    TempContentEncoding := trim(lowercase(response.GetHeader('Content-Encoding')));
+    TempContentEncoding := trim(lowercase(response.GetHeaderByName('Content-Encoding')));
 
     if (length(TempContentEncoding) > 0) and (TempContentEncoding <> 'identity') then
       begin
@@ -568,7 +568,7 @@ begin
       end
      else
       begin
-        TempContentLength := trim(response.GetHeader('Content-Length'));
+        TempContentLength := trim(response.GetHeaderByName('Content-Length'));
 
         if (length(TempContentLength) > 0) and
            TryStrToInt(TempContentLength, TempLen) and
@@ -601,7 +601,7 @@ begin
     // we still can use this event to know when the resource is complete
     if IsMyResource(request) and CopyScriptBtn.Checked then
       begin
-        UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
+        UpdateRscEncoding(response.MimeType, response.GetHeaderByName('Content-Type'));
 
         // Only send the message if this event is triggered before we have a OnFilter event with data_in = nil
         if not(FRscCompleted) then
@@ -624,7 +624,7 @@ begin
   if not(FRscCompleted) and (response <> nil) and IsMyResource(request) then
     begin
       CheckResponseHeaders(response);
-      UpdateRscEncoding(response.MimeType, response.GetHeader('Content-Type'));
+      UpdateRscEncoding(response.MimeType, response.GetHeaderByName('Content-Type'));
     end;
 end;
 

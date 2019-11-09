@@ -177,7 +177,8 @@ contains
   uCEFResourceRequestHandler in '..\source\uCEFResourceRequestHandler.pas',
   uCEFResourceSkipCallback in '..\source\uCEFResourceSkipCallback.pas',
   uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas',
-  uCEFSentinel in '..\source\uCEFSentinel.pas';
+  uCEFSentinel in '..\source\uCEFSentinel.pas',
+  uCEFApplicationCore in '..\source\uCEFApplicationCore.pas';
 
 end.
 
