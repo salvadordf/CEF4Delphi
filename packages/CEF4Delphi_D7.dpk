@@ -21,7 +21,7 @@ package CEF4Delphi_D7;
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
-{$IMAGEBASE $400000}
+{$IMAGEBASE $54C00000}
 {$DESCRIPTION 'CEF4Delphi'}
 {$IMPLICITBUILD OFF}
 {$DEFINE DEBUG}
@@ -100,7 +100,7 @@ contains
   uCEFZipReader in '..\source\uCEFZipReader.pas',
   uCEFResponse in '..\source\uCEFResponse.pas',
   uCEFCookieVisitor in '..\source\uCEFCookieVisitor.pas',
-  uCEFV8Exception in '..\source\uCEFV8Exception.pas',
+  uCEFv8Exception in '..\source\uCEFv8Exception.pas',
   uCEFResourceBundleHandler in '..\source\uCEFResourceBundleHandler.pas',
   uCEFSetCookieCallback in '..\source\uCEFSetCookieCallback.pas',
   uCEFDeleteCookiesCallback in '..\source\uCEFDeleteCookiesCallback.pas',
@@ -130,6 +130,7 @@ contains
   uCEFMenuModelDelegate in '..\source\uCEFMenuModelDelegate.pas',
   uCEFWindowParent in '..\source\uCEFWindowParent.pas',
   uCEFChromium in '..\source\uCEFChromium.pas',
+  uCEFChromiumCore in '..\source\uCEFChromiumCore.pas',
   uCEFChromiumEvents in '..\source\uCEFChromiumEvents.pas',
   uCEFChromiumOptions in '..\source\uCEFChromiumOptions.pas',
   uCEFChromiumFontOptions in '..\source\uCEFChromiumFontOptions.pas',

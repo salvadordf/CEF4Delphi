@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFV8Exception;
+unit uCEFv8Exception;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}

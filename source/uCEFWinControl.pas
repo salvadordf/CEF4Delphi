@@ -133,19 +133,21 @@ begin
 end;
 
 function TCEFWinControl.TakeSnapshot(var aBitmap : TBitmap) : boolean;
+{$IFDEF MSWINDOWS}
 var
   TempHWND   : HWND;
   TempDC     : HDC;
   TempRect   : TRect;
   TempWidth  : Integer;
   TempHeight : Integer;
+{$ENDIF}
 begin
   Result := False;
+  {$IFDEF MSWINDOWS}
   if (aBitmap = nil) then exit;
 
   TempHWND := ChildWindowHandle;
   if (TempHWND = 0) then exit;
-  {$IFDEF MSWINDOWS}
   {$IFDEF DELPHI16_UP}Winapi.{$ENDIF}Windows.GetClientRect(TempHWND, TempRect);
   TempDC     := GetDC(TempHWND);
   TempWidth  := TempRect.Right  - TempRect.Left;
@@ -163,12 +165,16 @@ begin
 end;
 
 function TCEFWinControl.DestroyChildWindow : boolean;
+{$IFDEF MSWINDOWS}
 var
   TempHWND : HWND;
+{$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
   TempHWND := ChildWindowHandle;
   Result   := (TempHWND <> 0) and DestroyWindow(TempHWND);
+  {$ELSE}
+  Result := False;
   {$ENDIF}
 end;
 

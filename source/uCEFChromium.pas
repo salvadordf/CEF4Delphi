@@ -68,7 +68,9 @@ type
       function  GetParentForm : TCustomForm;
       procedure InitializeDevToolsWindowInfo(aDevTools : TWinControl); virtual;
     public
+      {$IFDEF MSWINDOWS}
       procedure InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
+      {$ENDIF MSWINDOWS}
 
       procedure ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl = nil);
       procedure CloseDevTools(const aDevTools : TWinControl = nil);
@@ -126,11 +128,13 @@ uses
 
 { TChromium }
 
+{$IFDEF MSWINDOWS}
 procedure TChromium.InitializeDragAndDrop(const aDropTargetCtrl: TWinControl);
 begin
   if aDropTargetCtrl <> nil then
     inherited InitializeDragAndDrop(aDropTargetCtrl.Handle);
 end;
+{$ENDIF MSWINDOWS}
 
 procedure TChromium.InitializeDevToolsWindowInfo(aDevTools: TWinControl);
 begin

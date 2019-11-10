@@ -198,6 +198,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Top = 0
         Width = 25
         Caption = '►'
+        Default = True
         Font.CharSet = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -17
@@ -244,6 +245,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnNavigationVisitorResultAvailable = Chromium1NavigationVisitorResultAvailable
     OnDownloadImageFinished = Chromium1DownloadImageFinished
     OnCookiesFlushed = Chromium1CookiesFlushed
+    OnRenderCompMsg = Chromium1RenderCompMsg
     OnLoadEnd = Chromium1LoadEnd
     OnLoadError = Chromium1LoadError
     OnLoadingStateChange = Chromium1LoadingStateChange

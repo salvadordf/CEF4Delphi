@@ -166,10 +166,6 @@ begin
 end;
 
 procedure TCEFWorkScheduler.AfterConstruction;
-{$IFDEF FPC}
-var
-  TempWndMethod : TWndMethod;
-{$ENDIF}
 begin
   inherited AfterConstruction;
 
@@ -179,12 +175,7 @@ begin
       if (GlobalCEFApp <> nil) and
          ((GlobalCEFApp.ProcessType = ptBrowser) or GlobalCEFApp.SingleProcess) then
         begin
-          {$IFDEF FPC}
-          TempWndMethod    := @WndProc;
-          FCompHandle      := AllocateHWnd(TempWndMethod);
-          {$ELSE}
-          FCompHandle      := AllocateHWnd(WndProc);
-          {$ENDIF}
+          FCompHandle      := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
         end;
       {$ENDIF}
 
@@ -203,7 +194,11 @@ begin
   {$IFDEF DELPHI14_UP}
   FThread.Start;
   {$ELSE}
+  {$IFNDEF FPC}
   FThread.Resume;
+  {$ELSE}
+  FThread.Start;
+  {$ENDIF}
   {$ENDIF}
 end;
 

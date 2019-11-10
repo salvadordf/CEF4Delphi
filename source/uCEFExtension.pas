@@ -70,7 +70,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFDictionaryValue, uCEFRequestContext, uCefExtensionHandler;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFDictionaryValue, uCEFRequestContext, uCEFExtensionHandler;
 
 function TCefExtensionRef.GetIdentifier : ustring;
 begin

@@ -39,17 +39,18 @@ uses
   uCEFStringMap, uCEFStringMultimap, uCEFStringVisitor, uCEFTask, 
   uCEFTaskRunner, uCEFThread, uCEFTypes, uCEFUrlRequest, uCEFUrlrequestClient, 
   uCEFv8Accessor, uCEFv8ArrayBufferReleaseCallback, uCEFv8Context, 
-  uCEFV8Exception, uCEFv8Handler, uCEFv8Interceptor, uCEFv8StackFrame, 
+  uCEFv8Exception, uCEFv8Handler, uCEFv8Interceptor, uCEFv8StackFrame, 
   uCEFv8StackTrace, uCEFv8Value, uCEFValue, uCEFWaitableEvent, 
   uCEFWebPluginInfo, uCEFWebPluginInfoVisitor, uCEFWebPluginUnstableCallback, 
   uCEFWindowParent, uCEFWorkScheduler, uCEFWorkSchedulerThread, 
   uCEFWriteHandler, uCEFX509Certificate, uCEFX509CertPrincipal, uCEFXmlReader, 
-  uCEFZipReader, uCEFChromium, uCEFBufferPanel, uCEFServer, 
+  uCEFZipReader, uCEFChromiumCore, uCEFChromium, uCEFBufferPanel, uCEFServer, 
   uCEFServerComponent, uCEFServerEvents, uCEFServerHandler, uCEFWinControl, 
   uCEFLinkedWindowParent, uCEFUrlRequestClientEvents, 
   uCEFUrlRequestClientComponent, uCEFOSRIMEHandler, uCEFCookieAccessFilter, 
   uCEFResourceReadCallback, uCEFResourceRequestHandler, 
-  uCEFResourceSkipCallback, uCEFSentinel, LazarusPackageIntf;
+  uCEFResourceSkipCallback, uCEFSentinel, uCEFApplicationCore, 
+  LazarusPackageIntf;
 
 implementation
 

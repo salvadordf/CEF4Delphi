@@ -50,9 +50,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX,{$ENDIF} System.Classes,
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX, WinApi.CommCtrl,{$ENDIF} System.Classes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes,
+    {$IFDEF MSWINDOWS}Windows, ActiveX, CommCtrl,{$ENDIF} Classes,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
     {$ELSE}
@@ -61,7 +61,7 @@ uses
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
-  {$IFDEF MSWINDOWS}{$IFNDEF FPC}uCEFDragAndDropMgr,{$ENDIF}{$ENDIF}
+  {$IFDEF MSWINDOWS}uCEFDragAndDropMgr,{$ENDIF}
   uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions;
 
 type
@@ -116,9 +116,7 @@ type
       FDevBrowserSettings     : TCefBrowserSettings;
       FDragOperations         : TCefDragOperations;
       {$IFDEF MSWINDOWS}
-      {$IFNDEF FPC}
       FDragDropManager        : TCEFDragAndDropMgr;
-      {$ENDIF}
       FDropTargetWnd          : HWND;
       {$ENDIF}
       FDragAndDropInitialized : boolean;
@@ -127,14 +125,12 @@ type
       FWebRTCNonProxiedUDP    : TCefState;
 
       {$IFDEF MSWINDOWS}
-      {$IFNDEF FPC}
       FOldBrowserCompWndPrc   : TFNWndProc;
       FOldWidgetCompWndPrc    : TFNWndProc;
       FOldRenderCompWndPrc    : TFNWndProc;
       FBrowserCompStub        : Pointer;
       FWidgetCompStub         : Pointer;
       FRenderCompStub         : Pointer;
-      {$ENDIF}
       {$ENDIF}
       FBrowserCompHWND        : THandle;
       FWidgetCompHWND         : THandle;
@@ -266,11 +262,9 @@ type
       FOnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed;
       FOnCookieSet                        : TOnCookieSet;
       {$IFDEF MSWINDOWS}
-      {$IFNDEF FPC}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
       FOnRenderCompMsg                    : TOnCompMsgEvent;
-      {$ENDIF}
       {$ENDIF}
 
       function  GetIsLoading : boolean;
@@ -375,14 +369,14 @@ type
       procedure DefaultInitializeDevToolsWindowInfo(aDevToolsWnd: TCefWindowHandle; const aClientRect: TRect; const aWindowName: ustring);
       {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage);
-      {$IFNDEF FPC}
       procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
       procedure FreeAndNilStub(var aStub : pointer);
+      function InstallCompWndProc(aWnd: THandle; aStub: Pointer): TFNWndProc;
       procedure RestoreCompWndProc(var aOldWnd: THandle; aNewWnd: THandle; var aProc: TFNWndProc);
+      procedure CallOldCompWndProc(aProc: TFNWndProc; aWnd: THandle; var aMessage: TMessage);
       procedure BrowserCompWndProc(var aMessage: TMessage);
       procedure WidgetCompWndProc(var aMessage: TMessage);
       procedure RenderCompWndProc(var aMessage: TMessage);
-      {$ENDIF}
       {$ENDIF}
 
       procedure DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
@@ -602,10 +596,7 @@ type
       function    FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
 
       procedure   ShowDevTools(const inspectElementAt: TPoint; aWindowInfo: PCefWindowInfo);
-      {$IFDEF MSWINDOWS}
-      procedure   CloseDevTools(const aDevToolsWnd : THandle); overload;
-      {$ENDIF}
-      procedure   CloseDevTools; overload;
+      procedure   CloseDevTools(const aDevToolsWnd : TCefWindowHandle = 0);
 
       procedure   Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
       procedure   StopFinding(aClearSelection : Boolean);
@@ -747,11 +738,9 @@ type
       property  OnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed                read FOnCookieVisitorDestroyed           write FOnCookieVisitorDestroyed;
       property  OnCookieSet                        : TOnCookieSet                             read FOnCookieSet                        write FOnCookieSet;
       {$IFDEF MSWINDOWS}
-      {$IFNDEF FPC}
       property  OnBrowserCompMsg                   : TOnCompMsgEvent                          read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
       property  OnWidgetCompMsg                    : TOnCompMsgEvent                          read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
       property  OnRenderCompMsg                    : TOnCompMsgEvent                          read FOnRenderCompMsg                    write FOnRenderCompMsg;
-      {$ENDIF}
       {$ENDIF}
 
       // ICefClient
@@ -864,10 +853,6 @@ type
       property OnGetResourceRequestHandler_ReqCtxHdlr : TOnGetResourceRequestHandler      read FOnGetResourceRequestHandler_ReqCtxHdlr write FOnGetResourceRequestHandler_ReqCtxHdlr;
   end;
 
-{$IFDEF FPC}
-procedure Register;
-{$ENDIF}
-
 // *********************************************************
 // ********************** ATTENTION ! **********************
 // *********************************************************
@@ -905,7 +890,7 @@ uses
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplicationCore, uCEFProcessMessage, uCEFRequestContext,
-  {$IFDEF MSWINDOWS}{$IFNDEF FPC}uCEFOLEDragAndDrop,{$ENDIF}{$ENDIF}
+  {$IFDEF MSWINDOWS}uCEFOLEDragAndDrop,{$ENDIF}
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
   uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack, uCEFCookieManager,
   uCEFRequestContextHandler, uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler;
@@ -946,23 +931,21 @@ begin
   FYouTubeRestrict        := YOUTUBE_RESTRICT_OFF;
   FPrintingEnabled        := True;
 
-  {$IFNDEF FPC}
+  {$IFDEF MSWINDOWS}
   FOldBrowserCompWndPrc   := nil;
   FOldWidgetCompWndPrc    := nil;
   FOldRenderCompWndPrc    := nil;
   FBrowserCompStub        := nil;
   FWidgetCompStub         := nil;
   FRenderCompStub         := nil;
-  {$ENDIF}
+  {$ENDIF MSWINDOWS}
   FBrowserCompHWND        := 0;
   FWidgetCompHWND         := 0;
   FRenderCompHWND         := 0;
 
   FDragOperations         := DRAG_OPERATION_NONE;
   {$IFDEF MSWINDOWS}
-  {$IFNDEF FPC}
   FDragDropManager        := nil;
-  {$ENDIF}
   FDropTargetWnd          := 0;
   {$ENDIF MSWINDOWS}
   FDragAndDropInitialized := False;
@@ -996,11 +979,9 @@ destructor TChromiumCore.Destroy;
 begin
   try
     try
-      {$IFNDEF FPC}
-      if (FDragDropManager <> nil) then FreeAndNil(FDragDropManager);
-      {$ENDIF}
-
       {$IFDEF MSWINDOWS}
+      if (FDragDropManager <> nil) then FreeAndNil(FDragDropManager);
+
       if (FCompHandle <> 0) then
         begin
           DeallocateHWnd(FCompHandle);
@@ -1025,7 +1006,6 @@ end;
 procedure TChromiumCore.BeforeDestruction;
 begin
   {$IFDEF MSWINDOWS}
-  {$IFNDEF FPC}
   RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
   FreeAndNilStub(FBrowserCompStub);
 
@@ -1034,7 +1014,6 @@ begin
 
   RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
   FreeAndNilStub(FRenderCompStub);
-  {$ENDIF}
   {$ENDIF}
 
   DestroyClientHandler;
@@ -1052,6 +1031,27 @@ end;
 
 {$IFDEF MSWINDOWS}
 {$IFNDEF FPC}
+// Windows XP and newer (older Delphi version < XE don't have them and newer
+// require a call to InitCommonControl what isn't necessary.
+{type
+  SUBCLASSPROC = function(hWnd: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARAM;
+    uIdSubclass: UINT_PTR; dwRefData: DWORD_PTR): LRESULT; stdcall;
+  TSubClassProc = SUBCLASSPROC;
+
+function SetWindowSubclass(hWnd: HWND; pfnSubclass: SUBCLASSPROC; uIdSubclass: UINT_PTR; dwRefData: DWORD_PTR): BOOL; stdcall;
+  external comctl32 name 'SetWindowSubclass';
+//function GetWindowSubclass(hWnd: HWND; pfnSubclass: SUBCLASSPROC; uIdSubclass: UINT_PTR; var pdwRefData: DWORD_PTR): BOOL; stdcall;
+//  external comctl32 name 'GetWindowSubclass';
+function RemoveWindowSubclass(hWnd: HWND; pfnSubclass: SUBCLASSPROC; uIdSubclass: UINT_PTR): BOOL; stdcall;
+  external comctl32 name 'RemoveWindowSubclass';
+function DefSubclassProc(hWnd: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+  external comctl32 name 'DefSubclassProc';
+
+// We stick with the original implementation because the WndProc stub is a lot
+// faster than the WindowSubClass stub that uses the slow GetProp(hWnd). Which
+// is extremly slow in Windows 10 1809 and newer.
+}
+
 procedure TChromiumCore.CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
 begin
   if (aStub = nil) then aStub := MakeObjectInstance(aMethod);
@@ -1066,6 +1066,11 @@ begin
     end;
 end;
 
+function TChromiumCore.InstallCompWndProc(aWnd: THandle; aStub: Pointer): TFNWndProc;
+begin
+  Result := TFNWndProc(SetWindowLongPtr(aWnd, GWLP_WNDPROC, NativeInt(aStub)));
+end;
+
 procedure TChromiumCore.RestoreCompWndProc(var aOldWnd: THandle; aNewWnd: THandle; var aProc: TFNWndProc);
 begin
   if (aOldWnd <> 0) and (aOldWnd <> aNewWnd) and (aProc <> nil) then
@@ -1074,6 +1079,74 @@ begin
       aProc := nil;
       aOldWnd := 0;
     end;
+end;
+
+procedure TChromiumCore.CallOldCompWndProc(aProc: TFNWndProc; aWnd: THandle; var aMessage: TMessage);
+begin
+  if (aProc <> nil) and (aWnd <> 0) then
+    aMessage.Result := CallWindowProc(aProc, aWnd, aMessage.Msg, aMessage.wParam, aMessage.lParam);
+end;
+
+{$ELSE}
+
+procedure TChromiumCore.CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
+begin
+  if (aStub = nil) then
+    begin
+      GetMem(aStub, SizeOf(TWndMethod));
+      TWndMethod(aStub^) := aMethod;
+    end;
+end;
+
+procedure TChromiumCore.FreeAndNilStub(var aStub : pointer);
+begin
+  if (aStub <> nil) then
+    begin
+      FreeMem(aStub);
+      aStub := nil;
+    end;
+end;
+
+function CompSubClassProc(hWnd: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARAM;
+  uIdSubclass: UINT_PTR; dwRefData: DWORD_PTR): LRESULT; stdcall;
+var
+  m: TWndMethod;
+  Msg: TMessage;
+begin
+  Msg.msg := uMsg;
+  Msg.wParam := wparam;
+  Msg.lParam := lParam;
+  Msg.Result := 0;
+
+  m := TWndMethod(Pointer(dwRefData)^);
+  m(Msg);
+  Result := Msg.Result;
+end;
+
+function TChromiumCore.InstallCompWndProc(aWnd: THandle; aStub: Pointer): TFNWndProc;
+begin
+  Result := nil;
+  if (aWnd <> 0) and (aStub <> nil) then
+    begin
+      SetWindowSubclass(aWnd, @CompSubClassProc, 1, NativeInt(aStub));
+      Result := TFNWndProc(1); // IdSubClass
+    end;
+end;
+
+procedure TChromiumCore.RestoreCompWndProc(var aOldWnd: THandle; aNewWnd: THandle; var aProc: TFNWndProc);
+begin
+  if (aOldWnd <> 0) and (aOldWnd <> aNewWnd) and (aProc <> nil) then
+    begin
+      RemoveWindowSubclass(aOldWnd, @CompSubClassProc, 1);
+      aProc := nil;
+      aOldWnd := 0;
+    end;
+end;
+
+procedure TChromiumCore.CallOldCompWndProc(aProc: TFNWndProc; aWnd: THandle; var aMessage: TMessage);
+begin
+  if (aProc <> nil) and (aWnd <> 0) then
+    aMessage.Result := DefSubclassProc(aWnd, aMessage.Msg, aMessage.wParam, aMessage.lParam);
 end;
 {$ENDIF}
 {$ENDIF}
@@ -1135,10 +1208,6 @@ begin
 end;
 
 procedure TChromiumCore.AfterConstruction;
-{$IFDEF FPC}
-var
-  TempWndMethod : TWndMethod;
-{$ENDIF}
 begin
   inherited AfterConstruction;
 
@@ -1146,12 +1215,7 @@ begin
     if not(csDesigning in ComponentState) then
       begin
         {$IFDEF MSWINDOWS}
-        {$IFDEF FPC}
-        TempWndMethod    := @WndProc;
-        FCompHandle      := AllocateHWnd(TempWndMethod);
-        {$ELSE}
-        FCompHandle      := AllocateHWnd(WndProc);
-        {$ENDIF}
+        FCompHandle      := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
         {$ENDIF}
         FOptions         := TChromiumOptions.Create;
         FFontOptions     := TChromiumFontOptions.Create;
@@ -1318,7 +1382,8 @@ begin
   FOnCookiesVisited                   := nil;
   FOnCookieVisitorDestroyed           := nil;
   FOnCookieSet                        := nil;
-  {$IFNDEF FPC}
+
+  {$IFDEF MSWINDOWS}
   FOnBrowserCompMsg                   := nil;
   FOnWidgetCompMsg                    := nil;
   FOnRenderCompMsg                    := nil;
@@ -1434,12 +1499,9 @@ end;
 
 {$IFDEF MSWINDOWS}
 procedure TChromiumCore.InitializeDragAndDrop(const aDropTargetWnd : HWND);
-{$IFNDEF FPC}
 var
   TempDropTarget : IDropTarget;
-{$ENDIF}
 begin
-  {$IFNDEF FPC}
   if FIsOSR and
      not(FDragAndDropInitialized) and
      (FDragDropManager = nil) and
@@ -1448,10 +1510,10 @@ begin
       FDropTargetWnd                  := aDropTargetWnd;
 
       FDragDropManager                := TCEFDragAndDropMgr.Create;
-      FDragDropManager.OnDragEnter    := DragDropManager_OnDragEnter;
-      FDragDropManager.OnDragOver     := DragDropManager_OnDragOver;
-      FDragDropManager.OnDragLeave    := DragDropManager_OnDragLeave;
-      FDragDropManager.OnDrop         := DragDropManager_OnDrop;
+      FDragDropManager.OnDragEnter    := {$IFDEF FPC}@{$ENDIF}DragDropManager_OnDragEnter;
+      FDragDropManager.OnDragOver     := {$IFDEF FPC}@{$ENDIF}DragDropManager_OnDragOver;
+      FDragDropManager.OnDragLeave    := {$IFDEF FPC}@{$ENDIF}DragDropManager_OnDragLeave;
+      FDragDropManager.OnDrop         := {$IFDEF FPC}@{$ENDIF}DragDropManager_OnDrop;
 
       TempDropTarget                  := TOLEDropTarget.Create(FDragDropManager);
 
@@ -1459,18 +1521,15 @@ begin
 
       FDragAndDropInitialized := True;
     end;
-  {$ENDIF}
 end;
 
 procedure TChromiumCore.ShutdownDragAndDrop;
 begin
-  {$IFNDEF FPC}
   if FDragAndDropInitialized and (FDropTargetWnd <> 0) then
     begin
       RevokeDragDrop(FDropTargetWnd);
       FDragAndDropInitialized := False;
     end;
-  {$ENDIF}
 end;
 
 procedure TChromiumCore.ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);
@@ -1486,9 +1545,11 @@ end;
 {$ENDIF}
 
 procedure TChromiumCore.DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+{$IFDEF MSWINDOWS}
 var
   TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
+{$ENDIF}
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -1506,9 +1567,11 @@ begin
 end;
 
 procedure TChromiumCore.DragDropManager_OnDragOver(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+{$IFDEF MSWINDOWS}
 var
   TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
+{$ENDIF}
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -1530,9 +1593,11 @@ begin
 end;
 
 procedure TChromiumCore.DragDropManager_OnDrop(Sender: TObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
+{$IFDEF MSWINDOWS}
 var
   TempMouseEvent : TCefMouseEvent;
   TempAllowedOps : TCefDragOperations;
+{$ENDIF}
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -2802,8 +2867,10 @@ begin
 end;
 
 function TChromiumCore.SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
+{$IFDEF MSWINDOWS}
 var
   TempHandle : HWND;
+{$ENDIF}
 begin
   Result := False;
 
@@ -3415,9 +3482,11 @@ begin
 end;
 
 function TChromiumCore.doSavePreferences : boolean;
+{$IFDEF MSWINDOWS}
 var
   TempDict  : ICefDictionaryValue;
   TempPrefs : TStringList;
+{$ENDIF}
 begin
   Result    := False;
   {$IFDEF MSWINDOWS}
@@ -3751,22 +3820,17 @@ begin
   end;
 end;
 
-{$IFDEF MSWINDOWS}
-procedure TChromiumCore.CloseDevTools(const aDevToolsWnd : THandle);
+procedure TChromiumCore.CloseDevTools(const aDevToolsWnd : TCefWindowHandle);
 begin
   if Initialized then
     begin
+      {$IFDEF MSWINDOWS}
       if (aDevToolsWnd <> 0) then
         SetParent(GetWindow(aDevToolsWnd, GW_CHILD), 0);
+      {$ENDIF}
 
-      CloseDevTools;
+      if Initialized and (FBrowser <> nil) then FBrowser.Host.CloseDevTools;
     end;
-end;
-{$ENDIF MSWINDOWS}
-
-procedure TChromiumCore.CloseDevTools;
-begin
-  if Initialized and (FBrowser <> nil) then FBrowser.Host.CloseDevTools;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -3780,7 +3844,6 @@ begin
   end;
 end;
 
-{$IFNDEF FPC}
 procedure TChromiumCore.BrowserCompWndProc(var aMessage: TMessage);
 var
   TempHandled : boolean;
@@ -3792,14 +3855,8 @@ begin
       if assigned(FOnBrowserCompMsg) then
         FOnBrowserCompMsg(aMessage, TempHandled);
 
-      if not(TempHandled)               and
-         (FOldBrowserCompWndPrc <> nil) and
-         (FBrowserCompHWND      <> 0)   then
-        aMessage.Result := CallWindowProc(FOldBrowserCompWndPrc,
-                                          FBrowserCompHWND,
-                                          aMessage.Msg,
-                                          aMessage.wParam,
-                                          aMessage.lParam);
+      if not(TempHandled) then
+        CallOldCompWndProc(FOldBrowserCompWndPrc, FBrowserCompHWND, aMessage);
     finally
       if aMessage.Msg = WM_DESTROY then
         RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
@@ -3821,14 +3878,8 @@ begin
       if assigned(FOnWidgetCompMsg) then
         FOnWidgetCompMsg(aMessage, TempHandled);
 
-      if not(TempHandled)              and
-         (FOldWidgetCompWndPrc <> nil) and
-         (FWidgetCompHWND      <> 0)   then
-        aMessage.Result := CallWindowProc(FOldWidgetCompWndPrc,
-                                          FWidgetCompHWND,
-                                          aMessage.Msg,
-                                          aMessage.wParam,
-                                          aMessage.lParam);
+      if not(TempHandled) then
+        CallOldCompWndProc(FOldWidgetCompWndPrc, FWidgetCompHWND, aMessage);
     finally
       if aMessage.Msg = WM_DESTROY then
         RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
@@ -3850,14 +3901,8 @@ begin
       if assigned(FOnRenderCompMsg) then
         FOnRenderCompMsg(aMessage, TempHandled);
 
-      if not(TempHandled)              and
-         (FOldRenderCompWndPrc <> nil) and
-         (FRenderCompHWND      <> 0)   then
-        aMessage.Result := CallWindowProc(FOldRenderCompWndPrc,
-                                          FRenderCompHWND,
-                                          aMessage.Msg,
-                                          aMessage.wParam,
-                                          aMessage.lParam);
+      if not(TempHandled) then
+        CallOldCompWndProc(FOldRenderCompWndPrc, FRenderCompHWND, aMessage);
     finally
       if aMessage.Msg = WM_DESTROY then
         RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
@@ -3867,7 +3912,6 @@ begin
       if CustomExceptionHandler('TChromiumCore.RenderCompWndProc', e) then raise;
   end;
 end;
-{$ENDIF}
 {$ENDIF}
 
 function TChromiumCore.doOnClose(const browser: ICefBrowser): Boolean;
@@ -4465,10 +4509,8 @@ end;
 
 procedure TChromiumCore.doOnRenderViewReady(const browser: ICefBrowser);
 {$IFDEF MSWINDOWS}
-{$IFNDEF FPC}
 var
   OldBrowserCompHWND, OldWidgetCompHWND, OldRenderCompHWND: THandle;
-{$ENDIF}
 {$ENDIF}
 begin
   if (browser            <> nil)        and
@@ -4476,11 +4518,9 @@ begin
      (browser.Identifier =  FBrowserId) then
     begin
       {$IFDEF MSWINDOWS}
-      {$IFNDEF FPC}
       OldBrowserCompHWND := FBrowserCompHWND;
       OldWidgetCompHWND := FWidgetCompHWND;
       OldRenderCompHWND := FRenderCompHWND;
-      {$ENDIF}
       {$ENDIF}
 
       FBrowserCompHWND := browser.Host.WindowHandle;
@@ -4490,34 +4530,27 @@ begin
 
       if (FWidgetCompHWND <> 0) then
         FRenderCompHWND := FindWindowEx(FWidgetCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
-      {$IFNDEF FPC}
+
       RestoreCompWndProc(OldBrowserCompHWND, FBrowserCompHWND, FOldBrowserCompWndPrc);
       if assigned(FOnBrowserCompMsg) and (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc = nil) then
         begin
-          CreateStub(BrowserCompWndProc, FBrowserCompStub);
-          FOldBrowserCompWndPrc := TFNWndProc(SetWindowLongPtr(FBrowserCompHWND,
-                                                               GWLP_WNDPROC,
-                                                               NativeInt(FBrowserCompStub)));
+          CreateStub({$IFDEF FPC}@{$ENDIF}BrowserCompWndProc, FBrowserCompStub);
+          FOldBrowserCompWndPrc := InstallCompWndProc(FBrowserCompHWND, FBrowserCompStub);
         end;
 
       RestoreCompWndProc(OldWidgetCompHWND, FWidgetCompHWND, FOldWidgetCompWndPrc);
       if assigned(FOnWidgetCompMsg) and (FWidgetCompHWND <> 0) and (FOldWidgetCompWndPrc = nil) then
         begin
-          CreateStub(WidgetCompWndProc, FWidgetCompStub);
-          FOldWidgetCompWndPrc := TFNWndProc(SetWindowLongPtr(FWidgetCompHWND,
-                                                              GWLP_WNDPROC,
-                                                              NativeInt(FWidgetCompStub)));
+          CreateStub({$IFDEF FPC}@{$ENDIF}WidgetCompWndProc, FWidgetCompStub);
+          FOldWidgetCompWndPrc := InstallCompWndProc(FWidgetCompHWND, FWidgetCompStub);
         end;
 
       RestoreCompWndProc(OldRenderCompHWND, FRenderCompHWND, FOldRenderCompWndPrc);
       if assigned(FOnRenderCompMsg) and (FRenderCompHWND <> 0) and (FOldRenderCompWndPrc = nil) then
         begin
-          CreateStub(RenderCompWndProc, FRenderCompStub);
-          FOldRenderCompWndPrc := TFNWndProc(SetWindowLongPtr(FRenderCompHWND,
-                                                              GWLP_WNDPROC,
-                                                              NativeInt(FRenderCompStub)));
+          CreateStub({$IFDEF FPC}@{$ENDIF}RenderCompWndProc, FRenderCompStub);
+          FOldRenderCompWndPrc := InstallCompWndProc(FRenderCompHWND, FRenderCompStub);
         end;
-      {$ENDIF}
       {$ENDIF}
     end;
 
@@ -4614,7 +4647,7 @@ function TChromiumCore.doOnStartDragging(const browser    : ICefBrowser;
                                            y          : Integer): Boolean;
 begin
   Result := False;
-  {$IFNDEF FPC}
+  {$IFDEF MSWINDOWS}
   if FDragAndDropInitialized and
      FDragDropManager.CloneDragData(dragData, allowedOps) then
     begin
@@ -4627,13 +4660,13 @@ begin
 end;
 
 procedure TChromiumCore.DelayedDragging;
-{$IFNDEF FPC}
+{$IFDEF MSWINDOWS}
 var
   TempOperation : TCefDragOperation;
   TempPoint     : TPoint;
 {$ENDIF}
 begin
-  {$IFNDEF FPC}
+  {$IFDEF MSWINDOWS}
   if FDragAndDropInitialized and (FDropTargetWnd <> 0) and (GlobalCEFApp <> nil) then
     begin
       FDragOperations := DRAG_OPERATION_NONE;
