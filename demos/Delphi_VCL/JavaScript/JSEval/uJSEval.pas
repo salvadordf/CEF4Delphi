@@ -367,8 +367,9 @@ begin
 
   try
     try
-      TempOpenDialog        := TOpenDialog.Create(nil);
-      TempOpenDialog.Filter := 'JPEG files (*.jpg)|*.JPG';
+      TempOpenDialog         := TOpenDialog.Create(nil);
+      TempOpenDialog.Options := TempOpenDialog.Options + [ofFileMustExist];
+      TempOpenDialog.Filter  := 'JPEG files (*.jpg)|*.JPG';
 
       if TempOpenDialog.Execute then
         begin
@@ -378,7 +379,7 @@ begin
           if (TempSize > 0) then
             begin
               SetLength(TempBuffer, TempSize);
-              TempSize := TempStream.Read(TempBuffer, TempSize);
+              TempSize := TempStream.Read(TempBuffer[0], TempSize);
 
               if (TempSize > 0) then
                 begin
