@@ -208,7 +208,7 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_EVALJSCODE,   'Evaluate JavaScript code...');
   model.AddItem(MINIBROWSER_CONTEXTMENU_GETSCROLLPOS, 'Get vertical scroll position...');
   // TODO: Fix bug in creating a TCefBinaryValueRef
-  //model.AddItem(MINIBROWSER_CONTEXTMENU_JSBINPARAM,   'Send JPEG image...');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_JSBINPARAM,   'Send JPEG image...');
 end;
 
 procedure TJSEvalFrm.Chromium1BeforePopup(Sender: TObject;
@@ -367,8 +367,9 @@ begin
 
   try
     try
-      TempOpenDialog        := TOpenDialog.Create(nil);
-      TempOpenDialog.Filter := 'JPEG files (*.jpg)|*.JPG';
+      TempOpenDialog         := TOpenDialog.Create(nil);
+      TempOpenDialog.Options := TempOpenDialog.Options + [ofFileMustExist];
+      TempOpenDialog.Filter  := 'JPEG files (*.jpg)|*.JPG';
 
       if TempOpenDialog.Execute then
         begin
@@ -378,7 +379,7 @@ begin
           if (TempSize > 0) then
             begin
               SetLength(TempBuffer, TempSize);
-              TempSize := TempStream.Read(TempBuffer, TempSize);
+              TempSize := TempStream.Read(TempBuffer[0], TempSize);
 
               if (TempSize > 0) then
                 begin
@@ -453,7 +454,7 @@ var
   TempPointer : pointer;
   TempSize    : NativeUInt;
   TempString  : string;
-  TempDecodedStream : TMemoryStream;
+  TempDecodedStream : TBytesStream;
   TempEncodedStream : TStringStream;
   TempEncoder       : TBase64EncodingStream;
 begin
@@ -475,9 +476,7 @@ begin
 
           if (TempSize > 0) then
             begin
-              TempDecodedStream := TMemoryStream.Create();
-              TempDecodedStream.write(TempPointer, TempSize);
-              TempDecodedStream.position := 0;
+              TempDecodedStream := TBytesStream.Create(TempBuffer);
 
               TempEncodedStream := TStringStream.Create('');
               TempEncoder       := TBase64EncodingStream.Create(TempEncodedStream);
