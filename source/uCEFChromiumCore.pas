@@ -4513,6 +4513,22 @@ begin
   if Assigned(FOnRenderProcessTerminated) then FOnRenderProcessTerminated(Self, browser, status);
 end;
 
+{$IFDEF MSWINDOWS}
+function EnumProcOSRChromeWidgetWin0(hWnd: HWND; lParam: LPARAM): BOOL; stdcall;
+var
+  ClsName: array[0..256] of Char;
+begin
+  ClsName[GetClassName(hWnd, ClsName, 256)] := #0;
+  if StrComp(ClsName, 'Chrome_WidgetWin_0') = 0 then
+  begin
+    PHandle(lParam)^ := hWnd;
+    Result := False;
+  end
+  else
+    Result := True;
+end;
+{$ENDIF MSWINDOWS}
+
 procedure TChromiumCore.doOnRenderViewReady(const browser: ICefBrowser);
 {$IFDEF MSWINDOWS}
 var
@@ -4532,7 +4548,19 @@ begin
       FBrowserCompHWND := browser.Host.WindowHandle;
       {$IFDEF MSWINDOWS}
       if (FBrowserCompHWND <> 0) then
+      begin
         FWidgetCompHWND := FindWindowEx(FBrowserCompHWND, 0, 'Chrome_WidgetWin_0', '');
+        if (FWidgetCompHWND = 0) and FIsOSR and CefCurrentlyOn(TID_UI) then
+        begin
+          // The WidgetCompHWND window doesn't have a HwndParent (Owner). If we are in OSR mode this
+          // causes popup menus that are opened by CEF to stay open if the user clicks somewhere else.
+          // With this code we search for the Widget window in the UI Thread's window list and set
+          // the Browser window as its HwndParent. This works around the bug.
+          EnumThreadWindows(GetCurrentThreadId, @EnumProcOSRChromeWidgetWin0, NativeInt(@FWidgetCompHWND));
+          if FWidgetCompHWND <> 0 then
+            SetWindowLongPtr(FWidgetCompHWND, GWLP_HWNDPARENT, NativeInt(FBrowserCompHWND));
+        end;
+      end;
 
       if (FWidgetCompHWND <> 0) then
         FRenderCompHWND := FindWindowEx(FWidgetCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
