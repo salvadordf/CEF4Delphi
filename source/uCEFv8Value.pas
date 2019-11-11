@@ -133,7 +133,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Accessor, uCEFv8Handler, uCEFv8Exception,
-  uCEFv8Interceptor, uCEFStringList, uCefv8ArrayBufferReleaseCallback;
+  uCEFv8Interceptor, uCEFStringList, uCEFv8ArrayBufferReleaseCallback;
 
 function TCefv8ValueRef.AdjustExternallyAllocatedMemory(changeInBytes: Integer): Integer;
 begin

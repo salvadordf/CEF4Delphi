@@ -72,7 +72,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCefSSLStatus;
+  uCEFMiscFunctions, uCEFSSLStatus;
 
 function TCefNavigationEntryRef.IsValid: Boolean;
 begin

@@ -53,7 +53,7 @@ uses
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX,{$ENDIF} System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} Classes, SysUtils, Math,
-    {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase,{$ENDIF}{$ENDIF}
+    {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
   uCEFRegisterCDMCallback, uCEFConstants;
@@ -104,9 +104,9 @@ function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: 
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 
 {$IFDEF MSWINDOWS}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : cardinal = 0);
 {$ENDIF}
 
 {$IFDEF MACOS}
@@ -136,6 +136,8 @@ function PathIsURLAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name
 function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
 
 {$IFNDEF DELPHI12_UP}
+const
+  GWLP_WNDPROC = GWL_WNDPROC;
   {$IFDEF WIN64}
     function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: int64): int64; stdcall; external user32 name 'SetWindowLongPtrW';
   {$ELSE}
@@ -561,7 +563,7 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : THandle; aRect : TRect; const aWindowName : ustring; aExStyle : cardinal);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aExStyle : cardinal);
 begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -578,7 +580,7 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring; aExStyle : cardinal);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : cardinal);
 begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -595,7 +597,7 @@ begin
   aWindowInfo.window                       := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; const aWindowName : ustring; aExStyle : cardinal);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : cardinal);
 begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -629,7 +631,7 @@ begin
   aWindowInfo.view                         := 0;
 end;
 
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : THandle; aHidden : boolean; const aWindowName : ustring);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean; const aWindowName : ustring);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := integer(CW_USEDEFAULT);
@@ -644,7 +646,7 @@ begin
   aWindowInfo.view                         := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : THandle; aHidden : boolean; const aWindowName : ustring);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean; const aWindowName : ustring);
 begin
 
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -879,9 +881,10 @@ function SplitLongString(aSrcString : string) : string;
 const
   MAXLINELENGTH = 50;
 begin
+  Result := '';
   while (length(aSrcString) > 0) do
     begin
-      if (length(Result) > 0) then
+      if (Result <> '') then
         Result := Result + CRLF + copy(aSrcString, 1, MAXLINELENGTH)
        else
         Result := Result + copy(aSrcString, 1, MAXLINELENGTH);
@@ -972,7 +975,7 @@ begin
       if (length(aLocalesDirPath) > 0) then
         TempDir := IncludeTrailingPathDelimiter(aLocalesDirPath)
        else
-        TempDir := 'locales\';
+        TempDir := 'locales' + PathDelim;
 
       TempList := TStringList.Create;
 
@@ -1071,11 +1074,19 @@ begin
       TempList := TStringList.Create;
       TempList.Add(TempDir + CHROMEELF_DLL);
       TempList.Add(TempDir + LIBCEF_DLL);
+      {$IFDEF MSWINDOWS}
       TempList.Add(TempDir + 'd3dcompiler_47.dll');
       TempList.Add(TempDir + 'libEGL.dll');
       TempList.Add(TempDir + 'libGLESv2.dll');
       TempList.Add(TempDir + 'swiftshader\libEGL.dll');
       TempList.Add(TempDir + 'swiftshader\libGLESv2.dll');
+      {$ENDIF}
+      {$IFDEF LINUX}
+      TempList.Add(TempDir + 'libEGL.so');
+      TempList.Add(TempDir + 'libGLESv2.so');
+      TempList.Add(TempDir + 'swiftshader/libEGL.so');
+      TempList.Add(TempDir + 'swiftshader/libGLESv2.so');
+      {$ENDIF}
       TempList.Add(TempDir + 'icudtl.dat');
 
       if TempExists then
@@ -1515,7 +1526,12 @@ end;
 
 function GetModulePath : string;
 begin
+  {$IFDEF MSWINDOWS}
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(GetModuleName(HINSTANCE{$IFDEF FPC}(){$ENDIF})));
+  {$ELSE}
+  // DLL filename not supported
+  Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
+  {$ENDIF MSWINDOWS}
 end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;

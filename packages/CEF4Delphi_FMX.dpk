@@ -22,7 +22,7 @@ package CEF4Delphi_FMX;
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
-{$IMAGEBASE $400000}
+{$IMAGEBASE $54C00000}
 {$DEFINE $(FrameworkType)}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'CEF4Delphi'}
@@ -103,7 +103,7 @@ contains
   uCEFZipReader in '..\source\uCEFZipReader.pas',
   uCEFResponse in '..\source\uCEFResponse.pas',
   uCEFCookieVisitor in '..\source\uCEFCookieVisitor.pas',
-  uCEFV8Exception in '..\source\uCEFV8Exception.pas',
+  uCEFv8Exception in '..\source\uCEFv8Exception.pas',
   uCEFResourceBundleHandler in '..\source\uCEFResourceBundleHandler.pas',
   uCEFSetCookieCallback in '..\source\uCEFSetCookieCallback.pas',
   uCEFDeleteCookiesCallback in '..\source\uCEFDeleteCookiesCallback.pas',
@@ -132,6 +132,7 @@ contains
   uCEFImage in '..\source\uCEFImage.pas',
   uCEFMenuModelDelegate in '..\source\uCEFMenuModelDelegate.pas',
   uCEFWindowParent in '..\source\uCEFWindowParent.pas',
+  uCEFChromiumCore in '..\source\uCEFChromiumCore.pas',
   uCEFChromium in '..\source\uCEFChromium.pas',
   uCEFChromiumEvents in '..\source\uCEFChromiumEvents.pas',
   uCEFChromiumOptions in '..\source\uCEFChromiumOptions.pas',

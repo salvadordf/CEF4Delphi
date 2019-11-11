@@ -196,7 +196,7 @@
         <DCCReference Include="..\source\uCEFZipReader.pas"/>
         <DCCReference Include="..\source\uCEFResponse.pas"/>
         <DCCReference Include="..\source\uCEFCookieVisitor.pas"/>
-        <DCCReference Include="..\source\uCEFV8Exception.pas"/>
+        <DCCReference Include="..\source\uCEFv8Exception.pas"/>
         <DCCReference Include="..\source\uCEFResourceBundleHandler.pas"/>
         <DCCReference Include="..\source\uCEFSetCookieCallback.pas"/>
         <DCCReference Include="..\source\uCEFDeleteCookiesCallback.pas"/>
@@ -225,6 +225,7 @@
         <DCCReference Include="..\source\uCEFImage.pas"/>
         <DCCReference Include="..\source\uCEFMenuModelDelegate.pas"/>
         <DCCReference Include="..\source\uCEFWindowParent.pas"/>
+        <DCCReference Include="..\source\uCEFChromiumCore.pas"/>
         <DCCReference Include="..\source\uCEFChromium.pas"/>
         <DCCReference Include="..\source\uCEFChromiumEvents.pas"/>
         <DCCReference Include="..\source\uCEFChromiumOptions.pas"/>

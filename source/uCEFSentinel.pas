@@ -80,7 +80,9 @@ type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFSentinel = class(TComponent)
     protected
+      {$IFDEF MSWINDOWS}
       FCompHandle             : HWND;
+      {$ENDIF}
       FStatus                 : TSentinelStatus;
       FStatusCS               : TCriticalSection;
       FDelayPerProcMs         : cardinal;
@@ -99,8 +101,8 @@ type
       procedure WndProc(var aMessage: TMessage);
       procedure doStartMsg(var aMessage : TMessage); virtual;
       procedure doCloseMsg(var aMessage : TMessage); virtual;
-      {$ENDIF}
       function  SendCompMessage(aMsg : cardinal) : boolean;
+      {$ENDIF}
       function  CanClose : boolean; virtual;
 
       procedure Timer_OnTimer(Sender: TObject); virtual;
@@ -137,7 +139,9 @@ constructor TCEFSentinel.Create(AOwner: TComponent);
 begin
   inherited Create(aOwner);
 
+  {$IFDEF MSWINDOWS}
   FCompHandle             := 0;
+  {$ENDIF}
   FDelayPerProcMs         := CEFSENTINEL_DEFAULT_DELAYPERPROCMS;
   FMinInitDelayMs         := CEFSENTINEL_DEFAULT_MININITDELAYMS;
   FFinalDelayMs           := CEFSENTINEL_DEFAULT_FINALDELAYMS;
@@ -151,22 +155,13 @@ begin
 end;
 
 procedure TCEFSentinel.AfterConstruction;
-{$IFDEF FPC}
-var
-  TempWndMethod : TWndMethod;
-{$ENDIF}
 begin
   inherited AfterConstruction;
 
   if not(csDesigning in ComponentState) then
     begin
-      {$IFDEF FPC}
       {$IFDEF MSWINDOWS}
-      TempWndMethod    := @WndProc;
-      FCompHandle      := AllocateHWnd(TempWndMethod);
-      {$ENDIF}
-      {$ELSE}
-      FCompHandle      := AllocateHWnd(WndProc);
+      FCompHandle      := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
       {$ENDIF}
 
       FStatusCS        := TCriticalSection.Create;
@@ -218,12 +213,12 @@ procedure TCEFSentinel.doCloseMsg(var aMessage : TMessage);
 begin
   if assigned(FOnClose) then FOnClose(self);
 end;
-{$ENDIF}
 
 function TCEFSentinel.SendCompMessage(aMsg : cardinal) : boolean;
 begin
   Result := (FCompHandle <> 0) and PostMessage(FCompHandle, aMsg, 0, 0);
 end;
+{$ENDIF}
 
 procedure TCEFSentinel.Start;
 begin
@@ -233,7 +228,9 @@ begin
     if (FStatus = ssIdle) then
       begin
         FStatus := ssInitialDelay;
+        {$IFDEF MSWINDOWS}
         SendCompMessage(CEF_SENTINEL_START);
+        {$ENDIF}
       end;
   finally
     if (FStatusCS <> nil) then FStatusCS.Release;
@@ -280,7 +277,9 @@ begin
         if CanClose then
           begin
             FStatus := ssClosing;
+            {$IFDEF MSWINDOWS}
             SendCompMessage(CEF_SENTINEL_DOCLOSE);
+            {$ENDIF}
           end
          else
           begin
@@ -294,7 +293,9 @@ begin
         if CanClose then
           begin
             FStatus := ssClosing;
+            {$IFDEF MSWINDOWS}
             SendCompMessage(CEF_SENTINEL_DOCLOSE);
+            {$ENDIF}
           end
          else
           begin

@@ -22,7 +22,7 @@
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
     <Version Major="78" Minor="3" Release="1"/>
-    <Files Count="145">
+    <Files Count="146">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -433,8 +433,8 @@
         <UnitName Value="uCEFv8Context"/>
       </Item102>
       <Item103>
-        <Filename Value="..\source\uCEFV8Exception.pas"/>
-        <UnitName Value="uCEFV8Exception"/>
+        <Filename Value="..\source\uCEFv8Exception.pas"/>
+        <UnitName Value="uCEFv8Exception"/>
       </Item103>
       <Item104>
         <Filename Value="..\source\uCEFv8Handler.pas"/>
@@ -511,107 +511,111 @@
         <UnitName Value="uCEFZipReader"/>
       </Item121>
       <Item122>
+        <Filename Value="..\source\uCEFChromiumCore.pas"/>
+        <UnitName Value="uCEFChromiumCore"/>
+      </Item122>
+      <Item123>
         <Filename Value="..\source\uCEFChromium.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFChromium"/>
-      </Item122>
-      <Item123>
+      </Item123>
+      <Item124>
         <Filename Value="..\source\uCEFBufferPanel.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFBufferPanel"/>
-      </Item123>
-      <Item124>
-        <Filename Value="..\source\uCEFServer.pas"/>
-        <UnitName Value="uCEFServer"/>
       </Item124>
       <Item125>
+        <Filename Value="..\source\uCEFServer.pas"/>
+        <UnitName Value="uCEFServer"/>
+      </Item125>
+      <Item126>
         <Filename Value="..\source\uCEFServerComponent.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFServerComponent"/>
-      </Item125>
-      <Item126>
-        <Filename Value="..\source\uCEFServerEvents.pas"/>
-        <UnitName Value="uCEFServerEvents"/>
       </Item126>
       <Item127>
-        <Filename Value="..\source\uCEFServerHandler.pas"/>
-        <UnitName Value="uCEFServerHandler"/>
+        <Filename Value="..\source\uCEFServerEvents.pas"/>
+        <UnitName Value="uCEFServerEvents"/>
       </Item127>
       <Item128>
-        <Filename Value="..\source\res\tbufferpanel.lrs"/>
-        <Type Value="LRS"/>
+        <Filename Value="..\source\uCEFServerHandler.pas"/>
+        <UnitName Value="uCEFServerHandler"/>
       </Item128>
       <Item129>
-        <Filename Value="..\source\res\tcefservercomponent.lrs"/>
+        <Filename Value="..\source\res\tbufferpanel.lrs"/>
         <Type Value="LRS"/>
       </Item129>
       <Item130>
-        <Filename Value="..\source\res\tcefwindowparent.lrs"/>
+        <Filename Value="..\source\res\tcefservercomponent.lrs"/>
         <Type Value="LRS"/>
       </Item130>
       <Item131>
-        <Filename Value="..\source\res\tcefworkscheduler.lrs"/>
+        <Filename Value="..\source\res\tcefwindowparent.lrs"/>
         <Type Value="LRS"/>
       </Item131>
       <Item132>
-        <Filename Value="..\source\res\tchromium.lrs"/>
+        <Filename Value="..\source\res\tcefworkscheduler.lrs"/>
         <Type Value="LRS"/>
       </Item132>
       <Item133>
-        <Filename Value="..\source\res\tchromiumwindow.lrs"/>
+        <Filename Value="..\source\res\tchromium.lrs"/>
         <Type Value="LRS"/>
       </Item133>
       <Item134>
-        <Filename Value="..\source\uCEFWinControl.pas"/>
-        <UnitName Value="uCEFWinControl"/>
+        <Filename Value="..\source\res\tchromiumwindow.lrs"/>
+        <Type Value="LRS"/>
       </Item134>
       <Item135>
+        <Filename Value="..\source\uCEFWinControl.pas"/>
+        <UnitName Value="uCEFWinControl"/>
+      </Item135>
+      <Item136>
         <Filename Value="..\source\uCEFLinkedWindowParent.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFLinkedWindowParent"/>
-      </Item135>
-      <Item136>
-        <Filename Value="..\source\uCEFUrlRequestClientEvents.pas"/>
-        <UnitName Value="uCEFUrlRequestClientEvents"/>
       </Item136>
       <Item137>
+        <Filename Value="..\source\uCEFUrlRequestClientEvents.pas"/>
+        <UnitName Value="uCEFUrlRequestClientEvents"/>
+      </Item137>
+      <Item138>
         <Filename Value="..\source\uCEFUrlRequestClientComponent.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFUrlRequestClientComponent"/>
-      </Item137>
-      <Item138>
-        <Filename Value="..\source\uCEFOSRIMEHandler.pas"/>
-        <UnitName Value="uCEFOSRIMEHandler"/>
       </Item138>
       <Item139>
-        <Filename Value="..\source\uCEFCookieAccessFilter.pas"/>
-        <UnitName Value="uCEFCookieAccessFilter"/>
+        <Filename Value="..\source\uCEFOSRIMEHandler.pas"/>
+        <UnitName Value="uCEFOSRIMEHandler"/>
       </Item139>
       <Item140>
-        <Filename Value="..\source\uCEFResourceReadCallback.pas"/>
-        <UnitName Value="uCEFResourceReadCallback"/>
+        <Filename Value="..\source\uCEFCookieAccessFilter.pas"/>
+        <UnitName Value="uCEFCookieAccessFilter"/>
       </Item140>
       <Item141>
-        <Filename Value="..\source\uCEFResourceRequestHandler.pas"/>
-        <UnitName Value="uCEFResourceRequestHandler"/>
+        <Filename Value="..\source\uCEFResourceReadCallback.pas"/>
+        <UnitName Value="uCEFResourceReadCallback"/>
       </Item141>
       <Item142>
-        <Filename Value="..\source\uCEFResourceSkipCallback.pas"/>
-        <UnitName Value="uCEFResourceSkipCallback"/>
+        <Filename Value="..\source\uCEFResourceRequestHandler.pas"/>
+        <UnitName Value="uCEFResourceRequestHandler"/>
       </Item142>
       <Item143>
-        <Filename Value="..\source\res\tcefsentinel.lrs"/>
-        <Type Value="LRS"/>
+        <Filename Value="..\source\uCEFResourceSkipCallback.pas"/>
+        <UnitName Value="uCEFResourceSkipCallback"/>
       </Item143>
       <Item144>
+        <Filename Value="..\source\res\tcefsentinel.lrs"/>
+        <Type Value="LRS"/>
+      </Item144>
+      <Item145>
         <Filename Value="..\source\uCEFSentinel.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFSentinel"/>
-      </Item144>
-      <Item145>
+      </Item145>
+      <Item146>
         <Filename Value="..\source\uCEFApplicationCore.pas"/>
         <UnitName Value="uCEFApplicationCore"/>
-      </Item145>
+      </Item146>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

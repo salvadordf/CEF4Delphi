@@ -238,14 +238,7 @@ begin
 
   {$IFDEF MSWINDOWS}
     DeleteCriticalSection(FCriticalSection);
-    FCriticalSection.DebugInfo      := nil;
-    FCriticalSection.LockCount      := 0;
-    FCriticalSection.RecursionCount := 0;
-    FCriticalSection.OwningThread   := 0;
-    FCriticalSection.LockSemaphore  := 0;
-    {$IFNDEF FPC}
-    FCriticalSection.Reserved       := 0;
-    {$ENDIF}
+    FillChar(FCriticalSection, SizeOf(FCriticalSection), 0);
   {$ELSE}
     DoneCriticalSection(FCriticalSection);
   {$ENDIF}
@@ -259,22 +252,24 @@ var
   TempSize    : int64;
 begin
   EnterCriticalSection(FCriticalSection);
+  try
+    TempSize := size * n;
 
-  TempSize := size * n;
+    if ((FOffset + TempSize) >= FBufferSize) and (Grow(TempSize) = 0) then
+      Result := 0
+     else
+      begin
+        TempPointer := Pointer(cardinal(FBuffer) + FOffset);
 
-  if ((FOffset + TempSize) >= FBufferSize) and (Grow(TempSize) = 0) then
-    Result := 0
-   else
-    begin
-      TempPointer := Pointer(cardinal(FBuffer) + FOffset);
+        Move(ptr^, TempPointer^, TempSize);
 
-      Move(ptr^, TempPointer^, TempSize);
+        FOffset := FOffset + TempSize;
+        Result  := n;
+      end;
 
-      FOffset := FOffset + TempSize;
-      Result  := n;
-    end;
-
-  LeaveCriticalSection(FCriticalSection);
+  finally
+    LeaveCriticalSection(FCriticalSection);
+  end;
 end;
 
 function TCefBytesWriteHandler.Seek(offset: Int64; whence: Integer): Integer;
@@ -352,8 +347,8 @@ function TCefBytesWriteHandler.Grow(size : NativeUInt) : NativeUInt;
 var
   TempTotal : int64;
 begin
+  EnterCriticalSection(FCriticalSection);
   try
-    EnterCriticalSection(FCriticalSection);
 
     if (size < FGrow) then
       TempTotal := FGrow

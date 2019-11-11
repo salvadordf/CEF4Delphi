@@ -116,6 +116,14 @@ implementation
 uses
   uCEFMiscFunctions, uCEFWriteHandler, uCEFStreamWriter, uCEFConstants;
 
+{$IFDEF FPC}
+const
+  //CFSTR_FILEDESCRIPTORA            = 'FileGroupDescriptor';              // CF_FILEGROUPDESCRIPTORA
+  CFSTR_FILEDESCRIPTORW            = 'FileGroupDescriptorW';             // CF_FILEGROUPDESCRIPTORW
+  CFSTR_FILEDESCRIPTOR             = CFSTR_FILEDESCRIPTORW;
+  CFSTR_FILECONTENTS               = 'FileContents';                     // CF_FILECONTENTS
+{$ENDIF}
+
 // *****************************************************
 // **************** TCEFDragAndDropMgr *****************
 // *****************************************************
@@ -667,7 +675,11 @@ begin
         while (TempEnumFrmt.Next(1, TempFormat, nil) = S_OK) and not(TempUsed) do
           begin
             try
+              {$IFNDEF FPC}
               TempMedium.unkForRelease := nil;
+              {$ELSE}
+              TempMedium.PUnkForRelease := nil;
+              {$ENDIF}
 
               if ((TempFormat.tymed and TYMED_HGLOBAL) <> 0) and
                  (aDataObject.GetData(TempFormat, TempMedium) = S_OK) then
@@ -722,7 +734,11 @@ begin
           TempResEffect  := DROPEFFECT_NONE;
           TempDataObject := TOLEDataObject.Create(TempFormatArray, TempMediumArray, i);
           TempDropSource := TOLEDropSource.Create;
+          {$IFNDEF FPC}
           TempResult     := DoDragDrop(TempDataObject, TempDropSource, FOLEEffect, TempResEffect);
+          {$ELSE}
+          TempResult     := DoDragDrop(TempDataObject, TempDropSource, DWORD(FOLEEffect), LPDWORD(TempResEffect));
+          {$ENDIF}
 
           if (TempResult <> DRAGDROP_S_DROP) then TempResEffect := DROPEFFECT_NONE;
           FCurrentDragData := nil;
