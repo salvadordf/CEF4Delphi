@@ -45,7 +45,7 @@ uses
   {$ELSE}
   Windows,
   {$ENDIF}
-  uCEFApplication,
+  uCEFApplicationCore,
   uCEFConstants;
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
@@ -54,7 +54,7 @@ uses
 // To test this demo you need to build the ConsoleLoader, OSRDLLBrowser and OSRSubProcess projects found in this directory.
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp := TCefApplicationCore.Create;
 
   // The main process and the subprocess *MUST* have the same FrameworkDirPath, ResourcesDirPath,
   // LocalesDirPath, cache, cookies and UserDataPath paths

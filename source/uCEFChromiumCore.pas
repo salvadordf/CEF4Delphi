@@ -2531,6 +2531,9 @@ end;
 // TChromiumCore.VisitAllCookies triggers the TChromiumCore.OnCookiesVisited event for each cookie
 // aID is an optional parameter to identify which VisitAllCookies call has triggered the
 // OnCookiesVisited event.
+// TChromiumCore.OnCookiesVisited may not be triggered if the cookie store is empty but the
+// TChromium.OnCookieVisitorDestroyed event will always be triggered to signal when the browser
+// when the visit is over.
 function TChromiumCore.VisitAllCookies(aID : integer) : boolean;
 var
   TempManager : ICefCookieManager;
@@ -2555,6 +2558,9 @@ end;
 // TChromiumCore.VisitURLCookies triggers the TChromiumCore.OnCookiesVisited event for each cookie
 // aID is an optional parameter to identify which VisitURLCookies call has triggered the
 // OnCookiesVisited event.
+// TChromiumCore.OnCookiesVisited may not be triggered if the cookie store is empty but the
+// TChromium.OnCookieVisitorDestroyed event will always be triggered to signal when the browser
+// when the visit is over.
 function TChromiumCore.VisitURLCookies(const url : ustring; includeHttpOnly : boolean; aID : integer) : boolean;
 var
   TempManager : ICefCookieManager;
