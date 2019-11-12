@@ -138,6 +138,7 @@ function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL 
 {$IFNDEF DELPHI12_UP}
 const
   GWLP_WNDPROC = GWL_WNDPROC;
+  GWLP_HWNDPARENT = GWL_HWNDPARENT;
   {$IFDEF WIN64}
     function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: int64): int64; stdcall; external user32 name 'SetWindowLongPtrW';
   {$ELSE}
