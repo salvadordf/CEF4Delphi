@@ -137,6 +137,7 @@ type
     procedure HandleSYSCHAR(const aMessage : TMsg);
     procedure HandleSYSKEYDOWN(const aMessage : TMsg);
     procedure HandleSYSKEYUP(const aMessage : TMsg);
+    procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
   end;
 
 var
@@ -791,6 +792,16 @@ begin
   end;
 end;
 
+procedure TFMXExternalPumpBrowserFrm.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
+var
+  PositionChanged: Boolean;
+begin
+  PositionChanged := (ALeft <> Left) or (ATop <> Top);
+  inherited SetBounds(ALeft, ATop, AWidth, AHeight);
+  if PositionChanged then
+    NotifyMoveOrResizeStarted;
+end;
+
 procedure TFMXExternalPumpBrowserFrm.NotifyMoveOrResizeStarted;
 begin
   if (chrmosr <> nil) then chrmosr.NotifyMoveOrResizeStarted;
@@ -933,5 +944,6 @@ procedure TFMXExternalPumpBrowserFrm.SnapshotBtnEnter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
 end;
+
 
 end.
