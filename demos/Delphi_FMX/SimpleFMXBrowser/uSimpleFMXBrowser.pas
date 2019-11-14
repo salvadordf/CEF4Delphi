@@ -105,6 +105,7 @@ type
     procedure DoBrowserCreated;
     procedure DoDestroyParent;
     procedure NotifyMoveOrResizeStarted;
+    procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
   end;
 
 var
@@ -316,6 +317,16 @@ end;
 procedure TSimpleFMXBrowserFrm.GoBtnClick(Sender: TObject);
 begin
   LoadURL;
+end;
+
+procedure TSimpleFMXBrowserFrm.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
+var
+  PositionChanged: Boolean;
+begin
+  PositionChanged := (ALeft <> Left) or (ATop <> Top);
+  inherited SetBounds(ALeft, ATop, AWidth, AHeight);
+  if PositionChanged then
+    NotifyMoveOrResizeStarted;
 end;
 
 procedure TSimpleFMXBrowserFrm.NotifyMoveOrResizeStarted;

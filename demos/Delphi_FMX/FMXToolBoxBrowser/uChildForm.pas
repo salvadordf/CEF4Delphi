@@ -79,6 +79,7 @@ type
     procedure NotifyMoveOrResizeStarted;
     procedure DoDestroyParent;
     procedure SendCloseMsg;
+    procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
 
     property Closing   : boolean    read FClosing;
     property Homepage  : string     read FHomepage     write FHomepage;
@@ -225,6 +226,16 @@ begin
       FMXChromium1.DefaultUrl := FHomepage;
       FMXChromium1.CreateBrowser(TempHandle, TempRect);
     end;
+end;
+
+procedure TChildForm.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
+var
+  PositionChanged: Boolean;
+begin
+  PositionChanged := (ALeft <> Left) or (ATop <> Top);
+  inherited SetBounds(ALeft, ATop, AWidth, AHeight);
+  if PositionChanged then
+    NotifyMoveOrResizeStarted;
 end;
 
 procedure TChildForm.NotifyMoveOrResizeStarted;
