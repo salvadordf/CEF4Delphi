@@ -156,13 +156,6 @@ begin
   {$IFDEF MSWINDOWS}
   if PeekMessage(TempMsg, 0, 0, 0, PM_NOREMOVE) then
     case TempMsg.Message of
-      WM_MOVE,
-      WM_MOVING :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TSimpleFMXBrowserFrm) then
-          TSimpleFMXBrowserFrm(Application.MainForm).NotifyMoveOrResizeStarted;
-
       WM_ENTERMENULOOP :
         if not(Application.Terminated) and
            (TempMsg.wParam = 0) and
