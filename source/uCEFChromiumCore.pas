@@ -620,10 +620,10 @@ type
       procedure   WasHidden(hidden: Boolean);
       procedure   NotifyScreenInfoChanged;
       procedure   NotifyMoveOrResizeStarted;
-      procedure   Invalidate(kind: TCefPaintElementType = PET_VIEW);
+      procedure   Invalidate(type_: TCefPaintElementType = PET_VIEW);
       procedure   SendExternalBeginFrame;
       procedure   SendKeyEvent(const event: PCefKeyEvent);
-      procedure   SendMouseClickEvent(const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
+      procedure   SendMouseClickEvent(const event: PCefMouseEvent; type_: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
       procedure   SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
       procedure   SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
       procedure   SendTouchEvent(const event: PCefTouchEvent);
@@ -644,7 +644,7 @@ type
       procedure   DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);
       procedure   DragTargetDragOver(const event: PCefMouseEvent; allowedOps: TCefDragOperations);
       procedure   DragTargetDragLeave;
-      procedure   DragTargetDrop(event: PCefMouseEvent);
+      procedure   DragTargetDrop(const event: PCefMouseEvent);
       procedure   DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
       procedure   DragSourceSystemDragEnded;
 
@@ -4766,12 +4766,12 @@ begin
   if Initialized then FBrowser.Host.NotifyMoveOrResizeStarted;
 end;
 
-procedure TChromiumCore.Invalidate(kind: TCefPaintElementType);
+procedure TChromiumCore.Invalidate(type_: TCefPaintElementType);
 begin
   if Initialized then
     begin
       if FIsOSR then
-        FBrowser.Host.Invalidate(kind)
+        FBrowser.Host.Invalidate(type_)
        else
         if (RenderHandle <> 0) then
           InvalidateRect(RenderHandle, nil, False)
@@ -4791,11 +4791,11 @@ begin
 end;
 
 procedure TChromiumCore.SendMouseClickEvent(const event      : PCefMouseEvent;
-                                              kind       : TCefMouseButtonType;
-                                              mouseUp    : Boolean;
-                                              clickCount : Integer);
+                                                  type_      : TCefMouseButtonType;
+                                                  mouseUp    : Boolean;
+                                                  clickCount : Integer);
 begin
-  if Initialized then FBrowser.Host.SendMouseClickEvent(event, kind, mouseUp, clickCount);
+  if Initialized then FBrowser.Host.SendMouseClickEvent(event, type_, mouseUp, clickCount);
 end;
 
 procedure TChromiumCore.SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
@@ -4960,7 +4960,7 @@ begin
   if Initialized then FBrowser.Host.DragTargetDragLeave;
 end;
 
-procedure TChromiumCore.DragTargetDrop(event: PCefMouseEvent);
+procedure TChromiumCore.DragTargetDrop(const event: PCefMouseEvent);
 begin
   if Initialized then FBrowser.Host.DragTargetDrop(event);
 end;

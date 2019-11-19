@@ -243,14 +243,14 @@ type
   TCefEventHandle  = PMsg;     // /include/internal/cef_types_win.h (cef_event_handle_t)
   {$ENDIF}
   {$IFDEF MACOS}
-  TCefWindowHandle = Pointer;  // /include/internal/cef_types_win.h (cef_window_handle_t)
-  TCefCursorHandle = Pointer;  // /include/internal/cef_types_win.h (cef_cursor_handle_t)
-  TCefEventHandle  = Pointer;  // /include/internal/cef_types_win.h (cef_event_handle_t)
+  TCefWindowHandle = Pointer;  // /include/internal/cef_types_mac.h (cef_window_handle_t)
+  TCefCursorHandle = Pointer;  // /include/internal/cef_types_mac.h (cef_cursor_handle_t)
+  TCefEventHandle  = Pointer;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
   {$ENDIF}
   {$IFDEF LINUX}
-  TCefWindowHandle = cardinal; // /include/internal/cef_types_win.h (cef_window_handle_t)
-  TCefCursorHandle = cardinal; // /include/internal/cef_types_win.h (cef_cursor_handle_t)
-  TCefEventHandle  = PXEvent;  // /include/internal/cef_types_win.h (cef_event_handle_t)
+  TCefWindowHandle = cardinal; // /include/internal/cef_types_linux.h (cef_window_handle_t)
+  TCefCursorHandle = cardinal; // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+  TCefEventHandle  = PXEvent;  // /include/internal/cef_types_linux.h (cef_event_handle_t)
   {$ENDIF}
 
 
@@ -2626,7 +2626,7 @@ type
     download_image                    : procedure(self: PCefBrowserHost; const image_url: PCefString; is_favicon: Integer; max_image_size: Cardinal; bypass_cache: Integer; callback: PCefDownloadImageCallback); stdcall;
     print                             : procedure(self: PCefBrowserHost); stdcall;
     print_to_pdf                      : procedure(self: PCefBrowserHost; const path: PCefString; const settings: PCefPdfPrintSettings; callback: PCefPdfPrintCallback); stdcall;
-    find                              : procedure(self: PCefBrowserHost; identifier: Integer; const searchText: PCefString; forward, matchCase, findNext: Integer); stdcall;
+    find                              : procedure(self: PCefBrowserHost; identifier: Integer; const searchText: PCefString; forward_, matchCase, findNext: Integer); stdcall;
     stop_finding                      : procedure(self: PCefBrowserHost; clearSelection: Integer); stdcall;
     show_dev_tools                    : procedure(self: PCefBrowserHost; const windowInfo: PCefWindowInfo; client: PCefClient; const settings: PCefBrowserSettings; const inspect_element_at: PCefPoint); stdcall;
     close_dev_tools                   : procedure(self: PCefBrowserHost); stdcall;
@@ -2640,10 +2640,10 @@ type
     was_resized                       : procedure(self: PCefBrowserHost); stdcall;
     was_hidden                        : procedure(self: PCefBrowserHost; hidden: Integer); stdcall;
     notify_screen_info_changed        : procedure(self: PCefBrowserHost); stdcall;
-    invalidate                        : procedure(self: PCefBrowserHost; kind: TCefPaintElementType); stdcall;
+    invalidate                        : procedure(self: PCefBrowserHost; type_: TCefPaintElementType); stdcall;
     send_external_begin_frame         : procedure(self: PCefBrowserHost); stdcall;
     send_key_event                    : procedure(self: PCefBrowserHost; const event: PCefKeyEvent); stdcall;
-    send_mouse_click_event            : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; kind: TCefMouseButtonType; mouseUp, clickCount: Integer); stdcall;
+    send_mouse_click_event            : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; type_: TCefMouseButtonType; mouseUp, clickCount: Integer); stdcall;
     send_mouse_move_event             : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; mouseLeave: Integer); stdcall;
     send_mouse_wheel_event            : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; deltaX, deltaY: Integer); stdcall;
     send_touch_event                  : procedure(self: PCefBrowserHost; const event: PCefTouchEvent); stdcall;
@@ -2659,7 +2659,7 @@ type
     drag_target_drag_enter            : procedure(self: PCefBrowserHost; drag_data: PCefDragData; const event: PCefMouseEvent; allowed_ops: TCefDragOperations); stdcall;
     drag_target_drag_over             : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; allowed_ops: TCefDragOperations); stdcall;
     drag_target_drag_leave            : procedure(self: PCefBrowserHost); stdcall;
-    drag_target_drop                  : procedure(self: PCefBrowserHost; event: PCefMouseEvent); stdcall;
+    drag_target_drop                  : procedure(self: PCefBrowserHost; const event: PCefMouseEvent); stdcall;
     drag_source_ended_at              : procedure(self: PCefBrowserHost; x, y: Integer; op: TCefDragOperation); stdcall;
     drag_source_system_drag_ended     : procedure(self: PCefBrowserHost); stdcall;
     get_visible_navigation_entry      : function(self: PCefBrowserHost): PCefNavigationEntry; stdcall;
