@@ -474,8 +474,8 @@ type
       function  doOnGetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean; virtual;
       procedure doOnPopupShow(const browser: ICefBrowser; show: Boolean); virtual;
       procedure doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect); virtual;
-      procedure doOnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); virtual;
-      procedure doOnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); virtual;
+      procedure doOnPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); virtual;
+      procedure doOnAcceleratedPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); virtual;
       procedure doOnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo); virtual;
       function  doOnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean; virtual;
       procedure doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); virtual;
@@ -486,7 +486,7 @@ type
 
       // ICefDragHandler
       function  doOnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean; virtual;
-      procedure doOnDraggableRegionsChanged(const browser: ICefBrowser; const frame: ICefFrame; regionsCount: NativeUInt; regions: PCefDraggableRegionArray); virtual;
+      procedure doOnDraggableRegionsChanged(const browser: ICefBrowser; const frame: ICefFrame; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); virtual;
 
       // ICefFindHandler
       procedure doOnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean); virtual;
@@ -1390,11 +1390,11 @@ begin
   {$ENDIF}
 end;
 
-function TChromiumCore.CreateBrowser(  aParentHandle  : TCefWindowHandle;
-                                       aParentRect    : TRect;
-                                 const aWindowName    : ustring;
-                                 const aContext       : ICefRequestContext;
-                                 const aExtraInfo     : ICefDictionaryValue) : boolean;
+function TChromiumCore.CreateBrowser(      aParentHandle  : TCefWindowHandle;
+                                           aParentRect    : TRect;
+                                     const aWindowName    : ustring;
+                                     const aContext       : ICefRequestContext;
+                                     const aExtraInfo     : ICefDictionaryValue) : boolean;
 var
   TempNewContext, TempGlobalContext : ICefRequestContext;
 begin
@@ -1450,9 +1450,9 @@ begin
   end;
 end;
 
-procedure TChromiumCore.InitializeWindowInfo(  aParentHandle : TCefWindowHandle;
-                                               aParentRect   : TRect;
-                                         const aWindowName   : ustring);
+procedure TChromiumCore.InitializeWindowInfo(      aParentHandle : TCefWindowHandle;
+                                                   aParentRect   : TRect;
+                                             const aWindowName   : ustring);
 begin
   {$IFDEF MSWINDOWS}
   if FIsOSR then
@@ -1467,9 +1467,9 @@ begin
   {$ENDIF}
 end;
 
-procedure TChromiumCore.DefaultInitializeDevToolsWindowInfo(aDevToolsWnd: TCefWindowHandle;
-                                                      const aClientRect: TRect;
-                                                      const aWindowName: ustring);
+procedure TChromiumCore.DefaultInitializeDevToolsWindowInfo(      aDevToolsWnd : TCefWindowHandle;
+                                                            const aClientRect  : TRect;
+                                                            const aWindowName  : ustring);
 begin
   {$IFDEF MSWINDOWS}
   if (aDevToolsWnd <> 0) then
@@ -1619,11 +1619,11 @@ begin
   if Initialized then FBrowser.Host.CloseBrowser(aForceClose);
 end;
 
-function TChromiumCore.CreateBrowserHost(  aWindowInfo : PCefWindowInfo;
-                                     const aURL        : ustring;
-                                     const aSettings   : PCefBrowserSettings;
-                                     const aExtraInfo  : ICefDictionaryValue;
-                                     const aContext    : ICefRequestContext): boolean;
+function TChromiumCore.CreateBrowserHost(      aWindowInfo : PCefWindowInfo;
+                                         const aURL        : ustring;
+                                         const aSettings   : PCefBrowserSettings;
+                                         const aExtraInfo  : ICefDictionaryValue;
+                                         const aContext    : ICefRequestContext): boolean;
 var
   TempURL : TCefString;
 begin
@@ -1631,11 +1631,11 @@ begin
   Result  := cef_browser_host_create_browser(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aExtraInfo), CefGetData(aContext)) <> 0;
 end;
 
-function TChromiumCore.CreateBrowserHostSync(  aWindowInfo : PCefWindowInfo;
-                                         const aURL        : ustring;
-                                         const aSettings   : PCefBrowserSettings;
-                                         const aExtraInfo  : ICefDictionaryValue;
-                                         const aContext    : ICefRequestContext): boolean;
+function TChromiumCore.CreateBrowserHostSync(      aWindowInfo : PCefWindowInfo;
+                                             const aURL        : ustring;
+                                             const aSettings   : PCefBrowserSettings;
+                                             const aExtraInfo  : ICefDictionaryValue;
+                                             const aContext    : ICefRequestContext): boolean;
 var
   TempURL : TCefString;
 begin
@@ -2027,9 +2027,9 @@ end;
 
 // Use the OnDownloadImageFinished event to receive the image
 procedure TChromiumCore.DownloadImage(const imageUrl     : ustring;
-                                        isFavicon    : boolean;
-                                        maxImageSize : cardinal;
-                                        bypassCache  : boolean);
+                                            isFavicon    : boolean;
+                                            maxImageSize : cardinal;
+                                            bypassCache  : boolean);
 var
   TempCallback : ICefDownloadImageCallback;
 begin
@@ -3525,9 +3525,9 @@ begin
 end;
 
 function TChromiumCore.doNavigationVisitorResultAvailable(const entry   : ICefNavigationEntry;
-                                                            current : Boolean;
-                                                            index   : Integer;
-                                                            total   : Integer) : boolean;
+                                                                current : Boolean;
+                                                                index   : Integer;
+                                                                total   : Integer) : boolean;
 begin
   Result := False;
 
@@ -3536,8 +3536,8 @@ begin
 end;
 
 procedure TChromiumCore.doDownloadImageFinished(const imageUrl       : ustring;
-                                                  httpStatusCode : Integer;
-                                            const image          : ICefImage);
+                                                      httpStatusCode : Integer;
+                                                const image          : ICefImage);
 begin
   if assigned(FOnDownloadImageFinished) then
     FOnDownloadImageFinished(self, imageUrl, httpStatusCode, image);
@@ -3569,10 +3569,10 @@ begin
 end;
 
 procedure TChromiumCore.doOnCookiesVisited(const name_, value, domain, path: ustring;
-                                             secure, httponly, hasExpires: Boolean;
-                                       const creation, lastAccess, expires: TDateTime;
-                                             count, total, aID : Integer;
-                                       var   aDeleteCookie, aResult : Boolean);
+                                                 secure, httponly, hasExpires: Boolean;
+                                           const creation, lastAccess, expires: TDateTime;
+                                                 count, total, aID : Integer;
+                                           var   aDeleteCookie, aResult : Boolean);
 begin
   if assigned(FOnCookiesVisited) then
     FOnCookiesVisited(self, name_, value, domain, path,
@@ -3985,10 +3985,10 @@ begin
 end;
 
 function TChromiumCore.doOnBeforeBrowse(const browser      : ICefBrowser;
-                                    const frame        : ICefFrame;
-                                    const request      : ICefRequest;
-                                          user_gesture : Boolean;
-                                          isRedirect   : Boolean): Boolean;
+                                        const frame        : ICefFrame;
+                                        const request      : ICefRequest;
+                                              user_gesture : Boolean;
+                                              isRedirect   : Boolean): Boolean;
 begin
   Result := False;
 
@@ -3998,18 +3998,18 @@ begin
 end;
 
 procedure TChromiumCore.doOnBeforeContextMenu(const browser : ICefBrowser;
-                                          const frame   : ICefFrame;
-                                          const params  : ICefContextMenuParams;
-                                          const model   : ICefMenuModel);
+                                              const frame   : ICefFrame;
+                                              const params  : ICefContextMenuParams;
+                                              const model   : ICefMenuModel);
 begin
   if Assigned(FOnBeforeContextMenu) then FOnBeforeContextMenu(Self, browser, frame, params, model);
 end;
 
 function TChromiumCore.doRunContextMenu(const browser  : ICefBrowser;
-                                    const frame    : ICefFrame;
-                                    const params   : ICefContextMenuParams;
-                                    const model    : ICefMenuModel;
-                                    const callback : ICefRunContextMenuCallback): Boolean;
+                                        const frame    : ICefFrame;
+                                        const params   : ICefContextMenuParams;
+                                        const model    : ICefMenuModel;
+                                        const callback : ICefRunContextMenuCallback): Boolean;
 begin
   Result := False;
 
@@ -4017,25 +4017,25 @@ begin
 end;
 
 procedure TChromiumCore.doOnBeforeDownload(const browser       : ICefBrowser;
-                                       const downloadItem  : ICefDownloadItem;
-                                       const suggestedName : ustring;
-                                       const callback      : ICefBeforeDownloadCallback);
+                                           const downloadItem  : ICefDownloadItem;
+                                           const suggestedName : ustring;
+                                           const callback      : ICefBeforeDownloadCallback);
 begin
   if Assigned(FOnBeforeDownload) then FOnBeforeDownload(Self, browser, downloadItem, suggestedName, callback);
 end;
 
 function TChromiumCore.doOnBeforePopup(const browser            : ICefBrowser;
-                                   const frame              : ICefFrame;
-                                   const targetUrl          : ustring;
-                                   const targetFrameName    : ustring;
-                                         targetDisposition  : TCefWindowOpenDisposition;
-                                         userGesture        : Boolean;
-                                   const popupFeatures      : TCefPopupFeatures;
-                                   var   windowInfo         : TCefWindowInfo;
-                                   var   client             : ICefClient;
-                                   var   settings           : TCefBrowserSettings;
-                                   var   extra_info         : ICefDictionaryValue;
-                                   var   noJavascriptAccess : Boolean): Boolean;
+                                       const frame              : ICefFrame;
+                                       const targetUrl          : ustring;
+                                       const targetFrameName    : ustring;
+                                             targetDisposition  : TCefWindowOpenDisposition;
+                                             userGesture        : Boolean;
+                                       const popupFeatures      : TCefPopupFeatures;
+                                       var   windowInfo         : TCefWindowInfo;
+                                       var   client             : ICefClient;
+                                       var   settings           : TCefBrowserSettings;
+                                       var   extra_info         : ICefDictionaryValue;
+                                       var   noJavascriptAccess : Boolean): Boolean;
 begin
   Result := False;
 
@@ -4046,9 +4046,9 @@ begin
 end;
 
 function TChromiumCore.doOnBeforeResourceLoad(const browser  : ICefBrowser;
-                                          const frame    : ICefFrame;
-                                          const request  : ICefRequest;
-                                          const callback : ICefRequestCallback): TCefReturnValue;
+                                              const frame    : ICefFrame;
+                                              const request  : ICefRequest;
+                                              const callback : ICefRequestCallback): TCefReturnValue;
 var
   TempHeaderMap : ICefStringMultimap;
 begin
@@ -4070,9 +4070,9 @@ begin
 end;
 
 function TChromiumCore.doOnBeforeUnloadDialog(const browser     : ICefBrowser;
-                                          const messageText : ustring;
-                                                isReload    : Boolean;
-                                          const callback    : ICefJsDialogCallback): Boolean;
+                                              const messageText : ustring;
+                                                    isReload    : Boolean;
+                                              const callback    : ICefJsDialogCallback): Boolean;
 begin
   Result := False;
 
@@ -4080,10 +4080,10 @@ begin
 end;
 
 function TChromiumCore.doOnCertificateError(const browser    : ICefBrowser;
-                                              certError  : TCefErrorcode;
-                                        const requestUrl : ustring;
-                                        const sslInfo    : ICefSslInfo;
-                                        const callback   : ICefRequestCallback): Boolean;
+                                                  certError  : TCefErrorcode;
+                                            const requestUrl : ustring;
+                                            const sslInfo    : ICefSslInfo;
+                                            const callback   : ICefRequestCallback): Boolean;
 begin
   Result := False;
 
@@ -4092,10 +4092,10 @@ begin
 end;
 
 function TChromiumCore.doOnConsoleMessage(const browser  : ICefBrowser;
-                                            level    : TCefLogSeverity;
-                                      const aMessage : ustring;
-                                      const source   : ustring;
-                                            line     : Integer): Boolean;
+                                                level    : TCefLogSeverity;
+                                          const aMessage : ustring;
+                                          const source   : ustring;
+                                                line     : Integer): Boolean;
 begin
   Result := False;
 
@@ -4103,7 +4103,7 @@ begin
 end;
 
 function TChromiumCore.doOnAutoResize(const browser  : ICefBrowser;
-                                  const new_size : PCefSize): Boolean;
+                                      const new_size : PCefSize): Boolean;
 begin
   Result := False;
 
@@ -4116,10 +4116,10 @@ begin
 end;
 
 function TChromiumCore.doOnContextMenuCommand(const browser    : ICefBrowser;
-                                          const frame      : ICefFrame;
-                                          const params     : ICefContextMenuParams;
-                                                commandId  : Integer;
-                                                eventFlags : TCefEventFlags): Boolean;
+                                              const frame      : ICefFrame;
+                                              const params     : ICefContextMenuParams;
+                                                    commandId  : Integer;
+                                                    eventFlags : TCefEventFlags): Boolean;
 begin
   Result := False;
 
@@ -4133,9 +4133,9 @@ begin
 end;
 
 procedure TChromiumCore.doOnCursorChange(const browser          : ICefBrowser;
-                                           cursor           : TCefCursorHandle;
-                                           cursorType       : TCefCursorType;
-                                     const customCursorInfo : PCefCursorInfo);
+                                               cursor           : TCefCursorHandle;
+                                               cursorType       : TCefCursorType;
+                                         const customCursorInfo : PCefCursorInfo);
 begin
   if assigned(FOnCursorChange) then FOnCursorChange(self, browser, cursor, cursorType, customCursorInfo);
 end;
@@ -4146,15 +4146,15 @@ begin
 end;
 
 procedure TChromiumCore.doOnDownloadUpdated(const browser      : ICefBrowser;
-                                        const downloadItem : ICefDownloadItem;
-                                        const callback     : ICefDownloadItemCallback);
+                                            const downloadItem : ICefDownloadItem;
+                                            const callback     : ICefDownloadItemCallback);
 begin
   if Assigned(FOnDownloadUpdated) then FOnDownloadUpdated(Self, browser, downloadItem, callback);
 end;
 
 function TChromiumCore.doOnDragEnter(const browser  : ICefBrowser;
-                                 const dragData : ICefDragData;
-                                       mask     : TCefDragOperations): Boolean;
+                                     const dragData : ICefDragData;
+                                           mask     : TCefDragOperations): Boolean;
 begin
   Result := False;
 
@@ -4162,9 +4162,9 @@ begin
 end;
 
 procedure TChromiumCore.doOnDraggableRegionsChanged(const browser      : ICefBrowser;
-                                                const frame        : ICefFrame;
-                                                      regionsCount : NativeUInt;
-                                                      regions      : PCefDraggableRegionArray);
+                                                    const frame        : ICefFrame;
+                                                          regionsCount : NativeUInt;
+                                                    const regions      : PCefDraggableRegionArray);
 begin
   if Assigned(FOnDraggableRegionsChanged) then FOnDraggableRegionsChanged(Self, browser, frame, regionsCount, regions);
 end;
@@ -4175,12 +4175,12 @@ begin
 end;
 
 function TChromiumCore.doOnFileDialog(const browser              : ICefBrowser;
-                                        mode                 : TCefFileDialogMode;
-                                  const title                : ustring;
-                                  const defaultFilePath      : ustring;
-                                  const acceptFilters        : TStrings;
-                                        selectedAcceptFilter : Integer;
-                                  const callback             : ICefFileDialogCallback): Boolean;
+                                            mode                 : TCefFileDialogMode;
+                                      const title                : ustring;
+                                      const defaultFilePath      : ustring;
+                                      const acceptFilters        : TStrings;
+                                            selectedAcceptFilter : Integer;
+                                      const callback             : ICefFileDialogCallback): Boolean;
 begin
   Result := False;
 
@@ -4190,11 +4190,11 @@ begin
 end;
 
 procedure TChromiumCore.doOnFindResult(const browser            : ICefBrowser;
-                                         identifier         : integer;
-                                         count              : Integer;
-                                   const selectionRect      : PCefRect;
-                                         activeMatchOrdinal : Integer;
-                                         finalUpdate        : Boolean);
+                                             identifier         : integer;
+                                             count              : Integer;
+                                       const selectionRect      : PCefRect;
+                                             activeMatchOrdinal : Integer;
+                                             finalUpdate        : Boolean);
 begin
   if Assigned(FOnFindResult) then
     FOnFindResult(Self, browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
@@ -4206,11 +4206,11 @@ begin
 end;
 
 function TChromiumCore.doOnBeforePluginLoad(const mimeType     : ustring;
-                                        const pluginUrl    : ustring;
-                                              isMainFrame  : boolean;
-                                        const topOriginUrl : ustring;
-                                        const pluginInfo   : ICefWebPluginInfo;
-                                        var   pluginPolicy : TCefPluginPolicy): Boolean;
+                                            const pluginUrl    : ustring;
+                                                  isMainFrame  : boolean;
+                                            const topOriginUrl : ustring;
+                                            const pluginInfo   : ICefWebPluginInfo;
+                                            var   pluginPolicy : TCefPluginPolicy): Boolean;
 begin
   Result := False;
 
@@ -4219,13 +4219,13 @@ begin
 end;
 
 procedure TChromiumCore.doGetResourceRequestHandler_ReqCtxHdlr(const browser                  : ICefBrowser;
-                                                           const frame                    : ICefFrame;
-                                                           const request                  : ICefRequest;
-                                                                 is_navigation            : boolean;
-                                                                 is_download              : boolean;
-                                                           const request_initiator        : ustring;
-                                                           var   disable_default_handling : boolean;
-                                                           var   aResourceRequestHandler  : ICefResourceRequestHandler);
+                                                               const frame                    : ICefFrame;
+                                                               const request                  : ICefRequest;
+                                                                     is_navigation            : boolean;
+                                                                     is_download              : boolean;
+                                                               const request_initiator        : ustring;
+                                                               var   disable_default_handling : boolean;
+                                                               var   aResourceRequestHandler  : ICefResourceRequestHandler);
 begin
   if (FResourceRequestHandler <> nil) then
     aResourceRequestHandler := FResourceRequestHandler;
@@ -4242,13 +4242,13 @@ begin
 end;
 
 function TChromiumCore.doOnGetAuthCredentials(const browser   : ICefBrowser;
-                                          const originUrl : ustring;
-                                                isProxy   : Boolean;
-                                          const host      : ustring;
-                                                port      : Integer;
-                                          const realm     : ustring;
-                                          const scheme    : ustring;
-                                          const callback  : ICefAuthCallback): Boolean;
+                                              const originUrl : ustring;
+                                                    isProxy   : Boolean;
+                                              const host      : ustring;
+                                                    port      : Integer;
+                                              const realm     : ustring;
+                                              const scheme    : ustring;
+                                              const callback  : ICefAuthCallback): Boolean;
 begin
   Result := False;
 
@@ -4266,9 +4266,9 @@ begin
 end;
 
 function TChromiumCore.doCanSendCookie(const browser : ICefBrowser;
-                                   const frame   : ICefFrame;
-                                   const request : ICefRequest;
-                                   const cookie  : PCefCookie): boolean;
+                                       const frame   : ICefFrame;
+                                       const request : ICefRequest;
+                                       const cookie  : PCefCookie): boolean;
 begin
   Result := True;
 
@@ -4276,10 +4276,10 @@ begin
 end;
 
 function TChromiumCore.doCanSaveCookie(const browser  : ICefBrowser;
-                                   const frame    : ICefFrame;
-                                   const request  : ICefRequest;
-                                   const response : ICefResponse;
-                                   const cookie   : PCefCookie): boolean;
+                                       const frame    : ICefFrame;
+                                       const request  : ICefRequest;
+                                       const response : ICefResponse;
+                                       const cookie   : PCefCookie): boolean;
 begin
   Result := True;
 
@@ -4287,9 +4287,9 @@ begin
 end;
 
 procedure TChromiumCore.doOnGetResourceHandler(const browser          : ICefBrowser;
-                                           const frame            : ICefFrame;
-                                           const request          : ICefRequest;
-                                           var   aResourceHandler : ICefResourceHandler);
+                                               const frame            : ICefFrame;
+                                               const request          : ICefRequest;
+                                               var   aResourceHandler : ICefResourceHandler);
 begin
   aResourceHandler := nil;
 
@@ -4334,12 +4334,12 @@ begin
 end;
 
 function TChromiumCore.doOnJsdialog(const browser           : ICefBrowser;
-                                const originUrl         : ustring;
-                                      dialogType        : TCefJsDialogType;
-                                const messageText       : ustring;
-                                const defaultPromptText : ustring;
-                                const callback          : ICefJsDialogCallback;
-                                out   suppressMessage   : Boolean): Boolean;
+                                    const originUrl         : ustring;
+                                          dialogType        : TCefJsDialogType;
+                                    const messageText       : ustring;
+                                    const defaultPromptText : ustring;
+                                    const callback          : ICefJsDialogCallback;
+                                    out   suppressMessage   : Boolean): Boolean;
 begin
   Result := False;
 
@@ -4356,8 +4356,8 @@ begin
 end;
 
 function TChromiumCore.doOnKeyEvent(const browser : ICefBrowser;
-                                const event   : PCefKeyEvent;
-                                      osEvent : TCefEventHandle): Boolean;
+                                    const event   : PCefKeyEvent;
+                                          osEvent : TCefEventHandle): Boolean;
 begin
   Result := False;
 
@@ -4365,17 +4365,17 @@ begin
 end;
 
 procedure TChromiumCore.doOnLoadEnd(const browser        : ICefBrowser;
-                                const frame          : ICefFrame;
-                                      httpStatusCode : Integer);
+                                    const frame          : ICefFrame;
+                                          httpStatusCode : Integer);
 begin
   if Assigned(FOnLoadEnd) then FOnLoadEnd(Self, browser, frame, httpStatusCode);
 end;
 
 procedure TChromiumCore.doOnLoadError(const browser   : ICefBrowser;
-                                  const frame     : ICefFrame;
-                                        errorCode : TCefErrorCode;
-                                  const errorText : ustring;
-                                  const failedUrl : ustring);
+                                      const frame     : ICefFrame;
+                                            errorCode : TCefErrorCode;
+                                      const errorText : ustring;
+                                      const failedUrl : ustring);
 begin
   if Assigned(FOnLoadError) then FOnLoadError(Self, browser, frame, errorCode, errorText, failedUrl);
 end;
@@ -4391,10 +4391,10 @@ begin
 end;
 
 function TChromiumCore.doOnOpenUrlFromTab(const browser           : ICefBrowser;
-                                      const frame             : ICefFrame;
-                                      const targetUrl         : ustring;
-                                            targetDisposition : TCefWindowOpenDisposition;
-                                            userGesture       : Boolean): Boolean;
+                                          const frame             : ICefFrame;
+                                          const targetUrl         : ustring;
+                                                targetDisposition : TCefWindowOpenDisposition;
+                                                userGesture       : Boolean): Boolean;
 begin
   Result := False;
 
@@ -4403,13 +4403,13 @@ begin
 end;
 
 procedure TChromiumCore.doGetResourceRequestHandler_ReqHdlr(const browser                  : ICefBrowser;
-                                                        const frame                    : ICefFrame;
-                                                        const request                  : ICefRequest;
-                                                              is_navigation            : boolean;
-                                                              is_download              : boolean;
-                                                        const request_initiator        : ustring;
-                                                        var   disable_default_handling : boolean;
-                                                        var   aResourceRequestHandler  : ICefResourceRequestHandler);
+                                                            const frame                    : ICefFrame;
+                                                            const request                  : ICefRequest;
+                                                                  is_navigation            : boolean;
+                                                                  is_download              : boolean;
+                                                            const request_initiator        : ustring;
+                                                            var   disable_default_handling : boolean;
+                                                            var   aResourceRequestHandler  : ICefResourceRequestHandler);
 begin
   if (FResourceRequestHandler <> nil) then
     aResourceRequestHandler := FResourceRequestHandler;
@@ -4421,32 +4421,32 @@ begin
 end;
 
 procedure TChromiumCore.doOnPaint(const browser         : ICefBrowser;
-                                    kind            : TCefPaintElementType;
-                                    dirtyRectsCount : NativeUInt;
-                              const dirtyRects      : PCefRectArray;
-                              const buffer          : Pointer;
-                                    width           : Integer;
-                                    height          : Integer);
+                                        type_           : TCefPaintElementType;
+                                        dirtyRectsCount : NativeUInt;
+                                  const dirtyRects      : PCefRectArray;
+                                  const buffer          : Pointer;
+                                        width           : Integer;
+                                        height          : Integer);
 begin
-  if Assigned(FOnPaint) then FOnPaint(Self, browser, kind, dirtyRectsCount, dirtyRects, buffer, width, height);
+  if Assigned(FOnPaint) then FOnPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, buffer, width, height);
 end;
 
 procedure TChromiumCore.doOnAcceleratedPaint(const browser         : ICefBrowser;
-                                               kind            : TCefPaintElementType;
-                                               dirtyRectsCount : NativeUInt;
-                                         const dirtyRects      : PCefRectArray;
-                                               shared_handle   : Pointer);
+                                                   type_           : TCefPaintElementType;
+                                                   dirtyRectsCount : NativeUInt;
+                                             const dirtyRects      : PCefRectArray;
+                                                   shared_handle   : Pointer);
 begin
-  if Assigned(FOnAcceleratedPaint) then FOnAcceleratedPaint(Self, browser, kind, dirtyRectsCount, dirtyRects, shared_handle);
+  if Assigned(FOnAcceleratedPaint) then FOnAcceleratedPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, shared_handle);
 end;
 
 function TChromiumCore.doOnSelectClientCertificate(const browser           : ICefBrowser;
-                                                     isProxy           : boolean;
-                                               const host              : ustring;
-                                                     port              : integer;
-                                                     certificatesCount : NativeUInt;
-                                               const certificates      : TCefX509CertificateArray;
-                                               const callback          : ICefSelectClientCertificateCallback): boolean;
+                                                         isProxy           : boolean;
+                                                   const host              : ustring;
+                                                         port              : integer;
+                                                         certificatesCount : NativeUInt;
+                                                   const certificates      : TCefX509CertificateArray;
+                                                   const callback          : ICefSelectClientCertificateCallback): boolean;
 begin
   Result := False;
 
@@ -4499,9 +4499,9 @@ begin
 end;
 
 function TChromiumCore.doOnQuotaRequest(const browser   : ICefBrowser;
-                                    const originUrl : ustring;
-                                          newSize   : Int64;
-                                    const callback  : ICefRequestCallback): Boolean;
+                                        const originUrl : ustring;
+                                              newSize   : Int64;
+                                        const callback  : ICefRequestCallback): Boolean;
 begin
   Result := False;
 
@@ -4597,18 +4597,18 @@ begin
 end;
 
 procedure TChromiumCore.doOnResourceRedirect(const browser  : ICefBrowser;
-                                         const frame    : ICefFrame;
-                                         const request  : ICefRequest;
-                                         const response : ICefResponse;
-                                         var   newUrl   : ustring);
+                                             const frame    : ICefFrame;
+                                             const request  : ICefRequest;
+                                             const response : ICefResponse;
+                                             var   newUrl   : ustring);
 begin
   if Assigned(FOnResourceRedirect) then FOnResourceRedirect(Self, browser, frame, request, response, newUrl);
 end;
 
 function TChromiumCore.doOnResourceResponse(const browser  : ICefBrowser;
-                                        const frame    : ICefFrame;
-                                        const request  : ICefRequest;
-                                        const response : ICefResponse): Boolean;
+                                            const frame    : ICefFrame;
+                                            const request  : ICefRequest;
+                                            const response : ICefResponse): Boolean;
 begin
   Result := False;
 
@@ -4616,10 +4616,10 @@ begin
 end;
 
 procedure TChromiumCore.doOnGetResourceResponseFilter(const browser         : ICefBrowser;
-                                                  const frame           : ICefFrame;
-                                                  const request         : ICefRequest;
-                                                  const response        : ICefResponse;
-                                                  var   aResponseFilter : ICefResponseFilter);
+                                                      const frame           : ICefFrame;
+                                                      const request         : ICefRequest;
+                                                      const response        : ICefResponse;
+                                                      var   aResponseFilter : ICefResponseFilter);
 begin
   aResponseFilter := nil;
 
@@ -4628,11 +4628,11 @@ begin
 end;
 
 procedure TChromiumCore.doOnResourceLoadComplete(const browser               : ICefBrowser;
-                                             const frame                 : ICefFrame;
-                                             const request               : ICefRequest;
-                                             const response              : ICefResponse;
-                                                   status                : TCefUrlRequestStatus;
-                                                   receivedContentLength : Int64);
+                                                 const frame                 : ICefFrame;
+                                                 const request               : ICefRequest;
+                                                 const response              : ICefResponse;
+                                                       status                : TCefUrlRequestStatus;
+                                                       receivedContentLength : Int64);
 begin
   if Assigned(FOnResourceLoadComplete) then
     FOnResourceLoadComplete(self, browser, frame, request, response, status, receivedContentLength);
@@ -4644,24 +4644,24 @@ begin
 end;
 
 procedure TChromiumCore.doOnIMECompositionRangeChanged(const browser               : ICefBrowser;
-                                                   const selected_range        : PCefRange;
-                                                         character_boundsCount : NativeUInt;
-                                                   const character_bounds      : PCefRect);
+                                                       const selected_range        : PCefRange;
+                                                             character_boundsCount : NativeUInt;
+                                                       const character_bounds      : PCefRect);
 begin
   if assigned(FOnIMECompositionRangeChanged) then
     FOnIMECompositionRangeChanged(self, browser, selected_range, character_boundsCount, character_bounds);
 end;
 
 procedure TChromiumCore.doOnTextSelectionChanged(const browser        : ICefBrowser;
-                                             const selected_text  : ustring;
-                                             const selected_range : PCefRange);
+                                                 const selected_text  : ustring;
+                                                 const selected_range : PCefRange);
 begin
   if assigned(FOnTextSelectionChanged) then
     FOnTextSelectionChanged(self, browser, selected_text, selected_range);
 end;
 
 procedure TChromiumCore.doOnVirtualKeyboardRequested(const browser    : ICefBrowser;
-                                                       input_mode : TCefTextInpuMode);
+                                                           input_mode : TCefTextInpuMode);
 begin
   if assigned(FOnVirtualKeyboardRequested) then
     FOnVirtualKeyboardRequested(self, browser, input_mode);
@@ -4675,10 +4675,10 @@ begin
 end;
 
 function TChromiumCore.doOnStartDragging(const browser    : ICefBrowser;
-                                     const dragData   : ICefDragData;
-                                           allowedOps : TCefDragOperations;
-                                           x          : integer;
-                                           y          : Integer): Boolean;
+                                         const dragData   : ICefDragData;
+                                               allowedOps : TCefDragOperations;
+                                               x          : integer;
+                                               y          : Integer): Boolean;
 begin
   Result := False;
   {$IFDEF MSWINDOWS}
@@ -4886,7 +4886,7 @@ begin
   end;
 end;
 
-function TChromiumCore.CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameName : ustring = ''): ICefUrlRequest;
+function TChromiumCore.CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameName : ustring): ICefUrlRequest;
 var
   TempFrame : ICefFrame;
 begin
@@ -4976,17 +4976,17 @@ begin
 end;
 
 procedure TChromiumCore.IMESetComposition(const text              : ustring;
-                                      const underlines        : TCefCompositionUnderlineDynArray;
-                                      const replacement_range : PCefRange;
-                                      const selection_range   : PCefRange);
+                                          const underlines        : TCefCompositionUnderlineDynArray;
+                                          const replacement_range : PCefRange;
+                                          const selection_range   : PCefRange);
 begin
   if Initialized then
     FBrowser.Host.IMESetComposition(text, underlines, replacement_range, selection_range);
 end;
 
 procedure TChromiumCore.IMECommitText(const text                : ustring;
-                                  const replacement_range   : PCefRange;
-                                        relative_cursor_pos : integer);
+                                      const replacement_range   : PCefRange;
+                                            relative_cursor_pos : integer);
 begin
   if Initialized then
     FBrowser.Host.IMECommitText(text, replacement_range, relative_cursor_pos);

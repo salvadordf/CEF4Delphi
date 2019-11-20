@@ -308,6 +308,20 @@ type
   {$ENDIF}
 {$ENDIF}
 
+  {$IFDEF MSWINDOWS}
+  TMyMemoryStatusEx = record
+     dwLength : DWORD;
+     dwMemoryLoad : DWORD;
+     ullTotalPhys : uint64;
+     ullAvailPhys : uint64;
+     ullTotalPageFile : uint64;
+     ullAvailPageFile : uint64;
+     ullTotalVirtual : uint64;
+     ullAvailVirtual : uint64;
+     ullAvailExtendedVirtual : uint64;
+  end;
+  {$ENDIF}
+
   PPSingle = ^PSingle;
 
   Char16  = WideChar;
@@ -1380,7 +1394,7 @@ type
   TCefDragHandler = record
     base                         : TCefBaseRefCounted;
     on_drag_enter                : function(self: PCefDragHandler; browser: PCefBrowser; dragData: PCefDragData; mask: TCefDragOperations): Integer; stdcall;
-    on_draggable_regions_changed : procedure(self: PCefDragHandler; browser: PCefBrowser; frame: PCefFrame; regionsCount: NativeUInt; regions: PCefDraggableRegionArray); stdcall;
+    on_draggable_regions_changed : procedure(self: PCefDragHandler; browser: PCefBrowser; frame: PCefFrame; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); stdcall;
   end;
 
   // /include/capi/cef_find_handler_capi.h (cef_find_handler_t)
@@ -1480,8 +1494,8 @@ type
     get_screen_info                   : function(self: PCefRenderHandler; browser: PCefBrowser; screen_info: PCefScreenInfo): Integer; stdcall;
     on_popup_show                     : procedure(self: PCefRenderHandler; browser: PCefBrowser; show: Integer); stdcall;
     on_popup_size                     : procedure(self: PCefRenderHandler; browser: PCefBrowser; const rect: PCefRect); stdcall;
-    on_paint                          : procedure(self: PCefRenderHandler; browser: PCefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); stdcall;
-    on_accelerated_paint              : procedure(self: PCefRenderHandler; browser: PCefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); stdcall;
+    on_paint                          : procedure(self: PCefRenderHandler; browser: PCefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); stdcall;
+    on_accelerated_paint              : procedure(self: PCefRenderHandler; browser: PCefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); stdcall;
     on_cursor_change                  : procedure(self: PCefRenderHandler; browser: PCefBrowser; cursor: TCefCursorHandle; type_: TCefCursorType; const custom_cursor_info: PCefCursorInfo); stdcall;
     start_dragging                    : function(self: PCefRenderHandler; browser: PCefBrowser; drag_data: PCefDragData; allowed_ops: TCefDragOperations; x, y: Integer): Integer; stdcall;
     update_drag_cursor                : procedure(self: PCefRenderHandler; browser: PCefBrowser; operation: TCefDragOperation); stdcall;
@@ -1718,7 +1732,7 @@ type
   TCefRequestHandler = record
     base                          : TCefBaseRefCounted;
     on_before_browse              : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; user_gesture, isRedirect: Integer): Integer; stdcall;
-    on_open_urlfrom_tab           : function(self: PCefRequestHandler; browser:PCefBrowser; frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer): Integer; stdcall;
+    on_open_urlfrom_tab           : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer): Integer; stdcall;
     get_resource_request_handler  : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; is_navigation, is_download: Integer; const request_initiator: PCefString; disable_default_handling: PInteger): PCefResourceRequestHandler; stdcall;
     get_auth_credentials          : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
     on_quota_request              : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefRequestCallback): Integer; stdcall;
@@ -1739,13 +1753,13 @@ type
   // /include/capi/cef_resource_handler_capi.h (cef_resource_skip_callback_t)
   TCefResourceSkipCallback = record
     base   : TCefBaseRefCounted;
-    cont   : procedure(self: PCefResourceSkipCallback; bytes_skipped: int64);
+    cont   : procedure(self: PCefResourceSkipCallback; bytes_skipped: int64); stdcall;
   end;
 
   // /include/capi/cef_resource_handler_capi.h (cef_resource_read_callback_t)
   TCefResourceReadCallback = record
     base   : TCefBaseRefCounted;
-    cont   : procedure(self: PCefResourceReadCallback; bytes_read: int64);
+    cont   : procedure(self: PCefResourceReadCallback; bytes_read: int64); stdcall;
   end;
 
   // /include/capi/cef_resource_handler_capi.h (cef_resource_handler_t)
@@ -1873,7 +1887,7 @@ type
     visit_url_cookies     : function(self: PCefCookieManager; const url: PCefString; includeHttpOnly: Integer; visitor: PCefCookieVisitor): Integer; stdcall;
     set_cookie            : function(self: PCefCookieManager; const url: PCefString; const cookie: PCefCookie; callback: PCefSetCookieCallback): Integer; stdcall;
     delete_cookies        : function(self: PCefCookieManager; const url, cookie_name: PCefString; callback: PCefDeleteCookiesCallback): Integer; stdcall;
-    flush_store           : function(self: PCefCookieManager; handler: PCefCompletionCallback): Integer; stdcall;
+    flush_store           : function(self: PCefCookieManager; callback: PCefCompletionCallback): Integer; stdcall;
   end;
 
   // /include/capi/cef_scheme_capi.h (cef_scheme_handler_factory_t)
@@ -2604,7 +2618,7 @@ type
     get_load_handler            : function(self: PCefClient): PCefLoadHandler; stdcall;
     get_render_handler          : function(self: PCefClient): PCefRenderHandler; stdcall;
     get_request_handler         : function(self: PCefClient): PCefRequestHandler; stdcall;
-    on_process_message_received : function(self: PCefClient; browser: PCefBrowser; frame: PCefFrame; source_process: TCefProcessId; message: PCefProcessMessage): Integer; stdcall;
+    on_process_message_received : function(self: PCefClient; browser: PCefBrowser; frame: PCefFrame; source_process: TCefProcessId; message_: PCefProcessMessage): Integer; stdcall;
   end;
 
   // /include/capi/cef_browser_capi.h (cef_browser_host_t)
@@ -3060,20 +3074,6 @@ type
     on_accelerator                   : function(self: PCefWindowDelegate; window: PCefWindow; command_id: Integer): Integer; stdcall;
     on_key_event                     : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyEvent): Integer; stdcall;
   end;
-
-  {$IFDEF MSWINDOWS}
-  TMyMemoryStatusEx = record
-     dwLength : DWORD;
-     dwMemoryLoad : DWORD;
-     ullTotalPhys : uint64;
-     ullAvailPhys : uint64;
-     ullTotalPageFile : uint64;
-     ullAvailPageFile : uint64;
-     ullTotalVirtual : uint64;
-     ullAvailVirtual : uint64;
-     ullAvailExtendedVirtual : uint64;
-  end;
-  {$ENDIF}
 
 implementation
 
