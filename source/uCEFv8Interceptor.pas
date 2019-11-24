@@ -54,10 +54,10 @@ uses
 type
   TCefV8InterceptorOwn = class(TCefBaseRefCountedOwn, ICefV8Interceptor)
     protected
-      function GetByName(const name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean; virtual;
-      function GetByIndex(index: integer; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean; virtual;
-      function SetByName(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): boolean; virtual;
-      function SetByIndex(index: integer; const obj, value: ICefv8Value; const exception: ustring): boolean; virtual;
+      function GetByName(const name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean; virtual;
+      function GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean; virtual;
+      function SetByName(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): boolean; virtual;
+      function SetByIndex(index: integer; const object_, value: ICefv8Value; var exception: ustring): boolean; virtual;
 
     public
       constructor Create; virtual;
@@ -70,10 +70,10 @@ type
       FGetterByIndex : TCefV8InterceptorGetterByIndexProc;
       FSetterByIndex : TCefV8InterceptorSetterByIndexProc;
 
-      function GetByName(const name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean; override;
-      function GetByIndex(index: integer; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean; override;
-      function SetByName(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): boolean; override;
-      function SetByIndex(index: integer; const obj, value: ICefv8Value; const exception: ustring): boolean; override;
+      function GetByName(const name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean; override;
+      function GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean; override;
+      function SetByName(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): boolean; override;
+      function SetByIndex(index: integer; const object_, value: ICefv8Value; var exception: ustring): boolean; override;
 
     public
       constructor Create(const getterbyname  : TCefV8InterceptorGetterByNameProc;
@@ -89,86 +89,152 @@ uses
 
 function cef_v8_interceptor_get_byname(      self      : PCefV8Interceptor;
                                        const name      : PCefString;
-                                             obj       : PCefV8Value;
+                                             object_   : PCefV8Value;
                                        out   retval    : PCefv8Value;
                                              exception : PCefString): Integer; stdcall;
 var
-  ret: ICefv8Value;
-  TempObject : TObject;
+  TempObject      : TObject;
+  TempException   : ustring;
+  TempReturnValue : ICefv8Value;
+  TempRecObject   : ICefv8Value;
 begin
   Result     := Ord(False);
   retval     := nil;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
-    begin
-      Result := Ord(TCefV8InterceptorOwn(TempObject).GetByName(CefString(name),
-                                                               TCefv8ValueRef.UnWrap(obj),
-                                                               ret,
-                                                               CefString(exception)));
+    try
+      TempRecObject   := TCefv8ValueRef.UnWrap(object_);
+      TempException   := '';
+      TempReturnValue := nil;
 
-      retval := CefGetData(ret);
+      Result := Ord(TCefV8InterceptorOwn(TempObject).GetByName(CefString(name),
+                                                               TempRecObject,
+                                                               TempReturnValue,
+                                                               TempException));
+
+      retval := CefGetData(TempReturnValue);
+
+      if (exception <> nil) then
+        begin
+          CefStringFree(exception);
+          exception^ := CefStringAlloc(TempException);
+        end;
+    finally
+      TempRecObject   := nil;
+      TempReturnValue := nil;
     end;
 end;
 
 function cef_v8_interceptor_get_byindex(    self      : PCefV8Interceptor;
                                             index     : integer;
-                                            obj       : PCefV8Value;
+                                            object_   : PCefV8Value;
                                         out retval    : PCefv8Value;
                                             exception : PCefString): integer; stdcall;
 var
-  ret: ICefv8Value;
-  TempObject : TObject;
+  TempObject      : TObject;
+  TempException   : ustring;
+  TempReturnValue : ICefv8Value;
+  TempRecObject   : ICefv8Value;
 begin
   Result     := Ord(False);
   retval     := nil;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
-    begin
-      Result := Ord(TCefV8InterceptorOwn(TempObject).GetByIndex(index,
-                                                                TCefv8ValueRef.UnWrap(obj),
-                                                                ret,
-                                                                CefString(exception)));
+    try
+      TempRecObject   := TCefv8ValueRef.UnWrap(object_);
+      TempException   := '';
+      TempReturnValue := nil;
 
-      retval := CefGetData(ret);
+      Result := Ord(TCefV8InterceptorOwn(TempObject).GetByIndex(index,
+                                                                TempRecObject,
+                                                                TempReturnValue,
+                                                                TempException));
+
+      retval := CefGetData(TempReturnValue);
+
+      if (exception <> nil) then
+        begin
+          CefStringFree(exception);
+          exception^ := CefStringAlloc(TempException);
+        end;
+    finally
+      TempRecObject   := nil;
+      TempReturnValue := nil;
     end;
 end;
 
 function cef_v8_interceptor_set_byname(      self      : PCefV8Interceptor;
                                        const name      : PCefString;
-                                             obj       : PCefV8Value;
+                                             object_   : PCefV8Value;
                                              value     : PCefv8Value;
                                              exception : PCefString): integer; stdcall;
 var
-  TempObject : TObject;
+  TempObject    : TObject;
+  TempException : ustring;
+  TempValue     : ICefv8Value;
+  TempRecObject : ICefv8Value;
 begin
   Result     := Ord(False);
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
-    Result := Ord(TCefV8InterceptorOwn(TempObject).SetByName(CefString(name),
-                                                             TCefv8ValueRef.UnWrap(obj),
-                                                             TCefv8ValueRef.UnWrap(value),
-                                                             CefString(exception)));
+    try
+      TempRecObject := TCefv8ValueRef.UnWrap(object_);
+      TempValue     := TCefv8ValueRef.UnWrap(value);
+      TempException := '';
+
+      Result := Ord(TCefV8InterceptorOwn(TempObject).SetByName(CefString(name),
+                                                               TempRecObject,
+                                                               TempValue,
+                                                               TempException));
+
+      if (exception <> nil) then
+        begin
+          CefStringFree(exception);
+          exception^ := CefStringAlloc(TempException);
+        end;
+    finally
+      TempRecObject := nil;
+      TempValue     := nil;
+    end;
 end;
 
 function cef_v8_interceptor_set_byindex(self      : PCefV8Interceptor;
                                         index     : integer;
-                                        obj       : PCefV8Value;
+                                        object_   : PCefV8Value;
                                         value     : PCefv8Value;
                                         exception : PCefString): integer; stdcall;
 var
-  TempObject : TObject;
+  TempObject    : TObject;
+  TempException : ustring;
+  TempValue     : ICefv8Value;
+  TempRecObject : ICefv8Value;
 begin
   Result     := Ord(False);
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
-    Result := Ord(TCefV8InterceptorOwn(TempObject).SetByIndex(index,
-                                                              TCefv8ValueRef.UnWrap(obj),
-                                                              TCefv8ValueRef.UnWrap(value),
-                                                              CefString(exception)));
+    try
+      TempRecObject := TCefv8ValueRef.UnWrap(object_);
+      TempValue     := TCefv8ValueRef.UnWrap(value);
+      TempException := '';
+
+      Result := Ord(TCefV8InterceptorOwn(TempObject).SetByIndex(index,
+                                                                TempRecObject,
+                                                                TempValue,
+                                                                TempException));
+
+      if (exception <> nil) then
+        begin
+          CefStringFree(exception);
+          exception^ := CefStringAlloc(TempException);
+        end;
+    finally
+      TempRecObject := nil;
+      TempValue     := nil;
+    end;
 end;
 
 // TCefV8InterceptorOwn
@@ -186,22 +252,22 @@ begin
     end;
 end;
 
-function TCefV8InterceptorOwn.GetByName(const name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean;
+function TCefV8InterceptorOwn.GetByName(const name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean;
 begin
   Result := False;
 end;
 
-function TCefV8InterceptorOwn.GetByIndex(index: integer; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean;
+function TCefV8InterceptorOwn.GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean;
 begin
   Result := False;
 end;
 
-function TCefV8InterceptorOwn.SetByName(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): boolean;
+function TCefV8InterceptorOwn.SetByName(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): boolean;
 begin
   Result := False;
 end;
 
-function TCefV8InterceptorOwn.SetByIndex(index: integer; const obj, value: ICefv8Value; const exception: ustring): boolean;
+function TCefV8InterceptorOwn.SetByIndex(index: integer; const object_, value: ICefv8Value; var exception: ustring): boolean;
 begin
   Result := False;
 end;
@@ -219,34 +285,34 @@ begin
   FSetterByIndex := setterbyindex;
 end;
 
-function TCefFastV8Interceptor.GetByName(const name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean;
+function TCefFastV8Interceptor.GetByName(const name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean;
 begin
   if assigned(FGetterByName) then
-    Result := FGetterByName(name, obj, retval, exception)
+    Result := FGetterByName(name, object_, retval, exception)
    else
     Result := False;
 end;
 
-function TCefFastV8Interceptor.GetByIndex(index: integer; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean;
+function TCefFastV8Interceptor.GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean;
 begin
   if assigned(FGetterByIndex) then
-    Result := FGetterByIndex(index, obj, retval, exception)
+    Result := FGetterByIndex(index, object_, retval, exception)
    else
     Result := False;
 end;
 
-function TCefFastV8Interceptor.SetByName(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): boolean;
+function TCefFastV8Interceptor.SetByName(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): boolean;
 begin
   if assigned(FSetterByName) then
-    Result := FSetterByName(name, obj, value, exception)
+    Result := FSetterByName(name, object_, value, exception)
    else
     Result := False;
 end;
 
-function TCefFastV8Interceptor.SetByIndex(index: integer; const obj, value: ICefv8Value; const exception: ustring): boolean;
+function TCefFastV8Interceptor.SetByIndex(index: integer; const object_, value: ICefv8Value; var exception: ustring): boolean;
 begin
   if assigned(FSetterByIndex) then
-    Result := FSetterByIndex(index, obj, value, exception)
+    Result := FSetterByIndex(index, object_, value, exception)
    else
     Result := False;
 end;

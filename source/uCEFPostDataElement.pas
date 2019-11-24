@@ -275,8 +275,9 @@ begin
   FReadOnly  := readonly;
   FDataType  := PDE_TYPE_EMPTY;
   FValueByte := nil;
-  FillChar(FValueStr, SizeOf(FValueStr), 0);
   FSize      := 0;
+
+  CefStringInitialize(@FValueStr);
 
   with PCefPostDataElement(FData)^ do
     begin

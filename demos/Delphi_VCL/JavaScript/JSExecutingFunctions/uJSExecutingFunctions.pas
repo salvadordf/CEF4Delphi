@@ -50,7 +50,8 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
-  uCEFConstants, uCEFv8Value, uCEFWinControl, uCEFSentinel;
+  uCEFConstants, uCEFv8Value, uCEFWinControl, uCEFSentinel,
+  uCEFChromiumCore;
 
 const
   JSDEMO_CONTEXTMENU_EXECFUNCTION = MENU_ID_USER_FIRST + 1;

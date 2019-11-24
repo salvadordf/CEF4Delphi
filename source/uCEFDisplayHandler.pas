@@ -192,10 +192,10 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
     begin
-      TempText := CefStringClearAndGet(text^);
+      TempText := CefStringClearAndGet(text);
       Result   := Ord(TCefDisplayHandlerOwn(TempObject).OnTooltip(TCefBrowserRef.UnWrap(browser),
                                                                   TempText));
-      text^    := CefStringAlloc(TempText);
+      if (text <> nil) then text^ := CefStringAlloc(TempText);
     end;
 end;
 

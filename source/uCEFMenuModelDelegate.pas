@@ -60,7 +60,7 @@ type
     procedure UnhandledCloseSubmenu(const menuModel: ICefMenuModel; isRTL: boolean); virtual;
     procedure MenuWillShow(const menuModel: ICefMenuModel); virtual;
     procedure MenuClosed(const menuModel: ICefMenuModel); virtual;
-    function  FormatLabel(const menuModel: ICefMenuModel; const label_ : uString) : boolean; virtual;
+    function  FormatLabel(const menuModel: ICefMenuModel; var label_ : ustring) : boolean; virtual;
   public
     constructor Create; virtual;
   end;
@@ -150,13 +150,17 @@ function cef_menu_model_delegate_format_label(self       : PCefMenuModelDelegate
                                               label_     : PCefString) : integer; stdcall;
 var
   TempObject : TObject;
+  TempLabel  : ustring;
 begin
   Result     := Ord(False);
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefMenuModelDelegateOwn) then
-    Result := Ord(TCefMenuModelDelegateOwn(TempObject).FormatLabel(TCefMenuModelRef.UnWrap(menu_model),
-                                                                   CefString(label_)));
+    begin
+      TempLabel := CefStringClearAndGet(label_);
+      Result    := Ord(TCefMenuModelDelegateOwn(TempObject).FormatLabel(TCefMenuModelRef.UnWrap(menu_model), TempLabel));
+      if (label_ <> nil) then label_^ := CefStringAlloc(TempLabel);
+    end;
 end;
 
 constructor TCefMenuModelDelegateOwn.Create;
@@ -207,7 +211,7 @@ begin
   //
 end;
 
-function TCefMenuModelDelegateOwn.FormatLabel(const menuModel: ICefMenuModel; const label_ : uString) : boolean;
+function TCefMenuModelDelegateOwn.FormatLabel(const menuModel: ICefMenuModel; var label_ : ustring) : boolean;
 begin
   Result := False;
 end;

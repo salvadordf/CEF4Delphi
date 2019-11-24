@@ -257,7 +257,7 @@ var
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;
   cef_get_vlog_level    : function(const file_start: PAnsiChar; N: NativeInt): Integer; cdecl;
-  cef_log               : procedure(const file_: PAnsiChar; line, severity: Integer; const message: PAnsiChar); cdecl;
+  cef_log               : procedure(const file_: PAnsiChar; line, severity: Integer; const message_: PAnsiChar); cdecl;
 
   // /include/internal/cef_string_list.h
   cef_string_list_alloc  : function : TCefStringList; cdecl;
@@ -271,9 +271,9 @@ var
   // /include/internal/cef_string_map.h
   cef_string_map_alloc  : function : TCefStringMap; cdecl;
   cef_string_map_size   : function(map: TCefStringMap): NativeUInt; cdecl;
-  cef_string_map_find   : function(map: TCefStringMap; const key: PCefString; var value: TCefString): Integer; cdecl;
-  cef_string_map_key    : function(map: TCefStringMap; index: NativeUInt; var key: TCefString): Integer; cdecl;
-  cef_string_map_value  : function(map: TCefStringMap; index: NativeUInt; var value: TCefString): Integer; cdecl;
+  cef_string_map_find   : function(map: TCefStringMap; const key: PCefString; value: PCefString): Integer; cdecl;
+  cef_string_map_key    : function(map: TCefStringMap; index: NativeUInt; key: PCefString): Integer; cdecl;
+  cef_string_map_value  : function(map: TCefStringMap; index: NativeUInt; value: PCefString): Integer; cdecl;
   cef_string_map_append : function(map: TCefStringMap; const key, value: PCefString): Integer; cdecl;
   cef_string_map_clear  : procedure(map: TCefStringMap); cdecl;
   cef_string_map_free   : procedure(map: TCefStringMap); cdecl;
@@ -282,9 +282,9 @@ var
   cef_string_multimap_alloc      : function : TCefStringMultimap; cdecl;
   cef_string_multimap_size       : function(map: TCefStringMultimap): NativeUInt; cdecl;
   cef_string_multimap_find_count : function(map: TCefStringMultimap; const key: PCefString): NativeUInt; cdecl;
-  cef_string_multimap_enumerate  : function(map: TCefStringMultimap; const key: PCefString; value_index: NativeUInt; var value: TCefString): Integer; cdecl;
-  cef_string_multimap_key        : function(map: TCefStringMultimap; index: NativeUInt; var key: TCefString): Integer; cdecl;
-  cef_string_multimap_value      : function(map: TCefStringMultimap; index: NativeUInt; var value: TCefString): Integer; cdecl;
+  cef_string_multimap_enumerate  : function(map: TCefStringMultimap; const key: PCefString; value_index: NativeUInt; value: PCefString): Integer; cdecl;
+  cef_string_multimap_key        : function(map: TCefStringMultimap; index: NativeUInt; key: PCefString): Integer; cdecl;
+  cef_string_multimap_value      : function(map: TCefStringMultimap; index: NativeUInt; value: PCefString): Integer; cdecl;
   cef_string_multimap_append     : function(map: TCefStringMultimap; const key, value: PCefString): Integer; cdecl;
   cef_string_multimap_clear      : procedure(map: TCefStringMultimap); cdecl;
   cef_string_multimap_free       : procedure(map: TCefStringMultimap); cdecl;

@@ -2452,7 +2452,7 @@ type
   // /include/capi/cef_v8_capi.h (cef_v8handler_t)
   TCefv8Handler = record
     base    : TCefBaseRefCounted;
-    execute : function(self: PCefv8Handler; const name: PCefString; obj: PCefv8Value; argumentsCount: NativeUInt; const arguments: PPCefV8Value; var retval: PCefV8Value; var exception: TCefString): Integer; stdcall;
+    execute : function(self: PCefv8Handler; const name: PCefString; object_: PCefv8Value; argumentsCount: NativeUInt; const arguments: PPCefV8Value; var retval: PCefV8Value; exception: PCefString): Integer; stdcall;
   end;
 
   // /include/capi/cef_v8_capi.h (cef_v8exception_t)
@@ -2543,17 +2543,17 @@ type
   // /include/capi/cef_v8_capi.h (cef_v8interceptor_t)
   TCefV8Interceptor = record
     base        : TCefBaseRefCounted;
-    get_byname  : function(self: PCefV8Interceptor; const name: PCefString; obj: PCefV8Value; out retval: PCefv8Value; exception: PCefString): integer; stdcall;
-    get_byindex : function(self: PCefV8Interceptor; index: integer; obj: PCefV8Value; out retval: PCefv8Value; exception: PCefString): integer; stdcall;
-    set_byname  : function(self: PCefV8Interceptor; const name: PCefString; obj, value: PCefv8Value; exception: PCefString): integer; stdcall;
-    set_byindex : function(self: PCefV8Interceptor; index: integer; obj, value: PCefv8Value; exception: PCefString): integer; stdcall;
+    get_byname  : function(self: PCefV8Interceptor; const name: PCefString; object_: PCefV8Value; out retval: PCefv8Value; exception: PCefString): integer; stdcall;
+    get_byindex : function(self: PCefV8Interceptor; index: integer; object_: PCefV8Value; out retval: PCefv8Value; exception: PCefString): integer; stdcall;
+    set_byname  : function(self: PCefV8Interceptor; const name: PCefString; object_, value: PCefv8Value; exception: PCefString): integer; stdcall;
+    set_byindex : function(self: PCefV8Interceptor; index: integer; object_, value: PCefv8Value; exception: PCefString): integer; stdcall;
   end;
 
   // /include/capi/cef_v8_capi.h (cef_v8accessor_t)
   TCefV8Accessor = record
     base : TCefBaseRefCounted;
-    get  : function(self: PCefV8Accessor; const name: PCefString; obj: PCefv8Value; out retval: PCefv8Value; exception: PCefString): Integer; stdcall;
-    put  : function(self: PCefV8Accessor; const name: PCefString; obj, value: PCefv8Value; exception: PCefString): Integer; stdcall;
+    get  : function(self: PCefV8Accessor; const name: PCefString; object_: PCefv8Value; out retval: PCefv8Value; exception: PCefString): Integer; stdcall;
+    set_ : function(self: PCefV8Accessor; const name: PCefString; object_, value: PCefv8Value; exception: PCefString): Integer; stdcall;
   end;
 
   // /include/capi/cef_frame_capi.h (cef_frame_t)

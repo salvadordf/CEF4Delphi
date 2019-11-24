@@ -138,11 +138,12 @@ begin
 
   if (FHandle <> nil) then
     begin
-      TempKey := CefString(Key);
-      FillChar(TempValue, SizeOf(TempValue), 0);
+      CefStringInitialize(@TempValue);
 
-      if (cef_string_multimap_enumerate(FHandle, @TempKey, ValueIndex, TempValue) <> 0) then
-        Result := CefString(@TempValue);
+      TempKey := CefString(Key);
+
+      if (cef_string_multimap_enumerate(FHandle, @TempKey, ValueIndex, @TempValue) <> 0) then
+        Result := CefStringClearAndGet(@TempValue);
     end;
 end;
 
@@ -159,10 +160,10 @@ begin
 
   if (FHandle <> nil) then
     begin
-      FillChar(TempKey, SizeOf(TempKey), 0);
+      CefStringInitialize(@TempKey);
 
-      if (cef_string_multimap_key(FHandle, index, TempKey) <> 0) then
-        Result := CefString(@TempKey);
+      if (cef_string_multimap_key(FHandle, index, @TempKey) <> 0) then
+        Result := CefStringClearAndGet(@TempKey);
     end;
 end;
 
@@ -182,10 +183,10 @@ begin
 
   if (FHandle <> nil) then
     begin
-      FillChar(TempValue, SizeOf(TempValue), 0);
+      CefStringInitialize(@TempValue);
 
-      if (cef_string_multimap_value(FHandle, index, TempValue) <> 0) then
-        Result := CefString(@TempValue);
+      if (cef_string_multimap_value(FHandle, index, @TempValue) <> 0) then
+        Result := CefStringClearAndGet(@TempValue);
     end;
 end;
 

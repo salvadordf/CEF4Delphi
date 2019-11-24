@@ -137,11 +137,13 @@ begin
   TempObject   := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
-    TCefResourceHandlerOwn(TempObject).GetResponseHeaders(TCefResponseRef.UnWrap(response),
-                                                          response_length^,
-                                                          TempRedirect);
-
-  if (TempRedirect <> '') then CefStringSet(redirectUrl, TempRedirect);
+    begin
+      TCefResourceHandlerOwn(TempObject).GetResponseHeaders(TCefResponseRef.UnWrap(response),
+                                                            response_length^,
+                                                            TempRedirect);
+      CefStringFree(redirectUrl);
+      if (redirectUrl <> nil) then redirectUrl^ := CefStringAlloc(TempRedirect);
+    end;
 end;
 
 function cef_resource_handler_skip(self          : PCefResourceHandler;

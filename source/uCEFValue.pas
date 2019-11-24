@@ -69,7 +69,7 @@ type
       function GetDictionary: ICefDictionaryValue;
       function GetList: ICefListValue;
       function SetNull: Boolean;
-      function SetBool(value: Integer): Boolean;
+      function SetBool(value: boolean): Boolean;
       function SetInt(value: Integer): Boolean;
       function SetDouble(value: Double): Boolean;
       function SetString(const value: ustring): Boolean;
@@ -167,9 +167,9 @@ begin
   Result := PCefValue(FData)^.set_binary(PCefValue(FData), CefGetData(value)) <> 0;
 end;
 
-function TCefValueRef.SetBool(value: Integer): Boolean;
+function TCefValueRef.SetBool(value: boolean): Boolean;
 begin
-  Result := PCefValue(FData)^.set_bool(PCefValue(FData), value) <> 0;
+  Result := PCefValue(FData)^.set_bool(PCefValue(FData), ord(value)) <> 0;
 end;
 
 function TCefValueRef.SetDictionary(const value: ICefDictionaryValue): Boolean;

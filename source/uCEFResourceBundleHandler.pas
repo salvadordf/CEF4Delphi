@@ -100,7 +100,11 @@ begin
       TempString := '';
       Result     := Ord(TCefResourceBundleHandlerOwn(TempObject).GetLocalizedString(string_id, TempString));
 
-      if (Result <> 0) then string_val^ := CefString(TempString);
+      if (string_val <> nil) then
+        begin
+          CefStringFree(string_val);
+          string_val^ := CefStringAlloc(TempString);
+        end;
     end;
 end;
 

@@ -148,17 +148,17 @@ begin
 
   if (FHandle <> nil) then
     begin
-      FillChar(TempValue, SizeOf(TempValue), 0);
+      CefStringInitialize(@TempValue);
 
       if (cef_string_list_value(FHandle, index, @TempValue) <> 0) then
-        Result := CefString(@TempValue);
+        Result := CefStringClearAndGet(@TempValue);
     end;
 end;
 
 procedure TCefCustomStringList.CopyToStrings(const aStrings : TStrings);
 var
   i, j : NativeUInt;
-  TempString : TCefString;
+  TempValue : TCefString;
 begin
   if (aStrings <> nil) and (FHandle <> nil) then
     begin
@@ -167,10 +167,10 @@ begin
 
       while (i < j) do
         begin
-          FillChar(TempString, SizeOf(TCefString), 0);
+          CefStringInitialize(@TempValue);
 
-          if (cef_string_list_value(FHandle, i, @TempString) <> 0) then
-            aStrings.Add(CefStringClearAndGet(TempString));
+          if (cef_string_list_value(FHandle, i, @TempValue) <> 0) then
+            aStrings.Add(CefStringClearAndGet(@TempValue));
 
           inc(i);
         end;

@@ -78,7 +78,7 @@ function CefGetObject(ptr: Pointer): TObject;  {$IFDEF SUPPORTS_INLINE} inline; 
 function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 
 function CefStringAlloc(const str: ustring): TCefString;
-function CefStringClearAndGet(var str: TCefString): ustring;
+function CefStringClearAndGet(str: PCefString): ustring;
 
 function  CefString(const str: ustring): TCefString; overload;
 function  CefString(const str: PCefString): ustring; overload;
@@ -86,6 +86,7 @@ function  CefUserFreeString(const str: ustring): PCefStringUserFree;
 procedure CefStringFree(const str: PCefString);
 function  CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
 procedure CefStringSet(const str: PCefString; const value: ustring);
+procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
 
@@ -204,6 +205,8 @@ function CefBase64Decode(const data: ustring): ICefBinaryValue;
 function CefUriEncode(const text: ustring; usePlus: Boolean): ustring;
 function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule: TCefUriUnescapeRule): ustring;
 
+function CefGetPath(const aPathKey : TCefPathKey) : ustring;
+
 function CefParseJson(const jsonString: ustring; options: TCefJsonParserOptions): ICefValue;
 function CefParseJsonAndReturnError(const jsonString   : ustring;
                                           options      : TCefJsonParserOptions;
@@ -293,12 +296,12 @@ begin
   Result := (int64_val shr 32) and $FFFFFFFF;
 end;
 
-function CefStringClearAndGet(var str: TCefString): ustring;
+function CefStringClearAndGet(str: PCefString): ustring;
 begin
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+  if (str <> nil) and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
-      Result := CefString(@str);
-      cef_string_utf16_clear(@str);
+      Result := CefString(str);
+      cef_string_utf16_clear(str);
     end
    else
     Result := '';
@@ -347,7 +350,17 @@ end;
 procedure CefStringSet(const str: PCefString; const value: ustring);
 begin
   if (str <> nil) and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_string_utf16_set(PWideChar(value), Length(value), str, 1);
+    cef_string_utf16_set(PWideChar(value), Length(value), str, Ord(True));
+end;
+
+procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+begin
+  if (aCefString <> nil) then
+    begin
+      aCefString^.str    := nil;
+      aCefString^.length := 0;
+      aCefString^.dtor   := nil;
+    end;
 end;
 
 function CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
@@ -363,7 +376,8 @@ end;
 
 function CefStringAlloc(const str: ustring): TCefString;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  CefStringInitialize(@Result);
+
   if (str <> '') and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     cef_string_wide_to_utf16(PWideChar(str), Length(str), @Result);
 end;
@@ -1572,7 +1586,6 @@ begin
 
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
-      FillChar(TempParts, sizeof(TempParts), 0);
       TempParts.spec     := CefString(parts.spec);
       TempParts.scheme   := CefString(parts.scheme);
       TempParts.username := CefString(parts.username);
@@ -1583,8 +1596,10 @@ begin
       TempParts.path     := CefString(parts.path);
       TempParts.query    := CefString(parts.query);
 
-      FillChar(TempURL, SizeOf(TempURL), 0);
-      if cef_create_url(@TempParts, @TempURL) <> 0 then Result := CefString(@TempURL);
+      CefStringInitialize(@TempURL);
+
+      if (cef_create_url(@TempParts, @TempURL) <> 0) then
+        Result := CefStringClearAndGet(@TempURL);
     end;
 end;
 
@@ -1692,10 +1707,10 @@ var
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
-      FillChar(TempError, SizeOf(TempError), 0);
+      CefStringInitialize(@TempError);
       TempJSON    := CefString(jsonString);
       Result      := TCefValueRef.UnWrap(cef_parse_jsonand_return_error(@TempJSON, options, @errorCodeOut, @TempError));
-      errorMsgOut := CefString(@TempError);
+      errorMsgOut := CefStringClearAndGet(@TempError);
     end
    else
     begin
@@ -1703,6 +1718,21 @@ begin
       Result       := nil;
       errorMsgOut  := '';
     end;
+end;
+
+function CefGetPath(const aPathKey : TCefPathKey) : ustring;
+var
+  TempPath : TCefString;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      CefStringInitialize(@TempPath);
+
+      if (cef_get_path(aPathKey, @TempPath) <> 0) then
+        Result := CefStringClearAndGet(@TempPath);
+    end
+   else
+    Result := '';
 end;
 
 function CefWriteJson(const node: ICefValue; options: TCefJsonWriterOptions): ustring;
@@ -1732,9 +1762,9 @@ var
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
-      FillChar(TempPath, SizeOf(TempPath), 0);
+      CefStringInitialize(@TempPath);
       Result  := cef_get_temp_directory(@TempPath) <> 0;
-      tempDir := CefString(@TempPath);
+      tempDir := CefStringClearAndGet(@TempPath);
     end
    else
     begin
@@ -1749,10 +1779,10 @@ var
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
-      FillChar(TempPath, SizeOf(TempPath), 0);
+      CefStringInitialize(@TempPath);
       TempPref    := CefString(prefix);
       Result      := cef_create_new_temp_directory(@TempPref, @TempPath) <> 0;
-      newTempPath := CefString(@TempPath);
+      newTempPath := CefStringClearAndGet(@TempPath);
     end
    else
     begin
@@ -1767,11 +1797,11 @@ var
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
-      FillChar(TempPath, SizeOf(TempPath), 0);
+      CefStringInitialize(@TempPath);
       TempPref := CefString(prefix);
       TempBase := CefString(baseDir);
       Result   := cef_create_temp_directory_in_directory(@TempBase, @TempPref, @TempPath) <> 0;
-      newDir   := CefString(@TempPath);
+      newDir   := CefStringClearAndGet(@TempPath);
     end
    else
     begin

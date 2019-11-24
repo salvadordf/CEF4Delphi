@@ -3086,12 +3086,7 @@ begin
          aBrowser.Host.RequestContext.CanSetPreference(aName) then
         begin
           TempValue := TCefValueRef.New;
-
-          if aValue then
-            TempValue.SetBool(1)
-           else
-            TempValue.SetBool(0);
-
+          TempValue.SetBool(aValue);
           Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
           if not(Result) then

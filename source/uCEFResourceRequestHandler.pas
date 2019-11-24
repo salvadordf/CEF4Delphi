@@ -197,17 +197,18 @@ var
   TempURL    : ustring;
   TempObject : TObject;
 begin
-  TempURL    := CefString(new_url);
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefResourceRequestHandlerOwn) then
-    TCefResourceRequestHandlerOwn(TempObject).OnResourceRedirect(TCefBrowserRef.UnWrap(browser),
-                                                                 TCefFrameRef.UnWrap(frame),
-                                                                 TCefRequestRef.UnWrap(request),
-                                                                 TCefResponseRef.UnWrap(response),
-                                                                 TempURL);
-
-  if (TempURL <> '') then CefStringSet(new_url, TempURL);
+    begin
+      TempURL := CefStringClearAndGet(new_url);
+      TCefResourceRequestHandlerOwn(TempObject).OnResourceRedirect(TCefBrowserRef.UnWrap(browser),
+                                                                   TCefFrameRef.UnWrap(frame),
+                                                                   TCefRequestRef.UnWrap(request),
+                                                                   TCefResponseRef.UnWrap(response),
+                                                                   TempURL);
+      if (new_url <> nil) then new_url^ := CefStringAlloc(TempURL);
+    end;
 end;
 
 function cef_resource_request_handler_on_resource_response(self     : PCefResourceRequestHandler;

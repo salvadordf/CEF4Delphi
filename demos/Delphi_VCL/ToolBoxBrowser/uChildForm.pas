@@ -51,7 +51,7 @@ uses
   Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uMainForm,
-  uCEFWinControl;
+  uCEFWinControl, uCEFChromiumCore;
 
 type
   TChildForm = class(TForm)

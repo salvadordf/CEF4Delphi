@@ -134,8 +134,15 @@ begin
 end;
 
 function TCefRequestContextRef.GetHandler: ICefRequestContextHandler;
+var
+  TempHandler : PCefRequestContextHandler;
 begin
-  Result := TCefRequestContextHandlerRef.UnWrap(PCefRequestContext(FData)^.get_handler(PCefRequestContext(FData)));
+  TempHandler := PCefRequestContext(FData)^.get_handler(PCefRequestContext(FData));
+
+  if (TempHandler <> nil) then
+    Result := TCefRequestContextHandlerRef.UnWrap(TempHandler)
+   else
+    Result := nil;
 end;
 
 class function TCefRequestContextRef.Global: ICefRequestContext;
@@ -223,10 +230,11 @@ function TCefRequestContextRef.SetPreference(const name  : ustring;
 var
   TempName, TempError : TCefString;
 begin
+  CefStringInitialize(@TempError);
+
   TempName := CefString(name);
-  FillChar(TempError, SizeOf(TempError), 0);
   Result   := PCefRequestContext(FData)^.set_preference(PCefRequestContext(FData), @TempName, CefGetData(value), @TempError) <> 0;
-  error    := CefString(@TempError);
+  error    := CefStringClearAndGet(@TempError);
 end;
 
 procedure TCefRequestContextRef.ClearCertificateExceptions(const callback: ICefCompletionCallback);

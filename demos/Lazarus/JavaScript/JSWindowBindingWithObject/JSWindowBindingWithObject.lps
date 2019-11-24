@@ -20,9 +20,8 @@
         <ComponentName Value="JSWindowBindingWithObjectFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="102"/>
+        <TopLine Value="120"/>
         <CursorPos X="82" Y="126"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -32,8 +31,12 @@
       <Unit2>
         <Filename Value="uMyV8Accessor.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="34"/>
+        <CursorPos X="5" Y="90"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
     </Units>

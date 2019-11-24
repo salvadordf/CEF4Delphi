@@ -191,12 +191,12 @@ type
   TCefv8ArrayBufferReleaseCallbackProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(buffer : Pointer);
   TCefWebPluginInfoVisitorProc         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const info: ICefWebPluginInfo; count, total: Integer): Boolean;
   TCefWebPluginIsUnstableProc          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; unstable: Boolean);
-  TCefV8AccessorGetterProc             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8AccessorSetterProc             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8InterceptorGetterByNameProc    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8InterceptorSetterByNameProc    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8InterceptorGetterByIndexProc   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(index: integer; const obj: ICefv8Value; out value: ICefv8Value; const exception: ustring): Boolean;
-  TCefV8InterceptorSetterByIndexProc   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(index: integer; const obj, value: ICefv8Value; const exception: ustring): Boolean;
+  TCefV8AccessorGetterProc             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const object_: ICefv8Value; var value: ICefv8Value; var exception: ustring): Boolean;
+  TCefV8AccessorSetterProc             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): Boolean;
+  TCefV8InterceptorGetterByNameProc    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const object_: ICefv8Value; var value: ICefv8Value; var exception: ustring): Boolean;
+  TCefV8InterceptorSetterByNameProc    = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): Boolean;
+  TCefV8InterceptorGetterByIndexProc   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(index: integer; const object_: ICefv8Value; var value: ICefv8Value; var exception: ustring): Boolean;
+  TCefV8InterceptorSetterByIndexProc   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(index: integer; const object_, value: ICefv8Value; var exception: ustring): Boolean;
   TOnPdfPrintFinishedProc              = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; ok: Boolean);
   TCefDomVisitorProc                   = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const document: ICefDomDocument);
   TCefDomVisitorProc2                  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser : ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument);
@@ -906,25 +906,25 @@ type
   // /include/capi/cef_v8_capi.h (cef_v8handler_t)
   ICefv8Handler = interface(ICefBaseRefCounted)
     ['{F94CDC60-FDCB-422D-96D5-D2A775BD5D73}']
-    function Execute(const name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean;
+    function Execute(const name: ustring; const object_: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean;
   end;
 
   // TCefV8Interceptor
   // /include/capi/cef_v8_capi.h (cef_v8interceptor_t)
   ICefV8Interceptor = interface(ICefBaseRefCounted)
     ['{B3B8FD7C-A916-4B25-93A2-2892AC324F21}']
-    function GetByName(const name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean;
-    function GetByIndex(index: integer; const obj: ICefv8Value; out retval: ICefv8Value; const exception: ustring): boolean;
-    function SetByName(const name: ustring; const obj, value: ICefv8Value; const exception: ustring): boolean;
-    function SetByIndex(index: integer; const obj, value: ICefv8Value; const exception: ustring): boolean;
+    function GetByName(const name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean;
+    function GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean;
+    function SetByName(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): boolean;
+    function SetByIndex(index: integer; const object_, value: ICefv8Value; var exception: ustring): boolean;
   end;
 
   // TCefV8Accessor
   // /include/capi/cef_v8_capi.h (cef_v8accessor_t)
   ICefV8Accessor = interface(ICefBaseRefCounted)
     ['{DCA6D4A2-726A-4E24-AA64-5E8C731D868A}']
-    function Get(const name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; var exception: ustring): Boolean;
-    function Put(const name: ustring; const obj, value: ICefv8Value; var exception: ustring): Boolean;
+    function Get(const name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): Boolean;
+    function Set_(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): Boolean;
   end;
 
   // TCefTask
@@ -1505,7 +1505,7 @@ type
     function GetDictionary: ICefDictionaryValue;
     function GetList: ICefListValue;
     function SetNull: Boolean;
-    function SetBool(value: Integer): Boolean;
+    function SetBool(value: boolean): Boolean;
     function SetInt(value: Integer): Boolean;
     function SetDouble(value: Double): Boolean;
     function SetString(const value: ustring): Boolean;
@@ -2213,7 +2213,7 @@ type
     procedure UnhandledCloseSubmenu(const menuModel: ICefMenuModel; isRTL: boolean);
     procedure MenuWillShow(const menuModel: ICefMenuModel);
     procedure MenuClosed(const menuModel: ICefMenuModel);
-    function  FormatLabel(const menuModel: ICefMenuModel; const label_ : ustring) : boolean;
+    function  FormatLabel(const menuModel: ICefMenuModel; var label_ : ustring) : boolean;
   end;
 
   // TCefServer

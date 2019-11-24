@@ -51,7 +51,7 @@ uses
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFSentinel;
+  uCEFSentinel, uCEFChromiumCore;
 
 const
   // Set this constant to True and load "file://transparency.html" to test a
