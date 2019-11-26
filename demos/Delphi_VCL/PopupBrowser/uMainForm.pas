@@ -154,6 +154,13 @@ begin
   GlobalCEFApp.EnableHighDPISupport       := True;
   //GlobalCEFApp.LogFile                    := 'debug.log';
   //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  {
+  GlobalCEFApp.FrameworkDirPath     := 'c:\cef';
+  GlobalCEFApp.ResourcesDirPath     := 'c:\cef';
+  GlobalCEFApp.LocalesDirPath       := 'c:\cef\locales';
+  GlobalCEFApp.cache                := 'c:\cef\cache';
+  GlobalCEFApp.UserDataPath         := 'c:\cef\User Data';
+  }
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -212,7 +219,7 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
-procedure TMainForm.Chromium1BeforePopup(Sender : TObject;
+procedure TMainForm.Chromium1BeforePopup(      Sender             : TObject;
                                          const browser            : ICefBrowser;
                                          const frame              : ICefFrame;
                                          const targetUrl          : ustring;
@@ -342,11 +349,7 @@ begin
     FCriticalSection.Acquire;
 
     if (FChildForm <> nil) then
-      begin
-        //FChildForm.ApplyPopupFeatures;
-        //FChildForm.Show;
-        PostMessage(FChildForm.Handle, CEF_SHOWCHILD, 0, 0);
-      end;
+      PostMessage(FChildForm.Handle, CEF_SHOWCHILD, 0, 0);
 
     FChildForm := TChildForm.Create(self);
   finally
