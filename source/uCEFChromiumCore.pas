@@ -1248,6 +1248,8 @@ function TChromiumCore.CreateClientHandler(var aClient : ICefClient; aIsOSR : bo
 begin
   if CreateClientHandler(aIsOSR) then
     begin
+      CreateResourceRequestHandler;
+
       aClient := FHandler;
       Result  := True;
     end
