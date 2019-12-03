@@ -88,6 +88,7 @@ type
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
     NavControlPnl: TPanel;
     NavButtonPnl: TPanel;
     StatusPnl: TPanel;
@@ -140,6 +141,7 @@ type
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
+    procedure MenuItem4Click(Sender: TObject);
     procedure ReloadBtnClick(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
@@ -362,6 +364,17 @@ procedure TMiniBrowserFrm.MenuItem3Click(Sender: TObject);
 begin        
   if not(Chromium1.FlushCookieStore(False)) then
     showmessage('There was a problem flushing the cookies.');
+end;
+
+procedure TMiniBrowserFrm.MenuItem4Click(Sender: TObject);
+var
+  TempLanguageList : ustring;
+begin
+  TempLanguageList := Chromium1.AcceptLanguageList;
+  if (length(TempLanguageList) = 0) then TempLanguageList := Chromium1.Options.AcceptLanguageList;
+  if (length(TempLanguageList) = 0) then TempLanguageList := GlobalCEFApp.AcceptLanguageList;
+
+  Chromium1.AcceptLanguageList := InputBox('Language', 'Accept language list', TempLanguageList);
 end;
 
 procedure TMiniBrowserFrm.GoBtnClick(Sender: TObject);

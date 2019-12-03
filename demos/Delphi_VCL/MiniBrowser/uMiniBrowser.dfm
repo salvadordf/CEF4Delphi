@@ -363,6 +363,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Simulate keyboard presses'
       OnClick = Simulatekeyboardpresses1Click
     end
+    object Acceptlanguage1: TMenuItem
+      Caption = 'Accept language...'
+      OnClick = Acceptlanguage1Click
+    end
     object Flushcookies1: TMenuItem
       Caption = 'Flush cookies'
       OnClick = Flushcookies1Click

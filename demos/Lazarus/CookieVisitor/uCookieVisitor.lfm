@@ -68,6 +68,7 @@ object CookieVisitorFrm: TCookieVisitorFrm
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
+    OnCanSaveCookie = Chromium1CanSaveCookie
     left = 32
     top = 224
   end

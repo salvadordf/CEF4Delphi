@@ -22,13 +22,13 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="235"/>
-        <CursorPos X="3" Y="255"/>
+        <TopLine Value="229"/>
+        <CursorPos X="17" Y="250"/>
         <UsageCount Value="24"/>
         <Bookmarks Count="3">
-          <Item0 Y="351" ID="1"/>
-          <Item1 X="3" Y="199" ID="2"/>
-          <Item2 X="66" Y="230" ID="3"/>
+          <Item0 Y="380" ID="1"/>
+          <Item1 X="3" Y="205" ID="2"/>
+          <Item2 X="66" Y="259" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -56,123 +56,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="64" Column="35" TopLine="42"/>
+        <Caret Line="356" Column="81" TopLine="334"/>
       </Position1>
       <Position2>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="85" Column="41" TopLine="61"/>
+        <Caret Line="223" TopLine="206"/>
       </Position2>
       <Position3>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="356" Column="81" TopLine="334"/>
+        <Caret Line="251" Column="70" TopLine="234"/>
       </Position3>
       <Position4>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="223" TopLine="206"/>
+        <Caret Line="252" Column="3" TopLine="239"/>
       </Position4>
       <Position5>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="251" Column="70" TopLine="234"/>
+        <Caret Line="79" Column="67" TopLine="75"/>
       </Position5>
       <Position6>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="252" Column="3" TopLine="239"/>
+        <Caret Line="352" Column="38" TopLine="336"/>
       </Position6>
       <Position7>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="79" Column="67" TopLine="75"/>
+        <Caret Line="41" Column="100" TopLine="29"/>
       </Position7>
       <Position8>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="352" Column="38" TopLine="336"/>
+        <Caret Line="99" Column="40" TopLine="71"/>
       </Position8>
       <Position9>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="41" Column="100" TopLine="29"/>
+        <Caret Line="119" Column="15" TopLine="103"/>
       </Position9>
       <Position10>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="99" Column="40" TopLine="71"/>
+        <Caret Line="191" Column="3" TopLine="182"/>
       </Position10>
       <Position11>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="119" Column="15" TopLine="103"/>
+        <Caret Line="339" Column="60" TopLine="324"/>
       </Position11>
       <Position12>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="191" Column="3" TopLine="182"/>
+        <Caret Line="191" Column="62" TopLine="176"/>
       </Position12>
       <Position13>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="339" Column="60" TopLine="324"/>
+        <Caret Line="120" Column="67" TopLine="106"/>
       </Position13>
       <Position14>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="191" Column="62" TopLine="176"/>
+        <Caret Line="339" Column="31" TopLine="324"/>
       </Position14>
       <Position15>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="120" Column="67" TopLine="106"/>
+        <Caret Line="117" Column="84" TopLine="94"/>
       </Position15>
       <Position16>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="339" Column="31" TopLine="324"/>
+        <Caret Line="115" Column="96" TopLine="95"/>
       </Position16>
       <Position17>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="117" Column="84" TopLine="94"/>
+        <Caret Line="119" Column="87" TopLine="95"/>
       </Position17>
       <Position18>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="115" Column="96" TopLine="95"/>
+        <Caret Line="245" Column="11" TopLine="222"/>
       </Position18>
       <Position19>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="119" Column="87" TopLine="95"/>
+        <Caret Line="340" TopLine="325"/>
       </Position19>
       <Position20>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="245" Column="11" TopLine="222"/>
+        <Caret Line="339" Column="74" TopLine="325"/>
       </Position20>
       <Position21>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="340" TopLine="325"/>
+        <Caret Line="216" Column="51" TopLine="202"/>
       </Position21>
       <Position22>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="339" Column="74" TopLine="325"/>
+        <Caret Line="340" Column="68" TopLine="326"/>
       </Position22>
       <Position23>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="216" Column="51" TopLine="202"/>
+        <Caret Line="121" Column="15" TopLine="109"/>
       </Position23>
       <Position24>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="340" Column="68" TopLine="326"/>
+        <Caret Line="198" Column="5" TopLine="190"/>
       </Position24>
       <Position25>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="121" Column="15" TopLine="109"/>
+        <Caret Line="221" Column="66" TopLine="208"/>
       </Position25>
       <Position26>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="198" Column="5" TopLine="190"/>
+        <Caret Line="198" Column="28" TopLine="178"/>
       </Position26>
       <Position27>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="221" Column="66" TopLine="208"/>
+        <Caret Line="83" Column="72" TopLine="75"/>
       </Position27>
       <Position28>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="198" Column="28" TopLine="178"/>
+        <Caret Line="236" Column="13" TopLine="232"/>
       </Position28>
       <Position29>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="83" Column="72" TopLine="75"/>
+        <Caret Line="66" Column="3" TopLine="37"/>
       </Position29>
       <Position30>
         <Filename Value="uCookieVisitor.pas"/>
-        <Caret Line="236" Column="13" TopLine="232"/>
+        <Caret Line="252" Column="9" TopLine="233"/>
       </Position30>
     </JumpHistory>
     <RunParams>

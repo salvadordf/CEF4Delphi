@@ -123,6 +123,7 @@ type
       FWebRTCIPHandlingPolicy : TCefWebRTCHandlingPolicy;
       FWebRTCMultipleRoutes   : TCefState;
       FWebRTCNonProxiedUDP    : TCefState;
+      FAcceptLanguageList     : ustring;
 
       {$IFDEF MSWINDOWS}
       FOldBrowserCompWndPrc   : TFNWndProc;
@@ -321,6 +322,7 @@ type
       procedure SetSafeSearch(aValue : boolean);
       procedure SetYouTubeRestrict(aValue : integer);
       procedure SetPrintingEnabled(aValue : boolean);
+      procedure SetAcceptLanguageList(const aValue : ustring);
       procedure SetOnRequestContextInitialized(const aValue : TOnRequestContextInitialized);
       procedure SetOnBeforePluginLoad(const aValue : TOnBeforePluginLoad);
 
@@ -706,6 +708,7 @@ type
       property  SafeSearch              : boolean                      read FSafeSearch               write SetSafeSearch;
       property  YouTubeRestrict         : integer                      read FYouTubeRestrict          write SetYouTubeRestrict;
       property  PrintingEnabled         : boolean                      read FPrintingEnabled          write SetPrintingEnabled;
+      property  AcceptLanguageList      : ustring                      read FAcceptLanguageList       write SetAcceptLanguageList;
 
       property  WebRTCIPHandlingPolicy  : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy   write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes    : TCefState                    read FWebRTCMultipleRoutes     write SetWebRTCMultipleRoutes;
@@ -930,6 +933,7 @@ begin
   FSafeSearch             := False;
   FYouTubeRestrict        := YOUTUBE_RESTRICT_OFF;
   FPrintingEnabled        := True;
+  FAcceptLanguageList     := '';
 
   {$IFDEF MSWINDOWS}
   FOldBrowserCompWndPrc   := nil;
@@ -2362,6 +2366,15 @@ begin
     end;
 end;
 
+procedure TChromiumCore.SetAcceptLanguageList(const aValue : ustring);
+begin
+  if (FAcceptLanguageList <> aValue) then
+    begin
+      FAcceptLanguageList := aValue;
+      FUpdatePreferences  := True;
+    end;
+end;
+
 procedure TChromiumCore.SetOnRequestContextInitialized(const aValue : TOnRequestContextInitialized);
 begin
   FOnRequestContextInitialized := aValue;
@@ -2967,6 +2980,9 @@ begin
   UpdatePreference(aBrowser, 'settings.force_google_safesearch',     FSafeSearch);
   UpdatePreference(aBrowser, 'settings.force_youtube_restrict',      FYouTubeRestrict);
   UpdatePreference(aBrowser, 'printing.enabled',                     FPrintingEnabled);
+
+  if (length(FAcceptLanguageList) > 0) then
+    UpdatePreference(aBrowser, 'intl.accept_languages', FAcceptLanguageList);
 
   if (FMaxConnectionsPerProxy <> CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE) then
     UpdatePreference(aBrowser, 'net.max_connections_per_proxy', FMaxConnectionsPerProxy);

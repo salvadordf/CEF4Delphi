@@ -44,10 +44,10 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.StrUtils,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, StrUtils,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
   uCEFCookieManager, uCEFCookieVisitor, uCEFWinControl, uCEFSentinel, uCEFChromiumEvents;
@@ -61,6 +61,8 @@ const
   MINIBROWSER_CONTEXTMENU_GETCOOKIES        = MENU_ID_USER_FIRST + 2;
   MINIBROWSER_CONTEXTMENU_SETCOOKIE         = MENU_ID_USER_FIRST + 3;
   MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES  = MENU_ID_USER_FIRST + 4;
+                        
+  BLOCKED_COOKIE_DOMAIN = 'briskbard.com';
 
 type
 
@@ -76,6 +78,10 @@ type
     Timer1: TTimer;
     procedure CEFSentinel1Close(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1CanSaveCookie(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const request: ICefRequest; const response: ICefResponse;
+      const cookie: PCefCookie; var aResult: boolean);
     procedure Chromium1CookieSet(Sender: TObject; aSuccess: boolean;
       aID: integer);
     procedure Chromium1CookiesVisited(Sender: TObject; const name_, value,
@@ -173,7 +179,7 @@ end;
 procedure TCookieVisitorFrm.AddCookieInfo(const aCookie : TCookie);
 begin
   // This should be protected by a mutex.
-  FText := FText + aCookie.name + ' : ' + aCookie.value + #13 + #10;
+  FText := FText + aCookie.name + ' : ' + aCookie.value + ' (' + aCookie.domain + ')' + #13 + #10;
 end;
 
 procedure TCookieVisitorFrm.BrowserCreatedMsg(var aMessage : TMessage);
@@ -222,6 +228,29 @@ end;
 procedure TCookieVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+end;
+
+procedure TCookieVisitorFrm.Chromium1CanSaveCookie(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  const request: ICefRequest; const response: ICefResponse;
+  const cookie: PCefCookie; var aResult: boolean);
+var
+  TempDomain : string;
+begin
+  aResult := True;
+
+  // This event can't block cookies set in JavaScript
+
+  if (cookie               <> nil) and
+     (cookie.domain.str    <> nil) and
+     (cookie.domain.length  > 0)   then
+    begin
+      SetString(TempDomain, cookie.domain.str, cookie.domain.length);
+
+      // TO-DO: See the "Domain Matching" section in the RFC for "HTTP State Management Mechanism".
+      if AnsiEndsStr(BLOCKED_COOKIE_DOMAIN, TempDomain) then
+        aResult := False;
+    end;
 end;
 
 procedure TCookieVisitorFrm.Chromium1CookieSet(Sender: TObject;
