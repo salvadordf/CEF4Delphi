@@ -137,6 +137,7 @@ type
       FDisableWebSecurity            : boolean;
       FDisablePDFExtension           : boolean;
       FLogProcessInfo                : boolean;
+      FDisableSiteIsolationTrials    : boolean;
       FEnableFeatures                : string;
       FDisableFeatures               : string;
       FEnableBlinkFeatures           : string;
@@ -403,6 +404,7 @@ type
       property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;                   // --site-per-process
       property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;               // --disable-web-security
       property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;              // --disable-pdf-extension
+      property DisableSiteIsolationTrials        : boolean                             read FDisableSiteIsolationTrials        write FDisableSiteIsolationTrials;       //--disable-site-isolation-trials
       property DisableExtensions                 : boolean                             read FDisableExtensions                 write FDisableExtensions;                // --disable-extensions
       property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;                   // --autoplay-policy
       property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;      // --disable-background-networking
@@ -629,6 +631,7 @@ begin
   FSitePerProcess                := False;
   FDisableWebSecurity            := False;
   FDisablePDFExtension           := False;
+  FDisableSiteIsolationTrials    := False;
   FLogProcessInfo                := False;
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
@@ -1626,6 +1629,9 @@ begin
 
       if FDisablePDFExtension then
         commandLine.AppendSwitch('--disable-pdf-extension');
+
+      if FDisableSiteIsolationTrials then
+        commandLine.AppendSwitch('--disable-site-isolation-trials');
 
       if FSitePerProcess then
         commandLine.AppendSwitch('--site-per-process');
