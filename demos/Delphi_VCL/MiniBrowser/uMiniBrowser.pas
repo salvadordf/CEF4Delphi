@@ -84,7 +84,6 @@ const
   MINIBROWSER_CONTEXTMENU_GETNAVIGATION   = MENU_ID_USER_FIRST + 12;
   MINIBROWSER_CONTEXTMENU_MUTEAUDIO       = MENU_ID_USER_FIRST + 13;
   MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO     = MENU_ID_USER_FIRST + 14;
-  MINIBROWSER_CONTEXTMENU_SHOWZOOMPCT     = MENU_ID_USER_FIRST + 15;
 
 type
   TMiniBrowserFrm = class(TForm)
@@ -234,9 +233,9 @@ type
       pluginUrl: ustring; isMainFrame: Boolean;
       const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
       var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
-    procedure Chromium1ExecuteTaskOnCefThread(Sender: TObject;
-      aTaskID: Cardinal);
     procedure Acceptlanguage1Click(Sender: TObject);
+    procedure Chromium1ZoomPctAvailable(Sender: TObject;
+      const aZoomPct: Double);
 
   protected
     FResponse   : TStringList;
@@ -389,7 +388,6 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,      'Modify HTML document');
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,      'Print using Javascript');
   model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show server headers');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWZOOMPCT,     'Show ZoomPct');
 
   if DevTools.Visible then
     model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -569,9 +567,6 @@ begin
 
     MINIBROWSER_CONTEXTMENU_MUTEAUDIO :
       Chromium1.AudioMuted := True;
-
-    MINIBROWSER_CONTEXTMENU_SHOWZOOMPCT :
-      Chromium1.ExecuteTaskOnCefThread(TID_UI, 1);
   end;
 end;
 
@@ -624,12 +619,6 @@ begin
 
           ShowStatusText(TempString);
         end;
-end;
-
-procedure TMiniBrowserFrm.Chromium1ExecuteTaskOnCefThread(Sender: TObject;
-  aTaskID: Cardinal);
-begin
-  ShowStatusText('ZoomPct : ' + floattostr(Chromium1.ZoomPct));
 end;
 
 procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
@@ -994,6 +983,12 @@ begin
     caption := 'MiniBrowser - ' + title
    else
     caption := 'MiniBrowser';
+end;
+
+procedure TMiniBrowserFrm.Chromium1ZoomPctAvailable(Sender: TObject;
+  const aZoomPct: Double);
+begin
+  ShowStatusText('Zoom : ' + floattostr(aZoomPct) + '%');
 end;
 
 procedure TMiniBrowserFrm.Flushcookies1Click(Sender: TObject);

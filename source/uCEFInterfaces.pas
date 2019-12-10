@@ -397,6 +397,12 @@ type
     procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean);
     procedure doOnCookieVisitorDestroyed(aID : integer);
     procedure doOnCookieSet(aSuccess : boolean; aID : integer);
+    procedure doUpdateZoomStep(aInc : boolean);
+    procedure doUpdateZoomPct(aInc : boolean);
+    procedure doSetZoomLevel(const aValue : double);
+    procedure doSetZoomPct(const aValue : double);
+    procedure doSetZoomStep(aValue : byte);
+    procedure doReadZoom;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
     function  MustCreateContextMenuHandler : boolean;

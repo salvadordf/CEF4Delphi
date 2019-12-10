@@ -178,6 +178,7 @@ type
   TOnCookiesVisited                        = procedure(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean) of object;
   TOnCookieVisitorDestroyed                = procedure(Sender: TObject; aID : integer) of object;
   TOnCookieSet                             = procedure(Sender: TObject; aSuccess : boolean; aID : integer) of object;
+  TOnZoomPctAvailable                      = procedure(Sender: TObject; const aZoomPct : double) of object;
   {$IFDEF MSWINDOWS}
   TOnCompMsgEvent                          = procedure(var aMessage: TMessage; var aHandled: Boolean) of object;
   {$ENDIF}

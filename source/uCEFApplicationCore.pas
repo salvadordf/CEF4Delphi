@@ -404,7 +404,7 @@ type
       property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;                   // --site-per-process
       property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;               // --disable-web-security
       property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;              // --disable-pdf-extension
-      property DisableSiteIsolationTrials        : boolean                             read FDisableSiteIsolationTrials        write FDisableSiteIsolationTrials;       //--disable-site-isolation-trials
+      property DisableSiteIsolationTrials        : boolean                             read FDisableSiteIsolationTrials        write FDisableSiteIsolationTrials;       // --disable-site-isolation-trials
       property DisableExtensions                 : boolean                             read FDisableExtensions                 write FDisableExtensions;                // --disable-extensions
       property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;                   // --autoplay-policy
       property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;      // --disable-background-networking

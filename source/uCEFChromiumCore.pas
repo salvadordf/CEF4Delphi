@@ -50,7 +50,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX, WinApi.CommCtrl,{$ENDIF} System.Classes,
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX, WinApi.CommCtrl,{$ENDIF} System.Classes, System.SyncObjs,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX, CommCtrl,{$ENDIF} Classes,
     {$IFDEF FPC}
@@ -58,6 +58,7 @@ uses
     {$ELSE}
     Messages,
     {$ENDIF}
+    SyncObjs,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
@@ -103,6 +104,7 @@ type
       FSpellChecking          : boolean;
       FSpellCheckerDicts      : ustring;
       FZoomStep               : byte;
+      FZoomStepCS             : TCriticalSection;
       FPrefsFileName          : string;
       FIsOSR                  : boolean;
       FInitialized            : boolean;
@@ -262,6 +264,7 @@ type
       FOnCookiesVisited                   : TOnCookiesVisited;
       FOnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed;
       FOnCookieSet                        : TOnCookieSet;
+      FOnZoomPctAvailable                 : TOnZoomPctAvailable;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -280,6 +283,7 @@ type
       function  GetDocumentURL : ustring;
       function  GetZoomLevel : double;
       function  GetZoomPct : double;
+      function  GetZoomStep : byte;
       function  GetIsPopUp : boolean;
       function  GetWindowHandle : TCefWindowHandle;
       function  GetWindowlessFrameRate : integer;
@@ -359,21 +363,28 @@ type
       procedure HandleList(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
       procedure HandleInvalid(const aValue : ICefValue; var aResultSL : TStringList; const aRoot, aKey : string);
 
+      function  ExecuteUpdateZoomStepTask(aInc : boolean) : boolean;
+      function  ExecuteUpdateZoomPctTask(aInc : boolean) : boolean;
+      function  ExecuteReadZoomTask : boolean;
+      function  ExecuteSetZoomPctTask(const aValue : double) : boolean;
+      function  ExecuteSetZoomLevelTask(const aValue : double) : boolean;
+      function  ExecuteSetZoomStepTask(aValue : byte) : boolean;
+
+      procedure UpdateHostZoomLevel(const aValue : double);
+      procedure UpdateHostZoomPct(const aValue : double);
+
+      procedure DelayedDragging;
+      procedure InitializeWindowInfo(aParentHandle : TCefWindowHandle; aParentRect : TRect; const aWindowName : ustring); virtual;
+      procedure DefaultInitializeDevToolsWindowInfo(aDevToolsWnd: TCefWindowHandle; const aClientRect: TRect; const aWindowName: ustring);
+
       {$IFDEF MSWINDOWS}
       procedure PrefsAvailableMsg(var aMessage : TMessage);
       function  SendCompMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
       procedure ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);
-      {$ENDIF}
-      procedure ApplyZoomStep;
-      procedure DelayedDragging;
-
-      procedure InitializeWindowInfo(aParentHandle : TCefWindowHandle; aParentRect : TRect; const aWindowName : ustring); virtual;
-      procedure DefaultInitializeDevToolsWindowInfo(aDevToolsWnd: TCefWindowHandle; const aClientRect: TRect; const aWindowName: ustring);
-      {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage);
       procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
       procedure FreeAndNilStub(var aStub : pointer);
-      function InstallCompWndProc(aWnd: THandle; aStub: Pointer): TFNWndProc;
+      function  InstallCompWndProc(aWnd: THandle; aStub: Pointer): TFNWndProc;
       procedure RestoreCompWndProc(var aOldWnd: THandle; aNewWnd: THandle; var aProc: TFNWndProc);
       procedure CallOldCompWndProc(aProc: TFNWndProc; aWnd: THandle; var aMessage: TMessage);
       procedure BrowserCompWndProc(var aMessage: TMessage);
@@ -516,6 +527,12 @@ type
       procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean); virtual;
       procedure doOnCookieVisitorDestroyed(aID : integer); virtual;
       procedure doOnCookieSet(aSuccess : boolean; aID : integer); virtual;
+      procedure doUpdateZoomStep(aInc : boolean); virtual;
+      procedure doUpdateZoomPct(aInc : boolean); virtual;
+      procedure doReadZoom; virtual;
+      procedure doSetZoomLevel(const aValue : double); virtual;
+      procedure doSetZoomPct(const aValue : double); virtual;
+      procedure doSetZoomStep(aValue : byte); virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
       function  MustCreateContextMenuHandler : boolean; virtual;
@@ -616,7 +633,12 @@ type
 
       procedure   IncZoomStep;
       procedure   DecZoomStep;
+      procedure   IncZoomPct;
+      procedure   DecZoomPct;
       procedure   ResetZoomStep;
+      procedure   ResetZoomLevel;
+      procedure   ResetZoomPct;
+      procedure   ReadZoom;
 
       procedure   WasResized;
       procedure   WasHidden(hidden: Boolean);
@@ -689,7 +711,7 @@ type
       property  DocumentURL             : ustring                      read GetDocumentURL;
       property  ZoomLevel               : double                       read GetZoomLevel              write SetZoomLevel;
       property  ZoomPct                 : double                       read GetZoomPct                write SetZoomPct;
-      property  ZoomStep                : byte                         read FZoomStep                 write SetZoomStep;
+      property  ZoomStep                : byte                         read GetZoomStep               write SetZoomStep;
       property  WindowlessFrameRate     : integer                      read GetWindowlessFrameRate    write SetWindowlessFrameRate;
       property  CustomHeaderName        : ustring                      read FCustomHeaderName         write SetCustomHeaderName;
       property  CustomHeaderValue       : ustring                      read FCustomHeaderValue        write SetCustomHeaderValue;
@@ -740,6 +762,7 @@ type
       property  OnCookiesVisited                   : TOnCookiesVisited                        read FOnCookiesVisited                   write FOnCookiesVisited;
       property  OnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed                read FOnCookieVisitorDestroyed           write FOnCookieVisitorDestroyed;
       property  OnCookieSet                        : TOnCookieSet                             read FOnCookieSet                        write FOnCookieSet;
+      property  OnZoomPctAvailable                 : TOnZoomPctAvailable                      read FOnZoomPctAvailable                 write FOnZoomPctAvailable;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg                   : TOnCompMsgEvent                          read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
       property  OnWidgetCompMsg                    : TOnCompMsgEvent                          read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
@@ -930,6 +953,7 @@ begin
   FSpellChecking          := True;
   FSpellCheckerDicts      := '';
   FZoomStep               := ZOOM_STEP_DEF;
+  FZoomStepCS             := nil;
   FSafeSearch             := False;
   FYouTubeRestrict        := YOUTUBE_RESTRICT_OFF;
   FPrintingEnabled        := True;
@@ -998,6 +1022,7 @@ begin
       if (FFontOptions     <> nil) then FreeAndNil(FFontOptions);
       if (FOptions         <> nil) then FreeAndNil(FOptions);
       if (FPDFPrintOptions <> nil) then FreeAndNil(FPDFPrintOptions);
+      if (FZoomStepCS      <> nil) then FreeAndNil(FZoomStepCS);
     except
       on e : exception do
         if CustomExceptionHandler('TChromiumCore.Destroy', e) then raise;
@@ -1224,6 +1249,7 @@ begin
         FOptions         := TChromiumOptions.Create;
         FFontOptions     := TChromiumFontOptions.Create;
         FPDFPrintOptions := TPDFPrintOptions.Create;
+        FZoomStepCS      := TCriticalSection.Create;
       end;
   except
     on e : exception do
@@ -1388,6 +1414,7 @@ begin
   FOnCookiesVisited                   := nil;
   FOnCookieVisitorDestroyed           := nil;
   FOnCookieSet                        := nil;
+  FOnZoomPctAvailable                 := nil;
 
   {$IFDEF MSWINDOWS}
   FOnBrowserCompMsg                   := nil;
@@ -2198,73 +2225,211 @@ begin
   if Initialized then Result := FBrowser.Host.ZoomLevel;
 end;
 
-procedure TChromiumCore.SetZoomLevel(const aValue : double);
-begin
-  if Initialized then FBrowser.Host.ZoomLevel := aValue;
-end;
-
 function TChromiumCore.GetZoomPct : double;
 begin
   Result := power(1.2, ZoomLevel) * 100;
 end;
 
-procedure TChromiumCore.SetZoomPct(const aValue : double);
+function TChromiumCore.GetZoomStep : byte;
 begin
-  if Initialized and (aValue > 0) then ZoomLevel := LogN(1.2, aValue / 100);
+  Result := ZOOM_STEP_DEF;
+
+  if (FZoomStepCS <> nil) then
+    try
+      FZoomStepCS.Acquire;
+      Result := FZoomStep;
+    finally
+      FZoomStepCS.Release;
+    end;
 end;
 
-procedure TChromiumCore.ApplyZoomStep;
+procedure TChromiumCore.SetZoomLevel(const aValue : double);
 begin
-  case FZoomStep of
-    ZOOM_STEP_25  : ZoomPct := 25;
-    ZOOM_STEP_33  : ZoomPct := 33;
-    ZOOM_STEP_50  : ZoomPct := 50;
-    ZOOM_STEP_67  : ZoomPct := 67;
-    ZOOM_STEP_75  : ZoomPct := 75;
-    ZOOM_STEP_90  : ZoomPct := 90;
-    ZOOM_STEP_100 : ZoomPct := 100;
-    ZOOM_STEP_110 : ZoomPct := 110;
-    ZOOM_STEP_125 : ZoomPct := 125;
-    ZOOM_STEP_150 : ZoomPct := 150;
-    ZOOM_STEP_175 : ZoomPct := 175;
-    ZOOM_STEP_200 : ZoomPct := 200;
-    ZOOM_STEP_250 : ZoomPct := 250;
-    ZOOM_STEP_300 : ZoomPct := 300;
-    ZOOM_STEP_400 : ZoomPct := 400;
-    ZOOM_STEP_500 : ZoomPct := 500;
-  end;
+  if CefCurrentlyOn(TID_UI) then
+    doSetZoomLevel(aValue)
+   else
+    ExecuteSetZoomLevelTask(aValue);
+end;
+
+procedure TChromiumCore.SetZoomPct(const aValue : double);
+begin
+  if CefCurrentlyOn(TID_UI) then
+    doSetZoomPct(aValue)
+   else
+    ExecuteSetZoomPctTask(aValue);
 end;
 
 procedure TChromiumCore.SetZoomStep(aValue : byte);
 begin
-  if Initialized and (aValue in [ZOOM_STEP_MIN..ZOOM_STEP_MAX]) then
-    begin
-      FZoomStep := aValue;
-      ApplyZoomStep;
-    end;
+  if CefCurrentlyOn(TID_UI) then
+    doSetZoomStep(aValue)
+   else
+    ExecuteSetZoomStepTask(aValue);
 end;
 
+// Increments the Zoom Step value and triggers the TChromium.OnZoomPctAvailable event with the new value
 procedure TChromiumCore.IncZoomStep;
 begin
-  if Initialized and (FZoomStep < ZOOM_STEP_MAX) then
-    begin
-      inc(FZoomStep);
-      ApplyZoomStep;
-    end;
+  if CefCurrentlyOn(TID_UI) then
+    doUpdateZoomStep(True)
+   else
+    ExecuteUpdateZoomStepTask(True);
 end;
 
+// Decrements the Zoom Step value and triggers the TChromium.OnZoomPctAvailable event with the new value
 procedure TChromiumCore.DecZoomStep;
 begin
-  if Initialized and (FZoomStep > ZOOM_STEP_MIN) then
-    begin
-      dec(FZoomStep);
-      ApplyZoomStep;
-    end;
+  if CefCurrentlyOn(TID_UI) then
+    doUpdateZoomStep(False)
+   else
+    ExecuteUpdateZoomStepTask(False);
 end;
 
+// Increments the Zoom Percent value and triggers the TChromium.OnZoomPctAvailable event with the new value
+procedure TChromiumCore.IncZoomPct;
+begin
+  if CefCurrentlyOn(TID_UI) then
+    doUpdateZoomPct(True)
+   else
+    ExecuteUpdateZoomPctTask(True);
+end;
+
+// Decrements the Zoom Percent value and triggers the TChromium.OnZoomPctAvailable event with the new value
+procedure TChromiumCore.DecZoomPct;
+begin
+  if CefCurrentlyOn(TID_UI) then
+    doUpdateZoomPct(False)
+   else
+    ExecuteUpdateZoomPctTask(False);
+end;
+
+// Sets the Zoom Step to the default value and triggers the TChromium.OnZoomPctAvailable event
 procedure TChromiumCore.ResetZoomStep;
 begin
   ZoomStep := ZOOM_STEP_DEF;
+end;
+
+// Sets the Zoom Level to the default value and triggers the TChromium.OnZoomPctAvailable event
+procedure TChromiumCore.ResetZoomLevel;
+begin
+  ZoomLevel := 0;
+end;
+
+// Sets the Zoom Percent to the default value and triggers the TChromium.OnZoomPctAvailable event
+procedure TChromiumCore.ResetZoomPct;
+begin
+  ZoomPct := ZoomStepValues[ZOOM_STEP_DEF];
+end;
+
+// Triggers the TChromium.OnZoomPctAvailable event with the current Zoom Percent value
+procedure TChromiumCore.ReadZoom;
+begin
+  if CefCurrentlyOn(TID_UI) then
+    doReadZoom
+   else
+    ExecuteReadZoomTask;
+end;
+
+function TChromiumCore.ExecuteUpdateZoomStepTask(aInc : boolean) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefUpdateZoomStepTask.Create(self, aInc);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
+function TChromiumCore.ExecuteUpdateZoomPctTask(aInc : boolean) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefUpdateZoomPctTask.Create(self, aInc);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
+function TChromiumCore.ExecuteReadZoomTask : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefReadZoomTask.Create(self);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
+function TChromiumCore.ExecuteSetZoomPctTask(const aValue : double) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefSetZoomPctTask.Create(self, aValue);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
+function TChromiumCore.ExecuteSetZoomLevelTask(const aValue : double) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefSetZoomLevelTask.Create(self, aValue);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
+function TChromiumCore.ExecuteSetZoomStepTask(aValue : byte) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefSetZoomStepTask.Create(self, aValue);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
 end;
 
 procedure TChromiumCore.SetDoNotTrack(aValue : boolean);
@@ -2387,6 +2552,16 @@ begin
   FOnBeforePluginLoad := aValue;
 
   CreateReqContextHandler;
+end;
+
+procedure TChromiumCore.UpdateHostZoomLevel(const aValue : double);
+begin
+  if Initialized then FBrowser.Host.ZoomLevel := aValue;
+end;
+
+procedure TChromiumCore.UpdateHostZoomPct(const aValue : double);
+begin
+  if (aValue > 0) then UpdateHostZoomLevel(LogN(1.2, aValue / 100));
 end;
 
 procedure TChromiumCore.SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
@@ -3604,6 +3779,185 @@ end;
 procedure TChromiumCore.doOnCookieSet(aSuccess : boolean; aID : integer);
 begin
   if assigned(FOnCookieSet) then FOnCookieSet(self, aSuccess, aID);
+end;
+
+procedure TChromiumCore.doUpdateZoomStep(aInc : boolean);
+var
+  TempPct, TempPrev, TempNext : double;
+  i : integer;
+begin
+  if not(Initialized) or (FZoomStepCS = nil) then exit;
+
+  try
+    FZoomStepCS.Acquire;
+
+    if (FZoomStep in [ZOOM_STEP_MIN..ZOOM_STEP_MAX]) then
+      begin
+        if aInc then
+          begin
+            if (FZoomStep < ZOOM_STEP_MAX) then
+              begin
+                inc(FZoomStep);
+                UpdateHostZoomPct(ZoomStepValues[FZoomStep]);
+              end;
+          end
+         else
+          if (FZoomStep > ZOOM_STEP_MIN) then
+          begin
+            dec(FZoomStep);
+            UpdateHostZoomPct(ZoomStepValues[FZoomStep]);
+          end;
+      end
+     else
+      begin
+        TempPct  := ZoomPct;
+        TempPrev := 0;
+        i        := ZOOM_STEP_MIN;
+
+        repeat
+          if (i <= ZOOM_STEP_MAX) then
+            TempNext := ZoomStepValues[i]
+           else
+            TempNext := ZoomStepValues[ZOOM_STEP_MAX] * 2;
+
+          if (TempPct > TempPrev) and (TempPct < TempNext) then
+            begin
+              if aInc then
+                begin
+                  if (i <= ZOOM_STEP_MAX) then
+                    begin
+                      FZoomStep := i;
+                      UpdateHostZoomPct(ZoomStepValues[FZoomStep]);
+                    end;
+                end
+               else
+                if (i > ZOOM_STEP_MIN) then
+                  begin
+                    FZoomStep := pred(i);
+                    UpdateHostZoomPct(ZoomStepValues[FZoomStep]);
+                  end;
+
+              i := ZOOM_STEP_MAX + 2;
+            end
+           else
+            begin
+              TempPrev := TempNext;
+              inc(i);
+            end;
+
+        until (i > succ(ZOOM_STEP_MAX));
+      end;
+  finally
+    FZoomStepCS.Release;
+
+    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, ZoomPct);
+  end;
+end;
+
+procedure TChromiumCore.doUpdateZoomPct(aInc : boolean);
+var
+  TempNewZoom : double;
+  i : integer;
+begin
+  if not(Initialized) or (FZoomStepCS = nil) then exit;
+
+  TempNewZoom := ZoomPct;
+
+  try
+    FZoomStepCS.Acquire;
+
+    if aInc then
+      TempNewZoom := min(TempNewZoom + ZOOM_PCT_DELTA, ZoomStepValues[ZOOM_STEP_MAX])
+     else
+      TempNewZoom := max(TempNewZoom - ZOOM_PCT_DELTA, ZoomStepValues[ZOOM_STEP_MIN]);
+
+    for i := ZOOM_STEP_MIN to ZOOM_STEP_MAX do
+      if (TempNewZoom = ZoomStepValues[i]) then break;
+
+    FZoomStep := i;
+    UpdateHostZoomPct(TempNewZoom);
+  finally
+    FZoomStepCS.Release;
+
+    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, TempNewZoom);
+  end;
+end;
+
+procedure TChromiumCore.doReadZoom;
+begin
+  if Initialized and assigned(FOnZoomPctAvailable) then
+    FOnZoomPctAvailable(self, ZoomPct);
+end;
+
+procedure TChromiumCore.doSetZoomLevel(const aValue : double);
+var
+  TempZoom : double;
+  i : integer;
+begin
+  if not(Initialized) or (FZoomStepCS = nil) then exit;
+
+  try
+    FZoomStepCS.Acquire;
+
+    UpdateHostZoomLevel(aValue);
+    TempZoom := ZoomPct;
+
+    for i := ZOOM_STEP_MIN to ZOOM_STEP_MAX do
+      if (TempZoom = ZoomStepValues[i]) then break;
+
+    FZoomStep := i;
+  finally
+    FZoomStepCS.Release;
+
+    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, ZoomPct);
+  end;
+end;
+
+procedure TChromiumCore.doSetZoomPct(const aValue : double);
+var
+  TempZoom : double;
+  i : integer;
+begin
+  if not(Initialized) or (FZoomStepCS = nil) then exit;
+
+  try
+    FZoomStepCS.Acquire;
+
+    if (aValue >= ZoomStepValues[ZOOM_STEP_MIN]) and
+       (aValue <= ZoomStepValues[ZOOM_STEP_MAX]) then
+      begin
+        UpdateHostZoomPct(aValue);
+        TempZoom := ZoomPct;
+
+        for i := ZOOM_STEP_MIN to ZOOM_STEP_MAX do
+          if (TempZoom = ZoomStepValues[i]) then break;
+
+        FZoomStep := i;
+      end;
+  finally
+    FZoomStepCS.Release;
+
+    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, ZoomPct);
+  end;
+end;
+
+procedure TChromiumCore.doSetZoomStep(aValue : byte);
+begin
+  if not(Initialized) or (FZoomStepCS = nil) then exit;
+
+  try
+    FZoomStepCS.Acquire;
+
+    if (aValue in [ZOOM_STEP_MIN..ZOOM_STEP_MAX]) then
+      begin
+        FZoomStep := aValue;
+        UpdateHostZoomPct(ZoomStepValues[aValue]);
+      end;
+  finally
+    FZoomStepCS.Release;
+
+    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, ZoomPct);
+  end;
 end;
 
 function TChromiumCore.MustCreateLoadHandler : boolean;

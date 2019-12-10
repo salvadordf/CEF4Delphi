@@ -135,6 +135,8 @@ type
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1DownloadImageFinished(Sender: TObject;
       const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
+    procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: double
+      );
     procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -389,7 +391,7 @@ end;
 
 procedure TMiniBrowserFrm.Resetzoom1Click(Sender: TObject);
 begin
-  Chromium1.ResetZoomStep;
+  Chromium1.ResetZoomLevel;
 end;
 
 procedure TMiniBrowserFrm.Resolvehost1Click(Sender: TObject);
@@ -1114,6 +1116,12 @@ begin
     if (TempStream <> nil) then FreeAndNil(TempStream);
     SetLength(TempBuffer, 0);
   end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1ZoomPctAvailable(Sender: TObject;
+  const aZoomPct: double);
+begin
+  ShowStatusText('Zoom : ' + floattostr(aZoomPct) + '%');
 end;
 
 procedure TMiniBrowserFrm.Timer1Timer(Sender: TObject);

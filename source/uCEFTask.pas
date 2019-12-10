@@ -125,6 +125,77 @@ type
       destructor  Destroy; override;
   end;
 
+  TCefUpdateZoomStepTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+      FInc    : boolean;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aInc : boolean); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefUpdateZoomPctTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+      FInc    : boolean;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aInc : boolean); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefReadZoomTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefSetZoomLevelTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+      FValue  : double;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; const aValue : double); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefSetZoomPctTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+      FValue  : double;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; const aValue : double); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefSetZoomStepTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+      FValue  : byte;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aValue : byte); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
@@ -321,6 +392,203 @@ begin
 end;
 
 destructor TCefGenericTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+
+// TCefUpdateZoomStepTask
+
+procedure TCefUpdateZoomStepTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdateZoomStep(FInc);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefUpdateZoomStepTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefUpdateZoomStepTask.Create(const aEvents : IChromiumEvents; aInc : boolean);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FInc    := aInc;
+end;
+
+destructor TCefUpdateZoomStepTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+
+// TCefUpdateZoomPctTask
+
+procedure TCefUpdateZoomPctTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdateZoomPct(FInc);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefUpdateZoomPctTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefUpdateZoomPctTask.Create(const aEvents : IChromiumEvents; aInc : boolean);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FInc    := aInc;
+end;
+
+destructor TCefUpdateZoomPctTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+
+// TCefReadZoomTask
+
+procedure TCefReadZoomTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doReadZoom;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefReadZoomTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefReadZoomTask.Create(const aEvents : IChromiumEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+end;
+
+destructor TCefReadZoomTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+
+// TCefSetZoomLevelTask
+
+procedure TCefSetZoomLevelTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetZoomLevel(FValue);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefSetZoomLevelTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefSetZoomLevelTask.Create(const aEvents : IChromiumEvents; const aValue : double);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FValue  := aValue;
+end;
+
+destructor TCefSetZoomLevelTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+
+// TCefSetZoomPctTask
+
+procedure TCefSetZoomPctTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetZoomPct(FValue);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefSetZoomPctTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefSetZoomPctTask.Create(const aEvents : IChromiumEvents; const aValue : double);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FValue  := aValue;
+end;
+
+destructor TCefSetZoomPctTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+
+// TCefSetZoomStepTask
+
+procedure TCefSetZoomStepTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetZoomStep(FValue);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefSetZoomStepTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefSetZoomStepTask.Create(const aEvents : IChromiumEvents; aValue : byte);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FValue  := aValue;
+end;
+
+destructor TCefSetZoomStepTask.Destroy;
 begin
   FEvents := nil;
 
