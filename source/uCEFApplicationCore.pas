@@ -234,10 +234,10 @@ type
       function  GetLibCefVersion : string;
       function  GetLibCefPath : string;
       function  GetChromeElfPath : string;
-      function  GetMustCreateResourceBundleHandler : boolean;
-      function  GetMustCreateBrowserProcessHandler : boolean;
-      function  GetMustCreateRenderProcessHandler : boolean;
-      function  GetMustCreateLoadHandler : boolean;
+      function  GetMustCreateResourceBundleHandler : boolean; virtual;
+      function  GetMustCreateBrowserProcessHandler : boolean; virtual;
+      function  GetMustCreateRenderProcessHandler : boolean; virtual;
+      function  GetMustCreateLoadHandler : boolean; virtual;
       function  GetGlobalContextInitialized : boolean;
       function  GetChildProcessesCount : integer;
       function  GetUsedMemory : cardinal;

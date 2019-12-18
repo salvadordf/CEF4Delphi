@@ -51,11 +51,13 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFSchemeRegistrar,
-  uCEFTypes, uCEFConstants, uCEFWinControl, uCEFSentinel;
+  uCEFTypes, uCEFConstants, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
 const
   MINIBROWSER_CONTEXTMENU_REGSCHEME    = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_CLEARFACT    = MENU_ID_USER_FIRST + 2;
+
+  CUSTOM_SCHEME_NAME = 'hello';
 
 type
   TSchemeRegistrationBrowserFrm = class(TForm)
@@ -142,7 +144,7 @@ uses
 
 procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
-  registrar.AddCustomScheme('hello', CEF_SCHEME_OPTION_STANDARD or CEF_SCHEME_OPTION_LOCAL);
+  registrar.AddCustomScheme(CUSTOM_SCHEME_NAME, CEF_SCHEME_OPTION_STANDARD or CEF_SCHEME_OPTION_LOCAL);
 end;
 
 procedure CreateGlobalCEFApp;
@@ -216,7 +218,7 @@ begin
         begin
           // You can register the Scheme Handler Factory in the DPR file or later, for example in a context menu command.
           TempFactory := TCefSchemeHandlerFactoryOwn.Create(THelloScheme);
-          if not(browser.host.RequestContext.RegisterSchemeHandlerFactory('hello', '', TempFactory)) then
+          if not(browser.host.RequestContext.RegisterSchemeHandlerFactory(CUSTOM_SCHEME_NAME, '', TempFactory)) then
             MessageDlg('RegisterSchemeHandlerFactory error !', mtError, [mbOk], 0);
         end;
 
@@ -246,7 +248,7 @@ end;
 procedure TSchemeRegistrationBrowserFrm.FormCreate(Sender: TObject);
 begin
   // You can register the Scheme Handler Factory here or later, for example in a context menu command.
-  CefRegisterSchemeHandlerFactory('hello', '', THelloScheme);
+  CefRegisterSchemeHandlerFactory(CUSTOM_SCHEME_NAME, '', THelloScheme);
 end;
 
 procedure TSchemeRegistrationBrowserFrm.FormShow(Sender: TObject);

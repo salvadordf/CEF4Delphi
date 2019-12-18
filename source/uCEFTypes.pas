@@ -52,7 +52,7 @@ uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math;
   {$ELSE}
-    {$IFDEF FPC}{$IFDEF LINUX}xlib,{$ENDIF}{$ENDIF}
+    {$IFDEF FPC}{$IFDEF LINUX}xlib, ctypes,{$ENDIF}{$ENDIF}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math;
   {$ENDIF}
 
@@ -248,8 +248,8 @@ type
   TCefEventHandle  = Pointer;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
   {$ENDIF}
   {$IFDEF LINUX}
-  TCefWindowHandle = cardinal; // /include/internal/cef_types_linux.h (cef_window_handle_t)
-  TCefCursorHandle = cardinal; // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+  TCefWindowHandle = culong;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
+  TCefCursorHandle = culong;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
   TCefEventHandle  = PXEvent;  // /include/internal/cef_types_linux.h (cef_event_handle_t)
   {$ENDIF}
 

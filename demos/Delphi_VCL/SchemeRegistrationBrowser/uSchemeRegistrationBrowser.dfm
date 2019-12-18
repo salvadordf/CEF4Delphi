@@ -54,7 +54,8 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
       Text = 'hello://test.html'
       Items.Strings = (
         'https://www.google.com'
-        'hello://test.html')
+        'hello://test.html'
+        'file://test.html')
     end
   end
   object CEFWindowParent1: TCEFWindowParent

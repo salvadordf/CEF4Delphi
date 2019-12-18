@@ -1,0 +1,88 @@
+object Form1: TForm1
+  Left = 393
+  Height = 622
+  Top = 250
+  Width = 972
+  Caption = ' Initializing browser. Please wait...'
+  ClientHeight = 622
+  ClientWidth = 972
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnHide = FormHide
+  OnShow = FormShow
+  LCLVersion = '2.0.6.0'
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 972
+    Align = alTop
+    ClientHeight = 21
+    ClientWidth = 972
+    TabOrder = 0
+    object GoBtn: TButton
+      Left = 940
+      Height = 19
+      Top = 1
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      OnEnter = GoBtnEnter
+      TabOrder = 0
+    end
+    object AddressEdt: TEdit
+      Left = 1
+      Height = 19
+      Top = 1
+      Width = 939
+      Align = alClient
+      OnEnter = AddressEdtEnter
+      TabOrder = 1
+      Text = 'AddressEdt'
+    end
+  end
+  object Panel1: TBufferPanel
+    Left = 0
+    Height = 601
+    Top = 21
+    Width = 972
+    Align = alClient
+    OnUTF8KeyPress = Panel1UTF8KeyPress
+    Caption = 'Panel1'
+    TabOrder = 1
+    OnClick = Panel1Click
+    OnEnter = Panel1Enter
+    OnExit = Panel1Exit
+    OnMouseDown = Panel1MouseDown
+    OnMouseMove = Panel1MouseMove
+    OnMouseUp = Panel1MouseUp
+    OnMouseWheel = Panel1MouseWheel
+    OnKeyDown = Panel1KeyDown
+    OnKeyUp = Panel1KeyUp
+    OnResize = Panel1Resize
+  end
+  object Chromium1: TChromium
+    OnTooltip = Chromium1Tooltip
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
+    OnGetViewRect = Chromium1GetViewRect
+    OnGetScreenPoint = Chromium1GetScreenPoint
+    OnGetScreenInfo = Chromium1GetScreenInfo
+    OnPopupShow = Chromium1PopupShow
+    OnPopupSize = Chromium1PopupSize
+    OnPaint = Chromium1Paint
+    OnCursorChange = Chromium1CursorChange
+    left = 48
+    top = 72
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    left = 48
+    top = 144
+  end
+end

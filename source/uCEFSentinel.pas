@@ -60,7 +60,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, {$ENDIF} Classes, Controls, ExtCtrls, SysUtils, SyncObjs, Math,
     {$IFDEF FPC}
-    LCLProc, LCLIntf, LResources, LMessages, InterfaceBase,
+    LResources, Forms,
     {$ELSE}
     Messages,
     {$ENDIF}
@@ -99,10 +99,10 @@ type
 
       {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage);
-      procedure doStartMsg(var aMessage : TMessage); virtual;
-      procedure doCloseMsg(var aMessage : TMessage); virtual;
-      function  SendCompMessage(aMsg : cardinal) : boolean;
       {$ENDIF}
+      procedure doStartMsg({$IFDEF MSWINDOWS}var aMessage : TMessage{$ELSE IFDEF FPC}Data: PtrInt{$ENDIF}); virtual;
+      procedure doCloseMsg({$IFDEF MSWINDOWS}var aMessage : TMessage{$ELSE IFDEF FPC}Data: PtrInt{$ENDIF}); virtual;
+      function  SendCompMessage(aMsg : cardinal) : boolean;
       function  CanClose : boolean; virtual;
 
       procedure Timer_OnTimer(Sender: TObject); virtual;
@@ -199,8 +199,9 @@ begin
     else aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
   end;
 end;
+{$ENDIF}
 
-procedure TCEFSentinel.doStartMsg(var aMessage : TMessage);
+procedure TCEFSentinel.doStartMsg({$IFDEF MSWINDOWS}var aMessage : TMessage{$ELSE IFDEF FPC}Data: PtrInt{$ENDIF});
 begin
   if (FTimer <> nil) then
     begin
@@ -209,16 +210,22 @@ begin
     end;
 end;
 
-procedure TCEFSentinel.doCloseMsg(var aMessage : TMessage);
+procedure TCEFSentinel.doCloseMsg({$IFDEF MSWINDOWS}var aMessage : TMessage{$ELSE IFDEF FPC}Data: PtrInt{$ENDIF});
 begin
   if assigned(FOnClose) then FOnClose(self);
 end;
 
 function TCEFSentinel.SendCompMessage(aMsg : cardinal) : boolean;
 begin
+  {$IFDEF MSWINDOWS}
   Result := (FCompHandle <> 0) and PostMessage(FCompHandle, aMsg, 0, 0);
+  {$ELSE IFDEF FPC}
+  case aMsg of
+    CEF_SENTINEL_START   : Application.QueueAsyncCall(@doStartMsg, 0);
+    CEF_SENTINEL_DOCLOSE : Application.QueueAsyncCall(@doCloseMsg, 0);
+  end;
+  {$ENDIF}
 end;
-{$ENDIF}
 
 procedure TCEFSentinel.Start;
 begin
@@ -228,9 +235,7 @@ begin
     if (FStatus = ssIdle) then
       begin
         FStatus := ssInitialDelay;
-        {$IFDEF MSWINDOWS}
         SendCompMessage(CEF_SENTINEL_START);
-        {$ENDIF}
       end;
   finally
     if (FStatusCS <> nil) then FStatusCS.Release;
@@ -277,9 +282,7 @@ begin
         if CanClose then
           begin
             FStatus := ssClosing;
-            {$IFDEF MSWINDOWS}
             SendCompMessage(CEF_SENTINEL_DOCLOSE);
-            {$ENDIF}
           end
          else
           begin
@@ -293,9 +296,7 @@ begin
         if CanClose then
           begin
             FStatus := ssClosing;
-            {$IFDEF MSWINDOWS}
             SendCompMessage(CEF_SENTINEL_DOCLOSE);
-            {$ENDIF}
           end
          else
           begin

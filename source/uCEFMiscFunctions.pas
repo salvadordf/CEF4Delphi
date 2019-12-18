@@ -715,7 +715,7 @@ begin
   aWindowInfo.width                        := 0;
   aWindowInfo.height                       := 0;
   aWindowInfo.parent_window                := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
+  aWindowInfo.windowless_rendering_enabled := ord(True);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
@@ -792,7 +792,9 @@ const
   DEFAULT_LINE = 1;
 begin
   {$IFDEF DEBUG}
+  {$IFNDEF FPC}
   OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
+  {$ENDIF}
 
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);

@@ -4,13 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="55">
+    <Units Count="57">
       <Unit0>
         <Filename Value="SimpleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="34" Y="26"/>
-        <UsageCount Value="20"/>
+        <CursorPos X="48" Y="20"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -19,7 +19,7 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="24"/>
       </Unit1>
       <Unit2>
         <Filename Value="SimpleLazarusBrowser.lpr"/>
@@ -35,9 +35,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleLazarusBrowser"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="97"/>
-        <CursorPos X="82" Y="127"/>
-        <UsageCount Value="43"/>
+        <TopLine Value="100"/>
+        <CursorPos X="3" Y="47"/>
+        <UsageCount Value="45"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit3>
@@ -422,8 +422,22 @@
         <TopLine Value="37"/>
         <UsageCount Value="10"/>
       </Unit54>
+      <Unit55>
+        <Filename Value="..\..\..\source\uCEFSentinel.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="205"/>
+        <CursorPos X="59" Y="232"/>
+        <UsageCount Value="10"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="..\..\..\source\uCEFConstants.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="567"/>
+        <CursorPos X="74" Y="584"/>
+        <UsageCount Value="10"/>
+      </Unit56>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="11" HistoryIndex="10">
       <Position1>
         <Filename Value="usimplelazarusbrowser.pas"/>
         <Caret Line="67" Column="29" TopLine="57"/>
@@ -460,6 +474,14 @@
         <Filename Value="usimplelazarusbrowser.pas"/>
         <Caret Line="133" TopLine="133"/>
       </Position9>
+      <Position10>
+        <Filename Value="usimplelazarusbrowser.pas"/>
+        <Caret Line="93" Column="36" TopLine="73"/>
+      </Position10>
+      <Position11>
+        <Filename Value="usimplelazarusbrowser.pas"/>
+        <Caret Line="172" Column="96" TopLine="154"/>
+      </Position11>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
