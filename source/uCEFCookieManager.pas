@@ -166,16 +166,25 @@ begin
                       TCefFastSetCookieCallback.Create(callback));
 end;
 
-procedure TCefCookieManagerRef.SetSupportedSchemes(const schemes: TStrings; include_defaults: boolean; const callback: ICefCompletionCallback);
+procedure TCefCookieManagerRef.SetSupportedSchemes(const schemes          : TStrings;
+                                                         include_defaults : boolean;
+                                                   const callback         : ICefCompletionCallback);
 var
-  TempSL : ICefStringList;
+  TempSL     : ICefStringList;
+  TempHandle : TCefStringList;
 begin
   try
-    TempSL := TCefStringListOwn.Create;
-    TempSL.AddStrings(schemes);
+    if (schemes <> nil) and (schemes.count > 0) then
+      begin
+        TempSL := TCefStringListOwn.Create;
+        TempSL.AddStrings(schemes);
+        TempHandle := TempSL.Handle;
+      end
+     else
+      TempHandle := nil;
 
     PCefCookieManager(FData)^.set_supported_schemes(PCefCookieManager(FData),
-                                                    TempSL.Handle,
+                                                    TempHandle,
                                                     ord(include_defaults),
                                                     CefGetData(callback));
   finally
@@ -183,7 +192,9 @@ begin
   end;
 end;
 
-procedure TCefCookieManagerRef.SetSupportedSchemesProc(const schemes: TStrings; include_defaults: boolean; const callback: TCefCompletionCallbackProc);
+procedure TCefCookieManagerRef.SetSupportedSchemesProc(const schemes          : TStrings;
+                                                             include_defaults : boolean;
+                                                       const callback         : TCefCompletionCallbackProc);
 begin
   SetSupportedSchemes(schemes, include_defaults, TCefFastCompletionCallback.Create(callback));
 end;

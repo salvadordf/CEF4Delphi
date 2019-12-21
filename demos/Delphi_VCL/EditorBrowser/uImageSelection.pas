@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,41 +35,45 @@
  *
  *)
 
-program EditorBrowser;
+unit uImageSelection;
 
-{$I cef.inc}
+interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
-  Vcl.Forms,
-  {$ELSE}
-  Forms,
-  Windows,
-  {$ENDIF }
-  uCEFApplication,
-  uEditorBrowser in 'uEditorBrowser.pas' {EditorBrowserFrm},
-  uImageSelection in 'uImageSelection.pas' {ImageSelectionFrm};
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons;
 
-{$R *.res}
+type
+  TImageSelectionFrm = class(TForm)
+    OkBtn: TButton;
+    CancelBtn: TButton;
+    RemoteRb: TRadioButton;
+    LocalRb: TRadioButton;
+    URLLbl: TLabel;
+    URLEdt: TEdit;
+    FileLbl: TLabel;
+    FileEdt: TEdit;
+    FileBtn: TSpeedButton;
+    OpenDialog1: TOpenDialog;
+    procedure FileBtnClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-// If you don't add this flag the rederer process will crash when you try to load large images.
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+var
+  ImageSelectionFrm: TImageSelectionFrm;
 
+implementation
+
+{$R *.dfm}
+
+procedure TImageSelectionFrm.FileBtnClick(Sender: TObject);
 begin
-  CreateGlobalCEFApp;
+  OpenDialog1.Filter := 'PNG Files (*.png)|*.PNG';
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TEditorBrowserFrm, EditorBrowserFrm);
-      Application.CreateForm(TImageSelectionFrm, ImageSelectionFrm);
-      Application.Run;
-    end;
+  if OpenDialog1.Execute then FileEdt.Text := OpenDialog1.FileName;
+end;
 
-  DestroyGlobalCEFApp;
 end.

@@ -164,6 +164,7 @@ type
       FMetricsRecordingOnly          : boolean;
       FAllowFileAccessFromFiles      : boolean;
       FAllowRunningInsecureContent   : boolean;
+      FSupportedSchemes              : TStringList;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : string;
@@ -314,6 +315,7 @@ type
       function  FindFlashDLL(var aFileName : string) : boolean;
       {$ENDIF}
       procedure ShowErrorMessageDlg(const aError : string); virtual;
+      procedure UpdateSupportedSchemes(aIncludeDefaults : boolean = True); virtual;
       function  ParseProcessType : TCefProcessType;
 
     public
@@ -472,6 +474,7 @@ type
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
       property AvailableSystemMemory             : uint64                              read GetAvailableSystemMemory;
       property SystemMemoryLoad                  : cardinal                            read GetSystemMemoryLoad;
+      property SupportedSchemes                  : TStringList                         read FSupportedSchemes;
 
       // ICefApp
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
@@ -657,6 +660,7 @@ begin
   FDisableFeatures               := '';
   FEnableBlinkFeatures           := '';
   FDisableBlinkFeatures          := '';
+  FSupportedSchemes              := nil;
 
   FDisableJavascriptCloseWindows     := False;
   FDisableJavascriptAccessClipboard  := False;
@@ -732,8 +736,8 @@ end;
 
 destructor TCefApplicationCore.Destroy;
 begin
-  if GlobalCEFApp = Self then
-    GlobalCEFApp := nil;
+  if (GlobalCEFApp = Self) then GlobalCEFApp := nil;
+
   try
     if (FProcessType = ptBrowser) then ShutDown;
 
@@ -741,6 +745,7 @@ begin
 
     if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
+    if (FSupportedSchemes        <> nil) then FreeAndNil(FSupportedSchemes);
   finally
     inherited Destroy;
   end;
@@ -752,6 +757,7 @@ begin
 
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
+  FSupportedSchemes        := TStringList.Create;
 end;
 
 procedure TCefApplicationCore.AddCustomCommandLine(const aCommandLine, aValue : string);
@@ -1372,6 +1378,24 @@ begin
     end;
 end;
 
+procedure TCefApplicationCore.UpdateSupportedSchemes(aIncludeDefaults : boolean);
+var
+  TempManager : ICefCookieManager;
+begin
+  try
+    if (FSupportedSchemes       <> nil) and
+       (FSupportedSchemes.Count  > 0)   then
+      begin
+        TempManager := TCefCookieManagerRef.Global(nil);
+
+        if (TempManager <> nil) then
+          TempManager.SetSupportedSchemes(FSupportedSchemes, aIncludeDefaults, nil);
+      end;
+  finally
+    TempManager := nil;
+  end;
+end;
+
 function TCefApplicationCore.ParseProcessType : TCefProcessType;
 const
   TYPE_PARAMETER_NAME = '--type=';
@@ -1413,6 +1437,7 @@ end;
 procedure TCefApplicationCore.Internal_OnContextInitialized;
 begin
   FGlobalContextInitialized := True;
+  UpdateSupportedSchemes;
 
   if assigned(FOnContextInitialized) then FOnContextInitialized();
 end;

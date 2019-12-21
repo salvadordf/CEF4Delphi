@@ -52,10 +52,13 @@ uses
   ImageList, ImgList,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
-  uCEFWinControl, uCEFSentinel;
+  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+
+const
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS = MENU_ID_USER_FIRST + 1;
 
 type
-  TForm1 = class(TForm)
+  TEditorBrowserFrm = class(TForm)
     Timer1: TTimer;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
@@ -91,7 +94,6 @@ type
     RemoveFormatBtn: TToolButton;
     OutdentBtn: TToolButton;
     Separator7: TToolButton;
-    CEFSentinel1: TCEFSentinel;
 
     procedure Timer1Timer(Sender: TObject);
 
@@ -104,6 +106,8 @@ type
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
     procedure Chromium1TextResultAvailable(Sender: TObject;  const aText: ustring);
+    procedure Chromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
 
     procedure BoldBtnClick(Sender: TObject);
     procedure ItalicBtnClick(Sender: TObject);
@@ -125,7 +129,6 @@ type
     procedure FillColorBtnClick(Sender: TObject);
     procedure RemoveFormatBtnClick(Sender: TObject);
     procedure OutdentBtnClick(Sender: TObject);
-    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -148,7 +151,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  EditorBrowserFrm: TEditorBrowserFrm;
 
 procedure CreateGlobalCEFApp;
 
@@ -157,7 +160,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFApplication, uCefMiscFunctions;
+  uCEFApplication, uCefMiscFunctions, uImageSelection;
 
 // This demo shows how to create a simple editor using a browser.
 
@@ -172,8 +175,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -182,7 +184,7 @@ begin
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
 
-procedure TForm1.FillColorBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.FillColorBtnClick(Sender: TObject);
 var
   TempCode, TempHexColor : string;
 begin
@@ -198,7 +200,7 @@ begin
     end;
 end;
 
-procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+procedure TEditorBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   CanClose := FCanClose;
 
@@ -210,7 +212,7 @@ begin
     end;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TEditorBrowserFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
@@ -218,7 +220,7 @@ begin
   Chromium1.DefaultURL := 'file:///EditorBrowser.html';
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
+procedure TEditorBrowserFrm.FormShow(Sender: TObject);
 begin
   // You *MUST* call CreateBrowser to create and initialize the browser.
   // This will trigger the AfterCreated event when the browser is fully
@@ -229,32 +231,52 @@ begin
   if not(Chromium1.CreateBrowser(CEFWindowParent1)) then Timer1.Enabled := True;
 end;
 
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
-end;
-
-procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+procedure TEditorBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
-procedure TForm1.Chromium1BeforeClose(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TEditorBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TForm1.Chromium1Close(Sender: TObject;
+procedure TEditorBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  const params: ICefContextMenuParams; const model: ICefMenuModel);
+begin
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
+end;
+
+procedure TEditorBrowserFrm.Chromium1Close(Sender: TObject;
   const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   PostMessage(Handle, CEF_DESTROY, 0, 0);
   aAction := cbaDelay;
 end;
 
-procedure TForm1.Chromium1LoadEnd(Sender: TObject;
+procedure TEditorBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  const params: ICefContextMenuParams; commandId: Integer;
+  eventFlags: Cardinal; out Result: Boolean);
+var
+  TempPoint : TPoint;
+begin
+  Result := False;
+
+  case commandId of
+    MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
+      begin
+        TempPoint.x := params.XCoord;
+        TempPoint.y := params.YCoord;
+        Chromium1.ShowDevTools(TempPoint, nil);
+      end;
+  end;
+end;
+
+procedure TEditorBrowserFrm.Chromium1LoadEnd(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   httpStatusCode: Integer);
 begin
@@ -264,7 +286,7 @@ begin
   EnableDesignMode;
 end;
 
-procedure TForm1.Chromium1TextResultAvailable(Sender: TObject; const aText: ustring);
+procedure TEditorBrowserFrm.Chromium1TextResultAvailable(Sender: TObject; const aText: ustring);
 var
   TempLines : TStringList;
 begin
@@ -289,7 +311,7 @@ begin
     end;
 end;
 
-procedure TForm1.TextColorBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.TextColorBtnClick(Sender: TObject);
 var
   TempCode, TempHexColor : string;
 begin
@@ -305,7 +327,7 @@ begin
     end;
 end;
 
-procedure TForm1.EnableDesignMode;
+procedure TEditorBrowserFrm.EnableDesignMode;
 var
   TempCode : string;
 begin
@@ -314,7 +336,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.AlignCenterBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.AlignCenterBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -323,7 +345,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.AlignJustifyBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.AlignJustifyBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -332,7 +354,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.AlignLeftBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.AlignLeftBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -341,7 +363,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.AlignRightBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.AlignRightBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -350,7 +372,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.BoldBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.BoldBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -359,18 +381,67 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.ImageBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.ImageBtnClick(Sender: TObject);
 var
-  TempCode, TempURL : string;
+  TempCode   : string;
+  TempHTML   : string;
+  TempURL    : string;
+  TempPath   : string;
+  TempStream : TFileStream;
+  TempBuffer : TBytes;
+  TempSize   : NativeUInt;
 begin
-  // TODO: Replace InputBox
-  TempURL  := inputbox('Type the URL used in the image', 'URL : ', 'https://www.briskbard.com/images/logo5.png');
-  TempCode := 'document.execCommand("insertImage", false, "' + TempURL + '");';
+  TempStream := nil;
+  TempBuffer := nil;
 
-  Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
+  ImageSelectionFrm.ShowModal;
+
+  if (ImageSelectionFrm.ModalResult <> mrOk) then exit;
+
+  if ImageSelectionFrm.RemoteRb.Checked then
+    begin
+      TempURL := trim(ImageSelectionFrm.URLEdt.Text);
+
+      if (length(TempURL) > 0) then
+        begin
+          TempCode := 'document.execCommand("insertImage", false, "' + TempURL + '");';
+          Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
+        end;
+    end
+   else
+    begin
+      TempPath := trim(ImageSelectionFrm.FileEdt.Text);
+
+      if (length(TempPath) > 0) and FileExists(TempPath) then
+        try
+          try
+            TempStream := TFileStream.Create(TempPath, fmOpenRead);
+            TempSize   := TempStream.Size;
+
+            if (TempSize > 0) then
+              begin
+                SetLength(TempBuffer, TempSize);
+                TempSize := TempStream.Read(TempBuffer[0], TempSize);
+
+                if (TempSize > 0) then
+                  begin
+                    TempHTML := '<img src=' + quotedstr(CefGetDataURI(@TempBuffer[0], TempSize, 'image/png')) + '>';
+                    TempCode := 'document.execCommand("insertHTML", false, "' + TempHTML + '");';
+                    Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
+                  end;
+              end;
+          except
+            on e : exception do
+              if CustomExceptionHandler('TEditorBrowserFrm.ImageBtnClick', e) then raise;
+          end;
+        finally
+          if (TempStream <> nil) then FreeAndNil(TempStream);
+          SetLength(TempBuffer, 0);
+        end;
+    end;
 end;
 
-procedure TForm1.IndentBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.IndentBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -379,7 +450,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.ItalicBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.ItalicBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -388,7 +459,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.LinkBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.LinkBtnClick(Sender: TObject);
 var
   TempCode, TempURL : string;
 begin
@@ -399,12 +470,12 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.SaveBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.SaveBtnClick(Sender: TObject);
 begin
   Chromium1.RetrieveHTML;
 end;
 
-procedure TForm1.StrikethroughBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.StrikethroughBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -413,7 +484,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.UnderlineBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.UnderlineBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -422,7 +493,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.UnorderedListBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.UnorderedListBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -431,24 +502,24 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
+procedure TEditorBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   Caption := 'Editor Browser';
 end;
 
-procedure TForm1.BrowserDestroyMsg(var aMessage : TMessage);
+procedure TEditorBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.Free;
 end;
 
-procedure TForm1.Timer1Timer(Sender: TObject);
+procedure TEditorBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
   if not(Chromium1.CreateBrowser(CEFWindowParent1)) and not(Chromium1.Initialized) then
     Timer1.Enabled := True;
 end;
 
-procedure TForm1.OpenBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.OpenBtnClick(Sender: TObject);
 begin
   OpenDialog1.Filter := 'HTML Files (*.html)|*.HTML';
 
@@ -456,7 +527,7 @@ begin
     Chromium1.LoadURL('file:///' + OpenDialog1.FileName); // TODO: The URL should be encoded
 end;
 
-procedure TForm1.OrderedListBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.OrderedListBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -465,7 +536,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.OutdentBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.OutdentBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -474,7 +545,7 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.RemoveFormatBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.RemoveFormatBtnClick(Sender: TObject);
 var
   TempCode : string;
 begin
@@ -483,35 +554,35 @@ begin
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
 end;
 
-procedure TForm1.NewBtnClick(Sender: TObject);
+procedure TEditorBrowserFrm.NewBtnClick(Sender: TObject);
 begin
   // TODO: Before clearing the document we should notify the user if the document has unsaved changes
   Chromium1.LoadURL('about:blank');
   EnableDesignMode;
 end;
 
-procedure TForm1.WMMove(var aMessage : TWMMove);
+procedure TEditorBrowserFrm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
 end;
 
-procedure TForm1.WMMoving(var aMessage : TMessage);
+procedure TEditorBrowserFrm.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
   if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
 end;
 
-procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
+procedure TEditorBrowserFrm.WMEnterMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
 end;
 
-procedure TForm1.WMExitMenuLoop(var aMessage: TMessage);
+procedure TEditorBrowserFrm.WMExitMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 

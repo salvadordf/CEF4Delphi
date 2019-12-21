@@ -613,6 +613,7 @@ type
       function    VisitURLCookies(const url : ustring; includeHttpOnly : boolean = False; aID : integer = 0) : boolean;
       function    SetCookie(const url, name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; aSetImmediately : boolean = True; aID : integer = 0): Boolean;
       function    FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
+      procedure   UpdateSupportedSchemes(const aSchemes : TStrings; aIncludeDefaults : boolean = True);
 
       procedure   ShowDevTools(const inspectElementAt: TPoint; aWindowInfo: PCefWindowInfo);
       procedure   CloseDevTools(const aDevToolsWnd : TCefWindowHandle = 0);
@@ -2751,7 +2752,9 @@ end;
 // TChromiumCore.OnCookiesVisited may not be triggered if the cookie store is empty but the
 // TChromium.OnCookieVisitorDestroyed event will always be triggered to signal when the browser
 // when the visit is over.
-function TChromiumCore.VisitURLCookies(const url : ustring; includeHttpOnly : boolean; aID : integer) : boolean;
+function TChromiumCore.VisitURLCookies(const url             : ustring;
+                                             includeHttpOnly : boolean;
+                                             aID             : integer) : boolean;
 var
   TempManager : ICefCookieManager;
   TempVisitor : ICefCookieVisitor;
@@ -2776,10 +2779,10 @@ end;
 // aID is an optional parameter to identify which SetCookie call has triggered the
 // OnCookieSet event.
 function TChromiumCore.SetCookie(const url, name_, value, domain, path: ustring;
-                                   secure, httponly, hasExpires: Boolean;
-                             const creation, lastAccess, expires: TDateTime;
-                                   aSetImmediately : boolean;
-                                   aID : integer): Boolean;
+                                       secure, httponly, hasExpires: Boolean;
+                                 const creation, lastAccess, expires: TDateTime;
+                                       aSetImmediately : boolean;
+                                       aID : integer): Boolean;
 var
   TempManager  : ICefCookieManager;
   TempCallback : ICefSetCookieCallback;
@@ -2829,6 +2832,23 @@ begin
           Result := TempManager.FlushStore(TempCallback);
         finally
           TempCallback := nil;
+        end;
+    end;
+end;
+
+procedure TChromiumCore.UpdateSupportedSchemes(const aSchemes : TStrings; aIncludeDefaults : boolean);
+var
+  TempManager : ICefCookieManager;
+begin
+  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+    begin
+      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+
+      if (TempManager <> nil) then
+        try
+          TempManager.SetSupportedSchemes(aSchemes, aIncludeDefaults, nil);
+        finally
+          TempManager := nil;
         end;
     end;
 end;

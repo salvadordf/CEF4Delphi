@@ -1,4 +1,4 @@
-object Form1: TForm1
+object EditorBrowserFrm: TEditorBrowserFrm
   Left = 0
   Top = 0
   Caption = 'Initializing browser. Please wait...'
@@ -301,6 +301,8 @@ object Form1: TForm1
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable
     OnLoadEnd = Chromium1LoadEnd
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
@@ -1121,10 +1123,5 @@ object Form1: TForm1
   object ColorDialog1: TColorDialog
     Left = 128
     Top = 200
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    Left = 56
-    Top = 256
   end
 end
