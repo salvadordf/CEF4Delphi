@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -59,7 +59,6 @@ type
     Edit1: TEdit;
     Button1: TButton;
     Timer1: TTimer;
-    CEFSentinel1: TCEFSentinel;
 
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -70,7 +69,6 @@ type
 
     procedure ChromiumWindow1Close(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
-    procedure CEFSentinel1Close(Sender: TObject);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -109,8 +107,7 @@ uses
 // =================
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
-// 3. TChromiumWindow.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromiumWindow.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -176,21 +173,20 @@ begin
     Timer1.Enabled := True;
 end;
 
-procedure TMainForm.CEFSentinel1Close(Sender: TObject);
+procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
-begin
-  CEFSentinel1.Start;
-end;
-
 procedure TMainForm.ChromiumWindow1Close(Sender: TObject);
 begin
   // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then CEFSentinel1.Start;
+  if not(ChromiumWindow1.DestroyChildWindow) then
+    begin
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
 end;
 
 procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject);

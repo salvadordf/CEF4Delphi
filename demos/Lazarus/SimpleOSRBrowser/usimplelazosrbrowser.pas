@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -52,7 +52,6 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     NavControlPnl: TPanel;
     chrmosr: TChromium;
     ComboBox1: TComboBox;
@@ -63,7 +62,6 @@ type
     Timer1: TTimer;
     Panel1: TBufferPanel;
 
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
 
@@ -191,12 +189,6 @@ begin
   chrmosr.LoadURL(ComboBox1.Text);
 end;
 
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
-end;
-
 procedure TForm1.chrmosrIMECompositionRangeChanged(      Sender                : TObject;
                                                    const browser               : ICefBrowser;
                                                    const selected_range        : PCefRange;
@@ -258,7 +250,8 @@ end;
 
 procedure TForm1.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);

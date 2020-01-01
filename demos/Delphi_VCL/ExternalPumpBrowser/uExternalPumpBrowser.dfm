@@ -99,9 +99,4 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
     Left = 56
     Top = 152
   end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    Left = 56
-    Top = 224
-  end
 end

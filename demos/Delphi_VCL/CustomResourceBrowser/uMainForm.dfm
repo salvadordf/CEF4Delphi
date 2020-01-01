@@ -72,9 +72,4 @@ object MainForm: TMainForm
     Left = 48
     Top = 240
   end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    Left = 48
-    Top = 304
-  end
 end

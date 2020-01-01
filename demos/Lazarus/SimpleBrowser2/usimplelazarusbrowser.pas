@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -49,14 +49,12 @@ uses
 type
   { TForm1 }
   TForm1 = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     GoBtn: TButton;
     AddressEdt: TEdit;
     AddressPnl: TPanel;
     Timer1: TTimer;
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser
       );
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -123,8 +121,7 @@ implementation
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 uses
   uCEFApplication;
@@ -163,15 +160,10 @@ begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
 
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
+procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
-end;
-
-procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-begin
-  CEFSentinel1.Start;
 end;
 
 procedure TForm1.Chromium1BeforePopup(Sender: TObject;

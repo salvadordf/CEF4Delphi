@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -70,7 +70,6 @@ type
     SaveDialog1: TSaveDialog;
     Timer1: TTimer;
     Panel1: TBufferPanel;
-    CEFSentinel1: TCEFSentinel;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 
@@ -115,7 +114,6 @@ type
 
     procedure Timer1Timer(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
-    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -177,8 +175,7 @@ uses
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
 //    set "Result" to false and CEF will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Now we call TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4- TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+//    Sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -330,7 +327,8 @@ end;
 
 procedure TForm1.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.chrmosrBeforePopup(Sender : TObject;
@@ -895,12 +893,6 @@ begin
   Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
             (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
             (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
-end;
-
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.Panel1Enter(Sender: TObject);

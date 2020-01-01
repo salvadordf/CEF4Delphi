@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -84,7 +84,6 @@ type
   { TMiniBrowserFrm }
 
   TMiniBrowserFrm = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
@@ -127,7 +126,6 @@ type
     OpenfilewithaDAT1: TMenuItem;
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType,
       pluginUrl: ustring; isMainFrame: boolean; const topOriginUrl: ustring;
       const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy;
@@ -296,8 +294,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -419,7 +416,11 @@ end;
 procedure TMiniBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   // The main browser is being destroyed
-  if (Chromium1.BrowserId = 0) then CEFSentinel1.Start;
+  if (Chromium1.BrowserId = 0) then
+    begin
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
@@ -1009,12 +1010,6 @@ end;
 procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);
 begin
   PostMessage(Handle, MINIBROWSER_COOKIESFLUSHED, 0, 0);
-end;
-
-procedure TMiniBrowserFrm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
