@@ -250,6 +250,8 @@ function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDi
 function CefGetDataURI(const aString, aMimeType : ustring) : ustring; overload;
 function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustring; const aCharset : ustring = '') : ustring; overload;
 
+
+
 implementation
 
 uses
@@ -1993,7 +1995,7 @@ begin
   if ((aDragOperations and DRAG_OPERATION_COPY) <> 0) then aEffect := aEffect or DROPEFFECT_COPY;
   if ((aDragOperations and DRAG_OPERATION_LINK) <> 0) then aEffect := aEffect or DROPEFFECT_LINK;
   if ((aDragOperations and DRAG_OPERATION_MOVE) <> 0) then aEffect := aEffect or DROPEFFECT_MOVE;
-end;    
+end;
 {$ENDIF}
 
 function DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer;

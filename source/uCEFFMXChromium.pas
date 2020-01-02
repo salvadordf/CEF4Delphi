@@ -49,7 +49,7 @@ uses
   {$IFDEF MSWINDOWS}
   WinApi.Windows, WinApi.Messages, FMX.Platform.Win,
   {$ENDIF}
-  FMX.Types, FMX.Platform, FMX.Forms, FMX.Controls,
+  FMX.Types, FMX.Platform, FMX.Forms, FMX.Controls, FMX.Graphics,
   uCEFTypes, uCEFInterfaces, uCEFChromiumCore;
 
 type
@@ -70,6 +70,8 @@ type
       procedure SetFormTopTo(const y : Integer);
 
       function  CreateBrowser(const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
+      function  SaveAsBitmapStream(var aStream : TStream; const aRect : System.Types.TRect) : boolean;
+      function  TakeSnapshot(var aBitmap : TBitmap; const aRect : System.Types.TRect) : boolean;
   end;
 
 // *********************************************************
@@ -249,6 +251,54 @@ begin
     {$ELSE}
     TempForm.Top := y;
     {$ENDIF}
+end;
+
+function TFMXChromium.SaveAsBitmapStream(var aStream : TStream; const aRect : System.Types.TRect) : boolean;
+{$IFDEF MSWINDOWS}
+var
+  TempDC   : HDC;
+  TempRect : System.Types.TRect;
+{$ENDIF}
+begin
+  Result := False;
+
+  {$IFDEF MSWINDOWS}
+  if not(FIsOSR) and (FRenderCompHWND <> 0) and (aStream <> nil) then
+    begin
+      TempDC := GetDC(FRenderCompHWND);
+
+      if (TempDC <> 0) then
+        try
+          TempRect := aRect;
+          Result   := OffsetRect(TempRect, - TempRect.Left, - TempRect.Top) and
+                      CopyDCToBitmapStream(TempDC, TempRect, aStream);
+        finally
+          ReleaseDC(FRenderCompHWND, TempDC);
+        end;
+    end;
+  {$ENDIF}
+end;
+
+function TFMXChromium.TakeSnapshot(var aBitmap : TBitmap; const aRect : System.Types.TRect) : boolean;
+var
+  TempStream : TMemoryStream;
+begin
+  Result     := False;
+  TempStream := nil;
+
+  if FIsOSR or (aBitmap = nil) then exit;
+
+  try
+    TempStream := TMemoryStream.Create;
+
+    if SaveAsBitmapStream(TStream(TempStream), aRect) then
+      begin
+        aBitmap.LoadFromStream(TempStream);
+        Result := True;
+      end;
+  finally
+    FreeAndNil(TempStream);
+  end;
 end;
 
 end.

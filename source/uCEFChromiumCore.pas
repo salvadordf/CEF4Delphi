@@ -390,6 +390,7 @@ type
       procedure BrowserCompWndProc(var aMessage: TMessage);
       procedure WidgetCompWndProc(var aMessage: TMessage);
       procedure RenderCompWndProc(var aMessage: TMessage);
+      function  CopyDCToBitmapStream(aSrcDC : HDC; const aSrcRect : TRect; var aStream : TStream) : boolean;
       {$ENDIF}
 
       procedure DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
@@ -4928,26 +4929,28 @@ begin
     begin
       {$IFDEF MSWINDOWS}
       OldBrowserCompHWND := FBrowserCompHWND;
-      OldWidgetCompHWND := FWidgetCompHWND;
-      OldRenderCompHWND := FRenderCompHWND;
+      OldWidgetCompHWND  := FWidgetCompHWND;
+      OldRenderCompHWND  := FRenderCompHWND;
       {$ENDIF}
 
       FBrowserCompHWND := browser.Host.WindowHandle;
       {$IFDEF MSWINDOWS}
       if (FBrowserCompHWND <> 0) then
-      begin
-        FWidgetCompHWND := FindWindowEx(FBrowserCompHWND, 0, 'Chrome_WidgetWin_0', '');
-        if (FWidgetCompHWND = 0) and FIsOSR and CefCurrentlyOn(TID_UI) then
         begin
-          // The WidgetCompHWND window doesn't have a HwndParent (Owner). If we are in OSR mode this
-          // causes popup menus that are opened by CEF to stay open if the user clicks somewhere else.
-          // With this code we search for the Widget window in the UI Thread's window list and set
-          // the Browser window as its HwndParent. This works around the bug.
-          EnumThreadWindows(GetCurrentThreadId, @EnumProcOSRChromeWidgetWin0, NativeInt(@FWidgetCompHWND));
-          if FWidgetCompHWND <> 0 then
-            SetWindowLongPtr(FWidgetCompHWND, GWLP_HWNDPARENT, NativeInt(FBrowserCompHWND));
+          FWidgetCompHWND := FindWindowEx(FBrowserCompHWND, 0, 'Chrome_WidgetWin_0', '');
+
+          if (FWidgetCompHWND = 0) and FIsOSR and CefCurrentlyOn(TID_UI) then
+            begin
+              // The WidgetCompHWND window doesn't have a HwndParent (Owner). If we are in OSR mode this
+              // causes popup menus that are opened by CEF to stay open if the user clicks somewhere else.
+              // With this code we search for the Widget window in the UI Thread's window list and set
+              // the Browser window as its HwndParent. This works around the bug.
+              EnumThreadWindows(GetCurrentThreadId, @EnumProcOSRChromeWidgetWin0, NativeInt(@FWidgetCompHWND));
+
+              if (FWidgetCompHWND <> 0) then
+                SetWindowLongPtr(FWidgetCompHWND, GWLP_HWNDPARENT, NativeInt(FBrowserCompHWND));
+            end;
         end;
-      end;
 
       if (FWidgetCompHWND <> 0) then
         FRenderCompHWND := FindWindowEx(FWidgetCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
@@ -5388,5 +5391,72 @@ procedure TChromiumCore.IMECancelComposition;
 begin
   if Initialized then FBrowser.Host.IMECancelComposition;
 end;
+
+{$IFDEF MSWINDOWS}
+function TChromiumCore.CopyDCToBitmapStream(aSrcDC : HDC; const aSrcRect : TRect; var aStream : TStream) : boolean;
+var
+  TempDstDC     : HDC;
+  TempWidth     : Integer;
+  TempHeight    : Integer;
+  TempInfo      : TBitmapInfo;
+  TempBits      : Pointer;
+  TempNewBitmap : HBITMAP;
+  TempOldBitmap : HBITMAP;
+  TempHeader    : TBitmapFileHeader;
+begin
+  Result := False;
+  if (aSrcDC = 0) or (aStream = nil) then exit;
+
+  TempDstDC := CreateCompatibleDC(aSrcDC);
+  if (TempDstDC = 0) then exit;
+
+  TempWidth  := aSrcRect.Right  - aSrcRect.Left;
+  TempHeight := aSrcRect.Bottom - aSrcRect.Top;
+  TempBits   := nil;
+
+  if (TempWidth > 0) and (TempHeight > 0) then
+    begin
+      ZeroMemory(@TempInfo,   SizeOf(TBitmapInfo));
+      ZeroMemory(@TempHeader, SizeOf(TBitmapFileHeader));
+
+      TempInfo.bmiHeader.biSize        := SizeOf(TBitmapInfoHeader);
+      TempInfo.bmiHeader.biWidth       := TempWidth;
+      TempInfo.bmiHeader.biHeight      := TempHeight;
+      TempInfo.bmiHeader.biPlanes      := 1;
+      TempInfo.bmiHeader.biBitCount    := 32;
+      TempInfo.bmiHeader.biCompression := BI_RGB;
+      TempInfo.bmiHeader.biSizeImage   := TempWidth * TempHeight * SizeOf(TRGBQuad);
+
+      TempNewBitmap := CreateDIBSection(TempDstDC, TempInfo, DIB_RGB_COLORS, TempBits, 0, 0);
+
+      if (TempNewBitmap <> 0) then
+        try
+          TempOldBitmap := SelectObject(TempDstDC, TempNewBitmap);
+
+          if BitBlt(TempDstDC, 0, 0, TempWidth, TempHeight, aSrcDC, aSrcRect.Left, aSrcRect.Top, SRCCOPY) then
+            begin
+              TempHeader.bfType    := $4D42; // "BM" bitmap header
+              TempHeader.bfOffBits := sizeof(BITMAPFILEHEADER) + TempInfo.bmiHeader.biSize + TempInfo.bmiHeader.biClrUsed * SizeOf(TRGBQuad);
+              TempHeader.bfSize    := TempHeader.bfOffBits + TempInfo.bmiHeader.biSizeImage;
+
+              aStream.position := 0;
+
+              aStream.Write(TempHeader,         SizeOf(TBitmapFileHeader));
+              aStream.Write(TempInfo.bmiHeader, SizeOf(TBitmapInfoHeader));
+              aStream.Write(TempBits^,          TempInfo.bmiHeader.biSizeImage);
+
+              aStream.position := 0;
+              Result           := True;
+            end;
+
+          SelectObject(TempDstDC, TempOldBitmap);
+        finally
+          DeleteObject(TempNewBitmap);
+        end;
+    end;
+
+  ReleaseDC(0, TempDstDC);
+end;
+{$ENDIF}
 
 end.

@@ -57,9 +57,12 @@ type
   TSimpleFMXBrowserFrm = class(TForm)
     AddressPnl: TPanel;
     AddressEdt: TEdit;
-    GoBtn: TButton;
     FMXChromium1: TFMXChromium;
     Timer1: TTimer;
+    Panel1: TPanel;
+    GoBtn: TButton;
+    Button1: TButton;
+    SaveDialog1: TSaveDialog;
     procedure GoBtnClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
@@ -88,18 +91,31 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const params: ICefContextMenuParams; commandId: Integer;
       eventFlags: Cardinal; out Result: Boolean);
+    procedure Button1Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure FormDeactivate(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TFMXChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
+    // This is a workaround for the issue #253
+    // https://github.com/salvadordf/CEF4Delphi/issues/253
+    FOldWindowState : TWindowState;
+
     FMXWindowParent : TFMXWindowParent;
+
+    function  GetCurrentWindowState : TWindowState;
 
     procedure LoadURL;
     procedure ResizeChild;
     procedure CreateFMXWindowParent;
+    procedure ShowFMXWindowParent;
+    function  GetFMXWindowParentRect : System.Types.TRect;
     function  PostCustomMessage(aMessage : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+
+    property  CurrentWindowState : TWindowState read GetCurrentWindowState;
 
   public
     procedure DoBrowserCreated;
@@ -240,6 +256,52 @@ begin
   {$ENDIF}
 end;
 
+function TSimpleFMXBrowserFrm.GetCurrentWindowState : TWindowState;
+var
+  TempPlacement : TWindowPlacement;
+  TempHWND      : HWND;
+begin
+  // TForm.WindowState is not updated correctly in FMX forms and
+  // it's not possible to receive WM_SIZE with SIZE_RESTORED so have to
+  // call the GetWindowPlacement function and handle the form state changes manually.
+
+  Result   := TWindowState.wsNormal;
+  TempHWND := FmxHandleToHWND(Handle);
+
+  ZeroMemory(@TempPlacement, SizeOf(TWindowPlacement));
+  TempPlacement.Length := SizeOf(TWindowPlacement);
+
+  if GetWindowPlacement(TempHWND, @TempPlacement) then
+    case TempPlacement.showCmd of
+      SW_SHOWMAXIMIZED : Result := TWindowState.wsMaximized;
+      SW_SHOWMINIMIZED : Result := TWindowState.wsMinimized;
+    end;
+end;
+
+procedure TSimpleFMXBrowserFrm.FormActivate(Sender: TObject);
+var
+  TempState : TWindowState;
+begin
+  // This is a workaround for the issue #253
+  // https://github.com/salvadordf/CEF4Delphi/issues/253
+  TempState := CurrentWindowState;
+
+  if (FOldWindowState <> TempState) then
+    begin
+      if (FOldWindowState = TWindowState.wsMinimized) then
+        ShowFMXWindowParent;
+
+      FOldWindowState := TempState;
+    end;
+end;
+
+procedure TSimpleFMXBrowserFrm.FormDeactivate(Sender: TObject);
+begin
+  // This is a workaround for the issue #253
+  // https://github.com/salvadordf/CEF4Delphi/issues/253
+  FOldWindowState := CurrentWindowState;
+end;
+
 procedure TSimpleFMXBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   CanClose := FCanClose;
@@ -260,6 +322,7 @@ begin
   FCanClose       := False;
   FClosing        := False;
   FMXWindowParent := nil;
+  FOldWindowState := TWindowState.wsNormal;
 end;
 
 procedure TSimpleFMXBrowserFrm.FormResize(Sender: TObject);
@@ -268,10 +331,40 @@ begin
   ResizeChild;
 end;
 
+function TSimpleFMXBrowserFrm.GetFMXWindowParentRect : System.Types.TRect;
+begin
+  Result.Left   := 0;
+  Result.Top    := round(AddressPnl.Height);
+  Result.Right  := ClientWidth  - 1;
+  Result.Bottom := ClientHeight - 1;
+end;
+
 procedure TSimpleFMXBrowserFrm.ResizeChild;
 begin
   if (FMXWindowParent <> nil) then
-    FMXWindowParent.SetBounds(0, round(AddressPnl.Height), ClientWidth - 1, ClientHeight -  1);
+    FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+end;
+
+procedure TSimpleFMXBrowserFrm.Button1Click(Sender: TObject);
+var
+  TempBitmap : TBitmap;
+begin
+  TempBitmap := nil;
+
+  try
+    SaveDialog1.DefaultExt := 'bmp';
+    SaveDialog1.Filter     := 'Bitmap files (*.bmp)|*.BMP';
+
+    if SaveDialog1.Execute and (length(SaveDialog1.FileName) > 0) then
+      begin
+        TempBitmap := TBitmap.Create;
+
+        if FMXChromium1.TakeSnapshot(TempBitmap, GetFMXWindowParentRect) then
+          TempBitmap.SaveToFile(SaveDialog1.FileName);
+      end;
+  finally
+    if (TempBitmap <> nil) then FreeAndNil(TempBitmap);
+  end;
 end;
 
 procedure TSimpleFMXBrowserFrm.CreateFMXWindowParent;
@@ -362,6 +455,13 @@ end;
 procedure TSimpleFMXBrowserFrm.DoDestroyParent;
 begin
   if (FMXWindowParent <> nil) then FreeAndNil(FMXWindowParent);
+end;
+
+procedure TSimpleFMXBrowserFrm.ShowFMXWindowParent;
+begin
+  // This is a workaround for the issue #253
+  // https://github.com/salvadordf/CEF4Delphi/issues/253
+  if (FMXWindowParent <> nil) then FMXWindowParent.Show;
 end;
 
 procedure TSimpleFMXBrowserFrm.LoadURL;
