@@ -409,7 +409,7 @@ var
 begin
   if (GlobalCEFApp <> nil) and
      GlobalCEFApp.LibLoaded and
-     (GlobalCEFApp.ProcessType = ptRenderer) and
+     ((GlobalCEFApp.ProcessType = ptRenderer) or GlobalCEFApp.SingleProcess) and
      (length(name) > 0) and
      (length(code) > 0) then
     begin
