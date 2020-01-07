@@ -5436,7 +5436,7 @@ begin
           if BitBlt(TempDstDC, 0, 0, TempWidth, TempHeight, aSrcDC, aSrcRect.Left, aSrcRect.Top, SRCCOPY) then
             begin
               TempHeader.bfType    := $4D42; // "BM" bitmap header
-              TempHeader.bfOffBits := sizeof(BITMAPFILEHEADER) + TempInfo.bmiHeader.biSize + TempInfo.bmiHeader.biClrUsed * SizeOf(TRGBQuad);
+              TempHeader.bfOffBits := sizeof(TBitmapFileHeader) + TempInfo.bmiHeader.biSize + TempInfo.bmiHeader.biClrUsed * SizeOf(TRGBQuad);
               TempHeader.bfSize    := TempHeader.bfOffBits + TempInfo.bmiHeader.biSizeImage;
 
               aStream.position := 0;
