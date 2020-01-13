@@ -22,7 +22,7 @@ package CEF4Delphi_FMX;
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
-{$IMAGEBASE $54C00000}
+{$IMAGEBASE $400000}
 {$DEFINE $(FrameworkType)}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'CEF4Delphi'}
@@ -179,7 +179,8 @@ contains
   uCEFResourceSkipCallback in '..\source\uCEFResourceSkipCallback.pas',
   uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas',
   uCEFSentinel in '..\source\uCEFSentinel.pas',
-  uCEFApplicationCore in '..\source\uCEFApplicationCore.pas';
+  uCEFApplicationCore in '..\source\uCEFApplicationCore.pas',
+  uCEFOAuth2Helper in '..\source\uCEFOAuth2Helper.pas';
 
 end.
 

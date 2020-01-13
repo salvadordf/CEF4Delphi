@@ -174,7 +174,8 @@ contains
   uCEFResourceSkipCallback in '..\source\uCEFResourceSkipCallback.pas',
   uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas',
   uCEFSentinel in '..\source\uCEFSentinel.pas',
-  uCEFApplicationCore in '..\source\uCEFApplicationCore.pas';
+  uCEFApplicationCore in '..\source\uCEFApplicationCore.pas',
+  uCEFOAuth2Helper in '..\source\uCEFOAuth2Helper.pas';
 
 end.
 

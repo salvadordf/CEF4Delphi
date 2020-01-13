@@ -47,8 +47,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ComCtrls, StdCtrls,
   {$ENDIF}
-  uCEFInterfaces, uCEFUrlRequestClientComponent, uCEFRequest, uCEFUrlRequest,
-  uCEFSentinel;
+  uCEFInterfaces, uCEFUrlRequestClientComponent, uCEFRequest, uCEFUrlRequest;
 
 const
   URLREQUEST_SUCCESS    = WM_APP + $101;
@@ -134,8 +133,7 @@ implementation
 // 1- Set CanClose to FALSE in the TForm.OnCloseQuery event and set FClosing to TRUE.
 // 2- The next time TCEFUrlRequestClientComponent.OnDownloadProgress is executed we call request.Cancel, which triggers the
 //    TCEFUrlRequestClientComponent.OnRequestComplete event.
-// 3- in the TCEFUrlRequestClientComponent.OnRequestComplete event we call TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4- TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3- The TCEFUrlRequestClientComponent.OnRequestComplete event sets FCanClose := True and sends WM_CLOSE to the form.
 
 uses
   ShellApi,

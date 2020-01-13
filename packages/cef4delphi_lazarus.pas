@@ -50,7 +50,7 @@ uses
   uCEFUrlRequestClientComponent, uCEFOSRIMEHandler, uCEFCookieAccessFilter, 
   uCEFResourceReadCallback, uCEFResourceRequestHandler, 
   uCEFResourceSkipCallback, uCEFSentinel, uCEFApplicationCore, 
-  LazarusPackageIntf;
+  uCEFOAuth2Helper, LazarusPackageIntf;
 
 implementation
 

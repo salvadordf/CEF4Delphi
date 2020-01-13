@@ -61,6 +61,22 @@ uses
 const
   Kernel32DLL = 'kernel32.dll';
   SHLWAPIDLL  = 'shlwapi.dll';
+  NTDLL = 'ntdll.dll';
+
+type
+  TOSVersionInfoEx = record
+    dwOSVersionInfoSize: DWORD;
+    dwMajorVersion: DWORD;
+    dwMinorVersion: DWORD;
+    dwBuildNumber: DWORD;
+    dwPlatformId: DWORD;
+    szCSDVersion: array[0..127] of WideChar;
+    wServicePackMajor: WORD;
+    wServicePackMinor: WORD;
+    wSuiteMask: WORD;
+    wProductType: BYTE;
+    wReserved:BYTE;
+  end;
 
 function CefColorGetA(color: TCefColor): Byte;
 function CefColorGetR(color: TCefColor): byte;
@@ -135,6 +151,7 @@ function PathIsUNCAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name
 function PathIsUNCUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCW';
 function PathIsURLAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLA';
 function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
+function RtlGetVersion(var lpVersionInformation : TOSVersionInfoEx): LongInt; stdcall; external NTDLL;
 
 {$IFNDEF DELPHI12_UP}
 const
@@ -232,6 +249,9 @@ function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEvent
 
 procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDragOperations);
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
+
+function  GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
+function  GetDefaultCEFUserAgent : string;
 {$ENDIF}
 
 function  DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;
@@ -1995,6 +2015,54 @@ begin
   if ((aDragOperations and DRAG_OPERATION_COPY) <> 0) then aEffect := aEffect or DROPEFFECT_COPY;
   if ((aDragOperations and DRAG_OPERATION_LINK) <> 0) then aEffect := aEffect or DROPEFFECT_LINK;
   if ((aDragOperations and DRAG_OPERATION_MOVE) <> 0) then aEffect := aEffect or DROPEFFECT_MOVE;
+end;
+
+function GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
+var
+  TempInfo : TOSVersionInfoEx;
+begin
+  Result        := False;
+  wMajorVersion := 0;
+  wMinorVersion := 0;
+
+  ZeroMemory(@TempInfo, SizeOf(TOSVersionInfoEx));
+
+  if (RtlGetVersion(TempInfo) = 0) then
+    begin
+      Result        := True;
+      wMajorVersion := TempInfo.dwMajorVersion;
+      wMinorVersion := TempInfo.dwMinorVersion;
+    end;
+end;
+
+function GetDefaultCEFUserAgent : string;
+var
+  TempOS, TempChromiumVersion : string;
+  TempMajorVer, TempMinorVer : DWORD;
+  Temp64bit : BOOL;
+begin
+  if GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
+     (TempMajorVer >= 4) then
+    TempOS := 'Windows NT'
+   else
+    TempOS := 'Windows';
+
+  TempOS := TempOS + ' ' + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer);
+
+  if ProcessUnderWow64(GetCurrentProcess(), Temp64bit) and Temp64bit then
+    TempOS := TempOS + '; WOW64';
+
+  if (GlobalCEFApp <> nil) then
+    TempChromiumVersion := GlobalCEFApp.ChromeVersion
+   else
+    TempChromiumVersion := inttostr(CEF_CHROMEELF_VERSION_MAJOR)   + '.' +
+                           inttostr(CEF_CHROMEELF_VERSION_MINOR)   + '.' +
+                           inttostr(CEF_CHROMEELF_VERSION_RELEASE) + '.' +
+                           inttostr(CEF_CHROMEELF_VERSION_BUILD);
+
+  Result  := 'Mozilla/5.0' + ' (' + TempOS + ') ' +
+             'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+             'Chrome/' + TempChromiumVersion + ' Safari/537.36';
 end;
 {$ENDIF}
 

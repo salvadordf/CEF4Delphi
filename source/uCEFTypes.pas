@@ -308,6 +308,8 @@ type
   {$ENDIF}
 {$ENDIF}
 
+  TCefCustomByteArray = array of byte; // Needed only for backwards compatibility with old Delphi versions
+
   {$IFDEF MSWINDOWS}
   TMyMemoryStatusEx = record
      dwLength : DWORD;
