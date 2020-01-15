@@ -76,6 +76,19 @@ type
     function  PostCustomMessage(aMessage : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
 
   protected
+    {$IFDEF MSWINDOWS}
+    // This is a workaround for the issue #253
+    // https://github.com/salvadordf/CEF4Delphi/issues/253
+    FCustomWindowState      : TWindowState;
+    FOldWndPrc              : TFNWndProc;
+    FFormStub               : Pointer;
+
+    function  GetCurrentWindowState : TWindowState;
+    procedure UpdateCustomWindowState;
+    procedure CreateHandle; override;
+    procedure DestroyHandle; override;
+    procedure CustomWndProc(var aMessage: TMessage);
+    {$ENDIF}
 
   public
     procedure DoCEFInitialized;
@@ -97,7 +110,7 @@ implementation
 
 uses
   FMX.Platform, FMX.Platform.Win,
-  uCEFMiscFunctions, uFMXApplicationService, uChildForm, uCEFApplication;
+  uCEFMiscFunctions, uChildForm, uCEFApplication;
 
 // This Firemonkey demo shows how to create child windows with browsers using CEF4Delphi.
 // It uses a custom IFMXApplicationService to handle Windows messages.
@@ -151,6 +164,113 @@ begin
     end;
   {$ENDIF}
 end;
+
+{$IFDEF MSWINDOWS}
+procedure TMainForm.CreateHandle;
+begin
+  inherited CreateHandle;
+
+  FFormStub  := MakeObjectInstance(CustomWndProc);
+  FOldWndPrc := TFNWndProc(SetWindowLongPtr(FmxHandleToHWND(Handle), GWLP_WNDPROC, NativeInt(FFormStub)));
+end;
+
+procedure TMainForm.DestroyHandle;
+begin
+  SetWindowLongPtr(FmxHandleToHWND(Handle), GWLP_WNDPROC, NativeInt(FOldWndPrc));
+  FreeObjectInstance(FFormStub);
+
+  inherited DestroyHandle;
+end;
+
+procedure TMainForm.CustomWndProc(var aMessage: TMessage);
+const
+  SWP_STATECHANGED = $8000;  // Undocumented
+var
+  TempWindowPos : PWindowPos;
+begin
+  try
+    case aMessage.Msg of
+      WM_ENTERMENULOOP :
+        if (aMessage.wParam = 0) and
+           (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OsmodalLoop := True;
+
+      WM_EXITMENULOOP :
+        if (aMessage.wParam = 0) and
+           (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OsmodalLoop := False;
+
+      WM_SIZE :
+        if (aMessage.wParam = SIZE_RESTORED) then
+          UpdateCustomWindowState;
+
+      WM_WINDOWPOSCHANGING :
+        begin
+          TempWindowPos := TWMWindowPosChanging(aMessage).WindowPos;
+          if ((TempWindowPos.Flags and SWP_STATECHANGED) = SWP_STATECHANGED) then
+            UpdateCustomWindowState;
+        end;
+
+      CEF_INITIALIZED    : DoCEFInitialized;
+      CEF_CHILDDESTROYED : DoChildDestroyed;
+    end;
+
+    aMessage.Result := CallWindowProc(FOldWndPrc, FmxHandleToHWND(Handle), aMessage.Msg, aMessage.wParam, aMessage.lParam);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TMainForm.CustomWndProc', e) then raise;
+  end;
+end;
+
+procedure TMainForm.UpdateCustomWindowState;
+var
+  i : integer;
+  TempNewState : TWindowState;
+begin
+  TempNewState := GetCurrentWindowState;
+
+  if (FCustomWindowState <> TempNewState) then
+    begin
+      // This is a workaround for the issue #253
+      // https://github.com/salvadordf/CEF4Delphi/issues/253
+      if (FCustomWindowState = TWindowState.wsMinimized) then
+        begin
+          i := 0;
+
+          while (i < screen.FormCount) do
+            begin
+              if (screen.Forms[i] is TChildForm) then
+                TChildForm(screen.Forms[i]).SendShowBrowserMsg;
+
+              inc(i);
+            end;
+        end;
+
+      FCustomWindowState := TempNewState;
+    end;
+end;
+
+function TMainForm.GetCurrentWindowState : TWindowState;
+var
+  TempPlacement : TWindowPlacement;
+  TempHWND      : HWND;
+begin
+  // TForm.WindowState is not updated correctly in FMX forms.
+  // We have to call the GetWindowPlacement function in order to read the window state correctly.
+
+  Result   := TWindowState.wsNormal;
+  TempHWND := FmxHandleToHWND(Handle);
+
+  ZeroMemory(@TempPlacement, SizeOf(TWindowPlacement));
+  TempPlacement.Length := SizeOf(TWindowPlacement);
+
+  if GetWindowPlacement(TempHWND, @TempPlacement) then
+    case TempPlacement.showCmd of
+      SW_SHOWMAXIMIZED : Result := TWindowState.wsMaximized;
+      SW_SHOWMINIMIZED : Result := TWindowState.wsMinimized;
+    end;
+end;
+{$ENDIF}
 
 procedure TMainForm.CreateToolboxChild(const ChildCaption, URL: string);
 var
@@ -261,11 +381,12 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  // TFMXApplicationService is used to handle custom Windows messages
-  TFMXApplicationService.AddPlatformService;
+  FCanClose  := False;
+  FClosing   := False;
 
-  FCanClose       := False;
-  FClosing        := False;
+  {$IFDEF MSWINDOWS}
+  FCustomWindowState := WindowState;
+  {$ENDIF}
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);

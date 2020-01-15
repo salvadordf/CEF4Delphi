@@ -135,7 +135,6 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="uFMXApplicationService.pas"/>
         <DCCReference Include="uMainForm.pas">
             <Form>MainForm</Form>
             <FormType>fmx</FormType>
@@ -192,7 +191,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\FMXToolBoxBrowser.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\bin\FMXToolBoxBrowser.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>FMXToolBoxBrowser.exe</RemoteName>
                         <Overwrite>true</Overwrite>

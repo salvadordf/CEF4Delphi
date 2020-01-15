@@ -8,10 +8,8 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
-  OnActivate = FormActivate
   OnCreate = FormCreate
   OnCloseQuery = FormCloseQuery
-  OnDeactivate = FormDeactivate
   OnResize = FormResize
   OnShow = FormShow
   DesignerMasterStyle = 0
@@ -54,7 +52,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
         Text = 'Go'
         OnClick = GoBtnClick
       end
-      object Button1: TButton
+      object SnapShotBtn: TButton
         Align = Right
         StyledSettings = [Style, FontColor]
         Position.X = 46.000000000000000000
@@ -65,7 +63,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
         Text = #181
         TextSettings.Font.Family = 'Webdings'
         TextSettings.Font.Size = 24.000000000000000000
-        OnClick = Button1Click
+        OnClick = SnapShotBtnClick
       end
     end
   end

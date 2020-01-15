@@ -53,6 +53,8 @@ uses
 const
   MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS    = MENU_ID_USER_FIRST + 1;
 
+  CEF_SHOWBROWSER = WM_APP + $101;
+
 type
   TSimpleFMXBrowserFrm = class(TForm)
     AddressPnl: TPanel;
@@ -61,65 +63,55 @@ type
     Timer1: TTimer;
     Panel1: TPanel;
     GoBtn: TButton;
-    Button1: TButton;
+    SnapShotBtn: TButton;
     SaveDialog1: TSaveDialog;
+
     procedure GoBtnClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure SnapShotBtnClick(Sender: TObject);
+
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FMXChromium1Close(Sender: TObject;
-      const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
-    procedure FMXChromium1BeforeClose(Sender: TObject;
-      const browser: ICefBrowser);
-    procedure FMXChromium1BeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      const popupFeatures: TCefPopupFeatures;
-      var windowInfo: TCefWindowInfo; var client: ICefClient;
-      var settings: TCefBrowserSettings;
-      var extra_info: ICefDictionaryValue;
-      var noJavascriptAccess, Result: Boolean);
     procedure FormResize(Sender: TObject);
-    procedure FMXChromium1AfterCreated(Sender: TObject;
-      const browser: ICefBrowser);
-    procedure FMXChromium1BeforeContextMenu(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; const model: ICefMenuModel);
-    procedure FMXChromium1ContextMenuCommand(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; commandId: Integer;
-      eventFlags: Cardinal; out Result: Boolean);
-    procedure Button1Click(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-    procedure FormDeactivate(Sender: TObject);
+
+    procedure FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
+    procedure FMXChromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
+    procedure FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure FMXChromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure FMXChromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
 
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TFMXChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
+    FMXWindowParent         : TFMXWindowParent;
+
+    {$IFDEF MSWINDOWS}
     // This is a workaround for the issue #253
     // https://github.com/salvadordf/CEF4Delphi/issues/253
-    FOldWindowState : TWindowState;
-
-    FMXWindowParent : TFMXWindowParent;
-
-    function  GetCurrentWindowState : TWindowState;
+    FCustomWindowState      : TWindowState;
+    FOldWndPrc              : TFNWndProc;
+    FFormStub               : Pointer;
+    {$ENDIF}
 
     procedure LoadURL;
     procedure ResizeChild;
     procedure CreateFMXWindowParent;
-    procedure ShowFMXWindowParent;
     function  GetFMXWindowParentRect : System.Types.TRect;
     function  PostCustomMessage(aMessage : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
 
-    property  CurrentWindowState : TWindowState read GetCurrentWindowState;
+    {$IFDEF MSWINDOWS}
+    function  GetCurrentWindowState : TWindowState;
+    procedure UpdateCustomWindowState;
+    procedure CreateHandle; override;
+    procedure DestroyHandle; override;
+    procedure CustomWndProc(var aMessage: TMessage);
+    {$ENDIF}
 
   public
-    procedure DoBrowserCreated;
-    procedure DoDestroyParent;
     procedure NotifyMoveOrResizeStarted;
     procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
   end;
@@ -161,7 +153,7 @@ implementation
 
 uses
   FMX.Platform, FMX.Platform.Win,
-  uCEFMiscFunctions, uCEFApplication, uFMXApplicationService;
+  uCEFMiscFunctions, uCEFApplication;
 
 procedure CreateGlobalCEFApp;
 begin
@@ -256,14 +248,104 @@ begin
   {$ENDIF}
 end;
 
+{$IFDEF MSWINDOWS}
+procedure TSimpleFMXBrowserFrm.CreateHandle;
+begin
+  inherited CreateHandle;
+
+  FFormStub  := MakeObjectInstance(CustomWndProc);
+  FOldWndPrc := TFNWndProc(SetWindowLongPtr(FmxHandleToHWND(Handle), GWLP_WNDPROC, NativeInt(FFormStub)));
+end;
+
+procedure TSimpleFMXBrowserFrm.DestroyHandle;
+begin
+  SetWindowLongPtr(FmxHandleToHWND(Handle), GWLP_WNDPROC, NativeInt(FOldWndPrc));
+  FreeObjectInstance(FFormStub);
+
+  inherited DestroyHandle;
+end;
+
+procedure TSimpleFMXBrowserFrm.CustomWndProc(var aMessage: TMessage);
+const
+  SWP_STATECHANGED = $8000;  // Undocumented
+var
+  TempWindowPos : PWindowPos;
+begin
+  try
+    case aMessage.Msg of
+      WM_ENTERMENULOOP :
+        if (aMessage.wParam = 0) and
+           (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OsmodalLoop := True;
+
+      WM_EXITMENULOOP :
+        if (aMessage.wParam = 0) and
+           (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OsmodalLoop := False;
+
+      WM_MOVE,
+      WM_MOVING : NotifyMoveOrResizeStarted;
+
+      WM_SIZE :
+        if (aMessage.wParam = SIZE_RESTORED) then
+          UpdateCustomWindowState;
+
+      WM_WINDOWPOSCHANGING :
+        begin
+          TempWindowPos := TWMWindowPosChanging(aMessage).WindowPos;
+          if ((TempWindowPos.Flags and SWP_STATECHANGED) = SWP_STATECHANGED) then
+            UpdateCustomWindowState;
+        end;
+
+      CEF_AFTERCREATED :
+        begin
+          Caption            := 'Simple FMX Browser';
+          AddressPnl.Enabled := True;
+        end;
+
+      CEF_DESTROY :
+        if (FMXWindowParent <> nil) then
+          FreeAndNil(FMXWindowParent);
+
+      CEF_SHOWBROWSER :
+        begin
+          FMXWindowParent.WindowState := TWindowState.wsNormal;
+          FMXWindowParent.Show;
+          FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+        end;
+    end;
+
+    aMessage.Result := CallWindowProc(FOldWndPrc, FmxHandleToHWND(Handle), aMessage.Msg, aMessage.wParam, aMessage.lParam);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TSimpleFMXBrowserFrm.CustomWndProc', e) then raise;
+  end;
+end;
+
+procedure TSimpleFMXBrowserFrm.UpdateCustomWindowState;
+var
+  TempNewState : TWindowState;
+begin
+  TempNewState := GetCurrentWindowState;
+
+  if (FCustomWindowState <> TempNewState) then
+    begin
+      // This is a workaround for the issue #253
+      // https://github.com/salvadordf/CEF4Delphi/issues/253
+      if (FCustomWindowState = TWindowState.wsMinimized) then
+        PostCustomMessage(CEF_SHOWBROWSER);
+
+      FCustomWindowState := TempNewState;
+    end;
+end;
+
 function TSimpleFMXBrowserFrm.GetCurrentWindowState : TWindowState;
 var
   TempPlacement : TWindowPlacement;
   TempHWND      : HWND;
 begin
-  // TForm.WindowState is not updated correctly in FMX forms and
-  // it's not possible to receive WM_SIZE with SIZE_RESTORED so have to
-  // call the GetWindowPlacement function and handle the form state changes manually.
+  // TForm.WindowState is not updated correctly in FMX forms.
+  // We have to call the GetWindowPlacement function in order to read the window state correctly.
 
   Result   := TWindowState.wsNormal;
   TempHWND := FmxHandleToHWND(Handle);
@@ -277,30 +359,7 @@ begin
       SW_SHOWMINIMIZED : Result := TWindowState.wsMinimized;
     end;
 end;
-
-procedure TSimpleFMXBrowserFrm.FormActivate(Sender: TObject);
-var
-  TempState : TWindowState;
-begin
-  // This is a workaround for the issue #253
-  // https://github.com/salvadordf/CEF4Delphi/issues/253
-  TempState := CurrentWindowState;
-
-  if (FOldWindowState <> TempState) then
-    begin
-      if (FOldWindowState = TWindowState.wsMinimized) then
-        ShowFMXWindowParent;
-
-      FOldWindowState := TempState;
-    end;
-end;
-
-procedure TSimpleFMXBrowserFrm.FormDeactivate(Sender: TObject);
-begin
-  // This is a workaround for the issue #253
-  // https://github.com/salvadordf/CEF4Delphi/issues/253
-  FOldWindowState := CurrentWindowState;
-end;
+{$ENDIF}
 
 procedure TSimpleFMXBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
@@ -316,13 +375,13 @@ end;
 
 procedure TSimpleFMXBrowserFrm.FormCreate(Sender: TObject);
 begin
-  // TFMXApplicationService is used to handle custom Windows messages
-  TFMXApplicationService.AddPlatformService;
+  FCanClose          := False;
+  FClosing           := False;
+  FMXWindowParent    := nil;
 
-  FCanClose       := False;
-  FClosing        := False;
-  FMXWindowParent := nil;
-  FOldWindowState := TWindowState.wsNormal;
+  {$IFDEF MSWINDOWS}
+  FCustomWindowState := WindowState;
+  {$ENDIF}
 end;
 
 procedure TSimpleFMXBrowserFrm.FormResize(Sender: TObject);
@@ -345,7 +404,7 @@ begin
     FMXWindowParent.SetBounds(GetFMXWindowParentRect);
 end;
 
-procedure TSimpleFMXBrowserFrm.Button1Click(Sender: TObject);
+procedure TSimpleFMXBrowserFrm.SnapShotBtnClick(Sender: TObject);
 var
   TempBitmap : TBitmap;
 begin
@@ -443,25 +502,6 @@ begin
 
   if not(FMXChromium1.CreateBrowser(TempHandle, TempRect)) and not(FMXChromium1.Initialized) then
     Timer1.Enabled := True;
-end;
-
-procedure TSimpleFMXBrowserFrm.DoBrowserCreated;
-begin
-  // Now the browser is fully initialized
-  Caption            := 'Simple FMX Browser';
-  AddressPnl.Enabled := True;
-end;
-
-procedure TSimpleFMXBrowserFrm.DoDestroyParent;
-begin
-  if (FMXWindowParent <> nil) then FreeAndNil(FMXWindowParent);
-end;
-
-procedure TSimpleFMXBrowserFrm.ShowFMXWindowParent;
-begin
-  // This is a workaround for the issue #253
-  // https://github.com/salvadordf/CEF4Delphi/issues/253
-  if (FMXWindowParent <> nil) then FMXWindowParent.Show;
 end;
 
 procedure TSimpleFMXBrowserFrm.LoadURL;

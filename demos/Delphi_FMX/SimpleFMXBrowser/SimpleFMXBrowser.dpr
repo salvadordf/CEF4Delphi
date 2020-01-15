@@ -7,8 +7,7 @@ uses
   WinApi.Windows,
   {$ENDIF }
   uCEFApplication,
-  uSimpleFMXBrowser in 'uSimpleFMXBrowser.pas' {SimpleFMXBrowserFrm},
-  uFMXApplicationService in 'uFMXApplicationService.pas';
+  uSimpleFMXBrowser in 'uSimpleFMXBrowser.pas' {SimpleFMXBrowserFrm};
 
 {$R *.res}
 

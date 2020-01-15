@@ -44,7 +44,6 @@ uses
   WinApi.Windows,
   {$ENDIF }
   uCEFApplication,
-  uFMXApplicationService in 'uFMXApplicationService.pas',
   uMainForm in 'uMainForm.pas' {MainForm},
   uChildForm in 'uChildForm.pas' {ChildForm};
 
