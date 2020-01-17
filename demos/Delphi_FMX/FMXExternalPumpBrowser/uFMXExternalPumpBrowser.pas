@@ -52,7 +52,7 @@ uses
   FMX.Graphics,
   {$ENDIF}
   uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
-  uCEFInterfaces, uCEFTypes, uCEFConstants;
+  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore;
 
 type
   TFMXExternalPumpBrowserFrm = class(TForm)
@@ -350,6 +350,23 @@ begin
    else
     if (Key <> 0) and (KeyChar = #0) then
       begin
+        if (Key = VK_RETURN) then
+          begin
+            // FMX doesn't trigger this event with a KeyChar<>0
+            // to send a KEYEVENT_CHAR event for the VK_RETURN key.
+            // We add it manually before the KEYEVENT_KEYUP event.
+            TempKeyEvent.kind                    := KEYEVENT_CHAR;
+            TempKeyEvent.modifiers               := getModifiers(Shift);
+            TempKeyEvent.windows_key_code        := VK_RETURN;
+            TempKeyEvent.native_key_code         := 0;
+            TempKeyEvent.is_system_key           := ord(False);
+            TempKeyEvent.character               := #0;
+            TempKeyEvent.unmodified_character    := #0;
+            TempKeyEvent.focus_on_editable_field := ord(False);
+
+            chrmosr.SendKeyEvent(@TempKeyEvent);
+          end;
+
         TempKeyEvent.kind                    := KEYEVENT_KEYUP;
         TempKeyEvent.modifiers               := getModifiers(Shift);
         TempKeyEvent.windows_key_code        := Key;

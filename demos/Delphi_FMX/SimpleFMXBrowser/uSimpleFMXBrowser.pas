@@ -137,8 +137,8 @@ implementation
 // or the domain "google.com". If you don't live in the US, you'll be redirected to
 // another domain which will take a little time too.
 
-// This demo uses a TFMXChromium and a TFMXWindowParent.
-// TFMXApplicationService is used to handle custom Windows messages
+// This demo uses a TFMXChromium and a TFMXWindowParent. It replaces the original WndProc with a
+// custom CustomWndProc procedure to handle Windows messages.
 
 // All FMX applications using CEF4Delphi should add the $(FrameworkType) conditional define
 // in the project options to avoid duplicated resources.

@@ -53,6 +53,7 @@ uses
 const
   CEF_CHILDDESTROYED   = WM_APP + $100;
   CEF_INITIALIZED      = WM_APP + $101;
+  CEF_SHOWBROWSER      = WM_APP + $102;
 
 type
   TMainForm = class(TForm)
@@ -92,7 +93,6 @@ type
 
   public
     procedure DoCEFInitialized;
-    procedure DoChildDestroyed;
     procedure SendChildDestroyedMsg;
 
     property ChildClosing   : boolean read GetChildClosing;
@@ -211,8 +211,15 @@ begin
             UpdateCustomWindowState;
         end;
 
-      CEF_INITIALIZED    : DoCEFInitialized;
-      CEF_CHILDDESTROYED : DoChildDestroyed;
+      CEF_CHILDDESTROYED :
+        if FClosing and (ChildFormCount = 0) then
+          begin
+            // If there are no more child forms we can destroy the main form
+            FCanClose := True;
+            PostCustomMessage(WM_CLOSE);
+          end;
+
+      CEF_INITIALIZED : DoCEFInitialized;
     end;
 
     aMessage.Result := CallWindowProc(FOldWndPrc, FmxHandleToHWND(Handle), aMessage.Msg, aMessage.wParam, aMessage.lParam);
@@ -400,16 +407,6 @@ begin
   Caption           := 'FMX ToolBox Browser';
   ButtonPnl.Enabled := True;
   cursor            := crDefault;
-end;
-
-procedure TMainForm.DoChildDestroyed;
-begin
-  // If there are no more child forms we can destroy the main form
-  if FClosing and (ChildFormCount = 0) then
-    begin
-      FCanClose := True;
-      PostCustomMessage(WM_CLOSE);
-    end;
 end;
 
 procedure TMainForm.SendChildDestroyedMsg;

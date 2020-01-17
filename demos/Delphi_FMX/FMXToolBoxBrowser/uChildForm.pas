@@ -48,9 +48,6 @@ uses
   uCEFFMXChromium, uCEFFMXWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
   uCEFChromiumCore;
 
-const
-  CEF_SHOWBROWSER = WM_APP + $101;
-
 type
   TChildForm = class(TForm)
     FMXChromium1: TFMXChromium;
