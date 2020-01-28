@@ -48,12 +48,14 @@ unit uCEFConstants;
 
 interface
 
+{$IFDEF MSWINDOWS}
 uses
   {$IFDEF DELPHI16_UP}
   Winapi.Messages;
   {$ELSE}
   Messages;
   {$ENDIF}
+{$ENDIF}
 
 const
   // Error list defined in /include/internal/cef_types.h (cef_errorcode_t)

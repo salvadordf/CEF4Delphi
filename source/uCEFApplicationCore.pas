@@ -62,13 +62,13 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 79;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 31;
+  CEF_SUPPORTED_VERSION_RELEASE = 35;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 79;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 3945;
-  CEF_CHROMEELF_VERSION_BUILD   = 117;
+  CEF_CHROMEELF_VERSION_BUILD   = 130;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -1111,10 +1111,15 @@ begin
     if (aApp <> nil) then
       begin
         {$IFDEF MSWINDOWS}
-        TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
+          TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
         {$ELSE}
-        TempArgs.argc     := argc;
-        TempArgs.argv     := argv;
+          {$IFDEF LINUX}
+          TempArgs.argc := argc;
+          TempArgs.argv := argv;
+          {$ELSE}
+          TempArgs.argc := 0;
+          TempArgs.argv := 0;
+          {$ENDIF}
         {$ENDIF}
 
         Result := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
@@ -1185,10 +1190,15 @@ begin
           InitializeSettings(FAppSettings);
 
           {$IFDEF MSWINDOWS}
-          TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
+            TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
           {$ELSE}
-          TempArgs.argc     := argc;
-          TempArgs.argv     := argv;
+            {$IFDEF LINUX}
+            TempArgs.argc := argc;
+            TempArgs.argv := argv;
+            {$ELSE}
+            TempArgs.argc := 0;
+            TempArgs.argv := 0;
+            {$ENDIF}
           {$ENDIF}
 
           if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then

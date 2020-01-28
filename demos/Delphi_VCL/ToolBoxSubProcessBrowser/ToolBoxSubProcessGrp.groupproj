@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F826AB93-8AA6-413F-B1E8-757C0ABFCCD1}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ToolBoxSubProcessBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ToolBoxSubProcessBrowser_sp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ToolBoxSubProcessBrowser">
+        <MSBuild Projects="ToolBoxSubProcessBrowser.dproj"/>
+    </Target>
+    <Target Name="ToolBoxSubProcessBrowser:Clean">
+        <MSBuild Projects="ToolBoxSubProcessBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ToolBoxSubProcessBrowser:Make">
+        <MSBuild Projects="ToolBoxSubProcessBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ToolBoxSubProcessBrowser_sp">
+        <MSBuild Projects="ToolBoxSubProcessBrowser_sp.dproj"/>
+    </Target>
+    <Target Name="ToolBoxSubProcessBrowser_sp:Clean">
+        <MSBuild Projects="ToolBoxSubProcessBrowser_sp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ToolBoxSubProcessBrowser_sp:Make">
+        <MSBuild Projects="ToolBoxSubProcessBrowser_sp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ToolBoxSubProcessBrowser;ToolBoxSubProcessBrowser_sp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ToolBoxSubProcessBrowser:Clean;ToolBoxSubProcessBrowser_sp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ToolBoxSubProcessBrowser:Make;ToolBoxSubProcessBrowser_sp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

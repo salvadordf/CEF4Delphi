@@ -50,7 +50,12 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX,{$ENDIF} System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
+    {$IFDEF MSWINDOWS}
+      WinApi.Windows, WinApi.ActiveX, {$IFDEF FMX}FMX.Types,{$ENDIF}
+    {$ELSE}
+      System.Types, {$IFDEF FMX}FMX.Types,{$ENDIF} {$IFDEF MACOS}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
+    {$ENDIF}
+    System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
@@ -110,8 +115,11 @@ function CefPostTask(aThreadId : TCefThreadId; const aTask: ICefTask) : boolean;
 function CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; aDelayMs : Int64) : boolean;
 function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
 
+{$IFNDEF MACOS}
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
+{$ENDIF}
+
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 
@@ -127,9 +135,9 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 {$ENDIF}
 
 {$IFDEF MACOS}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; aHidden : boolean = False; const aWindowName : ustring = '');
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean = False; const aWindowName : ustring = '');
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean = False; const aWindowName : ustring = '');
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
 {$ENDIF}
 
 {$IFDEF LINUX}
@@ -465,6 +473,7 @@ begin
     Result := False;
 end;
 
+{$IFNDEF MACOS}
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 begin
   {$IFDEF MSWINDOWS}
@@ -510,6 +519,7 @@ begin
   Result.millisecond  := dt.Millisecond;
   {$ENDIF}
 end;
+{$ENDIF}
 
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 {$IFDEF MSWINDOWS}
@@ -653,7 +663,7 @@ end;
 {$ENDIF}
 
 {$IFDEF MACOS}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; aHidden : boolean; const aWindowName : ustring);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := aRect.left;
@@ -668,13 +678,13 @@ begin
   aWindowInfo.view                         := 0;
 end;
 
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean; const aWindowName : ustring);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.x                            := integer(CW_USEDEFAULT);
-  aWindowInfo.y                            := integer(CW_USEDEFAULT);
-  aWindowInfo.width                        := integer(CW_USEDEFAULT);
-  aWindowInfo.height                       := integer(CW_USEDEFAULT);
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
@@ -683,9 +693,8 @@ begin
   aWindowInfo.view                         := 0;
 end;
 
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aHidden : boolean; const aWindowName : ustring);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
-
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := 0;
   aWindowInfo.y                            := 0;
@@ -792,9 +801,13 @@ begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
       {$IFDEF MSWINDOWS}
-      TempString := 'PID: ' + IntToStr(GetCurrentProcessID) + ', TID: ' + IntToStr(GetCurrentThreadID);
+        TempString := 'PID: ' + IntToStr(GetCurrentProcessID) + ', TID: ' + IntToStr(GetCurrentThreadID);
       {$ELSE}
-      TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+        {$IFDEF MACOS}
+        TempString := 'PID: ' + IntToStr(TNSProcessInfo.Wrap(TNSProcessInfo.OCClass.processInfo).processIdentifier) + ', TID: ' + IntToStr(TThread.Current.ThreadID);
+        {$ELSE}
+        TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+        {$ENDIF}
       {$ENDIF}
 
       case GlobalCEFApp.ProcessType of
@@ -814,8 +827,12 @@ const
   DEFAULT_LINE = 1;
 begin
   {$IFDEF DEBUG}
-  {$IFNDEF FPC}
-  OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
+  {$IFDEF FMX}
+    FMX.Types.Log.d(aMessage);
+  {$ELSE}
+    {$IFNDEF FPC}
+    OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
+    {$ENDIF}
   {$ENDIF}
 
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
@@ -1472,14 +1489,14 @@ end;
 
 function CustomPathIsRelative(const aPath : string) : boolean;
 begin
-  {$IFDEF DELPHI12_UP}
-  Result := PathIsRelativeUnicode(PChar(aPath));
-  {$ELSE}
-    {$IFDEF MSWINDOWS}
-    Result := PathIsRelativeAnsi(PChar(aPath));
+  {$IFDEF MSWINDOWS}
+    {$IFDEF DELPHI12_UP}
+    Result := PathIsRelativeUnicode(PChar(aPath));
     {$ELSE}
-    Result := (length(aPath) > 0) and (aPath[1] <> '/');
+    Result := PathIsRelativeAnsi(PChar(aPath));
     {$ENDIF}
+  {$ELSE}
+  Result := (length(aPath) > 0) and (aPath[1] <> '/');
   {$ENDIF}
 end;
 
@@ -2107,7 +2124,11 @@ begin
   Result := GetDeviceCaps(TempDC, LOGPIXELSX);
   ReleaseDC(0, TempDC);
   {$ELSE}
-  Result := screen.PrimaryMonitor.PixelsPerInch;
+    {$IFDEF MACOS}
+    Result := trunc(MainScreen.backingScaleFactor);
+    {$ELSE}
+    Result := screen.PrimaryMonitor.PixelsPerInch;
+    {$ENDIF}
   {$ENDIF}
 end;
 

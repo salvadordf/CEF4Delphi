@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E561B31F-8E72-41D3-ABB4-BC1F3AA0D7D5}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ConsoleLoader.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="OSRDLLBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="OSRSubProcess.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ConsoleLoader">
+        <MSBuild Projects="ConsoleLoader.dproj"/>
+    </Target>
+    <Target Name="ConsoleLoader:Clean">
+        <MSBuild Projects="ConsoleLoader.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ConsoleLoader:Make">
+        <MSBuild Projects="ConsoleLoader.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="OSRDLLBrowser">
+        <MSBuild Projects="OSRDLLBrowser.dproj"/>
+    </Target>
+    <Target Name="OSRDLLBrowser:Clean">
+        <MSBuild Projects="OSRDLLBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OSRDLLBrowser:Make">
+        <MSBuild Projects="OSRDLLBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="OSRSubProcess">
+        <MSBuild Projects="OSRSubProcess.dproj"/>
+    </Target>
+    <Target Name="OSRSubProcess:Clean">
+        <MSBuild Projects="OSRSubProcess.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OSRSubProcess:Make">
+        <MSBuild Projects="OSRSubProcess.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ConsoleLoader;OSRDLLBrowser;OSRSubProcess"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ConsoleLoader:Clean;OSRDLLBrowser:Clean;OSRSubProcess:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ConsoleLoader:Make;OSRDLLBrowser:Make;OSRSubProcess:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

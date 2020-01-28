@@ -60,12 +60,12 @@ begin
   // In case you want to use custom directories for the CEF3 binaries, cache and user data.
   // If you don't set a cache directory the browser will use in-memory cache.
 {
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  GlobalCEFApp.FrameworkDirPath     := 'c:\cef';
+  GlobalCEFApp.ResourcesDirPath     := 'c:\cef';
+  GlobalCEFApp.LocalesDirPath       := 'c:\cef\locales';
   GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
+  GlobalCEFApp.cache                := 'c:\cef\cache';
+  GlobalCEFApp.UserDataPath         := 'c:\cef\User Data';
 }
 
   // You *MUST* call GlobalCEFApp.StartMainProcess in a if..then clause

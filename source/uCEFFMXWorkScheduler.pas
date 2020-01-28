@@ -51,6 +51,7 @@ uses
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+
   TFMXWorkScheduler = class(TComponent)
     protected
       FThread             : TCEFWorkSchedulerThread;
@@ -109,7 +110,7 @@ implementation
 
 uses
   {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.SysUtils, System.Math,
-  FMX.Platform, FMX.Platform.Win, FMX.Forms,
+  FMX.Platform, {$IFDEF MSWINDOWS}FMX.Platform.Win,{$ENDIF} FMX.Forms,
   uCEFMiscFunctions, uCEFApplicationCore;
 
 procedure DestroyGlobalFMXWorkScheduler;
@@ -210,23 +211,12 @@ begin
 end;
 
 procedure TFMXWorkScheduler.ScheduleMessagePumpWork(const delay_ms : int64);
-{$IFDEF MSWINDOWS}
-var
-  TempHandle : HWND;
-{$ENDIF}
 begin
   if not(FStopped) then
-    begin
-      {$IFDEF MSWINDOWS}
-      if (Application <> nil) and (Application.MainForm <> nil) then
-        TempHandle := FmxHandleToHWND(Application.MainForm.Handle)
-       else
-        TempHandle := 0;
-
-      if (TempHandle <> 0) then
-        WinApi.Windows.PostMessage(TempHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
-      {$ENDIF}
-    end;
+    TThread.Queue(nil, procedure
+                       begin
+                         ScheduleWork(delay_ms);
+                       end);
 end;
 
 procedure TFMXWorkScheduler.StopScheduler;

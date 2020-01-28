@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8C18C940-18BC-482E-93CF-788B942F71F4}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CEF4DelphiLoader.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="DLLBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="SubProcess.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="CEF4DelphiLoader">
+        <MSBuild Projects="CEF4DelphiLoader.dproj"/>
+    </Target>
+    <Target Name="CEF4DelphiLoader:Clean">
+        <MSBuild Projects="CEF4DelphiLoader.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CEF4DelphiLoader:Make">
+        <MSBuild Projects="CEF4DelphiLoader.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DLLBrowser">
+        <MSBuild Projects="DLLBrowser.dproj"/>
+    </Target>
+    <Target Name="DLLBrowser:Clean">
+        <MSBuild Projects="DLLBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DLLBrowser:Make">
+        <MSBuild Projects="DLLBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SubProcess">
+        <MSBuild Projects="SubProcess.dproj"/>
+    </Target>
+    <Target Name="SubProcess:Clean">
+        <MSBuild Projects="SubProcess.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SubProcess:Make">
+        <MSBuild Projects="SubProcess.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="CEF4DelphiLoader;DLLBrowser;SubProcess"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="CEF4DelphiLoader:Clean;DLLBrowser:Clean;SubProcess:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="CEF4DelphiLoader:Make;DLLBrowser:Make;SubProcess:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -180,23 +180,6 @@ begin
            (Application.MainForm <> nil) and
            (Application.MainForm is TFMXExternalPumpBrowserFrm) then
           TFMXExternalPumpBrowserFrm(Application.MainForm).HandleSYSKEYUP(TempMsg);
-
-      CEF_PENDINGRESIZE :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).DoResize;
-
-      CEF_PUMPHAVEWORK :
-        if not(Application.Terminated) and
-           (GlobalFMXWorkScheduler <> nil) then
-          GlobalFMXWorkScheduler.ScheduleWork(TempMsg.lParam);
-
-      CEF_AFTERCREATED :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).DoBrowserCreated;
     end;
   {$ENDIF}
 

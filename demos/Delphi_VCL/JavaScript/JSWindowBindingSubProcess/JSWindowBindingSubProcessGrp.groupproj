@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{0E90E3F7-EBEC-4389-9649-66E38EC689AC}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="JSSimpleWindowBinding.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="SubProcess.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="JSSimpleWindowBinding">
+        <MSBuild Projects="JSSimpleWindowBinding.dproj"/>
+    </Target>
+    <Target Name="JSSimpleWindowBinding:Clean">
+        <MSBuild Projects="JSSimpleWindowBinding.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JSSimpleWindowBinding:Make">
+        <MSBuild Projects="JSSimpleWindowBinding.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SubProcess">
+        <MSBuild Projects="SubProcess.dproj"/>
+    </Target>
+    <Target Name="SubProcess:Clean">
+        <MSBuild Projects="SubProcess.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SubProcess:Make">
+        <MSBuild Projects="SubProcess.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="JSSimpleWindowBinding;SubProcess"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="JSSimpleWindowBinding:Clean;SubProcess:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="JSSimpleWindowBinding:Make;SubProcess:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -34,7 +34,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
       Size.PlatformDefault = False
       OnEnter = AddressEdtEnter
     end
-    object Panel2: TPanel
+    object Layout1: TLayout
       Align = Right
       Padding.Left = 5.000000000000000000
       Position.X = 714.000000000000000000
@@ -42,7 +42,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
       Size.Width = 81.000000000000000000
       Size.Height = 23.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 1
+      TabOrder = 2
       object GoBtn: TButton
         Align = Left
         Position.X = 5.000000000000000000

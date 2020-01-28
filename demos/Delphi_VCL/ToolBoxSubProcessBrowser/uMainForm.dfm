@@ -45,10 +45,6 @@ object MainForm: TMainForm
       OnClick = Button1Click
     end
   end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    Left = 224
-  end
   object Timer1: TTimer
     Enabled = False
     OnTimer = Timer1Timer

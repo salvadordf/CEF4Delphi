@@ -191,7 +191,7 @@ implementation
 
 // STEP 7 :
 // ========
-// The "access token" is only valid for some time and we we'll need to click the "Request new token"
+// The "access token" is only valid for some time and we'll need to click the "Request new token"
 // button to receive a new token when it expires. This function uses TCEFOAuth2Helper and
 // TCEFUrlRequestClientComponent to generate the parameters in a POST request needed to
 // refresh the token.

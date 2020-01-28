@@ -50,7 +50,12 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math;
+    {$IFDEF MSWINDOWS}
+      WinApi.Windows,
+    {$ELSE}
+      System.Types,
+    {$ENDIF}
+    System.Math;
   {$ELSE}
     {$IFDEF FPC}{$IFDEF LINUX}xlib, ctypes,{$ENDIF}{$ENDIF}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math;

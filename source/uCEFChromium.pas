@@ -65,6 +65,7 @@ type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TChromium = class(TChromiumCore)
     protected
+      function  GetParentFormHandle : TCefWindowHandle; override;
       function  GetParentForm : TCustomForm;
       procedure InitializeDevToolsWindowInfo(aDevTools : TWinControl); virtual;
     public
@@ -180,6 +181,27 @@ begin
       end
      else
       TempComp := TempComp.owner;
+end;
+
+function TChromium.GetParentFormHandle : TCefWindowHandle;
+{$IFDEF MSWINDOWS}
+var
+  TempForm : TCustomForm;
+{$ENDIF}
+begin
+  Result := inherited GetParentFormHandle;
+
+  {$IFDEF MSWINDOWS}
+  TempForm := GetParentForm;
+
+  if (TempForm <> nil) and TempForm.HandleAllocated then
+    Result := TempForm.Handle
+   else
+    if (Application          <> nil) and
+       (Application.MainForm <> nil) and
+       Application.MainForm.HandleAllocated then
+      Result := Application.MainForm.Handle;
+  {$ENDIF}
 end;
 
 procedure TChromium.MoveFormTo(const x, y: Integer);

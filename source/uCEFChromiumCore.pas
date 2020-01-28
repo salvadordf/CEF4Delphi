@@ -295,6 +295,7 @@ type
       function  GetRequestContextCache : ustring;
       function  GetRequestContextIsGlobal : boolean;
       function  GetAudioMuted : boolean;
+      function  GetParentFormHandle : TCefWindowHandle; virtual;
 
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
@@ -378,7 +379,7 @@ type
       procedure DefaultInitializeDevToolsWindowInfo(aDevToolsWnd: TCefWindowHandle; const aClientRect: TRect; const aWindowName: ustring);
 
       {$IFDEF MSWINDOWS}
-      procedure PrefsAvailableMsg(var aMessage : TMessage);
+      procedure PrefsAvailableMsg(aResultOK : boolean);
       function  SendCompMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
       procedure ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);
       procedure WndProc(var aMessage: TMessage);
@@ -551,6 +552,8 @@ type
       function  MustCreateCookieAccessFilter : boolean; virtual;
       function  MustCreateRequestContextHandler : boolean; virtual;
 
+      property  ParentFormHandle   : TCefWindowHandle   read   GetParentFormHandle;
+
     public
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
@@ -703,9 +706,11 @@ type
       property  CanGoForward            : boolean                      read GetCanGoForward;
       property  IsPopUp                 : boolean                      read GetIsPopUp;
       property  WindowHandle            : TCefWindowHandle             read GetWindowHandle;
+      {$IFDEF MSWINDOWS}
       property  BrowserHandle           : THandle                      read FBrowserCompHWND;
       property  WidgetHandle            : THandle                      read FWidgetCompHWND;
       property  RenderHandle            : THandle                      read FRenderCompHWND;
+      {$ENDIF}
       property  FrameIsFocused          : boolean                      read GetFrameIsFocused;
       property  Initialized             : boolean                      read GetInitialized;
       property  RequestContextCache     : ustring                      read GetRequestContextCache;
@@ -1491,7 +1496,7 @@ procedure TChromiumCore.InitializeWindowInfo(      aParentHandle : TCefWindowHan
 begin
   {$IFDEF MSWINDOWS}
   if FIsOSR then
-    WindowInfoAsWindowless(FWindowInfo, FCompHandle, aWindowName)
+    WindowInfoAsWindowless(FWindowInfo, ParentFormHandle, aWindowName)
    else
     WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
   {$ELSE}
@@ -2175,6 +2180,11 @@ end;
 function TChromiumCore.GetAudioMuted : boolean;
 begin
   Result := Initialized and FBrowser.host.IsAudioMuted;
+end;
+
+function TChromiumCore.GetParentFormHandle : TCefWindowHandle;
+begin
+  Result := 0;
 end;
 
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);
@@ -4095,9 +4105,9 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-procedure TChromiumCore.PrefsAvailableMsg(var aMessage : TMessage);
+procedure TChromiumCore.PrefsAvailableMsg(aResultOK : boolean);
 begin
-  if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self, (aMessage.WParam <> 0));
+  if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self, aResultOK);
 end;
 
 function TChromiumCore.SendCompMessage(aMsg : cardinal; wParam : cardinal; lParam : integer) : boolean;
@@ -4231,7 +4241,7 @@ end;
 procedure TChromiumCore.WndProc(var aMessage: TMessage);
 begin
   case aMessage.Msg of
-    CEF_PREFERENCES_SAVED : PrefsAvailableMsg(aMessage);
+    CEF_PREFERENCES_SAVED : PrefsAvailableMsg(aMessage.WParam <> 0);
     CEF_STARTDRAGGING     : DelayedDragging;
 
     else aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
@@ -5162,11 +5172,13 @@ begin
     begin
       if FIsOSR then
         FBrowser.Host.Invalidate(type_)
+       {$IFDEF MSWINDOWS}
        else
         if (RenderHandle <> 0) then
           InvalidateRect(RenderHandle, nil, False)
          else
           InvalidateRect(WindowHandle, nil, False);
+       {$ENDIF}
     end;
 end;
 
