@@ -331,7 +331,7 @@ begin
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TForm1.chrmosrBeforePopup(Sender : TObject;
+procedure TForm1.chrmosrBeforePopup(      Sender             : TObject;
                                     const browser            : ICefBrowser;
                                     const frame              : ICefFrame;
                                     const targetUrl          : ustring;
@@ -350,7 +350,7 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TForm1.chrmosrCursorChange(Sender : TObject;
+procedure TForm1.chrmosrCursorChange(      Sender           : TObject;
                                      const browser          : ICefBrowser;
                                            cursor           : HICON;
                                            cursorType       : TCefCursorType;
@@ -359,7 +359,7 @@ begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
-procedure TForm1.chrmosrGetScreenInfo(Sender : TObject;
+procedure TForm1.chrmosrGetScreenInfo(      Sender     : TObject;
                                       const browser    : ICefBrowser;
                                       var   screenInfo : TCefScreenInfo;
                                       out   Result     : Boolean);
@@ -386,7 +386,7 @@ begin
     Result := False;
 end;
 
-procedure TForm1.chrmosrGetScreenPoint(Sender : TObject;
+procedure TForm1.chrmosrGetScreenPoint(      Sender  : TObject;
                                        const browser : ICefBrowser;
                                              viewX   : Integer;
                                              viewY   : Integer;
@@ -409,7 +409,7 @@ begin
     Result := False;
 end;
 
-procedure TForm1.chrmosrGetViewRect(Sender : TObject;
+procedure TForm1.chrmosrGetViewRect(      Sender  : TObject;
                                     const browser : ICefBrowser;
                                     var   rect    : TCefRect);
 begin

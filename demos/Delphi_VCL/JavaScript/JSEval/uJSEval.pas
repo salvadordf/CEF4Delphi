@@ -51,7 +51,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, EncdDecd,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl, uCEFSentinel;
+  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
 const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $101;
@@ -74,7 +74,6 @@ type
     GoBtn: TButton;
     AddressEdt: TEdit;
     Timer1: TTimer;
-    CEFSentinel1: TCEFSentinel;
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -103,7 +102,6 @@ type
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
-    procedure CEFSentinel1Close(Sender: TObject);
 
   private
     { Private declarations }
@@ -180,14 +178,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
-
-procedure TJSEvalFrm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
-end;
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure TJSEvalFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
@@ -197,10 +188,11 @@ end;
 procedure TJSEvalFrm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TJSEvalFrm.Chromium1BeforeContextMenu(Sender : TObject;
+procedure TJSEvalFrm.Chromium1BeforeContextMenu(      Sender  : TObject;
                                                 const browser : ICefBrowser;
                                                 const frame   : ICefFrame;
                                                 const params  : ICefContextMenuParams;
@@ -232,7 +224,7 @@ begin
   aAction := cbaDelay;
 end;
 
-procedure TJSEvalFrm.Chromium1ContextMenuCommand(Sender : TObject;
+procedure TJSEvalFrm.Chromium1ContextMenuCommand(      Sender     : TObject;
                                                  const browser    : ICefBrowser;
                                                  const frame      : ICefFrame;
                                                  const params     : ICefContextMenuParams;

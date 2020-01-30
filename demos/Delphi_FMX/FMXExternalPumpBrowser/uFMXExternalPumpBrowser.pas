@@ -88,7 +88,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure chrmosrPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
-    procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
+    procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
     procedure chrmosrGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
     procedure chrmosrGetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
     procedure chrmosrGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
@@ -125,12 +125,13 @@ type
     procedure LoadURL;
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
+    function  GetMousePosition(var aPoint : TPointF) : boolean;
     procedure InitializeLastClick;
     function  CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
+    function  SendCompMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
 
   public
     procedure DoResize;
-    procedure DoBrowserCreated;
     procedure NotifyMoveOrResizeStarted;
     procedure SendCaptureLostEvent;
     procedure HandleSYSCHAR(const aMessage : TMsg);
@@ -412,6 +413,26 @@ begin
     end;
 end;
 
+function TFMXExternalPumpBrowserFrm.GetMousePosition(var aPoint : TPointF) : boolean;
+begin
+  {$IFDEF DELPHI17_UP}
+  if (FMouseWheelService <> nil) then
+    begin
+      aPoint := FMouseWheelService.GetMousePos;
+      Result := True;
+    end
+   else
+    begin
+      aPoint.x := 0;
+      aPoint.y := 0;
+      Result   := False;
+    end;
+  {$ELSE}
+  TempPointF := Platform.GetMousePos;
+  Result     := True;
+  {$ENDIF}
+end;
+
 procedure TFMXExternalPumpBrowserFrm.Panel1MouseLeave(Sender: TObject);
 var
   TempEvent  : TCefMouseEvent;
@@ -419,21 +440,11 @@ var
   TempPointF : TPointF;
   TempTime   : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and GetMousePosition(TempPointF) then
     begin
-      {$IFDEF DELPHI17_UP}
-      if (FMouseWheelService <> nil) then
-        TempPointF := FMouseWheelService.GetMousePos
-       else
-        exit;
-      {$ELSE}
-      TempPointF := Platform.GetMousePos;
-      {$ENDIF}
-
       TempPoint.x := round(TempPointF.x);
       TempPoint.y := round(TempPointF.y);
-
-      TempPoint := Panel1.ScreenToclient(TempPoint);
+      TempPoint   := Panel1.ScreenToclient(TempPoint);
 
       if CancelPreviousClick(TempPoint.x, TempPoint.y, TempTime) then InitializeLastClick;
 
@@ -486,17 +497,8 @@ var
   TempEvent  : TCefMouseEvent;
   TempPointF : TPointF;
 begin
-  if Panel1.IsFocused and (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if Panel1.IsFocused and (GlobalCEFApp <> nil) and (chrmosr <> nil) and GetMousePosition(TempPointF) then
     begin
-      {$IFDEF DELPHI17_UP}
-      if (FMouseWheelService <> nil) then
-        TempPointF := FMouseWheelService.GetMousePos
-       else
-        exit;
-      {$ELSE}
-      TempPointF := Platform.GetMousePos;
-      {$ENDIF}
-
       TempEvent.x         := round(TempPointF.x);
       TempEvent.y         := round(TempPointF.y);
       TempEvent.modifiers := getModifiers(Shift);
@@ -525,18 +527,27 @@ end;
 procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  // Now the browser is fully initialized we can send a message to the
-  // main form to enable the UI.
-  TThread.Queue(nil, DoBrowserCreated);
+  // Now the browser is fully initialized we can enable the UI.
+  TThread.Queue(nil, procedure
+                     begin
+                       Caption            := 'FMX External Pump Browser';
+                       AddressPnl.Enabled := True;
+                       Panel1.SetFocus;
+                     end);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   FCanClose := True;
+
+  {$IFDEF MSWINDOWS}
+  SendCompMessage(WM_CLOSE);
+  {$ELSE}
   TThread.Queue(nil, procedure
                      begin
                        close
                      end);
+  {$ENDIF}
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(      Sender             : TObject;
@@ -558,9 +569,10 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
+// TO-DO: The "cursor" parameter should be TCefCursorHandle but Delphi shows a warning if it's not declared as HICON.
 procedure TFMXExternalPumpBrowserFrm.chrmosrCursorChange(      Sender           : TObject;
                                                          const browser          : ICefBrowser;
-                                                               cursor           : TCefCursorHandle;
+                                                               cursor           : HICON;
                                                                cursorType       : TCefCursorType;
                                                          const customCursorInfo : PCefCursorInfo);
 begin
@@ -606,8 +618,9 @@ var
 begin
   if (GlobalCEFApp <> nil) then
     begin
-      TempViewPt.x := LogicalToDevice(viewX, GlobalCEFApp.DeviceScaleFactor);
-      TempViewPt.y := LogicalToDevice(viewY, GlobalCEFApp.DeviceScaleFactor);
+      // TFMXBufferPanel.ClientToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
+      TempViewPt.x := viewX;
+      TempViewPt.y := viewY;
       TempScreenPt := Panel1.ClientToScreen(TempViewPt);
       screenX      := TempScreenPt.x;
       screenY      := TempScreenPt.y;
@@ -759,7 +772,13 @@ begin
         if (type_ = PET_VIEW) then
           begin
             if TempForcedResize or FPendingResize then
-              TThread.Queue(nil, DoResize);
+              begin
+                {$IFDEF MSWINDOWS}
+                SendCompMessage(CEF_PENDINGRESIZE);
+                {$ELSE}
+                TThread.Queue(nil, DoResize);
+                {$ENDIF}
+              end;
 
             FResizing      := False;
             FPendingResize := False;
@@ -910,13 +929,6 @@ begin
     end;
 end;
 
-procedure TFMXExternalPumpBrowserFrm.DoBrowserCreated;
-begin
-  Caption            := 'FMX External Pump Browser';
-  AddressPnl.Enabled := True;
-  Panel1.SetFocus;
-end;
-
 function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;
 begin
   Result := EVENTFLAG_NONE;
@@ -958,6 +970,20 @@ begin
   {$ELSE}
   aCurrentTime := 0;
   Result       := False;
+  {$ENDIF}
+end;
+
+function TFMXExternalPumpBrowserFrm.SendCompMessage(aMsg, wParam : cardinal; lParam : integer) : boolean;
+{$IFDEF MSWINDOWS}
+var
+  TempHandle : TWinWindowHandle;
+{$ENDIF}
+begin
+  {$IFDEF MSWINDOWS}
+  TempHandle := WindowHandleToPlatform(Handle);
+  Result     := WinApi.Windows.PostMessage(TempHandle.Wnd, aMsg, wParam, lParam);
+  {$ELSE}
+  Result := False;
   {$ENDIF}
 end;
 

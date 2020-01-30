@@ -81,7 +81,7 @@ uses
   {$IFDEF MSWINDOWS}
   Winapi.Messages, Winapi.Windows,
   {$ENDIF}
-  uCEFConstants;
+  uCEFApplication, uCEFConstants;
 
 class procedure TFMXApplicationService.AddPlatformService;
 begin
@@ -156,6 +156,23 @@ begin
   {$IFDEF MSWINDOWS}
   if PeekMessage(TempMsg, 0, 0, 0, PM_NOREMOVE) then
     case TempMsg.Message of
+      WM_MOVE,
+      WM_MOVING :
+        if not(Application.Terminated) and
+           (Application.MainForm <> nil) and
+           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
+          TFMXExternalPumpBrowserFrm(Application.MainForm).NotifyMoveOrResizeStarted;
+
+      WM_ENTERMENULOOP :
+        if (TempMsg.wParam = 0) and
+           (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OsmodalLoop := True;
+
+      WM_EXITMENULOOP :
+        if (TempMsg.wParam = 0) and
+           (GlobalCEFApp <> nil) then
+          GlobalCEFApp.OsmodalLoop := False;
+
       WM_CAPTURECHANGED,
       WM_CANCELMODE :
         if not(Application.Terminated) and
@@ -180,6 +197,12 @@ begin
            (Application.MainForm <> nil) and
            (Application.MainForm is TFMXExternalPumpBrowserFrm) then
           TFMXExternalPumpBrowserFrm(Application.MainForm).HandleSYSKEYUP(TempMsg);
+
+      CEF_PENDINGRESIZE :
+        if not(Application.Terminated) and
+           (Application.MainForm <> nil) and
+           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
+          TFMXExternalPumpBrowserFrm(Application.MainForm).DoResize;
     end;
   {$ENDIF}
 

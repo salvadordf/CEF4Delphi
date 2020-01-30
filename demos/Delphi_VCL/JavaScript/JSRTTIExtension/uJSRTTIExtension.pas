@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl, uCEFSentinel;
+  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
 const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $100;
@@ -72,7 +72,6 @@ type
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
-    CEFSentinel1: TCEFSentinel;
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Chromium1BeforeContextMenu(Sender: TObject;
@@ -101,7 +100,6 @@ type
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
-    procedure CEFSentinel1Close(Sender: TObject);
   protected
     FText : string;
     // Variables to control when can we destroy the form safely
@@ -157,8 +155,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnWebKitInitialized;
 begin
@@ -185,12 +182,6 @@ end;
 procedure TJSRTTIExtensionFrm.GoBtnClick(Sender: TObject);
 begin
   Chromium1.LoadURL(Edit1.Text);
-end;
-
-procedure TJSRTTIExtensionFrm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSRTTIExtensionFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -351,7 +342,8 @@ end;
 procedure TJSRTTIExtensionFrm.Chromium1BeforeClose(
   Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSRTTIExtensionFrm.Chromium1Close(
