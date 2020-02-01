@@ -86,6 +86,10 @@ type
       property  ShowHint;
       property  Hint;
       property  OnResize;
+      {$IFDEF DELPHI14_UP}
+      property  Touch;
+      property  OnGesture;
+      {$ENDIF}
       property  DoubleBuffered;
       {$IFDEF DELPHI12_UP}
       property  ParentDoubleBuffered;
