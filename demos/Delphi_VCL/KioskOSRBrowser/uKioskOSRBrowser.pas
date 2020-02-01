@@ -51,7 +51,7 @@ uses
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts, Keyboard,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFSentinel;
+  uCEFSentinel, uCEFChromiumCore, Vcl.Touch.GestureMgr;
 
 const
   HOMEPAGE_URL         = 'https://www.google.com';
@@ -73,11 +73,10 @@ type
     Timer1: TTimer;
     Panel1: TBufferPanel;
     TouchKeyboard1: TTouchKeyboard;
-    CEFSentinel1: TCEFSentinel;
+    GestureManager1: TGestureManager;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure Timer1Timer(Sender: TObject);
-    procedure CEFSentinel1Close(Sender: TObject);
 
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
@@ -108,6 +107,8 @@ type
     procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
     procedure chrmosrContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
     procedure chrmosrVirtualKeyboardRequested(Sender: TObject; const browser: ICefBrowser; input_mode: TCefTextInpuMode);
+    procedure Panel1Gesture(Sender: TObject; const EventInfo: TGestureEventInfo;
+      var Handled: Boolean);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -170,8 +171,7 @@ uses
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
 //    set "Result" to false and CEF will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Now we call TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4- TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+//    It sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -303,7 +303,8 @@ end;
 
 procedure TForm1.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.chrmosrBeforeContextMenu(      Sender  : TObject;
@@ -864,12 +865,6 @@ begin
             (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
 end;
 
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
-end;
-
 procedure TForm1.Panel1Enter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(True);
@@ -879,6 +874,15 @@ procedure TForm1.Panel1Exit(Sender: TObject);
 begin
   TouchKeyboard1.Visible := False;
   chrmosr.SendFocusEvent(False);
+end;
+
+procedure TForm1.Panel1Gesture(Sender: TObject;
+  const EventInfo: TGestureEventInfo; var Handled: Boolean);
+begin
+  case EventInfo.GestureID of
+    sgiLeft  : chrmosr.GoBack;
+    sgiRight : chrmosr.GoForward;
+  end;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

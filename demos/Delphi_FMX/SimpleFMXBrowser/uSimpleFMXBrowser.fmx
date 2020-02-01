@@ -33,7 +33,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
       Size.Height = 25.000000000000000000
       Size.PlatformDefault = False
     end
-    object Panel1: TPanel
+    object Layout1: TLayout
       Align = Right
       Padding.Left = 5.000000000000000000
       Position.X = 830.000000000000000000
@@ -41,7 +41,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
       Size.Width = 82.000000000000000000
       Size.Height = 25.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 2
+      TabOrder = 3
       object GoBtn: TButton
         Align = Left
         Position.X = 5.000000000000000000

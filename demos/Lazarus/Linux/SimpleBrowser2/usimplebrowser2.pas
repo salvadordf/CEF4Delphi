@@ -87,7 +87,7 @@ type
 
     function  SendCompMessage(aMsg : cardinal) : boolean;
 
-    procedure BrowserCreatedMsg(Data: PtrInt);
+    procedure BrowserCreated;
     procedure BrowserDestroyMsg(Data: PtrInt);
     procedure BrowserCloseFormMsg(Data: PtrInt);
   public
@@ -130,15 +130,25 @@ uses
 
 
 procedure CreateGlobalCEFApp;
+var
+  TempHome, TempBinDir : ustring;
 begin
-  GlobalCEFApp                     := TCefApplication.Create;
-  {
-  GlobalCEFApp.FrameworkDirPath           := '/home/username/Lazarus/CEF4Delphi/bin';
-  GlobalCEFApp.ResourcesDirPath           := '/home/username/Lazarus/CEF4Delphi/bin';
-  GlobalCEFApp.LocalesDirPath             := '/home/username/Lazarus/CEF4Delphi/bin/locales';
-  GlobalCEFApp.LogFile                    := 'cef.log';
-  GlobalCEFApp.LogSeverity                := LOGSEVERITY_VERBOSE;
-  }
+  TempHome     := IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
+  TempBinDir   := TempHome + 'Lazarus/CEF4Delphi/bin';
+
+  GlobalCEFApp               := TCefApplication.Create;
+  GlobalCEFApp.SetCurrentDir := True;
+
+  if DirectoryExists(TempBinDir) then
+    begin
+      GlobalCEFApp.FrameworkDirPath := TempBinDir;
+      GlobalCEFApp.ResourcesDirPath := TempBinDir;
+      GlobalCEFApp.LocalesDirPath   := TempBinDir + '/locales';
+    end;
+
+  // Add a debug log in the BIN directory
+  GlobalCEFApp.LogFile     := 'cef.log';
+  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -148,7 +158,9 @@ begin
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
-begin
+begin                                             
+  Chromium1.DefaultURL := UTF8Decode(AddressEdt.Text);
+
   // You *MUST* call CreateBrowser to create and initialize the browser.
   // This will trigger the AfterCreated event when the browser is fully
   // initialized and ready to receive commands.
@@ -205,8 +217,14 @@ end;
 procedure TForm1.Chromium1AfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
-  SendCompMessage(CEF_AFTERCREATED);
+  // Now the browser is fully initialized we can initialize the UI.
+  TThread.Queue(nil, @BrowserCreated);
+end;
+
+procedure TForm1.BrowserCreated;
+begin
+  Caption            := 'Simple Browser 2';
+  AddressPnl.Enabled := True;
 end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject;
@@ -225,13 +243,6 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TForm1.BrowserCreatedMsg(Data: PtrInt);
-begin
-  Caption            := 'Simple Browser 2';
-  AddressPnl.Enabled := True;
-  GoBtn.Click;
-end;
-
 procedure TForm1.BrowserDestroyMsg(Data: PtrInt);
 begin
   CEFWindowParent1.Free;
@@ -245,7 +256,6 @@ end;
 function TForm1.SendCompMessage(aMsg : cardinal) : boolean;
 begin
   case aMsg of
-    CEF_AFTERCREATED : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
     CEF_DESTROY      : Application.QueueAsyncCall(@BrowserDestroyMsg, 0);
     CEF_BEFORECLOSE  : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
   end;

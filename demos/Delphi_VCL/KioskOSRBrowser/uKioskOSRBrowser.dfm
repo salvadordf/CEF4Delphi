@@ -39,6 +39,8 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
+    Touch.GestureManager = GestureManager1
+    OnGesture = Panel1Gesture
   end
   object TouchKeyboard1: TTouchKeyboard
     Left = 0
@@ -65,24 +67,34 @@ object Form1: TForm1
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
     OnVirtualKeyboardRequested = chrmosrVirtualKeyboardRequested
-    Left = 24
-    Top = 56
+    Left = 40
+    Top = 40
   end
   object AppEvents: TApplicationEvents
     OnMessage = AppEventsMessage
-    Left = 24
-    Top = 128
+    Left = 40
+    Top = 112
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    Left = 24
-    Top = 206
+    Left = 40
+    Top = 182
   end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    Left = 24
-    Top = 280
+  object GestureManager1: TGestureManager
+    Left = 40
+    Top = 256
+    GestureData = <
+      item
+        Control = Panel1
+        Collection = <
+          item
+            GestureID = sgiLeft
+          end
+          item
+            GestureID = sgiRight
+          end>
+      end>
   end
 end

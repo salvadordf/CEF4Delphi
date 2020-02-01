@@ -139,7 +139,7 @@ type
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure DoResize;
 
-    procedure BrowserCreatedMsg(Data: PtrInt);
+    procedure BrowserCreated;
     procedure BrowserCloseFormMsg(Data: PtrInt);
     procedure PendingResizeMsg(Data: PtrInt);
     procedure PendingInvalidateMsg(Data: PtrInt);
@@ -161,17 +161,27 @@ uses
   uCEFMiscFunctions, uCEFApplication;
 
 procedure CreateGlobalCEFApp;
+var
+  TempHome, TempBinDir : ustring;
 begin
+  TempHome     := IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
+  TempBinDir   := TempHome + 'Lazarus/CEF4Delphi/bin';
+
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
-  {
-  GlobalCEFApp.FrameworkDirPath           := '/home/username/Lazarus/CEF4Delphi/bin';
-  GlobalCEFApp.ResourcesDirPath           := '/home/username/Lazarus/CEF4Delphi/bin';
-  GlobalCEFApp.LocalesDirPath             := '/home/username/Lazarus/CEF4Delphi/bin/locales';
-  GlobalCEFApp.LogFile                    := 'cef.log';
-  GlobalCEFApp.LogSeverity                := LOGSEVERITY_VERBOSE;
-  }
+  GlobalCEFApp.SetCurrentDir              := True;
+
+  if DirectoryExists(TempBinDir) then
+    begin
+      GlobalCEFApp.FrameworkDirPath := TempBinDir;
+      GlobalCEFApp.ResourcesDirPath := TempBinDir;
+      GlobalCEFApp.LocalesDirPath   := TempBinDir + '/locales';
+    end;
+
+  // Add a debug log in the BIN directory
+  GlobalCEFApp.LogFile     := 'cef.log';
+  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
 end;
 
 { TForm1 }
@@ -189,8 +199,8 @@ end;
 procedure TForm1.Chromium1AfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
-  SendCompMessage(CEF_AFTERCREATED);
+  // Now the browser is fully initialized we can initialize the UI.
+  TThread.Queue(nil, @BrowserCreated);
 end;
 
 procedure TForm1.Panel1UTF8KeyPress(Sender: TObject;
@@ -669,7 +679,8 @@ begin
    else
     begin
       // opaque white background color
-      Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+      Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);  
+      Chromium1.DefaultURL := UTF8Decode(AddressEdt.Text);
 
       if not(Chromium1.CreateBrowser(nil, '')) then Timer1.Enabled := True;
     end;
@@ -688,11 +699,10 @@ begin
     Timer1.Enabled := True;
 end;
 
-procedure TForm1.BrowserCreatedMsg(Data: PtrInt);
+procedure TForm1.BrowserCreated;
 begin
   Caption            := 'Simple OSR Browser';
   AddressPnl.Enabled := True;
-  GoBtn.Click;
 end;
 
 procedure TForm1.BrowserCloseFormMsg(Data: PtrInt);
@@ -713,7 +723,6 @@ end;
 function TForm1.SendCompMessage(aMsg : cardinal) : boolean;
 begin
   case aMsg of
-    CEF_AFTERCREATED      : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
     CEF_BEFORECLOSE       : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
     CEF_PENDINGRESIZE     : Application.QueueAsyncCall(@PendingResizeMsg, 0);
     CEF_PENDINGINVALIDATE : Application.QueueAsyncCall(@PendingInvalidateMsg, 0);

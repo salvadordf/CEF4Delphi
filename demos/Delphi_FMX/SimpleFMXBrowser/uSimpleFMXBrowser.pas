@@ -48,7 +48,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.Edit, FMX.Controls.Presentation, uCEFFMXWindowParent, uCEFFMXChromium,
-  uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFChromiumCore;
+  uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFChromiumCore, FMX.Layouts;
 
 const
   MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS    = MENU_ID_USER_FIRST + 1;
@@ -61,10 +61,10 @@ type
     AddressEdt: TEdit;
     FMXChromium1: TFMXChromium;
     Timer1: TTimer;
-    Panel1: TPanel;
+    SaveDialog1: TSaveDialog;
+    Layout1: TLayout;
     GoBtn: TButton;
     SnapShotBtn: TButton;
-    SaveDialog1: TSaveDialog;
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
