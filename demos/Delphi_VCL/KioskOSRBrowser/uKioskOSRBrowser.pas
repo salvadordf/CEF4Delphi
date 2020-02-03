@@ -73,7 +73,6 @@ type
     Timer1: TTimer;
     Panel1: TBufferPanel;
     TouchKeyboard1: TTouchKeyboard;
-    GestureManager1: TGestureManager;
 
     procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure Timer1Timer(Sender: TObject);
@@ -86,6 +85,10 @@ type
     procedure Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Panel1MouseLeave(Sender: TObject);
+    procedure Panel1CustomTouch(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+    procedure Panel1PointerDown(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+    procedure Panel1PointerUp(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+    procedure Panel1PointerUpdate(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -107,8 +110,6 @@ type
     procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
     procedure chrmosrContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
     procedure chrmosrVirtualKeyboardRequested(Sender: TObject; const browser: ICefBrowser; input_mode: TCefTextInpuMode);
-    procedure Panel1Gesture(Sender: TObject; const EventInfo: TGestureEventInfo;
-      var Handled: Boolean);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -130,6 +131,11 @@ type
     procedure DoResize;
     procedure InitializeLastClick;
     function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
+    function  AtLeastWin8 : boolean;
+    function  ArePointerEventsSupported : boolean;
+    function  HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
+    function  HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean;
+    function  HandlePointerEvent(var aMessage : TMessage) : boolean;
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -178,6 +184,7 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
+  GlobalCEFApp.TouchEvents                := STATE_ENABLED;
 end;
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
@@ -685,6 +692,11 @@ begin
   FResizeCS       := TCriticalSection.Create;
 
   InitializeLastClick;
+
+  if (GlobalCEFApp <> nil) and
+     (GlobalCEFApp.TouchEvents = STATE_ENABLED) and
+     Panel1.HandleAllocated then
+    RegisterTouchWindow(Panel1.Handle, 0);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -714,6 +726,9 @@ begin
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
       chrmosr.DefaultURL              := HOMEPAGE_URL;
 
+      if not(ArePointerEventsSupported) then
+        RegisterTouchWindow(Panel1.Handle, 0);
+
       if chrmosr.CreateBrowser(nil, '') then
         chrmosr.InitializeDragAndDrop(Panel1)
        else
@@ -726,12 +741,89 @@ begin
   Panel1.SetFocus;
 end;
 
+procedure TForm1.Panel1CustomTouch(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+var
+  TempTouchEvent  : TCefTouchEvent;
+  TempHTOUCHINPUT : HTOUCHINPUT;
+  TempNumPoints   : integer;
+  i               : integer;
+  TempTouchInputs : array of TTouchInput;
+  TempPoint       : TPoint;
+  TempAtLeastWin8 : boolean;
+  TempLParam      : LPARAM;
+  TempResult      : LRESULT;
+begin
+  if not(Panel1.Focused) or (GlobalCEFApp = nil) then exit;
+
+  TempNumPoints := LOWORD(aMessage.wParam);
+
+  // Chromium only supports upto 16 touch points.
+  if (TempNumPoints < 1) or (TempNumPoints > 16) then exit;
+
+  SetLength(TempTouchInputs, TempNumPoints);
+  TempHTOUCHINPUT := HTOUCHINPUT(aMessage.lParam);
+
+  if GetTouchInputInfo(TempHTOUCHINPUT, TempNumPoints, @TempTouchInputs[0], SizeOf(TTouchInput)) then
+    begin
+      TempAtLeastWin8 := AtLeastWin8;
+
+      i := 0;
+      while (i < TempNumPoints) do
+        begin
+          TempPoint := TouchPointToPoint(Panel1.Handle, TempTouchInputs[i]);
+
+          if not(TempAtLeastWin8) then
+            begin
+              // Windows 7 sends touch events for touches in the non-client area,
+              // whereas Windows 8 does not. In order to unify the behaviour, always
+              // ignore touch events in the non-client area.
+
+              TempLParam := MakeLParam(TempPoint.x, TempPoint.y);
+              TempResult := SendMessage(Panel1.Handle, WM_NCHITTEST, 0, TempLParam);
+
+              if (TempResult <> HTCLIENT) then
+                begin
+                  SetLength(TempTouchInputs, 0);
+                  exit;
+                end;
+            end;
+
+          TempPoint        := Panel1.ScreenToClient(TempPoint);
+          TempTouchEvent.x := DeviceToLogical(TempPoint.x, GlobalCEFApp.DeviceScaleFactor);
+          TempTouchEvent.y := DeviceToLogical(TempPoint.y, GlobalCEFApp.DeviceScaleFactor);
+
+          // Touch point identifier stays consistent in a touch contact sequence
+          TempTouchEvent.id := TempTouchInputs[i].dwID;
+
+          if      ((TempTouchInputs[i].dwFlags and TOUCHEVENTF_DOWN) <> 0) then TempTouchEvent.type_ := CEF_TET_PRESSED
+          else if ((TempTouchInputs[i].dwFlags and TOUCHEVENTF_MOVE) <> 0) then TempTouchEvent.type_ := CEF_TET_MOVED
+          else if ((TempTouchInputs[i].dwFlags and TOUCHEVENTF_UP)   <> 0) then TempTouchEvent.type_ := CEF_TET_RELEASED;
+
+          TempTouchEvent.radius_x       := 0;
+          TempTouchEvent.radius_y       := 0;
+          TempTouchEvent.rotation_angle := 0;
+          TempTouchEvent.pressure       := 0;
+          TempTouchEvent.modifiers      := EVENTFLAG_NONE;
+          TempTouchEvent.pointer_type   := CEF_POINTER_TYPE_TOUCH;
+
+          chrmosr.SendTouchEvent(@TempTouchEvent);
+
+          inc(i);
+        end;
+
+      CloseTouchInputHandle(TempHTOUCHINPUT);
+      aHandled := True;
+    end;
+
+  SetLength(TempTouchInputs, 0);
+end;
+
 procedure TForm1.Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
     begin
       Panel1.SetFocus;
 
@@ -781,7 +873,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
     begin
       if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
 
@@ -797,7 +889,7 @@ procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TSh
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
     begin
       TempEvent.x         := X;
       TempEvent.y         := Y;
@@ -805,6 +897,30 @@ begin
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
       chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
     end;
+end;
+
+procedure TForm1.Panel1PointerDown(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+begin
+  aHandled := Panel1.Focused and
+              (GlobalCEFApp <> nil) and
+              ArePointerEventsSupported and
+              HandlePointerEvent(aMessage);
+end;
+
+procedure TForm1.Panel1PointerUp(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+begin
+  aHandled := Panel1.Focused and
+              (GlobalCEFApp <> nil) and
+              ArePointerEventsSupported and
+              HandlePointerEvent(aMessage);
+end;
+
+procedure TForm1.Panel1PointerUpdate(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+begin
+  aHandled := Panel1.Focused and
+              (GlobalCEFApp <> nil) and
+              ArePointerEventsSupported and
+              HandlePointerEvent(aMessage);
 end;
 
 procedure TForm1.Panel1Resize(Sender: TObject);
@@ -865,6 +981,146 @@ begin
             (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
 end;
 
+function TForm1.ArePointerEventsSupported : boolean;
+begin
+  Result := (@GetPointerType      <> nil) and
+            (@GetPointerTouchInfo <> nil) and
+            (@GetPointerPenInfo   <> nil);
+end;
+
+function TForm1.AtLeastWin8 : boolean;
+var
+  TempMajorVer, TempMinorVer : DWORD;
+begin
+  Result := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
+            ((TempMajorVer > 6) or
+             ((TempMajorVer = 6) and (TempMinorVer >= 2)));
+end;
+
+function TForm1.HandlePointerEvent(var aMessage : TMessage) : boolean;
+const
+  PT_TOUCH = 2;
+  PT_PEN   = 3;
+var
+  TempID   : uint32;
+  TempType : POINTER_INPUT_TYPE;
+begin
+  Result := False;
+  TempID := LoWord(aMessage.wParam);
+
+  if GetPointerType(TempID, @TempType) then
+    case TempType of
+      PT_PEN   : Result := HandlePenEvent(TempID, aMessage.Msg);
+      PT_TOUCH : Result := HandleTouchEvent(TempID, aMessage.Msg);
+    end;
+end;
+
+function TForm1.HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
+var
+  TempPenInfo    : POINTER_PEN_INFO;
+  TempTouchEvent : TCefTouchEvent;
+  TempPoint      : TPoint;
+begin
+  Result := False;
+
+  if not(GetPointerPenInfo(aID, @TempPenInfo)) then exit;
+
+  TempTouchEvent.id        := aID;
+  TempTouchEvent.x         := 0;
+  TempTouchEvent.y         := 0;
+  TempTouchEvent.radius_x  := 0;
+  TempTouchEvent.radius_y  := 0;
+  TempTouchEvent.type_     := CEF_TET_RELEASED;
+  TempTouchEvent.modifiers := EVENTFLAG_NONE;
+
+  if ((TempPenInfo.penFlags and PEN_FLAG_ERASER) <> 0) then
+    TempTouchEvent.pointer_type := CEF_POINTER_TYPE_ERASER
+   else
+    TempTouchEvent.pointer_type := CEF_POINTER_TYPE_PEN;
+
+  if ((TempPenInfo.penMask and PEN_MASK_PRESSURE) <> 0) then
+    TempTouchEvent.pressure := TempPenInfo.pressure / 1024
+   else
+    TempTouchEvent.pressure := 0;
+
+  if ((TempPenInfo.penMask and PEN_MASK_ROTATION) <> 0) then
+    TempTouchEvent.rotation_angle := TempPenInfo.rotation / 180 * 3.14159
+   else
+    TempTouchEvent.rotation_angle := 0;
+
+  Result := True;
+
+  case aMsg of
+    WM_POINTERDOWN :
+      TempTouchEvent.type_ := CEF_TET_PRESSED;
+
+    WM_POINTERUPDATE :
+      if ((TempPenInfo.pointerInfo.pointerFlags and POINTER_FLAG_INCONTACT) <> 0) then
+        TempTouchEvent.type_ := CEF_TET_MOVED
+       else
+        exit; // Ignore hover events.
+
+    WM_POINTERUP :
+      TempTouchEvent.type_ := CEF_TET_RELEASED;
+  end;
+
+  if ((TempPenInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
+    TempTouchEvent.type_ := CEF_TET_CANCELLED;
+
+  TempPoint        := Panel1.ScreenToClient(TempPenInfo.pointerInfo.ptPixelLocation);
+  TempTouchEvent.x := DeviceToLogical(TempPoint.x, GlobalCEFApp.DeviceScaleFactor);
+  TempTouchEvent.y := DeviceToLogical(TempPoint.y, GlobalCEFApp.DeviceScaleFactor);
+
+  chrmosr.SendTouchEvent(@TempTouchEvent);
+end;
+
+function TForm1.HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean;
+var
+  TempTouchInfo  : POINTER_TOUCH_INFO;
+  TempTouchEvent : TCefTouchEvent;
+  TempPoint      : TPoint;
+begin
+  Result := False;
+
+  if not(GetPointerTouchInfo(aID, @TempTouchInfo)) then exit;
+
+  TempTouchEvent.id             := aID;
+  TempTouchEvent.x              := 0;
+  TempTouchEvent.y              := 0;
+  TempTouchEvent.radius_x       := 0;
+  TempTouchEvent.radius_y       := 0;
+  TempTouchEvent.rotation_angle := 0;
+  TempTouchEvent.pressure       := 0;
+  TempTouchEvent.type_          := CEF_TET_RELEASED;
+  TempTouchEvent.modifiers      := EVENTFLAG_NONE;
+  TempTouchEvent.pointer_type   := CEF_POINTER_TYPE_TOUCH;
+
+  Result := True;
+
+  case aMsg of
+    WM_POINTERDOWN :
+      TempTouchEvent.type_ := CEF_TET_PRESSED;
+
+    WM_POINTERUPDATE :
+      if ((TempTouchInfo.pointerInfo.pointerFlags and POINTER_FLAG_INCONTACT) <> 0) then
+        TempTouchEvent.type_ := CEF_TET_MOVED
+       else
+        exit; // Ignore hover events.
+
+    WM_POINTERUP :
+      TempTouchEvent.type_ := CEF_TET_RELEASED;
+  end;
+
+  if ((TempTouchInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
+    TempTouchEvent.type_ := CEF_TET_CANCELLED;
+
+  TempPoint        := Panel1.ScreenToClient(TempTouchInfo.pointerInfo.ptPixelLocation);
+  TempTouchEvent.x := DeviceToLogical(TempPoint.x, GlobalCEFApp.DeviceScaleFactor);
+  TempTouchEvent.y := DeviceToLogical(TempPoint.y, GlobalCEFApp.DeviceScaleFactor);
+
+  chrmosr.SendTouchEvent(@TempTouchEvent);
+end;
+
 procedure TForm1.Panel1Enter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(True);
@@ -874,15 +1130,6 @@ procedure TForm1.Panel1Exit(Sender: TObject);
 begin
   TouchKeyboard1.Visible := False;
   chrmosr.SendFocusEvent(False);
-end;
-
-procedure TForm1.Panel1Gesture(Sender: TObject;
-  const EventInfo: TGestureEventInfo; var Handled: Boolean);
-begin
-  case EventInfo.GestureID of
-    sgiLeft  : chrmosr.GoBack;
-    sgiRight : chrmosr.GoForward;
-  end;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

@@ -260,10 +260,13 @@ procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; 
 
 function  GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
 function  GetDefaultCEFUserAgent : string;
+function  TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
 {$ENDIF}
 
 function  DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;
+function  DeviceToLogical(aValue : single; const aDeviceScaleFactor : double) : single; overload;
 procedure DeviceToLogical(var aEvent : TCEFMouseEvent; const aDeviceScaleFactor : double); overload;
+procedure DeviceToLogical(var aEvent : TCefTouchEvent; const aDeviceScaleFactor : double); overload;
 procedure DeviceToLogical(var aPoint : TPoint; const aDeviceScaleFactor : double); overload;
 function  LogicalToDevice(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;
 procedure LogicalToDevice(var aRect : TCEFRect; const aDeviceScaleFactor : double); overload;
@@ -283,6 +286,7 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 implementation
 
 uses
+  System.Types,
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
@@ -2081,6 +2085,12 @@ begin
              'AppleWebKit/537.36 (KHTML, like Gecko) ' +
              'Chrome/' + TempChromiumVersion + ' Safari/537.36';
 end;
+
+function TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
+begin
+  Result := Point(TouchPoint.X div 100, TouchPoint.Y div 100);
+  PhysicalToLogicalPoint(aHandle, Result);
+end;
 {$ENDIF}
 
 function DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer;
@@ -2088,7 +2098,18 @@ begin
   Result := floor(aValue / aDeviceScaleFactor);
 end;
 
+function DeviceToLogical(aValue : single; const aDeviceScaleFactor : double) : single;
+begin
+  Result := aValue / aDeviceScaleFactor;
+end;
+
 procedure DeviceToLogical(var aEvent : TCEFMouseEvent; const aDeviceScaleFactor : double);
+begin
+  aEvent.x := DeviceToLogical(aEvent.x, aDeviceScaleFactor);
+  aEvent.y := DeviceToLogical(aEvent.y, aDeviceScaleFactor);
+end;
+
+procedure DeviceToLogical(var aEvent : TCefTouchEvent; const aDeviceScaleFactor : double);
 begin
   aEvent.x := DeviceToLogical(aEvent.x, aDeviceScaleFactor);
   aEvent.y := DeviceToLogical(aEvent.y, aDeviceScaleFactor);

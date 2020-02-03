@@ -27,6 +27,10 @@ object Form1: TForm1
     Top = 0
     Width = 1004
     Height = 526
+    OnCustomTouch = Panel1CustomTouch
+    OnPointerDown = Panel1PointerDown
+    OnPointerUp = Panel1PointerUp
+    OnPointerUpdate = Panel1PointerUpdate
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 0
@@ -39,8 +43,6 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    Touch.GestureManager = GestureManager1
-    OnGesture = Panel1Gesture
   end
   object TouchKeyboard1: TTouchKeyboard
     Left = 0
@@ -81,20 +83,5 @@ object Form1: TForm1
     OnTimer = Timer1Timer
     Left = 40
     Top = 182
-  end
-  object GestureManager1: TGestureManager
-    Left = 40
-    Top = 256
-    GestureData = <
-      item
-        Control = Panel1
-        Collection = <
-          item
-            GestureID = sgiLeft
-          end
-          item
-            GestureID = sgiRight
-          end>
-      end>
   end
 end

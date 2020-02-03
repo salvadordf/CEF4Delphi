@@ -109,6 +109,10 @@ object Form1: TForm1
     OnIMECancelComposition = Panel1IMECancelComposition
     OnIMECommitText = Panel1IMECommitText
     OnIMESetComposition = Panel1IMESetComposition
+    OnCustomTouch = Panel1CustomTouch
+    OnPointerDown = Panel1PointerDown
+    OnPointerUp = Panel1PointerUp
+    OnPointerUpdate = Panel1PointerUpdate
     OnPaintParentBkg = Panel1PaintParentBkg
     Align = alClient
     Ctl3D = False

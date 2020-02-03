@@ -63,6 +63,7 @@ uses
 type
   TOnIMECommitTextEvent     = procedure(Sender: TObject; const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer) of object;
   TOnIMESetCompositionEvent = procedure(Sender: TObject; const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange) of object;
+  TOnHandledMessageEvent    = procedure(Sender: TObject; var aMessage: TMessage; var aHandled : boolean) of object;
 
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TBufferPanel = class(TCustomPanel)
@@ -77,6 +78,10 @@ type
       FOnIMECancelComposition : TNotifyEvent;
       FOnIMECommitText        : TOnIMECommitTextEvent;
       FOnIMESetComposition    : TOnIMESetCompositionEvent;
+      FOnCustomTouch          : TOnHandledMessageEvent;
+      FOnPointerDown          : TOnHandledMessageEvent;
+      FOnPointerUp            : TOnHandledMessageEvent;
+      FOnPointerUpdate        : TOnHandledMessageEvent;
       {$ENDIF}
 
       procedure CreateSyncObj;
@@ -98,6 +103,10 @@ type
       procedure CreateParams(var Params: TCreateParams); override;
       procedure WndProc(var aMessage: TMessage); override;
       procedure WMEraseBkgnd(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;
+      procedure WMTouch(var aMessage: TMessage); message WM_TOUCH;
+      procedure WMPointerDown(var aMessage: TMessage); message WM_POINTERDOWN;
+      procedure WMPointerUpdate(var aMessage: TMessage); message WM_POINTERUPDATE;
+      procedure WMPointerUp(var aMessage: TMessage); message WM_POINTERUP;
       procedure WMIMEStartComp(var aMessage: TMessage);
       procedure WMIMEEndComp(var aMessage: TMessage);
       procedure WMIMESetContext(var aMessage: TMessage);
@@ -132,6 +141,11 @@ type
       property OnIMECancelComposition    : TNotifyEvent              read FOnIMECancelComposition    write FOnIMECancelComposition;
       property OnIMECommitText           : TOnIMECommitTextEvent     read FOnIMECommitText           write FOnIMECommitText;
       property OnIMESetComposition       : TOnIMESetCompositionEvent read FOnIMESetComposition       write FOnIMESetComposition;
+      property OnCustomTouch             : TOnHandledMessageEvent    read FOnCustomTouch             write FOnCustomTouch;
+      property OnPointerDown             : TOnHandledMessageEvent    read FOnPointerDown             write FOnPointerDown;
+      property OnPointerUp               : TOnHandledMessageEvent    read FOnPointerUp               write FOnPointerUp;
+      property OnPointerUpdate           : TOnHandledMessageEvent    read FOnPointerUpdate           write FOnPointerUpdate;
+
       {$ENDIF}
       property OnPaintParentBkg          : TNotifyEvent              read FOnPaintParentBkg          write FOnPaintParentBkg;
 
@@ -249,6 +263,10 @@ begin
   FOnIMECancelComposition := nil;
   FOnIMECommitText        := nil;
   FOnIMESetComposition    := nil;
+  FOnCustomTouch          := nil;
+  FOnPointerDown          := nil;
+  FOnPointerUp            := nil;
+  FOnPointerUpdate        := nil;
   {$ENDIF}
 end;
 
@@ -465,6 +483,50 @@ end;
 procedure TBufferPanel.WMEraseBkgnd(var aMessage : TWMEraseBkgnd);
 begin
   aMessage.Result := 1;
+end;
+
+procedure TBufferPanel.WMTouch(var aMessage: TMessage);
+var
+  TempHandled : boolean;
+begin
+  TempHandled := False;
+  {$IFDEF MSWINDOWS}
+  if assigned(FOnCustomTouch) then FOnCustomTouch(self, aMessage, TempHandled);
+  {$ENDIF}
+  if not(TempHandled) then inherited;
+end;
+
+procedure TBufferPanel.WMPointerDown(var aMessage: TMessage);
+var
+  TempHandled : boolean;
+begin
+  TempHandled := False;
+  {$IFDEF MSWINDOWS}
+  if assigned(FOnPointerDown) then FOnPointerDown(self, aMessage, TempHandled);
+  {$ENDIF}
+  if not(TempHandled) then inherited;
+end;
+
+procedure TBufferPanel.WMPointerUpdate(var aMessage: TMessage);
+var
+  TempHandled : boolean;
+begin
+  TempHandled := False;
+  {$IFDEF MSWINDOWS}
+  if assigned(FOnPointerUpdate) then FOnPointerUpdate(self, aMessage, TempHandled);
+  {$ENDIF}
+  if not(TempHandled) then inherited;
+end;
+
+procedure TBufferPanel.WMPointerUp(var aMessage: TMessage);
+var
+  TempHandled : boolean;
+begin
+  TempHandled := False;
+  {$IFDEF MSWINDOWS}
+  if assigned(FOnPointerUp) then FOnPointerUp(self, aMessage, TempHandled);
+  {$ENDIF}
+  if not(TempHandled) then inherited;
 end;
 
 procedure TBufferPanel.WMIMEStartComp(var aMessage: TMessage);

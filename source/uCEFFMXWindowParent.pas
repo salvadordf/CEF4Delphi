@@ -71,6 +71,8 @@ type
       property Visible;
       property Height;
       property Width;
+      property Touch;
+      property OnGesture;
   end;
 
 implementation
