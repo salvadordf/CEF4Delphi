@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="7">
+    <Units Count="8">
       <Unit0>
         <Filename Value="CRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="88"/>
-        <CursorPos X="82" Y="113"/>
+        <TopLine Value="153"/>
+        <CursorPos X="49" Y="172"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -68,8 +68,15 @@
         <CursorPos X="3" Y="125"/>
         <UsageCount Value="10"/>
       </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\source\uCEFSentinel.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="140"/>
+        <CursorPos X="41" Y="162"/>
+        <UsageCount Value="10"/>
+      </Unit7>
     </Units>
-    <JumpHistory Count="16" HistoryIndex="15">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="uMainForm.pas"/>
       </Position1>
@@ -133,6 +140,50 @@
         <Filename Value="uMainForm.pas"/>
         <Caret Line="124" Column="44" TopLine="102"/>
       </Position16>
+      <Position17>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="104" Column="52" TopLine="49"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="104" Column="52" TopLine="49"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="103" Column="52" TopLine="74"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="66" Column="26" TopLine="59"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="161" Column="30" TopLine="150"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="66" TopLine="51"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="155" Column="45" TopLine="134"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="66" Column="42" TopLine="51"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="153" TopLine="129"/>
+      </Position25>
+      <Position26>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="66" Column="66" TopLine="51"/>
+      </Position26>
+      <Position27>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="168" Column="51" TopLine="153"/>
+      </Position27>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

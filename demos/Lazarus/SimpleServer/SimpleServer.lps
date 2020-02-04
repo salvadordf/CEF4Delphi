@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="2">
+    <Units Count="5">
       <Unit0>
         <Filename Value="SimpleServer.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -19,18 +19,72 @@
         <ComponentName Value="SimpleServerFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
         <TopLine Value="61"/>
         <CursorPos X="73" Y="214"/>
         <UsageCount Value="20"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <TopLine Value="267"/>
+        <CursorPos X="37" Y="291"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="45"/>
+        <CursorPos X="73" Y="61"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\source\uCEFConstants.pas"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="577"/>
+        <CursorPos X="40" Y="599"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="-1"/>
-    </General>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="8" HistoryIndex="7">
+      <Position1>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <Caret Line="65" Column="41" TopLine="410"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <Caret Line="264" Column="21" TopLine="248"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <Caret Line="2098" Column="11" TopLine="2079"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <Caret Line="291" Column="37" TopLine="267"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <Caret Line="106" Column="58" TopLine="88"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <Caret Line="107" Column="78" TopLine="93"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <Caret Line="108" Column="82" TopLine="94"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <Caret Line="103" Column="90" TopLine="45"/>
+      </Position8>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="0" ActiveMode=""/>

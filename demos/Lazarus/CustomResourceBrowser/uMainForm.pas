@@ -57,15 +57,12 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     ChromiumWindow1: TChromiumWindow;
     AddressBarPnl: TPanel;
     Edit1: TEdit;
     Button1: TButton;
     Timer1: TTimer;
 
-    procedure CEFSentinel1Close(Sender: TObject);
-    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -109,8 +106,7 @@ uses
 // =================
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
 // 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
-// 3. TChromiumWindow.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromiumWindow.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -153,17 +149,6 @@ begin
   if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
 end;
 
-procedure TMainForm.ChromiumWindow1AfterCreated(Sender: TObject);
-begin
-
-end;
-
-procedure TMainForm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
-end;
-
 procedure TMainForm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
@@ -173,13 +158,18 @@ end;
 
 procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.ChromiumWindow1Close(Sender: TObject);
 begin
   // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then CEFSentinel1.Start;
+  if not(ChromiumWindow1.DestroyChildWindow) then
+    begin
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
 end;
 
 procedure TMainForm.Chromium_OnAfterCreated(Sender: TObject);

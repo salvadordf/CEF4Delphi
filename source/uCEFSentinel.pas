@@ -60,7 +60,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, {$ENDIF} Classes, Controls, ExtCtrls, SysUtils, SyncObjs, Math,
     {$IFDEF FPC}
-    LResources, Forms,
+    LCLIntf, LResources, Forms,
     {$ELSE}
     Messages,
     {$ENDIF}

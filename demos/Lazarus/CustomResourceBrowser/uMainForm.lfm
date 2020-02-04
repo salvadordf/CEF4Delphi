@@ -14,7 +14,7 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object ChromiumWindow1: TChromiumWindow
     Left = 0
     Height = 637
@@ -24,7 +24,6 @@ object MainForm: TMainForm
     TabOrder = 0
     OnClose = ChromiumWindow1Close
     OnBeforeClose = ChromiumWindow1BeforeClose
-    OnAfterCreated = ChromiumWindow1AfterCreated
   end
   object AddressBarPnl: TPanel
     Left = 0
@@ -65,10 +64,5 @@ object MainForm: TMainForm
     OnTimer = Timer1Timer
     left = 48
     top = 240
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 48
-    top = 320
   end
 end
