@@ -260,7 +260,7 @@ procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; 
 
 function  GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
 function  GetDefaultCEFUserAgent : string;
-{$IFNDEF FPC}
+{$IFDEF DELPHI14_UP}
 function  TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
 {$ENDIF}
 {$ENDIF}
@@ -288,7 +288,7 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 implementation
 
 uses
-  {$IFNDEF FPC}System.Types,{$ENDIF}
+  {$IFDEF DELPHI14_UP}System.Types,{$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
@@ -2088,7 +2088,7 @@ begin
              'Chrome/' + TempChromiumVersion + ' Safari/537.36';
 end;
 
-{$IFNDEF FPC}
+{$IFDEF DELPHI14_UP}
 function TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
 begin
   Result := Point(TouchPoint.X div 100, TouchPoint.Y div 100);

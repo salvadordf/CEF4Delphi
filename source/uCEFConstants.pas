@@ -592,12 +592,11 @@ const
   CEF_SENTINEL_DOCLOSE   = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0B;
   CEF_BEFORECLOSE        = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0C;
 
-  {$IFDEF FPC}
+  // Lazarus and some old Delphi versions don't have these message contants
   WM_TOUCH                 = $0240;
   WM_POINTERUPDATE         = $0245;
   WM_POINTERDOWN           = $0246;
   WM_POINTERUP             = $0247;
-  {$ENDIF}
 
   CEF_TIMER_MINIMUM            = $0000000A;
   CEF_TIMER_MAXIMUM            = $7FFFFFFF;
