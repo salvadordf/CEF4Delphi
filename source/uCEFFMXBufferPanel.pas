@@ -275,24 +275,31 @@ end;
 
 function TFMXBufferPanel.CopyBuffer : boolean;
 var
-  TempSrc, TempDst : TRectF;
+  TempSrc, TempDst, TempClip : TRectF;
+  TempState : TCanvasSaveState;
 begin
   Result := False;
 
   if Canvas.BeginScene then
     try
       if BeginBufferDraw then
-        begin
+        try
           if (FBuffer <> nil) then
             begin
-              TempSrc := TRectF.Create(0, 0, FBuffer.Width, FBuffer.Height);
-              TempDst := TRectF.Create(0, 0, FBuffer.Width / ScreenScale, FBuffer.Height / ScreenScale);
+              TempSrc   := TRectF.Create(0, 0, FBuffer.Width, FBuffer.Height);
+              TempDst   := TRectF.Create(0, 0, FBuffer.Width / ScreenScale, FBuffer.Height / ScreenScale);
+              TempClip  := TRectF.Create(0, 0, Width, Height);
 
-              Canvas.DrawBitmap(FBuffer, TempSrc, TempDst, 1, FHighSpeedDrawing);
-
-              Result := True;
+              TempState := Canvas.SaveState;
+              try
+                CAnvas.IntersectClipRect(TempClip);
+                Canvas.DrawBitmap(FBuffer, TempSrc, TempDst, 1, FHighSpeedDrawing);
+                Result := True;
+              finally
+                Canvas.RestoreState(TempState);
+              end;
             end;
-
+        finally
           EndBufferDraw;
         end;
     finally
