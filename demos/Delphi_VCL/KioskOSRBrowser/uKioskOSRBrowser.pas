@@ -823,7 +823,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       Panel1.SetFocus;
 
@@ -873,7 +873,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
 
@@ -889,7 +889,7 @@ procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TSh
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
     begin
       TempEvent.x         := X;
       TempEvent.y         := Y;

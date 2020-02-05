@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="7">
+    <Units Count="9">
       <Unit0>
         <Filename Value="CookieVisitor.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,10 +20,9 @@
         <ComponentName Value="CookieVisitorFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="145"/>
-        <CursorPos X="31" Y="167"/>
+        <CursorPos X="41" Y="166"/>
         <UsageCount Value="24"/>
         <Bookmarks Count="1">
           <Item0 X="66" Y="256" ID="3"/>
@@ -68,16 +67,32 @@
       <Unit6>
         <Filename Value="..\..\..\source\uCEFSentinel.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="74"/>
-        <CursorPos X="14" Y="63"/>
+        <TopLine Value="140"/>
+        <CursorPos X="58" Y="161"/>
         <UsageCount Value="10"/>
         <Bookmarks Count="2">
           <Item0 X="66" Y="60" ID="1"/>
           <Item1 X="76" Y="164" ID="2"/>
         </Bookmarks>
       </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\source\uCEFWorkScheduler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="41"/>
+        <CursorPos X="29" Y="178"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="249"/>
+        <CursorPos X="5" Y="263"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit8>
     </Units>
-    <JumpHistory Count="23" HistoryIndex="22">
+    <JumpHistory Count="24" HistoryIndex="23">
       <Position1>
         <Filename Value="uCookieVisitor.pas"/>
         <Caret Line="191" Column="62" TopLine="176"/>
@@ -170,6 +185,10 @@
         <Filename Value="uCookieVisitor.pas"/>
         <Caret Line="78" TopLine="63"/>
       </Position23>
+      <Position24>
+        <Filename Value="uCookieVisitor.pas"/>
+        <Caret Line="166" Column="41" TopLine="145"/>
+      </Position24>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

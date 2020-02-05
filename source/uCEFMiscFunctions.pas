@@ -82,6 +82,16 @@ type
     wProductType: BYTE;
     wReserved:BYTE;
   end;
+  {$IFDEF DELPHI14_UP}
+  TDigitizerStatus = record
+    IntegratedTouch : boolean;
+    ExternalTouch   : boolean;
+    IntegratedPen   : boolean;
+    ExternalPen     : boolean;
+    MultiInput      : boolean;
+    Ready           : boolean;
+  end;
+  {$ENDIF}
 
 function CefColorGetA(color: TCefColor): Byte;
 function CefColorGetR(color: TCefColor): byte;
@@ -262,6 +272,8 @@ function  GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) 
 function  GetDefaultCEFUserAgent : string;
 {$IFDEF DELPHI14_UP}
 function  TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
+function  GetDigitizerStatus(var aDigitizerStatus : TDigitizerStatus; aDPI : cardinal = 0) : boolean;
+function  HasTouchOrPen(aDPI : cardinal = 0) : boolean;
 {$ENDIF}
 {$ENDIF}
 
@@ -288,7 +300,11 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 implementation
 
 uses
-  {$IFDEF DELPHI14_UP}System.Types,{$ENDIF}
+  {$IFDEF DELPHI16_UP}
+    System.Types,
+  {$ELSE}
+    {$IFDEF DELPHI14_UP}Types,{$ENDIF}
+  {$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
@@ -2093,6 +2109,32 @@ function TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoin
 begin
   Result := Point(TouchPoint.X div 100, TouchPoint.Y div 100);
   PhysicalToLogicalPoint(aHandle, Result);
+end;
+
+function GetDigitizerStatus(var aDigitizerStatus : TDigitizerStatus; aDPI : cardinal) : boolean;
+var
+  TempStatus : integer;
+begin
+  if (aDPI > 0) then
+    TempStatus := GetSystemMetricsForDpi(SM_DIGITIZER, aDPI)
+   else
+    TempStatus := GetSystemMetrics(SM_DIGITIZER);
+
+  aDigitizerStatus.IntegratedTouch := ((TempStatus and NID_INTEGRATED_TOUCH) <> 0);
+  aDigitizerStatus.ExternalTouch   := ((TempStatus and NID_EXTERNAL_TOUCH)   <> 0);
+  aDigitizerStatus.IntegratedPen   := ((TempStatus and NID_INTEGRATED_PEN)   <> 0);
+  aDigitizerStatus.ExternalPen     := ((TempStatus and NID_EXTERNAL_PEN)     <> 0);
+  aDigitizerStatus.MultiInput      := ((TempStatus and NID_MULTI_INPUT)      <> 0);
+  aDigitizerStatus.Ready           := ((TempStatus and NID_READY)            <> 0);
+
+  Result := (TempStatus <> 0);
+end;
+
+function HasTouchOrPen(aDPI : cardinal) : boolean;
+var
+  TempStatus : TDigitizerStatus;
+begin
+  Result := GetDigitizerStatus(TempStatus, aDPI);
 end;
 {$ENDIF}    
 {$ENDIF}

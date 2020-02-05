@@ -147,7 +147,6 @@ type
       property OnPointerDown             : TOnHandledMessageEvent    read FOnPointerDown             write FOnPointerDown;
       property OnPointerUp               : TOnHandledMessageEvent    read FOnPointerUp               write FOnPointerUp;
       property OnPointerUpdate           : TOnHandledMessageEvent    read FOnPointerUpdate           write FOnPointerUpdate;
-
       {$ENDIF}
       property OnPaintParentBkg          : TNotifyEvent              read FOnPaintParentBkg          write FOnPaintParentBkg;
 

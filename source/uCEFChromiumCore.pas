@@ -3186,9 +3186,7 @@ begin
   UpdatePreference(aBrowser, 'settings.force_google_safesearch',     FSafeSearch);
   UpdatePreference(aBrowser, 'settings.force_youtube_restrict',      FYouTubeRestrict);
   UpdatePreference(aBrowser, 'printing.enabled',                     FPrintingEnabled);
-
-  if (length(FAcceptLanguageList) > 0) then
-    UpdatePreference(aBrowser, 'intl.accept_languages', FAcceptLanguageList);
+  UpdatePreference(aBrowser, 'intl.accept_languages',                FAcceptLanguageList);
 
   if (FMaxConnectionsPerProxy <> CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE) then
     UpdatePreference(aBrowser, 'net.max_connections_per_proxy', FMaxConnectionsPerProxy);
