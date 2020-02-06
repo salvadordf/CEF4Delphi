@@ -292,7 +292,7 @@ begin
 
               TempState := Canvas.SaveState;
               try
-                CAnvas.IntersectClipRect(TempClip);
+                Canvas.IntersectClipRect(TempClip);
                 Canvas.DrawBitmap(FBuffer, TempSrc, TempDst, 1, FHighSpeedDrawing);
                 Result := True;
               finally

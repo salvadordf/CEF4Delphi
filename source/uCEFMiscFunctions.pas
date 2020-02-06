@@ -2115,9 +2115,11 @@ function GetDigitizerStatus(var aDigitizerStatus : TDigitizerStatus; aDPI : card
 var
   TempStatus : integer;
 begin
+  {$IFDEF DELPHI26_UP}
   if (aDPI > 0) then
     TempStatus := GetSystemMetricsForDpi(SM_DIGITIZER, aDPI)
    else
+  {$ENDIF}
     TempStatus := GetSystemMetrics(SM_DIGITIZER);
 
   aDigitizerStatus.IntegratedTouch := ((TempStatus and NID_INTEGRATED_TOUCH) <> 0);
@@ -2136,7 +2138,7 @@ var
 begin
   Result := GetDigitizerStatus(TempStatus, aDPI);
 end;
-{$ENDIF}    
+{$ENDIF}
 {$ENDIF}
 
 function DeviceToLogical(aValue : integer; const aDeviceScaleFactor : double) : integer;
