@@ -198,6 +198,14 @@ begin
            (Application.MainForm is TFMXExternalPumpBrowserFrm) then
           TFMXExternalPumpBrowserFrm(Application.MainForm).HandleSYSKEYUP(TempMsg);
 
+      WM_POINTERDOWN,
+      WM_POINTERUPDATE,
+      WM_POINTERUP :
+        if not(Application.Terminated) and
+           (Application.MainForm <> nil) and
+           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
+          TFMXExternalPumpBrowserFrm(Application.MainForm).HandlePOINTER(TempMsg);
+
       CEF_PENDINGRESIZE :
         if not(Application.Terminated) and
            (Application.MainForm <> nil) and

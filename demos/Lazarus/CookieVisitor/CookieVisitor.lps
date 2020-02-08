@@ -20,6 +20,7 @@
         <ComponentName Value="CookieVisitorFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="145"/>
         <CursorPos X="41" Y="166"/>
@@ -84,12 +85,10 @@
       </Unit7>
       <Unit8>
         <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="249"/>
-        <CursorPos X="5" Y="263"/>
+        <CursorPos X="61" Y="272"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit8>
     </Units>
     <JumpHistory Count="24" HistoryIndex="23">

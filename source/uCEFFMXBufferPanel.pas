@@ -69,6 +69,7 @@ type
       FColor            : TAlphaColor;
       FHighSpeedDrawing : boolean;
       FOnDialogKey      : TDialogKeyEvent;
+      FOnWrongSize      : TNotifyEvent;
 
       procedure CreateSyncObj;
 
@@ -147,6 +148,7 @@ type
       property OnKeyUp;
       property OnKeyDown;
       property OnDialogKey    : TDialogKeyEvent    read FOnDialogKey      write FOnDialogKey;
+      property OnWrongSize    : TNotifyEvent       read FOnWrongSize      write FOnWrongSize;
   end;
 
 implementation
@@ -168,6 +170,7 @@ begin
   FScanlineSize     := 0;
   FColor            := claWhite;
   FOnDialogKey      := nil;
+  FOnWrongSize      := nil;
   FHighSpeedDrawing := True;
 end;
 
@@ -277,8 +280,10 @@ function TFMXBufferPanel.CopyBuffer : boolean;
 var
   TempSrc, TempDst, TempClip : TRectF;
   TempState : TCanvasSaveState;
+  TempWrongSize : boolean;
 begin
-  Result := False;
+  Result        := False;
+  TempWrongSize := False;
 
   if Canvas.BeginScene then
     try
@@ -298,6 +303,9 @@ begin
               finally
                 Canvas.RestoreState(TempState);
               end;
+
+              TempWrongSize := (abs(Width  - TempDst.Width)  > 1) or
+                               (abs(Height - TempDst.Height) > 1);
             end;
         finally
           EndBufferDraw;
@@ -305,6 +313,8 @@ begin
     finally
       Canvas.EndScene;
     end;
+
+  if TempWrongSize and assigned(FOnWrongSize) then FOnWrongSize(self);
 end;
 
 procedure TFMXBufferPanel.DialogKey(var Key: Word; Shift: TShiftState);

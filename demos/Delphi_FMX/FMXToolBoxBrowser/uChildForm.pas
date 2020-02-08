@@ -181,20 +181,25 @@ begin
       WM_WINDOWPOSCHANGING :
         begin
           TempWindowPos := TWMWindowPosChanging(aMessage).WindowPos;
-          if ((TempWindowPos.Flags and SWP_STATECHANGED) = SWP_STATECHANGED) then
+          if ((TempWindowPos.Flags and SWP_STATECHANGED) <> 0) then
             UpdateCustomWindowState;
         end;
+
+      WM_SHOWWINDOW :
+        if (aMessage.wParam <> 0) and (aMessage.lParam = SW_PARENTOPENING) then
+          PostCustomMessage(CEF_SHOWBROWSER);
 
       CEF_DESTROY :
         if (FMXWindowParent <> nil) then
           FreeAndNil(FMXWindowParent);
 
       CEF_SHOWBROWSER :
-        begin
-          FMXWindowParent.WindowState := TWindowState.wsNormal;
-          FMXWindowParent.Show;
-          FMXWindowParent.SetBounds(GetFMXWindowParentRect);
-        end;
+        if (FMXWindowParent <> nil) then
+          begin
+            FMXWindowParent.WindowState := TWindowState.wsNormal;
+            FMXWindowParent.Show;
+            FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+          end;
     end;
 
     aMessage.Result := CallWindowProc(FOldWndPrc, FmxHandleToHWND(Handle), aMessage.Msg, aMessage.wParam, aMessage.lParam);

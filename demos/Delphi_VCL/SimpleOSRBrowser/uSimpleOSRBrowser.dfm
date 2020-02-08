@@ -114,6 +114,7 @@ object Form1: TForm1
     OnPointerUp = Panel1PointerUp
     OnPointerUpdate = Panel1PointerUpdate
     OnPaintParentBkg = Panel1PaintParentBkg
+    OnWrongSize = Panel1WrongSize
     Align = alClient
     Ctl3D = False
     ParentCtl3D = False

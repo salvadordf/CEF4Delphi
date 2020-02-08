@@ -48,12 +48,13 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.Edit, FMX.Controls.Presentation, uCEFFMXWindowParent, uCEFFMXChromium,
+  System.SyncObjs,
   uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFChromiumCore, FMX.Layouts;
 
 const
   MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS    = MENU_ID_USER_FIRST + 1;
 
-  CEF_SHOWBROWSER = WM_APP + $101;
+  CEF_SHOWBROWSER   = WM_APP + $101;
 
 type
   TSimpleFMXBrowserFrm = class(TForm)
@@ -293,9 +294,13 @@ begin
       WM_WINDOWPOSCHANGING :
         begin
           TempWindowPos := TWMWindowPosChanging(aMessage).WindowPos;
-          if ((TempWindowPos.Flags and SWP_STATECHANGED) = SWP_STATECHANGED) then
+          if ((TempWindowPos.Flags and SWP_STATECHANGED) <> 0) then
             UpdateCustomWindowState;
         end;
+
+      WM_SHOWWINDOW :
+        if (aMessage.wParam <> 0) and (aMessage.lParam = SW_PARENTOPENING) then
+          PostCustomMessage(CEF_SHOWBROWSER);
 
       CEF_AFTERCREATED :
         begin
@@ -308,11 +313,12 @@ begin
           FreeAndNil(FMXWindowParent);
 
       CEF_SHOWBROWSER :
-        begin
-          FMXWindowParent.WindowState := TWindowState.wsNormal;
-          FMXWindowParent.Show;
-          FMXWindowParent.SetBounds(GetFMXWindowParentRect);
-        end;
+        if (FMXWindowParent <> nil) then
+          begin
+            FMXWindowParent.WindowState := TWindowState.wsNormal;
+            FMXWindowParent.Show;
+            FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+          end;
     end;
 
     aMessage.Result := CallWindowProc(FOldWndPrc, FmxHandleToHWND(Handle), aMessage.Msg, aMessage.wParam, aMessage.lParam);
@@ -358,6 +364,8 @@ begin
       SW_SHOWMAXIMIZED : Result := TWindowState.wsMaximized;
       SW_SHOWMINIMIZED : Result := TWindowState.wsMinimized;
     end;
+
+  if IsIconic(TempHWND) then Result := TWindowState.wsMinimized;
 end;
 {$ENDIF}
 

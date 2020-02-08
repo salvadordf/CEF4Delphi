@@ -89,6 +89,7 @@ type
     procedure Panel1PointerDown(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
     procedure Panel1PointerUp(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
     procedure Panel1PointerUpdate(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+    procedure Panel1WrongSize(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -120,6 +121,7 @@ type
     FCanClose        : boolean;
     FClosing         : boolean;
     FResizeCS        : TCriticalSection;
+    FAtLeastWin8     : boolean;
 
     FLastClickCount  : integer;
     FLastClickTime   : integer;
@@ -131,7 +133,6 @@ type
     procedure DoResize;
     procedure InitializeLastClick;
     function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
-    function  AtLeastWin8 : boolean;
     function  ArePointerEventsSupported : boolean;
     function  HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
     function  HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean;
@@ -681,6 +682,8 @@ begin
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
+var
+  TempMajorVer, TempMinorVer : DWORD;
 begin
   FPopUpBitmap    := nil;
   FPopUpRect      := rect(0, 0, 0, 0);
@@ -690,6 +693,10 @@ begin
   FCanClose       := False;
   FClosing        := False;
   FResizeCS       := TCriticalSection.Create;
+
+  FAtLeastWin8    := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
+                     ((TempMajorVer > 6) or
+                      ((TempMajorVer = 6) and (TempMinorVer >= 2)));
 
   InitializeLastClick;
 
@@ -749,7 +756,6 @@ var
   i               : integer;
   TempTouchInputs : array of TTouchInput;
   TempPoint       : TPoint;
-  TempAtLeastWin8 : boolean;
   TempLParam      : LPARAM;
   TempResult      : LRESULT;
 begin
@@ -765,14 +771,12 @@ begin
 
   if GetTouchInputInfo(TempHTOUCHINPUT, TempNumPoints, @TempTouchInputs[0], SizeOf(TTouchInput)) then
     begin
-      TempAtLeastWin8 := AtLeastWin8;
-
       i := 0;
       while (i < TempNumPoints) do
         begin
           TempPoint := TouchPointToPoint(Panel1.Handle, TempTouchInputs[i]);
 
-          if not(TempAtLeastWin8) then
+          if not(FAtLeastWin8) then
             begin
               // Windows 7 sends touch events for touches in the non-client area,
               // whereas Windows 8 does not. In order to unify the behaviour, always
@@ -823,7 +827,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
     begin
       Panel1.SetFocus;
 
@@ -873,7 +877,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
     begin
       if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
 
@@ -889,7 +893,7 @@ procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TSh
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
     begin
       TempEvent.x         := X;
       TempEvent.y         := Y;
@@ -924,6 +928,11 @@ begin
 end;
 
 procedure TForm1.Panel1Resize(Sender: TObject);
+begin
+  DoResize;
+end;
+
+procedure TForm1.Panel1WrongSize(Sender: TObject);
 begin
   DoResize;
 end;
@@ -983,18 +992,10 @@ end;
 
 function TForm1.ArePointerEventsSupported : boolean;
 begin
-  Result := (@GetPointerType      <> nil) and
+  Result := FAtLeastWin8 and
+            (@GetPointerType      <> nil) and
             (@GetPointerTouchInfo <> nil) and
             (@GetPointerPenInfo   <> nil);
-end;
-
-function TForm1.AtLeastWin8 : boolean;
-var
-  TempMajorVer, TempMinorVer : DWORD;
-begin
-  Result := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
-            ((TempMajorVer > 6) or
-             ((TempMajorVer = 6) and (TempMinorVer >= 2)));
 end;
 
 function TForm1.HandlePointerEvent(var aMessage : TMessage) : boolean;
@@ -1044,7 +1045,7 @@ begin
     TempTouchEvent.pressure := 0;
 
   if ((TempPenInfo.penMask and PEN_MASK_ROTATION) <> 0) then
-    TempTouchEvent.rotation_angle := TempPenInfo.rotation / 180 * 3.14159
+    TempTouchEvent.rotation_angle := TempPenInfo.rotation / 180 * Pi
    else
     TempTouchEvent.rotation_angle := 0;
 
