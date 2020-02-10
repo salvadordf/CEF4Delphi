@@ -1,0 +1,73 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  Caption = 'Initializing. Please, wait...'
+  ClientHeight = 716
+  ClientWidth = 979
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnCloseQuery = FormCloseQuery
+  OnResize = FormResize
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object ButtonLay: TLayout
+    Align = Left
+    Enabled = False
+    Padding.Left = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Size.Width = 32.000000000000000000
+    Size.Height = 716.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object AddTabBtn: TSpeedButton
+      Action = AddTabAction
+      Align = Top
+      Enabled = True
+      ImageIndex = -1
+      Margins.Top = 5.000000000000000000
+      Position.X = 5.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 22.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'additembutton'
+    end
+    object RemoveTabBtn: TSpeedButton
+      Action = RemoveTabAction
+      Align = Top
+      Enabled = True
+      ImageIndex = -1
+      Margins.Top = 5.000000000000000000
+      Position.X = 5.000000000000000000
+      Position.Y = 32.000000000000000000
+      Size.Width = 22.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'deleteitembutton'
+    end
+  end
+  object BrowserTabCtrl: TTabControl
+    Align = Client
+    Size.Width = 947.000000000000000000
+    Size.Height = 716.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    TabPosition = PlatformDefault
+    OnChange = BrowserTabCtrlChange
+  end
+  object ActionList1: TActionList
+    Left = 72
+    Top = 80
+    object AddTabAction: TAction
+      Text = 'AddTabAction'
+      OnExecute = AddTabActionExecute
+    end
+    object RemoveTabAction: TAction
+      Text = 'RemoveTabAction'
+      OnExecute = RemoveTabActionExecute
+    end
+  end
+end
