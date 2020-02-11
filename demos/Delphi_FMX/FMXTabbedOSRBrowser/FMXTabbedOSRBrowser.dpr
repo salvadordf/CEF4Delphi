@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,15 +35,17 @@
  *
  *)
 
-program FMXTabbedBrowser;
+program FMXTabbedOSRBrowser;
 
 uses
   System.StartUpCopy,
   FMX.Forms,
   uCEFApplication,
+  uCEFFMXWorkScheduler,
   uMainForm in 'uMainForm.pas' {MainForm},
   uBrowserTab in 'uBrowserTab.pas',
-  uBrowserFrame in 'uBrowserFrame.pas' {BrowserFrame: TFrame};
+  uBrowserFrame in 'uBrowserFrame.pas' {BrowserFrame: TFrame},
+  uFMXApplicationService in 'uFMXApplicationService.pas';
 
 {$R *.res}
 
@@ -53,6 +55,8 @@ uses
 {$ENDIF}
 
 begin
+  // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
+  // https://github.com/salvadordf/CEF4Delphi/issues/89
   CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
@@ -61,8 +65,12 @@ begin
       Application.CreateForm(TMainForm, MainForm);
       Application.Run;
 
+      // The form needs to be destroyed *BEFORE* stopping the scheduler.
       MainForm.Free;
+
+      GlobalFMXWorkScheduler.StopScheduler;
     end;
 
   DestroyGlobalCEFApp;
+  DestroyGlobalFMXWorkScheduler;
 end.
