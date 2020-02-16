@@ -171,11 +171,12 @@ var
 // Project -> Options -> Building -> Delphi compiler -> Conditional defines (All configurations)
 
 // This is the destruction sequence in OSR mode :
-// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and calls chrmosr.CloseBrowser(True).
-// 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
-//    set "Result" to false and CEF will destroy the internal browser immediately.
-// 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Now we set FCanClose to True and send WM_CLOSE to the form.
+// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and
+//    calls chrmosr.CloseBrowser(True).
+// 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and the default
+//    implementation will destroy the internal browser immediately, which will
+//    trigger the chrmosr.OnBeforeClose event.
+// 3- chrmosr.OnBeforeClose sets FCanClose to True and closes the form.
 
 procedure CreateGlobalCEFApp;
 

@@ -122,7 +122,7 @@ uses
   uFMXApplicationService;
 
 // This demo shows how to use a TTabControl with TFrames that include
-// CEF4Delphi browsers.
+// CEF4Delphi browsers in OSR mode and using a message pump.
 
 // Instead of a regular TTabItem we use a custom TBrowserTab class that
 // inherits from TTabItem and instead of a regular TFrame we use a custom
@@ -136,16 +136,13 @@ uses
 // Then you find the tab with that unique TabID and you free it.
 
 // TBrowserFrame has all the usual code to close CEF4Delphi browsers following
-// a similar destruction sequence than the SimpleFMXBrowser demo :
+// a similar destruction sequence than the FMXExternalPumpBrowser demo :
 //
-// 1. TBrowserTab.CloseBrowser calls TChromium.CloseBrowser which triggers the
-//    TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEF_DESTROYWINPARENT message to destroy
-//    CEFWindowParent1 in the main thread, which triggers the
-//    TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose executes the TBrowserFrame.OnBrowserDestroyed
-//    event which will be used in TBrowserTab to send a CEF_DESTROYTAB message
-//    to the main form to free the tab.
+// 1- TChromium.CloseBrowser(True) will trigger TChromium.OnClose and the default
+//    implementation will destroy the internal browser immediately, which will
+//    trigger the TChromium.OnBeforeClose event.
+// 2- TChromium.OnBeforeClose sends a CEF_DESTROYTAB message to the main form
+//    to free the tab.
 
 // To close safely this demo you must close all the browser tabs first following
 // this steps :
