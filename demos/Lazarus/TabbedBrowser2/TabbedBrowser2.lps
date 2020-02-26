@@ -34,8 +34,9 @@
         <ComponentName Value="BrowserFrame"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="107"/>
+        <TopLine Value="68"/>
         <CursorPos X="57" Y="122"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -45,9 +46,8 @@
       <Unit3>
         <Filename Value="uBrowserTab.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="118"/>
+        <TopLine Value="46"/>
         <CursorPos X="53" Y="140"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>

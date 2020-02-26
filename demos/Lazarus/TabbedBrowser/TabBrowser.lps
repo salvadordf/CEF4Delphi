@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="134"/>
-        <CursorPos X="82" Y="154"/>
+        <TopLine Value="348"/>
+        <CursorPos X="47" Y="366"/>
         <UsageCount Value="20"/>
         <Bookmarks Count="1">
           <Item0 Y="367" ID="1"/>
@@ -33,7 +33,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="13" HistoryIndex="12">
       <Position1>
         <Filename Value="TabBrowser.lpr"/>
       </Position1>
@@ -73,6 +73,18 @@
         <Filename Value="uMainForm.pas"/>
         <Caret Line="366" Column="16" TopLine="348"/>
       </Position10>
+      <Position11>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="154" Column="82" TopLine="134"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="153" Column="58" TopLine="145"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="198" TopLine="136"/>
+      </Position13>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

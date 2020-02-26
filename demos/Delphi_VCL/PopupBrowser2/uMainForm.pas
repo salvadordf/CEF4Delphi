@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm,
-  Vcl.AppEvnts, uCEFWinControl, uCEFSentinel;
+  Vcl.AppEvnts, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;
@@ -64,7 +64,6 @@ type
     Timer1: TTimer;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
-    CEFSentinel1: TCEFSentinel;
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -78,7 +77,6 @@ type
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
-    procedure CEFSentinel1Close(Sender: TObject);
 
   protected
     FChildForm       : TChildForm;
@@ -142,8 +140,7 @@ uses
 // 1. FormCloseQuery sets CanClose to FALSE and it closes all child forms.
 // 2. When all the child forms are closed then FormCloseQuery is triggered again, sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 3. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 4. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 5. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 4. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -211,7 +208,8 @@ end;
 
 procedure TMainForm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.Chromium1BeforePopup(Sender : TObject;
@@ -333,12 +331,6 @@ begin
   finally
     FCriticalSection.Release;
   end;
-end;
-
-procedure TMainForm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);

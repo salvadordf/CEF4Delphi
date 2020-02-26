@@ -22,15 +22,15 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="235"/>
-        <CursorPos X="51" Y="233"/>
+        <TopLine Value="253"/>
+        <CursorPos X="45" Y="271"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="11" HistoryIndex="10">
+    <JumpHistory Count="13" HistoryIndex="12">
       <Position1>
         <Filename Value="JSDialogBrowser.lpr"/>
       </Position1>
@@ -74,6 +74,14 @@
         <Filename Value="uJSDialogBrowser.pas"/>
         <Caret Line="93" Column="59" TopLine="82"/>
       </Position11>
+      <Position12>
+        <Filename Value="uJSDialogBrowser.pas"/>
+        <Caret Line="233" Column="51" TopLine="234"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uJSDialogBrowser.pas"/>
+        <Caret Line="232" Column="51" TopLine="232"/>
+      </Position13>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

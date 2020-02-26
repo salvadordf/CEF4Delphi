@@ -14,7 +14,7 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object ChromiumWindow1: TChromiumWindow
     Left = 0
     Height = 603
@@ -64,10 +64,5 @@ object Form1: TForm1
     OnTimer = Timer1Timer
     left = 56
     top = 88
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 56
-    top = 154
   end
 end

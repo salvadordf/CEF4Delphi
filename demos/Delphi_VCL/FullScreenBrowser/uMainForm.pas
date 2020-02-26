@@ -49,14 +49,13 @@ uses
   Controls, Forms, Dialogs,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFTypes, uCEFConstants,
-  Vcl.ExtCtrls, uCEFWinControl, uCEFSentinel;
+  Vcl.ExtCtrls, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
 type
   TMainForm = class(TForm)
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
-    CEFSentinel1: TCEFSentinel;
     procedure Chromium1PreKeyEvent(Sender: TObject;
       const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
       out isKeyboardShortcut, Result: Boolean);
@@ -81,7 +80,6 @@ type
       const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
       var aAction : TCefCloseBrowserAction);
-    procedure CEFSentinel1Close(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -118,8 +116,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -166,12 +163,6 @@ begin
   if (TempKeyMsg.CharCode = VK_ESCAPE) then aHandled := True;
 end;
 
-procedure TMainForm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
-end;
-
 procedure TMainForm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
@@ -179,7 +170,8 @@ end;
 
 procedure TMainForm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.Chromium1BeforePopup(Sender: TObject;

@@ -1,7 +1,7 @@
 object JSWindowBindingWithObjectFrm: TJSWindowBindingWithObjectFrm
-  Left = 106
+  Left = 434
   Height = 589
-  Top = 133
+  Top = 137
   Width = 978
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 589
@@ -14,7 +14,7 @@ object JSWindowBindingWithObjectFrm: TJSWindowBindingWithObjectFrm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -68,10 +68,5 @@ object JSWindowBindingWithObjectFrm: TJSWindowBindingWithObjectFrm
     OnTimer = Timer1Timer
     left = 32
     top = 288
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 32
-    top = 360
   end
 end

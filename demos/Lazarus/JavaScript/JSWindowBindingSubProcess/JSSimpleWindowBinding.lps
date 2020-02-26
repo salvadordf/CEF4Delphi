@@ -22,15 +22,15 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="175"/>
-        <CursorPos X="22" Y="207"/>
+        <TopLine Value="132"/>
+        <CursorPos Y="155"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="uJSSimpleWindowBinding.pas"/>
       </Position1>
@@ -46,6 +46,18 @@
         <Filename Value="uJSSimpleWindowBinding.pas"/>
         <Caret Line="122" Column="82" TopLine="106"/>
       </Position4>
+      <Position5>
+        <Filename Value="uJSSimpleWindowBinding.pas"/>
+        <Caret Line="207" Column="22" TopLine="175"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uJSSimpleWindowBinding.pas"/>
+        <Caret Line="206" Column="22" TopLine="177"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uJSSimpleWindowBinding.pas"/>
+        <Caret Line="120" Column="72" TopLine="101"/>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

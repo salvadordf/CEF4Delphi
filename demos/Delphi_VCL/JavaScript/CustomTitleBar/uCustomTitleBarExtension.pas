@@ -53,7 +53,7 @@ uses
 {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
   uCEFConstants,
-  uCEFWinControl, uCEFSentinel;
+  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
 const
   MINIBROWSER_SHOWTEXTVIEWER = WM_APP + $100;
@@ -75,7 +75,6 @@ type
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
-    CEFSentinel1: TCEFSentinel;
     Timer2: TTimer;
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
@@ -105,7 +104,6 @@ type
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
       var aAction: TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure CEFSentinel1Close(Sender: TObject);
 
     procedure executeJS(frame: ICefFrame);
     procedure Timer2Timer(Sender: TObject);
@@ -176,8 +174,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnWebKitInitialized;
 begin
@@ -204,12 +201,6 @@ end;
 procedure TCTBForm.GoBtnClick(Sender: TObject);
 begin
   Chromium1.LoadURL('file:///app_view.html');
-end;
-
-procedure TCTBForm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TCTBForm.Chromium1AfterCreated(Sender: TObject;
@@ -368,7 +359,6 @@ begin
 
   if (message.Name = MOUSEOVER_MESSAGE_NAME) then
   begin
-
     tp := Mouse.CursorPos;
     tp := CTBForm.ScreenToClient(tp);
     mouseDrag := False;
@@ -400,19 +390,16 @@ begin
   begin
     CTBForm.close;
   end;
-
 end;
 
 procedure TCTBForm.FormShow(Sender: TObject);
 begin
-
   Chromium1.DefaultURL := 'file:///app_view.html';
 
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then
     Timer1.Enabled := True;
-
 end;
 
 procedure TCTBForm.WMMove(var aMessage: TWMMove);
@@ -448,15 +435,14 @@ end;
 
 procedure TCTBForm.BrowserCreatedMsg(var aMessage: TMessage);
 begin
-
   CEFWindowParent1.UpdateSize;
-
 end;
 
 procedure TCTBForm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TCTBForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser;

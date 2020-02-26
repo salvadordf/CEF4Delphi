@@ -14,7 +14,7 @@ object JSWindowBindingWithArrayBufferFrm: TJSWindowBindingWithArrayBufferFrm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 20
@@ -68,10 +68,5 @@ object JSWindowBindingWithArrayBufferFrm: TJSWindowBindingWithArrayBufferFrm
     OnTimer = Timer1Timer
     left = 32
     top = 288
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 32
-    top = 363
   end
 end

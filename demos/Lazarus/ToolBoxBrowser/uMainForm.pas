@@ -64,7 +64,6 @@ type
 
   TMainForm = class(TForm)
     ButtonPnl: TPanel;
-    CEFSentinel1: TCEFSentinel;
     Edit1: TEdit;
     Button1: TButton;
     procedure CEFSentinel1Close(Sender: TObject);
@@ -107,8 +106,7 @@ uses
 // Destruction steps
 // =================
 // 1. Destroy all child forms
-// 2. Wait until all the child forms are closed before calling TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when all renderer processes are closed
-// 3. TCEFSentinel.OnClose closes the main form.
+// 2. Wait until all the child forms are closed before closing the main form.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
@@ -140,8 +138,7 @@ end;
 
 procedure TMainForm.CEFSentinel1Close(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+
 end;
 
 procedure TMainForm.CloseAllChildForms;
@@ -220,7 +217,11 @@ end;
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
 begin
   // If there are no more child forms we start the sentinel
-  if FClosing and (ChildFormCount = 0) then CEFSentinel1.Start;
+  if FClosing and (ChildFormCount = 0) then
+    begin
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
 end;
 
 function TMainForm.CloseQuery: Boolean;

@@ -14,7 +14,7 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object ButtonPnl: TPanel
     Left = 0
     Height = 25
@@ -192,10 +192,5 @@ object MainForm: TMainForm
     Align = alClient
     TabOrder = 1
     OnChange = PageControl1Change
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 160
-    top = 121
   end
 end

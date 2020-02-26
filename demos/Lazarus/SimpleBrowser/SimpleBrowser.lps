@@ -22,8 +22,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="101"/>
-        <CursorPos X="82" Y="123"/>
+        <TopLine Value="156"/>
+        <CursorPos X="44" Y="183"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -38,7 +38,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
     </Units>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
         <Filename Value="uSimpleBrowser.pas"/>
         <Caret Line="4" Column="8"/>
@@ -63,6 +63,14 @@
         <Filename Value="uSimpleBrowser.pas"/>
         <Caret Line="128" TopLine="121"/>
       </Position6>
+      <Position7>
+        <Filename Value="uSimpleBrowser.pas"/>
+        <Caret Line="123" Column="82" TopLine="101"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uSimpleBrowser.pas"/>
+        <Caret Line="122" Column="82" TopLine="100"/>
+      </Position8>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

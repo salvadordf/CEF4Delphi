@@ -61,7 +61,6 @@ type
 
   TForm1 = class(TForm)
     AddressPnl: TPanel;
-    CEFSentinel1: TCEFSentinel;
     GoBtn: TButton;
     Timer1: TTimer;
     Chromium1: TChromium;
@@ -145,8 +144,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -395,7 +393,8 @@ end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.Chromium1BeforePopup(Sender: TObject;
@@ -438,8 +437,7 @@ end;
 
 procedure TForm1.CEFSentinel1Close(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

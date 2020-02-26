@@ -20,12 +20,13 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="128"/>
-        <CursorPos X="58" Y="152"/>
+        <TopLine Value="322"/>
+        <CursorPos X="41" Y="338"/>
         <UsageCount Value="23"/>
         <Bookmarks Count="1">
-          <Item0 X="58" Y="338" ID="1"/>
+          <Item0 X="58" Y="335" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -37,7 +38,6 @@
         <ComponentName Value="ChildForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="52"/>
         <CursorPos X="54" Y="97"/>
@@ -83,7 +83,7 @@
         <UsageCount Value="10"/>
       </Unit7>
     </Units>
-    <JumpHistory Count="20" HistoryIndex="19">
+    <JumpHistory Count="22" HistoryIndex="21">
       <Position1>
         <Filename Value="uMainForm.pas"/>
         <Caret Line="346" Column="58" TopLine="320"/>
@@ -164,6 +164,14 @@
         <Filename Value="uMainForm.pas"/>
         <Caret Line="152" Column="58" TopLine="128"/>
       </Position20>
+      <Position21>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="151" Column="58" TopLine="127"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="332" TopLine="313"/>
+      </Position22>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

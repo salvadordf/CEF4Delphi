@@ -63,7 +63,6 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     PageControl1: TPageControl;
     ButtonPnl: TPanel;
     NavButtonPnl: TPanel;
@@ -151,8 +150,7 @@ implementation
 // 1. FormCloseQuery hides the form and calls CloseAllBrowsers which calls TChromium.CloseBrowser in all tabs and triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROYWNDPARENT message to destroy TCEFWindowParent in the main thread which triggers a TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sends a CEFBROWSER_CHECKTAGGEDTABS message to set the TAG property to 1 in the TabSheet containing the TChromium.
-//    When all tabsheets have a TAG = 1 it calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sends WM_CLOSE to the form.
+//    When all tabsheets have a TAG = 1 it sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
@@ -197,8 +195,7 @@ end;
 
 procedure TMainForm.CEFSentinel1Close(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+
 end;
 
 procedure TMainForm.RemoveTabBtnClick(Sender: TObject);
@@ -363,7 +360,11 @@ begin
     begin
       PageControl1.Pages[aMessage.lParam].Tag := 1;
 
-      if AllTabSheetsAreTagged then CEFSentinel1.Start;
+      if AllTabSheetsAreTagged then
+        begin
+          FCanClose := True;
+          PostMessage(Handle, WM_CLOSE, 0, 0);
+        end;
     end;
 end;
 

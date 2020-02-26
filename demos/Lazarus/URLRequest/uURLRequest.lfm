@@ -16,7 +16,7 @@ object URLRequestFrm: TURLRequestFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
@@ -202,10 +202,5 @@ object URLRequestFrm: TURLRequestFrm
     OnCreateURLRequest = CEFUrlRequestClientComponent1CreateURLRequest
     left = 304
     top = 104
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 152
-    top = 112
   end
 end

@@ -64,7 +64,6 @@ type
   { TJSExecutingFunctionsFrm }
 
   TJSExecutingFunctionsFrm = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     NavControlPnl: TPanel;
     Edit1: TEdit;
     GoBtn: TButton;
@@ -197,7 +196,8 @@ end;
 procedure TJSExecutingFunctionsFrm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSExecutingFunctionsFrm.Chromium1BeforeContextMenu(
@@ -280,8 +280,7 @@ end;
 
 procedure TJSExecutingFunctionsFrm.CEFSentinel1Close(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+
 end;
 
 procedure TJSExecutingFunctionsFrm.WMMove(var aMessage : TWMMove);

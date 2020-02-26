@@ -61,7 +61,6 @@ type
     Chromium1: TChromium;
     Timer1: TTimer;
     StatusBar1: TStatusBar;
-    CEFSentinel1: TCEFSentinel;
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -83,7 +82,6 @@ type
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
-    procedure CEFSentinel1Close(Sender: TObject);
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
@@ -162,12 +160,6 @@ begin
   Chromium1.LoadURL(Edit1.Text);
 end;
 
-procedure TJSExtensionWithFunctionFrm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
-end;
-
 procedure TJSExtensionWithFunctionFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
@@ -176,7 +168,8 @@ end;
 procedure TJSExtensionWithFunctionFrm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSExtensionWithFunctionFrm.Chromium1BeforePopup(Sender: TObject;

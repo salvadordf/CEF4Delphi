@@ -25,9 +25,6 @@ object CTBForm: TCTBForm
     Height = 628
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 30
-    ExplicitWidth = 978
-    ExplicitHeight = 540
   end
   object Chromium1: TChromium
     OnProcessMessageReceived = Chromium1ProcessMessageReceived
@@ -47,11 +44,6 @@ object CTBForm: TCTBForm
     OnTimer = Timer1Timer
     Left = 32
     Top = 288
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    Left = 32
-    Top = 352
   end
   object Timer2: TTimer
     Enabled = False

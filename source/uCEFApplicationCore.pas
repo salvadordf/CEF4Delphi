@@ -60,15 +60,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 79;
-  CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 38;
+  CEF_SUPPORTED_VERSION_MAJOR   = 80;
+  CEF_SUPPORTED_VERSION_MINOR   = 0;
+  CEF_SUPPORTED_VERSION_RELEASE = 4;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 79;
+  CEF_CHROMEELF_VERSION_MAJOR   = 80;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 3945;
-  CEF_CHROMEELF_VERSION_BUILD   = 130;
+  CEF_CHROMEELF_VERSION_RELEASE = 3987;
+  CEF_CHROMEELF_VERSION_BUILD   = 122;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -165,6 +165,7 @@ type
       FAllowFileAccessFromFiles      : boolean;
       FAllowRunningInsecureContent   : boolean;
       FSupportedSchemes              : TStringList;
+      FDisableNewBrowserInfoTimeout  : boolean;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : string;
@@ -432,6 +433,7 @@ type
       property TouchEvents                       : TCefState                           read FTouchEvents                       write FTouchEvents;                      // --touch-events
       property DisableReadingFromCanvas          : boolean                             read FDisableReadingFromCanvas          write FDisableReadingFromCanvas;         // --disable-reading-from-canvas
       property HyperlinkAuditing                 : boolean                             read FHyperlinkAuditing                 write FHyperlinkAuditing;                // --no-pings
+      property DisableNewBrowserInfoTimeout      : boolean                             read FDisableNewBrowserInfoTimeout      write FDisableNewBrowserInfoTimeout;     // --disable-new-browser-info-timeout
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -661,6 +663,7 @@ begin
   FEnableBlinkFeatures           := '';
   FDisableBlinkFeatures          := '';
   FSupportedSchemes              := nil;
+  FDisableNewBrowserInfoTimeout  := False;
 
   FDisableJavascriptCloseWindows     := False;
   FDisableJavascriptAccessClipboard  := False;
@@ -1686,7 +1689,11 @@ begin
       if FAllowRunningInsecureContent then
         commandLine.AppendSwitch('--allow-running-insecure-content');
 
-      if FEnablePrintPreview then commandLine.AppendSwitch('--enable-print-preview');
+      if FEnablePrintPreview then
+        commandLine.AppendSwitch('--enable-print-preview');
+
+      if FDisableNewBrowserInfoTimeout then
+        commandLine.AppendSwitch('--disable-new-browser-info-timeout');
 
       case FPluginPolicy of
         PLUGIN_POLICY_SWITCH_DETECT : commandLine.AppendSwitchWithValue('--plugin-policy', 'detect');

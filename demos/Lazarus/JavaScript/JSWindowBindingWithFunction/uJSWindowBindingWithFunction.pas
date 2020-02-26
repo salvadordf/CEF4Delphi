@@ -59,7 +59,6 @@ type
   { TJSWindowBindingWithFunctionFrm }
 
   TJSWindowBindingWithFunctionFrm = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     NavControlPnl: TPanel;
     Edit1: TEdit;
     GoBtn: TButton;
@@ -122,8 +121,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 var
@@ -177,8 +175,7 @@ end;
 
 procedure TJSWindowBindingWithFunctionFrm.CEFSentinel1Close(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+
 end;
 
 procedure TJSWindowBindingWithFunctionFrm.WMMove(var aMessage : TWMMove);
@@ -227,7 +224,8 @@ end;
 procedure TJSWindowBindingWithFunctionFrm.Chromium1BeforeClose(
   Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSWindowBindingWithFunctionFrm.Chromium1Close(

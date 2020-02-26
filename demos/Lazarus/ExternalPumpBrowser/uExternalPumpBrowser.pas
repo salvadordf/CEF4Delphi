@@ -58,7 +58,6 @@ type
 
   TExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
-    CEFSentinel1: TCEFSentinel;
     GoBtn: TButton;
     Timer1: TTimer;
     CEFWindowParent1: TCEFWindowParent;
@@ -175,7 +174,8 @@ end;
 
 procedure TExternalPumpBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TExternalPumpBrowserFrm.Chromium1BeforePopup(Sender: TObject;
@@ -218,8 +218,7 @@ end;
 
 procedure TExternalPumpBrowserFrm.CEFSentinel1Close(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+
 end;
 
 procedure TExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);

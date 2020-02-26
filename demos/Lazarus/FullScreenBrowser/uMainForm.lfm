@@ -16,7 +16,7 @@ object MainForm: TMainForm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   WindowState = wsMaximized
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
@@ -41,11 +41,6 @@ object MainForm: TMainForm
     Interval = 300
     OnTimer = Timer1Timer
     left = 272
-    top = 120
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 344
     top = 120
   end
 end

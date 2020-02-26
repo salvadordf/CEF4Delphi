@@ -15,7 +15,7 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 21
@@ -73,10 +73,5 @@ object MainForm: TMainForm
   object ApplicationProperties1: TApplicationProperties
     left = 56
     top = 40
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 56
-    top = 221
   end
 end

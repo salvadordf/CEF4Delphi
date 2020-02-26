@@ -54,7 +54,6 @@ type
   { TOSRExternalPumpBrowserFrm }
 
   TOSRExternalPumpBrowserFrm = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     NavControlPnl: TPanel;
     chrmosr: TChromium;
     ComboBox1: TComboBox;
@@ -166,8 +165,7 @@ var
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
 //    set "Result" to false and CEF will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Now we call TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4- TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+//    FCanClose is set to True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
@@ -278,7 +276,8 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -326,7 +325,7 @@ procedure TOSRExternalPumpBrowserFrm.chrmosrCursorChange(Sender : TObject;
                                            cursorType       : TCefCursorType;
                                      const customCursorInfo : PCefCursorInfo);
 begin
-  Panel1.Cursor := GefCursorToWindowsCursor(cursorType);
+  Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.chrmosrGetScreenInfo(Sender : TObject;
@@ -896,7 +895,7 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.InitializeLastClick;
 begin
-  FLastClickCount   := 0;
+  FLastClickCount   := 1;
   FLastClickTime    := 0;
   FLastClickPoint.x := 0;
   FLastClickPoint.y := 0;

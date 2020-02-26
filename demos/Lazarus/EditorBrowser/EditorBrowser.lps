@@ -20,8 +20,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="152"/>
-        <CursorPos X="82" Y="175"/>
+        <TopLine Value="148"/>
+        <CursorPos X="31" Y="173"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -35,7 +35,7 @@
         <UsageCount Value="10"/>
       </Unit2>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="14" HistoryIndex="13">
       <Position1>
         <Filename Value="uEditorBrowser.pas"/>
         <Caret Line="248" Column="66" TopLine="229"/>
@@ -72,6 +72,26 @@
         <Filename Value="uEditorBrowser.pas"/>
         <Caret Line="239" TopLine="222"/>
       </Position9>
+      <Position10>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="175" Column="82" TopLine="152"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="174" Column="82" TopLine="151"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="165" Column="120" TopLine="151"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="174" Column="69" TopLine="151"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uEditorBrowser.pas"/>
+        <Caret Line="445" TopLine="413"/>
+      </Position14>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

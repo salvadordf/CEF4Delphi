@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="335"/>
-        <CursorPos X="23" Y="361"/>
+        <TopLine Value="187"/>
+        <CursorPos Y="207"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -58,7 +58,7 @@
         <UsageCount Value="10"/>
       </Unit5>
     </Units>
-    <JumpHistory Count="15" HistoryIndex="14">
+    <JumpHistory Count="16" HistoryIndex="15">
       <Position1>
         <Filename Value="uURLRequest.pas"/>
       </Position1>
@@ -108,16 +108,20 @@
       </Position12>
       <Position13>
         <Filename Value="uURLRequest.pas"/>
-        <Caret Line="204" TopLine="222"/>
+        <Caret Line="215" TopLine="215"/>
       </Position13>
       <Position14>
         <Filename Value="uURLRequest.pas"/>
-        <Caret Line="215" TopLine="215"/>
+        <Caret Line="226" Column="64" TopLine="205"/>
       </Position14>
       <Position15>
         <Filename Value="uURLRequest.pas"/>
-        <Caret Line="226" Column="64" TopLine="205"/>
+        <Caret Line="361" Column="23" TopLine="335"/>
       </Position15>
+      <Position16>
+        <Filename Value="uURLRequest.pas"/>
+        <Caret Line="360" Column="23" TopLine="334"/>
+      </Position16>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

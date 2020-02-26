@@ -58,7 +58,6 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
-    CEFSentinel1: TCEFSentinel;
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
@@ -178,7 +177,8 @@ end;
 
 procedure TMainForm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFSentinel1.Start;
+  FCanClose := True;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMainForm.Chromium1BeforePopup(Sender: TObject;
@@ -251,8 +251,7 @@ end;
 
 procedure TMainForm.CEFSentinel1Close(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

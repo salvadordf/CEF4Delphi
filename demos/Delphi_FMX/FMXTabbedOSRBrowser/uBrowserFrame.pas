@@ -497,12 +497,17 @@ procedure TBrowserFrame.FMXBufferPanel1MouseWheel(Sender: TObject;
   Shift: TShiftState; WheelDelta: Integer; var Handled: Boolean);
 var
   TempEvent  : TCefMouseEvent;
+  TempPoint  : TPoint;
   TempPointF : TPointF;
 begin
   if FMXBufferPanel1.IsFocused and GetMousePosition(TempPointF) then
     begin
-      TempEvent.x         := round(TempPointF.x);
-      TempEvent.y         := round(TempPointF.y);
+      TempPoint.x := round(TempPointF.x);
+      TempPoint.y := round(TempPointF.y);
+      TempPoint   := FMXBufferPanel1.ScreenToClient(TempPoint);
+
+      TempEvent.x         := TempPoint.x;
+      TempEvent.y         := TempPoint.y;
       TempEvent.modifiers := getModifiers(Shift);
       FMXChromium1.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
     end;
@@ -929,7 +934,7 @@ end;
 
 procedure TBrowserFrame.InitializeLastClick;
 begin
-  FLastClickCount   := 0;
+  FLastClickCount   := 1;
   FLastClickTime    := 0;
   FLastClickPoint.x := 0;
   FLastClickPoint.y := 0;

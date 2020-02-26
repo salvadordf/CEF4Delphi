@@ -15,7 +15,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -93,10 +93,5 @@ object Form1: TForm1
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     left = 56
     top = 152
-  end
-  object CEFSentinel1: TCEFSentinel
-    OnClose = CEFSentinel1Close
-    left = 56
-    top = 216
   end
 end

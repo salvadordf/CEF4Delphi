@@ -1095,7 +1095,6 @@ begin
       TempExists := GetAbsoluteDirPath(aResourcesDirPath, TempDir);
 
       TempList := TStringList.Create;
-      TempList.Add(TempDir + 'natives_blob.bin');
       TempList.Add(TempDir + 'snapshot_blob.bin');
       TempList.Add(TempDir + 'v8_context_snapshot.bin');
       TempList.Add(TempDir + 'cef.pak');

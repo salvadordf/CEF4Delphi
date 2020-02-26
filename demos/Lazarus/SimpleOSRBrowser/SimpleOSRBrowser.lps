@@ -39,10 +39,10 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <TopLine Value="168"/>
-        <CursorPos Y="192"/>
+        <CursorPos X="26" Y="171"/>
         <UsageCount Value="42"/>
         <Bookmarks Count="1">
-          <Item0 X="40" Y="263" ID="4"/>
+          <Item0 X="40" Y="262" ID="4"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

@@ -168,8 +168,7 @@ uses
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
 //    set "Result" to false and CEF will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Now we call TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4- TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+//    FCanClose is set to True and sends WM_CLOSE to the form.
                   
 
 procedure CreateGlobalCEFApp;
@@ -869,7 +868,7 @@ end;
 
 procedure TForm1.InitializeLastClick;
 begin
-  FLastClickCount   := 0;
+  FLastClickCount   := 1;
   FLastClickTime    := 0;
   FLastClickPoint.x := 0;
   FLastClickPoint.y := 0;

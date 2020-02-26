@@ -462,7 +462,7 @@ begin
     begin
       TempPoint.x := round(TempPointF.x);
       TempPoint.y := round(TempPointF.y);
-      TempPoint   := Panel1.ScreenToclient(TempPoint);
+      TempPoint   := Panel1.ScreenToClient(TempPoint);
 
       if CancelPreviousClick(TempPoint.x, TempPoint.y, TempTime) then InitializeLastClick;
 
@@ -513,12 +513,17 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseWheel(    Sender      : TObject;
                                                       var Handled     : Boolean);
 var
   TempEvent  : TCefMouseEvent;
+  TempPoint  : TPoint;
   TempPointF : TPointF;
 begin
   if Panel1.IsFocused and (GlobalCEFApp <> nil) and (chrmosr <> nil) and GetMousePosition(TempPointF) then
     begin
-      TempEvent.x         := round(TempPointF.x);
-      TempEvent.y         := round(TempPointF.y);
+      TempPoint.x := round(TempPointF.x);
+      TempPoint.y := round(TempPointF.y);
+      TempPoint   := Panel1.ScreenToClient(TempPoint);
+
+      TempEvent.x         := TempPoint.x;
+      TempEvent.y         := TempPoint.y;
       TempEvent.modifiers := getModifiers(Shift);
       chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
     end;
@@ -551,12 +556,9 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can enable the UI.
-  TThread.Queue(nil, procedure
-                     begin
-                       Caption            := 'FMX External Pump Browser';
-                       AddressPnl.Enabled := True;
-                       Panel1.SetFocus;
-                     end);
+  Caption            := 'FMX External Pump Browser';
+  AddressPnl.Enabled := True;
+  Panel1.SetFocus;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -837,8 +839,8 @@ begin
     begin
       FPopUpRect.Left   := rect.x;
       FPopUpRect.Top    := rect.y;
-      FPopUpRect.Right  := rect.x + LogicalToDevice(rect.width,  GlobalCEFApp.DeviceScaleFactor) - 1;
-      FPopUpRect.Bottom := rect.y + LogicalToDevice(rect.height, GlobalCEFApp.DeviceScaleFactor) - 1;
+      FPopUpRect.Right  := rect.x + rect.width  - 1;
+      FPopUpRect.Bottom := rect.y + rect.height - 1;
     end;
 end;
 
@@ -1129,7 +1131,7 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.InitializeLastClick;
 begin
-  FLastClickCount   := 0;
+  FLastClickCount   := 1;
   FLastClickTime    := 0;
   FLastClickPoint.x := 0;
   FLastClickPoint.y := 0;
