@@ -1051,8 +1051,9 @@ begin
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
   TempPoint        := Panel1.ScreenToClient(TempPenInfo.pointerInfo.ptPixelLocation);
-  TempTouchEvent.x := DeviceToLogical(TempPoint.x, GlobalCEFApp.DeviceScaleFactor);
-  TempTouchEvent.y := DeviceToLogical(TempPoint.y, GlobalCEFApp.DeviceScaleFactor);
+  // TFMXBufferPanel.ScreenToClient applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
+  TempTouchEvent.x := TempPoint.x;
+  TempTouchEvent.y := TempPoint.y;
 
   chrmosr.SendTouchEvent(@TempTouchEvent);
   {$ENDIF}
@@ -1101,8 +1102,9 @@ begin
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
   TempPoint        := Panel1.ScreenToClient(TempTouchInfo.pointerInfo.ptPixelLocation);
-  TempTouchEvent.x := DeviceToLogical(TempPoint.x, GlobalCEFApp.DeviceScaleFactor);
-  TempTouchEvent.y := DeviceToLogical(TempPoint.y, GlobalCEFApp.DeviceScaleFactor);
+  // TFMXBufferPanel.ScreenToClient applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
+  TempTouchEvent.x := TempPoint.x;
+  TempTouchEvent.y := TempPoint.y;
 
   chrmosr.SendTouchEvent(@TempTouchEvent);
   {$ENDIF}

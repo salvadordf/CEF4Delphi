@@ -2,7 +2,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   Left = 0
   Top = 0
   Caption = 'Initializing browser. Please wait...'
-  ClientHeight = 534
+  ClientHeight = 633
   ClientWidth = 800
   Position = ScreenCenter
   FormFactor.Width = 320
@@ -90,7 +90,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     Color = claTomato
     CanFocus = True
     Size.Width = 800.000000000000000000
-    Size.Height = 501.000000000000000000
+    Size.Height = 600.000000000000000000
     Size.PlatformDefault = False
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
