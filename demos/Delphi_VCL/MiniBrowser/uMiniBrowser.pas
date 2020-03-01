@@ -292,7 +292,8 @@ implementation
 {$R *.dfm}
 
 uses
-  uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer;
+  uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer,
+  uCEFClient;
 
 // Destruction steps
 // =================
@@ -371,33 +372,36 @@ procedure TMiniBrowserFrm.Chromium1BeforeContextMenu(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
-  if not(Chromium1.IsSameBrowser(browser)) then exit;
+  if Chromium1.IsSameBrowser(browser) then
+    begin
+      model.AddSeparator;
+      model.AddItem(MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT,    'Take snapshot...');
+      model.AddItem(MINIBROWSER_CONTEXTMENU_GETNAVIGATION,   'Get navigation entries');
+      model.AddSeparator;
+      model.AddItem(MINIBROWSER_CONTEXTMENU_COPYALLTEXT,     'Copy displayed text to clipboard');
+      model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,        'Copy HTML to clipboard');
+      model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS,    'Copy HTML frame identifiers to clipboard');
+      model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES,  'Copy HTML frame names to clipboard');
 
-  model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT,    'Take snapshot...');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_GETNAVIGATION,   'Get navigation entries');
-  model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYALLTEXT,     'Copy displayed text to clipboard');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYHTML,        'Copy HTML to clipboard');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS,    'Copy HTML frame identifiers to clipboard');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES,  'Copy HTML frame names to clipboard');
+      model.AddSeparator;
+      model.AddItem(MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES, 'Save preferences as...');
+      model.AddSeparator;
+      model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,      'Modify HTML document');
+      model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,      'Print using Javascript');
+      model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show server headers');
 
-  model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES, 'Save preferences as...');
-  model.AddSeparator;
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,      'Modify HTML document');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,      'Print using Javascript');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show server headers');
+      if DevTools.Visible then
+        model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
+       else
+        model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
 
-  if DevTools.Visible then
-    model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
+      if Chromium1.AudioMuted then
+        model.AddItem(MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO, 'Unmute audio')
+       else
+        model.AddItem(MINIBROWSER_CONTEXTMENU_MUTEAUDIO,   'Mute audio');
+    end
    else
     model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
-
-  if Chromium1.AudioMuted then
-    model.AddItem(MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO, 'Unmute audio')
-   else
-    model.AddItem(MINIBROWSER_CONTEXTMENU_MUTEAUDIO,   'Mute audio');
 end;
 
 function PathToMyDocuments : string;
@@ -506,68 +510,82 @@ procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
   eventFlags: Cardinal; out Result: Boolean);
 var
   TempParam : WParam;
+  TempInfo : TCefWindowInfo;
+  TempClient : ICefClient;
+  TempSettings : TCefBrowserSettings;
 begin
   Result := False;
 
-  if not(Chromium1.IsSameBrowser(browser)) then exit;
+  if Chromium1.IsSameBrowser(browser) then
+    case commandId of
+      MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS :
+        PostMessage(Handle, MINIBROWSER_HIDEDEVTOOLS, 0, 0);
 
-  case commandId of
-    MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS :
-      PostMessage(Handle, MINIBROWSER_HIDEDEVTOOLS, 0, 0);
+      MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
+        begin
+          TempParam := ((params.XCoord and $FFFF) shl 16) or (params.YCoord and $FFFF);
+          PostMessage(Handle, MINIBROWSER_SHOWDEVTOOLS, TempParam, 0);
+        end;
 
-    MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
-      begin
-        TempParam := ((params.XCoord and $FFFF) shl 16) or (params.YCoord and $FFFF);
-        PostMessage(Handle, MINIBROWSER_SHOWDEVTOOLS, TempParam, 0);
-      end;
+      MINIBROWSER_CONTEXTMENU_COPYALLTEXT :
+        PostMessage(Handle, MINIBROWSER_COPYALLTEXT, 0, 0);
 
-    MINIBROWSER_CONTEXTMENU_COPYALLTEXT :
-      PostMessage(Handle, MINIBROWSER_COPYALLTEXT, 0, 0);
+      MINIBROWSER_CONTEXTMENU_COPYHTML :
+        PostMessage(Handle, MINIBROWSER_COPYHTML, 0, 0);
 
-    MINIBROWSER_CONTEXTMENU_COPYHTML :
-      PostMessage(Handle, MINIBROWSER_COPYHTML, 0, 0);
+      MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS :
+        PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS, 0, 0);
 
-    MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS :
-      PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS, 0, 0);
+      MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES :
+        PostMessage(Handle, MINIBROWSER_COPYFRAMENAMES, 0, 0);
 
-    MINIBROWSER_CONTEXTMENU_COPYFRAMENAMES :
-      PostMessage(Handle, MINIBROWSER_COPYFRAMENAMES, 0, 0);
+      MINIBROWSER_CONTEXTMENU_SHOWRESPONSE :
+        PostMessage(Handle, MINIBROWSER_SHOWRESPONSE, 0, 0);
 
-    MINIBROWSER_CONTEXTMENU_SHOWRESPONSE :
-      PostMessage(Handle, MINIBROWSER_SHOWRESPONSE, 0, 0);
+      MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES :
+        PostMessage(Handle, MINIBROWSER_SAVEPREFERENCES, 0, 0);
 
-    MINIBROWSER_CONTEXTMENU_SAVEPREFERENCES :
-      PostMessage(Handle, MINIBROWSER_SAVEPREFERENCES, 0, 0);
+      MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT :
+        PostMessage(Handle, MINIBROWSER_TAKESNAPSHOT, 0, 0);
 
-    MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT :
-      PostMessage(Handle, MINIBROWSER_TAKESNAPSHOT, 0, 0);
+      MINIBROWSER_CONTEXTMENU_GETNAVIGATION :
+        begin
+          FNavigation.Clear;
+          Chromium1.GetNavigationEntries(False);
+        end;
 
-    MINIBROWSER_CONTEXTMENU_GETNAVIGATION :
-      begin
-        FNavigation.Clear;
-        Chromium1.GetNavigationEntries(False);
-      end;
+      MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
+        if (frame <> nil) and frame.IsValid then
+          frame.ExecuteJavaScript(
+            'var css = ' + chr(39) + '@page {size: A4; margin: 0;} @media print {html, body {width: 210mm; height: 297mm;}}' + chr(39) + '; ' +
+            'var style = document.createElement(' + chr(39) + 'style' + chr(39) + '); ' +
+            'style.type = ' + chr(39) + 'text/css' + chr(39) + '; ' +
+            'style.appendChild(document.createTextNode(css)); ' +
+            'document.head.appendChild(style);',
+            'about:blank', 0);
 
-    MINIBROWSER_CONTEXTMENU_JSWRITEDOC :
-      if (frame <> nil) and frame.IsValid then
-        frame.ExecuteJavaScript(
-          'var css = ' + chr(39) + '@page {size: A4; margin: 0;} @media print {html, body {width: 210mm; height: 297mm;}}' + chr(39) + '; ' +
-          'var style = document.createElement(' + chr(39) + 'style' + chr(39) + '); ' +
-          'style.type = ' + chr(39) + 'text/css' + chr(39) + '; ' +
-          'style.appendChild(document.createTextNode(css)); ' +
-          'document.head.appendChild(style);',
-          'about:blank', 0);
+      MINIBROWSER_CONTEXTMENU_JSPRINTDOC :
+        if (frame <> nil) and frame.IsValid then
+          frame.ExecuteJavaScript('window.print();', 'about:blank', 0);
 
-    MINIBROWSER_CONTEXTMENU_JSPRINTDOC :
-      if (frame <> nil) and frame.IsValid then
-        frame.ExecuteJavaScript('window.print();', 'about:blank', 0);
+      MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO :
+        Chromium1.AudioMuted := False;
 
-    MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO :
-      Chromium1.AudioMuted := False;
-
-    MINIBROWSER_CONTEXTMENU_MUTEAUDIO :
-      Chromium1.AudioMuted := True;
-  end;
+      MINIBROWSER_CONTEXTMENU_MUTEAUDIO :
+        Chromium1.AudioMuted := True;
+    end
+   else
+    case commandId of
+      MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
+        try
+          WindowInfoAsPopUp(TempInfo, browser.Host.WindowHandle, 'DevTools');
+          TempClient := TCustomClientHandler.Create(Chromium1, True);
+          FillChar(TempSettings, SizeOf(TCefBrowserSettings), 0);
+          browser.Host.ShowDevTools(@TempInfo, TempClient, @TempSettings, nil);
+        finally
+          TempClient := nil
+        end;
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);
