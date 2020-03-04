@@ -385,6 +385,9 @@ type
 
   TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptGPU, ptUtility, ptOther);
 
+  // Used in TChromium preferences to allow or block cookies.
+  TCefCookiePref = (cpDefault, cpAllow, cpBlock);
+
   TCefAplicationStatus = (asLoading,
                           asLoaded,
                           asInitialized,

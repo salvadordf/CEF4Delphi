@@ -126,6 +126,8 @@ type
       FWebRTCMultipleRoutes   : TCefState;
       FWebRTCNonProxiedUDP    : TCefState;
       FAcceptLanguageList     : ustring;
+      FAcceptCookies          : TCefCookiePref;
+      FBlock3rdPartyCookies   : boolean;
 
       {$IFDEF MSWINDOWS}
       FOldBrowserCompWndPrc   : TFNWndProc;
@@ -328,6 +330,8 @@ type
       procedure SetYouTubeRestrict(aValue : integer);
       procedure SetPrintingEnabled(aValue : boolean);
       procedure SetAcceptLanguageList(const aValue : ustring);
+      procedure SetAcceptCookies(const aValue : TCefCookiePref);
+      procedure SetBlock3rdPartyCookies(const aValue : boolean);
       procedure SetOnRequestContextInitialized(const aValue : TOnRequestContextInitialized);
       procedure SetOnBeforePluginLoad(const aValue : TOnBeforePluginLoad);
 
@@ -738,6 +742,8 @@ type
       property  YouTubeRestrict         : integer                      read FYouTubeRestrict          write SetYouTubeRestrict;
       property  PrintingEnabled         : boolean                      read FPrintingEnabled          write SetPrintingEnabled;
       property  AcceptLanguageList      : ustring                      read FAcceptLanguageList       write SetAcceptLanguageList;
+      property  AcceptCookies           : TCefCookiePref               read FAcceptCookies            write SetAcceptCookies;
+      property  Block3rdPartyCookies    : boolean                      read FBlock3rdPartyCookies     write SetBlock3rdPartyCookies;
 
       property  WebRTCIPHandlingPolicy  : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy   write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes    : TCefState                    read FWebRTCMultipleRoutes     write SetWebRTCMultipleRoutes;
@@ -965,6 +971,8 @@ begin
   FYouTubeRestrict        := YOUTUBE_RESTRICT_OFF;
   FPrintingEnabled        := True;
   FAcceptLanguageList     := '';
+  FAcceptCookies          := cpAllow;
+  FBlock3rdPartyCookies   := False;
 
   {$IFDEF MSWINDOWS}
   FOldBrowserCompWndPrc   := nil;
@@ -2552,6 +2560,24 @@ begin
     end;
 end;
 
+procedure TChromiumCore.SetAcceptCookies(const aValue : TCefCookiePref);
+begin
+  if (FAcceptCookies <> aValue) then
+    begin
+      FAcceptCookies     := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
+procedure TChromiumCore.SetBlock3rdPartyCookies(const aValue : boolean);
+begin
+  if (FBlock3rdPartyCookies <> aValue) then
+    begin
+      FBlock3rdPartyCookies := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
 procedure TChromiumCore.SetOnRequestContextInitialized(const aValue : TOnRequestContextInitialized);
 begin
   FOnRequestContextInitialized := aValue;
@@ -3187,6 +3213,15 @@ begin
   UpdatePreference(aBrowser, 'settings.force_youtube_restrict',      FYouTubeRestrict);
   UpdatePreference(aBrowser, 'printing.enabled',                     FPrintingEnabled);
   UpdatePreference(aBrowser, 'intl.accept_languages',                FAcceptLanguageList);
+
+  case FAcceptCookies of
+    cpAllow : UpdatePreference(aBrowser, 'profile.default_content_setting_values.cookies', CEF_COOKIE_PREF_ALLOW);
+    cpBlock : UpdatePreference(aBrowser, 'profile.default_content_setting_values.cookies', CEF_COOKIE_PREF_BLOCK);
+    else      UpdatePreference(aBrowser, 'profile.default_content_setting_values.cookies', CEF_COOKIE_PREF_DEFAULT);
+  end;
+
+  UpdatePreference(aBrowser, 'profile.managed_default_content_settings.cookies', CEF_COOKIE_PREF_DEFAULT);
+  UpdatePreference(aBrowser, 'profile.block_third_party_cookies', FBlock3rdPartyCookies);
 
   if (FMaxConnectionsPerProxy <> CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE) then
     UpdatePreference(aBrowser, 'net.max_connections_per_proxy', FMaxConnectionsPerProxy);
@@ -4648,13 +4683,10 @@ function TChromiumCore.doOnGetAuthCredentials(const browser   : ICefBrowser;
 begin
   Result := False;
 
-  if isProxy then
+  if isProxy and (FProxyType = CEF_PROXYTYPE_FIXED_SERVERS) and (callback <> nil) then
     begin
-      if (FProxyType = CEF_PROXYTYPE_FIXED_SERVERS) and (callback <> nil) then
-        begin
-          Result := True;
-          callback.cont(FProxyUsername, FProxyPassword);
-        end;
+      Result := True;
+      callback.cont(FProxyUsername, FProxyPassword);
     end
    else
     if Assigned(FOnGetAuthCredentials) then

@@ -167,6 +167,7 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
+  GlobalCEFApp.cache            := 'cache';
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
@@ -181,7 +182,6 @@ procedure TCookieVisitorFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.UpdateSize;
   AddressBarPnl.Enabled := True;
-  GoBtn.Click;
 end;
 
 procedure TCookieVisitorFrm.BrowserDestroyMsg(var aMessage : TMessage);
@@ -319,10 +319,10 @@ begin
                           '/',
                           True,
                           True,
-                          False,
+                          True,
                           now,
                           now,
-                          now,
+                          now + 1,
                           False);
   end;
 end;
@@ -384,6 +384,8 @@ procedure TCookieVisitorFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+
+  Chromium1.DefaultURL := Edit1.Text;
 end;
 
 procedure TCookieVisitorFrm.FormShow(Sender: TObject);

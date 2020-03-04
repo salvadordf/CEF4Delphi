@@ -548,6 +548,10 @@ const
   CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE     = 7;
   CEF_MAX_CONNECTIONS_PER_PROXY_MAX_VALUE     = 99;
 
+  CEF_COOKIE_PREF_DEFAULT = 0;
+  CEF_COOKIE_PREF_ALLOW   = 1;
+  CEF_COOKIE_PREF_BLOCK   = 2;
+
   // https://chromium.googlesource.com/chromium/src/+/refs/tags/77.0.3865.90/chrome/common/net/safe_search_util.h (YouTubeRestrictMode)
   // https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict
   YOUTUBE_RESTRICT_OFF      = 0;
