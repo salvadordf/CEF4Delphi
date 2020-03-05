@@ -339,7 +339,7 @@ procedure TBrowserFrame.FMXBufferPanel1KeyDown(Sender: TObject; var Key: Word;
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if not(FMXBufferPanel1.IsFocused) or (FMXChromium1 = nil) then exit;
+  if not(FMXBufferPanel1.IsFocused) then exit;
 
   if (Key <> 0) and (KeyChar = #0) then
     begin
@@ -363,7 +363,7 @@ procedure TBrowserFrame.FMXBufferPanel1KeyUp(Sender: TObject; var Key: Word;
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if not(FMXBufferPanel1.IsFocused) or (FMXChromium1 = nil) then exit;
+  if not(FMXBufferPanel1.IsFocused) then exit;
 
   if (Key = 0) and (KeyChar <> #0) then
     begin
@@ -567,24 +567,19 @@ procedure TBrowserFrame.FMXChromium1GetScreenInfo(Sender: TObject;
 var
   TempRect : TCEFRect;
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      TempRect.x      := 0;
-      TempRect.y      := 0;
-      TempRect.width  := round(FMXBufferPanel1.Width);
-      TempRect.height := round(FMXBufferPanel1.Height);
+  TempRect.x      := 0;
+  TempRect.y      := 0;
+  TempRect.width  := round(FMXBufferPanel1.Width);
+  TempRect.height := round(FMXBufferPanel1.Height);
 
-      screenInfo.device_scale_factor := GlobalCEFApp.DeviceScaleFactor;
-      screenInfo.depth               := 0;
-      screenInfo.depth_per_component := 0;
-      screenInfo.is_monochrome       := Ord(False);
-      screenInfo.rect                := TempRect;
-      screenInfo.available_rect      := TempRect;
+  screenInfo.device_scale_factor := FMXBufferPanel1.ScreenScale;
+  screenInfo.depth               := 0;
+  screenInfo.depth_per_component := 0;
+  screenInfo.is_monochrome       := Ord(False);
+  screenInfo.rect                := TempRect;
+  screenInfo.available_rect      := TempRect;
 
-      Result := True;
-    end
-   else
-    Result := False;
+  Result := True;
 end;
 
 procedure TBrowserFrame.FMXChromium1GetScreenPoint(Sender: TObject;
@@ -593,30 +588,22 @@ procedure TBrowserFrame.FMXChromium1GetScreenPoint(Sender: TObject;
 var
   TempScreenPt, TempViewPt : TPoint;
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      // TFMXBufferPanel.ClientToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
-      TempViewPt.x := viewX;
-      TempViewPt.y := viewY;
-      TempScreenPt := FMXBufferPanel1.ClientToScreen(TempViewPt);
-      screenX      := TempScreenPt.x;
-      screenY      := TempScreenPt.y;
-      Result       := True;
-    end
-   else
-    Result := False;
+  // TFMXBufferPanel.ClientToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
+  TempViewPt.x := viewX;
+  TempViewPt.y := viewY;
+  TempScreenPt := FMXBufferPanel1.ClientToScreen(TempViewPt);
+  screenX      := TempScreenPt.x;
+  screenY      := TempScreenPt.y;
+  Result       := True;
 end;
 
 procedure TBrowserFrame.FMXChromium1GetViewRect(Sender: TObject;
   const browser: ICefBrowser; var rect: TCefRect);
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      rect.x      := 0;
-      rect.y      := 0;
-      rect.width  := round(FMXBufferPanel1.Width);
-      rect.height := round(FMXBufferPanel1.Height);
-    end;
+  rect.x      := 0;
+  rect.y      := 0;
+  rect.width  := round(FMXBufferPanel1.Width);
+  rect.height := round(FMXBufferPanel1.Height);
 end;
 
 procedure TBrowserFrame.FMXChromium1LoadError(Sender: TObject;
@@ -811,20 +798,17 @@ begin
       FShowPopUp := False;
       FPopUpRect := rect(0, 0, 0, 0);
 
-      if (FMXChromium1 <> nil) then FMXChromium1.Invalidate(PET_VIEW);
+      FMXChromium1.Invalidate(PET_VIEW);
     end;
 end;
 
 procedure TBrowserFrame.FMXChromium1PopupSize(Sender: TObject;
   const browser: ICefBrowser; const rect: PCefRect);
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      FPopUpRect.Left   := rect.x;
-      FPopUpRect.Top    := rect.y;
-      FPopUpRect.Right  := rect.x + LogicalToDevice(rect.width,  GlobalCEFApp.DeviceScaleFactor) - 1;
-      FPopUpRect.Bottom := rect.y + LogicalToDevice(rect.height, GlobalCEFApp.DeviceScaleFactor) - 1;
-    end;
+  FPopUpRect.Left   := rect.x;
+  FPopUpRect.Top    := rect.y;
+  FPopUpRect.Right  := rect.x + rect.width  - 1;
+  FPopUpRect.Bottom := rect.y + rect.height - 1;
 end;
 
 procedure TBrowserFrame.FMXChromium1StatusMessage(Sender: TObject;

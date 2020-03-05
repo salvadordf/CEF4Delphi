@@ -326,7 +326,7 @@ procedure TFMXExternalPumpBrowserFrm.Panel1KeyDown(    Sender  : TObject;
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if not(Panel1.IsFocused) or (chrmosr = nil) then exit;
+  if not(Panel1.IsFocused) then exit;
 
   if (Key <> 0) and (KeyChar = #0) then
     begin
@@ -352,7 +352,7 @@ procedure TFMXExternalPumpBrowserFrm.Panel1KeyUp(    Sender  : TObject;
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  if not(Panel1.IsFocused) or (chrmosr = nil) then exit;
+  if not(Panel1.IsFocused) then exit;
 
   if (Key = 0) and (KeyChar <> #0) then
     begin
@@ -408,7 +408,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if not(ssTouch in Shift) then
     begin
       Panel1.SetFocus;
 
@@ -454,20 +454,17 @@ end;
 procedure TFMXExternalPumpBrowserFrm.Panel1MouseLeave(Sender: TObject);
 var
   TempEvent  : TCefMouseEvent;
-  TempPoint  : TPoint;
-  TempPointF : TPointF;
+  TempPoint  : TPointF;
   TempTime   : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and GetMousePosition(TempPointF) then
+  if GetMousePosition(TempPoint) then
     begin
-      TempPoint.x := round(TempPointF.x);
-      TempPoint.y := round(TempPointF.y);
-      TempPoint   := Panel1.ScreenToClient(TempPoint);
+      TempPoint := Panel1.ScreenToClient(TempPoint);
 
       if CancelPreviousClick(TempPoint.x, TempPoint.y, TempTime) then InitializeLastClick;
 
-      TempEvent.x         := TempPoint.x;
-      TempEvent.y         := TempPoint.y;
+      TempEvent.x         := round(TempPoint.x);
+      TempEvent.y         := round(TempPoint.y);
       TempEvent.modifiers := GetCefMouseModifiers;
       chrmosr.SendMouseMoveEvent(@TempEvent, True);
     end;
@@ -480,12 +477,12 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if not(ssTouch in Shift) then
     begin
       if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
 
-      TempEvent.x         := round(X);
-      TempEvent.y         := round(Y);
+      TempEvent.x         := round(x);
+      TempEvent.y         := round(y);
       TempEvent.modifiers := getModifiers(Shift);
       chrmosr.SendMouseMoveEvent(@TempEvent, False);
     end;
@@ -498,7 +495,7 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseUp(Sender : TObject;
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if not(ssTouch in Shift) then
     begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
@@ -512,18 +509,14 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseWheel(    Sender      : TObject;
                                                           WheelDelta  : Integer;
                                                       var Handled     : Boolean);
 var
-  TempEvent  : TCefMouseEvent;
-  TempPoint  : TPoint;
-  TempPointF : TPointF;
+  TempEvent : TCefMouseEvent;
+  TempPoint : TPointF;
 begin
-  if Panel1.IsFocused and (GlobalCEFApp <> nil) and (chrmosr <> nil) and GetMousePosition(TempPointF) then
+  if Panel1.IsFocused and GetMousePosition(TempPoint) then
     begin
-      TempPoint.x := round(TempPointF.x);
-      TempPoint.y := round(TempPointF.y);
-      TempPoint   := Panel1.ScreenToClient(TempPoint);
-
-      TempEvent.x         := TempPoint.x;
-      TempEvent.y         := TempPoint.y;
+      TempPoint           := Panel1.ScreenToClient(TempPoint);
+      TempEvent.x         := round(TempPoint.x);
+      TempEvent.y         := round(TempPoint.y);
       TempEvent.modifiers := getModifiers(Shift);
       chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
     end;
@@ -552,8 +545,7 @@ begin
   chrmosr.SendFocusEvent(False);
 end;
 
-procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can enable the UI.
   Caption            := 'FMX External Pump Browser';
@@ -611,24 +603,19 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrGetScreenInfo(      Sender     : TOb
 var
   TempRect : TCEFRect;
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      TempRect.x      := 0;
-      TempRect.y      := 0;
-      TempRect.width  := round(Panel1.Width);
-      TempRect.height := round(Panel1.Height);
+  TempRect.x      := 0;
+  TempRect.y      := 0;
+  TempRect.width  := round(Panel1.Width);
+  TempRect.height := round(Panel1.Height);
 
-      screenInfo.device_scale_factor := GlobalCEFApp.DeviceScaleFactor;
-      screenInfo.depth               := 0;
-      screenInfo.depth_per_component := 0;
-      screenInfo.is_monochrome       := Ord(False);
-      screenInfo.rect                := TempRect;
-      screenInfo.available_rect      := TempRect;
+  screenInfo.device_scale_factor := Panel1.ScreenScale;
+  screenInfo.depth               := 0;
+  screenInfo.depth_per_component := 0;
+  screenInfo.is_monochrome       := Ord(False);
+  screenInfo.rect                := TempRect;
+  screenInfo.available_rect      := TempRect;
 
-      Result := True;
-    end
-   else
-    Result := False;
+  Result := True;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrGetScreenPoint(      Sender  : TObject;
@@ -641,31 +628,23 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrGetScreenPoint(      Sender  : TObje
 var
   TempScreenPt, TempViewPt : TPoint;
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      // TFMXBufferPanel.ClientToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
-      TempViewPt.x := viewX;
-      TempViewPt.y := viewY;
-      TempScreenPt := Panel1.ClientToScreen(TempViewPt);
-      screenX      := TempScreenPt.x;
-      screenY      := TempScreenPt.y;
-      Result       := True;
-    end
-   else
-    Result := False;
+  // TFMXBufferPanel.ClientToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
+  TempViewPt.x := viewX;
+  TempViewPt.y := viewY;
+  TempScreenPt := Panel1.ClientToScreen(TempViewPt);
+  screenX      := TempScreenPt.x;
+  screenY      := TempScreenPt.y;
+  Result       := True;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrGetViewRect(      Sender  : TObject;
                                                         const browser : ICefBrowser;
                                                         var   rect    : TCefRect);
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      rect.x      := 0;
-      rect.y      := 0;
-      rect.width  := round(Panel1.Width);
-      rect.height := round(Panel1.Height);
-    end;
+  rect.x      := 0;
+  rect.y      := 0;
+  rect.width  := round(Panel1.Width);
+  rect.height := round(Panel1.Height);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrPaint(      Sender          : TObject;
@@ -827,7 +806,7 @@ begin
       FShowPopUp := False;
       FPopUpRect := rect(0, 0, 0, 0);
 
-      if (chrmosr <> nil) then chrmosr.Invalidate(PET_VIEW);
+      chrmosr.Invalidate(PET_VIEW);
     end;
 end;
 
@@ -835,13 +814,10 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrPopupSize(      Sender  : TObject;
                                                       const browser : ICefBrowser;
                                                       const rect    : PCefRect);
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      FPopUpRect.Left   := rect.x;
-      FPopUpRect.Top    := rect.y;
-      FPopUpRect.Right  := rect.x + rect.width  - 1;
-      FPopUpRect.Bottom := rect.y + rect.height - 1;
-    end;
+  FPopUpRect.Left   := rect.x;
+  FPopUpRect.Top    := rect.y;
+  FPopUpRect.Right  := rect.x + rect.width  - 1;
+  FPopUpRect.Bottom := rect.y + rect.height - 1;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrTooltip(      Sender  : TObject;
@@ -882,9 +858,10 @@ var
   PositionChanged: Boolean;
 begin
   PositionChanged := (ALeft <> Left) or (ATop <> Top);
+
   inherited SetBounds(ALeft, ATop, AWidth, AHeight);
-  if PositionChanged then
-    NotifyMoveOrResizeStarted;
+
+  if PositionChanged then NotifyMoveOrResizeStarted;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.NotifyMoveOrResizeStarted;
