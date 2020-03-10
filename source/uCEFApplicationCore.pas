@@ -62,7 +62,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 80;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 5;
+  CEF_SUPPORTED_VERSION_RELEASE = 8;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 80;
@@ -138,10 +138,12 @@ type
       FDisablePDFExtension           : boolean;
       FLogProcessInfo                : boolean;
       FDisableSiteIsolationTrials    : boolean;
-      FEnableFeatures                : string;
-      FDisableFeatures               : string;
-      FEnableBlinkFeatures           : string;
-      FDisableBlinkFeatures          : string;
+      FEnableFeatures                : ustring;
+      FDisableFeatures               : ustring;
+      FEnableBlinkFeatures           : ustring;
+      FDisableBlinkFeatures          : ustring;
+      FForceFieldTrials              : ustring;
+      FForceFieldTrialParams         : ustring;
       FChromeVersionInfo             : TFileVersionInfo;
       {$IFDEF FPC}
       FLibHandle                     : TLibHandle;
@@ -396,10 +398,12 @@ type
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;                // --enable-speech-input
       property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;          // --use-fake-ui-for-media-stream
       property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;                        // --enable-gpu-plugin
-      property EnableFeatures                    : string                              read FEnableFeatures                    write FEnableFeatures;                   // --enable-features
-      property DisableFeatures                   : string                              read FDisableFeatures                   write FDisableFeatures;                  // --disable-features
-      property EnableBlinkFeatures               : string                              read FEnableBlinkFeatures               write FEnableBlinkFeatures;              // --enable-blink-features
-      property DisableBlinkFeatures              : string                              read FDisableBlinkFeatures              write FDisableBlinkFeatures;             // --disable-blink-features
+      property EnableFeatures                    : ustring                             read FEnableFeatures                    write FEnableFeatures;                   // --enable-features
+      property DisableFeatures                   : ustring                             read FDisableFeatures                   write FDisableFeatures;                  // --disable-features
+      property EnableBlinkFeatures               : ustring                             read FEnableBlinkFeatures               write FEnableBlinkFeatures;              // --enable-blink-features
+      property DisableBlinkFeatures              : ustring                             read FDisableBlinkFeatures              write FDisableBlinkFeatures;             // --disable-blink-features
+      property ForceFieldTrials                  : ustring                             read FForceFieldTrials                  write FForceFieldTrials;                 // --force-fieldtrials
+      property ForceFieldTrialParams             : ustring                             read FForceFieldTrialParams             write FForceFieldTrialParams;            // --force-fieldtrial-params
       property SmoothScrolling                   : TCefState                           read FSmoothScrolling                   write FSmoothScrolling;                  // --enable-smooth-scrolling
       property FastUnload                        : boolean                             read FFastUnload                        write FFastUnload;                       // --enable-fast-unload
       property DisableSafeBrowsing               : boolean                             read FDisableSafeBrowsing               write FDisableSafeBrowsing;              // --safebrowsing-disable-auto-update
@@ -662,6 +666,8 @@ begin
   FDisableFeatures               := '';
   FEnableBlinkFeatures           := '';
   FDisableBlinkFeatures          := '';
+  FForceFieldTrials              := '';
+  FForceFieldTrialParams         := '';
   FSupportedSchemes              := nil;
   FDisableNewBrowserInfoTimeout  := False;
 
@@ -1574,7 +1580,7 @@ begin
 end;
 
 procedure TCefApplicationCore.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
-                                                                 const commandLine : ICefCommandLine);
+                                                                     const commandLine : ICefCommandLine);
 var
   i : integer;
   {$IFDEF MSWINDOWS}
@@ -1762,6 +1768,12 @@ begin
       // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
       if (length(FDisableBlinkFeatures) > 0) then
         commandLine.AppendSwitchWithValue('--disable-blink-features', FDisableBlinkFeatures);
+
+      if (length(FForceFieldTrials) > 0) then
+        commandLine.AppendSwitchWithValue('--force-fieldtrials', FForceFieldTrials);
+
+      if (length(FForceFieldTrialParams) > 0) then
+        commandLine.AppendSwitchWithValue('--force-fieldtrial-params', FForceFieldTrialParams);
 
       if (FCustomCommandLines       <> nil) and
          (FCustomCommandLineValues  <> nil) and
