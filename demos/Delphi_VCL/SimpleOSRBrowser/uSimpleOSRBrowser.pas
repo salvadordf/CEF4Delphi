@@ -63,7 +63,7 @@ type
     NavControlPnl: TPanel;
     chrmosr: TChromium;
     AppEvents: TApplicationEvents;
-    ComboBox1: TComboBox;
+    AddressCb: TComboBox;
     Panel2: TPanel;
     GoBtn: TButton;
     SnapshotBtn: TButton;
@@ -118,7 +118,7 @@ type
     procedure SnapshotBtnEnter(Sender: TObject);
 
     procedure Timer1Timer(Sender: TObject);
-    procedure ComboBox1Enter(Sender: TObject);
+    procedure AddressCbEnter(Sender: TObject);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -145,9 +145,11 @@ type
     procedure InitializeLastClick;
     function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
     function  ArePointerEventsSupported : boolean;
+    {$IFDEF DELPHI14_UP}
     function  HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
     function  HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean;
     function  HandlePointerEvent(var aMessage : TMessage) : boolean;
+    {$ENDIF}
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -311,7 +313,7 @@ begin
           TempMouseEvent.y         := Msg.lParam shr 16;
           TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
           DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
-          chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, int16(Msg.wParam shr 16));
+          chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
         end;
   end;
 end;
@@ -323,7 +325,7 @@ begin
   FPendingResize := False;
   FResizeCS.Release;
 
-  chrmosr.LoadURL(ComboBox1.Text);
+  chrmosr.LoadURL(AddressCb.Text);
 end;
 
 procedure TForm1.GoBtnEnter(Sender: TObject);
@@ -543,7 +545,7 @@ begin
   end;
 end;
 
-procedure TForm1.chrmosrPopupShow(Sender : TObject;
+procedure TForm1.chrmosrPopupShow(      Sender  : TObject;
                                   const browser : ICefBrowser;
                                         show    : Boolean);
 begin
@@ -558,7 +560,7 @@ begin
     end;
 end;
 
-procedure TForm1.chrmosrPopupSize(Sender : TObject;
+procedure TForm1.chrmosrPopupSize(      Sender  : TObject;
                                   const browser : ICefBrowser;
                                   const rect    : PCefRect);
 begin
@@ -580,7 +582,7 @@ begin
   Result          := True;
 end;
 
-procedure TForm1.ComboBox1Enter(Sender: TObject);
+procedure TForm1.AddressCbEnter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
 end;
@@ -600,9 +602,9 @@ end;
 function TForm1.GetButton(Button: TMouseButton): TCefMouseButtonType;
 begin
   case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
+    mbRight  : Result := MBT_RIGHT;
+    mbMiddle : Result := MBT_MIDDLE;
+    else       Result := MBT_LEFT;
   end;
 end;
 
@@ -652,7 +654,6 @@ procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   Caption               := 'Simple OSR Browser';
   NavControlPnl.Enabled := True;
-  GoBtn.Click;
 end;
 
 procedure TForm1.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
@@ -702,6 +703,8 @@ begin
   Panel1.Transparent := TRANSPARENT_BROWSER;
 
   InitializeLastClick;
+
+  chrmosr.DefaultURL := trim(AddressCb.Text);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -746,8 +749,10 @@ begin
       // You can skip this if the user doesn't need an "Input Method Editor".
       Panel1.CreateIMEHandler;
 
+      {$IFDEF DELPHI14_UP}
       if not(ArePointerEventsSupported) then
         RegisterTouchWindow(Panel1.Handle, 0);
+      {$ENDIF}
 
       if chrmosr.CreateBrowser(nil, '') then
         chrmosr.InitializeDragAndDrop(Panel1)
@@ -762,6 +767,7 @@ begin
 end;
 
 procedure TForm1.Panel1CustomTouch(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
+{$IFDEF DELPHI14_UP}
 var
   TempTouchEvent  : TCefTouchEvent;
   TempHTOUCHINPUT : HTOUCHINPUT;
@@ -771,7 +777,9 @@ var
   TempPoint       : TPoint;
   TempLParam      : LPARAM;
   TempResult      : LRESULT;
+{$ENDIF}
 begin
+{$IFDEF DELPHI14_UP}
   if not(Panel1.Focused) or (GlobalCEFApp = nil) then exit;
 
   TempNumPoints := LOWORD(aMessage.wParam);
@@ -833,6 +841,7 @@ begin
     end;
 
   SetLength(TempTouchInputs, 0);
+{$ENDIF}
 end;
 
 procedure TForm1.Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -840,7 +849,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) {$IFDEF DELPHI14_UP}and not(ssTouch in Shift){$ENDIF} then
     begin
       Panel1.SetFocus;
 
@@ -890,7 +899,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) {$IFDEF DELPHI14_UP}and not(ssTouch in Shift){$ENDIF} then
     begin
       if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
 
@@ -906,7 +915,7 @@ procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TSh
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  if (GlobalCEFApp <> nil) and (chrmosr <> nil) {$IFDEF DELPHI14_UP}and not(ssTouch in Shift){$ENDIF} then
     begin
       TempEvent.x         := X;
       TempEvent.y         := Y;
@@ -933,28 +942,41 @@ end;
 
 procedure TForm1.Panel1PointerDown(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
 begin
+  {$IFDEF DELPHI14_UP}
   aHandled := Panel1.Focused and
               (GlobalCEFApp <> nil) and
               ArePointerEventsSupported and
               HandlePointerEvent(aMessage);
+  {$ELSE}
+  aHandled := False;
+  {$ENDIF}
 end;
 
 procedure TForm1.Panel1PointerUp(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
 begin
+  {$IFDEF DELPHI14_UP}
   aHandled := Panel1.Focused and
               (GlobalCEFApp <> nil) and
               ArePointerEventsSupported and
               HandlePointerEvent(aMessage);
+  {$ELSE}
+  aHandled := False;
+  {$ENDIF}
 end;
 
 procedure TForm1.Panel1PointerUpdate(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
 begin
+  {$IFDEF DELPHI14_UP}
   aHandled := Panel1.Focused and
               (GlobalCEFApp <> nil) and
               ArePointerEventsSupported and
               HandlePointerEvent(aMessage);
+  {$ELSE}
+  aHandled := False;
+  {$ENDIF}
 end;
 
+{$IFDEF DELPHI14_UP}
 function TForm1.HandlePointerEvent(var aMessage : TMessage) : boolean;
 const
   PT_TOUCH = 2;
@@ -1078,6 +1100,7 @@ begin
 
   chrmosr.SendTouchEvent(@TempTouchEvent);
 end;
+{$ENDIF}
 
 procedure TForm1.Panel1Resize(Sender: TObject);
 begin
@@ -1144,10 +1167,14 @@ end;
 
 function TForm1.ArePointerEventsSupported : boolean;
 begin
+  {$IFDEF DELPHI14_UP}
   Result := FAtLeastWin8 and
             (@GetPointerType      <> nil) and
             (@GetPointerTouchInfo <> nil) and
             (@GetPointerPenInfo   <> nil);
+  {$ELSE}
+  Result := False;
+  {$ENDIF}
 end;
 
 procedure TForm1.Panel1Enter(Sender: TObject);

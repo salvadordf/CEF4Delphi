@@ -33,7 +33,7 @@ object Form1: TForm1
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 0
-    object ComboBox1: TComboBox
+    object AddressCb: TComboBox
       Left = 5
       Top = 5
       Width = 907
@@ -42,7 +42,7 @@ object Form1: TForm1
       ItemIndex = 0
       TabOrder = 0
       Text = 'https://www.google.com'
-      OnEnter = ComboBox1Enter
+      OnEnter = AddressCbEnter
       Items.Strings = (
         'https://www.google.com'
         'https://html5demos.com/drag'
