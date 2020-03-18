@@ -124,7 +124,8 @@ type
       function    InvalidatePanel : boolean;
       function    BeginBufferDraw : boolean;
       procedure   EndBufferDraw;
-      procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap);
+      procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap); overload;
+      procedure   BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); overload;
       function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
       procedure   CreateIMEHandler;
@@ -675,6 +676,11 @@ end;
 procedure TBufferPanel.BufferDraw(x, y : integer; const aBitmap : TBitmap);
 begin
   if (FBuffer <> nil) then FBuffer.Canvas.Draw(x, y, aBitmap);
+end;
+
+procedure TBufferPanel.BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect);
+begin
+  if (FBuffer <> nil) then FBuffer.Canvas.CopyRect(aDstRect, aBitmap.Canvas, aSrcRect);
 end;
 
 function TBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;

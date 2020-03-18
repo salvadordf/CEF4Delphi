@@ -398,7 +398,8 @@ var
   TempWidth, TempHeight : integer;
   TempBufferBits : Pointer;
   TempForcedResize : boolean;
-  TempBitmap : TBitmap;
+  TempBitmap : TBitmap;           
+  TempSrcRect : TRect;
 begin
   try
     FResizeCS.Acquire;
@@ -478,7 +479,13 @@ begin
             TempBitmap.EndUpdate;
 
             if FShowPopup and (FPopUpBitmap <> nil) then
-              Panel1.BufferDraw(FPopUpRect.Left, FPopUpRect.Top, FPopUpBitmap);
+              begin
+                TempSrcRect := Rect(0, 0,
+                                    min(FPopUpRect.Right  - FPopUpRect.Left, FPopUpBitmap.Width),
+                                    min(FPopUpRect.Bottom - FPopUpRect.Top,  FPopUpBitmap.Height));
+
+                Panel1.BufferDraw(FPopUpBitmap, TempSrcRect, FPopUpRect);
+              end;
           end;
 
         Panel1.EndBufferDraw;

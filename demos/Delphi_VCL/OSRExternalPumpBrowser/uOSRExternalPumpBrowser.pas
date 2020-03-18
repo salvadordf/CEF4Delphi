@@ -416,7 +416,7 @@ begin
     end;
 end;
 
-procedure TOSRExternalPumpBrowserFrm.chrmosrPaint(Sender : TObject;
+procedure TOSRExternalPumpBrowserFrm.chrmosrPaint(      Sender          : TObject;
                                                   const browser         : ICefBrowser;
                                                         kind            : TCefPaintElementType;
                                                         dirtyRectsCount : NativeUInt;
@@ -431,6 +431,7 @@ var
   TempWidth, TempHeight, TempScanlineSize : integer;
   TempBufferBits : Pointer;
   TempForcedResize : boolean;
+  TempSrcRect : TRect;
 begin
   try
     FResizeCS.Acquire;
@@ -507,7 +508,13 @@ begin
               end;
 
             if FShowPopup and (FPopUpBitmap <> nil) then
-              Panel1.BufferDraw(FPopUpRect.Left, FPopUpRect.Top, FPopUpBitmap);
+              begin
+                TempSrcRect := Rect(0, 0,
+                                    min(FPopUpRect.Right  - FPopUpRect.Left, FPopUpBitmap.Width),
+                                    min(FPopUpRect.Bottom - FPopUpRect.Top,  FPopUpBitmap.Height));
+
+                Panel1.BufferDraw(FPopUpBitmap, TempSrcRect, FPopUpRect);
+              end;
           end;
 
         Panel1.EndBufferDraw;

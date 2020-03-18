@@ -97,7 +97,7 @@ type
       procedure   InvalidatePanel;
       function    BeginBufferDraw : boolean;
       procedure   EndBufferDraw;
-      procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap);
+      procedure   BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRectF);
       function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
       function    ScreenToClient(aPoint : TPoint) : TPoint; overload;
@@ -417,31 +417,22 @@ begin
     Result := 0;
 end;
 
-procedure TFMXBufferPanel.BufferDraw(x, y : integer; const aBitmap : TBitmap);
-var
-  TempSrc, TempDst : TRectF;
-  TempScale : single;
+procedure TFMXBufferPanel.BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRectF);
 begin
   if (FBuffer <> nil) then
-    begin
-      TempScale := ScreenScale;
-      TempSrc   := TRectF.Create(0, 0, aBitmap.Width, aBitmap.Height);
-      TempDst   := TRectF.Create(x, y, x + (aBitmap.Width / TempScale), y + (aBitmap.Height / TempScale));
-
-      if FBuffer.Canvas.BeginScene then
-        try
-          FBuffer.Canvas.DrawBitmap(aBitmap, TempSrc, TempDst, 1, FHighSpeedDrawing);
-        finally
-          FBuffer.Canvas.EndScene;
-        end;
-    end;
+    if FBuffer.Canvas.BeginScene then
+      try
+        FBuffer.Canvas.DrawBitmap(aBitmap, aSrcRect, aDstRect, 1, FHighSpeedDrawing);
+      finally
+        FBuffer.Canvas.EndScene;
+      end;
 end;
 
 function TFMXBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
 var
   TempScale : single;
 begin
-  Result := False;
+  Result    := False;
   TempScale := ScreenScale;
 
   if ((FBuffer             =  nil)       or

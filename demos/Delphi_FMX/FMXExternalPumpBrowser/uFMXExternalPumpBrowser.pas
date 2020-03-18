@@ -666,6 +666,7 @@ var
   TempForcedResize : boolean;
   TempBitmapData : TBitmapData;
   TempBitmap : TBitmap;
+  TempSrcRect, TempDstRect : TRectF;
 begin
   try
     FResizeCS.Acquire;
@@ -770,7 +771,18 @@ begin
             end;
 
             if FShowPopup and (FPopUpBitmap <> nil) then
-              Panel1.BufferDraw(FPopUpRect.Left, FPopUpRect.Top, FPopUpBitmap);
+              begin
+                TempSrcRect := RectF(0, 0,
+                                     min(FPopUpRect.Width,  FPopUpBitmap.Width),
+                                     min(FPopUpRect.Height, FPopUpBitmap.Height));
+
+                TempDstRect.Left   := FPopUpRect.Left / GlobalCEFApp.DeviceScaleFactor;
+                TempDstRect.Top    := FPopUpRect.Top  / GlobalCEFApp.DeviceScaleFactor;
+                TempDstRect.Right  := TempDstRect.Left + (TempSrcRect.Width  / GlobalCEFApp.DeviceScaleFactor);
+                TempDstRect.Bottom := TempDstRect.Top  + (TempSrcRect.Height / GlobalCEFApp.DeviceScaleFactor);
+
+                Panel1.BufferDraw(FPopUpBitmap, TempSrcRect, TempDstRect);
+              end;
           end;
 
         if (type_ = PET_VIEW) then
@@ -814,10 +826,15 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrPopupSize(      Sender  : TObject;
                                                       const browser : ICefBrowser;
                                                       const rect    : PCefRect);
 begin
-  FPopUpRect.Left   := rect.x;
-  FPopUpRect.Top    := rect.y;
-  FPopUpRect.Right  := rect.x + rect.width  - 1;
-  FPopUpRect.Bottom := rect.y + rect.height - 1;
+  if (GlobalCEFApp <> nil) then
+    begin
+      LogicalToDevice(rect^, GlobalCEFApp.DeviceScaleFactor);
+
+      FPopUpRect.Left   := rect.x;
+      FPopUpRect.Top    := rect.y;
+      FPopUpRect.Right  := rect.x + rect.width  - 1;
+      FPopUpRect.Bottom := rect.y + rect.height - 1;
+    end;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrTooltip(      Sender  : TObject;
