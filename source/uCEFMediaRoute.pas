@@ -35,35 +35,70 @@
  *
  *)
 
-unit CEF4Delphi_Register;
+unit uCEFMediaRoute;
 
-{$R res\chromium.dcr}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
-procedure Register;
+uses
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+
+type
+  TCefMediaRouteRef = class(TCefBaseRefCountedRef, ICefMediaRoute)
+  protected
+    function  GetId: ustring;
+    function  GetSource: ICefMediaSource;
+    function  GetSink: ICefMediaSink;
+    procedure SendRouteMessage(const message_: Pointer; message_size: NativeUInt);
+    procedure Terminate;
+  public
+    class function UnWrap(data: Pointer): ICefMediaRoute;
+  end;
 
 implementation
 
 uses
-  {$IFDEF DELPHI16_UP}
-  System.Classes,
-  {$ELSE}
-  Classes,
-  {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
-  uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
-  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFMediaObserverComponent;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFMediaSource, uCEFMediaSink;
 
-procedure Register;
+function TCefMediaRouteRef.GetId: ustring;
 begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
-                                  TBufferPanel, TCEFWorkScheduler,
-                                  TCEFServerComponent, TCEFLinkedWindowParent,
-                        				  TCEFUrlRequestClientComponent, TCEFSentinel,
-                                  TCEFMediaObserverComponent]);
+  Result := CefStringFreeAndGet(PCefMediaRoute(FData)^.get_id(PCefMediaRoute(FData)));
+end;
+
+function TCefMediaRouteRef.GetSource: ICefMediaSource;
+begin
+  Result := TCefMediaSourceRef.UnWrap(PCefMediaRoute(FData)^.get_source(PCefMediaRoute(FData)));
+end;
+
+function TCefMediaRouteRef.GetSink: ICefMediaSink;
+begin
+  Result := TCefMediaSinkRef.UnWrap(PCefMediaRoute(FData)^.get_sink(PCefMediaRoute(FData)));
+end;
+
+procedure TCefMediaRouteRef.SendRouteMessage(const message_: Pointer; message_size: NativeUInt);
+begin
+  PCefMediaRoute(FData)^.send_route_message(PCefMediaRoute(FData), message_, message_size);
+end;
+
+procedure TCefMediaRouteRef.Terminate;
+begin
+  PCefMediaRoute(FData)^.terminate(PCefMediaRoute(FData));
+end;
+
+class function TCefMediaRouteRef.UnWrap(data: Pointer): ICefMediaRoute;
+begin
+  if (data <> nil) then
+    Result := Create(data) as ICefMediaRoute
+   else
+    Result := nil;
 end;
 
 end.

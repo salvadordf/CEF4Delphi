@@ -61,14 +61,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 80;
-  CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 8;
+  CEF_SUPPORTED_VERSION_MINOR   = 1;
+  CEF_SUPPORTED_VERSION_RELEASE = 2;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 80;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 3987;
-  CEF_CHROMEELF_VERSION_BUILD   = 132;
+  CEF_CHROMEELF_VERSION_BUILD   = 149;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -244,7 +244,7 @@ type
       function  GetMustCreateLoadHandler : boolean; virtual;
       function  GetGlobalContextInitialized : boolean;
       function  GetChildProcessesCount : integer;
-      function  GetUsedMemory : cardinal;
+      function  GetUsedMemory : uint64;
       function  GetTotalSystemMemory : uint64;
       function  GetAvailableSystemMemory : uint64;
       function  GetSystemMemoryLoad : cardinal;
@@ -259,6 +259,7 @@ type
       function  Load_cef_file_util_capi_h : boolean;
       function  Load_cef_image_capi_h : boolean;
       function  Load_cef_menu_model_capi_h : boolean;
+      function  Load_cef_media_router_capi_h : boolean;
       function  Load_cef_origin_whitelist_capi_h : boolean;
       function  Load_cef_parser_capi_h : boolean;
       function  Load_cef_path_util_capi_h : boolean;
@@ -476,7 +477,7 @@ type
       property WidevinePath                      : ustring                             read FWidevinePath                      write FWidevinePath;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
-      property UsedMemory                        : cardinal                            read GetUsedMemory;
+      property UsedMemory                        : uint64                              read GetUsedMemory;
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
       property AvailableSystemMemory             : uint64                              read GetAvailableSystemMemory;
       property SystemMemoryLoad                  : cardinal                            read GetSystemMemoryLoad;
@@ -815,7 +816,7 @@ begin
   try
     if CheckCEFLibrary and LoadCEFlibrary then
       begin
-        if ProcessType <> ptBrowser then BeforeInitSubProcess;
+        if (FProcessType <> ptBrowser) then BeforeInitSubProcess;
         TempApp := TCustomCefApp.Create(self);
         Result  := (ExecuteProcess(TempApp) < 0) and InitializeLibrary(TempApp);
       end;
@@ -1896,7 +1897,7 @@ begin
 {$ENDIF}
 end;
 
-function TCefApplicationCore.GetUsedMemory : cardinal;
+function TCefApplicationCore.GetUsedMemory : uint64;
 {$IFDEF MSWINDOWS}
 var
   TempHandle   : THandle;
@@ -2047,6 +2048,7 @@ begin
      Load_cef_file_util_capi_h and
      Load_cef_image_capi_h and
      Load_cef_menu_model_capi_h and
+     Load_cef_media_router_capi_h and
      Load_cef_origin_whitelist_capi_h and
      Load_cef_parser_capi_h and
      Load_cef_path_util_capi_h and
@@ -2204,6 +2206,13 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_menu_model_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_menu_model_create');
 
   Result := assigned(cef_menu_model_create);
+end;
+
+function TCefApplicationCore.Load_cef_media_router_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_media_router_get_global{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_media_router_get_global');
+
+  Result := assigned(cef_media_router_get_global);
 end;
 
 function TCefApplicationCore.Load_cef_origin_whitelist_capi_h : boolean;

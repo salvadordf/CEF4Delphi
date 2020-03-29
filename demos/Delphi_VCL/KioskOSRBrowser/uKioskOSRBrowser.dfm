@@ -31,7 +31,6 @@ object Form1: TForm1
     OnPointerDown = Panel1PointerDown
     OnPointerUp = Panel1PointerUp
     OnPointerUpdate = Panel1PointerUpdate
-    OnWrongSize = Panel1WrongSize
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 0

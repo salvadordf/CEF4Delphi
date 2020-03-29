@@ -83,7 +83,7 @@ type
     procedure ResizeChild;
     procedure CreateFMXWindowParent;
     function  GetFMXWindowParentRect : System.Types.TRect;
-    function  PostCustomMessage(aMessage : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+    function  PostCustomMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
     procedure NotifyMoveOrResizeStarted;
 
     {$IFDEF MSWINDOWS}
@@ -119,7 +119,7 @@ uses
 // 3. TFMXChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 
-function TChildForm.PostCustomMessage(aMessage, wParam : cardinal; lParam : integer) : boolean;
+function TChildForm.PostCustomMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 {$IFDEF MSWINDOWS}
 var
   TempHWND : HWND;
@@ -131,7 +131,7 @@ begin
   if (Handle <> nil) then
     begin
       TempHWND := FmxHandleToHWND(Handle);
-      Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMessage, wParam, lParam);
+      Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMsg, aWParam, aLParam);
     end;
   {$ENDIF}
 end;

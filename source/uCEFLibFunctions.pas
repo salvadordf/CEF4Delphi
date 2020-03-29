@@ -98,6 +98,9 @@ var
   // /include/capi/cef_image_capi.h
   cef_image_create : function : PCefImage; cdecl;
 
+  // /include/capi/cef_media_router_capi.h
+  cef_media_router_get_global : function : PCefMediaRouter; cdecl;
+
   // /include/capi/cef_menu_model_capi.h
   cef_menu_model_create : function(delegate: PCefMenuModelDelegate): PCefMenuModel; cdecl;
 

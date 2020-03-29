@@ -35,35 +35,36 @@
  *
  *)
 
-unit CEF4Delphi_Register;
+unit uCEFRegistration;
 
-{$R res\chromium.dcr}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
-procedure Register;
+uses
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+
+type
+  TCefRegistrationRef = class(TCefBaseRefCountedRef, ICefRegistration)
+  public
+    class function UnWrap(data: Pointer): ICefRegistration;
+  end;
 
 implementation
 
-uses
-  {$IFDEF DELPHI16_UP}
-  System.Classes,
-  {$ELSE}
-  Classes,
-  {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
-  uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
-  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFMediaObserverComponent;
-
-procedure Register;
+class function TCefRegistrationRef.UnWrap(data: Pointer): ICefRegistration;
 begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
-                                  TBufferPanel, TCEFWorkScheduler,
-                                  TCEFServerComponent, TCEFLinkedWindowParent,
-                        				  TCEFUrlRequestClientComponent, TCEFSentinel,
-                                  TCEFMediaObserverComponent]);
+  if (data <> nil) then
+    Result := Create(data) as ICefRegistration
+   else
+    Result := nil;
 end;
 
 end.

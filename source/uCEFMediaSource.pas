@@ -35,35 +35,64 @@
  *
  *)
 
-unit CEF4Delphi_Register;
+unit uCEFMediaSource;
 
-{$R res\chromium.dcr}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
-procedure Register;
+uses
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+
+type
+  TCefMediaSourceRef = class(TCefBaseRefCountedRef, ICefMediaSource)
+  protected
+    function GetId : ustring;
+    function IsValid : boolean;
+    function IsCastSource : boolean;
+    function IsDialSource : boolean;
+  public
+    class function UnWrap(data: Pointer): ICefMediaSource;
+  end;
 
 implementation
 
 uses
-  {$IFDEF DELPHI16_UP}
-  System.Classes,
-  {$ELSE}
-  Classes,
-  {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
-  uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
-  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFMediaObserverComponent;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure Register;
+function TCefMediaSourceRef.GetId: ustring;
 begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
-                                  TBufferPanel, TCEFWorkScheduler,
-                                  TCEFServerComponent, TCEFLinkedWindowParent,
-                        				  TCEFUrlRequestClientComponent, TCEFSentinel,
-                                  TCEFMediaObserverComponent]);
+  Result := CefStringFreeAndGet(PCefMediaSource(FData)^.get_id(PCefMediaSource(FData)));
+end;
+
+function TCefMediaSourceRef.IsValid: Boolean;
+begin
+  Result := PCefMediaSource(FData)^.is_valid(PCefMediaSource(FData)) <> 0;
+end;
+
+function TCefMediaSourceRef.IsCastSource: Boolean;
+begin
+  Result := PCefMediaSource(FData)^.is_cast_source(PCefMediaSource(FData)) <> 0;
+end;
+
+function TCefMediaSourceRef.IsDialSource: Boolean;
+begin
+  Result := PCefMediaSource(FData)^.is_dial_source(PCefMediaSource(FData)) <> 0;
+end;
+
+class function TCefMediaSourceRef.UnWrap(data: Pointer): ICefMediaSource;
+begin
+  if (data <> nil) then
+    Result := Create(data) as ICefMediaSource
+   else
+    Result := nil;
 end;
 
 end.

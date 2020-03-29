@@ -35,35 +35,54 @@
  *
  *)
 
-unit CEF4Delphi_Register;
+unit uCEFMediaRouteCreateCallback;
 
-{$R res\chromium.dcr}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
-procedure Register;
+uses
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+
+type
+  TCefMediaRouteCreateCallbackRef = class(TCefBaseRefCountedRef, ICefMediaRouteCreateCallback)
+  protected
+    procedure OnMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
+  public
+    class function UnWrap(data: Pointer): ICefMediaRouteCreateCallback;
+  end;
 
 implementation
 
 uses
-  {$IFDEF DELPHI16_UP}
-  System.Classes,
-  {$ELSE}
-  Classes,
-  {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
-  uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
-  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFMediaObserverComponent;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure Register;
+procedure TCefMediaRouteCreateCallbackRef.OnMediaRouteCreateFinished(      result : TCefMediaRouterCreateResult;
+                                                                     const error  : ustring;
+                                                                     const route  : ICefMediaRoute);
+var
+  TempError : TCefString;
 begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
-                                  TBufferPanel, TCEFWorkScheduler,
-                                  TCEFServerComponent, TCEFLinkedWindowParent,
-                        				  TCEFUrlRequestClientComponent, TCEFSentinel,
-                                  TCEFMediaObserverComponent]);
+  TempError := CefString(error);
+  PCefMediaRouteCreateCallback(FData)^.on_media_route_create_finished(PCefMediaRouteCreateCallback(FData),
+                                                                      result,
+                                                                      @TempError,
+                                                                      CefGetData(route));
+end;
+
+class function TCefMediaRouteCreateCallbackRef.UnWrap(data: Pointer): ICefMediaRouteCreateCallback;
+begin
+  if (data <> nil) then
+    Result := Create(data) as ICefMediaRouteCreateCallback
+   else
+    Result := nil;
 end;
 
 end.

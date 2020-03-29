@@ -92,7 +92,6 @@ type
     procedure Panel1PointerDown(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
     procedure Panel1PointerUp(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
     procedure Panel1PointerUpdate(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
-    procedure Panel1WrongSize(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -182,8 +181,45 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFApplication;
 
+// Chromium renders the web contents asynchronously. It uses multiple processes
+// and threads which makes it complicated to keep the correct browser size.
+
+// In one hand you have the main application thread where the form is resized by
+// the user. On the other hand, Chromium renders the contents asynchronously
+// with the last browser size available, which may have changed by the time
+// Chromium renders the page.
+
+// For this reason we need to keep checking the real size and call
+// TChromium.WasResized when we detect that Chromium has an incorrect size.
+
+// TChromium.WasResized triggers the TChromium.OnGetViewRect event to let CEF
+// read the current browser size and then it triggers TChromium.OnPaint when the
+// contents are finally rendered.
+
+// TChromium.WasResized --> (time passes) --> TChromium.OnGetViewRect --> (time passes) --> TChromium.OnPaint
+
+// You have to assume that the real browser size can change between those calls
+// and events.
+
+// This demo uses a couple of fields called "FResizing" and "FPendingResize" to
+// reduce the number of TChromium.WasResized calls.
+
+// FResizing is set to True before the TChromium.WasResized call and it's set to
+// False at the end of the TChromium.OnPaint event.
+
+// FPendingResize is set to True when the browser changed its size while
+// FResizing was True. The FPendingResize value is checked at the end of
+// TChromium.OnPaint to check the browser size again because it changed while
+// Chromium was rendering the page.
+
+// The TChromium.OnPaint event in the demo also calls
+// TBufferPanel.UpdateBufferDimensions and TBufferPanel.BufferIsResized to check
+// the width and height of the buffer parameter, and the internal buffer size in
+// the TBufferPanel component.
+
 // This is the destruction sequence in OSR mode :
-// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and calls chrmosr.CloseBrowser(True).
+// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and
+//    calls chrmosr.CloseBrowser(True).
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
 //    set "Result" to false and CEF will destroy the internal browser immediately.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
@@ -1110,11 +1146,6 @@ end;
 {$ENDIF}
 
 procedure TForm1.Panel1Resize(Sender: TObject);
-begin
-  DoResize;
-end;
-
-procedure TForm1.Panel1WrongSize(Sender: TObject);
 begin
   DoResize;
 end;

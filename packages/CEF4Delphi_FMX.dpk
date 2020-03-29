@@ -180,7 +180,16 @@ contains
   uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas',
   uCEFSentinel in '..\source\uCEFSentinel.pas',
   uCEFApplicationCore in '..\source\uCEFApplicationCore.pas',
-  uCEFOAuth2Helper in '..\source\uCEFOAuth2Helper.pas';
+  uCEFOAuth2Helper in '..\source\uCEFOAuth2Helper.pas',
+  uCEFMediaSource in '..\source\uCEFMediaSource.pas',
+  uCEFMediaSink in '..\source\uCEFMediaSink.pas',
+  uCEFMediaRouteCreateCallback in '..\source\uCEFMediaRouteCreateCallback.pas',
+  uCEFMediaRoute in '..\source\uCEFMediaRoute.pas',
+  uCEFMediaObserver in '..\source\uCEFMediaObserver.pas',
+  uCEFMediaRouter in '..\source\uCEFMediaRouter.pas',
+  uCEFRegistration in '..\source\uCEFRegistration.pas',
+  uCEFMediaObserverComponent in '..\source\uCEFMediaObserverComponent.pas',
+  uCEFMediaObserverEvents in '..\source\uCEFMediaObserverEvents.pas';
 
 end.
 

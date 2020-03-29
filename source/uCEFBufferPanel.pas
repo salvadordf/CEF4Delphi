@@ -75,7 +75,6 @@ type
       FScanlineSize           : integer;
       FTransparent            : boolean;
       FOnPaintParentBkg       : TNotifyEvent;
-      FOnWrongSize            : TNotifyEvent;
       {$IFDEF MSWINDOWS}
       FIMEHandler             : TCEFOSRIMEHandler;
       FOnIMECancelComposition : TNotifyEvent;
@@ -151,7 +150,6 @@ type
       property OnPointerUpdate           : TOnHandledMessageEvent    read FOnPointerUpdate           write FOnPointerUpdate;
       {$ENDIF}
       property OnPaintParentBkg          : TNotifyEvent              read FOnPaintParentBkg          write FOnPaintParentBkg;
-      property OnWrongSize               : TNotifyEvent              read FOnWrongSize               write FOnWrongSize;
 
       property Transparent               : boolean                   read FTransparent               write SetTransparent     default False;
 
@@ -262,7 +260,6 @@ begin
   FBuffer           := nil;
   FTransparent      := False;
   FOnPaintParentBkg := nil;
-  FOnWrongSize      := nil;
 
   {$IFDEF MSWINDOWS}
   FIMEHandler             := nil;
@@ -399,10 +396,8 @@ var
   {$IFDEF MSWINDOWS}
   TempFunction  : TBlendFunction;
   {$ENDIF}
-  TempWrongSize : boolean;
 begin
-  Result        := False;
-  TempWrongSize := False;
+  Result := False;
 
   {$IFDEF MSWINDOWS}
   if BeginBufferDraw then
@@ -430,15 +425,11 @@ begin
             Result := BitBlt(Canvas.Handle, 0, 0, Width, Height,
                              FBuffer.Canvas.Handle, 0, 0,
                              SrcCopy);
-
-          TempWrongSize := (Width <> FBuffer.Width) or (Height <> FBuffer.Height);
         end;
     finally
       EndBufferDraw;
     end;
   {$ENDIF}
-
-  if TempWrongSize and assigned(FOnWrongSize) then FOnWrongSize(self);
 end;
 
 procedure TBufferPanel.Paint;

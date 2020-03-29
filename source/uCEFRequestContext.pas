@@ -83,6 +83,7 @@ type
       function  HasExtension(const extension_id: ustring): boolean;
       function  GetExtensions(const extension_ids: TStringList): boolean;
       function  GetExtension(const extension_id: ustring): ICefExtension;
+      function  GetMediaRouter: ICefMediaRouter;
 
     public
       class function UnWrap(data: Pointer): ICefRequestContext;
@@ -111,7 +112,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFValue, uCEFDictionaryValue, uCEFCookieManager,
-  uCEFRequestContextHandler, uCEFExtension, uCEFStringList;
+  uCEFRequestContextHandler, uCEFExtension, uCEFStringList, uCEFMediaRouter;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin
@@ -305,6 +306,11 @@ var
 begin
   TempID := CefString(extension_id);
   Result := TCefExtensionRef.UnWrap(PCefRequestContext(FData)^.get_extension(PCefRequestContext(FData), @TempID));
+end;
+
+function TCefRequestContextRef.GetMediaRouter: ICefMediaRouter;
+begin
+  Result := TCefMediaRouterRef.UnWrap(PCefRequestContext(FData)^.get_media_router(PCefRequestContext(FData)));
 end;
 
 function TCefRequestContextRef.RegisterSchemeHandlerFactory(const schemeName : ustring;

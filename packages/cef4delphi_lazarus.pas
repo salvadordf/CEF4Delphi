@@ -50,7 +50,10 @@ uses
   uCEFUrlRequestClientComponent, uCEFOSRIMEHandler, uCEFCookieAccessFilter, 
   uCEFResourceReadCallback, uCEFResourceRequestHandler, 
   uCEFResourceSkipCallback, uCEFSentinel, uCEFApplicationCore, 
-  uCEFOAuth2Helper, LazarusPackageIntf;
+  uCEFOAuth2Helper, uCEFMediaObserver, uCEFMediaObserverComponent, 
+  uCEFMediaObserverEvents, uCEFMediaRoute, uCEFMediaRouteCreateCallback, 
+  uCEFMediaRouter, uCEFMediaSink, uCEFMediaSource, uCEFRegistration, 
+  LazarusPackageIntf;
 
 implementation
 
@@ -66,6 +69,8 @@ begin
   RegisterUnit('uCEFUrlRequestClientComponent', 
     @uCEFUrlRequestClientComponent.Register);
   RegisterUnit('uCEFSentinel', @uCEFSentinel.Register);
+  RegisterUnit('uCEFMediaObserverComponent', 
+    @uCEFMediaObserverComponent.Register);
 end;
 
 initialization

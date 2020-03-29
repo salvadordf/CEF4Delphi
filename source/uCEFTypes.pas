@@ -234,6 +234,15 @@ type
   PCefWindow = ^TCefWindow;
   PCefWindowDelegate = ^TCefWindowDelegate;
   PCefBoxLayoutSettings = ^TCefBoxLayoutSettings;
+  PCefRegistration = ^TCefRegistration;
+  PCefMediaRouter = ^TCefMediaRouter;
+  PCefMediaRoute = ^TCefMediaRoute;
+  PPCefMediaRoute = ^PCefMediaRoute;
+  PCefMediaRouteCreateCallback = ^TCefMediaRouteCreateCallback;
+  PCefMediaObserver = ^TCefMediaObserver;
+  PCefMediaSink = ^TCefMediaSink;
+  PPCefMediaSink = ^PCefMediaSink;
+  PCefMediaSource = ^TCefMediaSource;
 
   {$IFDEF LINUX}
   PXEvent   = Pointer;
@@ -286,6 +295,7 @@ type
   TCefFileDialogMode               = Cardinal;    // /include/internal/cef_types.h (cef_file_dialog_mode_t)
   TCefDuplexMode                   = Integer;     // /include/internal/cef_types.h (cef_duplex_mode_t)
   TCefSchemeOptions                = Integer;     // /include/internal/cef_types.h (cef_scheme_options_t)
+  TCefMediaRouterCreateResult      = Integer;     // /include/internal/cef_types.h (cef_media_route_create_result_t)
 
 
 {$IFDEF FPC}
@@ -539,6 +549,15 @@ type
     VTYPE_BINARY,
     VTYPE_DICTIONARY,
     VTYPE_LIST
+  );
+
+  // /include/internal/cef_types.h (cef_media_route_connection_state_t)
+  TCefMediaRouteConnectionState = (
+    CEF_MRCS_UNKNOWN,
+    CEF_MRCS_CONNECTING,
+    CEF_MRCS_CONNECTED,
+    CEF_MRCS_CLOSED,
+    CEF_MRCS_TERMINATED
   );
 
   // /include/internal/cef_types.h (cef_referrer_policy_t)
@@ -1452,6 +1471,67 @@ type
     on_before_close   : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
   end;
 
+  // /include/capi/cef_registration_capi.h (cef_registration_t)
+  TCefRegistration = record
+    base  : TCefBaseRefCounted;
+  end;
+
+  // /include/capi/cef_media_router_capi.h (cef_media_router_t)
+  TCefMediaRouter = record
+    base                  : TCefBaseRefCounted;
+    add_observer          : function(self: PCefMediaRouter; observer: PCefMediaObserver): PCefRegistration; stdcall;
+    get_source            : function(self: PCefMediaRouter; const urn: PCefString): PCefMediaSource; stdcall;
+    notify_current_sinks  : procedure(self: PCefMediaRouter); stdcall;
+    create_route          : procedure(self: PCefMediaRouter; source: PCefMediaSource; sink: PCefMediaSink; callback: PCefMediaRouteCreateCallback); stdcall;
+    notify_current_routes : procedure(self: PCefMediaRouter); stdcall;
+  end;
+
+  // /include/capi/cef_media_router_capi.h (cef_media_observer_t)
+  TCefMediaObserver = record
+    base                      : TCefBaseRefCounted;
+    on_sinks                  : procedure(self: PCefMediaObserver; sinksCount: NativeUInt; const sinks: PPCefMediaSink); stdcall;
+    on_routes                 : procedure(self: PCefMediaObserver; routesCount: NativeUInt; const routes: PPCefMediaRoute); stdcall;
+    on_route_state_changed    : procedure(self: PCefMediaObserver; route: PCefMediaRoute; state: TCefMediaRouteConnectionState); stdcall;
+    on_route_message_received : procedure(self: PCefMediaObserver; route: PCefMediaRoute; const message_: Pointer; message_size: NativeUInt); stdcall;
+  end;
+
+  // /include/capi/cef_media_router_capi.h (cef_media_route_t)
+  TCefMediaRoute = record
+    base                  : TCefBaseRefCounted;
+    get_id                : function(self: PCefMediaRoute): PCefStringUserFree; stdcall;
+    get_source            : function(self: PCefMediaRoute): PCefMediaSource; stdcall;
+    get_sink              : function(self: PCefMediaRoute): PCefMediaSink; stdcall;
+    send_route_message    : procedure(self: PCefMediaRoute; const message_: Pointer; message_size: NativeUInt); stdcall;
+    terminate             : procedure(self: PCefMediaRoute); stdcall;
+  end;
+
+  // /include/capi/cef_media_router_capi.h (cef_media_route_create_callback_t)
+  TCefMediaRouteCreateCallback = record
+    base                           : TCefBaseRefCounted;
+    on_media_route_create_finished : procedure(self: PCefMediaRouteCreateCallback; result: TCefMediaRouterCreateResult; const error: PCefString; route: PCefMediaRoute); stdcall;
+  end;
+
+  // /include/capi/cef_media_router_capi.h (cef_media_sink_t)
+  TCefMediaSink = record
+    base                  : TCefBaseRefCounted;
+    get_id                : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
+    is_valid              : function(self: PCefMediaSink): Integer; stdcall;
+    get_name              : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
+    get_description       : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
+    is_cast_sink          : function(self: PCefMediaSink): Integer; stdcall;
+    is_dial_sink          : function(self: PCefMediaSink): Integer; stdcall;
+    is_compatible_with    : function(self: PCefMediaSink; source: PCefMediaSource): Integer; stdcall;
+  end;
+
+  // /include/capi/cef_media_router_capi.h (cef_media_source_t)
+  TCefMediaSource = record
+    base                  : TCefBaseRefCounted;
+    get_id                : function(self: PCefMediaSource): PCefStringUserFree; stdcall;
+    is_valid              : function(self: PCefMediaSource): Integer; stdcall;
+    is_cast_source        : function(self: PCefMediaSource): Integer; stdcall;
+    is_dial_source        : function(self: PCefMediaSource): Integer; stdcall;
+  end;
+
   // /include/capi/cef_extension_handler_capi.h (cef_get_extension_resource_callback_t)
   TCefGetExtensionResourceCallback = record
     base   : TCefBaseRefCounted;
@@ -1873,6 +1953,7 @@ type
     has_extension                   : function(self: PCefRequestContext; const extension_id: PCefString): Integer; stdcall;
     get_extensions                  : function(self: PCefRequestContext; extension_ids: TCefStringList): Integer; stdcall;
     get_extension                   : function(self: PCefRequestContext; const extension_id: PCefString): PCefExtension; stdcall;
+    get_media_router                : function(self: PCefRequestContext): PCefMediaRouter; stdcall;
   end;
 
   // /include/capi/cef_request_context_handler_capi.h (cef_request_context_handler_t)

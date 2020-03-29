@@ -59,7 +59,7 @@ type
 
       function    GetParentForm : TCustomForm;
 
-      function    PostFormMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+      function    PostFormMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
 
       procedure   BrowserFrame_OnBrowserDestroyed(Sender: TObject);
       procedure   BrowserFrame_OnBrowserTitleChange(Sender: TObject; const aTitle : string);
@@ -71,6 +71,8 @@ type
       procedure   NotifyMoveOrResizeStarted;
       procedure   CreateBrowser(const aHomepage : string);
       procedure   CloseBrowser;
+      procedure   ShowBrowser;
+      procedure   HideBrowser;
 
       property    TabID      : cardinal   read FTabID;
   end;
@@ -104,14 +106,14 @@ begin
     Result := nil;
 end;
 
-function TBrowserTab.PostFormMessage(aMsg, wParam : cardinal; lParam : integer) : boolean;
+function TBrowserTab.PostFormMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 var
   TempForm : TCustomForm;
 begin
   TempForm := ParentForm;
   Result   := (TempForm <> nil) and
               TempForm.HandleAllocated and
-              PostMessage(TempForm.Handle, aMsg, wParam, lParam);
+              PostMessage(TempForm.Handle, aMsg, aWParam, aLParam);
 end;
 
 procedure TBrowserTab.NotifyMoveOrResizeStarted;
@@ -135,6 +137,16 @@ end;
 procedure TBrowserTab.CloseBrowser;
 begin
   if (FBrowserFrame <> nil) then FBrowserFrame.CloseBrowser;
+end;
+
+procedure TBrowserTab.ShowBrowser;
+begin
+  if (FBrowserFrame <> nil) then FBrowserFrame.ShowBrowser;
+end;
+
+procedure TBrowserTab.HideBrowser;
+begin
+  if (FBrowserFrame <> nil) then FBrowserFrame.HideBrowser;
 end;
 
 procedure TBrowserTab.BrowserFrame_OnBrowserDestroyed(Sender: TObject);

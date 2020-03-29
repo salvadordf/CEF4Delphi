@@ -109,7 +109,7 @@ type
 
     property  NextTabID : cardinal   read GetNextTabID;
   public
-    function  PostCustomMessage(aMessage : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+    function  PostCustomMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
     procedure NotifyMoveOrResizeStarted;
     procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
   end;
@@ -452,7 +452,7 @@ begin
     end;
 end;
 
-function TMainForm.PostCustomMessage(aMessage, wParam : cardinal; lParam : integer) : boolean;
+function TMainForm.PostCustomMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 {$IFDEF MSWINDOWS}
 var
   TempHWND : HWND;
@@ -460,7 +460,7 @@ var
 begin
   {$IFDEF MSWINDOWS}
   TempHWND := FmxHandleToHWND(Handle);
-  Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMessage, wParam, lParam);
+  Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMsg, aWParam, aLParam);
   {$ELSE}
   Result   := False;
   {$ENDIF}

@@ -4,12 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="27">
+    <Units Count="28">
       <Unit0>
         <Filename Value="SimpleOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="34"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="30"/>
         <CursorPos X="77" Y="11"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -37,9 +38,8 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="359"/>
-        <CursorPos X="23" Y="375"/>
+        <TopLine Value="43"/>
+        <CursorPos X="93" Y="376"/>
         <UsageCount Value="42"/>
         <Bookmarks Count="1">
           <Item0 X="40" Y="262" ID="4"/>
@@ -228,8 +228,16 @@
         <CursorPos X="67" Y="17"/>
         <UsageCount Value="10"/>
       </Unit26>
+      <Unit27>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="417"/>
+        <CursorPos X="10" Y="400"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit27>
     </Units>
-    <JumpHistory Count="17" HistoryIndex="16">
+    <JumpHistory Count="20" HistoryIndex="19">
       <Position1>
         <Filename Value="usimplelazosrbrowser.pas"/>
         <Caret Line="204" Column="63" TopLine="19"/>
@@ -298,6 +306,18 @@
         <Filename Value="usimplelazosrbrowser.pas"/>
         <Caret Line="91" Column="15" TopLine="85"/>
       </Position17>
+      <Position18>
+        <Filename Value="usimplelazosrbrowser.pas"/>
+        <Caret Line="376" Column="93" TopLine="43"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <Caret Line="154" Column="57" TopLine="135"/>
+      </Position19>
+      <Position20>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <Caret Line="263" TopLine="269"/>
+      </Position20>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

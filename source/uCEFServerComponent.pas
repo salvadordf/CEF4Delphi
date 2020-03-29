@@ -320,10 +320,10 @@ begin
   Result := Initialized and FServer.IsValidConnection(connection_id);
 end;
 
-procedure TCEFServerComponent.SendHttp200response(connection_id : Integer;
-                                                  const content_type : ustring;
-                                                  const data         : Pointer;
-                                                        data_size    : NativeUInt);
+procedure TCEFServerComponent.SendHttp200response(      connection_id : Integer;
+                                                  const content_type  : ustring;
+                                                  const data          : Pointer;
+                                                        data_size     : NativeUInt);
 begin
   if Initialized then FServer.SendHttp200response(connection_id, content_type, data, data_size);
 end;
@@ -338,8 +338,8 @@ begin
   if Initialized then FServer.SendHttp500response(connection_id, error_message);
 end;
 
-procedure TCEFServerComponent.SendHttpResponse(connection_id : Integer;
-                                               response_code : Integer;
+procedure TCEFServerComponent.SendHttpResponse(      connection_id  : Integer;
+                                                     response_code  : Integer;
                                                const content_type   : ustring;
                                                      content_length : int64;
                                                const extra_headers  : ICefStringMultimap);

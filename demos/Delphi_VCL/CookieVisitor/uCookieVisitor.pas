@@ -335,7 +335,7 @@ end;
 procedure TCookieVisitorFrm.Chromium1CookieSet(Sender: TObject;
   aSuccess: Boolean; aID: Integer);
 begin
-  PostMessage(Handle, MINIBROWSER_COOKIESET, ord(aSuccess), aID);
+  PostMessage(Handle, MINIBROWSER_COOKIESET, WPARAM(aSuccess), aID);
 end;
 
 procedure TCookieVisitorFrm.Chromium1CookiesVisited(Sender: TObject;

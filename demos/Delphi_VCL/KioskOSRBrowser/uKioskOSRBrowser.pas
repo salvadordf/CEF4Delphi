@@ -89,7 +89,6 @@ type
     procedure Panel1PointerDown(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
     procedure Panel1PointerUp(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
     procedure Panel1PointerUpdate(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
-    procedure Panel1WrongSize(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -935,11 +934,6 @@ begin
 end;
 
 procedure TForm1.Panel1Resize(Sender: TObject);
-begin
-  DoResize;
-end;
-
-procedure TForm1.Panel1WrongSize(Sender: TObject);
 begin
   DoResize;
 end;

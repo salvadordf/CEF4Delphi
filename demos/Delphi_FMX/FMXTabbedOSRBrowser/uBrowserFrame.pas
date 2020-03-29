@@ -75,7 +75,6 @@ type
       procedure FMXBufferPanel1Enter(Sender: TObject);
       procedure FMXBufferPanel1Exit(Sender: TObject);
       procedure FMXBufferPanel1Resize(Sender: TObject);
-      procedure FMXBufferPanel1WrongSize(Sender: TObject);
       procedure FMXBufferPanel1Click(Sender: TObject);
       procedure FMXBufferPanel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
       procedure FMXBufferPanel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
@@ -514,11 +513,6 @@ begin
 end;
 
 procedure TBrowserFrame.FMXBufferPanel1Resize(Sender: TObject);
-begin
-  DoResize;
-end;
-
-procedure TBrowserFrame.FMXBufferPanel1WrongSize(Sender: TObject);
 begin
   DoResize;
 end;

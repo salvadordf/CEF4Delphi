@@ -102,7 +102,7 @@ type
     procedure ResizeChild;
     procedure CreateFMXWindowParent;
     function  GetFMXWindowParentRect : System.Types.TRect;
-    function  PostCustomMessage(aMessage : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+    function  PostCustomMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
 
     {$IFDEF MSWINDOWS}
     function  GetCurrentWindowState : TWindowState;
@@ -235,7 +235,7 @@ begin
     end;
 end;
 
-function TSimpleFMXBrowserFrm.PostCustomMessage(aMessage, wParam : cardinal; lParam : integer) : boolean;
+function TSimpleFMXBrowserFrm.PostCustomMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 {$IFDEF MSWINDOWS}
 var
   TempHWND : HWND;
@@ -243,7 +243,7 @@ var
 begin
   {$IFDEF MSWINDOWS}
   TempHWND := FmxHandleToHWND(Handle);
-  Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMessage, wParam, lParam);
+  Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMsg, aWParam, aLParam);
   {$ELSE}
   Result   := False;
   {$ENDIF}

@@ -270,6 +270,15 @@
         <DCCReference Include="..\source\uCEFSentinel.pas"/>
         <DCCReference Include="..\source\uCEFApplicationCore.pas"/>
         <DCCReference Include="..\source\uCEFOAuth2Helper.pas"/>
+        <DCCReference Include="..\source\uCEFMediaObserver.pas"/>
+        <DCCReference Include="..\source\uCEFMediaRoute.pas"/>
+        <DCCReference Include="..\source\uCEFMediaRouteCreateCallback.pas"/>
+        <DCCReference Include="..\source\uCEFMediaRouter.pas"/>
+        <DCCReference Include="..\source\uCEFMediaSink.pas"/>
+        <DCCReference Include="..\source\uCEFMediaSource.pas"/>
+        <DCCReference Include="..\source\uCEFRegistration.pas"/>
+        <DCCReference Include="..\source\uCEFMediaObserverComponent.pas"/>
+        <DCCReference Include="..\source\uCEFMediaObserverEvents.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

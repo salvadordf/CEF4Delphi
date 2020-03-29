@@ -103,6 +103,8 @@ type
       procedure   NotifyMoveOrResizeStarted;
       procedure   CreateBrowser;
       procedure   CloseBrowser;
+      procedure   ShowBrowser;
+      procedure   HideBrowser;
 
       property    Closing              : boolean             read FClosing;
       property    Homepage             : string              read FHomepage              write FHomepage;
@@ -153,6 +155,20 @@ begin
       NavControlPnl.Enabled := False;
       Chromium1.CloseBrowser(True);
     end;
+end;
+
+procedure TBrowserFrame.ShowBrowser;
+begin
+  Chromium1.WasHidden(False);
+  Chromium1.SendFocusEvent(True);
+  Chromium1.AudioMuted := False;
+end;
+
+procedure TBrowserFrame.HideBrowser;
+begin
+  Chromium1.SendFocusEvent(False);
+  Chromium1.WasHidden(True);
+  Chromium1.AudioMuted := True;
 end;
 
 procedure TBrowserFrame.ForwardBtnClick(Sender: TObject);

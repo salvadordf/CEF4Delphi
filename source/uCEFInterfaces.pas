@@ -143,12 +143,21 @@ type
   ICefMenuButton = interface;
   ICefUrlRequest = interface;
   ICefPostDataElement = interface;
+  ICefRegistration = interface;
+  ICefMediaRouter = interface;
+  ICefMediaObserver = interface;
+  ICefMediaRoute = interface;
+  ICefMediaRouteCreateCallback = interface;
+  ICefMediaSink = interface;
+  ICefMediaSource = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
   TCefBinaryValueArray     = array of ICefBinaryValue;
   TCefFrameIdentifierArray = array of int64;
   TCefPostDataElementArray = array of ICefPostDataElement;
+  TCefMediaRouteArray      = array of ICefMediaRoute;
+  TCefMediaSinkArray       = array of ICefMediaSink;
 
 
 
@@ -1230,6 +1239,91 @@ type
     property  CommandLineString  : ustring   read GetCommandLineString;
   end;
 
+  // TCefRegistration
+  // /include/capi/cef_registration_capi.h (cef_registration_t)
+  ICefRegistration = interface(ICefBaseRefCounted)
+    ['{9226018F-7A56-4F2E-AF01-43268E33EE6B}']
+  end;
+
+  // TCefMediaRouter
+  // /include/capi/cef_media_router_capi.h (cef_media_router_t)
+  ICefMediaRouter = interface(ICefBaseRefCounted)
+    ['{F18C3880-CB8D-48F9-9D74-DCFF4B9E88DF}']
+    function  AddObserver(const observer: ICefMediaObserver): ICefRegistration;
+    function  GetSource(const urn: ustring): ICefMediaSource;
+    procedure NotifyCurrentSinks;
+    procedure CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink; const callback: ICefMediaRouteCreateCallback);
+    procedure NotifyCurrentRoutes;
+  end;
+
+  // TCefMediaObserver
+  // /include/capi/cef_media_router_capi.h (cef_media_observer_t)
+  ICefMediaObserver = interface(ICefBaseRefCounted)
+    ['{0B27C8D1-63E3-4F69-939F-DCAD518654A3}']
+    procedure OnSinks(const sinks: TCefMediaSinkArray);
+    procedure OnRoutes(const routes: TCefMediaRouteArray);
+    procedure OnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
+    procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt);
+  end;
+
+  ICefMediaObserverEvents = interface
+    ['{267D5287-08DB-49D6-AF6E-B27C66C6E5D4}']
+    procedure doOnSinks(const sinks: TCefMediaSinkArray);
+    procedure doOnRoutes(const routes: TCefMediaRouteArray);
+    procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
+    procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt);
+  end;
+
+  // TCefMediaRoute
+  // /include/capi/cef_media_router_capi.h (cef_media_observer_t)
+  ICefMediaRoute = interface(ICefBaseRefCounted)
+    ['{D8959122-DD19-4933-B4D9-DF829062A0D3}']
+    function  GetId: ustring;
+    function  GetSource: ICefMediaSource;
+    function  GetSink: ICefMediaSink;
+    procedure SendRouteMessage(const message_: Pointer; message_size: NativeUInt);
+    procedure Terminate;
+
+    property ID : ustring read GetId;
+  end;
+
+  // TCefMediaRouteCreateCallback
+  // /include/capi/cef_media_router_capi.h (cef_media_route_create_callback_t)
+  ICefMediaRouteCreateCallback = interface(ICefBaseRefCounted)
+    ['{8848CBFE-36AC-4AC8-BC10-386B69FB27BE}']
+    procedure OnMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
+  end;
+
+  // TCefMediaSink
+  // /include/capi/cef_media_router_capi.h (cef_media_sink_t)
+  ICefMediaSink = interface(ICefBaseRefCounted)
+    ['{EDA1A4B2-2A4C-42DD-A7DF-901BF93D908D}']
+    function GetId: ustring;
+    function IsValid: boolean;
+    function GetName: ustring;
+    function GetDescription: ustring;
+    function IsCastSink: boolean;
+    function IsDialSink: boolean;
+    function IsCompatibleWith(const source: ICefMediaSource): boolean;
+
+    property ID          : ustring read GetId;
+    property Name        : ustring read GetName;
+    property Description : ustring read GetDescription;
+  end;
+
+  // TCefMediaSource
+  // /include/capi/cef_media_router_capi.h (cef_media_source_t)
+  ICefMediaSource = interface(ICefBaseRefCounted)
+    ['{734ED6E4-6498-43ED-AAA4-6B993EDC30BE}']
+    function GetId : ustring;
+    function IsValid : boolean;
+    function IsCastSource : boolean;
+    function IsDialSource : boolean;
+
+    property ID : ustring read GetId;
+  end;
+
+
   // TCefResourceBundleHandler
   // /include/capi/cef_resource_bundle_handler_capi.h (cef_resource_bundle_handler_t)
   ICefResourceBundleHandler = interface(ICefBaseRefCounted)
@@ -2027,6 +2121,7 @@ type
     function  HasExtension(const extension_id: ustring): boolean;
     function  GetExtensions(const extension_ids: TStringList): boolean;
     function  GetExtension(const extension_id: ustring): ICefExtension;
+    function  GetMediaRouter: ICefMediaRouter;
 
     property  CachePath        : ustring  read GetCachePath;
     property  IsGlobalContext  : boolean  read IsGlobal;
@@ -2254,6 +2349,8 @@ type
     procedure OnWebSocketConnected(const server: ICefServer; connection_id: Integer);
     procedure OnWebSocketMessage(const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
   end;
+
+
 
 
   // *********************************

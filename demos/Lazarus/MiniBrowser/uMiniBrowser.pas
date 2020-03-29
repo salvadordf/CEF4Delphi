@@ -836,12 +836,12 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
 begin                              
-  PostMessage(Handle, MINIBROWSER_PDFPRINT_END, 0, ord(aResultOK));
+  PostMessage(Handle, MINIBROWSER_PDFPRINT_END, 0, LPARAM(aResultOK));
 end;
 
 procedure TMiniBrowserFrm.Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
 begin            
-  PostMessage(Handle, MINIBROWSER_PREFS_AVLBL, 0, ord(aResultOK));
+  PostMessage(Handle, MINIBROWSER_PREFS_AVLBL, 0, LPARAM(aResultOK));
 end;
 
 procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;

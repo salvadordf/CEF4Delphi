@@ -80,7 +80,6 @@ type
     procedure Panel1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; var Handled: Boolean);
     procedure Panel1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
     procedure Panel1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
-    procedure Panel1WrongSize(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -130,7 +129,7 @@ type
     function  GetMousePosition(var aPoint : TPointF) : boolean;
     procedure InitializeLastClick;
     function  CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
-    function  SendCompMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+    function  SendCompMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
     function  ArePointerEventsSupported : boolean;
     function  HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
     function  HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean; overload;
@@ -523,11 +522,6 @@ begin
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1Resize(Sender: TObject);
-begin
-  DoResize;
-end;
-
-procedure TFMXExternalPumpBrowserFrm.Panel1WrongSize(Sender: TObject);
 begin
   DoResize;
 end;
@@ -1148,7 +1142,7 @@ begin
   {$ENDIF}
 end;
 
-function TFMXExternalPumpBrowserFrm.SendCompMessage(aMsg, wParam : cardinal; lParam : integer) : boolean;
+function TFMXExternalPumpBrowserFrm.SendCompMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 {$IFDEF MSWINDOWS}
 var
   TempHandle : TWinWindowHandle;
@@ -1156,7 +1150,7 @@ var
 begin
   {$IFDEF MSWINDOWS}
   TempHandle := WindowHandleToPlatform(Handle);
-  Result     := WinApi.Windows.PostMessage(TempHandle.Wnd, aMsg, wParam, lParam);
+  Result     := WinApi.Windows.PostMessage(TempHandle.Wnd, aMsg, aWParam, aLParam);
   {$ELSE}
   Result := False;
   {$ENDIF}

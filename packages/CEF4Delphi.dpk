@@ -22,7 +22,7 @@ package CEF4Delphi;
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
-{$IMAGEBASE $54C00000}
+{$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'CEF4Delphi'}
@@ -175,7 +175,16 @@ contains
   uCEFResourceReadCallback in '..\source\uCEFResourceReadCallback.pas',
   uCEFSentinel in '..\source\uCEFSentinel.pas',
   uCEFApplicationCore in '..\source\uCEFApplicationCore.pas',
-  uCEFOAuth2Helper in '..\source\uCEFOAuth2Helper.pas';
+  uCEFOAuth2Helper in '..\source\uCEFOAuth2Helper.pas',
+  uCEFMediaObserver in '..\source\uCEFMediaObserver.pas',
+  uCEFMediaRoute in '..\source\uCEFMediaRoute.pas',
+  uCEFMediaRouteCreateCallback in '..\source\uCEFMediaRouteCreateCallback.pas',
+  uCEFMediaRouter in '..\source\uCEFMediaRouter.pas',
+  uCEFMediaSink in '..\source\uCEFMediaSink.pas',
+  uCEFMediaSource in '..\source\uCEFMediaSource.pas',
+  uCEFRegistration in '..\source\uCEFRegistration.pas',
+  uCEFMediaObserverComponent in '..\source\uCEFMediaObserverComponent.pas',
+  uCEFMediaObserverEvents in '..\source\uCEFMediaObserverEvents.pas';
 
 end.
 

@@ -103,7 +103,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnMouseWheel = Panel1MouseWheel
     OnKeyUp = Panel1KeyUp
     OnKeyDown = Panel1KeyDown
-    OnWrongSize = Panel1WrongSize
   end
   object chrmosr: TFMXChromium
     OnTooltip = chrmosrTooltip

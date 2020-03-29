@@ -526,6 +526,18 @@ const
   DUPLEX_MODE_LONG_EDGE  = 1;
   DUPLEX_MODE_SHORT_EDGE = 2;
 
+  // /include/internal/cef_types.h (cef_media_route_create_result_t)
+  CEF_MRCR_UNKNOWN_ERROR         = 0;
+  CEF_MRCR_OK                    = 1;
+  CEF_MRCR_TIMED_OUT             = 2;
+  CEF_MRCR_ROUTE_NOT_FOUND       = 3;
+  CEF_MRCR_SINK_NOT_FOUND        = 4;
+  CEF_MRCR_INVALID_ORIGIN        = 5;
+  CEF_MRCR_NO_SUPPORTED_PROVIDER = 7;
+  CEF_MRCR_CANCELLED             = 8;
+  CEF_MRCR_ROUTE_ALREADY_EXISTS  = 9;
+  CEF_MRCR_TOTAL_COUNT           = 11;
+
 
 //******************************************************
 //****************** OTHER CONSTANTS *******************

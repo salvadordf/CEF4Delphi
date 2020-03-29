@@ -35,17 +35,18 @@
  *
  *)
 
-unit CEF4Delphi_Register;
+unit uCEFMediaObserverEvents;
 
-{$R res\chromium.dcr}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
-
-procedure Register;
-
-implementation
 
 uses
   {$IFDEF DELPHI16_UP}
@@ -53,17 +54,14 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
-  uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
-  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFMediaObserverComponent;
+  uCEFTypes, uCEFInterfaces;
 
-procedure Register;
-begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
-                                  TBufferPanel, TCEFWorkScheduler,
-                                  TCEFServerComponent, TCEFLinkedWindowParent,
-                        				  TCEFUrlRequestClientComponent, TCEFSentinel,
-                                  TCEFMediaObserverComponent]);
-end;
+type
+  TOnSinksEvent                = procedure(Sender: TObject; const sinks: TCefMediaSinkArray) of object;
+  TOnRoutesEvent               = procedure(Sender: TObject; const routes: TCefMediaRouteArray) of object;
+  TOnRouteStateChangedEvent    = procedure(Sender: TObject; const route: ICefMediaRoute; state: TCefMediaRouteConnectionState) of object;
+  TOnRouteMessageReceivedEvent = procedure(Sender: TObject; const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt) of object;
+
+implementation
 
 end.

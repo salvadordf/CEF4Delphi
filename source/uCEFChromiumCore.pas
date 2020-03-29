@@ -384,7 +384,7 @@ type
 
       {$IFDEF MSWINDOWS}
       procedure PrefsAvailableMsg(aResultOK : boolean);
-      function  SendCompMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+      function  SendCompMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
       procedure ToMouseEvent(grfKeyState : Longint; pt : TPoint; var aMouseEvent : TCefMouseEvent);
       procedure WndProc(var aMessage: TMessage);
       procedure CreateStub(const aMethod : TWndMethod; var aStub : Pointer);
@@ -4143,9 +4143,9 @@ begin
   if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self, aResultOK);
 end;
 
-function TChromiumCore.SendCompMessage(aMsg : cardinal; wParam : cardinal; lParam : integer) : boolean;
+function TChromiumCore.SendCompMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 begin
-  Result := (FCompHandle <> 0) and PostMessage(FCompHandle, aMsg, wParam, lParam);
+  Result := (FCompHandle <> 0) and PostMessage(FCompHandle, aMsg, aWParam, aLParam);
 end;
 {$ENDIF}
 
