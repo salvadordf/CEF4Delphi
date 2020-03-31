@@ -207,6 +207,7 @@ begin
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
+  //GlobalCEFApp.EnableGPU                  := True;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -634,11 +635,27 @@ end;
 procedure TFMXExternalPumpBrowserFrm.chrmosrGetViewRect(      Sender  : TObject;
                                                         const browser : ICefBrowser;
                                                         var   rect    : TCefRect);
+var
+  TempScale : single;
 begin
   rect.x      := 0;
   rect.y      := 0;
   rect.width  := round(Panel1.Width);
   rect.height := round(Panel1.Height);
+
+  // Workaround for CEF4Delphi issue #271 (CEF issue #2833)
+  // https://github.com/salvadordf/CEF4Delphi/issues/271
+  // https://bitbucket.org/chromiumembedded/cef/issues/2833/osr-gpu-consume-cpu-and-may-not-draw
+  if GlobalCEFApp.EnableGPU then
+    begin
+      TempScale := Panel1.ScreenScale;
+
+      if (TempScale <> 1) then
+        begin
+          while (Frac(rect.width  * TempScale) <> 0) do dec(rect.width);
+          while (Frac(rect.height * TempScale) <> 0) do dec(rect.height);
+        end;
+    end;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrPaint(      Sender          : TObject;

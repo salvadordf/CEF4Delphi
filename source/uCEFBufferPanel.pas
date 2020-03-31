@@ -47,8 +47,8 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics, WinApi.Imm,{$ENDIF}
-  System.Classes, System.SyncObjs, System.SysUtils,
+  {$IFDEF MSWINDOWS}Winapi.Windows, Winapi.Messages, Vcl.ExtCtrls, Vcl.Controls, Vcl.Graphics, WinApi.Imm, {$ENDIF}
+  System.Classes, System.SyncObjs, System.SysUtils, Vcl.Forms,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, imm, {$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
@@ -94,6 +94,11 @@ type
       function  GetBufferBits : pointer;
       function  GetBufferWidth : integer;
       function  GetBufferHeight : integer;
+      function  GetScreenScale : single;
+      {$IFDEF MSWINDOWS}
+      function  GetParentFormHandle : TCefWindowHandle;
+      function  GetParentForm : TCustomForm;
+      {$ENDIF}
 
       procedure SetTransparent(aValue : boolean);
 
@@ -130,11 +135,16 @@ type
       procedure   CreateIMEHandler;
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
 
-      property Buffer         : TBitmap            read FBuffer;
-      property ScanlineSize   : integer            read FScanlineSize;
-      property BufferWidth    : integer            read GetBufferWidth;
-      property BufferHeight   : integer            read GetBufferHeight;
-      property BufferBits     : pointer            read GetBufferBits;
+      property Buffer           : TBitmap            read FBuffer;
+      property ScanlineSize     : integer            read FScanlineSize;
+      property BufferWidth      : integer            read GetBufferWidth;
+      property BufferHeight     : integer            read GetBufferHeight;
+      property BufferBits       : pointer            read GetBufferBits;
+      property ScreenScale      : single             read GetScreenScale;
+      {$IFDEF MSWINDOWS}
+      property ParentFormHandle : TCefWindowHandle   read GetParentFormHandle;
+      property ParentForm       : TCustomForm        read GetParentForm;
+      {$ENDIF}
 
       property DockManager;
       property Canvas;
@@ -652,6 +662,64 @@ begin
     Result := 0;
 end;
 
+function TBufferPanel.GetScreenScale : single;
+{$IFDEF MSWINDOWS}
+var
+  TempHandle : TCefWindowHandle;
+  TempDC     : HDC;
+{$ENDIF}
+begin
+  {$IFDEF MSWINDOWS}
+  TempHandle := ParentFormHandle;
+
+  if (TempHandle <> 0) then
+    begin
+      TempDC := GetWindowDC(TempHandle);
+      Result := GetDeviceCaps(TempDC, LOGPIXELSX) / USER_DEFAULT_SCREEN_DPI;
+      ReleaseDC(TempHandle, TempDC);
+    end
+   else
+  {$ENDIF}
+    if (GlobalCEFApp <> nil) then
+      Result := GlobalCEFApp.DeviceScaleFactor
+     else
+      Result := 1;
+end;
+
+{$IFDEF MSWINDOWS}
+function TBufferPanel.GetParentForm : TCustomForm;
+var
+  TempComp : TComponent;
+begin
+  Result   := nil;
+  TempComp := Owner;
+
+  while (TempComp <> nil) do
+    if (TempComp is TCustomForm) then
+      begin
+        Result := TCustomForm(TempComp);
+        exit;
+      end
+     else
+      TempComp := TempComp.owner;
+end;
+
+function TBufferPanel.GetParentFormHandle : TCefWindowHandle;
+var
+  TempForm : TCustomForm;
+begin
+  Result   := 0;
+  TempForm := GetParentForm;
+
+  if (TempForm <> nil)  then
+    Result := TempForm.Handle
+   else
+    if (Application          <> nil) and
+       (Application.MainForm <> nil) then
+      Result := Application.MainForm.Handle;
+end;
+{$ENDIF}
+
 procedure TBufferPanel.SetTransparent(aValue : boolean);
 begin
   if (FTransparent <> aValue) then
@@ -698,13 +766,16 @@ end;
 function TBufferPanel.BufferIsResized(aUseMutex : boolean) : boolean;
 var
   TempDevWidth, TempLogWidth, TempDevHeight, TempLogHeight : integer;
+  TempScale : single;
 begin
   Result := False;
   if (GlobalCEFApp = nil) then exit;
 
   if not(aUseMutex) or BeginBufferDraw then
     begin
-      if (GlobalCEFApp.DeviceScaleFactor = 1) then
+      TempScale := ScreenScale;
+
+      if (TempScale = 1) then
         begin
           Result := (FBuffer <> nil) and
                     (FBuffer.Width  = Width) and
@@ -716,11 +787,20 @@ begin
           // and Delphi uses MulDiv, which uses the bankers rounding, to resize the components in high DPI mode.
           // This is the cause of slight differences in size between the buffer and the panel in some occasions.
 
-          TempLogWidth  := DeviceToLogical(Width,  GlobalCEFApp.DeviceScaleFactor);
-          TempLogHeight := DeviceToLogical(Height, GlobalCEFApp.DeviceScaleFactor);
+          TempLogWidth  := DeviceToLogical(Width,  TempScale);
+          TempLogHeight := DeviceToLogical(Height, TempScale);
 
-          TempDevWidth  := LogicalToDevice(TempLogWidth,  GlobalCEFApp.DeviceScaleFactor);
-          TempDevHeight := LogicalToDevice(TempLogHeight, GlobalCEFApp.DeviceScaleFactor);
+          TempDevWidth  := LogicalToDevice(TempLogWidth,  TempScale);
+          TempDevHeight := LogicalToDevice(TempLogHeight, TempScale);
+
+          // Workaround for CEF4Delphi issue #271 (CEF issue #2833)
+          // https://github.com/salvadordf/CEF4Delphi/issues/271
+          // https://bitbucket.org/chromiumembedded/cef/issues/2833/osr-gpu-consume-cpu-and-may-not-draw
+          if GlobalCEFApp.EnableGPU then
+            begin
+              while (Frac(TempDevWidth  * TempScale) <> 0) do dec(TempDevWidth);
+              while (Frac(TempDevHeight * TempScale) <> 0) do dec(TempDevHeight);
+            end;
 
           Result := (FBuffer <> nil) and
                     (FBuffer.Width  = TempDevWidth) and

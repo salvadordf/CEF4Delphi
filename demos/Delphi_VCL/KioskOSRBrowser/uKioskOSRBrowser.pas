@@ -185,6 +185,7 @@ begin
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.TouchEvents                := STATE_ENABLED;
+  //GlobalCEFApp.EnableGPU                  := True;
 end;
 
 procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
@@ -297,12 +298,12 @@ begin
         end;
 
     WM_MOUSEWHEEL :
-      if Panel1.Focused and (GlobalCEFApp <> nil) then
+      if Panel1.Focused then
         begin
           TempMouseEvent.x         := Msg.lParam and $FFFF;
           TempMouseEvent.y         := Msg.lParam shr 16;
           TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
-          DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
+          DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
           chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, int16(Msg.wParam shr 16));
         end;
   end;
@@ -381,26 +382,23 @@ procedure TForm1.chrmosrGetScreenInfo(      Sender     : TObject;
                                       var   screenInfo : TCefScreenInfo;
                                       out   Result     : Boolean);
 var
-  TempRect : TCEFRect;
+  TempRect  : TCEFRect;
+  TempScale : single;
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      TempRect.x      := 0;
-      TempRect.y      := 0;
-      TempRect.width  := DeviceToLogical(Panel1.Width,  GlobalCEFApp.DeviceScaleFactor);
-      TempRect.height := DeviceToLogical(Panel1.Height, GlobalCEFApp.DeviceScaleFactor);
+  TempScale       := Panel1.ScreenScale;
+  TempRect.x      := 0;
+  TempRect.y      := 0;
+  TempRect.width  := DeviceToLogical(Panel1.Width,  TempScale);
+  TempRect.height := DeviceToLogical(Panel1.Height, TempScale);
 
-      screenInfo.device_scale_factor := GlobalCEFApp.DeviceScaleFactor;
-      screenInfo.depth               := 0;
-      screenInfo.depth_per_component := 0;
-      screenInfo.is_monochrome       := Ord(False);
-      screenInfo.rect                := TempRect;
-      screenInfo.available_rect      := TempRect;
+  screenInfo.device_scale_factor := TempScale;
+  screenInfo.depth               := 0;
+  screenInfo.depth_per_component := 0;
+  screenInfo.is_monochrome       := Ord(False);
+  screenInfo.rect                := TempRect;
+  screenInfo.available_rect      := TempRect;
 
-      Result := True;
-    end
-   else
-    Result := False;
+  Result := True;
 end;
 
 procedure TForm1.chrmosrGetScreenPoint(      Sender  : TObject;
@@ -412,30 +410,36 @@ procedure TForm1.chrmosrGetScreenPoint(      Sender  : TObject;
                                        out   Result  : Boolean);
 var
   TempScreenPt, TempViewPt : TPoint;
+  TempScale : single;
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      TempViewPt.x := LogicalToDevice(viewX, GlobalCEFApp.DeviceScaleFactor);
-      TempViewPt.y := LogicalToDevice(viewY, GlobalCEFApp.DeviceScaleFactor);
-      TempScreenPt := Panel1.ClientToScreen(TempViewPt);
-      screenX      := TempScreenPt.x;
-      screenY      := TempScreenPt.y;
-      Result       := True;
-    end
-   else
-    Result := False;
+  TempScale    := Panel1.ScreenScale;
+  TempViewPt.x := LogicalToDevice(viewX, TempScale);
+  TempViewPt.y := LogicalToDevice(viewY, TempScale);
+  TempScreenPt := Panel1.ClientToScreen(TempViewPt);
+  screenX      := TempScreenPt.x;
+  screenY      := TempScreenPt.y;
+  Result       := True;
 end;
 
 procedure TForm1.chrmosrGetViewRect(      Sender  : TObject;
                                     const browser : ICefBrowser;
                                     var   rect    : TCefRect);
+var
+  TempScale : single;
 begin
-  if (GlobalCEFApp <> nil) then
+  TempScale   := Panel1.ScreenScale;
+  rect.x      := 0;
+  rect.y      := 0;
+  rect.width  := DeviceToLogical(Panel1.Width,  TempScale);
+  rect.height := DeviceToLogical(Panel1.Height, TempScale);
+
+  // Workaround for CEF4Delphi issue #271 (CEF issue #2833)
+  // https://github.com/salvadordf/CEF4Delphi/issues/271
+  // https://bitbucket.org/chromiumembedded/cef/issues/2833/osr-gpu-consume-cpu-and-may-not-draw
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.EnableGPU and (TempScale <> 1) then
     begin
-      rect.x      := 0;
-      rect.y      := 0;
-      rect.width  := DeviceToLogical(Panel1.Width,  GlobalCEFApp.DeviceScaleFactor);
-      rect.height := DeviceToLogical(Panel1.Height, GlobalCEFApp.DeviceScaleFactor);
+      while (Frac(rect.width  * TempScale) <> 0) do dec(rect.width);
+      while (Frac(rect.height * TempScale) <> 0) do dec(rect.height);
     end;
 end;
 
@@ -575,15 +579,12 @@ procedure TForm1.chrmosrPopupSize(      Sender  : TObject;
                                   const browser : ICefBrowser;
                                   const rect    : PCefRect);
 begin
-  if (GlobalCEFApp <> nil) then
-    begin
-      LogicalToDevice(rect^, GlobalCEFApp.DeviceScaleFactor);
+  LogicalToDevice(rect^, Panel1.ScreenScale);
 
-      FPopUpRect.Left   := rect.x;
-      FPopUpRect.Top    := rect.y;
-      FPopUpRect.Right  := rect.x + rect.width  - 1;
-      FPopUpRect.Bottom := rect.y + rect.height - 1;
-    end;
+  FPopUpRect.Left   := rect.x;
+  FPopUpRect.Top    := rect.y;
+  FPopUpRect.Right  := rect.x + rect.width  - 1;
+  FPopUpRect.Bottom := rect.y + rect.height - 1;
 end;
 
 procedure TForm1.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
@@ -764,6 +765,7 @@ var
   TempPoint       : TPoint;
   TempLParam      : LPARAM;
   TempResult      : LRESULT;
+  TempScale       : single;
 begin
   if not(Panel1.Focused) or (GlobalCEFApp = nil) then exit;
 
@@ -798,9 +800,10 @@ begin
                 end;
             end;
 
+          TempScale        := Panel1.ScreenScale;
           TempPoint        := Panel1.ScreenToClient(TempPoint);
-          TempTouchEvent.x := DeviceToLogical(TempPoint.x, GlobalCEFApp.DeviceScaleFactor);
-          TempTouchEvent.y := DeviceToLogical(TempPoint.y, GlobalCEFApp.DeviceScaleFactor);
+          TempTouchEvent.x := DeviceToLogical(TempPoint.x, TempScale);
+          TempTouchEvent.y := DeviceToLogical(TempPoint.y, TempScale);
 
           // Touch point identifier stays consistent in a touch contact sequence
           TempTouchEvent.id := TempTouchInputs[i].dwID;
@@ -833,28 +836,29 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
+  {$IFDEF DELPHI14_UP}
+  if (ssTouch in Shift) then exit;
+  {$ENDIF}
+
+  Panel1.SetFocus;
+
+  if not(CancelPreviousClick(x, y, TempTime)) and (Button = FLastClickButton) then
+    inc(FLastClickCount)
+   else
     begin
-      Panel1.SetFocus;
-
-      if not(CancelPreviousClick(x, y, TempTime)) and (Button = FLastClickButton) then
-        inc(FLastClickCount)
-       else
-        begin
-          FLastClickPoint.x := x;
-          FLastClickPoint.y := y;
-          FLastClickCount   := 1;
-        end;
-
-      FLastClickTime      := TempTime;
-      FLastClickButton    := Button;
-
-      TempEvent.x         := X;
-      TempEvent.y         := Y;
-      TempEvent.modifiers := getModifiers(Shift);
-      DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
+      FLastClickPoint.x := x;
+      FLastClickPoint.y := y;
+      FLastClickCount   := 1;
     end;
+
+  FLastClickTime      := TempTime;
+  FLastClickButton    := Button;
+
+  TempEvent.x         := X;
+  TempEvent.y         := Y;
+  TempEvent.modifiers := getModifiers(Shift);
+  DeviceToLogical(TempEvent, Panel1.ScreenScale);
+  chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
 end;
 
 procedure TForm1.Panel1MouseLeave(Sender: TObject);
@@ -863,19 +867,16 @@ var
   TempPoint : TPoint;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
-    begin
-      GetCursorPos(TempPoint);
-      TempPoint := Panel1.ScreenToclient(TempPoint);
+  GetCursorPos(TempPoint);
+  TempPoint := Panel1.ScreenToclient(TempPoint);
 
-      if CancelPreviousClick(TempPoint.x, TempPoint.y, TempTime) then InitializeLastClick;
+  if CancelPreviousClick(TempPoint.x, TempPoint.y, TempTime) then InitializeLastClick;
 
-      TempEvent.x         := TempPoint.x;
-      TempEvent.y         := TempPoint.y;
-      TempEvent.modifiers := GetCefMouseModifiers;
-      DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseMoveEvent(@TempEvent, True);
-    end;
+  TempEvent.x         := TempPoint.x;
+  TempEvent.y         := TempPoint.y;
+  TempEvent.modifiers := GetCefMouseModifiers;
+  DeviceToLogical(TempEvent, Panel1.ScreenScale);
+  chrmosr.SendMouseMoveEvent(@TempEvent, True);
 end;
 
 procedure TForm1.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -883,30 +884,32 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
-    begin
-      if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
+  {$IFDEF DELPHI14_UP}
+  if (ssTouch in Shift) then exit;
+  {$ENDIF}
 
-      TempEvent.x         := x;
-      TempEvent.y         := y;
-      TempEvent.modifiers := getModifiers(Shift);
-      DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseMoveEvent(@TempEvent, False);
-    end;
+  if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
+
+  TempEvent.x         := x;
+  TempEvent.y         := y;
+  TempEvent.modifiers := getModifiers(Shift);
+  DeviceToLogical(TempEvent, Panel1.ScreenScale);
+  chrmosr.SendMouseMoveEvent(@TempEvent, False);
 end;
 
 procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) and not(ssTouch in Shift) then
-    begin
-      TempEvent.x         := X;
-      TempEvent.y         := Y;
-      TempEvent.modifiers := getModifiers(Shift);
-      DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
-    end;
+  {$IFDEF DELPHI14_UP}
+  if (ssTouch in Shift) then exit;
+  {$ENDIF}
+
+  TempEvent.x         := X;
+  TempEvent.y         := Y;
+  TempEvent.modifiers := getModifiers(Shift);
+  DeviceToLogical(TempEvent, Panel1.ScreenScale);
+  chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
 end;
 
 procedure TForm1.Panel1PointerDown(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);
@@ -1022,6 +1025,7 @@ var
   TempPenInfo    : POINTER_PEN_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPoint      : TPoint;
+  TempScale      : single;
 begin
   Result := False;
 
@@ -1069,9 +1073,10 @@ begin
   if ((TempPenInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
+  TempScale        := Panel1.ScreenScale;
   TempPoint        := Panel1.ScreenToClient(TempPenInfo.pointerInfo.ptPixelLocation);
-  TempTouchEvent.x := DeviceToLogical(TempPoint.x, GlobalCEFApp.DeviceScaleFactor);
-  TempTouchEvent.y := DeviceToLogical(TempPoint.y, GlobalCEFApp.DeviceScaleFactor);
+  TempTouchEvent.x := DeviceToLogical(TempPoint.x, TempScale);
+  TempTouchEvent.y := DeviceToLogical(TempPoint.y, TempScale);
 
   chrmosr.SendTouchEvent(@TempTouchEvent);
 end;
@@ -1081,6 +1086,7 @@ var
   TempTouchInfo  : POINTER_TOUCH_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPoint      : TPoint;
+  TempScale      : single;
 begin
   Result := False;
 
@@ -1116,9 +1122,10 @@ begin
   if ((TempTouchInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
+  TempScale        := Panel1.ScreenScale;
   TempPoint        := Panel1.ScreenToClient(TempTouchInfo.pointerInfo.ptPixelLocation);
-  TempTouchEvent.x := DeviceToLogical(TempPoint.x, GlobalCEFApp.DeviceScaleFactor);
-  TempTouchEvent.y := DeviceToLogical(TempPoint.y, GlobalCEFApp.DeviceScaleFactor);
+  TempTouchEvent.x := DeviceToLogical(TempPoint.x, TempScale);
+  TempTouchEvent.y := DeviceToLogical(TempPoint.y, TempScale);
 
   chrmosr.SendTouchEvent(@TempTouchEvent);
 end;

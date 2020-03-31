@@ -180,6 +180,7 @@ begin
   GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
+  //GlobalCEFApp.EnableGPU                  := True;
 end;
 
 procedure TMainForm.NotifyMoveOrResizeStarted;

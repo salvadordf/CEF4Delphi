@@ -139,7 +139,6 @@ type
       constructor Create(AOwner : TComponent); override;
       destructor  Destroy; override;
 
-      procedure   DoResize;
       procedure   NotifyMoveOrResizeStarted;
       procedure   SendCaptureLostEvent;
       procedure   HandleSYSCHAR(const aMessage : TMsg);
@@ -213,17 +212,12 @@ begin
   FMXChromium1.Reload;
 end;
 
-procedure TBrowserFrame.ResizeBrowser;
-begin
-  DoResize;
-end;
-
 procedure TBrowserFrame.FocusBrowser;
 begin
   FMXBufferPanel1.SetFocus;
 end;
 
-procedure TBrowserFrame.DoResize;
+procedure TBrowserFrame.ResizeBrowser;
 begin
   try
     if (FResizeCS <> nil) then
@@ -514,7 +508,7 @@ end;
 
 procedure TBrowserFrame.FMXBufferPanel1Resize(Sender: TObject);
 begin
-  DoResize;
+  ResizeBrowser;
 end;
 
 procedure TBrowserFrame.FMXChromium1AddressChange(Sender: TObject;
@@ -593,11 +587,27 @@ end;
 
 procedure TBrowserFrame.FMXChromium1GetViewRect(Sender: TObject;
   const browser: ICefBrowser; var rect: TCefRect);
+var
+  TempScale : single;
 begin
   rect.x      := 0;
   rect.y      := 0;
   rect.width  := round(FMXBufferPanel1.Width);
   rect.height := round(FMXBufferPanel1.Height);
+
+  // Workaround for CEF4Delphi issue #271 (CEF issue #2833)
+  // https://github.com/salvadordf/CEF4Delphi/issues/271
+  // https://bitbucket.org/chromiumembedded/cef/issues/2833/osr-gpu-consume-cpu-and-may-not-draw
+  if GlobalCEFApp.EnableGPU then
+    begin
+      TempScale := FMXBufferPanel1.ScreenScale;
+
+      if (TempScale <> 1) then
+        begin
+          while (Frac(rect.width  * TempScale) <> 0) do dec(rect.width);
+          while (Frac(rect.height * TempScale) <> 0) do dec(rect.height);
+        end;
+    end;
 end;
 
 procedure TBrowserFrame.FMXChromium1LoadError(Sender: TObject;
