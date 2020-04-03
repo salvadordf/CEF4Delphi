@@ -4969,10 +4969,8 @@ begin
       OldBrowserCompHWND := FBrowserCompHWND;
       OldWidgetCompHWND  := FWidgetCompHWND;
       OldRenderCompHWND  := FRenderCompHWND;
-      {$ENDIF}
+      FBrowserCompHWND   := browser.Host.WindowHandle;
 
-      FBrowserCompHWND := browser.Host.WindowHandle;
-      {$IFDEF MSWINDOWS}
       if (FBrowserCompHWND <> 0) then
         begin
           FWidgetCompHWND := FindWindowEx(FBrowserCompHWND, 0, 'Chrome_WidgetWin_0', '');
