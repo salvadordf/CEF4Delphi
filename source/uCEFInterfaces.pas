@@ -565,12 +565,12 @@ type
     procedure SetAudioMuted(mute: boolean);
     function  IsAudioMuted : boolean;
 
-    property Browser                : ICefBrowser              read GetBrowser;
-    property WindowHandle           : TCefWindowHandle         read GetWindowHandle;
-    property OpenerWindowHandle     : TCefWindowHandle         read GetOpenerWindowHandle;
-    property ZoomLevel              : Double                   read GetZoomLevel               write SetZoomLevel;
-    property RequestContext         : ICefRequestContext       read GetRequestContext;
-    property VisibleNavigationEntry : ICefNavigationEntry      read GetVisibleNavigationEntry;
+    property Browser                    : ICefBrowser              read GetBrowser;
+    property WindowHandle               : TCefWindowHandle         read GetWindowHandle;
+    property OpenerWindowHandle         : TCefWindowHandle         read GetOpenerWindowHandle;
+    property ZoomLevel                  : Double                   read GetZoomLevel                 write SetZoomLevel;
+    property RequestContext             : ICefRequestContext       read GetRequestContext;
+    property VisibleNavigationEntry     : ICefNavigationEntry      read GetVisibleNavigationEntry;
   end;
 
   // TCefProcessMessage

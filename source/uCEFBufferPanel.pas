@@ -402,10 +402,10 @@ begin
 end;
 
 function TBufferPanel.CopyBuffer : boolean;
+{$IFDEF MSWINDOWS}
 var
-  {$IFDEF MSWINDOWS}
   TempFunction  : TBlendFunction;
-  {$ENDIF}
+{$ENDIF}
 begin
   Result := False;
 

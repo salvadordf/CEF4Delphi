@@ -50,7 +50,8 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX, WinApi.CommCtrl,{$ENDIF} System.Classes, System.SyncObjs,
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX, WinApi.CommCtrl,{$ENDIF}
+  System.Classes, System.SyncObjs, System.Types,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX, CommCtrl,{$ENDIF} Classes,
     {$IFDEF FPC}
@@ -570,6 +571,7 @@ type
       {$IFDEF MSWINDOWS}
       procedure   InitializeDragAndDrop(const aDropTargetWnd : HWND);
       procedure   ShutdownDragAndDrop;
+      function    SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
       {$ENDIF MSWINDOWS}
 
       function    CreateBrowser(aParentHandle : TCefWindowHandle; aParentRect : TRect; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
@@ -611,7 +613,6 @@ type
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameIdentifier : int64; aStartLine : integer = 0); overload;
       procedure   UpdatePreferences;
       procedure   SavePreferences(const aFileName : string);
-      function    SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
       procedure   ResolveHost(const aURL : ustring);
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
       function    ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;
@@ -687,77 +688,77 @@ type
       procedure   IMECancelComposition;
 
 
-      property  DefaultUrl              : ustring                      read FDefaultUrl               write FDefaultUrl;
-      property  Options                 : TChromiumOptions             read FOptions                  write FOptions;
-      property  FontOptions             : TChromiumFontOptions         read FFontOptions              write FFontOptions;
-      property  PDFPrintOptions         : TPDFPrintOptions             read FPDFPrintOptions          write FPDFPrintOptions;
-      property  DefaultEncoding         : ustring                      read FDefaultEncoding          write FDefaultEncoding;
-      property  BrowserId               : integer                      read FBrowserId;
-      property  Browser                 : ICefBrowser                  read FBrowser;
-      property  CefClient               : ICefClient                   read FHandler;
-      property  ReqContextHandler       : ICefRequestContextHandler    read FReqContextHandler;
-      property  ResourceRequestHandler  : ICefResourceRequestHandler   read FResourceRequestHandler;
-      property  CefWindowInfo           : TCefWindowInfo               read FWindowInfo;
-      property  VisibleNavigationEntry  : ICefNavigationEntry          read GetVisibleNavigationEntry;
-      property  MultithreadApp          : boolean                      read GetMultithreadApp;
-      property  IsLoading               : boolean                      read GetIsLoading;
-      property  HasDocument             : boolean                      read GetHasDocument;
-      property  HasView                 : boolean                      read GetHasView;
-      property  HasDevTools             : boolean                      read GetHasDevTools;
-      property  HasClientHandler        : boolean                      read GetHasClientHandler;
-      property  HasBrowser              : boolean                      read GetHasBrowser;
-      property  CanGoBack               : boolean                      read GetCanGoBack;
-      property  CanGoForward            : boolean                      read GetCanGoForward;
-      property  IsPopUp                 : boolean                      read GetIsPopUp;
-      property  WindowHandle            : TCefWindowHandle             read GetWindowHandle;
+      property  DefaultUrl                 : ustring                      read FDefaultUrl                  write FDefaultUrl;
+      property  Options                    : TChromiumOptions             read FOptions                     write FOptions;
+      property  FontOptions                : TChromiumFontOptions         read FFontOptions                 write FFontOptions;
+      property  PDFPrintOptions            : TPDFPrintOptions             read FPDFPrintOptions             write FPDFPrintOptions;
+      property  DefaultEncoding            : ustring                      read FDefaultEncoding             write FDefaultEncoding;
+      property  BrowserId                  : integer                      read FBrowserId;
+      property  Browser                    : ICefBrowser                  read FBrowser;
+      property  CefClient                  : ICefClient                   read FHandler;
+      property  ReqContextHandler          : ICefRequestContextHandler    read FReqContextHandler;
+      property  ResourceRequestHandler     : ICefResourceRequestHandler   read FResourceRequestHandler;
+      property  CefWindowInfo              : TCefWindowInfo               read FWindowInfo;
+      property  VisibleNavigationEntry     : ICefNavigationEntry          read GetVisibleNavigationEntry;
+      property  MultithreadApp             : boolean                      read GetMultithreadApp;
+      property  IsLoading                  : boolean                      read GetIsLoading;
+      property  HasDocument                : boolean                      read GetHasDocument;
+      property  HasView                    : boolean                      read GetHasView;
+      property  HasDevTools                : boolean                      read GetHasDevTools;
+      property  HasClientHandler           : boolean                      read GetHasClientHandler;
+      property  HasBrowser                 : boolean                      read GetHasBrowser;
+      property  CanGoBack                  : boolean                      read GetCanGoBack;
+      property  CanGoForward               : boolean                      read GetCanGoForward;
+      property  IsPopUp                    : boolean                      read GetIsPopUp;
+      property  WindowHandle               : TCefWindowHandle             read GetWindowHandle;
       {$IFDEF MSWINDOWS}
-      property  BrowserHandle           : THandle                      read FBrowserCompHWND;
-      property  WidgetHandle            : THandle                      read FWidgetCompHWND;
-      property  RenderHandle            : THandle                      read FRenderCompHWND;
+      property  BrowserHandle              : THandle                      read FBrowserCompHWND;
+      property  WidgetHandle               : THandle                      read FWidgetCompHWND;
+      property  RenderHandle               : THandle                      read FRenderCompHWND;
       {$ENDIF}
-      property  FrameIsFocused          : boolean                      read GetFrameIsFocused;
-      property  Initialized             : boolean                      read GetInitialized;
-      property  RequestContextCache     : ustring                      read GetRequestContextCache;
-      property  RequestContextIsGlobal  : boolean                      read GetRequestContextIsGlobal;
-      property  DocumentURL             : ustring                      read GetDocumentURL;
-      property  ZoomLevel               : double                       read GetZoomLevel              write SetZoomLevel;
-      property  ZoomPct                 : double                       read GetZoomPct                write SetZoomPct;
-      property  ZoomStep                : byte                         read GetZoomStep               write SetZoomStep;
-      property  WindowlessFrameRate     : integer                      read GetWindowlessFrameRate    write SetWindowlessFrameRate;
-      property  CustomHeaderName        : ustring                      read FCustomHeaderName         write SetCustomHeaderName;
-      property  CustomHeaderValue       : ustring                      read FCustomHeaderValue        write SetCustomHeaderValue;
-      property  DoNotTrack              : boolean                      read FDoNotTrack               write SetDoNotTrack;
-      property  SendReferrer            : boolean                      read FSendReferrer             write SetSendReferrer;
-      property  HyperlinkAuditing       : boolean                      read FHyperlinkAuditing        write SetHyperlinkAuditing;
-      property  RunAllFlashInAllowMode  : boolean                      read FRunAllFlashInAllowMode   write SetRunAllFlashInAllowMode;
-      property  AllowOutdatedPlugins    : boolean                      read FAllowOutdatedPlugins     write SetAllowOutdatedPlugins;
-      property  AlwaysAuthorizePlugins  : boolean                      read FAlwaysAuthorizePlugins   write SetAlwaysAuthorizePlugins;
-      property  SpellChecking           : boolean                      read FSpellChecking            write SetSpellChecking;
-      property  SpellCheckerDicts       : ustring                      read FSpellCheckerDicts        write SetSpellCheckerDicts;
-      property  HasValidMainFrame       : boolean                      read GetHasValidMainFrame;
-      property  FrameCount              : NativeUInt                   read GetFrameCount;
-      property  DragOperations          : TCefDragOperations           read FDragOperations           write FDragOperations;
-      property  AudioMuted              : boolean                      read GetAudioMuted             write SetAudioMuted;
-      property  SafeSearch              : boolean                      read FSafeSearch               write SetSafeSearch;
-      property  YouTubeRestrict         : integer                      read FYouTubeRestrict          write SetYouTubeRestrict;
-      property  PrintingEnabled         : boolean                      read FPrintingEnabled          write SetPrintingEnabled;
-      property  AcceptLanguageList      : ustring                      read FAcceptLanguageList       write SetAcceptLanguageList;
-      property  AcceptCookies           : TCefCookiePref               read FAcceptCookies            write SetAcceptCookies;
-      property  Block3rdPartyCookies    : boolean                      read FBlock3rdPartyCookies     write SetBlock3rdPartyCookies;
+      property  FrameIsFocused             : boolean                      read GetFrameIsFocused;
+      property  Initialized                : boolean                      read GetInitialized;
+      property  RequestContextCache        : ustring                      read GetRequestContextCache;
+      property  RequestContextIsGlobal     : boolean                      read GetRequestContextIsGlobal;
+      property  DocumentURL                : ustring                      read GetDocumentURL;
+      property  ZoomLevel                  : double                       read GetZoomLevel                 write SetZoomLevel;
+      property  ZoomPct                    : double                       read GetZoomPct                   write SetZoomPct;
+      property  ZoomStep                   : byte                         read GetZoomStep                  write SetZoomStep;
+      property  WindowlessFrameRate        : integer                      read GetWindowlessFrameRate       write SetWindowlessFrameRate;
+      property  CustomHeaderName           : ustring                      read FCustomHeaderName            write SetCustomHeaderName;
+      property  CustomHeaderValue          : ustring                      read FCustomHeaderValue           write SetCustomHeaderValue;
+      property  DoNotTrack                 : boolean                      read FDoNotTrack                  write SetDoNotTrack;
+      property  SendReferrer               : boolean                      read FSendReferrer                write SetSendReferrer;
+      property  HyperlinkAuditing          : boolean                      read FHyperlinkAuditing           write SetHyperlinkAuditing;
+      property  RunAllFlashInAllowMode     : boolean                      read FRunAllFlashInAllowMode      write SetRunAllFlashInAllowMode;
+      property  AllowOutdatedPlugins       : boolean                      read FAllowOutdatedPlugins        write SetAllowOutdatedPlugins;
+      property  AlwaysAuthorizePlugins     : boolean                      read FAlwaysAuthorizePlugins      write SetAlwaysAuthorizePlugins;
+      property  SpellChecking              : boolean                      read FSpellChecking               write SetSpellChecking;
+      property  SpellCheckerDicts          : ustring                      read FSpellCheckerDicts           write SetSpellCheckerDicts;
+      property  HasValidMainFrame          : boolean                      read GetHasValidMainFrame;
+      property  FrameCount                 : NativeUInt                   read GetFrameCount;
+      property  DragOperations             : TCefDragOperations           read FDragOperations              write FDragOperations;
+      property  AudioMuted                 : boolean                      read GetAudioMuted                write SetAudioMuted;
+      property  SafeSearch                 : boolean                      read FSafeSearch                  write SetSafeSearch;
+      property  YouTubeRestrict            : integer                      read FYouTubeRestrict             write SetYouTubeRestrict;
+      property  PrintingEnabled            : boolean                      read FPrintingEnabled             write SetPrintingEnabled;
+      property  AcceptLanguageList         : ustring                      read FAcceptLanguageList          write SetAcceptLanguageList;
+      property  AcceptCookies              : TCefCookiePref               read FAcceptCookies               write SetAcceptCookies;
+      property  Block3rdPartyCookies       : boolean                      read FBlock3rdPartyCookies        write SetBlock3rdPartyCookies;
 
-      property  WebRTCIPHandlingPolicy  : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy   write SetWebRTCIPHandlingPolicy;
-      property  WebRTCMultipleRoutes    : TCefState                    read FWebRTCMultipleRoutes     write SetWebRTCMultipleRoutes;
-      property  WebRTCNonproxiedUDP     : TCefState                    read FWebRTCNonProxiedUDP      write SetWebRTCNonProxiedUDP;
+      property  WebRTCIPHandlingPolicy     : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy      write SetWebRTCIPHandlingPolicy;
+      property  WebRTCMultipleRoutes       : TCefState                    read FWebRTCMultipleRoutes        write SetWebRTCMultipleRoutes;
+      property  WebRTCNonproxiedUDP        : TCefState                    read FWebRTCNonProxiedUDP         write SetWebRTCNonProxiedUDP;
 
-      property  ProxyType               : integer                      read FProxyType                write SetProxyType;
-      property  ProxyScheme             : TCefProxyScheme              read FProxyScheme              write SetProxyScheme;
-      property  ProxyServer             : ustring                      read FProxyServer              write SetProxyServer;
-      property  ProxyPort               : integer                      read FProxyPort                write SetProxyPort;
-      property  ProxyUsername           : ustring                      read FProxyUsername            write SetProxyUsername;
-      property  ProxyPassword           : ustring                      read FProxyPassword            write SetProxyPassword;
-      property  ProxyScriptURL          : ustring                      read FProxyScriptURL           write SetProxyScriptURL;
-      property  ProxyByPassList         : ustring                      read FProxyByPassList          write SetProxyByPassList;
-      property  MaxConnectionsPerProxy  : integer                      read FMaxConnectionsPerProxy   write SetMaxConnectionsPerProxy;
+      property  ProxyType                  : integer                      read FProxyType                   write SetProxyType;
+      property  ProxyScheme                : TCefProxyScheme              read FProxyScheme                 write SetProxyScheme;
+      property  ProxyServer                : ustring                      read FProxyServer                 write SetProxyServer;
+      property  ProxyPort                  : integer                      read FProxyPort                   write SetProxyPort;
+      property  ProxyUsername              : ustring                      read FProxyUsername               write SetProxyUsername;
+      property  ProxyPassword              : ustring                      read FProxyPassword               write SetProxyPassword;
+      property  ProxyScriptURL             : ustring                      read FProxyScriptURL              write SetProxyScriptURL;
+      property  ProxyByPassList            : ustring                      read FProxyByPassList             write SetProxyByPassList;
+      property  MaxConnectionsPerProxy     : integer                      read FMaxConnectionsPerProxy      write SetMaxConnectionsPerProxy;
 
     published
       property  OnTextResultAvailable              : TOnTextResultAvailableEvent              read FOnTextResultAvailable              write FOnTextResultAvailable;
@@ -1464,7 +1465,7 @@ begin
          (FBrowserId   =  0)   and
          (GlobalCEFApp <> nil) and
          GlobalCEFApp.GlobalContextInitialized  and
-         CreateClientHandler(aParentHandle = 0) then
+         CreateClientHandler(not(ValidCefWindowHandle(aParentHandle))) then
         begin
           GetSettings(FBrowserSettings);
           InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
@@ -1519,13 +1520,12 @@ procedure TChromiumCore.DefaultInitializeDevToolsWindowInfo(      aDevToolsWnd :
                                                             const aClientRect  : TRect;
                                                             const aWindowName  : ustring);
 begin
+  if (ValidCefWindowHandle(aDevToolsWnd)) then
   {$IFDEF MSWINDOWS}
-  if (aDevToolsWnd <> 0) then
     WindowInfoAsChild(FDevWindowInfo, aDevToolsWnd, aClientRect, aWindowName)
    else
     WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
   {$ELSE}
-  if (aDevToolsWnd <> 0) then
     WindowInfoAsChild(FDevWindowInfo, aDevToolsWnd, aClientRect)
    else
     WindowInfoAsPopUp(FDevWindowInfo, WindowHandle);
@@ -3119,22 +3119,20 @@ begin
     end;
 end;
 
-function TChromiumCore.SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
 {$IFDEF MSWINDOWS}
+function TChromiumCore.SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
 var
   TempHandle : HWND;
-{$ENDIF}
 begin
   Result := False;
 
-  {$IFDEF MSWINDOWS}
   if Initialized then
     begin
       TempHandle := FBrowser.Host.WindowHandle;
       Result     := (TempHandle <> 0) and (SetParent(TempHandle, aNewParentHwnd) <> 0);
     end;
-  {$ENDIF}
 end;
+{$ENDIF}
 
 procedure TChromiumCore.ResolveHost(const aURL : ustring);
 var

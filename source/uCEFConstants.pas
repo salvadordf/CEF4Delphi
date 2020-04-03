@@ -424,8 +424,7 @@ const
   UU_SPACES                                   = 1 shl 1;
   UU_PATH_SEPARATORS                          = 1 shl 2;
   UU_URL_SPECIAL_CHARS_EXCEPT_PATH_SEPARATORS = 1 shl 3;
-  UU_SPOOFING_AND_CONTROL_CHARS               = 1 shl 4;
-  UU_REPLACE_PLUS_WITH_SPACE                  = 1 shl 5;
+  UU_REPLACE_PLUS_WITH_SPACE                  = 1 shl 4;
 
   // /include/internal/cef_types.h (cef_menu_id_t)
   MENU_ID_BACK                       = 100;
@@ -630,9 +629,8 @@ const
   CEF_IMAGE_FILE_MACHINE_I386  = $014C;
   CEF_IMAGE_FILE_MACHINE_AMD64 = $8664;
 
-  {$IFDEF FPC}
   USER_DEFAULT_SCREEN_DPI = 96;
-  {$ENDIF}
+
 implementation
 
 end.

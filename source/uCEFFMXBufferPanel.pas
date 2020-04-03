@@ -377,14 +377,18 @@ begin
 end;
 
 function TFMXBufferPanel.GetScreenScale : Single;
+{$IFDEF MSWINDOWS}
 var
   TempHandle : TCefWindowHandle;
+{$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
     Result := GetWndScale(TempHandle)
    else
+  {$ENDIF}
     if (GlobalCEFApp <> nil) then
       Result := GlobalCEFApp.DeviceScaleFactor
      else

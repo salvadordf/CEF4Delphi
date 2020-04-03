@@ -53,11 +53,12 @@ uses
     {$IFDEF MSWINDOWS}
       WinApi.Windows, WinApi.ActiveX, {$IFDEF FMX}FMX.Types,{$ENDIF}
     {$ELSE}
-      System.Types, {$IFDEF FMX}FMX.Types,{$ENDIF} {$IFDEF MACOS}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
+      {$IFDEF FMX}FMX.Types,{$ENDIF} {$IFDEF MACOS}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
     {$ENDIF}
-    System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
+    System.Types, System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} Classes, SysUtils, Math,
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
+    {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
@@ -295,14 +296,13 @@ function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDi
 function CefGetDataURI(const aString, aMimeType : ustring) : ustring; overload;
 function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustring; const aCharset : ustring = '') : ustring; overload;
 
+function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 
 
 implementation
 
 uses
-  {$IFDEF DELPHI16_UP}
-    System.Types,
-  {$ELSE}
+  {$IFNDEF DELPHI16_UP}
     {$IFDEF DELPHI14_UP}Types,{$ENDIF}
   {$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
@@ -2332,6 +2332,15 @@ begin
   if (length(aCharset) > 0) then Result := Result + ';charset=' + aCharset;
 
   Result := Result + ';base64,' + CefURIEncode(CefBase64Encode(aData, aSize), false);
+end;
+
+function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
+begin
+  {$IFDEF MACOS}
+  Result := (aHandle <> nil);
+  {$ELSE}
+  Result := (aHandle <> 0);
+  {$ENDIF}
 end;
 
 end.
