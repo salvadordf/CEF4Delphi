@@ -302,9 +302,6 @@ function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 implementation
 
 uses
-  {$IFNDEF DELPHI16_UP}
-    {$IFDEF DELPHI14_UP}Types,{$ENDIF}
-  {$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
