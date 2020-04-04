@@ -460,15 +460,6 @@ begin
       TempWidth  := round(Width  * TempScale);
       TempHeight := round(Height * TempScale);
 
-      // Workaround for CEF4Delphi issue #271 (CEF issue #2833)
-      // https://github.com/salvadordf/CEF4Delphi/issues/271
-      // https://bitbucket.org/chromiumembedded/cef/issues/2833/osr-gpu-consume-cpu-and-may-not-draw
-      if GlobalCEFApp.EnableGPU and (TempScale <> 1) then
-        begin
-          while (Frac(TempWidth  * TempScale) <> 0) do dec(TempWidth);
-          while (Frac(TempHeight * TempScale) <> 0) do dec(TempHeight);
-        end;
-
       Result := (FBuffer <> nil) and
                 (FBuffer.BitmapScale = TempScale) and
                 (FBuffer.Width       = TempWidth) and

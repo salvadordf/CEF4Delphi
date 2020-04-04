@@ -366,15 +366,6 @@ begin
   rect.y      := 0;
   rect.width  := DeviceToLogical(Panel1.Width,  TempScale);
   rect.height := DeviceToLogical(Panel1.Height, TempScale);
-
-  // Workaround for CEF4Delphi issue #271 (CEF issue #2833)
-  // https://github.com/salvadordf/CEF4Delphi/issues/271
-  // https://bitbucket.org/chromiumembedded/cef/issues/2833/osr-gpu-consume-cpu-and-may-not-draw
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.EnableGPU and (TempScale <> 1) then
-    begin
-      while (Frac(rect.width  * TempScale) <> 0) do dec(rect.width);
-      while (Frac(rect.height * TempScale) <> 0) do dec(rect.height);
-    end;
 end;
 
 procedure TWebBrowserFrm.chrmosrPaint(      Sender          : TObject;

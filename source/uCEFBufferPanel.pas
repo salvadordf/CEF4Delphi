@@ -793,15 +793,6 @@ begin
           TempDevWidth  := LogicalToDevice(TempLogWidth,  TempScale);
           TempDevHeight := LogicalToDevice(TempLogHeight, TempScale);
 
-          // Workaround for CEF4Delphi issue #271 (CEF issue #2833)
-          // https://github.com/salvadordf/CEF4Delphi/issues/271
-          // https://bitbucket.org/chromiumembedded/cef/issues/2833/osr-gpu-consume-cpu-and-may-not-draw
-          if GlobalCEFApp.EnableGPU then
-            begin
-              while (Frac(TempDevWidth  * TempScale) <> 0) do dec(TempDevWidth);
-              while (Frac(TempDevHeight * TempScale) <> 0) do dec(TempDevHeight);
-            end;
-
           Result := (FBuffer <> nil) and
                     (FBuffer.Width  = TempDevWidth) and
                     (FBuffer.Height = TempDevHeight);
