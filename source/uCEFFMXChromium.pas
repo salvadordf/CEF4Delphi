@@ -58,7 +58,9 @@ type
     protected
       function  GetParentFormHandle : TCefWindowHandle; override;
       function  GetParentForm : TCustomForm;
+      function  GetScreenScale : Single;
       procedure InitializeDevToolsWindowInfo; virtual;
+
     public
       procedure ShowDevTools(inspectElementAt: TPoint);
       procedure CloseDevTools;
@@ -73,6 +75,8 @@ type
       function  CreateBrowser(const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
       function  SaveAsBitmapStream(var aStream : TStream; const aRect : System.Types.TRect) : boolean;
       function  TakeSnapshot(var aBitmap : TBitmap; const aRect : System.Types.TRect) : boolean;
+
+      property  ScreenScale    : single             read GetScreenScale;
   end;
 
 // *********************************************************
@@ -105,7 +109,9 @@ type
 implementation
 
 uses
-  System.SysUtils, System.Math;
+  {$IFDEF MSWINDOWS}FMX.Helpers.Win,{$ENDIF}
+  System.SysUtils, System.Math,
+  uCEFApplicationCore;
 
 function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
                                     const aContext     : ICefRequestContext;
@@ -148,6 +154,25 @@ begin
       end
      else
       TempComp := TempComp.owner;
+end;
+
+function TFMXChromium.GetScreenScale : Single;
+{$IFDEF MSWINDOWS}
+var
+  TempHandle : TCefWindowHandle;
+{$ENDIF}
+begin
+  {$IFDEF MSWINDOWS}
+  TempHandle := GetParentFormHandle;
+
+  if (TempHandle <> 0) then
+    Result := GetWndScale(TempHandle)
+   else
+  {$ENDIF}
+    if (GlobalCEFApp <> nil) then
+      Result := GlobalCEFApp.DeviceScaleFactor
+     else
+      Result := 1;
 end;
 
 function TFMXChromium.GetParentFormHandle : TCefWindowHandle;

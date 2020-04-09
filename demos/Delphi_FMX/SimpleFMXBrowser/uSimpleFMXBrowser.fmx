@@ -3,7 +3,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
   Top = 0
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 600
-  ClientWidth = 917
+  ClientWidth = 1000
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -20,7 +20,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
     Padding.Top = 5.000000000000000000
     Padding.Right = 5.000000000000000000
     Padding.Bottom = 5.000000000000000000
-    Size.Width = 917.000000000000000000
+    Size.Width = 1000.000000000000000000
     Size.Height = 35.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
@@ -29,14 +29,14 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
       Align = Client
       TabOrder = 0
       Text = 'https://www.google.com'
-      Size.Width = 825.000000000000000000
+      Size.Width = 908.000000000000000000
       Size.Height = 25.000000000000000000
       Size.PlatformDefault = False
     end
     object Layout1: TLayout
       Align = Right
       Padding.Left = 5.000000000000000000
-      Position.X = 830.000000000000000000
+      Position.X = 913.000000000000000000
       Position.Y = 5.000000000000000000
       Size.Width = 82.000000000000000000
       Size.Height = 25.000000000000000000

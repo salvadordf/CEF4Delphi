@@ -54,8 +54,6 @@ type
 
   TBrowserFrame = class(TFrame)
       FMXChromium1: TFMXChromium;
-      StatusBar: TStatusBar;
-      StatusLbl: TLabel;
       AddressLay: TLayout;
       GoBtn: TSpeedButton;
       NavButtonLay: TLayout;
@@ -81,7 +79,6 @@ type
       procedure FMXChromium1AddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
       procedure FMXChromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
       procedure FMXChromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
-      procedure FMXChromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
       procedure FMXChromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 
     protected
@@ -144,12 +141,14 @@ end;
 function TBrowserFrame.GetFMXWindowParentRect : System.Types.TRect;
 var
   TempRect : TRectF;
+  TempScale : single;
 begin
-  TempRect      := WindowParentLay.AbsoluteRect;
-  Result.Left   := round(TempRect.Left);
-  Result.Top    := round(TempRect.Top);
-  Result.Right  := round(TempRect.Right);
-  Result.Bottom := round(TempREct.Bottom);
+  TempScale       := FMXChromium1.ScreenScale;
+  TempRect        := WindowParentLay.AbsoluteRect;
+  Result.Left     := round(TempRect.Left   * TempScale);
+  Result.Top      := round(TempRect.Top    * TempScale);
+  Result.Right    := round(TempRect.Right  * TempScale) - 1;
+  Result.Bottom   := round(TempREct.Bottom * TempScale) - 1;
 end;
 
 procedure TBrowserFrame.ReloadBtnClick(Sender: TObject);
@@ -295,15 +294,6 @@ procedure TBrowserFrame.FMXChromium1OpenUrlFromTab(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
-end;
-
-procedure TBrowserFrame.FMXChromium1StatusMessage(Sender: TObject;
-  const browser: ICefBrowser; const value: ustring);
-begin
-  TThread.Queue(nil, procedure
-                     begin
-                       StatusLbl.Text := value;
-                     end);
 end;
 
 procedure TBrowserFrame.FMXChromium1TitleChange(Sender: TObject;

@@ -6,24 +6,6 @@ object BrowserFrame: TBrowserFrame
   Size.Width = 1000.000000000000000000
   Size.Height = 733.000000000000000000
   Size.PlatformDefault = False
-  object StatusBar: TStatusBar
-    Padding.Left = 5.000000000000000000
-    Padding.Right = 5.000000000000000000
-    Position.X = 1.000000000000000000
-    Position.Y = 710.000000000000000000
-    ShowSizeGrip = False
-    Size.Width = 998.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 2
-    object StatusLbl: TLabel
-      Align = Client
-      Size.Width = 988.000000000000000000
-      Size.Height = 22.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 0
-    end
-  end
   object AddressLay: TLayout
     Align = Top
     Padding.Left = 5.000000000000000000
@@ -35,7 +17,7 @@ object BrowserFrame: TBrowserFrame
     Size.Width = 998.000000000000000000
     Size.Height = 35.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 4
+    TabOrder = 3
     object GoBtn: TSpeedButton
       Align = Right
       Margins.Left = 5.000000000000000000
@@ -112,9 +94,9 @@ object BrowserFrame: TBrowserFrame
   object WindowParentLay: TLayout
     Align = Client
     Size.Width = 998.000000000000000000
-    Size.Height = 674.000000000000000000
+    Size.Height = 696.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 5
+    TabOrder = 4
     OnResize = WindowParentLayResize
   end
   object FMXChromium1: TFMXChromium
@@ -122,7 +104,6 @@ object BrowserFrame: TBrowserFrame
     OnLoadingStateChange = FMXChromium1LoadingStateChange
     OnAddressChange = FMXChromium1AddressChange
     OnTitleChange = FMXChromium1TitleChange
-    OnStatusMessage = FMXChromium1StatusMessage
     OnBeforePopup = FMXChromium1BeforePopup
     OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose

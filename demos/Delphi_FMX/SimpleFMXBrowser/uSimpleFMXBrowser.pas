@@ -399,11 +399,14 @@ begin
 end;
 
 function TSimpleFMXBrowserFrm.GetFMXWindowParentRect : System.Types.TRect;
+var
+  TempScale : single;
 begin
+  TempScale     := FMXChromium1.ScreenScale;
   Result.Left   := 0;
-  Result.Top    := round(AddressPnl.Height);
-  Result.Right  := ClientWidth  - 1;
-  Result.Bottom := ClientHeight - 1;
+  Result.Top    := round(AddressPnl.Height * TempScale);
+  Result.Right  := round(ClientWidth  * TempScale) - 1;
+  Result.Bottom := round(ClientHeight * TempScale) - 1;
 end;
 
 procedure TSimpleFMXBrowserFrm.ResizeChild;

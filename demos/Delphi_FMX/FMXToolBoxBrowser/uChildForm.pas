@@ -265,11 +265,14 @@ begin
 end;
 
 function TChildForm.GetFMXWindowParentRect : System.Types.TRect;
+var
+  TempScale : single;
 begin
+  TempScale     := FMXChromium1.ScreenScale;
   Result.Left   := 0;
   Result.Top    := 0;
-  Result.Right  := ClientWidth  - 1;
-  Result.Bottom := ClientHeight - 1;
+  Result.Right  := round(ClientWidth  * TempScale) - 1;
+  Result.Bottom := round(ClientHeight * TempScale) - 1;
 end;
 
 procedure TChildForm.ResizeChild;

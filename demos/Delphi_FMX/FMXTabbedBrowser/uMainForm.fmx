@@ -2,8 +2,8 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'Initializing. Please, wait...'
-  ClientHeight = 716
-  ClientWidth = 979
+  ClientHeight = 700
+  ClientWidth = 1032
   Position = ScreenCenter
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -19,7 +19,7 @@ object MainForm: TMainForm
     Padding.Left = 5.000000000000000000
     Padding.Right = 5.000000000000000000
     Size.Width = 32.000000000000000000
-    Size.Height = 716.000000000000000000
+    Size.Height = 700.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object AddTabBtn: TSpeedButton
@@ -51,8 +51,8 @@ object MainForm: TMainForm
   end
   object BrowserTabCtrl: TTabControl
     Align = Client
-    Size.Width = 947.000000000000000000
-    Size.Height = 716.000000000000000000
+    Size.Width = 1000.000000000000000000
+    Size.Height = 700.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     TabPosition = PlatformDefault
