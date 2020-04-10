@@ -260,11 +260,12 @@ function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Bo
 procedure CefLoadCRLSetsFile(const path : ustring);
 
 {$IFDEF MSWINDOWS}
-function CefIsKeyDown(aWparam : WPARAM) : boolean;
-function CefIsKeyToggled(aWparam : WPARAM) : boolean;
-function GetCefMouseModifiers : TCefEventFlags; overload;                                
-function GetCefMouseModifiers(awparam : WPARAM) : TCefEventFlags; overload;
-function GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;  
+function  CefIsKeyDown(aWparam : WPARAM) : boolean;
+function  CefIsKeyToggled(aWparam : WPARAM) : boolean;
+function  GetCefMouseModifiers : TCefEventFlags; overload;
+function  GetCefMouseModifiers(awparam : WPARAM) : TCefEventFlags; overload;
+function  GetCefKeyboardModifiers(aWparam : WPARAM; aLparam : LPARAM) : TCefEventFlags;
+procedure CefCheckAltGrPressed(aWparam : WPARAM; var aEvent : TCefKeyEvent);
 
 procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDragOperations);
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
@@ -1621,7 +1622,7 @@ begin
 
       if Result then
         begin
-          //parts.spec     := CefString(@TempParts.spec);
+          parts.spec     := CefString(@TempParts.spec);
           parts.scheme   := CefString(@TempParts.scheme);
           parts.username := CefString(@TempParts.username);
           parts.password := CefString(@TempParts.password);
@@ -1630,6 +1631,7 @@ begin
           parts.origin   := CefString(@TempParts.origin);
           parts.path     := CefString(@TempParts.path);
           parts.query    := CefString(@TempParts.query);
+          parts.fragment := CefString(@TempParts.fragment);
         end;
     end
    else
@@ -2032,6 +2034,34 @@ begin
     VK_RWIN :
       Result := Result or EVENTFLAG_IS_RIGHT;
   end;
+end;
+
+procedure CefCheckAltGrPressed(aWparam : WPARAM; var aEvent : TCefKeyEvent);
+const
+  EITHER_SHIFT_KEY_PRESSED     = $01;
+  EITHER_CONTROL_KEY_PRESSED   = $02;
+  EITHER_ALT_KEY_PRESSED       = $04;
+  EITHER_HANKAKU_KEY_PRESSED   = $08;
+  EITHER_RESERVED1_KEY_PRESSED = $10;
+  EITHER_RESERVED2_KEY_PRESSED = $20;
+var
+  TempKBLayout       : HKL;
+  TempTranslatedChar : SHORT;
+  TempShiftState     : byte;
+begin
+  if (aEvent.kind = KEYEVENT_CHAR) and CefIsKeyDown(VK_RMENU) then
+    begin
+      TempKBLayout       := GetKeyboardLayout(0);
+      TempTranslatedChar := VkKeyScanEx(char(aWparam), TempKBLayout);
+      TempShiftState     := byte(TempTranslatedChar shr 8);
+
+      if ((TempShiftState and EITHER_CONTROL_KEY_PRESSED) <> 0) and
+         ((TempShiftState and EITHER_ALT_KEY_PRESSED)     <> 0) then
+        begin
+          aEvent.modifiers := aEvent.modifiers and not(EVENTFLAG_CONTROL_DOWN or EVENTFLAG_ALT_DOWN);
+          aEvent.modifiers := aEvent.modifiers or EVENTFLAG_ALTGR_DOWN;
+        end;
+    end;
 end;
 
 procedure DropEffectToDragOperation(aEffect: Longint; var aAllowedOps : TCefDragOperations);

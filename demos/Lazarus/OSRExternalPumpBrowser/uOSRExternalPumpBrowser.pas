@@ -623,6 +623,7 @@ begin
       TempKeyEvent.unmodified_character    := #0;
       TempKeyEvent.focus_on_editable_field := ord(False);
 
+      CefCheckAltGrPressed(aMessage.wParam, TempKeyEvent);
       chrmosr.SendKeyEvent(@TempKeyEvent);
     end;
 end;

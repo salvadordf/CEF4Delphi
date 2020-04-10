@@ -618,6 +618,7 @@ begin
             TempItem^.color            := underlines[i].color;
             TempItem^.background_color := underlines[i].background_color;
             TempItem^.thick            := underlines[i].thick;
+            TempItem^.style            := underlines[i].style;
 
             inc(i);
             inc(TempItem);

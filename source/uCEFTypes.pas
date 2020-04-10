@@ -481,6 +481,7 @@ type
     origin    : TCefString;
     path      : TCefString;
     query     : TCefString;
+    fragment  : TCefString;
   end;
 
   TUrlParts = record
@@ -493,6 +494,7 @@ type
     origin   : ustring;
     path     : ustring;
     query    : ustring;
+    fragment : ustring;
   end;
 
   // /include/internal/cef_types.h (cef_insets_t)
@@ -1032,12 +1034,21 @@ type
     CEF_CDM_REGISTRATION_ERROR_NOT_SUPPORTED
   );
 
+  // /include/internal/cef_types.h (cef_composition_underline_style_t)
+  TCefCompositionUnderlineStyle = (
+    CEF_CUS_SOLID,
+    CEF_CUS_DOT,
+    CEF_CUS_DASH,
+    CEF_CUS_NONE
+  );
+
   // /include/internal/cef_types.h (cef_composition_underline_t)
   TCefCompositionUnderline = record
     range            : TCefRange;
     color            : TCefColor;
     background_color : TCefColor;
     thick            : integer;
+    style            : TCefCompositionUnderlineStyle;
   end;
   TCefCompositionUnderlineDynArray = array of TCefCompositionUnderline;
 

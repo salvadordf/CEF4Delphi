@@ -398,6 +398,7 @@ const
   EVENTFLAG_IS_KEY_PAD           = 1 shl 9;
   EVENTFLAG_IS_LEFT              = 1 shl 10;
   EVENTFLAG_IS_RIGHT             = 1 shl 11;
+  EVENTFLAG_ALTGR_DOWN           = 1 shl 12;
 
   // /include/internal/cef_types.h (cef_drag_operations_mask_t)
   DRAG_OPERATION_NONE     = 0;

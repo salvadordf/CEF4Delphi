@@ -186,10 +186,10 @@ begin
 end;
 
 procedure TChildForm.chrmosrIMECompositionRangeChanged(      Sender                : TObject;
-                                                   const browser               : ICefBrowser;
-                                                   const selected_range        : PCefRange;
-                                                         character_boundsCount : NativeUInt;
-                                                   const character_bounds      : PCefRect);
+                                                       const browser               : ICefBrowser;
+                                                       const selected_range        : PCefRange;
+                                                             character_boundsCount : NativeUInt;
+                                                       const character_bounds      : PCefRect);
 var
   TempPRect : PCefRect;
   i         : NativeUInt;
@@ -284,19 +284,19 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TChildForm.chrmosrCursorChange(Sender : TObject;
-                                     const browser          : ICefBrowser;
-                                           aCursor          : HICON;
-                                           cursorType       : TCefCursorType;
-                                     const customCursorInfo : PCefCursorInfo);
+procedure TChildForm.chrmosrCursorChange(      Sender           : TObject;
+                                         const browser          : ICefBrowser;
+                                               aCursor          : HICON;
+                                               cursorType       : TCefCursorType;
+                                         const customCursorInfo : PCefCursorInfo);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
-procedure TChildForm.chrmosrGetScreenInfo(Sender : TObject;
-                                      const browser    : ICefBrowser;
-                                      var   screenInfo : TCefScreenInfo;
-                                      out   Result     : Boolean);
+procedure TChildForm.chrmosrGetScreenInfo(      Sender     : TObject;
+                                          const browser    : ICefBrowser;
+                                          var   screenInfo : TCefScreenInfo;
+                                          out   Result     : Boolean);
 var
   TempRect : TCEFRect;
 begin
@@ -339,9 +339,9 @@ begin
     Result := False;
 end;
 
-procedure TChildForm.chrmosrGetViewRect(Sender : TObject;
-                                    const browser : ICefBrowser;
-                                    var   rect    : TCefRect);
+procedure TChildForm.chrmosrGetViewRect(      Sender  : TObject;
+                                        const browser : ICefBrowser;
+                                        var   rect    : TCefRect);
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -582,6 +582,7 @@ begin
       TempKeyEvent.unmodified_character    := #0;
       TempKeyEvent.focus_on_editable_field := ord(False);
 
+      CefCheckAltGrPressed(aMessage.wParam, TempKeyEvent);
       chrmosr.SendKeyEvent(@TempKeyEvent);
     end;
 end;
@@ -870,18 +871,18 @@ begin
 end;
 
 procedure TChildForm.Panel1IMECommitText(      Sender              : TObject;
-                                     const aText               : ustring;
-                                     const replacement_range   : PCefRange;
-                                           relative_cursor_pos : Integer);
+                                         const aText               : ustring;
+                                         const replacement_range   : PCefRange;
+                                               relative_cursor_pos : Integer);
 begin
   chrmosr.IMECommitText(aText, replacement_range, relative_cursor_pos);
 end;
 
 procedure TChildForm.Panel1IMESetComposition(      Sender            : TObject;
-                                         const aText             : ustring;
-                                         const underlines        : TCefCompositionUnderlineDynArray;
-                                         const replacement_range : TCefRange;
-                                         const selection_range   : TCefRange);
+                                             const aText             : ustring;
+                                             const underlines        : TCefCompositionUnderlineDynArray;
+                                             const replacement_range : TCefRange;
+                                             const selection_range   : TCefRange);
 begin
   chrmosr.IMESetComposition(aText, underlines, @replacement_range, @selection_range);
 end;

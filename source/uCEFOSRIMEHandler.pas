@@ -56,6 +56,7 @@ uses
 const
   DEFAULT_BLINK_UNDERLINE_COLOR  = $FF000000; // Black SkColor
   DEFAULT_BLINK_BACKGROUND_COLOR = $00000000; // White SkColor
+  DEFAULT_BLINK_UNDERLINE_STYLE  = CEF_CUS_SOLID;
 
   KEYBOARD_LAYOUT_EN_US = $0409;
 
@@ -256,6 +257,7 @@ begin
               underlines[i].range.from       := 0;
               underlines[i].range.to_        := TempStart;
               underlines[i].thick            := 0;
+              underlines[i].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
 
               inc(i);
             end;
@@ -267,6 +269,7 @@ begin
               underlines[i].range.from       := TempStart;
               underlines[i].range.to_        := TempEnd;
               underlines[i].thick            := 1;
+              underlines[i].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
 
               inc(i);
             end;
@@ -278,6 +281,7 @@ begin
               underlines[i].range.from       := TempEnd;
               underlines[i].range.to_        := TempLen;
               underlines[i].thick            := 0;
+              underlines[i].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
             end;
         end;
     end;
@@ -440,6 +444,7 @@ begin
                   underlines[j].range.to_        := TempBuffer[succ(i)];
                   underlines[j].color            := DEFAULT_BLINK_UNDERLINE_COLOR;
                   underlines[j].background_color := DEFAULT_BLINK_BACKGROUND_COLOR;
+                  underlines[j].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
 
                   if (underlines[j].range.from >= target_start) and
                      (underlines[j].range.to_  <= target_end)   then
