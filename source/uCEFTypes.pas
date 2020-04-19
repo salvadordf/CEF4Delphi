@@ -423,6 +423,9 @@ type
     hpDisableNonProxiedUDP
   );
 
+  // Used by TCefMediaSinkInfo and TCefMediaSourceInfo
+  TCefMediaType = (mtCast, mtDial, mtUnknown);
+
   // /include/internal/cef_types_win.h (cef_main_args_t)
   TCefMainArgs = record
     {$IFDEF MSWINDOWS}

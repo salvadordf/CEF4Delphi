@@ -52,7 +52,7 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
   uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
   uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
-  uCEFSentinel, uCEFMediaObserverComponent;
+  uCEFSentinel;
 
 procedure Register;
 begin
@@ -61,7 +61,7 @@ begin
                                   TFMXWorkScheduler, TCEFWorkScheduler,
                                   TCEFServerComponent, TCEFLinkedWindowParent,
                                   TCEFUrlRequestClientComponent,
-                                  TCEFSentinel, TCEFMediaObserverComponent]);
+                                  TCEFSentinel]);
 end;
 
 end.

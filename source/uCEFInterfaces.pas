@@ -159,7 +159,31 @@ type
   TCefMediaRouteArray      = array of ICefMediaRoute;
   TCefMediaSinkArray       = array of ICefMediaSink;
 
+  TCefMediaSinkInfo = record
+    ID          : ustring;
+    Valid       : boolean;
+    Name        : ustring;
+    Description : ustring;
+    SinkType    : TCefMediaType;
+    SinkIntf    : ICefMediaSink;
+  end;
+  TCefMediaSinkInfoArray = array of TCefMediaSinkInfo;
 
+  TCefMediaRouteInfo = record
+    ID        : ustring;
+    SourceID  : ustring;
+    SinkID    : ustring;
+    RouteIntf : ICefMediaRoute;
+  end;
+  TCefMediaRouteInfoArray = array of TCefMediaRouteInfo;
+
+  TCefMediaSourceInfo = record
+    ID         : ustring;
+    Valid      : boolean;
+    SourceType : TCefMediaType;
+    SourceIntf : ICefMediaSource;
+  end;
+  TCefMediaSourceInfoArray = array of TCefMediaSourceInfo;
 
   // *******************************************
   // ***************** Events ******************
@@ -217,7 +241,7 @@ type
   TCefNavigationEntryVisitorProc       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer): Boolean;
   TOnDownloadImageFinishedProc         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
   TCefCookieVisitorProc                = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean;
-
+  TCefMediaRouteCreateCallbackProc     = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
 
 
   // *******************************************
@@ -388,6 +412,12 @@ type
     function  doOnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean;
     procedure doGetResourceRequestHandler_ReqCtxHdlr(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
 
+    // ICefMediaObserver
+    procedure doOnSinks(const sinks: TCefMediaSinkArray);
+    procedure doOnRoutes(const routes: TCefMediaRouteArray);
+    procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
+    procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
+
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
@@ -412,6 +442,7 @@ type
     procedure doSetZoomPct(const aValue : double);
     procedure doSetZoomStep(aValue : byte);
     procedure doReadZoom;
+    procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
     function  MustCreateContextMenuHandler : boolean;
@@ -427,6 +458,8 @@ type
     function  MustCreateFindHandler : boolean;
     function  MustCreateResourceRequestHandler : boolean;
     function  MustCreateCookieAccessFilter : boolean;
+    function  MustCreateRequestContextHandler : boolean;
+    function  MustCreateMediaObserver : boolean;
   end;
 
   IServerEvents = interface
@@ -1263,7 +1296,7 @@ type
     procedure OnSinks(const sinks: TCefMediaSinkArray);
     procedure OnRoutes(const routes: TCefMediaRouteArray);
     procedure OnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
-    procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt);
+    procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
   end;
 
   ICefMediaObserverEvents = interface
@@ -1271,7 +1304,7 @@ type
     procedure doOnSinks(const sinks: TCefMediaSinkArray);
     procedure doOnRoutes(const routes: TCefMediaRouteArray);
     procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
-    procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt);
+    procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
   end;
 
   // TCefMediaRoute
@@ -1281,10 +1314,12 @@ type
     function  GetId: ustring;
     function  GetSource: ICefMediaSource;
     function  GetSink: ICefMediaSink;
-    procedure SendRouteMessage(const message_: Pointer; message_size: NativeUInt);
+    procedure SendRouteMessage(const message_: ustring);
     procedure Terminate;
 
-    property ID : ustring read GetId;
+    property ID     : ustring         read GetId;
+    property Source : ICefMediaSource read GetSource;
+    property Sink   : ICefMediaSink   read GetSink;
   end;
 
   // TCefMediaRouteCreateCallback
@@ -2123,8 +2158,9 @@ type
     function  GetExtension(const extension_id: ustring): ICefExtension;
     function  GetMediaRouter: ICefMediaRouter;
 
-    property  CachePath        : ustring  read GetCachePath;
-    property  IsGlobalContext  : boolean  read IsGlobal;
+    property  CachePath        : ustring         read GetCachePath;
+    property  IsGlobalContext  : boolean         read IsGlobal;
+    property  MediaRouter      : ICefMediaRouter read GetMediaRouter;
   end;
 
   // TCefPrintSettings

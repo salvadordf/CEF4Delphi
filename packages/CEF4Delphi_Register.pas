@@ -55,15 +55,14 @@ uses
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
   uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
-  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFMediaObserverComponent;
+  uCEFUrlRequestClientComponent, uCEFSentinel;
 
 procedure Register;
 begin
   RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
                                   TBufferPanel, TCEFWorkScheduler,
                                   TCEFServerComponent, TCEFLinkedWindowParent,
-                        				  TCEFUrlRequestClientComponent, TCEFSentinel,
-                                  TCEFMediaObserverComponent]);
+                        	  TCEFUrlRequestClientComponent, TCEFSentinel]);
 end;
 
 end.

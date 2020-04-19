@@ -57,7 +57,7 @@ type
     function  GetId: ustring;
     function  GetSource: ICefMediaSource;
     function  GetSink: ICefMediaSink;
-    procedure SendRouteMessage(const message_: Pointer; message_size: NativeUInt);
+    procedure SendRouteMessage(const message_: ustring);
     procedure Terminate;
   public
     class function UnWrap(data: Pointer): ICefMediaRoute;
@@ -83,9 +83,19 @@ begin
   Result := TCefMediaSinkRef.UnWrap(PCefMediaRoute(FData)^.get_sink(PCefMediaRoute(FData)));
 end;
 
-procedure TCefMediaRouteRef.SendRouteMessage(const message_: Pointer; message_size: NativeUInt);
+procedure TCefMediaRouteRef.SendRouteMessage(const message_: ustring);
+var
+  TempMsg  : pointer;
+  TempSize : NativeUInt;
 begin
-  PCefMediaRoute(FData)^.send_route_message(PCefMediaRoute(FData), message_, message_size);
+  TempSize := length(message_);
+
+  if (TempSize > 0) then
+    TempMsg := @message_[1]
+   else
+    TempMsg := nil;
+
+  PCefMediaRoute(FData)^.send_route_message(PCefMediaRoute(FData), TempMsg, TempSize);
 end;
 
 procedure TCefMediaRouteRef.Terminate;

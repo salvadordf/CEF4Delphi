@@ -78,6 +78,8 @@ type
       FBrowserId              : Integer;
       FReqContextHandler      : ICefRequestContextHandler;
       FResourceRequestHandler : ICefResourceRequestHandler;
+      FMediaObserver          : ICefMediaObserver;
+      FRegistration           : ICefRegistration;
       FDefaultUrl             : ustring;
       FOptions                : TChromiumOptions;
       FFontOptions            : TChromiumFontOptions;
@@ -251,6 +253,12 @@ type
       FOnBeforePluginLoad                      : TOnBeforePluginLoad;
       FOnGetResourceRequestHandler_ReqCtxHdlr  : TOnGetResourceRequestHandler;
 
+      // ICefMediaObserver
+      FOnSinks                            : TOnSinksEvent;
+      FOnRoutes                           : TOnRoutesEvent;
+      FOnRouteStateChanged                : TOnRouteStateChangedEvent;
+      FOnRouteMessageReceived             : TOnRouteMessageReceivedEvent;
+
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
@@ -268,6 +276,7 @@ type
       FOnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed;
       FOnCookieSet                        : TOnCookieSet;
       FOnZoomPctAvailable                 : TOnZoomPctAvailable;
+      FOnMediaRouteCreateFinished         : TOnMediaRouteCreateFinishedEvent;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -299,6 +308,8 @@ type
       function  GetRequestContextIsGlobal : boolean;
       function  GetAudioMuted : boolean;
       function  GetParentFormHandle : TCefWindowHandle; virtual;
+      function  GetRequestContext : ICefRequestContext;
+      function  GetMediaRouter : ICefMediaRouter;
 
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
@@ -342,9 +353,11 @@ type
       procedure DestroyClientHandler;
       procedure DestroyReqContextHandler;
       procedure DestroyResourceRequestHandler;
+      procedure DestroyMediaObserver;
       procedure ClearBrowserReference;
       procedure CreateReqContextHandler;
       procedure CreateResourceRequestHandler;
+      procedure CreateMediaObserver;
 
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
@@ -516,6 +529,12 @@ type
       function  doOnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean; virtual;
       procedure doGetResourceRequestHandler_ReqCtxHdlr(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
 
+      // ICefMediaObserver
+      procedure doOnSinks(const sinks: TCefMediaSinkArray);
+      procedure doOnRoutes(const routes: TCefMediaRouteArray);
+      procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
+      procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
+
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
       procedure doPdfPrintFinished(aResultOK : boolean); virtual;
@@ -540,6 +559,7 @@ type
       procedure doSetZoomLevel(const aValue : double); virtual;
       procedure doSetZoomPct(const aValue : double); virtual;
       procedure doSetZoomStep(aValue : byte); virtual;
+      procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute); virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
       function  MustCreateContextMenuHandler : boolean; virtual;
@@ -556,6 +576,7 @@ type
       function  MustCreateResourceRequestHandler : boolean; virtual;
       function  MustCreateCookieAccessFilter : boolean; virtual;
       function  MustCreateRequestContextHandler : boolean; virtual;
+      function  MustCreateMediaObserver : boolean; virtual;
 
       property  ParentFormHandle   : TCefWindowHandle   read   GetParentFormHandle;
 
@@ -687,6 +708,12 @@ type
       procedure   IMEFinishComposingText(keep_selection : boolean);
       procedure   IMECancelComposition;
 
+      // ICefMediaRouter methods
+      function    AddObserver(const observer: ICefMediaObserver): ICefRegistration;
+      function    GetSource(const urn: ustring): ICefMediaSource;
+      procedure   NotifyCurrentSinks;
+      procedure   NotifyCurrentRoutes;
+      procedure   CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink);
 
       property  DefaultUrl                 : ustring                      read FDefaultUrl                  write FDefaultUrl;
       property  Options                    : TChromiumOptions             read FOptions                     write FOptions;
@@ -700,6 +727,10 @@ type
       property  ResourceRequestHandler     : ICefResourceRequestHandler   read FResourceRequestHandler;
       property  CefWindowInfo              : TCefWindowInfo               read FWindowInfo;
       property  VisibleNavigationEntry     : ICefNavigationEntry          read GetVisibleNavigationEntry;
+      property  RequestContext             : ICefRequestContext           read GetRequestContext;
+      property  MediaRouter                : ICefMediaRouter              read GetMediaRouter;
+      property  MediaObserver              : ICefMediaObserver            read FMediaObserver;
+      property  Registration               : ICefRegistration             read FRegistration;
       property  MultithreadApp             : boolean                      read GetMultithreadApp;
       property  IsLoading                  : boolean                      read GetIsLoading;
       property  HasDocument                : boolean                      read GetHasDocument;
@@ -777,6 +808,7 @@ type
       property  OnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed                read FOnCookieVisitorDestroyed           write FOnCookieVisitorDestroyed;
       property  OnCookieSet                        : TOnCookieSet                             read FOnCookieSet                        write FOnCookieSet;
       property  OnZoomPctAvailable                 : TOnZoomPctAvailable                      read FOnZoomPctAvailable                 write FOnZoomPctAvailable;
+      property  OnMediaRouteCreateFinished         : TOnMediaRouteCreateFinishedEvent         read FOnMediaRouteCreateFinished         write FOnMediaRouteCreateFinished;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg                   : TOnCompMsgEvent                          read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
       property  OnWidgetCompMsg                    : TOnCompMsgEvent                          read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
@@ -891,6 +923,12 @@ type
       property OnRequestContextInitialized            : TOnRequestContextInitialized      read FOnRequestContextInitialized            write SetOnRequestContextInitialized;
       property OnBeforePluginLoad                     : TOnBeforePluginLoad               read FOnBeforePluginLoad                     write SetOnBeforePluginLoad;
       property OnGetResourceRequestHandler_ReqCtxHdlr : TOnGetResourceRequestHandler      read FOnGetResourceRequestHandler_ReqCtxHdlr write FOnGetResourceRequestHandler_ReqCtxHdlr;
+
+      // ICefMediaObserver
+      property OnSinks                                : TOnSinksEvent                     read FOnSinks                                write FOnSinks;
+      property OnRoutes                               : TOnRoutesEvent                    read FOnRoutes                               write FOnRoutes;
+      property OnRouteStateChanged                    : TOnRouteStateChangedEvent         read FOnRouteStateChanged                    write FOnRouteStateChanged;
+      property OnRouteMessageReceived                 : TOnRouteMessageReceivedEvent      read FOnRouteMessageReceived                 write FOnRouteMessageReceived;
   end;
 
 // *********************************************************
@@ -931,9 +969,11 @@ uses
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplicationCore, uCEFProcessMessage, uCEFRequestContext,
   {$IFDEF MSWINDOWS}uCEFOLEDragAndDrop,{$ENDIF}
-  uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback, uCEFStringVisitor,
-  uCEFListValue, uCEFNavigationEntryVisitor, uCEFDownloadImageCallBack, uCEFCookieManager,
-  uCEFRequestContextHandler, uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler;
+  uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback,
+  uCEFStringVisitor, uCEFListValue, uCEFNavigationEntryVisitor,
+  uCEFDownloadImageCallBack, uCEFCookieManager, uCEFRequestContextHandler,
+  uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler,
+  uCEFMediaObserver, uCEFMediaRouteCreateCallback;
 
 constructor TChromiumCore.Create(AOwner: TComponent);
 begin
@@ -949,6 +989,8 @@ begin
   FHandler                := nil;
   FReqContextHandler      := nil;
   FResourceRequestHandler := nil;
+  FMediaObserver          := nil;
+  FRegistration           := nil;
   FOptions                := nil;
   FFontOptions            := nil;
   FDefaultEncoding        := '';
@@ -1064,6 +1106,7 @@ begin
   DestroyClientHandler;
   DestroyReqContextHandler;
   DestroyResourceRequestHandler;
+  DestroyMediaObserver;
 
   inherited BeforeDestruction;
 end;
@@ -1231,6 +1274,19 @@ begin
     FReqContextHandler := TCustomRequestContextHandler.Create(self);
 end;
 
+procedure TChromiumCore.DestroyMediaObserver;
+begin
+  FRegistration  := nil;
+  FMediaObserver := nil;
+end;
+
+procedure TChromiumCore.CreateMediaObserver;
+begin
+  if MustCreateMediaObserver and
+     (FMediaObserver = nil) then
+    FMediaObserver := TCustomMediaObserver.Create(self);
+end;
+
 procedure TChromiumCore.DestroyResourceRequestHandler;
 begin
   try
@@ -1295,6 +1351,7 @@ begin
   if CreateClientHandler(aIsOSR) then
     begin
       CreateResourceRequestHandler;
+      CreateMediaObserver;
 
       aClient := FHandler;
       Result  := True;
@@ -1414,6 +1471,12 @@ begin
   FOnBeforePluginLoad                     := nil;
   FOnGetResourceRequestHandler_ReqCtxHdlr := nil;
 
+  // ICefMediaObserver
+  FOnSinks                            := nil;
+  FOnRoutes                           := nil;
+  FOnRouteStateChanged                := nil;
+  FOnRouteMessageReceived             := nil;
+
   // Custom
   FOnTextResultAvailable              := nil;
   FOnPdfPrintFinished                 := nil;
@@ -1431,6 +1494,7 @@ begin
   FOnCookieVisitorDestroyed           := nil;
   FOnCookieSet                        := nil;
   FOnZoomPctAvailable                 := nil;
+  FOnMediaRouteCreateFinished         := nil;
 
   {$IFDEF MSWINDOWS}
   FOnBrowserCompMsg                   := nil;
@@ -1470,6 +1534,7 @@ begin
           GetSettings(FBrowserSettings);
           InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
           CreateResourceRequestHandler;
+          CreateMediaObserver;
 
           if (aContext = nil) then
             begin
@@ -3178,6 +3243,26 @@ begin
   end;
 end;
 
+function TChromiumCore.GetRequestContext : ICefRequestContext;
+begin
+  if Initialized then
+    Result := FBrowser.Host.RequestContext
+   else
+    Result := nil;
+end;
+
+function TChromiumCore.GetMediaRouter : ICefMediaRouter;
+var
+  TempRequestContext : ICefRequestContext;
+begin
+  TempRequestContext := RequestContext;
+
+  if (TempRequestContext <> nil) then
+    Result := TempRequestContext.MediaRouter
+   else
+    Result := nil;
+end;
+
 procedure TChromiumCore.SimulateMouseWheel(aDeltaX, aDeltaY : integer);
 var
   TempEvent : TCefMouseEvent;
@@ -4022,6 +4107,14 @@ begin
   end;
 end;
 
+procedure TChromiumCore.doMediaRouteCreateFinished(      result : TCefMediaRouterCreateResult;
+                                                   const error  : ustring;
+                                                   const route  : ICefMediaRoute);
+begin
+  if assigned(FOnMediaRouteCreateFinished) then
+    FOnMediaRouteCreateFinished(self, result, error, route);
+end;
+
 function TChromiumCore.MustCreateLoadHandler : boolean;
 begin
   Result := assigned(FOnLoadStart) or
@@ -4133,6 +4226,14 @@ begin
             assigned(FOnBeforePluginLoad) or
             assigned(FOnGetResourceRequestHandler_ReqCtxHdlr) or
             MustCreateResourceRequestHandler;
+end;
+
+function TChromiumCore.MustCreateMediaObserver : boolean;
+begin
+  Result := assigned(FOnSinks) or
+            assigned(FOnRoutes) or
+            assigned(FOnRouteStateChanged) or
+            assigned(FOnRouteMessageReceived);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -4385,6 +4486,7 @@ begin
   if (browser <> nil) and (FBrowserId = browser.Identifier) then
     begin
       FInitialized := False;
+      DestroyMediaObserver;
       DestroyResourceRequestHandler;
       DestroyReqContextHandler;
       ClearBrowserReference;
@@ -4409,6 +4511,9 @@ begin
     end;
 
   doUpdatePreferences(browser);
+
+  if (FMediaObserver <> nil) and (FRegistration = nil) then
+    FRegistration := AddObserver(FMediaObserver);
 
   if Assigned(FOnAfterCreated) then FOnAfterCreated(Self, browser);
 end;
@@ -4665,9 +4770,37 @@ begin
                                             aResourceRequestHandler);
 end;
 
-procedure TChromiumCore.doOnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
+procedure TChromiumCore.doOnSinks(const sinks: TCefMediaSinkArray);
 begin
-  if Assigned(FOnFullScreenModeChange) then FOnFullScreenModeChange(Self, browser, fullscreen);
+  if assigned(FOnSinks) then
+    FOnSinks(self, sinks);
+end;
+
+procedure TChromiumCore.doOnRoutes(const routes: TCefMediaRouteArray);
+begin
+  if assigned(FOnRoutes) then
+    FOnRoutes(self, routes);
+end;
+
+procedure TChromiumCore.doOnRouteStateChanged(const route : ICefMediaRoute;
+                                                    state : TCefMediaRouteConnectionState);
+begin
+  if assigned(FOnRouteStateChanged) then
+    FOnRouteStateChanged(self, route, state);
+end;
+
+procedure TChromiumCore.doOnRouteMessageReceived(const route    : ICefMediaRoute;
+                                                 const message_ : ustring);
+begin
+  if assigned(FOnRouteMessageReceived) then
+    FOnRouteMessageReceived(self, route, message_);
+end;
+
+procedure TChromiumCore.doOnFullScreenModeChange(const browser    : ICefBrowser;
+                                                       fullscreen : Boolean);
+begin
+  if Assigned(FOnFullScreenModeChange) then
+    FOnFullScreenModeChange(Self, browser, fullscreen);
 end;
 
 function TChromiumCore.doOnGetAuthCredentials(const browser   : ICefBrowser;
@@ -5428,6 +5561,67 @@ end;
 procedure TChromiumCore.IMECancelComposition;
 begin
   if Initialized then FBrowser.Host.IMECancelComposition;
+end;
+
+// ICefMediaRouter methods
+function TChromiumCore.AddObserver(const observer: ICefMediaObserver): ICefRegistration;
+var
+  TempMediaRouter : ICefMediaRouter;
+begin
+  Result          := nil;
+  TempMediaRouter := MediaRouter;
+
+  if (TempMediaRouter <> nil) then
+    Result := TempMediaRouter.AddObserver(observer);
+end;
+
+function TChromiumCore.GetSource(const urn: ustring): ICefMediaSource;
+var
+  TempMediaRouter : ICefMediaRouter;
+begin
+  Result          := nil;
+  TempMediaRouter := MediaRouter;
+
+  if (TempMediaRouter <> nil) then
+    Result := TempMediaRouter.GetSource(urn);
+end;
+
+procedure TChromiumCore.NotifyCurrentSinks;
+var
+  TempMediaRouter : ICefMediaRouter;
+begin
+  TempMediaRouter := MediaRouter;
+
+  if (TempMediaRouter <> nil) then
+    TempMediaRouter.NotifyCurrentSinks;
+end;
+
+procedure TChromiumCore.NotifyCurrentRoutes;
+var
+  TempMediaRouter : ICefMediaRouter;
+begin
+  TempMediaRouter := MediaRouter;
+
+  if (TempMediaRouter <> nil) then
+    TempMediaRouter.NotifyCurrentRoutes;
+end;
+
+// This procedure is asynchronous and the result, ICefMediaRoute and the error
+// message will be available in the TChromium.OnMediaRouteCreateFinished event.
+procedure TChromiumCore.CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink);
+var
+  TempMediaRouter : ICefMediaRouter;
+  TempCallback    : ICefMediaRouteCreateCallback;
+begin
+  TempMediaRouter := MediaRouter;
+
+  if (TempMediaRouter <> nil) then
+    try
+      TempCallback := TCefCustomMediaRouteCreateCallback.Create(self);
+      TempMediaRouter.CreateRoute(source, sink, TempCallback);
+    finally
+      TempCallback := nil;
+    end;
 end;
 
 {$IFDEF MSWINDOWS}

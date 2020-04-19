@@ -166,6 +166,12 @@ type
   TOnBeforePluginLoad             = procedure(Sender: TObject; const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult : boolean) of Object;
   // ICefRequestContextHandler uses the same TOnGetResourceRequestHandler event type defined for ICefRequestHandler
 
+  // ICefMediaObserver
+  TOnSinksEvent                   = procedure(Sender: TObject; const sinks: TCefMediaSinkArray) of object;
+  TOnRoutesEvent                  = procedure(Sender: TObject; const routes: TCefMediaRouteArray) of object;
+  TOnRouteStateChangedEvent       = procedure(Sender: TObject; const route: ICefMediaRoute; state: TCefMediaRouteConnectionState) of object;
+  TOnRouteMessageReceivedEvent    = procedure(Sender: TObject; const route: ICefMediaRoute; const message_: ustring) of object;
+
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;
@@ -179,6 +185,7 @@ type
   TOnCookieVisitorDestroyed                = procedure(Sender: TObject; aID : integer) of object;
   TOnCookieSet                             = procedure(Sender: TObject; aSuccess : boolean; aID : integer) of object;
   TOnZoomPctAvailable                      = procedure(Sender: TObject; const aZoomPct : double) of object;
+  TOnMediaRouteCreateFinishedEvent         = procedure(Sender: TObject; result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute) of object;
   {$IFDEF MSWINDOWS}
   TOnCompMsgEvent                          = procedure(var aMessage: TMessage; var aHandled: Boolean) of object;
   {$ENDIF}

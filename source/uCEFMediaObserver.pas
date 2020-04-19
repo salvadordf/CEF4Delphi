@@ -57,7 +57,7 @@ type
       procedure OnSinks(const sinks: TCefMediaSinkArray); virtual;
       procedure OnRoutes(const routes: TCefMediaRouteArray); virtual;
       procedure OnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState); virtual;
-      procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt); virtual;
+      procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring); virtual;
 
     public
       constructor Create; virtual;
@@ -70,10 +70,10 @@ type
       procedure OnSinks(const sinks: TCefMediaSinkArray); override;
       procedure OnRoutes(const routes: TCefMediaRouteArray); override;
       procedure OnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState); override;
-      procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt); override;
+      procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring); override;
 
     public
-      constructor Create(const events: ICefMediaObserverEvents); reintroduce;
+      constructor Create(const events: IChromiumEvents); reintroduce;
       destructor  Destroy; override;
   end;
 
@@ -95,26 +95,28 @@ uses
 procedure cef_media_observer_on_sinks(      self       : PCefMediaObserver;
                                             sinksCount : NativeUInt;
                                       const sinks      : PPCefMediaSink); stdcall;
+type
+  TSinkArray = array of PCefMediaSink;
 var
   TempObject : TObject;
   TempArray  : TCefMediaSinkArray;
   i          : NativeUInt;
-  TempItem   : PCefMediaSink;
 begin
   TempArray  := nil;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefMediaObserverOwn) then
     try
-      SetLength(TempArray, sinksCount);
-      TempItem := PCefMediaSink(sinks^);
-
-      i := 0;
-      while (i < sinksCount) do
+      if (sinksCount > 0) and (sinks <> nil) then
         begin
-          TempArray[i] := TCefMediaSinkRef.UnWrap(TempItem);
-          inc(TempItem);
-          inc(i);
+          SetLength(TempArray, sinksCount);
+
+          i := 0;
+          while (i < sinksCount) do
+            begin
+              TempArray[i] := TCefMediaSinkRef.UnWrap(TSinkArray(sinks)[i]);
+              inc(i);
+            end;
         end;
 
       TCefMediaObserverOwn(TempObject).OnSinks(TempArray);
@@ -137,26 +139,28 @@ end;
 procedure cef_media_observer_on_routes(      self        : PCefMediaObserver;
                                              routesCount : NativeUInt;
                                        const routes      : PPCefMediaRoute); stdcall;
+type
+  TRouteArray = array of PCefMediaRoute;
 var
   TempObject : TObject;
   TempArray  : TCefMediaRouteArray;
   i          : NativeUInt;
-  TempItem   : PCefMediaRoute;
 begin
   TempArray  := nil;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefMediaObserverOwn) then
     try
-      SetLength(TempArray, routesCount);
-      TempItem := PCefMediaRoute(routes^);
-
-      i := 0;
-      while (i < routesCount) do
+      if (routesCount > 0) and (routes <> nil) then
         begin
-          TempArray[i] := TCefMediaRouteRef.UnWrap(TempItem);
-          inc(TempItem);
-          inc(i);
+          SetLength(TempArray, routesCount);
+
+          i := 0;
+          while (i < routesCount) do
+            begin
+              TempArray[i] := TCefMediaRouteRef.UnWrap(TRouteArray(routes)[i]);
+              inc(i);
+            end;
         end;
 
       TCefMediaObserverOwn(TempObject).OnRoutes(TempArray);
@@ -193,14 +197,19 @@ procedure cef_media_observer_on_route_message_received(      self         : PCef
                                                        const message_     : Pointer;
                                                              message_size : NativeUInt); stdcall;
 var
-  TempObject : TObject;
+  TempObject  : TObject;
+  TempMessage : Ansistring;
 begin
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefMediaObserverOwn) then
-    TCefMediaObserverOwn(TempObject).OnRouteMessageReceived(TCefMediaRouteRef.UnWrap(route),
-                                                            message_,
-                                                            message_size);
+    begin
+      if (message_size > 0) and (message_ <> nil) then
+        SetString(TempMessage, PAnsiChar(message_), message_size);
+
+      TCefMediaObserverOwn(TempObject).OnRouteMessageReceived(TCefMediaRouteRef.UnWrap(route),
+                                                              ustring(TempMessage));
+    end;
 end;
 
 constructor TCefMediaObserverOwn.Create;
@@ -231,7 +240,7 @@ begin
   //
 end;
 
-procedure TCefMediaObserverOwn.OnRouteMessageReceived(const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt);
+procedure TCefMediaObserverOwn.OnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
 begin
   //
 end;
@@ -240,7 +249,7 @@ end;
 // ************** TCustomMediaObserver **************
 // **************************************************
 
-constructor TCustomMediaObserver.Create(const events: ICefMediaObserverEvents);
+constructor TCustomMediaObserver.Create(const events: IChromiumEvents);
 begin
   inherited Create;
 
@@ -258,7 +267,7 @@ procedure TCustomMediaObserver.OnSinks(const sinks: TCefMediaSinkArray);
 begin
   try
     if (FEvents <> nil) then
-      ICefMediaObserverEvents(FEvents).doOnSinks(sinks);
+      IChromiumEvents(FEvents).doOnSinks(sinks);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomMediaObserver.OnSinks', e) then raise;
@@ -269,7 +278,7 @@ procedure TCustomMediaObserver.OnRoutes(const routes: TCefMediaRouteArray);
 begin
   try
     if (FEvents <> nil) then
-      ICefMediaObserverEvents(FEvents).doOnRoutes(routes);
+      IChromiumEvents(FEvents).doOnRoutes(routes);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomMediaObserver.OnRoutes', e) then raise;
@@ -280,18 +289,18 @@ procedure TCustomMediaObserver.OnRouteStateChanged(const route: ICefMediaRoute; 
 begin
   try
     if (FEvents <> nil) then
-      ICefMediaObserverEvents(FEvents).doOnRouteStateChanged(route, state);
+      IChromiumEvents(FEvents).doOnRouteStateChanged(route, state);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomMediaObserver.OnRouteStateChanged', e) then raise;
   end;
 end;
 
-procedure TCustomMediaObserver.OnRouteMessageReceived(const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt);
+procedure TCustomMediaObserver.OnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
 begin
   try
     if (FEvents <> nil) then
-      ICefMediaObserverEvents(FEvents).doOnRouteMessageReceived(route, message_, message_size);
+      IChromiumEvents(FEvents).doOnRouteMessageReceived(route, message_);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomMediaObserver.OnRouteMessageReceived', e) then raise;

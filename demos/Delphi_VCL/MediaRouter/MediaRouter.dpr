@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,33 +35,35 @@
  *
  *)
 
-unit uCEFMediaObserverEvents;
-
-{$IFDEF FPC}
-  {$MODE OBJFPC}{$H+}
-{$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+program MediaRouter;
 
 {$I cef.inc}
 
-interface
-
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  Vcl.Forms,
+  WinApi.Windows,
   {$ELSE}
-  Classes,
-  {$ENDIF}
-  uCEFTypes, uCEFInterfaces;
+  Forms,
+  Windows,
+  {$ENDIF }
+  uCEFApplication,
+  uMediaRouterFrm in 'uMediaRouterFrm.pas' {MediaRouterFrm};
 
-type
-  TOnSinksEvent                = procedure(Sender: TObject; const sinks: TCefMediaSinkArray) of object;
-  TOnRoutesEvent               = procedure(Sender: TObject; const routes: TCefMediaRouteArray) of object;
-  TOnRouteStateChangedEvent    = procedure(Sender: TObject; const route: ICefMediaRoute; state: TCefMediaRouteConnectionState) of object;
-  TOnRouteMessageReceivedEvent = procedure(Sender: TObject; const route: ICefMediaRoute; const message_: Pointer; message_size: NativeUInt) of object;
+{$R *.res}
 
-implementation
+{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
+begin
+  CreateGlobalCEFApp;
+
+  if GlobalCEFApp.StartMainProcess then
+    begin
+      Application.Initialize;
+      Application.MainFormOnTaskbar := True;
+      Application.CreateForm(TMediaRouterFrm, MediaRouterFrm);
+      Application.Run;
+    end;
+
+  DestroyGlobalCEFApp;
 end.

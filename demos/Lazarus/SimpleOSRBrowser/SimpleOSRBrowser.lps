@@ -8,7 +8,8 @@
       <Unit0>
         <Filename Value="SimpleOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="30"/>
         <CursorPos X="28" Y="39"/>
         <UsageCount Value="20"/>
@@ -244,11 +245,10 @@
       </Unit28>
       <Unit29>
         <Filename Value="..\..\..\source\uCEFApplicationCore.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="43"/>
+        <CursorPos X="57" Y="67"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit29>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">

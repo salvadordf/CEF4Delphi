@@ -21,8 +21,8 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="81" Minor="2" Release="16"/>
-    <Files Count="156">
+    <Version Major="81" Minor="2" Release="17"/>
+    <Files Count="154">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -625,38 +625,29 @@
         <UnitName Value="uCEFMediaObserver"/>
       </Item148>
       <Item149>
-        <Filename Value="..\source\uCEFMediaObserverComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFMediaObserverComponent"/>
-      </Item149>
-      <Item150>
-        <Filename Value="..\source\uCEFMediaObserverEvents.pas"/>
-        <UnitName Value="uCEFMediaObserverEvents"/>
-      </Item150>
-      <Item151>
         <Filename Value="..\source\uCEFMediaRoute.pas"/>
         <UnitName Value="uCEFMediaRoute"/>
-      </Item151>
-      <Item152>
+      </Item149>
+      <Item150>
         <Filename Value="..\source\uCEFMediaRouteCreateCallback.pas"/>
         <UnitName Value="uCEFMediaRouteCreateCallback"/>
-      </Item152>
-      <Item153>
+      </Item150>
+      <Item151>
         <Filename Value="..\source\uCEFMediaRouter.pas"/>
         <UnitName Value="uCEFMediaRouter"/>
-      </Item153>
-      <Item154>
+      </Item151>
+      <Item152>
         <Filename Value="..\source\uCEFMediaSink.pas"/>
         <UnitName Value="uCEFMediaSink"/>
-      </Item154>
-      <Item155>
+      </Item152>
+      <Item153>
         <Filename Value="..\source\uCEFMediaSource.pas"/>
         <UnitName Value="uCEFMediaSource"/>
-      </Item155>
-      <Item156>
+      </Item153>
+      <Item154>
         <Filename Value="..\source\uCEFRegistration.pas"/>
         <UnitName Value="uCEFRegistration"/>
-      </Item156>
+      </Item154>
     </Files>
     <RequiredPkgs Count="4">
       <Item1>
