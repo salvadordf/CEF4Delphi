@@ -3277,6 +3277,8 @@ begin
 end;
 
 procedure TChromiumCore.doUpdatePreferences(const aBrowser: ICefBrowser);
+var
+  TempLanguagesList : ustring;
 begin
   FUpdatePreferences := False;
 
@@ -3295,7 +3297,19 @@ begin
   UpdatePreference(aBrowser, 'settings.force_google_safesearch',     FSafeSearch);
   UpdatePreference(aBrowser, 'settings.force_youtube_restrict',      FYouTubeRestrict);
   UpdatePreference(aBrowser, 'printing.enabled',                     FPrintingEnabled);
-  UpdatePreference(aBrowser, 'intl.accept_languages',                FAcceptLanguageList);
+
+  TempLanguagesList := FAcceptLanguageList;
+
+  if (length(TempLanguagesList) = 0) then
+    TempLanguagesList := FOptions.AcceptLanguageList;
+
+  if (length(TempLanguagesList) = 0) then
+    TempLanguagesList := GlobalCEFApp.AcceptLanguageList;
+
+  if (length(TempLanguagesList) = 0) then
+    TempLanguagesList := 'en-US,en';
+
+  UpdatePreference(aBrowser, 'intl.accept_languages', TempLanguagesList);
 
   case FAcceptCookies of
     cpAllow : UpdatePreference(aBrowser, 'profile.default_content_setting_values.cookies', CEF_COOKIE_PREF_ALLOW);
@@ -3303,7 +3317,6 @@ begin
     else      UpdatePreference(aBrowser, 'profile.default_content_setting_values.cookies', CEF_COOKIE_PREF_DEFAULT);
   end;
 
-  UpdatePreference(aBrowser, 'profile.managed_default_content_settings.cookies', CEF_COOKIE_PREF_DEFAULT);
   UpdatePreference(aBrowser, 'profile.block_third_party_cookies', FBlock3rdPartyCookies);
 
   if (FMaxConnectionsPerProxy <> CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE) then
