@@ -85,17 +85,23 @@ end;
 
 procedure TCefMediaRouteRef.SendRouteMessage(const message_: ustring);
 var
-  TempMsg  : pointer;
-  TempSize : NativeUInt;
+  TempMsgPtr : pointer;
+  TempMsg    : AnsiString;
+  TempSize   : NativeUInt;
 begin
   TempSize := length(message_);
 
   if (TempSize > 0) then
-    TempMsg := @message_[1]
+    begin
+      TempMsg    := Utf8Encode(message_);
+      TempMsgPtr := @TempMsg[1];
+    end
    else
-    TempMsg := nil;
+    TempMsgPtr := nil;
 
-  PCefMediaRoute(FData)^.send_route_message(PCefMediaRoute(FData), TempMsg, TempSize);
+  PCefMediaRoute(FData)^.send_route_message(PCefMediaRoute(FData),
+                                            TempMsgPtr,
+                                            TempSize);
 end;
 
 procedure TCefMediaRouteRef.Terminate;

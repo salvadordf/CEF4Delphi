@@ -114,6 +114,7 @@ type
     procedure NotifySinksBtnClick(Sender: TObject);
     procedure NotifyRoutesBtnClick(Sender: TObject);
     procedure ClearLogBtnClick(Sender: TObject);
+    procedure MessageMemChange(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -139,6 +140,7 @@ type
     procedure UpdateAvailableSinks;
     procedure UpdateAvailableRoutes;
     procedure UpdateButtons;
+    procedure AppendPendingLogStrings;
     procedure AddLogEntry(const aMessage1, aMessage2 : string; aRec : boolean); overload;
     procedure AddLogEntry(const aMessage1 : string; const aMessage2 : string = ''); overload;
   end;
@@ -165,9 +167,11 @@ begin
   GlobalCEFApp             := TCefApplication.Create;
   GlobalCEFApp.LogFile     := 'debug.log';
   GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO; //LOGSEVERITY_VERBOSE;
+  {
   GlobalCEFApp.FrameworkDirPath     := 'c:\cef';
   GlobalCEFApp.ResourcesDirPath     := 'c:\cef';
   GlobalCEFApp.LocalesDirPath       := 'c:\cef\locales';
+  }
 end;
 
 procedure TMediaRouterFrm.Chromium1AfterCreated(Sender: TObject;
@@ -202,14 +206,14 @@ begin
     if (result = CEF_MRCR_OK) then
       begin
         TempMsg := 'Route created';
-        if (route <> nil) then TempID := route.ID;
+        if (route <> nil) then TempID := 'Route ID : ' + route.ID;
       end
      else
       TempMsg := error;
   finally
-    PostMessage(Handle, MEDIA_ROUTER_UPDATE_BUTTONS, 0, 0);
     FMediaCS.Release;
     if (length(TempMsg) > 0) then AddLogEntry(TempID, TempMsg);
+    PostMessage(Handle, MEDIA_ROUTER_UPDATE_BUTTONS, 0, 0);
   end;
 end;
 
@@ -219,9 +223,9 @@ var
   TempID : string;
 begin
   if (route <> nil) then
-    TempID := route.ID;
+    TempID := 'Route ID : ' + route.ID;
 
-  AddLogEntry(TempID, message_, True);
+  AddLogEntry(TempID, 'Message contents : ' + message_, True);
 end;
 
 procedure TMediaRouterFrm.Chromium1Routes(Sender: TObject;
@@ -235,14 +239,14 @@ procedure TMediaRouterFrm.Chromium1RouteStateChanged(Sender: TObject;
 var
   TempMsg, TempID : string;
 begin
-  if (route <> nil) then TempID := route.ID;
+  if (route <> nil) then TempID := 'Route ID : ' + route.ID;
 
   case state of
-    CEF_MRCS_CONNECTING : TempMsg := 'State : Connecting.';
-    CEF_MRCS_CONNECTED  : TempMsg := 'State : Connected.';
-    CEF_MRCS_CLOSED     : TempMsg := 'State : Closed.';
-    CEF_MRCS_TERMINATED : TempMsg := 'State : Terminated.';
-    else                  TempMsg := 'State : Unknown.';
+    CEF_MRCS_CONNECTING : TempMsg := 'Route state : Connecting.';
+    CEF_MRCS_CONNECTED  : TempMsg := 'Route state : Connected.';
+    CEF_MRCS_CLOSED     : TempMsg := 'Route state : Closed.';
+    CEF_MRCS_TERMINATED : TempMsg := 'Route state : Terminated.';
+    else                  TempMsg := 'Route state : Unknown.';
   end;
 
   TempMsg := TempMsg + ' ' + dateTimeToStr(now);
@@ -299,6 +303,11 @@ begin
     Timer1.Enabled := True;
 end;
 
+procedure TMediaRouterFrm.MessageMemChange(Sender: TObject);
+begin
+  UpdateButtons;
+end;
+
 procedure TMediaRouterFrm.NotifyRoutesBtnClick(Sender: TObject);
 begin
   Chromium1.NotifyCurrentRoutes;
@@ -329,8 +338,9 @@ begin
         if (length(TempMsg) > 0) and
            (FRoutes[RoutesLbx.ItemIndex].RouteIntf <> nil) then
           try
-            TempID := FRoutes[RoutesLbx.ItemIndex].RouteIntf.ID;
+            TempID := 'Route ID : ' + FRoutes[RoutesLbx.ItemIndex].RouteIntf.ID;
             FRoutes[RoutesLbx.ItemIndex].RouteIntf.SendRouteMessage(TempMsg);
+            TempMsg := 'Message contents : ' + TempMsg;
           except
             on e : exception do
               if CustomExceptionHandler('TMediaRouterFrm.SendMsgBtnClick', e) then raise;
@@ -390,6 +400,11 @@ procedure TMediaRouterFrm.PendingLogLinesMsg(var aMessage : TMessage);
 begin
   if FClosing then exit;
 
+  AppendPendingLogStrings;
+end;
+
+procedure TMediaRouterFrm.AppendPendingLogStrings;
+begin
   try
     FMediaCS.Acquire;
 
@@ -408,6 +423,7 @@ begin
   if FClosing then exit;
 
   UpdateAvailableSinks;
+  AppendPendingLogStrings;
   UpdateButtons;
 end;
 
@@ -416,6 +432,7 @@ begin
   if FClosing then exit;
 
   UpdateAvailableRoutes;
+  AppendPendingLogStrings;
   UpdateButtons;
 end;
 
@@ -423,6 +440,7 @@ procedure TMediaRouterFrm.UpdateButtonsMsg(var aMessage : TMessage);
 begin
   if FClosing then exit;
 
+  AppendPendingLogStrings;
   UpdateButtons;
 end;
 

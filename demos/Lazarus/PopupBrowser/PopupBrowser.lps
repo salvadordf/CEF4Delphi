@@ -4,11 +4,11 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="4">
+    <Units Count="7">
       <Unit0>
         <Filename Value="PopupBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="42"/>
         <CursorPos X="54" Y="47"/>
         <UsageCount Value="22"/>
@@ -21,9 +21,8 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="122"/>
-        <CursorPos X="31" Y="143"/>
+        <CursorPos X="105" Y="139"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -35,9 +34,10 @@
         <ComponentName Value="ChildForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="882"/>
-        <CursorPos X="78" Y="906"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="109"/>
+        <CursorPos X="15" Y="122"/>
         <UsageCount Value="22"/>
         <Bookmarks Count="2">
           <Item0 X="64" Y="173" ID="2"/>
@@ -55,8 +55,30 @@
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1751"/>
+        <CursorPos X="2" Y="1772"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\ustringh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="119"/>
+        <CursorPos X="10" Y="134"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="421"/>
+        <CursorPos X="3" Y="436"/>
+        <UsageCount Value="10"/>
+      </Unit6>
     </Units>
-    <JumpHistory Count="20" HistoryIndex="19">
+    <JumpHistory Count="23" HistoryIndex="22">
       <Position1>
         <Filename Value="uMainForm.pas"/>
         <Caret Line="81" Column="34" TopLine="68"/>
@@ -137,6 +159,18 @@
         <Filename Value="uMainForm.pas"/>
         <Caret Line="340" Column="22" TopLine="332"/>
       </Position20>
+      <Position21>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <Caret Line="244" Column="22" TopLine="223"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="906" Column="78" TopLine="882"/>
+      </Position22>
+      <Position23>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <Caret Line="1761" Column="30" TopLine="1751"/>
+      </Position23>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

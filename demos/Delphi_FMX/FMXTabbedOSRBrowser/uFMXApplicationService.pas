@@ -146,9 +146,12 @@ begin
 end;
 
 function TFMXApplicationService.HandleMessage: Boolean;
+{$IFDEF MSWINDOWS}
 var
   TempMsg : TMsg;
+{$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
   if PeekMessage(TempMsg, 0, 0, 0, PM_NOREMOVE) then
     case TempMsg.Message of
       WM_MOVE,
@@ -211,14 +214,15 @@ begin
         if not(Application.Terminated) and
            (Application.MainForm <> nil) and
            (Application.MainForm is TMainForm) then
-          TMainForm(Application.MainForm).ResizeBrowser(TempMsg.wParam);
+          TMainForm(Application.MainForm).ResizeBrowser(cardinal(TempMsg.wParam));
 
       CEF_DESTROYTAB :
         if not(Application.Terminated) and
            (Application.MainForm <> nil) and
            (Application.MainForm is TMainForm) then
-          TMainForm(Application.MainForm).DestroyTab(TempMsg.wParam);
+          TMainForm(Application.MainForm).DestroyTab(cardinal(TempMsg.wParam));
     end;
+  {$ENDIF}
 
   Result := OldFMXApplicationService.HandleMessage;
 end;

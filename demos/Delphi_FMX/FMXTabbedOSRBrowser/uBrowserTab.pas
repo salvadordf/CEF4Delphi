@@ -65,12 +65,14 @@ type
       procedure   CloseBrowser;
       procedure   ResizeBrowser;
       procedure   FocusBrowser;
-      function    PostFormMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
       procedure   SendCaptureLostEvent;
+      {$IFDEF MSWINDOWS}
       procedure   HandleSYSCHAR(const aMessage : TMsg);
       procedure   HandleSYSKEYDOWN(const aMessage : TMsg);
       procedure   HandleSYSKEYUP(const aMessage : TMsg);
       function    HandlePOINTER(const aMessage : TMsg) : boolean;
+      function    PostFormMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
+      {$ENDIF}
 
       property    TabID      : cardinal     read FTabID;
       property    ParentForm : TCustomForm  read GetParentForm;
@@ -105,44 +107,10 @@ begin
     Result := nil;
 end;
 
-function TBrowserTab.PostFormMessage(aMsg, wParam : cardinal; lParam : integer) : boolean;
-var
-  TempForm : TCustomForm;
-begin
-  TempForm := ParentForm;
-  Result   := (TempForm <> nil) and
-              (TempForm is TMainForm) and
-              TMainForm(TempForm).PostCustomMessage(aMsg, wParam, lParam);
-end;
-
 procedure TBrowserTab.SendCaptureLostEvent;
 begin
   if (FBrowserFrame <> nil) then
     FBrowserFrame.SendCaptureLostEvent;
-end;
-
-procedure TBrowserTab.HandleSYSCHAR(const aMessage : TMsg);
-begin
-  if (FBrowserFrame <> nil) then
-    FBrowserFrame.HandleSYSCHAR(aMessage);
-end;
-
-procedure TBrowserTab.HandleSYSKEYDOWN(const aMessage : TMsg);
-begin
-  if (FBrowserFrame <> nil) then
-    FBrowserFrame.HandleSYSKEYDOWN(aMessage);
-end;
-
-procedure TBrowserTab.HandleSYSKEYUP(const aMessage : TMsg);
-begin
-  if (FBrowserFrame <> nil) then
-    FBrowserFrame.HandleSYSKEYUP(aMessage);
-end;
-
-function TBrowserTab.HandlePOINTER(const aMessage : TMsg) : boolean;
-begin
-  Result := (FBrowserFrame <> nil) and
-            FBrowserFrame.HandlePOINTER(aMessage);
 end;
 
 procedure TBrowserTab.NotifyMoveOrResizeStarted;
@@ -185,7 +153,9 @@ procedure TBrowserTab.BrowserFrame_OnBrowserDestroyed(Sender: TObject);
 begin
   // This event is executed in a CEF thread so we have to send a message to
   // destroy the tab in the main application thread.
+  {$IFDEF MSWINDOWS}
   PostFormMessage(CEF_DESTROYTAB, TabID);
+  {$ENDIF}
 end;
 
 procedure TBrowserTab.BrowserFrame_OnBrowserTitleChange(Sender: TObject; const aTitle : string);
@@ -195,7 +165,45 @@ end;
 
 procedure TBrowserTab.BrowserFrame_OnBrowserNeedsResize(Sender: TObject);
 begin
+  {$IFDEF MSWINDOWS}
   PostFormMessage(CEF_PENDINGRESIZE, TabID);
+  {$ENDIF}
 end;
+
+{$IFDEF MSWINDOWS}
+procedure TBrowserTab.HandleSYSCHAR(const aMessage : TMsg);
+begin
+  if (FBrowserFrame <> nil) then
+    FBrowserFrame.HandleSYSCHAR(aMessage);
+end;
+
+procedure TBrowserTab.HandleSYSKEYDOWN(const aMessage : TMsg);
+begin
+  if (FBrowserFrame <> nil) then
+    FBrowserFrame.HandleSYSKEYDOWN(aMessage);
+end;
+
+procedure TBrowserTab.HandleSYSKEYUP(const aMessage : TMsg);
+begin
+  if (FBrowserFrame <> nil) then
+    FBrowserFrame.HandleSYSKEYUP(aMessage);
+end;
+
+function TBrowserTab.HandlePOINTER(const aMessage : TMsg) : boolean;
+begin
+  Result := (FBrowserFrame <> nil) and
+            FBrowserFrame.HandlePOINTER(aMessage);
+end;
+
+function TBrowserTab.PostFormMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
+var
+  TempForm : TCustomForm;
+begin
+  TempForm := ParentForm;
+  Result   := (TempForm <> nil) and
+              (TempForm is TMainForm) and
+              TMainForm(TempForm).PostCustomMessage(aMsg, aWParam, aLParam);
+end;
+{$ENDIF}
 
 end.

@@ -129,11 +129,13 @@ type
       function  GetMousePosition(var aPoint : TPointF) : boolean;
       procedure InitializeLastClick;
       function  CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
-      function  PostFormMessage(aMsg : cardinal; wParam : cardinal = 0; lParam : integer = 0) : boolean;
+      {$IFDEF MSWINDOWS}
+      function  PostFormMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
       function  ArePointerEventsSupported : boolean;
       function  HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
       function  HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean; overload;
       function  HandlePointerEvent(const aMessage : TMsg) : boolean;
+      {$ENDIF}
 
     public
       constructor Create(AOwner : TComponent); override;
@@ -141,10 +143,12 @@ type
 
       procedure   NotifyMoveOrResizeStarted;
       procedure   SendCaptureLostEvent;
+      {$IFDEF MSWINDOWS}
       procedure   HandleSYSCHAR(const aMessage : TMsg);
       procedure   HandleSYSKEYDOWN(const aMessage : TMsg);
       procedure   HandleSYSKEYUP(const aMessage : TMsg);
       function    HandlePOINTER(const aMessage : TMsg) : boolean;
+      {$ENDIF}
 
       procedure   CreateBrowser;
       procedure   CloseBrowser;
@@ -250,64 +254,7 @@ begin
   FMXChromium1.SendCaptureLostEvent;
 end;
 
-procedure TBrowserFrame.HandleSYSCHAR(const aMessage : TMsg);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := KEYEVENT_CHAR;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-    end;
-end;
-
-procedure TBrowserFrame.HandleSYSKEYDOWN(const aMessage : TMsg);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-    end;
-end;
-
-procedure TBrowserFrame.HandleSYSKEYUP(const aMessage : TMsg);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := KEYEVENT_KEYUP;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-    end;
-end;
-
-procedure TBrowserFrame.StopBtnClick(Sender: TObject);
+procedure TBrowserFrame.StopBtnClick(Sender: TObject);
 begin
   FMXChromium1.StopLoad;
 end;
@@ -932,14 +879,20 @@ end;
 
 function TBrowserFrame.CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
 begin
+  {$IFDEF MSWINDOWS}
   aCurrentTime := GetMessageTime;
 
   Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
             (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
             (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
+  {$ELSE}
+  aCurrentTime := 0;
+  Result       := False;
+  {$ENDIF}
 end;
 
-function TBrowserFrame.PostFormMessage(aMsg, wParam : cardinal; lParam : integer) : boolean;
+{$IFDEF MSWINDOWS}
+function TBrowserFrame.PostFormMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 var
   TempTab : TTabItem;
 
@@ -947,7 +900,7 @@ begin
   TempTab := ParentTab;
   Result  := (TempTab <> nil) and
              (TempTab is TBrowserTab) and
-             TBrowserTab(TempTab).PostFormMessage(aMsg, wParam, lParam);
+             TBrowserTab(TempTab).PostFormMessage(aMsg, aWParam, aLParam);
 end;
 
 function TBrowserFrame.ArePointerEventsSupported : boolean;
@@ -956,14 +909,6 @@ begin
             (@GetPointerType      <> nil) and
             (@GetPointerTouchInfo <> nil) and
             (@GetPointerPenInfo   <> nil);
-end;
-
-function TBrowserFrame.HandlePOINTER(const aMessage : TMsg) : boolean;
-begin
-  Result := FMXBufferPanel1.IsFocused and
-            (GlobalCEFApp <> nil) and
-            ArePointerEventsSupported and
-            HandlePointerEvent(aMessage);
 end;
 
 function TBrowserFrame.HandlePointerEvent(const aMessage : TMsg) : boolean;
@@ -1091,5 +1036,72 @@ begin
 
   FMXChromium1.SendTouchEvent(@TempTouchEvent);
 end;
+
+procedure TBrowserFrame.HandleSYSCHAR(const aMessage : TMsg);
+var
+  TempKeyEvent : TCefKeyEvent;
+begin
+  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
+    begin
+      TempKeyEvent.kind                    := KEYEVENT_CHAR;
+      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+      TempKeyEvent.is_system_key           := ord(True);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+
+      FMXChromium1.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+procedure TBrowserFrame.HandleSYSKEYDOWN(const aMessage : TMsg);
+var
+  TempKeyEvent : TCefKeyEvent;
+begin
+  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
+    begin
+      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+      TempKeyEvent.is_system_key           := ord(True);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+
+      FMXChromium1.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+procedure TBrowserFrame.HandleSYSKEYUP(const aMessage : TMsg);
+var
+  TempKeyEvent : TCefKeyEvent;
+begin
+  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
+    begin
+      TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+      TempKeyEvent.is_system_key           := ord(True);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+
+      FMXChromium1.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+function TBrowserFrame.HandlePOINTER(const aMessage : TMsg) : boolean;
+begin
+  Result := FMXBufferPanel1.IsFocused and
+            (GlobalCEFApp <> nil) and
+            ArePointerEventsSupported and
+            HandlePointerEvent(aMessage);
+end;
+{$ENDIF}
+
 
 end.

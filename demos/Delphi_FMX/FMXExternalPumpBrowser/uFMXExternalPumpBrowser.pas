@@ -129,21 +129,25 @@ type
     function  GetMousePosition(var aPoint : TPointF) : boolean;
     procedure InitializeLastClick;
     function  CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
+    {$IFDEF MSWINDOWS}
     function  SendCompMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
     function  ArePointerEventsSupported : boolean;
     function  HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
     function  HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean; overload;
     function  HandlePointerEvent(const aMessage : TMsg) : boolean;
+    {$ENDIF}
 
   public
     procedure DoResize;
     procedure NotifyMoveOrResizeStarted;
     procedure SendCaptureLostEvent;
+    procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
+    {$IFDEF MSWINDOWS}
     procedure HandleSYSCHAR(const aMessage : TMsg);
     procedure HandleSYSKEYDOWN(const aMessage : TMsg);
     procedure HandleSYSKEYUP(const aMessage : TMsg);
     function  HandlePOINTER(const aMessage : TMsg) : boolean;
-    procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
+    {$ENDIF}
   end;
 
 var
@@ -886,6 +890,61 @@ begin
   if (chrmosr <> nil) then chrmosr.SendCaptureLostEvent;
 end;
 
+function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;
+begin
+  Result := EVENTFLAG_NONE;
+
+  if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
+  if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
+  if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+  if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+  if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+end;
+
+function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;
+begin
+  case Button of
+    TMouseButton.mbRight  : Result := MBT_RIGHT;
+    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
+    else                    Result := MBT_LEFT;
+  end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.InitializeLastClick;
+begin
+  FLastClickCount   := 1;
+  FLastClickTime    := 0;
+  FLastClickPoint.x := 0;
+  FLastClickPoint.y := 0;
+  FLastClickButton  := TMouseButton.mbLeft;
+end;
+
+function TFMXExternalPumpBrowserFrm.CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
+begin
+  {$IFDEF MSWINDOWS}
+  aCurrentTime := GetMessageTime;
+
+  Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
+            (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
+            (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
+  {$ELSE}
+  aCurrentTime := 0;
+  Result       := False;
+  {$ENDIF}
+end;
+
+procedure TFMXExternalPumpBrowserFrm.SnapshotBtnClick(Sender: TObject);
+begin
+  if SaveDialog1.Execute then Panel1.SaveToFile(SaveDialog1.FileName);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.SnapshotBtnEnter(Sender: TObject);
+begin
+  chrmosr.SendFocusEvent(False);
+end;
+
+{$IFDEF MSWINDOWS}
 procedure TFMXExternalPumpBrowserFrm.HandleSYSCHAR(const aMessage : TMsg);
 var
   TempKeyEvent : TCefKeyEvent;
@@ -894,8 +953,8 @@ begin
     begin
       TempKeyEvent.kind                    := KEYEVENT_CHAR;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
       TempKeyEvent.is_system_key           := ord(True);
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
@@ -913,8 +972,8 @@ begin
     begin
       TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
       TempKeyEvent.is_system_key           := ord(True);
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
@@ -932,8 +991,8 @@ begin
     begin
       TempKeyEvent.kind                    := KEYEVENT_KEYUP;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
       TempKeyEvent.is_system_key           := ord(True);
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
@@ -941,18 +1000,6 @@ begin
 
       chrmosr.SendKeyEvent(@TempKeyEvent);
     end;
-end;
-
-function TFMXExternalPumpBrowserFrm.ArePointerEventsSupported : boolean;
-begin
-  {$IFDEF MSWINDOWS}
-  Result := FAtLeastWin8 and
-            (@GetPointerType      <> nil) and
-            (@GetPointerTouchInfo <> nil) and
-            (@GetPointerPenInfo   <> nil);
-  {$ELSE}
-  Result := False;
-  {$ENDIF}
 end;
 
 function TFMXExternalPumpBrowserFrm.HandlePOINTER(const aMessage : TMsg) : boolean;
@@ -963,18 +1010,31 @@ begin
             HandlePointerEvent(aMessage);
 end;
 
+function TFMXExternalPumpBrowserFrm.SendCompMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
+var
+  TempHandle : TWinWindowHandle;
+begin
+  TempHandle := WindowHandleToPlatform(Handle);
+  Result     := WinApi.Windows.PostMessage(TempHandle.Wnd, aMsg, aWParam, aLParam);
+end;
+
+function TFMXExternalPumpBrowserFrm.ArePointerEventsSupported : boolean;
+begin
+  Result := FAtLeastWin8 and
+            (@GetPointerType      <> nil) and
+            (@GetPointerTouchInfo <> nil) and
+            (@GetPointerPenInfo   <> nil);
+end;
+
 function TFMXExternalPumpBrowserFrm.HandlePointerEvent(const aMessage : TMsg) : boolean;
-{$IFDEF MSWINDOWS}
 const
   PT_TOUCH = 2;
   PT_PEN   = 3;
 var
   TempID   : uint32;
   TempType : POINTER_INPUT_TYPE;
-{$ENDIF}
 begin
   Result := False;
-  {$IFDEF MSWINDOWS}
   TempID := LoWord(aMessage.wParam);
 
   if GetPointerType(TempID, @TempType) then
@@ -982,19 +1042,15 @@ begin
       PT_PEN   : Result := HandlePenEvent(TempID, aMessage.message);
       PT_TOUCH : Result := HandleTouchEvent(TempID, aMessage.message);
     end;
-  {$ENDIF}
 end;
 
 function TFMXExternalPumpBrowserFrm.HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
-{$IFDEF MSWINDOWS}
 var
   TempPenInfo    : POINTER_PEN_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPoint      : TPoint;
-{$ENDIF}
 begin
   Result := False;
-  {$IFDEF MSWINDOWS}
   if not(GetPointerPenInfo(aID, @TempPenInfo)) then exit;
 
   TempTouchEvent.id        := aID;
@@ -1045,19 +1101,15 @@ begin
   TempTouchEvent.y := TempPoint.y;
 
   chrmosr.SendTouchEvent(@TempTouchEvent);
-  {$ENDIF}
 end;
 
 function TFMXExternalPumpBrowserFrm.HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean;
-{$IFDEF MSWINDOWS}
 var
   TempTouchInfo  : POINTER_TOUCH_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPoint      : TPoint;
-{$ENDIF}
 begin
   Result := False;
-  {$IFDEF MSWINDOWS}
   if not(GetPointerTouchInfo(aID, @TempTouchInfo)) then exit;
 
   TempTouchEvent.id             := aID;
@@ -1096,76 +1148,7 @@ begin
   TempTouchEvent.y := TempPoint.y;
 
   chrmosr.SendTouchEvent(@TempTouchEvent);
-  {$ENDIF}
 end;
-
-function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;
-begin
-  Result := EVENTFLAG_NONE;
-
-  if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
-  if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
-  if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
-  if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
-  if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
-  if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
-end;
-
-function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;
-begin
-  case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
-  end;
-end;
-
-procedure TFMXExternalPumpBrowserFrm.InitializeLastClick;
-begin
-  FLastClickCount   := 1;
-  FLastClickTime    := 0;
-  FLastClickPoint.x := 0;
-  FLastClickPoint.y := 0;
-  FLastClickButton  := TMouseButton.mbLeft;
-end;
-
-function TFMXExternalPumpBrowserFrm.CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
-begin
-  {$IFDEF MSWINDOWS}
-  aCurrentTime := GetMessageTime;
-
-  Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
-            (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
-            (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
-  {$ELSE}
-  aCurrentTime := 0;
-  Result       := False;
-  {$ENDIF}
-end;
-
-function TFMXExternalPumpBrowserFrm.SendCompMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
-{$IFDEF MSWINDOWS}
-var
-  TempHandle : TWinWindowHandle;
 {$ENDIF}
-begin
-  {$IFDEF MSWINDOWS}
-  TempHandle := WindowHandleToPlatform(Handle);
-  Result     := WinApi.Windows.PostMessage(TempHandle.Wnd, aMsg, aWParam, aLParam);
-  {$ELSE}
-  Result := False;
-  {$ENDIF}
-end;
-
-procedure TFMXExternalPumpBrowserFrm.SnapshotBtnClick(Sender: TObject);
-begin
-  if SaveDialog1.Execute then Panel1.SaveToFile(SaveDialog1.FileName);
-end;
-
-procedure TFMXExternalPumpBrowserFrm.SnapshotBtnEnter(Sender: TObject);
-begin
-  chrmosr.SendFocusEvent(False);
-end;
-
 
 end.

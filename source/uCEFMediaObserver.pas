@@ -198,17 +198,25 @@ procedure cef_media_observer_on_route_message_received(      self         : PCef
                                                              message_size : NativeUInt); stdcall;
 var
   TempObject  : TObject;
-  TempMessage : Ansistring;
+  TempAnsiMsg : Ansistring;
+  TempMsg     : ustring;
 begin
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefMediaObserverOwn) then
     begin
       if (message_size > 0) and (message_ <> nil) then
-        SetString(TempMessage, PAnsiChar(message_), message_size);
+        begin
+          SetString(TempAnsiMsg, PAnsiChar(message_), message_size);
+          {$IFDEF DELPHI12_UP}
+          TempMsg := Utf8ToString(TempAnsiMsg);
+          {$ELSE}
+          TempMsg := Utf8Decode(TempAnsiMsg);
+          {$ENDIF}
+        end;
 
       TCefMediaObserverOwn(TempObject).OnRouteMessageReceived(TCefMediaRouteRef.UnWrap(route),
-                                                              ustring(TempMessage));
+                                                              TempMsg);
     end;
 end;
 

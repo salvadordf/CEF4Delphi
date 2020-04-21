@@ -97,14 +97,16 @@ type
     procedure DestroyTab(aTabID : cardinal);
     procedure ResizeBrowser(aTabID : cardinal);
     procedure SendCaptureLostEvent;
+    procedure NotifyMoveOrResizeStarted;
+    function  GetMousePosition(var aPoint : TPointF) : boolean;
+    procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
+    {$IFDEF MSWINDOWS}
     procedure HandleSYSCHAR(const aMessage : TMsg);
     procedure HandleSYSKEYDOWN(const aMessage : TMsg);
     procedure HandleSYSKEYUP(const aMessage : TMsg);
     function  HandlePOINTER(const aMessage : TMsg) : boolean;
     function  PostCustomMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
-    procedure NotifyMoveOrResizeStarted;
-    function  GetMousePosition(var aPoint : TPointF) : boolean;
-    procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
+    {$ENDIF}
   end;
 
 var
@@ -155,12 +157,16 @@ uses
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
-  if (MainForm <> nil) then MainForm.PostCustomMessage(CEF_INITIALIZED);
+  {$IFDEF MSWINDOWS}
+  if (MainForm <> nil) then
+    MainForm.PostCustomMessage(CEF_INITIALIZED);
+  {$ENDIF}
 end;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
-  if (GlobalFMXWorkScheduler <> nil) then GlobalFMXWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+  if (GlobalFMXWorkScheduler <> nil) then
+    GlobalFMXWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
 end;
 
 procedure CreateGlobalCEFApp;
@@ -223,7 +229,9 @@ var
   PositionChanged: Boolean;
 begin
   PositionChanged := (ALeft <> Left) or (ATop <> Top);
+
   inherited SetBounds(ALeft, ATop, AWidth, AHeight);
+
   if PositionChanged then
     NotifyMoveOrResizeStarted;
 end;
@@ -347,14 +355,6 @@ begin
     end;
 end;
 
-function TMainForm.PostCustomMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
-var
-  TempHWND : HWND;
-begin
-  TempHWND := FmxHandleToHWND(Handle);
-  Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMsg, aWParam, aLParam);
-end;
-
 procedure TMainForm.BrowserTabCtrlChange(Sender: TObject);
 begin
   if (BrowserTabCtrl.ActiveTab <> nil) then
@@ -404,6 +404,7 @@ begin
     TBrowserTab(BrowserTabCtrl.ActiveTab).SendCaptureLostEvent;
 end;
 
+{$IFDEF MSWINDOWS}
 procedure TMainForm.HandleSYSCHAR(const aMessage : TMsg);
 begin
   if (BrowserTabCtrl.ActiveTab <> nil) then
@@ -427,5 +428,14 @@ begin
   Result := (BrowserTabCtrl.ActiveTab <> nil) and
             TBrowserTab(BrowserTabCtrl.ActiveTab).HandlePOINTER(aMessage);
 end;
+
+function TMainForm.PostCustomMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
+var
+  TempHWND : HWND;
+begin
+  TempHWND := FmxHandleToHWND(Handle);
+  Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMsg, aWParam, aLParam);
+end;
+{$ENDIF}
 
 end.

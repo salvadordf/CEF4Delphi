@@ -135,11 +135,13 @@ object MediaRouterFrm: TMediaRouterFrm
           object SourceURNLbl: TLabel
             Left = 0
             Top = 0
-            Width = 57
-            Height = 13
+            Width = 65
+            Height = 21
             Align = alClient
             Caption = 'Source URN'
             Layout = tlCenter
+            ExplicitWidth = 57
+            ExplicitHeight = 13
           end
         end
       end
@@ -183,6 +185,7 @@ object MediaRouterFrm: TMediaRouterFrm
           Align = alClient
           ScrollBars = ssBoth
           TabOrder = 1
+          OnChange = MessageMemChange
         end
       end
       object LogGbx: TGroupBox
