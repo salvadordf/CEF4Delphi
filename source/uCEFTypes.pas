@@ -1283,10 +1283,10 @@ type
     page_width            : Integer;
     page_height           : Integer;
     scale_factor          : Integer;
-    margin_top            : double;
-    margin_right          : double;
-    margin_bottom         : double;
-    margin_left           : double;
+    margin_top            : Integer;
+    margin_right          : Integer;
+    margin_bottom         : Integer;
+    margin_left           : Integer;
     margin_type           : TCefPdfPrintMarginType;
     header_footer_enabled : Integer;
     selection_only        : Integer;
