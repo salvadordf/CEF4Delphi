@@ -75,13 +75,8 @@ type
 implementation
 
 uses
-  FMX.Forms,
-  uFMXExternalPumpBrowser,
-  uCEFFMXWorkScheduler,
-  {$IFDEF MSWINDOWS}
-  Winapi.Messages, Winapi.Windows,
-  {$ENDIF}
-  uCEFApplication, uCEFConstants;
+  FMX.Forms, {$IFDEF MSWINDOWS}Winapi.Messages, Winapi.Windows,{$ENDIF}
+  uFMXExternalPumpBrowser, uCEFFMXWorkScheduler, uCEFApplication, uCEFConstants;
 
 class procedure TFMXApplicationService.AddPlatformService;
 begin
@@ -197,6 +192,18 @@ begin
            (Application.MainForm <> nil) and
            (Application.MainForm is TFMXExternalPumpBrowserFrm) then
           TFMXExternalPumpBrowserFrm(Application.MainForm).HandleSYSKEYUP(TempMsg);
+
+      WM_KEYDOWN :
+        if not(Application.Terminated) and
+           (Application.MainForm <> nil) and
+           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
+          TFMXExternalPumpBrowserFrm(Application.MainForm).HandleKEYDOWN(TempMsg);
+
+      WM_KEYUP :
+        if not(Application.Terminated) and
+           (Application.MainForm <> nil) and
+           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
+          TFMXExternalPumpBrowserFrm(Application.MainForm).HandleKEYUP(TempMsg);
 
       WM_POINTERDOWN,
       WM_POINTERUPDATE,

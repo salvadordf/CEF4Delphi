@@ -78,7 +78,6 @@ type
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
     procedure Panel1MouseLeave(Sender: TObject);
     procedure Panel1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; var Handled: Boolean);
-    procedure Panel1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
     procedure Panel1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 
     procedure FormCreate(Sender: TObject);
@@ -101,6 +100,7 @@ type
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
+
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
 
@@ -146,6 +146,8 @@ type
     procedure HandleSYSCHAR(const aMessage : TMsg);
     procedure HandleSYSKEYDOWN(const aMessage : TMsg);
     procedure HandleSYSKEYUP(const aMessage : TMsg);
+    procedure HandleKEYDOWN(const aMessage : TMsg);
+    procedure HandleKEYUP(const aMessage : TMsg);
     function  HandlePOINTER(const aMessage : TMsg) : boolean;
     {$ENDIF}
   end;
@@ -212,6 +214,8 @@ begin
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
   //GlobalCEFApp.EnableGPU                  := True;
+  //GlobalCEFApp.LogFile                    := 'debug.log';
+  //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -332,32 +336,6 @@ var
 begin
   if not(Panel1.IsFocused) then exit;
 
-  if (Key <> 0) and (KeyChar = #0) then
-    begin
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := getModifiers(Shift);
-      TempKeyEvent.windows_key_code        := Key;
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-
-      if (Key in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]) then Key := 0;
-    end;
-end;
-
-procedure TFMXExternalPumpBrowserFrm.Panel1KeyUp(    Sender  : TObject;
-                                                 var Key     : Word;
-                                                 var KeyChar : Char;
-                                                     Shift   : TShiftState);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if not(Panel1.IsFocused) then exit;
-
   if (Key = 0) and (KeyChar <> #0) then
     begin
       TempKeyEvent.kind                    := KEYEVENT_CHAR;
@@ -372,36 +350,9 @@ begin
       chrmosr.SendKeyEvent(@TempKeyEvent);
     end
    else
-    if (Key <> 0) and (KeyChar = #0) then
-      begin
-        if (Key = VK_RETURN) then
-          begin
-            // FMX doesn't trigger this event with a KeyChar<>0
-            // to send a KEYEVENT_CHAR event for the VK_RETURN key.
-            // We add it manually before the KEYEVENT_KEYUP event.
-            TempKeyEvent.kind                    := KEYEVENT_CHAR;
-            TempKeyEvent.modifiers               := getModifiers(Shift);
-            TempKeyEvent.windows_key_code        := VK_RETURN;
-            TempKeyEvent.native_key_code         := 0;
-            TempKeyEvent.is_system_key           := ord(False);
-            TempKeyEvent.character               := #0;
-            TempKeyEvent.unmodified_character    := #0;
-            TempKeyEvent.focus_on_editable_field := ord(False);
-
-            chrmosr.SendKeyEvent(@TempKeyEvent);
-          end;
-
-        TempKeyEvent.kind                    := KEYEVENT_KEYUP;
-        TempKeyEvent.modifiers               := getModifiers(Shift);
-        TempKeyEvent.windows_key_code        := Key;
-        TempKeyEvent.native_key_code         := 0;
-        TempKeyEvent.is_system_key           := ord(False);
-        TempKeyEvent.character               := #0;
-        TempKeyEvent.unmodified_character    := #0;
-        TempKeyEvent.focus_on_editable_field := ord(False);
-
-        chrmosr.SendKeyEvent(@TempKeyEvent);
-      end;
+    if (Key <> 0) and (KeyChar = #0) and
+       (Key in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]) then
+      Key := 0;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
@@ -994,6 +945,58 @@ begin
       TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
       TempKeyEvent.native_key_code         := integer(aMessage.lParam);
       TempKeyEvent.is_system_key           := ord(True);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+
+      chrmosr.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.HandleKEYDOWN(const aMessage : TMsg);
+var
+  TempKeyEvent : TCefKeyEvent;
+begin
+  if Panel1.IsFocused then
+    begin
+      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+      TempKeyEvent.is_system_key           := ord(False);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+
+      chrmosr.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.HandleKEYUP(const aMessage : TMsg);
+var
+  TempKeyEvent : TCefKeyEvent;
+begin
+  if Panel1.IsFocused then
+    begin
+      if (aMessage.wParam = VK_RETURN) then
+        begin
+          TempKeyEvent.kind                    := KEYEVENT_CHAR;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+          TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+          TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+          TempKeyEvent.is_system_key           := ord(False);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
+
+          chrmosr.SendKeyEvent(@TempKeyEvent);
+        end;
+
+      TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+      TempKeyEvent.is_system_key           := ord(False);
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
       TempKeyEvent.focus_on_editable_field := ord(False);

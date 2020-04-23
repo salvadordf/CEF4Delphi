@@ -125,7 +125,6 @@ object BrowserFrame: TBrowserFrame
     OnMouseUp = FMXBufferPanel1MouseUp
     OnMouseLeave = FMXBufferPanel1MouseLeave
     OnMouseWheel = FMXBufferPanel1MouseWheel
-    OnKeyUp = FMXBufferPanel1KeyUp
     OnKeyDown = FMXBufferPanel1KeyDown
   end
   object FMXChromium1: TFMXChromium

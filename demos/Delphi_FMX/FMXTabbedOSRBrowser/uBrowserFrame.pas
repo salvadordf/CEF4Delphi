@@ -81,7 +81,6 @@ type
       procedure FMXBufferPanel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
       procedure FMXBufferPanel1MouseLeave(Sender: TObject);
       procedure FMXBufferPanel1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; var Handled: Boolean);
-      procedure FMXBufferPanel1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
       procedure FMXBufferPanel1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 
       procedure FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -147,6 +146,8 @@ type
       procedure   HandleSYSCHAR(const aMessage : TMsg);
       procedure   HandleSYSKEYDOWN(const aMessage : TMsg);
       procedure   HandleSYSKEYUP(const aMessage : TMsg);
+      procedure   HandleKEYDOWN(const aMessage : TMsg);
+      procedure   HandleKEYUP(const aMessage : TMsg);
       function    HandlePOINTER(const aMessage : TMsg) : boolean;
       {$ENDIF}
 
@@ -281,30 +282,6 @@ var
 begin
   if not(FMXBufferPanel1.IsFocused) then exit;
 
-  if (Key <> 0) and (KeyChar = #0) then
-    begin
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := getModifiers(Shift);
-      TempKeyEvent.windows_key_code        := Key;
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-
-      if (Key in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]) then Key := 0;
-    end;
-end;
-
-procedure TBrowserFrame.FMXBufferPanel1KeyUp(Sender: TObject; var Key: Word;
-  var KeyChar: Char; Shift: TShiftState);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if not(FMXBufferPanel1.IsFocused) then exit;
-
   if (Key = 0) and (KeyChar <> #0) then
     begin
       TempKeyEvent.kind                    := KEYEVENT_CHAR;
@@ -319,36 +296,9 @@ begin
       FMXChromium1.SendKeyEvent(@TempKeyEvent);
     end
    else
-    if (Key <> 0) and (KeyChar = #0) then
-      begin
-        if (Key = VK_RETURN) then
-          begin
-            // FMX doesn't trigger this event with a KeyChar<>0
-            // to send a KEYEVENT_CHAR event for the VK_RETURN key.
-            // We add it manually before the KEYEVENT_KEYUP event.
-            TempKeyEvent.kind                    := KEYEVENT_CHAR;
-            TempKeyEvent.modifiers               := getModifiers(Shift);
-            TempKeyEvent.windows_key_code        := VK_RETURN;
-            TempKeyEvent.native_key_code         := 0;
-            TempKeyEvent.is_system_key           := ord(False);
-            TempKeyEvent.character               := #0;
-            TempKeyEvent.unmodified_character    := #0;
-            TempKeyEvent.focus_on_editable_field := ord(False);
-
-            FMXChromium1.SendKeyEvent(@TempKeyEvent);
-          end;
-
-        TempKeyEvent.kind                    := KEYEVENT_KEYUP;
-        TempKeyEvent.modifiers               := getModifiers(Shift);
-        TempKeyEvent.windows_key_code        := Key;
-        TempKeyEvent.native_key_code         := 0;
-        TempKeyEvent.is_system_key           := ord(False);
-        TempKeyEvent.character               := #0;
-        TempKeyEvent.unmodified_character    := #0;
-        TempKeyEvent.focus_on_editable_field := ord(False);
-
-        FMXChromium1.SendKeyEvent(@TempKeyEvent);
-      end;
+    if (Key <> 0) and (KeyChar = #0) and
+       (Key in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]) then
+      Key := 0;
 end;
 
 procedure TBrowserFrame.FMXBufferPanel1MouseDown(Sender: TObject;
@@ -1086,6 +1036,58 @@ begin
       TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
       TempKeyEvent.native_key_code         := integer(aMessage.lParam);
       TempKeyEvent.is_system_key           := ord(True);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+
+      FMXChromium1.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+procedure TBrowserFrame.HandleKEYDOWN(const aMessage : TMsg);
+var
+  TempKeyEvent : TCefKeyEvent;
+begin
+  if FMXBufferPanel1.IsFocused then
+    begin
+      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+      TempKeyEvent.is_system_key           := ord(False);
+      TempKeyEvent.character               := #0;
+      TempKeyEvent.unmodified_character    := #0;
+      TempKeyEvent.focus_on_editable_field := ord(False);
+
+      FMXChromium1.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+procedure TBrowserFrame.HandleKEYUP(const aMessage : TMsg);
+var
+  TempKeyEvent : TCefKeyEvent;
+begin
+  if FMXBufferPanel1.IsFocused then
+    begin
+      if (aMessage.wParam = VK_RETURN) then
+        begin
+          TempKeyEvent.kind                    := KEYEVENT_CHAR;
+          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+          TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+          TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+          TempKeyEvent.is_system_key           := ord(False);
+          TempKeyEvent.character               := #0;
+          TempKeyEvent.unmodified_character    := #0;
+          TempKeyEvent.focus_on_editable_field := ord(False);
+
+          FMXChromium1.SendKeyEvent(@TempKeyEvent);
+        end;
+
+      TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
+      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
+      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
+      TempKeyEvent.is_system_key           := ord(False);
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
       TempKeyEvent.focus_on_editable_field := ord(False);

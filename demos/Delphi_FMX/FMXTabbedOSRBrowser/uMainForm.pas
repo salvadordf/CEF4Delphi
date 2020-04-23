@@ -104,6 +104,8 @@ type
     procedure HandleSYSCHAR(const aMessage : TMsg);
     procedure HandleSYSKEYDOWN(const aMessage : TMsg);
     procedure HandleSYSKEYUP(const aMessage : TMsg);
+    procedure HandleKEYDOWN(const aMessage : TMsg);
+    procedure HandleKEYUP(const aMessage : TMsg);
     function  HandlePOINTER(const aMessage : TMsg) : boolean;
     function  PostCustomMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
     {$ENDIF}
@@ -421,6 +423,18 @@ procedure TMainForm.HandleSYSKEYUP(const aMessage : TMsg);
 begin
   if (BrowserTabCtrl.ActiveTab <> nil) then
     TBrowserTab(BrowserTabCtrl.ActiveTab).HandleSYSKEYUP(aMessage);
+end;
+
+procedure TMainForm.HandleKEYDOWN(const aMessage : TMsg);
+begin
+  if (BrowserTabCtrl.ActiveTab <> nil) then
+    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleKEYDOWN(aMessage);
+end;
+
+procedure TMainForm.HandleKEYUP(const aMessage : TMsg);
+begin
+  if (BrowserTabCtrl.ActiveTab <> nil) then
+    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleKEYUP(aMessage);
 end;
 
 function TMainForm.HandlePOINTER(const aMessage : TMsg) : boolean;
