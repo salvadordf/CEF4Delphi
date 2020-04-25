@@ -1276,8 +1276,8 @@ end;
 
 procedure TChromiumCore.DestroyMediaObserver;
 begin
-  FRegistration  := nil;
   FMediaObserver := nil;
+  FRegistration  := nil;
 end;
 
 procedure TChromiumCore.CreateMediaObserver;

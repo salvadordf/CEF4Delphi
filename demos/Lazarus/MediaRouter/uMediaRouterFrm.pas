@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright Â© 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,20 +37,16 @@
 
 unit uMediaRouterFrm;
 
+{$MODE Delphi}
+
 {$I cef.inc}
 
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Menus,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
-  System.UITypes, Vcl.AppEvnts, Winapi.ActiveX, Winapi.ShlObj, System.SyncObjs,
-  {$ELSE}
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
-  AppEvnts, ActiveX, ShlObj, SyncObjs,
-  {$ENDIF}
+  ActiveX, ShlObj, SyncObjs,
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
   uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
@@ -153,7 +149,7 @@ procedure CreateGlobalCEFApp;
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 uses
   {$IFDEF DELPHI16_UP}

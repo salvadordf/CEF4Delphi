@@ -45,7 +45,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, ActiveX, ShlObj,
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl, uCEFChromiumEvents, uCEFSentinel;
+  uCEFWinControl, uCEFChromiumEvents;
 
 const
   MINIBROWSER_SHOWDEVTOOLS    = WM_APP + $101;

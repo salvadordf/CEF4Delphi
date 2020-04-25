@@ -232,6 +232,8 @@ begin
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.TouchEvents                := STATE_ENABLED;
   //GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.LogFile                    := 'debug.log';
+  GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
 
   // If you need transparency leave the GlobalCEFApp.BackgroundColor property
   // with the default value or set the alpha channel to 0

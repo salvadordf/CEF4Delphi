@@ -1,301 +1,295 @@
 object MediaRouterFrm: TMediaRouterFrm
-  Left = 0
-  Top = 0
+  Left = 363
+  Height = 757
+  Top = 75
+  Width = 1029
   Caption = 'Media Router'
   ClientHeight = 757
   ClientWidth = 1029
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
-  Font.Style = []
-  OldCreateOrder = False
-  Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  Position = poScreenCenter
+  LCLVersion = '2.0.8.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 184
+    Height = 0
     Top = 56
     Width = 0
-    Height = 0
     TabOrder = 0
     Visible = False
     Enabled = False
   end
   object MainPnl: TPanel
     Left = 0
+    Height = 757
     Top = 0
     Width = 1029
-    Height = 757
     Align = alClient
     BevelOuter = bvNone
-    Padding.Left = 15
-    Padding.Top = 15
-    Padding.Right = 15
-    Padding.Bottom = 15
+    ClientHeight = 757
+    ClientWidth = 1029
     TabOrder = 1
     object SinksGbx: TGroupBox
-      Left = 15
-      Top = 15
+      Left = 0
+      Height = 757
+      Top = 0
       Width = 250
-      Height = 727
       Align = alLeft
       Caption = ' Sinks on this network '
-      Padding.Left = 10
-      Padding.Top = 10
-      Padding.Right = 10
-      Padding.Bottom = 10
+      ClientHeight = 739
+      ClientWidth = 246
       TabOrder = 0
       object SinksLbx: TListBox
-        Left = 12
-        Top = 25
-        Width = 226
-        Height = 616
+        Left = 0
+        Height = 679
+        Top = 0
+        Width = 246
         Align = alClient
-        ItemHeight = 13
-        TabOrder = 0
+        ItemHeight = 0
         OnClick = SinksLbxClick
+        TabOrder = 0
       end
       object SinksButtonsPnl: TPanel
-        Left = 12
-        Top = 641
-        Width = 226
-        Height = 74
+        Left = 0
+        Height = 60
+        Top = 679
+        Width = 246
         Align = alBottom
         BevelOuter = bvNone
-        Padding.Top = 10
+        ClientHeight = 60
+        ClientWidth = 246
         TabOrder = 1
         object CreateRouteBtn: TButton
           Left = 0
-          Top = 10
-          Width = 226
           Height = 27
+          Top = 0
+          Width = 246
           Align = alTop
           Caption = 'Create route'
           Enabled = False
-          TabOrder = 0
           OnClick = CreateRouteBtnClick
+          TabOrder = 0
         end
         object NotifySinksBtn: TButton
           Left = 0
-          Top = 47
-          Width = 226
           Height = 27
+          Top = 33
+          Width = 246
           Align = alBottom
           Caption = 'Notify sinks'
-          TabOrder = 1
           OnClick = NotifySinksBtnClick
+          TabOrder = 1
         end
       end
     end
     object CentralPnl: TPanel
-      Left = 265
-      Top = 15
-      Width = 499
-      Height = 727
+      Left = 250
+      Height = 757
+      Top = 0
+      Width = 529
       Align = alClient
       BevelOuter = bvNone
-      Padding.Left = 20
-      Padding.Right = 20
+      ClientHeight = 757
+      ClientWidth = 529
       TabOrder = 1
       object SourcePnl: TPanel
-        Left = 20
+        Left = 0
+        Height = 21
         Top = 0
-        Width = 459
-        Height = 41
+        Width = 529
         Align = alTop
         BevelOuter = bvNone
-        Padding.Top = 10
-        Padding.Right = 2
-        Padding.Bottom = 10
+        ClientHeight = 21
+        ClientWidth = 529
         TabOrder = 0
         object SourceLblPnl: TPanel
           Left = 0
-          Top = 10
-          Width = 65
           Height = 21
+          Top = 0
+          Width = 65
           Align = alLeft
           BevelOuter = bvNone
+          ClientHeight = 21
+          ClientWidth = 65
           TabOrder = 0
           object SourceURNLbl: TLabel
             Left = 0
+            Height = 21
             Top = 0
             Width = 65
-            Height = 21
             Align = alClient
             Caption = 'Source URN'
             Layout = tlCenter
-            ExplicitWidth = 57
-            ExplicitHeight = 13
+            ParentColor = False
           end
         end
         object SourceURNCbx: TComboBox
           Left = 65
-          Top = 10
-          Width = 392
           Height = 21
+          Top = 0
+          Width = 464
           Align = alClient
+          ItemHeight = 13
           ItemIndex = 1
-          TabOrder = 1
-          Text = 'cast:CC1AD845?clientId=123456789'
           Items.Strings = (
             'cast:<appId>?clientId=<clientId>'
             'cast:CC1AD845?clientId=123456789'
-            'cast:4F8B3483?clientId=123456789')
+            'cast:4F8B3483?clientId=123456789'
+          )
+          TabOrder = 1
+          Text = 'cast:CC1AD845?clientId=123456789'
         end
       end
       object MessageGbx: TGroupBox
-        Left = 20
-        Top = 352
-        Width = 459
-        Height = 375
+        Left = 0
+        Height = 430
+        Top = 327
+        Width = 529
         Align = alClient
         Caption = ' Message '
-        Padding.Left = 10
-        Padding.Top = 10
-        Padding.Right = 10
-        Padding.Bottom = 10
+        ClientHeight = 412
+        ClientWidth = 525
         TabOrder = 1
         object SendMessagePnl: TPanel
-          Left = 12
-          Top = 326
-          Width = 435
-          Height = 37
+          Left = 0
+          Height = 27
+          Top = 385
+          Width = 525
           Align = alBottom
           BevelOuter = bvNone
-          Padding.Top = 10
+          ClientHeight = 27
+          ClientWidth = 525
           TabOrder = 0
           object SendMsgBtn: TButton
             Left = 0
-            Top = 10
-            Width = 435
             Height = 27
+            Top = 0
+            Width = 525
             Align = alClient
             Caption = 'Send message'
-            TabOrder = 0
             OnClick = SendMsgBtnClick
+            TabOrder = 0
           end
         end
         object MessageMem: TMemo
-          Left = 12
-          Top = 25
-          Width = 435
-          Height = 301
+          Left = 0
+          Height = 385
+          Top = 0
+          Width = 525
           Align = alClient
+          OnChange = MessageMemChange
           ScrollBars = ssBoth
           TabOrder = 1
-          OnChange = MessageMemChange
         end
       end
       object LogGbx: TGroupBox
-        Left = 20
-        Top = 41
-        Width = 459
+        Left = 0
         Height = 296
+        Top = 21
+        Width = 529
         Align = alTop
         Caption = ' Log '
-        Padding.Left = 10
-        Padding.Top = 10
-        Padding.Right = 10
-        Padding.Bottom = 10
+        ClientHeight = 278
+        ClientWidth = 525
         TabOrder = 2
         object LogMem: TMemo
-          Left = 12
-          Top = 25
-          Width = 435
-          Height = 222
+          Left = 0
+          Height = 251
+          Top = 0
+          Width = 525
           Align = alClient
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
         end
         object ClearLogPnl: TPanel
-          Left = 12
-          Top = 247
-          Width = 435
-          Height = 37
+          Left = 0
+          Height = 27
+          Top = 251
+          Width = 525
           Align = alBottom
           BevelOuter = bvNone
-          Padding.Top = 10
+          ClientHeight = 27
+          ClientWidth = 525
           TabOrder = 1
           object ClearLogBtn: TButton
             Left = 0
-            Top = 10
-            Width = 435
             Height = 27
+            Top = 0
+            Width = 525
             Align = alClient
             Caption = 'Clear log'
-            TabOrder = 0
             OnClick = ClearLogBtnClick
+            TabOrder = 0
           end
         end
       end
       object SpacerPnl: TPanel
-        Left = 20
-        Top = 337
-        Width = 459
-        Height = 15
+        Left = 0
+        Height = 10
+        Top = 317
+        Width = 529
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 3
       end
     end
     object RoutesGbx: TGroupBox
-      Left = 764
-      Top = 15
+      Left = 779
+      Height = 757
+      Top = 0
       Width = 250
-      Height = 727
       Align = alRight
       Caption = ' Established routes '
-      Padding.Left = 10
-      Padding.Top = 10
-      Padding.Right = 10
-      Padding.Bottom = 10
+      ClientHeight = 739
+      ClientWidth = 246
       TabOrder = 2
       object RoutesLbx: TListBox
-        Left = 12
-        Top = 25
-        Width = 226
-        Height = 616
+        Left = 0
+        Height = 679
+        Top = 0
+        Width = 246
         Align = alClient
-        ItemHeight = 13
-        TabOrder = 0
+        ItemHeight = 0
         OnClick = RoutesLbxClick
+        TabOrder = 0
       end
       object RoutesButtonPnl: TPanel
-        Left = 12
-        Top = 641
-        Width = 226
-        Height = 74
+        Left = 0
+        Height = 60
+        Top = 679
+        Width = 246
         Align = alBottom
         BevelOuter = bvNone
-        Padding.Top = 10
+        ClientHeight = 60
+        ClientWidth = 246
         TabOrder = 1
         object TerminateRouteBtn: TButton
           Left = 0
-          Top = 10
-          Width = 226
           Height = 27
+          Top = 0
+          Width = 246
           Align = alTop
           Caption = 'Terminate route'
           Enabled = False
-          TabOrder = 0
           OnClick = TerminateRouteBtnClick
+          TabOrder = 0
         end
         object NotifyRoutesBtn: TButton
           Left = 0
-          Top = 47
-          Width = 226
           Height = 27
+          Top = 33
+          Width = 246
           Align = alBottom
           Caption = 'Notify routes'
-          TabOrder = 1
           OnClick = NotifyRoutesBtnClick
+          TabOrder = 1
         end
       end
     end
@@ -309,14 +303,14 @@ object MediaRouterFrm: TMediaRouterFrm
     OnRoutes = Chromium1Routes
     OnRouteStateChanged = Chromium1RouteStateChanged
     OnRouteMessageReceived = Chromium1RouteMessageReceived
-    Left = 72
-    Top = 56
+    left = 72
+    top = 56
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    Left = 72
-    Top = 136
+    left = 72
+    top = 136
   end
 end
