@@ -126,6 +126,7 @@ object BrowserFrame: TBrowserFrame
     OnMouseLeave = FMXBufferPanel1MouseLeave
     OnMouseWheel = FMXBufferPanel1MouseWheel
     OnKeyDown = FMXBufferPanel1KeyDown
+    OnDialogKey = FMXBufferPanel1DialogKey
   end
   object FMXChromium1: TFMXChromium
     OnLoadError = FMXChromium1LoadError

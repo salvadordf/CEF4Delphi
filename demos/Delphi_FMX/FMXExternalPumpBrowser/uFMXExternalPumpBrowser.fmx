@@ -102,6 +102,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnMouseLeave = Panel1MouseLeave
     OnMouseWheel = Panel1MouseWheel
     OnKeyDown = Panel1KeyDown
+    OnDialogKey = Panel1DialogKey
   end
   object chrmosr: TFMXChromium
     OnTooltip = chrmosrTooltip

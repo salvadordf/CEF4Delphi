@@ -79,6 +79,7 @@ type
     procedure Panel1MouseLeave(Sender: TObject);
     procedure Panel1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; var Handled: Boolean);
     procedure Panel1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
+    procedure Panel1DialogKey(Sender: TObject; var Key: Word; Shift: TShiftState);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -317,6 +318,12 @@ begin
   Panel1.SetFocus;
 end;
 
+procedure TFMXExternalPumpBrowserFrm.Panel1DialogKey(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if (Key = vkTab) then Key := 0;
+end;
+
 procedure TFMXExternalPumpBrowserFrm.Panel1Enter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(True);
@@ -351,7 +358,7 @@ begin
     end
    else
     if (Key <> 0) and (KeyChar = #0) and
-       (Key in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]) then
+       (Key in [vkLeft, vkRight, vkUp, vkDown]) then
       Key := 0;
 end;
 
@@ -978,7 +985,7 @@ var
 begin
   if Panel1.IsFocused then
     begin
-      if (aMessage.wParam = VK_RETURN) then
+      if (aMessage.wParam = vkReturn) then
         begin
           TempKeyEvent.kind                    := KEYEVENT_CHAR;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
