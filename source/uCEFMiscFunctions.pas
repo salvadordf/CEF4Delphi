@@ -837,7 +837,8 @@ begin
         ptRenderer  : TempString := TempString + ', PT: Renderer';
         ptZygote    : TempString := TempString + ', PT: Zygote';
         ptGPU       : TempString := TempString + ', PT: GPU';
-        else          TempString := TempString + ', PT: Other';
+        ptUtility   : TempString := TempString + ', PT: Utility';
+        ptOther     : TempString := TempString + ', PT: Other';
       end;
 
       CefLog('CEF4Delphi', DEFAULT_LINE, aSeverity, TempString + ' - ' + aMessage);
