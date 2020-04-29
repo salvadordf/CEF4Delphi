@@ -228,6 +228,12 @@ var
   // /include/capi/cef_zip_reader_capi.h
   cef_zip_reader_create : function(stream: PCefStreamReader): PCefZipReader; cdecl;
 
+
+
+  // *********************************
+  // ************* VIEWS *************
+  // *********************************
+
   // /include/capi/views/cef_browser_view_capi.h
   cef_browser_view_create          : function(client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext; delegate: PCefBrowserViewDelegate): PCefBrowserView; cdecl;
   cef_browser_view_get_for_browser : function(browser: PCefBrowser): PCefBrowserView; cdecl;
@@ -237,7 +243,7 @@ var
   cef_display_get_nearest_point   : function(const point: PCefPoint; input_pixel_coords: Integer): PCefDisplay; cdecl;
   cef_display_get_matching_bounds : function(const bounds: PCefRect; input_pixel_coords: Integer): PCefDisplay; cdecl;
   cef_display_get_count           : function : NativeUInt; cdecl;
-  cef_display_get_alls            : procedure(var displaysCount: NativeUInt; var displays: PCefDisplay); cdecl;
+  cef_display_get_alls            : procedure(displaysCount: PNativeUInt; displays: PPCefDisplay); cdecl;
 
   // /include/capi/views/cef_label_button_capi.h
   cef_label_button_create         : function(delegate: PCefButtonDelegate; const text: PCefString): PCefLabelButton; cdecl;
@@ -256,6 +262,12 @@ var
 
   // /include/capi/views/cef_window_capi.h
   cef_window_create_top_level     : function(delegate: PCefWindowDelegate): PCefWindow; cdecl;
+
+
+
+  // *********************************
+  // *********** INTERNAL ************
+  // *********************************
 
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;

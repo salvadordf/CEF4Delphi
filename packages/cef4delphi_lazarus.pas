@@ -52,7 +52,12 @@ uses
   uCEFResourceSkipCallback, uCEFSentinel, uCEFApplicationCore, 
   uCEFOAuth2Helper, uCEFMediaObserver, uCEFMediaRoute, 
   uCEFMediaRouteCreateCallback, uCEFMediaRouter, uCEFMediaSink, 
-  uCEFMediaSource, uCEFRegistration, LazarusPackageIntf;
+  uCEFMediaSource, uCEFRegistration, uCEFWindowDelegate, uCEFWindow, 
+  uCEFMenuButtonDelegate, uCEFMenuButtonPressedLock, uCEFMenuButton, 
+  uCEFLabelButton, uCEFButtonDelegate, uCEFButton, uCEFBrowserViewDelegate, 
+  uCEFBrowserView, uCEFPanelDelegate, uCEFPanel, uCEFScrollView, 
+  uCEFTextfieldDelegate, uCEFTextfield, uCEFViewDelegate, uCEFView, 
+  uCEFFillLayout, uCEFBoxLayout, uCEFLayout, uCEFDisplay, LazarusPackageIntf;
 
 implementation
 

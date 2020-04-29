@@ -187,7 +187,28 @@ contains
   uCEFMediaRoute in '..\source\uCEFMediaRoute.pas',
   uCEFMediaObserver in '..\source\uCEFMediaObserver.pas',
   uCEFMediaRouter in '..\source\uCEFMediaRouter.pas',
-  uCEFRegistration in '..\source\uCEFRegistration.pas';
+  uCEFRegistration in '..\source\uCEFRegistration.pas',
+  uCEFDisplay in '..\source\uCEFDisplay.pas',
+  uCEFLayout in '..\source\uCEFLayout.pas',
+  uCEFBoxLayout in '..\source\uCEFBoxLayout.pas',
+  uCEFFillLayout in '..\source\uCEFFillLayout.pas',
+  uCEFView in '..\source\uCEFView.pas',
+  uCEFViewDelegate in '..\source\uCEFViewDelegate.pas',
+  uCEFTextfield in '..\source\uCEFTextfield.pas',
+  uCEFTextfieldDelegate in '..\source\uCEFTextfieldDelegate.pas',
+  uCEFScrollView in '..\source\uCEFScrollView.pas',
+  uCEFPanel in '..\source\uCEFPanel.pas',
+  uCEFPanelDelegate in '..\source\uCEFPanelDelegate.pas',
+  uCEFBrowserView in '..\source\uCEFBrowserView.pas',
+  uCEFBrowserViewDelegate in '..\source\uCEFBrowserViewDelegate.pas',
+  uCEFButton in '..\source\uCEFButton.pas',
+  uCEFButtonDelegate in '..\source\uCEFButtonDelegate.pas',
+  uCEFLabelButton in '..\source\uCEFLabelButton.pas',
+  uCEFMenuButton in '..\source\uCEFMenuButton.pas',
+  uCEFMenuButtonPressedLock in '..\source\uCEFMenuButtonPressedLock.pas',
+  uCEFMenuButtonDelegate in '..\source\uCEFMenuButtonDelegate.pas',
+  uCEFWindow in '..\source\uCEFWindow.pas',
+  uCEFWindowDelegate in '..\source\uCEFWindowDelegate.pas';
 
 end.
 

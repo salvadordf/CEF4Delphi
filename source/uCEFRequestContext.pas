@@ -111,8 +111,9 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFValue, uCEFDictionaryValue, uCEFCookieManager,
-  uCEFRequestContextHandler, uCEFExtension, uCEFStringList, uCEFMediaRouter;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFValue, uCEFDictionaryValue,
+  uCEFCookieManager, uCEFRequestContextHandler, uCEFExtension, uCEFStringList,
+  uCEFMediaRouter;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin

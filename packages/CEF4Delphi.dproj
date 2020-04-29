@@ -277,6 +277,27 @@
         <DCCReference Include="..\source\uCEFMediaSink.pas"/>
         <DCCReference Include="..\source\uCEFMediaSource.pas"/>
         <DCCReference Include="..\source\uCEFRegistration.pas"/>
+        <DCCReference Include="..\source\uCEFDisplay.pas"/>
+        <DCCReference Include="..\source\uCEFLayout.pas"/>
+        <DCCReference Include="..\source\uCEFBoxLayout.pas"/>
+        <DCCReference Include="..\source\uCEFFillLayout.pas"/>
+        <DCCReference Include="..\source\uCEFView.pas"/>
+        <DCCReference Include="..\source\uCEFViewDelegate.pas"/>
+        <DCCReference Include="..\source\uCEFTextfield.pas"/>
+        <DCCReference Include="..\source\uCEFTextfieldDelegate.pas"/>
+        <DCCReference Include="..\source\uCEFScrollView.pas"/>
+        <DCCReference Include="..\source\uCEFPanel.pas"/>
+        <DCCReference Include="..\source\uCEFPanelDelegate.pas"/>
+        <DCCReference Include="..\source\uCEFBrowserView.pas"/>
+        <DCCReference Include="..\source\uCEFBrowserViewDelegate.pas"/>
+        <DCCReference Include="..\source\uCEFButton.pas"/>
+        <DCCReference Include="..\source\uCEFButtonDelegate.pas"/>
+        <DCCReference Include="..\source\uCEFLabelButton.pas"/>
+        <DCCReference Include="..\source\uCEFMenuButton.pas"/>
+        <DCCReference Include="..\source\uCEFMenuButtonPressedLock.pas"/>
+        <DCCReference Include="..\source\uCEFMenuButtonDelegate.pas"/>
+        <DCCReference Include="..\source\uCEFWindow.pas"/>
+        <DCCReference Include="..\source\uCEFWindowDelegate.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

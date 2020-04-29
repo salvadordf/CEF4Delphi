@@ -21,8 +21,8 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="81" Minor="2" Release="24"/>
-    <Files Count="154">
+    <Version Major="81" Minor="2" Release="25"/>
+    <Files Count="175">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -648,6 +648,90 @@
         <Filename Value="..\source\uCEFRegistration.pas"/>
         <UnitName Value="uCEFRegistration"/>
       </Item154>
+      <Item155>
+        <Filename Value="..\source\uCEFWindowDelegate.pas"/>
+        <UnitName Value="uCEFWindowDelegate"/>
+      </Item155>
+      <Item156>
+        <Filename Value="..\source\uCEFWindow.pas"/>
+        <UnitName Value="uCEFWindow"/>
+      </Item156>
+      <Item157>
+        <Filename Value="..\source\uCEFMenuButtonDelegate.pas"/>
+        <UnitName Value="uCEFMenuButtonDelegate"/>
+      </Item157>
+      <Item158>
+        <Filename Value="..\source\uCEFMenuButtonPressedLock.pas"/>
+        <UnitName Value="uCEFMenuButtonPressedLock"/>
+      </Item158>
+      <Item159>
+        <Filename Value="..\source\uCEFMenuButton.pas"/>
+        <UnitName Value="uCEFMenuButton"/>
+      </Item159>
+      <Item160>
+        <Filename Value="..\source\uCEFLabelButton.pas"/>
+        <UnitName Value="uCEFLabelButton"/>
+      </Item160>
+      <Item161>
+        <Filename Value="..\source\uCEFButtonDelegate.pas"/>
+        <UnitName Value="uCEFButtonDelegate"/>
+      </Item161>
+      <Item162>
+        <Filename Value="..\source\uCEFButton.pas"/>
+        <UnitName Value="uCEFButton"/>
+      </Item162>
+      <Item163>
+        <Filename Value="..\source\uCEFBrowserViewDelegate.pas"/>
+        <UnitName Value="uCEFBrowserViewDelegate"/>
+      </Item163>
+      <Item164>
+        <Filename Value="..\source\uCEFBrowserView.pas"/>
+        <UnitName Value="uCEFBrowserView"/>
+      </Item164>
+      <Item165>
+        <Filename Value="..\source\uCEFPanelDelegate.pas"/>
+        <UnitName Value="uCEFPanelDelegate"/>
+      </Item165>
+      <Item166>
+        <Filename Value="..\source\uCEFPanel.pas"/>
+        <UnitName Value="uCEFPanel"/>
+      </Item166>
+      <Item167>
+        <Filename Value="..\source\uCEFScrollView.pas"/>
+        <UnitName Value="uCEFScrollView"/>
+      </Item167>
+      <Item168>
+        <Filename Value="..\source\uCEFTextfieldDelegate.pas"/>
+        <UnitName Value="uCEFTextfieldDelegate"/>
+      </Item168>
+      <Item169>
+        <Filename Value="..\source\uCEFTextfield.pas"/>
+        <UnitName Value="uCEFTextfield"/>
+      </Item169>
+      <Item170>
+        <Filename Value="..\source\uCEFViewDelegate.pas"/>
+        <UnitName Value="uCEFViewDelegate"/>
+      </Item170>
+      <Item171>
+        <Filename Value="..\source\uCEFView.pas"/>
+        <UnitName Value="uCEFView"/>
+      </Item171>
+      <Item172>
+        <Filename Value="..\source\uCEFFillLayout.pas"/>
+        <UnitName Value="uCEFFillLayout"/>
+      </Item172>
+      <Item173>
+        <Filename Value="..\source\uCEFBoxLayout.pas"/>
+        <UnitName Value="uCEFBoxLayout"/>
+      </Item173>
+      <Item174>
+        <Filename Value="..\source\uCEFLayout.pas"/>
+        <UnitName Value="uCEFLayout"/>
+      </Item174>
+      <Item175>
+        <Filename Value="..\source\uCEFDisplay.pas"/>
+        <UnitName Value="uCEFDisplay"/>
+      </Item175>
     </Files>
     <RequiredPkgs Count="4">
       <Item1>

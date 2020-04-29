@@ -213,6 +213,7 @@ type
   PCefX509Certificate = ^TCefX509Certificate;
   PPCefX509Certificate = ^PCefX509Certificate;
   PCefDisplay = ^TCefDisplay;
+  PPCefDisplay = ^PCefDisplay;
   PCefLayout = ^TCefLayout;
   PCefBoxLayout = ^TCefBoxLayout;
   PCefFillLayout = ^TCefFillLayout;
@@ -3093,7 +3094,7 @@ type
   // /include/capi/views/cef_label_button_capi.h (cef_label_button_t)
   TCefLabelButton = record
     base                            : TCefButton;
-    get_state                       : function(self: PCefLabelButton): PCefMenuButton; stdcall;
+    as_menu_button                  : function(self: PCefLabelButton): PCefMenuButton; stdcall;
     set_text                        : procedure(self: PCefLabelButton; const text: PCefString); stdcall;
     get_text                        : function(self: PCefLabelButton): PCefStringUserFree; stdcall;
     set_image                       : procedure(self: PCefLabelButton; button_state: TCefButtonState; image: PCefImage); stdcall;
@@ -3155,9 +3156,9 @@ type
     cancel_menu                      : procedure(self: PCefWindow); stdcall;
     get_display                      : function(self: PCefWindow): PCefDisplay; stdcall;
     get_client_area_bounds_in_screen : function(self: PCefWindow): TCefRect; stdcall;
-    set_draggable_regions            : procedure(self: PCefWindow; regionsCount: NativeUInt; regions: PCefDraggableRegionArray); stdcall;
+    set_draggable_regions            : procedure(self: PCefWindow; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); stdcall;
     get_window_handle                : function(self: PCefWindow): TCefWindowHandle; stdcall;
-    send_key_press                   : procedure(self: PCefWindow; key_code: Integer; event_flags: cardinal); stdcall;
+    send_key_press                   : procedure(self: PCefWindow; key_code: Integer; event_flags: uint32); stdcall;
     send_mouse_move                  : procedure(self: PCefWindow; screen_x, screen_y: Integer); stdcall;
     send_mouse_events                : procedure(self: PCefWindow; button: TCefMouseButtonType; mouse_down, mouse_up: Integer); stdcall;
     set_accelerator                  : procedure(self: PCefWindow; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer); stdcall;

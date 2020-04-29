@@ -158,6 +158,7 @@ type
   TCefPostDataElementArray = array of ICefPostDataElement;
   TCefMediaRouteArray      = array of ICefMediaRoute;
   TCefMediaSinkArray       = array of ICefMediaSink;
+  TCefDisplayArray         = array of ICefDisplay;
 
   TCefMediaSinkInfo = record
     ID          : ustring;
@@ -2405,6 +2406,12 @@ type
     function  GetBounds : TCefRect;
     function  GetWorkArea : TCefRect;
     function  GetRotation : Integer;
+
+    property  ID                : int64      read GetID;
+    property  DeviceScaleFactor : Single     read GetDeviceScaleFactor;
+    property  Bounds            : TCefRect   read GetBounds;
+    property  WorkArea          : TCefRect   read GetWorkArea;
+    property  Rotation          : Integer    read GetRotation;
   end;
 
   // TCefLayout
@@ -2414,6 +2421,8 @@ type
     function AsBoxLayout : ICefBoxLayout;
     function AsFillLayout : ICefFillLayout;
     function IsValid : boolean;
+
+    property Valid              : boolean    read IsValid;
   end;
 
   // TCefBoxLayout
@@ -2440,24 +2449,24 @@ type
     function  AsScrollView : ICefScrollView;
     function  AsTextfield : ICefTextfield;
     function  GetTypeString : ustring;
-    function  ToString(include_children: boolean): ustring;
+    function  ToStringEx(include_children: boolean): ustring;
     function  IsValid : boolean;
     function  IsAttached : boolean;
     function  IsSame(const that: ICefView): boolean;
     function  GetDelegate : ICefViewDelegate;
     function  GetWindow : ICefWindow;
     function  GetID : Integer;
-    procedure SetID(id: Integer);
+    procedure SetID(id_: Integer);
     function  GetGroupID : Integer;
     procedure SetGroupID(group_id: Integer);
     function  GetParentView : ICefView;
-    function  GetViewForID(id: Integer): ICefView;
-    procedure SetBounds(const bounds: PCefRect);
+    function  GetViewForID(id_: Integer): ICefView;
+    procedure SetBounds(const bounds_: TCefRect);
     function  GetBounds : TCefRect;
     function  GetBoundsInScreen : TCefRect;
-    procedure SetSize(const size: PCefSize);
+    procedure SetSize(const size_: TCefSize);
     function  GetSize : TCefSize;
-    procedure SetPosition(const position: PCefPoint);
+    procedure SetPosition(const position_: TCefPoint);
     function  GetPosition : TCefPoint;
     function  GetPreferredSize : TCefSize;
     procedure SizeToPreferredSize;
@@ -2465,23 +2474,44 @@ type
     function  GetMaximumSize : TCefSize;
     function  GetHeightForWidth(width: Integer): Integer;
     procedure InvalidateLayout;
-    procedure SetVisible(visible: boolean);
+    procedure SetVisible(visible_: boolean);
     function  IsVisible : boolean;
     function  IsDrawn : boolean;
-    procedure SetEnabled(enabled: boolean);
+    procedure SetEnabled(enabled_: boolean);
     function  IsEnabled : boolean;
-    procedure SetFocusable(focusable: boolean);
+    procedure SetFocusable(focusable_: boolean);
     function  IsFocusable : boolean;
     function  IsAccessibilityFocusable : boolean;
     procedure RequestFocus;
     procedure SetBackgroundColor(color: TCefColor);
     function  GetBackgroundColor : TCefColor;
-    function  ConvertPointToScreen(point: PCefPoint): boolean;
-    function  ConvertPointFromScreen(point: PCefPoint): boolean;
-    function  ConvertPointToWindow(point: PCefPoint): boolean;
-    function  ConvertPointFromWindow(point: PCefPoint): boolean;
-    function  ConvertPointToView(const view : ICefView; point: PCefPoint): boolean;
-    function  ConvertPointFromView(const view : ICefView; point: PCefPoint): boolean;
+    function  ConvertPointToScreen(var point: TCefPoint): boolean;
+    function  ConvertPointFromScreen(var point: TCefPoint): boolean;
+    function  ConvertPointToWindow(var point: TCefPoint): boolean;
+    function  ConvertPointFromWindow(var point: TCefPoint): boolean;
+    function  ConvertPointToView(const view : ICefView; var point: TCefPoint): boolean;
+    function  ConvertPointFromView(const view : ICefView; var point: TCefPoint): boolean;
+
+    property Valid                  : boolean          read IsValid;
+    property Attached               : boolean          read IsAttached;
+    property Delegate               : ICefViewDelegate read GetDelegate;
+    property Window                 : ICefWindow       read GetWindow;
+    property ParentView             : ICefView         read GetParentView;
+    property BoundsInScreen         : TCefRect         read GetBoundsInScreen;
+    property PreferredSize          : TCefSize         read GetPreferredSize;
+    property MinimumSize            : TCefSize         read GetMinimumSize;
+    property MaximumSize            : TCefSize         read GetMaximumSize;
+    property Visible                : boolean          read IsVisible                  write SetVisible;
+    property Drawn                  : boolean          read IsDrawn;
+    property Enabled                : boolean          read IsEnabled                  write SetEnabled;
+    property Focusable              : boolean          read IsFocusable                write SetFocusable;
+    property AccessibilityFocusable : boolean          read IsAccessibilityFocusable;
+    property BackgroundColor        : TCefColor        read GetBackgroundColor         write SetBackgroundColor;
+    property ID                     : integer          read GetID                      write SetID;
+    property GroupID                : integer          read GetGroupID                 write SetGroupID;
+    property Bounds                 : TCefRect         read GetBounds                  write SetBounds;
+    property Size                   : TCefSize         read GetSize                    write SetSize;
+    property Position               : TCefPoint        read GetPosition                write SetPosition;
   end;
 
   // TCefViewDelegate
@@ -2507,15 +2537,15 @@ type
     procedure SetReadOnly(read_only: boolean);
     function  IsReadOnly : boolean;
     function  GetText : ustring;
-    procedure SetText(const text: ustring);
-    procedure AppendText(const text: ustring);
-    procedure InsertOrReplaceText(const text: ustring);
+    procedure SetText(const text_: ustring);
+    procedure AppendText(const text_: ustring);
+    procedure InsertOrReplaceText(const text_: ustring);
     function  HasSelection : boolean;
     function  GetSelectedText : ustring;
     procedure SelectAll(reversed: boolean);
     procedure ClearSelection;
     function  GetSelectedRange : TCefRange;
-    procedure SelectRange(const range: PCefRange);
+    procedure SelectRange(const range: TCefRange);
     function  GetCursorPosition : NativeUInt;
     procedure SetTextColor(color: TCefColor);
     function  GetTextColor : TCefColor;
@@ -2524,22 +2554,31 @@ type
     procedure SetSelectionBackgroundColor(color: TCefColor);
     function  GetSelectionBackgroundColor : TCefColor;
     procedure SetFontList(const font_list: ustring);
-    procedure ApplyTextColor(color: TCefColor; const range: PCefRange);
-    procedure ApplyTextStyle(style: TCefTextStyle; add: boolean; const range: PCefRange);
+    procedure ApplyTextColor(color: TCefColor; const range: TCefRange);
+    procedure ApplyTextStyle(style: TCefTextStyle; add: boolean; const range: TCefRange);
     function  IsCommandEnabled(command_id: Integer): boolean;
     procedure ExecuteCommand(command_id: Integer);
     procedure ClearEditHistory;
-    procedure SetPlaceholderText(const text: ustring);
-    function  GgetPlaceholderText : ustring;
+    procedure SetPlaceholderText(const text_: ustring);
+    function  GetPlaceholderText : ustring;
     procedure SetPlaceholderTextColor(color: TCefColor);
     procedure SetAccessibleName(const name: ustring);
+
+    property  PasswordInput            : boolean       read IsPasswordInput               write SetPasswordInput;
+    property  ReadOnly                 : boolean       read IsReadOnly                    write SetReadOnly;
+    property  Text                     : ustring       read GetText                       write SetText;
+    property  SelectedText             : ustring       read GetSelectedText;
+    property  TextColor                : TCefColor     read GetTextColor                  write SetTextColor;
+    property  SelectionTextColor       : TCefColor     read GetSelectionTextColor         write SetSelectionTextColor;
+    property  SelectionBackgroundColor : TCefColor     read GetSelectionBackgroundColor   write SetSelectionBackgroundColor;
+    property  PlaceholderText          : ustring       read GetPlaceholderText            write SetPlaceholderText;
   end;
 
   // TCefTextfieldDelegate
   // /include/capi/views/cef_textfield_delegate_capi.h (cef_textfield_delegate_t)
   ICefTextfieldDelegate = interface(ICefViewDelegate)
     ['{72612994-92BB-4DE9-BB38-6F49FB45F94B}']
-    function  OnKeyEvent(const textfield: ICefTextfield; const event: PCefKeyEvent): boolean;
+    function  OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent): boolean;
     procedure OnAfterUserAction(const textfield: ICefTextfield);
   end;
 
@@ -2554,6 +2593,11 @@ type
     function  GetHorizontalScrollbarHeight : Integer;
     function  HasVerticalScrollbar : boolean;
     function  GetVerticalScrollbarWidth : Integer;
+
+    property  ContentView               : ICefView      read GetContentView                write SetContentView;
+    property  VisibleContentRect        : TCefRect      read GetVisibleContentRect;
+    property  HorizontalScrollbarHeight : Integer       read GetHorizontalScrollbarHeight;
+    property  VerticalScrollbarWidth    : Integer       read GetVerticalScrollbarWidth;
   end;
 
   // TCefPanel
@@ -2562,7 +2606,7 @@ type
     ['{6F2F680A-3637-4438-81B8-79AD6C02252D}']
     function  AsWindow : ICefWindow;
     function  SetToFillLayout : ICefFillLayout;
-    function  SetToBoxLayout(const settings: PCefBoxLayoutSettings): ICefBoxLayout;
+    function  SetToBoxLayout(const settings: TCefBoxLayoutSettings): ICefBoxLayout;
     function  GetLayout : ICefLayout;
     procedure Layout;
     procedure AddChildView(const view: ICefView);
@@ -2594,7 +2638,7 @@ type
     ['{578A0DD4-2E7D-4061-B4DB-7C3CDC7A90C0}']
     procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
     procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
-    function  GetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: PCefBrowserSettings; const client: ICefClient; is_devtools: boolean): ICefBrowserViewDelegate;
+    function  GetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean): ICefBrowserViewDelegate;
     function  OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean): boolean;
   end;
 
@@ -2603,11 +2647,13 @@ type
   ICefButton = interface(ICefView)
     ['{D3D2E8A0-9F9C-4BD8-B495-655976534281}']
     function  AsLabelButton : ICefLabelButton;
-    procedure SetState(state: TCefButtonState);
+    procedure SetState(state_: TCefButtonState);
     function  GetState : TCefButtonState;
-    procedure SetInkDropEnabled(enabled: boolean);
+    procedure SetInkDropEnabled(enabled_: boolean);
     procedure SetTooltipText(const tooltip_text: ustring);
     procedure SetAccessibleName(const name: ustring);
+
+    property  State : TCefButtonState read GetState write SetState;
   end;
 
   // TCefButtonDelegate
@@ -2622,8 +2668,8 @@ type
   // /include/capi/views/cef_label_button_capi.h (cef_label_button_t)
   ICefLabelButton = interface(ICefButton)
     ['{A99FD4F3-7EE6-4796-8BF6-EC367D51EED8}']
-    function  GetState : ICefMenuButton;
-    procedure SetText(const text: ustring);
+    function  AsMenuButton : ICefMenuButton;
+    procedure SetText(const text_: ustring);
     function  GetText : ustring;
     procedure SetImage(button_state: TCefButtonState; const image: ICefImage);
     function  GetImage(button_state: TCefButtonState): ICefImage;
@@ -2631,15 +2677,17 @@ type
     procedure SetEnabledTextColors(color: TCefColor);
     procedure SetFontList(const font_list: ustring);
     procedure SetHorizontalAlignment(alignment: TCefHorizontalAlignment);
-    procedure SetMinimumSize(const size: PCefSize);
-    procedure SetMaximumSize(const size: PCefSize);
+    procedure SetMinimumSize(const size_: TCefSize);
+    procedure SetMaximumSize(const size_: TCefSize);
+
+    property  Text  : ustring       read GetText write SetText;
   end;
 
   // TCefMenuButton
   // /include/capi/views/cef_menu_button_capi.h (cef_menu_button_t)
   ICefMenuButton = interface(ICefLabelButton)
     ['{62BFE81A-7810-400B-83C6-76D1DF133710}']
-    procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: PCefPoint; anchor_position: TCefMenuAnchorPosition);
+    procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position: TCefMenuAnchorPosition);
     procedure TriggerMenu;
   end;
 
@@ -2653,7 +2701,7 @@ type
   // /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_delegate_t)
   ICefMenuButtonDelegate = interface(ICefButtonDelegate)
     ['{D0E89A75-463A-4766-8701-BD8D24B11E9F}']
-    procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: PCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
+    procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
   end;
 
   // TCefWindow
@@ -2662,11 +2710,11 @@ type
     ['{C450C974-BF0A-4968-A6BE-153CEAD10DA6}']
     procedure Show;
     procedure Hide;
-    procedure CenterWindow(const size: PCefSize);
+    procedure CenterWindow(const size_: TCefSize);
     procedure Close;
     function  IsClosed : boolean;
     procedure Activate;
-    procedure deactivate;
+    procedure Deactivate;
     function  IsActive : boolean;
     procedure BringToTop;
     procedure SetAlwaysOnTop(on_top: boolean);
@@ -2678,24 +2726,31 @@ type
     function  IsMaximized : boolean;
     function  IsMinimized : boolean;
     function  IsFullscreen : boolean;
-    procedure SetTitle(const title: ustring);
+    procedure SetTitle(const title_: ustring);
     function  GetTitle : ustring;
     procedure SetWindowIcon(const image: ICefImage);
     function  GetWindowIcon : ICefImage;
     procedure SetWindowAppIcon(const image: ICefImage);
     function  GetWindowAppIcon : ICefImage;
-    procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: PCefPoint; anchor_position : TCefMenuAnchorPosition);
+    procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition);
     procedure CancelMenu;
     function  GetDisplay : ICefDisplay;
     function  GetClientAreaBoundsInScreen : TCefRect;
-    procedure SetDraggableRegions(regionsCount: NativeUInt; regions: PCefDraggableRegionArray);
+    procedure SetDraggableRegions(regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
     function  GetWindowHandle : TCefWindowHandle;
-    procedure SendKeyPress(key_code: Integer; event_flags: cardinal);
+    procedure SendKeyPress(key_code: Integer; event_flags: uint32);
     procedure SendMouseMove(screen_x, screen_y: Integer);
-    procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: Integer);
+    procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
     procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
     procedure RemoveAccelerator(command_id: Integer);
     procedure RemoveAllAccelerators;
+
+    property Title                    : ustring            read GetTitle                     write SetTitle;
+    property WindowIcon               : ICefImage          read GetWindowIcon                write SetWindowIcon;
+    property WindowAppIcon            : ICefImage          read GetWindowAppIcon             write SetWindowAppIcon;
+    property Display                  : ICefDisplay        read GetDisplay;
+    property ClientAreaBoundsInScreen : TCefRect           read GetClientAreaBoundsInScreen;
+    property WindowHandle             : TCefWindowHandle   read GetWindowHandle;
   end;
 
   // TCefWindowDelegate
@@ -2704,14 +2759,14 @@ type
     ['{52D4EE2C-303B-42B6-A35F-30D03834A23F}']
     procedure OnWindowCreated(const window: ICefWindow);
     procedure OnWindowDestroyed(const window: ICefWindow);
-    function  GetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean): ICefWindow;
+    function  GetParentWindow(const window: ICefWindow; is_menu, can_activate_menu: boolean): ICefWindow;
     function  IsFrameless(const window: ICefWindow): boolean;
     function  CanResize(const window: ICefWindow): boolean;
     function  CanMaximize(const window: ICefWindow): boolean;
     function  CanMinimize(const window: ICefWindow): boolean;
     function  CanClose(const window: ICefWindow): boolean;
     function  OnAccelerator(const window: ICefWindow; command_id: Integer): boolean;
-    function  OnKeyEvent(const window: ICefWindow; const event: PCefKeyEvent): boolean;
+    function  OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent): boolean;
   end;
 
 implementation
