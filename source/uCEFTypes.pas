@@ -566,6 +566,19 @@ type
     CEF_MRCS_TERMINATED
   );
 
+  // /include/internal/cef_types.h (cef_media_sink_icon_type_t)
+  TCefMediaSinkIconType = (
+    CEF_MSIT_CAST,
+    CEF_MSIT_CAST_AUDIO_GROUP,
+    CEF_MSIT_CAST_AUDIO,
+    CEF_MSIT_MEETING,
+    CEF_MSIT_HANGOUT,
+    CEF_MSIT_EDUCATION,
+    CEF_MSIT_WIRED_DISPLAY,
+    CEF_MSIT_GENERIC,
+    CEF_MSIT_TOTAL_COUNT
+  );
+
   // /include/internal/cef_types.h (cef_referrer_policy_t)
   TCefReferrerPolicy = (
     REFERRER_POLICY_CLEAR_REFERRER_ON_TRANSITION_FROM_SECURE_TO_INSECURE,    // same value as REFERRER_POLICY_DEFAULT
@@ -1533,6 +1546,7 @@ type
     is_valid              : function(self: PCefMediaSink): Integer; stdcall;
     get_name              : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_description       : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
+    get_icon_type         : function(self: PCefMediaSink): TCefMediaSinkIconType; stdcall;
     is_cast_sink          : function(self: PCefMediaSink): Integer; stdcall;
     is_dial_sink          : function(self: PCefMediaSink): Integer; stdcall;
     is_compatible_with    : function(self: PCefMediaSink; source: PCefMediaSource): Integer; stdcall;

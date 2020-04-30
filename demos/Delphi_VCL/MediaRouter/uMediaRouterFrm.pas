@@ -569,6 +569,7 @@ begin
             FSinks[i].ID          := aSinks[i].ID;
             FSinks[i].Name        := aSinks[i].Name;
             FSinks[i].Description := aSinks[i].Description;
+            FSinks[i].IconType    := aSinks[i].IconType;
             FSinks[i].Valid       := aSinks[i].IsValid;
             FSinks[i].SinkIntf    := aSinks[i];
 
@@ -683,6 +684,7 @@ end;
 procedure TMediaRouterFrm.UpdateAvailableSinks;
 var
   i : integer;
+  TempItem : string;
 begin
   try
     FMediaCS.Acquire;
@@ -693,12 +695,27 @@ begin
         i := 0;
         while (i < length(FSinks)) do
           begin
+            TempItem := FSinks[i].Name;
+
             case FSinks[i].SinkType of
-              mtCast : SinksLbx.Items.Add(FSinks[i].Name + ' (CAST)');
-              mtDial : SinksLbx.Items.Add(FSinks[i].Name + ' (DIAL)');
-              else     SinksLbx.Items.Add(FSinks[i].Name + ' (UNKNOWN)');
+              mtCast : TempItem := TempItem + ' (CAST';
+              mtDial : TempItem := TempItem + ' (DIAL';
+              else     TempItem := TempItem + ' (UNKNOWN';
             end;
 
+            case FSinks[i].IconType of
+              CEF_MSIT_CAST             : TempItem := TempItem + ', CAST)';
+              CEF_MSIT_CAST_AUDIO_GROUP : TempItem := TempItem + ', CAST_AUDIO_GROUP)';
+              CEF_MSIT_CAST_AUDIO       : TempItem := TempItem + ', CAST_AUDIO)';
+              CEF_MSIT_MEETING          : TempItem := TempItem + ', MEETING)';
+              CEF_MSIT_HANGOUT          : TempItem := TempItem + ', HANGOUT)';
+              CEF_MSIT_EDUCATION        : TempItem := TempItem + ', EDUCATION)';
+              CEF_MSIT_WIRED_DISPLAY    : TempItem := TempItem + ', WIRED_DISPLAY)';
+              CEF_MSIT_GENERIC          : TempItem := TempItem + ', GENERIC)';
+              else                        TempItem := TempItem + ', UNKNOWN)';
+            end;
+
+            SinksLbx.Items.Add(TempItem);
             inc(i);
           end;
       end;

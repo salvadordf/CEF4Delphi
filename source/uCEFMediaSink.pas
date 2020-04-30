@@ -58,6 +58,7 @@ type
     function IsValid: boolean;
     function GetName: ustring;
     function GetDescription: ustring;
+    function GetIconType: TCefMediaSinkIconType;
     function IsCastSink: boolean;
     function IsDialSink: boolean;
     function IsCompatibleWith(const source: ICefMediaSource): boolean;
@@ -88,6 +89,11 @@ end;
 function TCefMediaSinkRef.GetDescription: ustring;
 begin
   Result := CefStringFreeAndGet(PCefMediaSink(FData)^.get_description(PCefMediaSink(FData)));
+end;
+
+function TCefMediaSinkRef.GetIconType: TCefMediaSinkIconType;
+begin
+  Result := PCefMediaSink(FData)^.get_icon_type(PCefMediaSink(FData));
 end;
 
 function TCefMediaSinkRef.IsCastSink: Boolean;

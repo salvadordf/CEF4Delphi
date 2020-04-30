@@ -125,13 +125,11 @@ object MediaRouterFrm: TMediaRouterFrm
           object SourceURNLbl: TLabel
             Left = 0
             Top = 0
-            Width = 65
-            Height = 21
+            Width = 57
+            Height = 13
             Align = alClient
             Caption = 'Source URN'
             Layout = tlCenter
-            ExplicitWidth = 57
-            ExplicitHeight = 13
           end
         end
         object SourceURNCbx: TComboBox

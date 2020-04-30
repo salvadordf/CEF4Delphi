@@ -61,8 +61,8 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 81;
-  CEF_SUPPORTED_VERSION_MINOR   = 2;
-  CEF_SUPPORTED_VERSION_RELEASE = 25;
+  CEF_SUPPORTED_VERSION_MINOR   = 3;
+  CEF_SUPPORTED_VERSION_RELEASE = 1;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 81;
@@ -1235,6 +1235,7 @@ begin
   try
     TempFiles.Add('Cookies');
     TempFiles.Add('Cookies-journal');
+    TempFiles.Add('LocalPrefs.json');
 
     DeleteDirContents(aDirectory, TempFiles);
   finally

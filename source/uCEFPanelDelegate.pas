@@ -62,7 +62,16 @@ type
       class function UnWrap(data: Pointer): ICefPanelDelegate;
   end;
 
+  TCefPanelDelegateOwn = class(TCefViewDelegateOwn, ICefPanelDelegate)
+    public
+      constructor Create; override;
+  end;
+
 implementation
+
+// **************************************************************
+// ******************** TCefPanelDelegateRef ********************
+// **************************************************************
 
 class function TCefPanelDelegateRef.UnWrap(data: Pointer): ICefPanelDelegate;
 begin
@@ -70,6 +79,17 @@ begin
     Result := Create(data) as ICefPanelDelegate
    else
     Result := nil;
+end;
+
+// **************************************************************
+// ******************** TCefPanelDelegateOwn ********************
+// **************************************************************
+
+constructor TCefPanelDelegateOwn.Create;
+begin
+  inherited CreateData(SizeOf(TCefPanelDelegate));
+
+  InitializeCEFMethods;
 end;
 
 end.

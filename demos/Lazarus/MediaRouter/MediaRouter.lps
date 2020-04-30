@@ -22,19 +22,23 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="553"/>
-        <CursorPos X="29" Y="49"/>
+        <TopLine Value="683"/>
+        <CursorPos X="73" Y="699"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="1">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="MediaRouter.lpr"/>
         <Caret Line="49" Column="11" TopLine="42"/>
       </Position1>
+      <Position2>
+        <Filename Value="uMediaRouterFrm.pas"/>
+        <Caret Line="576" Column="50" TopLine="554"/>
+      </Position2>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

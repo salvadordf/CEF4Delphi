@@ -59,10 +59,10 @@ uses
 type
   TCefViewDelegateRef = class(TCefBaseRefCountedRef, ICefViewDelegate)
     protected
-      function  GetPreferredSize(const view: ICefView): TCefSize;
-      function  GetMinimumSize(const view: ICefView): TCefSize;
-      function  GetMaximumSize(const view: ICefView): TCefSize;
-      function  GetHeightForWidth(const view: ICefView; width: Integer): Integer;
+      procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
+      procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
+      procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
+      procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
       procedure OnFocus(const view: ICefView);
@@ -72,34 +72,55 @@ type
       class function UnWrap(data: Pointer): ICefViewDelegate;
   end;
 
+  TCefViewDelegateOwn = class(TCefBaseRefCountedOwn, ICefViewDelegate)
+    protected
+      procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize); virtual;
+      procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize); virtual;
+      procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize); virtual;
+      procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); virtual;
+      procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); virtual;
+      procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); virtual;
+      procedure OnFocus(const view: ICefView); virtual;
+      procedure OnBlur(const view: ICefView); virtual;
+
+      procedure InitializeCEFMethods; virtual;
+    public
+      constructor Create; virtual;
+  end;
+
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions;
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFView;
 
-function TCefViewDelegateRef.GetPreferredSize(const view: ICefView): TCefSize;
+
+// **************************************************************
+// ******************** TCefViewDelegateRef *********************
+// **************************************************************
+
+procedure TCefViewDelegateRef.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
-  Result := PCefViewDelegate(FData)^.get_preferred_size(PCefViewDelegate(FData),
-                                                        CefGetData(view));
+  aResult := PCefViewDelegate(FData)^.get_preferred_size(PCefViewDelegate(FData),
+                                                           CefGetData(view));
 end;
 
-function TCefViewDelegateRef.GetMinimumSize(const view: ICefView): TCefSize;
+procedure TCefViewDelegateRef.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
-  Result := PCefViewDelegate(FData)^.get_minimum_size(PCefViewDelegate(FData),
-                                                      CefGetData(view));
+  aResult := PCefViewDelegate(FData)^.get_minimum_size(PCefViewDelegate(FData),
+                                                       CefGetData(view));
 end;
 
-function TCefViewDelegateRef.GetMaximumSize(const view: ICefView): TCefSize;
+procedure TCefViewDelegateRef.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
-  Result := PCefViewDelegate(FData)^.get_maximum_size(PCefViewDelegate(FData),
-                                                      CefGetData(view));
+  aResult := PCefViewDelegate(FData)^.get_maximum_size(PCefViewDelegate(FData),
+                                                       CefGetData(view));
 end;
 
-function TCefViewDelegateRef.GetHeightForWidth(const view: ICefView; width: Integer): Integer;
+procedure TCefViewDelegateRef.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
-  Result := PCefViewDelegate(FData)^.get_height_for_width(PCefViewDelegate(FData),
-                                                          CefGetData(view),
-                                                          width);
+  aResult := PCefViewDelegate(FData)^.get_height_for_width(PCefViewDelegate(FData),
+                                                           CefGetData(view),
+                                                           width);
 end;
 
 procedure TCefViewDelegateRef.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
@@ -136,6 +157,182 @@ begin
     Result := Create(data) as ICefViewDelegate
    else
     Result := nil;
+end;
+
+
+
+// **************************************************************
+// ******************** TCefViewDelegateOwn *********************
+// **************************************************************
+
+function cef_view_delegate_get_preferred_size(self: PCefViewDelegate; view: PCefView): TCefSize; stdcall;
+var
+  TempObject : TObject;
+  TempSize   : TCefSize;
+begin
+  TempObject      := CefGetObject(self);
+  TempSize.width  := 50;
+  TempSize.height := 50;
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnGetPreferredSize(TCefViewRef.UnWrap(view),
+                                                       TempSize);
+
+  Result := TempSize;
+end;
+
+function cef_view_delegate_get_minimum_size(self: PCefViewDelegate; view: PCefView): TCefSize; stdcall;
+var
+  TempObject : TObject;
+  TempSize   : TCefSize;
+begin
+  TempObject      := CefGetObject(self);
+  TempSize.width  := 10;
+  TempSize.height := 10;
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnGetMinimumSize(TCefViewRef.UnWrap(view),
+                                                     TempSize);
+
+  Result := TempSize;
+end;
+
+function cef_view_delegate_get_maximum_size(self: PCefViewDelegate; view: PCefView): TCefSize; stdcall;
+var
+  TempObject : TObject;
+  TempSize   : TCefSize;
+begin
+  TempObject      := CefGetObject(self);
+  TempSize.width  := 1000;
+  TempSize.height := 1000;
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnGetMaximumSize(TCefViewRef.UnWrap(view),
+                                                     TempSize);
+
+  Result := TempSize;
+end;
+
+function cef_view_delegate_get_height_for_width(self: PCefViewDelegate; view: PCefView; width: Integer): Integer; stdcall;
+var
+  TempObject : TObject;
+  TempHeight : integer;
+begin
+  TempObject := CefGetObject(self);
+  TempHeight := 0;
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnGetHeightForWidth(TCefViewRef.UnWrap(view),
+                                                        width,
+                                                        TempHeight);
+
+  Result := TempHeight;
+end;
+
+procedure cef_view_delegate_on_parent_view_changed(self: PCefViewDelegate; view: PCefView; added: Integer; parent: PCefView); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnParentViewChanged(TCefViewRef.UnWrap(view),
+                                                        added <> 0,
+                                                        TCefViewRef.UnWrap(parent));
+end;
+
+procedure cef_view_delegate_on_child_view_changed(self: PCefViewDelegate; view: PCefView; added: Integer; child: PCefView); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnChildViewChanged(TCefViewRef.UnWrap(view),
+                                                       added <> 0,
+                                                       TCefViewRef.UnWrap(child));
+end;
+
+procedure cef_view_delegate_on_focus(self: PCefViewDelegate; view: PCefView); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnFocus(TCefViewRef.UnWrap(view));
+end;
+
+procedure cef_view_delegate_on_blur(self: PCefViewDelegate; view: PCefView); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnBlur(TCefViewRef.UnWrap(view));
+end;
+
+constructor TCefViewDelegateOwn.Create;
+begin
+  inherited CreateData(SizeOf(TCefViewDelegate));
+
+  InitializeCEFMethods;
+end;
+
+procedure TCefViewDelegateOwn.InitializeCEFMethods;
+begin
+  with PCefViewDelegate(FData)^ do
+    begin
+      get_preferred_size      := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_preferred_size;
+      get_minimum_size        := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_minimum_size;
+      get_maximum_size        := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_maximum_size;
+      get_height_for_width    := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_height_for_width;
+      on_parent_view_changed  := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_parent_view_changed;
+      on_child_view_changed   := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_child_view_changed;
+      on_focus                := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_focus;
+      on_blur                 := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_blur;
+    end;
+end;
+
+procedure TCefViewDelegateOwn.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnFocus(const view: ICefView);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnBlur(const view: ICefView);
+begin
+  //
 end;
 
 end.

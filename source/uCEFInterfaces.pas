@@ -165,6 +165,7 @@ type
     Valid       : boolean;
     Name        : ustring;
     Description : ustring;
+    IconType    : TCefMediaSinkIconType;
     SinkType    : TCefMediaType;
     SinkIntf    : ICefMediaSink;
   end;
@@ -1338,13 +1339,15 @@ type
     function IsValid: boolean;
     function GetName: ustring;
     function GetDescription: ustring;
+    function GetIconType: TCefMediaSinkIconType;
     function IsCastSink: boolean;
     function IsDialSink: boolean;
     function IsCompatibleWith(const source: ICefMediaSource): boolean;
 
-    property ID          : ustring read GetId;
-    property Name        : ustring read GetName;
-    property Description : ustring read GetDescription;
+    property ID          : ustring               read GetId;
+    property Name        : ustring               read GetName;
+    property Description : ustring               read GetDescription;
+    property IconType    : TCefMediaSinkIconType read GetIconType;
   end;
 
   // TCefMediaSource
@@ -2518,10 +2521,10 @@ type
   // /include/capi/views/cef_view_delegate_capi.h (cef_view_delegate_t)
   ICefViewDelegate = interface(ICefBaseRefCounted)
     ['{5F900206-B969-4E51-B56C-0FF38D749C72}']
-    function  GetPreferredSize(const view: ICefView): TCefSize;
-    function  GetMinimumSize(const view: ICefView): TCefSize;
-    function  GetMaximumSize(const view: ICefView): TCefSize;
-    function  GetHeightForWidth(const view: ICefView; width: Integer): Integer;
+    procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
+    procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
+    procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
+    procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
     procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
     procedure OnFocus(const view: ICefView);
@@ -2759,14 +2762,14 @@ type
     ['{52D4EE2C-303B-42B6-A35F-30D03834A23F}']
     procedure OnWindowCreated(const window: ICefWindow);
     procedure OnWindowDestroyed(const window: ICefWindow);
-    function  GetParentWindow(const window: ICefWindow; is_menu, can_activate_menu: boolean): ICefWindow;
-    function  IsFrameless(const window: ICefWindow): boolean;
-    function  CanResize(const window: ICefWindow): boolean;
-    function  CanMaximize(const window: ICefWindow): boolean;
-    function  CanMinimize(const window: ICefWindow): boolean;
-    function  CanClose(const window: ICefWindow): boolean;
-    function  OnAccelerator(const window: ICefWindow; command_id: Integer): boolean;
-    function  OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent): boolean;
+    procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+    procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean);
+    procedure OnCanResize(const window: ICefWindow; var aResult : boolean);
+    procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean);
+    procedure OnCanMinimize(const window: ICefWindow; var aResult : boolean);
+    procedure OnCanClose(const window: ICefWindow; var aResult : boolean);
+    procedure OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean);
+    procedure OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
   end;
 
 implementation
