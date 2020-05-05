@@ -88,8 +88,39 @@ type
       procedure OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
 
       procedure InitializeCEFMethods; override;
+
     public
       constructor Create; override;
+  end;
+
+  TCustomWindowDelegate = class(TCefWindowDelegateOwn)
+    protected
+      FEvents : Pointer;
+
+      // ICefViewDelegate
+      procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize); override;
+      procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize); override;
+      procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize); override;
+      procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
+      procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
+      procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
+      procedure OnFocus(const view: ICefView); override;
+      procedure OnBlur(const view: ICefView); override;
+
+      // ICefWindowDelegate
+      procedure OnWindowCreated(const window: ICefWindow); override;
+      procedure OnWindowDestroyed(const window: ICefWindow); override;
+      procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
+      procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean); override;
+      procedure OnCanResize(const window: ICefWindow; var aResult : boolean); override;
+      procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean); override;
+      procedure OnCanMinimize(const window: ICefWindow; var aResult : boolean); override;
+      procedure OnCanClose(const window: ICefWindow; var aResult : boolean); override;
+      procedure OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean); override;
+      procedure OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); override;
+
+    public
+      constructor Create(const events: ICefWindowDelegateEvents); reintroduce;
   end;
 
 implementation
@@ -403,6 +434,217 @@ procedure TCefWindowDelegateOwn.OnKeyEvent(const window: ICefWindow; const event
 begin
   //
 end;
+
+
+// **************************************************************
+// ******************* TCustomWindowDelegate ********************
+// **************************************************************
+
+constructor TCustomWindowDelegate.Create(const events: ICefWindowDelegateEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(events);
+end;
+
+procedure TCustomWindowDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetPreferredSize', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetMinimumSize', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetMaximumSize', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetHeightForWidth', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnParentViewChanged(view, added, parent);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnParentViewChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnChildViewChanged(view, added, child);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnChildViewChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnFocus(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnFocus(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnFocus', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnBlur(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnBlur(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnBlur', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnWindowCreated(const window: ICefWindow);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnWindowCreated(window);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowCreated', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnWindowDestroyed(const window: ICefWindow);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnWindowDestroyed(window);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowDestroyed', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetParentWindow(window, is_menu, can_activate_menu, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetParentWindow', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnIsFrameless(const window: ICefWindow; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnIsFrameless(window, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnIsFrameless', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnCanResize(const window: ICefWindow; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnCanResize(window, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnCanResize', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnCanMaximize(const window: ICefWindow; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnCanMaximize(window, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnCanMaximize', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnCanMinimize(const window: ICefWindow; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnCanMinimize(window, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnCanMinimize', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnCanClose(const window: ICefWindow; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnCanClose(window, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnCanClose', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnAccelerator(window, command_id, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnAccelerator', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnKeyEvent(window, event, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnKeyEvent', e) then raise;
+  end;
+end;
+
 
 end.
 

@@ -203,7 +203,17 @@ contains
   uCEFMenuButtonPressedLock in '..\source\uCEFMenuButtonPressedLock.pas',
   uCEFMenuButtonDelegate in '..\source\uCEFMenuButtonDelegate.pas',
   uCEFWindow in '..\source\uCEFWindow.pas',
-  uCEFWindowDelegate in '..\source\uCEFWindowDelegate.pas';
+  uCEFWindowDelegate in '..\source\uCEFWindowDelegate.pas',
+  uCEFViewsFrameworkEvents in '..\source\uCEFViewsFrameworkEvents.pas',
+  uCEFViewComponent in '..\source\uCEFViewComponent.pas',
+  uCEFTextfieldComponent in '..\source\uCEFTextfieldComponent.pas',
+  uCEFScrollViewComponent in '..\source\uCEFScrollViewComponent.pas',
+  uCEFPanelComponent in '..\source\uCEFPanelComponent.pas',
+  uCEFWindowComponent in '..\source\uCEFWindowComponent.pas',
+  uCEFBrowserViewComponent in '..\source\uCEFBrowserViewComponent.pas',
+  uCEFButtonComponent in '..\source\uCEFButtonComponent.pas',
+  uCEFLabelButtonComponent in '..\source\uCEFLabelButtonComponent.pas',
+  uCEFMenuButtonComponent in '..\source\uCEFMenuButtonComponent.pas';
 
 end.
 

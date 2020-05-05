@@ -78,6 +78,7 @@ type
       destructor  Destroy; override;
       function    SameAs(aData : Pointer) : boolean; overload;
       function    SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean; overload;
+      procedure   DestroyOtherRefs;
       function    Wrap: Pointer;
   end;
 
@@ -93,6 +94,7 @@ type
       destructor  Destroy; override;
       function    SameAs(aData : Pointer) : boolean; overload;
       function    SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean; overload;
+      procedure   DestroyOtherRefs;
       function    Wrap: Pointer;
       class function UnWrap(data: Pointer): ICefBaseRefCounted;
   end;
@@ -243,6 +245,12 @@ begin
     end;
 end;
 
+procedure TCefBaseRefCountedOwn.DestroyOtherRefs;
+begin
+  while HasAtLeastOneRef and not(HasOneRef) do
+    _Release;
+end;
+
 function TCefBaseRefCountedOwn.Wrap: Pointer;
 begin
   Result := FData;
@@ -351,6 +359,11 @@ end;
 function TCefBaseRefCountedRef.HasAtLeastOneRef : boolean;
 begin
   Result := (PCefBaseRefCounted(FData)^.has_at_least_one_ref(PCefBaseRefCounted(FData)) <> 0);
+end;
+
+procedure TCefBaseRefCountedRef.DestroyOtherRefs;
+begin
+  //
 end;
 
 

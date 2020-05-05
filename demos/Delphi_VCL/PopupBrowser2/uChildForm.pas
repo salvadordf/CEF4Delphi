@@ -50,7 +50,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFWindowParent, uCEFWinControl;
+  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFWindowParent, uCEFWinControl,
+  uCEFChromiumCore;
 
 type
   TChildForm = class(TForm)

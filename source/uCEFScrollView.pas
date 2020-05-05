@@ -122,8 +122,18 @@ begin
 end;
 
 class function TCefScrollViewRef.CreateScrollView(const delegate: ICefViewDelegate): ICefScrollView;
+var
+  TempScrollView : PCefScrollView;
 begin
-  UnWrap(cef_scroll_view_create(CefGetData(delegate)));
+  Result := nil;
+
+  if (delegate <> nil) then
+    begin
+      TempScrollView := cef_scroll_view_create(CefGetData(delegate));
+
+      if (TempScrollView <> nil) then
+        Result := Create(TempScrollView) as ICefScrollView;
+    end;
 end;
 
 end.

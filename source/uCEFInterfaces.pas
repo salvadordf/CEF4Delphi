@@ -504,6 +504,7 @@ type
     function SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean; overload;
     function HasOneRef : boolean;
     function HasAtLeastOneRef : boolean;
+    procedure DestroyOtherRefs;
   end;
 
   // TCefRunFileDialogCallback
@@ -2515,6 +2516,7 @@ type
     property Bounds                 : TCefRect         read GetBounds                  write SetBounds;
     property Size                   : TCefSize         read GetSize                    write SetSize;
     property Position               : TCefPoint        read GetPosition                write SetPosition;
+    property TypeString             : ustring          read GetTypeString;
   end;
 
   // TCefViewDelegate
@@ -2529,6 +2531,22 @@ type
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
     procedure OnFocus(const view: ICefView);
     procedure OnBlur(const view: ICefView);
+  end;
+
+  ICefViewDelegateEvents = interface
+    ['{74DDDB37-8F08-4672-BDB6-55CA2CD374ED}']
+    // ICefViewDelegate
+    procedure doOnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
+    procedure doOnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
+    procedure doOnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
+    procedure doOnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
+    procedure doOnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
+    procedure doOnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+    procedure doOnFocus(const view: ICefView);
+    procedure doOnBlur(const view: ICefView);
+
+    // Custom
+    procedure doCreateCustomView;
   end;
 
   // TCefTextfield
@@ -2581,8 +2599,14 @@ type
   // /include/capi/views/cef_textfield_delegate_capi.h (cef_textfield_delegate_t)
   ICefTextfieldDelegate = interface(ICefViewDelegate)
     ['{72612994-92BB-4DE9-BB38-6F49FB45F94B}']
-    function  OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent): boolean;
+    procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
     procedure OnAfterUserAction(const textfield: ICefTextfield);
+  end;
+
+  ICefTextfieldDelegateEvents = interface(ICefViewDelegateEvents)
+    ['{682480E0-C786-4E65-B950-4FF2B13B97B9}']
+    procedure doOnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
+    procedure doOnAfterUserAction(const textfield: ICefTextfield);
   end;
 
   // TCefScrollView
@@ -2607,7 +2631,7 @@ type
   // /include/capi/views/cef_panel_capi.h (cef_panel_t)
   ICefPanel = interface(ICefView)
     ['{6F2F680A-3637-4438-81B8-79AD6C02252D}']
-    function  AsWindow : ICefWindow;
+    function  GetAsWindow : ICefWindow;
     function  SetToFillLayout : ICefFillLayout;
     function  SetToBoxLayout(const settings: TCefBoxLayoutSettings): ICefBoxLayout;
     function  GetLayout : ICefLayout;
@@ -2619,12 +2643,18 @@ type
     procedure RemoveAllChildViews;
     function  GetChildViewCount : NativeUInt;
     function  GetChildViewAt(index: Integer): ICefView;
+
+    property AsWindow : ICefWindow    read GetAsWindow;
   end;
 
   // TCefPanelDelegate
   // /include/capi/views/cef_panel_delegate_capi.h (cef_panel_delegate_t)
   ICefPanelDelegate = interface(ICefViewDelegate)
     ['{305D453F-FEBA-48ED-AE33-5D978823EA96}']
+  end;
+
+  ICefPanelDelegateEvents = interface(ICefViewDelegateEvents)
+    ['{F1F2963F-82C3-48F0-9B9C-7C213BACB96B}']
   end;
 
   // TCefBrowserView
@@ -2641,8 +2671,16 @@ type
     ['{578A0DD4-2E7D-4061-B4DB-7C3CDC7A90C0}']
     procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
     procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
-    function  GetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean): ICefBrowserViewDelegate;
-    function  OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean): boolean;
+    procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
+    procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
+  end;
+
+  ICefBrowserViewDelegateEvents = interface(ICefViewDelegateEvents)
+    ['{AB94B875-63C6-4FEF-BB30-0816402ABA1C}']
+    procedure doOnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
+    procedure doOnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
+    procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
+    procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
   end;
 
   // TCefButton
@@ -2665,6 +2703,12 @@ type
     ['{EA1EB5A4-DFB0-4A13-A23B-54FAF9401B39}']
     procedure OnButtonPressed(const button: ICefButton);
     procedure OnButtonStateChanged(const button: ICefButton);
+  end;
+
+  ICefButtonDelegateEvents = interface(ICefViewDelegateEvents)
+    ['{E8DF70BE-5DEB-42CF-AF86-B0FF1040498E}']
+    procedure doOnButtonPressed(const button: ICefButton);
+    procedure doOnButtonStateChanged(const button: ICefButton);
   end;
 
   // TCefLabelButton
@@ -2707,6 +2751,11 @@ type
     procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
   end;
 
+  ICefMenuButtonDelegateEvents = interface(ICefButtonDelegateEvents)
+    ['{DA36DD60-7609-4576-BB8E-6A55FD48C680}']
+    procedure doOnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
+  end;
+
   // TCefWindow
   // /include/capi/views/cef_window_capi.h (cef_window_t)
   ICefWindow = interface(ICefPanel)
@@ -2741,7 +2790,7 @@ type
     function  GetClientAreaBoundsInScreen : TCefRect;
     procedure SetDraggableRegions(regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
     function  GetWindowHandle : TCefWindowHandle;
-    procedure SendKeyPress(key_code: Integer; event_flags: uint32);
+    procedure SendKeyPress(key_code: Integer; event_flags: cardinal);
     procedure SendMouseMove(screen_x, screen_y: Integer);
     procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
     procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
@@ -2770,6 +2819,20 @@ type
     procedure OnCanClose(const window: ICefWindow; var aResult : boolean);
     procedure OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean);
     procedure OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+  end;
+
+  ICefWindowDelegateEvents = interface(ICefPanelDelegateEvents)
+    ['{05C19A41-E75D-459E-AD4D-C8A0CA4A49D3}']
+    procedure doOnWindowCreated(const window: ICefWindow);
+    procedure doOnWindowDestroyed(const window: ICefWindow);
+    procedure doOnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+    procedure doOnIsFrameless(const window: ICefWindow; var aResult : boolean);
+    procedure doOnCanResize(const window: ICefWindow; var aResult : boolean);
+    procedure doOnCanMaximize(const window: ICefWindow; var aResult : boolean);
+    procedure doOnCanMinimize(const window: ICefWindow; var aResult : boolean);
+    procedure doOnCanClose(const window: ICefWindow; var aResult : boolean);
+    procedure doOnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean);
+    procedure doOnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
   end;
 
 implementation

@@ -52,16 +52,25 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
   uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
   uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
-  uCEFSentinel;
+  uCEFSentinel, uCEFBrowserViewComponent, uCEFLabelButtonComponent,
+  uCEFMenuButtonComponent, uCEFPanelComponent, uCEFTextfieldComponent,
+  uCEFScrollViewComponent, uCEFWindowComponent;
 
 procedure Register;
 begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
-                                  TBufferPanel, TFMXBufferPanel, TFMXChromium,
-                                  TFMXWorkScheduler, TCEFWorkScheduler,
-                                  TCEFServerComponent, TCEFLinkedWindowParent,
-                                  TCEFUrlRequestClientComponent,
-                                  TCEFSentinel]);
+  RegisterComponents('Chromium',
+                     [TChromium, TCEFWindowParent, TChromiumWindow,
+                      TBufferPanel, TFMXBufferPanel, TFMXChromium,
+                      TFMXWorkScheduler, TCEFWorkScheduler,
+                      TCEFServerComponent, TCEFLinkedWindowParent,
+                      TCEFUrlRequestClientComponent,
+                      TCEFSentinel]);
+
+  RegisterComponents('Chromium Views Framework',
+                     [TCEFBrowserViewComponent, TCEFLabelButtonComponent,
+                      TCEFMenuButtonComponent, TCEFPanelComponent,
+                      TCEFTextfieldComponent, TCEFScrollViewComponent,
+                      TCEFWindowComponent]);
 end;
 
 end.

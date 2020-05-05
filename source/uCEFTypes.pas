@@ -2894,7 +2894,39 @@ type
   // *********************************
   // ************* Views *************
   // *********************************
-
+  //
+  //  (*) Has CEF creation function
+  //  (d) Has delegate
+  //
+  // ----------------          ----------------------
+  // | TCefView (d) | -------> | TCefTextfield (*d) |
+  // ----------------    |     ----------------------
+  //                     |
+  //                     |     ----------------------
+  //                     |---> | TCefScrollView (*) |
+  //                     |     ----------------------
+  //                     |
+  //                     |     ------------------          -------------------
+  //                     |---> | TCefPanel (*d) | -------> | TCefWindow (*d) |
+  //                     |     ------------------          -------------------
+  //                     |
+  //                     |     ------------------------
+  //                     |---> | TCefBrowserView (*d) |
+  //                     |     ------------------------
+  //                     |
+  //                     |     ------------------          -----------------------          -----------------------
+  //                     |---> | TCefButton (d) | -------> | TCefLabelButton (*) | -------> | TCefMenuButton (*d) |
+  //                           ------------------          -----------------------          -----------------------
+  //
+  //
+  // --------------          -----------------
+  // | TCefLayout | -------> | TCefBoxLayout |
+  // --------------    |     -----------------
+  //                   |
+  //                   |     ------------------
+  //                   |---> | TCefFillLayout |
+  //                         ------------------
+  //
 
   // /include/capi/views/cef_display_capi.h (cef_display_t)
   TCefDisplay = record
@@ -3172,7 +3204,7 @@ type
     get_client_area_bounds_in_screen : function(self: PCefWindow): TCefRect; stdcall;
     set_draggable_regions            : procedure(self: PCefWindow; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); stdcall;
     get_window_handle                : function(self: PCefWindow): TCefWindowHandle; stdcall;
-    send_key_press                   : procedure(self: PCefWindow; key_code: Integer; event_flags: uint32); stdcall;
+    send_key_press                   : procedure(self: PCefWindow; key_code: Integer; event_flags: cardinal); stdcall;
     send_mouse_move                  : procedure(self: PCefWindow; screen_x, screen_y: Integer); stdcall;
     send_mouse_events                : procedure(self: PCefWindow; button: TCefMouseButtonType; mouse_down, mouse_up: Integer); stdcall;
     set_accelerator                  : procedure(self: PCefWindow; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer); stdcall;

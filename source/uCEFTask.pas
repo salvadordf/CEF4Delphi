@@ -196,6 +196,18 @@ type
       destructor  Destroy; override;
   end;
 
+  TCefCreateCustomViewTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : ICefViewDelegateEvents); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+
 implementation
 
 uses
@@ -589,6 +601,37 @@ begin
 end;
 
 destructor TCefSetZoomStepTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+// TCefCreateCustomViewTask
+
+procedure TCefCreateCustomViewTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then ICefViewDelegateEvents(FEvents).doCreateCustomView;
+    except
+      on e : exception do
+        if CustomExceptionHandler('ICefViewDelegateEvents.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefCreateCustomViewTask.Create(const aEvents : ICefViewDelegateEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+end;
+
+destructor TCefCreateCustomViewTask.Destroy;
 begin
   FEvents := nil;
 

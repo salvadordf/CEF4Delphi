@@ -1,0 +1,64 @@
+object MainForm: TMainForm
+  Left = 559
+  Height = 37
+  Top = 278
+  Width = 357
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'ToolBox Browser 2'
+  ClientHeight = 37
+  ClientWidth = 357
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.8.0'
+  object ButtonPnl: TPanel
+    Left = 0
+    Height = 37
+    Top = 0
+    Width = 357
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 37
+    ClientWidth = 357
+    Enabled = False
+    TabOrder = 0
+    object Edit1: TEdit
+      Left = 6
+      Height = 21
+      Top = 6
+      Width = 286
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+    object Button1: TButton
+      Left = 298
+      Height = 25
+      Top = 4
+      Width = 51
+      Caption = 'Open'
+      OnClick = Button1Click
+      TabOrder = 1
+    end
+  end
+  object CEFWindowComponent1: TCEFWindowComponent
+    OnGetPreferredSize = CEFWindowComponent1GetPreferredSize
+    OnWindowCreated = CEFWindowComponent1WindowCreated
+    OnWindowDestroyed = CEFWindowComponent1WindowDestroyed
+    OnCanClose = CEFWindowComponent1CanClose
+    left = 48
+  end
+  object CEFBrowserViewComponent1: TCEFBrowserViewComponent
+    left = 152
+    top = 65528
+  end
+  object Chromium1: TChromium
+    OnTitleChange = Chromium1TitleChange
+    OnBeforePopup = Chromium1BeforePopup
+    left = 256
+    top = 8
+  end
+end

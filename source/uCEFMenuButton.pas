@@ -98,10 +98,19 @@ end;
 class function TCefMenuButtonRef.CreateMenuButton(const delegate : ICefMenuButtonDelegate;
                                                   const text     : ustring): ICefMenuButton;
 var
-  TempText : TCefString;
+  TempText   : TCefString;
+  TempButton : PCefMenuButton;
 begin
-  TempText := CefString(text);
-  UnWrap(cef_menu_button_create(CefGetData(delegate), @TempText));
+  Result := nil;
+
+  if (delegate <> nil) then
+    begin
+      TempText   := CefString(text);
+      TempButton := cef_menu_button_create(CefGetData(delegate), @TempText);
+
+      if (TempButton <> nil) then
+        Result := Create(TempButton) as ICefMenuButton;
+    end;
 end;
 
 end.

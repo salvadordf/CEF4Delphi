@@ -89,7 +89,7 @@ type
       function  GetClientAreaBoundsInScreen : TCefRect;
       procedure SetDraggableRegions(regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
       function  GetWindowHandle : TCefWindowHandle;
-      procedure SendKeyPress(key_code: Integer; event_flags: uint32);
+      procedure SendKeyPress(key_code: Integer; event_flags: cardinal);
       procedure SendMouseMove(screen_x, screen_y: Integer);
       procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
       procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
@@ -264,7 +264,7 @@ begin
   Result := PCefWindow(FData)^.get_window_handle(PCefWindow(FData));
 end;
 
-procedure TCefWindowRef.SendKeyPress(key_code: Integer; event_flags: uint32);
+procedure TCefWindowRef.SendKeyPress(key_code: Integer; event_flags: cardinal);
 begin
   PCefWindow(FData)^.send_key_press(PCefWindow(FData), key_code, event_flags);
 end;
@@ -317,8 +317,18 @@ begin
 end;
 
 class function TCefWindowRef.CreateTopLevel(const delegate: ICefWindowDelegate): ICefWindow;
+var
+  TempWindow : PCefWindow;
 begin
-  UnWrap(cef_window_create_top_level(CefGetData(delegate)));
+  Result := nil;
+
+  if (delegate <> nil) then
+    begin
+      TempWindow := cef_window_create_top_level(CefGetData(delegate));
+
+      if (TempWindow <> nil) then
+        Result := Create(TempWindow) as ICefWindow;
+    end;
 end;
 
 end.

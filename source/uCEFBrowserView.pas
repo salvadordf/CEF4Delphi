@@ -100,20 +100,39 @@ class function TCefBrowserViewRef.CreateBrowserView(const client          : ICef
                                                     const delegate        : ICefBrowserViewDelegate): ICefBrowserView;
 
 var
-  TempURL : TCefString;
+  TempURL         : TCefString;
+  TempBrowserView : PCefBrowserView;
 begin
-  TempURL := CefString(url);
-  Result  := UnWrap(cef_browser_view_create(CefGetData(client),
-                                            @TempURL,
-                                            @settings,
-                                            CefGetData(extra_info),
-                                            CefGetData(request_context),
-                                            CefGetData(delegate)));
+  Result := nil;
+
+  if (client <> nil) and (delegate <> nil) then
+    begin
+      TempURL         := CefString(url);
+      TempBrowserView := cef_browser_view_create(CefGetData(client),
+                                                 @TempURL,
+                                                 @settings,
+                                                 CefGetData(extra_info),
+                                                 CefGetData(request_context),
+                                                 CefGetData(delegate));
+
+      if (TempBrowserView <> nil) then
+        Result := Create(TempBrowserView) as ICefBrowserView;
+    end;
 end;
 
 class function TCefBrowserViewRef.GetForBrowser(const browser: ICefBrowser): ICefBrowserView;
+var
+  TempBrowserView : PCefBrowserView;
 begin
-  Result := UnWrap(cef_browser_view_get_for_browser(CefGetData(browser)));
+  Result := nil;
+
+  if (browser <> nil) then
+    begin
+      TempBrowserView := cef_browser_view_get_for_browser(CefGetData(browser));
+
+      if (TempBrowserView <> nil) then
+        Result := Create(TempBrowserView) as ICefBrowserView;
+    end;
 end;
 
 end.

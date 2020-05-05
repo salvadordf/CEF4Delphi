@@ -285,8 +285,18 @@ begin
 end;
 
 class function TCefTextfieldRef.CreateTextField(const delegate: ICefTextfieldDelegate): ICefTextfield;
+var
+  TempTextfield : PCefTextfield;
 begin
-  Result := UnWrap(cef_textfield_create(CefGetData(delegate)));
+  Result := nil;
+
+  if (delegate <> nil) then
+    begin
+      TempTextfield := cef_textfield_create(CefGetData(delegate));
+
+      if (TempTextfield <> nil) then
+        Result := Create(TempTextfield) as ICefTextfield;
+    end;
 end;
 
 end.

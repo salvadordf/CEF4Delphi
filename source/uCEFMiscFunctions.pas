@@ -300,7 +300,7 @@ function CefGetDataURI(const aString, aMimeType : ustring) : ustring; overload;
 function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustring; const aCharset : ustring = '') : ustring; overload;
 
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
-
+procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 
 implementation
 
@@ -2413,6 +2413,15 @@ begin
   Result := (aHandle <> nil);
   {$ELSE}
   Result := (aHandle <> 0);
+  {$ENDIF}
+end;
+
+procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
+begin
+  {$IFDEF MACOS}
+  aHandle := nil;
+  {$ELSE}
+  aHandle := 0;
   {$ENDIF}
 end;
 

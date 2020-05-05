@@ -59,7 +59,7 @@ uses
 type
   TCefPanelRef = class(TCefViewRef, ICefPanel)
     protected
-      function  AsWindow : ICefWindow;
+      function  GetAsWindow : ICefWindow;
       function  SetToFillLayout : ICefFillLayout;
       function  SetToBoxLayout(const settings: TCefBoxLayoutSettings): ICefBoxLayout;
       function  GetLayout : ICefLayout;
@@ -83,7 +83,7 @@ uses
   uCEFLibFunctions, uCEFMiscFunctions, uCEFWindow, uCEFLayout, uCEFFillLayout,
   uCEFBoxLayout;
 
-function TCefPanelRef.AsWindow : ICefWindow;
+function TCefPanelRef.GetAsWindow : ICefWindow;
 begin
   Result := TCefWindowRef.UnWrap(PCefPanel(FData)^.as_window(PCefPanel(FData)));
 end;
@@ -152,8 +152,18 @@ begin
 end;
 
 class function TCefPanelRef.CreatePanel(const delegate: ICefPanelDelegate): ICefPanel;
+var
+  TempPanel : PCefPanel;
 begin
-  UnWrap(cef_panel_create(CefGetData(delegate)));
+  Result := nil;
+
+  if (delegate <> nil) then
+    begin
+      TempPanel := cef_panel_create(CefGetData(delegate));
+
+      if (TempPanel <> nil) then
+        Result := Create(TempPanel) as ICefPanel;
+    end;
 end;
 
 end.

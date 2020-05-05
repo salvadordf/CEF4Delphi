@@ -88,6 +88,24 @@ type
       constructor Create; virtual;
   end;
 
+  TCustomViewDelegate = class(TCefViewDelegateOwn)
+    protected
+      FEvents : Pointer;
+
+      procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize); override;
+      procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize); override;
+      procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize); override;
+      procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
+      procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
+      procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
+      procedure OnFocus(const view: ICefView); override;
+      procedure OnBlur(const view: ICefView); override;
+
+    public
+      constructor Create(const events: ICefViewDelegateEvents); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
@@ -171,8 +189,8 @@ var
   TempSize   : TCefSize;
 begin
   TempObject      := CefGetObject(self);
-  TempSize.width  := 50;
-  TempSize.height := 50;
+  TempSize.width  := 100;
+  TempSize.height := 100;
 
   if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
     TCefViewDelegateOwn(TempObject).OnGetPreferredSize(TCefViewRef.UnWrap(view),
@@ -187,8 +205,8 @@ var
   TempSize   : TCefSize;
 begin
   TempObject      := CefGetObject(self);
-  TempSize.width  := 10;
-  TempSize.height := 10;
+  TempSize.width  := 0;
+  TempSize.height := 0;
 
   if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
     TCefViewDelegateOwn(TempObject).OnGetMinimumSize(TCefViewRef.UnWrap(view),
@@ -203,8 +221,8 @@ var
   TempSize   : TCefSize;
 begin
   TempObject      := CefGetObject(self);
-  TempSize.width  := 1000;
-  TempSize.height := 1000;
+  TempSize.width  := 0;
+  TempSize.height := 0;
 
   if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
     TCefViewDelegateOwn(TempObject).OnGetMaximumSize(TCefViewRef.UnWrap(view),
@@ -333,6 +351,113 @@ end;
 procedure TCefViewDelegateOwn.OnBlur(const view: ICefView);
 begin
   //
+end;
+
+
+// **************************************************************
+// ******************** TCustomViewDelegate *********************
+// **************************************************************
+
+constructor TCustomViewDelegate.Create(const events: ICefViewDelegateEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(events);
+end;
+
+destructor TCustomViewDelegate.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+procedure TCustomViewDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnGetPreferredSize', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnGetMinimumSize', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnGetMaximumSize', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnGetHeightForWidth', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnParentViewChanged(view, added, parent);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnParentViewChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnChildViewChanged(view, added, child);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnChildViewChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnFocus(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnFocus(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnFocus', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnBlur(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnBlur(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnBlur', e) then raise;
+  end;
 end;
 
 end.

@@ -153,10 +153,19 @@ end;
 class function TCefLabelButtonRef.CreateLabelButton(const delegate : ICefButtonDelegate;
                                                     const text     : ustring): ICefLabelButton;
 var
-  TempText : TCefString;
+  TempText   : TCefString;
+  TempButton : PCefLabelButton;
 begin
-  TempText := CefString(text);
-  UnWrap(cef_label_button_create(CefGetData(delegate), @TempText));
+  Result := nil;
+
+  if (delegate <> nil) then
+    begin
+      TempText   := CefString(text);
+      TempButton := cef_label_button_create(CefGetData(delegate), @TempText);
+
+      if (TempButton <> nil) then
+        Result := Create(TempButton) as ICefLabelButton;
+    end;
 end;
 
 end.

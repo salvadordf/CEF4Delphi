@@ -55,7 +55,9 @@ uses
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
   uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
-  uCEFUrlRequestClientComponent, uCEFSentinel;
+  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFBrowserViewComponent, 
+  uCEFLabelButtonComponent, uCEFMenuButtonComponent, uCEFPanelComponent, 
+  uCEFTextfieldComponent, uCEFScrollViewComponent, uCEFWindowComponent;
 
 procedure Register;
 begin
@@ -63,6 +65,12 @@ begin
                                   TBufferPanel, TCEFWorkScheduler,
                                   TCEFServerComponent, TCEFLinkedWindowParent,
                         	  TCEFUrlRequestClientComponent, TCEFSentinel]);
+
+  RegisterComponents('Chromium Views Framework',
+                     [TCEFBrowserViewComponent, TCEFLabelButtonComponent,
+                      TCEFMenuButtonComponent, TCEFPanelComponent,
+                      TCEFTextfieldComponent, TCEFScrollViewComponent,
+                      TCEFWindowComponent]);
 end;
 
 end.

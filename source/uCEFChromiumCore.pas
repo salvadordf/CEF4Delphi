@@ -64,7 +64,8 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
   {$IFDEF MSWINDOWS}uCEFDragAndDropMgr,{$ENDIF}
-  uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions;
+  uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions,
+  uCEFBrowserViewComponent;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
@@ -588,6 +589,7 @@ type
       function    CreateClientHandler(aIsOSR : boolean = True) : boolean; overload;
       function    CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean = True) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
+      function    TryCloseBrowser : boolean;
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
       {$IFDEF MSWINDOWS}
       procedure   InitializeDragAndDrop(const aDropTargetWnd : HWND);
@@ -596,6 +598,7 @@ type
       {$ENDIF MSWINDOWS}
 
       function    CreateBrowser(aParentHandle : TCefWindowHandle; aParentRect : TRect; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
+      function    CreateBrowser(const aURL : ustring; const aBrowserViewComp : TCEFBrowserViewComponent; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
 
       procedure   LoadURL(const aURL : ustring; const aFrameName : ustring = ''); overload;
       procedure   LoadURL(const aURL : ustring; const aFrame : ICefFrame); overload;
@@ -1524,13 +1527,13 @@ begin
       // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
 
       if not(csDesigning in ComponentState) and
-         not(FClosing)         and
          (FBrowser     =  nil) and
          (FBrowserId   =  0)   and
          (GlobalCEFApp <> nil) and
          GlobalCEFApp.GlobalContextInitialized  and
          CreateClientHandler(not(ValidCefWindowHandle(aParentHandle))) then
         begin
+          FClosing := False;
           GetSettings(FBrowserSettings);
           InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
           CreateResourceRequestHandler;
@@ -1553,6 +1556,62 @@ begin
             Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aExtraInfo, TempNewContext)
            else
             Result := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aExtraInfo, TempNewContext);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TChromiumCore.CreateBrowser', e) then raise;
+    end;
+  finally
+    TempGlobalContext := nil;
+    TempNewContext    := nil;
+  end;
+end;
+
+function TChromiumCore.CreateBrowser(const aURL             : ustring;
+                                     const aBrowserViewComp : TCEFBrowserViewComponent;
+                                     const aContext         : ICefRequestContext;
+                                     const aExtraInfo       : ICefDictionaryValue) : boolean;
+var
+  TempNewContext, TempGlobalContext : ICefRequestContext;
+begin
+  Result := False;
+
+  try
+    try
+      // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+      // even if you use a custom request context.
+      // If you create a browser in the initialization of your app, make sure you call this
+      // function when GlobalCEFApp.GlobalContextInitialized is TRUE.
+      // Use the GlobalCEFApp.OnContextInitialized event to know when
+      // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
+
+      if not(csDesigning in ComponentState) and
+         (aBrowserViewComp <> nil) and
+         (FBrowser     =  nil) and
+         (FBrowserId   =  0)   and
+         (GlobalCEFApp <> nil) and
+         GlobalCEFApp.GlobalContextInitialized  and
+         CreateClientHandler(False) then
+        begin
+          FClosing := False;
+          GetSettings(FBrowserSettings);
+          CreateResourceRequestHandler;
+          CreateMediaObserver;
+
+          if (aContext = nil) then
+            begin
+              CreateReqContextHandler;
+
+              if (FReqContextHandler <> nil) then
+                begin
+                  TempGlobalContext := TCefRequestContextRef.Global();
+                  TempNewContext    := TCefRequestContextRef.Shared(TempGlobalContext, FReqContextHandler);
+                end;
+            end
+           else
+            TempNewContext := aContext;
+
+          Result := aBrowserViewComp.CreateBrowserView(FHandler, aURL, FBrowserSettings, aExtraInfo, TempNewContext);
         end;
     except
       on e : exception do
@@ -1730,6 +1789,14 @@ end;
 procedure TChromiumCore.CloseBrowser(aForceClose : boolean);
 begin
   if Initialized then FBrowser.Host.CloseBrowser(aForceClose);
+end;
+
+function TChromiumCore.TryCloseBrowser : boolean;
+begin
+  if Initialized then
+    Result := FBrowser.Host.TryCloseBrowser
+   else
+    Result := True;
 end;
 
 function TChromiumCore.CreateBrowserHost(      aWindowInfo : PCefWindowInfo;
