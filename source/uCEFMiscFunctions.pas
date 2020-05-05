@@ -170,7 +170,7 @@ function PathIsUNCAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name
 function PathIsUNCUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCW';
 function PathIsURLAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLA';
 function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
-function RtlGetVersion(var lpVersionInformation : TOSVersionInfoEx): LongInt; stdcall; external NTDLL;
+function CustomRtlGetVersion(var lpVersionInformation : TOSVersionInfoEx): LongInt; stdcall; external NTDLL name 'RtlGetVersion';
 
 {$IFNDEF DELPHI12_UP}
 const
@@ -2138,7 +2138,7 @@ begin
 
   ZeroMemory(@TempInfo, SizeOf(TOSVersionInfoEx));
 
-  if (RtlGetVersion(TempInfo) = 0) then
+  if (CustomRtlGetVersion(TempInfo) = 0) then
     begin
       Result        := True;
       wMajorVersion := TempInfo.dwMajorVersion;

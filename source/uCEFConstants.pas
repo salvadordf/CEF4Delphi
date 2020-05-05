@@ -610,10 +610,14 @@ const
   CEF_BEFORECLOSE        = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0C;
 
   // Lazarus and some old Delphi versions don't have these message contants
+  {$IF NOT DECLARED(WM_TOUCH)}
   WM_TOUCH                 = $0240;
+  {$IFEND}
+  {$IF NOT DECLARED(WM_POINTERUPDATE)}
   WM_POINTERUPDATE         = $0245;
   WM_POINTERDOWN           = $0246;
   WM_POINTERUP             = $0247;
+  {$IFEND}
 
   CEF_TIMER_MINIMUM            = $0000000A;
   CEF_TIMER_MAXIMUM            = $7FFFFFFF;
@@ -630,7 +634,9 @@ const
   CEF_IMAGE_FILE_MACHINE_I386  = $014C;
   CEF_IMAGE_FILE_MACHINE_AMD64 = $8664;
 
+  {$IF NOT DECLARED(USER_DEFAULT_SCREEN_DPI)}
   USER_DEFAULT_SCREEN_DPI = 96;
+  {$IFEND}
 
 implementation
 
