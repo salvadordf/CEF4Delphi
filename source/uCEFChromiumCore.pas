@@ -68,6 +68,8 @@ uses
   uCEFBrowserViewComponent;
 
 type
+  TBrowserInfoList = class;
+
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TChromiumCore = class(TComponent, IChromiumEvents)
     protected
@@ -75,8 +77,10 @@ type
       FCompHandle             : HWND;
       {$ENDIF}
       FHandler                : ICefClient;
-      FBrowser                : ICefBrowser;
-      FBrowserId              : Integer;
+      FBrowsersCS             : TCriticalSection;
+      FBrowsers               : TBrowserInfoList;
+      FBrowserId              : integer;
+      FMultiBrowserMode       : boolean;
       FReqContextHandler      : ICefRequestContextHandler;
       FResourceRequestHandler : ICefResourceRequestHandler;
       FMediaObserver          : ICefMediaObserver;
@@ -111,8 +115,6 @@ type
       FZoomStepCS             : TCriticalSection;
       FPrefsFileName          : string;
       FIsOSR                  : boolean;
-      FInitialized            : boolean;
-      FClosing                : boolean;
       FSafeSearch             : boolean;
       FYouTubeRestrict        : integer;
       FPrintingEnabled        : boolean;
@@ -311,6 +313,11 @@ type
       function  GetParentFormHandle : TCefWindowHandle; virtual;
       function  GetRequestContext : ICefRequestContext;
       function  GetMediaRouter : ICefMediaRouter;
+      function  GetBrowser : ICefBrowser;
+      function  GetBrowserId : integer;
+      function  GetBrowserById(aID : integer) : ICefBrowser;
+      function  GetBrowserCount : integer;
+      function  GetBrowserIdByIndex(aIndex : integer) : integer;
 
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
@@ -347,15 +354,16 @@ type
       procedure SetBlock3rdPartyCookies(const aValue : boolean);
       procedure SetOnRequestContextInitialized(const aValue : TOnRequestContextInitialized);
       procedure SetOnBeforePluginLoad(const aValue : TOnBeforePluginLoad);
+      procedure SetMultiBrowserMode(aValue : boolean);
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): Boolean;
 
+      procedure DestroyAllBrowsers;
       procedure DestroyClientHandler;
       procedure DestroyReqContextHandler;
       procedure DestroyResourceRequestHandler;
       procedure DestroyMediaObserver;
-      procedure ClearBrowserReference;
       procedure CreateReqContextHandler;
       procedure CreateResourceRequestHandler;
       procedure CreateMediaObserver;
@@ -396,6 +404,10 @@ type
       procedure DelayedDragging;
       procedure InitializeWindowInfo(aParentHandle : TCefWindowHandle; aParentRect : TRect; const aWindowName : ustring); virtual;
       procedure DefaultInitializeDevToolsWindowInfo(aDevToolsWnd: TCefWindowHandle; const aClientRect: TRect; const aWindowName: ustring);
+
+      function  AddBrowser(const aBrowser : ICefBrowser) : boolean;
+      function  RemoveBrowser(const aBrowser : ICefBrowser) : boolean;
+      procedure SetBrowserIsClosing(aID : integer);
 
       {$IFDEF MSWINDOWS}
       procedure PrefsAvailableMsg(aResultOK : boolean);
@@ -589,7 +601,9 @@ type
       function    CreateClientHandler(aIsOSR : boolean = True) : boolean; overload;
       function    CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean = True) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
+      procedure   CloseAllBrowsers;
       function    TryCloseBrowser : boolean;
+      function    SelectBrowser(aID : integer) : boolean;
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
       {$IFDEF MSWINDOWS}
       procedure   InitializeDragAndDrop(const aDropTargetWnd : HWND);
@@ -718,81 +732,85 @@ type
       procedure   NotifyCurrentRoutes;
       procedure   CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink);
 
-      property  DefaultUrl                 : ustring                      read FDefaultUrl                  write FDefaultUrl;
-      property  Options                    : TChromiumOptions             read FOptions                     write FOptions;
-      property  FontOptions                : TChromiumFontOptions         read FFontOptions                 write FFontOptions;
-      property  PDFPrintOptions            : TPDFPrintOptions             read FPDFPrintOptions             write FPDFPrintOptions;
-      property  DefaultEncoding            : ustring                      read FDefaultEncoding             write FDefaultEncoding;
-      property  BrowserId                  : integer                      read FBrowserId;
-      property  Browser                    : ICefBrowser                  read FBrowser;
-      property  CefClient                  : ICefClient                   read FHandler;
-      property  ReqContextHandler          : ICefRequestContextHandler    read FReqContextHandler;
-      property  ResourceRequestHandler     : ICefResourceRequestHandler   read FResourceRequestHandler;
-      property  CefWindowInfo              : TCefWindowInfo               read FWindowInfo;
-      property  VisibleNavigationEntry     : ICefNavigationEntry          read GetVisibleNavigationEntry;
-      property  RequestContext             : ICefRequestContext           read GetRequestContext;
-      property  MediaRouter                : ICefMediaRouter              read GetMediaRouter;
-      property  MediaObserver              : ICefMediaObserver            read FMediaObserver;
-      property  Registration               : ICefRegistration             read FRegistration;
-      property  MultithreadApp             : boolean                      read GetMultithreadApp;
-      property  IsLoading                  : boolean                      read GetIsLoading;
-      property  HasDocument                : boolean                      read GetHasDocument;
-      property  HasView                    : boolean                      read GetHasView;
-      property  HasDevTools                : boolean                      read GetHasDevTools;
-      property  HasClientHandler           : boolean                      read GetHasClientHandler;
-      property  HasBrowser                 : boolean                      read GetHasBrowser;
-      property  CanGoBack                  : boolean                      read GetCanGoBack;
-      property  CanGoForward               : boolean                      read GetCanGoForward;
-      property  IsPopUp                    : boolean                      read GetIsPopUp;
-      property  WindowHandle               : TCefWindowHandle             read GetWindowHandle;
+      property  DefaultUrl                    : ustring                      read FDefaultUrl                  write FDefaultUrl;
+      property  Options                       : TChromiumOptions             read FOptions                     write FOptions;
+      property  FontOptions                   : TChromiumFontOptions         read FFontOptions                 write FFontOptions;
+      property  PDFPrintOptions               : TPDFPrintOptions             read FPDFPrintOptions             write FPDFPrintOptions;
+      property  DefaultEncoding               : ustring                      read FDefaultEncoding             write FDefaultEncoding;
+      property  BrowserId                     : integer                      read GetBrowserId;
+      property  Browser                       : ICefBrowser                  read GetBrowser;
+      property  BrowserById[id : integer]     : ICefBrowser                  read GetBrowserById;
+      property  BrowserCount                  : integer                      read GetBrowserCount;
+      property  BrowserIdByIndex[i : integer] : integer                      read GetBrowserIdByIndex;
+      property  CefClient                     : ICefClient                   read FHandler;
+      property  ReqContextHandler             : ICefRequestContextHandler    read FReqContextHandler;
+      property  ResourceRequestHandler        : ICefResourceRequestHandler   read FResourceRequestHandler;
+      property  CefWindowInfo                 : TCefWindowInfo               read FWindowInfo;
+      property  VisibleNavigationEntry        : ICefNavigationEntry          read GetVisibleNavigationEntry;
+      property  RequestContext                : ICefRequestContext           read GetRequestContext;
+      property  MediaRouter                   : ICefMediaRouter              read GetMediaRouter;
+      property  MediaObserver                 : ICefMediaObserver            read FMediaObserver;
+      property  Registration                  : ICefRegistration             read FRegistration;
+      property  MultithreadApp                : boolean                      read GetMultithreadApp;
+      property  IsLoading                     : boolean                      read GetIsLoading;
+      property  HasDocument                   : boolean                      read GetHasDocument;
+      property  HasView                       : boolean                      read GetHasView;
+      property  HasDevTools                   : boolean                      read GetHasDevTools;
+      property  HasClientHandler              : boolean                      read GetHasClientHandler;
+      property  HasBrowser                    : boolean                      read GetHasBrowser;
+      property  CanGoBack                     : boolean                      read GetCanGoBack;
+      property  CanGoForward                  : boolean                      read GetCanGoForward;
+      property  IsPopUp                       : boolean                      read GetIsPopUp;
+      property  WindowHandle                  : TCefWindowHandle             read GetWindowHandle;
       {$IFDEF MSWINDOWS}
-      property  BrowserHandle              : THandle                      read FBrowserCompHWND;
-      property  WidgetHandle               : THandle                      read FWidgetCompHWND;
-      property  RenderHandle               : THandle                      read FRenderCompHWND;
+      property  BrowserHandle                 : THandle                      read FBrowserCompHWND;
+      property  WidgetHandle                  : THandle                      read FWidgetCompHWND;
+      property  RenderHandle                  : THandle                      read FRenderCompHWND;
       {$ENDIF}
-      property  FrameIsFocused             : boolean                      read GetFrameIsFocused;
-      property  Initialized                : boolean                      read GetInitialized;
-      property  RequestContextCache        : ustring                      read GetRequestContextCache;
-      property  RequestContextIsGlobal     : boolean                      read GetRequestContextIsGlobal;
-      property  DocumentURL                : ustring                      read GetDocumentURL;
-      property  ZoomLevel                  : double                       read GetZoomLevel                 write SetZoomLevel;
-      property  ZoomPct                    : double                       read GetZoomPct                   write SetZoomPct;
-      property  ZoomStep                   : byte                         read GetZoomStep                  write SetZoomStep;
-      property  WindowlessFrameRate        : integer                      read GetWindowlessFrameRate       write SetWindowlessFrameRate;
-      property  CustomHeaderName           : ustring                      read FCustomHeaderName            write SetCustomHeaderName;
-      property  CustomHeaderValue          : ustring                      read FCustomHeaderValue           write SetCustomHeaderValue;
-      property  DoNotTrack                 : boolean                      read FDoNotTrack                  write SetDoNotTrack;
-      property  SendReferrer               : boolean                      read FSendReferrer                write SetSendReferrer;
-      property  HyperlinkAuditing          : boolean                      read FHyperlinkAuditing           write SetHyperlinkAuditing;
-      property  RunAllFlashInAllowMode     : boolean                      read FRunAllFlashInAllowMode      write SetRunAllFlashInAllowMode;
-      property  AllowOutdatedPlugins       : boolean                      read FAllowOutdatedPlugins        write SetAllowOutdatedPlugins;
-      property  AlwaysAuthorizePlugins     : boolean                      read FAlwaysAuthorizePlugins      write SetAlwaysAuthorizePlugins;
-      property  SpellChecking              : boolean                      read FSpellChecking               write SetSpellChecking;
-      property  SpellCheckerDicts          : ustring                      read FSpellCheckerDicts           write SetSpellCheckerDicts;
-      property  HasValidMainFrame          : boolean                      read GetHasValidMainFrame;
-      property  FrameCount                 : NativeUInt                   read GetFrameCount;
-      property  DragOperations             : TCefDragOperations           read FDragOperations              write FDragOperations;
-      property  AudioMuted                 : boolean                      read GetAudioMuted                write SetAudioMuted;
-      property  SafeSearch                 : boolean                      read FSafeSearch                  write SetSafeSearch;
-      property  YouTubeRestrict            : integer                      read FYouTubeRestrict             write SetYouTubeRestrict;
-      property  PrintingEnabled            : boolean                      read FPrintingEnabled             write SetPrintingEnabled;
-      property  AcceptLanguageList         : ustring                      read FAcceptLanguageList          write SetAcceptLanguageList;
-      property  AcceptCookies              : TCefCookiePref               read FAcceptCookies               write SetAcceptCookies;
-      property  Block3rdPartyCookies       : boolean                      read FBlock3rdPartyCookies        write SetBlock3rdPartyCookies;
+      property  FrameIsFocused                : boolean                      read GetFrameIsFocused;
+      property  Initialized                   : boolean                      read GetInitialized;
+      property  RequestContextCache           : ustring                      read GetRequestContextCache;
+      property  RequestContextIsGlobal        : boolean                      read GetRequestContextIsGlobal;
+      property  DocumentURL                   : ustring                      read GetDocumentURL;
+      property  ZoomLevel                     : double                       read GetZoomLevel                 write SetZoomLevel;
+      property  ZoomPct                       : double                       read GetZoomPct                   write SetZoomPct;
+      property  ZoomStep                      : byte                         read GetZoomStep                  write SetZoomStep;
+      property  WindowlessFrameRate           : integer                      read GetWindowlessFrameRate       write SetWindowlessFrameRate;
+      property  CustomHeaderName              : ustring                      read FCustomHeaderName            write SetCustomHeaderName;
+      property  CustomHeaderValue             : ustring                      read FCustomHeaderValue           write SetCustomHeaderValue;
+      property  DoNotTrack                    : boolean                      read FDoNotTrack                  write SetDoNotTrack;
+      property  SendReferrer                  : boolean                      read FSendReferrer                write SetSendReferrer;
+      property  HyperlinkAuditing             : boolean                      read FHyperlinkAuditing           write SetHyperlinkAuditing;
+      property  RunAllFlashInAllowMode        : boolean                      read FRunAllFlashInAllowMode      write SetRunAllFlashInAllowMode;
+      property  AllowOutdatedPlugins          : boolean                      read FAllowOutdatedPlugins        write SetAllowOutdatedPlugins;
+      property  AlwaysAuthorizePlugins        : boolean                      read FAlwaysAuthorizePlugins      write SetAlwaysAuthorizePlugins;
+      property  SpellChecking                 : boolean                      read FSpellChecking               write SetSpellChecking;
+      property  SpellCheckerDicts             : ustring                      read FSpellCheckerDicts           write SetSpellCheckerDicts;
+      property  HasValidMainFrame             : boolean                      read GetHasValidMainFrame;
+      property  FrameCount                    : NativeUInt                   read GetFrameCount;
+      property  DragOperations                : TCefDragOperations           read FDragOperations              write FDragOperations;
+      property  AudioMuted                    : boolean                      read GetAudioMuted                write SetAudioMuted;
+      property  SafeSearch                    : boolean                      read FSafeSearch                  write SetSafeSearch;
+      property  YouTubeRestrict               : integer                      read FYouTubeRestrict             write SetYouTubeRestrict;
+      property  PrintingEnabled               : boolean                      read FPrintingEnabled             write SetPrintingEnabled;
+      property  AcceptLanguageList            : ustring                      read FAcceptLanguageList          write SetAcceptLanguageList;
+      property  AcceptCookies                 : TCefCookiePref               read FAcceptCookies               write SetAcceptCookies;
+      property  Block3rdPartyCookies          : boolean                      read FBlock3rdPartyCookies        write SetBlock3rdPartyCookies;
+      property  MultiBrowserMode              : boolean                      read FMultiBrowserMode            write SetMultiBrowserMode;
 
-      property  WebRTCIPHandlingPolicy     : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy      write SetWebRTCIPHandlingPolicy;
-      property  WebRTCMultipleRoutes       : TCefState                    read FWebRTCMultipleRoutes        write SetWebRTCMultipleRoutes;
-      property  WebRTCNonproxiedUDP        : TCefState                    read FWebRTCNonProxiedUDP         write SetWebRTCNonProxiedUDP;
+      property  WebRTCIPHandlingPolicy        : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy      write SetWebRTCIPHandlingPolicy;
+      property  WebRTCMultipleRoutes          : TCefState                    read FWebRTCMultipleRoutes        write SetWebRTCMultipleRoutes;
+      property  WebRTCNonproxiedUDP           : TCefState                    read FWebRTCNonProxiedUDP         write SetWebRTCNonProxiedUDP;
 
-      property  ProxyType                  : integer                      read FProxyType                   write SetProxyType;
-      property  ProxyScheme                : TCefProxyScheme              read FProxyScheme                 write SetProxyScheme;
-      property  ProxyServer                : ustring                      read FProxyServer                 write SetProxyServer;
-      property  ProxyPort                  : integer                      read FProxyPort                   write SetProxyPort;
-      property  ProxyUsername              : ustring                      read FProxyUsername               write SetProxyUsername;
-      property  ProxyPassword              : ustring                      read FProxyPassword               write SetProxyPassword;
-      property  ProxyScriptURL             : ustring                      read FProxyScriptURL              write SetProxyScriptURL;
-      property  ProxyByPassList            : ustring                      read FProxyByPassList             write SetProxyByPassList;
-      property  MaxConnectionsPerProxy     : integer                      read FMaxConnectionsPerProxy      write SetMaxConnectionsPerProxy;
+      property  ProxyType                     : integer                      read FProxyType                   write SetProxyType;
+      property  ProxyScheme                   : TCefProxyScheme              read FProxyScheme                 write SetProxyScheme;
+      property  ProxyServer                   : ustring                      read FProxyServer                 write SetProxyServer;
+      property  ProxyPort                     : integer                      read FProxyPort                   write SetProxyPort;
+      property  ProxyUsername                 : ustring                      read FProxyUsername               write SetProxyUsername;
+      property  ProxyPassword                 : ustring                      read FProxyPassword               write SetProxyPassword;
+      property  ProxyScriptURL                : ustring                      read FProxyScriptURL              write SetProxyScriptURL;
+      property  ProxyByPassList               : ustring                      read FProxyByPassList             write SetProxyByPassList;
+      property  MaxConnectionsPerProxy        : integer                      read FMaxConnectionsPerProxy      write SetMaxConnectionsPerProxy;
 
     published
       property  OnTextResultAvailable              : TOnTextResultAvailableEvent              read FOnTextResultAvailable              write FOnTextResultAvailable;
@@ -934,6 +952,44 @@ type
       property OnRouteMessageReceived                 : TOnRouteMessageReceivedEvent      read FOnRouteMessageReceived                 write FOnRouteMessageReceived;
   end;
 
+  TBrowserInfo = class
+    protected
+      FBrowser   : ICefBrowser;
+      FIsClosing : boolean;
+      FID        : integer;
+
+    public
+      constructor Create(const aBrowser : ICefBrowser); reintroduce;
+      destructor  Destroy; override;
+
+      property Browser    : ICefBrowser   read FBrowser;
+      property ID         : integer       read FID;
+      property IsClosing  : boolean       read FIsClosing   write FIsClosing;
+  end;
+
+  TBrowserInfoList = class(TList)
+    protected
+      procedure SetBrowserIsClosing(aID : integer; aValue : boolean);
+
+      function  GetBrowserIsClosing(aID : integer) : boolean;
+      function  GetBrowser(aID : integer) : ICefBrowser;
+      function  GetFirstBrowser : ICefBrowser;
+      function  GetFirstID : integer;
+
+    public
+      destructor Destroy; override;
+      function   AddBrowser(const aBrowser : ICefBrowser) : boolean;
+      function   RemoveBrowser(const aBrowser : ICefBrowser) : boolean;
+      function   SearchBrowser(aID : integer) : integer;
+      procedure  FreeAndClearAllItems;
+      procedure  CloseAllBrowsers;
+
+      property BrowserIsClosing[aID : integer] : boolean       read GetBrowserIsClosing write SetBrowserIsClosing;
+      property Browser[aID : integer]          : ICefBrowser   read GetBrowser;
+      property FirstBrowser                    : ICefBrowser   read GetFirstBrowser;
+      property FirstID                         : integer       read GetFirstID;
+  end;
+
 // *********************************************************
 // ********************** ATTENTION ! **********************
 // *********************************************************
@@ -980,13 +1036,13 @@ uses
 
 constructor TChromiumCore.Create(AOwner: TComponent);
 begin
-  FBrowser                := nil;
+  FBrowsersCS             := nil;
+  FBrowsers               := nil;
   FBrowserId              := 0;
+  FMultiBrowserMode       := False;
   {$IFDEF MSWINDOWS}
   FCompHandle             := 0;
   {$ENDIF}
-  FClosing                := False;
-  FInitialized            := False;
   FIsOSR                  := False;
   FDefaultUrl             := 'about:blank';
   FHandler                := nil;
@@ -1078,12 +1134,13 @@ begin
         end;
       {$ENDIF MSWINDOWS}
 
-      ClearBrowserReference;
+      DestroyAllBrowsers;
 
       if (FFontOptions     <> nil) then FreeAndNil(FFontOptions);
       if (FOptions         <> nil) then FreeAndNil(FOptions);
       if (FPDFPrintOptions <> nil) then FreeAndNil(FPDFPrintOptions);
       if (FZoomStepCS      <> nil) then FreeAndNil(FZoomStepCS);
+      if (FBrowsersCS      <> nil) then FreeAndNil(FBrowsersCS);
     except
       on e : exception do
         if CustomExceptionHandler('TChromiumCore.Destroy', e) then raise;
@@ -1091,6 +1148,13 @@ begin
   finally
     inherited Destroy;
   end;
+end;
+
+procedure TChromiumCore.DestroyAllBrowsers;
+begin
+  FBrowsersCS.Acquire;
+  if (FBrowsers <> nil) then FreeAndNil(FBrowsers);
+  FBrowsersCS.Release;
 end;
 
 procedure TChromiumCore.BeforeDestruction;
@@ -1112,12 +1176,6 @@ begin
   DestroyMediaObserver;
 
   inherited BeforeDestruction;
-end;
-
-procedure TChromiumCore.ClearBrowserReference;
-begin
-  FBrowser   := nil;
-  FBrowserId := 0;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -1321,10 +1379,12 @@ begin
         {$IFDEF MSWINDOWS}
         FCompHandle      := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
         {$ENDIF}
+        FBrowsers        := TBrowserInfoList.Create;
         FOptions         := TChromiumOptions.Create;
         FFontOptions     := TChromiumFontOptions.Create;
         FPDFPrintOptions := TPDFPrintOptions.Create;
         FZoomStepCS      := TCriticalSection.Create;
+        FBrowsersCS      := TCriticalSection.Create;
       end;
   except
     on e : exception do
@@ -1527,13 +1587,11 @@ begin
       // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
 
       if not(csDesigning in ComponentState) and
-         (FBrowser     =  nil) and
-         (FBrowserId   =  0)   and
+         (BrowserId    =  0)   and
          (GlobalCEFApp <> nil) and
          GlobalCEFApp.GlobalContextInitialized  and
          CreateClientHandler(not(ValidCefWindowHandle(aParentHandle))) then
         begin
-          FClosing := False;
           GetSettings(FBrowserSettings);
           InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
           CreateResourceRequestHandler;
@@ -1586,14 +1644,12 @@ begin
       // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
 
       if not(csDesigning in ComponentState) and
+         (BrowserId         = 0)   and
          (aBrowserViewComp <> nil) and
-         (FBrowser     =  nil) and
-         (FBrowserId   =  0)   and
-         (GlobalCEFApp <> nil) and
+         (GlobalCEFApp     <> nil) and
          GlobalCEFApp.GlobalContextInitialized  and
          CreateClientHandler(False) then
         begin
-          FClosing := False;
           GetSettings(FBrowserSettings);
           CreateResourceRequestHandler;
           CreateMediaObserver;
@@ -1664,7 +1720,7 @@ begin
 
   if Initialized then
     begin
-      aContext := TCefRequestContextRef.Shared(FBrowser.Host.RequestContext, aHandler);
+      aContext := TCefRequestContextRef.Shared(Browser.Host.RequestContext, aHandler);
       Result   := (aContext <> nil);
     end;
 end;
@@ -1788,13 +1844,23 @@ end;
 
 procedure TChromiumCore.CloseBrowser(aForceClose : boolean);
 begin
-  if Initialized then FBrowser.Host.CloseBrowser(aForceClose);
+  if Initialized then Browser.Host.CloseBrowser(aForceClose);
+end;
+
+procedure TChromiumCore.CloseAllBrowsers;
+begin
+  try
+    FBrowsersCS.Acquire;
+    if (FBrowsers <> nil) then FBrowsers.CloseAllBrowsers;
+  finally
+    FBrowsersCS.Release;
+  end;
 end;
 
 function TChromiumCore.TryCloseBrowser : boolean;
 begin
   if Initialized then
-    Result := FBrowser.Host.TryCloseBrowser
+    Result := Browser.Host.TryCloseBrowser
    else
     Result := True;
 end;
@@ -1817,34 +1883,27 @@ function TChromiumCore.CreateBrowserHostSync(      aWindowInfo : PCefWindowInfo;
                                              const aExtraInfo  : ICefDictionaryValue;
                                              const aContext    : ICefRequestContext): boolean;
 var
-  TempURL : TCefString;
+  TempURL     : TCefString;
+  TempBrowser : ICefBrowser;
 begin
-  TempURL  := CefString(aURL);
-  FBrowser := TCefBrowserRef.UnWrap(cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aExtraInfo), CefGetData(aContext)));
-
-  if (FBrowser <> nil) then
-    begin
-      FBrowserId   := FBrowser.Identifier;
-      FInitialized := (FBrowserId <> 0);
-      Result       := FInitialized;
-    end
-   else
-    Result := False;
+  TempURL     := CefString(aURL);
+  TempBrowser := TCefBrowserRef.UnWrap(cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aExtraInfo), CefGetData(aContext)));
+  Result      := AddBrowser(TempBrowser);
 end;
 
 procedure TChromiumCore.Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
 begin
-  if Initialized then FBrowser.Host.Find(aIdentifier, aSearchText, aForward, aMatchCase, aFindNext);
+  if Initialized then Browser.Host.Find(aIdentifier, aSearchText, aForward, aMatchCase, aFindNext);
 end;
 
 procedure TChromiumCore.StopFinding(aClearSelection : Boolean);
 begin
-  if Initialized then FBrowser.Host.StopFinding(aClearSelection);
+  if Initialized then Browser.Host.StopFinding(aClearSelection);
 end;
 
 procedure TChromiumCore.Print;
 begin
-  if Initialized then FBrowser.Host.Print;
+  if Initialized then Browser.Host.Print;
 end;
 
 procedure TChromiumCore.PrintToPDF(const aFilePath, aTitle, aURL : ustring);
@@ -1856,7 +1915,7 @@ begin
     begin
       GetPrintPDFSettings(TempSettings, aTitle, aURL);
       TempCallback := TCefCustomPDFPrintCallBack.Create(self);
-      FBrowser.Host.PrintToPdf(aFilePath, @TempSettings, TempCallback);
+      Browser.Host.PrintToPdf(aFilePath, @TempSettings, TempCallback);
     end;
 end;
 
@@ -1866,8 +1925,8 @@ var
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.FocusedFrame;
+      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Copy;
     end;
@@ -1879,8 +1938,8 @@ var
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.FocusedFrame;
+      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Paste;
     end;
@@ -1892,8 +1951,8 @@ var
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.FocusedFrame;
+      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Cut;
     end;
@@ -1905,8 +1964,8 @@ var
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.FocusedFrame;
+      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Undo;
     end;
@@ -1918,8 +1977,8 @@ var
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.FocusedFrame;
+      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Redo;
     end;
@@ -1931,8 +1990,8 @@ var
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.FocusedFrame;
+      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Del;
     end;
@@ -1944,8 +2003,8 @@ var
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.FocusedFrame;
+      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.SelectAll;
     end;
@@ -2055,9 +2114,9 @@ begin
   if Initialized then
     begin
       if (length(aFrameName) > 0) then
-        TempFrame := FBrowser.GetFrame(aFrameName)
+        TempFrame := Browser.GetFrame(aFrameName)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadUrl(aURL);
     end;
@@ -2075,9 +2134,9 @@ begin
   if Initialized then
     begin
       if (aFrameIdentifier <> 0) then
-        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadUrl(aURL);
     end;
@@ -2091,9 +2150,9 @@ begin
   if Initialized and (length(aHTML) > 0) then
     begin
       if (length(aFrameName) > 0) then
-        TempFrame := FBrowser.GetFrame(aFrameName)
+        TempFrame := Browser.GetFrame(aFrameName)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
         TempFrame.LoadUrl(CefGetDataURI(aHTML, 'text/html'));
@@ -2113,9 +2172,9 @@ begin
   if Initialized and (length(aHTML) > 0) then
     begin
       if (aFrameIdentifier <> 0) then
-        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
         TempFrame.LoadUrl(CefGetDataURI(aHTML, 'text/html'));
@@ -2130,9 +2189,9 @@ begin
   if Initialized and (aStream <> nil) and (aStream.Size > 0) then
     begin
       if (length(aFrameName) > 0) then
-        TempFrame := FBrowser.GetFrame(aFrameName)
+        TempFrame := Browser.GetFrame(aFrameName)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
         TempFrame.LoadUrl(CefGetDataURI(aStream.Memory, aStream.Size, aMimeType, aCharset));
@@ -2152,9 +2211,9 @@ begin
   if Initialized and (aStream <> nil) and (aStream.Size > 0) then
     begin
       if (aFrameIdentifier <> 0) then
-        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
         TempFrame.LoadUrl(CefGetDataURI(aStream.Memory, aStream.Size, aMimeType, aCharset));
@@ -2170,39 +2229,39 @@ var
 begin
   if Initialized then
     begin
-      TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.MainFrame;
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadRequest(aRequest);
     end;
 end;
 
 procedure TChromiumCore.GoBack;
 begin
-  if Initialized and CanGoBack then FBrowser.GoBack;
+  if Initialized and CanGoBack then Browser.GoBack;
 end;
 
 procedure TChromiumCore.GoForward;
 begin
-  if Initialized and CanGoForward then FBrowser.GoForward;
+  if Initialized and CanGoForward then Browser.GoForward;
 end;
 
 procedure TChromiumCore.Reload;
 begin
-  if Initialized then FBrowser.Reload;
+  if Initialized then Browser.Reload;
 end;
 
 procedure TChromiumCore.ReloadIgnoreCache;
 begin
-  if Initialized then FBrowser.ReloadIgnoreCache;
+  if Initialized then Browser.ReloadIgnoreCache;
 end;
 
 procedure TChromiumCore.StopLoad;
 begin
-  if Initialized then FBrowser.StopLoad;
+  if Initialized then Browser.StopLoad;
 end;
 
 procedure TChromiumCore.StartDownload(const aURL : ustring);
 begin
-  if Initialized then FBrowser.Host.StartDownload(aURL);
+  if Initialized then Browser.Host.StartDownload(aURL);
 end;
 
 // Use the OnDownloadImageFinished event to receive the image
@@ -2214,10 +2273,10 @@ var
   TempCallback : ICefDownloadImageCallback;
 begin
   try
-    if Initialized and (FBrowser.Host <> nil) then
+    if Initialized then
       begin
         TempCallback := TCefCustomDownloadImageCallback.Create(self);
-        FBrowser.Host.DownloadImage(imageUrl, isFavicon, maxImageSize, bypassCache, TempCallback);
+        Browser.Host.DownloadImage(imageUrl, isFavicon, maxImageSize, bypassCache, TempCallback);
       end;
   finally
     TempCallback := nil;
@@ -2226,7 +2285,7 @@ end;
 
 function TChromiumCore.GetIsLoading : boolean;
 begin
-  Result := Initialized and FBrowser.IsLoading;
+  Result := Initialized and Browser.IsLoading;
 end;
 
 function TChromiumCore.GetMultithreadApp : boolean;
@@ -2236,17 +2295,17 @@ end;
 
 function TChromiumCore.GetHasDocument : boolean;
 begin
-  Result := Initialized and FBrowser.HasDocument;
+  Result := Initialized and Browser.HasDocument;
 end;
 
 function TChromiumCore.GetHasView : boolean;
 begin
-  Result := Initialized and FBrowser.Host.HasView;
+  Result := Initialized and Browser.Host.HasView;
 end;
 
 function TChromiumCore.GetHasDevTools : boolean;
 begin
-  Result := Initialized and FBrowser.Host.HasDevTools;
+  Result := Initialized and Browser.Host.HasDevTools;
 end;
 
 function TChromiumCore.GetHasClientHandler : boolean;
@@ -2256,26 +2315,26 @@ end;
 
 function TChromiumCore.GetHasBrowser : boolean;
 begin
-  Result := (FBrowser <> nil);
+  Result := (Browser <> nil);
 end;
 
 function TChromiumCore.GetWindowHandle : TCefWindowHandle;
 begin
   if Initialized then
-    Result := FBrowser.Host.WindowHandle
+    Result := Browser.Host.WindowHandle
    else
     Result := 0;
 end;
 
 function TChromiumCore.GetFrameIsFocused : boolean;
 begin
-  Result := Initialized and (FBrowser.FocusedFrame <> nil);
+  Result := Initialized and (Browser.FocusedFrame <> nil);
 end;
 
 function TChromiumCore.GetWindowlessFrameRate : integer;
 begin
   if Initialized then
-    Result := FBrowser.Host.GetWindowlessFrameRate
+    Result := Browser.Host.GetWindowlessFrameRate
    else
     Result := 0;
 end;
@@ -2283,20 +2342,85 @@ end;
 function TChromiumCore.GetVisibleNavigationEntry : ICefNavigationEntry;
 begin
   if Initialized then
-    Result := FBrowser.Host.VisibleNavigationEntry
+    Result := Browser.Host.VisibleNavigationEntry
    else
     Result := nil;
 end;
 
+function TChromiumCore.GetBrowser : ICefBrowser;
+begin
+  Result := nil;
+
+  try
+    FBrowsersCS.Acquire;
+
+    if (FBrowsers <> nil) then
+      begin
+        if FMultiBrowserMode then
+          Result := FBrowsers.Browser[FBrowserId]
+         else
+          Result := FBrowsers.FirstBrowser;
+      end;
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
+function TChromiumCore.GetBrowserId : integer;
+begin
+  FBrowsersCS.Acquire;
+  Result := FBrowserId;
+  FBrowsersCS.Release;
+end;
+
+function TChromiumCore.GetBrowserById(aID : integer) : ICefBrowser;
+begin
+  Result := nil;
+
+  try
+    FBrowsersCS.Acquire;
+    if (FBrowsers <> nil) then
+      Result := FBrowsers.Browser[FBrowserId];
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
+function TChromiumCore.GetBrowserCount : integer;
+begin
+  Result := 0;
+
+  try
+    FBrowsersCS.Acquire;
+    if (FBrowsers <> nil) then
+      Result := FBrowsers.Count;
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
+function TChromiumCore.GetBrowserIdByIndex(aIndex : integer) : integer;
+begin
+  Result := 0;
+
+  try
+    FBrowsersCS.Acquire;
+    if (FBrowsers <> nil) and (aIndex >= 0) and (aIndex < FBrowsers.Count) then
+      Result := TBrowserInfo(FBrowsers[aIndex]).ID;
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
 function TChromiumCore.GetHasValidMainFrame : boolean;
 begin
-  Result := Initialized and (FBrowser.MainFrame <> nil) and FBrowser.MainFrame.IsValid;
+  Result := Initialized and (Browser.MainFrame <> nil) and Browser.MainFrame.IsValid;
 end;
 
 function TChromiumCore.GetFrameCount : NativeUInt;
 begin
   if Initialized then
-    Result := FBrowser.GetFrameCount
+    Result := Browser.GetFrameCount
    else
     Result := 0;
 end;
@@ -2304,7 +2428,7 @@ end;
 function TChromiumCore.GetRequestContextCache : ustring;
 begin
   if Initialized then
-    Result := FBrowser.host.RequestContext.CachePath
+    Result := Browser.host.RequestContext.CachePath
    else
     if (GlobalCEFApp <> nil) then
       Result := GlobalCEFApp.cache
@@ -2314,12 +2438,12 @@ end;
 
 function TChromiumCore.GetRequestContextIsGlobal : boolean;
 begin
-  Result := Initialized and FBrowser.host.RequestContext.IsGlobal;
+  Result := Initialized and Browser.host.RequestContext.IsGlobal;
 end;
 
 function TChromiumCore.GetAudioMuted : boolean;
 begin
-  Result := Initialized and FBrowser.host.IsAudioMuted;
+  Result := Initialized and Browser.host.IsAudioMuted;
 end;
 
 function TChromiumCore.GetParentFormHandle : TCefWindowHandle;
@@ -2327,34 +2451,41 @@ begin
   Result := 0;
 end;
 
+procedure TChromiumCore.SetMultiBrowserMode(aValue : boolean);
+begin
+  if not(Initialized) then FMultiBrowserMode := aValue;
+end;
+
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);
 begin
-  if Initialized then FBrowser.Host.SetAudioMuted(aValue);
+  if Initialized then Browser.Host.SetAudioMuted(aValue);
 end;
 
 procedure TChromiumCore.SetWindowlessFrameRate(aValue : integer);
 begin
-  if Initialized then FBrowser.Host.SetWindowlessFrameRate(aValue);
+  if Initialized then Browser.Host.SetWindowlessFrameRate(aValue);
 end;
 
 function TChromiumCore.GetCanGoBack : boolean;
 begin
-  Result := Initialized and FBrowser.CanGoBack;
+  Result := Initialized and Browser.CanGoBack;
 end;
 
 function TChromiumCore.GetCanGoForward : boolean;
 begin
-  Result := Initialized and FBrowser.CanGoForward;
+  Result := Initialized and Browser.CanGoForward;
 end;
 
 function TChromiumCore.GetIsPopUp : boolean;
 begin
-  Result := Initialized and FBrowser.IsPopUp;
+  Result := Initialized and Browser.IsPopUp;
 end;
 
 function TChromiumCore.GetInitialized : boolean;
 begin
-  Result := FInitialized and not(FClosing) and (FBrowser <> nil);
+  FBrowsersCS.Acquire;
+  Result := (FBrowserId <> 0) and (FBrowsers <> nil) and not(FBrowsers.BrowserIsClosing[FBrowserId]);
+  FBrowsersCS.Release;
 end;
 
 function TChromiumCore.GetDocumentURL : ustring;
@@ -2365,7 +2496,7 @@ begin
 
   if Initialized then
     begin
-      TempFrame := FBrowser.MainFrame;
+      TempFrame := Browser.MainFrame;
       if (TempFrame <> nil) and TempFrame.IsValid then Result := TempFrame.URL;
     end;
 end;
@@ -2374,7 +2505,7 @@ function TChromiumCore.GetZoomLevel : double;
 begin
   Result := 0;
 
-  if Initialized then Result := FBrowser.Host.ZoomLevel;
+  if Initialized then Result := Browser.Host.ZoomLevel;
 end;
 
 function TChromiumCore.GetZoomPct : double;
@@ -2726,7 +2857,7 @@ end;
 
 procedure TChromiumCore.UpdateHostZoomLevel(const aValue : double);
 begin
-  if Initialized then FBrowser.Host.ZoomLevel := aValue;
+  if Initialized then Browser.Host.ZoomLevel := aValue;
 end;
 
 procedure TChromiumCore.UpdateHostZoomPct(const aValue : double);
@@ -2867,23 +2998,29 @@ function TChromiumCore.DeleteCookies(const url, cookieName: ustring; aDeleteImme
 var
   TempManager  : ICefCookieManager;
   TempCallback : ICefDeleteCookiesCallback;
+  TempContext  : ICefRequestContext;
 begin
   Result := False;
 
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+  if Initialized then
     begin
-      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+      TempContext := Browser.Host.RequestContext;
 
-      if (TempManager <> nil) then
-        try
-          if aDeleteImmediately then
-            TempCallBack := nil
-           else
-            TempCallback := TCefCustomDeleteCookiesCallback.Create(self);
+      if (TempContext <> nil) then
+        begin
+          TempManager := TempContext.GetCookieManager(nil);
 
-          Result := TempManager.DeleteCookies(url, cookieName, TempCallback);
-        finally
-          TempCallback := nil;
+          if (TempManager <> nil) then
+            try
+              if aDeleteImmediately then
+                TempCallBack := nil
+               else
+                TempCallback := TCefCustomDeleteCookiesCallback.Create(self);
+
+              Result := TempManager.DeleteCookies(url, cookieName, TempCallback);
+            finally
+              TempCallback := nil;
+            end;
         end;
     end;
 end;
@@ -2898,19 +3035,25 @@ function TChromiumCore.VisitAllCookies(aID : integer) : boolean;
 var
   TempManager : ICefCookieManager;
   TempVisitor : ICefCookieVisitor;
+  TempContext : ICefRequestContext;
 begin
   Result := False;
 
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+  if Initialized then
     begin
-      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+      TempContext := Browser.Host.RequestContext;
 
-      if (TempManager <> nil) then
-        try
-          TempVisitor := TCefCustomCookieVisitor.Create(self, aID);
-          Result      := TempManager.VisitAllCookies(TempVisitor);
-        finally
-          TempVisitor := nil;
+      if (TempContext <> nil) then
+        begin
+          TempManager := TempContext.GetCookieManager(nil);
+
+          if (TempManager <> nil) then
+            try
+              TempVisitor := TCefCustomCookieVisitor.Create(self, aID);
+              Result      := TempManager.VisitAllCookies(TempVisitor);
+            finally
+              TempVisitor := nil;
+            end;
         end;
     end;
 end;
@@ -2927,19 +3070,25 @@ function TChromiumCore.VisitURLCookies(const url             : ustring;
 var
   TempManager : ICefCookieManager;
   TempVisitor : ICefCookieVisitor;
+  TempContext : ICefRequestContext;
 begin
   Result := False;
 
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+  if Initialized then
     begin
-      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+      TempContext := Browser.Host.RequestContext;
 
-      if (TempManager <> nil) then
-        try
-          TempVisitor := TCefCustomCookieVisitor.Create(self, aID);
-          Result      := TempManager.VisitUrlCookies(url, includeHttpOnly, TempVisitor);
-        finally
-          TempVisitor := nil;
+      if (TempContext <> nil) then
+        begin
+          TempManager := TempContext.GetCookieManager(nil);
+
+          if (TempManager <> nil) then
+            try
+              TempVisitor := TCefCustomCookieVisitor.Create(self, aID);
+              Result      := TempManager.VisitUrlCookies(url, includeHttpOnly, TempVisitor);
+            finally
+              TempVisitor := nil;
+            end;
         end;
     end;
 end;
@@ -2955,26 +3104,32 @@ function TChromiumCore.SetCookie(const url, name_, value, domain, path: ustring;
 var
   TempManager  : ICefCookieManager;
   TempCallback : ICefSetCookieCallback;
+  TempContext  : ICefRequestContext;
 begin
   Result := False;
 
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+  if Initialized then
     begin
-      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+      TempContext := Browser.Host.RequestContext;
 
-      if (TempManager <> nil) then
-        try
-          if aSetImmediately then
-            TempCallback := nil
-           else
-            TempCallback := TCefCustomSetCookieCallback.Create(self, aID);
+      if (TempContext <> nil) then
+        begin
+          TempManager := TempContext.GetCookieManager(nil);
 
-          Result := TempManager.SetCookie(url, name_, value, domain, path,
-                                          secure, httponly, hasExpires,
-                                          creation, lastAccess, expires,
-                                          TempCallback);
-        finally
-          TempCallback := nil;
+          if (TempManager <> nil) then
+            try
+              if aSetImmediately then
+                TempCallback := nil
+               else
+                TempCallback := TCefCustomSetCookieCallback.Create(self, aID);
+
+              Result := TempManager.SetCookie(url, name_, value, domain, path,
+                                              secure, httponly, hasExpires,
+                                              creation, lastAccess, expires,
+                                              TempCallback);
+            finally
+              TempCallback := nil;
+            end;
         end;
     end;
 end;
@@ -2984,23 +3139,29 @@ function TChromiumCore.FlushCookieStore(aFlushImmediately : boolean) : boolean;
 var
   TempManager  : ICefCookieManager;
   TempCallback : ICefCompletionCallback;
+  TempContext  : ICefRequestContext;
 begin
   Result := False;
 
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+  if Initialized then
     begin
-      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+      TempContext := Browser.Host.RequestContext;
 
-      if (TempManager <> nil) then
-        try
-          if aFlushImmediately then
-            TempCallback := nil
-           else
-            TempCallback := TCefFlushStoreCompletionCallback.Create(self);
+      if (TempContext <> nil) then
+        begin
+          TempManager := TempContext.GetCookieManager(nil);
 
-          Result := TempManager.FlushStore(TempCallback);
-        finally
-          TempCallback := nil;
+          if (TempManager <> nil) then
+            try
+              if aFlushImmediately then
+                TempCallback := nil
+               else
+                TempCallback := TCefFlushStoreCompletionCallback.Create(self);
+
+              Result := TempManager.FlushStore(TempCallback);
+            finally
+              TempCallback := nil;
+            end;
         end;
     end;
 end;
@@ -3008,16 +3169,22 @@ end;
 procedure TChromiumCore.UpdateSupportedSchemes(const aSchemes : TStrings; aIncludeDefaults : boolean);
 var
   TempManager : ICefCookieManager;
+  TempContext : ICefRequestContext;
 begin
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
+  if Initialized then
     begin
-      TempManager := FBrowser.Host.RequestContext.GetCookieManager(nil);
+      TempContext := Browser.Host.RequestContext;
 
-      if (TempManager <> nil) then
-        try
-          TempManager.SetSupportedSchemes(aSchemes, aIncludeDefaults, nil);
-        finally
-          TempManager := nil;
+      if (TempContext <> nil) then
+        begin
+          TempManager := TempContext.GetCookieManager(nil);
+
+          if (TempManager <> nil) then
+            try
+              TempManager.SetSupportedSchemes(aSchemes, aIncludeDefaults, nil);
+            finally
+              TempManager := nil;
+            end;
         end;
     end;
 end;
@@ -3026,20 +3193,26 @@ end;
 function TChromiumCore.ClearCertificateExceptions(aClearImmediately : boolean) : boolean;
 var
   TempCallback : ICefCompletionCallback;
+  TempContext  : ICefRequestContext;
 begin
   Result := False;
 
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
-    try
-      if aClearImmediately then
-        TempCallback := nil
-       else
-        TempCallback := TCefClearCertificateExceptionsCompletionCallback.Create(self);
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
 
-      FBrowser.Host.RequestContext.ClearCertificateExceptions(TempCallback);
-      Result := True;
-    finally
-      TempCallback := nil;
+      if (TempContext <> nil) then
+        try
+          if aClearImmediately then
+            TempCallback := nil
+           else
+            TempCallback := TCefClearCertificateExceptionsCompletionCallback.Create(self);
+
+          TempContext.ClearCertificateExceptions(TempCallback);
+          Result := True;
+        finally
+          TempCallback := nil;
+        end;
     end;
 end;
 
@@ -3047,20 +3220,26 @@ end;
 function TChromiumCore.ClearHttpAuthCredentials(aClearImmediately : boolean) : boolean;
 var
   TempCallback : ICefCompletionCallback;
+  TempContext  : ICefRequestContext;
 begin
   Result := False;
 
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
-    try
-      if aClearImmediately then
-        TempCallback := nil
-       else
-        TempCallback := TCefClearHttpAuthCredentialsCompletionCallback.Create(self);
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
 
-      FBrowser.Host.RequestContext.ClearHttpAuthCredentials(TempCallback);
-      Result := True;
-    finally
-      TempCallback := nil;
+      if (TempContext <> nil) then
+        try
+          if aClearImmediately then
+            TempCallback := nil
+           else
+            TempCallback := TCefClearHttpAuthCredentialsCompletionCallback.Create(self);
+
+          TempContext.ClearHttpAuthCredentials(TempCallback);
+          Result := True;
+        finally
+          TempCallback := nil;
+        end;
     end;
 end;
 
@@ -3068,20 +3247,26 @@ end;
 function TChromiumCore.CloseAllConnections(aCloseImmediately : boolean) : boolean;
 var
   TempCallback : ICefCompletionCallback;
+  TempContext  : ICefRequestContext;
 begin
   Result := False;
 
-  if Initialized and (FBrowser.Host <> nil) and (FBrowser.Host.RequestContext <> nil) then
-    try
-      if aCloseImmediately then
-        TempCallback := nil
-       else
-        TempCallback := TCefCloseAllConnectionsCompletionCallback.Create(self);
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
 
-      FBrowser.Host.RequestContext.CloseAllConnections(TempCallback);
-      Result := True;
-    finally
-      TempCallback := nil;
+      if (TempContext <> nil) then
+        try
+          if aCloseImmediately then
+            TempCallback := nil
+           else
+            TempCallback := TCefCloseAllConnectionsCompletionCallback.Create(self);
+
+          TempContext.CloseAllConnections(TempCallback);
+          Result := True;
+        finally
+          TempCallback := nil;
+        end;
     end;
 end;
 
@@ -3094,9 +3279,9 @@ begin
   if Initialized then
     begin
       if (length(aFrameName) > 0) then
-        TempFrame := FBrowser.GetFrame(aFrameName)
+        TempFrame := Browser.GetFrame(aFrameName)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
         try
@@ -3129,9 +3314,9 @@ begin
   if Initialized then
     begin
       if (aFrameIdentifier <> 0) then
-        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
         try
@@ -3152,9 +3337,9 @@ begin
   if Initialized then
     begin
       if (length(aFrameName) > 0) then
-        TempFrame := FBrowser.GetFrame(aFrameName)
+        TempFrame := Browser.GetFrame(aFrameName)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
         try
@@ -3187,9 +3372,9 @@ begin
   if Initialized then
     begin
       if (aFrameIdentifier <> 0) then
-        TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
        else
-        TempFrame := FBrowser.MainFrame;
+        TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
         try
@@ -3208,7 +3393,7 @@ begin
   if Initialized then
     try
       TempVisitor := TCustomCefNavigationEntryVisitor.Create(self);
-      FBrowser.Host.GetNavigationEntries(TempVisitor, currentOnly);
+      Browser.Host.GetNavigationEntries(TempVisitor, currentOnly);
     finally
       TempVisitor := nil;
     end;
@@ -3216,12 +3401,12 @@ end;
 
 function TChromiumCore.GetFrameNames(var aFrameNames : TStrings) : boolean;
 begin
-  Result := Initialized and FBrowser.GetFrameNames(aFrameNames);
+  Result := Initialized and Browser.GetFrameNames(aFrameNames);
 end;
 
 function TChromiumCore.GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
 begin
-  Result := Initialized and FBrowser.GetFrameIdentifiers(aFrameCount, aFrameIdentifierArray);
+  Result := Initialized and Browser.GetFrameIdentifiers(aFrameCount, aFrameIdentifierArray);
 end;
 
 procedure TChromiumCore.UpdatePreferences;
@@ -3260,7 +3445,7 @@ begin
 
   if Initialized then
     begin
-      TempHandle := FBrowser.Host.WindowHandle;
+      TempHandle := Browser.Host.WindowHandle;
       Result     := (TempHandle <> 0) and (SetParent(TempHandle, aNewParentHwnd) <> 0);
     end;
 end;
@@ -3274,7 +3459,7 @@ begin
   if Initialized and (length(aURL) > 0) then
     try
       TempCallback := TCefCustomResolveCallback.Create(self);
-      FBrowser.Host.RequestContext.ResolveHost(aURL, TempCallback);
+      Browser.Host.RequestContext.ResolveHost(aURL, TempCallback);
     finally
       TempCallback := nil;
     end;
@@ -3282,7 +3467,7 @@ end;
 
 function TChromiumCore.IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
 begin
-  Result := Initialized and (aBrowser <> nil) and FBrowser.IsSame(aBrowser);
+  Result := Initialized and (aBrowser <> nil) and Browser.IsSame(aBrowser);
 end;
 
 // Calling ExecuteTaskOnCefThread function will trigger the TChromiumCore.OnExecuteTaskOnCefThread event.
@@ -3313,7 +3498,7 @@ end;
 function TChromiumCore.GetRequestContext : ICefRequestContext;
 begin
   if Initialized then
-    Result := FBrowser.Host.RequestContext
+    Result := Browser.Host.RequestContext
    else
     Result := nil;
 end;
@@ -3339,7 +3524,7 @@ begin
       TempEvent.x         := 0;
       TempEvent.y         := 0;
       TempEvent.modifiers := EVENTFLAG_NONE;
-      FBrowser.Host.SendMouseWheelEvent(@TempEvent, aDeltaX, aDeltaY);
+      Browser.Host.SendMouseWheelEvent(@TempEvent, aDeltaX, aDeltaY);
     end;
 end;
 
@@ -3412,7 +3597,7 @@ end;
 
 procedure TChromiumCore.doUpdateOwnPreferences;
 begin
-  if Initialized then doUpdatePreferences(FBrowser);
+  if Initialized then doUpdatePreferences(Browser);
 end;
 
 function TChromiumCore.UpdateProxyPrefs(const aBrowser: ICefBrowser) : boolean;
@@ -3918,7 +4103,7 @@ begin
       if Initialized then
         begin
           TempPrefs := TStringList.Create;
-          TempDict  := FBrowser.Host.RequestContext.GetAllPreferences(True);
+          TempDict  := Browser.Host.RequestContext.GetAllPreferences(True);
           HandleDictionary(TempDict, TempPrefs, '');
           TempPrefs.SaveToFile(FPrefsFileName);
           Result    := True;
@@ -4341,9 +4526,9 @@ begin
     if Initialized then
       begin
         if (length(aFrameName) > 0) then
-          TempFrame := FBrowser.GetFrame(aFrameName)
+          TempFrame := Browser.GetFrame(aFrameName)
          else
-          TempFrame := FBrowser.MainFrame;
+          TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
           TempFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
@@ -4373,9 +4558,9 @@ begin
     if Initialized then
       begin
         if (aFrameIdentifier <> 0) then
-          TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+          TempFrame := Browser.GetFrameByident(aFrameIdentifier)
          else
-          TempFrame := FBrowser.MainFrame;
+          TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
           TempFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
@@ -4425,7 +4610,7 @@ begin
            else
             TempPPoint := nil;
 
-          FBrowser.Host.ShowDevTools(@FDevWindowInfo, TempClient, @FDevBrowserSettings, TempPPoint);
+          Browser.Host.ShowDevTools(@FDevWindowInfo, TempClient, @FDevBrowserSettings, TempPPoint);
         end;
     except
       on e : exception do
@@ -4445,7 +4630,7 @@ begin
         SetParent(GetWindow(aDevToolsWnd, GW_CHILD), 0);
       {$ENDIF}
 
-      if Initialized and (FBrowser <> nil) then FBrowser.Host.CloseDevTools;
+      if Initialized then Browser.Host.CloseDevTools;
     end;
 end;
 
@@ -4530,6 +4715,73 @@ begin
 end;
 {$ENDIF}
 
+function TChromiumCore.RemoveBrowser(const aBrowser : ICefBrowser) : boolean;
+begin
+  Result := False;
+
+  try
+    FBrowsersCS.Acquire;
+
+    if (aBrowser <> nil) and (FBrowsers <> nil) then
+      begin
+        if FBrowsers.RemoveBrowser(aBrowser) and
+           (FBrowserId = aBrowser.Identifier) then
+          FBrowserId := FBrowsers.FirstID;
+      end;
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
+function TChromiumCore.AddBrowser(const aBrowser : ICefBrowser) : boolean;
+begin
+  Result := False;
+
+  try
+    FBrowsersCS.Acquire;
+
+    if (aBrowser  <> nil) and
+       (FBrowsers <> nil) and
+       (FMultiBrowserMode or (FBrowsers.Count = 0)) and
+       FBrowsers.AddBrowser(aBrowser) then
+      begin
+        Result := True;
+
+        if (FBrowserId = 0) then
+          FBrowserId := aBrowser.Identifier;
+      end;
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
+function TChromiumCore.SelectBrowser(aID : integer) : boolean;
+begin
+  Result := False;
+
+  try
+    FBrowsersCS.Acquire;
+
+    if FMultiBrowserMode and (FBrowsers <> nil) and (FBrowsers.SearchBrowser(aID) >= 0) then
+      begin
+        FBrowserId := aID;
+        Result     := True;
+      end;
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
+procedure TChromiumCore.SetBrowserIsClosing(aID : integer);
+begin
+  try
+    FBrowsersCS.Acquire;
+    if (FBrowsers <> nil) then FBrowsers.BrowserIsClosing[aID] := True;
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
 function TChromiumCore.doOnClose(const browser: ICefBrowser): Boolean;
 var
   TempAction : TCefCloseBrowserAction;
@@ -4553,23 +4805,23 @@ begin
     cbaDelay :
       begin
         Result := True;
-        if (browser <> nil) and (FBrowserId = browser.Identifier) then FClosing := True;
+        SetBrowserIsClosing(browser.Identifier);
       end;
 
     else
-      if (browser <> nil) and (FBrowserId = browser.Identifier) then FClosing := True;
+      SetBrowserIsClosing(browser.Identifier);
   end;
 end;
 
 procedure TChromiumCore.doOnBeforeClose(const browser: ICefBrowser);
 begin
-  if (browser <> nil) and (FBrowserId = browser.Identifier) then
+  RemoveBrowser(browser);
+
+  if (BrowserCount = 0) then
     begin
-      FInitialized := False;
       DestroyMediaObserver;
       DestroyResourceRequestHandler;
       DestroyReqContextHandler;
-      ClearBrowserReference;
       DestroyClientHandler;
     end;
 
@@ -4583,12 +4835,7 @@ end;
 
 procedure TChromiumCore.doOnAfterCreated(const browser: ICefBrowser);
 begin
-  if MultithreadApp and (FBrowser = nil) and (browser <> nil) then
-    begin
-      FBrowser     := browser;
-      FBrowserId   := browser.Identifier;
-      FInitialized := (FBrowserId <> 0);
-    end;
+  if MultithreadApp or MultiBrowserMode then AddBrowser(browser);
 
   doUpdatePreferences(browser);
 
@@ -5174,9 +5421,9 @@ var
   OldBrowserCompHWND, OldWidgetCompHWND, OldRenderCompHWND: THandle;
 {$ENDIF}
 begin
-  if (browser            <> nil)        and
-     (browser.Host       <> nil)        and
-     (browser.Identifier =  FBrowserId) then
+  if (browser            <> nil) and
+     (browser.Host       <> nil) and
+     (browser.Identifier =  BrowserId) then
     begin
       {$IFDEF MSWINDOWS}
       OldBrowserCompHWND := FBrowserCompHWND;
@@ -5387,22 +5634,22 @@ end;
 
 procedure TChromiumCore.WasResized;
 begin
-  if Initialized then FBrowser.Host.WasResized;
+  if Initialized then Browser.Host.WasResized;
 end;
 
 procedure TChromiumCore.WasHidden(hidden: Boolean);
 begin
-  if Initialized then FBrowser.Host.WasHidden(hidden);
+  if Initialized then Browser.Host.WasHidden(hidden);
 end;
 
 procedure TChromiumCore.NotifyScreenInfoChanged;
 begin
-  if Initialized then FBrowser.Host.NotifyScreenInfoChanged;
+  if Initialized then Browser.Host.NotifyScreenInfoChanged;
 end;
 
 procedure TChromiumCore.NotifyMoveOrResizeStarted;
 begin
-  if Initialized then FBrowser.Host.NotifyMoveOrResizeStarted;
+  if Initialized then Browser.Host.NotifyMoveOrResizeStarted;
 end;
 
 procedure TChromiumCore.Invalidate(type_: TCefPaintElementType);
@@ -5410,7 +5657,7 @@ begin
   if Initialized then
     begin
       if FIsOSR then
-        FBrowser.Host.Invalidate(type_)
+        Browser.Host.Invalidate(type_)
        {$IFDEF MSWINDOWS}
        else
         if (RenderHandle <> 0) then
@@ -5423,12 +5670,12 @@ end;
 
 procedure TChromiumCore.SendExternalBeginFrame;
 begin
-  if Initialized then FBrowser.Host.SendExternalBeginFrame;
+  if Initialized then Browser.Host.SendExternalBeginFrame;
 end;
 
 procedure TChromiumCore.SendKeyEvent(const event: PCefKeyEvent);
 begin
-  if Initialized then FBrowser.Host.SendKeyEvent(event);
+  if Initialized then Browser.Host.SendKeyEvent(event);
 end;
 
 procedure TChromiumCore.SendMouseClickEvent(const event      : PCefMouseEvent;
@@ -5436,42 +5683,42 @@ procedure TChromiumCore.SendMouseClickEvent(const event      : PCefMouseEvent;
                                                   mouseUp    : Boolean;
                                                   clickCount : Integer);
 begin
-  if Initialized then FBrowser.Host.SendMouseClickEvent(event, type_, mouseUp, clickCount);
+  if Initialized then Browser.Host.SendMouseClickEvent(event, type_, mouseUp, clickCount);
 end;
 
 procedure TChromiumCore.SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
 begin
-  if Initialized then FBrowser.Host.SendMouseMoveEvent(event, mouseLeave);
+  if Initialized then Browser.Host.SendMouseMoveEvent(event, mouseLeave);
 end;
 
 procedure TChromiumCore.SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
 begin
-  if Initialized then FBrowser.Host.SendMouseWheelEvent(event, deltaX, deltaY);
+  if Initialized then Browser.Host.SendMouseWheelEvent(event, deltaX, deltaY);
 end;
 
 procedure TChromiumCore.SendTouchEvent(const event: PCefTouchEvent);
 begin
-  if Initialized then FBrowser.Host.SendTouchEvent(event);
+  if Initialized then Browser.Host.SendTouchEvent(event);
 end;
 
 procedure TChromiumCore.SendFocusEvent(setFocus: Boolean);
 begin
-  if Initialized then FBrowser.Host.SendFocusEvent(setFocus);
+  if Initialized then Browser.Host.SendFocusEvent(setFocus);
 end;
 
 procedure TChromiumCore.SendCaptureLostEvent;
 begin
-  if Initialized then FBrowser.Host.SendCaptureLostEvent;
+  if Initialized then Browser.Host.SendCaptureLostEvent;
 end;
 
 procedure TChromiumCore.SetFocus(focus: Boolean);
 begin
-  if Initialized then FBrowser.Host.SetFocus(focus);
+  if Initialized then Browser.Host.SetFocus(focus);
 end;
 
 procedure TChromiumCore.SetAccessibilityState(accessibilityState: TCefState);
 begin
-  if Initialized then FBrowser.Host.SetAccessibilityState(accessibilityState);
+  if Initialized then Browser.Host.SetAccessibilityState(accessibilityState);
 end;
 
 procedure TChromiumCore.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameName : ustring);
@@ -5482,9 +5729,9 @@ begin
     if Initialized then
       begin
         if (length(aFrameName) > 0) then
-          TempFrame := FBrowser.GetFrame(aFrameName)
+          TempFrame := Browser.GetFrame(aFrameName)
          else
-          TempFrame := FBrowser.MainFrame;
+          TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
           TempFrame.SendProcessMessage(targetProcess, ProcMessage);
@@ -5514,9 +5761,9 @@ begin
     if Initialized then
       begin
         if (aFrameIdentifier <> 0) then
-          TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+          TempFrame := Browser.GetFrameByident(aFrameIdentifier)
          else
-          TempFrame := FBrowser.MainFrame;
+          TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
           TempFrame.SendProcessMessage(targetProcess, ProcMessage);
@@ -5537,9 +5784,9 @@ begin
     if Initialized then
       begin
         if (length(aFrameName) > 0) then
-          TempFrame := FBrowser.GetFrame(aFrameName)
+          TempFrame := Browser.GetFrame(aFrameName)
          else
-          TempFrame := FBrowser.MainFrame;
+          TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
           Result := TempFrame.CreateUrlRequest(request, client);
@@ -5573,9 +5820,9 @@ begin
     if Initialized then
       begin
         if (aFrameIdentifier <> 0) then
-          TempFrame := FBrowser.GetFrameByident(aFrameIdentifier)
+          TempFrame := Browser.GetFrameByident(aFrameIdentifier)
          else
-          TempFrame := FBrowser.MainFrame;
+          TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
           Result := TempFrame.CreateUrlRequest(request, client);
@@ -5588,32 +5835,32 @@ end;
 
 procedure TChromiumCore.DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);
 begin
-  if Initialized then FBrowser.Host.DragTargetDragEnter(dragData, event, allowedOps);
+  if Initialized then Browser.Host.DragTargetDragEnter(dragData, event, allowedOps);
 end;
 
 procedure TChromiumCore.DragTargetDragOver(const event: PCefMouseEvent; allowedOps: TCefDragOperations);
 begin
-  if Initialized then FBrowser.Host.DragTargetDragOver(event, allowedOps);
+  if Initialized then Browser.Host.DragTargetDragOver(event, allowedOps);
 end;
 
 procedure TChromiumCore.DragTargetDragLeave;
 begin
-  if Initialized then FBrowser.Host.DragTargetDragLeave;
+  if Initialized then Browser.Host.DragTargetDragLeave;
 end;
 
 procedure TChromiumCore.DragTargetDrop(const event: PCefMouseEvent);
 begin
-  if Initialized then FBrowser.Host.DragTargetDrop(event);
+  if Initialized then Browser.Host.DragTargetDrop(event);
 end;
 
 procedure TChromiumCore.DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
 begin
-  if Initialized then FBrowser.Host.DragSourceEndedAt(x, y, op);
+  if Initialized then Browser.Host.DragSourceEndedAt(x, y, op);
 end;
 
 procedure TChromiumCore.DragSourceSystemDragEnded;
 begin
-  if Initialized then FBrowser.Host.DragSourceSystemDragEnded;
+  if Initialized then Browser.Host.DragSourceSystemDragEnded;
 end;
 
 procedure TChromiumCore.IMESetComposition(const text              : ustring;
@@ -5622,7 +5869,7 @@ procedure TChromiumCore.IMESetComposition(const text              : ustring;
                                           const selection_range   : PCefRange);
 begin
   if Initialized then
-    FBrowser.Host.IMESetComposition(text, underlines, replacement_range, selection_range);
+    Browser.Host.IMESetComposition(text, underlines, replacement_range, selection_range);
 end;
 
 procedure TChromiumCore.IMECommitText(const text                : ustring;
@@ -5630,17 +5877,17 @@ procedure TChromiumCore.IMECommitText(const text                : ustring;
                                             relative_cursor_pos : integer);
 begin
   if Initialized then
-    FBrowser.Host.IMECommitText(text, replacement_range, relative_cursor_pos);
+    Browser.Host.IMECommitText(text, replacement_range, relative_cursor_pos);
 end;
 
 procedure TChromiumCore.IMEFinishComposingText(keep_selection : boolean);
 begin
-  if Initialized then FBrowser.Host.IMEFinishComposingText(keep_selection);
+  if Initialized then Browser.Host.IMEFinishComposingText(keep_selection);
 end;
 
 procedure TChromiumCore.IMECancelComposition;
 begin
-  if Initialized then FBrowser.Host.IMECancelComposition;
+  if Initialized then Browser.Host.IMECancelComposition;
 end;
 
 // ICefMediaRouter methods
@@ -5770,5 +6017,165 @@ begin
   ReleaseDC(0, TempDstDC);
 end;
 {$ENDIF}
+
+
+// ******************************************
+// ************** TBrowserInfo **************
+// ******************************************
+
+constructor TBrowserInfo.Create(const aBrowser : ICefBrowser);
+begin
+  inherited Create;
+
+  FBrowser   := aBrowser;
+  FID        := aBrowser.Identifier;
+  FIsClosing := False;
+end;
+
+destructor TBrowserInfo.Destroy;
+begin
+  FBrowser := nil;
+
+  inherited Destroy;
+end;
+
+
+// ******************************************
+// *********** TBrowserInfoList *************
+// ******************************************
+
+destructor TBrowserInfoList.Destroy;
+begin
+  FreeAndClearAllItems;
+
+  inherited Destroy;
+end;
+
+function TBrowserInfoList.AddBrowser(const aBrowser : ICefBrowser) : boolean;
+var
+  i : integer;
+  TempInfo : TBrowserInfo;
+begin
+  Result := False;
+  i      := SearchBrowser(aBrowser.Identifier);
+
+  if (i < 0) then
+    begin
+      TempInfo := TBrowserInfo.Create(aBrowser);
+
+      if (Add(TempInfo) >= 0) then
+        Result := True
+       else
+        TempInfo.Free;
+    end;
+end;
+
+function TBrowserInfoList.RemoveBrowser(const aBrowser : ICefBrowser) : boolean;
+var
+  i : integer;
+begin
+  Result := False;
+  i      := SearchBrowser(aBrowser.Identifier);
+
+  if (i >= 0) then
+    begin
+      TBrowserInfo(Items[i]).Free;
+      Delete(i);
+      Result := True;
+    end;
+end;
+
+function TBrowserInfoList.SearchBrowser(aID : integer) : integer;
+var
+  i : integer;
+begin
+  i := 0;
+
+  while (i < Count) do
+    if (TBrowserInfo(Items[i]).ID = aID) then
+      exit(i)
+     else
+      inc(i);
+
+  Result := -1;
+end;
+
+procedure TBrowserInfoList.SetBrowserIsClosing(aID : integer; aValue : boolean);
+var
+  i : integer;
+begin
+  i := SearchBrowser(aID);
+  if (i >= 0) then TBrowserInfo(Items[i]).IsClosing := aValue;
+end;
+
+function TBrowserInfoList.GetBrowserIsClosing(aID : integer) : boolean;
+var
+  i : integer;
+begin
+  i := SearchBrowser(aID);
+  Result := (i >= 0) and TBrowserInfo(Items[i]).IsClosing;
+end;
+
+function TBrowserInfoList.GetBrowser(aID : integer) : ICefBrowser;
+var
+  i : integer;
+begin
+  i := SearchBrowser(aID);
+
+  if (i >= 0) then
+    Result := TBrowserInfo(Items[i]).Browser
+   else
+    Result := nil;
+end;
+
+function TBrowserInfoList.GetFirstBrowser : ICefBrowser;
+begin
+  if (Count > 0) then
+    Result := TBrowserInfo(Items[0]).Browser
+   else
+    Result := nil;
+end;
+
+function TBrowserInfoList.GetFirstID : integer;
+begin
+  if (Count > 0) then
+    Result := TBrowserInfo(Items[0]).ID
+   else
+    Result := 0;
+end;
+
+procedure TBrowserInfoList.FreeAndClearAllItems;
+var
+  i : integer;
+begin
+  i := pred(Count);
+
+  while (i >= 0) do
+    begin
+      TBrowserInfo(Items[i]).Free;
+      dec(i);
+    end;
+
+  Clear;
+end;
+
+procedure TBrowserInfoList.CloseAllBrowsers;
+var
+  i : integer;
+begin
+  try
+    i := pred(Count);
+    while (i >= 0) do
+      begin
+        if (TBrowserInfo(Items[i]).Browser.Host <> nil) then
+          TBrowserInfo(Items[i]).Browser.Host.CloseBrowser(True);
+
+        dec(i);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TBrowserInfoList.CloseAllBrowsers', e) then raise;
+  end;
+end;
 
 end.

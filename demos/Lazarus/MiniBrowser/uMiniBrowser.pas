@@ -537,7 +537,9 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
-  if (browser <> nil) and (Chromium1.BrowserId = browser.Identifier) then
+  if (browser <> nil) and
+     (Chromium1.BrowserId = browser.Identifier) and
+     (CEFWindowParent1 <> nil) then
     begin
       PostMessage(Handle, CEF_DESTROY, 0, 0);
       aAction := cbaDelay;
@@ -989,7 +991,10 @@ begin
     begin
       FClosing := True;
       Visible  := False;
-      Chromium1.CloseBrowser(True);
+
+      // if TChromium.MultiBrowserMode is enabled then we have to close all
+      // stored browsers and not only the main browser.
+      Chromium1.CloseAllBrowsers;
     end;
 end;
 
@@ -1000,7 +1005,16 @@ begin
   FResponse            := TStringList.Create;
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
-  Chromium1.DefaultURL := MINIBROWSER_HOMEPAGE;
+
+  // The MultiBrowserMode store all the browser references in TChromium.
+  // The first browser reference is the browser in the main form.
+  // When MiniBrowser allows CEF to create child popup browsers it will also
+  // store their reference inside TChromium and you can use all the TChromium's
+  // methods and properties to manipulate those browsers.
+  // To do that call TChromium.SelectBrowser with the browser ID that will be
+  // used when you call any method or property in TChromium.
+  Chromium1.MultiBrowserMode := True;
+  Chromium1.DefaultURL       := MINIBROWSER_HOMEPAGE;
 end;
 
 procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
@@ -1152,7 +1166,7 @@ end;
 
 procedure TMiniBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);
 begin
-  CEFWindowParent1.Free;
+  FreeAndNil(CEFWindowParent1);
 end;
 
 procedure TMiniBrowserFrm.AddURL(const aURL : string);
