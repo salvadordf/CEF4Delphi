@@ -6093,7 +6093,10 @@ begin
 
   while (i < Count) do
     if (TBrowserInfo(Items[i]).ID = aID) then
-      exit(i)
+      begin
+        Result := i;
+        exit;
+      end
      else
       inc(i);
 
