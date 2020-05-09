@@ -170,7 +170,6 @@ function PathIsUNCAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name
 function PathIsUNCUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCW';
 function PathIsURLAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLA';
 function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
-function CustomRtlGetVersion(var lpVersionInformation : TOSVersionInfoEx): LongInt; stdcall; external NTDLL name 'RtlGetVersion';
 
 {$IFNDEF DELPHI12_UP}
 const
@@ -2129,21 +2128,42 @@ begin
 end;
 
 function GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
+type
+  TRtlGetVersionFunc = function(var lpVersionInformation : TOSVersionInfoEx): LongInt; stdcall;
 var
+  TempHandle : THandle;
   TempInfo : TOSVersionInfoEx;
+  TempRtlGetVersionFunc : TRtlGetVersionFunc;
 begin
   Result        := False;
   wMajorVersion := 0;
   wMinorVersion := 0;
 
-  ZeroMemory(@TempInfo, SizeOf(TOSVersionInfoEx));
+  try
+    TempHandle := LoadLibrary(NTDLL);
 
-  if (CustomRtlGetVersion(TempInfo) = 0) then
-    begin
-      Result        := True;
-      wMajorVersion := TempInfo.dwMajorVersion;
-      wMinorVersion := TempInfo.dwMinorVersion;
-    end;
+    if (TempHandle <> 0) then
+      try
+        {$IFDEF FPC}Pointer({$ENDIF}TempRtlGetVersionFunc{$IFDEF FPC}){$ENDIF} := GetProcAddress(TempHandle, 'RtlGetVersion');
+
+        if assigned(TempRtlGetVersionFunc) then
+          begin
+            ZeroMemory(@TempInfo, SizeOf(TOSVersionInfoEx));
+
+            if (TempRtlGetVersionFunc(TempInfo) = 0) then
+              begin
+                Result        := True;
+                wMajorVersion := TempInfo.dwMajorVersion;
+                wMinorVersion := TempInfo.dwMinorVersion;
+              end;
+          end;
+      finally
+        FreeLibrary(TempHandle);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('GetWindowsMajorMinorVersion', e) then raise;
+  end;
 end;
 
 function GetDefaultCEFUserAgent : string;

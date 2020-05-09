@@ -32,6 +32,11 @@ Additional:
 Delphinus-Support
 
 ## Attribution
+Other projects :
+* [DCEF3](https://github.com/hgourvest/dcef3) 
+* [CEF](https://bitbucket.org/chromiumembedded/cef/)
+* [DCPcrypt](http://www.cityinthesky.co.uk/opensource/dcpcrypt/)
+* [Chromium](https://chromium.googlesource.com/chromium/src/)
 Some icons used in this project belong to these icon packages :
 * [Fugue & Diagona icons](http://yusukekamiyamane.com/)
 * [FatCow Farm-Fresh Web Icons](https://www.fatcow.com/free-icons)
