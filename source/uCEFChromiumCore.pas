@@ -604,6 +604,7 @@ type
       procedure   CloseAllBrowsers;
       function    TryCloseBrowser : boolean;
       function    SelectBrowser(aID : integer) : boolean;
+      function    IndexOfBrowserID(aID : integer) : integer;
       function    ShareRequestContext(var aContext : ICefRequestContext; const aHandler : ICefRequestContextHandler = nil) : boolean;
       {$IFDEF MSWINDOWS}
       procedure   InitializeDragAndDrop(const aDropTargetWnd : HWND);
@@ -2380,7 +2381,7 @@ begin
   try
     FBrowsersCS.Acquire;
     if (FBrowsers <> nil) then
-      Result := FBrowsers.Browser[FBrowserId];
+      Result := FBrowsers.Browser[aID];
   finally
     FBrowsersCS.Release;
   end;
@@ -4767,6 +4768,20 @@ begin
         FBrowserId := aID;
         Result     := True;
       end;
+  finally
+    FBrowsersCS.Release;
+  end;
+end;
+
+function TChromiumCore.IndexOfBrowserID(aID : integer) : integer;
+begin
+  Result := -1;
+
+  try
+    FBrowsersCS.Acquire;
+
+    if (FBrowsers <> nil) then
+      Result := FBrowsers.SearchBrowser(aID);
   finally
     FBrowsersCS.Release;
   end;

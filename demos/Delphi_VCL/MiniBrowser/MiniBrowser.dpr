@@ -42,8 +42,8 @@ program MiniBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
   WinApi.Windows,
+  Vcl.Forms,
   {$ELSE}
   Forms,
   Windows,
@@ -51,7 +51,8 @@ uses
   uCEFApplication,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uPreferences in 'uPreferences.pas' {PreferencesFrm},
-  uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
+  uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm},
+  uFindFrm in 'uFindFrm.pas' {FindFrm};
 
 {$R *.res}
 
@@ -69,6 +70,7 @@ begin
       Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
       Application.CreateForm(TPreferencesFrm, PreferencesFrm);
       Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
+      Application.CreateForm(TFindFrm, FindFrm);
       Application.Run;
     end;
 

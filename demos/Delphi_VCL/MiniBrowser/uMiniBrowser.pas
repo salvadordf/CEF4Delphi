@@ -129,6 +129,7 @@ type
     Simulatekeyboardpresses1: TMenuItem;
     Flushcookies1: TMenuItem;
     Acceptlanguage1: TMenuItem;
+    FindText1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -191,6 +192,7 @@ type
     procedure Acceptlanguage1Click(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure FindText1Click(Sender: TObject);
 
   protected
     FResponse   : TStringList;
@@ -248,7 +250,7 @@ implementation
 
 uses
   uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer,
-  uCEFClient;
+  uCEFClient, uFindFrm;
 
 // Destruction steps
 // =================
@@ -964,6 +966,11 @@ procedure TMiniBrowserFrm.Chromium1ZoomPctAvailable(Sender: TObject;
   const aZoomPct: Double);
 begin
   ShowStatusText('Zoom : ' + floattostr(aZoomPct) + '%');
+end;
+
+procedure TMiniBrowserFrm.FindText1Click(Sender: TObject);
+begin
+  FindFrm.Show;
 end;
 
 procedure TMiniBrowserFrm.Flushcookies1Click(Sender: TObject);

@@ -371,6 +371,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Flush cookies'
       OnClick = Flushcookies1Click
     end
+    object FindText1: TMenuItem
+      Caption = 'Find text...'
+      OnClick = FindText1Click
+    end
     object N5: TMenuItem
       Caption = '-'
     end
