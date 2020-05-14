@@ -43,7 +43,7 @@ interface
 
 uses
   Winapi.Windows, System.SysUtils, System.Types, System.UITypes, System.Classes,
-  System.Variants, FMX.Types, {$IFDEF DELPHI17_UP}FMX.Graphics,{$ENDIF}
+  WinApi.Messages, System.Variants, FMX.Types, {$IFDEF DELPHI17_UP}FMX.Graphics,{$ENDIF}
   System.SyncObjs, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
   FMX.Edit, FMX.Layouts, FMX.Controls.Presentation, FMX.TabControl,
   uCEFChromiumCore, uCEFFMXChromium, uCEFFMXWindowParent, uCEFInterfaces,
