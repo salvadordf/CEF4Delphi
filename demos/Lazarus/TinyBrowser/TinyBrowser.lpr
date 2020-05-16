@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright Â© 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,32 +35,24 @@
  *
  *)
 
-program ToolBoxBrowser2;
+program TinyBrowser;
+
+{$MODE Delphi}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
-  Forms,
-  Windows,
-  {$ENDIF}
-  uCEFApplication,
-  uMainForm in 'uMainForm.pas' {MainForm};
+  LCLIntf, LCLType, LMessages, Interfaces,
+  uTinyBrowser in 'uTinyBrowser.pas',
+  uCEFApplicationCore;
 
-{$R *.res}
-
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+{.$R *.res}
 
 begin
   CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
-      Application.Initialize;
-      Application.MainFormOnTaskbar := True;
-      Application.CreateForm(TMainForm, MainForm);
-      Application.Run;
+      GlobalCEFApp.RunMessageLoop;
+      DestroyTinyBrowser;
     end;
 
   DestroyGlobalCEFApp;

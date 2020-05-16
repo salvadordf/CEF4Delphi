@@ -3,7 +3,7 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'OAuth 2.0 Browser'
+  Caption = 'OAuth 2.0 Tester'
   ClientHeight = 686
   ClientWidth = 620
   Color = clBtnFace
