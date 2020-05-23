@@ -85,6 +85,7 @@ type
     procedure Chromium1CookiesVisited(Sender: TObject; const name_, value,
       domain, path: ustring; secure, httponly, hasExpires: Boolean;
       const creation, lastAccess, expires: TDateTime; count, total, aID: Integer;
+      same_site: TCefCookieSameSite; priority: Integer;
       var aDeleteCookie, aResult: Boolean);
     procedure Chromium1CookieVisitorDestroyed(Sender: TObject; aID: integer);
     procedure FormShow(Sender: TObject);
@@ -259,7 +260,8 @@ end;
 procedure TCookieVisitorFrm.Chromium1CookiesVisited(Sender: TObject;
   const name_, value, domain, path: ustring; secure, httponly,
   hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count,
-  total, aID: Integer; var aDeleteCookie, aResult: Boolean);
+  total, aID: Integer; same_site: TCefCookieSameSite; priority: Integer;
+  var aDeleteCookie, aResult: Boolean);
 var
   TempCookie : TCookie;
 begin
@@ -274,7 +276,9 @@ begin
   TempCookie.creation    := creation;
   TempCookie.last_access := lastAccess;
   TempCookie.has_expires := hasExpires;
-  TempCookie.expires     := expires;
+  TempCookie.expires     := expires;   
+  TempCookie.same_site   := same_site;
+  TempCookie.priority    := priority;
 
   AddCookieInfo(TempCookie);
 
@@ -362,6 +366,8 @@ begin
                           now,
                           now,
                           now,
+                          CEF_COOKIE_SAME_SITE_UNSPECIFIED,
+                          CEF_COOKIE_PRIORITY_MEDIUM,
                           False);
   end;
 end;

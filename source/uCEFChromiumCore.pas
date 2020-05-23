@@ -262,6 +262,13 @@ type
       FOnRouteStateChanged                : TOnRouteStateChangedEvent;
       FOnRouteMessageReceived             : TOnRouteMessageReceivedEvent;
 
+      // ICefAudioHandler
+      FOnGetAudioParameters               : TOnGetAudioParametersEvent;
+      FOnAudioStreamStarted               : TOnAudioStreamStartedEvent;
+      FOnAudioStreamPacket                : TOnAudioStreamPacketEvent;
+      FOnAudioStreamStopped               : TOnAudioStreamStoppedEvent;
+      FOnAudioStreamError                 : TOnAudioStreamErrorEvent;
+
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
@@ -548,6 +555,13 @@ type
       procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
       procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
 
+      // ICefAudioHandler
+      procedure doOnGetAudioParameters(const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean);
+      procedure doOnAudioStreamStarted(const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer);
+      procedure doOnAudioStreamPacket(const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64);
+      procedure doOnAudioStreamStopped(const browser: ICefBrowser);
+      procedure doOnAudioStreamError(const browser: ICefBrowser; const message_: ustring);
+
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
       procedure doPdfPrintFinished(aResultOK : boolean); virtual;
@@ -563,7 +577,7 @@ type
       procedure doHttpAuthCredentialsCleared; virtual;
       procedure doAllConnectionsClosed; virtual;
       procedure doOnExecuteTaskOnCefThread(aTaskID : cardinal); virtual;
-      procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean); virtual;
+      procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; var aDeleteCookie, aResult : Boolean); virtual;
       procedure doOnCookieVisitorDestroyed(aID : integer); virtual;
       procedure doOnCookieSet(aSuccess : boolean; aID : integer); virtual;
       procedure doUpdateZoomStep(aInc : boolean); virtual;
@@ -573,6 +587,7 @@ type
       procedure doSetZoomPct(const aValue : double); virtual;
       procedure doSetZoomStep(aValue : byte); virtual;
       procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute); virtual;
+      function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
       function  MustCreateContextMenuHandler : boolean; virtual;
@@ -659,7 +674,7 @@ type
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
       function    VisitAllCookies(aID : integer = 0) : boolean;
       function    VisitURLCookies(const url : ustring; includeHttpOnly : boolean = False; aID : integer = 0) : boolean;
-      function    SetCookie(const url, name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; aSetImmediately : boolean = True; aID : integer = 0): Boolean;
+      function    SetCookie(const url, name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : TCefCookieSameSite; priority : TCefCookiePriority; aSetImmediately : boolean = True; aID : integer = 0): Boolean;
       function    FlushCookieStore(aFlushImmediately : boolean = True) : boolean;
       procedure   UpdateSupportedSchemes(const aSchemes : TStrings; aIncludeDefaults : boolean = True);
 
@@ -951,6 +966,13 @@ type
       property OnRoutes                               : TOnRoutesEvent                    read FOnRoutes                               write FOnRoutes;
       property OnRouteStateChanged                    : TOnRouteStateChangedEvent         read FOnRouteStateChanged                    write FOnRouteStateChanged;
       property OnRouteMessageReceived                 : TOnRouteMessageReceivedEvent      read FOnRouteMessageReceived                 write FOnRouteMessageReceived;
+
+      // ICefAudioHandler
+      property OnGetAudioParameters                   : TOnGetAudioParametersEvent        read FOnGetAudioParameters                   write FOnGetAudioParameters;
+      property OnAudioStreamStarted                   : TOnAudioStreamStartedEvent        read FOnAudioStreamStarted                   write FOnAudioStreamStarted;
+      property OnAudioStreamPacket                    : TOnAudioStreamPacketEvent         read FOnAudioStreamPacket                    write FOnAudioStreamPacket;
+      property OnAudioStreamStopped                   : TOnAudioStreamStoppedEvent        read FOnAudioStreamStopped                   write FOnAudioStreamStopped;
+      property OnAudioStreamError                     : TOnAudioStreamErrorEvent          read FOnAudioStreamError                     write FOnAudioStreamError;
   end;
 
   TBrowserInfo = class
@@ -1540,6 +1562,13 @@ begin
   FOnRoutes                           := nil;
   FOnRouteStateChanged                := nil;
   FOnRouteMessageReceived             := nil;
+
+  // ICefAudioHandler
+  FOnGetAudioParameters               := nil;
+  FOnAudioStreamStarted               := nil;
+  FOnAudioStreamPacket                := nil;
+  FOnAudioStreamStopped               := nil;
+  FOnAudioStreamError                 := nil;
 
   // Custom
   FOnTextResultAvailable              := nil;
@@ -3100,6 +3129,8 @@ end;
 function TChromiumCore.SetCookie(const url, name_, value, domain, path: ustring;
                                        secure, httponly, hasExpires: Boolean;
                                  const creation, lastAccess, expires: TDateTime;
+                                       same_site : TCefCookieSameSite;
+                                       priority : TCefCookiePriority;
                                        aSetImmediately : boolean;
                                        aID : integer): Boolean;
 var
@@ -3127,6 +3158,7 @@ begin
               Result := TempManager.SetCookie(url, name_, value, domain, path,
                                               secure, httponly, hasExpires,
                                               creation, lastAccess, expires,
+                                              same_site, priority,
                                               TempCallback);
             finally
               TempCallback := nil;
@@ -4173,6 +4205,8 @@ procedure TChromiumCore.doOnCookiesVisited(const name_, value, domain, path: ust
                                                  secure, httponly, hasExpires: Boolean;
                                            const creation, lastAccess, expires: TDateTime;
                                                  count, total, aID : Integer;
+                                                 same_site : TCefCookieSameSite;
+                                                 priority : TCefCookiePriority;
                                            var   aDeleteCookie, aResult : Boolean);
 begin
   if assigned(FOnCookiesVisited) then
@@ -4180,6 +4214,7 @@ begin
                       secure, httponly, hasExpires,
                       creation, lastAccess, expires,
                       count, total, aID,
+                      same_site, priority,
                       aDeleteCookie, aResult);
 end;
 
@@ -4500,6 +4535,15 @@ begin
             assigned(FOnRoutes) or
             assigned(FOnRouteStateChanged) or
             assigned(FOnRouteMessageReceived);
+end;
+
+function TChromiumCore.MustCreateAudioHandler : boolean;
+begin
+  Result := assigned(FOnGetAudioParameters) or
+            assigned(FOnAudioStreamStarted) or
+            assigned(FOnAudioStreamPacket) or
+            assigned(FOnAudioStreamStopped) or
+            assigned(FOnAudioStreamError);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -5136,6 +5180,44 @@ procedure TChromiumCore.doOnRouteMessageReceived(const route    : ICefMediaRoute
 begin
   if assigned(FOnRouteMessageReceived) then
     FOnRouteMessageReceived(self, route, message_);
+end;
+
+procedure TChromiumCore.doOnGetAudioParameters(const browser : ICefBrowser;
+                                               var   params  : TCefAudioParameters;
+                                               var   aResult : boolean);
+begin
+  if assigned(FOnGetAudioParameters) then
+    FOnGetAudioParameters(self, browser, params, aResult);
+end;
+
+procedure TChromiumCore.doOnAudioStreamStarted(const browser  : ICefBrowser;
+                                               const params   : TCefAudioParameters;
+                                                     channels : integer);
+begin
+  if assigned(FOnAudioStreamStarted) then
+    FOnAudioStreamStarted(self, browser, params, channels);
+end;
+
+procedure TChromiumCore.doOnAudioStreamPacket(const browser : ICefBrowser;
+                                              const data    : PPSingle;
+                                                    frames  : integer;
+                                                    pts     : int64);
+begin
+  if assigned(FOnAudioStreamPacket) then
+    FOnAudioStreamPacket(self, browser, data, frames, pts);
+end;
+
+procedure TChromiumCore.doOnAudioStreamStopped(const browser: ICefBrowser);
+begin
+  if assigned(FOnAudioStreamStopped) then
+    FOnAudioStreamStopped(self, browser);
+end;
+
+procedure TChromiumCore.doOnAudioStreamError(const browser  : ICefBrowser;
+                                             const message_ : ustring);
+begin
+  if assigned(FOnAudioStreamError) then
+    FOnAudioStreamError(self, browser, message_);
 end;
 
 procedure TChromiumCore.doOnFullScreenModeChange(const browser    : ICefBrowser;

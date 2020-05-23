@@ -100,10 +100,6 @@ type
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
-    procedure Chromium1CookiesVisited(Sender: TObject; const name_, value,
-      domain, path: ustring; secure, httponly, hasExpires: Boolean;
-      const creation, lastAccess, expires: TDateTime; count,
-      total, aID : Integer; var aDeleteCookie, aResult: Boolean);
     procedure Chromium1CookieSet(Sender: TObject; aSuccess: Boolean;
       aID: Integer);
     procedure Chromium1CookieVisitorDestroyed(Sender: TObject;
@@ -112,6 +108,11 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const request: ICefRequest; const response: ICefResponse;
       const cookie: PCefCookie; var aResult: Boolean);
+    procedure Chromium1CookiesVisited(Sender: TObject; const name_, value,
+      domain, path: ustring; secure, httponly, hasExpires: Boolean;
+      const creation, lastAccess, expires: TDateTime; count, total,
+      aID: Integer; same_site: TCefCookieSameSite; priority: Integer;
+      var aDeleteCookie, aResult: Boolean);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -323,6 +324,8 @@ begin
                           now,
                           now,
                           now + 1,
+                          CEF_COOKIE_SAME_SITE_UNSPECIFIED,
+                          CEF_COOKIE_PRIORITY_MEDIUM,
                           False);
   end;
 end;
@@ -340,8 +343,9 @@ end;
 
 procedure TCookieVisitorFrm.Chromium1CookiesVisited(Sender: TObject;
   const name_, value, domain, path: ustring; secure, httponly,
-  hasExpires: Boolean; const creation, lastAccess, expires: TDateTime;
-  count, total, aID: Integer; var aDeleteCookie, aResult: Boolean);
+  hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count,
+  total, aID: Integer; same_site: TCefCookieSameSite; priority: Integer;
+  var aDeleteCookie, aResult: Boolean);
 var
   TempCookie : TCookie;
 begin
@@ -357,6 +361,8 @@ begin
   TempCookie.last_access := lastAccess;
   TempCookie.has_expires := hasExpires;
   TempCookie.expires     := expires;
+  TempCookie.same_site   := same_site;
+  TempCookie.priority    := priority;
 
   AddCookieInfo(TempCookie);
 

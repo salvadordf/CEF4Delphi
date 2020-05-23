@@ -15,7 +15,7 @@ object CookieVisitorFrm: TCookieVisitorFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.8.0'
   object AddressBarPnl: TPanel
     Left = 0
     Height = 21

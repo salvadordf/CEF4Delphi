@@ -54,7 +54,7 @@ uses
 type
   TCefCookieVisitorOwn = class(TCefBaseRefCountedOwn, ICefCookieVisitor)
     protected
-      function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean; virtual;
+      function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; out deleteCookie: Boolean): Boolean; virtual;
 
     public
       constructor Create; virtual;
@@ -64,7 +64,7 @@ type
     protected
       FVisitor: TCefCookieVisitorProc;
 
-      function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean; override;
+      function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; out deleteCookie: Boolean): Boolean; override;
 
     public
       constructor Create(const visitor: TCefCookieVisitorProc); reintroduce;
@@ -75,7 +75,7 @@ type
       FEvents : Pointer;
       FID     : integer;
 
-      function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean; override;
+      function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; out deleteCookie: Boolean): Boolean; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; aID : integer); reintroduce;
@@ -92,10 +92,11 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions;
 
-function cef_cookie_visitor_visit(self: PCefCookieVisitor;
-                                  const cookie: PCefCookie;
-                                  count, total: Integer;
-                                  deleteCookie: PInteger): Integer; stdcall;
+function cef_cookie_visitor_visit(      self         : PCefCookieVisitor;
+                                  const cookie       : PCefCookie;
+                                        count        : Integer;
+                                        total        : Integer;
+                                        deleteCookie : PInteger): Integer; stdcall;
 var
   delete     : Boolean;
   exp        : TDateTime;
@@ -123,6 +124,8 @@ begin
                                                          exp,
                                                          count,
                                                          total,
+                                                         cookie^.same_site,
+                                                         cookie^.priority,
                                                          delete));
 
   deleteCookie^ := Ord(delete);
@@ -141,6 +144,8 @@ function TCefCookieVisitorOwn.visit(const name, value, domain, path: ustring;
                                     secure, httponly, hasExpires: Boolean;
                                     const creation, lastAccess, expires: TDateTime;
                                     count, total: Integer;
+                                    same_site : TCefCookieSameSite;
+                                    priority : TCefCookiePriority;
                                     out deleteCookie: Boolean): Boolean;
 begin
   Result := True;
@@ -159,10 +164,13 @@ function TCefFastCookieVisitor.visit(const name, value, domain, path: ustring;
                                      secure, httponly, hasExpires: Boolean;
                                      const creation, lastAccess, expires: TDateTime;
                                      count, total: Integer;
+                                     same_site : TCefCookieSameSite;
+                                     priority : TCefCookiePriority;
                                      out deleteCookie: Boolean): Boolean;
 begin
   Result := FVisitor(name, value, domain, path, secure, httponly, hasExpires,
-                     creation, lastAccess, expires, count, total, deleteCookie);
+                     creation, lastAccess, expires, count, total, same_site,
+                     priority, deleteCookie);
 end;
 
 
@@ -196,6 +204,8 @@ function TCefCustomCookieVisitor.visit(const name, value, domain, path: ustring;
                                        secure, httponly, hasExpires: Boolean;
                                        const creation, lastAccess, expires: TDateTime;
                                        count, total: Integer;
+                                       same_site : TCefCookieSameSite;
+                                       priority : TCefCookiePriority;
                                        out deleteCookie: Boolean): Boolean;
 var
   TempDelete : boolean;
@@ -207,7 +217,8 @@ begin
     try
       if (FEvents <> nil) then
         IChromiumEvents(FEvents).doOnCookiesVisited(name, value, domain, path, secure, httponly, hasExpires,
-                                                    creation, lastAccess, expires, count, total, FID, TempDelete, Result);
+                                                    creation, lastAccess, expires, count, total, FID,
+                                                    same_site, priority, TempDelete, Result);
     except
       on e : exception do
         if CustomExceptionHandler('TCefCustomCookieVisitor.visit', e) then raise;

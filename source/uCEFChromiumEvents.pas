@@ -172,6 +172,13 @@ type
   TOnRouteStateChangedEvent       = procedure(Sender: TObject; const route: ICefMediaRoute; state: TCefMediaRouteConnectionState) of object;
   TOnRouteMessageReceivedEvent    = procedure(Sender: TObject; const route: ICefMediaRoute; const message_: ustring) of object;
 
+  // ICefAudioHandler
+  TOnGetAudioParametersEvent      = procedure(Sender: TObject; const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean) of object;
+  TOnAudioStreamStartedEvent      = procedure(Sender: TObject; const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer) of object;
+  TOnAudioStreamPacketEvent       = procedure(Sender: TObject; const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64) of object;
+  TOnAudioStreamStoppedEvent      = procedure(Sender: TObject; const browser: ICefBrowser) of object;
+  TOnAudioStreamErrorEvent        = procedure(Sender: TObject; const browser: ICefBrowser; const message_: ustring) of object;
+
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;
@@ -181,7 +188,7 @@ type
   TOnNavigationVisitorResultAvailableEvent = procedure(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult : boolean) of object;
   TOnDownloadImageFinishedEvent            = procedure(Sender: TObject; const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage) of object;
   TOnExecuteTaskOnCefThread                = procedure(Sender: TObject; aTaskID : cardinal) of object;
-  TOnCookiesVisited                        = procedure(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean) of object;
+  TOnCookiesVisited                        = procedure(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; var aDeleteCookie, aResult : Boolean) of object;
   TOnCookieVisitorDestroyed                = procedure(Sender: TObject; aID : integer) of object;
   TOnCookieSet                             = procedure(Sender: TObject; aSuccess : boolean; aID : integer) of object;
   TOnZoomPctAvailable                      = procedure(Sender: TObject; const aZoomPct : double) of object;

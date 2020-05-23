@@ -150,6 +150,7 @@ type
   ICefMediaRouteCreateCallback = interface;
   ICefMediaSink = interface;
   ICefMediaSource = interface;
+  ICefAudioHandler = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -242,7 +243,7 @@ type
   TCefDeleteCookiesCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(numDeleted: Integer);
   TCefNavigationEntryVisitorProc       = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer): Boolean;
   TOnDownloadImageFinishedProc         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
-  TCefCookieVisitorProc                = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean;
+  TCefCookieVisitorProc                = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; out deleteCookie: Boolean): Boolean;
   TCefMediaRouteCreateCallbackProc     = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
 
 
@@ -420,6 +421,13 @@ type
     procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
     procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
 
+    // ICefAudioHandler
+    procedure doOnGetAudioParameters(const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean);
+    procedure doOnAudioStreamStarted(const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer);
+    procedure doOnAudioStreamPacket(const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64);
+    procedure doOnAudioStreamStopped(const browser: ICefBrowser);
+    procedure doOnAudioStreamError(const browser: ICefBrowser; const message_: ustring);
+
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
@@ -435,7 +443,7 @@ type
     procedure doHttpAuthCredentialsCleared;
     procedure doAllConnectionsClosed;
     procedure doOnExecuteTaskOnCefThread(aTaskID : cardinal);
-    procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; var aDeleteCookie, aResult : Boolean);
+    procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; var aDeleteCookie, aResult : Boolean);
     procedure doOnCookieVisitorDestroyed(aID : integer);
     procedure doOnCookieSet(aSuccess : boolean; aID : integer);
     procedure doUpdateZoomStep(aInc : boolean);
@@ -445,6 +453,7 @@ type
     procedure doSetZoomStep(aValue : byte);
     procedure doReadZoom;
     procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
+    function  MustCreateAudioHandler : boolean;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
     function  MustCreateContextMenuHandler : boolean;
@@ -1244,7 +1253,7 @@ type
   // /include/capi/cef_cookie_capi.h (cef_cookie_visitor_t)
   ICefCookieVisitor = interface(ICefBaseRefCounted)
     ['{8378CF1B-84AB-4FDB-9B86-34DDABCCC402}']
-    function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; out deleteCookie: Boolean): Boolean;
+    function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; out deleteCookie: Boolean): Boolean;
   end;
 
   // TCefCommandLine
@@ -1442,8 +1451,8 @@ type
     function  VisitAllCookiesProc(const visitor: TCefCookieVisitorProc): Boolean;
     function  VisitUrlCookies(const url: ustring; includeHttpOnly: Boolean; const visitor: ICefCookieVisitor): Boolean;
     function  VisitUrlCookiesProc(const url: ustring; includeHttpOnly: Boolean; const visitor: TCefCookieVisitorProc): Boolean;
-    function  SetCookie(const url, name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; const callback: ICefSetCookieCallback): Boolean;
-    function  SetCookieProc(const url: ustring; const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; const callback: TCefSetCookieCallbackProc): Boolean;
+    function  SetCookie(const url, name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : TCefCookieSameSite; priority : TCefCookiePriority; const callback: ICefSetCookieCallback): Boolean;
+    function  SetCookieProc(const url: ustring; const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : TCefCookieSameSite; priority : TCefCookiePriority; const callback: TCefSetCookieCallbackProc): Boolean;
     function  DeleteCookies(const url, cookieName: ustring; const callback: ICefDeleteCookiesCallback): Boolean;
     function  DeleteCookiesProc(const url, cookieName: ustring; const callback: TCefDeleteCookiesCallbackProc): Boolean;
     function  FlushStore(const callback: ICefCompletionCallback): Boolean;
@@ -1915,6 +1924,19 @@ type
     procedure RemoveReferences; // custom procedure to clear all references
   end;
 
+  // TCefAudioHandler
+  // /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)
+  ICefAudioHandler = interface(ICefBaseRefCounted)
+    ['{8963271A-0B94-4279-82C8-FB2EA7B3CDEC}']
+    procedure OnGetAudioParameters(const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean);
+    procedure OnAudioStreamStarted(const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer);
+    procedure OnAudioStreamPacket(const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64);
+    procedure OnAudioStreamStopped(const browser: ICefBrowser);
+    procedure OnAudioStreamError(const browser: ICefBrowser; const message_: ustring);
+
+    procedure RemoveReferences; // custom procedure to clear all references
+  end;
+
   // TCefRunContextMenuCallback
   // /include/capi/cef_context_menu_handler_capi.h (cef_run_context_menu_callback_t)
   ICefRunContextMenuCallback = interface(ICefBaseRefCounted)
@@ -1980,6 +2002,7 @@ type
   // /include/capi/cef_client_capi.h (cef_client_t)
   ICefClient = interface(ICefBaseRefCounted)
     ['{1D502075-2FF0-4E13-A112-9E541CD811F4}']
+    procedure GetAudioHandler(var aHandler : ICefAudioHandler);
     procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
     procedure GetDialogHandler(var aHandler : ICefDialogHandler);
     procedure GetDisplayHandler(var aHandler : ICefDisplayHandler);

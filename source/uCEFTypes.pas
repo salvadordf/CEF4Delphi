@@ -138,6 +138,8 @@ type
   PCefLifeSpanHandler = ^TCefLifeSpanHandler;
   PCefGetExtensionResourceCallback = ^TCefGetExtensionResourceCallback;
   PCefExtensionHandler = ^TCefExtensionHandler;
+  PCefAudioHandler = ^TCefAudioHandler;
+  PCefAudioParameters = ^TCefAudioParameters;
   PCefExtension = ^TCefExtension;
   PCefPopupFeatures = ^TCefPopupFeatures;
   PCefBrowserSettings = ^TCefBrowserSettings;
@@ -269,6 +271,18 @@ type
   {$ENDIF}
 
 
+
+
+  // All these types are declared as constants in uCEFConstants.pas.
+  // Search the type name between the parentheses in uCEFConstants.pas.
+  //
+  // Open the original header file for more details :
+  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_types.h
+  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_thread_internal.h
+  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_string_list.h
+  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_string_map.h
+  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_string_multimap.h
+
   TCefPlatformThreadId             = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_id_t)
   TCefPlatformThreadHandle         = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_handle_t)
   TCefTransitionType               = Cardinal;    // /include/internal/cef_types.h (cef_transition_type_t)
@@ -297,6 +311,10 @@ type
   TCefDuplexMode                   = Integer;     // /include/internal/cef_types.h (cef_duplex_mode_t)
   TCefSchemeOptions                = Integer;     // /include/internal/cef_types.h (cef_scheme_options_t)
   TCefMediaRouterCreateResult      = Integer;     // /include/internal/cef_types.h (cef_media_route_create_result_t)
+  TCefCookiePriority               = Integer;     // /include/internal/cef_types.h (cef_cookie_priority_t)
+
+
+
 
 
 {$IFDEF FPC}
@@ -727,6 +745,51 @@ type
     CEF_POINTER_TYPE_UNKNOWN
   );
 
+  // /include/internal/cef_types.h (cef_channel_layout_t)
+  TCefChannelLayout = (
+    CEF_CHANNEL_LAYOUT_NONE = 0,
+    CEF_CHANNEL_LAYOUT_UNSUPPORTED,
+    CEF_CHANNEL_LAYOUT_MONO,
+    CEF_CHANNEL_LAYOUT_STEREO,
+    CEF_CHANNEL_LAYOUT_2_1,
+    CEF_CHANNEL_LAYOUT_SURROUND,
+    CEF_CHANNEL_LAYOUT_4_0,
+    CEF_CHANNEL_LAYOUT_2_2,
+    CEF_CHANNEL_LAYOUT_QUAD,
+    CEF_CHANNEL_LAYOUT_5_0,
+    CEF_CHANNEL_LAYOUT_5_1,
+    CEF_CHANNEL_LAYOUT_5_0_BACK,
+    CEF_CHANNEL_LAYOUT_5_1_BACK,
+    CEF_CHANNEL_LAYOUT_7_0,
+    CEF_CHANNEL_LAYOUT_7_1,
+    CEF_CHANNEL_LAYOUT_7_1_WIDE,
+    CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX,
+    CEF_CHANNEL_LAYOUT_2POINT1,
+    CEF_CHANNEL_LAYOUT_3_1,
+    CEF_CHANNEL_LAYOUT_4_1,
+    CEF_CHANNEL_LAYOUT_6_0,
+    CEF_CHANNEL_LAYOUT_6_0_FRONT,
+    CEF_CHANNEL_LAYOUT_HEXAGONAL,
+    CEF_CHANNEL_LAYOUT_6_1,
+    CEF_CHANNEL_LAYOUT_6_1_BACK,
+    CEF_CHANNEL_LAYOUT_6_1_FRONT,
+    CEF_CHANNEL_LAYOUT_7_0_FRONT,
+    CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK,
+    CEF_CHANNEL_LAYOUT_OCTAGONAL,
+    CEF_CHANNEL_LAYOUT_DISCRETE,
+    CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC,
+    CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE,
+    CEF_CHANNEL_LAYOUT_BITSTREAM  // CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_BITSTREAM
+  );
+
+  // /include/internal/cef_types.h (cef_cookie_same_site_t)
+  TCefCookieSameSite = (
+    CEF_COOKIE_SAME_SITE_UNSPECIFIED,
+    CEF_COOKIE_SAME_SITE_NO_RESTRICTION,
+    CEF_COOKIE_SAME_SITE_LAX_MODE,
+    CEF_COOKIE_SAME_SITE_STRICT_MODE
+  );
+
   // /include/internal/cef_types.h (cef_paint_element_type_t)
   TCefPaintElementType = (
     PET_VIEW,
@@ -778,7 +841,13 @@ type
     CT_ZOOMOUT,
     CT_GRAB,
     CT_GRABBING,
-    CT_CUSTOM
+    CT_MIDDLE_PANNING_VERTICAL,
+    CT_MIDDLE_PANNING_HORIZONTAL,
+    CT_CUSTOM,
+    CT_DND_NONE,
+    CT_DND_MOVE,
+    CT_DND_COPY,
+    CT_DND_LIN
   );
 
   // /include/internal/cef_types.h (cef_navigation_type_t)
@@ -1275,6 +1344,8 @@ type
     last_access : TCefTime;
     has_expires : Integer;
     expires     : TCefTime;
+    same_site   : TCefCookieSameSite;
+    priority    : TCefCookiePriority;
   end;
 
   TCookie = record
@@ -1288,6 +1359,8 @@ type
     secure      : boolean;
     httponly    : boolean;
     has_expires : boolean;
+    same_site   : TCefCookieSameSite;
+    priority    : TCefCookiePriority;
   end;
 
   // /include/internal/cef_types.h (cef_pdf_print_settings_t)
@@ -1327,6 +1400,13 @@ type
     type_          : TCefTouchEeventType;
     modifiers      : TCefEventFlags;
     pointer_type   : TCefPointerType;
+  end;
+
+  // /include/internal/cef_types.h (cef_audio_parameters_t)
+  TCefAudioParameters = record
+    channel_layout    : TCefChannelLayout;
+    sample_rate       : integer;
+    frames_per_buffer : integer;
   end;
 
   // /include/capi/cef_base_capi.h (cef_base_ref_counted_t)
@@ -1579,6 +1659,16 @@ type
     get_active_browser            : function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; include_incognito: Integer): PCefBrowser; stdcall;
     can_access_browser            : function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; include_incognito: Integer; target_browser: PCefBrowser): Integer; stdcall;
     get_extension_resource        : function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; const file_: PCefString; callback: PCefGetExtensionResourceCallback): Integer; stdcall;
+  end;
+
+  // /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)
+  TCefAudioHandler = record
+    base                          : TCefBaseRefCounted;
+    get_audio_parameters          : function(self: PCefAudioHandler; browser: PCefBrowser; params: PCefAudioParameters): Integer; stdcall;
+    on_audio_stream_started       : procedure(self: PCefAudioHandler; browser: PCefBrowser; const params: PCefAudioParameters; channels: integer); stdcall;
+    on_audio_stream_packet        : procedure(self: PCefAudioHandler; browser: PCefBrowser; const data : PPSingle; frames: integer; pts: int64); stdcall;
+    on_audio_stream_stopped       : procedure(self: PCefAudioHandler; browser: PCefBrowser); stdcall;
+    on_audio_stream_error         : procedure(self: PCefAudioHandler; browser: PCefBrowser; const message_: PCefString); stdcall;
   end;
 
   // /include/capi/cef_extension_capi.h (cef_extension_t)
@@ -2725,6 +2815,7 @@ type
   // /include/capi/cef_client_capi.h (cef_client_t)
   TCefClient = record
     base                        : TCefBaseRefCounted;
+    get_audio_handler           : function(self: PCefClient): PCefAudioHandler; stdcall;
     get_context_menu_handler    : function(self: PCefClient): PCefContextMenuHandler; stdcall;
     get_dialog_handler          : function(self: PCefClient): PCefDialogHandler; stdcall;
     get_display_handler         : function(self: PCefClient): PCefDisplayHandler; stdcall;

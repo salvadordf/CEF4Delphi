@@ -65,8 +65,8 @@ type
       function  VisitAllCookiesProc(const visitor: TCefCookieVisitorProc): Boolean;
       function  VisitUrlCookies(const url: ustring; includeHttpOnly: Boolean; const visitor: ICefCookieVisitor): Boolean;
       function  VisitUrlCookiesProc(const url: ustring; includeHttpOnly: Boolean; const visitor: TCefCookieVisitorProc): Boolean;
-      function  SetCookie(const url, name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; const callback: ICefSetCookieCallback): Boolean;
-      function  SetCookieProc(const url: ustring; const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; const callback: TCefSetCookieCallbackProc): Boolean;
+      function  SetCookie(const url, name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : TCefCookieSameSite; priority : TCefCookiePriority; const callback: ICefSetCookieCallback): Boolean;
+      function  SetCookieProc(const url: ustring; const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : TCefCookieSameSite; priority : TCefCookiePriority; const callback: TCefSetCookieCallbackProc): Boolean;
       function  DeleteCookies(const url, cookieName: ustring; const callback: ICefDeleteCookiesCallback): Boolean;
       function  DeleteCookiesProc(const url, cookieName: ustring; const callback: TCefDeleteCookiesCallbackProc): Boolean;
       function  FlushStore(const callback: ICefCompletionCallback): Boolean;
@@ -131,6 +131,8 @@ end;
 function TCefCookieManagerRef.SetCookie(const url, name, value, domain, path: ustring;
                                               secure, httponly, hasExpires: Boolean;
                                         const creation, lastAccess, expires: TDateTime;
+                                              same_site : TCefCookieSameSite;
+                                              priority : TCefCookiePriority;
                                         const callback: ICefSetCookieCallback): Boolean;
 var
   TempURL    : TCefString;
@@ -146,6 +148,8 @@ begin
   TempCookie.creation    := DateTimeToCefTime(creation);
   TempCookie.last_access := DateTimeToCefTime(lastAccess);
   TempCookie.has_expires := Ord(hasExpires);
+  TempCookie.same_site   := same_site;
+  TempCookie.priority    := priority;
 
   if hasExpires then
     TempCookie.expires := DateTimeToCefTime(expires)
@@ -158,11 +162,14 @@ end;
 function TCefCookieManagerRef.SetCookieProc(const url, name, value, domain, path: ustring;
                                                   secure, httponly, hasExpires: Boolean;
                                             const creation, lastAccess, expires: TDateTime;
+                                                  same_site : TCefCookieSameSite;
+                                                  priority : TCefCookiePriority;
                                             const callback: TCefSetCookieCallbackProc): Boolean;
 begin
   Result := SetCookie(url, name, value, domain, path,
                       secure, httponly, hasExpires,
                       creation, lastAccess, expires,
+                      same_site, priority,
                       TCefFastSetCookieCallback.Create(callback));
 end;
 

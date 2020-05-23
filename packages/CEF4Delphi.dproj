@@ -298,6 +298,17 @@
         <DCCReference Include="..\source\uCEFMenuButtonDelegate.pas"/>
         <DCCReference Include="..\source\uCEFWindow.pas"/>
         <DCCReference Include="..\source\uCEFWindowDelegate.pas"/>
+        <DCCReference Include="..\source\uCEFViewsFrameworkEvents.pas"/>
+        <DCCReference Include="..\source\uCEFViewComponent.pas"/>
+        <DCCReference Include="..\source\uCEFTextfieldComponent.pas"/>
+        <DCCReference Include="..\source\uCEFScrollViewComponent.pas"/>
+        <DCCReference Include="..\source\uCEFPanelComponent.pas"/>
+        <DCCReference Include="..\source\uCEFWindowComponent.pas"/>
+        <DCCReference Include="..\source\uCEFBrowserViewComponent.pas"/>
+        <DCCReference Include="..\source\uCEFButtonComponent.pas"/>
+        <DCCReference Include="..\source\uCEFLabelButtonComponent.pas"/>
+        <DCCReference Include="..\source\uCEFMenuButtonComponent.pas"/>
+        <DCCReference Include="..\source\uCEFAudioHandler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

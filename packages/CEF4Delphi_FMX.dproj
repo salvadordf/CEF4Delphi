@@ -334,6 +334,7 @@
         <DCCReference Include="..\source\uCEFButtonComponent.pas"/>
         <DCCReference Include="..\source\uCEFLabelButtonComponent.pas"/>
         <DCCReference Include="..\source\uCEFMenuButtonComponent.pas"/>
+        <DCCReference Include="..\source\uCEFAudioHandler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
