@@ -62,7 +62,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 83;
   CEF_SUPPORTED_VERSION_MINOR   = 3;
-  CEF_SUPPORTED_VERSION_RELEASE = 9;
+  CEF_SUPPORTED_VERSION_RELEASE = 10;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 83;
@@ -131,6 +131,7 @@ type
       FMuteAudio                     : boolean;
       FReRaiseExceptions             : boolean;
       FShowMessageDlg                : boolean;
+      FMissingBinariesException      : boolean;
       FSetCurrentDir                 : boolean;
       FGlobalContextInitialized      : boolean;
       FSitePerProcess                : boolean;
@@ -449,6 +450,7 @@ type
       property DeleteCookies                     : boolean                             read FDeleteCookies                     write FDeleteCookies;
       property CheckCEFFiles                     : boolean                             read FCheckCEFFiles                     write FCheckCEFFiles;
       property ShowMessageDlg                    : boolean                             read FShowMessageDlg                    write FShowMessageDlg;
+      property MissingBinariesException          : boolean                             read FMissingBinariesException          write FMissingBinariesException;
       property SetCurrentDir                     : boolean                             read FSetCurrentDir                     write FSetCurrentDir;
       property GlobalContextInitialized          : boolean                             read GetGlobalContextInitialized;
       property ChromeMajorVer                    : uint16                              read FChromeVersionInfo.MajorVer;
@@ -646,6 +648,7 @@ begin
   FReRaiseExceptions             := False;
   FLibLoaded                     := False;
   FShowMessageDlg                := True;
+  FMissingBinariesException      := False;
   FSetCurrentDir                 := False;
   FGlobalContextInitialized      := False;
   FCheckDevToolsResources        := True;
@@ -1397,6 +1400,9 @@ begin
       MessageBox(0, PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK or MB_TOPMOST);
       {$ENDIF}
     end;
+
+  if FMissingBinariesException then
+    raise Exception.Create(aError);
 end;
 
 procedure TCefApplicationCore.UpdateSupportedSchemes(aIncludeDefaults : boolean);
