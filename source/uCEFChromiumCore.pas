@@ -1175,9 +1175,13 @@ end;
 
 procedure TChromiumCore.DestroyAllBrowsers;
 begin
-  FBrowsersCS.Acquire;
-  if (FBrowsers <> nil) then FreeAndNil(FBrowsers);
-  FBrowsersCS.Release;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
+      if (FBrowsers <> nil) then FreeAndNil(FBrowsers);
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 procedure TChromiumCore.BeforeDestruction;
@@ -1619,7 +1623,7 @@ begin
       if not(csDesigning in ComponentState) and
          (BrowserId    =  0)   and
          (GlobalCEFApp <> nil) and
-         GlobalCEFApp.GlobalContextInitialized  and
+         GlobalCEFApp.GlobalContextInitialized and
          CreateClientHandler(not(ValidCefWindowHandle(aParentHandle))) then
         begin
           GetSettings(FBrowserSettings);
@@ -1879,12 +1883,13 @@ end;
 
 procedure TChromiumCore.CloseAllBrowsers;
 begin
-  try
-    FBrowsersCS.Acquire;
-    if (FBrowsers <> nil) then FBrowsers.CloseAllBrowsers;
-  finally
-    FBrowsersCS.Release;
-  end;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
+      if (FBrowsers <> nil) then FBrowsers.CloseAllBrowsers;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.TryCloseBrowser : boolean;
@@ -2381,65 +2386,75 @@ function TChromiumCore.GetBrowser : ICefBrowser;
 begin
   Result := nil;
 
-  try
-    FBrowsersCS.Acquire;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
 
-    if (FBrowsers <> nil) then
-      begin
-        if FMultiBrowserMode then
-          Result := FBrowsers.Browser[FBrowserId]
-         else
-          Result := FBrowsers.FirstBrowser;
-      end;
-  finally
-    FBrowsersCS.Release;
-  end;
+      if (FBrowsers <> nil) then
+        begin
+          if FMultiBrowserMode then
+            Result := FBrowsers.Browser[FBrowserId]
+           else
+            Result := FBrowsers.FirstBrowser;
+        end;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.GetBrowserId : integer;
 begin
-  FBrowsersCS.Acquire;
-  Result := FBrowserId;
-  FBrowsersCS.Release;
+  Result := 0;
+
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
+      Result := FBrowserId;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.GetBrowserById(aID : integer) : ICefBrowser;
 begin
   Result := nil;
 
-  try
-    FBrowsersCS.Acquire;
-    if (FBrowsers <> nil) then
-      Result := FBrowsers.Browser[aID];
-  finally
-    FBrowsersCS.Release;
-  end;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
+      if (FBrowsers <> nil) then
+        Result := FBrowsers.Browser[aID];
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.GetBrowserCount : integer;
 begin
   Result := 0;
 
-  try
-    FBrowsersCS.Acquire;
-    if (FBrowsers <> nil) then
-      Result := FBrowsers.Count;
-  finally
-    FBrowsersCS.Release;
-  end;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
+      if (FBrowsers <> nil) then
+        Result := FBrowsers.Count;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.GetBrowserIdByIndex(aIndex : integer) : integer;
 begin
   Result := 0;
 
-  try
-    FBrowsersCS.Acquire;
-    if (FBrowsers <> nil) and (aIndex >= 0) and (aIndex < FBrowsers.Count) then
-      Result := TBrowserInfo(FBrowsers[aIndex]).ID;
-  finally
-    FBrowsersCS.Release;
-  end;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
+      if (FBrowsers <> nil) and (aIndex >= 0) and (aIndex < FBrowsers.Count) then
+        Result := TBrowserInfo(FBrowsers[aIndex]).ID;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.GetHasValidMainFrame : boolean;
@@ -2513,9 +2528,15 @@ end;
 
 function TChromiumCore.GetInitialized : boolean;
 begin
-  FBrowsersCS.Acquire;
-  Result := (FBrowserId <> 0) and (FBrowsers <> nil) and not(FBrowsers.BrowserIsClosing[FBrowserId]);
-  FBrowsersCS.Release;
+  Result := False;
+
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
+      Result := (FBrowserId <> 0) and (FBrowsers <> nil) and not(FBrowsers.BrowserIsClosing[FBrowserId]);
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.GetDocumentURL : ustring;
@@ -3585,7 +3606,7 @@ begin
 
   TempLanguagesList := FAcceptLanguageList;
 
-  if (length(TempLanguagesList) = 0) then
+  if (length(TempLanguagesList) = 0) and (FOptions <> nil) then
     TempLanguagesList := FOptions.AcceptLanguageList;
 
   if (length(TempLanguagesList) = 0) then
@@ -4764,81 +4785,86 @@ function TChromiumCore.RemoveBrowser(const aBrowser : ICefBrowser) : boolean;
 begin
   Result := False;
 
-  try
-    FBrowsersCS.Acquire;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
 
-    if (aBrowser <> nil) and (FBrowsers <> nil) then
-      begin
-        if FBrowsers.RemoveBrowser(aBrowser) and
-           (FBrowserId = aBrowser.Identifier) then
-          FBrowserId := FBrowsers.FirstID;
-      end;
-  finally
-    FBrowsersCS.Release;
-  end;
+      if (aBrowser <> nil) and (FBrowsers <> nil) then
+        begin
+          if FBrowsers.RemoveBrowser(aBrowser) and
+             (FBrowserId = aBrowser.Identifier) then
+            FBrowserId := FBrowsers.FirstID;
+        end;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.AddBrowser(const aBrowser : ICefBrowser) : boolean;
 begin
   Result := False;
 
-  try
-    FBrowsersCS.Acquire;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
 
-    if (aBrowser  <> nil) and
-       (FBrowsers <> nil) and
-       (FMultiBrowserMode or (FBrowsers.Count = 0)) and
-       FBrowsers.AddBrowser(aBrowser) then
-      begin
-        Result := True;
+      if (aBrowser  <> nil) and
+         (FBrowsers <> nil) and
+         (FMultiBrowserMode or (FBrowsers.Count = 0)) and
+         FBrowsers.AddBrowser(aBrowser) then
+        begin
+          Result := True;
 
-        if (FBrowserId = 0) then
-          FBrowserId := aBrowser.Identifier;
-      end;
-  finally
-    FBrowsersCS.Release;
-  end;
+          if (FBrowserId = 0) then
+            FBrowserId := aBrowser.Identifier;
+        end;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.SelectBrowser(aID : integer) : boolean;
 begin
   Result := False;
 
-  try
-    FBrowsersCS.Acquire;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
 
-    if FMultiBrowserMode and (FBrowsers <> nil) and (FBrowsers.SearchBrowser(aID) >= 0) then
-      begin
-        FBrowserId := aID;
-        Result     := True;
-      end;
-  finally
-    FBrowsersCS.Release;
-  end;
+      if FMultiBrowserMode and (FBrowsers <> nil) and (FBrowsers.SearchBrowser(aID) >= 0) then
+        begin
+          FBrowserId := aID;
+          Result     := True;
+        end;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.IndexOfBrowserID(aID : integer) : integer;
 begin
   Result := -1;
 
-  try
-    FBrowsersCS.Acquire;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
 
-    if (FBrowsers <> nil) then
-      Result := FBrowsers.SearchBrowser(aID);
-  finally
-    FBrowsersCS.Release;
-  end;
+      if (FBrowsers <> nil) then
+        Result := FBrowsers.SearchBrowser(aID);
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 procedure TChromiumCore.SetBrowserIsClosing(aID : integer);
 begin
-  try
-    FBrowsersCS.Acquire;
-    if (FBrowsers <> nil) then FBrowsers.BrowserIsClosing[aID] := True;
-  finally
-    FBrowsersCS.Release;
-  end;
+  if (FBrowsersCS <> nil) then
+    try
+      FBrowsersCS.Acquire;
+      if (FBrowsers <> nil) then FBrowsers.BrowserIsClosing[aID] := True;
+    finally
+      FBrowsersCS.Release;
+    end;
 end;
 
 function TChromiumCore.doOnClose(const browser: ICefBrowser): Boolean;

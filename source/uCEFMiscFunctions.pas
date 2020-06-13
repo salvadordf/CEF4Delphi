@@ -212,9 +212,10 @@ function CefClearCrossOriginWhitelist: Boolean;
 
 procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
 {$IFDEF MSWINDOWS}
-function  GetExtendedFileVersion(const aFileName : string) : uint64;
+function  GetExtendedFileVersion(const aFileName : ustring) : uint64;
 function  GetStringFileInfo(const aFileName, aField : string; var aValue : string) : boolean;
-function  GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersionInfo) : boolean;
+function  GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
+procedure OutputLastErrorMessage;
 {$ENDIF}
 
 function SplitLongString(aSrcString : string) : string;
@@ -224,8 +225,8 @@ function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string
 function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True; aCheckExtensions: boolean = True) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
 {$IFDEF MSWINDOWS}
-function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;   
-function GetDLLHeaderMachine(const aDLLFile : string; var aMachine : integer) : boolean;
+function CheckDLLVersion(const aDLLFile : ustring; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
+function GetDLLHeaderMachine(const aDLLFile : ustring; var aMachine : integer) : boolean;
 {$ENDIF}
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
@@ -895,7 +896,7 @@ begin
   {$IFDEF FMX}
     FMX.Types.Log.d(aMessage);
   {$ELSE}
-    {$IFNDEF FPC}
+    {$IFDEF MSWINDOWS}
     OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
     {$ENDIF}
   {$ENDIF}
@@ -1259,7 +1260,7 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-function GetExtendedFileVersion(const aFileName : string) : uint64;
+function GetExtendedFileVersion(const aFileName : ustring) : uint64;
 var
   TempSize   : DWORD;
   TempBuffer : pointer;
@@ -1272,20 +1273,22 @@ begin
 
   try
     try
-      TempSize := GetFileVersioninfoSize(PChar(aFileName), TempHandle);
+      TempSize := GetFileVersionInfoSizeW(PWideChar(aFileName), TempHandle);
 
       if (TempSize > 0) then
         begin
           GetMem(TempBuffer, TempSize);
 
-          if GetFileVersionInfo(PChar(aFileName), TempHandle, TempSize, TempBuffer) and
+          if GetFileVersionInfoW(PWideChar(aFileName), TempHandle, TempSize, TempBuffer) and
              VerQueryValue(TempBuffer, '\', Pointer(TempInfo), TempLen) then
             begin
               Result := TempInfo^.dwFileVersionMS;
               Result := Result shl 32;
               Result := Result or TempInfo^.dwFileVersionLS;
             end;
-        end;
+        end
+       else
+        OutputLastErrorMessage;
     except
       on e : exception do
         if CustomExceptionHandler('GetExtendedFileVersion', e) then raise;
@@ -1293,6 +1296,13 @@ begin
   finally
     if (TempBuffer <> nil) then FreeMem(TempBuffer);
   end;
+end;
+
+procedure OutputLastErrorMessage;
+begin
+  {$IFDEF DEBUG}
+  OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(SysErrorMessage(GetLastError()) + chr(0)));
+  {$ENDIF}
 end;
 
 function GetStringFileInfo(const aFileName, aField : string; var aValue : string) : boolean;
@@ -1319,13 +1329,13 @@ begin
 
   try
     try
-      TempSize := GetFileVersionInfoSize(PChar(aFileName), TempHandle);
+      TempSize := GetFileVersionInfoSizeW(PWideChar(aFileName), TempHandle);
 
       if (TempSize > 0) then
         begin
           GetMem(TempBuffer, TempSize);
 
-          if GetFileVersionInfo(PChar(aFileName), 0, TempSize, TempBuffer) then
+          if GetFileVersionInfoW(PWideChar(aFileName), 0, TempSize, TempBuffer) then
             begin
               if VerQueryValue(TempBuffer, '\VarFileInfo\Translation\', Pointer(TempLang), TempSize) then
                 begin
@@ -1352,7 +1362,7 @@ begin
                                   IntToHex(TempArray[i].wLanguage, 4) + IntToHex(TempArray[i].wCodePage, 4) +
                                   '\' + aField;
 
-                  if VerQueryValue(TempBuffer, PChar(TempSubBlock), TempPointer, TempSize) then
+                  if VerQueryValueW(TempBuffer, PWideChar(TempSubBlock), TempPointer, TempSize) then
                     begin
                       aValue := trim(PChar(TempPointer));
                       Result := (length(aValue) > 0);
@@ -1368,7 +1378,7 @@ begin
                                   IntToHex(TempArray[0].wLanguage, 4) + IntToHex(1252, 4) +
                                   '\' + aField;
 
-                  if VerQueryValue(TempBuffer, PChar(TempSubBlock), TempPointer, TempSize) then
+                  if VerQueryValueW(TempBuffer, PWideChar(TempSubBlock), TempPointer, TempSize) then
                     begin
                       aValue := trim(PChar(TempPointer));
                       Result := (length(aValue) > 0);
@@ -1385,7 +1395,7 @@ begin
   end;
 end;
 
-function GetDLLVersion(const aDLLFile : string; var aVersionInfo : TFileVersionInfo) : boolean;
+function GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
 var
   TempVersion : uint64;
 begin
@@ -1395,26 +1405,19 @@ begin
     if FileExists(aDLLFile) then
       begin
         TempVersion := GetExtendedFileVersion(aDLLFile);
-        UInt64ToFileVersionInfo(TempVersion, aVersionInfo);
-        Result := True;
+        if (TempVersion <> 0) then
+          begin
+            UInt64ToFileVersionInfo(TempVersion, aVersionInfo);
+            Result := True;
+          end;
       end;
   except
     on e : exception do
       if CustomExceptionHandler('GetDLLVersion', e) then raise;
   end;
 end;      
-{$ENDIF}
 
-function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
-begin
-  Result := IntToStr(aVersionInfo.MajorVer) + '.' +
-            IntToStr(aVersionInfo.MinorVer) + '.' +
-            IntToStr(aVersionInfo.Release)  + '.' +
-            IntToStr(aVersionInfo.Build);
-end;
-
-{$IFDEF MSWINDOWS}
-function CheckDLLVersion(const aDLLFile : string; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
+function CheckDLLVersion(const aDLLFile : ustring; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 var
   TempVersionInfo : TFileVersionInfo;
 begin
@@ -1427,7 +1430,7 @@ end;
 
 // This function is based on the answer given by 'Alex' in StackOverflow
 // https://stackoverflow.com/questions/2748474/how-to-determine-if-dll-file-was-compiled-as-x64-or-x86-bit-using-either-delphi
-function GetDLLHeaderMachine(const aDLLFile : string; var aMachine : integer) : boolean;
+function GetDLLHeaderMachine(const aDLLFile : ustring; var aMachine : integer) : boolean;
 var
   TempHeader         : TImageDosHeader;
   TempImageNtHeaders : TImageNtHeaders;
@@ -1467,6 +1470,14 @@ begin
   end;
 end;   
 {$ENDIF}
+
+function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
+begin
+  Result := IntToStr(aVersionInfo.MajorVer) + '.' +
+            IntToStr(aVersionInfo.MinorVer) + '.' +
+            IntToStr(aVersionInfo.Release)  + '.' +
+            IntToStr(aVersionInfo.Build);
+end;
 
 function Is32BitProcess : boolean;
 {$IFDEF MSWINDOWS}

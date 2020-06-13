@@ -235,10 +235,10 @@ type
       procedure SetLocalesDirPath(const aValue : ustring);
       procedure SetOsmodalLoop(aValue : boolean);
 
-      function  GetChromeVersion : string;
-      function  GetLibCefVersion : string;
-      function  GetLibCefPath : string;
-      function  GetChromeElfPath : string;
+      function  GetChromeVersion : ustring;
+      function  GetLibCefVersion : ustring;
+      function  GetLibCefPath : ustring;
+      function  GetChromeElfPath : ustring;
       function  GetMustCreateResourceBundleHandler : boolean; virtual;
       function  GetMustCreateBrowserProcessHandler : boolean; virtual;
       function  GetMustCreateRenderProcessHandler : boolean; virtual;
@@ -457,10 +457,10 @@ type
       property ChromeMinorVer                    : uint16                              read FChromeVersionInfo.MinorVer;
       property ChromeRelease                     : uint16                              read FChromeVersionInfo.Release;
       property ChromeBuild                       : uint16                              read FChromeVersionInfo.Build;
-      property ChromeVersion                     : string                              read GetChromeVersion;
-      property LibCefVersion                     : string                              read GetLibCefVersion;
-      property LibCefPath                        : string                              read GetLibCefPath;
-      property ChromeElfPath                     : string                              read GetChromeElfPath;
+      property ChromeVersion                     : ustring                             read GetChromeVersion;
+      property LibCefVersion                     : ustring                             read GetLibCefVersion;
+      property LibCefPath                        : ustring                             read GetLibCefPath;
+      property ChromeElfPath                     : ustring                             read GetChromeElfPath;
       property LibLoaded                         : boolean                             read FLibLoaded;
       property LogProcessInfo                    : boolean                             read FLogProcessInfo                    write FLogProcessInfo;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
@@ -833,12 +833,12 @@ begin
   // Is implemented by TCefApplication
 end;
 
-function TCefApplicationCore.GetChromeVersion : string;
+function TCefApplicationCore.GetChromeVersion : ustring;
 begin
   Result := FileVersionInfoToString(FChromeVersionInfo);
 end;
 
-function TCefApplicationCore.GetLibCefVersion : string;
+function TCefApplicationCore.GetLibCefVersion : ustring;
 begin
   Result := IntToStr(CEF_SUPPORTED_VERSION_MAJOR)    + '.' +
             IntToStr(CEF_SUPPORTED_VERSION_MINOR)    + '.' +
@@ -846,7 +846,7 @@ begin
             IntToStr(CEF_SUPPORTED_VERSION_BUILD);
 end;
 
-function TCefApplicationCore.GetLibCefPath : string;
+function TCefApplicationCore.GetLibCefPath : ustring;
 begin
   if (length(FFrameworkDirPath) > 0) then
     Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + LIBCEF_DLL
@@ -854,7 +854,7 @@ begin
     Result := LIBCEF_DLL;
 end;
 
-function TCefApplicationCore.GetChromeElfPath : string;
+function TCefApplicationCore.GetChromeElfPath : ustring;
 begin
   if (length(FFrameworkDirPath) > 0) then
     Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + CHROMEELF_DLL
@@ -2006,6 +2006,9 @@ end;
 function TCefApplicationCore.LoadCEFlibrary : boolean;
 var
   TempOldDir, TempString : string;
+  {$IFDEF MSWINDOWS}
+  TempError : DWORD;
+  {$ENDIF}
 begin
   Result := False;
 
@@ -2025,7 +2028,7 @@ begin
     end;
 
   {$IFDEF MSWINDOWS}
-  FLibHandle := LoadLibraryEx(PChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
+  FLibHandle := LoadLibraryExW(PWideChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
   {$ELSE}
   FLibHandle := LoadLibrary(PChar(LibCefPath));
   {$ENDIF}
@@ -2035,8 +2038,10 @@ begin
       FStatus := asErrorLoadingLibrary;
 
       {$IFDEF MSWINDOWS}
+      TempError  := GetLastError;
       TempString := 'Error loading libcef.dll' + CRLF + CRLF +
-                    'Error code : 0x' + inttohex(GetLastError, 8);
+                    'Error code : 0x' + inttohex(TempError, 8) + CRLF +
+                    SysErrorMessage(TempError);
       {$ELSE}
       TempString := 'Error loading the CEF binaries';
       {$ENDIF}
