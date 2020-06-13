@@ -2030,7 +2030,7 @@ begin
   {$IFDEF MSWINDOWS}
   FLibHandle := LoadLibraryExW(PWideChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
   {$ELSE}
-  FLibHandle := LoadLibrary(PChar(LibCefPath));
+  FLibHandle := LoadLibrary(LibCefPath);
   {$ENDIF}
 
   if (FLibHandle = 0) then
