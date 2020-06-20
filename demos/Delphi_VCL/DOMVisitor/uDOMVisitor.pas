@@ -43,21 +43,24 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Menus,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
-  System.UITypes,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.SyncObjs, System.Classes, Vcl.Graphics, Vcl.Menus, Vcl.Controls,
+  Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types,
+  Vcl.ComCtrls, Vcl.ClipBrd, System.UITypes,
   {$ELSE}
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus, SyncObjs,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
+  uCEFConstants, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
 const
   MINIBROWSER_VISITDOM_PARTIAL            = WM_APP + $101;
   MINIBROWSER_VISITDOM_FULL               = WM_APP + $102;
   MINIBROWSER_COPYFRAMEIDS_1              = WM_APP + $103;
   MINIBROWSER_COPYFRAMEIDS_2              = WM_APP + $104;
+  MINIBROWSER_SHOWMESSAGE                 = WM_APP + $105;
+  MINIBROWSER_SHOWSTATUSTEXT              = WM_APP + $106;
 
   MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_VISITDOM_FULL    = MENU_ID_USER_FIRST + 2;
@@ -69,6 +72,7 @@ const
   RETRIEVEDOM_MSGNAME_PARTIAL = 'retrievedompartial';
   RETRIEVEDOM_MSGNAME_FULL    = 'retrievedomfull';
   FRAMEIDS_MSGNAME            = 'getframeids';
+  CONSOLE_MSG_PREAMBLE        = 'DOMVISITOR';
 
 type
   TDOMVisitorFrm = class(TForm)
@@ -81,42 +85,40 @@ type
     Panel1: TPanel;
     GoBtn: TButton;
     VisitDOMBtn: TButton;
-    procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure Chromium1AfterCreated(Sender: TObject;
-      const browser: ICefBrowser);
-    procedure Chromium1BeforeContextMenu(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; const model: ICefMenuModel);
-    procedure Chromium1ContextMenuCommand(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; commandId: Integer;
-      eventFlags: Cardinal; out Result: Boolean);
-    procedure Chromium1ProcessMessageReceived(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
-      const message: ICefProcessMessage; out Result: Boolean);
+
     procedure Timer1Timer(Sender: TObject);
+    procedure GoBtnClick(Sender: TObject);
     procedure VisitDOMBtnClick(Sender: TObject);
-    procedure Chromium1BeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-      var client: ICefClient; var settings: TCefBrowserSettings;
-      var extra_info: ICefDictionaryValue;
-      var noJavascriptAccess: Boolean; var Result: Boolean);
+
+    procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      var aAction : TCefCloseBrowserAction);
-    procedure Chromium1BeforeClose(Sender: TObject;
-      const browser: ICefBrowser);
-  private
-    { Private declarations }
+
+    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
+    procedure Chromium1ProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
+    procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: Cardinal; const message, source: ustring; line: Integer; out Result: Boolean);
+
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
+
+    // Critical section and fields to show information received in CEF events safely.
+    FCritSection : TCriticalSection;
+    FMsgContents : string;
+    FStatusText  : string;
+
+    function  GetMsgContents : string;
+    function  GetStatusText : string;
+
+    procedure SetMsgContents(const aValue : string);
+    procedure SetStatusText(const aValue : string);
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
@@ -124,12 +126,15 @@ type
     procedure VisitDOM2Msg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_FULL;
     procedure CopyFrameIDs1(var aMessage : TMessage);  message MINIBROWSER_COPYFRAMEIDS_1;
     procedure CopyFrameIDs2(var aMessage : TMessage);  message MINIBROWSER_COPYFRAMEIDS_2;
+    procedure ShowMessageMsg(var aMessage : TMessage);  message MINIBROWSER_SHOWMESSAGE;
+    procedure ShowStatusTextMsg(var aMessage : TMessage);  message MINIBROWSER_SHOWSTATUSTEXT;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
     procedure ShowStatusText(const aText : string);
-  public
-    { Public declarations }
+
+    property  MsgContents : string   read GetMsgContents  write SetMsgContents;
+    property  StatusText  : string   read GetStatusText   write SetStatusText;
   end;
 
 var
@@ -142,30 +147,55 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFProcessMessage, uCEFMiscFunctions, uCEFSchemeRegistrar, uCEFRenderProcessHandler,
-  uCEFv8Handler, uCEFDomVisitor, uCEFDomNode, uCEFTask;
+  uCEFProcessMessage, uCEFMiscFunctions, uCEFSchemeRegistrar,
+  uCEFRenderProcessHandler, uCEFv8Handler, uCEFDomVisitor, uCEFDomNode,
+  uCEFTask;
 
 // This demo sends messages from the browser process to the render process,
 // and from the render process to the browser process.
 
-// To send a message from the browser process you must use the TChromium.SendProcessMessage
-// procedure with a PID_RENDERER parameter. The render process receives those messages in
-// the GlobalCEFApp.OnProcessMessageReceived event.
+// To send a message from the browser process you must use the
+// TChromium.SendProcessMessage procedure with a PID_RENDERER parameter. The
+// render process receives those messages in the
+// GlobalCEFApp.OnProcessMessageReceived event.
 
-// To send messages from the render process you must use the frame.SendProcessMessage
-// procedure with a PID_BROWSER parameter. The browser process receives those messages in
-// the TChromium.OnProcessMessageReceived event.
+// To send messages from the render process you must use the
+// frame.SendProcessMessage procedure with a PID_BROWSER parameter. The browser
+// process receives those messages in the TChromium.OnProcessMessageReceived
+// event.
 
-// message.name is used to identify different messages sent with SendProcessMessage.
+// message.name is used to identify different messages sent with
+// SendProcessMessage.
 
-// The OnProcessMessageReceived event can recognize any number of messages identifying them
-// by message.name
+// The OnProcessMessageReceived event can recognize any number of messages
+// identifying them by message.name
+
+// The CEF API is not as powerful as JavaScript to visit the DOM. Consider using
+// TChromium.ExecuteJavaScript to execute custom JS code in case you need more
+// powerful features.
+
+// Read the code comments in the JSExtension demo for more information about the
+// Chromium processes and how to send messages between them :
+// https://github.com/salvadordf/CEF4Delphi/blob/master/demos/Delphi_VCL/JavaScript/JSExtension/uJSExtension.pas
+
+// This demo also uses de "console trick" to send information from the render
+// process to the browser process.
+// This method for sending text messages is limited to around 10000 characters
+// but it's much easier to implement than using a JavaScript extension.
+// It cosist of using the JavaScript command "console.log" with a known text
+// preamble. The browser process rceives the console message in the
+// TChromium.OnConsoleMessage event and we identify the right message thanks to
+// the preamble in the message.
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which
+//    triggers the TChromium.OnClose event.
+// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy
+//    CEFWindowParent1 in the main thread, which triggers the
+//    TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the
+//    form.
 
 procedure SimpleDOMIteration(const aDocument: ICefDomDocument);
 var
@@ -193,11 +223,12 @@ begin
   end;
 end;
 
-procedure SimpleNodeSearch(const aDocument: ICefDomDocument);
+procedure SimpleNodeSearch(const aDocument: ICefDomDocument; const aFrame : ICefFrame);
 const
-  NODE_ID = 'lst-ib'; // input box node found in google.com homepage
+  NODE_ID = 'keywords'; // ID of the search box node found in the forum
 var
   TempNode : ICefDomNode;
+  TempJSCode, TempMessage : string;
 begin
   try
     if (aDocument <> nil) then
@@ -206,8 +237,14 @@ begin
 
         if (TempNode <> nil) then
           begin
-            CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, NODE_ID + ' element name : ' + TempNode.Name);
-            CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, NODE_ID + ' element value : ' + TempNode.GetValue);
+            // Here we send the name and value of the element with the "console trick".
+            // The name and value contents are included in TempMessage and the we
+            // execute "console.log" in JavaScript to send TempMessage with a
+            // known preamble that will be used to identify the message in the
+            // TChromium.OnConsoleMessage event.
+            TempMessage := 'name:' + quotedstr(TempNode.Name) + ' - value:' + quotedstr(TempNode.GetValue);
+            TempJSCode  := 'console.log("' + CONSOLE_MSG_PREAMBLE + TempMessage + '");';
+            aFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
           end;
 
         TempNode := aDocument.GetFocusedNode;
@@ -242,7 +279,7 @@ begin
   SimpleDOMIteration(document);
 
   // Simple DOM searches
-  SimpleNodeSearch(document);
+  SimpleNodeSearch(document, frame);
 
   // Sending back some custom results to the browser process
   // Notice that the DOMVISITOR_MSGNAME_PARTIAL message name needs to be recognized in
@@ -407,6 +444,27 @@ begin
   aAction := cbaDelay;
 end;
 
+procedure TDOMVisitorFrm.Chromium1ConsoleMessage(Sender: TObject;
+  const browser: ICefBrowser; level: Cardinal; const message, source: ustring;
+  line: Integer; out Result: Boolean);
+begin
+  // In this event we receive the message with the name and value of a DOM node
+  // from the render process.
+  // This event may receive many other messages but we identify out message
+  // thanks to the preamble.
+  // The we set MsgContents with the rest of the message and send a
+  // MINIBROWSER_SHOWMESSAGE message to show MsgContents in the main thread safely.
+  // This and many other TChromium events are executed in a CEF thread. The VCL
+  // should be used only in the main thread and we use a message and a field
+  // protected by a synchronization object to call showmessage safely.
+  if (length(message) > 0) and
+     (copy(message, 1, length(CONSOLE_MSG_PREAMBLE)) = CONSOLE_MSG_PREAMBLE) then
+    begin
+      MsgContents := copy(message, succ(length(CONSOLE_MSG_PREAMBLE)), length(message));
+      PostMessage(Handle, MINIBROWSER_SHOWMESSAGE, 0, 0);
+    end;
+end;
+
 procedure TDOMVisitorFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
@@ -441,23 +499,26 @@ begin
 
   if (message.Name = DOMVISITOR_MSGNAME_PARTIAL) then
     begin
-      ShowStatusText('DOM Visitor result text : ' + message.ArgumentList.GetString(0));
+      StatusText := 'DOM Visitor result text : ' + message.ArgumentList.GetString(0);
       Result := True;
     end
    else
     if (message.Name = DOMVISITOR_MSGNAME_FULL) then
       begin
         Clipboard.AsText := message.ArgumentList.GetString(0);
-        ShowStatusText('HTML copied to the clipboard');
+        StatusText := 'HTML copied to the clipboard';
         Result := True;
       end
      else
       if (message.Name = FRAMEIDS_MSGNAME) then
         begin
           Clipboard.AsText := message.ArgumentList.GetString(0);
-          ShowStatusText('Frame IDs copied to the clipboard in the render process.');
+          StatusText := 'Frame IDs copied to the clipboard in the render process.';
           Result := True;
         end;
+
+  if Result then
+    PostMessage(Handle, MINIBROWSER_SHOWSTATUSTEXT, 0, 0);
 end;
 
 procedure TDOMVisitorFrm.FormCloseQuery(Sender: TObject;
@@ -477,6 +538,13 @@ procedure TDOMVisitorFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+
+  FCritSection := TCriticalSection.Create;
+end;
+
+procedure TDOMVisitorFrm.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FCritSection);
 end;
 
 procedure TDOMVisitorFrm.FormShow(Sender: TObject);
@@ -559,6 +627,16 @@ begin
   Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
 end;
 
+procedure TDOMVisitorFrm.ShowMessageMsg(var aMessage : TMessage);
+begin
+  showmessage(MsgContents);
+end;
+
+procedure TDOMVisitorFrm.ShowStatusTextMsg(var aMessage : TMessage);
+begin
+  ShowStatusText(StatusText);
+end;
+
 procedure TDOMVisitorFrm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
@@ -583,6 +661,52 @@ begin
   Timer1.Enabled := False;
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) and not(Chromium1.Initialized) then
     Timer1.Enabled := True;
+end;
+
+function TDOMVisitorFrm.GetMsgContents : string;
+begin
+  Result := '';
+  if (FCritSection <> nil) then
+    try
+      FCritSection.Acquire;
+      Result := FMsgContents;
+    finally
+      FCritSection.Release;
+    end;
+end;
+
+procedure TDOMVisitorFrm.SetMsgContents(const aValue : string);
+begin
+  if (FCritSection <> nil) then
+    try
+      FCritSection.Acquire;
+      FMsgContents := aValue;
+    finally
+      FCritSection.Release;
+    end;
+end;
+
+function TDOMVisitorFrm.GetStatusText : string;
+begin
+  Result := '';
+  if (FCritSection <> nil) then
+    try
+      FCritSection.Acquire;
+      Result := FStatusText;
+    finally
+      FCritSection.Release;
+    end;
+end;
+
+procedure TDOMVisitorFrm.SetStatusText(const aValue : string);
+begin
+  if (FCritSection <> nil) then
+    try
+      FCritSection.Acquire;
+      FStatusText := aValue;
+    finally
+      FCritSection.Release;
+    end;
 end;
 
 end.
