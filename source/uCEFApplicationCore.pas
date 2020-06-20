@@ -317,7 +317,7 @@ type
       function  CheckCEFLibrary : boolean;
       procedure RegisterWidevineCDM;
       {$IFDEF MSWINDOWS}
-      function  FindFlashDLL(var aFileName : string) : boolean;
+      function  FindFlashDLL(var aFileName : ustring) : boolean;
       {$ENDIF}
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       procedure UpdateSupportedSchemes(aIncludeDefaults : boolean = True); virtual;
@@ -1355,10 +1355,10 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-function TCefApplicationCore.FindFlashDLL(var aFileName : string) : boolean;
+function TCefApplicationCore.FindFlashDLL(var aFileName : ustring) : boolean;
 var
   TempSearchRec : TSearchRec;
-  TempProductName, TempPath : string;
+  TempProductName, TempPath : ustring;
 begin
   Result    := False;
   aFileName := '';
@@ -1593,7 +1593,7 @@ var
   i : integer;
   {$IFDEF MSWINDOWS}
   TempVersionInfo : TFileVersionInfo;
-  TempFileName : string;
+  TempFileName : ustring;
   {$ENDIF}
 begin
   if (commandLine <> nil) and (FProcessType = ptBrowser) and (processType = '') then

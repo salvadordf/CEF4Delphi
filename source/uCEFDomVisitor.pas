@@ -49,7 +49,7 @@ unit uCEFDomVisitor;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefDomVisitorOwn = class(TCefBaseRefCountedOwn, ICefDomVisitor)
@@ -83,10 +83,25 @@ type
       destructor  Destroy; override;
   end;
 
+  TCefFastDomVisitor3 = class(TCefDomVisitorOwn)
+    protected
+      FProc    : TCefDomVisitorProc3;
+      FBrowser : ICefBrowser;
+      FFrame   : ICefFrame;
+      FValue   : ustring;
+
+      procedure visit(const document: ICefDomDocument); override;
+
+    public
+      constructor Create(const browser: ICefBrowser; const frame: ICefFrame; const proc: TCefDomVisitorProc3; const aValue : ustring); reintroduce; virtual;
+      destructor  Destroy; override;
+  end;
+
+
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFTypes, uCEFDomDocument;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFDomDocument;
 
 procedure cef_dom_visitor_visite(self: PCefDomVisitor; document: PCefDomDocument); stdcall;
 var
@@ -149,6 +164,32 @@ end;
 procedure TCefFastDomVisitor2.visit(const document: ICefDomDocument);
 begin
   FProc(FBrowser, FFrame, document);
+end;
+
+
+// TCefFastDomVisitor3
+
+constructor TCefFastDomVisitor3.Create(const browser: ICefBrowser; const frame: ICefFrame; const proc: TCefDomVisitorProc3; const aValue : ustring);
+begin
+  inherited Create;
+
+  FBrowser := browser;
+  FFrame   := frame;
+  FProc    := proc;
+  FValue   := aValue;
+end;
+
+destructor TCefFastDomVisitor3.Destroy;
+begin
+  FBrowser := nil;
+  FFrame   := nil;
+
+  inherited Destroy;
+end;
+
+procedure TCefFastDomVisitor3.visit(const document: ICefDomDocument);
+begin
+  FProc(FBrowser, FFrame, document, FValue);
 end;
 
 end.

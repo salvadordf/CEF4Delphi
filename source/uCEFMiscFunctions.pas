@@ -213,7 +213,7 @@ function CefClearCrossOriginWhitelist: Boolean;
 procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
 {$IFDEF MSWINDOWS}
 function  GetExtendedFileVersion(const aFileName : ustring) : uint64;
-function  GetStringFileInfo(const aFileName, aField : string; var aValue : string) : boolean;
+function  GetStringFileInfo(const aFileName, aField : ustring; var aValue : ustring) : boolean;
 function  GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
 procedure OutputLastErrorMessage;
 {$ENDIF}
@@ -1305,7 +1305,7 @@ begin
   {$ENDIF}
 end;
 
-function GetStringFileInfo(const aFileName, aField : string; var aValue : string) : boolean;
+function GetStringFileInfo(const aFileName, aField : ustring; var aValue : ustring) : boolean;
 type
   PLangAndCodepage = ^TLangAndCodepage;
   TLangAndCodepage = record
@@ -1317,7 +1317,7 @@ var
   TempBuffer   : pointer;
   TempHandle   : cardinal;
   TempPointer  : pointer;
-  TempSubBlock : string;
+  TempSubBlock : ustring;
   TempLang     : PLangAndCodepage;
   TempArray    : array of TLangAndCodepage;
   i, j : DWORD;
