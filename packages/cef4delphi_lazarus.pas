@@ -61,7 +61,8 @@ uses
   uCEFMenuButtonComponent, uCEFLabelButtonComponent, uCEFButtonComponent, 
   uCEFBrowserViewComponent, uCEFWindowComponent, uCEFPanelComponent, 
   uCEFScrollViewComponent, uCEFTextfieldComponent, uCEFViewComponent, 
-  uCEFViewsFrameworkEvents, uCEFAudioHandler, LazarusPackageIntf;
+  uCEFViewsFrameworkEvents, uCEFAudioHandler, uCEFDevToolsMessageObserver, 
+  LazarusPackageIntf;
 
 implementation
 

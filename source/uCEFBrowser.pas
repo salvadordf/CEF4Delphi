@@ -109,6 +109,9 @@ type
       procedure ShowDevTools(const windowInfo: PCefWindowInfo; const client: ICefClient; const settings: PCefBrowserSettings; inspectElementAt: PCefPoint);
       procedure CloseDevTools;
       function  HasDevTools: Boolean;
+      function  SendDevToolsMessage(const message_: ustring): boolean;
+      function  ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
+      function  AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
       procedure GetNavigationEntries(const visitor: ICefNavigationEntryVisitor; currentOnly: Boolean);
       procedure GetNavigationEntriesProc(const proc: TCefNavigationEntryVisitorProc; currentOnly: Boolean);
       procedure SetMouseCursorChangeDisabled(disabled: Boolean);
@@ -158,7 +161,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFDownloadImageCallBack, uCEFFrame, uCEFPDFPrintCallback,
   uCEFRunFileDialogCallback, uCEFRequestContext, uCEFNavigationEntryVisitor, uCEFNavigationEntry,
-  uCEFExtension, uCEFStringList;
+  uCEFExtension, uCEFStringList, uCEFRegistration;
 
 
 // TCefBrowserRef
@@ -657,6 +660,35 @@ end;
 function TCefBrowserHostRef.HasDevTools: Boolean;
 begin
   Result := PCefBrowserHost(FData)^.has_dev_tools(PCefBrowserHost(FData)) <> 0;
+end;
+
+function TCefBrowserHostRef.SendDevToolsMessage(const message_: ustring): boolean;
+var
+  TempMsg : TCefStringUtf8;
+  TempLen : integer;
+begin
+  TempMsg.str    := nil;
+  TempMsg.length := 0;
+  TempMsg.dtor   := nil;
+
+  TempLen := length(message_);
+  Result  := (TempLen > 0) and
+             (cef_string_wide_to_utf8(PWideChar(@message_[1]), TempLen, @TempMsg) <> 0) and
+             (PCefBrowserHost(FData)^.send_dev_tools_message(PCefBrowserHost(FData), TempMsg.str, TempMsg.length) <> 0);
+end;
+
+function TCefBrowserHostRef.ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
+var
+  TempMethod : TCefString;
+begin
+  TempMethod := CefString(method);
+  Result     := PCefBrowserHost(FData)^.execute_dev_tools_method(PCefBrowserHost(FData), message_id, @TempMethod, CefGetData(params));
+end;
+
+function TCefBrowserHostRef.AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
+begin
+  Result := TCefRegistrationRef.UnWrap(PCefBrowserHost(FData)^.add_dev_tools_message_observer(PCefBrowserHost(FData),
+                                                                                              CefGetData(observer)));
 end;
 
 function TCefBrowserHostRef.HasView: Boolean;

@@ -84,7 +84,9 @@ type
       FReqContextHandler      : ICefRequestContextHandler;
       FResourceRequestHandler : ICefResourceRequestHandler;
       FMediaObserver          : ICefMediaObserver;
-      FRegistration           : ICefRegistration;
+      FMediaObserverReg       : ICefRegistration;
+      FDevToolsMsgObserver    : ICefDevToolsMessageObserver;
+      FDevToolsMsgObserverReg : ICefRegistration;
       FDefaultUrl             : ustring;
       FOptions                : TChromiumOptions;
       FFontOptions            : TChromiumFontOptions;
@@ -209,6 +211,7 @@ type
       FOnRenderViewReady                   : TOnRenderViewReady;
       FOnRenderProcessTerminated           : TOnRenderProcessTerminated;
       FOnGetResourceRequestHandler_ReqHdlr : TOnGetResourceRequestHandler;
+      FOnDocumentAvailableInMainFrame      : TOnDocumentAvailableInMainFrame;
 
       // ICefResourceRequestHandler
       FOnBeforeResourceLoad           : TOnBeforeResourceLoad;
@@ -268,6 +271,13 @@ type
       FOnAudioStreamPacket                : TOnAudioStreamPacketEvent;
       FOnAudioStreamStopped               : TOnAudioStreamStoppedEvent;
       FOnAudioStreamError                 : TOnAudioStreamErrorEvent;
+
+      // ICefDevToolsMessageObserver
+      FOnDevToolsMessage                  : TOnDevToolsMessageEvent;
+      FOnDevToolsMethodResult             : TOnDevToolsMethodResultEvent;
+      FOnDevToolsEvent                    : TOnDevToolsEventEvent;
+      FOnDevToolsAgentAttached            : TOnDevToolsAgentAttachedEvent;
+      FOnDevToolsAgentDetached            : TOnDevToolsAgentDetachedEvent;
 
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
@@ -371,9 +381,12 @@ type
       procedure DestroyReqContextHandler;
       procedure DestroyResourceRequestHandler;
       procedure DestroyMediaObserver;
+      procedure DestroyDevToolsMsgObserver;
+
       procedure CreateReqContextHandler;
       procedure CreateResourceRequestHandler;
       procedure CreateMediaObserver;
+      procedure CreateDevToolsMsgObserver;
 
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
@@ -502,6 +515,7 @@ type
       procedure doOnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); virtual;
       procedure doOnRenderViewReady(const browser: ICefBrowser); virtual;
       procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
+      procedure doOnDocumentAvailableInMainFrame(const browser: ICefBrowser); virtual;
 
       // ICefResourceRequestHandler
       function  doOnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue; virtual;
@@ -550,17 +564,24 @@ type
       procedure doGetResourceRequestHandler_ReqCtxHdlr(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
 
       // ICefMediaObserver
-      procedure doOnSinks(const sinks: TCefMediaSinkArray);
-      procedure doOnRoutes(const routes: TCefMediaRouteArray);
-      procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
-      procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
+      procedure doOnSinks(const sinks: TCefMediaSinkArray); virtual;
+      procedure doOnRoutes(const routes: TCefMediaRouteArray); virtual;
+      procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState); virtual;
+      procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring); virtual;
 
       // ICefAudioHandler
-      procedure doOnGetAudioParameters(const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean);
-      procedure doOnAudioStreamStarted(const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer);
-      procedure doOnAudioStreamPacket(const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64);
-      procedure doOnAudioStreamStopped(const browser: ICefBrowser);
-      procedure doOnAudioStreamError(const browser: ICefBrowser; const message_: ustring);
+      procedure doOnGetAudioParameters(const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean); virtual;
+      procedure doOnAudioStreamStarted(const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer); virtual;
+      procedure doOnAudioStreamPacket(const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64); virtual;
+      procedure doOnAudioStreamStopped(const browser: ICefBrowser); virtual;
+      procedure doOnAudioStreamError(const browser: ICefBrowser; const message_: ustring); virtual;
+
+      // ICefDevToolsMessageObserver
+      procedure doOnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean); virtual;
+      procedure doOnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue); virtual;
+      procedure doOnDevToolsEvent(const method: ustring; const params: ICefValue); virtual;
+      procedure doOnDevToolsAgentAttached(const browser: ICefBrowser); virtual;
+      procedure doOnDevToolsAgentDetached(const browser: ICefBrowser); virtual;
 
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
@@ -588,6 +609,7 @@ type
       procedure doSetZoomStep(aValue : byte); virtual;
       procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute); virtual;
       function  MustCreateAudioHandler : boolean; virtual;
+      function  MustCreateDevToolsMessageObserver : boolean; virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
       function  MustCreateContextMenuHandler : boolean; virtual;
@@ -680,6 +702,9 @@ type
 
       procedure   ShowDevTools(const inspectElementAt: TPoint; aWindowInfo: PCefWindowInfo);
       procedure   CloseDevTools(const aDevToolsWnd : TCefWindowHandle = 0);
+      function    SendDevToolsMessage(const message_: ustring): boolean;
+      function    ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
+      function    AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
 
       procedure   Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
       procedure   StopFinding(aClearSelection : Boolean);
@@ -766,7 +791,9 @@ type
       property  RequestContext                : ICefRequestContext           read GetRequestContext;
       property  MediaRouter                   : ICefMediaRouter              read GetMediaRouter;
       property  MediaObserver                 : ICefMediaObserver            read FMediaObserver;
-      property  Registration                  : ICefRegistration             read FRegistration;
+      property  MediaObserverReg              : ICefRegistration             read FMediaObserverReg;
+      property  DevToolsMsgObserver           : ICefDevToolsMessageObserver  read FDevToolsMsgObserver;
+      property  DevToolsMsgObserverReg        : ICefRegistration             read FDevToolsMsgObserverReg;
       property  MultithreadApp                : boolean                      read GetMultithreadApp;
       property  IsLoading                     : boolean                      read GetIsLoading;
       property  HasDocument                   : boolean                      read GetHasDocument;
@@ -914,6 +941,7 @@ type
       property OnRenderViewReady                   : TOnRenderViewReady                read FOnRenderViewReady                   write FOnRenderViewReady;
       property OnRenderProcessTerminated           : TOnRenderProcessTerminated        read FOnRenderProcessTerminated           write FOnRenderProcessTerminated;
       property OnGetResourceRequestHandler_ReqHdlr : TOnGetResourceRequestHandler      read FOnGetResourceRequestHandler_ReqHdlr write FOnGetResourceRequestHandler_ReqHdlr;
+      property OnDocumentAvailableInMainFrame      : TOnDocumentAvailableInMainFrame   read FOnDocumentAvailableInMainFrame      write FOnDocumentAvailableInMainFrame;
 
       // ICefResourceRequestHandler
       property OnBeforeResourceLoad             : TOnBeforeResourceLoad             read FOnBeforeResourceLoad             write FOnBeforeResourceLoad;
@@ -973,6 +1001,13 @@ type
       property OnAudioStreamPacket                    : TOnAudioStreamPacketEvent         read FOnAudioStreamPacket                    write FOnAudioStreamPacket;
       property OnAudioStreamStopped                   : TOnAudioStreamStoppedEvent        read FOnAudioStreamStopped                   write FOnAudioStreamStopped;
       property OnAudioStreamError                     : TOnAudioStreamErrorEvent          read FOnAudioStreamError                     write FOnAudioStreamError;
+
+      // ICefDevToolsMessageObserver
+      property OnDevToolsMessage                      : TOnDevToolsMessageEvent           read FOnDevToolsMessage                      write FOnDevToolsMessage;
+      property OnDevToolsMethodResult                 : TOnDevToolsMethodResultEvent      read FOnDevToolsMethodResult                 write FOnDevToolsMethodResult;
+      property OnDevToolsEvent                        : TOnDevToolsEventEvent             read FOnDevToolsEvent                        write FOnDevToolsEvent;
+      property OnDevToolsAgentAttached                : TOnDevToolsAgentAttachedEvent     read FOnDevToolsAgentAttached                write FOnDevToolsAgentAttached;
+      property OnDevToolsAgentDetached                : TOnDevToolsAgentDetachedEvent     read FOnDevToolsAgentDetached                write FOnDevToolsAgentDetached;
   end;
 
   TBrowserInfo = class
@@ -1055,7 +1090,7 @@ uses
   uCEFStringVisitor, uCEFListValue, uCEFNavigationEntryVisitor,
   uCEFDownloadImageCallBack, uCEFCookieManager, uCEFRequestContextHandler,
   uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler,
-  uCEFMediaObserver, uCEFMediaRouteCreateCallback;
+  uCEFMediaObserver, uCEFMediaRouteCreateCallback ,uCEFDevToolsMessageObserver;
 
 constructor TChromiumCore.Create(AOwner: TComponent);
 begin
@@ -1072,7 +1107,9 @@ begin
   FReqContextHandler      := nil;
   FResourceRequestHandler := nil;
   FMediaObserver          := nil;
-  FRegistration           := nil;
+  FMediaObserverReg       := nil;
+  FDevToolsMsgObserver    := nil;
+  FDevToolsMsgObserverReg := nil;
   FOptions                := nil;
   FFontOptions            := nil;
   FDefaultEncoding        := '';
@@ -1201,6 +1238,7 @@ begin
   DestroyReqContextHandler;
   DestroyResourceRequestHandler;
   DestroyMediaObserver;
+  DestroyDevToolsMsgObserver;
 
   inherited BeforeDestruction;
 end;
@@ -1364,8 +1402,8 @@ end;
 
 procedure TChromiumCore.DestroyMediaObserver;
 begin
-  FMediaObserver := nil;
-  FRegistration  := nil;
+  FMediaObserver    := nil;
+  FMediaObserverReg := nil;
 end;
 
 procedure TChromiumCore.CreateMediaObserver;
@@ -1373,6 +1411,19 @@ begin
   if MustCreateMediaObserver and
      (FMediaObserver = nil) then
     FMediaObserver := TCustomMediaObserver.Create(self);
+end;
+
+procedure TChromiumCore.DestroyDevToolsMsgObserver;
+begin
+  FDevToolsMsgObserver    := nil;
+  FDevToolsMsgObserverReg := nil;
+end;
+
+procedure TChromiumCore.CreateDevToolsMsgObserver;
+begin
+  if MustCreateDevToolsMessageObserver and
+     (FDevToolsMsgObserver = nil) then
+    FDevToolsMsgObserver := TCustomDevToolsMessageObserver.Create(self);
 end;
 
 procedure TChromiumCore.DestroyResourceRequestHandler;
@@ -1442,6 +1493,7 @@ begin
     begin
       CreateResourceRequestHandler;
       CreateMediaObserver;
+      CreateDevToolsMsgObserver;
 
       aClient := FHandler;
       Result  := True;
@@ -1514,6 +1566,7 @@ begin
   FOnRenderViewReady                   := nil;
   FOnRenderProcessTerminated           := nil;
   FOnGetResourceRequestHandler_ReqHdlr := nil;
+  FOnDocumentAvailableInMainFrame      := nil;
 
   // ICefResourceRequestHandler
   FOnBeforeResourceLoad           := nil;
@@ -1574,6 +1627,13 @@ begin
   FOnAudioStreamStopped               := nil;
   FOnAudioStreamError                 := nil;
 
+  // ICefDevToolsMessageObserver
+  FOnDevToolsMessage                  := nil;
+  FOnDevToolsMethodResult             := nil;
+  FOnDevToolsEvent                    := nil;
+  FOnDevToolsAgentAttached            := nil;
+  FOnDevToolsAgentDetached            := nil;
+
   // Custom
   FOnTextResultAvailable              := nil;
   FOnPdfPrintFinished                 := nil;
@@ -1630,6 +1690,7 @@ begin
           InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
           CreateResourceRequestHandler;
           CreateMediaObserver;
+          CreateDevToolsMsgObserver;
 
           if (aContext = nil) then
             begin
@@ -1687,6 +1748,7 @@ begin
           GetSettings(FBrowserSettings);
           CreateResourceRequestHandler;
           CreateMediaObserver;
+          CreateDevToolsMsgObserver;
 
           if (aContext = nil) then
             begin
@@ -1878,7 +1940,8 @@ end;
 
 procedure TChromiumCore.CloseBrowser(aForceClose : boolean);
 begin
-  if Initialized then Browser.Host.CloseBrowser(aForceClose);
+  if Initialized then
+    Browser.Host.CloseBrowser(aForceClose);
 end;
 
 procedure TChromiumCore.CloseAllBrowsers;
@@ -1928,17 +1991,20 @@ end;
 
 procedure TChromiumCore.Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
 begin
-  if Initialized then Browser.Host.Find(aIdentifier, aSearchText, aForward, aMatchCase, aFindNext);
+  if Initialized then
+    Browser.Host.Find(aIdentifier, aSearchText, aForward, aMatchCase, aFindNext);
 end;
 
 procedure TChromiumCore.StopFinding(aClearSelection : Boolean);
 begin
-  if Initialized then Browser.Host.StopFinding(aClearSelection);
+  if Initialized then
+    Browser.Host.StopFinding(aClearSelection);
 end;
 
 procedure TChromiumCore.Print;
 begin
-  if Initialized then Browser.Host.Print;
+  if Initialized then
+    Browser.Host.Print;
 end;
 
 procedure TChromiumCore.PrintToPDF(const aFilePath, aTitle, aURL : ustring);
@@ -2159,7 +2225,8 @@ end;
 
 procedure TChromiumCore.LoadURL(const aURL : ustring; const aFrame : ICefFrame);
 begin
-  if Initialized and (aFrame <> nil) and aFrame.IsValid then aFrame.LoadUrl(aURL);
+  if Initialized and (aFrame <> nil) and aFrame.IsValid then
+    aFrame.LoadUrl(aURL);
 end;
 
 procedure TChromiumCore.LoadURL(const aURL : ustring; const aFrameIdentifier : int64);
@@ -2271,32 +2338,38 @@ end;
 
 procedure TChromiumCore.GoBack;
 begin
-  if Initialized and CanGoBack then Browser.GoBack;
+  if Initialized and CanGoBack then
+    Browser.GoBack;
 end;
 
 procedure TChromiumCore.GoForward;
 begin
-  if Initialized and CanGoForward then Browser.GoForward;
+  if Initialized and CanGoForward then
+    Browser.GoForward;
 end;
 
 procedure TChromiumCore.Reload;
 begin
-  if Initialized then Browser.Reload;
+  if Initialized then
+    Browser.Reload;
 end;
 
 procedure TChromiumCore.ReloadIgnoreCache;
 begin
-  if Initialized then Browser.ReloadIgnoreCache;
+  if Initialized then
+    Browser.ReloadIgnoreCache;
 end;
 
 procedure TChromiumCore.StopLoad;
 begin
-  if Initialized then Browser.StopLoad;
+  if Initialized then
+    Browser.StopLoad;
 end;
 
 procedure TChromiumCore.StartDownload(const aURL : ustring);
 begin
-  if Initialized then Browser.Host.StartDownload(aURL);
+  if Initialized then
+    Browser.Host.StartDownload(aURL);
 end;
 
 // Use the OnDownloadImageFinished event to receive the image
@@ -2503,12 +2576,14 @@ end;
 
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);
 begin
-  if Initialized then Browser.Host.SetAudioMuted(aValue);
+  if Initialized then
+    Browser.Host.SetAudioMuted(aValue);
 end;
 
 procedure TChromiumCore.SetWindowlessFrameRate(aValue : integer);
 begin
-  if Initialized then Browser.Host.SetWindowlessFrameRate(aValue);
+  if Initialized then
+    Browser.Host.SetWindowlessFrameRate(aValue);
 end;
 
 function TChromiumCore.GetCanGoBack : boolean;
@@ -2554,9 +2629,10 @@ end;
 
 function TChromiumCore.GetZoomLevel : double;
 begin
-  Result := 0;
-
-  if Initialized then Result := Browser.Host.ZoomLevel;
+  if Initialized then
+    Result := Browser.Host.ZoomLevel
+   else
+    Result := 0;
 end;
 
 function TChromiumCore.GetZoomPct : double;
@@ -2908,12 +2984,14 @@ end;
 
 procedure TChromiumCore.UpdateHostZoomLevel(const aValue : double);
 begin
-  if Initialized then Browser.Host.ZoomLevel := aValue;
+  if Initialized then
+    Browser.Host.ZoomLevel := aValue;
 end;
 
 procedure TChromiumCore.UpdateHostZoomPct(const aValue : double);
 begin
-  if (aValue > 0) then UpdateHostZoomLevel(LogN(1.2, aValue / 100));
+  if (aValue > 0) then
+    UpdateHostZoomLevel(LogN(1.2, aValue / 100));
 end;
 
 procedure TChromiumCore.SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
@@ -4175,7 +4253,8 @@ end;
 
 procedure TChromiumCore.doResolvedHostAvailable(result: TCefErrorCode; const resolvedIps: TStrings);
 begin
-  if assigned(FOnResolvedHostAvailable) then FOnResolvedHostAvailable(self, result, resolvedIps);
+  if assigned(FOnResolvedHostAvailable) then
+    FOnResolvedHostAvailable(self, result, resolvedIps);
 end;
 
 function TChromiumCore.doNavigationVisitorResultAvailable(const entry   : ICefNavigationEntry;
@@ -4199,27 +4278,32 @@ end;
 
 procedure TChromiumCore.doOnCookiesStoreFlushed;
 begin
-  if assigned(FOnCookiesFlushed) then FOnCookiesFlushed(self);
+  if assigned(FOnCookiesFlushed) then
+    FOnCookiesFlushed(self);
 end;
 
 procedure TChromiumCore.doCertificateExceptionsCleared;
 begin
-  if assigned(FOnCertificateExceptionsCleared) then FOnCertificateExceptionsCleared(self);
+  if assigned(FOnCertificateExceptionsCleared) then
+    FOnCertificateExceptionsCleared(self);
 end;
 
 procedure TChromiumCore.doHttpAuthCredentialsCleared;
 begin
-  if assigned(FOnHttpAuthCredentialsCleared) then FOnHttpAuthCredentialsCleared(self);
+  if assigned(FOnHttpAuthCredentialsCleared) then
+    FOnHttpAuthCredentialsCleared(self);
 end;
 
 procedure TChromiumCore.doAllConnectionsClosed;
 begin
-  if assigned(FOnAllConnectionsClosed) then FOnAllConnectionsClosed(self);
+  if assigned(FOnAllConnectionsClosed) then
+    FOnAllConnectionsClosed(self);
 end;
 
 procedure TChromiumCore.doOnExecuteTaskOnCefThread(aTaskID : cardinal);
 begin
-  if assigned(FOnExecuteTaskOnCefThread) then FOnExecuteTaskOnCefThread(self, aTaskID);
+  if assigned(FOnExecuteTaskOnCefThread) then
+    FOnExecuteTaskOnCefThread(self, aTaskID);
 end;
 
 procedure TChromiumCore.doOnCookiesVisited(const name_, value, domain, path: ustring;
@@ -4247,7 +4331,8 @@ end;
 
 procedure TChromiumCore.doOnCookieSet(aSuccess : boolean; aID : integer);
 begin
-  if assigned(FOnCookieSet) then FOnCookieSet(self, aSuccess, aID);
+  if assigned(FOnCookieSet) then
+    FOnCookieSet(self, aSuccess, aID);
 end;
 
 procedure TChromiumCore.doUpdateZoomStep(aInc : boolean);
@@ -4319,7 +4404,8 @@ begin
   finally
     FZoomStepCS.Release;
 
-    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, ZoomPct);
+    if assigned(FOnZoomPctAvailable) then
+      FOnZoomPctAvailable(self, ZoomPct);
   end;
 end;
 
@@ -4348,7 +4434,8 @@ begin
   finally
     FZoomStepCS.Release;
 
-    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, TempNewZoom);
+    if assigned(FOnZoomPctAvailable) then
+      FOnZoomPctAvailable(self, TempNewZoom);
   end;
 end;
 
@@ -4378,7 +4465,8 @@ begin
   finally
     FZoomStepCS.Release;
 
-    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, ZoomPct);
+    if assigned(FOnZoomPctAvailable) then
+      FOnZoomPctAvailable(self, ZoomPct);
   end;
 end;
 
@@ -4406,7 +4494,8 @@ begin
   finally
     FZoomStepCS.Release;
 
-    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, ZoomPct);
+    if assigned(FOnZoomPctAvailable) then
+      FOnZoomPctAvailable(self, ZoomPct);
   end;
 end;
 
@@ -4425,7 +4514,8 @@ begin
   finally
     FZoomStepCS.Release;
 
-    if assigned(FOnZoomPctAvailable) then FOnZoomPctAvailable(self, ZoomPct);
+    if assigned(FOnZoomPctAvailable) then
+      FOnZoomPctAvailable(self, ZoomPct);
   end;
 end;
 
@@ -4567,10 +4657,20 @@ begin
             assigned(FOnAudioStreamError);
 end;
 
+function TChromiumCore.MustCreateDevToolsMessageObserver : boolean;
+begin
+  Result := assigned(FOnDevToolsMessage) or
+            assigned(FOnDevToolsMethodResult) or
+            assigned(FOnDevToolsEvent) or
+            assigned(FOnDevToolsAgentAttached) or
+            assigned(FOnDevToolsAgentDetached);
+end;
+
 {$IFDEF MSWINDOWS}
 procedure TChromiumCore.PrefsAvailableMsg(aResultOK : boolean);
 begin
-  if assigned(FOnPrefsAvailable) then FOnPrefsAvailable(self, aResultOK);
+  if assigned(FOnPrefsAvailable) then
+    FOnPrefsAvailable(self, aResultOK);
 end;
 
 function TChromiumCore.SendCompMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
@@ -4581,7 +4681,8 @@ end;
 
 procedure TChromiumCore.doTextResultAvailable(const aText : ustring);
 begin
-  if assigned(FOnTextResultAvailable) then FOnTextResultAvailable(self, aText);
+  if assigned(FOnTextResultAvailable) then
+    FOnTextResultAvailable(self, aText);
 end;
 
 procedure TChromiumCore.ExecuteJavaScript(const aCode, aScriptURL, aFrameName : ustring; aStartLine : integer);
@@ -4639,12 +4740,14 @@ end;
 
 procedure TChromiumCore.doCookiesDeleted(numDeleted : integer);
 begin
-  if assigned(FOnCookiesDeleted) then FOnCookiesDeleted(self, numDeleted);
+  if assigned(FOnCookiesDeleted) then
+    FOnCookiesDeleted(self, numDeleted);
 end;
 
 procedure TChromiumCore.doPdfPrintFinished(aResultOK : boolean);
 begin
-  if assigned(FOnPdfPrintFinished) then FOnPdfPrintFinished(self, aResultOK);
+  if assigned(FOnPdfPrintFinished) then
+    FOnPdfPrintFinished(self, aResultOK);
 end;
 
 procedure TChromiumCore.ShowDevTools(const inspectElementAt: TPoint; aWindowInfo: PCefWindowInfo);
@@ -4696,8 +4799,29 @@ begin
         SetParent(GetWindow(aDevToolsWnd, GW_CHILD), 0);
       {$ENDIF}
 
-      if Initialized then Browser.Host.CloseDevTools;
+      Browser.Host.CloseDevTools;
     end;
+end;
+
+function TChromiumCore.SendDevToolsMessage(const message_: ustring): boolean;
+begin
+  Result := Initialized and Browser.Host.SendDevToolsMessage(message_);
+end;
+
+function TChromiumCore.ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
+begin
+  if Initialized then
+    Result := Browser.Host.ExecuteDevToolsMethod(message_id, method, params)
+   else
+    Result := 0;
+end;
+
+function TChromiumCore.AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
+begin
+  if Initialized then
+    Result := Browser.Host.AddDevToolsMessageObserver(observer)
+   else
+    Result := nil;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -4861,7 +4985,8 @@ begin
   if (FBrowsersCS <> nil) then
     try
       FBrowsersCS.Acquire;
-      if (FBrowsers <> nil) then FBrowsers.BrowserIsClosing[aID] := True;
+      if (FBrowsers <> nil) then
+        FBrowsers.BrowserIsClosing[aID] := True;
     finally
       FBrowsersCS.Release;
     end;
@@ -4882,7 +5007,8 @@ begin
   //             needs to execute some custom processes before closing the
   //             browser. This is usually needed to destroy a TCEFWindowParent
   //             in the main thread before closing the browser.
-  if Assigned(FOnClose) then FOnClose(Self, browser, TempAction);
+  if assigned(FOnClose) then
+    FOnClose(Self, browser, TempAction);
 
   case TempAction of
     cbaCancel : Result := True;
@@ -4910,24 +5036,31 @@ begin
       DestroyClientHandler;
     end;
 
-  if Assigned(FOnBeforeClose) then FOnBeforeClose(Self, browser);
+  if assigned(FOnBeforeClose) then
+    FOnBeforeClose(Self, browser);
 end;
 
 procedure TChromiumCore.doOnAddressChange(const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
 begin
-  if Assigned(FOnAddressChange) then FOnAddressChange(Self, browser, frame, url);
+  if assigned(FOnAddressChange) then
+    FOnAddressChange(Self, browser, frame, url);
 end;
 
 procedure TChromiumCore.doOnAfterCreated(const browser: ICefBrowser);
 begin
-  if MultithreadApp or MultiBrowserMode then AddBrowser(browser);
+  if MultithreadApp or MultiBrowserMode then
+    AddBrowser(browser);
 
   doUpdatePreferences(browser);
 
-  if (FMediaObserver <> nil) and (FRegistration = nil) then
-    FRegistration := AddObserver(FMediaObserver);
+  if (FMediaObserver <> nil) and (FMediaObserverReg = nil) then
+    FMediaObserverReg := AddObserver(FMediaObserver);
 
-  if Assigned(FOnAfterCreated) then FOnAfterCreated(Self, browser);
+  if (FDevToolsMsgObserver <> nil) and (FDevToolsMsgObserverReg = nil) then
+    FDevToolsMsgObserverReg := AddDevToolsMessageObserver(FDevToolsMsgObserver);
+
+  if assigned(FOnAfterCreated) then
+    FOnAfterCreated(Self, browser);
 end;
 
 function TChromiumCore.doOnBeforeBrowse(const browser      : ICefBrowser;
@@ -4938,9 +5071,11 @@ function TChromiumCore.doOnBeforeBrowse(const browser      : ICefBrowser;
 begin
   Result := False;
 
-  if FUpdatePreferences then doUpdatePreferences(browser);
+  if FUpdatePreferences then
+    doUpdatePreferences(browser);
 
-  if Assigned(FOnBeforeBrowse) then FOnBeforeBrowse(Self, browser, frame, request, user_gesture, isRedirect, Result);
+  if assigned(FOnBeforeBrowse) then
+    FOnBeforeBrowse(Self, browser, frame, request, user_gesture, isRedirect, Result);
 end;
 
 procedure TChromiumCore.doOnBeforeContextMenu(const browser : ICefBrowser;
@@ -4948,7 +5083,8 @@ procedure TChromiumCore.doOnBeforeContextMenu(const browser : ICefBrowser;
                                               const params  : ICefContextMenuParams;
                                               const model   : ICefMenuModel);
 begin
-  if Assigned(FOnBeforeContextMenu) then FOnBeforeContextMenu(Self, browser, frame, params, model);
+  if assigned(FOnBeforeContextMenu) then
+    FOnBeforeContextMenu(Self, browser, frame, params, model);
 end;
 
 function TChromiumCore.doRunContextMenu(const browser  : ICefBrowser;
@@ -4959,7 +5095,8 @@ function TChromiumCore.doRunContextMenu(const browser  : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnRunContextMenu) then FOnRunContextMenu(Self, browser, frame, params, model, callback, Result);
+  if assigned(FOnRunContextMenu) then
+    FOnRunContextMenu(Self, browser, frame, params, model, callback, Result);
 end;
 
 procedure TChromiumCore.doOnBeforeDownload(const browser       : ICefBrowser;
@@ -4967,7 +5104,8 @@ procedure TChromiumCore.doOnBeforeDownload(const browser       : ICefBrowser;
                                            const suggestedName : ustring;
                                            const callback      : ICefBeforeDownloadCallback);
 begin
-  if Assigned(FOnBeforeDownload) then FOnBeforeDownload(Self, browser, downloadItem, suggestedName, callback);
+  if assigned(FOnBeforeDownload) then
+    FOnBeforeDownload(Self, browser, downloadItem, suggestedName, callback);
 end;
 
 function TChromiumCore.doOnBeforePopup(const browser            : ICefBrowser;
@@ -4985,7 +5123,7 @@ function TChromiumCore.doOnBeforePopup(const browser            : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnBeforePopup) then
+  if assigned(FOnBeforePopup) then
     FOnBeforePopup(Self, browser, frame, targetUrl, targetFrameName,
                    targetDisposition, userGesture, popupFeatures, windowInfo, client,
                    settings, extra_info, noJavascriptAccess, Result);
@@ -5008,11 +5146,13 @@ begin
       TempHeaderMap := nil;
     end;
 
-  if not(FSendReferrer) then request.SetReferrer('', REFERRER_POLICY_NO_REFERRER);
+  if not(FSendReferrer) then
+    request.SetReferrer('', REFERRER_POLICY_NO_REFERRER);
 
   Result := RV_CONTINUE;
 
-  if Assigned(FOnBeforeResourceLoad) then FOnBeforeResourceLoad(Self, browser, frame, request, callback, Result);
+  if assigned(FOnBeforeResourceLoad) then
+    FOnBeforeResourceLoad(Self, browser, frame, request, callback, Result);
 end;
 
 function TChromiumCore.doOnBeforeUnloadDialog(const browser     : ICefBrowser;
@@ -5022,7 +5162,8 @@ function TChromiumCore.doOnBeforeUnloadDialog(const browser     : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnBeforeUnloadDialog) then FOnBeforeUnloadDialog(Self, browser, messageText, isReload, callback, Result);
+  if assigned(FOnBeforeUnloadDialog) then
+    FOnBeforeUnloadDialog(Self, browser, messageText, isReload, callback, Result);
 end;
 
 function TChromiumCore.doOnCertificateError(const browser    : ICefBrowser;
@@ -5033,7 +5174,7 @@ function TChromiumCore.doOnCertificateError(const browser    : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnCertificateError) then
+  if assigned(FOnCertificateError) then
     FOnCertificateError(Self, browser, certError, requestUrl, sslInfo, callback, Result);
 end;
 
@@ -5045,7 +5186,8 @@ function TChromiumCore.doOnConsoleMessage(const browser  : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnConsoleMessage) then FOnConsoleMessage(Self, browser, level, aMessage, source, line, Result);
+  if assigned(FOnConsoleMessage) then
+    FOnConsoleMessage(Self, browser, level, aMessage, source, line, Result);
 end;
 
 function TChromiumCore.doOnAutoResize(const browser  : ICefBrowser;
@@ -5053,12 +5195,14 @@ function TChromiumCore.doOnAutoResize(const browser  : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnAutoResize) then FOnAutoResize(Self, browser, new_size, Result);
+  if assigned(FOnAutoResize) then
+    FOnAutoResize(Self, browser, new_size, Result);
 end;
 
 procedure TChromiumCore.doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
 begin
-  if assigned(FOnLoadingProgressChange) then FOnLoadingProgressChange(self, browser, progress);
+  if assigned(FOnLoadingProgressChange) then
+    FOnLoadingProgressChange(self, browser, progress);
 end;
 
 function TChromiumCore.doOnContextMenuCommand(const browser    : ICefBrowser;
@@ -5069,13 +5213,14 @@ function TChromiumCore.doOnContextMenuCommand(const browser    : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnContextMenuCommand) then
+  if assigned(FOnContextMenuCommand) then
     FOnContextMenuCommand(Self, browser, frame, params, commandId, eventFlags, Result);
 end;
 
 procedure TChromiumCore.doOnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
 begin
-  if Assigned(FOnContextMenuDismissed) then FOnContextMenuDismissed(Self, browser, frame);
+  if assigned(FOnContextMenuDismissed) then
+    FOnContextMenuDismissed(Self, browser, frame);
 end;
 
 procedure TChromiumCore.doOnCursorChange(const browser          : ICefBrowser;
@@ -5083,19 +5228,22 @@ procedure TChromiumCore.doOnCursorChange(const browser          : ICefBrowser;
                                                cursorType       : TCefCursorType;
                                          const customCursorInfo : PCefCursorInfo);
 begin
-  if assigned(FOnCursorChange) then FOnCursorChange(self, browser, cursor, cursorType, customCursorInfo);
+  if assigned(FOnCursorChange) then
+    FOnCursorChange(self, browser, cursor, cursorType, customCursorInfo);
 end;
 
 procedure TChromiumCore.doOnDialogClosed(const browser: ICefBrowser);
 begin
-  if Assigned(FOnDialogClosed) then FOnDialogClosed(Self, browser);
+  if assigned(FOnDialogClosed) then
+    FOnDialogClosed(Self, browser);
 end;
 
 procedure TChromiumCore.doOnDownloadUpdated(const browser      : ICefBrowser;
                                             const downloadItem : ICefDownloadItem;
                                             const callback     : ICefDownloadItemCallback);
 begin
-  if Assigned(FOnDownloadUpdated) then FOnDownloadUpdated(Self, browser, downloadItem, callback);
+  if assigned(FOnDownloadUpdated) then
+    FOnDownloadUpdated(Self, browser, downloadItem, callback);
 end;
 
 function TChromiumCore.doOnDragEnter(const browser  : ICefBrowser;
@@ -5104,7 +5252,8 @@ function TChromiumCore.doOnDragEnter(const browser  : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnDragEnter) then FOnDragEnter(Self, browser, dragData, mask, Result);
+  if assigned(FOnDragEnter) then
+    FOnDragEnter(Self, browser, dragData, mask, Result);
 end;
 
 procedure TChromiumCore.doOnDraggableRegionsChanged(const browser      : ICefBrowser;
@@ -5112,12 +5261,14 @@ procedure TChromiumCore.doOnDraggableRegionsChanged(const browser      : ICefBro
                                                           regionsCount : NativeUInt;
                                                     const regions      : PCefDraggableRegionArray);
 begin
-  if Assigned(FOnDraggableRegionsChanged) then FOnDraggableRegionsChanged(Self, browser, frame, regionsCount, regions);
+  if assigned(FOnDraggableRegionsChanged) then
+    FOnDraggableRegionsChanged(Self, browser, frame, regionsCount, regions);
 end;
 
 procedure TChromiumCore.doOnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
 begin
-  if Assigned(FOnFavIconUrlChange) then FOnFavIconUrlChange(Self, browser, iconUrls);
+  if assigned(FOnFavIconUrlChange) then
+    FOnFavIconUrlChange(Self, browser, iconUrls);
 end;
 
 function TChromiumCore.doOnFileDialog(const browser              : ICefBrowser;
@@ -5130,7 +5281,7 @@ function TChromiumCore.doOnFileDialog(const browser              : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnFileDialog) then
+  if assigned(FOnFileDialog) then
     FOnFileDialog(Self, browser, mode, title, defaultFilePath, acceptFilters,
                   selectedAcceptFilter, callback, Result);
 end;
@@ -5142,13 +5293,14 @@ procedure TChromiumCore.doOnFindResult(const browser            : ICefBrowser;
                                              activeMatchOrdinal : Integer;
                                              finalUpdate        : Boolean);
 begin
-  if Assigned(FOnFindResult) then
+  if assigned(FOnFindResult) then
     FOnFindResult(Self, browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
 end;
 
 procedure TChromiumCore.doOnRequestContextInitialized(const request_context: ICefRequestContext);
 begin
-  if assigned(FOnRequestContextInitialized) then FOnRequestContextInitialized(self, request_context);
+  if assigned(FOnRequestContextInitialized) then
+    FOnRequestContextInitialized(self, request_context);
 end;
 
 function TChromiumCore.doOnBeforePluginLoad(const mimeType     : ustring;
@@ -5176,7 +5328,7 @@ begin
   if (FResourceRequestHandler <> nil) then
     aResourceRequestHandler := FResourceRequestHandler;
 
-  if Assigned(FOnGetResourceRequestHandler_ReqCtxHdlr) then
+  if assigned(FOnGetResourceRequestHandler_ReqCtxHdlr) then
     FOnGetResourceRequestHandler_ReqCtxHdlr(self, browser, frame, request, is_navigation, is_download,
                                             request_initiator, disable_default_handling,
                                             aResourceRequestHandler);
@@ -5246,10 +5398,49 @@ begin
     FOnAudioStreamError(self, browser, message_);
 end;
 
+// ICefDevToolsMessageObserver
+procedure TChromiumCore.doOnDevToolsMessage(const browser      : ICefBrowser;
+                                            const message_     : ICefValue;
+                                            var   aHandled     : boolean);
+begin
+  aHandled := False;
+
+  if assigned(FOnDevToolsMessage) then
+    FOnDevToolsMessage(self, browser, message_, aHandled);
+end;
+
+procedure TChromiumCore.doOnDevToolsMethodResult(const browser     : ICefBrowser;
+                                                       message_id  : integer;
+                                                       success     : boolean;
+                                                 const result      : ICefValue);
+begin
+  if assigned(FOnDevToolsMethodResult) then
+    FOnDevToolsMethodResult(self, browser, message_id, success, result);
+end;
+
+procedure TChromiumCore.doOnDevToolsEvent(const method : ustring;
+                                          const params : ICefValue);
+begin
+  if assigned(FOnDevToolsEvent) then
+    FOnDevToolsEvent(self, method, params);
+end;
+
+procedure TChromiumCore.doOnDevToolsAgentAttached(const browser: ICefBrowser);
+begin
+  if assigned(FOnDevToolsAgentAttached) then
+    FOnDevToolsAgentAttached(self, browser);
+end;
+
+procedure TChromiumCore.doOnDevToolsAgentDetached(const browser: ICefBrowser);
+begin
+  if assigned(FOnDevToolsAgentDetached) then
+    FOnDevToolsAgentDetached(self, browser);
+end;
+
 procedure TChromiumCore.doOnFullScreenModeChange(const browser    : ICefBrowser;
                                                        fullscreen : Boolean);
 begin
-  if Assigned(FOnFullScreenModeChange) then
+  if assigned(FOnFullScreenModeChange) then
     FOnFullScreenModeChange(Self, browser, fullscreen);
 end;
 
@@ -5270,7 +5461,7 @@ begin
       callback.cont(FProxyUsername, FProxyPassword);
     end
    else
-    if Assigned(FOnGetAuthCredentials) then
+    if assigned(FOnGetAuthCredentials) then
       FOnGetAuthCredentials(Self, browser, originUrl, isProxy, host, port, realm, scheme, callback, Result);
 end;
 
@@ -5281,7 +5472,8 @@ function TChromiumCore.doCanSendCookie(const browser : ICefBrowser;
 begin
   Result := True;
 
-  if assigned(FOnCanSendCookie) then FOnCanSendCookie(self, browser, frame, request, cookie, Result);
+  if assigned(FOnCanSendCookie) then
+    FOnCanSendCookie(self, browser, frame, request, cookie, Result);
 end;
 
 function TChromiumCore.doCanSaveCookie(const browser  : ICefBrowser;
@@ -5292,7 +5484,8 @@ function TChromiumCore.doCanSaveCookie(const browser  : ICefBrowser;
 begin
   Result := True;
 
-  if assigned(FOnCanSaveCookie) then FOnCanSaveCookie(self, browser, frame, request, response, cookie, Result);
+  if assigned(FOnCanSaveCookie) then
+    FOnCanSaveCookie(self, browser, frame, request, response, cookie, Result);
 end;
 
 procedure TChromiumCore.doOnGetResourceHandler(const browser          : ICefBrowser;
@@ -5302,44 +5495,50 @@ procedure TChromiumCore.doOnGetResourceHandler(const browser          : ICefBrow
 begin
   aResourceHandler := nil;
 
-  if Assigned(FOnGetResourceHandler) then
+  if assigned(FOnGetResourceHandler) then
     FOnGetResourceHandler(Self, browser, frame, request, aResourceHandler);
 end;
 
 procedure TChromiumCore.doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
 begin
-  if assigned(FOnGetAccessibilityHandler) then FOnGetAccessibilityHandler(Self, aAccessibilityHandler);
+  if assigned(FOnGetAccessibilityHandler) then
+    FOnGetAccessibilityHandler(Self, aAccessibilityHandler);
 end;
 
 function TChromiumCore.doOnGetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
 begin
   Result := False;
 
-  if Assigned(FOnGetRootScreenRect) then FOnGetRootScreenRect(Self, browser, rect, Result);
+  if assigned(FOnGetRootScreenRect) then
+    FOnGetRootScreenRect(Self, browser, rect, Result);
 end;
 
 function TChromiumCore.doOnGetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
 begin
   Result := False;
 
-  if Assigned(FOnGetScreenInfo) then FOnGetScreenInfo(Self, browser, screenInfo, Result);
+  if assigned(FOnGetScreenInfo) then
+    FOnGetScreenInfo(Self, browser, screenInfo, Result);
 end;
 
 function TChromiumCore.doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
 begin
   Result := False;
 
-  if Assigned(FOnGetScreenPoint) then FOnGetScreenPoint(Self, browser, viewX, viewY, screenX, screenY, Result);
+  if assigned(FOnGetScreenPoint) then
+    FOnGetScreenPoint(Self, browser, viewX, viewY, screenX, screenY, Result);
 end;
 
 procedure TChromiumCore.doOnGetViewRect(const browser: ICefBrowser; var rect: TCefRect);
 begin
-  if Assigned(FOnGetViewRect) then FOnGetViewRect(Self, browser, rect);
+  if assigned(FOnGetViewRect) then
+    FOnGetViewRect(Self, browser, rect);
 end;
 
 procedure TChromiumCore.doOnGotFocus(const browser: ICefBrowser);
 begin
-  if Assigned(FOnGotFocus) then FOnGotFocus(Self, browser)
+  if assigned(FOnGotFocus) then
+    FOnGotFocus(Self, browser)
 end;
 
 function TChromiumCore.doOnJsdialog(const browser           : ICefBrowser;
@@ -5358,7 +5557,7 @@ begin
     begin
       suppressMessage := False;
 
-      if Assigned(FOnJsdialog) then
+      if assigned(FOnJsdialog) then
         FOnJsdialog(Self, browser, originUrl, dialogType, messageText,
                     defaultPromptText, callback, suppressMessage, Result);
     end;
@@ -5370,14 +5569,16 @@ function TChromiumCore.doOnKeyEvent(const browser : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnKeyEvent) then FOnKeyEvent(Self, browser, event, osEvent, Result);
+  if assigned(FOnKeyEvent) then
+    FOnKeyEvent(Self, browser, event, osEvent, Result);
 end;
 
 procedure TChromiumCore.doOnLoadEnd(const browser        : ICefBrowser;
                                     const frame          : ICefFrame;
                                           httpStatusCode : Integer);
 begin
-  if Assigned(FOnLoadEnd) then FOnLoadEnd(Self, browser, frame, httpStatusCode);
+  if assigned(FOnLoadEnd) then
+    FOnLoadEnd(Self, browser, frame, httpStatusCode);
 end;
 
 procedure TChromiumCore.doOnLoadError(const browser   : ICefBrowser;
@@ -5386,17 +5587,20 @@ procedure TChromiumCore.doOnLoadError(const browser   : ICefBrowser;
                                       const errorText : ustring;
                                       const failedUrl : ustring);
 begin
-  if Assigned(FOnLoadError) then FOnLoadError(Self, browser, frame, errorCode, errorText, failedUrl);
+  if assigned(FOnLoadError) then
+    FOnLoadError(Self, browser, frame, errorCode, errorText, failedUrl);
 end;
 
 procedure TChromiumCore.doOnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
-  if Assigned(FOnLoadingStateChange) then FOnLoadingStateChange(Self, browser, isLoading, canGoBack, canGoForward);
+  if assigned(FOnLoadingStateChange) then
+    FOnLoadingStateChange(Self, browser, isLoading, canGoBack, canGoForward);
 end;
 
 procedure TChromiumCore.doOnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
 begin
-  if Assigned(FOnLoadStart) then FOnLoadStart(Self, browser, frame, transitionType);
+  if assigned(FOnLoadStart) then
+    FOnLoadStart(Self, browser, frame, transitionType);
 end;
 
 function TChromiumCore.doOnOpenUrlFromTab(const browser           : ICefBrowser;
@@ -5407,7 +5611,7 @@ function TChromiumCore.doOnOpenUrlFromTab(const browser           : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnOpenUrlFromTab) then
+  if assigned(FOnOpenUrlFromTab) then
     FOnOpenUrlFromTab(Self, browser, frame, targetUrl, targetDisposition, userGesture, Result);
 end;
 
@@ -5423,7 +5627,7 @@ begin
   if (FResourceRequestHandler <> nil) then
     aResourceRequestHandler := FResourceRequestHandler;
 
-  if Assigned(FOnGetResourceRequestHandler_ReqHdlr) then
+  if assigned(FOnGetResourceRequestHandler_ReqHdlr) then
     FOnGetResourceRequestHandler_ReqHdlr(self, browser, frame, request, is_navigation, is_download,
                                          request_initiator, disable_default_handling,
                                          aResourceRequestHandler);
@@ -5437,7 +5641,8 @@ procedure TChromiumCore.doOnPaint(const browser         : ICefBrowser;
                                         width           : Integer;
                                         height          : Integer);
 begin
-  if Assigned(FOnPaint) then FOnPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, buffer, width, height);
+  if assigned(FOnPaint) then
+    FOnPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, buffer, width, height);
 end;
 
 procedure TChromiumCore.doOnAcceleratedPaint(const browser         : ICefBrowser;
@@ -5446,7 +5651,8 @@ procedure TChromiumCore.doOnAcceleratedPaint(const browser         : ICefBrowser
                                              const dirtyRects      : PCefRectArray;
                                                    shared_handle   : Pointer);
 begin
-  if Assigned(FOnAcceleratedPaint) then FOnAcceleratedPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, shared_handle);
+  if assigned(FOnAcceleratedPaint) then
+    FOnAcceleratedPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, shared_handle);
 end;
 
 function TChromiumCore.doOnSelectClientCertificate(const browser           : ICefBrowser;
@@ -5465,46 +5671,51 @@ end;
 
 procedure TChromiumCore.doOnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
 begin
-  if Assigned(FOnPluginCrashed) then FOnPluginCrashed(Self, browser, pluginPath);
+  if assigned(FOnPluginCrashed) then
+    FOnPluginCrashed(Self, browser, pluginPath);
 end;
 
 procedure TChromiumCore.doOnPopupShow(const browser: ICefBrowser; show: Boolean);
 begin
-  if assigned(FOnPopupShow) then FOnPopupShow(self, browser, show);
+  if assigned(FOnPopupShow) then
+    FOnPopupShow(self, browser, show);
 end;
 
 procedure TChromiumCore.doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
 begin
-  if assigned(FOnPopupSize) then FOnPopupSize(self, browser, rect);
+  if assigned(FOnPopupSize) then
+    FOnPopupSize(self, browser, rect);
 end;
 
 function TChromiumCore.doOnPreKeyEvent(const browser            : ICefBrowser;
-                                   const event              : PCefKeyEvent;
-                                         osEvent            : TCefEventHandle;
-                                   out   isKeyboardShortcut : Boolean): Boolean;
+                                       const event              : PCefKeyEvent;
+                                             osEvent            : TCefEventHandle;
+                                       out   isKeyboardShortcut : Boolean): Boolean;
 begin
   Result := False;
 
-  if Assigned(FOnPreKeyEvent) then FOnPreKeyEvent(Self, browser, event, osEvent, isKeyboardShortcut, Result);
+  if assigned(FOnPreKeyEvent) then
+    FOnPreKeyEvent(Self, browser, event, osEvent, isKeyboardShortcut, Result);
 end;
 
 function TChromiumCore.doOnProcessMessageReceived(const browser       : ICefBrowser;
-                                              const frame         : ICefFrame;
-                                                    sourceProcess : TCefProcessId;
-                                              const aMessage      : ICefProcessMessage): Boolean;
+                                                  const frame         : ICefFrame;
+                                                        sourceProcess : TCefProcessId;
+                                                  const aMessage      : ICefProcessMessage): Boolean;
 begin
   Result := False;
 
-  if Assigned(FOnProcessMessageReceived) then
+  if assigned(FOnProcessMessageReceived) then
     FOnProcessMessageReceived(Self, browser, frame, sourceProcess, aMessage, Result);
 end;
 
 procedure TChromiumCore.doOnProtocolExecution(const browser          : ICefBrowser;
-                                          const frame            : ICefFrame;
-                                          const request          : ICefRequest;
-                                          var   allowOsExecution : Boolean);
+                                              const frame            : ICefFrame;
+                                              const request          : ICefRequest;
+                                              var   allowOsExecution : Boolean);
 begin
-  if Assigned(FOnProtocolExecution) then FOnProtocolExecution(Self, browser, frame, request, allowOsExecution);
+  if assigned(FOnProtocolExecution) then
+    FOnProtocolExecution(Self, browser, frame, request, allowOsExecution);
 end;
 
 function TChromiumCore.doOnQuotaRequest(const browser   : ICefBrowser;
@@ -5514,12 +5725,20 @@ function TChromiumCore.doOnQuotaRequest(const browser   : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnQuotaRequest) then FOnQuotaRequest(Self, browser, originUrl, newSize, callback, Result);
+  if assigned(FOnQuotaRequest) then
+    FOnQuotaRequest(Self, browser, originUrl, newSize, callback, Result);
 end;
 
 procedure TChromiumCore.doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
 begin
-  if Assigned(FOnRenderProcessTerminated) then FOnRenderProcessTerminated(Self, browser, status);
+  if assigned(FOnRenderProcessTerminated) then
+    FOnRenderProcessTerminated(Self, browser, status);
+end;
+
+procedure TChromiumCore.doOnDocumentAvailableInMainFrame(const browser: ICefBrowser);
+begin
+  if assigned(FOnDocumentAvailableInMainFrame) then
+    FOnDocumentAvailableInMainFrame(Self, browser);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -5597,12 +5816,14 @@ begin
       {$ENDIF}
     end;
 
-  if Assigned(FOnRenderViewReady) then FOnRenderViewReady(Self, browser);
+  if assigned(FOnRenderViewReady) then
+    FOnRenderViewReady(Self, browser);
 end;
 
 procedure TChromiumCore.doOnResetDialogState(const browser: ICefBrowser);
 begin
-  if Assigned(FOnResetDialogState) then FOnResetDialogState(Self, browser);
+  if assigned(FOnResetDialogState) then
+    FOnResetDialogState(Self, browser);
 end;
 
 procedure TChromiumCore.doOnResourceRedirect(const browser  : ICefBrowser;
@@ -5611,7 +5832,8 @@ procedure TChromiumCore.doOnResourceRedirect(const browser  : ICefBrowser;
                                              const response : ICefResponse;
                                              var   newUrl   : ustring);
 begin
-  if Assigned(FOnResourceRedirect) then FOnResourceRedirect(Self, browser, frame, request, response, newUrl);
+  if assigned(FOnResourceRedirect) then
+    FOnResourceRedirect(Self, browser, frame, request, response, newUrl);
 end;
 
 function TChromiumCore.doOnResourceResponse(const browser  : ICefBrowser;
@@ -5621,7 +5843,8 @@ function TChromiumCore.doOnResourceResponse(const browser  : ICefBrowser;
 begin
   Result := False;
 
-  if Assigned(FOnResourceResponse) then FOnResourceResponse(Self, browser, frame, request, response, Result);
+  if assigned(FOnResourceResponse) then
+    FOnResourceResponse(Self, browser, frame, request, response, Result);
 end;
 
 procedure TChromiumCore.doOnGetResourceResponseFilter(const browser         : ICefBrowser;
@@ -5632,7 +5855,7 @@ procedure TChromiumCore.doOnGetResourceResponseFilter(const browser         : IC
 begin
   aResponseFilter := nil;
 
-  if Assigned(FOnGetResourceResponseFilter) then
+  if assigned(FOnGetResourceResponseFilter) then
     FOnGetResourceResponseFilter(self, browser, frame, request, response, aResponseFilter);
 end;
 
@@ -5643,13 +5866,14 @@ procedure TChromiumCore.doOnResourceLoadComplete(const browser               : I
                                                        status                : TCefUrlRequestStatus;
                                                        receivedContentLength : Int64);
 begin
-  if Assigned(FOnResourceLoadComplete) then
+  if assigned(FOnResourceLoadComplete) then
     FOnResourceLoadComplete(self, browser, frame, request, response, status, receivedContentLength);
 end;
 
 procedure TChromiumCore.doOnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
 begin
-  if Assigned(FOnScrollOffsetChanged) then FOnScrollOffsetChanged(Self, browser, x, y);
+  if assigned(FOnScrollOffsetChanged) then
+    FOnScrollOffsetChanged(Self, browser, x, y);
 end;
 
 procedure TChromiumCore.doOnIMECompositionRangeChanged(const browser               : ICefBrowser;
@@ -5680,7 +5904,8 @@ function TChromiumCore.doOnSetFocus(const browser: ICefBrowser; source: TCefFocu
 begin
   Result := False;
 
-  if Assigned(FOnSetFocus) then FOnSetFocus(Self, browser, source, Result);
+  if assigned(FOnSetFocus) then
+    FOnSetFocus(Self, browser, source, Result);
 end;
 
 function TChromiumCore.doOnStartDragging(const browser    : ICefBrowser;
@@ -5698,7 +5923,8 @@ begin
       SendCompMessage(CEF_STARTDRAGGING);
     end;
 
-  if Assigned(FOnStartDragging) then FOnStartDragging(Self, browser, dragData, allowedOps, x, y, Result);
+  if assigned(FOnStartDragging) then
+    FOnStartDragging(Self, browser, dragData, allowedOps, x, y, Result);
   {$ENDIF}
 end;
 
@@ -5728,51 +5954,60 @@ end;
 
 procedure TChromiumCore.doOnStatusMessage(const browser: ICefBrowser; const value: ustring);
 begin
-  if Assigned(FOnStatusMessage) then FOnStatusMessage(Self, browser, value);
+  if assigned(FOnStatusMessage) then
+    FOnStatusMessage(Self, browser, value);
 end;
 
 procedure TChromiumCore.doOnTakeFocus(const browser: ICefBrowser; next: Boolean);
 begin
-  if Assigned(FOnTakeFocus) then FOnTakeFocus(Self, browser, next);
+  if assigned(FOnTakeFocus) then
+    FOnTakeFocus(Self, browser, next);
 end;
 
 procedure TChromiumCore.doOnTitleChange(const browser: ICefBrowser; const title: ustring);
 begin
-  if Assigned(FOnTitleChange) then FOnTitleChange(Self, browser, title);
+  if assigned(FOnTitleChange) then
+    FOnTitleChange(Self, browser, title);
 end;
 
 function TChromiumCore.doOnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
 begin
   Result := False;
 
-  if Assigned(FOnTooltip) then FOnTooltip(Self, browser, text, Result);
+  if assigned(FOnTooltip) then
+    FOnTooltip(Self, browser, text, Result);
 end;
 
 procedure TChromiumCore.doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
 begin
   if FDragAndDropInitialized then FDragOperations := operation;
 
-  if Assigned(FOnUpdateDragCursor) then FOnUpdateDragCursor(Self, browser, operation);
+  if assigned(FOnUpdateDragCursor) then
+    FOnUpdateDragCursor(Self, browser, operation);
 end;
 
 procedure TChromiumCore.WasResized;
 begin
-  if Initialized then Browser.Host.WasResized;
+  if Initialized then
+    Browser.Host.WasResized;
 end;
 
 procedure TChromiumCore.WasHidden(hidden: Boolean);
 begin
-  if Initialized then Browser.Host.WasHidden(hidden);
+  if Initialized then
+    Browser.Host.WasHidden(hidden);
 end;
 
 procedure TChromiumCore.NotifyScreenInfoChanged;
 begin
-  if Initialized then Browser.Host.NotifyScreenInfoChanged;
+  if Initialized then
+    Browser.Host.NotifyScreenInfoChanged;
 end;
 
 procedure TChromiumCore.NotifyMoveOrResizeStarted;
 begin
-  if Initialized then Browser.Host.NotifyMoveOrResizeStarted;
+  if Initialized then
+    Browser.Host.NotifyMoveOrResizeStarted;
 end;
 
 procedure TChromiumCore.Invalidate(type_: TCefPaintElementType);
@@ -5793,12 +6028,14 @@ end;
 
 procedure TChromiumCore.SendExternalBeginFrame;
 begin
-  if Initialized then Browser.Host.SendExternalBeginFrame;
+  if Initialized then
+    Browser.Host.SendExternalBeginFrame;
 end;
 
 procedure TChromiumCore.SendKeyEvent(const event: PCefKeyEvent);
 begin
-  if Initialized then Browser.Host.SendKeyEvent(event);
+  if Initialized then
+    Browser.Host.SendKeyEvent(event);
 end;
 
 procedure TChromiumCore.SendMouseClickEvent(const event      : PCefMouseEvent;
@@ -5806,42 +6043,50 @@ procedure TChromiumCore.SendMouseClickEvent(const event      : PCefMouseEvent;
                                                   mouseUp    : Boolean;
                                                   clickCount : Integer);
 begin
-  if Initialized then Browser.Host.SendMouseClickEvent(event, type_, mouseUp, clickCount);
+  if Initialized then
+    Browser.Host.SendMouseClickEvent(event, type_, mouseUp, clickCount);
 end;
 
 procedure TChromiumCore.SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
 begin
-  if Initialized then Browser.Host.SendMouseMoveEvent(event, mouseLeave);
+  if Initialized then
+    Browser.Host.SendMouseMoveEvent(event, mouseLeave);
 end;
 
 procedure TChromiumCore.SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
 begin
-  if Initialized then Browser.Host.SendMouseWheelEvent(event, deltaX, deltaY);
+  if Initialized then
+    Browser.Host.SendMouseWheelEvent(event, deltaX, deltaY);
 end;
 
 procedure TChromiumCore.SendTouchEvent(const event: PCefTouchEvent);
 begin
-  if Initialized then Browser.Host.SendTouchEvent(event);
+  if Initialized then
+    Browser.Host.SendTouchEvent(event);
 end;
 
 procedure TChromiumCore.SendFocusEvent(setFocus: Boolean);
 begin
-  if Initialized then Browser.Host.SendFocusEvent(setFocus);
+  if Initialized then
+    Browser.Host.SendFocusEvent(setFocus);
 end;
 
 procedure TChromiumCore.SendCaptureLostEvent;
 begin
-  if Initialized then Browser.Host.SendCaptureLostEvent;
+  if Initialized then
+    Browser.Host.SendCaptureLostEvent;
 end;
 
 procedure TChromiumCore.SetFocus(focus: Boolean);
 begin
-  if Initialized then Browser.Host.SetFocus(focus);
+  if Initialized then
+    Browser.Host.SetFocus(focus);
 end;
 
 procedure TChromiumCore.SetAccessibilityState(accessibilityState: TCefState);
 begin
-  if Initialized then Browser.Host.SetAccessibilityState(accessibilityState);
+  if Initialized then
+    Browser.Host.SetAccessibilityState(accessibilityState);
 end;
 
 procedure TChromiumCore.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameName : ustring);
@@ -5958,32 +6203,38 @@ end;
 
 procedure TChromiumCore.DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);
 begin
-  if Initialized then Browser.Host.DragTargetDragEnter(dragData, event, allowedOps);
+  if Initialized then
+    Browser.Host.DragTargetDragEnter(dragData, event, allowedOps);
 end;
 
 procedure TChromiumCore.DragTargetDragOver(const event: PCefMouseEvent; allowedOps: TCefDragOperations);
 begin
-  if Initialized then Browser.Host.DragTargetDragOver(event, allowedOps);
+  if Initialized then
+    Browser.Host.DragTargetDragOver(event, allowedOps);
 end;
 
 procedure TChromiumCore.DragTargetDragLeave;
 begin
-  if Initialized then Browser.Host.DragTargetDragLeave;
+  if Initialized then
+    Browser.Host.DragTargetDragLeave;
 end;
 
 procedure TChromiumCore.DragTargetDrop(const event: PCefMouseEvent);
 begin
-  if Initialized then Browser.Host.DragTargetDrop(event);
+  if Initialized then
+    Browser.Host.DragTargetDrop(event);
 end;
 
 procedure TChromiumCore.DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
 begin
-  if Initialized then Browser.Host.DragSourceEndedAt(x, y, op);
+  if Initialized then
+    Browser.Host.DragSourceEndedAt(x, y, op);
 end;
 
 procedure TChromiumCore.DragSourceSystemDragEnded;
 begin
-  if Initialized then Browser.Host.DragSourceSystemDragEnded;
+  if Initialized then
+    Browser.Host.DragSourceSystemDragEnded;
 end;
 
 procedure TChromiumCore.IMESetComposition(const text              : ustring;
@@ -6005,12 +6256,14 @@ end;
 
 procedure TChromiumCore.IMEFinishComposingText(keep_selection : boolean);
 begin
-  if Initialized then Browser.Host.IMEFinishComposingText(keep_selection);
+  if Initialized then
+    Browser.Host.IMEFinishComposingText(keep_selection);
 end;
 
 procedure TChromiumCore.IMECancelComposition;
 begin
-  if Initialized then Browser.Host.IMECancelComposition;
+  if Initialized then
+    Browser.Host.IMECancelComposition;
 end;
 
 // ICefMediaRouter methods

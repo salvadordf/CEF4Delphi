@@ -110,15 +110,16 @@ type
 
   // ICefRequestHandler
   TOnBeforeBrowse                 = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean; out Result: Boolean) of object;
-  TOnOpenUrlFromTab               = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean) of Object;
+  TOnOpenUrlFromTab               = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean) of object;
   TOnGetAuthCredentials           = procedure(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; out Result: Boolean) of object;
   TOnQuotaRequest                 = procedure(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback; out Result: Boolean) of object;
-  TOnCertificateError             = procedure(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback; out Result: Boolean) of Object;
+  TOnCertificateError             = procedure(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback; out Result: Boolean) of object;
   TOnSelectClientCertificate      = procedure(Sender: TObject; const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult : boolean) of object;
   TOnPluginCrashed                = procedure(Sender: TObject; const browser: ICefBrowser; const pluginPath: ustring) of object;
-  TOnRenderViewReady              = procedure(Sender: Tobject; const browser: ICefBrowser) of Object;
+  TOnRenderViewReady              = procedure(Sender: Tobject; const browser: ICefBrowser) of object;
   TOnRenderProcessTerminated      = procedure(Sender: TObject; const browser: ICefBrowser; status: TCefTerminationStatus) of object;
   TOnGetResourceRequestHandler    = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aExternalResourceRequestHandler : ICefResourceRequestHandler) of object;
+  TOnDocumentAvailableInMainFrame = procedure(Sender: Tobject; const browser: ICefBrowser) of object;
 
   // ICefResourceRequestHandler
   TOnBeforeResourceLoad           = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback; out Result: TCefReturnValue) of object;
@@ -178,6 +179,13 @@ type
   TOnAudioStreamPacketEvent       = procedure(Sender: TObject; const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64) of object;
   TOnAudioStreamStoppedEvent      = procedure(Sender: TObject; const browser: ICefBrowser) of object;
   TOnAudioStreamErrorEvent        = procedure(Sender: TObject; const browser: ICefBrowser; const message_: ustring) of object;
+
+  // ICefDevToolsMessageObserver
+  TOnDevToolsMessageEvent         = procedure(Sender: TObject; const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean) of object;
+  TOnDevToolsMethodResultEvent    = procedure(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue) of object;
+  TOnDevToolsEventEvent           = procedure(Sender: TObject; const method: ustring; const params: ICefValue) of object;
+  TOnDevToolsAgentAttachedEvent   = procedure(Sender: TObject; const browser: ICefBrowser) of object;
+  TOnDevToolsAgentDetachedEvent   = procedure(Sender: TObject; const browser: ICefBrowser) of object;
 
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;

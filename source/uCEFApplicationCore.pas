@@ -61,14 +61,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 83;
-  CEF_SUPPORTED_VERSION_MINOR   = 3;
-  CEF_SUPPORTED_VERSION_RELEASE = 12;
+  CEF_SUPPORTED_VERSION_MINOR   = 4;
+  CEF_SUPPORTED_VERSION_RELEASE = 0;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 83;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 4103;
-  CEF_CHROMEELF_VERSION_BUILD   = 97;
+  CEF_CHROMEELF_VERSION_BUILD   = 106;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -169,6 +169,7 @@ type
       FAllowRunningInsecureContent   : boolean;
       FSupportedSchemes              : TStringList;
       FDisableNewBrowserInfoTimeout  : boolean;
+      FDevToolsProtocolLogFile       : ustring;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : string;
@@ -440,6 +441,7 @@ type
       property DisableReadingFromCanvas          : boolean                             read FDisableReadingFromCanvas          write FDisableReadingFromCanvas;         // --disable-reading-from-canvas
       property HyperlinkAuditing                 : boolean                             read FHyperlinkAuditing                 write FHyperlinkAuditing;                // --no-pings
       property DisableNewBrowserInfoTimeout      : boolean                             read FDisableNewBrowserInfoTimeout      write FDisableNewBrowserInfoTimeout;     // --disable-new-browser-info-timeout
+      property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;          // --devtools-protocol-log-file
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -674,6 +676,7 @@ begin
   FForceFieldTrialParams         := '';
   FSupportedSchemes              := nil;
   FDisableNewBrowserInfoTimeout  := False;
+  FDevToolsProtocolLogFile       := '';
 
   FDisableJavascriptCloseWindows     := False;
   FDisableJavascriptAccessClipboard  := False;
@@ -1709,6 +1712,9 @@ begin
       if FDisableNewBrowserInfoTimeout then
         commandLine.AppendSwitch('--disable-new-browser-info-timeout');
 
+      if (length(FDevToolsProtocolLogFile) > 0) then
+        commandLine.AppendSwitchWithValue('--devtools-protocol-log-file', FDevToolsProtocolLogFile);
+
       case FPluginPolicy of
         PLUGIN_POLICY_SWITCH_DETECT : commandLine.AppendSwitchWithValue('--plugin-policy', 'detect');
         PLUGIN_POLICY_SWITCH_BLOCK  : commandLine.AppendSwitchWithValue('--plugin-policy', 'block');
@@ -2250,6 +2256,7 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_uriencode{$IFDEF FPC}){$ENDIF}                       := GetProcAddress(FLibHandle, 'cef_uriencode');
   {$IFDEF FPC}Pointer({$ENDIF}cef_uridecode{$IFDEF FPC}){$ENDIF}                       := GetProcAddress(FLibHandle, 'cef_uridecode');
   {$IFDEF FPC}Pointer({$ENDIF}cef_parse_json{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_parse_json');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_parse_json_buffer{$IFDEF FPC}){$ENDIF}               := GetProcAddress(FLibHandle, 'cef_parse_json_buffer');
   {$IFDEF FPC}Pointer({$ENDIF}cef_parse_jsonand_return_error{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_parse_jsonand_return_error');
   {$IFDEF FPC}Pointer({$ENDIF}cef_write_json{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_write_json');
 
@@ -2263,6 +2270,7 @@ begin
             assigned(cef_uriencode) and
             assigned(cef_uridecode) and
             assigned(cef_parse_json) and
+            assigned(cef_parse_json_buffer) and
             assigned(cef_parse_jsonand_return_error) and
             assigned(cef_write_json);
 end;

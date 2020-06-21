@@ -183,7 +183,7 @@ uses
 // This method for sending text messages is limited to around 10000 characters
 // but it's much easier to implement than using a JavaScript extension.
 // It cosist of using the JavaScript command "console.log" with a known text
-// preamble. The browser process rceives the console message in the
+// preamble. The browser process receives the console message in the
 // TChromium.OnConsoleMessage event and we identify the right message thanks to
 // the preamble in the message.
 
@@ -399,6 +399,18 @@ begin
   // Remove it if you don't want to use the DOM visitor
   GlobalCEFApp.LogFile              := 'debug.log';
   GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
+
+  // Delphi can only debug one process and it debugs the browser process by
+  // default. If you need to debug code executed in the render process you will
+  // need to use any of the methods described here :
+  // https://www.briskbard.com/index.php?lang=en&pageid=cef#debugging
+
+  // Using the "Single process" mode is one of the ways to debug all the code
+  // because everything is executed in the browser process and Delphi won't have
+  // any problems. However, The "Single process" mode is unsupported by CEF and
+  // it causes unexpected issues. You should *ONLY* use it for debugging
+  // purposses.
+  //GlobalCEFApp.SingleProcess := True;
 end;
 
 procedure TDOMVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);

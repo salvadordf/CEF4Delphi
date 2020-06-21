@@ -151,6 +151,8 @@ type
   ICefMediaSink = interface;
   ICefMediaSource = interface;
   ICefAudioHandler = interface;
+  ICefDevToolsMessageObserver = interface;
+  ICefValue = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -369,6 +371,7 @@ type
     procedure doOnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
     procedure doOnRenderViewReady(const browser: ICefBrowser);
     procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
+    procedure doOnDocumentAvailableInMainFrame(const browser: ICefBrowser);
 
     // ICefResourceRequestHandler
     function  doOnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue;
@@ -428,6 +431,13 @@ type
     procedure doOnAudioStreamPacket(const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64);
     procedure doOnAudioStreamStopped(const browser: ICefBrowser);
     procedure doOnAudioStreamError(const browser: ICefBrowser; const message_: ustring);
+
+    // ICefDevToolsMessageObserver
+    procedure doOnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean);
+    procedure doOnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue);
+    procedure doOnDevToolsEvent(const method: ustring; const params: ICefValue);
+    procedure doOnDevToolsAgentAttached(const browser: ICefBrowser);
+    procedure doOnDevToolsAgentDetached(const browser: ICefBrowser);
 
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
@@ -571,6 +581,9 @@ type
     procedure ShowDevTools(const windowInfo: PCefWindowInfo; const client: ICefClient; const settings: PCefBrowserSettings; inspectElementAt: PCefPoint);
     procedure CloseDevTools;
     function  HasDevTools: Boolean;
+    function  SendDevToolsMessage(const message_: ustring): boolean;
+    function  ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
+    function  AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
     procedure GetNavigationEntries(const visitor: ICefNavigationEntryVisitor; currentOnly: Boolean);
     procedure GetNavigationEntriesProc(const proc: TCefNavigationEntryVisitorProc; currentOnly: Boolean);
     procedure SetMouseCursorChangeDisabled(disabled: Boolean);
@@ -1291,6 +1304,17 @@ type
     ['{9226018F-7A56-4F2E-AF01-43268E33EE6B}']
   end;
 
+  // TCefDevToolsMessageObserver
+  // /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t)
+  ICefDevToolsMessageObserver = interface(ICefBaseRefCounted)
+    ['{76E5BB2B-7F69-4BC9-94C7-B55C61CE630F}']
+    procedure OnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean);
+    procedure OnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue);
+    procedure OnDevToolsEvent(const method: ustring; const params: ICefValue);
+    procedure OnDevToolsAgentAttached(const browser: ICefBrowser);
+    procedure OnDevToolsAgentDetached(const browser: ICefBrowser);
+  end;
+
   // TCefMediaRouter
   // /include/capi/cef_media_router_capi.h (cef_media_router_t)
   ICefMediaRouter = interface(ICefBaseRefCounted)
@@ -1844,6 +1868,7 @@ type
     procedure OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
     procedure OnRenderViewReady(const browser: ICefBrowser);
     procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
+    procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser);
 
     procedure RemoveReferences; // custom procedure to clear all references
   end;

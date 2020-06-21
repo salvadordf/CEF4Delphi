@@ -64,6 +64,7 @@ type
       procedure OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); virtual;
       procedure OnRenderViewReady(const browser: ICefBrowser); virtual;
       procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
+      procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -85,6 +86,7 @@ type
       procedure OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); override;
       procedure OnRenderViewReady(const browser: ICefBrowser); override;
       procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); override;
+      procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser); override;
 
     public
       constructor Create(const events : IChromiumEvents); reintroduce; virtual;
@@ -281,6 +283,17 @@ begin
                                                                 status);
 end;
 
+procedure cef_request_handler_on_document_available_in_main_frame(self    : PCefRequestHandler;
+                                                                  browser : PCefBrowser); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    TCefRequestHandlerOwn(TempObject).OnDocumentAvailableInMainFrame(TCefBrowserRef.UnWrap(browser));
+end;
+
 function cef_request_handler_on_select_client_certificate(      self              : PCefRequestHandler;
                                                                 browser           : PCefBrowser;
                                                                 isProxy           : integer;
@@ -347,16 +360,17 @@ begin
 
   with PCefRequestHandler(FData)^ do
     begin
-      on_before_browse              := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_before_browse;
-      on_open_urlfrom_tab           := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_open_urlfrom_tab;
-      get_resource_request_handler  := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_resource_request_handler;
-      get_auth_credentials          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_auth_credentials;
-      on_quota_request              := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_quota_request;
-      on_certificate_error          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_certificate_error;
-      on_select_client_certificate  := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_select_client_certificate;
-      on_plugin_crashed             := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_plugin_crashed;
-      on_render_view_ready          := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_view_ready;
-      on_render_process_terminated  := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_process_terminated;
+      on_before_browse                    := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_before_browse;
+      on_open_urlfrom_tab                 := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_open_urlfrom_tab;
+      get_resource_request_handler        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_resource_request_handler;
+      get_auth_credentials                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_auth_credentials;
+      on_quota_request                    := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_quota_request;
+      on_certificate_error                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_certificate_error;
+      on_select_client_certificate        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_select_client_certificate;
+      on_plugin_crashed                   := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_plugin_crashed;
+      on_render_view_ready                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_view_ready;
+      on_render_process_terminated        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_process_terminated;
+      on_document_available_in_main_frame := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_document_available_in_main_frame;
     end;
 end;
 
@@ -438,6 +452,11 @@ end;
 
 procedure TCefRequestHandlerOwn.OnRenderProcessTerminated(const browser : ICefBrowser;
                                                                 status  : TCefTerminationStatus);
+begin
+  //
+end;
+
+procedure TCefRequestHandlerOwn.OnDocumentAvailableInMainFrame(const browser: ICefBrowser);
 begin
   //
 end;
@@ -585,12 +604,20 @@ end;
 
 procedure TCustomRequestHandler.OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnRenderProcessTerminated(browser, status);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnRenderProcessTerminated(browser, status);
+end;
+
+procedure TCustomRequestHandler.OnDocumentAvailableInMainFrame(const browser: ICefBrowser);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnDocumentAvailableInMainFrame(browser);
 end;
 
 procedure TCustomRequestHandler.OnRenderViewReady(const browser: ICefBrowser);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnRenderViewReady(browser);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnRenderViewReady(browser);
 end;
 
 end.

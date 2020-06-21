@@ -245,7 +245,8 @@ function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule:
 
 function CefGetPath(const aPathKey : TCefPathKey) : ustring;
 
-function CefParseJson(const jsonString: ustring; options: TCefJsonParserOptions): ICefValue;
+function CefParseJson(const jsonString: ustring; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
+function CefParseJson(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
 function CefParseJsonAndReturnError(const jsonString   : ustring;
                                           options      : TCefJsonParserOptions;
                                     out   errorCodeOut : TCefJsonParserError;
@@ -433,6 +434,7 @@ begin
   if (str <> '') and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     cef_string_wide_to_utf16(PWideChar(str), Length(str), @Result);
 end;
+
 
 procedure _free_string(str: PChar16); stdcall;
 begin
@@ -1712,6 +1714,7 @@ begin
       TempParts.origin   := CefString(parts.origin);
       TempParts.path     := CefString(parts.path);
       TempParts.query    := CefString(parts.query);
+      TempParts.fragment := CefString(parts.fragment);
 
       CefStringInitialize(@TempURL);
 
@@ -1811,6 +1814,14 @@ begin
       TempJSON := CefString(jsonString);
       Result   := TCefValueRef.UnWrap(cef_parse_json(@TempJSON, options));
     end
+   else
+    Result := nil;
+end;
+
+function CefParseJson(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions): ICefValue;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (json <> nil) and (json_size > 0) then
+    Result := TCefValueRef.UnWrap(cef_parse_json_buffer(json, json_size, options))
    else
     Result := nil;
 end;

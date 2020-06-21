@@ -238,6 +238,7 @@ type
   PCefWindowDelegate = ^TCefWindowDelegate;
   PCefBoxLayoutSettings = ^TCefBoxLayoutSettings;
   PCefRegistration = ^TCefRegistration;
+  PCefDevToolsMessageObserver = ^TCefDevToolsMessageObserver;
   PCefMediaRouter = ^TCefMediaRouter;
   PCefMediaRoute = ^TCefMediaRoute;
   PPCefMediaRoute = ^PCefMediaRoute;
@@ -1584,6 +1585,16 @@ type
     base  : TCefBaseRefCounted;
   end;
 
+  // /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t)
+  TCefDevToolsMessageObserver = record
+    base                        : TCefBaseRefCounted;
+    on_dev_tools_message        : function(self: PCefDevToolsMessageObserver; browser: PCefBrowser; const message_: Pointer; message_size: NativeUInt): Integer; stdcall;
+    on_dev_tools_method_result  : procedure(self: PCefDevToolsMessageObserver; browser: PCefBrowser; message_id, success: Integer; const result: Pointer; result_size: NativeUInt); stdcall;
+    on_dev_tools_event          : procedure(self: PCefDevToolsMessageObserver; const method: PCefString; const params: Pointer; params_size: NativeUInt); stdcall;
+    on_dev_tools_agent_attached : procedure(self: PCefDevToolsMessageObserver; browser: PCefBrowser); stdcall;
+    on_dev_tools_agent_detached : procedure(self: PCefDevToolsMessageObserver; browser: PCefBrowser); stdcall;
+  end;
+
   // /include/capi/cef_media_router_capi.h (cef_media_router_t)
   TCefMediaRouter = record
     base                  : TCefBaseRefCounted;
@@ -1939,17 +1950,18 @@ type
 
   // /include/capi/cef_request_handler_capi.h (cef_request_handler_t)
   TCefRequestHandler = record
-    base                          : TCefBaseRefCounted;
-    on_before_browse              : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; user_gesture, isRedirect: Integer): Integer; stdcall;
-    on_open_urlfrom_tab           : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer): Integer; stdcall;
-    get_resource_request_handler  : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; is_navigation, is_download: Integer; const request_initiator: PCefString; disable_default_handling: PInteger): PCefResourceRequestHandler; stdcall;
-    get_auth_credentials          : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
-    on_quota_request              : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefRequestCallback): Integer; stdcall;
-    on_certificate_error          : function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefRequestCallback): Integer; stdcall;
-    on_select_client_certificate  : function(self: PCefRequestHandler; browser: PCefBrowser; isProxy: integer; const host: PCefString; port: integer; certificatesCount: NativeUInt; const certificates: PPCefX509Certificate; callback: PCefSelectClientCertificateCallback): integer; stdcall;
-    on_plugin_crashed             : procedure(self: PCefRequestHandler; browser: PCefBrowser; const plugin_path: PCefString); stdcall;
-    on_render_view_ready          : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
-    on_render_process_terminated  : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus); stdcall;
+    base                                : TCefBaseRefCounted;
+    on_before_browse                    : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; user_gesture, isRedirect: Integer): Integer; stdcall;
+    on_open_urlfrom_tab                 : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer): Integer; stdcall;
+    get_resource_request_handler        : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; is_navigation, is_download: Integer; const request_initiator: PCefString; disable_default_handling: PInteger): PCefResourceRequestHandler; stdcall;
+    get_auth_credentials                : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
+    on_quota_request                    : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefRequestCallback): Integer; stdcall;
+    on_certificate_error                : function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefRequestCallback): Integer; stdcall;
+    on_select_client_certificate        : function(self: PCefRequestHandler; browser: PCefBrowser; isProxy: integer; const host: PCefString; port: integer; certificatesCount: NativeUInt; const certificates: PPCefX509Certificate; callback: PCefSelectClientCertificateCallback): integer; stdcall;
+    on_plugin_crashed                   : procedure(self: PCefRequestHandler; browser: PCefBrowser; const plugin_path: PCefString); stdcall;
+    on_render_view_ready                : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
+    on_render_process_terminated        : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus); stdcall;
+    on_document_available_in_main_frame : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
   end;
 
   // /include/capi/cef_request_callback_capi.h (cef_request_callback_t)
@@ -2856,6 +2868,9 @@ type
     show_dev_tools                    : procedure(self: PCefBrowserHost; const windowInfo: PCefWindowInfo; client: PCefClient; const settings: PCefBrowserSettings; const inspect_element_at: PCefPoint); stdcall;
     close_dev_tools                   : procedure(self: PCefBrowserHost); stdcall;
     has_dev_tools                     : function(self: PCefBrowserHost): Integer; stdcall;
+    send_dev_tools_message            : function(self: PCefBrowserHost; const message_: Pointer; message_size: NativeUInt): Integer; stdcall;
+    execute_dev_tools_method          : function(self: PCefBrowserHost; message_id: integer; const method: PCefString; params: PCefDictionaryValue): Integer; stdcall;
+    add_dev_tools_message_observer    : function(self: PCefBrowserHost; observer: PCefDevToolsMessageObserver): PCefRegistration; stdcall;
     get_navigation_entries            : procedure(self: PCefBrowserHost; visitor: PCefNavigationEntryVisitor; current_only: Integer); stdcall;
     set_mouse_cursor_change_disabled  : procedure(self: PCefBrowserHost; disabled: Integer); stdcall;
     is_mouse_cursor_change_disabled   : function(self: PCefBrowserHost): Integer; stdcall;

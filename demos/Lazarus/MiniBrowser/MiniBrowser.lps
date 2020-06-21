@@ -4,14 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="22">
+    <Units Count="32">
       <Unit0>
         <Filename Value="MiniBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="37"/>
-        <CursorPos X="3" Y="51"/>
-        <UsageCount Value="22"/>
+        <CursorPos X="50" Y="51"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -21,15 +20,11 @@
         <ComponentName Value="MiniBrowserFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="509"/>
-        <CursorPos X="48" Y="543"/>
-        <UsageCount Value="22"/>
-        <Bookmarks Count="3">
-          <Item0 Y="842" ID="1"/>
-          <Item1 X="49" Y="61" ID="2"/>
-          <Item2 X="65" Y="1073" ID="3"/>
-        </Bookmarks>
+        <TopLine Value="293"/>
+        <CursorPos X="66" Y="310"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -43,7 +38,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="69"/>
         <CursorPos X="86" Y="70"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="27"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -53,7 +48,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="27"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
@@ -82,14 +77,15 @@
         <Filename Value="..\..\..\source\uCEFApplication.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="43"/>
-        <UsageCount Value="10"/>
+        <CursorPos X="42" Y="52"/>
+        <UsageCount Value="12"/>
       </Unit7>
       <Unit8>
         <Filename Value="..\..\..\source\uCEFTypes.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="280"/>
-        <CursorPos X="51" Y="290"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="295"/>
+        <CursorPos X="57" Y="322"/>
+        <UsageCount Value="11"/>
       </Unit8>
       <Unit9>
         <Filename Value="..\..\..\source\uCEFInterfaces.pas"/>
@@ -181,48 +177,87 @@
         <CursorPos X="47" Y="219"/>
         <UsageCount Value="10"/>
       </Unit21>
+      <Unit22>
+        <Filename Value="..\..\..\source\uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="900"/>
+        <CursorPos X="77" Y="945"/>
+        <UsageCount Value="12"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="218"/>
+        <CursorPos X="10" Y="229"/>
+        <UsageCount Value="12"/>
+        <Bookmarks Count="3">
+          <Item0 X="9" Y="1299" ID="1"/>
+          <Item1 X="26" Y="896" ID="2"/>
+          <Item2 X="7" Y="1355" ID="3"/>
+        </Bookmarks>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="424"/>
+        <CursorPos X="29" Y="413"/>
+        <UsageCount Value="11"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\filutilh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="118"/>
+        <CursorPos X="10" Y="130"/>
+        <UsageCount Value="11"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\sysutilh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="235"/>
+        <CursorPos X="13" Y="246"/>
+        <UsageCount Value="10"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\ascdef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="61"/>
+        <CursorPos X="10" Y="70"/>
+        <UsageCount Value="10"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\dynlibs.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="136"/>
+        <CursorPos X="3" Y="149"/>
+        <UsageCount Value="10"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\dynlibs.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="31"/>
+        <CursorPos X="41" Y="45"/>
+        <UsageCount Value="10"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\redef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="894"/>
+        <CursorPos X="10" Y="906"/>
+        <UsageCount Value="10"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\unifun.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="59"/>
+        <CursorPos X="10" Y="70"/>
+        <UsageCount Value="10"/>
+      </Unit31>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="1">
       <Position1>
-        <Filename Value="MiniBrowser.lpr"/>
-        <Caret Line="65" TopLine="46"/>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="305" TopLine="293"/>
       </Position1>
-      <Position2>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="66" Column="75" TopLine="46"/>
-      </Position2>
-      <Position3>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="67" Column="39" TopLine="46"/>
-      </Position3>
-      <Position4>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="461" TopLine="448"/>
-      </Position4>
-      <Position5>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="48" Column="37" TopLine="22"/>
-      </Position5>
-      <Position6>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="310" Column="52" TopLine="295"/>
-      </Position6>
-      <Position7>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="1005" Column="88" TopLine="979"/>
-      </Position7>
-      <Position8>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="1037" Column="50" TopLine="996"/>
-      </Position8>
-      <Position9>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="1157" Column="62" TopLine="1129"/>
-      </Position9>
-      <Position10>
-        <Filename Value="uMiniBrowser.pas"/>
-        <Caret Line="214" Column="29" TopLine="191"/>
-      </Position10>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

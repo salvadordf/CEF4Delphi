@@ -120,6 +120,7 @@ var
   cef_uriencode                       : function(const text: PCefString; use_plus: Integer): PCefStringUserFree; cdecl;
   cef_uridecode                       : function(const text: PCefString; convert_to_utf8: Integer; unescape_rule: TCefUriUnescapeRule): PCefStringUserFree; cdecl;
   cef_parse_json                      : function(const json_string: PCefString; options: TCefJsonParserOptions): PCefValue; cdecl;
+  cef_parse_json_buffer               : function(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions): PCefValue; cdecl;
   cef_parse_jsonand_return_error      : function(const json_string: PCefString; options: TCefJsonParserOptions; error_code_out: PCefJsonParserError; error_msg_out: PCefString): PCefValue; cdecl;
   cef_write_json                      : function(node: PCefValue; options: TCefJsonWriterOptions): PCefStringUserFree; cdecl;
 

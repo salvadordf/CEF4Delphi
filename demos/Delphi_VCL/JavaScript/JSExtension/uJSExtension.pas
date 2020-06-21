@@ -58,6 +58,7 @@ const
   MINIBROWSER_CONTEXTMENU_SETJSEVENT   = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_JSVISITDOM   = MENU_ID_USER_FIRST + 2;
   MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS = MENU_ID_USER_FIRST + 3;
+  MINIBROWSER_CONTEXTMENU_OFFLINE      = MENU_ID_USER_FIRST + 4;
 
   MOUSEOVER_MESSAGE_NAME  = 'mouseover';
   CUSTOMNAME_MESSAGE_NAME = 'customname';
@@ -93,6 +94,8 @@ type
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
+    FOffline : boolean;
+
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowTextViewerMsg(var aMessage : TMessage); message MINIBROWSER_SHOWTEXTVIEWER;
@@ -100,6 +103,8 @@ type
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
+
+    function SwitchOfflineMode : integer;
   end;
 
 var
@@ -112,7 +117,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uSimpleTextViewer, uCEFMiscFunctions, uTestExtensionHandler;
+  uSimpleTextViewer, uCEFMiscFunctions, uTestExtensionHandler, uCEFDictionaryValue;
 
 // BASIC CONCEPTS
 // ==============
@@ -332,6 +337,8 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_SETJSEVENT,   'Set mouseover event');
   model.AddItem(MINIBROWSER_CONTEXTMENU_JSVISITDOM,   'Visit DOM in JavaScript');
   model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
+  model.AddCheckItem(MINIBROWSER_CONTEXTMENU_OFFLINE, 'Offline');
+  model.SetChecked(MINIBROWSER_CONTEXTMENU_OFFLINE,   FOffline);
 end;
 
 procedure TJSExtensionFrm.Chromium1BeforePopup(Sender: TObject;
@@ -396,6 +403,29 @@ begin
         TempPoint.y := params.YCoord;
         Chromium1.ShowDevTools(TempPoint, nil);
       end;
+
+    MINIBROWSER_CONTEXTMENU_OFFLINE :
+      SwitchOfflineMode;
+  end;
+end;
+
+// This is a simple example to set the "offline" mode in the DevTools using the TChromium methods directly.
+function TJSExtensionFrm.SwitchOfflineMode : integer;
+var
+  TempParams : ICefDictionaryValue;
+begin
+  try
+    FOffline := not(FOffline);
+
+    TempParams := TCefDictionaryValueRef.New;
+    TempParams.SetBool('offline', FOffline);
+    TempParams.SetDouble('latency', 0);
+    TempParams.SetDouble('downloadThroughput', 0);
+    TempParams.SetDouble('uploadThroughput', 0);
+
+    Result := Chromium1.ExecuteDevToolsMethod(0, 'Network.emulateNetworkConditions', TempParams);
+  finally
+    TempParams := nil;
   end;
 end;
 
