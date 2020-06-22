@@ -129,13 +129,14 @@ type
       FDragDropManager        : TCEFDragAndDropMgr;
       FDropTargetWnd          : HWND;
       {$ENDIF}
-      FDragAndDropInitialized : boolean;
-      FWebRTCIPHandlingPolicy : TCefWebRTCHandlingPolicy;
-      FWebRTCMultipleRoutes   : TCefState;
-      FWebRTCNonProxiedUDP    : TCefState;
-      FAcceptLanguageList     : ustring;
-      FAcceptCookies          : TCefCookiePref;
-      FBlock3rdPartyCookies   : boolean;
+      FDragAndDropInitialized   : boolean;
+      FWebRTCIPHandlingPolicy   : TCefWebRTCHandlingPolicy;
+      FWebRTCMultipleRoutes     : TCefState;
+      FWebRTCNonProxiedUDP      : TCefState;
+      FAcceptLanguageList       : ustring;
+      FAcceptCookies            : TCefCookiePref;
+      FBlock3rdPartyCookies     : boolean;
+      FDefaultWindowInfoExStyle : cardinal;
 
       {$IFDEF MSWINDOWS}
       FOldBrowserCompWndPrc   : TFNWndProc;
@@ -840,6 +841,7 @@ type
       property  AcceptCookies                 : TCefCookiePref               read FAcceptCookies               write SetAcceptCookies;
       property  Block3rdPartyCookies          : boolean                      read FBlock3rdPartyCookies        write SetBlock3rdPartyCookies;
       property  MultiBrowserMode              : boolean                      read FMultiBrowserMode            write SetMultiBrowserMode;
+      property  DefaultWindowInfoExStyle      : cardinal                     read FDefaultWindowInfoExStyle    write FDefaultWindowInfoExStyle;
 
       property  WebRTCIPHandlingPolicy        : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy      write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes          : TCefState                    read FWebRTCMultipleRoutes        write SetWebRTCMultipleRoutes;
@@ -1135,6 +1137,18 @@ begin
   FAcceptLanguageList     := '';
   FAcceptCookies          := cpAllow;
   FBlock3rdPartyCookies   := False;
+
+  //
+  // Somo focus issues in CEF seem to be fixed when you use WS_EX_NOACTIVATE in
+  // FDefaultWindowInfoExStyle to initialize the browser with that ExStyle but
+  // it may cause side effects. Read these links for more information :
+  // https://www.briskbard.com/forum/viewtopic.php?f=10&t=723
+  // https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
+  //
+  // It's necessary to set this property before the CreateBrowser call.
+  //
+  FDefaultWindowInfoExStyle := 0;
+  //FDefaultWindowInfoExStyle := WS_EX_NOACTIVATE;
 
   {$IFDEF MSWINDOWS}
   FOldBrowserCompWndPrc   := nil;
@@ -1783,7 +1797,7 @@ begin
   if FIsOSR then
     WindowInfoAsWindowless(FWindowInfo, ParentFormHandle, aWindowName)
    else
-    WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName);
+    WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName, FDefaultWindowInfoExStyle);
   {$ELSE}
   if FIsOSR then
     WindowInfoAsWindowless(FWindowInfo, 0)
