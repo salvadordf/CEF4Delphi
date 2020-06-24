@@ -62,6 +62,7 @@ const
   MINIBROWSER_CONTEXTMENU_GETCOOKIES        = MENU_ID_USER_FIRST + 2;
   MINIBROWSER_CONTEXTMENU_SETCOOKIE         = MENU_ID_USER_FIRST + 3;
   MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES  = MENU_ID_USER_FIRST + 4;
+  MINIBROWSER_CONTEXTMENU_DELETECACHE       = MENU_ID_USER_FIRST + 5;
 
   BLOCKED_COOKIE_DOMAIN = 'briskbard.com';
 
@@ -146,7 +147,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uSimpleTextViewer, uCEFTask, uCEFMiscFunctions;
+  uSimpleTextViewer, uCEFTask, uCEFMiscFunctions, uCEFDictionaryValue;
 
 // This demo has a context menu to test several TChromium functions related to cookies like TChromium.VisitAllCookies,
 // TChromium.SetCookie, TChromium.DeleteCookies, etc.
@@ -242,6 +243,7 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_GETCOOKIES,       'Visit all cookies');
   model.AddItem(MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES, 'Visit cookies from Google');
   model.AddItem(MINIBROWSER_CONTEXTMENU_SETCOOKIE,        'Set cookie');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_DELETECACHE,      'Delete cache');
 end;
 
 procedure TCookieVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -327,6 +329,9 @@ begin
                           CEF_COOKIE_SAME_SITE_UNSPECIFIED,
                           CEF_COOKIE_PRIORITY_MEDIUM,
                           False);
+
+    MINIBROWSER_CONTEXTMENU_DELETECACHE :
+      Chromium1.ExecuteDevToolsMethod(0, 'Network.clearBrowserCache', nil);
   end;
 end;
 
