@@ -18,7 +18,7 @@ object ChildForm: TChildForm
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.8.0'
   object Panel1: TBufferPanel
     Left = 0
     Height = 256

@@ -8,10 +8,9 @@
       <Unit0>
         <Filename Value="SimpleOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="30"/>
-        <CursorPos X="28" Y="39"/>
+        <TopLine Value="18"/>
+        <CursorPos X="61" Y="60"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -38,8 +37,9 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="382"/>
-        <CursorPos X="60" Y="393"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="444"/>
+        <CursorPos X="51" Y="445"/>
         <UsageCount Value="42"/>
         <Bookmarks Count="2">
           <Item0 X="40" Y="301" ID="4"/>

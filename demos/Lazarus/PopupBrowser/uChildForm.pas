@@ -403,48 +403,45 @@ begin
             TempHeight := Panel1.BufferHeight;
           end;
 
-        if (TempBufferBits <> nil) then
+        SrcStride := aWidth * SizeOf(TRGBQuad);
+        n         := 0;
+
+        while (n < dirtyRectsCount) do
           begin
-            SrcStride := aWidth * SizeOf(TRGBQuad);
-            n         := 0;
-
-            while (n < dirtyRectsCount) do
+            if (dirtyRects^[n].x >= 0) and (dirtyRects^[n].y >= 0) then
               begin
-                if (dirtyRects^[n].x >= 0) and (dirtyRects^[n].y >= 0) then
+                TempLineSize := min(dirtyRects^[n].width, TempWidth - dirtyRects^[n].x) * SizeOf(TRGBQuad);
+
+                if (TempLineSize > 0) then
                   begin
-                    TempLineSize := min(dirtyRects^[n].width, TempWidth - dirtyRects^[n].x) * SizeOf(TRGBQuad);
+                    TempSrcOffset := ((dirtyRects^[n].y * aWidth) + dirtyRects^[n].x) * SizeOf(TRGBQuad);
+                    TempDstOffset := (dirtyRects^[n].x * SizeOf(TRGBQuad));
 
-                    if (TempLineSize > 0) then
+                    src := @PByte(buffer)[TempSrcOffset];
+
+                    i := 0;
+                    j := min(dirtyRects^[n].height, TempHeight - dirtyRects^[n].y);
+
+                    while (i < j) do
                       begin
-                        TempSrcOffset := ((dirtyRects^[n].y * aWidth) + dirtyRects^[n].x) * SizeOf(TRGBQuad);
-                        TempDstOffset := (dirtyRects^[n].x * SizeOf(TRGBQuad));
+                        TempBufferBits := TempBitmap.Scanline[dirtyRects^[n].y + i];
+                        dst            := @PByte(TempBufferBits)[TempDstOffset];
 
-                        src := @PByte(buffer)[TempSrcOffset];
+                        Move(src^, dst^, TempLineSize);
 
-                        i := 0;
-                        j := min(dirtyRects^[n].height, TempHeight - dirtyRects^[n].y);
-
-                        while (i < j) do
-                          begin
-                            TempBufferBits := TempBitmap.Scanline[dirtyRects^[n].y + i];
-                            dst            := @PByte(TempBufferBits)[TempDstOffset];
-
-                            Move(src^, dst^, TempLineSize);
-
-                            Inc(src, SrcStride);
-                            inc(i);
-                          end;
+                        Inc(src, SrcStride);
+                        inc(i);
                       end;
                   end;
-
-                inc(n);
               end;
 
-            TempBitmap.EndUpdate;
-
-            if FShowPopup and (FPopUpBitmap <> nil) then
-              Panel1.BufferDraw(FPopUpRect.Left, FPopUpRect.Top, FPopUpBitmap);
+            inc(n);
           end;
+
+        TempBitmap.EndUpdate;
+
+        if FShowPopup and (FPopUpBitmap <> nil) then
+          Panel1.BufferDraw(FPopUpRect.Left, FPopUpRect.Top, FPopUpBitmap);
 
         Panel1.EndBufferDraw;
 

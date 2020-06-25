@@ -20,10 +20,9 @@
         <ComponentName Value="JSExtensionFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="120"/>
-        <CursorPos X="83" Y="140"/>
+        <CursorPos X="71" Y="131"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -32,8 +31,9 @@
       <Unit2>
         <Filename Value="uTestExtensionHandler.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="41"/>
+        <TopLine Value="40"/>
         <CursorPos X="56" Y="94"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
