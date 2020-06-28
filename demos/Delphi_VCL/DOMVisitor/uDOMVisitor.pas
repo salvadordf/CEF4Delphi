@@ -61,11 +61,13 @@ const
   MINIBROWSER_COPYFRAMEIDS_2              = WM_APP + $104;
   MINIBROWSER_SHOWMESSAGE                 = WM_APP + $105;
   MINIBROWSER_SHOWSTATUSTEXT              = WM_APP + $106;
+  MINIBROWSER_VISITDOM_JS                 = WM_APP + $107;
 
   MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_VISITDOM_FULL    = MENU_ID_USER_FIRST + 2;
   MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1   = MENU_ID_USER_FIRST + 3;
   MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2   = MENU_ID_USER_FIRST + 4;
+  MINIBROWSER_CONTEXTMENU_VISITDOM_JS      = MENU_ID_USER_FIRST + 5;
 
   DOMVISITOR_MSGNAME_PARTIAL  = 'domvisitorpartial';
   DOMVISITOR_MSGNAME_FULL     = 'domvisitorfull';
@@ -73,6 +75,8 @@ const
   RETRIEVEDOM_MSGNAME_FULL    = 'retrievedomfull';
   FRAMEIDS_MSGNAME            = 'getframeids';
   CONSOLE_MSG_PREAMBLE        = 'DOMVISITOR';
+
+  NODE_ID = 'keywords';
 
 type
   TDOMVisitorFrm = class(TForm)
@@ -124,6 +128,7 @@ type
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_PARTIAL;
     procedure VisitDOM2Msg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_FULL;
+    procedure VisitDOM3Msg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_JS;
     procedure CopyFrameIDs1(var aMessage : TMessage);  message MINIBROWSER_COPYFRAMEIDS_1;
     procedure CopyFrameIDs2(var aMessage : TMessage);  message MINIBROWSER_COPYFRAMEIDS_2;
     procedure ShowMessageMsg(var aMessage : TMessage);  message MINIBROWSER_SHOWMESSAGE;
@@ -224,11 +229,9 @@ begin
 end;
 
 procedure SimpleNodeSearch(const aDocument: ICefDomDocument; const aFrame : ICefFrame);
-const
-  NODE_ID = 'keywords'; // ID of the search box node found in the forum
 var
   TempNode : ICefDomNode;
-  TempJSCode, TempMessage : string;
+  TempJSCode, TempMessage, TempName : string;
 begin
   try
     if (aDocument <> nil) then
@@ -242,7 +245,15 @@ begin
             // execute "console.log" in JavaScript to send TempMessage with a
             // known preamble that will be used to identify the message in the
             // TChromium.OnConsoleMessage event.
-            TempMessage := 'name:' + quotedstr(TempNode.Name) + ' - value:' + quotedstr(TempNode.GetValue);
+
+            // CEF has some known issues with ICefDomNode.GetValue and ICefDomNode.SetValue
+            // Use JavaScript if you need to get or set the value of HTML elements.
+            // For example, if you want to use the "console trick" and you want
+            // to get the value of the search box in our forum you would have to
+            // execute this JavaScript code :
+            // console.log("DOMVISITOR" + document.getElementById("keywords").value);
+
+            TempMessage := 'name:' + quotedstr(TempNode.Name);
             TempJSCode  := 'console.log("' + CONSOLE_MSG_PREAMBLE + TempMessage + '");';
             aFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
           end;
@@ -431,6 +442,7 @@ procedure TDOMVisitorFrm.Chromium1BeforeContextMenu(Sender: TObject;
 begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL,  'Visit DOM in CEF (only Title)');
   model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM_FULL,     'Visit DOM in CEF (BODY HTML)');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM_JS,       'Visit DOM using JavaScript');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1,    'Copy frame IDs in the browser process');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2,    'Copy frame IDs in the render process');
 end;
@@ -490,6 +502,9 @@ begin
 
     MINIBROWSER_CONTEXTMENU_VISITDOM_FULL :
       PostMessage(Handle, MINIBROWSER_VISITDOM_FULL, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_VISITDOM_JS :
+      PostMessage(Handle, MINIBROWSER_VISITDOM_JS, 0, 0);
 
     MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1 :
       PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS_1, 0, 0);
@@ -604,6 +619,19 @@ begin
   // Use the ArgumentList property if you need to pass some parameters.
   TempMsg := TCefProcessMessageRef.New(RETRIEVEDOM_MSGNAME_FULL); // Same name than TCefCustomRenderProcessHandler.MessageName
   Chromium1.SendProcessMessage(PID_RENDERER, TempMsg);
+end;
+
+procedure TDOMVisitorFrm.VisitDOM3Msg(var aMessage : TMessage);
+var
+  TempJSCode, TempMessage : string;
+begin
+  // Here we send the name and value of the element with the "console trick".
+  // We execute "console.log" in JavaScript to send TempMessage with a
+  // known preamble that will be used to identify the message in the
+  // TChromium.OnConsoleMessage event.
+  TempMessage := 'document.getElementById("' + NODE_ID + '").value';
+  TempJSCode  := 'console.log("' + CONSOLE_MSG_PREAMBLE + '" + ' + TempMessage + ');';
+  chromium1.ExecuteJavaScript(TempJSCode, 'about:blank');
 end;
 
 procedure TDOMVisitorFrm.CopyFrameIDs1(var aMessage : TMessage);
