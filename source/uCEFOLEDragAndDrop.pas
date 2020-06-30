@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright Â© 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -136,7 +136,7 @@ type
       function dAdvise(const FormatEtc: TFormatEtc; advf: LongInt; const advsink: IAdviseSink; out dwConnection: LongInt): HRESULT; stdcall;
       function dUnadvise(dwConnection: LongInt): HRESULT; stdcall;
       {$ELSE}
-      function SetData(const pformatetc: FORMATETC; const medium: STGMEDIUM; FRelease: BOOL): HRESULT; stdcall;
+      function SetData(const pformatetc: FORMATETC; {$IFDEF FPC_VER_320}var{$ELSE}const{$ENDIF} medium: STGMEDIUM; FRelease: BOOL): HRESULT; stdcall;
       function EnumFormatEtc(dwDirection: DWORD; out aEnumFormatEtc: IENUMFORMATETC): HRESULT; stdcall;
       function DAdvise(const formatetc: FORMATETC; advf: DWORD; const AdvSink: IAdviseSink; out dwConnection: DWORD): HRESULT; stdcall;
       function DUnadvise(dwconnection: DWORD): HRESULT; stdcall;
@@ -661,7 +661,7 @@ function TOLEDataObject.SetData
 {$IFNDEF FPC}
   (const FormatEtc: TFormatEtc; var Medium: TStgMedium; fRelease: Bool): HRESULT; stdcall;
 {$ELSE}
-  (const pformatetc: FORMATETC; const medium: STGMEDIUM; FRelease: BOOL): HRESULT; stdcall;
+  (const pformatetc: FORMATETC; {$IFDEF FPC_VER_320}var{$ELSE}const{$ENDIF} medium: STGMEDIUM; FRelease: BOOL): HRESULT; stdcall;
 {$ENDIF}
 begin
   Result := E_NOTIMPL;
