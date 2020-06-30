@@ -68,6 +68,7 @@ const
   MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1   = MENU_ID_USER_FIRST + 3;
   MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2   = MENU_ID_USER_FIRST + 4;
   MINIBROWSER_CONTEXTMENU_VISITDOM_JS      = MENU_ID_USER_FIRST + 5;
+  MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS = MENU_ID_USER_FIRST + 6;
 
   DOMVISITOR_MSGNAME_PARTIAL  = 'domvisitorpartial';
   DOMVISITOR_MSGNAME_FULL     = 'domvisitorfull';
@@ -231,7 +232,7 @@ end;
 procedure SimpleNodeSearch(const aDocument: ICefDomDocument; const aFrame : ICefFrame);
 var
   TempNode : ICefDomNode;
-  TempJSCode, TempMessage, TempName : string;
+  TempJSCode, TempMessage : string;
 begin
   try
     if (aDocument <> nil) then
@@ -445,6 +446,7 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_VISITDOM_JS,       'Visit DOM using JavaScript');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1,    'Copy frame IDs in the browser process');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2,    'Copy frame IDs in the render process');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS,  'Set INPUT value using JavaScript');
 end;
 
 procedure TDOMVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -511,6 +513,9 @@ begin
 
     MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2 :
       PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS_2, 0, 0);
+
+    MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS :
+      frame.ExecuteJavaScript('document.getElementById("keywords").value = "qwerty";', 'about:blank', 0);
   end;
 end;
 
