@@ -62,7 +62,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 83;
   CEF_SUPPORTED_VERSION_MINOR   = 4;
-  CEF_SUPPORTED_VERSION_RELEASE = 0;
+  CEF_SUPPORTED_VERSION_RELEASE = 2;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 83;
@@ -742,7 +742,8 @@ begin
   FChromeVersionInfo.Build       := CEF_CHROMEELF_VERSION_BUILD;
 
   {$IFDEF MSWINDOWS}
-  if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  if (FProcessType = ptBrowser) then
+    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
   {$ENDIF}
 
   IsMultiThread := True;
@@ -752,10 +753,12 @@ end;
 
 destructor TCefApplicationCore.Destroy;
 begin
-  if (GlobalCEFApp = Self) then GlobalCEFApp := nil;
+  if (GlobalCEFApp = Self) then
+    GlobalCEFApp := nil;
 
   try
-    if (FProcessType = ptBrowser) then ShutDown;
+    if (FProcessType = ptBrowser) then
+      ShutDown;
 
     FreeLibcefLibrary;
 
@@ -822,7 +825,9 @@ begin
   try
     if CheckCEFLibrary and LoadCEFlibrary then
       begin
-        if (FProcessType <> ptBrowser) then BeforeInitSubProcess;
+        if (FProcessType <> ptBrowser) then
+          BeforeInitSubProcess;
+
         TempApp := TCustomCefApp.Create(self);
         Result  := (ExecuteProcess(TempApp) < 0) and InitializeLibrary(TempApp);
       end;
@@ -1469,22 +1474,26 @@ begin
   FGlobalContextInitialized := True;
   UpdateSupportedSchemes;
 
-  if assigned(FOnContextInitialized) then FOnContextInitialized();
+  if assigned(FOnContextInitialized) then
+    FOnContextInitialized();
 end;
 
 procedure TCefApplicationCore.Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 begin
-  if assigned(FOnBeforeChildProcessLaunch) then FOnBeforeChildProcessLaunch(commandLine);
+  if assigned(FOnBeforeChildProcessLaunch) then
+    FOnBeforeChildProcessLaunch(commandLine);
 end;
 
 procedure TCefApplicationCore.Internal_OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
 begin
-  if assigned(FOnRenderProcessThreadCreated) then FOnRenderProcessThreadCreated(extraInfo);
+  if assigned(FOnRenderProcessThreadCreated) then
+    FOnRenderProcessThreadCreated(extraInfo);
 end;
 
 procedure TCefApplicationCore.Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
 begin
-  if assigned(FOnScheduleMessagePumpWork) then FOnScheduleMessagePumpWork(delayMs);
+  if assigned(FOnScheduleMessagePumpWork) then
+    FOnScheduleMessagePumpWork(delayMs);
 end;
 
 function TCefApplicationCore.Internal_GetLocalizedString(stringid: Integer; var stringVal: ustring) : boolean;
@@ -1494,7 +1503,8 @@ begin
   // The stringId must be one of the values defined in the CEF file :
   // /include/cef_pack_strings.h
   // That file is available in the CEF binaries package.
-  if assigned(FOnGetLocalizedString) then FOnGetLocalizedString(stringId, stringVal, Result);
+  if assigned(FOnGetLocalizedString) then
+    FOnGetLocalizedString(stringId, stringVal, Result);
 end;
 
 function TCefApplicationCore.Internal_GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt) : boolean;
@@ -1504,7 +1514,8 @@ begin
   // The resourceId must be one of the values defined in the CEF file :
   // /include/cef_pack_resources.h
   // That file is available in the CEF binaries package.
-  if assigned(FOnGetDataResource) then FOnGetDataResource(resourceId, data, dataSize, Result);
+  if assigned(FOnGetDataResource) then
+    FOnGetDataResource(resourceId, data, dataSize, Result);
 end;
 
 function TCefApplicationCore.Internal_GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt) : boolean;
@@ -1514,47 +1525,56 @@ begin
   // The resourceId must be one of the values defined in the CEF file :
   // /include/cef_pack_resources.h
   // That file is available in the CEF binaries package.
-  if assigned(FOnGetDataResourceForScale) then FOnGetDataResourceForScale(resourceId, scaleFactor, data, dataSize, Result);
+  if assigned(FOnGetDataResourceForScale) then
+    FOnGetDataResourceForScale(resourceId, scaleFactor, data, dataSize, Result);
 end;
 
 procedure TCefApplicationCore.Internal_OnRenderThreadCreated(const extraInfo: ICefListValue);
 begin
-  if assigned(FOnRenderThreadCreated) then FOnRenderThreadCreated(extraInfo);
+  if assigned(FOnRenderThreadCreated) then
+    FOnRenderThreadCreated(extraInfo);
 end;
 
 procedure TCefApplicationCore.Internal_OnWebKitInitialized;
 begin
-  if assigned(FOnWebKitInitialized) then FOnWebKitInitialized();
+  if assigned(FOnWebKitInitialized) then
+    FOnWebKitInitialized();
 end;
 
 procedure TCefApplicationCore.Internal_OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
 begin
-  if assigned(FOnBrowserCreated) then FOnBrowserCreated(browser, extra_info);
+  if assigned(FOnBrowserCreated) then
+    FOnBrowserCreated(browser, extra_info);
 end;
 
 procedure TCefApplicationCore.Internal_OnBrowserDestroyed(const browser: ICefBrowser);
 begin
-  if assigned(FOnBrowserDestroyed) then FOnBrowserDestroyed(browser);
+  if assigned(FOnBrowserDestroyed) then
+    FOnBrowserDestroyed(browser);
 end;
 
 procedure TCefApplicationCore.Internal_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 begin
-  if assigned(FOnContextCreated) then FOnContextCreated(browser, frame, context);
+  if assigned(FOnContextCreated) then
+    FOnContextCreated(browser, frame, context);
 end;
 
 procedure TCefApplicationCore.Internal_OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 begin
-  if assigned(FOnContextReleased) then FOnContextReleased(browser, frame, context);
+  if assigned(FOnContextReleased) then
+    FOnContextReleased(browser, frame, context);
 end;
 
 procedure TCefApplicationCore.Internal_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
 begin
-  if assigned(FOnUncaughtException) then FOnUncaughtException(browser, frame, context, exception, stackTrace);
+  if assigned(FOnUncaughtException) then
+    FOnUncaughtException(browser, frame, context, exception, stackTrace);
 end;
 
 procedure TCefApplicationCore.Internal_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
 begin
-  if assigned(FOnFocusedNodeChanged) then FOnFocusedNodeChanged(browser, frame, node);
+  if assigned(FOnFocusedNodeChanged) then
+    FOnFocusedNodeChanged(browser, frame, node);
 end;
 
 procedure TCefApplicationCore.Internal_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
@@ -1567,27 +1587,32 @@ end;
 
 procedure TCefApplicationCore.Internal_OnCDMRegistrationComplete(result : TCefCDMRegistrationError; const error_message : ustring);
 begin
-  if assigned(FOnCDMRegistrationComplete) then FOnCDMRegistrationComplete(result, error_message);
+  if assigned(FOnCDMRegistrationComplete) then
+    FOnCDMRegistrationComplete(result, error_message);
 end;
 
 procedure TCefApplicationCore.Internal_OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
-  if assigned(FOnLoadingStateChange) then FOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+  if assigned(FOnLoadingStateChange) then
+    FOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
 end;
 
 procedure TCefApplicationCore.Internal_OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
 begin
-  if assigned(FOnLoadStart) then FOnLoadStart(browser, frame, transitionType);
+  if assigned(FOnLoadStart) then
+    FOnLoadStart(browser, frame, transitionType);
 end;
 
 procedure TCefApplicationCore.Internal_OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
 begin
-  if assigned(FOnLoadEnd) then FOnLoadEnd(browser, frame, httpStatusCode);
+  if assigned(FOnLoadEnd) then
+    FOnLoadEnd(browser, frame, httpStatusCode);
 end;
 
 procedure TCefApplicationCore.Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
 begin
-  if assigned(FOnLoadError) then FOnLoadError(browser, frame, errorCode, errorText, failedUrl);
+  if assigned(FOnLoadError) then
+    FOnLoadError(browser, frame, errorCode, errorText, failedUrl);
 end;
 
 procedure TCefApplicationCore.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
@@ -1813,7 +1838,8 @@ end;
 
 procedure TCefApplicationCore.Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
-  if assigned(FOnRegisterCustomSchemes) then FOnRegisterCustomSchemes(registrar);
+  if assigned(FOnRegisterCustomSchemes) then
+    FOnRegisterCustomSchemes(registrar);
 end;
 
 function TCefApplicationCore.GetMustCreateResourceBundleHandler : boolean;

@@ -476,7 +476,7 @@ procedure TDOMVisitorFrm.Chromium1ConsoleMessage(Sender: TObject;
 begin
   // In this event we receive the message with the name and value of a DOM node
   // from the render process.
-  // This event may receive many other messages but we identify out message
+  // This event may receive many other messages but we identify our message
   // thanks to the preamble.
   // The we set MsgContents with the rest of the message and send a
   // MINIBROWSER_SHOWMESSAGE message to show MsgContents in the main thread safely.
@@ -487,6 +487,12 @@ begin
      (copy(message, 1, length(CONSOLE_MSG_PREAMBLE)) = CONSOLE_MSG_PREAMBLE) then
     begin
       MsgContents := copy(message, succ(length(CONSOLE_MSG_PREAMBLE)), length(message));
+
+      if (length(MsgContents) = 0) then
+        MsgContents := 'The INPUT node has no value'
+       else
+        MsgContents := 'INPUT node value : ' + quotedstr(MsgContents);
+
       PostMessage(Handle, MINIBROWSER_SHOWMESSAGE, 0, 0);
     end;
 end;
