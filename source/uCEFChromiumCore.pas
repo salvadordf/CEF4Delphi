@@ -118,6 +118,7 @@ type
       FPrefsFileName          : string;
       FIsOSR                  : boolean;
       FSafeSearch             : boolean;
+      FOffline                : boolean;
       FYouTubeRestrict        : integer;
       FPrintingEnabled        : boolean;
       FWindowInfo             : TCefWindowInfo;
@@ -365,6 +366,7 @@ type
       procedure SetWindowlessFrameRate(aValue : integer);
       procedure SetAudioMuted(aValue : boolean);
       procedure SetSafeSearch(aValue : boolean);
+      procedure SetOffline(aValue : boolean);
       procedure SetYouTubeRestrict(aValue : integer);
       procedure SetPrintingEnabled(aValue : boolean);
       procedure SetAcceptLanguageList(const aValue : ustring);
@@ -693,6 +695,7 @@ type
       procedure   ResolveHost(const aURL : ustring);
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
       function    ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;
+      procedure   ClearCache;
 
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
       function    VisitAllCookies(aID : integer = 0) : boolean;
@@ -842,6 +845,7 @@ type
       property  Block3rdPartyCookies          : boolean                      read FBlock3rdPartyCookies        write SetBlock3rdPartyCookies;
       property  MultiBrowserMode              : boolean                      read FMultiBrowserMode            write SetMultiBrowserMode;
       property  DefaultWindowInfoExStyle      : cardinal                     read FDefaultWindowInfoExStyle    write FDefaultWindowInfoExStyle;
+      property  Offline                       : boolean                      read FOffline                     write SetOffline;
 
       property  WebRTCIPHandlingPolicy        : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy      write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes          : TCefState                    read FWebRTCMultipleRoutes        write SetWebRTCMultipleRoutes;
@@ -1137,6 +1141,7 @@ begin
   FAcceptLanguageList     := '';
   FAcceptCookies          := cpAllow;
   FBlock3rdPartyCookies   := False;
+  FOffline                := False;
 
   //
   // Somo focus issues in CEF seem to be fixed when you use WS_EX_NOACTIVATE in
@@ -2937,6 +2942,26 @@ begin
     end;
 end;
 
+procedure TChromiumCore.SetOffline(aValue : boolean);
+var
+  TempParams : ICefDictionaryValue;
+begin
+  if (FOffline <> aValue) then
+    try
+      FOffline := aValue;
+
+      TempParams := TCefDictionaryValueRef.New;
+      TempParams.SetBool('offline', FOffline);
+      TempParams.SetDouble('latency', 0);
+      TempParams.SetDouble('downloadThroughput', 0);
+      TempParams.SetDouble('uploadThroughput', 0);
+
+      ExecuteDevToolsMethod(0, 'Network.emulateNetworkConditions', TempParams);
+    finally
+      TempParams := nil;
+    end;
+end;
+
 procedure TChromiumCore.SetYouTubeRestrict(aValue : integer);
 begin
   if (FYouTubeRestrict <> aValue) then
@@ -3639,6 +3664,11 @@ begin
   finally
     TempTask := nil;
   end;
+end;
+
+procedure TChromiumCore.ClearCache;
+begin
+  ExecuteDevToolsMethod(0, 'Network.clearBrowserCache', nil);
 end;
 
 function TChromiumCore.GetRequestContext : ICefRequestContext;

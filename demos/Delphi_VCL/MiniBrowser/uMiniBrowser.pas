@@ -43,30 +43,34 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Menus,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Menus, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
   System.UITypes, Vcl.AppEvnts, Winapi.ActiveX, Winapi.ShlObj,
+  System.NetEncoding,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
-  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd, AppEvnts, ActiveX, ShlObj,
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
+  AppEvnts, ActiveX, ShlObj, NetEncoding,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
+  uCEFConstants, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
 
 const
-  MINIBROWSER_SHOWDEVTOOLS    = WM_APP + $101;
-  MINIBROWSER_HIDEDEVTOOLS    = WM_APP + $102;
-  MINIBROWSER_COPYHTML        = WM_APP + $103;
-  MINIBROWSER_SHOWRESPONSE    = WM_APP + $104;
-  MINIBROWSER_COPYFRAMEIDS    = WM_APP + $105;
-  MINIBROWSER_COPYFRAMENAMES  = WM_APP + $106;
-  MINIBROWSER_SAVEPREFERENCES = WM_APP + $107;
-  MINIBROWSER_COPYALLTEXT     = WM_APP + $108;
-  MINIBROWSER_TAKESNAPSHOT    = WM_APP + $109;
-  MINIBROWSER_SHOWNAVIGATION  = WM_APP + $10A;
-  MINIBROWSER_COOKIESFLUSHED  = WM_APP + $10B;
-  MINIBROWSER_PDFPRINT_END    = WM_APP + $10C;
-  MINIBROWSER_PREFS_AVLBL     = WM_APP + $10D;
+  MINIBROWSER_SHOWDEVTOOLS     = WM_APP + $101;
+  MINIBROWSER_HIDEDEVTOOLS     = WM_APP + $102;
+  MINIBROWSER_COPYHTML         = WM_APP + $103;
+  MINIBROWSER_SHOWRESPONSE     = WM_APP + $104;
+  MINIBROWSER_COPYFRAMEIDS     = WM_APP + $105;
+  MINIBROWSER_COPYFRAMENAMES   = WM_APP + $106;
+  MINIBROWSER_SAVEPREFERENCES  = WM_APP + $107;
+  MINIBROWSER_COPYALLTEXT      = WM_APP + $108;
+  MINIBROWSER_TAKESNAPSHOT     = WM_APP + $109;
+  MINIBROWSER_SHOWNAVIGATION   = WM_APP + $10A;
+  MINIBROWSER_COOKIESFLUSHED   = WM_APP + $10B;
+  MINIBROWSER_PDFPRINT_END     = WM_APP + $10C;
+  MINIBROWSER_PREFS_AVLBL      = WM_APP + $10D;
+  MINIBROWSER_SCREENSHOT_AVLBL = WM_APP + $10E;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -130,6 +134,8 @@ type
     Flushcookies1: TMenuItem;
     Acceptlanguage1: TMenuItem;
     FindText1: TMenuItem;
+    Clearcache1: TMenuItem;
+    akescreenshot1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -168,6 +174,7 @@ type
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType, pluginUrl: ustring; isMainFrame: Boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
+    procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -193,8 +200,14 @@ type
     procedure PopupMenu1Popup(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FindText1Click(Sender: TObject);
+    procedure Clearcache1Click(Sender: TObject);
+    procedure akescreenshot1Click(Sender: TObject);
 
   protected
+    FScreenshotMsgID : integer;
+    FScreenshotRslt  : boolean;
+    FScreenshotValue : ustring;
+
     FResponse   : TStringList;
     FRequest    : TStringList;
     FNavigation : TStringList;
@@ -229,6 +242,7 @@ type
     procedure CookiesFlushedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESFLUSHED;
     procedure PrintPDFEndMsg(var aMessage : TMessage); message MINIBROWSER_PDFPRINT_END;
     procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;
+    procedure ScreenshotAvailableMsg(var aMessage : TMessage); message MINIBROWSER_SCREENSHOT_AVLBL;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -968,6 +982,11 @@ begin
   ShowStatusText('Zoom : ' + floattostr(aZoomPct) + '%');
 end;
 
+procedure TMiniBrowserFrm.Clearcache1Click(Sender: TObject);
+begin
+  Chromium1.ClearCache;
+end;
+
 procedure TMiniBrowserFrm.FindText1Click(Sender: TObject);
 begin
   FindFrm.Show;
@@ -1069,6 +1088,80 @@ begin
   if (URLCbx.Items.IndexOf(aURL) < 0) then URLCbx.Items.Add(aURL);
 
   URLCbx.Text := aURL;
+end;
+
+procedure TMiniBrowserFrm.akescreenshot1Click(Sender: TObject);
+begin
+  inc(FScreenshotMsgID);
+  Chromium1.ExecuteDevToolsMethod(FScreenshotMsgID, 'Page.captureScreenshot', nil);
+end;
+
+procedure TMiniBrowserFrm.Chromium1DevToolsMethodResult(      Sender     : TObject;
+                                                        const browser    : ICefBrowser;
+                                                              message_id : Integer;
+                                                              success    : Boolean;
+                                                        const result     : ICefValue);
+var
+  TempDict : ICefDictionaryValue;
+  TempValue : ICefValue;
+begin
+  if (message_id = FScreenshotMsgID) then
+    begin
+      FScreenshotRslt := success;
+
+      if success then
+        begin
+          TempDict  := result.GetDictionary;
+          TempValue := TempDict.GetValue('data');
+
+          if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+            FScreenshotValue := TempValue.GetString
+           else
+            FScreenshotValue := '';
+        end
+       else
+        FScreenshotValue := '';
+
+      PostMessage(Handle, MINIBROWSER_SCREENSHOT_AVLBL, 0, 0);
+    end;
+end;
+
+procedure TMiniBrowserFrm.ScreenshotAvailableMsg(var aMessage : TMessage);
+var
+  TempData : TBytes;
+  TempFile : TFileStream;
+  TempLen  : integer;
+begin
+  if FScreenshotRslt and (length(FScreenshotValue) > 0) then
+    begin
+      TempData := TNetEncoding.Base64.DecodeStringToBytes(FScreenshotValue);
+      TempLen  := length(TempData);
+
+      if (TempLen > 0) then
+        begin
+          TempFile := nil;
+
+          SaveDialog1.DefaultExt := 'png';
+          SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+
+          if SaveDialog1.Execute then
+            try
+              try
+                TempFile := TFileStream.Create(SaveDialog1.FileName, fmCreate);
+                TempFile.WriteBuffer(TempData[0], TempLen);
+                showmessage('Screenshot saved successfully');
+              except
+                showmessage('There was an error saving the screenshot');
+              end;
+            finally
+              if (TempFile <> nil) then TempFile.Free;
+            end;
+        end
+       else
+        showmessage('There was an error decoding the screenshot');
+    end
+   else
+    showmessage('There was an error taking the screenshot');
 end;
 
 procedure TMiniBrowserFrm.ShowDevToolsMsg(var aMessage : TMessage);

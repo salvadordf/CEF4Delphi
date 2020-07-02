@@ -293,6 +293,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     OnBeforePluginLoad = Chromium1BeforePluginLoad
+    OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 32
     Top = 224
   end
@@ -374,6 +375,14 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object FindText1: TMenuItem
       Caption = 'Find text...'
       OnClick = FindText1Click
+    end
+    object Clearcache1: TMenuItem
+      Caption = 'Clear cache'
+      OnClick = Clearcache1Click
+    end
+    object akescreenshot1: TMenuItem
+      Caption = 'Take screenshot'
+      OnClick = akescreenshot1Click
     end
     object N5: TMenuItem
       Caption = '-'
