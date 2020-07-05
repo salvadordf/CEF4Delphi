@@ -431,6 +431,17 @@ type
 
   TCefProxyScheme = (psHTTP, psSOCKS4, psSOCKS5);
 
+  TCefClearDataStorageTypes = (cdstAppCache,
+                               cdstCookies,
+                               cdstFileSystems,
+                               cdstIndexeddb,
+                               cdstLocalStorage,
+                               cdstShaderCache,
+                               cdstWebsql,
+                               cdstServiceWorkers,
+                               cdstCacheStorage,
+                               cdstAll);
+
   TCefAutoplayPolicy = (appDefault,
                         appDocumentUserActivationRequired,
                         appNoUserGestureRequired,

@@ -380,6 +380,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Clear cache'
       OnClick = Clearcache1Click
     end
+    object ClearallstorageforcurrentURL1: TMenuItem
+      Caption = 'Clear all storage for current URL'
+      OnClick = ClearallstorageforcurrentURL1Click
+    end
     object akescreenshot1: TMenuItem
       Caption = 'Take screenshot'
       OnClick = akescreenshot1Click

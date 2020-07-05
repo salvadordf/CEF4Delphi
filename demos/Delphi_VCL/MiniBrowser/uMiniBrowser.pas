@@ -137,6 +137,7 @@ type
     Clearcache1: TMenuItem;
     akescreenshot1: TMenuItem;
     Useragent1: TMenuItem;
+    ClearallstorageforcurrentURL1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -204,6 +205,7 @@ type
     procedure Clearcache1Click(Sender: TObject);
     procedure akescreenshot1Click(Sender: TObject);
     procedure Useragent1Click(Sender: TObject);
+    procedure ClearallstorageforcurrentURL1Click(Sender: TObject);
 
   protected
     FScreenshotMsgID : integer;
@@ -982,6 +984,11 @@ procedure TMiniBrowserFrm.Chromium1ZoomPctAvailable(Sender: TObject;
   const aZoomPct: Double);
 begin
   ShowStatusText('Zoom : ' + floattostr(aZoomPct) + '%');
+end;
+
+procedure TMiniBrowserFrm.ClearallstorageforcurrentURL1Click(Sender: TObject);
+begin
+  Chromium1.ClearDataForOrigin(URLCbx.Text);
 end;
 
 procedure TMiniBrowserFrm.Clearcache1Click(Sender: TObject);

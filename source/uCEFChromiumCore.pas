@@ -695,7 +695,8 @@ type
       procedure   ResolveHost(const aURL : ustring);
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
       function    ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;
-      procedure   SetUserAgentOverride(const aUserAgent : string; const aAcceptLanguage : string = ''; const aPlatform : string = '');
+      procedure   SetUserAgentOverride(const aUserAgent : ustring; const aAcceptLanguage : ustring = ''; const aPlatform : ustring = '');
+      procedure   ClearDataForOrigin(const aOriginURL : ustring; aStorageTypes : TCefClearDataStorageTypes = cdstAll);
       procedure   ClearCache;
 
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
@@ -2963,7 +2964,7 @@ begin
     end;
 end;
 
-procedure TChromiumCore.SetUserAgentOverride(const aUserAgent, aAcceptLanguage, aPlatform : string);
+procedure TChromiumCore.SetUserAgentOverride(const aUserAgent, aAcceptLanguage, aPlatform : ustring);
 var
   TempParams : ICefDictionaryValue;
 begin
@@ -2978,6 +2979,33 @@ begin
       TempParams.SetString('platform', aPlatform);
 
     ExecuteDevToolsMethod(0, 'Emulation.setUserAgentOverride', TempParams);
+  finally
+    TempParams := nil;
+  end;
+end;
+
+procedure TChromiumCore.ClearDataForOrigin(const aOriginURL : ustring; aStorageTypes : TCefClearDataStorageTypes);
+var
+  TempParams : ICefDictionaryValue;
+begin
+  try
+    TempParams := TCefDictionaryValueRef.New;
+    TempParams.SetString('origin', aOriginURL);
+
+    case aStorageTypes of
+      cdstAppCache        : TempParams.SetString('storageTypes', 'appcache');
+      cdstCookies         : TempParams.SetString('storageTypes', 'cookies');
+      cdstFileSystems     : TempParams.SetString('storageTypes', 'file_systems');
+      cdstIndexeddb       : TempParams.SetString('storageTypes', 'indexeddb');
+      cdstLocalStorage    : TempParams.SetString('storageTypes', 'local_storage');
+      cdstShaderCache     : TempParams.SetString('storageTypes', 'shader_cache');
+      cdstWebsql          : TempParams.SetString('storageTypes', 'websql');
+      cdstServiceWorkers  : TempParams.SetString('storageTypes', 'service_workers');
+      cdstCacheStorage    : TempParams.SetString('storageTypes', 'cache_storage');
+      else                  TempParams.SetString('storageTypes', 'all');
+    end;
+
+    ExecuteDevToolsMethod(0, 'Storage.clearDataForOrigin', TempParams);
   finally
     TempParams := nil;
   end;
