@@ -695,6 +695,7 @@ type
       procedure   ResolveHost(const aURL : ustring);
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
       function    ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;
+      procedure   SetUserAgentOverride(const aUserAgent : string; const aAcceptLanguage : string = ''; const aPlatform : string = '');
       procedure   ClearCache;
 
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
@@ -2960,6 +2961,26 @@ begin
     finally
       TempParams := nil;
     end;
+end;
+
+procedure TChromiumCore.SetUserAgentOverride(const aUserAgent, aAcceptLanguage, aPlatform : string);
+var
+  TempParams : ICefDictionaryValue;
+begin
+  try
+    TempParams := TCefDictionaryValueRef.New;
+    TempParams.SetString('userAgent', aUserAgent);
+
+    if (length(aAcceptLanguage) > 0) then
+      TempParams.SetString('acceptLanguage', aAcceptLanguage);
+
+    if (length(aPlatform) > 0) then
+      TempParams.SetString('platform', aPlatform);
+
+    ExecuteDevToolsMethod(0, 'Emulation.setUserAgentOverride', TempParams);
+  finally
+    TempParams := nil;
+  end;
 end;
 
 procedure TChromiumCore.SetYouTubeRestrict(aValue : integer);

@@ -136,6 +136,7 @@ type
     FindText1: TMenuItem;
     Clearcache1: TMenuItem;
     akescreenshot1: TMenuItem;
+    Useragent1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -202,6 +203,7 @@ type
     procedure FindText1Click(Sender: TObject);
     procedure Clearcache1Click(Sender: TObject);
     procedure akescreenshot1Click(Sender: TObject);
+    procedure Useragent1Click(Sender: TObject);
 
   protected
     FScreenshotMsgID : integer;
@@ -1059,6 +1061,16 @@ begin
   Timer1.Enabled := False;
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) and not(Chromium1.Initialized) then
     Timer1.Enabled := True;
+end;
+
+procedure TMiniBrowserFrm.Useragent1Click(Sender: TObject);
+var
+  TempUA : string;
+begin
+  TempUA := inputbox('MiniBrowser demo', 'Set new user agent string', '');
+
+  if (length(TempUA) > 0) then
+    Chromium1.SetUserAgentOverride(TempUA);
 end;
 
 procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);

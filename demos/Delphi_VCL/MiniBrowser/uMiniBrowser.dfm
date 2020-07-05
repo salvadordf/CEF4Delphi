@@ -384,6 +384,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Take screenshot'
       OnClick = akescreenshot1Click
     end
+    object Useragent1: TMenuItem
+      Caption = 'User agent...'
+      OnClick = Useragent1Click
+    end
     object N5: TMenuItem
       Caption = '-'
     end
