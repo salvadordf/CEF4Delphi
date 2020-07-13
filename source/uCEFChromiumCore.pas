@@ -1424,12 +1424,7 @@ end;
 procedure TChromiumCore.DestroyMediaObserver;
 begin
   FMediaObserverReg := nil;
-
-  if (FMediaObserver <> nil) then
-    begin
-      FMediaObserver.DestroyOtherRefs;
-      FMediaObserver := nil;
-    end;
+  FMediaObserver    := nil;
 end;
 
 procedure TChromiumCore.CreateMediaObserver;
@@ -1442,12 +1437,7 @@ end;
 procedure TChromiumCore.DestroyDevToolsMsgObserver;
 begin
   FDevToolsMsgObserverReg := nil;
-
-  if (FDevToolsMsgObserver <> nil) then
-    begin
-      FDevToolsMsgObserver.DestroyOtherRefs;
-      FDevToolsMsgObserver := nil;
-    end;
+  FDevToolsMsgObserver    := nil;
 end;
 
 procedure TChromiumCore.CreateDevToolsMsgObserver;
