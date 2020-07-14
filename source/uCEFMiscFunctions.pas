@@ -381,7 +381,7 @@ end;
 
 function CefString(const str: PCefString): ustring;
 begin
-  if (str <> nil) then
+  if (str <> nil) and (str^.str <> nil) and (str^.length > 0) and (str^.length < nativeuint(high(integer))) then
     SetString(Result, str^.str, str^.length)
    else
     Result := '';

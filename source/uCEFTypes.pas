@@ -1601,7 +1601,7 @@ type
     base                        : TCefBaseRefCounted;
     on_dev_tools_message        : function(self: PCefDevToolsMessageObserver; browser: PCefBrowser; const message_: Pointer; message_size: NativeUInt): Integer; stdcall;
     on_dev_tools_method_result  : procedure(self: PCefDevToolsMessageObserver; browser: PCefBrowser; message_id, success: Integer; const result: Pointer; result_size: NativeUInt); stdcall;
-    on_dev_tools_event          : procedure(self: PCefDevToolsMessageObserver; const method: PCefString; const params: Pointer; params_size: NativeUInt); stdcall;
+    on_dev_tools_event          : procedure(self: PCefDevToolsMessageObserver; browser: PCefBrowser; const method: PCefString; const params: Pointer; params_size: NativeUInt); stdcall;
     on_dev_tools_agent_attached : procedure(self: PCefDevToolsMessageObserver; browser: PCefBrowser); stdcall;
     on_dev_tools_agent_detached : procedure(self: PCefDevToolsMessageObserver; browser: PCefBrowser); stdcall;
   end;

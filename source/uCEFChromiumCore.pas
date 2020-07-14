@@ -385,6 +385,7 @@ type
       procedure DestroyResourceRequestHandler;
       procedure DestroyMediaObserver;
       procedure DestroyDevToolsMsgObserver;
+      procedure DestroyAllHandlersAndObservers;
 
       procedure CreateReqContextHandler;
       procedure CreateResourceRequestHandler;
@@ -582,7 +583,7 @@ type
       // ICefDevToolsMessageObserver
       procedure doOnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean); virtual;
       procedure doOnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue); virtual;
-      procedure doOnDevToolsEvent(const method: ustring; const params: ICefValue); virtual;
+      procedure doOnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: ICefValue); virtual;
       procedure doOnDevToolsAgentAttached(const browser: ICefBrowser); virtual;
       procedure doOnDevToolsAgentDetached(const browser: ICefBrowser); virtual;
 
@@ -1244,24 +1245,22 @@ end;
 
 procedure TChromiumCore.BeforeDestruction;
 begin
-  {$IFDEF MSWINDOWS}
-  RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
-  FreeAndNilStub(FBrowserCompStub);
+  try
+    {$IFDEF MSWINDOWS}
+    RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
+    FreeAndNilStub(FBrowserCompStub);
 
-  RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
-  FreeAndNilStub(FWidgetCompStub);
+    RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
+    FreeAndNilStub(FWidgetCompStub);
 
-  RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
-  FreeAndNilStub(FRenderCompStub);
-  {$ENDIF}
+    RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
+    FreeAndNilStub(FRenderCompStub);
+    {$ENDIF}
 
-  DestroyClientHandler;
-  DestroyReqContextHandler;
-  DestroyResourceRequestHandler;
-  DestroyMediaObserver;
-  DestroyDevToolsMsgObserver;
-
-  inherited BeforeDestruction;
+    DestroyAllHandlersAndObservers;
+  finally
+    inherited BeforeDestruction;
+  end;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -1414,39 +1413,6 @@ begin
   end;
 end;
 
-procedure TChromiumCore.CreateReqContextHandler;
-begin
-  if MustCreateRequestContextHandler and
-     (FReqContextHandler = nil) then
-    FReqContextHandler := TCustomRequestContextHandler.Create(self);
-end;
-
-procedure TChromiumCore.DestroyMediaObserver;
-begin
-  FMediaObserverReg := nil;
-  FMediaObserver    := nil;
-end;
-
-procedure TChromiumCore.CreateMediaObserver;
-begin
-  if MustCreateMediaObserver and
-     (FMediaObserver = nil) then
-    FMediaObserver := TCustomMediaObserver.Create(self);
-end;
-
-procedure TChromiumCore.DestroyDevToolsMsgObserver;
-begin
-  FDevToolsMsgObserverReg := nil;
-  FDevToolsMsgObserver    := nil;
-end;
-
-procedure TChromiumCore.CreateDevToolsMsgObserver;
-begin
-  if MustCreateDevToolsMessageObserver and
-     (FDevToolsMsgObserver = nil) then
-    FDevToolsMsgObserver := TCustomDevToolsMessageObserver.Create(self);
-end;
-
 procedure TChromiumCore.DestroyResourceRequestHandler;
 begin
   try
@@ -1459,6 +1425,48 @@ begin
     on e : exception do
       if CustomExceptionHandler('TChromiumCore.DestroyResourceRequestHandler', e) then raise;
   end;
+end;
+
+procedure TChromiumCore.DestroyMediaObserver;
+begin
+  FMediaObserverReg := nil;
+  FMediaObserver    := nil;
+end;
+
+procedure TChromiumCore.DestroyDevToolsMsgObserver;
+begin
+  FDevToolsMsgObserverReg := nil;
+  FDevToolsMsgObserver    := nil;
+end;
+
+procedure TChromiumCore.DestroyAllHandlersAndObservers;
+begin
+  DestroyDevToolsMsgObserver;
+  DestroyMediaObserver;
+  DestroyResourceRequestHandler;
+  DestroyReqContextHandler;
+  DestroyClientHandler;
+end;
+
+procedure TChromiumCore.CreateReqContextHandler;
+begin
+  if MustCreateRequestContextHandler and
+     (FReqContextHandler = nil) then
+    FReqContextHandler := TCustomRequestContextHandler.Create(self);
+end;
+
+procedure TChromiumCore.CreateMediaObserver;
+begin
+  if MustCreateMediaObserver and
+     (FMediaObserver = nil) then
+    FMediaObserver := TCustomMediaObserver.Create(self);
+end;
+
+procedure TChromiumCore.CreateDevToolsMsgObserver;
+begin
+  if MustCreateDevToolsMessageObserver and
+     (FDevToolsMsgObserver = nil) then
+    FDevToolsMsgObserver := TCustomDevToolsMessageObserver.Create(self);
 end;
 
 procedure TChromiumCore.CreateResourceRequestHandler;
@@ -5122,12 +5130,7 @@ begin
   RemoveBrowser(browser);
 
   if (BrowserCount = 0) then
-    begin
-      DestroyMediaObserver;
-      DestroyResourceRequestHandler;
-      DestroyReqContextHandler;
-      DestroyClientHandler;
-    end;
+    DestroyAllHandlersAndObservers;
 
   if assigned(FOnBeforeClose) then
     FOnBeforeClose(Self, browser);
@@ -5511,11 +5514,12 @@ begin
     FOnDevToolsMethodResult(self, browser, message_id, success, result);
 end;
 
-procedure TChromiumCore.doOnDevToolsEvent(const method : ustring;
-                                          const params : ICefValue);
+procedure TChromiumCore.doOnDevToolsEvent(const browser : ICefBrowser;
+                                          const method  : ustring;
+                                          const params  : ICefValue);
 begin
   if assigned(FOnDevToolsEvent) then
-    FOnDevToolsEvent(self, method, params);
+    FOnDevToolsEvent(self, browser, method, params);
 end;
 
 procedure TChromiumCore.doOnDevToolsAgentAttached(const browser: ICefBrowser);
