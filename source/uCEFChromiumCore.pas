@@ -299,6 +299,7 @@ type
       FOnCookieSet                        : TOnCookieSet;
       FOnZoomPctAvailable                 : TOnZoomPctAvailable;
       FOnMediaRouteCreateFinished         : TOnMediaRouteCreateFinishedEvent;
+      FOnMediaSinkDeviceInfo              : TOnMediaSinkDeviceInfoEvent;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -612,6 +613,7 @@ type
       procedure doSetZoomPct(const aValue : double); virtual;
       procedure doSetZoomStep(aValue : byte); virtual;
       procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute); virtual;
+      procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring); virtual;
       function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateDevToolsMessageObserver : boolean; virtual;
       function  MustCreateLoadHandler : boolean; virtual;
@@ -779,6 +781,7 @@ type
       procedure   NotifyCurrentSinks;
       procedure   NotifyCurrentRoutes;
       procedure   CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink);
+      procedure   GetDeviceInfo(const aMediaSink: ICefMediaSink);
 
       property  DefaultUrl                    : ustring                      read FDefaultUrl                  write FDefaultUrl;
       property  Options                       : TChromiumOptions             read FOptions                     write FOptions;
@@ -882,6 +885,7 @@ type
       property  OnCookieSet                        : TOnCookieSet                             read FOnCookieSet                        write FOnCookieSet;
       property  OnZoomPctAvailable                 : TOnZoomPctAvailable                      read FOnZoomPctAvailable                 write FOnZoomPctAvailable;
       property  OnMediaRouteCreateFinished         : TOnMediaRouteCreateFinishedEvent         read FOnMediaRouteCreateFinished         write FOnMediaRouteCreateFinished;
+      property  OnMediaSinkDeviceInfo              : TOnMediaSinkDeviceInfoEvent              read FOnMediaSinkDeviceInfo              write FOnMediaSinkDeviceInfo;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg                   : TOnCompMsgEvent                          read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
       property  OnWidgetCompMsg                    : TOnCompMsgEvent                          read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
@@ -1099,7 +1103,8 @@ uses
   uCEFStringVisitor, uCEFListValue, uCEFNavigationEntryVisitor,
   uCEFDownloadImageCallBack, uCEFCookieManager, uCEFRequestContextHandler,
   uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler,
-  uCEFMediaObserver, uCEFMediaRouteCreateCallback ,uCEFDevToolsMessageObserver;
+  uCEFMediaObserver, uCEFMediaRouteCreateCallback ,uCEFDevToolsMessageObserver,
+  uCEFMediaSinkDeviceInfoCallback;
 
 constructor TChromiumCore.Create(AOwner: TComponent);
 begin
@@ -1681,6 +1686,7 @@ begin
   FOnCookieSet                        := nil;
   FOnZoomPctAvailable                 := nil;
   FOnMediaRouteCreateFinished         := nil;
+  FOnMediaSinkDeviceInfo              := nil;
 
   {$IFDEF MSWINDOWS}
   FOnBrowserCompMsg                   := nil;
@@ -4628,6 +4634,12 @@ begin
     FOnMediaRouteCreateFinished(self, result, error, route);
 end;
 
+procedure TChromiumCore.doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring);
+begin
+  if assigned(FOnMediaSinkDeviceInfo) then
+    FOnMediaSinkDeviceInfo(self, ip_address, port, model_name);
+end;
+
 function TChromiumCore.MustCreateLoadHandler : boolean;
 begin
   Result := assigned(FOnLoadStart) or
@@ -6419,6 +6431,19 @@ begin
     try
       TempCallback := TCefCustomMediaRouteCreateCallback.Create(self);
       TempMediaRouter.CreateRoute(source, sink, TempCallback);
+    finally
+      TempCallback := nil;
+    end;
+end;
+
+procedure TChromiumCore.GetDeviceInfo(const aMediaSink: ICefMediaSink);
+var
+  TempCallback : ICefMediaSinkDeviceInfoCallback;
+begin
+  if (aMediaSink <> nil) then
+    try
+      TempCallback := TCefCustomMediaSinkDeviceInfoCallback.Create(self);
+      aMediaSink.GetDeviceInfo(TempCallback);
     finally
       TempCallback := nil;
     end;

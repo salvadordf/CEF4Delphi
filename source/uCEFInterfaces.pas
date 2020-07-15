@@ -149,6 +149,7 @@ type
   ICefMediaRoute = interface;
   ICefMediaRouteCreateCallback = interface;
   ICefMediaSink = interface;
+  ICefMediaSinkDeviceInfoCallback = interface;
   ICefMediaSource = interface;
   ICefAudioHandler = interface;
   ICefDevToolsMessageObserver = interface;
@@ -248,7 +249,7 @@ type
   TOnDownloadImageFinishedProc         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
   TCefCookieVisitorProc                = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; out deleteCookie: Boolean): Boolean;
   TCefMediaRouteCreateCallbackProc     = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
-
+  TCefMediaSinkDeviceInfoCallbackProc  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const ip_address: ustring; port: integer; const model_name: ustring);
 
   // *******************************************
   // ************ Custom interfaces ************
@@ -464,6 +465,7 @@ type
     procedure doSetZoomStep(aValue : byte);
     procedure doReadZoom;
     procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
+    procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring);
     function  MustCreateAudioHandler : boolean;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
@@ -1366,18 +1368,25 @@ type
     procedure OnMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
   end;
 
+  //
+  ICefMediaSinkDeviceInfoCallback = interface(ICefBaseRefCounted)
+    ['{633898DD-4169-45D0-ADDD-6E68B3686E0D}']
+    procedure OnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring);
+  end;
+
   // TCefMediaSink
   // /include/capi/cef_media_router_capi.h (cef_media_sink_t)
   ICefMediaSink = interface(ICefBaseRefCounted)
     ['{EDA1A4B2-2A4C-42DD-A7DF-901BF93D908D}']
-    function GetId: ustring;
-    function IsValid: boolean;
-    function GetName: ustring;
-    function GetDescription: ustring;
-    function GetIconType: TCefMediaSinkIconType;
-    function IsCastSink: boolean;
-    function IsDialSink: boolean;
-    function IsCompatibleWith(const source: ICefMediaSource): boolean;
+    function  GetId: ustring;
+    function  IsValid: boolean;
+    function  GetName: ustring;
+    function  GetDescription: ustring;
+    function  GetIconType: TCefMediaSinkIconType;
+    procedure GetDeviceInfo(const callback: ICefMediaSinkDeviceInfoCallback);
+    function  IsCastSink: boolean;
+    function  IsDialSink: boolean;
+    function  IsCompatibleWith(const source: ICefMediaSource): boolean;
 
     property ID          : ustring               read GetId;
     property Name        : ustring               read GetName;

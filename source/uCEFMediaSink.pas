@@ -54,14 +54,15 @@ uses
 type
   TCefMediaSinkRef = class(TCefBaseRefCountedRef, ICefMediaSink)
   protected
-    function GetId: ustring;
-    function IsValid: boolean;
-    function GetName: ustring;
-    function GetDescription: ustring;
-    function GetIconType: TCefMediaSinkIconType;
-    function IsCastSink: boolean;
-    function IsDialSink: boolean;
-    function IsCompatibleWith(const source: ICefMediaSource): boolean;
+    function  GetId: ustring;
+    function  IsValid: boolean;
+    function  GetName: ustring;
+    function  GetDescription: ustring;
+    function  GetIconType: TCefMediaSinkIconType;
+    procedure GetDeviceInfo(const callback: ICefMediaSinkDeviceInfoCallback);
+    function  IsCastSink: boolean;
+    function  IsDialSink: boolean;
+    function  IsCompatibleWith(const source: ICefMediaSource): boolean;
   public
     class function UnWrap(data: Pointer): ICefMediaSink;
   end;
@@ -94,6 +95,11 @@ end;
 function TCefMediaSinkRef.GetIconType: TCefMediaSinkIconType;
 begin
   Result := PCefMediaSink(FData)^.get_icon_type(PCefMediaSink(FData));
+end;
+
+procedure TCefMediaSinkRef.GetDeviceInfo(const callback: ICefMediaSinkDeviceInfoCallback);
+begin
+  PCefMediaSink(FData)^.get_device_info(PCefMediaSink(FData), CefGetData(callback));
 end;
 
 function TCefMediaSinkRef.IsCastSink: Boolean;

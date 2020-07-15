@@ -246,7 +246,9 @@ type
   PCefMediaObserver = ^TCefMediaObserver;
   PCefMediaSink = ^TCefMediaSink;
   PPCefMediaSink = ^PCefMediaSink;
+  PCefMediaSinkDeviceInfoCallback = ^TCefMediaSinkDeviceInfoCallback;
   PCefMediaSource = ^TCefMediaSource;
+  PCefMediaSinkDeviceInfo = ^TCefMediaSinkDeviceInfo;
 
   {$IFDEF LINUX}
   PXEvent   = Pointer;
@@ -1421,6 +1423,13 @@ type
     frames_per_buffer : integer;
   end;
 
+  // /include/internal/cef_types.h (cef_media_sink_device_info_t)
+  TCefMediaSinkDeviceInfo = record
+    ip_address : TCefString;
+    port       : integer;
+    model_name : TCefString;
+  end;
+
   // /include/capi/cef_base_capi.h (cef_base_ref_counted_t)
   TCefBaseRefCounted = record
     size                 : NativeUInt;
@@ -1649,9 +1658,16 @@ type
     get_name              : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_description       : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_icon_type         : function(self: PCefMediaSink): TCefMediaSinkIconType; stdcall;
+    get_device_info       : procedure(self: PCefMediaSink; callback: PCefMediaSinkDeviceInfoCallback); stdcall;
     is_cast_sink          : function(self: PCefMediaSink): Integer; stdcall;
     is_dial_sink          : function(self: PCefMediaSink): Integer; stdcall;
     is_compatible_with    : function(self: PCefMediaSink; source: PCefMediaSource): Integer; stdcall;
+  end;
+
+  // /include/capi/cef_media_router_capi.h (cef_media_sink_device_info_callback_t)
+  TCefMediaSinkDeviceInfoCallback = record
+    base                      : TCefBaseRefCounted;
+    on_media_sink_device_info : procedure(self: PCefMediaSinkDeviceInfoCallback; device_info: PCefMediaSinkDeviceInfo); stdcall;
   end;
 
   // /include/capi/cef_media_router_capi.h (cef_media_source_t)

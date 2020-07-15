@@ -69,7 +69,7 @@ type
     SinksGbx: TGroupBox;
     SinksLbx: TListBox;
     SinksButtonsPnl: TPanel;
-    CreateRouteBtn: TButton;
+    GetDeviceInfoBtn: TButton;
     CentralPnl: TPanel;
     SourcePnl: TPanel;
     SourceLblPnl: TPanel;
@@ -90,6 +90,7 @@ type
     ClearLogPnl: TPanel;
     ClearLogBtn: TButton;
     SourceURNCbx: TComboBox;
+    CreateRouteBtn: TButton;
 
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
@@ -104,11 +105,12 @@ type
     procedure Chromium1RouteStateChanged(Sender: TObject; const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
     procedure Chromium1RouteMessageReceived(Sender: TObject; const route: ICefMediaRoute; const message_: ustring);
     procedure Chromium1MediaRouteCreateFinished(Sender: TObject; result: Integer; const error: ustring; const route: ICefMediaRoute);
+    procedure Chromium1MediaSinkDeviceInfo(Sender: TObject; const ip_address: ustring; port: Integer; const model_name: ustring);
 
     procedure Timer1Timer(Sender: TObject);
     procedure SourceURNEdtChange(Sender: TObject);
     procedure SinksLbxClick(Sender: TObject);
-    procedure CreateRouteBtnClick(Sender: TObject);
+    procedure GetDeviceInfoBtnClick(Sender: TObject);
     procedure TerminateRouteBtnClick(Sender: TObject);
     procedure SendMsgBtnClick(Sender: TObject);
     procedure NotifySinksBtnClick(Sender: TObject);
@@ -116,6 +118,7 @@ type
     procedure ClearLogBtnClick(Sender: TObject);
     procedure MessageMemChange(Sender: TObject);
     procedure RoutesLbxClick(Sender: TObject);
+    procedure CreateRouteBtnClick(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -265,6 +268,22 @@ begin
   end;
 end;
 
+procedure TMediaRouterFrm.Chromium1MediaSinkDeviceInfo(Sender: TObject;
+  const ip_address: ustring; port: Integer; const model_name: ustring);
+begin
+  try
+    FMediaCS.Acquire;
+    FLog.Add('Sink device info');
+    FLog.Add('IP address : ' + ip_address);
+    FLog.Add('Port : ' + inttostr(port));
+    FLog.Add('Model name : ' + model_name);
+    FLog.Add('------------------------------------------');
+  finally
+    PostMessage(Handle, MEDIA_ROUTER_PENDING_LOG_LINES, 0, 0);
+    FMediaCS.Release;
+  end;
+end;
+
 procedure TMediaRouterFrm.Chromium1RouteMessageReceived(Sender: TObject;
   const route: ICefMediaRoute; const message_: ustring);
 var
@@ -323,6 +342,8 @@ begin
       FClosing := True;
       Visible  := False;
       DestroyAllArrays;
+      Chromium1.ExecuteDevToolsMethod(0, 'Cast.disable', nil);
+      sleep(500);
       Chromium1.CloseBrowser(True);
     end;
 end;
@@ -546,6 +567,64 @@ begin
     end;
 end;
 
+procedure TMediaRouterFrm.CreateRouteBtnClick(Sender: TObject);
+var
+  TempURN, TempErrorMsg : string;
+  TempSource : ICefMediaSource;
+begin
+  TempURN := trim(SourceURNCbx.Text);
+
+  if (length(TempURN) = 0) then
+    begin
+      AddLogEntry('Invalid URN');
+      exit;
+    end;
+
+  TempErrorMsg := '';
+
+  try
+    try
+      FMediaCS.Acquire;
+
+      if (FSinks <> nil) and
+         (SinksLbx.Items.Count > 0) and
+         (SinksLbx.ItemIndex >= 0) and
+         (SinksLbx.ItemIndex < length(FSinks)) then
+        begin
+          TempSource := Chromium1.GetSource(TempURN);
+
+          if (TempSource <> nil) and TempSource.IsValid then
+            begin
+              if (FSinks[SinksLbx.ItemIndex].SinkIntf <> nil) and
+                 FSinks[SinksLbx.ItemIndex].SinkIntf.IsValid then
+                begin
+                  if FSinks[SinksLbx.ItemIndex].SinkIntf.IsCompatibleWith(TempSource) then
+                    Chromium1.CreateRoute(TempSource, FSinks[SinksLbx.ItemIndex].SinkIntf)
+                   else
+                    TempErrorMsg := 'The selected Sink is not compatible with the Media Source.';
+                end
+               else
+                TempErrorMsg := 'The selected Sink is not valid.';
+            end
+           else
+            TempErrorMsg := 'The Media Source is not valid.';
+        end
+       else
+        TempErrorMsg := 'The sinks list is outdated.';
+    except
+      on e : exception do
+        begin
+          TempErrorMsg := e.Message;
+          if CustomExceptionHandler('TMediaRouterFrm.CreateRouteBtnClick', e) then raise;
+        end;
+    end;
+  finally
+    TempSource := nil;
+    FMediaCS.Release;
+    if (length(TempErrorMsg) > 0) then AddLogEntry(TempErrorMsg);
+  end;
+end;
+
 procedure TMediaRouterFrm.CopySinksArray(const aSinks : TCefMediaSinkArray);
 var
   i, TempLen : integer;
@@ -623,61 +702,18 @@ begin
   end;
 end;
 
-procedure TMediaRouterFrm.CreateRouteBtnClick(Sender: TObject);
-var
-  TempURN, TempErrorMsg : string;
-  TempSource : ICefMediaSource;
+procedure TMediaRouterFrm.GetDeviceInfoBtnClick(Sender: TObject);
 begin
-  TempURN := trim(SourceURNCbx.Text);
-
-  if (length(TempURN) = 0) then
-    begin
-      AddLogEntry('Invalid URN');
-      exit;
-    end;
-
-  TempErrorMsg := '';
-
   try
-    try
-      FMediaCS.Acquire;
+    FMediaCS.Acquire;
 
-      if (FSinks <> nil) and
-         (SinksLbx.Items.Count > 0) and
-         (SinksLbx.ItemIndex >= 0) and
-         (SinksLbx.ItemIndex < length(FSinks)) then
-        begin
-          TempSource := Chromium1.GetSource(TempURN);
-
-          if (TempSource <> nil) and TempSource.IsValid then
-            begin
-              if (FSinks[SinksLbx.ItemIndex].SinkIntf <> nil) and
-                 FSinks[SinksLbx.ItemIndex].SinkIntf.IsValid then
-                begin
-                  if FSinks[SinksLbx.ItemIndex].SinkIntf.IsCompatibleWith(TempSource) then
-                    Chromium1.CreateRoute(TempSource, FSinks[SinksLbx.ItemIndex].SinkIntf)
-                   else
-                    TempErrorMsg := 'The selected Sink is not compatible with the Media Source.';
-                end
-               else
-                TempErrorMsg := 'The selected Sink is not valid.';
-            end
-           else
-            TempErrorMsg := 'The Media Source is not valid.';
-        end
-       else
-        TempErrorMsg := 'The sinks list is outdated.';
-    except
-      on e : exception do
-        begin
-          TempErrorMsg := e.Message;
-          if CustomExceptionHandler('TMediaRouterFrm.CreateRouteBtnClick', e) then raise;
-        end;
-    end;
+    if (FSinks <> nil) and
+       (SinksLbx.Items.Count > 0) and
+       (SinksLbx.ItemIndex >= 0) and
+       (SinksLbx.ItemIndex < length(FSinks)) then
+      Chromium1.GetDeviceInfo(FSinks[SinksLbx.ItemIndex].SinkIntf);
   finally
-    TempSource := nil;
     FMediaCS.Release;
-    if (length(TempErrorMsg) > 0) then AddLogEntry(TempErrorMsg);
   end;
 end;
 
@@ -754,10 +790,12 @@ begin
   SendMsgBtn.Enabled := TerminateRouteBtn.Enabled and
                         (length(trim(MessageMem.Lines.Text)) > 0);
 
+  GetDeviceInfoBtn.Enabled := (SinksLbx.ItemIndex >= 0) and
+                              (SinksLbx.Items.Count > 0);
+
   CreateRouteBtn.Enabled := not(TerminateRouteBtn.Enabled) and
-                            (length(trim(SourceURNCbx.Text)) > 0) and
-                            (SinksLbx.ItemIndex >= 0) and
-                            (SinksLbx.Items.Count > 0);
+                            GetDeviceInfoBtn.Enabled and
+                            (length(trim(SourceURNCbx.Text)) > 0);
 end;
 
 procedure TMediaRouterFrm.AddLogEntry(const aMessage1, aMessage2 : string; aRec : boolean);

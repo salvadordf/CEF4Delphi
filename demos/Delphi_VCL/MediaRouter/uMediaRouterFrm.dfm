@@ -55,21 +55,43 @@ object MediaRouterFrm: TMediaRouterFrm
         Left = 12
         Top = 25
         Width = 226
-        Height = 616
+        Height = 579
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
         OnClick = SinksLbxClick
+        ExplicitHeight = 616
       end
       object SinksButtonsPnl: TPanel
         Left = 12
-        Top = 641
+        Top = 604
         Width = 226
-        Height = 74
+        Height = 111
         Align = alBottom
         BevelOuter = bvNone
         Padding.Top = 10
         TabOrder = 1
+        object GetDeviceInfoBtn: TButton
+          Left = 0
+          Top = 47
+          Width = 226
+          Height = 27
+          Caption = 'Get device info'
+          Enabled = False
+          TabOrder = 0
+          OnClick = GetDeviceInfoBtnClick
+        end
+        object NotifySinksBtn: TButton
+          Left = 0
+          Top = 84
+          Width = 226
+          Height = 27
+          Align = alBottom
+          Caption = 'Notify sinks'
+          TabOrder = 1
+          OnClick = NotifySinksBtnClick
+          ExplicitTop = 47
+        end
         object CreateRouteBtn: TButton
           Left = 0
           Top = 10
@@ -78,18 +100,9 @@ object MediaRouterFrm: TMediaRouterFrm
           Align = alTop
           Caption = 'Create route'
           Enabled = False
-          TabOrder = 0
+          TabOrder = 2
           OnClick = CreateRouteBtnClick
-        end
-        object NotifySinksBtn: TButton
-          Left = 0
-          Top = 47
-          Width = 226
-          Height = 27
-          Align = alBottom
-          Caption = 'Notify sinks'
-          TabOrder = 1
-          OnClick = NotifySinksBtnClick
+          ExplicitTop = 18
         end
       end
     end
@@ -125,11 +138,13 @@ object MediaRouterFrm: TMediaRouterFrm
           object SourceURNLbl: TLabel
             Left = 0
             Top = 0
-            Width = 57
-            Height = 13
+            Width = 65
+            Height = 21
             Align = alClient
             Caption = 'Source URN'
             Layout = tlCenter
+            ExplicitWidth = 57
+            ExplicitHeight = 13
           end
         end
         object SourceURNCbx: TComboBox
@@ -300,6 +315,7 @@ object MediaRouterFrm: TMediaRouterFrm
   end
   object Chromium1: TChromium
     OnMediaRouteCreateFinished = Chromium1MediaRouteCreateFinished
+    OnMediaSinkDeviceInfo = Chromium1MediaSinkDeviceInfo
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close

@@ -62,7 +62,7 @@ uses
   uCEFBrowserViewComponent, uCEFWindowComponent, uCEFPanelComponent, 
   uCEFScrollViewComponent, uCEFTextfieldComponent, uCEFViewComponent, 
   uCEFViewsFrameworkEvents, uCEFAudioHandler, uCEFDevToolsMessageObserver, 
-  LazarusPackageIntf;
+  uCEFMediaSinkDeviceInfoCallback, LazarusPackageIntf;
 
 implementation
 
