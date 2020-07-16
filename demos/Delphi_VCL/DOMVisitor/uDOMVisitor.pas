@@ -62,6 +62,7 @@ const
   MINIBROWSER_SHOWMESSAGE                 = WM_APP + $105;
   MINIBROWSER_SHOWSTATUSTEXT              = WM_APP + $106;
   MINIBROWSER_VISITDOM_JS                 = WM_APP + $107;
+  MINIBROWSER_SHOWERROR                   = WM_APP + $108;
 
   MINIBROWSER_CONTEXTMENU_VISITDOM_PARTIAL = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_VISITDOM_FULL    = MENU_ID_USER_FIRST + 2;
@@ -69,6 +70,7 @@ const
   MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2   = MENU_ID_USER_FIRST + 4;
   MINIBROWSER_CONTEXTMENU_VISITDOM_JS      = MENU_ID_USER_FIRST + 5;
   MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS = MENU_ID_USER_FIRST + 6;
+  MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_DT = MENU_ID_USER_FIRST + 7;
 
   DOMVISITOR_MSGNAME_PARTIAL  = 'domvisitorpartial';
   DOMVISITOR_MSGNAME_FULL     = 'domvisitorfull';
@@ -80,6 +82,8 @@ const
   NODE_ID = 'keywords';
 
 type
+  TDTVisitStatus = (dvsIdle, dvsGettingDocNodeID, dvsQueryingSelector, dvsSettingAttributeValue);
+
   TDOMVisitorFrm = class(TForm)
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
@@ -108,6 +112,7 @@ type
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: Cardinal; const message, source: ustring; line: Integer; out Result: Boolean);
+    procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -119,28 +124,42 @@ type
     FMsgContents : string;
     FStatusText  : string;
 
+    FStatus      : TDTVisitStatus;
+    FErrorText   : string;
+
     function  GetMsgContents : string;
     function  GetStatusText : string;
+    function  GetErrorText : string;
 
     procedure SetMsgContents(const aValue : string);
     procedure SetStatusText(const aValue : string);
+    procedure SetErrorText(const aValue : string);
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure VisitDOMMsg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_PARTIAL;
     procedure VisitDOM2Msg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_FULL;
     procedure VisitDOM3Msg(var aMessage : TMessage); message MINIBROWSER_VISITDOM_JS;
-    procedure CopyFrameIDs1(var aMessage : TMessage);  message MINIBROWSER_COPYFRAMEIDS_1;
-    procedure CopyFrameIDs2(var aMessage : TMessage);  message MINIBROWSER_COPYFRAMEIDS_2;
-    procedure ShowMessageMsg(var aMessage : TMessage);  message MINIBROWSER_SHOWMESSAGE;
-    procedure ShowStatusTextMsg(var aMessage : TMessage);  message MINIBROWSER_SHOWSTATUSTEXT;
+    procedure CopyFrameIDs1(var aMessage : TMessage); message MINIBROWSER_COPYFRAMEIDS_1;
+    procedure CopyFrameIDs2(var aMessage : TMessage); message MINIBROWSER_COPYFRAMEIDS_2;
+    procedure ShowMessageMsg(var aMessage : TMessage); message MINIBROWSER_SHOWMESSAGE;
+    procedure ShowStatusTextMsg(var aMessage : TMessage); message MINIBROWSER_SHOWSTATUSTEXT;
+    procedure ShowErrorMsg(var aMessage : TMessage); message MINIBROWSER_SHOWERROR;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
 
     procedure ShowStatusText(const aText : string);
+    function  QuerySelector(aNodeID : integer; const aSelector : string) : integer;
+    function  SetAttributeValue(aNodeID : integer; const aName, aValue : string) : integer;
+
+    function  HandleGetDocumentRslt(aSuccess : boolean; const aResult: ICefValue) : boolean;
+    function  HandleQuerySelectorRslt(aSuccess : boolean; const aResult: ICefValue) : boolean;
+    function  HandleSetAttributeValueRslt(aSuccess : boolean; const aResult: ICefValue) : boolean;
+    function  HandleErrorRslt(const aResult: ICefValue) : boolean;
 
     property  MsgContents : string   read GetMsgContents  write SetMsgContents;
     property  StatusText  : string   read GetStatusText   write SetStatusText;
+    property  ErrorText   : string   read GetErrorText    write SetErrorText;
   end;
 
 var
@@ -155,7 +174,7 @@ implementation
 uses
   uCEFProcessMessage, uCEFMiscFunctions, uCEFSchemeRegistrar,
   uCEFRenderProcessHandler, uCEFv8Handler, uCEFDomVisitor, uCEFDomNode,
-  uCEFTask;
+  uCEFTask, uCEFDictionaryValue, uCEFJson;
 
 // This demo sends messages from the browser process to the render process,
 // and from the render process to the browser process.
@@ -192,6 +211,28 @@ uses
 // preamble. The browser process receives the console message in the
 // TChromium.OnConsoleMessage event and we identify the right message thanks to
 // the preamble in the message.
+
+// This demos also uses DevTool methods to change the "value" attribute of an
+// INPUT HTML element. Each method is called using the
+// TChromium.ExecuteDevToolsMethod function and the results are received in the
+// TChromium.OnDevToolsMethodResult event.
+
+// To test this feature right click on the web page and select the "Set INPUT
+// value using DevTools methods" option.
+
+// That menu option will execute the "DOM.getDocument" method to get the NodeId
+// of the document node and it will trigger the TChromium.OnDevToolsMethodResult event.
+// In that event we use the NodeId of the document to call the "DOM.querySelector" method
+// with the "#keywords" selector, which is the ID atttribute of the INPUT element we need.
+// The TChromium.OnDevToolsMethodResult event is triggered once again and now we have the
+// NodeId of the INPUT element. Now we can call the "DOM.setAttributeValue" method to
+// update the "value" attribute in the INPUT element.
+
+// Read these documents for more details about the DevTools methods :
+// General information -> https://chromedevtools.github.io/devtools-protocol/
+// "DOM.getDocument" method -> https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-getDocument
+// "DOM.querySelector" method -> https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-querySelector
+// "DOM.setAttributeValue" method -> https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-setAttributeValue
 
 // Destruction steps
 // =================
@@ -447,6 +488,7 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_1,    'Copy frame IDs in the browser process');
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2,    'Copy frame IDs in the render process');
   model.AddItem(MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS,  'Set INPUT value using JavaScript');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_DT,  'Set INPUT value using DevTools methods');
 end;
 
 procedure TDOMVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -521,8 +563,123 @@ begin
       PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS_2, 0, 0);
 
     MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS :
-      frame.ExecuteJavaScript('document.getElementById("keywords").value = "qwerty";', 'about:blank', 0);
+      frame.ExecuteJavaScript('document.getElementById("' + NODE_ID + '").value = "qwerty";', 'about:blank', 0);
+
+    MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_DT :
+      // https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-getDocument
+      if (Chromium1.ExecuteDevToolsMethod(0, 'DOM.getDocument', nil) <> 0) then
+        FStatus := dvsGettingDocNodeID
+       else
+        FStatus := dvsIdle;
   end;
+end;
+
+function TDOMVisitorFrm.HandleGetDocumentRslt(aSuccess : boolean; const aResult: ICefValue) : boolean;
+var
+  TempRsltDict, TempRootNode : ICefDictionaryValue;
+  TempDocNodeID : integer;
+begin
+  Result := False;
+
+  if aSuccess and (aResult <> nil) then
+    begin
+      TempRsltDict := aResult.GetDictionary;
+
+      if TCEFJson.ReadDictionary(TempRsltDict, 'root', TempRootNode) and
+         TCEFJson.ReadInteger(TempRootNode, 'nodeId', TempDocNodeID) and
+         (QuerySelector(TempDocNodeID, '#' + NODE_ID) <> 0) then
+        Result := True;
+    end
+   else
+    if not(HandleErrorRslt(aResult)) then
+      ErrorText := 'GetDocument was not successful!';
+
+  if not(Result) then
+    PostMessage(Handle, MINIBROWSER_SHOWERROR, 0, 0);
+end;
+
+function TDOMVisitorFrm.HandleQuerySelectorRslt(aSuccess : boolean; const aResult: ICefValue) : boolean;
+var
+  TempRsltDict : ICefDictionaryValue;
+  TempNodeID : integer;
+begin
+  Result := False;
+
+  if aSuccess and (aResult <> nil) then
+    begin
+      TempRsltDict := aResult.GetDictionary;
+
+      if TCEFJson.ReadInteger(TempRsltDict, 'nodeId', TempNodeID) and
+         (SetAttributeValue(TempNodeID, 'value', 'qwerty') <> 0) then
+        Result := True;
+    end
+   else
+    if not(HandleErrorRslt(aResult)) then
+      ErrorText := 'QuerySelector was not successful!';
+
+  if not(Result) then
+    PostMessage(Handle, MINIBROWSER_SHOWERROR, 0, 0);
+end;
+
+function TDOMVisitorFrm.HandleSetAttributeValueRslt(aSuccess : boolean; const aResult: ICefValue) : boolean;
+begin
+  Result := False;
+
+  if aSuccess then
+    Result := True
+   else
+    if not(HandleErrorRslt(aResult)) then
+      ErrorText := 'SetAttributeValue was not successful!';
+
+  if not(Result) then
+    PostMessage(Handle, MINIBROWSER_SHOWERROR, 0, 0);
+end;
+
+function TDOMVisitorFrm.HandleErrorRslt(const aResult: ICefValue) : boolean;
+var
+  TempRsltDict : ICefDictionaryValue;
+  TempCode : integer;
+  TempMessage : string;
+begin
+  Result := False;
+
+  if (aResult <> nil) then
+    begin
+      TempRsltDict := aResult.GetDictionary;
+
+      if TCEFJson.ReadInteger(TempRsltDict, 'code', TempCode) and
+         TCEFJson.ReadString(TempRsltDict, 'message', TempMessage) then
+        begin
+          ErrorText := 'Error (' + inttostr(TempCode) + ') : ' + quotedstr(TempMessage);
+          Result := True;
+        end;
+    end;
+end;
+
+procedure TDOMVisitorFrm.Chromium1DevToolsMethodResult(Sender: TObject;
+  const browser: ICefBrowser; message_id: Integer; success: Boolean;
+  const result: ICefValue);
+begin
+  case FStatus of
+    dvsGettingDocNodeID :
+      if HandleGetDocumentRslt(success, result) then
+        begin
+          FStatus := dvsQueryingSelector;
+          exit;
+        end;
+
+    dvsQueryingSelector :
+      if HandleQuerySelectorRslt(success, result) then
+        begin
+          FStatus := dvsSettingAttributeValue;
+          exit;
+        end;
+
+    dvsSettingAttributeValue :
+      HandleSetAttributeValueRslt(success, result);
+  end;
+
+  FStatus := dvsIdle;
 end;
 
 procedure TDOMVisitorFrm.Chromium1ProcessMessageReceived(Sender: TObject;
@@ -576,6 +733,7 @@ procedure TDOMVisitorFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+  FStatus   := dvsIdle;
 
   FCritSection := TCriticalSection.Create;
 end;
@@ -688,6 +846,11 @@ begin
   ShowStatusText(StatusText);
 end;
 
+procedure TDOMVisitorFrm.ShowErrorMsg(var aMessage : TMessage);
+begin
+  messagedlg(ErrorText, mtError, [mbOK], 0);
+end;
+
 procedure TDOMVisitorFrm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
@@ -705,6 +868,46 @@ end;
 procedure TDOMVisitorFrm.ShowStatusText(const aText : string);
 begin
   StatusBar1.Panels[0].Text := aText;
+end;
+
+// https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-querySelector
+function TDOMVisitorFrm.QuerySelector(aNodeID : integer; const aSelector : string) : integer;
+var
+  TempParams : ICefDictionaryValue;
+begin
+  Result := 0;
+
+  try
+    if (length(aSelector) > 0) then
+      begin
+        TempParams := TCefDictionaryValueRef.New;
+        TempParams.SetInt('nodeId', aNodeID);
+        TempParams.SetString('selector', aSelector);
+        Result := Chromium1.ExecuteDevToolsMethod(0, 'DOM.querySelector', TempParams);
+      end;
+  finally
+    TempParams := nil;
+  end;
+end;
+
+// https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-setAttributeValue
+function TDOMVisitorFrm.SetAttributeValue(aNodeID : integer; const aName, aValue : string) : integer;
+var
+  TempParams : ICefDictionaryValue;
+begin
+  Result := 0;
+  try
+    if (aNodeID <> 0) then
+      begin
+        TempParams := TCefDictionaryValueRef.New;
+        TempParams.SetInt('nodeId', aNodeID);
+        TempParams.SetString('name', aName);
+        TempParams.SetString('value', aValue);
+        Result := Chromium1.ExecuteDevToolsMethod(0, 'DOM.setAttributeValue', TempParams);
+      end;
+  finally
+    TempParams := nil;
+  end;
 end;
 
 procedure TDOMVisitorFrm.Timer1Timer(Sender: TObject);
@@ -755,6 +958,29 @@ begin
     try
       FCritSection.Acquire;
       FStatusText := aValue;
+    finally
+      FCritSection.Release;
+    end;
+end;
+
+function TDOMVisitorFrm.GetErrorText : string;
+begin
+  Result := '';
+  if (FCritSection <> nil) then
+    try
+      FCritSection.Acquire;
+      Result := FErrorText;
+    finally
+      FCritSection.Release;
+    end;
+end;
+
+procedure TDOMVisitorFrm.SetErrorText(const aValue : string);
+begin
+  if (FCritSection <> nil) then
+    try
+      FCritSection.Acquire;
+      FErrorText := aValue;
     finally
       FCritSection.Release;
     end;

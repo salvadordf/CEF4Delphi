@@ -102,6 +102,7 @@ object DOMVisitorFrm: TDOMVisitorFrm
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
+    OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 16
     Top = 40
   end
