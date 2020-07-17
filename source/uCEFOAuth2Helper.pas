@@ -156,7 +156,7 @@ implementation
 uses
   {$IFDEF DELPHI22_UP}System.Hash,{$ENDIF}
   {$IFDEF FPC}DCPSha256,{$ENDIF}
-  uCEFMiscFunctions;
+  uCEFMiscFunctions, uCEFJson;
 
 constructor TCEFOAuth2Helper.Create;
 begin
@@ -391,7 +391,7 @@ begin
   try
     if (length(aResponse) > 0) then
       begin
-        TempRoot := CefParseJson(aResponse, JSON_PARSER_RFC);
+        TempRoot := TCEFJson.Parse(aResponse);
 
         if (TempRoot <> nil) and (TempRoot.GetType = VTYPE_DICTIONARY) then
           begin
@@ -432,7 +432,7 @@ begin
   try
     if (length(aResponse) > 0) then
       begin
-        TempRoot := CefParseJson(aResponse, JSON_PARSER_RFC);
+        TempRoot := TCEFJson.Parse(aResponse);
 
         if (TempRoot <> nil) and (TempRoot.GetType = VTYPE_DICTIONARY) then
           begin

@@ -87,7 +87,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFJson;
 
 
 // ************************************************************
@@ -108,7 +108,7 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCEFDevToolsMessageObserverOwn) then
     try
-      TempValue := CefParseJson(message_, message_size);
+      TempValue := TCEFJson.Parse(message_, message_size);
       TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsMessage(TCefBrowserRef.UnWrap(browser),
                                                                    TempValue,
                                                                    TempHandled);
@@ -133,7 +133,7 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCEFDevToolsMessageObserverOwn) then
     try
-      TempValue := CefParseJson(result, result_size);
+      TempValue := TCEFJson.Parse(result, result_size);
       TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsMethodResult(TCefBrowserRef.UnWrap(browser),
                                                                         message_id,
                                                                         success <> 0,
@@ -156,7 +156,7 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCEFDevToolsMessageObserverOwn) then
     try
-      TempValue := CefParseJson(params, params_size);
+      TempValue := TCEFJson.Parse(params, params_size);
       TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsEvent(TCefBrowserRef.UnWrap(browser),
                                                                  CefString(method),
                                                                  TempValue);

@@ -245,14 +245,6 @@ function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule:
 
 function CefGetPath(const aPathKey : TCefPathKey) : ustring;
 
-function CefParseJson(const jsonString: ustring; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
-function CefParseJson(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
-function CefParseJsonAndReturnError(const jsonString   : ustring;
-                                          options      : TCefJsonParserOptions;
-                                    out   errorCodeOut : TCefJsonParserError;
-                                    out   errorMsgOut  : ustring): ICefValue;
-function CefWriteJson(const node: ICefValue; options: TCefJsonWriterOptions): ustring;
-
 function CefCreateDirectory(const fullPath: ustring): Boolean;
 function CefGetTempDirectory(out tempDir: ustring): Boolean;
 function CefCreateNewTempDirectory(const prefix: ustring; out newTempPath: ustring): Boolean;
@@ -1805,49 +1797,6 @@ begin
     Result := '';
 end;
 
-function CefParseJson(const jsonString: ustring; options: TCefJsonParserOptions): ICefValue;
-var
-  TempJSON : TCefString;
-begin
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    begin
-      TempJSON := CefString(jsonString);
-      Result   := TCefValueRef.UnWrap(cef_parse_json(@TempJSON, options));
-    end
-   else
-    Result := nil;
-end;
-
-function CefParseJson(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions): ICefValue;
-begin
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (json <> nil) and (json_size > 0) then
-    Result := TCefValueRef.UnWrap(cef_parse_json_buffer(json, json_size, options))
-   else
-    Result := nil;
-end;
-
-function CefParseJsonAndReturnError(const jsonString   : ustring;
-                                          options      : TCefJsonParserOptions;
-                                    out   errorCodeOut : TCefJsonParserError;
-                                    out   errorMsgOut  : ustring): ICefValue;
-var
-  TempJSON, TempError : TCefString;
-begin
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    begin
-      CefStringInitialize(@TempError);
-      TempJSON    := CefString(jsonString);
-      Result      := TCefValueRef.UnWrap(cef_parse_jsonand_return_error(@TempJSON, options, @errorCodeOut, @TempError));
-      errorMsgOut := CefStringClearAndGet(@TempError);
-    end
-   else
-    begin
-      errorCodeOut := JSON_NO_ERROR;
-      Result       := nil;
-      errorMsgOut  := '';
-    end;
-end;
-
 function CefGetPath(const aPathKey : TCefPathKey) : ustring;
 var
   TempPath : TCefString;
@@ -1859,14 +1808,6 @@ begin
       if (cef_get_path(aPathKey, @TempPath) <> 0) then
         Result := CefStringClearAndGet(@TempPath);
     end
-   else
-    Result := '';
-end;
-
-function CefWriteJson(const node: ICefValue; options: TCefJsonWriterOptions): ustring;
-begin
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    Result := CefStringFreeAndGet(cef_write_json(CefGetData(node), options))
    else
     Result := '';
 end;

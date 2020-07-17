@@ -37,10 +37,24 @@
 
 unit uCEFJson;
 
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
+{$I cef.inc}
+
 interface
 
 uses
-  uCEFInterfaces;
+  {$IFDEF DELPHI16_UP}
+  System.Classes, System.SysUtils,
+  {$ELSE}
+  Classes, SysUtils,
+  {$ENDIF}
+  uCEFInterfaces, uCEFTypes, uCEFConstants;
 
 type
   TCEFJson = class
@@ -53,12 +67,23 @@ type
       class function ReadBinary(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefBinaryValue) : boolean;
       class function ReadDictionary(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefDictionaryValue) : boolean;
       class function ReadList(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefListValue) : boolean;
+
+      class function Parse(const jsonString: ustring; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
+      class function Parse(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
+      class function ParseAndReturnError(const jsonString: ustring; options: TCefJsonParserOptions; out errorCodeOut: TCefJsonParserError; out errorMsgOut: ustring): ICefValue;
+      class function Write(const node: ICefValue; options: TCefJsonWriterOptions = JSON_WRITER_DEFAULT): ustring; overload;
+      class function Write(const node: ICefDictionaryValue; options: TCefJsonWriterOptions = JSON_WRITER_DEFAULT): ustring; overload;
+      class function Write(const node: ICefValue; var aRsltStrings: TStringList): boolean; overload;
+      class function Write(const node: ICefDictionaryValue; var aRsltStrings: TStringList): boolean; overload;
+      class function SaveToFile(const node: ICefValue; const aFileName: ustring): boolean; overload;
+      class function SaveToFile(const node: ICefDictionaryValue; const aFileName: ustring): boolean; overload;
+      class function LoadFromFile(const aFileName: ustring; var aRsltNode: ICefValue; encoding: TEncoding = nil; options: TCefJsonParserOptions = JSON_PARSER_RFC): boolean;
   end;
 
 implementation
 
 uses
-  uCEFTypes;
+  uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions, uCEFValue;
 
 class function TCEFJson.ReadValue(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefValue) : boolean;
 begin
@@ -175,6 +200,186 @@ begin
       aValue := TempValue.GetList;
       Result := True;
     end;
+end;
+
+class function TCEFJson.Parse(const jsonString: ustring; options: TCefJsonParserOptions): ICefValue;
+var
+  TempJSON : TCefString;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempJSON := CefString(jsonString);
+      Result   := TCefValueRef.UnWrap(cef_parse_json(@TempJSON, options));
+    end
+   else
+    Result := nil;
+end;
+
+// json must be a pointer to a UTF8 string
+class function TCEFJson.Parse(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions): ICefValue;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (json <> nil) and (json_size > 0) then
+    Result := TCefValueRef.UnWrap(cef_parse_json_buffer(json, json_size, options))
+   else
+    Result := nil;
+end;
+
+class function TCEFJson.ParseAndReturnError(const jsonString   : ustring;
+                                                  options      : TCefJsonParserOptions;
+                                            out   errorCodeOut : TCefJsonParserError;
+                                            out   errorMsgOut  : ustring): ICefValue;
+var
+  TempJSON, TempError : TCefString;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      CefStringInitialize(@TempError);
+      TempJSON    := CefString(jsonString);
+      Result      := TCefValueRef.UnWrap(cef_parse_jsonand_return_error(@TempJSON, options, @errorCodeOut, @TempError));
+      errorMsgOut := CefStringClearAndGet(@TempError);
+    end
+   else
+    begin
+      errorCodeOut := JSON_NO_ERROR;
+      Result       := nil;
+      errorMsgOut  := '';
+    end;
+end;
+
+class function TCEFJson.Write(const node: ICefValue; options: TCefJsonWriterOptions): ustring;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (node <> nil) then
+    Result := CefStringFreeAndGet(cef_write_json(CefGetData(node), options))
+   else
+    Result := '';
+end;
+
+class function TCEFJson.Write(const node: ICefDictionaryValue; options: TCefJsonWriterOptions): ustring;
+var
+  TempValue : ICefValue;
+begin
+  Result := '';
+
+  if (node = nil) then exit;
+
+  try
+    TempValue := TCefValueRef.New;
+    TempValue.SetDictionary(node);
+    Result := Write(TempValue, options);
+  finally
+    TempValue := nil;
+  end;
+end;
+
+class function TCEFJson.Write(const node: ICefValue; var aRsltStrings: TStringList): boolean;
+var
+  TempJSON : ustring;
+begin
+  Result := False;
+
+  if (aRsltStrings <> nil) then
+    begin
+      TempJSON := Write(node, JSON_WRITER_PRETTY_PRINT);
+
+      if (length(TempJSON) > 0) then
+        begin
+          aRsltStrings.SetText(@TempJSON[1]);
+          Result := True;
+        end;
+    end;
+end;
+
+class function TCEFJson.Write(const node: ICefDictionaryValue; var aRsltStrings: TStringList): boolean;
+var
+  TempJSON : ustring;
+begin
+  Result := False;
+
+  if (aRsltStrings <> nil) then
+    begin
+      TempJSON := Write(node, JSON_WRITER_PRETTY_PRINT);
+
+      if (length(TempJSON) > 0) then
+        begin
+          aRsltStrings.SetText(@TempJSON[1]);
+          Result := True;
+        end;
+    end;
+end;
+
+class function TCEFJson.SaveToFile(const node: ICefValue; const aFileName: ustring): boolean;
+var
+  TempJSON : TStringList;
+begin
+  Result   := False;
+  TempJSON := nil;
+
+  try
+    try
+      TempJSON := TStringList.Create;
+
+      if Write(node, TempJSON) then
+        begin
+          TempJSON.SaveToFile(aFileName);
+          Result := True;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCEFJson.SaveToFile', e) then raise;
+    end;
+  finally
+    if (TempJSON <> nil) then FreeAndNil(TempJSON);
+  end;
+end;
+
+class function TCEFJson.SaveToFile(const node: ICefDictionaryValue; const aFileName: ustring): boolean;
+var
+  TempJSON : TStringList;
+begin
+  Result   := False;
+  TempJSON := nil;
+
+  try
+    try
+      TempJSON := TStringList.Create;
+
+      if Write(node, TempJSON) then
+        begin
+          TempJSON.SaveToFile(aFileName);
+          Result := True;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCEFJson.SaveToFile', e) then raise;
+    end;
+  finally
+    if (TempJSON <> nil) then FreeAndNil(TempJSON);
+  end;
+end;
+
+class function TCEFJson.LoadFromFile(const aFileName: ustring; var aRsltNode: ICefValue; encoding: TEncoding; options: TCefJsonParserOptions): boolean;
+var
+  TempJSON : TStringList;
+begin
+  Result   := False;
+  TempJSON := nil;
+
+  try
+    try
+      if (length(aFileName) > 0) and FileExists(aFileName) then
+        begin
+          TempJSON  := TStringList.Create;
+          TempJSON.LoadFromFile(aFileName, encoding);
+          aRsltNode := Parse(TempJSON.Text, options);
+          Result    := True;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCEFJson.LoadFromFile', e) then raise;
+    end;
+  finally
+    if (TempJSON <> nil) then FreeAndNil(TempJSON);
+  end;
 end;
 
 end.

@@ -212,7 +212,7 @@ uses
 // TChromium.OnConsoleMessage event and we identify the right message thanks to
 // the preamble in the message.
 
-// This demos also uses DevTool methods to change the "value" attribute of an
+// This demo also uses DevTool methods to change the "value" attribute of an
 // INPUT HTML element. Each method is called using the
 // TChromium.ExecuteDevToolsMethod function and the results are received in the
 // TChromium.OnDevToolsMethodResult event.
@@ -288,14 +288,19 @@ begin
             // known preamble that will be used to identify the message in the
             // TChromium.OnConsoleMessage event.
 
-            // CEF has some known issues with ICefDomNode.GetValue and ICefDomNode.SetValue
-            // Use JavaScript if you need to get or set the value of HTML elements.
+            // NOTE : In case you try to read or write node values using the CEF API
+            // you should know that ICefDomNode.GetValue and ICefDomNode.SetValue
+            // only work in text nodes. ICefDomNode.GetElementAttribute returns
+            // the attribute value specified in the HTML and not the current value.
+
+            // It's recommended that you use JavaScript or DevTools methods if
+            // you need to get or set the value of HTML elements.
             // For example, if you want to use the "console trick" and you want
             // to get the value of the search box in our forum you would have to
             // execute this JavaScript code :
             // console.log("DOMVISITOR" + document.getElementById("keywords").value);
 
-            TempMessage := 'name:' + quotedstr(TempNode.Name);
+            TempMessage := 'name:' + TempNode.Name;
             TempJSCode  := 'console.log("' + CONSOLE_MSG_PREAMBLE + TempMessage + '");';
             aFrame.ExecuteJavaScript(TempJSCode, 'about:blank', 0);
           end;
@@ -531,9 +536,9 @@ begin
       MsgContents := copy(message, succ(length(CONSOLE_MSG_PREAMBLE)), length(message));
 
       if (length(MsgContents) = 0) then
-        MsgContents := 'The INPUT node has no value'
+        MsgContents := 'There was an error reading the search box information'
        else
-        MsgContents := 'INPUT node value : ' + quotedstr(MsgContents);
+        MsgContents := 'Search box information: ' + quotedstr(MsgContents);
 
       PostMessage(Handle, MINIBROWSER_SHOWMESSAGE, 0, 0);
     end;
