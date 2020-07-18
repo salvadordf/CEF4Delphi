@@ -2635,8 +2635,8 @@ type
     procedure SetFontList(const font_list: ustring);
     procedure ApplyTextColor(color: TCefColor; const range: TCefRange);
     procedure ApplyTextStyle(style: TCefTextStyle; add: boolean; const range: TCefRange);
-    function  IsCommandEnabled(command_id: Integer): boolean;
-    procedure ExecuteCommand(command_id: Integer);
+    function  IsCommandEnabled(command_id: TCefTextFieldCommands): boolean;
+    procedure ExecuteCommand(command_id: TCefTextFieldCommands);
     procedure ClearEditHistory;
     procedure SetPlaceholderText(const text_: ustring);
     function  GetPlaceholderText : ustring;

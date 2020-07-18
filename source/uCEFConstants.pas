@@ -543,6 +543,14 @@ const
   CEF_COOKIE_PRIORITY_MEDIUM = 0;
   CEF_COOKIE_PRIORITY_HIGH   = 1;
 
+  // /include/internal/cef_types.h (cef_text_field_commands_t)
+  CEF_TFC_CUT        = 1;
+  CEF_TFC_COPY       = 2;
+  CEF_TFC_PASTE      = 3;
+  CEF_TFC_UNDO       = 4;
+  CEF_TFC_DELETE     = 5;
+  CEF_TFC_SELECT_ALL = 6;
+
 
 //******************************************************
 //****************** OTHER CONSTANTS *******************

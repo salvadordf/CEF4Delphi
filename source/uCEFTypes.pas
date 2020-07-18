@@ -315,6 +315,7 @@ type
   TCefSchemeOptions                = Integer;     // /include/internal/cef_types.h (cef_scheme_options_t)
   TCefMediaRouterCreateResult      = Integer;     // /include/internal/cef_types.h (cef_media_route_create_result_t)
   TCefCookiePriority               = Integer;     // /include/internal/cef_types.h (cef_cookie_priority_t)
+  TCefTextFieldCommands            = Integer;     // /include/internal/cef_types.h (cef_text_field_commands_t)
 
 
 
@@ -3186,8 +3187,8 @@ type
     set_font_list                  : procedure(self: PCefTextfield; const font_list: PCefString); stdcall;
     apply_text_color               : procedure(self: PCefTextfield; color: TCefColor; const range: PCefRange); stdcall;
     apply_text_style               : procedure(self: PCefTextfield; style: TCefTextStyle; add: Integer; const range: PCefRange); stdcall;
-    is_command_enabled             : function(self: PCefTextfield; command_id: Integer): Integer; stdcall;
-    execute_command                : procedure(self: PCefTextfield; command_id: Integer); stdcall;
+    is_command_enabled             : function(self: PCefTextfield; command_id: TCefTextFieldCommands): Integer; stdcall;
+    execute_command                : procedure(self: PCefTextfield; command_id: TCefTextFieldCommands); stdcall;
     clear_edit_history             : procedure(self: PCefTextfield); stdcall;
     set_placeholder_text           : procedure(self: PCefTextfield; const text: PCefString); stdcall;
     get_placeholder_text           : function(self: PCefTextfield): PCefStringUserFree; stdcall;

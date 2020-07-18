@@ -83,8 +83,8 @@ type
       procedure SetFontList(const font_list: ustring);
       procedure ApplyTextColor(color: TCefColor; const range: TCefRange);
       procedure ApplyTextStyle(style: TCefTextStyle; add: boolean; const range: TCefRange);
-      function  IsCommandEnabled(command_id: Integer): boolean;
-      procedure ExecuteCommand(command_id: Integer);
+      function  IsCommandEnabled(command_id: TCefTextFieldCommands): boolean;
+      procedure ExecuteCommand(command_id: TCefTextFieldCommands);
       procedure ClearEditHistory;
       procedure SetPlaceholderText(const text_: ustring);
       function  GetPlaceholderText : ustring;
@@ -235,12 +235,12 @@ begin
   PCefTextfield(FData)^.apply_text_style(PCefTextfield(FData), style, ord(add), @range);
 end;
 
-function TCefTextfieldRef.IsCommandEnabled(command_id: Integer): boolean;
+function TCefTextfieldRef.IsCommandEnabled(command_id: TCefTextFieldCommands): boolean;
 begin
   Result := (PCefTextfield(FData)^.is_command_enabled(PCefTextfield(FData), command_id) <> 0);
 end;
 
-procedure TCefTextfieldRef.ExecuteCommand(command_id: Integer);
+procedure TCefTextfieldRef.ExecuteCommand(command_id: TCefTextFieldCommands);
 begin
   PCefTextfield(FData)^.execute_command(PCefTextfield(FData), command_id);
 end;

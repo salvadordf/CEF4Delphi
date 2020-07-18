@@ -112,8 +112,8 @@ type
       procedure SetFontList(const font_list: ustring);
       procedure ApplyTextColor(color: TCefColor; const range: TCefRange);
       procedure ApplyTextStyle(style: TCefTextStyle; add: boolean; const range: TCefRange);
-      function  IsCommandEnabled(command_id: Integer): boolean;
-      procedure ExecuteCommand(command_id: Integer);
+      function  IsCommandEnabled(command_id: TCefTextFieldCommands): boolean;
+      procedure ExecuteCommand(command_id: TCefTextFieldCommands);
       procedure ClearEditHistory;
       procedure SetAccessibleName(const name_: ustring);
       procedure SetPlaceholderTextColor(color: TCefColor);
@@ -406,12 +406,12 @@ begin
     FTextfield.ApplyTextStyle(style, add, range);
 end;
 
-function TCEFTextfieldComponent.IsCommandEnabled(command_id: Integer): boolean;
+function TCEFTextfieldComponent.IsCommandEnabled(command_id: TCefTextFieldCommands): boolean;
 begin
   Result := Initialized and FTextfield.IsCommandEnabled(command_id);
 end;
 
-procedure TCEFTextfieldComponent.ExecuteCommand(command_id: Integer);
+procedure TCEFTextfieldComponent.ExecuteCommand(command_id: TCefTextFieldCommands);
 begin
   if Initialized then
     FTextfield.ExecuteCommand(command_id);
