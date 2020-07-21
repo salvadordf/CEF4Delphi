@@ -238,7 +238,7 @@ begin
   // If you need transparency leave the GlobalCEFApp.BackgroundColor property
   // with the default value or set the alpha channel to 0
   if TRANSPARENT_BROWSER then
-    GlobalCEFApp.BackgroundColor := CefColorSetARGB($00, $FF, $FF, $FF)
+    GlobalCEFApp.BackgroundColor := CefColorSetARGB($00, $00, $00, $00)
    else
     GlobalCEFApp.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 end;
@@ -779,7 +779,7 @@ begin
       // If you need transparency leave the chrmosr.Options.BackgroundColor property
       // with the default value or set the alpha channel to 0
       if TRANSPARENT_BROWSER then
-        chrmosr.Options.BackgroundColor := CefColorSetARGB($00, $FF, $FF, $FF)
+        chrmosr.Options.BackgroundColor := CefColorSetARGB($00, $00, $00, $00)
        else
         chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 
