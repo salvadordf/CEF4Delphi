@@ -1125,7 +1125,6 @@ begin
   FAddCustomHeader        := False;
   FDoNotTrack             := True;
   FSendReferrer           := True;
-  FHyperlinkAuditing      := False;
   FRunAllFlashInAllowMode := False;
   FAllowOutdatedPlugins   := False;
   FAlwaysAuthorizePlugins := False;
@@ -1140,6 +1139,11 @@ begin
   FAcceptCookies          := cpAllow;
   FBlock3rdPartyCookies   := False;
   FOffline                := False;
+
+  if (GlobalCEFApp <> nil) then
+    FHyperlinkAuditing := GlobalCEFApp.HyperlinkAuditing
+   else
+    FHyperlinkAuditing := True;
 
   //
   // Somo focus issues in CEF seem to be fixed when you use WS_EX_NOACTIVATE in

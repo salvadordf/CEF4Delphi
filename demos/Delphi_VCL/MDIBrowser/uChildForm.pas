@@ -230,6 +230,7 @@ begin
     Chromium1.ProxyPassword := '';
     }
 
+    Chromium1.DefaultURL := Edit1.Text;
     Chromium1.CreateBrowser(CEFWindowParent1, '', TempContext);
   finally
     TempContext := nil;
@@ -268,7 +269,6 @@ procedure TChildForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.UpdateSize;
   Panel1.Enabled := True;
-  Button1.Click;
 end;
 
 procedure TChildForm.BrowserDestroyMsg(var aMessage : TMessage);

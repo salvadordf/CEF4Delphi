@@ -77,7 +77,7 @@ type
       class function Write(const node: ICefDictionaryValue; var aRsltStrings: TStringList): boolean; overload;
       class function SaveToFile(const node: ICefValue; const aFileName: ustring): boolean; overload;
       class function SaveToFile(const node: ICefDictionaryValue; const aFileName: ustring): boolean; overload;
-      class function LoadFromFile(const aFileName: ustring; var aRsltNode: ICefValue; encoding: TEncoding = nil; options: TCefJsonParserOptions = JSON_PARSER_RFC): boolean;
+      class function LoadFromFile(const aFileName: ustring; var aRsltNode: ICefValue; {$IFDEF DELPHI12_UP}encoding: TEncoding = nil;{$ENDIF} options: TCefJsonParserOptions = JSON_PARSER_RFC): boolean;
   end;
 
 implementation
@@ -357,7 +357,7 @@ begin
   end;
 end;
 
-class function TCEFJson.LoadFromFile(const aFileName: ustring; var aRsltNode: ICefValue; encoding: TEncoding; options: TCefJsonParserOptions): boolean;
+class function TCEFJson.LoadFromFile(const aFileName: ustring; var aRsltNode: ICefValue; {$IFDEF DELPHI12_UP}encoding: TEncoding;{$ENDIF} options: TCefJsonParserOptions): boolean;
 var
   TempJSON : TStringList;
 begin
@@ -369,7 +369,7 @@ begin
       if (length(aFileName) > 0) and FileExists(aFileName) then
         begin
           TempJSON  := TStringList.Create;
-          TempJSON.LoadFromFile(aFileName, encoding);
+          TempJSON.LoadFromFile(aFileName{$IFDEF DELPHI12_UP}, encoding{$ENDIF});
           aRsltNode := Parse(TempJSON.Text, options);
           Result    := True;
         end;

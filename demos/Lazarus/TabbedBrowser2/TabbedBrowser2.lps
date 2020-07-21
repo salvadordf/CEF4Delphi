@@ -8,6 +8,7 @@
       <Unit0>
         <Filename Value="TabbedBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="40"/>
         <CursorPos X="50" Y="62"/>
         <UsageCount Value="20"/>
@@ -34,10 +35,9 @@
         <ComponentName Value="BrowserFrame"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="68"/>
-        <CursorPos X="57" Y="122"/>
+        <TopLine Value="69"/>
+        <CursorPos X="91" Y="85"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
