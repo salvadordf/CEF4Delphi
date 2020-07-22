@@ -55,14 +55,14 @@ uses
     {$ENDIF}
     System.Classes, System.UITypes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, {$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 84;
-  CEF_SUPPORTED_VERSION_MINOR   = 2;
-  CEF_SUPPORTED_VERSION_RELEASE = 6;
+  CEF_SUPPORTED_VERSION_MINOR   = 3;
+  CEF_SUPPORTED_VERSION_RELEASE = 3;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 84;

@@ -2377,8 +2377,8 @@ type
   ICefResourceBundle = interface(ICefBaseRefCounted)
     ['{3213CF97-C854-452B-B615-39192F8D07DC}']
     function GetLocalizedString(stringId: Integer): ustring;
-    function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
-    function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
+    function GetDataResource(resourceId: Integer): ICefBinaryValue;
+    function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor): ICefBinaryValue;
   end;
 
   // TCefImage

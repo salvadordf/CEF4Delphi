@@ -1935,8 +1935,8 @@ type
   TCefResourceBundle = record
     base                        : TCefBaseRefCounted;
     get_localized_string        : function(self: PCefResourceBundle; string_id: Integer): PCefStringUserFree; stdcall;
-    get_data_resource           : function(self: PCefResourceBundle; resource_id: Integer; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
-    get_data_resource_for_scale : function(self: PCefResourceBundle; resource_id: Integer; scale_factor: TCefScaleFactor; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
+    get_data_resource           : function(self: PCefResourceBundle; resource_id: Integer): PCefBinaryValue; stdcall;
+    get_data_resource_for_scale : function(self: PCefResourceBundle; resource_id: Integer; scale_factor: TCefScaleFactor): PCefBinaryValue; stdcall;
   end;
 
   // /include/capi/cef_menu_model_delegate_capi.h (cef_menu_model_delegate_t)
