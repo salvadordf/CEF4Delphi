@@ -37,11 +37,22 @@
 
 program TinyBrowser;
 
+{$I cef.inc}
+
 uses
+  {$IFDEF DELPHI16_UP}
+  WinApi.Windows,
+  {$ELSE}
+  Windows,
+  {$ENDIF }
   uTinyBrowser in 'uTinyBrowser.pas',
   uCEFApplicationCore;
 
 {$R *.res}
+
+// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+// If you don't add this flag the rederer process will crash when you try to load large images.
+{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
   CreateGlobalCEFApp;

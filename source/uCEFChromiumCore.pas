@@ -689,7 +689,7 @@ type
       function    IsSameBrowser(const aBrowser : ICefBrowser) : boolean;
       function    ExecuteTaskOnCefThread(aCefThreadId : TCefThreadId; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;
       procedure   SetUserAgentOverride(const aUserAgent : ustring; const aAcceptLanguage : ustring = ''; const aPlatform : ustring = '');
-      procedure   ClearDataForOrigin(const aOriginURL : ustring; aStorageTypes : TCefClearDataStorageTypes = cdstAll);
+      procedure   ClearDataForOrigin(const aOrigin : ustring; aStorageTypes : TCefClearDataStorageTypes = cdstAll);
       procedure   ClearCache;
 
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
@@ -2992,13 +2992,13 @@ begin
   end;
 end;
 
-procedure TChromiumCore.ClearDataForOrigin(const aOriginURL : ustring; aStorageTypes : TCefClearDataStorageTypes);
+procedure TChromiumCore.ClearDataForOrigin(const aOrigin : ustring; aStorageTypes : TCefClearDataStorageTypes);
 var
   TempParams : ICefDictionaryValue;
 begin
   try
     TempParams := TCefDictionaryValueRef.New;
-    TempParams.SetString('origin', aOriginURL);
+    TempParams.SetString('origin', aOrigin);
 
     case aStorageTypes of
       cdstAppCache        : TempParams.SetString('storageTypes', 'appcache');
