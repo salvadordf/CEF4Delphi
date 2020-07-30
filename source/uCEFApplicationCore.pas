@@ -1636,7 +1636,13 @@ begin
       aValues.Add(aNewValue);
     end
    else
-    aValues[i] := aValues[i] + ',' + aNewValue;
+    if (length(aNewValue) > 0) then
+      begin
+        if (length(aValues[i]) > 0) then
+          aValues[i] := aValues[i] + ',' + aNewValue
+         else
+          aValues[i] := aNewValue;
+      end;
 end;
 
 procedure TCefApplicationCore.ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
