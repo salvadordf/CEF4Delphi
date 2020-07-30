@@ -72,7 +72,8 @@ type
       function  HasSwitches: Boolean;
       function  HasSwitch(const name: ustring): Boolean;
       function  GetSwitchValue(const name: ustring): ustring;
-      procedure GetSwitches(var switches: TStrings);
+      function  GetSwitches(var switches: TStrings): boolean; overload;
+      function  GetSwitches(var SwitchKeys, SwitchValues: TStringList): boolean; overload;
       procedure AppendSwitch(const name: ustring);
       procedure AppendSwitchWithValue(const name, value: ustring);
       function  HasArguments: Boolean;
@@ -155,12 +156,13 @@ begin
   Result := CefStringFreeAndGet(PCefCommandLine(FData)^.get_program(PCefCommandLine(FData)));
 end;
 
-procedure TCefCommandLineRef.GetSwitches(var switches: TStrings);
+function TCefCommandLineRef.GetSwitches(var switches: TStrings): boolean;
 var
   TempStrMap : ICefStringMap;
   i, j : NativeUInt;
   TempKey, TempValue : ustring;
 begin
+  Result     := False;
   TempStrMap := nil;
 
   try
@@ -189,6 +191,44 @@ begin
 
               inc(i);
             end;
+
+          Result := (j > 0);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCommandLineRef.GetSwitches', e) then raise;
+    end;
+  finally
+    TempStrMap := nil;
+  end;
+end;
+
+function TCefCommandLineRef.GetSwitches(var SwitchKeys, SwitchValues: TStringList): boolean;
+var
+  TempStrMap : ICefStringMap;
+  i, j : NativeUInt;
+begin
+  Result     := False;
+  TempStrMap := nil;
+
+  try
+    try
+      if (SwitchKeys <> nil) and (SwitchValues <> nil) then
+        begin
+          TempStrMap := TCefStringMapOwn.Create;
+          PCefCommandLine(FData)^.get_switches(PCefCommandLine(FData), TempStrMap.Handle);
+
+          i := 0;
+          j := TempStrMap.Size;
+
+          while (i < j) do
+            begin
+              SwitchKeys.Add(TempStrMap.Key[i]);
+              SwitchValues.Add(TempStrMap.Value[i]);
+              inc(i);
+            end;
+
+          Result := (j > 0);
         end;
     except
       on e : exception do

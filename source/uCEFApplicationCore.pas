@@ -62,13 +62,13 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 84;
   CEF_SUPPORTED_VERSION_MINOR   = 3;
-  CEF_SUPPORTED_VERSION_RELEASE = 7;
+  CEF_SUPPORTED_VERSION_RELEASE = 8;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 84;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 4147;
-  CEF_CHROMEELF_VERSION_BUILD   = 89;
+  CEF_CHROMEELF_VERSION_BUILD   = 105;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -323,6 +323,9 @@ type
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       procedure UpdateSupportedSchemes(aIncludeDefaults : boolean = True); virtual;
       function  ParseProcessType : TCefProcessType;
+      procedure AddCustomCommandLineSwitches(var aKeys, aValues : TStringList); virtual;
+      procedure AppendSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
+      procedure ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
 
     public
       constructor Create;
@@ -1615,8 +1618,49 @@ begin
     FOnLoadError(browser, frame, errorCode, errorText, failedUrl);
 end;
 
-procedure TCefApplicationCore.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
-                                                                     const commandLine : ICefCommandLine);
+procedure TCefApplicationCore.AppendSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
+var
+  TempKey : ustring;
+  i : integer;
+begin
+  if (copy(aNewKey, 1, 2) = '--') then
+    TempKey := copy(aNewKey, 3, length(aNewKey))
+   else
+    TempKey := aNewKey;
+
+  i := aKeys.IndexOf(TempKey);
+
+  if (i < 0) then
+    begin
+      aKeys.Add(aNewKey);
+      aValues.Add(aNewValue);
+    end
+   else
+    aValues[i] := aValues[i] + ',' + aNewValue;
+end;
+
+procedure TCefApplicationCore.ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
+var
+  TempKey : ustring;
+  i : integer;
+begin
+  if (copy(aNewKey, 1, 2) = '--') then
+    TempKey := copy(aNewKey, 3, length(aNewKey))
+   else
+    TempKey := aNewKey;
+
+  i := aKeys.IndexOf(TempKey);
+
+  if (i < 0) then
+    begin
+      aKeys.Add(aNewKey);
+      aValues.Add(aNewValue);
+    end
+   else
+    aValues[i] := aNewValue;
+end;
+
+procedure TCefApplicationCore.AddCustomCommandLineSwitches(var aKeys, aValues : TStringList);
 var
   i : integer;
   {$IFDEF MSWINDOWS}
@@ -1624,216 +1668,251 @@ var
   TempFileName : ustring;
   {$ENDIF}
 begin
-  if (commandLine <> nil) and (FProcessType = ptBrowser) and (processType = '') then
+  {$IFDEF MSWINDOWS}
+  if FindFlashDLL(TempFileName) and
+     GetDLLVersion(TempFileName, TempVersionInfo) then
     begin
-      {$IFDEF MSWINDOWS}
-      if FindFlashDLL(TempFileName) and
-         GetDLLVersion(TempFileName, TempVersionInfo) then
-        begin
-          if FEnableGPU then commandLine.AppendSwitch('--enable-gpu-plugin');
+      if FEnableGPU then ReplaceSwitch(aKeys, aValues, '--enable-gpu-plugin');
 
-          commandLine.AppendSwitch('--enable-accelerated-plugins');
-          commandLine.AppendSwitchWithValue('--ppapi-flash-path',    TempFileName);
-          commandLine.AppendSwitchWithValue('--ppapi-flash-version', FileVersionInfoToString(TempVersionInfo));
-        end
-       else
-       {$ENDIF}
-        if FFlashEnabled then
-          begin
-            if FEnableGPU then commandLine.AppendSwitch('--enable-gpu-plugin');
+      ReplaceSwitch(aKeys, aValues, '--enable-accelerated-plugins');
+      ReplaceSwitch(aKeys, aValues, '--ppapi-flash-path', TempFileName);
+      ReplaceSwitch(aKeys, aValues, '--ppapi-flash-version', FileVersionInfoToString(TempVersionInfo));
+    end
+   else
+   {$ENDIF}
+    if FFlashEnabled then
+      begin
+        if FEnableGPU then ReplaceSwitch(aKeys, aValues, '--enable-gpu-plugin');
 
-            commandLine.AppendSwitch('--enable-accelerated-plugins');
-            commandLine.AppendSwitch('--enable-system-flash');
-          end;
-
-      commandLine.AppendSwitchWithValue('--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
-      commandLine.AppendSwitchWithValue('--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
-
-      if FUseFakeUIForMediaStream then
-        commandLine.AppendSwitch('--use-fake-ui-for-media-stream');
-
-      if not(FEnableGPU) then
-        begin
-          commandLine.AppendSwitch('--disable-gpu');
-          commandLine.AppendSwitch('--disable-gpu-compositing');
-        end;
-
-      if FSingleProcess then
-        commandLine.AppendSwitch('--single-process');
-
-      case FSmoothScrolling of
-        STATE_ENABLED  : commandLine.AppendSwitch('--enable-smooth-scrolling');
-        STATE_DISABLED : commandLine.AppendSwitch('--disable-smooth-scrolling');
+        ReplaceSwitch(aKeys, aValues, '--enable-accelerated-plugins');
+        ReplaceSwitch(aKeys, aValues, '--enable-system-flash');
       end;
 
-      case FTouchEvents of
-        STATE_ENABLED  : commandLine.AppendSwitchWithValue('--touch-events', 'enabled');
-        STATE_DISABLED : commandLine.AppendSwitchWithValue('--touch-events', 'disabled');
-      end;
+  ReplaceSwitch(aKeys, aValues, '--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
+  ReplaceSwitch(aKeys, aValues, '--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
 
-      if FDisableReadingFromCanvas then
-        commandLine.AppendSwitch('--disable-reading-from-canvas');
+  if FUseFakeUIForMediaStream then
+    ReplaceSwitch(aKeys, aValues, '--use-fake-ui-for-media-stream');
 
-      if not(FHyperlinkAuditing) then
-        commandLine.AppendSwitch('--no-pings');
+  if not(FEnableGPU) then
+    begin
+      ReplaceSwitch(aKeys, aValues, '--disable-gpu');
+      ReplaceSwitch(aKeys, aValues, '--disable-gpu-compositing');
+    end;
 
-      case FAutoplayPolicy of
-        appDocumentUserActivationRequired    :
-          commandLine.AppendSwitchWithValue('--autoplay-policy', 'document-user-activation-required');
+  if FSingleProcess then
+    ReplaceSwitch(aKeys, aValues, '--single-process');
 
-        appNoUserGestureRequired             :
-          commandLine.AppendSwitchWithValue('--autoplay-policy', 'no-user-gesture-required');
+  case FSmoothScrolling of
+    STATE_ENABLED  : ReplaceSwitch(aKeys, aValues, '--enable-smooth-scrolling');
+    STATE_DISABLED : ReplaceSwitch(aKeys, aValues, '--disable-smooth-scrolling');
+  end;
 
-        appUserGestureRequired               :
-          commandLine.AppendSwitchWithValue('--autoplay-policy', 'user-gesture-required');
-      end;
+  case FTouchEvents of
+    STATE_ENABLED  : ReplaceSwitch(aKeys, aValues, '--touch-events', 'enabled');
+    STATE_DISABLED : ReplaceSwitch(aKeys, aValues, '--touch-events', 'disabled');
+  end;
 
-      if FFastUnload then
-        commandLine.AppendSwitch('--enable-fast-unload');
+  if FDisableReadingFromCanvas then
+    ReplaceSwitch(aKeys, aValues, '--disable-reading-from-canvas');
 
-      if FDisableGPUCache then
-        commandLine.AppendSwitch('--disable-gpu-shader-disk-cache');
+  if not(FHyperlinkAuditing) then
+    ReplaceSwitch(aKeys, aValues, '--no-pings');
 
-      if FDisableSafeBrowsing then
+  case FAutoplayPolicy of
+    appDocumentUserActivationRequired    :
+      ReplaceSwitch(aKeys, aValues, '--autoplay-policy', 'document-user-activation-required');
+
+    appNoUserGestureRequired             :
+      ReplaceSwitch(aKeys, aValues, '--autoplay-policy', 'no-user-gesture-required');
+
+    appUserGestureRequired               :
+      ReplaceSwitch(aKeys, aValues, '--autoplay-policy', 'user-gesture-required');
+  end;
+
+  if FFastUnload then
+    ReplaceSwitch(aKeys, aValues, '--enable-fast-unload');
+
+  if FDisableGPUCache then
+    ReplaceSwitch(aKeys, aValues, '--disable-gpu-shader-disk-cache');
+
+  if FDisableSafeBrowsing then
+    begin
+      ReplaceSwitch(aKeys, aValues, '--disable-client-side-phishing-detection');
+      ReplaceSwitch(aKeys, aValues, '--safebrowsing-disable-auto-update');
+      ReplaceSwitch(aKeys, aValues, '--safebrowsing-disable-download-protection');
+    end;
+
+  if FMuteAudio then
+    ReplaceSwitch(aKeys, aValues, '--mute-audio');
+
+  if FDisableWebSecurity then
+    ReplaceSwitch(aKeys, aValues, '--disable-web-security');
+
+  if FDisablePDFExtension then
+    ReplaceSwitch(aKeys, aValues, '--disable-pdf-extension');
+
+  if FDisableSiteIsolationTrials then
+    ReplaceSwitch(aKeys, aValues, '--disable-site-isolation-trials');
+
+  if FSitePerProcess then
+    ReplaceSwitch(aKeys, aValues, '--site-per-process');
+
+  if FDisableExtensions then
+    ReplaceSwitch(aKeys, aValues, '--disable-extensions');
+
+  if FDisableBackgroundNetworking then
+    ReplaceSwitch(aKeys, aValues, '--disable-background-networking');
+
+  if FMetricsRecordingOnly then
+    ReplaceSwitch(aKeys, aValues, '--metrics-recording-only');
+
+  if FAllowFileAccessFromFiles then
+    ReplaceSwitch(aKeys, aValues, '--allow-file-access-from-files');
+
+  if FAllowRunningInsecureContent then
+    ReplaceSwitch(aKeys, aValues, '--allow-running-insecure-content');
+
+  if FEnablePrintPreview then
+    ReplaceSwitch(aKeys, aValues, '--enable-print-preview');
+
+  if FDisableNewBrowserInfoTimeout then
+    ReplaceSwitch(aKeys, aValues, '--disable-new-browser-info-timeout');
+
+  if (length(FDevToolsProtocolLogFile) > 0) then
+    ReplaceSwitch(aKeys, aValues, '--devtools-protocol-log-file', FDevToolsProtocolLogFile);
+
+  case FPluginPolicy of
+    PLUGIN_POLICY_SWITCH_DETECT : ReplaceSwitch(aKeys, aValues, '--plugin-policy', 'detect');
+    PLUGIN_POLICY_SWITCH_BLOCK  : ReplaceSwitch(aKeys, aValues, '--plugin-policy', 'block');
+  end;
+
+  if (length(FDefaultEncoding) > 0) then
+    ReplaceSwitch(aKeys, aValues, '--default-encoding', FDefaultEncoding);
+
+  if FDisableJavascript then
+    ReplaceSwitch(aKeys, aValues, '--disable-javascript');
+
+  if FDisableJavascriptCloseWindows then
+    ReplaceSwitch(aKeys, aValues, '--disable-javascript-close-windows');
+
+  if FDisableJavascriptAccessClipboard then
+    ReplaceSwitch(aKeys, aValues, '--disable-javascript-access-clipboard');
+
+  if FDisableJavascriptDomPaste then
+    ReplaceSwitch(aKeys, aValues, '--disable-javascript-dom-paste');
+
+  if FAllowUniversalAccessFromFileUrls then
+    ReplaceSwitch(aKeys, aValues, '--allow-universal-access-from-files');
+
+  if FDisableImageLoading then
+    ReplaceSwitch(aKeys, aValues, '--disable-image-loading');
+
+  if FImageShrinkStandaloneToFit then
+    ReplaceSwitch(aKeys, aValues, '--image-shrink-standalone-to-fit');
+
+  if FDisableTextAreaResize then
+    ReplaceSwitch(aKeys, aValues, '--disable-text-area-resize');
+
+  if FDisableTabToLinks then
+    ReplaceSwitch(aKeys, aValues, '--disable-tab-to-links');
+
+  if FDisablePlugins then
+    ReplaceSwitch(aKeys, aValues, '--disable-plugins');
+
+  if FEnableProfanityFilter then
+    ReplaceSwitch(aKeys, aValues, '--enable-profanity-filter');
+
+  if FDisableSpellChecking then
+    ReplaceSwitch(aKeys, aValues, '--disable-spell-checking');
+
+  if (length(FOverrideSpellCheckLang) > 0) then
+    ReplaceSwitch(aKeys, aValues, '--override-spell-check-lang', FOverrideSpellCheckLang);
+
+  // The list of features you can enable is here :
+  // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
+  if (length(FEnableFeatures) > 0) then
+    AppendSwitch(aKeys, aValues, '--enable-features', FEnableFeatures);
+
+  // The list of features you can disable is here :
+  // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
+  if (length(FDisableFeatures) > 0) then
+    AppendSwitch(aKeys, aValues, '--disable-features', FDisableFeatures);
+
+  // The list of Blink features you can enable is here :
+  // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
+  if (length(FEnableBlinkFeatures) > 0) then
+    AppendSwitch(aKeys, aValues, '--enable-blink-features', FEnableBlinkFeatures);
+
+  // The list of Blink features you can disable is here :
+  // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
+  if (length(FDisableBlinkFeatures) > 0) then
+    AppendSwitch(aKeys, aValues, '--disable-blink-features', FDisableBlinkFeatures);
+
+  // https://source.chromium.org/chromium/chromium/src/+/master:base/base_switches.cc
+  if (length(FForceFieldTrials) > 0) then
+    ReplaceSwitch(aKeys, aValues, '--force-fieldtrials', FForceFieldTrials);
+
+  // https://source.chromium.org/chromium/chromium/src/+/master:components/variations/variations_switches.cc
+  if (length(FForceFieldTrialParams) > 0) then
+    ReplaceSwitch(aKeys, aValues, '--force-fieldtrial-params', FForceFieldTrialParams);
+
+  if (FCustomCommandLines       <> nil) and
+     (FCustomCommandLineValues  <> nil) and
+     (FCustomCommandLines.Count =  FCustomCommandLineValues.Count) then
+    begin
+      i := 0;
+      while (i < FCustomCommandLines.Count) do
         begin
-          commandLine.AppendSwitch('--disable-client-side-phishing-detection');
-          commandLine.AppendSwitch('--safebrowsing-disable-auto-update');
-          commandLine.AppendSwitch('--safebrowsing-disable-download-protection');
-        end;
+          if (length(FCustomCommandLines[i]) > 0) then
+            ReplaceSwitch(aKeys, aValues, FCustomCommandLines[i], FCustomCommandLineValues[i]);
 
-      if FMuteAudio then
-        commandLine.AppendSwitch('--mute-audio');
-
-      if FDisableWebSecurity then
-        commandLine.AppendSwitch('--disable-web-security');
-
-      if FDisablePDFExtension then
-        commandLine.AppendSwitch('--disable-pdf-extension');
-
-      if FDisableSiteIsolationTrials then
-        commandLine.AppendSwitch('--disable-site-isolation-trials');
-
-      if FSitePerProcess then
-        commandLine.AppendSwitch('--site-per-process');
-
-      if FDisableExtensions then
-        commandLine.AppendSwitch('--disable-extensions');
-
-      if FDisableBackgroundNetworking then
-        commandLine.AppendSwitch('--disable-background-networking');
-
-      if FMetricsRecordingOnly then
-        commandLine.AppendSwitch('--metrics-recording-only');
-
-      if FAllowFileAccessFromFiles then
-        commandLine.AppendSwitch('--allow-file-access-from-files');
-
-      if FAllowRunningInsecureContent then
-        commandLine.AppendSwitch('--allow-running-insecure-content');
-
-      if FEnablePrintPreview then
-        commandLine.AppendSwitch('--enable-print-preview');
-
-      if FDisableNewBrowserInfoTimeout then
-        commandLine.AppendSwitch('--disable-new-browser-info-timeout');
-
-      if (length(FDevToolsProtocolLogFile) > 0) then
-        commandLine.AppendSwitchWithValue('--devtools-protocol-log-file', FDevToolsProtocolLogFile);
-
-      case FPluginPolicy of
-        PLUGIN_POLICY_SWITCH_DETECT : commandLine.AppendSwitchWithValue('--plugin-policy', 'detect');
-        PLUGIN_POLICY_SWITCH_BLOCK  : commandLine.AppendSwitchWithValue('--plugin-policy', 'block');
-      end;
-
-      if (length(FDefaultEncoding) > 0) then
-        commandLine.AppendSwitchWithValue('--default-encoding', FDefaultEncoding);
-
-      if FDisableJavascript then
-        commandLine.AppendSwitch('--disable-javascript');
-
-      if FDisableJavascriptCloseWindows then
-        commandLine.AppendSwitch('--disable-javascript-close-windows');
-
-      if FDisableJavascriptAccessClipboard then
-        commandLine.AppendSwitch('--disable-javascript-access-clipboard');
-
-      if FDisableJavascriptDomPaste then
-        commandLine.AppendSwitch('--disable-javascript-dom-paste');
-
-      if FAllowUniversalAccessFromFileUrls then
-        commandLine.AppendSwitch('--allow-universal-access-from-files');
-
-      if FDisableImageLoading then
-        commandLine.AppendSwitch('--disable-image-loading');
-
-      if FImageShrinkStandaloneToFit then
-        commandLine.AppendSwitch('--image-shrink-standalone-to-fit');
-
-      if FDisableTextAreaResize then
-        commandLine.AppendSwitch('--disable-text-area-resize');
-
-      if FDisableTabToLinks then
-        commandLine.AppendSwitch('--disable-tab-to-links');
-
-      if FDisablePlugins then
-        commandLine.AppendSwitch('--disable-plugins');
-
-      if FEnableProfanityFilter then
-        commandLine.AppendSwitch('--enable-profanity-filter');
-
-      if FDisableSpellChecking then
-        commandLine.AppendSwitch('--disable-spell-checking');
-
-      if (length(FOverrideSpellCheckLang) > 0) then
-        commandLine.AppendSwitchWithValue('--override-spell-check-lang', FOverrideSpellCheckLang);
-
-
-      // The list of features you can enable is here :
-      // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
-      if (length(FEnableFeatures) > 0) then
-        commandLine.AppendSwitchWithValue('--enable-features', FEnableFeatures);
-
-      // The list of features you can disable is here :
-      // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
-      if (length(FDisableFeatures) > 0) then
-        commandLine.AppendSwitchWithValue('--disable-features', FDisableFeatures);
-
-      // The list of Blink features you can enable is here :
-      // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
-      if (length(FEnableBlinkFeatures) > 0) then
-        commandLine.AppendSwitchWithValue('--enable-blink-features', FEnableBlinkFeatures);
-
-      // The list of Blink features you can disable is here :
-      // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
-      if (length(FDisableBlinkFeatures) > 0) then
-        commandLine.AppendSwitchWithValue('--disable-blink-features', FDisableBlinkFeatures);
-
-      if (length(FForceFieldTrials) > 0) then
-        commandLine.AppendSwitchWithValue('--force-fieldtrials', FForceFieldTrials);
-
-      if (length(FForceFieldTrialParams) > 0) then
-        commandLine.AppendSwitchWithValue('--force-fieldtrial-params', FForceFieldTrialParams);
-
-      if (FCustomCommandLines       <> nil) and
-         (FCustomCommandLineValues  <> nil) and
-         (FCustomCommandLines.Count =  FCustomCommandLineValues.Count) then
-        begin
-          i := 0;
-
-          while (i < FCustomCommandLines.Count) do
-            begin
-              if (length(FCustomCommandLines[i]) > 0) then
-                begin
-                  if (length(FCustomCommandLineValues[i]) > 0) then
-                    commandLine.AppendSwitchWithValue(FCustomCommandLines[i], FCustomCommandLineValues[i])
-                   else
-                    commandLine.AppendSwitch(FCustomCommandLines[i]);
-                end;
-
-              inc(i);
-            end;
+          inc(i);
         end;
     end;
+end;
+
+procedure TCefApplicationCore.Internal_OnBeforeCommandLineProcessing(const processType : ustring;
+                                                                     const commandLine : ICefCommandLine);
+var
+  i : integer;
+  TempKeys, TempValues : TStringList;
+begin
+  TempKeys   := nil;
+  TempValues := nil;
+
+  try
+    if (commandLine <> nil) and
+       commandLine.IsValid and
+       (FProcessType = ptBrowser) and
+       (processType = '') then
+      begin
+        TempKeys   := TStringList.Create;
+        TempValues := TStringList.Create;
+        commandLine.GetSwitches(TempKeys, TempValues);
+
+        AddCustomCommandLineSwitches(TempKeys, TempValues);
+
+        commandLine.Reset;
+
+        i := 0;
+        while (i < TempKeys.Count) do
+          begin
+            if (length(TempKeys[i]) > 0) then
+              begin
+                if (length(TempValues[i]) > 0) then
+                  commandLine.AppendSwitchWithValue(TempKeys[i], TempValues[i])
+                 else
+                  commandLine.AppendSwitch(TempKeys[i]);
+              end;
+
+            inc(i);
+          end;
+      end;
+  finally
+    if (TempKeys   <> nil) then FreeAndNil(TempKeys);
+    if (TempValues <> nil) then FreeAndNil(TempValues);
+  end;
 end;
 
 procedure TCefApplicationCore.Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);

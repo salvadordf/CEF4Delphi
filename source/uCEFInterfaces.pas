@@ -1289,7 +1289,8 @@ type
     function  HasSwitches: Boolean;
     function  HasSwitch(const name: ustring): Boolean;
     function  GetSwitchValue(const name: ustring): ustring;
-    procedure GetSwitches(var switches: TStrings);
+    function  GetSwitches(var switches: TStrings): boolean; overload;
+    function  GetSwitches(var SwitchKeys, SwitchValues: TStringList): boolean; overload;
     procedure AppendSwitch(const name: ustring);
     procedure AppendSwitchWithValue(const name, value: ustring);
     function  HasArguments: Boolean;
