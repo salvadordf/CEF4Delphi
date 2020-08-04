@@ -440,6 +440,16 @@ type
     procedure doOnDevToolsAgentAttached(const browser: ICefBrowser);
     procedure doOnDevToolsAgentDetached(const browser: ICefBrowser);
 
+    // ICefExtensionHandler
+    procedure doOnExtensionLoadFailed(result: TCefErrorcode);
+    procedure doOnExtensionLoaded(const extension: ICefExtension);
+    procedure doOnExtensionUnloaded(const extension: ICefExtension);
+    function  doOnExtensionBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+    function  doOnExtensionBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+    procedure doOnExtensionGetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser: ICefBrowser);
+    function  doOnExtensionCanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
+    function  doOnExtensionGetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
+
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
@@ -1811,9 +1821,11 @@ type
     procedure OnExtensionUnloaded(const extension: ICefExtension);
     function  OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
     function  OnBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
-    function  GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean): ICefBrowser;
+    procedure GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser: ICefBrowser);
     function  CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
     function  GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   // TCefExtension
@@ -1828,12 +1840,28 @@ type
     function  GetLoaderContext : ICefRequestContext;
     function  IsLoaded : boolean;
     procedure unload;
+    function  GetBrowserActionPopup : ustring;
+    function  GetBrowserActionIcon : ustring;
+    function  GetPageActionPopup : ustring;
+    function  GetPageActionIcon : ustring;
+    function  GetOptionsPage : ustring;
+    function  GetOptionsUIPage : ustring;
+    function  GetBackgroundPage : ustring;
+    function  GetURL : ustring;
 
-    property  Identifier    : ustring              read GetIdentifier;
-    property  Path          : ustring              read GetPath;
-    property  Manifest      : ICefDictionaryValue  read GetManifest;
-    property  Handler       : ICefExtensionHandler read GetHandler;
-    property  LoaderContext : ICefRequestContext   read GetLoaderContext;
+    property  Identifier          : ustring               read GetIdentifier;
+    property  Path                : ustring               read GetPath;
+    property  Manifest            : ICefDictionaryValue   read GetManifest;
+    property  Handler             : ICefExtensionHandler  read GetHandler;
+    property  LoaderContext       : ICefRequestContext    read GetLoaderContext;
+    property  BrowserActionPopup  : ustring               read GetBrowserActionPopup;
+    property  BrowserActionIcon   : ustring               read GetBrowserActionIcon;
+    property  PageActionPopup     : ustring               read GetPageActionPopup;
+    property  PageActionIcon      : ustring               read GetPageActionIcon;
+    property  OptionsPage         : ustring               read GetOptionsPage;
+    property  OptionsUIPage       : ustring               read GetOptionsUIPage;
+    property  BackgroundPage      : ustring               read GetBackgroundPage;
+    property  URL                 : ustring               read GetURL;
   end;
 
   // TCefLoadHandler

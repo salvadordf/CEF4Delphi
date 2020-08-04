@@ -87,6 +87,7 @@ type
       FMediaObserverReg       : ICefRegistration;
       FDevToolsMsgObserver    : ICefDevToolsMessageObserver;
       FDevToolsMsgObserverReg : ICefRegistration;
+      FExtensionHandler       : ICefExtensionHandler;
       FDefaultUrl             : ustring;
       FOptions                : TChromiumOptions;
       FFontOptions            : TChromiumFontOptions;
@@ -281,6 +282,16 @@ type
       FOnDevToolsAgentAttached            : TOnDevToolsAgentAttachedEvent;
       FOnDevToolsAgentDetached            : TOnDevToolsAgentDetachedEvent;
 
+      // ICefExtensionHandler
+      FOnExtensionLoadFailed              : TOnExtensionLoadFailedEvent;
+      FOnExtensionLoaded                  : TOnExtensionLoadedEvent;
+      FOnExtensionUnloaded                : TOnExtensionUnloadedEvent;
+      FOnExtensionBeforeBackgroundBrowser : TOnBeforeBackgroundBrowserEvent;
+      FOnExtensionBeforeBrowser           : TOnBeforeBrowserEvent;
+      FOnExtensionGetActiveBrowser        : TOnGetActiveBrowserEvent;
+      FOnExtensionCanAccessBrowser        : TOnCanAccessBrowserEvent;
+      FOnExtensionGetExtensionResource    : TOnGetExtensionResourceEvent;
+
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
@@ -386,12 +397,14 @@ type
       procedure DestroyResourceRequestHandler;
       procedure DestroyMediaObserver;
       procedure DestroyDevToolsMsgObserver;
+      procedure DestroyExtensionHandler;
       procedure DestroyAllHandlersAndObservers;
 
       procedure CreateReqContextHandler;
       procedure CreateResourceRequestHandler;
       procedure CreateMediaObserver;
       procedure CreateDevToolsMsgObserver;
+      procedure CreateExtensionHandler;
 
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
@@ -578,6 +591,16 @@ type
       procedure doOnDevToolsAgentAttached(const browser: ICefBrowser); virtual;
       procedure doOnDevToolsAgentDetached(const browser: ICefBrowser); virtual;
 
+      // ICefExtensionHandler
+      procedure doOnExtensionLoadFailed(result: TCefErrorcode);
+      procedure doOnExtensionLoaded(const extension: ICefExtension);
+      procedure doOnExtensionUnloaded(const extension: ICefExtension);
+      function  doOnExtensionBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+      function  doOnExtensionBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+      procedure doOnExtensionGetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser: ICefBrowser);
+      function  doOnExtensionCanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
+      function  doOnExtensionGetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
+
       // Custom
       procedure doCookiesDeleted(numDeleted : integer); virtual;
       procedure doPdfPrintFinished(aResultOK : boolean); virtual;
@@ -623,6 +646,7 @@ type
       function  MustCreateCookieAccessFilter : boolean; virtual;
       function  MustCreateRequestContextHandler : boolean; virtual;
       function  MustCreateMediaObserver : boolean; virtual;
+      function  MustCreateExtensionHandler : boolean; virtual;
 
       property  ParentFormHandle   : TCefWindowHandle   read   GetParentFormHandle;
 
@@ -773,6 +797,13 @@ type
       procedure   CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink);
       procedure   GetDeviceInfo(const aMediaSink: ICefMediaSink);
 
+      // ICefRequestContext methods for extensions
+      function    LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue = nil; const handler: ICefExtensionHandler = nil; const requestContext : ICefRequestContext = nil) : boolean;
+      function    DidLoadExtension(const extension_id: ustring): boolean;
+      function    HasExtension(const extension_id: ustring): boolean;
+      function    GetExtensions(const extension_ids: TStringList): boolean;
+      function    GetExtension(const extension_id: ustring): ICefExtension;
+
       property  DefaultUrl                    : ustring                      read FDefaultUrl                  write FDefaultUrl;
       property  Options                       : TChromiumOptions             read FOptions                     write FOptions;
       property  FontOptions                   : TChromiumFontOptions         read FFontOptions                 write FFontOptions;
@@ -794,6 +825,7 @@ type
       property  MediaObserverReg              : ICefRegistration             read FMediaObserverReg;
       property  DevToolsMsgObserver           : ICefDevToolsMessageObserver  read FDevToolsMsgObserver;
       property  DevToolsMsgObserverReg        : ICefRegistration             read FDevToolsMsgObserverReg;
+      property  ExtensionHandler              : ICefExtensionHandler         read FExtensionHandler;
       property  MultithreadApp                : boolean                      read GetMultithreadApp;
       property  IsLoading                     : boolean                      read GetIsLoading;
       property  HasDocument                   : boolean                      read GetHasDocument;
@@ -1011,6 +1043,16 @@ type
       property OnDevToolsEvent                        : TOnDevToolsEventEvent             read FOnDevToolsEvent                        write FOnDevToolsEvent;
       property OnDevToolsAgentAttached                : TOnDevToolsAgentAttachedEvent     read FOnDevToolsAgentAttached                write FOnDevToolsAgentAttached;
       property OnDevToolsAgentDetached                : TOnDevToolsAgentDetachedEvent     read FOnDevToolsAgentDetached                write FOnDevToolsAgentDetached;
+
+      // ICefExtensionHandler
+      property OnExtensionLoadFailed                  : TOnExtensionLoadFailedEvent       read FOnExtensionLoadFailed                  write FOnExtensionLoadFailed;
+      property OnExtensionLoaded                      : TOnExtensionLoadedEvent           read FOnExtensionLoaded                      write FOnExtensionLoaded;
+      property OnExtensionUnloaded                    : TOnExtensionUnloadedEvent         read FOnExtensionUnloaded                    write FOnExtensionUnloaded;
+      property OnExtensionBeforeBackgroundBrowser     : TOnBeforeBackgroundBrowserEvent   read FOnExtensionBeforeBackgroundBrowser     write FOnExtensionBeforeBackgroundBrowser;
+      property OnExtensionBeforeBrowser               : TOnBeforeBrowserEvent             read FOnExtensionBeforeBrowser               write FOnExtensionBeforeBrowser;
+      property OnExtensionGetActiveBrowser            : TOnGetActiveBrowserEvent          read FOnExtensionGetActiveBrowser            write FOnExtensionGetActiveBrowser;
+      property OnExtensionCanAccessBrowser            : TOnCanAccessBrowserEvent          read FOnExtensionCanAccessBrowser            write FOnExtensionCanAccessBrowser;
+      property OnExtensionGetExtensionResource        : TOnGetExtensionResourceEvent      read FOnExtensionGetExtensionResource        write FOnExtensionGetExtensionResource;
   end;
 
   TBrowserInfo = class
@@ -1094,7 +1136,7 @@ uses
   uCEFDownloadImageCallBack, uCEFCookieManager, uCEFRequestContextHandler,
   uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler,
   uCEFMediaObserver, uCEFMediaRouteCreateCallback ,uCEFDevToolsMessageObserver,
-  uCEFMediaSinkDeviceInfoCallback, uCEFJson;
+  uCEFMediaSinkDeviceInfoCallback, uCEFJson, uCEFExtensionHandler;
 
 constructor TChromiumCore.Create(AOwner: TComponent);
 begin
@@ -1114,6 +1156,7 @@ begin
   FMediaObserverReg       := nil;
   FDevToolsMsgObserver    := nil;
   FDevToolsMsgObserverReg := nil;
+  FExtensionHandler       := nil;
   FOptions                := nil;
   FFontOptions            := nil;
   FDefaultEncoding        := '';
@@ -1438,8 +1481,23 @@ begin
   FDevToolsMsgObserver    := nil;
 end;
 
+procedure TChromiumCore.DestroyExtensionHandler;
+begin
+  try
+    if (FExtensionHandler <> nil) then
+      begin
+        FExtensionHandler.RemoveReferences;
+        FExtensionHandler := nil;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromiumCore.DestroyExtensionHandler', e) then raise;
+  end;
+end;
+
 procedure TChromiumCore.DestroyAllHandlersAndObservers;
 begin
+  DestroyExtensionHandler;
   DestroyDevToolsMsgObserver;
   DestroyMediaObserver;
   DestroyResourceRequestHandler;
@@ -1466,6 +1524,13 @@ begin
   if MustCreateDevToolsMessageObserver and
      (FDevToolsMsgObserver = nil) then
     FDevToolsMsgObserver := TCustomDevToolsMessageObserver.Create(self);
+end;
+
+procedure TChromiumCore.CreateExtensionHandler;
+begin
+  if MustCreateExtensionHandler and
+     (FExtensionHandler = nil) then
+    FExtensionHandler := TCustomExtensionHandler.Create(self);
 end;
 
 procedure TChromiumCore.CreateResourceRequestHandler;
@@ -1522,6 +1587,7 @@ begin
       CreateResourceRequestHandler;
       CreateMediaObserver;
       CreateDevToolsMsgObserver;
+      CreateExtensionHandler;
 
       aClient := FHandler;
       Result  := True;
@@ -1662,6 +1728,16 @@ begin
   FOnDevToolsAgentAttached            := nil;
   FOnDevToolsAgentDetached            := nil;
 
+  // ICefExtensionHandler
+  FOnExtensionLoadFailed              := nil;
+  FOnExtensionLoaded                  := nil;
+  FOnExtensionUnloaded                := nil;
+  FOnExtensionBeforeBackgroundBrowser := nil;
+  FOnExtensionBeforeBrowser           := nil;
+  FOnExtensionGetActiveBrowser        := nil;
+  FOnExtensionCanAccessBrowser        := nil;
+  FOnExtensionGetExtensionResource    := nil;
+
   // Custom
   FOnTextResultAvailable              := nil;
   FOnPdfPrintFinished                 := nil;
@@ -1720,6 +1796,7 @@ begin
           CreateResourceRequestHandler;
           CreateMediaObserver;
           CreateDevToolsMsgObserver;
+          CreateExtensionHandler;
 
           if (aContext = nil) then
             begin
@@ -1771,13 +1848,14 @@ begin
          (BrowserId         = 0)   and
          (aBrowserViewComp <> nil) and
          (GlobalCEFApp     <> nil) and
-         GlobalCEFApp.GlobalContextInitialized  and
+         GlobalCEFApp.GlobalContextInitialized and
          CreateClientHandler(False) then
         begin
           GetSettings(FBrowserSettings);
           CreateResourceRequestHandler;
           CreateMediaObserver;
           CreateDevToolsMsgObserver;
+          CreateExtensionHandler;
 
           if (aContext = nil) then
             begin
@@ -4524,6 +4602,18 @@ begin
             assigned(FOnDevToolsAgentDetached);
 end;
 
+function TChromiumCore.MustCreateExtensionHandler : boolean;
+begin
+  Result := assigned(FOnExtensionLoadFailed) or
+            assigned(FOnExtensionLoaded) or
+            assigned(FOnExtensionUnloaded) or
+            assigned(FOnExtensionBeforeBackgroundBrowser) or
+            assigned(FOnExtensionBeforeBrowser) or
+            assigned(FOnExtensionGetActiveBrowser) or
+            assigned(FOnExtensionCanAccessBrowser) or
+            assigned(FOnExtensionGetExtensionResource);
+end;
+
 {$IFDEF MSWINDOWS}
 procedure TChromiumCore.PrefsAvailableMsg(aResultOK : boolean);
 begin
@@ -5289,6 +5379,85 @@ procedure TChromiumCore.doOnDevToolsAgentDetached(const browser: ICefBrowser);
 begin
   if assigned(FOnDevToolsAgentDetached) then
     FOnDevToolsAgentDetached(self, browser);
+end;
+
+procedure TChromiumCore.doOnExtensionLoadFailed(result: TCefErrorcode);
+begin
+  if assigned(FOnExtensionLoadFailed) then
+    FOnExtensionLoadFailed(self, result);
+end;
+
+procedure TChromiumCore.doOnExtensionLoaded(const extension: ICefExtension);
+begin
+  if assigned(FOnExtensionLoaded) then
+    FOnExtensionLoaded(self, extension);
+end;
+
+procedure TChromiumCore.doOnExtensionUnloaded(const extension: ICefExtension);
+begin
+  if assigned(FOnExtensionUnloaded) then
+    FOnExtensionUnloaded(self, extension);
+end;
+
+function TChromiumCore.doOnExtensionBeforeBackgroundBrowser(const extension : ICefExtension;
+                                                            const url       : ustring;
+                                                            var   client    : ICefClient;
+                                                            var   settings  : TCefBrowserSettings) : boolean;
+begin
+  Result := False;
+
+  if assigned(FOnExtensionBeforeBackgroundBrowser) then
+    FOnExtensionBeforeBackgroundBrowser(self, extension, url, client, settings, Result);
+end;
+
+function TChromiumCore.doOnExtensionBeforeBrowser(const extension      : ICefExtension;
+                                                  const browser        : ICefBrowser;
+                                                  const active_browser : ICefBrowser;
+                                                        index          : Integer;
+                                                  const url            : ustring;
+                                                        active         : boolean;
+                                                  var   windowInfo     : TCefWindowInfo;
+                                                  var   client         : ICefClient;
+                                                  var   settings       : TCefBrowserSettings) : boolean;
+begin
+  Result := False;
+
+  if assigned(FOnExtensionBeforeBrowser) then
+    FOnExtensionBeforeBrowser(self, extension, browser, active_browser, index, url,
+                              active, windowInfo, client, settings, Result);
+end;
+
+procedure TChromiumCore.doOnExtensionGetActiveBrowser(const extension         : ICefExtension;
+                                                      const browser           : ICefBrowser;
+                                                            include_incognito : boolean;
+                                                      var   aRsltBrowser      : ICefBrowser);
+begin
+  aRsltBrowser := nil;
+
+  if assigned(FOnExtensionGetActiveBrowser) then
+    FOnExtensionGetActiveBrowser(self, extension, browser, include_incognito, aRsltBrowser);
+end;
+
+function TChromiumCore.doOnExtensionCanAccessBrowser(const extension         : ICefExtension;
+                                                     const browser           : ICefBrowser;
+                                                           include_incognito : boolean;
+                                                     const target_browser    : ICefBrowser): boolean;
+begin
+  Result := False;
+
+  if assigned(FOnExtensionCanAccessBrowser) then
+    FOnExtensionCanAccessBrowser(self, extension, browser, include_incognito, target_browser, Result);
+end;
+
+function TChromiumCore.doOnExtensionGetExtensionResource(const extension : ICefExtension;
+                                                         const browser   : ICefBrowser;
+                                                         const file_     : ustring;
+                                                         const callback  : ICefGetExtensionResourceCallback): boolean;
+begin
+  Result := False;
+
+  if assigned(FOnExtensionGetExtensionResource) then
+    FOnExtensionGetExtensionResource(self, extension, browser, file_, callback, Result);
 end;
 
 procedure TChromiumCore.doOnFullScreenModeChange(const browser    : ICefBrowser;
@@ -6191,6 +6360,104 @@ begin
       aMediaSink.GetDeviceInfo(TempCallback);
     finally
       TempCallback := nil;
+    end;
+end;
+
+function TChromiumCore.LoadExtension(const root_directory : ustring;
+                                     const manifest       : ICefDictionaryValue;
+                                     const handler        : ICefExtensionHandler;
+                                     const requestContext : ICefRequestContext) : boolean;
+var
+  TempContext : ICefRequestContext;
+  TempHandler : ICefExtensionHandler;
+begin
+  Result := False;
+
+  // The global context must be initalized to load extensions
+  // This TChromium must not be initialized before loading an extension.
+  if (GlobalCEFApp = nil) or
+     not(GlobalCEFApp.GlobalContextInitialized) or
+     Initialized then
+    exit;
+
+  // We use a custom request context if available or the global request context if not.
+  if (requestContext <> nil) then
+    TempContext := requestContext
+   else
+    TempContext := TCefRequestContextRef.Global;
+
+  if (handler <> nil) then
+    TempHandler := handler
+   else
+    begin
+      // All TChromium events must be assigned before calling LoadExtension.
+      CreateExtensionHandler;
+      TempHandler := FExtensionHandler;
+    end;
+
+  if (TempContext <> nil) then
+    try
+      TempContext.LoadExtension(root_directory, manifest, TempHandler);
+      Result := True;
+    finally
+      TempHandler := nil;
+    end;
+end;
+
+function TChromiumCore.DidLoadExtension(const extension_id: ustring): boolean;
+var
+  TempContext : ICefRequestContext;
+begin
+  Result := False;
+
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+      Result      := (TempContext <> nil) and
+                     TempContext.DidLoadExtension(extension_id);
+    end;
+end;
+
+function TChromiumCore.HasExtension(const extension_id: ustring): boolean;
+var
+  TempContext : ICefRequestContext;
+begin
+  Result := False;
+
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+      Result      := (TempContext <> nil) and
+                     TempContext.HasExtension(extension_id);
+    end;
+end;
+
+function TChromiumCore.GetExtensions(const extension_ids: TStringList): boolean;
+var
+  TempContext : ICefRequestContext;
+begin
+  Result := False;
+
+  if Initialized and (extension_ids <> nil) then
+    begin
+      TempContext := Browser.Host.RequestContext;
+      Result      := (TempContext <> nil) and
+                     TempContext.GetExtensions(extension_ids);
+    end;
+end;
+
+function TChromiumCore.GetExtension(const extension_id: ustring): ICefExtension;
+var
+  TempContext : ICefRequestContext;
+begin
+  Result := nil;
+
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+
+      if (TempContext <> nil) then
+        Result := TempContext.GetExtension(extension_id);
     end;
 end;
 

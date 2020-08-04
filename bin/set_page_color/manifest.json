@@ -1,0 +1,12 @@
+{
+  "name": "Set Page Color",
+  "description": "Change the current page color",
+  "version": "1.0",
+  "permissions": ["activeTab","tabs","webNavigation","http://*/*","https://*/*"],
+  "browser_action": {
+      "default_title": "Set this page's color.",
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+  },
+  "manifest_version": 2
+}

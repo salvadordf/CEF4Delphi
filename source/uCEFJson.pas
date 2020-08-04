@@ -63,7 +63,7 @@ type
       class function ReadBoolean(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : boolean) : boolean;
       class function ReadInteger(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : integer) : boolean;
       class function ReadDouble(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : double) : boolean;
-      class function ReadString(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : string) : boolean;
+      class function ReadString(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ustring) : boolean;
       class function ReadBinary(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefBinaryValue) : boolean;
       class function ReadDictionary(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefDictionaryValue) : boolean;
       class function ReadList(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefListValue) : boolean;
@@ -142,7 +142,7 @@ begin
     end;
 end;
 
-class function TCEFJson.ReadString(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : string) : boolean;
+class function TCEFJson.ReadString(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ustring) : boolean;
 var
   TempValue : ICefValue;
 begin
