@@ -139,6 +139,8 @@ type
       FAcceptCookies            : TCefCookiePref;
       FBlock3rdPartyCookies     : boolean;
       FDefaultWindowInfoExStyle : cardinal;
+      FNetworkPredictions       : TCefNetworkPredictionOptions;
+      FQuicAllowed              : boolean;
 
       {$IFDEF MSWINDOWS}
       FOldBrowserCompWndPrc   : TFNWndProc;
@@ -387,6 +389,8 @@ type
       procedure SetOnRequestContextInitialized(const aValue : TOnRequestContextInitialized);
       procedure SetOnBeforePluginLoad(const aValue : TOnBeforePluginLoad);
       procedure SetMultiBrowserMode(aValue : boolean);
+      procedure SetNetworkPredictions(aValue : TCefNetworkPredictionOptions);
+      procedure SetQuicAllowed(aValue : boolean);
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): Boolean;
@@ -874,6 +878,8 @@ type
       property  MultiBrowserMode              : boolean                      read FMultiBrowserMode            write SetMultiBrowserMode;
       property  DefaultWindowInfoExStyle      : cardinal                     read FDefaultWindowInfoExStyle    write FDefaultWindowInfoExStyle;
       property  Offline                       : boolean                      read FOffline                     write SetOffline;
+      property  NetworkPredictions            : TCefNetworkPredictionOptions read FNetworkPredictions          write SetNetworkPredictions;
+      property  QuicAllowed                   : boolean                      read FQuicAllowed                 write SetQuicAllowed;
 
       property  WebRTCIPHandlingPolicy        : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy      write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes          : TCefState                    read FWebRTCMultipleRoutes        write SetWebRTCMultipleRoutes;
@@ -1182,6 +1188,8 @@ begin
   FAcceptCookies          := cpAllow;
   FBlock3rdPartyCookies   := False;
   FOffline                := False;
+  FNetworkPredictions     := CEF_NETWORK_PREDICTION_WIFI_ONLY;
+  FQuicAllowed            := True;
 
   if (GlobalCEFApp <> nil) then
     FHyperlinkAuditing := GlobalCEFApp.HyperlinkAuditing
@@ -2681,6 +2689,24 @@ begin
   if not(Initialized) then FMultiBrowserMode := aValue;
 end;
 
+procedure TChromiumCore.SetNetworkPredictions(aValue : TCefNetworkPredictionOptions);
+begin
+  if (FNetworkPredictions <> aValue) then
+    begin
+      FNetworkPredictions := aValue;
+      FUpdatePreferences  := True;
+    end;
+end;
+
+procedure TChromiumCore.SetQuicAllowed(aValue : boolean);
+begin
+  if (FQuicAllowed <> aValue) then
+    begin
+      FQuicAllowed       := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);
 begin
   if Initialized then
@@ -3904,6 +3930,9 @@ begin
 
   if (FWebRTCNonProxiedUDP <> STATE_DEFAULT) then
     UpdatePreference(aBrowser, 'webrtc.nonproxied_udp_enabled', (FWebRTCNonProxiedUDP = STATE_ENABLED));
+
+  UpdatePreference(aBrowser, 'net.network_prediction_options', integer(FNetworkPredictions));
+  UpdatePreference(aBrowser, 'net.quic_allowed', FQuicAllowed);
 end;
 
 procedure TChromiumCore.doUpdateOwnPreferences;

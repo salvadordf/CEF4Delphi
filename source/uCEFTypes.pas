@@ -1135,6 +1135,15 @@ type
     CEF_CDM_REGISTRATION_ERROR_NOT_SUPPORTED
   );
 
+  // Values for browser preference "net.network_prediction_options"
+  // https://source.chromium.org/chromium/chromium/src/+/master:chrome/browser/net/prediction_options.h
+  TCefNetworkPredictionOptions = (
+    CEF_NETWORK_PREDICTION_ALWAYS,
+    CEF_NETWORK_PREDICTION_WIFI_ONLY,
+    CEF_NETWORK_PREDICTION_NEVER
+    // CEF_NETWORK_PREDICTION_DEFAULT = CEF_NETWORK_PREDICTION_WIFI_ONLY;
+  );
+
   // /include/internal/cef_types.h (cef_composition_underline_style_t)
   TCefCompositionUnderlineStyle = (
     CEF_CUS_SOLID,
