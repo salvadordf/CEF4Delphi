@@ -320,7 +320,7 @@ begin
                                                            include_incognito <> 0,
                                                            TempBrowser);
 
-      if (TempBrowser <> nil) and (TempBrowser is TCefBrowserRef) then
+      if (TempBrowser <> nil) {$IFDEF DELPHI16_UP}and (TempBrowser is TCefBrowserRef){$ENDIF} then
         Result := TCefBrowserRef(TempBrowser).wrap;
     finally
       TempBrowser := nil;
