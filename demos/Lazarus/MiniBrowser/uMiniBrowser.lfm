@@ -15,7 +15,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.0.10.0'
   object Splitter1: TSplitter
     Left = 1179
     Height = 663
@@ -268,13 +268,13 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     OnBeforePluginLoad = Chromium1BeforePluginLoad
-    left = 32
-    top = 224
+    Left = 32
+    Top = 224
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup
-    left = 32
-    top = 168
+    Left = 32
+    Top = 168
     object DevTools1: TMenuItem
       Caption = 'DevTools'
       OnClick = DevTools1Click
@@ -355,23 +355,23 @@ object MiniBrowserFrm: TMiniBrowserFrm
     end
   end
   object SaveDialog1: TSaveDialog
-    left = 32
-    top = 112
+    Left = 32
+    Top = 112
   end
   object ApplicationEvents1: TApplicationProperties
-    left = 32
-    top = 56
+    Left = 32
+    Top = 56
   end
   object OpenDialog1: TOpenDialog
     Filter = 'HTML files|*.htm;*.html|Text files|*.txt|PDF files|*.pdf|Image files|*.jpg;*.jpeg;*.png;*.bmp;*.gif'
-    left = 32
-    top = 280
+    Left = 32
+    Top = 280
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 32
-    top = 344
+    Left = 32
+    Top = 344
   end
 end

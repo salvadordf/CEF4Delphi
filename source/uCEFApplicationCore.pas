@@ -50,10 +50,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}
-      WinApi.Windows,
-    {$ENDIF}
-    System.Classes, System.UITypes,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
@@ -61,8 +58,8 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 84;
-  CEF_SUPPORTED_VERSION_MINOR   = 3;
-  CEF_SUPPORTED_VERSION_RELEASE = 10;
+  CEF_SUPPORTED_VERSION_MINOR   = 4;
+  CEF_SUPPORTED_VERSION_RELEASE = 1;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 84;

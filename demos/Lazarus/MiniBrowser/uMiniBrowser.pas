@@ -300,6 +300,7 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   GlobalCEFApp.EnablePrintPreview  := True;

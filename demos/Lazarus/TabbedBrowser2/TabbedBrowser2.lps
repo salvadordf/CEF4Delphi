@@ -8,6 +8,7 @@
       <Unit0>
         <Filename Value="TabbedBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="40"/>
         <CursorPos X="24" Y="61"/>
         <UsageCount Value="20"/>
@@ -62,10 +63,9 @@
       </Unit4>
       <Unit5>
         <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="1476"/>
-        <CursorPos Y="1500"/>
+        <CursorPos X="86" Y="1495"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit5>

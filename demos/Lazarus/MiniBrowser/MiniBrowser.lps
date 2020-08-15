@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="32">
+    <Units Count="34">
       <Unit0>
         <Filename Value="MiniBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -23,7 +23,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="293"/>
-        <CursorPos X="66" Y="310"/>
+        <CursorPos X="44" Y="306"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -180,15 +180,15 @@
       <Unit22>
         <Filename Value="..\..\..\source\uCEFApplicationCore.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="900"/>
-        <CursorPos X="77" Y="945"/>
+        <TopLine Value="1619"/>
+        <CursorPos X="67" Y="1893"/>
         <UsageCount Value="12"/>
       </Unit22>
       <Unit23>
         <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="218"/>
-        <CursorPos X="10" Y="229"/>
+        <TopLine Value="330"/>
+        <CursorPos Y="353"/>
         <UsageCount Value="12"/>
         <Bookmarks Count="3">
           <Item0 X="9" Y="1299" ID="1"/>
@@ -252,12 +252,30 @@
         <CursorPos X="10" Y="70"/>
         <UsageCount Value="10"/>
       </Unit31>
+      <Unit32>
+        <Filename Value="..\..\..\source\uCEFCommandLine.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="204"/>
+        <CursorPos Y="226"/>
+        <UsageCount Value="10"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="..\..\..\source\uCEFStringMap.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="130"/>
+        <CursorPos Y="154"/>
+        <UsageCount Value="10"/>
+      </Unit33>
     </Units>
-    <JumpHistory Count="1">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="305" TopLine="293"/>
       </Position1>
+      <Position2>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="307" Column="60" TopLine="293"/>
+      </Position2>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

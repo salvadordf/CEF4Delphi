@@ -283,7 +283,6 @@ begin
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.EnablePrintPreview  := True;
-  //GlobalCEFApp.RemoteDebuggingPort := 19999;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
