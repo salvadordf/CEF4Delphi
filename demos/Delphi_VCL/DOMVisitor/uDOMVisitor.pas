@@ -52,7 +52,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
-  uCEFConstants, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFConstants, uCEFWinControl, uCEFChromiumCore, uCEFChromiumEvents;
 
 const
   MINIBROWSER_VISITDOM_PARTIAL            = WM_APP + $101;
@@ -71,6 +71,7 @@ const
   MINIBROWSER_CONTEXTMENU_VISITDOM_JS      = MENU_ID_USER_FIRST + 5;
   MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS = MENU_ID_USER_FIRST + 6;
   MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_DT = MENU_ID_USER_FIRST + 7;
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS     = MENU_ID_USER_FIRST + 8;
 
   DOMVISITOR_MSGNAME_PARTIAL  = 'domvisitorpartial';
   DOMVISITOR_MSGNAME_FULL     = 'domvisitorfull';
@@ -273,7 +274,7 @@ end;
 procedure SimpleNodeSearch(const aDocument: ICefDomDocument; const aFrame : ICefFrame);
 var
   TempNode : ICefDomNode;
-  TempJSCode, TempMessage : string;
+  TempJSCode, TempMessage : ustring;
 begin
   try
     if (aDocument <> nil) then
@@ -376,7 +377,7 @@ var
   i          : NativeUInt;
   TempCount  : NativeUInt;
   TempArray  : TCefFrameIdentifierArray;
-  TempString : string;
+  TempString : ustring;
   TempMsg    : ICefProcessMessage;
 begin
   TempCount := browser.FrameCount;
@@ -494,6 +495,8 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_COPYFRAMEIDS_2,    'Copy frame IDs in the render process');
   model.AddItem(MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS,  'Set INPUT value using JavaScript');
   model.AddItem(MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_DT,  'Set INPUT value using DevTools methods');
+  model.AddSeparator;
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS,      'Show DevTools');
 end;
 
 procedure TDOMVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -548,6 +551,8 @@ procedure TDOMVisitorFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
   eventFlags: Cardinal; out Result: Boolean);
+var
+  TempPoint : TPoint;
 begin
   Result := False;
 
@@ -576,6 +581,13 @@ begin
         FStatus := dvsGettingDocNodeID
        else
         FStatus := dvsIdle;
+
+    MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
+      begin
+        TempPoint.x := params.XCoord;
+        TempPoint.y := params.YCoord;
+        Chromium1.ShowDevTools(TempPoint, nil);
+      end;
   end;
 end;
 
@@ -644,7 +656,7 @@ function TDOMVisitorFrm.HandleErrorRslt(const aResult: ICefValue) : boolean;
 var
   TempRsltDict : ICefDictionaryValue;
   TempCode : integer;
-  TempMessage : string;
+  TempMessage : ustring;
 begin
   Result := False;
 
