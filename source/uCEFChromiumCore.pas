@@ -141,6 +141,8 @@ type
       FDefaultWindowInfoExStyle : cardinal;
       FNetworkPredictions       : TCefNetworkPredictionOptions;
       FQuicAllowed              : boolean;
+      FJavascriptEnabled        : boolean;
+      FLoadImagesAutomatically  : boolean;
 
       {$IFDEF MSWINDOWS}
       FOldBrowserCompWndPrc   : TFNWndProc;
@@ -391,6 +393,8 @@ type
       procedure SetMultiBrowserMode(aValue : boolean);
       procedure SetNetworkPredictions(aValue : TCefNetworkPredictionOptions);
       procedure SetQuicAllowed(aValue : boolean);
+      procedure SetJavascriptEnabled(aValue : boolean);
+      procedure SetLoadImagesAutomatically(aValue : boolean);
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): Boolean;
@@ -880,6 +884,8 @@ type
       property  Offline                       : boolean                      read FOffline                     write SetOffline;
       property  NetworkPredictions            : TCefNetworkPredictionOptions read FNetworkPredictions          write SetNetworkPredictions;
       property  QuicAllowed                   : boolean                      read FQuicAllowed                 write SetQuicAllowed;
+      property  JavascriptEnabled             : boolean                      read FJavascriptEnabled           write SetJavascriptEnabled;
+      property  LoadImagesAutomatically       : boolean                      read FLoadImagesAutomatically     write SetLoadImagesAutomatically;
 
       property  WebRTCIPHandlingPolicy        : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy      write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes          : TCefState                    read FWebRTCMultipleRoutes        write SetWebRTCMultipleRoutes;
@@ -1146,50 +1152,52 @@ uses
 
 constructor TChromiumCore.Create(AOwner: TComponent);
 begin
-  FBrowsersCS             := nil;
-  FBrowsers               := nil;
-  FBrowserId              := 0;
-  FMultiBrowserMode       := False;
+  FBrowsersCS              := nil;
+  FBrowsers                := nil;
+  FBrowserId               := 0;
+  FMultiBrowserMode        := False;
   {$IFDEF MSWINDOWS}
-  FCompHandle             := 0;
+  FCompHandle              := 0;
   {$ENDIF}
-  FIsOSR                  := False;
-  FDefaultUrl             := 'about:blank';
-  FHandler                := nil;
-  FReqContextHandler      := nil;
-  FResourceRequestHandler := nil;
-  FMediaObserver          := nil;
-  FMediaObserverReg       := nil;
-  FDevToolsMsgObserver    := nil;
-  FDevToolsMsgObserverReg := nil;
-  FExtensionHandler       := nil;
-  FOptions                := nil;
-  FFontOptions            := nil;
-  FDefaultEncoding        := '';
-  FPDFPrintOptions        := nil;
-  FUpdatePreferences      := False;
-  FCustomHeaderName       := '';
-  FCustomHeaderValue      := '';
-  FPrefsFileName          := '';
-  FAddCustomHeader        := False;
-  FDoNotTrack             := True;
-  FSendReferrer           := True;
-  FRunAllFlashInAllowMode := False;
-  FAllowOutdatedPlugins   := False;
-  FAlwaysAuthorizePlugins := False;
-  FSpellChecking          := True;
-  FSpellCheckerDicts      := '';
-  FZoomStep               := ZOOM_STEP_DEF;
-  FZoomStepCS             := nil;
-  FSafeSearch             := False;
-  FYouTubeRestrict        := YOUTUBE_RESTRICT_OFF;
-  FPrintingEnabled        := True;
-  FAcceptLanguageList     := '';
-  FAcceptCookies          := cpAllow;
-  FBlock3rdPartyCookies   := False;
-  FOffline                := False;
-  FNetworkPredictions     := CEF_NETWORK_PREDICTION_WIFI_ONLY;
-  FQuicAllowed            := True;
+  FIsOSR                   := False;
+  FDefaultUrl              := 'about:blank';
+  FHandler                 := nil;
+  FReqContextHandler       := nil;
+  FResourceRequestHandler  := nil;
+  FMediaObserver           := nil;
+  FMediaObserverReg        := nil;
+  FDevToolsMsgObserver     := nil;
+  FDevToolsMsgObserverReg  := nil;
+  FExtensionHandler        := nil;
+  FOptions                 := nil;
+  FFontOptions             := nil;
+  FDefaultEncoding         := '';
+  FPDFPrintOptions         := nil;
+  FUpdatePreferences       := False;
+  FCustomHeaderName        := '';
+  FCustomHeaderValue       := '';
+  FPrefsFileName           := '';
+  FAddCustomHeader         := False;
+  FDoNotTrack              := True;
+  FSendReferrer            := True;
+  FRunAllFlashInAllowMode  := False;
+  FAllowOutdatedPlugins    := False;
+  FAlwaysAuthorizePlugins  := False;
+  FSpellChecking           := True;
+  FSpellCheckerDicts       := '';
+  FZoomStep                := ZOOM_STEP_DEF;
+  FZoomStepCS              := nil;
+  FSafeSearch              := False;
+  FYouTubeRestrict         := YOUTUBE_RESTRICT_OFF;
+  FPrintingEnabled         := True;
+  FAcceptLanguageList      := '';
+  FAcceptCookies           := cpAllow;
+  FBlock3rdPartyCookies    := False;
+  FOffline                 := False;
+  FNetworkPredictions      := CEF_NETWORK_PREDICTION_WIFI_ONLY;
+  FQuicAllowed             := True;
+  FJavascriptEnabled       := True;
+  FLoadImagesAutomatically := True;
 
   if (GlobalCEFApp <> nil) then
     FHyperlinkAuditing := GlobalCEFApp.HyperlinkAuditing
@@ -2707,6 +2715,24 @@ begin
     end;
 end;
 
+procedure TChromiumCore.SetJavascriptEnabled(aValue : boolean);
+begin
+  if (FJavascriptEnabled <> aValue) then
+    begin
+      FJavascriptEnabled := aValue;
+      FUpdatePreferences := True;
+    end;
+end;
+
+procedure TChromiumCore.SetLoadImagesAutomatically(aValue : boolean);
+begin
+  if (FLoadImagesAutomatically <> aValue) then
+    begin
+      FLoadImagesAutomatically := aValue;
+      FUpdatePreferences       := True;
+    end;
+end;
+
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);
 begin
   if Initialized then
@@ -3933,6 +3959,9 @@ begin
 
   UpdatePreference(aBrowser, 'net.network_prediction_options', integer(FNetworkPredictions));
   UpdatePreference(aBrowser, 'net.quic_allowed', FQuicAllowed);
+
+  UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
+  UpdatePreference(aBrowser, 'webkit.webprefs.loads_images_automatically', FLoadImagesAutomatically);
 end;
 
 procedure TChromiumCore.doUpdateOwnPreferences;
