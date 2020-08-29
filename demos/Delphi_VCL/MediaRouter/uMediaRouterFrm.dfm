@@ -60,7 +60,6 @@ object MediaRouterFrm: TMediaRouterFrm
         ItemHeight = 13
         TabOrder = 0
         OnClick = SinksLbxClick
-        ExplicitHeight = 616
       end
       object SinksButtonsPnl: TPanel
         Left = 12
@@ -90,7 +89,6 @@ object MediaRouterFrm: TMediaRouterFrm
           Caption = 'Notify sinks'
           TabOrder = 1
           OnClick = NotifySinksBtnClick
-          ExplicitTop = 47
         end
         object CreateRouteBtn: TButton
           Left = 0
@@ -102,7 +100,6 @@ object MediaRouterFrm: TMediaRouterFrm
           Enabled = False
           TabOrder = 2
           OnClick = CreateRouteBtnClick
-          ExplicitTop = 18
         end
       end
     end

@@ -56,7 +56,6 @@ type
     protected
       procedure OnContextInitialized; virtual; abstract;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); virtual; abstract;
-      procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue); virtual; abstract;
       procedure GetPrintHandler(var aHandler : ICefPrintHandler); virtual;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual; abstract;
 
@@ -70,7 +69,6 @@ type
 
       procedure OnContextInitialized; override;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
-      procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue); override;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
 
     public
@@ -109,17 +107,6 @@ begin
     TCefBrowserProcessHandlerOwn(TempObject).OnBeforeChildProcessLaunch(TCefCommandLineRef.UnWrap(command_line));
 end;
 
-procedure cef_browser_process_handler_on_render_process_thread_created(self       : PCefBrowserProcessHandler;
-                                                                       extra_info : PCefListValue); stdcall;
-var
-  TempObject : TObject;
-begin
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
-    TCefBrowserProcessHandlerOwn(TempObject).OnRenderProcessThreadCreated(TCefListValueRef.UnWrap(extra_info));
-end;
-
 function cef_browser_process_handler_get_print_handler(self: PCefBrowserProcessHandler): PCefPrintHandler; stdcall;
 var
   TempObject  : TObject;
@@ -156,7 +143,6 @@ begin
     begin
       on_context_initialized           := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_context_initialized;
       on_before_child_process_launch   := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_before_child_process_launch;
-      on_render_process_thread_created := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_render_process_thread_created;
       get_print_handler                := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_get_print_handler;
       on_schedule_message_pump_work    := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_schedule_message_pump_work;
     end;
@@ -202,16 +188,6 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch', e) then raise;
-  end;
-end;
-
-procedure TCefCustomBrowserProcessHandler.OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
-begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnRenderProcessThreadCreated(extraInfo);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnRenderProcessThreadCreated', e) then raise;
   end;
 end;
 

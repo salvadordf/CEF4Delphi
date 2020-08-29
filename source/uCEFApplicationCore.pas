@@ -57,15 +57,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 84;
-  CEF_SUPPORTED_VERSION_MINOR   = 4;
-  CEF_SUPPORTED_VERSION_RELEASE = 1;
+  CEF_SUPPORTED_VERSION_MAJOR   = 85;
+  CEF_SUPPORTED_VERSION_MINOR   = 2;
+  CEF_SUPPORTED_VERSION_RELEASE = 11;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 84;
+  CEF_CHROMEELF_VERSION_MAJOR   = 85;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4147;
-  CEF_CHROMEELF_VERSION_BUILD   = 105;
+  CEF_CHROMEELF_VERSION_RELEASE = 4183;
+  CEF_CHROMEELF_VERSION_BUILD   = 83;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -90,6 +90,7 @@ type
       FCustomFlashPath               : ustring;
       FFrameworkDirPath              : ustring;
       FMainBundlePath                : ustring; // Only used in macOS
+      FChromeRuntime                 : boolean;
       FLogSeverity                   : TCefLogSeverity;
       FJavaScriptFlags               : ustring;
       FResourcesDirPath              : ustring;
@@ -196,7 +197,6 @@ type
       // ICefBrowserProcessHandler
       FOnContextInitialized          : TOnContextInitializedEvent;
       FOnBeforeChildProcessLaunch    : TOnBeforeChildProcessLaunchEvent;
-      FOnRenderProcessThreadCreated  : TOnRenderProcessThreadCreatedEvent;
       FOnScheduleMessagePumpWork     : TOnScheduleMessagePumpWorkEvent;
 
       // ICefResourceBundleHandler
@@ -205,7 +205,6 @@ type
       FOnGetDataResourceForScale     : TOnGetDataResourceForScaleEvent;
 
       // ICefRenderProcessHandler
-      FOnRenderThreadCreated         : TOnRenderThreadCreatedEvent;
       FOnWebKitInitialized           : TOnWebKitInitializedEvent;
       FOnBrowserCreated              : TOnBrowserCreatedEvent;
       FOnBrowserDestroyed            : TOnBrowserDestroyedEvent;
@@ -344,12 +343,10 @@ type
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
       procedure   Internal_OnContextInitialized;
       procedure   Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
-      procedure   Internal_OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
       procedure   Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
       function    Internal_GetLocalizedString(stringId: Integer; var stringVal: ustring) : boolean;
       function    Internal_GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt) : boolean;
       function    Internal_GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt) : boolean;
-      procedure   Internal_OnRenderThreadCreated(const extraInfo: ICefListValue);
       procedure   Internal_OnWebKitInitialized;
       procedure   Internal_OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
       procedure   Internal_OnBrowserDestroyed(const browser: ICefBrowser);
@@ -369,6 +366,7 @@ type
       property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
       property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
       property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;  // Only used in macOS
+      property ChromeRuntime                     : boolean                             read FChromeRuntime                     write FChromeRuntime;
       property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
       property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
       property WindowlessRenderingEnabled        : Boolean                             read FWindowlessRenderingEnabled        write FWindowlessRenderingEnabled;
@@ -493,7 +491,6 @@ type
       // ICefBrowserProcessHandler
       property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitialized              write FOnContextInitialized;
       property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunch        write FOnBeforeChildProcessLaunch;
-      property OnRenderProcessThreadCreated      : TOnRenderProcessThreadCreatedEvent  read FOnRenderProcessThreadCreated      write FOnRenderProcessThreadCreated;
       property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWork         write FOnScheduleMessagePumpWork;
 
       // ICefResourceBundleHandler
@@ -502,7 +499,6 @@ type
       property OnGetDataResourceForScale         : TOnGetDataResourceForScaleEvent     read FOnGetDataResourceForScale         write FOnGetDataResourceForScale;
 
       // ICefRenderProcessHandler
-      property OnRenderThreadCreated             : TOnRenderThreadCreatedEvent         read FOnRenderThreadCreated             write FOnRenderThreadCreated;
       property OnWebKitInitialized               : TOnWebKitInitializedEvent           read FOnWebKitInitialized               write FOnWebKitInitialized;
       property OnBrowserCreated                  : TOnBrowserCreatedEvent              read FOnBrowserCreated                  write FOnBrowserCreated;
       property OnBrowserDestroyed                : TOnBrowserDestroyedEvent            read FOnBrowserDestroyed                write FOnBrowserDestroyed;
@@ -606,6 +602,7 @@ begin
   FCustomFlashPath               := '';
   FFrameworkDirPath              := '';
   FMainBundlePath                := '';
+  FChromeRuntime                 := False;
   FLogSeverity                   := LOGSEVERITY_DISABLE;
   FJavaScriptFlags               := '';
   FResourcesDirPath              := '';
@@ -703,7 +700,6 @@ begin
   // ICefBrowserProcessHandler
   FOnContextInitialized          := nil;
   FOnBeforeChildProcessLaunch    := nil;
-  FOnRenderProcessThreadCreated  := nil;
   FOnScheduleMessagePumpWork     := nil;
 
   // ICefResourceBundleHandler
@@ -712,7 +708,6 @@ begin
   FOnGetDataResourceForScale     := nil;
 
   // ICefRenderProcessHandler
-  FOnRenderThreadCreated         := nil;
   FOnWebKitInitialized           := nil;
   FOnBrowserCreated              := nil;
   FOnBrowserDestroyed            := nil;
@@ -1161,6 +1156,7 @@ begin
   aSettings.browser_subprocess_path                 := CefString(FBrowserSubprocessPath);
   aSettings.framework_dir_path                      := CefString(FFrameworkDirPath);
   aSettings.main_bundle_path                        := CefString(FMainBundlePath);
+  aSettings.chrome_runtime                          := Ord(FChromeRuntime);
   aSettings.multi_threaded_message_loop             := Ord(FMultiThreadedMessageLoop);
   aSettings.external_message_pump                   := Ord(FExternalMessagePump);
   aSettings.windowless_rendering_enabled            := Ord(FWindowlessRenderingEnabled);
@@ -1484,12 +1480,6 @@ begin
     FOnBeforeChildProcessLaunch(commandLine);
 end;
 
-procedure TCefApplicationCore.Internal_OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
-begin
-  if assigned(FOnRenderProcessThreadCreated) then
-    FOnRenderProcessThreadCreated(extraInfo);
-end;
-
 procedure TCefApplicationCore.Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
 begin
   if assigned(FOnScheduleMessagePumpWork) then
@@ -1527,12 +1517,6 @@ begin
   // That file is available in the CEF binaries package.
   if assigned(FOnGetDataResourceForScale) then
     FOnGetDataResourceForScale(resourceId, scaleFactor, data, dataSize, Result);
-end;
-
-procedure TCefApplicationCore.Internal_OnRenderThreadCreated(const extraInfo: ICefListValue);
-begin
-  if assigned(FOnRenderThreadCreated) then
-    FOnRenderThreadCreated(extraInfo);
 end;
 
 procedure TCefApplicationCore.Internal_OnWebKitInitialized;
@@ -1941,7 +1925,6 @@ begin
              (FMustCreateBrowserProcessHandler        or
               assigned(FOnContextInitialized)         or
               assigned(FOnBeforeChildProcessLaunch)   or
-              assigned(FOnRenderProcessThreadCreated) or
               assigned(FOnScheduleMessagePumpWork)));
 end;
 
@@ -1951,7 +1934,6 @@ begin
             ((FProcessType = ptRenderer) and
              (FMustCreateRenderProcessHandler     or
               MustCreateLoadHandler               or
-              assigned(FOnRenderThreadCreated)    or
               assigned(FOnWebKitInitialized)      or
               assigned(FOnBrowserCreated)         or
               assigned(FOnBrowserDestroyed)       or
