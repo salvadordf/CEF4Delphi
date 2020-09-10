@@ -55,7 +55,6 @@ type
   TCefMediaSourceRef = class(TCefBaseRefCountedRef, ICefMediaSource)
   protected
     function GetId : ustring;
-    function IsValid : boolean;
     function IsCastSource : boolean;
     function IsDialSource : boolean;
   public
@@ -70,11 +69,6 @@ uses
 function TCefMediaSourceRef.GetId: ustring;
 begin
   Result := CefStringFreeAndGet(PCefMediaSource(FData)^.get_id(PCefMediaSource(FData)));
-end;
-
-function TCefMediaSourceRef.IsValid: Boolean;
-begin
-  Result := PCefMediaSource(FData)^.is_valid(PCefMediaSource(FData)) <> 0;
 end;
 
 function TCefMediaSourceRef.IsCastSource: Boolean;

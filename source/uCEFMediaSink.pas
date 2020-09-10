@@ -55,7 +55,6 @@ type
   TCefMediaSinkRef = class(TCefBaseRefCountedRef, ICefMediaSink)
   protected
     function  GetId: ustring;
-    function  IsValid: boolean;
     function  GetName: ustring;
     function  GetDescription: ustring;
     function  GetIconType: TCefMediaSinkIconType;
@@ -75,11 +74,6 @@ uses
 function TCefMediaSinkRef.GetId: ustring;
 begin
   Result := CefStringFreeAndGet(PCefMediaSink(FData)^.get_id(PCefMediaSink(FData)));
-end;
-
-function TCefMediaSinkRef.IsValid: Boolean;
-begin
-  Result := PCefMediaSink(FData)^.is_valid(PCefMediaSink(FData)) <> 0;
 end;
 
 function TCefMediaSinkRef.GetName: ustring;

@@ -9,7 +9,7 @@
         <Filename Value="ToolBoxBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="10"/>
+        <TopLine Value="4"/>
         <CursorPos X="63" Y="20"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -31,46 +31,31 @@
       </Unit1>
       <Unit2>
         <Filename Value="..\..\..\source\uCEFConstants.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="604"/>
         <CursorPos X="3" Y="613"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="668"/>
         <CursorPos X="76" Y="678"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\source\uCEFChromiumCore.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="958"/>
         <CursorPos X="28" Y="970"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="1">
       <Position1>
         <Filename Value="uMainForm.pas"/>
         <Caret Line="13" Column="49"/>
       </Position1>
-      <Position2>
-        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
-        <Caret Line="12" Column="57"/>
-      </Position2>
-      <Position3>
-        <Filename Value="..\..\..\source\uCEFConstants.pas"/>
-        <Caret Line="613" Column="3" TopLine="604"/>
-      </Position3>
-      <Position4>
-        <Filename Value="..\..\..\source\uCEFChromiumCore.pas"/>
-        <Caret Line="970" Column="42" TopLine="202"/>
-      </Position4>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

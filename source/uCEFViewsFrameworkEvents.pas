@@ -87,16 +87,17 @@ type
   TOnMenuButtonPressedEvent = procedure(const Sender: TObject; const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock) of object;
 
   // ICefWindowDelegate
-  TOnWindowCreatedEvent   = procedure(const Sender: TObject; const window: ICefWindow) of object;
-  TOnWindowDestroyedEvent = procedure(const Sender: TObject; const window: ICefWindow) of object;
-  TOnGetParentWindowEvent = procedure(const Sender: TObject; const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow) of object;
-  TOnIsFramelessEvent     = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
-  TOnCanResizeEvent       = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
-  TOnCanMaximizeEvent     = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
-  TOnCanMinimizeEvent     = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
-  TOnCanCloseEvent        = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
-  TOnAcceleratorEvent     = procedure(const Sender: TObject; const window: ICefWindow; command_id: Integer; var aResult : boolean) of object;
-  TOnWindowKeyEventEvent  = procedure(const Sender: TObject; const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean) of object;
+  TOnWindowCreatedEvent    = procedure(const Sender: TObject; const window: ICefWindow) of object;
+  TOnWindowDestroyedEvent  = procedure(const Sender: TObject; const window: ICefWindow) of object;
+  TOnGetParentWindowEvent  = procedure(const Sender: TObject; const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow) of object;
+  TOnGetInitialBoundsEvent = procedure(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect) of object;
+  TOnIsFramelessEvent      = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
+  TOnCanResizeEvent        = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
+  TOnCanMaximizeEvent      = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
+  TOnCanMinimizeEvent      = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
+  TOnCanCloseEvent         = procedure(const Sender: TObject; const window: ICefWindow; var aResult : boolean) of object;
+  TOnAcceleratorEvent      = procedure(const Sender: TObject; const window: ICefWindow; command_id: Integer; var aResult : boolean) of object;
+  TOnWindowKeyEventEvent   = procedure(const Sender: TObject; const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean) of object;
 
 implementation
 

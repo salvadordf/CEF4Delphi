@@ -1194,6 +1194,7 @@ type
     browser_subprocess_path                  : TCefString;
     framework_dir_path                       : TCefString;
     main_bundle_path                         : TCefString;  // Only used in macOS
+    chrome_runtime                           : Integer;
     multi_threaded_message_loop              : Integer;
     external_message_pump                    : Integer;
     windowless_rendering_enabled             : Integer;
@@ -1664,7 +1665,6 @@ type
   TCefMediaSink = record
     base                  : TCefBaseRefCounted;
     get_id                : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
-    is_valid              : function(self: PCefMediaSink): Integer; stdcall;
     get_name              : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_description       : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_icon_type         : function(self: PCefMediaSink): TCefMediaSinkIconType; stdcall;
@@ -1684,7 +1684,6 @@ type
   TCefMediaSource = record
     base                  : TCefBaseRefCounted;
     get_id                : function(self: PCefMediaSource): PCefStringUserFree; stdcall;
-    is_valid              : function(self: PCefMediaSource): Integer; stdcall;
     is_cast_source        : function(self: PCefMediaSource): Integer; stdcall;
     is_dial_source        : function(self: PCefMediaSource): Integer; stdcall;
   end;
@@ -1973,7 +1972,6 @@ type
   // /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)
   TCefRenderProcessHandler = record
     base                        : TCefBaseRefCounted;
-    on_render_thread_created    : procedure(self: PCefRenderProcessHandler; extra_info: PCefListValue); stdcall;
     on_web_kit_initialized      : procedure(self: PCefRenderProcessHandler); stdcall;
     on_browser_created          : procedure(self: PCefRenderProcessHandler; browser: PCefBrowser; extra_info: PCefDictionaryValue); stdcall;
     on_browser_destroyed        : procedure(self: PCefRenderProcessHandler; browser: PCefBrowser); stdcall;
@@ -2986,7 +2984,6 @@ type
     base                              : TCefBaseRefCounted;
     on_context_initialized            : procedure(self: PCefBrowserProcessHandler); stdcall;
     on_before_child_process_launch    : procedure(self: PCefBrowserProcessHandler; command_line: PCefCommandLine); stdcall;
-    on_render_process_thread_created  : procedure(self: PCefBrowserProcessHandler; extra_info: PCefListValue); stdcall;
     get_print_handler                 : function(self: PCefBrowserProcessHandler): PCefPrintHandler; stdcall;
     on_schedule_message_pump_work     : procedure(self: PCefBrowserProcessHandler; delay_ms: Int64); stdcall;
   end;
@@ -3361,6 +3358,7 @@ type
     on_window_created                : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
     on_window_destroyed              : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
     get_parent_window                : function(self: PCefWindowDelegate; window: PCefWindow; is_menu, can_activate_menu: PInteger): PCefWindow; stdcall;
+    get_initial_bounds               : function(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
     is_frameless                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_resize                       : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_maximize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;

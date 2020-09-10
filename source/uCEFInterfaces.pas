@@ -166,7 +166,6 @@ type
 
   TCefMediaSinkInfo = record
     ID          : ustring;
-    Valid       : boolean;
     Name        : ustring;
     Description : ustring;
     IconType    : TCefMediaSinkIconType;
@@ -1390,7 +1389,6 @@ type
   ICefMediaSink = interface(ICefBaseRefCounted)
     ['{EDA1A4B2-2A4C-42DD-A7DF-901BF93D908D}']
     function  GetId: ustring;
-    function  IsValid: boolean;
     function  GetName: ustring;
     function  GetDescription: ustring;
     function  GetIconType: TCefMediaSinkIconType;
@@ -1410,7 +1408,6 @@ type
   ICefMediaSource = interface(ICefBaseRefCounted)
     ['{734ED6E4-6498-43ED-AAA4-6B993EDC30BE}']
     function GetId : ustring;
-    function IsValid : boolean;
     function IsCastSource : boolean;
     function IsDialSource : boolean;
 
@@ -1433,7 +1430,6 @@ type
     ['{27291B7A-C0AE-4EE0-9115-15C810E22F6C}']
     procedure OnContextInitialized;
     procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
-    procedure OnRenderProcessThreadCreated(const extraInfo: ICefListValue);
     procedure GetPrintHandler(var aHandler : ICefPrintHandler);
     procedure OnScheduleMessagePumpWork(const delayMs: Int64);
   end;
@@ -1442,7 +1438,6 @@ type
   // /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)
   ICefRenderProcessHandler = interface(ICefBaseRefCounted)
     ['{FADEE3BC-BF66-430A-BA5D-1EE3782ECC58}']
-    procedure OnRenderThreadCreated(const extraInfo: ICefListValue);
     procedure OnWebKitInitialized;
     procedure OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
     procedure OnBrowserDestroyed(const browser: ICefBrowser);
@@ -2899,6 +2894,7 @@ type
     procedure OnWindowCreated(const window: ICefWindow);
     procedure OnWindowDestroyed(const window: ICefWindow);
     procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+    procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
     procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean);
     procedure OnCanResize(const window: ICefWindow; var aResult : boolean);
     procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean);
@@ -2913,6 +2909,7 @@ type
     procedure doOnWindowCreated(const window: ICefWindow);
     procedure doOnWindowDestroyed(const window: ICefWindow);
     procedure doOnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+    procedure doOnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
     procedure doOnIsFrameless(const window: ICefWindow; var aResult : boolean);
     procedure doOnCanResize(const window: ICefWindow; var aResult : boolean);
     procedure doOnCanMaximize(const window: ICefWindow; var aResult : boolean);

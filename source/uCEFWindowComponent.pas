@@ -70,6 +70,7 @@ type
       FOnWindowCreated        : TOnWindowCreatedEvent;
       FOnWindowDestroyed      : TOnWindowDestroyedEvent;
       FOnGetParentWindow      : TOnGetParentWindowEvent;
+      FOnGetInitialBounds     : TOnGetInitialBoundsEvent;
       FOnIsFrameless          : TOnIsFramelessEvent;
       FOnCanResize            : TOnCanResizeEvent;
       FOnCanMaximize          : TOnCanMaximizeEvent;
@@ -108,6 +109,7 @@ type
       procedure doOnWindowCreated(const window_: ICefWindow);
       procedure doOnWindowDestroyed(const window_: ICefWindow);
       procedure doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+      procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
       procedure doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);
       procedure doOnCanResize(const window_: ICefWindow; var aResult : boolean);
       procedure doOnCanMaximize(const window_: ICefWindow; var aResult : boolean);
@@ -158,6 +160,7 @@ type
       property OnWindowCreated        : TOnWindowCreatedEvent     read FOnWindowCreated    write FOnWindowCreated;
       property OnWindowDestroyed      : TOnWindowDestroyedEvent   read FOnWindowDestroyed  write FOnWindowDestroyed;
       property OnGetParentWindow      : TOnGetParentWindowEvent   read FOnGetParentWindow  write FOnGetParentWindow;
+      property OnGetInitialBounds     : TOnGetInitialBoundsEvent  read FOnGetInitialBounds write FOnGetInitialBounds;
       property OnIsFrameless          : TOnIsFramelessEvent       read FOnIsFrameless      write FOnIsFrameless;
       property OnCanResize            : TOnCanResizeEvent         read FOnCanResize        write FOnCanResize;
       property OnCanMaximize          : TOnCanMaximizeEvent       read FOnCanMaximize      write FOnCanMaximize;
@@ -212,6 +215,7 @@ begin
   FOnWindowCreated        := nil;
   FOnWindowDestroyed      := nil;
   FOnGetParentWindow      := nil;
+  FOnGetInitialBounds     := nil;
   FOnIsFrameless          := nil;
   FOnCanResize            := nil;
   FOnCanMaximize          := nil;
@@ -295,6 +299,12 @@ procedure TCEFWindowComponent.doOnGetParentWindow(const window_: ICefWindow; var
 begin
   if assigned(FOnGetParentWindow) then
     FOnGetParentWindow(self, window_, is_menu, can_activate_menu, aResult);
+end;
+
+procedure TCEFWindowComponent.doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
+begin
+  if assigned(FOnGetInitialBounds) then
+    FOnGetInitialBounds(self, window_, aResult);
 end;
 
 procedure TCEFWindowComponent.doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);

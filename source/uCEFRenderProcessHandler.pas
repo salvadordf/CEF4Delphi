@@ -60,7 +60,6 @@ uses
 type
   TCefRenderProcessHandlerOwn = class(TCefBaseRefCountedOwn, ICefRenderProcessHandler)
     protected
-      procedure OnRenderThreadCreated(const extraInfo: ICefListValue); virtual; abstract;
       procedure OnWebKitInitialized; virtual; abstract;
       procedure OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue); virtual; abstract;
       procedure OnBrowserDestroyed(const browser: ICefBrowser); virtual; abstract;
@@ -80,7 +79,6 @@ type
       FCefApp      : TCefApplicationCore;
       FLoadHandler : ICefLoadHandler;
 
-      procedure OnRenderThreadCreated(const extraInfo: ICefListValue); override;
       procedure OnWebKitInitialized; override;
       procedure OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue); override;
       procedure OnBrowserDestroyed(const browser: ICefBrowser); override;
@@ -105,17 +103,6 @@ uses
   SysUtils,
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFConstants, uCEFLoadHandler, uCEFDictionaryValue;
-
-procedure cef_render_process_handler_on_render_thread_created(self       : PCefRenderProcessHandler;
-                                                              extra_info : PCefListValue); stdcall;
-var
-  TempObject : TObject;
-begin
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
-    TCefRenderProcessHandlerOwn(TempObject).OnRenderThreadCreated(TCefListValueRef.UnWrap(extra_info));
-end;
 
 procedure cef_render_process_handler_on_web_kit_initialized(self: PCefRenderProcessHandler); stdcall;
 var
@@ -254,7 +241,6 @@ begin
 
   with PCefRenderProcessHandler(FData)^ do
     begin
-      on_render_thread_created    := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_render_thread_created;
       on_web_kit_initialized      := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_web_kit_initialized;
       on_browser_created          := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_browser_created;
       on_browser_destroyed        := {$IFDEF FPC}@{$ENDIF}cef_render_process_handler_on_browser_destroyed;
@@ -302,16 +288,6 @@ begin
   FLoadHandler := nil;
 
   inherited Destroy;
-end;
-
-procedure TCefCustomRenderProcessHandler.OnRenderThreadCreated(const extraInfo: ICefListValue);
-begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnRenderThreadCreated(extraInfo);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnRenderThreadCreated', e) then raise;
-  end;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnWebKitInitialized;
