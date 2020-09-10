@@ -62,6 +62,7 @@ type
       procedure OnWindowCreated(const window: ICefWindow);
       procedure OnWindowDestroyed(const window: ICefWindow);
       procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+      procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
       procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean);
       procedure OnCanResize(const window: ICefWindow; var aResult : boolean);
       procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean);
@@ -79,6 +80,7 @@ type
       procedure OnWindowCreated(const window: ICefWindow); virtual;
       procedure OnWindowDestroyed(const window: ICefWindow); virtual;
       procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); virtual;
+      procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect); virtual;
       procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean); virtual;
       procedure OnCanResize(const window: ICefWindow; var aResult : boolean); virtual;
       procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean); virtual;
@@ -111,6 +113,7 @@ type
       procedure OnWindowCreated(const window: ICefWindow); override;
       procedure OnWindowDestroyed(const window: ICefWindow); override;
       procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
+      procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect); override;
       procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean); override;
       procedure OnCanResize(const window: ICefWindow; var aResult : boolean); override;
       procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean); override;
@@ -158,6 +161,11 @@ begin
                                                                                            @TempCanActivateMenu));
   is_menu           := TempIsMenu <> 0;
   can_activate_menu := TempCanActivateMenu <> 0;
+end;
+
+procedure TCefWindowDelegateRef.OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
+begin
+  aResult := PCefWindowDelegate(FData)^.get_initial_bounds(PCefWindowDelegate(FData), CefGetData(window));
 end;
 
 procedure TCefWindowDelegateRef.OnIsFrameless(const window: ICefWindow; var aResult : boolean);
@@ -240,7 +248,6 @@ begin
   TempObject := CefGetObject(self);
   TempWindow := nil;
 
-
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) and (is_menu <> nil) and (can_activate_menu <> nil) then
     begin
       TempIsMenu          := (is_menu^           <> 0);
@@ -255,6 +262,24 @@ begin
     end;
 
   Result := CefGetData(TempWindow);
+end;
+
+function cef_window_delegate_get_initial_bounds(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
+var
+  TempObject : TObject;
+  TempRect   : TCefRect;
+begin
+  TempObject      := CefGetObject(self);
+  TempRect.x      := 0;
+  TempRect.y      := 0;
+  TempRect.width  := 0;
+  TempRect.height := 0;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnGetInitialBounds(TCefWindowRef.UnWrap(window),
+                                                         TempRect);
+
+  Result := TempRect;
 end;
 
 function cef_window_delegate_is_frameless(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
@@ -375,6 +400,7 @@ begin
       on_window_created       := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_created;
       on_window_destroyed     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_destroyed;
       get_parent_window       := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_parent_window;
+      get_initial_bounds      := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_initial_bounds;
       is_frameless            := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_is_frameless;
       can_resize              := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_can_resize;
       can_maximize            := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_can_maximize;
@@ -396,6 +422,11 @@ begin
 end;
 
 procedure TCefWindowDelegateOwn.OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+begin
+  //
+end;
+
+procedure TCefWindowDelegateOwn.OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
 begin
   //
 end;
@@ -565,6 +596,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnGetParentWindow', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetInitialBounds(window, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetInitialBounds', e) then raise;
   end;
 end;
 

@@ -138,7 +138,7 @@ type
       FAcceptLanguageList       : ustring;
       FAcceptCookies            : TCefCookiePref;
       FBlock3rdPartyCookies     : boolean;
-      FDefaultWindowInfoExStyle : cardinal;
+      FDefaultWindowInfoExStyle : DWORD;
       FNetworkPredictions       : TCefNetworkPredictionOptions;
       FQuicAllowed              : boolean;
       FJavascriptEnabled        : boolean;
@@ -880,7 +880,7 @@ type
       property  AcceptCookies                 : TCefCookiePref               read FAcceptCookies               write SetAcceptCookies;
       property  Block3rdPartyCookies          : boolean                      read FBlock3rdPartyCookies        write SetBlock3rdPartyCookies;
       property  MultiBrowserMode              : boolean                      read FMultiBrowserMode            write SetMultiBrowserMode;
-      property  DefaultWindowInfoExStyle      : cardinal                     read FDefaultWindowInfoExStyle    write FDefaultWindowInfoExStyle;
+      property  DefaultWindowInfoExStyle      : DWORD                        read FDefaultWindowInfoExStyle    write FDefaultWindowInfoExStyle;
       property  Offline                       : boolean                      read FOffline                     write SetOffline;
       property  NetworkPredictions            : TCefNetworkPredictionOptions read FNetworkPredictions          write SetNetworkPredictions;
       property  QuicAllowed                   : boolean                      read FQuicAllowed                 write SetQuicAllowed;

@@ -2894,6 +2894,7 @@ type
     procedure OnWindowCreated(const window: ICefWindow);
     procedure OnWindowDestroyed(const window: ICefWindow);
     procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+    procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
     procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean);
     procedure OnCanResize(const window: ICefWindow; var aResult : boolean);
     procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean);
@@ -2908,6 +2909,7 @@ type
     procedure doOnWindowCreated(const window: ICefWindow);
     procedure doOnWindowDestroyed(const window: ICefWindow);
     procedure doOnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+    procedure doOnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
     procedure doOnIsFrameless(const window: ICefWindow; var aResult : boolean);
     procedure doOnCanResize(const window: ICefWindow; var aResult : boolean);
     procedure doOnCanMaximize(const window: ICefWindow; var aResult : boolean);
