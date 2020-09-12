@@ -303,11 +303,7 @@ begin
   GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
-  GlobalCEFApp.EnablePrintPreview  := True;         
-
-  // Workaround for the issue #301
-  // https://github.com/salvadordf/CEF4Delphi/issues/301
-  GlobalCEFApp.DisableFeatures := 'OutOfBlinkCors';
+  GlobalCEFApp.EnablePrintPreview  := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
