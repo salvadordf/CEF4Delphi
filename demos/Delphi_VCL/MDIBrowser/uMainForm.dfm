@@ -79,5 +79,13 @@ object MainForm: TMainForm
       Caption = 'Create a new request context for new browsers'
       TabOrder = 0
     end
+    object IncognitoChk: TCheckBox
+      Left = 568
+      Top = 8
+      Width = 305
+      Height = 17
+      Caption = 'Use incognito mode for child windows'
+      TabOrder = 1
+    end
   end
 end
