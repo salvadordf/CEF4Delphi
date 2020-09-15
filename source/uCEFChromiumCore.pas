@@ -4253,7 +4253,7 @@ begin
   Result := False;
 
   if assigned(FOnNavigationVisitorResultAvailable) then
-    FOnNavigationVisitorResultAvailable(entry, current, index, total, Result);
+    FOnNavigationVisitorResultAvailable(self, entry, current, index, total, Result);
 end;
 
 procedure TChromiumCore.doDownloadImageFinished(const imageUrl       : ustring;
@@ -4850,7 +4850,7 @@ begin
 
     try
       if assigned(FOnBrowserCompMsg) then
-        FOnBrowserCompMsg(aMessage, TempHandled);
+        FOnBrowserCompMsg(self, aMessage, TempHandled);
 
       if not(TempHandled) then
         CallOldCompWndProc(FOldBrowserCompWndPrc, FBrowserCompHWND, aMessage);
@@ -4873,7 +4873,7 @@ begin
 
     try
       if assigned(FOnWidgetCompMsg) then
-        FOnWidgetCompMsg(aMessage, TempHandled);
+        FOnWidgetCompMsg(self, aMessage, TempHandled);
 
       if not(TempHandled) then
         CallOldCompWndProc(FOldWidgetCompWndPrc, FWidgetCompHWND, aMessage);
@@ -4896,7 +4896,7 @@ begin
 
     try
       if assigned(FOnRenderCompMsg) then
-        FOnRenderCompMsg(aMessage, TempHandled);
+        FOnRenderCompMsg(self, aMessage, TempHandled);
 
       if not(TempHandled) then
         CallOldCompWndProc(FOldRenderCompWndPrc, FRenderCompHWND, aMessage);

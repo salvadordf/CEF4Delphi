@@ -203,7 +203,7 @@ type
   TOnPrefsAvailableEvent                   = procedure(Sender: TObject; aResultOK : boolean) of object;
   TOnCookiesDeletedEvent                   = procedure(Sender: TObject; numDeleted : integer) of object;
   TOnResolvedIPsAvailableEvent             = procedure(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings) of object;
-  TOnNavigationVisitorResultAvailableEvent = procedure(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult : boolean) of object;
+  TOnNavigationVisitorResultAvailableEvent = procedure(Sender: TObject; const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult : boolean) of object;
   TOnDownloadImageFinishedEvent            = procedure(Sender: TObject; const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage) of object;
   TOnExecuteTaskOnCefThread                = procedure(Sender: TObject; aTaskID : cardinal) of object;
   TOnCookiesVisited                        = procedure(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; var aDeleteCookie, aResult : Boolean) of object;
@@ -213,7 +213,7 @@ type
   TOnMediaRouteCreateFinishedEvent         = procedure(Sender: TObject; result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute) of object;
   TOnMediaSinkDeviceInfoEvent              = procedure(Sender: TObject; const ip_address: ustring; port: integer; const model_name: ustring) of object;
   {$IFDEF MSWINDOWS}
-  TOnCompMsgEvent                          = procedure(var aMessage: TMessage; var aHandled: Boolean) of object;
+  TOnCompMsgEvent                          = procedure(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean) of object;
   {$ENDIF}
 
 implementation

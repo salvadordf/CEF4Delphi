@@ -215,7 +215,7 @@ type
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
-    procedure Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
+    procedure Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
     procedure Chromium1LoadingProgressChange(Sender: TObject;
       const browser: ICefBrowser; const progress: Double);
     procedure OpenfilewithaDAT1Click(Sender: TObject);
@@ -229,7 +229,7 @@ type
       const browser: ICefBrowser; certError: Integer;
       const requestUrl: ustring; const sslInfo: ICefSslInfo;
       const callback: ICefRequestCallback; out Result: Boolean);
-    procedure Chromium1NavigationVisitorResultAvailable(
+    procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject;
       const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
       var aResult: Boolean);
 
@@ -821,7 +821,7 @@ begin
     end;
 end;
 
-procedure TMiniBrowserFrm.Chromium1NavigationVisitorResultAvailable(
+procedure TMiniBrowserFrm.Chromium1NavigationVisitorResultAvailable(Sender: TObject;
   const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
   var aResult: Boolean);
 begin
@@ -858,7 +858,7 @@ begin
     isKeyboardShortcut := True;
 end;
 
-procedure TMiniBrowserFrm.Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
+procedure TMiniBrowserFrm.Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
 begin
   if not(FClosing) and (aMessage.Msg = WM_MOUSEMOVE) then
     begin

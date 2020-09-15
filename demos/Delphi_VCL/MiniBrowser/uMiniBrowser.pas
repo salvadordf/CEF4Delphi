@@ -166,12 +166,12 @@ type
     procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback; out Result: TCefReturnValue);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
+    procedure Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
     procedure Chromium1LoadingProgressChange(Sender: TObject; const browser: ICefBrowser; const progress: Double);
     procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
     procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
     procedure Chromium1CertificateError(Sender: TObject; const browser: ICefBrowser; certError: Integer; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback; out Result: Boolean);
-    procedure Chromium1NavigationVisitorResultAvailable( const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult: Boolean);
+    procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject; const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult: Boolean);
     procedure Chromium1DownloadImageFinished(Sender: TObject; const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType, pluginUrl: ustring; isMainFrame: Boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
@@ -783,7 +783,7 @@ begin
     end;
 end;
 
-procedure TMiniBrowserFrm.Chromium1NavigationVisitorResultAvailable(
+procedure TMiniBrowserFrm.Chromium1NavigationVisitorResultAvailable(Sender: TObject;
   const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
   var aResult: Boolean);
 begin
@@ -820,7 +820,7 @@ begin
     isKeyboardShortcut := True;
 end;
 
-procedure TMiniBrowserFrm.Chromium1RenderCompMsg(var aMessage : TMessage; var aHandled: Boolean);
+procedure TMiniBrowserFrm.Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
 begin
   if not(FClosing) and (aMessage.Msg = WM_MOUSEMOVE) then
     begin
