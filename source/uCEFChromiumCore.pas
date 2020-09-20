@@ -151,10 +151,10 @@ type
       FBrowserCompStub        : Pointer;
       FWidgetCompStub         : Pointer;
       FRenderCompStub         : Pointer;
-      {$ENDIF}
       FBrowserCompHWND        : THandle;
       FWidgetCompHWND         : THandle;
       FRenderCompHWND         : THandle;
+      {$ENDIF}
 
       // ICefClient
       FOnProcessMessageReceived       : TOnProcessMessageReceived;
@@ -458,6 +458,7 @@ type
       procedure BrowserCompWndProc(var aMessage: TMessage);
       procedure WidgetCompWndProc(var aMessage: TMessage);
       procedure RenderCompWndProc(var aMessage: TMessage);
+      procedure RestoreOldCompWndProc;
       function  CopyDCToBitmapStream(aSrcDC : HDC; const aSrcRect : TRect; var aStream : TStream) : boolean;
       {$ENDIF}
 
@@ -662,7 +663,6 @@ type
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
-      procedure   BeforeDestruction; override;
       function    CreateClientHandler(aIsOSR : boolean = True) : boolean; overload;
       function    CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean = True) : boolean; overload;
       procedure   CloseBrowser(aForceClose : boolean);
@@ -1223,10 +1223,10 @@ begin
   FBrowserCompStub        := nil;
   FWidgetCompStub         := nil;
   FRenderCompStub         := nil;
-  {$ENDIF MSWINDOWS}
   FBrowserCompHWND        := 0;
   FWidgetCompHWND         := 0;
   FRenderCompHWND         := 0;
+  {$ENDIF MSWINDOWS}
 
   FDragOperations         := DRAG_OPERATION_NONE;
   {$IFDEF MSWINDOWS}
@@ -1265,6 +1265,9 @@ begin
   try
     try
       {$IFDEF MSWINDOWS}
+      RestoreOldCompWndProc;
+      DestroyAllHandlersAndObservers;
+
       if (FDragDropManager <> nil) then FreeAndNil(FDragDropManager);
 
       if (FCompHandle <> 0) then
@@ -1299,26 +1302,6 @@ begin
     finally
       FBrowsersCS.Release;
     end;
-end;
-
-procedure TChromiumCore.BeforeDestruction;
-begin
-  try
-    {$IFDEF MSWINDOWS}
-    RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
-    FreeAndNilStub(FBrowserCompStub);
-
-    RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
-    FreeAndNilStub(FWidgetCompStub);
-
-    RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
-    FreeAndNilStub(FRenderCompStub);
-    {$ENDIF}
-
-    DestroyAllHandlersAndObservers;
-  finally
-    inherited BeforeDestruction;
-  end;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -4908,6 +4891,18 @@ begin
     on e : exception do
       if CustomExceptionHandler('TChromiumCore.RenderCompWndProc', e) then raise;
   end;
+end;
+
+procedure TChromiumCore.RestoreOldCompWndProc;
+begin
+  RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
+  FreeAndNilStub(FBrowserCompStub);
+
+  RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
+  FreeAndNilStub(FWidgetCompStub);
+
+  RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
+  FreeAndNilStub(FRenderCompStub);
 end;
 {$ENDIF}
 
