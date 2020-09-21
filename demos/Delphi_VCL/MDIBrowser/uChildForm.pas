@@ -203,6 +203,7 @@ end;
 procedure TChildForm.FormShow(Sender: TObject);
 var
   TempContext : ICefRequestContext;
+  TempCache : string;
 begin
   try
     // The new request context overrides several GlobalCEFApp properties like :
@@ -215,7 +216,15 @@ begin
     // GlobalCEFApp.RootCache unless you use a blank cache (in-memory).
 
     if MainForm.NewContextChk.Checked then
-      TempContext := TCefRequestContextRef.New('', '', False, False, False)
+      begin
+        if MainForm.IncognitoChk.Checked then
+          TempCache := ''
+         else
+          TempCache := GlobalCEFApp.RootCache + '\cache' + inttostr(MainForm.BrowserCount);
+
+        TempContext := TCefRequestContextRef.New(TempCache, '', False, False, False)
+
+      end
      else
       TempContext := nil;
 
