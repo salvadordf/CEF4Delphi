@@ -324,8 +324,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
       OnClick = Print1Click
     end
     object PrintinPDF1: TMenuItem
-      Caption = 'Print to PDF'
+      Caption = 'Print to PDF file...'
       OnClick = PrintinPDF1Click
+    end
+    object PrinttoPDFstream1: TMenuItem
+      Caption = 'Print to PDF stream...'
+      OnClick = PrinttoPDFstream1Click
     end
     object N3: TMenuItem
       Caption = '-'

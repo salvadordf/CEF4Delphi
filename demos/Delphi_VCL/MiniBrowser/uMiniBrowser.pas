@@ -70,7 +70,7 @@ const
   MINIBROWSER_COOKIESFLUSHED   = WM_APP + $10B;
   MINIBROWSER_PDFPRINT_END     = WM_APP + $10C;
   MINIBROWSER_PREFS_AVLBL      = WM_APP + $10D;
-  MINIBROWSER_SCREENSHOT_AVLBL = WM_APP + $10E;
+  MINIBROWSER_DTDATA_AVLBL     = WM_APP + $10E;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -138,6 +138,7 @@ type
     akescreenshot1: TMenuItem;
     Useragent1: TMenuItem;
     ClearallstorageforcurrentURL1: TMenuItem;
+    PrinttoPDFstream1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -206,11 +207,14 @@ type
     procedure akescreenshot1Click(Sender: TObject);
     procedure Useragent1Click(Sender: TObject);
     procedure ClearallstorageforcurrentURL1Click(Sender: TObject);
+    procedure PrinttoPDFstream1Click(Sender: TObject);
 
   protected
+    FDevToolsMsgID   : integer;
+    FPrintToPDFMsgID : integer;
     FScreenshotMsgID : integer;
-    FScreenshotRslt  : boolean;
-    FScreenshotValue : ustring;
+
+    FDevToolsMsgValue : ustring;
 
     FResponse   : TStringList;
     FRequest    : TStringList;
@@ -220,6 +224,7 @@ type
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure AddURL(const aURL : string);
+    procedure PrintToPDFStream(aUseChromiumPDFSettings : boolean = False; const aPageRanges : string = ''; const aHeaderTemplate : string = ''; const aFooterTemplate : string = ''; aIgnoreInvalidPageRanges : boolean = False; aPreferCSSPageSize : boolean = False);
 
     procedure ShowDevTools(aPoint : TPoint); overload;
     procedure ShowDevTools; overload;
@@ -246,7 +251,7 @@ type
     procedure CookiesFlushedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESFLUSHED;
     procedure PrintPDFEndMsg(var aMessage : TMessage); message MINIBROWSER_PDFPRINT_END;
     procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;
-    procedure ScreenshotAvailableMsg(var aMessage : TMessage); message MINIBROWSER_SCREENSHOT_AVLBL;
+    procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -268,7 +273,7 @@ implementation
 
 uses
   uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer,
-  uCEFClient, uFindFrm;
+  uCEFClient, uFindFrm, uCEFDictionaryValue;
 
 // Destruction steps
 // =================
@@ -580,6 +585,59 @@ begin
     showmessage('The PDF file was generated successfully')
    else
     showmessage('There was a problem generating the PDF file.');
+end;
+
+// This procedure uses the "Page.printToPDF" method from the DevTools :
+// https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-printToPDF
+procedure TMiniBrowserFrm.PrintToPDFStream(      aUseChromiumPDFSettings : boolean;
+                                           const aPageRanges, aHeaderTemplate, aFooterTemplate : string;
+                                                 aIgnoreInvalidPageRanges, aPreferCSSPageSize : boolean);
+var
+  TempParams : ICefDictionaryValue;
+begin
+  try
+    TempParams := TCefDictionaryValueRef.New;
+
+    if aUseChromiumPDFSettings then
+      begin
+        TempParams.SetBool('landscape',            Chromium1.PDFPrintOptions.landscape);
+        TempParams.SetBool('displayHeaderFooter',  Chromium1.PDFPrintOptions.header_footer_enabled);
+        TempParams.SetBool('printBackground',      Chromium1.PDFPrintOptions.backgrounds_enabled);
+        TempParams.SetDouble('scale',              Chromium1.PDFPrintOptions.scale_factor  / 100);         // integer percent to double
+        TempParams.SetDouble('paperWidth',         Chromium1.PDFPrintOptions.page_width    * 0.000039370); // microns to inches
+        TempParams.SetDouble('paperHeight',        Chromium1.PDFPrintOptions.page_height   * 0.000039370); // microns to inches
+        TempParams.SetDouble('marginTop',          Chromium1.PDFPrintOptions.margin_top    / 72);          // points to inches
+        TempParams.SetDouble('marginBottom',       Chromium1.PDFPrintOptions.margin_bottom / 72);          // points to inches
+        TempParams.SetDouble('marginLeft',         Chromium1.PDFPrintOptions.margin_left   / 72);          // points to inches
+        TempParams.SetDouble('marginRight',        Chromium1.PDFPrintOptions.margin_right  / 72);          // points to inches
+      end;
+
+    if (length(aPageRanges) > 0) then
+      begin
+        TempParams.SetString('pageRanges', aPageRanges);
+        TempParams.SetBool('ignoreInvalidPageRanges', aIgnoreInvalidPageRanges);
+      end;
+
+    if (length(aHeaderTemplate) > 0) then
+      TempParams.SetString('headerTemplate', aHeaderTemplate);
+
+    if (length(aFooterTemplate) > 0) then
+      TempParams.SetString('footerTemplate', aFooterTemplate);
+
+    TempParams.SetBool('preferCSSPageSize', aPreferCSSPageSize);
+    TempParams.SetString('transferMode', 'ReturnAsBase64');
+
+    inc(FDevToolsMsgID);
+    FPrintToPDFMsgID := FDevToolsMsgID;
+    Chromium1.ExecuteDevToolsMethod(FPrintToPDFMsgID, 'Page.printToPDF', TempParams);
+  finally
+    TempParams := nil;
+  end;
+end;
+
+procedure TMiniBrowserFrm.PrinttoPDFstream1Click(Sender: TObject);
+begin
+  PrintToPDFStream;
 end;
 
 procedure TMiniBrowserFrm.PreferencesAvailableMsg(var aMessage : TMessage);
@@ -1029,6 +1087,8 @@ begin
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
 
+  FDevToolsMsgID       := 0;
+
   // The MultiBrowserMode store all the browser references in TChromium.
   // The first browser reference is the browser in the main form.
   // When MiniBrowser allows CEF to create child popup browsers it will also
@@ -1110,7 +1170,8 @@ end;
 
 procedure TMiniBrowserFrm.akescreenshot1Click(Sender: TObject);
 begin
-  inc(FScreenshotMsgID);
+  inc(FDevToolsMsgID);
+  FScreenshotMsgID := FDevToolsMsgID;
   Chromium1.ExecuteDevToolsMethod(FScreenshotMsgID, 'Page.captureScreenshot', nil);
 end;
 
@@ -1122,64 +1183,104 @@ procedure TMiniBrowserFrm.Chromium1DevToolsMethodResult(      Sender     : TObje
 var
   TempDict : ICefDictionaryValue;
   TempValue : ICefValue;
+  TempResult : WPARAM;
+  TempCode : integer;
+  TempMessage : string;
 begin
-  if (message_id = FScreenshotMsgID) then
+  FDevToolsMsgValue := '';
+  TempResult        := 0;
+
+  if success then
     begin
-      FScreenshotRslt := success;
+      TempDict  := result.GetDictionary;
+      TempValue := TempDict.GetValue('data');
 
-      if success then
+      if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
         begin
-          TempDict  := result.GetDictionary;
-          TempValue := TempDict.GetValue('data');
+          FDevToolsMsgValue := TempValue.GetString;
+          if (length(FDevToolsMsgValue) > 0) then TempResult := 1;
+        end;
+    end
+   else
+    if (result <> nil) then
+      begin
+        TempDict := result.GetDictionary;
 
-          if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
-            FScreenshotValue := TempValue.GetString
-           else
-            FScreenshotValue := '';
-        end
-       else
-        FScreenshotValue := '';
+        if (TempDict <> nil) then
+          begin
+            TempCode    := 0;
+            TempMessage := '';
+            TempValue   := TempDict.GetValue('code');
 
-      PostMessage(Handle, MINIBROWSER_SCREENSHOT_AVLBL, 0, 0);
-    end;
+            if (TempValue <> nil) and (TempValue.GetType = VTYPE_INT) then
+              TempCode := TempValue.GetInt;
+
+            TempValue := TempDict.GetValue('message');
+
+            if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+              TempMessage := TempValue.GetString;
+
+            if (length(TempMessage) > 0) then
+              FDevToolsMsgValue := 'DevTools Error (' + inttostr(TempCode) + ') : ' + quotedstr(TempMessage);
+          end;
+      end;
+
+  PostMessage(Handle, MINIBROWSER_DTDATA_AVLBL, TempResult, message_id);
 end;
 
-procedure TMiniBrowserFrm.ScreenshotAvailableMsg(var aMessage : TMessage);
+procedure TMiniBrowserFrm.DevToolsDataAvailableMsg(var aMessage : TMessage);
 var
   TempData : TBytes;
   TempFile : TFileStream;
   TempLen  : integer;
 begin
-  if FScreenshotRslt and (length(FScreenshotValue) > 0) then
+  if (aMessage.WParam <> 0) then
     begin
-      TempData := TNetEncoding.Base64.DecodeStringToBytes(FScreenshotValue);
+      TempData := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
       TempLen  := length(TempData);
 
       if (TempLen > 0) then
         begin
           TempFile := nil;
 
-          SaveDialog1.DefaultExt := 'png';
-          SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+          if (aMessage.LParam = FScreenshotMsgID) then
+            begin
+              SaveDialog1.DefaultExt := 'png';
+              SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+            end
+           else
+            if (aMessage.LParam = FPrintToPDFMsgID) then
+              begin
+                SaveDialog1.DefaultExt := 'pdf';
+                SaveDialog1.Filter     := 'PDF files (*.pdf)|*.PDF';
+              end
+             else
+              begin
+                SaveDialog1.DefaultExt := '';
+                SaveDialog1.Filter     := 'All files (*.*)|*.*';
+              end;
 
           if SaveDialog1.Execute then
             try
               try
                 TempFile := TFileStream.Create(SaveDialog1.FileName, fmCreate);
                 TempFile.WriteBuffer(TempData[0], TempLen);
-                showmessage('Screenshot saved successfully');
+                showmessage('File saved successfully');
               except
-                showmessage('There was an error saving the screenshot');
+                showmessage('There was an error saving the file');
               end;
             finally
               if (TempFile <> nil) then TempFile.Free;
             end;
         end
        else
-        showmessage('There was an error decoding the screenshot');
+        showmessage('There was an error decoding the data');
     end
    else
-    showmessage('There was an error taking the screenshot');
+    if (length(FDevToolsMsgValue) > 0) then
+      showmessage(FDevToolsMsgValue)
+     else
+      showmessage('There was an error in the DevTools method');
 end;
 
 procedure TMiniBrowserFrm.ShowDevToolsMsg(var aMessage : TMessage);
