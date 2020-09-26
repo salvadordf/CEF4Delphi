@@ -19,7 +19,7 @@ CEF4Delphi was developed and tested on Delphi 10.4.1 and it has been tested in D
 ## Stable releases 
 This is the development branch and it may have issues. Use the [latest release](https://github.com/salvadordf/CEF4Delphi/releases/latest) if you need a stable component.
 
-## Suppport
+## Support
 If you find this project useful, please consider making a donation.
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTSD2CCGXTD86)
