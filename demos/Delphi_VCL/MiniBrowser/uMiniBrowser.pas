@@ -138,7 +138,6 @@ type
     akescreenshot1: TMenuItem;
     Useragent1: TMenuItem;
     ClearallstorageforcurrentURL1: TMenuItem;
-    PrinttoPDFstream1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -207,13 +206,10 @@ type
     procedure akescreenshot1Click(Sender: TObject);
     procedure Useragent1Click(Sender: TObject);
     procedure ClearallstorageforcurrentURL1Click(Sender: TObject);
-    procedure PrinttoPDFstream1Click(Sender: TObject);
 
   protected
-    FDevToolsMsgID   : integer;
-    FPrintToPDFMsgID : integer;
-    FScreenshotMsgID : integer;
-
+    FDevToolsMsgID    : integer;
+    FScreenshotMsgID  : integer;
     FDevToolsMsgValue : ustring;
 
     FResponse   : TStringList;
@@ -224,7 +220,6 @@ type
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure AddURL(const aURL : string);
-    procedure PrintToPDFStream(aUseChromiumPDFSettings : boolean = False; const aPageRanges : string = ''; const aHeaderTemplate : string = ''; const aFooterTemplate : string = ''; aIgnoreInvalidPageRanges : boolean = False; aPreferCSSPageSize : boolean = False);
 
     procedure ShowDevTools(aPoint : TPoint); overload;
     procedure ShowDevTools; overload;
@@ -585,59 +580,6 @@ begin
     showmessage('The PDF file was generated successfully')
    else
     showmessage('There was a problem generating the PDF file.');
-end;
-
-// This procedure uses the "Page.printToPDF" method from the DevTools :
-// https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-printToPDF
-procedure TMiniBrowserFrm.PrintToPDFStream(      aUseChromiumPDFSettings : boolean;
-                                           const aPageRanges, aHeaderTemplate, aFooterTemplate : string;
-                                                 aIgnoreInvalidPageRanges, aPreferCSSPageSize : boolean);
-var
-  TempParams : ICefDictionaryValue;
-begin
-  try
-    TempParams := TCefDictionaryValueRef.New;
-
-    if aUseChromiumPDFSettings then
-      begin
-        TempParams.SetBool('landscape',            Chromium1.PDFPrintOptions.landscape);
-        TempParams.SetBool('displayHeaderFooter',  Chromium1.PDFPrintOptions.header_footer_enabled);
-        TempParams.SetBool('printBackground',      Chromium1.PDFPrintOptions.backgrounds_enabled);
-        TempParams.SetDouble('scale',              Chromium1.PDFPrintOptions.scale_factor  / 100);         // integer percent to double
-        TempParams.SetDouble('paperWidth',         Chromium1.PDFPrintOptions.page_width    * 0.000039370); // microns to inches
-        TempParams.SetDouble('paperHeight',        Chromium1.PDFPrintOptions.page_height   * 0.000039370); // microns to inches
-        TempParams.SetDouble('marginTop',          Chromium1.PDFPrintOptions.margin_top    / 72);          // points to inches
-        TempParams.SetDouble('marginBottom',       Chromium1.PDFPrintOptions.margin_bottom / 72);          // points to inches
-        TempParams.SetDouble('marginLeft',         Chromium1.PDFPrintOptions.margin_left   / 72);          // points to inches
-        TempParams.SetDouble('marginRight',        Chromium1.PDFPrintOptions.margin_right  / 72);          // points to inches
-      end;
-
-    if (length(aPageRanges) > 0) then
-      begin
-        TempParams.SetString('pageRanges', aPageRanges);
-        TempParams.SetBool('ignoreInvalidPageRanges', aIgnoreInvalidPageRanges);
-      end;
-
-    if (length(aHeaderTemplate) > 0) then
-      TempParams.SetString('headerTemplate', aHeaderTemplate);
-
-    if (length(aFooterTemplate) > 0) then
-      TempParams.SetString('footerTemplate', aFooterTemplate);
-
-    TempParams.SetBool('preferCSSPageSize', aPreferCSSPageSize);
-    TempParams.SetString('transferMode', 'ReturnAsBase64');
-
-    inc(FDevToolsMsgID);
-    FPrintToPDFMsgID := FDevToolsMsgID;
-    Chromium1.ExecuteDevToolsMethod(FPrintToPDFMsgID, 'Page.printToPDF', TempParams);
-  finally
-    TempParams := nil;
-  end;
-end;
-
-procedure TMiniBrowserFrm.PrinttoPDFstream1Click(Sender: TObject);
-begin
-  PrintToPDFStream;
 end;
 
 procedure TMiniBrowserFrm.PreferencesAvailableMsg(var aMessage : TMessage);
@@ -1181,10 +1123,10 @@ procedure TMiniBrowserFrm.Chromium1DevToolsMethodResult(      Sender     : TObje
                                                               success    : Boolean;
                                                         const result     : ICefValue);
 var
-  TempDict : ICefDictionaryValue;
-  TempValue : ICefValue;
-  TempResult : WPARAM;
-  TempCode : integer;
+  TempDict    : ICefDictionaryValue;
+  TempValue   : ICefValue;
+  TempResult  : WPARAM;
+  TempCode    : integer;
   TempMessage : string;
 begin
   FDevToolsMsgValue := '';
@@ -1249,16 +1191,10 @@ begin
               SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
             end
            else
-            if (aMessage.LParam = FPrintToPDFMsgID) then
-              begin
-                SaveDialog1.DefaultExt := 'pdf';
-                SaveDialog1.Filter     := 'PDF files (*.pdf)|*.PDF';
-              end
-             else
-              begin
-                SaveDialog1.DefaultExt := '';
-                SaveDialog1.Filter     := 'All files (*.*)|*.*';
-              end;
+            begin
+              SaveDialog1.DefaultExt := '';
+              SaveDialog1.Filter     := 'All files (*.*)|*.*';
+            end;
 
           if SaveDialog1.Execute then
             try

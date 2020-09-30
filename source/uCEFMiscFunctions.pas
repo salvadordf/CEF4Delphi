@@ -1438,7 +1438,7 @@ begin
     try
       if FileExists(aDLLFile) then
         begin
-          TempStream := TFileStream.Create(aDLLFile, fmOpenRead);
+          TempStream := TFileStream.Create(aDLLFile, fmOpenRead or fmShareDenyWrite);
           TempStream.seek(0, soFromBeginning);
           TempStream.ReadBuffer(TempHeader, SizeOf(TempHeader));
 

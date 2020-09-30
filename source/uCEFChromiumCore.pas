@@ -336,6 +336,7 @@ type
       function  GetZoomStep : byte;
       function  GetIsPopUp : boolean;
       function  GetWindowHandle : TCefWindowHandle;
+      function  GetOpenerWindowHandle : TCefWindowHandle;
       function  GetWindowlessFrameRate : integer;
       function  GetFrameIsFocused : boolean;
       function  GetInitialized : boolean;
@@ -353,6 +354,7 @@ type
       function  GetBrowserById(aID : integer) : ICefBrowser;
       function  GetBrowserCount : integer;
       function  GetBrowserIdByIndex(aIndex : integer) : integer;
+      function  GetMouseCursorChangeDisabled : boolean;
 
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
@@ -395,6 +397,7 @@ type
       procedure SetQuicAllowed(aValue : boolean);
       procedure SetJavascriptEnabled(aValue : boolean);
       procedure SetLoadImagesAutomatically(aValue : boolean);
+      procedure SetMouseCursorChangeDisabled(aValue : boolean);
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): Boolean;
@@ -732,7 +735,8 @@ type
       procedure   UpdateSupportedSchemes(const aSchemes : TStrings; aIncludeDefaults : boolean = True);
 
       procedure   ShowDevTools(const inspectElementAt: TPoint; aWindowInfo: PCefWindowInfo);
-      procedure   CloseDevTools(const aDevToolsWnd : TCefWindowHandle = 0);
+      procedure   CloseDevTools; overload;
+      procedure   CloseDevTools(const aDevToolsWnd : TCefWindowHandle); overload;
       function    SendDevToolsMessage(const message_: ustring): boolean;
       function    ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
       function    AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
@@ -797,6 +801,9 @@ type
       procedure   IMEFinishComposingText(keep_selection : boolean);
       procedure   IMECancelComposition;
 
+      procedure   ReplaceMisspelling(const aWord : ustring);
+      procedure   AddWordToDictionary(const aWord : ustring);
+
       // ICefMediaRouter methods
       function    AddObserver(const observer: ICefMediaObserver): ICefRegistration;
       function    GetSource(const urn: ustring): ICefMediaSource;
@@ -845,6 +852,7 @@ type
       property  CanGoForward                  : boolean                      read GetCanGoForward;
       property  IsPopUp                       : boolean                      read GetIsPopUp;
       property  WindowHandle                  : TCefWindowHandle             read GetWindowHandle;
+      property  OpenerWindowHandle            : TCefWindowHandle             read GetOpenerWindowHandle;
       {$IFDEF MSWINDOWS}
       property  BrowserHandle                 : THandle                      read FBrowserCompHWND;
       property  WidgetHandle                  : THandle                      read FWidgetCompHWND;
@@ -886,6 +894,7 @@ type
       property  QuicAllowed                   : boolean                      read FQuicAllowed                 write SetQuicAllowed;
       property  JavascriptEnabled             : boolean                      read FJavascriptEnabled           write SetJavascriptEnabled;
       property  LoadImagesAutomatically       : boolean                      read FLoadImagesAutomatically     write SetLoadImagesAutomatically;
+      property  MouseCursorChangeDisabled     : boolean                      read GetMouseCursorChangeDisabled write SetMouseCursorChangeDisabled;
 
       property  WebRTCIPHandlingPolicy        : TCefWebRTCHandlingPolicy     read FWebRTCIPHandlingPolicy      write SetWebRTCIPHandlingPolicy;
       property  WebRTCMultipleRoutes          : TCefState                    read FWebRTCMultipleRoutes        write SetWebRTCMultipleRoutes;
@@ -1205,7 +1214,7 @@ begin
     FHyperlinkAuditing := True;
 
   //
-  // Somo focus issues in CEF seem to be fixed when you use WS_EX_NOACTIVATE in
+  // Some focus issues in CEF seem to be fixed when you use WS_EX_NOACTIVATE in
   // FDefaultWindowInfoExStyle to initialize the browser with that ExStyle but
   // it may cause side effects. Read these links for more information :
   // https://www.briskbard.com/forum/viewtopic.php?f=10&t=723
@@ -2534,10 +2543,18 @@ end;
 
 function TChromiumCore.GetWindowHandle : TCefWindowHandle;
 begin
+  InitializeWindowHandle(Result);
+
   if Initialized then
-    Result := Browser.Host.WindowHandle
-   else
-    Result := 0;
+    Result := Browser.Host.WindowHandle;
+end;
+
+function TChromiumCore.GetOpenerWindowHandle : TCefWindowHandle;
+begin
+  InitializeWindowHandle(Result);
+
+  if Initialized then
+    Result := Browser.Host.OpenerWindowHandle;
 end;
 
 function TChromiumCore.GetFrameIsFocused : boolean;
@@ -2665,6 +2682,11 @@ begin
   Result := Initialized and Browser.host.RequestContext.IsGlobal;
 end;
 
+function TChromiumCore.GetMouseCursorChangeDisabled : boolean;
+begin
+  Result := Initialized and Browser.host.IsMouseCursorChangeDisabled;
+end;
+
 function TChromiumCore.GetAudioMuted : boolean;
 begin
   Result := Initialized and Browser.host.IsAudioMuted;
@@ -2672,7 +2694,7 @@ end;
 
 function TChromiumCore.GetParentFormHandle : TCefWindowHandle;
 begin
-  Result := 0;
+  InitializeWindowHandle(Result);
 end;
 
 procedure TChromiumCore.SetMultiBrowserMode(aValue : boolean);
@@ -2714,6 +2736,12 @@ begin
       FLoadImagesAutomatically := aValue;
       FUpdatePreferences       := True;
     end;
+end;
+
+procedure TChromiumCore.SetMouseCursorChangeDisabled(aValue : boolean);
+begin
+  if Initialized then
+    Browser.Host.SetMouseCursorChangeDisabled(aValue);
 end;
 
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);
@@ -3941,7 +3969,7 @@ begin
     UpdatePreference(aBrowser, 'webrtc.nonproxied_udp_enabled', (FWebRTCNonProxiedUDP = STATE_ENABLED));
 
   UpdatePreference(aBrowser, 'net.network_prediction_options', integer(FNetworkPredictions));
-  UpdatePreference(aBrowser, 'net.quic_allowed', FQuicAllowed);
+  UpdatePreference(aBrowser, 'net.quic_allowed',               FQuicAllowed);
 
   UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
   UpdatePreference(aBrowser, 'webkit.webprefs.loads_images_automatically', FLoadImagesAutomatically);
@@ -4779,12 +4807,18 @@ begin
   end;
 end;
 
+procedure TChromiumCore.CloseDevTools;
+begin
+  if Initialized then
+    Browser.Host.CloseDevTools;
+end;
+
 procedure TChromiumCore.CloseDevTools(const aDevToolsWnd : TCefWindowHandle);
 begin
   if Initialized then
     begin
       {$IFDEF MSWINDOWS}
-      if (aDevToolsWnd <> 0) then
+      if ValidCefWindowHandle(aDevToolsWnd) then
         SetParent(GetWindow(aDevToolsWnd, GW_CHILD), 0);
       {$ENDIF}
 
@@ -6340,6 +6374,18 @@ procedure TChromiumCore.IMECancelComposition;
 begin
   if Initialized then
     Browser.Host.IMECancelComposition;
+end;
+
+procedure TChromiumCore.ReplaceMisspelling(const aWord : ustring);
+begin
+  if Initialized then
+    Browser.Host.ReplaceMisspelling(aWord);
+end;
+
+procedure TChromiumCore.AddWordToDictionary(const aWord : ustring);
+begin
+  if Initialized then
+    Browser.Host.AddWordToDictionary(aWord);
 end;
 
 // ICefMediaRouter methods
