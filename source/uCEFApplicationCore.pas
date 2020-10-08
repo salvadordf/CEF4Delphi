@@ -78,96 +78,97 @@ const
 type
   TCefApplicationCore = class
     protected
-      FCache                         : ustring;
-      FRootCache                     : ustring;
-      FUserDataPath                  : ustring;
-      FUserAgent                     : ustring;
-      FProductVersion                : ustring;
-      FLocale                        : ustring;
-      FLocalesRequired               : ustring;
-      FLogFile                       : ustring;
-      FBrowserSubprocessPath         : ustring;
-      FCustomFlashPath               : ustring;
-      FFrameworkDirPath              : ustring;
-      FMainBundlePath                : ustring; // Only used in macOS
-      FChromeRuntime                 : boolean;
-      FLogSeverity                   : TCefLogSeverity;
-      FJavaScriptFlags               : ustring;
-      FResourcesDirPath              : ustring;
-      FLocalesDirPath                : ustring;
-      FSingleProcess                 : Boolean;
-      FNoSandbox                     : Boolean;
-      FCommandLineArgsDisabled       : Boolean;
-      FPackLoadingDisabled           : Boolean;
-      FRemoteDebuggingPort           : Integer;
-      FUncaughtExceptionStackSize    : Integer;
-      FPersistSessionCookies         : Boolean;
-      FPersistUserPreferences        : boolean;
-      FIgnoreCertificateErrors       : Boolean;
-      FBackgroundColor               : TCefColor;
-      FAcceptLanguageList            : ustring;
-      FApplicationClientID           : ustring;
-      FWindowsSandboxInfo            : Pointer;
-      FWindowlessRenderingEnabled    : Boolean;
-      FMultiThreadedMessageLoop      : boolean;
-      FExternalMessagePump           : boolean;
-      FDeleteCache                   : boolean;
-      FDeleteCookies                 : boolean;
-      FCustomCommandLines            : TStringList;
-      FCustomCommandLineValues       : TStringList;
-      FFlashEnabled                  : boolean;
-      FEnableMediaStream             : boolean;
-      FEnableSpeechInput             : boolean;
-      FUseFakeUIForMediaStream       : boolean;
-      FEnableGPU                     : boolean;
-      FCheckCEFFiles                 : boolean;
-      FLibLoaded                     : boolean;
-      FSmoothScrolling               : TCefState;
-      FFastUnload                    : boolean;
-      FDisableSafeBrowsing           : boolean;
-      FEnableHighDPISupport          : boolean;
-      FMuteAudio                     : boolean;
-      FReRaiseExceptions             : boolean;
-      FShowMessageDlg                : boolean;
-      FMissingBinariesException      : boolean;
-      FSetCurrentDir                 : boolean;
-      FGlobalContextInitialized      : boolean;
-      FSitePerProcess                : boolean;
-      FDisableWebSecurity            : boolean;
-      FDisablePDFExtension           : boolean;
-      FLogProcessInfo                : boolean;
-      FDisableSiteIsolationTrials    : boolean;
-      FEnableFeatures                : ustring;
-      FDisableFeatures               : ustring;
-      FEnableBlinkFeatures           : ustring;
-      FDisableBlinkFeatures          : ustring;
-      FForceFieldTrials              : ustring;
-      FForceFieldTrialParams         : ustring;
-      FChromeVersionInfo             : TFileVersionInfo;
+      FCache                             : ustring;
+      FRootCache                         : ustring;
+      FUserDataPath                      : ustring;
+      FUserAgent                         : ustring;
+      FProductVersion                    : ustring;
+      FLocale                            : ustring;
+      FLocalesRequired                   : ustring;
+      FLogFile                           : ustring;
+      FBrowserSubprocessPath             : ustring;
+      FCustomFlashPath                   : ustring;
+      FFrameworkDirPath                  : ustring;
+      FMainBundlePath                    : ustring; // Only used in macOS
+      FChromeRuntime                     : boolean;
+      FLogSeverity                       : TCefLogSeverity;
+      FJavaScriptFlags                   : ustring;
+      FResourcesDirPath                  : ustring;
+      FLocalesDirPath                    : ustring;
+      FSingleProcess                     : Boolean;
+      FNoSandbox                         : Boolean;
+      FCommandLineArgsDisabled           : Boolean;
+      FPackLoadingDisabled               : Boolean;
+      FRemoteDebuggingPort               : Integer;
+      FUncaughtExceptionStackSize        : Integer;
+      FPersistSessionCookies             : Boolean;
+      FPersistUserPreferences            : boolean;
+      FIgnoreCertificateErrors           : Boolean;
+      FBackgroundColor                   : TCefColor;
+      FAcceptLanguageList                : ustring;
+      FApplicationClientID               : ustring;
+      FWindowsSandboxInfo                : Pointer;
+      FWindowlessRenderingEnabled        : Boolean;
+      FMultiThreadedMessageLoop          : boolean;
+      FExternalMessagePump               : boolean;
+      FDeleteCache                       : boolean;
+      FDeleteCookies                     : boolean;
+      FCustomCommandLines                : TStringList;
+      FCustomCommandLineValues           : TStringList;
+      FFlashEnabled                      : boolean;
+      FEnableMediaStream                 : boolean;
+      FEnableSpeechInput                 : boolean;
+      FUseFakeUIForMediaStream           : boolean;
+      FEnableUsermediaScreenCapturing    : boolean;
+      FEnableGPU                         : boolean;
+      FCheckCEFFiles                     : boolean;
+      FLibLoaded                         : boolean;
+      FSmoothScrolling                   : TCefState;
+      FFastUnload                        : boolean;
+      FDisableSafeBrowsing               : boolean;
+      FEnableHighDPISupport              : boolean;
+      FMuteAudio                         : boolean;
+      FReRaiseExceptions                 : boolean;
+      FShowMessageDlg                    : boolean;
+      FMissingBinariesException          : boolean;
+      FSetCurrentDir                     : boolean;
+      FGlobalContextInitialized          : boolean;
+      FSitePerProcess                    : boolean;
+      FDisableWebSecurity                : boolean;
+      FDisablePDFExtension               : boolean;
+      FLogProcessInfo                    : boolean;
+      FDisableSiteIsolationTrials        : boolean;
+      FEnableFeatures                    : ustring;
+      FDisableFeatures                   : ustring;
+      FEnableBlinkFeatures               : ustring;
+      FDisableBlinkFeatures              : ustring;
+      FForceFieldTrials                  : ustring;
+      FForceFieldTrialParams             : ustring;
+      FChromeVersionInfo                 : TFileVersionInfo;
       {$IFDEF FPC}
-      FLibHandle                     : TLibHandle;
+      FLibHandle                         : TLibHandle;
       {$ELSE}
-      FLibHandle                     : THandle;
+      FLibHandle                         : THandle;
       {$ENDIF}
-      FOnRegisterCustomSchemes       : TOnRegisterCustomSchemesEvent;
-      FAppSettings                   : TCefSettings;
-      FDeviceScaleFactor             : single;
-      FCheckDevToolsResources        : boolean;
-      FDisableExtensions             : boolean;
-      FDisableGPUCache               : boolean;
-      FStatus                        : TCefAplicationStatus;
-      FMissingLibFiles               : string;
-      FProcessType                   : TCefProcessType;
-      FWidevinePath                  : ustring;
-      FMustFreeLibrary               : boolean;
-      FAutoplayPolicy                : TCefAutoplayPolicy;
-      FDisableBackgroundNetworking   : boolean;
-      FMetricsRecordingOnly          : boolean;
-      FAllowFileAccessFromFiles      : boolean;
-      FAllowRunningInsecureContent   : boolean;
-      FSupportedSchemes              : TStringList;
-      FDisableNewBrowserInfoTimeout  : boolean;
-      FDevToolsProtocolLogFile       : ustring;
+      FOnRegisterCustomSchemes           : TOnRegisterCustomSchemesEvent;
+      FAppSettings                       : TCefSettings;
+      FDeviceScaleFactor                 : single;
+      FCheckDevToolsResources            : boolean;
+      FDisableExtensions                 : boolean;
+      FDisableGPUCache                   : boolean;
+      FStatus                            : TCefAplicationStatus;
+      FMissingLibFiles                   : string;
+      FProcessType                       : TCefProcessType;
+      FWidevinePath                      : ustring;
+      FMustFreeLibrary                   : boolean;
+      FAutoplayPolicy                    : TCefAutoplayPolicy;
+      FDisableBackgroundNetworking       : boolean;
+      FMetricsRecordingOnly              : boolean;
+      FAllowFileAccessFromFiles          : boolean;
+      FAllowRunningInsecureContent       : boolean;
+      FSupportedSchemes                  : TStringList;
+      FDisableNewBrowserInfoTimeout      : boolean;
+      FDevToolsProtocolLogFile           : ustring;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : string;
@@ -195,33 +196,33 @@ type
       FMustCreateLoadHandler             : boolean;
 
       // ICefBrowserProcessHandler
-      FOnContextInitialized          : TOnContextInitializedEvent;
-      FOnBeforeChildProcessLaunch    : TOnBeforeChildProcessLaunchEvent;
-      FOnScheduleMessagePumpWork     : TOnScheduleMessagePumpWorkEvent;
+      FOnContextInitialized              : TOnContextInitializedEvent;
+      FOnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent;
+      FOnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent;
 
       // ICefResourceBundleHandler
-      FOnGetLocalizedString          : TOnGetLocalizedStringEvent;
-      FOnGetDataResource             : TOnGetDataResourceEvent;
-      FOnGetDataResourceForScale     : TOnGetDataResourceForScaleEvent;
+      FOnGetLocalizedString              : TOnGetLocalizedStringEvent;
+      FOnGetDataResource                 : TOnGetDataResourceEvent;
+      FOnGetDataResourceForScale         : TOnGetDataResourceForScaleEvent;
 
       // ICefRenderProcessHandler
-      FOnWebKitInitialized           : TOnWebKitInitializedEvent;
-      FOnBrowserCreated              : TOnBrowserCreatedEvent;
-      FOnBrowserDestroyed            : TOnBrowserDestroyedEvent;
-      FOnContextCreated              : TOnContextCreatedEvent;
-      FOnContextReleased             : TOnContextReleasedEvent;
-      FOnUncaughtException           : TOnUncaughtExceptionEvent;
-      FOnFocusedNodeChanged          : TOnFocusedNodeChangedEvent;
-      FOnProcessMessageReceived      : TOnProcessMessageReceivedEvent;
+      FOnWebKitInitialized               : TOnWebKitInitializedEvent;
+      FOnBrowserCreated                  : TOnBrowserCreatedEvent;
+      FOnBrowserDestroyed                : TOnBrowserDestroyedEvent;
+      FOnContextCreated                  : TOnContextCreatedEvent;
+      FOnContextReleased                 : TOnContextReleasedEvent;
+      FOnUncaughtException               : TOnUncaughtExceptionEvent;
+      FOnFocusedNodeChanged              : TOnFocusedNodeChangedEvent;
+      FOnProcessMessageReceived          : TOnProcessMessageReceivedEvent;
 
       // ICefRegisterCDMCallback
-      FOnCDMRegistrationComplete     : TOnCDMRegistrationCompleteEvent;
+      FOnCDMRegistrationComplete         : TOnCDMRegistrationCompleteEvent;
 
       // ICefLoadHandler
-      FOnLoadingStateChange          : TOnRenderLoadingStateChange;
-      FOnLoadStart                   : TOnRenderLoadStart;
-      FOnLoadEnd                     : TOnRenderLoadEnd;
-      FOnLoadError                   : TOnRenderLoadError;
+      FOnLoadingStateChange              : TOnRenderLoadingStateChange;
+      FOnLoadStart                       : TOnRenderLoadStart;
+      FOnLoadEnd                         : TOnRenderLoadEnd;
+      FOnLoadError                       : TOnRenderLoadError;
 
       procedure SetCache(const aValue : ustring);
       procedure SetRootCache(const aValue : ustring);
@@ -398,6 +399,7 @@ type
       property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;                // --enable-media-stream
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;                // --enable-speech-input
       property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;          // --use-fake-ui-for-media-stream
+      property EnableUsermediaScreenCapturing    : boolean                             read FEnableUsermediaScreenCapturing    write FEnableUsermediaScreenCapturing;   // --enable-usermedia-screen-capturing
       property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;                        // --enable-gpu-plugin
       property EnableFeatures                    : ustring                             read FEnableFeatures                    write FEnableFeatures;                   // --enable-features
       property DisableFeatures                   : ustring                             read FDisableFeatures                   write FDisableFeatures;                  // --disable-features
@@ -588,92 +590,93 @@ begin
   if GlobalCEFApp = nil then
     GlobalCEFApp := Self;
 
-  FStatus                        := asLoading;
-  FMissingLibFiles               := '';
-  FLibHandle                     := 0;
-  FCache                         := '';
-  FRootCache                     := '';
-  FUserDataPath                  := '';
-  FUserAgent                     := '';
-  FProductVersion                := '';
-  FLocale                        := '';
-  FLogFile                       := '';
-  FBrowserSubprocessPath         := '';
-  FCustomFlashPath               := '';
-  FFrameworkDirPath              := '';
-  FMainBundlePath                := '';
-  FChromeRuntime                 := False;
-  FLogSeverity                   := LOGSEVERITY_DISABLE;
-  FJavaScriptFlags               := '';
-  FResourcesDirPath              := '';
-  FLocalesDirPath                := '';
-  FSingleProcess                 := False;
-  FNoSandbox                     := True;
-  FCommandLineArgsDisabled       := False;
-  FPackLoadingDisabled           := False;
-  FRemoteDebuggingPort           := 0;
-  FUncaughtExceptionStackSize    := 0;
-  FPersistSessionCookies         := False;
-  FPersistUserPreferences        := False;
-  FIgnoreCertificateErrors       := False;
-  FBackgroundColor               := 0;
-  FAcceptLanguageList            := '';
-  FApplicationClientID           := '';
-  FWindowsSandboxInfo            := nil;
-  FWindowlessRenderingEnabled    := False;
-  FMultiThreadedMessageLoop      := True;
-  FExternalMessagePump           := False;
-  FDeleteCache                   := False;
-  FDeleteCookies                 := False;
-  FFlashEnabled                  := True;
-  FEnableMediaStream             := True;
-  FEnableSpeechInput             := True;
-  FUseFakeUIForMediaStream       := False;
-  FEnableGPU                     := False;
-  FCustomCommandLines            := nil;
-  FCustomCommandLineValues       := nil;
-  FCheckCEFFiles                 := True;
-  FSmoothScrolling               := STATE_DEFAULT;
-  FFastUnload                    := False;
-  FDisableSafeBrowsing           := False;
-  FOnRegisterCustomSchemes       := nil;
-  FEnableHighDPISupport          := False;
-  FMuteAudio                     := False;
-  FSitePerProcess                := False;
-  FDisableWebSecurity            := False;
-  FDisablePDFExtension           := False;
-  FDisableSiteIsolationTrials    := False;
-  FLogProcessInfo                := False;
-  FReRaiseExceptions             := False;
-  FLibLoaded                     := False;
-  FShowMessageDlg                := True;
-  FMissingBinariesException      := False;
-  FSetCurrentDir                 := False;
-  FGlobalContextInitialized      := False;
-  FCheckDevToolsResources        := True;
-  FDisableExtensions             := False;
-  FDisableGPUCache               := True;
-  FLocalesRequired               := '';
-  FProcessType                   := ParseProcessType;
-  FWidevinePath                  := '';
-  FMustFreeLibrary               := False;
-  FAutoplayPolicy                := appDefault;
-  FDisableBackgroundNetworking   := False;
-  FMetricsRecordingOnly          := False;
-  FAllowFileAccessFromFiles      := False;
-  FAllowRunningInsecureContent   := False;
-  FPluginPolicy                  := PLUGIN_POLICY_SWITCH_ALLOW;
-  FDefaultEncoding               := '';
-  FDisableJavascript             := False;
-  FEnableFeatures                := '';
-  FDisableFeatures               := '';
-  FEnableBlinkFeatures           := '';
-  FDisableBlinkFeatures          := '';
-  FForceFieldTrials              := '';
-  FForceFieldTrialParams         := '';
-  FSupportedSchemes              := nil;
-  FDisableNewBrowserInfoTimeout  := False;
-  FDevToolsProtocolLogFile       := '';
+  FStatus                            := asLoading;
+  FMissingLibFiles                   := '';
+  FLibHandle                         := 0;
+  FCache                             := '';
+  FRootCache                         := '';
+  FUserDataPath                      := '';
+  FUserAgent                         := '';
+  FProductVersion                    := '';
+  FLocale                            := '';
+  FLogFile                           := '';
+  FBrowserSubprocessPath             := '';
+  FCustomFlashPath                   := '';
+  FFrameworkDirPath                  := '';
+  FMainBundlePath                    := '';
+  FChromeRuntime                     := False;
+  FLogSeverity                       := LOGSEVERITY_DISABLE;
+  FJavaScriptFlags                   := '';
+  FResourcesDirPath                  := '';
+  FLocalesDirPath                    := '';
+  FSingleProcess                     := False;
+  FNoSandbox                         := True;
+  FCommandLineArgsDisabled           := False;
+  FPackLoadingDisabled               := False;
+  FRemoteDebuggingPort               := 0;
+  FUncaughtExceptionStackSize        := 0;
+  FPersistSessionCookies             := False;
+  FPersistUserPreferences            := False;
+  FIgnoreCertificateErrors           := False;
+  FBackgroundColor                   := 0;
+  FAcceptLanguageList                := '';
+  FApplicationClientID               := '';
+  FWindowsSandboxInfo                := nil;
+  FWindowlessRenderingEnabled        := False;
+  FMultiThreadedMessageLoop          := True;
+  FExternalMessagePump               := False;
+  FDeleteCache                       := False;
+  FDeleteCookies                     := False;
+  FFlashEnabled                      := True;
+  FEnableMediaStream                 := True;
+  FEnableSpeechInput                 := True;
+  FUseFakeUIForMediaStream           := False;
+  FEnableUsermediaScreenCapturing    := False;
+  FEnableGPU                         := False;
+  FCustomCommandLines                := nil;
+  FCustomCommandLineValues           := nil;
+  FCheckCEFFiles                     := True;
+  FSmoothScrolling                   := STATE_DEFAULT;
+  FFastUnload                        := False;
+  FDisableSafeBrowsing               := False;
+  FOnRegisterCustomSchemes           := nil;
+  FEnableHighDPISupport              := False;
+  FMuteAudio                         := False;
+  FSitePerProcess                    := False;
+  FDisableWebSecurity                := False;
+  FDisablePDFExtension               := False;
+  FDisableSiteIsolationTrials        := False;
+  FLogProcessInfo                    := False;
+  FReRaiseExceptions                 := False;
+  FLibLoaded                         := False;
+  FShowMessageDlg                    := True;
+  FMissingBinariesException          := False;
+  FSetCurrentDir                     := False;
+  FGlobalContextInitialized          := False;
+  FCheckDevToolsResources            := True;
+  FDisableExtensions                 := False;
+  FDisableGPUCache                   := True;
+  FLocalesRequired                   := '';
+  FProcessType                       := ParseProcessType;
+  FWidevinePath                      := '';
+  FMustFreeLibrary                   := False;
+  FAutoplayPolicy                    := appDefault;
+  FDisableBackgroundNetworking       := False;
+  FMetricsRecordingOnly              := False;
+  FAllowFileAccessFromFiles          := False;
+  FAllowRunningInsecureContent       := False;
+  FPluginPolicy                      := PLUGIN_POLICY_SWITCH_ALLOW;
+  FDefaultEncoding                   := '';
+  FDisableJavascript                 := False;
+  FEnableFeatures                    := '';
+  FDisableFeatures                   := '';
+  FEnableBlinkFeatures               := '';
+  FDisableBlinkFeatures              := '';
+  FForceFieldTrials                  := '';
+  FForceFieldTrialParams             := '';
+  FSupportedSchemes                  := nil;
+  FDisableNewBrowserInfoTimeout      := False;
+  FDevToolsProtocolLogFile           := '';
 
   FDisableJavascriptCloseWindows     := False;
   FDisableJavascriptAccessClipboard  := False;
@@ -692,39 +695,39 @@ begin
   FDisableReadingFromCanvas          := False;
   FHyperlinkAuditing                 := True;
 
-  FMustCreateResourceBundleHandler := False;
-  FMustCreateBrowserProcessHandler := True;
-  FMustCreateRenderProcessHandler  := False;
-  FMustCreateLoadHandler           := False;
+  FMustCreateResourceBundleHandler   := False;
+  FMustCreateBrowserProcessHandler   := True;
+  FMustCreateRenderProcessHandler    := False;
+  FMustCreateLoadHandler             := False;
 
   // ICefBrowserProcessHandler
-  FOnContextInitialized          := nil;
-  FOnBeforeChildProcessLaunch    := nil;
-  FOnScheduleMessagePumpWork     := nil;
+  FOnContextInitialized              := nil;
+  FOnBeforeChildProcessLaunch        := nil;
+  FOnScheduleMessagePumpWork         := nil;
 
   // ICefResourceBundleHandler
-  FOnGetLocalizedString          := nil;
-  FOnGetDataResource             := nil;
-  FOnGetDataResourceForScale     := nil;
+  FOnGetLocalizedString              := nil;
+  FOnGetDataResource                 := nil;
+  FOnGetDataResourceForScale         := nil;
 
   // ICefRenderProcessHandler
-  FOnWebKitInitialized           := nil;
-  FOnBrowserCreated              := nil;
-  FOnBrowserDestroyed            := nil;
-  FOnContextCreated              := nil;
-  FOnContextReleased             := nil;
-  FOnUncaughtException           := nil;
-  FOnFocusedNodeChanged          := nil;
-  FOnProcessMessageReceived      := nil;
+  FOnWebKitInitialized               := nil;
+  FOnBrowserCreated                  := nil;
+  FOnBrowserDestroyed                := nil;
+  FOnContextCreated                  := nil;
+  FOnContextReleased                 := nil;
+  FOnUncaughtException               := nil;
+  FOnFocusedNodeChanged              := nil;
+  FOnProcessMessageReceived          := nil;
 
   // ICefRegisterCDMCallback
-  FOnCDMRegistrationComplete     := nil;
+  FOnCDMRegistrationComplete         := nil;
 
   // ICefLoadHandler
-  FOnLoadingStateChange          := nil;
-  FOnLoadStart                   := nil;
-  FOnLoadEnd                     := nil;
-  FOnLoadError                   := nil;
+  FOnLoadingStateChange              := nil;
+  FOnLoadStart                       := nil;
+  FOnLoadEnd                         := nil;
+  FOnLoadError                       := nil;
 
   UpdateDeviceScaleFactor;
 
@@ -1680,6 +1683,9 @@ begin
 
   if FUseFakeUIForMediaStream then
     ReplaceSwitch(aKeys, aValues, '--use-fake-ui-for-media-stream');
+
+  if FEnableUsermediaScreenCapturing then
+    ReplaceSwitch(aKeys, aValues, '--enable-usermedia-screen-capturing');
 
   if not(FEnableGPU) then
     begin
