@@ -142,6 +142,7 @@ type
       FDisableFeatures                   : ustring;
       FEnableBlinkFeatures               : ustring;
       FDisableBlinkFeatures              : ustring;
+      FBlinkSettings                     : ustring;
       FForceFieldTrials                  : ustring;
       FForceFieldTrialParams             : ustring;
       FChromeVersionInfo                 : TFileVersionInfo;
@@ -405,6 +406,7 @@ type
       property DisableFeatures                   : ustring                             read FDisableFeatures                   write FDisableFeatures;                  // --disable-features
       property EnableBlinkFeatures               : ustring                             read FEnableBlinkFeatures               write FEnableBlinkFeatures;              // --enable-blink-features
       property DisableBlinkFeatures              : ustring                             read FDisableBlinkFeatures              write FDisableBlinkFeatures;             // --disable-blink-features
+      property BlinkSettings                     : ustring                             read FBlinkSettings                     write FBlinkSettings;                    // --blink-settings
       property ForceFieldTrials                  : ustring                             read FForceFieldTrials                  write FForceFieldTrials;                 // --force-fieldtrials
       property ForceFieldTrialParams             : ustring                             read FForceFieldTrialParams             write FForceFieldTrialParams;            // --force-fieldtrial-params
       property SmoothScrolling                   : TCefState                           read FSmoothScrolling                   write FSmoothScrolling;                  // --enable-smooth-scrolling
@@ -674,6 +676,7 @@ begin
   FDisableBlinkFeatures              := '';
   FForceFieldTrials                  := '';
   FForceFieldTrialParams             := '';
+  FBlinkSettings                     := '';
   FSupportedSchemes                  := nil;
   FDisableNewBrowserInfoTimeout      := False;
   FDevToolsProtocolLogFile           := '';
@@ -1841,6 +1844,11 @@ begin
   // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
   if (length(FDisableBlinkFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--disable-blink-features', FDisableBlinkFeatures);
+
+  // The list of Blink settings you can modify is here :
+  // https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/frame/settings.json5
+  if (length(FBlinkSettings) > 0) then
+    ReplaceSwitch(aKeys, aValues, '--blink-settings', FBlinkSettings);
 
   // https://source.chromium.org/chromium/chromium/src/+/master:base/base_switches.cc
   if (length(FForceFieldTrials) > 0) then
