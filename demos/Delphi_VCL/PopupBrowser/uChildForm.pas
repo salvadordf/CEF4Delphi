@@ -649,6 +649,9 @@ end;
 
 procedure TChildForm.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
 begin
+  if (GlobalCEFApp <> nil) then
+    GlobalCEFApp.UpdateDeviceScaleFactor;
+
   Chromium1.NotifyScreenInfoChanged;
   Chromium1.WasResized;
 end;

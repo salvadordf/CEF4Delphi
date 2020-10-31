@@ -59,7 +59,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 86;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 19;
+  CEF_SUPPORTED_VERSION_RELEASE = 20;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 86;
@@ -336,7 +336,7 @@ type
       procedure   DoMessageLoopWork;
       procedure   RunMessageLoop;
       procedure   QuitMessageLoop;
-      procedure   UpdateDeviceScaleFactor;
+      procedure   UpdateDeviceScaleFactor; virtual;
 
       // Internal procedures. Only TInternalApp, TCefCustomBrowserProcessHandler,
       // ICefResourceBundleHandler, ICefRenderProcessHandler, ICefRegisterCDMCallback

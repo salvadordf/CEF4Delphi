@@ -38,12 +38,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="444"/>
-        <CursorPos X="51" Y="445"/>
+        <TopLine Value="672"/>
+        <CursorPos X="43" Y="686"/>
         <UsageCount Value="42"/>
         <Bookmarks Count="2">
-          <Item0 X="40" Y="301" ID="4"/>
-          <Item1 X="41" Y="261" ID="1"/>
+          <Item0 X="40" Y="302" ID="4"/>
+          <Item1 X="41" Y="262" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -254,123 +254,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="344" Column="64" TopLine="320"/>
+        <Caret Line="365" Column="71" TopLine="324"/>
       </Position1>
       <Position2>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="358" Column="26" TopLine="321"/>
+        <Caret Line="507" TopLine="469"/>
       </Position2>
       <Position3>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="364" Column="71" TopLine="323"/>
+        <Caret Line="510" Column="48" TopLine="469"/>
       </Position3>
       <Position4>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="365" Column="71" TopLine="324"/>
+        <Caret Line="780" Column="52" TopLine="739"/>
       </Position4>
       <Position5>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="507" TopLine="469"/>
+        <Caret Line="801" Column="52" TopLine="760"/>
       </Position5>
       <Position6>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="510" Column="48" TopLine="469"/>
+        <Caret Line="818" Column="52" TopLine="777"/>
       </Position6>
       <Position7>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="780" Column="52" TopLine="739"/>
+        <Caret Line="832" Column="52" TopLine="791"/>
       </Position7>
       <Position8>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="801" Column="52" TopLine="760"/>
+        <Caret Line="982" Column="52" TopLine="941"/>
       </Position8>
       <Position9>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="818" Column="52" TopLine="777"/>
+        <Caret Line="224" Column="40" TopLine="201"/>
       </Position9>
       <Position10>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="832" Column="52" TopLine="791"/>
+        <Caret Line="318" Column="75" TopLine="238"/>
       </Position10>
       <Position11>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="982" Column="52" TopLine="941"/>
+        <Caret Line="225" Column="59" TopLine="201"/>
       </Position11>
       <Position12>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="224" Column="40" TopLine="201"/>
+        <Caret Line="320" Column="46" TopLine="292"/>
       </Position12>
       <Position13>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="318" Column="75" TopLine="238"/>
+        <Caret Line="343" Column="28" TopLine="310"/>
       </Position13>
       <Position14>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="225" Column="59" TopLine="201"/>
+        <Caret Line="365" Column="9" TopLine="344"/>
       </Position14>
       <Position15>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="320" Column="46" TopLine="292"/>
+        <Caret Line="512" Column="55" TopLine="486"/>
       </Position15>
       <Position16>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="343" Column="28" TopLine="310"/>
+        <Caret Line="775" Column="86" TopLine="735"/>
       </Position16>
       <Position17>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="365" Column="9" TopLine="344"/>
+        <Caret Line="793" Column="54" TopLine="765"/>
       </Position17>
       <Position18>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="512" Column="55" TopLine="486"/>
+        <Caret Line="807" Column="56" TopLine="782"/>
       </Position18>
       <Position19>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="775" Column="86" TopLine="735"/>
+        <Caret Line="818" Column="86" TopLine="797"/>
       </Position19>
       <Position20>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="793" Column="54" TopLine="765"/>
+        <Caret Line="965" Column="60" TopLine="936"/>
       </Position20>
       <Position21>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="807" Column="56" TopLine="782"/>
+        <Caret Line="224" Column="40" TopLine="201"/>
       </Position21>
       <Position22>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="818" Column="86" TopLine="797"/>
+        <Caret Line="314" Column="40" TopLine="310"/>
       </Position22>
       <Position23>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="965" Column="60" TopLine="936"/>
+        <Caret Line="337" Column="37" TopLine="309"/>
       </Position23>
       <Position24>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="224" Column="40" TopLine="201"/>
+        <Caret Line="352" Column="36" TopLine="338"/>
       </Position24>
       <Position25>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="314" Column="40" TopLine="310"/>
+        <Caret Line="507" Column="44" TopLine="496"/>
       </Position25>
       <Position26>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="337" Column="37" TopLine="309"/>
+        <Caret Line="774" Column="48" TopLine="745"/>
       </Position26>
       <Position27>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="352" Column="36" TopLine="338"/>
+        <Caret Line="93" Column="25" TopLine="87"/>
       </Position27>
       <Position28>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="507" Column="44" TopLine="496"/>
+        <Caret Line="143" Column="15" TopLine="128"/>
       </Position28>
       <Position29>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="774" Column="48" TopLine="745"/>
+        <Caret Line="680" Column="50" TopLine="669"/>
       </Position29>
       <Position30>
         <Filename Value="usimplelazosrbrowser.pas"/>
-        <Caret Line="93" Column="25" TopLine="87"/>
+        <Caret Line="144" Column="49" TopLine="131"/>
       </Position30>
     </JumpHistory>
     <RunParams>

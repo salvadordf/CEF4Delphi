@@ -16,7 +16,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   OnHide = FormHide
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.0.10.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -127,21 +127,21 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
     OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
-    left = 24
-    top = 56
+    Left = 24
+    Top = 56
   end
   object SaveDialog1: TSaveDialog
     Title = 'Save snapshot'
     DefaultExt = '.bmp'
     Filter = 'Bitmap files (*.bmp)|*.BMP'
-    left = 24
-    top = 278
+    Left = 24
+    Top = 278
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 24
-    top = 206
+    Left = 24
+    Top = 206
   end
 end

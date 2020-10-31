@@ -133,7 +133,8 @@ type
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure WMSysChar(var aMessage: TMessage); message WM_SYSCHAR;
     procedure WMSysKeyDown(var aMessage: TMessage); message WM_SYSKEYDOWN;
-    procedure WMSysKeyUp(var aMessage: TMessage); message WM_SYSKEYUP;
+    procedure WMSysKeyUp(var aMessage: TMessage); message WM_SYSKEYUP;      
+    procedure WMDpiChanged(var Message: TMessage); message WM_DPICHANGED;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
     procedure PendingInvalidateMsg(var aMessage : TMessage); message CEF_PENDINGINVALIDATE;
@@ -623,6 +624,20 @@ begin
       TempKeyEvent.focus_on_editable_field := ord(False);
 
       chrmosr.SendKeyEvent(@TempKeyEvent);
+    end;
+end;
+
+procedure TChildForm.WMDpiChanged(var Message: TMessage);
+begin
+  inherited;
+
+  if (GlobalCEFApp <> nil) then
+    GlobalCEFApp.UpdateDeviceScaleFactor;
+
+  if (chrmosr <> nil) then
+    begin
+      chrmosr.NotifyScreenInfoChanged;
+      chrmosr.WasResized;
     end;
 end;
 

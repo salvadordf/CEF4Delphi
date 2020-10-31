@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Simple OSR Browser - Initializing browser. Please wait...'
-  ClientHeight = 668
-  ClientWidth = 988
+  ClientHeight = 684
+  ClientWidth = 1050
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object Form1: TForm1
   object NavControlPnl: TPanel
     Left = 0
     Top = 0
-    Width = 988
+    Width = 1050
     Height = 30
     Align = alTop
     BevelOuter = bvNone
@@ -33,10 +33,11 @@ object Form1: TForm1
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 0
+    ExplicitWidth = 988
     object AddressCb: TComboBox
       Left = 5
       Top = 5
-      Width = 907
+      Width = 969
       Height = 21
       Align = alClient
       ItemIndex = 0
@@ -54,7 +55,7 @@ object Form1: TForm1
         'file:///transparency.html')
     end
     object Panel2: TPanel
-      Left = 912
+      Left = 974
       Top = 5
       Width = 71
       Height = 20
@@ -66,6 +67,7 @@ object Form1: TForm1
       BevelOuter = bvNone
       Padding.Left = 4
       TabOrder = 1
+      ExplicitLeft = 912
       object GoBtn: TButton
         Left = 4
         Top = 0
@@ -104,8 +106,8 @@ object Form1: TForm1
   object Panel1: TBufferPanel
     Left = 0
     Top = 30
-    Width = 988
-    Height = 638
+    Width = 1050
+    Height = 654
     OnIMECancelComposition = Panel1IMECancelComposition
     OnIMECommitText = Panel1IMECommitText
     OnIMESetComposition = Panel1IMESetComposition
@@ -128,6 +130,8 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
+    ExplicitWidth = 988
+    ExplicitHeight = 638
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip

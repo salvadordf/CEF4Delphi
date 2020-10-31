@@ -83,6 +83,7 @@ type
     public
       constructor Create;
       destructor  Destroy; override;
+      procedure   UpdateDeviceScaleFactor; override;
 
       property DestroyApplicationObject: boolean read FDestroyApplicationObject write FDestroyApplicationObject;
       property DestroyAppWindows       : boolean read FDestroyAppWindows        write FDestroyAppWindows;
@@ -136,7 +137,7 @@ uses
       TlHelp32, {$IFDEF MSWINDOWS}PSAPI,{$ENDIF}
     {$ENDIF}
   {$ENDIF}
-  uCEFConstants;
+  uCEFConstants, uCEFMiscFunctions;
 
 function CefCursorToWindowsCursor(aCefCursor : TCefCursorType) : TCursor;
 begin
@@ -193,6 +194,42 @@ begin
   if GlobalCEFApp = Self then
     GlobalCEFApp := nil;
   inherited Destroy;
+end;
+
+procedure TCefApplication.UpdateDeviceScaleFactor;
+{$IFDEF MSWINDOWS}
+{$IFNDEF FMX}
+var
+  TempHandle : HWND;
+  TempDPI    : UINT;
+{$ENDIF}
+{$ENDIF}
+begin
+  {$IFDEF MSWINDOWS}
+  {$IFNDEF FMX}
+  if RunningWindows10OrNewer then
+    begin
+      if assigned(screen.ActiveForm) and
+         screen.ActiveForm.HandleAllocated then
+        TempHandle := screen.ActiveForm.Handle
+       else
+        if assigned(Application.MainForm) and
+           Application.MainForm.HandleAllocated then
+          TempHandle := Application.MainForm.Handle
+         else
+          TempHandle := Application.Handle;
+
+     if GetDPIForHandle(TempHandle, TempDPI) then
+       FDeviceScaleFactor := TempDPI / USER_DEFAULT_SCREEN_DPI
+      else
+       inherited UpdateDeviceScaleFactor;
+    end
+   else
+  {$ENDIF}
+    inherited UpdateDeviceScaleFactor;
+  {$ELSE}
+  inherited UpdateDeviceScaleFactor;
+  {$ENDIF}
 end;
 
 procedure TCefApplication.BeforeInitSubProcess;

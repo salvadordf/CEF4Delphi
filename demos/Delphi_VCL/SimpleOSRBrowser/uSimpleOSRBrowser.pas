@@ -51,7 +51,7 @@ uses
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFSentinel, uCEFChromiumCore;
+  uCEFSentinel, uCEFChromiumCore, Vcl.ComCtrls;
 
 const
   // Set this constant to True and load "file://transparency.html" to test a
@@ -248,8 +248,8 @@ begin
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.TouchEvents                := STATE_ENABLED;
   //GlobalCEFApp.EnableGPU                  := True;
-  GlobalCEFApp.LogFile                    := 'debug.log';
-  GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  //GlobalCEFApp.LogFile                    := 'debug.log';
+  //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
 
   // If you need transparency leave the GlobalCEFApp.BackgroundColor property
   // with the default value or set the alpha channel to 0
@@ -713,6 +713,9 @@ end;
 
 procedure TForm1.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
 begin
+  if (GlobalCEFApp <> nil) then
+    GlobalCEFApp.UpdateDeviceScaleFactor;
+
   if (chrmosr <> nil) then
     begin
       chrmosr.NotifyScreenInfoChanged;

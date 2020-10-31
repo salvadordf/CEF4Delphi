@@ -68,6 +68,7 @@ const
   Kernel32DLL = 'kernel32.dll';
   SHLWAPIDLL  = 'shlwapi.dll';
   NTDLL = 'ntdll.dll';
+  User32DLL = 'User32.dll';
 
 type
   TOSVersionInfoEx = record
@@ -266,6 +267,8 @@ procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDra
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
 
 function  GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
+function  RunningWindows10OrNewer : boolean;
+function  GetDPIForHandle(aHandle : HWND; var aDPI : UINT) : boolean;
 function  GetDefaultCEFUserAgent : string;
 {$IFDEF DELPHI14_UP}
 function  TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
@@ -2072,6 +2075,47 @@ begin
   end;
 end;
 
+// GetDpiForWindow is only available in Windows 10 (version 1607) or newer
+function GetDPIForHandle(aHandle : HWND; var aDPI : UINT) : boolean;
+type
+  TGetDpiForWindow = function(hwnd: HWND): UINT; stdcall;
+var
+  TempHandle : THandle;
+  TempGetDpiForWindowFunc : TGetDpiForWindow;
+begin
+  Result := False;
+  aDPI   := 0;
+
+  if (aHandle = 0) then exit;
+
+  try
+    TempHandle := LoadLibrary(User32DLL);
+
+    if (TempHandle <> 0) then
+      try
+        {$IFDEF FPC}Pointer({$ENDIF}TempGetDpiForWindowFunc{$IFDEF FPC}){$ENDIF} := GetProcAddress(TempHandle, 'GetDpiForWindow');
+
+        if assigned(TempGetDpiForWindowFunc) then
+          begin
+            aDPI   := TempGetDpiForWindowFunc(aHandle);
+            Result := (aDPI <> 0);
+          end;
+      finally
+        FreeLibrary(TempHandle);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('GetDPIForHandle', e) then raise;
+  end;
+end;
+
+function RunningWindows10OrNewer : boolean;
+var
+  TempMajorVer, TempMinorVer : DWORD;
+begin
+  Result := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and (TempMajorVer >= 10);
+end;
+
 function GetDefaultCEFUserAgent : string;
 var
   TempOS, TempChromiumVersion : string;
@@ -2201,7 +2245,7 @@ end;
 
 function GetDeviceScaleFactor : single;
 begin
-  Result := GetScreenDPI / 96;
+  Result := GetScreenDPI / USER_DEFAULT_SCREEN_DPI;
 end;
 
 function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList) : boolean;

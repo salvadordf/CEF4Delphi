@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 282
+  Left = 284
   Height = 565
-  Top = 185
+  Top = 44
   Width = 800
   Caption = 'Simple OSR Browser - Initializing browser. Please wait...'
   ClientHeight = 565
@@ -16,7 +16,7 @@ object Form1: TForm1
   OnHide = FormHide
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.0.10.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -122,21 +122,21 @@ object Form1: TForm1
     OnPaint = chrmosrPaint
     OnCursorChange = chrmosrCursorChange
     OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
-    left = 24
-    top = 56
+    Left = 24
+    Top = 56
   end
   object SaveDialog1: TSaveDialog
     Title = 'Save snapshot'
     DefaultExt = '.bmp'
     Filter = 'Bitmap files (*.bmp)|*.BMP'
-    left = 24
-    top = 200
+    Left = 24
+    Top = 200
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 24
-    top = 128
+    Left = 24
+    Top = 128
   end
 end

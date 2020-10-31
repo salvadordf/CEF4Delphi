@@ -667,6 +667,7 @@ function TBufferPanel.GetScreenScale : single;
 var
   TempHandle : TCefWindowHandle;
   TempDC     : HDC;
+  TempDPI    : UINT;
 {$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
@@ -674,9 +675,14 @@ begin
 
   if (TempHandle <> 0) then
     begin
-      TempDC := GetWindowDC(TempHandle);
-      Result := GetDeviceCaps(TempDC, LOGPIXELSX) / USER_DEFAULT_SCREEN_DPI;
-      ReleaseDC(TempHandle, TempDC);
+      if RunningWindows10OrNewer and GetDPIForHandle(TempHandle, TempDPI) then
+        Result := TempDPI / USER_DEFAULT_SCREEN_DPI
+       else
+        begin
+          TempDC := GetWindowDC(TempHandle);
+          Result := GetDeviceCaps(TempDC, LOGPIXELSX) / USER_DEFAULT_SCREEN_DPI;
+          ReleaseDC(TempHandle, TempDC);
+        end;
     end
    else
   {$ENDIF}

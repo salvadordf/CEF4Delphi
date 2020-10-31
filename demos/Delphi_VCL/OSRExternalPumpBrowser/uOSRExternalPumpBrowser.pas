@@ -627,6 +627,9 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
 begin
+  if (GlobalCEFApp <> nil) then
+    GlobalCEFApp.UpdateDeviceScaleFactor;
+
   if (chrmosr <> nil) then
     begin
       chrmosr.NotifyScreenInfoChanged;
