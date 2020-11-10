@@ -287,12 +287,12 @@ constructor TCefCustomRenderProcessHandler.Create(const aCefApp : TCefApplicatio
 begin
   inherited Create;
 
-  RemoveReferences;
-
   FCefApp := aCefApp;
 
   if (FCefApp <> nil) and FCefApp.MustCreateLoadHandler then
-    FLoadHandler := TCustomRenderLoadHandler.Create(FCefApp);
+    FLoadHandler := TCustomRenderLoadHandler.Create(FCefApp)
+   else
+    FLoadHandler := nil;
 end;
 
 destructor TCefCustomRenderProcessHandler.Destroy;
