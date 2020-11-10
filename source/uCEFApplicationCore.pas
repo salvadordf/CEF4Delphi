@@ -803,7 +803,11 @@ begin
          LoadCEFlibrary then
         begin
           TempApp := TCustomCefApp.Create(self);
-          Result  := InitializeLibrary(TempApp);
+
+          if InitializeLibrary(TempApp) then
+            Result := True
+           else
+            TempApp.RemoveReferences;
         end;
     except
       on e : exception do
@@ -824,14 +828,24 @@ begin
   TempApp := nil;
 
   try
-    if CheckCEFLibrary and LoadCEFlibrary then
-      begin
-        if (FProcessType <> ptBrowser) then
-          BeforeInitSubProcess;
+    try
+      if CheckCEFLibrary and LoadCEFlibrary then
+        begin
+          if (FProcessType <> ptBrowser) then
+            BeforeInitSubProcess;
 
-        TempApp := TCustomCefApp.Create(self);
-        Result  := (ExecuteProcess(TempApp) < 0) and InitializeLibrary(TempApp);
-      end;
+          TempApp := TCustomCefApp.Create(self);
+
+          if (ExecuteProcess(TempApp) < 0) and
+             InitializeLibrary(TempApp) then
+            Result  := True
+           else
+            TempApp.RemoveReferences;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefApplicationCore.SingleExeProcessing', e) then raise;
+    end;
   finally
     TempApp := nil;
   end;
@@ -1048,13 +1062,22 @@ begin
   TempApp := nil;
 
   try
-    if not(FSingleProcess)        and
-       (ProcessType <> ptBrowser) and
-       LoadCEFlibrary             then
-      begin
-        TempApp := TCustomCefApp.Create(self);
-        Result  := (ExecuteProcess(TempApp) >= 0);
-      end;
+    try
+      if not(FSingleProcess)        and
+         (ProcessType <> ptBrowser) and
+         LoadCEFlibrary             then
+        begin
+          TempApp := TCustomCefApp.Create(self);
+
+          if (ExecuteProcess(TempApp) >= 0) then
+            Result := True
+           else
+            TempApp.RemoveReferences;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefApplicationCore.StartSubProcess', e) then raise;
+    end;
   finally
     TempApp := nil;
   end;
@@ -1924,8 +1947,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateResourceBundleHandler : boolean;
 begin
-  Result := FSingleProcess or
-            ((FProcessType in [ptBrowser, ptRenderer]) and
+  Result := ((FSingleProcess or (FProcessType in [ptBrowser, ptRenderer])) and
              (FMustCreateResourceBundleHandler or
               assigned(FOnGetLocalizedString)  or
               assigned(FOnGetDataResource)     or
@@ -1934,8 +1956,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateBrowserProcessHandler : boolean;
 begin
-  Result := FSingleProcess or
-            ((FProcessType = ptBrowser) and
+  Result := ((FSingleProcess or (FProcessType = ptBrowser)) and
              (FMustCreateBrowserProcessHandler        or
               assigned(FOnContextInitialized)         or
               assigned(FOnBeforeChildProcessLaunch)   or
@@ -1944,8 +1965,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateRenderProcessHandler : boolean;
 begin
-  Result := FSingleProcess or
-            ((FProcessType = ptRenderer) and
+  Result := ((FSingleProcess or (FProcessType = ptRenderer)) and
              (FMustCreateRenderProcessHandler     or
               MustCreateLoadHandler               or
               assigned(FOnWebKitInitialized)      or
@@ -1960,8 +1980,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateLoadHandler : boolean;
 begin
-  Result := FSingleProcess or
-            ((FProcessType = ptRenderer) and
+  Result := ((FSingleProcess or (FProcessType = ptRenderer)) and
              (FMustCreateLoadHandler          or
               assigned(FOnLoadingStateChange) or
               assigned(FOnLoadStart)          or

@@ -80,6 +80,7 @@ type
       FDestroyAppWindows             : boolean;
 
       procedure BeforeInitSubProcess; override;
+
     public
       constructor Create;
       destructor  Destroy; override;

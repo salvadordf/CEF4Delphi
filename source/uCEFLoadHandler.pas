@@ -90,6 +90,8 @@ type
       procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer); override;
       procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring); override;
 
+      procedure RemoveReferences; override;
+
     public
       constructor Create(const aCefApp : TCefApplicationCore); reintroduce; virtual;
       destructor  Destroy; override;
@@ -273,9 +275,14 @@ end;
 
 destructor TCustomRenderLoadHandler.Destroy;
 begin
-  FCefApp := nil;
+  RemoveReferences;
 
   inherited Destroy;
+end;
+
+procedure TCustomRenderLoadHandler.RemoveReferences;
+begin
+  FCefApp := nil;
 end;
 
 procedure TCustomRenderLoadHandler.OnLoadEnd(const browser        : ICefBrowser;

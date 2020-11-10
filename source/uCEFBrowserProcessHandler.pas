@@ -59,6 +59,8 @@ type
       procedure GetPrintHandler(var aHandler : ICefPrintHandler); virtual;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual; abstract;
 
+      procedure RemoveReferences; virtual; abstract;
+
     public
       constructor Create; virtual;
   end;
@@ -70,6 +72,8 @@ type
       procedure OnContextInitialized; override;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
+
+      procedure RemoveReferences; override;
 
     public
       constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
@@ -92,7 +96,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
     TCefBrowserProcessHandlerOwn(TempObject).OnContextInitialized;
 end;
 
@@ -103,7 +108,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
     TCefBrowserProcessHandlerOwn(TempObject).OnBeforeChildProcessLaunch(TCefCommandLineRef.UnWrap(command_line));
 end;
 
@@ -115,7 +121,8 @@ begin
   Result     := nil;
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
     try
       TCefBrowserProcessHandlerOwn(TempObject).GetPrintHandler(TempHandler);
       if (TempHandler <> nil) then Result := TempHandler.Wrap;
@@ -131,7 +138,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
     TCefBrowserProcessHandlerOwn(TempObject).OnScheduleMessagePumpWork(delay_ms);
 end;
 
@@ -154,6 +162,7 @@ begin
 end;
 
 
+
 // TCefCustomBrowserProcessHandler
 
 
@@ -166,11 +175,16 @@ end;
 
 destructor TCefCustomBrowserProcessHandler.Destroy;
 begin
-  FCefApp := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
 
+procedure TCefCustomBrowserProcessHandler.RemoveReferences;
+begin
+  FCefApp := nil;
+end;
+
 procedure TCefCustomBrowserProcessHandler.OnContextInitialized;
 begin
   try

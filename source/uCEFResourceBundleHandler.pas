@@ -58,6 +58,8 @@ type
       function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean; virtual; abstract;
       function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean; virtual; abstract;
 
+      procedure RemoveReferences; virtual; abstract;
+
     public
       constructor Create; virtual;
   end;
@@ -69,6 +71,8 @@ type
       function GetLocalizedString(stringid: Integer; var stringVal: ustring): Boolean; override;
       function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean; override;
       function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean; override;
+
+      procedure RemoveReferences; override;
 
     public
       constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
@@ -95,7 +99,8 @@ begin
   Result     := Ord(False);
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefResourceBundleHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefResourceBundleHandlerOwn) then
     begin
       TempString := '';
       Result     := Ord(TCefResourceBundleHandlerOwn(TempObject).GetLocalizedString(string_id, TempString));
@@ -118,7 +123,8 @@ begin
   Result     := Ord(False);
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefResourceBundleHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefResourceBundleHandlerOwn) then
     Result := Ord(TCefResourceBundleHandlerOwn(TempObject).GetDataResource(resource_id, data, data_size));
 end;
 
@@ -133,7 +139,8 @@ begin
   Result     := Ord(False);
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefResourceBundleHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefResourceBundleHandlerOwn) then
     Result := Ord(TCefResourceBundleHandlerOwn(TempObject).GetDataResourceForScale(resource_id, scale_factor, data, data_size));
 end;
 
@@ -162,9 +169,14 @@ end;
 
 destructor TCefCustomResourceBundleHandler.Destroy;
 begin
-  FCefApp := nil;
+  RemoveReferences;
 
   inherited Destroy;
+end;
+
+procedure TCefCustomResourceBundleHandler.RemoveReferences;
+begin
+  FCefApp := nil;
 end;
 
 function TCefCustomResourceBundleHandler.GetLocalizedString(    stringid  : Integer;

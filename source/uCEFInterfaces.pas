@@ -1422,6 +1422,8 @@ type
     function GetLocalizedString(stringId: Integer; var stringVal: ustring): Boolean;
     function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
     function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   // TCefBrowserProcessHandler
@@ -1432,6 +1434,8 @@ type
     procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
     procedure GetPrintHandler(var aHandler : ICefPrintHandler);
     procedure OnScheduleMessagePumpWork(const delayMs: Int64);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   // TCefRenderProcessHandler
@@ -1447,6 +1451,8 @@ type
     procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const V8Exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
     procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
     function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   // TCefApp
@@ -1458,6 +1464,8 @@ type
     procedure GetResourceBundleHandler(var aHandler : ICefResourceBundleHandler);
     procedure GetBrowserProcessHandler(var aHandler : ICefBrowserProcessHandler);
     procedure GetRenderProcessHandler(var aHandler : ICefRenderProcessHandler);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   // TCefCompletionCallback

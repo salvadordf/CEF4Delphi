@@ -65,6 +65,8 @@ type
       procedure GetBrowserProcessHandler(var aHandler : ICefBrowserProcessHandler); virtual; abstract;
       procedure GetRenderProcessHandler(var aHandler : ICefRenderProcessHandler); virtual; abstract;
 
+      procedure RemoveReferences; virtual; abstract;
+
     public
       constructor Create; virtual;
   end;
@@ -83,10 +85,11 @@ type
       procedure GetRenderProcessHandler(var aHandler : ICefRenderProcessHandler); override;
 
       procedure InitializeVars;
+      procedure RemoveReferences; override;
 
     public
       constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
-      procedure   BeforeDestruction; override;
+      destructor  Destroy; override;
   end;
 
 
@@ -104,9 +107,9 @@ uses
 
 // TCefAppOwn
 
-procedure cef_app_on_before_command_line_processing(self: PCefApp;
-                                                    const process_type: PCefString;
-                                                          command_line: PCefCommandLine); stdcall;
+procedure cef_app_on_before_command_line_processing(      self         : PCefApp;
+                                                    const process_type : PCefString;
+                                                          command_line : PCefCommandLine); stdcall;
 var
   TempObject : TObject;
 begin
@@ -117,7 +120,8 @@ begin
                                                          TCefCommandLineRef.UnWrap(command_line));
 end;
 
-procedure cef_app_on_register_custom_schemes(self: PCefApp; registrar: PCefSchemeRegistrar); stdcall;
+procedure cef_app_on_register_custom_schemes(self      : PCefApp;
+                                             registrar : PCefSchemeRegistrar); stdcall;
 var
   TempWrapper : TCefSchemeRegistrarRef;
   TempObject  : TObject;
@@ -216,9 +220,9 @@ constructor TCustomCefApp.Create(const aCefApp : TCefApplicationCore);
 begin
   inherited Create;
 
-  FCefApp := aCefApp;
-
   InitializeVars;
+
+  FCefApp := aCefApp;
 
   if (FCefApp <> nil) then
     begin
@@ -233,20 +237,33 @@ begin
     end;
 end;
 
-procedure TCustomCefApp.BeforeDestruction;
+destructor TCustomCefApp.Destroy;
 begin
-  FCefApp := nil;
+  RemoveReferences;
 
-  InitializeVars;
-
-  inherited BeforeDestruction;
+  inherited Destroy;
 end;
 
 procedure TCustomCefApp.InitializeVars;
 begin
+  FCefApp                := nil;
   FResourceBundleHandler := nil;
   FBrowserProcessHandler := nil;
   FRenderProcessHandler  := nil;
+end;
+
+procedure TCustomCefApp.RemoveReferences;
+begin
+  if (FResourceBundleHandler <> nil) then
+    FResourceBundleHandler.RemoveReferences;
+
+  if (FBrowserProcessHandler <> nil) then
+    FBrowserProcessHandler.RemoveReferences;
+
+  if (FRenderProcessHandler <> nil) then
+    FRenderProcessHandler.RemoveReferences;
+
+  InitializeVars;
 end;
 
 procedure TCustomCefApp.OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
