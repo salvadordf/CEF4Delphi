@@ -377,12 +377,12 @@ begin
 end;
 
 function TFMXBufferPanel.GetScreenScale : Single;
-{$IFDEF VER310}
+{$IFDEF DELPHI24_UP}
 var
   TempHandle : TCefWindowHandle;
 {$ENDIF}
 begin
-  {$IFDEF VER310}
+  {$IFDEF DELPHI24_UP}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
