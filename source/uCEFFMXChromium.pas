@@ -157,12 +157,12 @@ begin
 end;
 
 function TFMXChromium.GetScreenScale : Single;
-{$IFDEF MSWINDOWS}
+{$IFDEF VER310}
 var
   TempHandle : TCefWindowHandle;
 {$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
+  {$IFDEF VER310}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
