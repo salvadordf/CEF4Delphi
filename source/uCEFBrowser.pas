@@ -114,8 +114,6 @@ type
       function  AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
       procedure GetNavigationEntries(const visitor: ICefNavigationEntryVisitor; currentOnly: Boolean);
       procedure GetNavigationEntriesProc(const proc: TCefNavigationEntryVisitorProc; currentOnly: Boolean);
-      procedure SetMouseCursorChangeDisabled(disabled: Boolean);
-      function  IsMouseCursorChangeDisabled: Boolean;
       procedure ReplaceMisspelling(const word: ustring);
       procedure AddWordToDictionary(const word: ustring);
       function  IsWindowRenderingDisabled: Boolean;
@@ -546,11 +544,6 @@ begin
   PCefBrowserHost(FData)^.set_focus(PCefBrowserHost(FData), Ord(focus));
 end;
 
-procedure TCefBrowserHostRef.SetMouseCursorChangeDisabled(disabled: Boolean);
-begin
-  PCefBrowserHost(FData)^.set_mouse_cursor_change_disabled(PCefBrowserHost(FData), Ord(disabled));
-end;
-
 procedure TCefBrowserHostRef.SetWindowlessFrameRate(frameRate: Integer);
 begin
   PCefBrowserHost(FData)^.set_windowless_frame_rate(PCefBrowserHost(FData), frameRate);
@@ -704,11 +697,6 @@ end;
 procedure TCefBrowserHostRef.SendExternalBeginFrame;
 begin
   PCefBrowserHost(FData)^.send_external_begin_frame(PCefBrowserHost(FData));
-end;
-
-function TCefBrowserHostRef.IsMouseCursorChangeDisabled: Boolean;
-begin
-  Result := PCefBrowserHost(FData)^.is_mouse_cursor_change_disabled(PCefBrowserHost(FData)) <> 0;
 end;
 
 function TCefBrowserHostRef.IsWindowRenderingDisabled: Boolean;

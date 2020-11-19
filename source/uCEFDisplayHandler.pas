@@ -68,6 +68,7 @@ type
       function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean; virtual;
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
       procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
+      procedure OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -88,6 +89,7 @@ type
       function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean; override;
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; override;
       procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); override;
+      procedure OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); override;
 
       procedure RemoveReferences; override;
 
@@ -260,6 +262,28 @@ begin
                                                               progress);
 end;
 
+function cef_display_handler_on_cursor_change(      self               : PCefDisplayHandler;
+                                                    browser            : PCefBrowser;
+                                                    cursor             : TCefCursorHandle;
+                                                    type_              : TCefCursorType;
+                                              const custom_cursor_info : PCefCursorInfo): Integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempResult := False;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
+    TCefDisplayHandlerOwn(TempObject).OnCursorChange(TCefBrowserRef.UnWrap(browser),
+                                                     cursor,
+                                                     type_,
+                                                     custom_cursor_info,
+                                                     TempResult);
+
+  Result := Ord(TempResult);
+end;
+
 constructor TCefDisplayHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDisplayHandler));
@@ -275,6 +299,7 @@ begin
       on_console_message         := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_console_message;
       on_auto_resize             := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_auto_resize;
       on_loading_progress_change := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_loading_progress_change;
+      on_cursor_change           := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_cursor_change;
     end;
 end;
 
@@ -296,6 +321,11 @@ end;
 procedure TCefDisplayHandlerOwn.OnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
 begin
   //
+end;
+
+procedure TCefDisplayHandlerOwn.OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
+begin
+  aResult := False;
 end;
 
 procedure TCefDisplayHandlerOwn.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
@@ -353,7 +383,8 @@ procedure TCustomDisplayHandler.OnAddressChange(const browser : ICefBrowser;
                                                 const frame   : ICefFrame;
                                                 const url     : ustring);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnAddressChange(browser, frame, url);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnAddressChange(browser, frame, url);
 end;
 
 function TCustomDisplayHandler.OnConsoleMessage(const browser  : ICefBrowser;
@@ -378,27 +409,42 @@ end;
 
 procedure TCustomDisplayHandler.OnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnLoadingProgressChange(browser, progress);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnLoadingProgressChange(browser, progress);
+end;
+
+procedure TCustomDisplayHandler.OnCursorChange(const browser          : ICefBrowser;
+                                                     cursor           : TCefCursorHandle;
+                                                     cursorType       : TCefCursorType;
+                                               const customCursorInfo : PCefCursorInfo;
+                                               var   aResult          : boolean);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnCursorChange(browser, cursor, cursorType, customCursorInfo, aResult);
 end;
 
 procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnFaviconUrlChange(browser, iconUrls);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnFaviconUrlChange(browser, iconUrls);
 end;
 
 procedure TCustomDisplayHandler.OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnFullScreenModeChange(browser, fullscreen);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnFullScreenModeChange(browser, fullscreen);
 end;
 
 procedure TCustomDisplayHandler.OnStatusMessage(const browser: ICefBrowser; const value: ustring);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnStatusMessage(browser, value);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnStatusMessage(browser, value);
 end;
 
 procedure TCustomDisplayHandler.OnTitleChange(const browser: ICefBrowser; const title: ustring);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnTitleChange(browser, title);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnTitleChange(browser, title);
 end;
 
 function TCustomDisplayHandler.OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;

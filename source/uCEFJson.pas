@@ -70,7 +70,7 @@ type
 
       class function Parse(const jsonString: ustring; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
       class function Parse(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
-      class function ParseAndReturnError(const jsonString: ustring; options: TCefJsonParserOptions; out errorCodeOut: TCefJsonParserError; out errorMsgOut: ustring): ICefValue;
+      class function ParseAndReturnError(const jsonString: ustring; options: TCefJsonParserOptions; out errorMsgOut: ustring): ICefValue;
       class function Write(const node: ICefValue; options: TCefJsonWriterOptions = JSON_WRITER_DEFAULT): ustring; overload;
       class function Write(const node: ICefDictionaryValue; options: TCefJsonWriterOptions = JSON_WRITER_DEFAULT): ustring; overload;
       class function Write(const node: ICefValue; var aRsltStrings: TStringList): boolean; overload;
@@ -226,7 +226,6 @@ end;
 
 class function TCEFJson.ParseAndReturnError(const jsonString   : ustring;
                                                   options      : TCefJsonParserOptions;
-                                            out   errorCodeOut : TCefJsonParserError;
                                             out   errorMsgOut  : ustring): ICefValue;
 var
   TempJSON, TempError : TCefString;
@@ -235,12 +234,11 @@ begin
     begin
       CefStringInitialize(@TempError);
       TempJSON    := CefString(jsonString);
-      Result      := TCefValueRef.UnWrap(cef_parse_jsonand_return_error(@TempJSON, options, @errorCodeOut, @TempError));
+      Result      := TCefValueRef.UnWrap(cef_parse_jsonand_return_error(@TempJSON, options, @TempError));
       errorMsgOut := CefStringClearAndGet(@TempError);
     end
    else
     begin
-      errorCodeOut := JSON_NO_ERROR;
       Result       := nil;
       errorMsgOut  := '';
     end;

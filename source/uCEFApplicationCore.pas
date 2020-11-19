@@ -57,15 +57,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 86;
-  CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 24;
+  CEF_SUPPORTED_VERSION_MAJOR   = 87;
+  CEF_SUPPORTED_VERSION_MINOR   = 1;
+  CEF_SUPPORTED_VERSION_RELEASE = 6;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 86;
+  CEF_CHROMEELF_VERSION_MAJOR   = 87;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4240;
-  CEF_CHROMEELF_VERSION_BUILD   = 198;
+  CEF_CHROMEELF_VERSION_RELEASE = 4280;
+  CEF_CHROMEELF_VERSION_BUILD   = 66;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -197,9 +197,11 @@ type
       FMustCreateLoadHandler             : boolean;
 
       // ICefBrowserProcessHandler
+      FOnGetCookieableSchemes            : TOnGetCookieableSchemesEvent;
       FOnContextInitialized              : TOnContextInitializedEvent;
       FOnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent;
       FOnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent;
+      FOnGetDefaultClient                : TOnGetDefaultClientEvent;
 
       // ICefResourceBundleHandler
       FOnGetLocalizedString              : TOnGetLocalizedStringEvent;
@@ -362,6 +364,8 @@ type
       procedure   Internal_OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
       procedure   Internal_OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
       procedure   Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+      procedure   Internal_GetCookieableSchemes(var schemes: TStringList; var include_defaults : boolean);
+      procedure   Internal_GetDefaultClient(var aClient : ICefClient);
 
       // Properties used to populate TCefSettings (cef_settings_t)
       property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
@@ -493,9 +497,11 @@ type
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
       // ICefBrowserProcessHandler
+      property OnGetCookieableSchemes            : TOnGetCookieableSchemesEvent        read FOnGetCookieableSchemes            write FOnGetCookieableSchemes;
       property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitialized              write FOnContextInitialized;
       property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunch        write FOnBeforeChildProcessLaunch;
       property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWork         write FOnScheduleMessagePumpWork;
+      property OnGetDefaultClient                : TOnGetDefaultClientEvent            read FOnGetDefaultClient                write FOnGetDefaultClient;
 
       // ICefResourceBundleHandler
       property OnGetLocalizedString              : TOnGetLocalizedStringEvent          read FOnGetLocalizedString              write FOnGetLocalizedString;
@@ -704,9 +710,11 @@ begin
   FMustCreateLoadHandler             := False;
 
   // ICefBrowserProcessHandler
+  FOnGetCookieableSchemes            := nil;
   FOnContextInitialized              := nil;
   FOnBeforeChildProcessLaunch        := nil;
   FOnScheduleMessagePumpWork         := nil;
+  FOnGetDefaultClient                := nil;
 
   // ICefResourceBundleHandler
   FOnGetLocalizedString              := nil;
@@ -1628,6 +1636,18 @@ begin
     FOnLoadError(browser, frame, errorCode, errorText, failedUrl);
 end;
 
+procedure TCefApplicationCore.Internal_GetCookieableSchemes(var schemes: TStringList; var include_defaults : boolean);
+begin
+  if assigned(FOnGetCookieableSchemes) then
+    FOnGetCookieableSchemes(schemes, include_defaults);
+end;
+
+procedure TCefApplicationCore.Internal_GetDefaultClient(var aClient : ICefClient);
+begin
+  if assigned(FOnGetDefaultClient) then
+    FOnGetDefaultClient(aClient);
+end;
+
 procedure TCefApplicationCore.AppendSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
 var
   TempKey : ustring;
@@ -1958,9 +1978,11 @@ function TCefApplicationCore.GetMustCreateBrowserProcessHandler : boolean;
 begin
   Result := ((FSingleProcess or (FProcessType = ptBrowser)) and
              (FMustCreateBrowserProcessHandler        or
+              assigned(FOnGetCookieableSchemes)       or
               assigned(FOnContextInitialized)         or
               assigned(FOnBeforeChildProcessLaunch)   or
-              assigned(FOnScheduleMessagePumpWork)));
+              assigned(FOnScheduleMessagePumpWork))   or
+              assigned(FOnGetDefaultClient));
 end;
 
 function TCefApplicationCore.GetMustCreateRenderProcessHandler : boolean;
