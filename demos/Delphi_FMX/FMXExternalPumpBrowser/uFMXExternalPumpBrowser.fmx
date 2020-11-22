@@ -106,6 +106,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   end
   object chrmosr: TFMXChromium
     OnTooltip = chrmosrTooltip
+    OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
@@ -115,7 +116,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnPopupShow = chrmosrPopupShow
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
-    OnCursorChange = chrmosrCursorChange
     Left = 40
     Top = 73
   end

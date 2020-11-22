@@ -33,7 +33,6 @@ object Form1: TForm1
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 0
-    ExplicitWidth = 988
     object AddressCb: TComboBox
       Left = 5
       Top = 5
@@ -67,7 +66,6 @@ object Form1: TForm1
       BevelOuter = bvNone
       Padding.Left = 4
       TabOrder = 1
-      ExplicitLeft = 912
       object GoBtn: TButton
         Left = 4
         Top = 0
@@ -130,11 +128,10 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitWidth = 988
-    ExplicitHeight = 638
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip
+    OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
@@ -144,7 +141,6 @@ object Form1: TForm1
     OnPopupShow = chrmosrPopupShow
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
-    OnCursorChange = chrmosrCursorChange
     OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
     Left = 24
     Top = 56

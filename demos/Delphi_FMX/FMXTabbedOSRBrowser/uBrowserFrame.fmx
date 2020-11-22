@@ -135,6 +135,7 @@ object BrowserFrame: TBrowserFrame
     OnTitleChange = FMXChromium1TitleChange
     OnTooltip = FMXChromium1Tooltip
     OnStatusMessage = FMXChromium1StatusMessage
+    OnCursorChange = FMXChromium1CursorChange
     OnBeforePopup = FMXChromium1BeforePopup
     OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose
@@ -145,7 +146,6 @@ object BrowserFrame: TBrowserFrame
     OnPopupShow = FMXChromium1PopupShow
     OnPopupSize = FMXChromium1PopupSize
     OnPaint = FMXChromium1Paint
-    OnCursorChange = FMXChromium1CursorChange
     Left = 40
     Top = 65
   end

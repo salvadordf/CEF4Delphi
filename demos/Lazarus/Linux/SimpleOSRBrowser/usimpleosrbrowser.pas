@@ -88,7 +88,8 @@ type
       var Result: Boolean);
     procedure Chromium1CursorChange(Sender: TObject;
       const browser: ICefBrowser; cursor_: TCefCursorHandle;
-      cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
+      cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; 
+	  var aResult : boolean);
     procedure Chromium1GetScreenInfo(Sender: TObject;
       const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out
       Result: Boolean);
@@ -402,9 +403,11 @@ end;
 
 procedure TForm1.Chromium1CursorChange(Sender: TObject;
   const browser: ICefBrowser; cursor_: TCefCursorHandle;
-  cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
+  cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; 
+  var aResult : boolean);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
+  aResult       := True;
 end;
 
 procedure TForm1.Chromium1GetScreenInfo(Sender: TObject;

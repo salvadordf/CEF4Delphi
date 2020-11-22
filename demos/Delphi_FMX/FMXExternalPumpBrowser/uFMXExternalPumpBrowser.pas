@@ -88,7 +88,6 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure chrmosrPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
-    procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
     procedure chrmosrGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
     procedure chrmosrGetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
     procedure chrmosrGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
@@ -98,12 +97,14 @@ type
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
+
 
   protected
     FPopUpBitmap       : TBitmap;
@@ -548,9 +549,11 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrCursorChange(      Sender           
                                                          const browser          : ICefBrowser;
                                                                cursor           : HICON;
                                                                cursorType       : TCefCursorType;
-                                                         const customCursorInfo : PCefCursorInfo);
+                                                         const customCursorInfo : PCefCursorInfo;
+                                                         var   aResult          : Boolean);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
+  aResult       := True;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrGetScreenInfo(      Sender     : TObject;

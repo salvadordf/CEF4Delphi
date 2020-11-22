@@ -8,7 +8,7 @@
       <Unit0>
         <Filename Value="PopupBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="42"/>
         <CursorPos X="54" Y="47"/>
         <UsageCount Value="22"/>
@@ -21,6 +21,7 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="122"/>
         <CursorPos X="105" Y="139"/>
         <UsageCount Value="22"/>
@@ -34,14 +35,13 @@
         <ComponentName Value="ChildForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="620"/>
-        <CursorPos X="21" Y="630"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="287"/>
+        <CursorPos X="25" Y="296"/>
         <UsageCount Value="22"/>
         <Bookmarks Count="2">
           <Item0 X="64" Y="174" ID="2"/>
-          <Item1 Y="716" ID="1"/>
+          <Item1 Y="718" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -57,11 +57,10 @@
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1751"/>
         <CursorPos X="2" Y="1772"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\ustringh.inc"/>
@@ -78,7 +77,7 @@
         <UsageCount Value="10"/>
       </Unit6>
     </Units>
-    <JumpHistory Count="25" HistoryIndex="24">
+    <JumpHistory Count="24" HistoryIndex="23">
       <Position1>
         <Filename Value="uMainForm.pas"/>
         <Caret Line="81" Column="34" TopLine="68"/>
@@ -160,25 +159,21 @@
         <Caret Line="340" Column="22" TopLine="332"/>
       </Position20>
       <Position21>
-        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="244" Column="22" TopLine="223"/>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="906" Column="78" TopLine="882"/>
       </Position21>
       <Position22>
         <Filename Value="uChildForm.pas"/>
-        <Caret Line="906" Column="78" TopLine="882"/>
+        <Caret Line="87" Column="32" TopLine="75"/>
       </Position22>
       <Position23>
-        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="1761" Column="30" TopLine="1751"/>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="136" Column="17" TopLine="122"/>
       </Position23>
       <Position24>
         <Filename Value="uChildForm.pas"/>
-        <Caret Line="87" Column="32" TopLine="75"/>
+        <Caret Line="88" Column="168" TopLine="78"/>
       </Position24>
-      <Position25>
-        <Filename Value="uChildForm.pas"/>
-        <Caret Line="136" Column="17" TopLine="122"/>
-      </Position25>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

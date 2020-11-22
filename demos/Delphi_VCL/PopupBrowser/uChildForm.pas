@@ -79,7 +79,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure Chromium1Paint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
-    procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
+    procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
     procedure Chromium1GetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
     procedure Chromium1GetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
     procedure Chromium1GetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
@@ -89,6 +89,7 @@ type
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+
    protected
     FPopUpBitmap       : TBitmap;
     FPopUpRect         : TRect;
@@ -359,9 +360,11 @@ procedure TChildForm.Chromium1CursorChange(      Sender           : TObject;
                                            const browser          : ICefBrowser;
                                                  cursor           : HICON;
                                                  cursorType       : TCefCursorType;
-                                           const customCursorInfo : PCefCursorInfo);
+                                           const customCursorInfo : PCefCursorInfo;
+                                           var   aResult          : boolean);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
+  aResult       := True;
 end;
 
 procedure TChildForm.Chromium1GetScreenInfo(      Sender     : TObject;

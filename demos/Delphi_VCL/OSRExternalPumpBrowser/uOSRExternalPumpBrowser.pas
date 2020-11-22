@@ -91,7 +91,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure chrmosrPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
-    procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
+    procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
     procedure chrmosrGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
     procedure chrmosrGetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
     procedure chrmosrGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
@@ -351,9 +351,11 @@ procedure TOSRExternalPumpBrowserFrm.chrmosrCursorChange(      Sender           
                                                          const browser          : ICefBrowser;
                                                                cursor           : HICON;
                                                                cursorType       : TCefCursorType;
-                                                         const customCursorInfo : PCefCursorInfo);
+                                                         const customCursorInfo : PCefCursorInfo;
+                                                         var   aResult          : boolean);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
+  aResult       := True;
 end;
 
 procedure TOSRExternalPumpBrowserFrm.chrmosrGetScreenInfo(      Sender     : TObject;

@@ -477,6 +477,7 @@ type
     procedure doReadZoom;
     procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
     procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring);
+    procedure doBrowserNavigation(aTask : TCefBrowserNavigation);
     function  MustCreateAudioHandler : boolean;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;

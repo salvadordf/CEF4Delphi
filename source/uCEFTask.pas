@@ -207,6 +207,18 @@ type
       destructor  Destroy; override;
   end;
 
+  TCefBrowserNavigationTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+      FTask   : TCefBrowserNavigation;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aTask : TCefBrowserNavigation); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 
 implementation
 
@@ -632,6 +644,38 @@ begin
 end;
 
 destructor TCefCreateCustomViewTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+// TCefBrowserNavigationTask
+
+procedure TCefBrowserNavigationTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doBrowserNavigation(FTask);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefBrowserNavigationTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefBrowserNavigationTask.Create(const aEvents : IChromiumEvents; aTask : TCefBrowserNavigation);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FTask   := aTask;
+end;
+
+destructor TCefBrowserNavigationTask.Destroy;
 begin
   FEvents := nil;
 

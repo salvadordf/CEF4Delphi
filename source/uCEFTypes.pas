@@ -420,6 +420,9 @@ type
   // Used in TChromium preferences to allow or block cookies.
   TCefCookiePref = (cpDefault, cpAllow, cpBlock);
 
+  // Used by TCefBrowserNavigationTask to navigate in the right CEF thread
+  TCefBrowserNavigation = (bnBack, bnForward, bnReload, bnReloadIgnoreCache, bnStopLoad);
+
   TCefAplicationStatus = (asLoading,
                           asLoaded,
                           asInitialized,

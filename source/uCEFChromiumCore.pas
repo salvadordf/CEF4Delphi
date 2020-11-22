@@ -434,6 +434,7 @@ type
       function  ExecuteSetZoomPctTask(const aValue : double) : boolean;
       function  ExecuteSetZoomLevelTask(const aValue : double) : boolean;
       function  ExecuteSetZoomStepTask(aValue : byte) : boolean;
+      function  ExecuteBrowserNavigationTask(aTask : TCefBrowserNavigation) : boolean;
 
       procedure UpdateHostZoomLevel(const aValue : double);
       procedure UpdateHostZoomPct(const aValue : double);
@@ -637,6 +638,7 @@ type
       procedure doSetZoomStep(aValue : byte); virtual;
       procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute); virtual;
       procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring); virtual;
+      procedure doBrowserNavigation(aTask : TCefBrowserNavigation); virtual;
       function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateDevToolsMessageObserver : boolean; virtual;
       function  MustCreateLoadHandler : boolean; virtual;
@@ -2448,34 +2450,46 @@ begin
     end;
 end;
 
+function TChromiumCore.ExecuteBrowserNavigationTask(aTask : TCefBrowserNavigation) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefBrowserNavigationTask.Create(self, aTask);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
 procedure TChromiumCore.GoBack;
 begin
-  if Initialized and CanGoBack then
-    Browser.GoBack;
+  ExecuteBrowserNavigationTask(bnBack);
 end;
 
 procedure TChromiumCore.GoForward;
 begin
-  if Initialized and CanGoForward then
-    Browser.GoForward;
+  ExecuteBrowserNavigationTask(bnForward);
 end;
 
 procedure TChromiumCore.Reload;
 begin
-  if Initialized then
-    Browser.Reload;
+  ExecuteBrowserNavigationTask(bnReload);
 end;
 
 procedure TChromiumCore.ReloadIgnoreCache;
 begin
-  if Initialized then
-    Browser.ReloadIgnoreCache;
+  ExecuteBrowserNavigationTask(bnReloadIgnoreCache);
 end;
 
 procedure TChromiumCore.StopLoad;
 begin
-  if Initialized then
-    Browser.StopLoad;
+  ExecuteBrowserNavigationTask(bnStopLoad);
 end;
 
 procedure TChromiumCore.StartDownload(const aURL : ustring);
@@ -4516,6 +4530,18 @@ procedure TChromiumCore.doOnMediaSinkDeviceInfo(const ip_address: ustring; port:
 begin
   if assigned(FOnMediaSinkDeviceInfo) then
     FOnMediaSinkDeviceInfo(self, ip_address, port, model_name);
+end;
+
+procedure TChromiumCore.doBrowserNavigation(aTask : TCefBrowserNavigation);
+begin
+  if Initialized then
+    case aTask of
+      bnBack              : if CanGoBack    then Browser.GoBack;
+      bnForward           : if CanGoForward then Browser.GoForward;
+      bnReload            : Browser.Reload;
+      bnReloadIgnoreCache : Browser.ReloadIgnoreCache;
+      bnStopLoad          : Browser.StopLoad;
+    end;
 end;
 
 function TChromiumCore.MustCreateLoadHandler : boolean;
