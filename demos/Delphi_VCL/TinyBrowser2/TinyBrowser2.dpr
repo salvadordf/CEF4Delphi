@@ -35,44 +35,27 @@
  *
  *)
 
-program FMXTabbedOSRBrowser;
+program TinyBrowser2;
 
 uses
-  System.StartUpCopy,
-  FMX.Forms,
   uCEFApplication,
-  uCEFFMXWorkScheduler,
-  uMainForm in 'uMainForm.pas' {MainForm},
-  uBrowserTab in 'uBrowserTab.pas',
-  uBrowserFrame in 'uBrowserFrame.pas' {BrowserFrame: TFrame},
-  uFMXApplicationService in 'uFMXApplicationService.pas';
+  uTinyBrowser2 in 'uTinyBrowser2.pas';
 
 {$R *.res}
 
-{$IFDEF MSWINDOWS}
 {$IFDEF WIN32}
-// CEF3 needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
-{$SetPEFlags $20}
-{$ENDIF}
+  // CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+  {$SetPEFlags $20}
 {$ENDIF}
 
 begin
-  // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
-  // https://github.com/salvadordf/CEF4Delphi/issues/89
   CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
-      Application.Initialize;
-      Application.CreateForm(TMainForm, MainForm);
-      Application.Run;
-
-      // The form needs to be destroyed *BEFORE* stopping the scheduler.
-      MainForm.Free;
-
-      GlobalFMXWorkScheduler.StopScheduler;
+      GlobalCEFApp.RunMessageLoop;
+      DestroyTinyBrowser;
     end;
 
   DestroyGlobalCEFApp;
-  DestroyGlobalFMXWorkScheduler;
 end.

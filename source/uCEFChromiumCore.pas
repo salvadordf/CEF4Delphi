@@ -682,6 +682,7 @@ type
 
       function    CreateBrowser(aParentHandle : TCefWindowHandle; aParentRect : TRect; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
       function    CreateBrowser(const aURL : ustring; const aBrowserViewComp : TCEFBrowserViewComponent; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
+      procedure   CreateBrowser(const aWindowName : ustring); overload; virtual;
 
       procedure   LoadURL(const aURL : ustring; const aFrameName : ustring = ''); overload;
       procedure   LoadURL(const aURL : ustring; const aFrame : ICefFrame); overload;
@@ -1886,6 +1887,34 @@ begin
   finally
     TempGlobalContext := nil;
     TempNewContext    := nil;
+  end;
+end;
+
+procedure TChromiumCore.CreateBrowser(const aWindowName : ustring);
+begin
+  try
+    // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+    // even if you use a custom request context.
+    // If you create a browser in the initialization of your app, make sure you call this
+    // function when GlobalCEFApp.GlobalContextInitialized is TRUE.
+    // Use the GlobalCEFApp.OnContextInitialized event to know when
+    // GlobalCEFApp.GlobalContextInitialized is set to TRUE.
+    if (BrowserId    =  0)   and
+       (GlobalCEFApp <> nil) and
+       GlobalCEFApp.GlobalContextInitialized and
+       CreateClientHandler(False) then
+      begin
+        GetSettings(FBrowserSettings);
+        WindowInfoAsPopUp(FWindowInfo, 0, aWindowName);
+        CreateResourceRequestHandler;
+        CreateMediaObserver;
+        CreateDevToolsMsgObserver;
+        CreateExtensionHandler;
+        CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, nil, nil);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromiumCore.CreateBrowser', e) then raise;
   end;
 end;
 

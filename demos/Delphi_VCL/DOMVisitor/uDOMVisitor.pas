@@ -213,6 +213,15 @@ uses
 // TChromium.OnConsoleMessage event and we identify the right message thanks to
 // the preamble in the message.
 
+// Other alternative ways to send information between processes :
+// 1. Use the JavaScript functions "alert" or "prompt" : They're also limited to
+//    10000 characters in the text message but "prompt" doesn't have limits for the
+//    value (defaultPromptText). https://www.briskbard.com/forum/viewtopic.php?t=1251#p5324
+// 2. Use websockets or any other custom IPC message.
+// 3. Use a common database protected by a named mutex. A proces would only have to
+//    send commands to the other process when the information is ready to be read
+//    in the database.
+
 // This demo also uses DevTool methods to change the "value" attribute of an
 // INPUT HTML element. Each method is called using the
 // TChromium.ExecuteDevToolsMethod function and the results are received in the

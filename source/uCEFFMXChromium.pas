@@ -116,8 +116,15 @@ uses
 function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
                                     const aContext     : ICefRequestContext;
                                     const aExtraInfo   : ICefDictionaryValue) : boolean;
+var
+  TempHandle : TCefWindowHandle;
 begin
-  Result := inherited CreateBrowser(0, Rect(0, 0, 0, 0), aWindowName, aContext, aExtraInfo);
+  {$IFDEF MACOS}
+  TempHandle := nil;
+  {$ELSE}
+  TempHandle := 0;
+  {$ENDIF}
+  Result := inherited CreateBrowser(TempHandle, Rect(0, 0, 0, 0), aWindowName, aContext, aExtraInfo);
 end;
 
 procedure TFMXChromium.InitializeDevToolsWindowInfo;
