@@ -1891,6 +1891,8 @@ begin
 end;
 
 procedure TChromiumCore.CreateBrowser(const aWindowName : ustring);
+var
+  TempHandle : TCefWindowHandle;
 begin
   try
     // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
@@ -1905,7 +1907,8 @@ begin
        CreateClientHandler(False) then
       begin
         GetSettings(FBrowserSettings);
-        WindowInfoAsPopUp(FWindowInfo, 0, aWindowName);
+        InitializeWindowHandle(TempHandle);
+        WindowInfoAsPopUp(FWindowInfo, TempHandle, aWindowName);
         CreateResourceRequestHandler;
         CreateMediaObserver;
         CreateDevToolsMsgObserver;
