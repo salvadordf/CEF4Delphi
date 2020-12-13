@@ -59,6 +59,7 @@ object Form1: TForm1
     OnBeforeContextMenu = chrmosrBeforeContextMenu
     OnContextMenuCommand = chrmosrContextMenuCommand
     OnTooltip = chrmosrTooltip
+    OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup
     OnBeforeClose = chrmosrBeforeClose
     OnGetViewRect = chrmosrGetViewRect
@@ -67,7 +68,6 @@ object Form1: TForm1
     OnPopupShow = chrmosrPopupShow
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
-    OnCursorChange = chrmosrCursorChange
     OnVirtualKeyboardRequested = chrmosrVirtualKeyboardRequested
     Left = 40
     Top = 40

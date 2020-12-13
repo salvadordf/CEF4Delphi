@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,33 +35,39 @@
  *
  *)
 
-program SimpleOSRBrowser;
+program WebpageSnapshot;
 
-{$mode objfpc}{$H+}
+{$MODE Delphi}
+
+{$I cef.inc}
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
-  cthreads,
-  {$ENDIF}{$ENDIF}
-  Interfaces, // this includes the LCL widgetset
-  Forms, uSimpleOSRBrowser,
-  { you can add units after this }
-  uCEFApplication;
+  {$IFDEF DELPHI16_UP}
+  Vcl.Forms,
+  {$ELSE}
+  Forms, Interfaces,
+  {$ENDIF}
+  uCEFApplication,
+  uCEFBrowserThread in 'uCEFBrowserThread.pas',
+  uWebpageSnapshot in 'uWebpageSnapshot.pas' {WebpageSnapshotFrm};
 
-{$R *.res}
+{.$R *.res}
+
+{$IFDEF WIN32}
+  // CEF3 needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+  {$SetPEFlags $20}
+{$ENDIF}
 
 begin
   CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then
     begin
-      RequireDerivedFormResource:=True;
-      Application.Scaled:=True;
       Application.Initialize;
-      Application.CreateForm(TForm1, Form1);
+      Application.MainFormOnTaskbar := True;
+      Application.CreateForm(TWebpageSnapshotFrm, WebpageSnapshotFrm);
       Application.Run;
     end;
 
   DestroyGlobalCEFApp;
 end.
-

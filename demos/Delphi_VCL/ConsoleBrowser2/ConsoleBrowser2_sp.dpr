@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright Â© 2018 Salvador DÃ­az Fau. All rights reserved.
+//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,33 +35,25 @@
  *
  *)
 
-program SimpleBrowser2;
+program ConsoleBrowser2_sp;
 
-{$mode objfpc}{$H+}
+{$I cef.inc}
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
-  cthreads,
-  {$ENDIF}{$ENDIF}
-  Interfaces, // this includes the LCL widgetset
-  Forms, uSimpleBrowser2,
-  { you can add units after this }
-  uCEFApplication;
+  uCEFApplicationCore;
 
-{$R *.res}
+{$IFDEF WIN32}
+  // CEF3 needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+  {$SetPEFlags $20}
+{$ENDIF}
 
 begin
-  CreateGlobalCEFApp;
-
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      RequireDerivedFormResource:=True;
-      Application.Scaled:=True;
-      Application.Initialize;
-      Application.CreateForm(TForm1, Form1);
-      Application.Run;
-    end;
-
+  GlobalCEFApp                            := TCefApplicationCore.Create;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.EnableHighDPISupport       := True;
+  GlobalCEFApp.ShowMessageDlg             := False;
+  GlobalCEFApp.BlinkSettings              := 'hideScrollbars';
+  GlobalCEFApp.StartSubProcess;
   DestroyGlobalCEFApp;
 end.
 

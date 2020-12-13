@@ -45,13 +45,13 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   System.SyncObjs, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Vcl.AppEvnts, WinApi.imm,
+  Vcl.ExtCtrls, Vcl.AppEvnts, WinApi.imm, Vcl.ComCtrls,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
-  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
+  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFSentinel, uCEFChromiumCore, Vcl.ComCtrls;
+  uCEFChromiumCore;
 
 const
   // Set this constant to True and load "file://transparency.html" to test a

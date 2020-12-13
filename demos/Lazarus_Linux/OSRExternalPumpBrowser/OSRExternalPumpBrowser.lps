@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="12">
+      <Unit0>
+        <Filename Value="OSRExternalPumpBrowser.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="39"/>
+        <CursorPos X="30" Y="66"/>
+        <UsageCount Value="28"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="OSRExternalPumpBrowserFrm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="67"/>
+        <CursorPos X="63" Y="108"/>
+        <UsageCount Value="28"/>
+        <Bookmarks Count="1">
+          <Item0 X="72" Y="518" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\..\source\uCEFApplication.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="412"/>
+        <CursorPos X="39" Y="425"/>
+        <UsageCount Value="11"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\source\uCEFInterfaces.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="157"/>
+        <CursorPos X="100" Y="168"/>
+        <UsageCount Value="11"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="C:\lazarus\lcl\lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="59"/>
+        <CursorPos X="32" Y="68"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5667"/>
+        <CursorPos Y="5683"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\..\source\uCEFMediaObserver.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="266"/>
+        <CursorPos X="13" Y="86"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\source\uCEFLinkedWindowParent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="61"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\source\uCEFChromiumCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="904"/>
+        <CursorPos Y="925"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\source\uCEFMediaObserverComponent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="115"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\..\..\..\usr\share\fpcsrc\3.2.0\rtl\wince\windows.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="25"/>
+        <CursorPos X="5" Y="44"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\SimpleOSRBrowser\usimpleosrbrowser.pas"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uSimpleOSRBrowser"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="150"/>
+        <CursorPos X="80" Y="175"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+    </Units>
+    <JumpHistory Count="21" HistoryIndex="20">
+      <Position1>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="762" Column="73" TopLine="739"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="123" Column="30" TopLine="104"/>
+      </Position2>
+      <Position3>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="203" Column="18" TopLine="171"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="209" Column="18" TopLine="177"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="415" Column="24" TopLine="383"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="420" Column="30" TopLine="388"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="468" Column="74" TopLine="447"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="50" Column="20" TopLine="27"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="162" Column="52" TopLine="125"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="170" Column="65" TopLine="133"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="162" Column="37" TopLine="130"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="616" Column="82" TopLine="596"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="77" TopLine="58"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="668" Column="56" TopLine="651"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="127" Column="34" TopLine="109"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="595" Column="42" TopLine="573"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="115" Column="41" TopLine="100"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="641" Column="54" TopLine="614"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="121" TopLine="102"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="537" TopLine="506"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
+        <Caret Line="639" Column="84" TopLine="632"/>
+      </Position21>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

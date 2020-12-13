@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="6">
+      <Unit0>
+        <Filename Value="WebpageSnapshot.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="45"/>
+        <CursorPos X="37" Y="58"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="637"/>
+        <CursorPos X="70" Y="657"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="uWebpageSnapshot.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="139"/>
+        <CursorPos X="74" Y="162"/>
+        <UsageCount Value="23"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\fuse\src\fuse.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="234"/>
+        <CursorPos X="77" Y="256"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="C:\lazarus\lcl\include\statuspanels.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5"/>
+        <CursorPos Y="29"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\source\uCEFBufferPanel.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="628"/>
+        <CursorPos Y="644"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+    </Units>
+    <JumpHistory Count="25" HistoryIndex="24">
+      <Position1>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="381" TopLine="361"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="383" TopLine="361"/>
+      </Position2>
+      <Position3>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="384" TopLine="361"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="386" TopLine="363"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="388" TopLine="365"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="390" TopLine="367"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="392" TopLine="369"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="394" TopLine="371"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="396" TopLine="373"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="397" TopLine="374"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="398" TopLine="375"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="397" TopLine="375"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="400" TopLine="377"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="401" TopLine="378"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="403" TopLine="380"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="404" TopLine="381"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="406" TopLine="383"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="595" TopLine="570"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="336" Column="203" TopLine="334"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="98" Column="191" TopLine="98"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="351" Column="65" TopLine="418"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="644" TopLine="630"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="337" TopLine="333"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="651" TopLine="637"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <Caret Line="653" TopLine="637"/>
+      </Position25>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

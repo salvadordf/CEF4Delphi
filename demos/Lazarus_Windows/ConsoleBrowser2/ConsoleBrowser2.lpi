@@ -2,17 +2,19 @@
 <CONFIG>
   <ProjectOptions>
     <Version Value="11"/>
+    <PathDelim Value="\"/>
     <General>
+      <Flags>
+        <MainUnitHasUsesSectionForAllUnits Value="False"/>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="SimpleBrowser2"/>
-      <Scaled Value="True"/>
+      <Title Value="ConsoleBrowser2"/>
+      <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
-      <UseXPManifest Value="True"/>
-      <XPManifest>
-        <DpiAware Value="True"/>
-      </XPManifest>
-      <Icon Value="0"/>
     </General>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -33,39 +35,38 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
-        <Filename Value="SimpleBrowser2.lpr"/>
+        <Filename Value="ConsoleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="usimplebrowser2.pas"/>
+        <Filename Value="uEncapsulatedBrowser.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="uSimpleBrowser2"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="uCEFBrowserThread.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
+    <PathDelim Value="\"/>
     <Target>
-      <Filename Value="../../../../bin/SimpleBrowser2"/>
+      <Filename Value="..\..\..\bin\ConsoleBrowser2"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
-    <Linking>
-      <Options>
-        <Win32>
-          <GraphicApplication Value="True"/>
-        </Win32>
-      </Options>
-    </Linking>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
     <Other>
-      <CustomOptions Value="-dUseCthreads"/>
+      <CustomOptions Value="-dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL"/>
     </Other>
   </CompilerOptions>
   <Debugging>

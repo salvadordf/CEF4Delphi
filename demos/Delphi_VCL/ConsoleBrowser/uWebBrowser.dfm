@@ -42,6 +42,7 @@ object WebBrowserFrm: TWebBrowserFrm
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip
+    OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
@@ -51,7 +52,6 @@ object WebBrowserFrm: TWebBrowserFrm
     OnPopupShow = chrmosrPopupShow
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
-    OnCursorChange = chrmosrCursorChange
     Left = 24
     Top = 56
   end

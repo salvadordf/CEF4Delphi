@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="6">
+      <Unit0>
+        <Filename Value="SimpleOSRBrowser.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="8" Y="45"/>
+        <UsageCount Value="23"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uSimpleOSRBrowser"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="165"/>
+        <CursorPos X="32" Y="726"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="/usr/share/lazarus/2.0.6/lcl/lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="52"/>
+        <CursorPos X="3" Y="68"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="../../../../source/uCEFMiscFunctions.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1889"/>
+        <CursorPos X="27" Y="1907"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../../../../source/uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="432"/>
+        <CursorPos X="29" Y="445"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/objpas/sysutils/finah.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="10" Y="33"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+    </Units>
+    <JumpHistory Count="5" HistoryIndex="4">
+      <Position1>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="137" Column="44" TopLine="124"/>
+      </Position1>
+      <Position2>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="138" Column="30" TopLine="124"/>
+      </Position2>
+      <Position3>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="389" Column="18" TopLine="360"/>
+      </Position3>
+      <Position4>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="575" Column="48" TopLine="555"/>
+      </Position4>
+      <Position5>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="581" Column="30" TopLine="555"/>
+      </Position5>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

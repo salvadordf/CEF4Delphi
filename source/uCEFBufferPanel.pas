@@ -94,7 +94,7 @@ type
       function  GetBufferBits : pointer;
       function  GetBufferWidth : integer;
       function  GetBufferHeight : integer;
-      function  GetScreenScale : single;
+      function  GetScreenScale : single; virtual;
       {$IFDEF MSWINDOWS}
       function  GetParentFormHandle : TCefWindowHandle;
       function  GetParentForm : TCustomForm;

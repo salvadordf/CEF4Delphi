@@ -56,6 +56,7 @@ uses
 const
   MINIBROWSER_CONTEXTMENU_REGSCHEME    = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_CLEARFACT    = MENU_ID_USER_FIRST + 2;
+  MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS = MENU_ID_USER_FIRST + 3;
 
   CUSTOM_SCHEME_NAME = 'hello';
 
@@ -148,6 +149,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                    := TCefApplication.Create;
   GlobalCEFApp.OnRegCustomSchemes := GlobalCEFApp_OnRegCustomSchemes;
+  GlobalCEFApp.DisableWebSecurity := True;
 
   // GlobalCEFApp.LogFile              := 'debug.log';
   // GlobalCEFApp.LogSeverity          := LOGSEVERITY_VERBOSE;
@@ -171,6 +173,7 @@ procedure TSchemeRegistrationBrowserFrm.Chromium1BeforeContextMenu(
 begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_REGSCHEME,   'Register scheme');
   model.AddItem(MINIBROWSER_CONTEXTMENU_CLEARFACT,   'Clear schemes');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
 end;
 
 procedure TSchemeRegistrationBrowserFrm.Chromium1BeforePopup(
@@ -198,6 +201,7 @@ procedure TSchemeRegistrationBrowserFrm.Chromium1ContextMenuCommand(
   const params: ICefContextMenuParams; commandId: Integer;
   eventFlags: Cardinal; out Result: Boolean);
 var
+  TempPoint : TPoint;
   TempFactory: ICefSchemeHandlerFactory;
 begin
   Result := False;
@@ -222,6 +226,13 @@ begin
           if not(browser.host.RequestContext.ClearSchemeHandlerFactories) then
             MessageDlg('ClearSchemeHandlerFactories error !', mtError, [mbOk], 0);
         end;
+
+    MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
+      begin
+        TempPoint.x := params.XCoord;
+        TempPoint.y := params.YCoord;
+        Chromium1.ShowDevTools(TempPoint, nil);
+      end;
   end;
 end;
 
@@ -245,6 +256,7 @@ end;
 
 procedure TSchemeRegistrationBrowserFrm.FormShow(Sender: TObject);
 begin
+  Chromium1.DefaultURL := AddressCbx.Text;
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
@@ -266,7 +278,6 @@ procedure TSchemeRegistrationBrowserFrm.BrowserCreatedMsg(var aMessage : TMessag
 begin
   CEFWindowParent1.UpdateSize;
   AddressBarPnl.Enabled := True;
-  GoBtn.Click;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);

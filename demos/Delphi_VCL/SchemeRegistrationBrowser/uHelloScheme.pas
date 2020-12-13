@@ -69,6 +69,9 @@ type
 
 implementation
 
+uses
+  uCEFConstants;
+
 constructor THelloScheme.Create(const browser    : ICefBrowser;
                                 const frame      : ICefFrame;
                                 const schemeName : ustring;
@@ -115,15 +118,17 @@ end;
 
 function THelloScheme.ProcessRequest(const request : ICefRequest; const callback : ICefCallback): Boolean;
 var
-  TempFilename, TempExt : string;
+  TempFilename, TempExt, TempMessageTxt : string;
   TempParts : TUrlParts;
   TempFile : TFileStream;
+  TempResp : TStringStream;
 begin
   Result      := False;
   FStatus     := 404;
   FStatusText := 'ERROR';
   FMimeType   := '';
   TempFile    := nil;
+  TempResp    := nil;
 
   try
     try
@@ -132,54 +137,51 @@ begin
           TempFilename := '';
           FStream.Clear;
 
-          if CefParseUrl(Request.URL, TempParts) then
+          if CefParseUrl(Request.URL, TempParts) and
+             (length(TempParts.path) > 0) and
+             (TempParts.path <> '/') then
             begin
-              if (length(TempParts.path) > 0) and
-                 (TempParts.path <> '/') then
-                begin
-                  TempFilename := TempParts.path;
+              TempFilename := TempParts.path;
 
-                  if (length(TempFilename) > 0) and (TempFilename[1] = '/') then
-                    TempFilename := copy(TempFilename, 2, length(TempFilename));
+              if (length(TempFilename) > 0) and (TempFilename[1] = '/') then
+                TempFilename := copy(TempFilename, 2, length(TempFilename));
 
-                  if (length(TempFilename) > 0) and (TempFilename[length(TempFilename)] = '/') then
-                    TempFilename := copy(TempFilename, 1, length(TempFilename) - 1);
-
-                  if (length(TempFilename) > 0) and not(FileExists(TempFilename)) then
-                    TempFilename := '';
-                end;
-
-              if (length(TempFilename) = 0) and
-                 (length(TempParts.host) > 0) and
-                 (TempParts.host <> '/') then
-                begin
-                  TempFilename := TempParts.host;
-
-                  if (length(TempFilename) > 0) and (TempFilename[1] = '/') then
-                    TempFilename := copy(TempFilename, 2, length(TempFilename));
-
-                  if (length(TempFilename) > 0) and (TempFilename[length(TempFilename)] = '/') then
-                    TempFilename := copy(TempFilename, 1, length(TempFilename) - 1);
-
-                  if (length(TempFilename) > 0) and not(FileExists(TempFilename)) then
-                    TempFilename := '';
-                end;
+              if (length(TempFilename) > 0) and (TempFilename[length(TempFilename)] = '/') then
+                TempFilename := copy(TempFilename, 1, length(TempFilename) - 1);
             end;
 
           if (length(TempFilename) > 0) then
             begin
-              TempExt := ExtractFileExt(TempFilename);
+              if (CompareText(TempFilename, 'customrequest') = 0) then
+                begin
+                  Result      := True;
+                  FStatus     := 200;
+                  FStatusText := 'OK';
 
-              if (length(TempExt) > 0) and (TempExt[1] = '.') then
-                TempExt := copy(TempExt, 2, length(TempExt));
+                  // This could be any information that your application needs to send to JS.
+                  TempMessageTxt := 'This is the response from Delphi!' + CRLF + CRLF +
+                                    'Request query : ' + TempParts.query;
 
-              Result      := True;
-              FStatus     := 200;
-              FStatusText := 'OK';
-              FMimeType   := CefGetMimeType(TempExt);
-              TempFile    := TFileStream.Create(TempFilename, fmOpenRead);
-              TempFile.Seek(0, soFromBeginning);
-              FStream.LoadFromStream(TStream(TempFile));
+                  TempResp := TStringStream.Create(TempMessageTxt);
+                  TempResp.Seek(0, soFromBeginning);
+                  FStream.LoadFromStream(TStream(TempResp));
+                end
+               else
+                if FileExists(TempFilename) then
+                  begin
+                    TempExt := ExtractFileExt(TempFilename);
+
+                    if (length(TempExt) > 0) and (TempExt[1] = '.') then
+                      TempExt := copy(TempExt, 2, length(TempExt));
+
+                    FMimeType   := CefGetMimeType(TempExt);
+                    Result      := True;
+                    FStatus     := 200;
+                    FStatusText := 'OK';
+                    TempFile    := TFileStream.Create(TempFilename, fmOpenRead);
+                    TempFile.Seek(0, soFromBeginning);
+                    FStream.LoadFromStream(TStream(TempFile));
+                  end;
             end;
 
           FStream.Seek(0, soFromBeginning);
@@ -191,6 +193,7 @@ begin
   finally
     if (callback <> nil) then callback.Cont;
     if (TempFile <> nil) then FreeAndNil(TempFile);
+    if (TempResp <> nil) then FreeAndNil(TempResp);
   end;
 end;
 

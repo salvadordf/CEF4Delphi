@@ -2,17 +2,19 @@
 <CONFIG>
   <ProjectOptions>
     <Version Value="11"/>
+    <PathDelim Value="\"/>
     <General>
+      <Flags>
+        <MainUnitHasUsesSectionForAllUnits Value="False"/>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="SimpleOSRBrowser"/>
-      <Scaled Value="True"/>
+      <Title Value="OSRExternalPumpBrowser"/>
+      <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
-      <UseXPManifest Value="True"/>
-      <XPManifest>
-        <DpiAware Value="True"/>
-      </XPManifest>
-      <Icon Value="0"/>
     </General>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -35,28 +37,33 @@
     </RequiredPackages>
     <Units Count="2">
       <Unit0>
-        <Filename Value="SimpleOSRBrowser.lpr"/>
+        <Filename Value="OSRExternalPumpBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="usimpleosrbrowser.pas"/>
+        <Filename Value="uOSRExternalPumpBrowser.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="OSRExternalPumpBrowserFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="uSimpleOSRBrowser"/>
       </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
+    <PathDelim Value="\"/>
     <Target>
-      <Filename Value="../../../../bin/SimpleOSRBrowser"/>
+      <Filename Value="..\..\..\bin\OSRExternalPumpBrowser"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
     <Linking>
       <Options>
         <Win32>
@@ -65,7 +72,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-dUseCthreads"/>
+      <CustomOptions Value="-dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL -dUseCthreads"/>
     </Other>
   </CompilerOptions>
   <Debugging>

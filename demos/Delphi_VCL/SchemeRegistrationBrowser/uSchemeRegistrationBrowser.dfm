@@ -51,10 +51,10 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
       Align = alClient
       ItemIndex = 1
       TabOrder = 1
-      Text = 'hello://test.html'
+      Text = 'hello://localhost/test.html'
       Items.Strings = (
         'https://www.google.com'
-        'hello://test.html'
+        'hello://localhost/test.html'
         'file://test.html')
     end
   end
