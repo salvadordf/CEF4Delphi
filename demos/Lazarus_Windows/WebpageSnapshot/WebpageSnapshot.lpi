@@ -47,7 +47,9 @@
       <Unit2>
         <Filename Value="uWebpageSnapshot.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="WebpageSnapshotFrm"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit2>
     </Units>
   </ProjectOptions>

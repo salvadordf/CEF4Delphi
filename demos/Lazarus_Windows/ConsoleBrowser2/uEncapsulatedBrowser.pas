@@ -152,6 +152,16 @@ begin
   GlobalCEFApp.BrowserSubprocessPath      := 'ConsoleBrowser2_sp.exe'; // This is the other EXE for the CEF subprocesses. It's on the same directory as this app.
   GlobalCEFApp.BlinkSettings              := 'hideScrollbars';         // This setting removes all scrollbars to capture a cleaner snapshot
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
+
+  {
+    // In case you use a custom directory for the CEF binaries you have to set these properties
+    // here and in the subprocess
+    GlobalCEFApp.FrameworkDirPath     := 'c:\cef';
+    GlobalCEFApp.ResourcesDirPath     := 'c:\cef';
+    GlobalCEFApp.LocalesDirPath       := 'c:\cef\locales';
+    GlobalCEFApp.SetCurrentDir        := True;
+  }
+
   GlobalCEFApp.StartMainProcess;
 end;
 
@@ -208,17 +218,19 @@ begin
   if (length(FThread.FailedUrl) > 0) then
     FErrorText := FErrorText + ' - ' + FThread.FailedUrl;
 
-  MainAppEvent.SetEvent;
+  if assigned(MainAppEvent) then
+    MainAppEvent.SetEvent;
 end;
 
 procedure TEncapsulatedBrowser.Thread_OnSnapshotAvailable(Sender: TObject);
 begin
   // This code is executed in the TCEFBrowserThread thread context while the main application thread is waiting for MainAppEvent.
 
-  if not(FThread.SaveSnapshotToFile(FSnapshotPath)) then
+  if (FThread = nil) or not(FThread.SaveSnapshotToFile(FSnapshotPath)) then
     FErrorText := 'There was an error copying the snapshot';
 
-  MainAppEvent.SetEvent;
+  if assigned(MainAppEvent) then
+    MainAppEvent.SetEvent;
 end;
 
 initialization

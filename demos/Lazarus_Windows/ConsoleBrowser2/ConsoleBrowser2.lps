@@ -8,9 +8,8 @@
       <Unit0>
         <Filename Value="ConsoleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="37"/>
-        <CursorPos X="101" Y="71"/>
+        <TopLine Value="83"/>
+        <CursorPos X="45" Y="84"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -18,10 +17,12 @@
       <Unit1>
         <Filename Value="uEncapsulatedBrowser.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="203"/>
-        <CursorPos X="31" Y="225"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="141"/>
+        <CursorPos X="3" Y="222"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>

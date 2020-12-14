@@ -84,16 +84,19 @@ type
       FErrorText             : ustring;
       FFailedUrl             : ustring;
       FPendingUrl            : ustring;
+      FSyncEvents            : boolean;
 
       function  GetErrorCode : integer;
       function  GetErrorText : ustring;
       function  GetFailedUrl : ustring;
       function  GetInitialized : boolean;
 
+      procedure SetErrorText(const aValue : ustring);
+
       procedure Panel_OnResize(Sender: TObject);
 
       procedure Browser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
-      procedure Browser_OnPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
+      procedure Browser_OnPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; aWidth, aHeight: Integer);
       procedure Browser_OnGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
       procedure Browser_OnGetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
       procedure Browser_OnGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
@@ -104,13 +107,15 @@ type
       procedure Browser_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
       procedure Browser_OnLoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 
+      procedure DoOnError;
+      procedure DoOnSnapshotAvailable;
       procedure Resize;
       function  CreateBrowser : boolean;
-      procedure TakeSnapshot;
+      function  TakeSnapshot : boolean;
       procedure CloseBrowser;
-      procedure DoOnError;
       procedure InitError;
       procedure WebpagePostProcessing;
+      procedure WebpageError;
       procedure LoadPendingURL;
       procedure Execute; override;
 
@@ -124,9 +129,11 @@ type
       procedure   LoadUrl(const aURL : ustring);
 
       property ErrorCode             : integer           read GetErrorCode;
-      property ErrorText             : ustring           read GetErrorText;
+      property ErrorText             : ustring           read GetErrorText             write SetErrorText;
       property FailedUrl             : ustring           read GetFailedUrl;
       property Initialized           : boolean           read GetInitialized;
+      property Closing               : boolean           read FClosing;
+      property SyncEvents            : boolean           read FSyncEvents              write FSyncEvents;
 
       property OnSnapshotAvailable   : TNotifyEvent      read FOnSnapshotAvailable     write FOnSnapshotAvailable;
       property OnError               : TNotifyEvent      read FOnError                 write FOnError;
@@ -178,6 +185,7 @@ begin
   FOnSnapshotAvailable   := nil;
   FOnError               := nil;
   FClosing               := False;
+  FSyncEvents            := False;
 end;
 
 destructor TCEFBrowserThread.Destroy;
@@ -234,23 +242,41 @@ end;
 
 function TCEFBrowserThread.GetErrorCode : integer;
 begin
-  FBrowserInfoCS.Acquire;
-  Result := FErrorCode;
-  FBrowserInfoCS.Release;
+  if assigned(FBrowserInfoCS) then
+    try
+      FBrowserInfoCS.Acquire;
+      Result := FErrorCode;
+    finally
+      FBrowserInfoCS.Release;
+    end
+   else
+    Result := 0;
 end;
 
 function TCEFBrowserThread.GetErrorText : ustring;
 begin
-  FBrowserInfoCS.Acquire;
-  Result := FErrorText;
-  FBrowserInfoCS.Release;
+  if assigned(FBrowserInfoCS) then
+    try
+      FBrowserInfoCS.Acquire;
+      Result := FErrorText;
+    finally
+      FBrowserInfoCS.Release;
+    end
+   else
+    Result := '';
 end;
 
 function TCEFBrowserThread.GetFailedUrl : ustring;
 begin
-  FBrowserInfoCS.Acquire;
-  Result := FFailedUrl;
-  FBrowserInfoCS.Release;
+  if assigned(FBrowserInfoCS) then
+    try
+      FBrowserInfoCS.Acquire;
+      Result := FFailedUrl;
+    finally
+      FBrowserInfoCS.Release;
+    end
+   else
+    Result := '';
 end;
 
 function TCEFBrowserThread.GetInitialized : boolean;
@@ -266,69 +292,85 @@ begin
     end;
 end;
 
+procedure TCEFBrowserThread.SetErrorText(const aValue : ustring);
+begin
+  if assigned(FBrowserInfoCS) then
+    try
+      FBrowserInfoCS.Acquire;
+      FErrorText := aValue;
+    finally
+      FBrowserInfoCS.Release;
+    end;
+end;
+
 function TCEFBrowserThread.CopySnapshot(var aSnapshot : TBitmap) : boolean;
 begin
   Result := False;
 
-  if FClosing or Terminated or (FBrowserInfoCS = nil) then exit;
+  if FClosing or Terminated or not(Initialized) then exit;
 
-  try
+  if assigned(FBrowserInfoCS) then
     try
-      FBrowserInfoCS.Acquire;
+      try
+        FBrowserInfoCS.Acquire;
 
-      if assigned(FSnapshot) and not(FSnapshot.Empty) then
-        begin
-          if (aSnapshot = nil) then
-            begin
-              aSnapshot             := TBitmap.Create;
-              aSnapshot.PixelFormat := pf32bit;
-              aSnapshot.HandleType  := bmDIB;
-              aSnapshot.Width       := FSnapshot.Width;
-              aSnapshot.Height      := FSnapshot.Height;
-            end;
+        if assigned(FSnapshot) and not(FSnapshot.Empty) then
+          begin
+            if (aSnapshot = nil) then
+              begin
+                aSnapshot             := TBitmap.Create;
+                aSnapshot.PixelFormat := pf32bit;
+                aSnapshot.HandleType  := bmDIB;
+              end;
 
-          aSnapshot.Assign(FSnapshot);
-          Result := True;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCEFBrowserThread.CopySnapshot', e) then raise;
+            if (aSnapshot.Width <> FSnapshot.Width) then
+              aSnapshot.Width := FSnapshot.Width;
+
+            if (aSnapshot.Height <> FSnapshot.Height) then
+              aSnapshot.Height := FSnapshot.Height;
+
+            aSnapshot.Canvas.Draw(0, 0, FSnapshot);
+            Result := True;
+          end;
+      except
+        on e : exception do
+          if CustomExceptionHandler('TCEFBrowserThread.CopySnapshot', e) then raise;
+      end;
+    finally
+      FBrowserInfoCS.Release;
     end;
-  finally
-    FBrowserInfoCS.Release;
-  end;
 end;
 
 function TCEFBrowserThread.SaveSnapshotToFile(const aPath : ustring) : boolean;
 begin
   Result := False;
 
-  if (FBrowserInfoCS = nil) then exit;
+  if FClosing or Terminated or not(Initialized) then exit;
 
-  try
+  if assigned(FBrowserInfoCS) and (length(aPath) > 0) then
     try
-      FBrowserInfoCS.Acquire;
+      try
+        FBrowserInfoCS.Acquire;
 
-      if assigned(FSnapshot) and not(FSnapshot.Empty) then
-        begin
-          FSnapshot.SaveToFile(aPath);
-          Result := True;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCEFBrowserThread.SaveSnapshotToFile', e) then raise;
+        if assigned(FSnapshot) and not(FSnapshot.Empty) then
+          begin
+            FSnapshot.SaveToFile(aPath);
+            Result := True;
+          end;
+      except
+        on e : exception do
+          if CustomExceptionHandler('TCEFBrowserThread.SaveSnapshotToFile', e) then raise;
+      end;
+    finally
+      FBrowserInfoCS.Release;
     end;
-  finally
-    FBrowserInfoCS.Release;
-  end;
 end;
 
 procedure TCEFBrowserThread.LoadUrl(const aURL : ustring);
 begin
-  if FClosing or Terminated or (FBrowserInfoCS = nil) then
-    exit;
+  if FClosing or Terminated or not(Initialized) then exit;
 
-  if Initialized then
+  if assigned(FBrowserInfoCS) then
     try
       FBrowserInfoCS.Acquire;
       FPendingUrl := aURL;
@@ -351,12 +393,16 @@ end;
 
 procedure TCEFBrowserThread.Browser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  FBrowserInfoCS.Acquire;
-  FInitialized := True;
-  FBrowserInfoCS.Release;
+  if assigned(FBrowserInfoCS) then
+    try
+      FBrowserInfoCS.Acquire;
+      FInitialized := True;
+    finally
+      FBrowserInfoCS.Release;
+    end;
 end;
 
-procedure TCEFBrowserThread.Browser_OnPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
+procedure TCEFBrowserThread.Browser_OnPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; aWidth, aHeight: Integer);
 var
   src, dst: PByte;
   i, j, TempLineSize, TempSrcOffset, TempDstOffset, SrcStride, DstStride : Integer;
@@ -366,112 +412,116 @@ var
   TempForcedResize : boolean;
   TempSrcRect : TRect;
 begin
-  try
-    FResizeCS.Acquire;
-    TempForcedResize := False;
+  if assigned(FResizeCS) and assigned(FPanel) then
+    try
+      FResizeCS.Acquire;
+      TempForcedResize := False;
 
-    if FPanel.BeginBufferDraw then
-      begin
-        if (kind = PET_POPUP) then
-          begin
-            if (FPopUpBitmap = nil) or
-               (width  <> FPopUpBitmap.Width) or
-               (height <> FPopUpBitmap.Height) then
-              begin
-                if (FPopUpBitmap <> nil) then FPopUpBitmap.Free;
+      if FPanel.BeginBufferDraw then
+        begin
+          if (kind = PET_POPUP) then
+            begin
+              if (FPopUpBitmap = nil) or
+                 (aWidth  <> FPopUpBitmap.Width) or
+                 (aHeight <> FPopUpBitmap.Height) then
+                begin
+                  if (FPopUpBitmap <> nil) then FPopUpBitmap.Free;
 
-                FPopUpBitmap             := TBitmap.Create;
-                FPopUpBitmap.PixelFormat := pf32bit;
-                FPopUpBitmap.HandleType  := bmDIB;
-                FPopUpBitmap.Width       := width;
-                FPopUpBitmap.Height      := height;
-              end;
+                  FPopUpBitmap             := TBitmap.Create;
+                  FPopUpBitmap.PixelFormat := pf32bit;
+                  FPopUpBitmap.HandleType  := bmDIB;
+                  FPopUpBitmap.Width       := aWidth;
+                  FPopUpBitmap.Height      := aHeight;
+                end;
 
-            TempWidth        := FPopUpBitmap.Width;
-            TempHeight       := FPopUpBitmap.Height;
-            TempScanlineSize := FPopUpBitmap.Width * SizeOf(TRGBQuad);
-            TempBufferBits   := FPopUpBitmap.Scanline[pred(FPopUpBitmap.Height)];
-          end
-         else
-          begin
-            TempForcedResize := FPanel.UpdateBufferDimensions(Width, Height) or not(FPanel.BufferIsResized(False));
-            TempWidth        := FPanel.BufferWidth;
-            TempHeight       := FPanel.BufferHeight;
-            TempScanlineSize := FPanel.ScanlineSize;
-            TempBufferBits   := FPanel.BufferBits;
-          end;
+              TempWidth        := FPopUpBitmap.Width;
+              TempHeight       := FPopUpBitmap.Height;
+              TempScanlineSize := FPopUpBitmap.Width * SizeOf(TRGBQuad);
+              TempBufferBits   := FPopUpBitmap.Scanline[pred(FPopUpBitmap.Height)];
+            end
+           else
+            begin
+              TempForcedResize := FPanel.UpdateBufferDimensions(aWidth, aHeight) or not(FPanel.BufferIsResized(False));
+              TempWidth        := FPanel.BufferWidth;
+              TempHeight       := FPanel.BufferHeight;
+              TempScanlineSize := FPanel.ScanlineSize;
+              TempBufferBits   := FPanel.BufferBits;
+            end;
 
-        if (TempBufferBits <> nil) then
-          begin
-            SrcStride := Width * SizeOf(TRGBQuad);
-            DstStride := - TempScanlineSize;
+          if (TempBufferBits <> nil) then
+            begin
+              SrcStride := aWidth * SizeOf(TRGBQuad);
+              DstStride := - TempScanlineSize;
 
-            n := 0;
+              n := 0;
 
-            while (n < dirtyRectsCount) do
-              begin
-                if (dirtyRects[n].x >= 0) and (dirtyRects[n].y >= 0) then
-                  begin
-                    TempLineSize := min(dirtyRects[n].width, TempWidth - dirtyRects[n].x) * SizeOf(TRGBQuad);
+              while (n < dirtyRectsCount) do
+                begin
+                  if (dirtyRects[n].x >= 0) and (dirtyRects[n].y >= 0) then
+                    begin
+                      TempLineSize := min(dirtyRects[n].width, TempWidth - dirtyRects[n].x) * SizeOf(TRGBQuad);
 
-                    if (TempLineSize > 0) then
-                      begin
-                        TempSrcOffset := ((dirtyRects[n].y * Width) + dirtyRects[n].x) * SizeOf(TRGBQuad);
-                        TempDstOffset := ((TempScanlineSize * pred(TempHeight)) - (dirtyRects[n].y * TempScanlineSize)) +
-                                         (dirtyRects[n].x * SizeOf(TRGBQuad));
+                      if (TempLineSize > 0) then
+                        begin
+                          TempSrcOffset := ((dirtyRects[n].y * aWidth) + dirtyRects[n].x) * SizeOf(TRGBQuad);
+                          TempDstOffset := ((TempScanlineSize * pred(TempHeight)) - (dirtyRects[n].y * TempScanlineSize)) +
+                                           (dirtyRects[n].x * SizeOf(TRGBQuad));
 
-                        src := @PByte(buffer)[TempSrcOffset];
-                        dst := @PByte(TempBufferBits)[TempDstOffset];
+                          src := @PByte(buffer)[TempSrcOffset];
+                          dst := @PByte(TempBufferBits)[TempDstOffset];
 
-                        i := 0;
-                        j := min(dirtyRects[n].height, TempHeight - dirtyRects[n].y);
+                          i := 0;
+                          j := min(dirtyRects[n].height, TempHeight - dirtyRects[n].y);
 
-                        while (i < j) do
-                          begin
-                            Move(src^, dst^, TempLineSize);
+                          while (i < j) do
+                            begin
+                              Move(src^, dst^, TempLineSize);
 
-                            Inc(dst, DstStride);
-                            Inc(src, SrcStride);
-                            inc(i);
-                          end;
-                      end;
-                  end;
+                              Inc(dst, DstStride);
+                              Inc(src, SrcStride);
+                              inc(i);
+                            end;
+                        end;
+                    end;
 
-                inc(n);
-              end;
+                  inc(n);
+                end;
 
-            if FShowPopup and (FPopUpBitmap <> nil) then
-              begin
-                TempSrcRect := Rect(0, 0,
-                                    min(FPopUpRect.Right  - FPopUpRect.Left, FPopUpBitmap.Width),
-                                    min(FPopUpRect.Bottom - FPopUpRect.Top,  FPopUpBitmap.Height));
+              if FShowPopup and (FPopUpBitmap <> nil) then
+                begin
+                  TempSrcRect := Rect(0, 0,
+                                      min(FPopUpRect.Right  - FPopUpRect.Left, FPopUpBitmap.Width),
+                                      min(FPopUpRect.Bottom - FPopUpRect.Top,  FPopUpBitmap.Height));
 
-                FPanel.BufferDraw(FPopUpBitmap, TempSrcRect, FPopUpRect);
-              end;
-          end;
+                  FPanel.BufferDraw(FPopUpBitmap, TempSrcRect, FPopUpRect);
+                end;
+            end;
 
-        FPanel.EndBufferDraw;
+          FPanel.EndBufferDraw;
 
-        if (kind = PET_VIEW) then
-          begin
-            if TempForcedResize or FPendingResize then
-              PostThreadMessage(ThreadID, CEF_PENDINGRESIZE, 0, 0);
+          if (kind = PET_VIEW) then
+            begin
+              if TempForcedResize or FPendingResize then
+                PostThreadMessage(ThreadID, CEF_PENDINGRESIZE, 0, 0);
 
-            FResizing      := False;
-            FPendingResize := False;
-          end;
-      end;
-  finally
-    FResizeCS.Release;
-  end;
+              FResizing      := False;
+              FPendingResize := False;
+            end;
+        end;
+    finally
+      FResizeCS.Release;
+    end;
 end;
 
 procedure TCEFBrowserThread.Browser_OnGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
 begin
-  rect.x      := 0;
-  rect.y      := 0;
-  rect.width  := DeviceToLogical(FPanel.Width,  FScreenScale);
-  rect.height := DeviceToLogical(FPanel.Height, FScreenScale);
+  if assigned(FPanel) then
+    begin
+      rect.x      := 0;
+      rect.y      := 0;
+      rect.width  := DeviceToLogical(FPanel.Width,  FScreenScale);
+      rect.height := DeviceToLogical(FPanel.Height, FScreenScale);
+    end;
 end;
 
 procedure TCEFBrowserThread.Browser_OnGetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
@@ -485,19 +535,22 @@ procedure TCEFBrowserThread.Browser_OnGetScreenInfo(Sender: TObject; const brows
 var
   TempRect : TCEFRect;
 begin
-  TempRect.x      := 0;
-  TempRect.y      := 0;
-  TempRect.width  := DeviceToLogical(FPanel.Width,  FScreenScale);
-  TempRect.height := DeviceToLogical(FPanel.Height, FScreenScale);
+  if assigned(FPanel) then
+    begin
+      TempRect.x      := 0;
+      TempRect.y      := 0;
+      TempRect.width  := DeviceToLogical(FPanel.Width,  FScreenScale);
+      TempRect.height := DeviceToLogical(FPanel.Height, FScreenScale);
 
-  screenInfo.device_scale_factor := FScreenScale;
-  screenInfo.depth               := 0;
-  screenInfo.depth_per_component := 0;
-  screenInfo.is_monochrome       := Ord(False);
-  screenInfo.rect                := TempRect;
-  screenInfo.available_rect      := TempRect;
+      screenInfo.device_scale_factor := FScreenScale;
+      screenInfo.depth               := 0;
+      screenInfo.depth_per_component := 0;
+      screenInfo.is_monochrome       := Ord(False);
+      screenInfo.rect                := TempRect;
+      screenInfo.available_rect      := TempRect;
 
-  Result := True;
+      Result := True;
+    end;
 end;
 
 procedure TCEFBrowserThread.Browser_OnPopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
@@ -536,7 +589,7 @@ end;
 
 procedure TCEFBrowserThread.Browser_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
 begin
-  if not(FClosing) and not(Terminated) and (frame <> nil) and frame.IsValid and frame.IsMain then
+  if not(FClosing) and not(Terminated) and (frame <> nil) and frame.IsValid and frame.IsMain and assigned(FBrowserInfoCS) then
     try
       FBrowserInfoCS.Acquire;
 
@@ -558,25 +611,25 @@ end;
 
 procedure TCEFBrowserThread.Resize;
 begin
-  if FClosing or Terminated or (FPanel = nil) or (FResizeCS = nil) or (FBrowser = nil) then
-    exit;
+  if FClosing or Terminated or not(Initialized) then exit;
 
-  try
-    FResizeCS.Acquire;
+  if assigned(FResizeCS) and assigned(FPanel) then
+    try
+      FResizeCS.Acquire;
 
-    if FResizing then
-      FPendingResize := True
-     else
-      if FPanel.BufferIsResized then
-        FBrowser.Invalidate(PET_VIEW)
+      if FResizing then
+        FPendingResize := True
        else
-        begin
-          FResizing := True;
-          FBrowser.WasResized;
-        end;
-  finally
-    FResizeCS.Release;
-  end;
+        if FPanel.BufferIsResized then
+          FBrowser.Invalidate(PET_VIEW)
+         else
+          begin
+            FResizing := True;
+            FBrowser.WasResized;
+          end;
+    finally
+      FResizeCS.Release;
+    end;
 end;
 
 function TCEFBrowserThread.CreateBrowser : boolean;
@@ -586,20 +639,20 @@ end;
 
 procedure TCEFBrowserThread.LoadPendingURL;
 begin
-  if FClosing or Terminated or (FBrowser = nil) or (FBrowserInfoCS = nil) then
-    exit;
+  if FClosing or Terminated or not(Initialized) then exit;
 
-  try
-    FBrowserInfoCS.Acquire;
+  if assigned(FBrowserInfoCS) then
+    try
+      FBrowserInfoCS.Acquire;
 
-    if (length(FPendingURL) > 0) then
-      begin
-        FBrowser.LoadURL(FPendingURL);
-        FPendingURL := '';
-      end;
-  finally
-    FBrowserInfoCS.Release;
-  end;
+      if (length(FPendingURL) > 0) then
+        begin
+          FBrowser.LoadURL(FPendingURL);
+          FPendingURL := '';
+        end;
+    finally
+      FBrowserInfoCS.Release;
+    end;
 end;
 
 procedure TCEFBrowserThread.WebpagePostProcessing;
@@ -610,32 +663,58 @@ begin
   if (FDelayMs > 0) then
     sleep(FDelayMs);
 
-  TakeSnapshot;
-
-  if assigned(FOnSnapshotAvailable) then FOnSnapshotAvailable(self);
+  if TakeSnapshot and assigned(FOnSnapshotAvailable) then
+    begin
+      if FSyncEvents then
+        Synchronize(DoOnSnapshotAvailable)
+       else
+        DoOnSnapshotAvailable;
+    end;
 end;
 
-procedure TCEFBrowserThread.TakeSnapshot;
+procedure TCEFBrowserThread.WebpageError;
 begin
-  if (FPanel = nil) or (FPanel.Buffer = nil) or (FBrowserInfoCS = nil) then
-    exit;
+  if not(FClosing) and not(Terminated) and assigned(FOnError) then
+    begin
+      if FSyncEvents then
+        Synchronize(DoOnError)
+       else
+        DoOnError;
+    end;
+end;
 
-  try
-    FBrowserInfoCS.Acquire;
+function TCEFBrowserThread.TakeSnapshot : boolean;
+begin
+  Result := False;
 
-    if (FSnapshot = nil) then
-      begin
-        FSnapshot             := TBitmap.Create;
-        FSnapshot.PixelFormat := pf32bit;
-        FSnapshot.HandleType  := bmDIB;
-        FSnapshot.Width       := FPanel.BufferWidth;
-        FSnapshot.Height      := FPanel.BufferHeight;
-      end;
+  if FClosing or Terminated or not(Initialized) then exit;
 
-    FSnapshot.Assign(FPanel.Buffer);
-  finally
-    FBrowserInfoCS.Release;
-  end;
+  if assigned(FBrowserInfoCS) and assigned(FPanel) and FPanel.BeginBufferDraw then
+    try
+      FBrowserInfoCS.Acquire;
+
+      if assigned(FPanel.Buffer) and not(FPanel.Buffer.Empty) then
+        begin
+          if (FSnapshot = nil) then
+            begin
+              FSnapshot             := TBitmap.Create;
+              FSnapshot.PixelFormat := pf32bit;
+              FSnapshot.HandleType  := bmDIB;
+            end;
+
+          if (FSnapshot.Width <> FPanel.BufferWidth) then
+            FSnapshot.Width := FPanel.BufferWidth;
+
+          if (FSnapshot.Height <> FPanel.BufferHeight) then
+            FSnapshot.Height := FPanel.BufferHeight;
+
+          FSnapshot.Canvas.Draw(0, 0, FPanel.Buffer);
+          Result := True;
+        end;
+    finally
+      FBrowserInfoCS.Release;
+      FPanel.EndBufferDraw;
+    end;
 end;
 
 procedure TCEFBrowserThread.CloseBrowser;
@@ -649,16 +728,22 @@ end;
 
 procedure TCEFBrowserThread.DoOnError;
 begin
-  if assigned(FOnError) then
-    FOnError(self);
+  FOnError(self);
+end;
+
+procedure TCEFBrowserThread.DoOnSnapshotAvailable;
+begin
+  FOnSnapshotAvailable(self);
 end;
 
 procedure TCEFBrowserThread.InitError;
 begin
-  FBrowserInfoCS.Acquire;
-  FErrorText := 'There was an error initializing the CEF browser.';
-  FBrowserInfoCS.Release;
-  DoOnError;
+  ErrorText := 'There was an error initializing the CEF browser.';
+
+  if FSyncEvents then
+    Synchronize(DoOnError)
+   else
+    DoOnError;
 end;
 
 procedure TCEFBrowserThread.Execute;
@@ -678,7 +763,7 @@ begin
             CEF_CLOSE_BROWSER_MSG    : CloseBrowser;
             CEF_LOAD_PENDING_URL_MSG : LoadPendingURL;
             CEF_WEBPAGE_LOADED_MSG   : WebpagePostProcessing;
-            CEF_WEBPAGE_ERROR_MSG    : DoOnError;
+            CEF_WEBPAGE_ERROR_MSG    : WebpageError;
             WM_QUIT                  : TempCont := False;
           end;
 

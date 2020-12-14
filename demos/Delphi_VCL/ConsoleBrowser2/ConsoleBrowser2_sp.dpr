@@ -53,6 +53,16 @@ begin
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ShowMessageDlg             := False;
   GlobalCEFApp.BlinkSettings              := 'hideScrollbars';
+
+{
+  // In case you use a custom directory for the CEF binaries you have to set these properties
+  // here and in the main process
+  GlobalCEFApp.FrameworkDirPath     := 'c:\cef';
+  GlobalCEFApp.ResourcesDirPath     := 'c:\cef';
+  GlobalCEFApp.LocalesDirPath       := 'c:\cef\locales';
+  GlobalCEFApp.SetCurrentDir        := True;
+}
+
   GlobalCEFApp.StartSubProcess;
   DestroyGlobalCEFApp;
 end.

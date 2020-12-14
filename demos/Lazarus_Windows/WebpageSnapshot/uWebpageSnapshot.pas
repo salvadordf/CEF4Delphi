@@ -117,6 +117,7 @@ begin
       FThread                     := TCEFBrowserThread.Create(AddressEdt.Text, 1024, 768);
       FThread.OnError             := Thread_OnError;
       FThread.OnSnapshotAvailable := Thread_OnSnapshotAvailable;
+      FThread.SyncEvents          := True;
       FThread.Start;
     end
    else
