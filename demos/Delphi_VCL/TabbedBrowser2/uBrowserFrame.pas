@@ -95,6 +95,8 @@ type
       FOnBrowserDestroyed   : TNotifyEvent;
       FOnBrowserTitleChange : TBrowserTitleEvent;
 
+      function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
+
       procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
       procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
 
@@ -115,6 +117,9 @@ type
 implementation
 
 {$R *.dfm}
+
+uses
+  uBrowserTab;
 
 constructor TBrowserFrame.Create(AOwner : TComponent);
 begin
@@ -181,8 +186,7 @@ begin
   Chromium1.LoadURL(URLCbx.Text);
 end;
 
-procedure TBrowserFrame.Chromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TBrowserFrame.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
 end;
@@ -192,42 +196,72 @@ begin
   Chromium1.GoBack;
 end;
 
-procedure TBrowserFrame.Chromium1AddressChange(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
+procedure TBrowserFrame.Chromium1AddressChange(      Sender  : TObject;
+                                               const browser : ICefBrowser;
+                                               const frame   : ICefFrame;
+                                               const url     : ustring);
 begin
   if (URLCbx.Items.IndexOf(url) < 0) then URLCbx.Items.Add(url);
 
   URLCbx.Text := url;
 end;
 
-procedure TBrowserFrame.Chromium1BeforeClose(Sender: TObject;
-  const browser: ICefBrowser);
+procedure TBrowserFrame.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   if assigned(FOnBrowserDestroyed) then FOnBrowserDestroyed(self);
 end;
 
-procedure TBrowserFrame.Chromium1BeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
-  var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue;
-  var noJavascriptAccess, Result: Boolean);
+procedure TBrowserFrame.Chromium1BeforePopup(      Sender             : TObject;
+                                             const browser            : ICefBrowser;
+                                             const frame              : ICefFrame;
+                                             const targetUrl          : ustring;
+                                             const targetFrameName    : ustring;
+                                                   targetDisposition  : TCefWindowOpenDisposition;
+                                                   userGesture        : Boolean;
+                                             const popupFeatures      : TCefPopupFeatures;
+                                             var   windowInfo         : TCefWindowInfo;
+                                             var   client             : ICefClient;
+                                             var   settings           : TCefBrowserSettings;
+                                             var   extra_info         : ICefDictionaryValue;
+                                             var   noJavascriptAccess : Boolean;
+                                             var   Result             : Boolean);
 begin
-  // For simplicity, this demo blocks all popup windows and new tabs
+  case targetDisposition of
+    WOD_NEW_FOREGROUND_TAB,
+    WOD_NEW_BACKGROUND_TAB,
+    WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
+
+    WOD_NEW_POPUP  : Result := not(CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
+
+    else Result := False;
+  end;
+end;
+
+procedure TBrowserFrame.Chromium1OpenUrlFromTab(      Sender            : TObject;
+                                                const browser           : ICefBrowser;
+                                                const frame             : ICefFrame;
+                                                const targetUrl         : ustring;
+                                                      targetDisposition : TCefWindowOpenDisposition;
+                                                      userGesture       : Boolean;
+                                                out   Result            : Boolean);
+begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TBrowserFrame.Chromium1Close(Sender: TObject;
-  const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
+procedure TBrowserFrame.Chromium1Close(      Sender  : TObject;
+                                       const browser : ICefBrowser;
+                                       var   aAction : TCefCloseBrowserAction);
 begin
   PostMessage(Handle, CEF_DESTROY, 0, 0);
   aAction := cbaDelay;
 end;
 
-procedure TBrowserFrame.Chromium1LoadError(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
-  const errorText, failedUrl: ustring);
+procedure TBrowserFrame.Chromium1LoadError(      Sender    : TObject;
+                                           const browser   : ICefBrowser;
+                                           const frame     : ICefFrame;
+                                                 errorCode : Integer;
+                                           const errorText : ustring;
+                                           const failedUrl : ustring);
 var
   TempString : string;
 begin
@@ -241,8 +275,11 @@ begin
   Chromium1.LoadString(TempString, frame);
 end;
 
-procedure TBrowserFrame.Chromium1LoadingStateChange(Sender: TObject;
-  const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+procedure TBrowserFrame.Chromium1LoadingStateChange(      Sender       : TObject;
+                                                    const browser      : ICefBrowser;
+                                                          isLoading    : Boolean;
+                                                          canGoBack    : Boolean;
+                                                          canGoForward : Boolean);
 begin
   BackBtn.Enabled    := canGoBack;
   ForwardBtn.Enabled := canGoForward;
@@ -259,23 +296,16 @@ begin
     end;
 end;
 
-procedure TBrowserFrame.Chromium1OpenUrlFromTab(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
-  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-  out Result: Boolean);
-begin
-  // For simplicity, this demo blocks all popup windows and new tabs
-  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
-end;
-
-procedure TBrowserFrame.Chromium1StatusMessage(Sender: TObject;
-  const browser: ICefBrowser; const value: ustring);
+procedure TBrowserFrame.Chromium1StatusMessage(      Sender  : TObject;
+                                               const browser : ICefBrowser;
+                                               const value   : ustring);
 begin
   StatusBar1.Panels[0].Text := value;
 end;
 
-procedure TBrowserFrame.Chromium1TitleChange(Sender: TObject;
-  const browser: ICefBrowser; const title: ustring);
+procedure TBrowserFrame.Chromium1TitleChange(      Sender  : TObject;
+                                             const browser : ICefBrowser;
+                                             const title   : ustring);
 begin
   if not(assigned(FOnBrowserTitleChange)) then exit;
 
@@ -294,6 +324,16 @@ end;
 procedure TBrowserFrame.BrowserDestroyMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.Free;
+end;
+
+function TBrowserFrame.CreateClientHandler(var   windowInfo      : TCefWindowInfo;
+                                           var   client          : ICefClient;
+                                           const targetFrameName : string;
+                                           const popupFeatures   : TCefPopupFeatures) : boolean;
+begin
+  Result := assigned(Parent) and
+            (Parent is TBrowserTab) and
+            TBrowserTab(Parent).CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures);
 end;
 
 end.

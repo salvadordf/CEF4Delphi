@@ -43,19 +43,19 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.ComCtrls, Vcl.ToolWin, Vcl.Buttons, Vcl.ExtCtrls,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, System.SyncObjs,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Buttons, Vcl.ExtCtrls,
   {$ELSE}
-  Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs,
-  ComCtrls, ToolWin, Buttons, ExtCtrls,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, SyncObjs,
+  Controls, Forms, Dialogs, ComCtrls, ToolWin, Buttons, ExtCtrls,
   {$ENDIF}
-  uCEFApplication, uCEFTypes, uCEFConstants;
+  uCEFApplication, uCEFInterfaces, uCEFTypes, uCEFConstants, uChildForm;
 
 const
-  CEF_INITIALIZED     = WM_APP + $100;
-  CEF_DESTROYTAB      = WM_APP + $101;
+  CEF_INITIALIZED      = WM_APP + $A50;
+  CEF_DESTROYTAB       = WM_APP + $A51;
+  CEF_CREATENEXTCHILD  = WM_APP + $A52;
+  CEF_CHILDDESTROYED   = WM_APP + $A53;
 
   HOMEPAGE_URL        = 'https://www.google.com';
   DEFAULT_TAB_CAPTION = 'New tab';
@@ -73,28 +73,36 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormDestroy(Sender: TObject);
 
   protected
-    // Variables to control when can we destroy the form safely
-    FCanClose   : boolean;
-    FClosing    : boolean;
-
-    FLastTabID  : cardinal; // Used by NextTabID to generate unique tab IDs
+    FChildForm       : TChildForm;
+    FCriticalSection : TCriticalSection;
+    FCanClose        : boolean;
+    FClosing         : boolean;  // Set to True in the CloseQuery event.
+    FLastTabID       : cardinal; // Used by NextTabID to generate unique tab IDs
 
     function  GetNextTabID : cardinal;
+    function  GetPopupChildCount : integer;
 
     procedure EnableButtonPnl;
-    function  CloseAllTabs : boolean;
+    function  CloseAllBrowsers : boolean;
     procedure CloseTab(aIndex : integer);
 
     procedure CEFInitializedMsg(var aMessage : TMessage); message CEF_INITIALIZED;
     procedure DestroyTabMsg(var aMessage : TMessage); message CEF_DESTROYTAB;
+    procedure CreateNextChildMsg(var aMessage : TMessage); message CEF_CREATENEXTCHILD;
+    procedure ChildDestroyedMsg(var aMessage : TMessage); message CEF_CHILDDESTROYED;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
-    property  NextTabID : cardinal   read GetNextTabID;
+    property  NextTabID       : cardinal   read GetNextTabID;
+    property  PopupChildCount : integer    read GetPopupChildCount;
+
+  public
+    function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
   end;
 
 var
@@ -173,6 +181,28 @@ begin
   Result := FLastTabID;
 end;
 
+function TMainForm.GetPopupChildCount : integer;
+var
+  i        : integer;
+  TempForm : TCustomForm;
+begin
+  Result := 0;
+  i      := pred(screen.CustomFormCount);
+
+  while (i >= 0) do
+    begin
+      TempForm := screen.CustomForms[i];
+
+      // Only count the fully initialized child forms and not the one waiting to be used.
+
+      if (TempForm is TChildForm) and
+         TChildForm(TempForm).ClientInitialized then
+        inc(Result);
+
+      dec(i);
+    end;
+end;
+
 procedure TMainForm.AddTabBtnClick(Sender: TObject);
 var
   TempNewTab : TBrowserTab;
@@ -188,6 +218,9 @@ end;
 procedure TMainForm.CEFInitializedMsg(var aMessage : TMessage);
 begin
   EnableButtonPnl;
+
+  if (FChildForm = nil) then
+    TChildForm.Create(self);
 end;
 
 procedure TMainForm.DestroyTabMsg(var aMessage : TMessage);
@@ -209,11 +242,37 @@ begin
         inc(i);
     end;
 
-  if FClosing and (BrowserPageCtrl.PageCount = 0) then
+  if FClosing and (PopupChildCount = 0) and (BrowserPageCtrl.PageCount = 0) then
     begin
       FCanClose := True;
       PostMessage(Handle, WM_CLOSE, 0, 0);
     end;
+end;
+
+procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
+begin
+  if FClosing and (PopupChildCount = 0) and (BrowserPageCtrl.PageCount = 0) then
+    begin
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
+end;
+
+procedure TMainForm.CreateNextChildMsg(var aMessage : TMessage);
+begin
+  try
+    FCriticalSection.Acquire;
+
+    if (FChildForm <> nil) then
+      begin
+        FChildForm.ApplyPopupFeatures;
+        FChildForm.Show;
+      end;
+
+    FChildForm := TChildForm.Create(self);
+  finally
+    FCriticalSection.Release;
+  end;
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -225,7 +284,7 @@ begin
       FClosing          := True;
       ButtonPnl.Enabled := False;
 
-      if not(CloseAllTabs) then
+      if not(CloseAllBrowsers) then
         begin
           FCanClose := True;
           PostMessage(Handle, WM_CLOSE, 0, 0);
@@ -235,15 +294,27 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  FCanClose   := False;
-  FClosing    := False;
-  FLastTabID  := 0;
+  FCanClose        := False;
+  FClosing         := False;
+  FLastTabID       := 0;
+  FChildForm       := nil;
+  FCriticalSection := TCriticalSection.Create;
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FCriticalSection);
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.GlobalContextInitialized then
-    EnableButtonPnl;
+    begin
+      EnableButtonPnl;
+
+      if (FChildForm = nil) then
+        FChildForm := TChildForm.Create(self);
+    end;
 end;
 
 procedure TMainForm.RemoveTabBtnClick(Sender: TObject);
@@ -251,12 +322,30 @@ begin
   CloseTab(BrowserPageCtrl.ActivePageIndex);
 end;
 
-function TMainForm.CloseAllTabs : boolean;
+function TMainForm.CloseAllBrowsers : boolean;
 var
-  i : integer;
+  i        : integer;
+  TempForm : TCustomForm;
 begin
   Result := False;
-  i      := pred(BrowserPageCtrl.PageCount);
+  i      := pred(screen.CustomFormCount);
+
+  while (i >= 0) do
+    begin
+      TempForm := screen.CustomForms[i];
+
+      if (TempForm is TChildForm) and
+         TChildForm(TempForm).ClientInitialized and
+         not(TChildForm(TempForm).Closing) then
+        begin
+          PostMessage(TempForm.Handle, WM_CLOSE, 0, 0);
+          Result := True;
+        end;
+
+      dec(i);
+    end;
+
+  i := pred(BrowserPageCtrl.PageCount);
 
   while (i >= 0) do
     begin
@@ -314,6 +403,22 @@ begin
 
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then
     GlobalCEFApp.OsmodalLoop := False;
+end;
+
+function TMainForm.CreateClientHandler(var   windowInfo      : TCefWindowInfo;
+                                       var   client          : ICefClient;
+                                       const targetFrameName : string;
+                                       const popupFeatures   : TCefPopupFeatures) : boolean;
+begin
+  try
+    FCriticalSection.Acquire;
+
+    Result := (FChildForm <> nil) and
+              FChildForm.CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures) and
+              PostMessage(Handle, CEF_CREATENEXTCHILD, 0, 0);
+  finally
+    FCriticalSection.Release;
+  end;
 end;
 
 end.

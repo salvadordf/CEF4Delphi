@@ -49,7 +49,7 @@ uses
   Windows, Classes, Messages, ComCtrls, Controls,
   Forms,
   {$ENDIF}
-  uBrowserFrame;
+  uCEFInterfaces, uCEFTypes, uBrowserFrame;
 
 type
   TBrowserTab = class(TTabSheet)
@@ -73,6 +73,7 @@ type
       procedure   CloseBrowser;
       procedure   ShowBrowser;
       procedure   HideBrowser;
+      function    CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
 
       property    TabID      : cardinal   read FTabID;
   end;
@@ -159,6 +160,19 @@ end;
 procedure TBrowserTab.BrowserFrame_OnBrowserTitleChange(Sender: TObject; const aTitle : string);
 begin
   Caption := aTitle;
+end;
+
+function TBrowserTab.CreateClientHandler(var   windowInfo      : TCefWindowInfo;
+                                         var   client          : ICefClient;
+                                         const targetFrameName : string;
+                                         const popupFeatures   : TCefPopupFeatures) : boolean;
+var
+  TempForm : TCustomForm;
+begin
+  TempForm := ParentForm;
+  Result   := (TempForm <> nil) and
+              (TempForm is TMainForm) and
+              TMainForm(TempForm).CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures);
 end;
 
 end.
