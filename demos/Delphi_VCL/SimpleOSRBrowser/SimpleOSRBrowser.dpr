@@ -39,7 +39,7 @@ program SimpleOSRBrowser;
 
 {$I cef.inc}
 
-uses                 FastMM4,
+uses
   {$IFDEF DELPHI16_UP}
   Vcl.Forms,
   WinApi.Windows,

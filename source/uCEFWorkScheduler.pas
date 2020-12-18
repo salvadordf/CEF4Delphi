@@ -54,7 +54,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFNDEF MSWINDOWS}forms,{$ENDIF}
     {$ELSE}
     Messages,
     {$ENDIF}
@@ -65,7 +65,6 @@ type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFWorkScheduler = class(TComponent)
     protected
-      FCompHandle         : HWND;
       FThread             : TCEFWorkSchedulerThread;
       FDepleteWorkCycles  : cardinal;
       FDepleteWorkDelay   : cardinal;
@@ -73,16 +72,21 @@ type
       FStopped            : boolean;
       {$IFDEF MSWINDOWS}
       {$WARN SYMBOL_PLATFORM OFF}
+      FCompHandle         : HWND;
       FPriority           : TThreadPriority;
       {$WARN SYMBOL_PLATFORM ON}
       {$ENDIF}
 
       procedure CreateThread;
       procedure DestroyThread;
-      procedure DeallocateWindowHandle;
       procedure DepleteWork;
       {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage);
+      procedure DeallocateWindowHandle;
+      {$ELSE}
+      {$IFDEF FPC}
+      procedure ScheduleWorkAsync(Data: PtrInt);
+      {$ENDIF}
       {$ENDIF}
       procedure NextPulse(aInterval : integer);
       procedure ScheduleWork(const delay_ms : int64);
@@ -145,10 +149,10 @@ begin
   inherited Create(AOwner);
 
   FThread             := nil;
-  FCompHandle         := 0;
   FStopped            := False;
   {$IFDEF MSWINDOWS}
   {$WARN SYMBOL_PLATFORM OFF}
+  FCompHandle         := 0;
   FPriority           := tpNormal;
   {$WARN SYMBOL_PLATFORM ON}
   {$ENDIF}
@@ -160,8 +164,9 @@ end;
 destructor TCEFWorkScheduler.Destroy;
 begin
   DestroyThread;
+  {$IFDEF MSWINDOWS}
   DeallocateWindowHandle;
-
+  {$ENDIF}
   inherited Destroy;
 end;
 
@@ -226,7 +231,6 @@ begin
    else
     aMessage.Result := DefWindowProc(FCompHandle, aMessage.Msg, aMessage.WParam, aMessage.LParam);
 end;
-{$ENDIF}
 
 procedure TCEFWorkScheduler.DeallocateWindowHandle;
 begin
@@ -236,6 +240,7 @@ begin
       FCompHandle := 0;
     end;
 end;
+{$ENDIF}
 
 procedure TCEFWorkScheduler.DoMessageLoopWork;
 begin
@@ -277,15 +282,27 @@ begin
   {$IFDEF MSWINDOWS}
   if not(FStopped) and (FCompHandle <> 0) then
     PostMessage(FCompHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
+  {$ELSE}
+  if not(FStopped) then
+    Application.QueueAsyncCall(@ScheduleWorkAsync, integer(delay_ms));
   {$ENDIF}
 end;
+
+{$IFNDEF MSWINDOWS}{$IFDEF FPC}
+procedure TCEFWorkScheduler.ScheduleWorkAsync(Data: PtrInt);
+begin
+  ScheduleWork(integer(Data));
+end;
+{$ENDIF}{$ENDIF}
 
 procedure TCEFWorkScheduler.StopScheduler;
 begin
   FStopped := True;
   NextPulse(0);
   DepleteWork;
+  {$IFDEF MSWINDOWS}
   DeallocateWindowHandle;
+  {$ENDIF}
 end;
 
 procedure TCEFWorkScheduler.Thread_OnPulse(Sender: TObject);

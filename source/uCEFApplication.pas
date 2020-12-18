@@ -51,7 +51,12 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX,{$IFNDEF FMX} Vcl.Forms,{$ENDIF}
+      WinApi.Windows, WinApi.ActiveX,
+      {$IFDEF FMX}
+      FMX.Forms,
+      {$ELSE}
+      Vcl.Forms,
+      {$ENDIF}
     {$ENDIF}
     System.Classes, System.UITypes,
   {$ELSE}

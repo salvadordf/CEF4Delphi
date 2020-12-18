@@ -2,8 +2,8 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
   Left = 0
   Top = 0
   Caption = 'Web page snapshot'
-  ClientHeight = 486
-  ClientWidth = 711
+  ClientHeight = 737
+  ClientWidth = 1032
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,8 +19,8 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
   object Image1: TImage
     Left = 0
     Top = 25
-    Width = 711
-    Height = 442
+    Width = 1032
+    Height = 693
     Align = alClient
     AutoSize = True
     Center = True
@@ -32,18 +32,20 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 467
-    Width = 711
+    Top = 718
+    Width = 1032
     Height = 19
     Panels = <
       item
         Width = 1000
       end>
+    ExplicitTop = 467
+    ExplicitWidth = 711
   end
   object NavigationPnl: TPanel
     Left = 0
     Top = 0
-    Width = 711
+    Width = 1032
     Height = 25
     Align = alTop
     BevelOuter = bvNone
@@ -52,8 +54,9 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
     Padding.Right = 2
     Padding.Bottom = 2
     TabOrder = 1
+    ExplicitWidth = 711
     object GoBtn: TButton
-      Left = 634
+      Left = 955
       Top = 2
       Width = 75
       Height = 21
@@ -61,15 +64,17 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
       Caption = 'Go'
       TabOrder = 0
       OnClick = GoBtnClick
+      ExplicitLeft = 634
     end
     object AddressEdt: TEdit
       Left = 2
       Top = 2
-      Width = 632
+      Width = 953
       Height = 21
       Align = alClient
       TabOrder = 1
       Text = 'https://www.google.com'
+      ExplicitWidth = 632
     end
   end
 end

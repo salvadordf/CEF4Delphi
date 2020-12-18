@@ -267,9 +267,14 @@ type
   TCefEventHandle  = Pointer;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
   {$ENDIF}
   {$IFDEF LINUX}
-  TCefWindowHandle = culong;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
-  TCefCursorHandle = culong;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
-  TCefEventHandle  = PXEvent;  // /include/internal/cef_types_linux.h (cef_event_handle_t)
+    {$IFDEF FPC}
+    TCefWindowHandle = culong;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
+    TCefCursorHandle = culong;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+    {$ELSE}
+    TCefWindowHandle = LongWord;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
+    TCefCursorHandle = LongWord;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+    {$ENDIF}
+  TCefEventHandle = PXEvent;  // /include/internal/cef_types_linux.h (cef_event_handle_t)
   {$ENDIF}
 
 

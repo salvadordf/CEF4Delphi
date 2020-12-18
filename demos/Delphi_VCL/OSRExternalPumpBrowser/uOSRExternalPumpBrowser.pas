@@ -51,7 +51,7 @@ uses
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel, uCEFWorkScheduler,
-  uCEFSentinel, uCEFChromiumCore;
+  uCEFChromiumCore;
 
 type
   TOSRExternalPumpBrowserFrm = class(TForm)

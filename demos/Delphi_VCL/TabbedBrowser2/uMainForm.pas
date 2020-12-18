@@ -142,14 +142,20 @@ uses
 //    event which will be used in TBrowserTab to send a CEF_DESTROYTAB message
 //    to the main form to free the tab.
 
+// This demo also uses custom forms to open popup browsers in the same way as
+// the PopupBrowser2 demo. Please, read the code comments in that demo for all
+// details about handling the custom child forms.
+
 // To close safely this demo you must close all the browser tabs first following
 // this steps :
 //
-// 1. FormCloseQuery sets CanClose to FALSE and calls CloseAllTabs and FClosing
+// 1. FormCloseQuery sets CanClose to FALSE and calls CloseAllBrowsers and FClosing
 //    is set to TRUE.
-// 2. Each tab will send a CEF_DESTROYTAB message to free that tab.
-// 3. When TPageControl has no tabs then we can set FCanClose to TRUE and send a
-//    WM_CLOSE to the main form to close the application.
+// 2. Each tab will send a CEF_DESTROYTAB message to the main form to free that tab.
+// 3. Each child form will send a CEF_CHILDDESTROYED message to the main form.
+// 3. When TPageControl has no tabs and all the child forms are also closed then we
+//    can set FCanClose to TRUE and send a WM_CLOSE message to the main form to
+//    close the application.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin

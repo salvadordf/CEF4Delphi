@@ -127,9 +127,16 @@ function CefPostTask(aThreadId : TCefThreadId; const aTask: ICefTask) : boolean;
 function CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; aDelayMs : Int64) : boolean;
 function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
 
-{$IFNDEF MACOS}
+{$IFDEF MSWINDOWS}
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
+{$ELSE}
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
+    function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
+    function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
+    {$ENDIF}
+  {$ENDIF}
 {$ENDIF}
 
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
@@ -492,10 +499,9 @@ begin
     Result := False;
 end;
 
-{$IFNDEF MACOS}
+{$IFDEF MSWINDOWS}
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 begin
-  {$IFDEF MSWINDOWS}
   Result.wYear          := dt.year;
   Result.wMonth         := dt.month;
   Result.wDayOfWeek     := dt.day_of_week;
@@ -504,21 +510,10 @@ begin
   Result.wMinute        := dt.minute;
   Result.wSecond        := dt.second;
   Result.wMilliseconds  := dt.millisecond;
-  {$ELSE}
-  Result.Year          := dt.year;
-  Result.Month         := dt.month;
-  Result.DayOfWeek     := dt.day_of_week;
-  Result.Day           := dt.day_of_month;
-  Result.Hour          := dt.hour;
-  Result.Minute        := dt.minute;
-  Result.Second        := dt.second;
-  Result.Millisecond   := dt.millisecond;
-  {$ENDIF}
 end;
 
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 begin
-  {$IFDEF MSWINDOWS}
   Result.year         := dt.wYear;
   Result.month        := dt.wMonth;
   Result.day_of_week  := dt.wDayOfWeek;
@@ -527,7 +522,24 @@ begin
   Result.minute       := dt.wMinute;
   Result.second       := dt.wSecond;
   Result.millisecond  := dt.wMilliseconds;
-  {$ELSE}
+end;
+{$ELSE}
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
+function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
+begin
+  Result.Year          := dt.year;
+  Result.Month         := dt.month;
+  Result.DayOfWeek     := dt.day_of_week;
+  Result.Day           := dt.day_of_month;
+  Result.Hour          := dt.hour;
+  Result.Minute        := dt.minute;
+  Result.Second        := dt.second;
+  Result.Millisecond   := dt.millisecond;
+end;
+
+function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
+begin
   Result.year         := dt.Year;
   Result.month        := dt.Month;
   Result.day_of_week  := dt.DayOfWeek;
@@ -536,8 +548,9 @@ begin
   Result.minute       := dt.Minute;
   Result.second       := dt.Second;
   Result.millisecond  := dt.Millisecond;
-  {$ENDIF}
 end;
+    {$ENDIF}
+  {$ENDIF}
 {$ENDIF}
 
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
@@ -825,7 +838,12 @@ begin
         {$IFDEF MACOS}
         TempString := 'PID: ' + IntToStr(TNSProcessInfo.Wrap(TNSProcessInfo.OCClass.processInfo).processIdentifier) + ', TID: ' + IntToStr(TThread.Current.ThreadID);
         {$ELSE}
-        TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+          {$IFDEF FPC}
+          TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+          {$ELSE}
+          // TODO: Find the equivalent function to get the process ID in Delphi FMX for Linux
+          // TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+          {$ENDIF}
         {$ENDIF}
       {$ENDIF}
 
@@ -2238,7 +2256,12 @@ begin
     {$IFDEF MACOS}
     Result := trunc(MainScreen.backingScaleFactor);
     {$ELSE}
-    Result := screen.PrimaryMonitor.PixelsPerInch;
+      {$IFDEF FPC}
+      Result := screen.PrimaryMonitor.PixelsPerInch;
+      {$ELSE}
+      // TODO: Find a way to get the screen scale in Delphi FMX for Linux
+      Result := 96;
+      {$ENDIF}
     {$ENDIF}
   {$ENDIF}
 end;

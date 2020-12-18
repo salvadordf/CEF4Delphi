@@ -1167,8 +1167,14 @@ begin
           TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
         {$ELSE}
           {$IFDEF LINUX}
-          TempArgs.argc := argc;
-          TempArgs.argv := argv;
+            {$IFDEF FPC}
+            TempArgs.argc := argc;
+            TempArgs.argv := argv;
+            {$ELSE}
+            // TODO: Find a way to set the TCefMainArgs values in Delphi FMX for Linux
+            TempArgs.argc := 0;
+            TempArgs.argv := 0;
+            {$ENDIF}
           {$ELSE}
           TempArgs.argc := 0;
           TempArgs.argv := 0;
@@ -1247,8 +1253,14 @@ begin
             TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
           {$ELSE}
             {$IFDEF LINUX}
-            TempArgs.argc := argc;
-            TempArgs.argv := argv;
+              {$IFDEF FPC}
+              TempArgs.argc := argc;
+              TempArgs.argv := argv;
+              {$ELSE}
+              // TODO: Find a way to set the TCefMainArgs values in Delphi FMX for Linux
+              TempArgs.argc := 0;
+              TempArgs.argv := 0;
+              {$ENDIF}
             {$ELSE}
             TempArgs.argc := 0;
             TempArgs.argv := 0;
@@ -2181,7 +2193,11 @@ begin
   {$IFDEF MSWINDOWS}
   FLibHandle := LoadLibraryExW(PWideChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
   {$ELSE}
-  FLibHandle := LoadLibrary(LibCefPath);
+    {$IFDEF FPC}
+    FLibHandle := LoadLibrary(LibCefPath);
+    {$ELSE}
+    FLibHandle := LoadLibrary(PChar(LibCefPath));
+    {$ENDIF}
   {$ENDIF}
 
   if (FLibHandle = 0) then
