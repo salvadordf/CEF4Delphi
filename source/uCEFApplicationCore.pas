@@ -153,7 +153,6 @@ type
       {$ENDIF}
       FOnRegisterCustomSchemes           : TOnRegisterCustomSchemesEvent;
       FAppSettings                       : TCefSettings;
-      FDeviceScaleFactor                 : single;
       FCheckDevToolsResources            : boolean;
       FDisableExtensions                 : boolean;
       FDisableGPUCache                   : boolean;
@@ -170,6 +169,8 @@ type
       FSupportedSchemes                  : TStringList;
       FDisableNewBrowserInfoTimeout      : boolean;
       FDevToolsProtocolLogFile           : ustring;
+      FDeviceScaleFactor                 : single;
+      FForcedDeviceScaleFactor           : single;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : string;
@@ -448,6 +449,7 @@ type
       property HyperlinkAuditing                 : boolean                             read FHyperlinkAuditing                 write FHyperlinkAuditing;                // --no-pings
       property DisableNewBrowserInfoTimeout      : boolean                             read FDisableNewBrowserInfoTimeout      write FDisableNewBrowserInfoTimeout;     // --disable-new-browser-info-timeout
       property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;          // --devtools-protocol-log-file
+      property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -686,6 +688,7 @@ begin
   FSupportedSchemes                  := nil;
   FDisableNewBrowserInfoTimeout      := False;
   FDevToolsProtocolLogFile           := '';
+  FForcedDeviceScaleFactor           := 0;
 
   FDisableJavascriptCloseWindows     := False;
   FDisableJavascriptAccessClipboard  := False;
@@ -1122,7 +1125,10 @@ end;
 
 procedure TCefApplicationCore.UpdateDeviceScaleFactor;
 begin
-  FDeviceScaleFactor := GetDeviceScaleFactor;
+  if (FForcedDeviceScaleFactor <> 0) then
+    FDeviceScaleFactor := FForcedDeviceScaleFactor
+   else
+    FDeviceScaleFactor := GetDeviceScaleFactor;
 end;
 
 procedure TCefApplicationCore.ShutDown;
@@ -1711,6 +1717,7 @@ end;
 procedure TCefApplicationCore.AddCustomCommandLineSwitches(var aKeys, aValues : TStringList);
 var
   i : integer;
+  TempFormatSettings : TFormatSettings;
   {$IFDEF MSWINDOWS}
   TempVersionInfo : TFileVersionInfo;
   TempFileName : ustring;
@@ -1879,6 +1886,21 @@ begin
 
   if (length(FOverrideSpellCheckLang) > 0) then
     ReplaceSwitch(aKeys, aValues, '--override-spell-check-lang', FOverrideSpellCheckLang);
+
+  if (FForcedDeviceScaleFactor <> 0) then
+    begin
+      {$IFDEF FPC}
+      TempFormatSettings.DecimalSeparator := '.';
+      {$ELSE}
+        {$IFDEF DELPHI26_UP}
+        TempFormatSettings := TFormatSettings.Create('en-US');
+        {$ELSE}
+        GetLocaleFormatSettings(GetThreadLocale, TempFormatSettings);
+        TempFormatSettings.DecimalSeparator := '.';
+        {$ENDIF}
+      {$ENDIF}
+      ReplaceSwitch(aKeys, aValues, '--force-device-scale-factor', FloatToStr(FForcedDeviceScaleFactor, TempFormatSettings));
+    end;
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc

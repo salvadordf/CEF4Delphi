@@ -70,20 +70,21 @@ type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TBufferPanel = class(TCustomPanel)
     protected
-      FMutex                  : THandle;
-      FBuffer                 : TBitmap;
-      FScanlineSize           : integer;
-      FTransparent            : boolean;
-      FOnPaintParentBkg       : TNotifyEvent;
+      FMutex                   : THandle;
+      FBuffer                  : TBitmap;
+      FScanlineSize            : integer;
+      FTransparent             : boolean;
+      FOnPaintParentBkg        : TNotifyEvent;
+      FForcedDeviceScaleFactor : single;
       {$IFDEF MSWINDOWS}
-      FIMEHandler             : TCEFOSRIMEHandler;
-      FOnIMECancelComposition : TNotifyEvent;
-      FOnIMECommitText        : TOnIMECommitTextEvent;
-      FOnIMESetComposition    : TOnIMESetCompositionEvent;
-      FOnCustomTouch          : TOnHandledMessageEvent;
-      FOnPointerDown          : TOnHandledMessageEvent;
-      FOnPointerUp            : TOnHandledMessageEvent;
-      FOnPointerUpdate        : TOnHandledMessageEvent;
+      FIMEHandler              : TCEFOSRIMEHandler;
+      FOnIMECancelComposition  : TNotifyEvent;
+      FOnIMECommitText         : TOnIMECommitTextEvent;
+      FOnIMESetComposition     : TOnIMESetCompositionEvent;
+      FOnCustomTouch           : TOnHandledMessageEvent;
+      FOnPointerDown           : TOnHandledMessageEvent;
+      FOnPointerUp             : TOnHandledMessageEvent;
+      FOnPointerUpdate         : TOnHandledMessageEvent;
       {$ENDIF}
 
       procedure CreateSyncObj;
@@ -95,6 +96,7 @@ type
       function  GetBufferWidth : integer;
       function  GetBufferHeight : integer;
       function  GetScreenScale : single; virtual;
+      function  GetRealScreenScale(var aResultScale : single) : boolean; virtual;
       {$IFDEF MSWINDOWS}
       function  GetParentFormHandle : TCefWindowHandle;
       function  GetParentForm : TCustomForm;
@@ -135,15 +137,16 @@ type
       procedure   CreateIMEHandler;
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
 
-      property Buffer           : TBitmap            read FBuffer;
-      property ScanlineSize     : integer            read FScanlineSize;
-      property BufferWidth      : integer            read GetBufferWidth;
-      property BufferHeight     : integer            read GetBufferHeight;
-      property BufferBits       : pointer            read GetBufferBits;
-      property ScreenScale      : single             read GetScreenScale;
+      property Buffer                    : TBitmap                   read FBuffer;
+      property ScanlineSize              : integer                   read FScanlineSize;
+      property BufferWidth               : integer                   read GetBufferWidth;
+      property BufferHeight              : integer                   read GetBufferHeight;
+      property BufferBits                : pointer                   read GetBufferBits;
+      property ScreenScale               : single                    read GetScreenScale;
+      property ForcedDeviceScaleFactor   : single                    read FForcedDeviceScaleFactor   write FForcedDeviceScaleFactor;
       {$IFDEF MSWINDOWS}
-      property ParentFormHandle : TCefWindowHandle   read GetParentFormHandle;
-      property ParentForm       : TCustomForm        read GetParentForm;
+      property ParentFormHandle          : TCefWindowHandle          read GetParentFormHandle;
+      property ParentForm                : TCustomForm               read GetParentForm;
       {$ENDIF}
 
       property DockManager;
@@ -270,6 +273,11 @@ begin
   FBuffer           := nil;
   FTransparent      := False;
   FOnPaintParentBkg := nil;
+
+  if (GlobalCEFApp <> nil) and (GlobalCEFApp.ForcedDeviceScaleFactor <> 0) then
+    FForcedDeviceScaleFactor := GlobalCEFApp.ForcedDeviceScaleFactor
+   else
+    FForcedDeviceScaleFactor := 0;
 
   {$IFDEF MSWINDOWS}
   FIMEHandler             := nil;
@@ -662,7 +670,7 @@ begin
     Result := 0;
 end;
 
-function TBufferPanel.GetScreenScale : single;
+function TBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
 {$IFDEF MSWINDOWS}
 var
   TempHandle : TCefWindowHandle;
@@ -670,26 +678,42 @@ var
   TempDPI    : UINT;
 {$ENDIF}
 begin
+  Result       := False;
+  aResultScale := 1;
+
   {$IFDEF MSWINDOWS}
   TempHandle := ParentFormHandle;
 
   if (TempHandle <> 0) then
     begin
+      Result := True;
+
       if RunningWindows10OrNewer and GetDPIForHandle(TempHandle, TempDPI) then
-        Result := TempDPI / USER_DEFAULT_SCREEN_DPI
+        aResultScale := TempDPI / USER_DEFAULT_SCREEN_DPI
        else
         begin
-          TempDC := GetWindowDC(TempHandle);
-          Result := GetDeviceCaps(TempDC, LOGPIXELSX) / USER_DEFAULT_SCREEN_DPI;
+          TempDC       := GetWindowDC(TempHandle);
+          aResultScale := GetDeviceCaps(TempDC, LOGPIXELSX) / USER_DEFAULT_SCREEN_DPI;
           ReleaseDC(TempHandle, TempDC);
         end;
-    end
-   else
+    end;
   {$ENDIF}
-    if (GlobalCEFApp <> nil) then
-      Result := GlobalCEFApp.DeviceScaleFactor
+end;
+
+function TBufferPanel.GetScreenScale : single;
+var
+  TempScale : single;
+begin
+  if (FForcedDeviceScaleFactor <> 0) then
+    Result := FForcedDeviceScaleFactor
+   else
+    if GetRealScreenScale(TempScale) then
+      Result := TempScale
      else
-      Result := 1;
+      if (GlobalCEFApp <> nil) then
+        Result := GlobalCEFApp.DeviceScaleFactor
+       else
+        Result := 1;
 end;
 
 {$IFDEF MSWINDOWS}

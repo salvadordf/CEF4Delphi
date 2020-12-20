@@ -52,20 +52,10 @@ uses
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel, uCEFChromiumCore, uCEFMiscFunctions;
 
 type
-  TVirtualBufferPanel = class(TBufferPanel)
-    protected
-      FCustomScale : single;
-
-      function GetScreenScale : single; override;
-
-    public
-      property CustomScale : single read FCustomScale write FCustomScale;
-  end;
-
   TCEFBrowserThread = class(TThread)
     protected
       FBrowser               : TChromium;
-      FPanel                 : TVirtualBufferPanel;
+      FPanel                 : TBufferPanel;
       FPanelSize             : TSize;
       FScreenScale           : single;
       FPopUpBitmap           : TBitmap;
@@ -149,20 +139,6 @@ const
   CEF_CLOSE_BROWSER_MSG    = WM_APP + 3;
   CEF_LOAD_PENDING_URL_MSG = WM_APP + 4;
 
-// *************************************
-// ******** TVirtualBufferPanel ********
-// *************************************
-
-function TVirtualBufferPanel.GetScreenScale : single;
-begin
-  Result := FCustomScale;
-end;
-
-
-// *************************************
-// ********* TCEFBrowserThread *********
-// *************************************
-
 constructor TCEFBrowserThread.Create(const aDefaultURL : ustring; aWidth, aHeight, aDelayMs : integer; const aScreenScale : single);
 begin
   inherited Create(True);
@@ -217,14 +193,14 @@ procedure TCEFBrowserThread.AfterConstruction;
 begin
   inherited AfterConstruction;
 
-  FResizeCS      := TCriticalSection.Create;
-  FBrowserInfoCS := TCriticalSection.Create;
+  FResizeCS                        := TCriticalSection.Create;
+  FBrowserInfoCS                   := TCriticalSection.Create;
 
-  FPanel             := TVirtualBufferPanel.Create(nil);
-  FPanel.CustomScale := FScreenScale;
-  FPanel.Width       := FPanelSize.cx;
-  FPanel.Height      := FPanelSize.cy;
-  FPanel.OnResize    := Panel_OnResize;
+  FPanel                           := TBufferPanel.Create(nil);
+  FPanel.ForcedDeviceScaleFactor   := FScreenScale;
+  FPanel.Width                     := FPanelSize.cx;
+  FPanel.Height                    := FPanelSize.cy;
+  FPanel.OnResize                  := Panel_OnResize;
 
   FBrowser                         := TChromium.Create(nil);
   FBrowser.DefaultURL              := FDefaultURL;

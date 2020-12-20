@@ -66,7 +66,7 @@ type
     public
       constructor Create;
       destructor  Destroy; override;
-      procedure   LoadURL(const aURL : string);
+      procedure   LoadURL(const aURL : ustring);
 
       property Width           : integer    read FWidth          write FWidth;
       property Height          : integer    read FHeight         write FHeight;
@@ -189,7 +189,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TEncapsulatedBrowser.LoadURL(const aURL : string);
+procedure TEncapsulatedBrowser.LoadURL(const aURL : ustring);
 begin
   if (FThread = nil) then
     begin

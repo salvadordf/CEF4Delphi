@@ -39,8 +39,6 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
       item
         Width = 1000
       end>
-    ExplicitTop = 467
-    ExplicitWidth = 711
   end
   object NavigationPnl: TPanel
     Left = 0
@@ -54,7 +52,6 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
     Padding.Right = 2
     Padding.Bottom = 2
     TabOrder = 1
-    ExplicitWidth = 711
     object GoBtn: TButton
       Left = 955
       Top = 2
@@ -64,7 +61,6 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
       Caption = 'Go'
       TabOrder = 0
       OnClick = GoBtnClick
-      ExplicitLeft = 634
     end
     object AddressEdt: TEdit
       Left = 2
@@ -74,7 +70,6 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
       Align = alClient
       TabOrder = 1
       Text = 'https://www.google.com'
-      ExplicitWidth = 632
     end
   end
 end

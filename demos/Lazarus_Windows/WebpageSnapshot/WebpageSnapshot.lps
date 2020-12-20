@@ -19,8 +19,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="471"/>
-        <CursorPos X="66" Y="483"/>
+        <TopLine Value="447"/>
+        <CursorPos X="69" Y="487"/>
         <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -32,8 +32,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="98"/>
-        <CursorPos X="71" Y="163"/>
+        <TopLine Value="20"/>
+        <CursorPos X="75" Y="152"/>
         <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -77,7 +77,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit7>
     </Units>
-    <JumpHistory Count="15" HistoryIndex="14">
+    <JumpHistory Count="18" HistoryIndex="17">
       <Position1>
         <Filename Value="uCEFBrowserThread.pas"/>
         <Caret Line="348" TopLine="334"/>
@@ -138,6 +138,18 @@
         <Filename Value="uCEFBrowserThread.pas"/>
         <Caret Line="416" Column="50" TopLine="403"/>
       </Position15>
+      <Position16>
+        <Filename Value="uWebpageSnapshot.pas"/>
+        <Caret Line="121" Column="65" TopLine="110"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uWebpageSnapshot.pas"/>
+        <Caret Line="117" Column="78" TopLine="102"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uWebpageSnapshot.pas"/>
+        <Caret Line="147" Column="126" TopLine="132"/>
+      </Position18>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
