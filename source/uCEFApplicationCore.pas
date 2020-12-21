@@ -1887,6 +1887,11 @@ begin
   if (length(FOverrideSpellCheckLang) > 0) then
     ReplaceSwitch(aKeys, aValues, '--override-spell-check-lang', FOverrideSpellCheckLang);
 
+  // This is a workaround for the CEF issue #2899
+  // https://bitbucket.org/chromiumembedded/cef/issues/2899/cefsettingsignore_certificate_errors-true
+  if FIgnoreCertificateErrors then
+    ReplaceSwitch(aKeys, aValues, '--ignore-certificate-errors');
+
   if (FForcedDeviceScaleFactor <> 0) then
     begin
       {$IFDEF FPC}
