@@ -5,8 +5,10 @@ CEF4Delphi is based on DCEF3, made by Henri Gourvest. The original license of DC
 
 CEF4Delphi uses CEF 87.1.12 which includes Chromium 87.0.4280.88. 
 The CEF binaries used by CEF4Delphi are available for download at spotify :
-* [32 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_windows32.tar.bz2)
-* [64 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_windows64.tar.bz2)
+* [Windows 32 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_windows32.tar.bz2)
+* [Windows 64 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_windows64.tar.bz2)
+* [Linux 32 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_linux32.tar.bz2)
+* [Linux 64 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.12%2Bg03f9336%2Bchromium-87.0.4280.88_linux64.tar.bz2)
 
 
 CEF4Delphi was developed and tested on Delphi 10.4.1 and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2, Delphi 10.3 and Lazarus 2.0.10/FPC 3.2.0. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
@@ -14,7 +16,7 @@ CEF4Delphi was developed and tested on Delphi 10.4.1 and it has been tested in D
 ## Links
 * [Installation instructions and more information about CEF4Delphi](https://www.briskbard.com/index.php?lang=en&pageid=cef)
 * [Developer Forums](https://www.briskbard.com/forum)
-* These components need Windows 7, 8, 8.1, 10 or newer to run. If you need Windows XP and Vista support use [OldCEF4Delphi](https://github.com/salvadordf/OldCEF4Delphi)
+* The Windows components need Windows 7, 8, 8.1, 10 or newer to run. If you need Windows XP and Vista support use [OldCEF4Delphi](https://github.com/salvadordf/OldCEF4Delphi)
 
 ## Stable releases 
 This is the development branch and it may have issues. Use the [latest release](https://github.com/salvadordf/CEF4Delphi/releases/latest) if you need a stable component.

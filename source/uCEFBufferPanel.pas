@@ -58,7 +58,7 @@ uses
     {$ENDIF}
     ExtCtrls, SyncObjs, SysUtils,
   {$ENDIF}
-  {$IFDEF MSWINDOWS}uCEFOSRIMEHandler,{$ENDIF} uCEFConstants, uCEFTypes;
+  {$IFDEF MSWINDOWS}uCEFOSRIMEHandler,{$ENDIF} uCEFConstants, uCEFTypes, uCEFBitmapBitBuffer;
 
 type
   TOnIMECommitTextEvent     = procedure(Sender: TObject; const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer) of object;
@@ -70,13 +70,13 @@ type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TBufferPanel = class(TCustomPanel)
     protected
-      FMutex                   : THandle;
-      FBuffer                  : TBitmap;
       FScanlineSize            : integer;
       FTransparent             : boolean;
       FOnPaintParentBkg        : TNotifyEvent;
       FForcedDeviceScaleFactor : single;
       {$IFDEF MSWINDOWS}
+      FBuffer                  : TBitmap;
+      FSyncObj                 : THandle;
       FIMEHandler              : TCEFOSRIMEHandler;
       FOnIMECancelComposition  : TNotifyEvent;
       FOnIMECommitText         : TOnIMECommitTextEvent;
@@ -85,6 +85,12 @@ type
       FOnPointerDown           : TOnHandledMessageEvent;
       FOnPointerUp             : TOnHandledMessageEvent;
       FOnPointerUpdate         : TOnHandledMessageEvent;
+      {$ELSE}
+      FBuffer                  : TCEFBitmapBitBuffer;   
+      FPopupBuffer             : TCEFBitmapBitBuffer;
+      FBitmap                  : TBitmap;
+      FSyncObj                 : TCriticalSection;
+      FPopupScanlineSize       : integer;
       {$ENDIF}
 
       procedure CreateSyncObj;
@@ -100,6 +106,10 @@ type
       {$IFDEF MSWINDOWS}
       function  GetParentFormHandle : TCefWindowHandle;
       function  GetParentForm : TCustomForm;
+      {$ELSE}
+      function  GetPopupBufferBits : pointer;
+      function  GetPopupBufferWidth : integer;
+      function  GetPopupBufferHeight : integer;
       {$ENDIF}
 
       procedure SetTransparent(aValue : boolean);
@@ -136,17 +146,28 @@ type
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
       procedure   CreateIMEHandler;
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
+      {$IFNDEF MSWINDOWS}
+      procedure   DrawPopupBuffer(const aSrcRect, aDstRect : TRect);
+      function    UpdatePopupBufferDimensions(aWidth, aHeight : integer) : boolean;
+      {$ENDIF}
 
-      property Buffer                    : TBitmap                   read FBuffer;
       property ScanlineSize              : integer                   read FScanlineSize;
       property BufferWidth               : integer                   read GetBufferWidth;
       property BufferHeight              : integer                   read GetBufferHeight;
       property BufferBits                : pointer                   read GetBufferBits;
       property ScreenScale               : single                    read GetScreenScale;
       property ForcedDeviceScaleFactor   : single                    read FForcedDeviceScaleFactor   write FForcedDeviceScaleFactor;
-      {$IFDEF MSWINDOWS}
+      {$IFDEF MSWINDOWS}                                                                
+      property Buffer                    : TBitmap                   read FBuffer;
       property ParentFormHandle          : TCefWindowHandle          read GetParentFormHandle;
       property ParentForm                : TCustomForm               read GetParentForm;
+      {$ELSE}
+      property Buffer                    : TCEFBitmapBitBuffer       read FBuffer;
+      property PopupBuffer               : TCEFBitmapBitBuffer       read FPopupBuffer;     
+      property PopupBufferWidth          : integer                   read GetPopupBufferWidth;
+      property PopupBufferHeight         : integer                   read GetPopupBufferHeight;
+      property PopupBufferBits           : pointer                   read GetPopupBufferBits;
+      property PopupScanlineSize         : integer                   read FPopupScanlineSize;
       {$ENDIF}
 
       property DockManager;
@@ -263,23 +284,29 @@ procedure Register;
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.Math,
+  {$ELSE}
+  Math,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFApplicationCore;
 
 constructor TBufferPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FMutex            := 0;
   FBuffer           := nil;
   FTransparent      := False;
   FOnPaintParentBkg := nil;
+  FScanlineSize     := 0;
 
   if (GlobalCEFApp <> nil) and (GlobalCEFApp.ForcedDeviceScaleFactor <> 0) then
     FForcedDeviceScaleFactor := GlobalCEFApp.ForcedDeviceScaleFactor
    else
     FForcedDeviceScaleFactor := 0;
 
-  {$IFDEF MSWINDOWS}
+  {$IFDEF MSWINDOWS}           
+  FSyncObj                := 0;
   FIMEHandler             := nil;
   FOnIMECancelComposition := nil;
   FOnIMECommitText        := nil;
@@ -288,6 +315,11 @@ begin
   FOnPointerDown          := nil;
   FOnPointerUp            := nil;
   FOnPointerUpdate        := nil;
+  {$ELSE}
+  FSyncObj                := nil;
+  FBitmap                 := nil;
+  FPopupBuffer            := nil;
+  FPopupScanlineSize      := 0;
   {$ENDIF}
 end;
 
@@ -298,6 +330,8 @@ begin
 
   {$IFDEF MSWINDOWS}
   if (FIMEHandler <> nil) then FreeAndNil(FIMEHandler);
+  {$ELSE}
+  if (FBitmap <> nil) then FreeAndNil(FBitmap);
   {$ENDIF}
 
   inherited Destroy;
@@ -334,21 +368,65 @@ begin
   {$ENDIF}
 end;
 
+{$IFNDEF MSWINDOWS}
+procedure TBufferPanel.DrawPopupBuffer(const aSrcRect, aDstRect : TRect);
+var
+  src_y, dst_y, TempWidth : integer;
+  src, dst : pointer;
+begin
+  if (FBuffer = nil) or (FPopupBuffer = nil) then exit;
+
+  src_y := aSrcRect.Top;
+  dst_y := aDstRect.Top;
+
+  TempWidth := min(aSrcRect.Right - aSrcRect.Left + 1,
+                   aDstRect.Right - aDstRect.Left + 1);
+
+  if (aSrcRect.Left + TempWidth >= FPopupBuffer.Width) then
+    TempWidth := FPopupBuffer.Width - aSrcRect.Left;
+
+  if (aDstRect.Left + TempWidth >= FBuffer.Width) then
+    TempWidth := FBuffer.Width - aDstRect.Left;
+
+  while (src_y <= aSrcRect.Bottom) and (src_y < FPopupBuffer.Height) and
+        (dst_y <= aDstRect.Bottom) and (dst_y < FBuffer.Height) do
+    begin
+      src := FPopupBuffer.ScanLine[src_y];
+      dst := FBuffer.ScanLine[dst_y];
+
+      if (aSrcRect.Left > 0) then
+        inc(src, aSrcRect.Left * SizeOf(TRGBQuad));
+
+      if (aDstRect.Left > 0) then
+        inc(dst, aDstRect.Left * SizeOf(TRGBQuad));
+
+      move(src^, dst^, TempWidth * SizeOf(TRGBQuad));
+
+      inc(src_y);
+      inc(dst_y);
+    end;
+end;
+{$ENDIF}
+
 procedure TBufferPanel.CreateSyncObj;
 begin
   {$IFDEF MSWINDOWS}
-  FMutex := CreateMutex(nil, False, nil);
+  FSyncObj := CreateMutex(nil, False, nil);
+  {$ELSE}
+  FSyncObj := TCriticalSection.Create;
   {$ENDIF}
 end;
 
 procedure TBufferPanel.DestroySyncObj;
 begin
   {$IFDEF MSWINDOWS}
-  if (FMutex <> 0) then
+  if (FSyncObj <> 0) then
     begin
-      CloseHandle(FMutex);
-      FMutex := 0;
+      CloseHandle(FSyncObj);
+      FSyncObj := 0;
     end;
+  {$ELSE}
+  if (FSyncObj <> nil) then FreeAndNil(FSyncObj);
   {$ENDIF}
 end;
 
@@ -356,7 +434,10 @@ procedure TBufferPanel.DestroyBuffer;
 begin
   if BeginBufferDraw then
     begin
-      if (FBuffer <> nil) then FreeAndNil(FBuffer);
+      if (FBuffer      <> nil) then FreeAndNil(FBuffer);
+      {$IFNDEF MSWINDOWS}
+      if (FPopupBuffer <> nil) then FreeAndNil(FPopupBuffer);
+      {$ENDIF}
       EndBufferDraw;
     end;
 end;
@@ -364,13 +445,20 @@ end;
 function TBufferPanel.SaveBufferToFile(const aFilename : string) : boolean;
 begin
   Result := False;
-
   try
+    {$IFDEF MSWINDOWS}
     if (FBuffer <> nil) then
       begin
         FBuffer.SaveToFile(aFilename);
         Result := True;
       end;
+    {$ELSE}
+    if (FBitmap <> nil) then
+      begin
+        FBitmap.SaveToFile(aFilename);
+        Result := True;
+      end;
+    {$ENDIF}
   except
     on e : exception do
       if CustomExceptionHandler('TBufferPanel.SaveBufferToFile', e) then raise;
@@ -392,62 +480,116 @@ function TBufferPanel.InvalidatePanel : boolean;
 begin
   {$IFDEF MSWINDOWS}
   Result := HandleAllocated and PostMessage(Handle, CM_INVALIDATE, 0, 0);
+  {$ELSE}
+  Result := True;
+  TThread.Queue(nil, @Invalidate);
   {$ENDIF}
 end;
 
 function TBufferPanel.BeginBufferDraw : boolean;
 begin
   {$IFDEF MSWINDOWS}
-  Result := (FMutex <> 0) and (WaitForSingleObject(FMutex, 5000) = WAIT_OBJECT_0);
+  Result := (FSyncObj <> 0) and (WaitForSingleObject(FSyncObj, 5000) = WAIT_OBJECT_0);
+  {$ELSE}
+  if (FSyncObj <> nil) then
+    begin
+      FSyncObj.Acquire;
+      Result := True;
+    end
+   else
+    Result := False;
   {$ENDIF}
 end;
 
 procedure TBufferPanel.EndBufferDraw;
 begin
   {$IFDEF MSWINDOWS}
-  if (FMutex <> 0) then ReleaseMutex(FMutex);
+  if (FSyncObj <> 0) then ReleaseMutex(FSyncObj);
+  {$ELSE}
+  if (FSyncObj <> nil) then FSyncObj.Release;
   {$ENDIF}
 end;
 
 function TBufferPanel.CopyBuffer : boolean;
-{$IFDEF MSWINDOWS}
 var
+  {$IFDEF MSWINDOWS}
   TempFunction  : TBlendFunction;
-{$ENDIF}
+  {$ELSE}
+  y : integer;
+  src, dst : pointer;
+  {$ENDIF}
 begin
   Result := False;
 
-  {$IFDEF MSWINDOWS}
   if BeginBufferDraw then
     try
-      if (FBuffer <> nil) then
+      if (FBuffer <> nil) and (FBuffer.Width <> 0) and (FBuffer.Height <> 0) then
         begin
-          if FTransparent then
-            begin
-              // TODO : To avoid flickering we should be using another bitmap
-              // for the background image. We should blend "FBuffer" with the
-              // "background bitmap" and then blit the result to the canvas.
+          {$IFDEF MSWINDOWS}
+            if FTransparent then
+              begin
+                // TODO : To avoid flickering we should be using another bitmap
+                // for the background image. We should blend "FBuffer" with the
+                // "background bitmap" and then blit the result to the canvas.
 
-              if assigned(FOnPaintParentBkg) then FOnPaintParentBkg(self);
+                if assigned(FOnPaintParentBkg) then FOnPaintParentBkg(self);
 
-              TempFunction.BlendOp             := AC_SRC_OVER;
-              TempFunction.BlendFlags          := 0;
-              TempFunction.SourceConstantAlpha := 255;
-              TempFunction.AlphaFormat         := AC_SRC_ALPHA;
+                TempFunction.BlendOp             := AC_SRC_OVER;
+                TempFunction.BlendFlags          := 0;
+                TempFunction.SourceConstantAlpha := 255;
+                TempFunction.AlphaFormat         := AC_SRC_ALPHA;
 
-              Result := AlphaBlend(Canvas.Handle, 0, 0, Width, Height,
-                                   FBuffer.Canvas.Handle, 0, 0, FBuffer.Width, FBuffer.Height,
-                                   TempFunction);
-            end
-           else
-            Result := BitBlt(Canvas.Handle, 0, 0, Width, Height,
-                             FBuffer.Canvas.Handle, 0, 0,
-                             SrcCopy);
+                Result := AlphaBlend(Canvas.Handle, 0, 0, Width, Height,
+                                     FBuffer.Canvas.Handle, 0, 0, FBuffer.Width, FBuffer.Height,
+                                     TempFunction);
+              end
+             else
+              Result := BitBlt(Canvas.Handle, 0, 0, Width, Height,
+                               FBuffer.Canvas.Handle, 0, 0,
+                               SrcCopy);
+          {$ELSE}
+            try
+              Canvas.Lock;
+
+              if (FBitmap = nil) then
+                begin
+                  FBitmap             := TBitmap.Create;
+                  FBitmap.PixelFormat := pf32bit;
+                  FBitmap.HandleType  := bmDIB;
+                  FBitmap.Width       := 1;
+                  FBitmap.Height      := 1;
+                end;
+
+              if (FBitmap.Width  <> FBuffer.Width)  or
+                 (FBitmap.Height <> FBuffer.Height) then
+                begin
+                  FBitmap.Width              := FBuffer.Width;
+                  FBitmap.Height             := FBuffer.Height;
+                  FBitmap.Canvas.Brush.Color := clWhite;
+                  FBitmap.Canvas.FillRect(0, 0, FBitmap.Width, FBitmap.Height);
+                end;
+
+              FBitmap.BeginUpdate;
+              y := 0;
+              while (y < FBitmap.Height) do
+                begin
+                  src := FBuffer.ScanLine[y];
+                  dst := FBitmap.ScanLine[y];
+                  move(src^, dst^, FBuffer.ScanLineSize);
+                  inc(y);
+                end;
+              FBitmap.EndUpdate;
+
+              Canvas.Draw(0, 0, FBitmap);
+              Result := True;
+            finally
+              Canvas.Unlock;
+            end;
+          {$ENDIF}
         end;
     finally
       EndBufferDraw;
     end;
-  {$ENDIF}
 end;
 
 procedure TBufferPanel.Paint;
@@ -649,7 +791,13 @@ end;
 function TBufferPanel.GetBufferBits : pointer;
 begin
   if (FBuffer <> nil) then
-    Result := FBuffer.Scanline[pred(FBuffer.Height)]
+    begin
+      {$IFDEF MSWINDOWS}
+      Result := FBuffer.Scanline[pred(FBuffer.Height)];
+      {$ELSE}
+      Result := FBuffer.BufferBits;
+      {$ENDIF}
+    end
    else
     Result := nil;
 end;
@@ -670,13 +818,46 @@ begin
     Result := 0;
 end;
 
+{$IFNDEF MSWINDOWS}
+function TBufferPanel.GetPopupBufferBits : pointer;
+begin
+  if (FPopupBuffer <> nil) then
+    Result := FPopupBuffer.BufferBits
+   else
+    Result := nil;
+end;
+
+function TBufferPanel.GetPopupBufferWidth : integer;
+begin
+  if (FPopupBuffer <> nil) then
+    Result := FPopupBuffer.Width
+   else
+    Result := 0;
+end;
+
+function TBufferPanel.GetPopupBufferHeight : integer;    
+begin
+  if (FPopupBuffer <> nil) then
+    Result := FPopupBuffer.Height
+   else
+    Result := 0;
+end;
+{$ENDIF}
+
 function TBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
-{$IFDEF MSWINDOWS}
 var
+  {$IFDEF MSWINDOWS}
   TempHandle : TCefWindowHandle;
   TempDC     : HDC;
   TempDPI    : UINT;
-{$ENDIF}
+  {$ELSE}
+    {$IFDEF LINUX}
+      {$IFDEF FPC}
+      TempForm    : TCustomForm;
+      TempMonitor : TMonitor;
+      {$ENDIF}
+    {$ENDIF}
+  {$ENDIF}
 begin
   Result       := False;
   aResultScale := 1;
@@ -697,6 +878,26 @@ begin
           ReleaseDC(TempHandle, TempDC);
         end;
     end;
+  {$ELSE}
+    {$IFDEF LINUX}
+      {$IFDEF FPC}
+      if (MainThreadID = GetCurrentThreadId()) then
+        begin
+          TempForm := GetParentForm(self, True);
+
+          if (TempForm <> nil) then
+            begin
+              TempMonitor := TempForm.Monitor;
+
+              if (TempMonitor <> nil) then
+                begin
+                  aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
+                  Result       := True;
+                end;
+            end;
+        end;
+      {$ENDIF}
+    {$ENDIF}
   {$ENDIF}
 end;
 
@@ -764,12 +965,16 @@ end;
 
 procedure TBufferPanel.BufferDraw(x, y : integer; const aBitmap : TBitmap);
 begin
+  {$IFDEF MSWINDOWS}
   if (FBuffer <> nil) then FBuffer.Canvas.Draw(x, y, aBitmap);
+  {$ENDIF}
 end;
 
 procedure TBufferPanel.BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect);
 begin
+  {$IFDEF MSWINDOWS}
   if (FBuffer <> nil) then FBuffer.Canvas.CopyRect(aDstRect, aBitmap.Canvas, aSrcRect);
+  {$ENDIF}
 end;
 
 function TBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
@@ -782,16 +987,39 @@ begin
     begin
       if (FBuffer <> nil) then FreeAndNil(FBuffer);
 
+      {$IFDEF MSWINDOWS}
       FBuffer             := TBitmap.Create;
       FBuffer.PixelFormat := pf32bit;
-      FBuffer.HandleType  := bmDIB;
+      FBuffer.HandleType  := bmDIB;     
       FBuffer.Width       := aWidth;
       FBuffer.Height      := aHeight;
+      FScanlineSize       := aWidth * SizeOf(TRGBQuad);
+      {$ELSE}
+      FBuffer             := TCEFBitmapBitBuffer.Create(aWidth, aHeight);
+      FScanlineSize       := FBuffer.ScanlineSize;
+      {$ENDIF}
 
-      FScanlineSize := FBuffer.Width * SizeOf(TRGBQuad);
-      Result        := True;
+      Result := True;
+    end;
+end;   
+
+{$IFNDEF MSWINDOWS}
+function TBufferPanel.UpdatePopupBufferDimensions(aWidth, aHeight : integer) : boolean;
+begin
+  Result := False;
+
+  if ((FPopupBuffer        =  nil)      or
+      (FPopupBuffer.Width  <> aWidth)   or
+      (FPopupBuffer.Height <> aHeight)) then
+    begin
+      if (FPopupBuffer <> nil) then FreeAndNil(FPopupBuffer);
+
+      FPopupBuffer       := TCEFBitmapBitBuffer.Create(aWidth, aHeight);
+      FPopupScanlineSize := FPopupBuffer.ScanlineSize;
+      Result             := True;
     end;
 end;
+{$ENDIF}
 
 function TBufferPanel.BufferIsResized(aUseMutex : boolean) : boolean;
 var

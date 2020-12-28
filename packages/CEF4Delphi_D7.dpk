@@ -214,6 +214,7 @@ contains
   uCEFAudioHandler in '..\source\uCEFAudioHandler.pas',
   uCEFDevToolsMessageObserver in '..\source\uCEFDevToolsMessageObserver.pas',
   uCEFMediaSinkDeviceInfoCallback in '..\source\uCEFMediaSinkDeviceInfoCallback.pas',
-  uCEFJson in '..\source\uCEFJson.pas';
+  uCEFJson in '..\source\uCEFJson.pas',
+  uCEFBitmapBitBuffer in '..\source\uCEFBitmapBitBuffer.pas';
 
 end.

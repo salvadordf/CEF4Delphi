@@ -33,7 +33,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="SimpleOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -46,6 +46,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleOSRBrowser"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Interfaces"/>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -66,6 +71,10 @@
     </Linking>
     <Other>
       <CustomOptions Value="-dUseCthreads"/>
+      <OtherDefines Count="2">
+        <Define0 Value="UseCthreads"/>
+        <Define1 Value="EnabledGtkThreading"/>
+      </OtherDefines>
     </Other>
   </CompilerOptions>
   <Debugging>

@@ -173,7 +173,7 @@ type
       FForcedDeviceScaleFactor           : single;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
-      FDefaultEncoding                   : string;
+      FDefaultEncoding                   : ustring;
       FDisableJavascript                 : boolean;
       FDisableJavascriptCloseWindows     : boolean;
       FDisableJavascriptAccessClipboard  : boolean;
@@ -186,7 +186,7 @@ type
       FDisablePlugins                    : boolean;
       FEnableProfanityFilter             : boolean;
       FDisableSpellChecking              : boolean;
-      FOverrideSpellCheckLang            : string;
+      FOverrideSpellCheckLang            : ustring;
       FEnablePrintPreview                : boolean;
       FTouchEvents                       : TCefState;
       FDisableReadingFromCanvas          : boolean;
@@ -430,7 +430,7 @@ type
       property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;      // --allow-running-insecure-content
       property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;               // --enable-print-preview
       property PluginPolicy                      : TCefPluginPolicySwitch              read FPluginPolicy                      write FPluginPolicy;                     // --plugin-policy
-      property DefaultEncoding                   : string                              read FDefaultEncoding                   write FDefaultEncoding;                  // --default-encoding
+      property DefaultEncoding                   : ustring                             read FDefaultEncoding                   write FDefaultEncoding;                  // --default-encoding
       property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;                // --disable-javascript
       property DisableJavascriptCloseWindows     : boolean                             read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;    // --disable-javascript-close-windows
       property DisableJavascriptAccessClipboard  : boolean                             read FDisableJavascriptAccessClipboard  write FDisableJavascriptAccessClipboard; // --disable-javascript-access-clipboard
@@ -443,7 +443,7 @@ type
       property DisablePlugins                    : boolean                             read FDisablePlugins                    write FDisablePlugins;                   // --disable-plugins
       property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;            // --enable-profanity-filter
       property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;             // --disable-spell-checking
-      property OverrideSpellCheckLang            : string                              read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;           // --override-spell-check-lang
+      property OverrideSpellCheckLang            : ustring                             read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;           // --override-spell-check-lang
       property TouchEvents                       : TCefState                           read FTouchEvents                       write FTouchEvents;                      // --touch-events
       property DisableReadingFromCanvas          : boolean                             read FDisableReadingFromCanvas          write FDisableReadingFromCanvas;         // --disable-reading-from-canvas
       property HyperlinkAuditing                 : boolean                             read FHyperlinkAuditing                 write FHyperlinkAuditing;                // --no-pings
@@ -581,6 +581,7 @@ uses
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
       {$IFDEF MSWINDOWS}jwatlhelp32, jwapsapi,{$ENDIF}
+      {$IFDEF LINUX}lcltype, Forms,{$ENDIF}
     {$ELSE}
       TlHelp32, {$IFDEF MSWINDOWS}PSAPI,{$ENDIF}
     {$ENDIF}
@@ -885,7 +886,13 @@ begin
   if (length(FFrameworkDirPath) > 0) then
     Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + LIBCEF_DLL
    else
-    Result := LIBCEF_DLL;
+    begin
+      {$IFDEF LINUX}
+      Result := GetModulePath + LIBCEF_DLL;
+      {$ELSE}
+      Result := LIBCEF_DLL;
+      {$ENDIF}
+    end;
 end;
 
 function TCefApplicationCore.GetChromeElfPath : ustring;
@@ -1177,13 +1184,18 @@ begin
             TempArgs.argc := argc;
             TempArgs.argv := argv;
             {$ELSE}
-            // TODO: Find a way to set the TCefMainArgs values in Delphi FMX for Linux
+            TempArgs.argc := ArgCount;
+            TempArgs.argv := PPWideChar(ArgValues);
+            {$ENDIF}
+          {$ELSE}
+            // TODO: Find a way to pass the arguments in MacOS
+            {$IFDEF FPC}
+            TempArgs.argc := 0;
+            TempArgs.argv := 0;
+            {$ELSE}
             TempArgs.argc := 0;
             TempArgs.argv := 0;
             {$ENDIF}
-          {$ELSE}
-          TempArgs.argc := 0;
-          TempArgs.argv := 0;
           {$ENDIF}
         {$ENDIF}
 
@@ -1263,13 +1275,18 @@ begin
               TempArgs.argc := argc;
               TempArgs.argv := argv;
               {$ELSE}
-              // TODO: Find a way to set the TCefMainArgs values in Delphi FMX for Linux
+              TempArgs.argc := ArgCount;
+              TempArgs.argv := PPWideChar(ArgValues);
+              {$ENDIF}
+            {$ELSE}
+              // TODO: Find a way to pass the arguments in MacOS
+              {$IFDEF FPC}
+              TempArgs.argc := 0;
+              TempArgs.argv := 0;
+              {$ELSE}
               TempArgs.argc := 0;
               TempArgs.argv := 0;
               {$ENDIF}
-            {$ELSE}
-            TempArgs.argc := 0;
-            TempArgs.argv := 0;
             {$ENDIF}
           {$ENDIF}
 
@@ -1457,6 +1474,10 @@ begin
     begin
       {$IFDEF MSWINDOWS}
       MessageBox(0, PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK or MB_TOPMOST);
+      {$ELSE}
+        {$IFDEF LINUX}
+        Application.MessageBox(PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK);
+        {$ENDIF}
       {$ENDIF}
     end;
 
@@ -2233,11 +2254,11 @@ begin
 
       {$IFDEF MSWINDOWS}
       TempError  := GetLastError;
-      TempString := 'Error loading libcef.dll' + CRLF + CRLF +
+      TempString := 'Error loading ' + LIBCEF_DLL + CRLF + CRLF +
                     'Error code : 0x' + inttohex(TempError, 8) + CRLF +
                     SysErrorMessage(TempError);
       {$ELSE}
-      TempString := 'Error loading the CEF binaries';
+      TempString := 'Error loading ' + LIBCEF_DLL;
       {$ENDIF}
 
       ShowErrorMessageDlg(TempString);

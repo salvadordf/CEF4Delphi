@@ -62,7 +62,8 @@ uses
   uCEFBrowserViewComponent, uCEFWindowComponent, uCEFPanelComponent, 
   uCEFScrollViewComponent, uCEFTextfieldComponent, uCEFViewComponent, 
   uCEFViewsFrameworkEvents, uCEFAudioHandler, uCEFDevToolsMessageObserver, 
-  uCEFMediaSinkDeviceInfoCallback, uCEFJson, LazarusPackageIntf;
+  uCEFMediaSinkDeviceInfoCallback, uCEFJson, uCEFBitmapBitBuffer, 
+  LazarusPackageIntf;
 
 implementation
 
