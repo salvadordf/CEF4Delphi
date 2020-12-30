@@ -54,6 +54,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
+  {$IFDEF LINUX}xlib,{$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
@@ -251,6 +252,9 @@ type
       function  GetTotalSystemMemory : uint64;
       function  GetAvailableSystemMemory : uint64;
       function  GetSystemMemoryLoad : cardinal;
+      {$IFDEF LINUX}
+      function  GetXDisplay : PXDisplay;
+      {$ENDIF}
 
       function  LoadCEFlibrary : boolean; virtual;
       function  Load_cef_app_capi_h : boolean;
@@ -494,6 +498,9 @@ type
       property AvailableSystemMemory             : uint64                              read GetAvailableSystemMemory;
       property SystemMemoryLoad                  : cardinal                            read GetSystemMemoryLoad;
       property SupportedSchemes                  : TStringList                         read FSupportedSchemes;
+      {$IFDEF LINUX}
+      property XDisplay                          : PXDisplay                           read GetXDisplay;
+      {$ENDIF}
 
       // ICefApp
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
@@ -2213,6 +2220,17 @@ begin
   if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.dwMemoryLoad;
   {$ENDIF}
 end;
+
+{$IFDEF LINUX}
+function TCefApplicationCore.GetXDisplay : PXDisplay;
+begin
+  // This property can only be called in the CEF UI thread.
+  if FLibLoaded then
+    Result := cef_get_xdisplay{$IFDEF FPC}(){$ENDIF}
+   else
+    Result := nil;
+end;
+{$ENDIF}
 
 function TCefApplicationCore.LoadCEFlibrary : boolean;
 var

@@ -435,6 +435,9 @@ type
       function  ExecuteSetZoomLevelTask(const aValue : double) : boolean;
       function  ExecuteSetZoomStepTask(aValue : byte) : boolean;
       function  ExecuteBrowserNavigationTask(aTask : TCefBrowserNavigation) : boolean;
+      function  ExecuteUpdateSizeTask(aLeft, aTop, aWidth, aHeight : integer) : boolean;
+      function  ExecuteSendCaptureLostEventTask : boolean;
+      function  ExecuteUpdateXWindowVisibilityTask(aVisible : boolean) : boolean;
 
       procedure UpdateHostZoomLevel(const aValue : double);
       procedure UpdateHostZoomPct(const aValue : double);
@@ -639,6 +642,9 @@ type
       procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute); virtual;
       procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring); virtual;
       procedure doBrowserNavigation(aTask : TCefBrowserNavigation); virtual;
+      procedure doUpdateSize(aLeft, aTop, aWidth, aHeight : integer); virtual;
+      procedure doSendCaptureLostEvent; virtual;
+      procedure doUpdateXWindowVisibility(aVisible : boolean); virtual;
       function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateDevToolsMessageObserver : boolean; virtual;
       function  MustCreateLoadHandler : boolean; virtual;
@@ -804,6 +810,11 @@ type
 
       procedure   ReplaceMisspelling(const aWord : ustring);
       procedure   AddWordToDictionary(const aWord : ustring);
+
+      {$IFDEF LINUX}
+      procedure   UpdateBrowserSize(aLeft, aTop, aWidth, aHeight : integer);
+      procedure   UpdateXWindowVisibility(aVisible : boolean);
+      {$ENDIF}
 
       // ICefMediaRouter methods
       function    AddObserver(const observer: ICefMediaObserver): ICefRegistration;
@@ -1147,7 +1158,7 @@ uses
   {$IFDEF DELPHI16_UP}
   System.SysUtils, System.Math,
   {$ELSE}
-  SysUtils, Math,
+  SysUtils, Math, {$IFDEF FPC}{$IFDEF LINUX}xlib, x, xatom,{$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplicationCore, uCEFProcessMessage, uCEFRequestContext,
@@ -2492,6 +2503,57 @@ begin
     if Initialized then
       begin
         TempTask := TCefBrowserNavigationTask.Create(self, aTask);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
+function TChromiumCore.ExecuteUpdateSizeTask(aLeft, aTop, aWidth, aHeight : integer) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefUpdateSizeTask.Create(self, aLeft, aTop, aWidth, aHeight);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
+function TChromiumCore.ExecuteSendCaptureLostEventTask : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefSendCaptureLostEventTask.Create(self);
+        Result   := CefPostTask(TID_UI, TempTask);
+      end;
+  finally
+    TempTask := nil;
+  end;
+end;
+
+function TChromiumCore.ExecuteUpdateXWindowVisibilityTask(aVisible : boolean) : boolean;
+var
+  TempTask : ICefTask;
+begin
+  Result := False;
+
+  try
+    if Initialized then
+      begin
+        TempTask := TCefUpdateXWindowVisibilityTask.Create(self, aVisible);
         Result   := CefPostTask(TID_UI, TempTask);
       end;
   finally
@@ -4576,6 +4638,110 @@ begin
     end;
 end;
 
+procedure TChromiumCore.doUpdateSize(aLeft, aTop, aWidth, aHeight : integer);
+{$IFDEF LINUX}
+var
+  TempHandle   : TCefWindowHandle;
+  TempChanges  : TXWindowChanges;
+  TempXDisplay : PXDisplay;
+{$ENDIF}
+begin
+  {$IFDEF LINUX}
+  if (GlobalCEFApp <> nil) then
+    begin
+      TempXDisplay := GlobalCEFApp.XDisplay;
+
+      if (TempXDisplay <> nil) then
+        begin
+          TempHandle := WindowHandle;
+
+          if ValidCefWindowHandle(TempHandle) then
+            begin
+              TempChanges.x      := aLeft;
+              TempChanges.y      := aTop;
+              TempChanges.width  := aWidth;
+              TempChanges.height := aHeight;
+
+              XConfigureWindow(TempXDisplay, TempHandle, CWX or CWY or CWHeight or CWWidth, @TempChanges);
+            end;
+        end;
+    end;
+  {$ENDIF}
+end;   
+
+procedure TChromiumCore.doSendCaptureLostEvent;  
+{$IFDEF LINUX}
+var
+  TempXDisplay : PXDisplay;
+{$ENDIF}
+begin
+  {$IFDEF LINUX}
+  if (GlobalCEFApp <> nil) then
+    begin
+      TempXDisplay := GlobalCEFApp.XDisplay;
+
+      if (TempXDisplay <> nil) then
+        XSetInputFocus(TempXDisplay, X.None, RevertToNone, CurrentTime);
+    end;
+  {$ENDIF}
+
+  if Initialized then
+    Browser.Host.SendCaptureLostEvent;
+end;
+
+procedure TChromiumCore.doUpdateXWindowVisibility(aVisible : boolean);   
+{$IFDEF LINUX}
+var
+  TempXDisplay : PXDisplay;        
+  TempHandle   : TCefWindowHandle;
+  TempState    : TAtom;
+  TempHidden   : TAtom;
+{$ENDIF}
+begin
+  {$IFDEF LINUX}
+  if (GlobalCEFApp <> nil) then
+    begin
+      TempXDisplay := GlobalCEFApp.XDisplay;
+
+      if (TempXDisplay <> nil) then
+        begin     
+          TempHandle := WindowHandle;
+
+          if ValidCefWindowHandle(TempHandle) then
+            begin
+              TempState := XInternAtom(TempXDisplay, '_NET_WM_STATE', False);
+
+              if aVisible then
+                XChangeProperty(TempXDisplay, TempHandle, TempState, XA_ATOM, 32, PropModeReplace, nil, 0)
+               else
+                begin
+                  TempHidden := XInternAtom(TempXDisplay, '_NET_WM_STATE_HIDDEN', False);
+                  XChangeProperty(TempXDisplay, TempHandle, TempState, XA_ATOM, 32, PropModeReplace, @TempHidden, 1);
+                end;
+            end;
+        end;
+    end;
+  {$ENDIF}
+end;
+
+{$IFDEF LINUX}
+procedure TChromiumCore.UpdateBrowserSize(aLeft, aTop, aWidth, aHeight : integer);
+begin
+  if CefCurrentlyOn(TID_UI) then
+    doUpdateSize(aLeft, aTop, aWidth, aHeight)
+   else
+    ExecuteUpdateSizeTask(aLeft, aTop, aWidth, aHeight);
+end;
+
+procedure TChromiumCore.UpdateXWindowVisibility(aVisible : boolean);
+begin
+  if CefCurrentlyOn(TID_UI) then
+    doUpdateXWindowVisibility(aVisible)
+   else
+    ExecuteUpdateXWindowVisibilityTask(aVisible);
+end;
+{$ENDIF}
+
 function TChromiumCore.MustCreateLoadHandler : boolean;
 begin
   Result := assigned(FOnLoadStart) or
@@ -6231,8 +6397,10 @@ end;
 
 procedure TChromiumCore.SendCaptureLostEvent;
 begin
-  if Initialized then
-    Browser.Host.SendCaptureLostEvent;
+  if CefCurrentlyOn(TID_UI) then
+    doSendCaptureLostEvent
+   else
+    ExecuteSendCaptureLostEventTask;
 end;
 
 procedure TChromiumCore.SetFocus(focus: Boolean);

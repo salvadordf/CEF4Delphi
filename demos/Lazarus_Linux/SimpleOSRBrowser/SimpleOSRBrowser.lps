@@ -20,9 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleOSRBrowser"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="595"/>
-        <CursorPos Y="624"/>
+        <CursorPos X="53" Y="609"/>
         <UsageCount Value="78"/>
         <Bookmarks Count="2">
           <Item0 X="47" Y="222" ID="2"/>
@@ -35,6 +34,7 @@
         <Filename Value="interfaces.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Interfaces"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos X="40" Y="20"/>
         <UsageCount Value="74"/>

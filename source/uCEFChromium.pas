@@ -123,10 +123,11 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Math;
+  System.SysUtils, System.Math,
   {$ELSE}
-  SysUtils, Math;
+  SysUtils, Math,
   {$ENDIF}
+  uCEFMiscFunctions;
 
 { TChromium }
 
@@ -295,7 +296,7 @@ function TChromium.CreateBrowser(const aBrowserParent : TWinControl;
                                  const aContext       : ICefRequestContext;
                                  const aExtraInfo     : ICefDictionaryValue) : boolean;
 var
-  TempHandle : HWND;
+  TempHandle : TCefWindowHandle;
   TempRect   : TRect;
 begin
   if (aBrowserParent <> nil) then
@@ -305,8 +306,8 @@ begin
     end
    else
     begin
-      TempHandle := 0;
-      TempRect   := rect(0, 0, 0, 0);
+      InitializeWindowHandle(TempHandle);
+      TempRect := rect(0, 0, 0, 0);
     end;
 
   Result := inherited CreateBrowser(TempHandle, TempRect, aWindowName, aContext, aExtraInfo);

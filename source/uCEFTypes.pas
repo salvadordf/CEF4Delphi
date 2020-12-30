@@ -250,9 +250,7 @@ type
   PCefMediaSinkDeviceInfo = ^TCefMediaSinkDeviceInfo;
 
   {$IFDEF LINUX}
-  PXEvent   = Pointer;
-  TXDisplay = record end;
-  PXDisplay = ^TXDisplay;
+  PXEvent = Pointer;
   {$ENDIF}
 
 

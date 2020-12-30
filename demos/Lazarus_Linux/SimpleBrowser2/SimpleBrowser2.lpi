@@ -33,7 +33,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="SimpleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -46,6 +46,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleBrowser2"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Interfaces"/>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

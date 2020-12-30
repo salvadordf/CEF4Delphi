@@ -42,9 +42,9 @@ unit uSimpleBrowser2;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, LMessages,
   uCEFChromium, uCEFWindowParent, uCEFConstants, uCEFTypes, uCEFInterfaces,
-  uCEFChromiumEvents;
+  uCEFChromiumEvents, uCEFLinkedWindowParent;
 
 type
 
@@ -52,30 +52,25 @@ type
 
   TForm1 = class(TForm)
     AddressEdt: TEdit;
+    CEFLinkedWindowParent1: TCEFLinkedWindowParent;
     GoBtn: TButton;
-    CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     AddressPnl: TPanel;
     Timer1: TTimer;
-    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser
-      );
+
+    procedure CEFLinkedWindowParent1Enter(Sender: TObject);
+    procedure CEFLinkedWindowParent1Exit(Sender: TObject);
+
+    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser;
-      const frame: ICefFrame; const targetUrl, targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-      var client: ICefClient; var settings: TCefBrowserSettings;
-      var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;
-      var Result: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      var aAction: TCefCloseBrowserAction);
-    procedure Chromium1OpenUrlFromTab(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition;
-      userGesture: Boolean; out Result: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);    
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
+
+    procedure FormCreate(Sender: TObject);   
+    procedure FormActivate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
-    procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
@@ -85,10 +80,14 @@ type
     FCanClose  : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing   : boolean;  // Set to True in the CloseQuery event.
 
-    function  SendCompMessage(aMsg : cardinal) : boolean;
+    // CEF needs to handle these messages to call TChromium.NotifyMoveOrResizeStarted
+    procedure WMMove(var Message: TLMMove); message LM_MOVE;
+    procedure WMSize(var Message: TLMSize); message LM_SIZE;
+    procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
 
-    procedure BrowserCreated;
-    procedure BrowserDestroyMsg(Data: PtrInt);
+    procedure SendCompMessage(aMsg : cardinal);
+
+    procedure BrowserCreatedMsg(Data: PtrInt);
     procedure BrowserCloseFormMsg(Data: PtrInt);
   public
 
@@ -115,12 +114,15 @@ implementation
 // or the domain "google.com". If you don't live in the US, you'll be redirected to
 // another domain which will take a little time too.
 
-// This demo uses a TChromium and a TCEFWindowParent
+// This demo uses a TChromium and a TCEFLinkedWindowParent
+
+// We need to use TCEFLinkedWindowParent in Linux to update the browser
+// visibility and size automatically.
 
 // Destruction steps
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnClose sets aAction to cbaClose to destroy the browser, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends CEF_BEFORECLOSE to close the form.
 
 uses
@@ -130,56 +132,32 @@ uses
 
 
 procedure CreateGlobalCEFApp;
-var
-  TempHome, TempBinDir : ustring;
 begin
-  TempHome     := IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
-  TempBinDir   := TempHome + 'Lazarus/CEF4Delphi/bin';
-
-  GlobalCEFApp               := TCefApplication.Create;
-  GlobalCEFApp.SetCurrentDir := True;
-
-  if DirectoryExists(TempBinDir) then
-    begin
-      GlobalCEFApp.FrameworkDirPath := TempBinDir;
-      GlobalCEFApp.ResourcesDirPath := TempBinDir;
-      GlobalCEFApp.LocalesDirPath   := TempBinDir + '/locales';
-    end;
-
-  // Add a debug log in the BIN directory
+  GlobalCEFApp             := TCefApplication.Create;
+  {
   GlobalCEFApp.LogFile     := 'cef.log';
   GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
+  }
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   FCanClose   := False;
   FClosing    := False;
-end;
 
-procedure TForm1.FormShow(Sender: TObject);
-begin                                             
   Chromium1.DefaultURL := UTF8Decode(AddressEdt.Text);
-
-  // You *MUST* call CreateBrowser to create and initialize the browser.
-  // This will trigger the AfterCreated event when the browser is fully
-  // initialized and ready to receive commands.
-
-  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
-  // If it's not initialized yet, we use a simple timer to create the browser later.
-  if not(Chromium1.CreateBrowser(CEFWindowParent1)) then Timer1.Enabled := True;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
-  // This will load the URL in the edit box
   Chromium1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
-  if not(Chromium1.CreateBrowser(CEFWindowParent1)) and not(Chromium1.Initialized) then
+  if not(Chromium1.CreateBrowser(CEFLinkedWindowParent1.Handle, CEFLinkedWindowParent1.BoundsRect)) and
+     not(Chromium1.Initialized) then
     Timer1.Enabled := True;
 end;
 
@@ -205,34 +183,7 @@ procedure TForm1.Chromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
-end;
-
-procedure TForm1.Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-  var aAction: TCefCloseBrowserAction);
-begin
-  SendCompMessage(CEF_DESTROY);
-  aAction := cbaDelay;
-end;
-
-procedure TForm1.Chromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
-begin
-  // Now the browser is fully initialized we can initialize the UI.
-  TThread.Queue(nil, @BrowserCreated);
-end;
-
-procedure TForm1.BrowserCreated;
-begin
-  Caption            := 'Simple Browser 2';
-  AddressPnl.Enabled := True;
-end;
-
-procedure TForm1.Chromium1BeforeClose(Sender: TObject;
-  const browser: ICefBrowser);
-begin
-  FCanClose := True;
-  SendCompMessage(CEF_BEFORECLOSE);
-end;
+end;      
 
 procedure TForm1.Chromium1OpenUrlFromTab(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
@@ -243,9 +194,57 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TForm1.BrowserDestroyMsg(Data: PtrInt);
+procedure TForm1.FormActivate(Sender: TObject);
 begin
-  CEFWindowParent1.Free;
+  // You *MUST* call CreateBrowser to create and initialize the browser.
+  // This will trigger the AfterCreated event when the browser is fully
+  // initialized and ready to receive commands.
+
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+
+  // Linux needs a visible form to create a browser so we need to use the
+  // TForm.OnActivate event instead of the TForm.OnShow event
+
+  if not(Chromium1.Initialized) and                                     
+     not(Chromium1.CreateBrowser(CEFLinkedWindowParent1.Handle, CEFLinkedWindowParent1.BoundsRect)) then
+    Timer1.Enabled := True;
+end;
+
+procedure TForm1.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
+begin
+  // continue closing the browser
+  aAction := cbaClose;
+end;
+
+procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+begin
+  // We must wait until all browsers trigger the TChromium.OnBeforeClose event
+  // in order to close the application safely or we will have shutdown issues.
+  FCanClose := True;
+  SendCompMessage(CEF_BEFORECLOSE);
+end;
+
+procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+begin
+  // Now the browser is fully initialized we can initialize the UI.
+  SendCompMessage(CEF_AFTERCREATED);
+end;
+
+procedure TForm1.CEFLinkedWindowParent1Enter(Sender: TObject);
+begin
+  If not(csDesigning in ComponentState) then Chromium1.SetFocus(True);
+end;
+
+procedure TForm1.CEFLinkedWindowParent1Exit(Sender: TObject);
+begin
+  if not(csDesigning in ComponentState) then Chromium1.SendCaptureLostEvent;
+end;
+
+procedure TForm1.BrowserCreatedMsg(Data: PtrInt);
+begin
+  Caption            := 'Simple Browser 2';
+  AddressPnl.Enabled := True;
 end;
 
 procedure TForm1.BrowserCloseFormMsg(Data: PtrInt);
@@ -253,13 +252,32 @@ begin
   Close;
 end;
 
-function TForm1.SendCompMessage(aMsg : cardinal) : boolean;
+procedure TForm1.SendCompMessage(aMsg : cardinal);
 begin
-  case aMsg of
-    CEF_DESTROY      : Application.QueueAsyncCall(@BrowserDestroyMsg, 0);
+  case aMsg of                                       
+    CEF_AFTERCREATED : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
     CEF_BEFORECLOSE  : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
   end;
 end;
+
+procedure TForm1.WMMove(var Message: TLMMove);
+begin
+  inherited;
+  Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TForm1.WMSize(var Message: TLMSize);       
+begin
+  inherited;
+  Chromium1.NotifyMoveOrResizeStarted;
+end;
+
+procedure TForm1.WMWindowPosChanged(var Message: TLMWindowPosChanged);
+begin
+  inherited;
+  Chromium1.NotifyMoveOrResizeStarted;
+end;
+
 
 end.
 

@@ -61,7 +61,8 @@ uses
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FPC}{$IFDEF LCLGTK2}
-      ctypes, keysym, gdk2, gtk2proc, gtk2int, xf86keysym,
+      ctypes, keysym, gtk2, glib2, gdk2, gtk2proc, gtk2int, xf86keysym,
+      Gtk2Def, gdk2x, Gtk2Extra,
     {$ENDIF}{$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
@@ -761,7 +762,7 @@ begin
   aWindowInfo.y                            := aRect.top;
   aWindowInfo.width                        := aRect.right  - aRect.left;
   aWindowInfo.height                       := aRect.bottom - aRect.top;
-  aWindowInfo.parent_window                := aParent;
+  aWindowInfo.parent_window                := gdk_window_xwindow(PGtkWidget(aParent)^.window);
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
@@ -775,7 +776,7 @@ begin
   aWindowInfo.y                            := 0;
   aWindowInfo.width                        := 0;
   aWindowInfo.height                       := 0;
-  aWindowInfo.parent_window                := aParent;
+  aWindowInfo.parent_window                := gdk_window_xwindow(PGtkWidget(aParent)^.window);
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);

@@ -54,7 +54,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math,
   {$ENDIF}
-  uCEFTypes;
+  {$IFDEF LINUX}xlib,{$ENDIF} uCEFTypes;
 
 var
   // /include/capi/cef_app_capi.h
