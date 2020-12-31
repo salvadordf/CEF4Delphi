@@ -60,10 +60,10 @@ uses
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
-    {$IFDEF LINUX}{$IFDEF FPC}{$IFDEF LCLGTK2}
-      ctypes, keysym, gtk2, glib2, gdk2, gtk2proc, gtk2int, xf86keysym,
-      Gtk2Def, gdk2x, Gtk2Extra,
-    {$ENDIF}{$ENDIF}{$ENDIF}
+    {$IFDEF LINUX}{$IFDEF FPC}
+      ctypes, keysym, xf86keysym, x, xlib,
+      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
+    {$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
   uCEFRegisterCDMCallback, uCEFConstants;
@@ -316,7 +316,9 @@ function  GetCefStateModifiers(state : cuint) : integer;
 function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
-{$ENDIF}{$ENDIF}{$ENDIF}
+{$ENDIF}
+procedure ShowX11Message(const aMessage : string);
+{$ENDIF}{$ENDIF}
 
 implementation
 
@@ -2934,6 +2936,55 @@ begin
    else
     aCEFKeyEvent.character := aCEFKeyEvent.unmodified_character;
 end;
+
+// This function is almost an identical copy of "ModalShowX11Window" available
+// at https://wiki.lazarus.freepascal.org/X11
+procedure ShowX11Message(const aMessage : string);
+var
+  TempDisplay : PDisplay;
+  TempWindow  : TWindow;
+  TempEvent   : TXEvent;
+  TempMessage : PChar;
+  TempScreen  : cint;
+begin
+  TempMessage := PChar(trim(copy(aMessage, 1, pred(pos(#13, aMessage)))));
+  TempDisplay := XOpenDisplay(nil);
+
+  if (TempDisplay = nil) then
+    begin
+      WriteLn(aMessage);
+      exit;
+    end;
+
+  TempScreen := DefaultScreen(TempDisplay);
+  TempWindow := XCreateSimpleWindow(TempDisplay,
+                                    RootWindow(TempDisplay, TempScreen),
+                                    10, 10, 200, 100, 1,
+                                    BlackPixel(TempDisplay, TempScreen),
+                                    WhitePixel(TempDisplay, TempScreen));
+
+  XSelectInput(TempDisplay, TempWindow, ExposureMask or KeyPressMask);
+
+  XMapWindow(TempDisplay, TempWindow);
+
+  while (True) do
+    begin
+      XNextEvent(TempDisplay, @TempEvent);
+
+      if (TempEvent._type = Expose) then
+        XDrawString(TempDisplay,
+                    TempWindow,
+                    DefaultGC(TempDisplay, TempScreen),
+                    40, 50,
+                    TempMessage,
+                    strlen(TempMessage));
+
+      if (TempEvent._type = KeyPress) then Break;
+    end;
+
+  XCloseDisplay(TempDisplay);
+end;
+
 {$ENDIF}{$ENDIF}{$ENDIF}
 
 end.

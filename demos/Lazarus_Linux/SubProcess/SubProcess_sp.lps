@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="2">
+      <Unit0>
+        <Filename Value="SubProcess_sp.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="27"/>
+        <CursorPos Y="70"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="../../../source/uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="564"/>
+        <CursorPos X="11" Y="553"/>
+        <UsageCount Value="10"/>
+      </Unit1>
+    </Units>
+    <OtherDefines Count="1">
+      <Define0 Value="UseCThreads"/>
+    </OtherDefines>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="SubProcess_sp.lpr"/>
+        <Caret Line="56" Column="23" TopLine="25"/>
+      </Position1>
+      <Position2>
+        <Filename Value="SubProcess_sp.lpr"/>
+        <Caret Line="46" Column="22" TopLine="27"/>
+      </Position2>
+      <Position3>
+        <Filename Value="SubProcess_sp.lpr"/>
+        <Caret Line="69" Column="5" TopLine="26"/>
+      </Position3>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

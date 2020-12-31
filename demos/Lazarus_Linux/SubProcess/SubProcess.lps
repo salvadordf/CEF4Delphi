@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="58">
+      <Unit0>
+        <Filename Value="SubProcess.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="27"/>
+        <CursorPos X="74" Y="42"/>
+        <UsageCount Value="46"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uSubProcess.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="95"/>
+        <CursorPos X="31" Y="109"/>
+        <UsageCount Value="46"/>
+        <Bookmarks Count="1">
+          <Item0 Y="235" ID="3"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Interfaces"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="44"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="../../../../source/uCEFConstants.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="571"/>
+        <CursorPos X="66" Y="597"/>
+        <UsageCount Value="9"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../../../../source/uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="891"/>
+        <CursorPos X="63" Y="1021"/>
+        <UsageCount Value="9"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="/usr/share/lazarus/2.0.6/lcl/lclrescache.pas"/>
+        <UnitName Value="LCLResCache"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="379"/>
+        <CursorPos Y="398"/>
+        <UsageCount Value="9"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../../../../source/uCEFMiscFunctions.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1025"/>
+        <CursorPos X="80" Y="1040"/>
+        <UsageCount Value="9"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="/usr/share/lazarus/2.0.6/lcl/include/application.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1019"/>
+        <CursorPos X="127" Y="1047"/>
+        <UsageCount Value="9"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../../../../source/uCEFChromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="284"/>
+        <CursorPos Y="312"/>
+        <UsageCount Value="9"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../../../../source/uCEFChromiumCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4369"/>
+        <CursorPos X="40" Y="4378"/>
+        <UsageCount Value="9"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/classes/classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1556"/>
+        <CursorPos X="3" Y="1573"/>
+        <UsageCount Value="9"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/sysutils/osutilsh.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="10" Y="26"/>
+        <UsageCount Value="9"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../../../source/uCEFWindowParent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="41"/>
+        <CursorPos X="49" Y="86"/>
+        <UsageCount Value="13"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../../../source/uCEFWinControl.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="51"/>
+        <CursorPos X="29" Y="73"/>
+        <UsageCount Value="19"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/include/winapih.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="195"/>
+        <CursorPos X="10" Y="222"/>
+        <UsageCount Value="9"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="../../../../fpCEF3/cef3types.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="../../../../fpCEF3/Component/cef3lcl.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="744"/>
+        <CursorPos X="62" Y="784"/>
+        <UsageCount Value="11"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="../../../source/uCEFChromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="48"/>
+        <CursorPos X="3" Y="66"/>
+        <UsageCount Value="14"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="../../../source/uCEFChromiumCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2524"/>
+        <CursorPos X="59" Y="2566"/>
+        <UsageCount Value="20"/>
+        <Bookmarks Count="2">
+          <Item0 Y="2564" ID="1"/>
+          <Item1 Y="4727" ID="2"/>
+        </Bookmarks>
+      </Unit18>
+      <Unit19>
+        <Filename Value="../../../source/uCEFTypes.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="397"/>
+        <CursorPos X="18" Y="414"/>
+        <UsageCount Value="10"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="2946"/>
+        <CursorPos X="18" Y="2980"/>
+        <UsageCount Value="14"/>
+        <Bookmarks Count="1">
+          <Item0 X="5" Y="2949" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1958"/>
+        <CursorPos X="3" Y="1981"/>
+        <UsageCount Value="14"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="79"/>
+        <CursorPos X="22" Y="89"/>
+        <UsageCount Value="9"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/inc/systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="312"/>
+        <CursorPos X="3" Y="339"/>
+        <UsageCount Value="9"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/aliasctp.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="49"/>
+        <UsageCount Value="9"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/unix/ctypes.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="3" Y="55"/>
+        <UsageCount Value="9"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/gtk2/src/gtk+/gtk/gtkwidget.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="69"/>
+        <CursorPos X="4" Y="96"/>
+        <UsageCount Value="10"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/interfaces/gtk2/gtk2def.pp"/>
+        <UnitName Value="Gtk2Def"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/gtk2/src/gtk2x11/gdk2x.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/interfaces/gtk2/gtk2extrah.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="32"/>
+        <CursorPos X="10" Y="59"/>
+        <UsageCount Value="10"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/include/wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="7104"/>
+        <CursorPos X="3" Y="7117"/>
+        <UsageCount Value="13"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="../../../source/uCEFLinkedWindowParent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="51"/>
+        <CursorPos X="91" Y="87"/>
+        <UsageCount Value="18"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="../../../../fpCEF3/cef3lib.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1101"/>
+        <CursorPos X="5" Y="1137"/>
+        <UsageCount Value="16"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/x11/src/xlib.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1445"/>
+        <CursorPos X="10" Y="1467"/>
+        <UsageCount Value="10"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="../../../source/uCEFLibFunctions.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="30" Y="57"/>
+        <UsageCount Value="10"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../../../source/uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1453"/>
+        <CursorPos Y="1490"/>
+        <UsageCount Value="11"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="../../../source/uCEFApplication.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="31"/>
+        <CursorPos X="21" Y="38"/>
+        <UsageCount Value="9"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="../../../source/uCEFInterfaces.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="441"/>
+        <CursorPos Y="484"/>
+        <UsageCount Value="16"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="../../../source/uCEFTask.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="777"/>
+        <CursorPos X="3" Y="794"/>
+        <UsageCount Value="15"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="../../../source/uCEFChromiumWindow.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="61"/>
+        <CursorPos X="47" Y="88"/>
+        <UsageCount Value="14"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="../../../../../Vídeos/4280/tests/cefclient/browser/root_window_gtk.cc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="516"/>
+        <CursorPos X="39" Y="551"/>
+        <UsageCount Value="15"/>
+        <Bookmarks Count="1">
+          <Item0 X="58" Y="524" ID="3"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="C++"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="../SimpleOSRBrowser/usimpleosrbrowser.pas"/>
+        <UnitName Value="uSimpleOSRBrowser"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="242"/>
+        <CursorPos X="82" Y="277"/>
+        <UsageCount Value="15"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/include/control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5777"/>
+        <CursorPos X="3" Y="5787"/>
+        <UsageCount Value="14"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="/usr/share/lazarus/2.0.10/components/lazutils/lazmethodlist.pas"/>
+        <UnitName Value="LazMethodList"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="15"/>
+        <CursorPos X="15" Y="57"/>
+        <UsageCount Value="10"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/opengles/examples/es2example1.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="156"/>
+        <CursorPos X="75" Y="192"/>
+        <UsageCount Value="10"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/x11/src/x.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="266"/>
+        <CursorPos X="4" Y="293"/>
+        <UsageCount Value="9"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/x11/src/xatom.pp"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="9" Y="18"/>
+        <UsageCount Value="9"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/fpgtk/src/fpgtk.pp"/>
+        <UnitName Value="FPgtk"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4153"/>
+        <CursorPos X="140" Y="4167"/>
+        <UsageCount Value="13"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/interfaces/gtk2/gtk2widgetset.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="412"/>
+        <CursorPos X="181" Y="435"/>
+        <UsageCount Value="13"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/interfaces/gtk2/gtk2proc.pp"/>
+        <UnitName Value="Gtk2Proc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="150"/>
+        <CursorPos X="10" Y="177"/>
+        <UsageCount Value="13"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/interfaces/gtk2/gtk2callback.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2433"/>
+        <CursorPos X="38" Y="2476"/>
+        <UsageCount Value="13"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/interfaces/gtk2/gtk2proc.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="6707"/>
+        <CursorPos X="66" Y="6724"/>
+        <UsageCount Value="13"/>
+        <Bookmarks Count="1">
+          <Item0 X="66" Y="6724" ID="1"/>
+        </Bookmarks>
+      </Unit51>
+      <Unit52>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2219"/>
+        <CursorPos X="9" Y="2224"/>
+        <UsageCount Value="13"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/include/customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="753"/>
+        <CursorPos X="3" Y="761"/>
+        <UsageCount Value="13"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/include/application.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2267"/>
+        <CursorPos Y="2285"/>
+        <UsageCount Value="10"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/include/lclintf.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="353"/>
+        <CursorPos Y="376"/>
+        <UsageCount Value="11"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="/usr/share/fpcsrc/3.2.0/packages/x11/src/keysym.pp"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/interfacebase.pp"/>
+        <UnitName Value="InterfaceBase"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="18"/>
+        <CursorPos X="19" Y="18"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit57>
+    </Units>
+    <JumpHistory Count="25" HistoryIndex="24">
+      <Position1>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="1613" TopLine="1591"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uSubProcess.pas"/>
+        <Caret Line="137" TopLine="110"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2929" Column="82" TopLine="2895"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="318" Column="11" TopLine="290"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2940" Column="5" TopLine="2897"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="66" Column="16" TopLine="55"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="320" Column="32" TopLine="285"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2950" TopLine="2949"/>
+      </Position8>
+      <Position9>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2951" TopLine="2942"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2953" TopLine="2942"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2959" TopLine="2942"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2960" TopLine="2942"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2964" TopLine="2942"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2960" TopLine="2942"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2963" TopLine="2942"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2960" TopLine="2942"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2961" TopLine="2942"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2960" TopLine="2942"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2966" TopLine="2942"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2968" TopLine="2942"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2984" Column="29" TopLine="2952"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2956" Column="61" TopLine="2928"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2950" Column="74" TopLine="2928"/>
+      </Position23>
+      <Position24>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2949" TopLine="2928"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
+        <Caret Line="2950" TopLine="2928"/>
+      </Position25>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../../../source/uCEFChromiumCore.pas"/>
+        <Line Value="4373"/>
+      </Item1>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>

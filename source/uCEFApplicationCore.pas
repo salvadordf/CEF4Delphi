@@ -588,7 +588,7 @@ uses
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
       {$IFDEF MSWINDOWS}jwatlhelp32, jwapsapi,{$ENDIF}
-      {$IFDEF LINUX}lcltype, Forms,{$ENDIF}
+      {$IFDEF LINUX}lcltype, Forms, InterfaceBase,{$ENDIF}
     {$ELSE}
       TlHelp32, {$IFDEF MSWINDOWS}PSAPI,{$ENDIF}
     {$ENDIF}
@@ -1483,7 +1483,12 @@ begin
       MessageBox(0, PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK or MB_TOPMOST);
       {$ELSE}
         {$IFDEF LINUX}
-        Application.MessageBox(PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK);
+          {$IFDEF FPC}
+          if (WidgetSet <> nil) then
+            Application.MessageBox(PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK)
+           else
+            ShowX11Message(aError);
+          {$ENDIF}
         {$ENDIF}
       {$ENDIF}
     end;
