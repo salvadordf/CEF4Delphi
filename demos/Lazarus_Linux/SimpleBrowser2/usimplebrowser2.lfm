@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 768
+  Left = 380
   Height = 589
-  Top = 220
+  Top = 222
   Width = 967
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 589

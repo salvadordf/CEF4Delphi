@@ -339,6 +339,9 @@
         <DCCReference Include="..\source\uCEFMediaSinkDeviceInfoCallback.pas"/>
         <DCCReference Include="..\source\uCEFJson.pas"/>
         <DCCReference Include="..\source\uCEFBitmapBitBuffer.pas"/>
+        <DCCReference Include="..\source\uCEFPrintHandler.pas"/>
+        <DCCReference Include="..\source\uCEFPrintDialogCallback.pas"/>
+        <DCCReference Include="..\source\uCEFPrintJobCallback.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

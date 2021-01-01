@@ -215,6 +215,9 @@ contains
   uCEFDevToolsMessageObserver in '..\source\uCEFDevToolsMessageObserver.pas',
   uCEFMediaSinkDeviceInfoCallback in '..\source\uCEFMediaSinkDeviceInfoCallback.pas',
   uCEFJson in '..\source\uCEFJson.pas',
-  uCEFBitmapBitBuffer in '..\source\uCEFBitmapBitBuffer.pas';
+  uCEFBitmapBitBuffer in '..\source\uCEFBitmapBitBuffer.pas',
+  uCEFPrintHandler in '..\source\uCEFPrintHandler.pas',
+  uCEFPrintDialogCallback in '..\source\uCEFPrintDialogCallback.pas',
+  uCEFPrintJobCallback in '..\source\uCEFPrintJobCallback.pas';
 
 end.

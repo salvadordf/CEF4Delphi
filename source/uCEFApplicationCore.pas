@@ -172,6 +172,7 @@ type
       FDevToolsProtocolLogFile           : ustring;
       FDeviceScaleFactor                 : single;
       FForcedDeviceScaleFactor           : single;
+      FDisableZygote                     : boolean;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : ustring;
@@ -197,6 +198,7 @@ type
       FMustCreateBrowserProcessHandler   : boolean;
       FMustCreateRenderProcessHandler    : boolean;
       FMustCreateLoadHandler             : boolean;
+      FMustCreatePrintHandler            : boolean;
 
       // ICefBrowserProcessHandler
       FOnGetCookieableSchemes            : TOnGetCookieableSchemesEvent;
@@ -229,6 +231,14 @@ type
       FOnLoadEnd                         : TOnRenderLoadEnd;
       FOnLoadError                       : TOnRenderLoadError;
 
+      // ICefPrintHandler
+      FOnPrintStart                      : TOnPrintStartEvent;
+      FOnPrintSettings                   : TOnPrintSettingsEvent;
+      FOnPrintDialog                     : TOnPrintDialogEvent;
+      FOnPrintJob                        : TOnPrintJobEvent;
+      FOnPrintReset                      : TOnPrintResetEvent;
+      FOnGetPDFPaperSize                 : TOnGetPDFPaperSizeEvent;
+
       procedure SetCache(const aValue : ustring);
       procedure SetRootCache(const aValue : ustring);
       procedure SetUserDataPath(const aValue : ustring);
@@ -246,6 +256,7 @@ type
       function  GetMustCreateBrowserProcessHandler : boolean; virtual;
       function  GetMustCreateRenderProcessHandler : boolean; virtual;
       function  GetMustCreateLoadHandler : boolean; virtual;
+      function  GetMustCreatePrintHandler : boolean; virtual;
       function  GetGlobalContextInitialized : boolean;
       function  GetChildProcessesCount : integer;
       function  GetUsedMemory : uint64;
@@ -345,9 +356,9 @@ type
       procedure   QuitMessageLoop;
       procedure   UpdateDeviceScaleFactor; virtual;
 
-      // Internal procedures. Only TInternalApp, TCefCustomBrowserProcessHandler,
-      // ICefResourceBundleHandler, ICefRenderProcessHandler, ICefRegisterCDMCallback
-      // and ICefLoadHandler should use them.
+      // Internal procedures. Only ICefApp, ICefBrowserProcessHandler,
+      // ICefResourceBundleHandler, ICefRenderProcessHandler, ICefRegisterCDMCallback,
+      // ICefLoadHandler and ICefPrintHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
       procedure   Internal_OnContextInitialized;
@@ -371,6 +382,12 @@ type
       procedure   Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
       procedure   Internal_GetCookieableSchemes(var schemes: TStringList; var include_defaults : boolean);
       procedure   Internal_GetDefaultClient(var aClient : ICefClient);
+      procedure   Internal_OnPrintStart(const browser: ICefBrowser);
+      procedure   Internal_OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
+      procedure   Internal_OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
+      procedure   Internal_OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
+      procedure   Internal_OnPrintReset(const browser: ICefBrowser);
+      procedure   Internal_OnGetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult : TCefSize);
 
       // Properties used to populate TCefSettings (cef_settings_t)
       property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
@@ -454,6 +471,7 @@ type
       property DisableNewBrowserInfoTimeout      : boolean                             read FDisableNewBrowserInfoTimeout      write FDisableNewBrowserInfoTimeout;     // --disable-new-browser-info-timeout
       property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;          // --devtools-protocol-log-file
       property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
+      property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -487,6 +505,7 @@ type
       property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
       property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
       property MustCreateLoadHandler             : boolean                             read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
+      property MustCreatePrintHandler            : boolean                             read GetMustCreatePrintHandler          write FMustCreatePrintHandler;
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
@@ -535,6 +554,16 @@ type
       property OnLoadStart                       : TOnRenderLoadStart                  read FOnLoadStart                       write FOnLoadStart;
       property OnLoadEnd                         : TOnRenderLoadEnd                    read FOnLoadEnd                         write FOnLoadEnd;
       property OnLoadError                       : TOnRenderLoadError                  read FOnLoadError                       write FOnLoadError;
+
+      // ICefPrintHandler
+      {$IFDEF LINUX}
+      property OnPrintStart                      : TOnPrintStartEvent                  read FOnPrintStart                      write FOnPrintStart;
+      property OnPrintSettings                   : TOnPrintSettingsEvent               read FOnPrintSettings                   write FOnPrintSettings;
+      property OnPrintDialog                     : TOnPrintDialogEvent                 read FOnPrintDialog                     write FOnPrintDialog;
+      property OnPrintJob                        : TOnPrintJobEvent                    read FOnPrintJob                        write FOnPrintJob;
+      property OnPrintReset                      : TOnPrintResetEvent                  read FOnPrintReset                      write FOnPrintReset;
+      property OnGetPDFPaperSize                 : TOnGetPDFPaperSizeEvent             read FOnGetPDFPaperSize                 write FOnGetPDFPaperSize;
+      {$ENDIF}
   end;
 
   TCEFDirectoryDeleterThread = class(TThread)
@@ -697,6 +726,7 @@ begin
   FDisableNewBrowserInfoTimeout      := False;
   FDevToolsProtocolLogFile           := '';
   FForcedDeviceScaleFactor           := 0;
+  FDisableZygote                     := False;
 
   FDisableJavascriptCloseWindows     := False;
   FDisableJavascriptAccessClipboard  := False;
@@ -719,6 +749,7 @@ begin
   FMustCreateBrowserProcessHandler   := True;
   FMustCreateRenderProcessHandler    := False;
   FMustCreateLoadHandler             := False;
+  FMustCreatePrintHandler            := False;
 
   // ICefBrowserProcessHandler
   FOnGetCookieableSchemes            := nil;
@@ -750,6 +781,14 @@ begin
   FOnLoadStart                       := nil;
   FOnLoadEnd                         := nil;
   FOnLoadError                       := nil;
+
+  // ICefPrintHandler
+  FOnPrintStart                      := nil;
+  FOnPrintSettings                   := nil;
+  FOnPrintDialog                     := nil;
+  FOnPrintJob                        := nil;
+  FOnPrintReset                      := nil;
+  FOnGetPDFPaperSize                 := nil;
 
   UpdateDeviceScaleFactor;
 
@@ -1699,6 +1738,42 @@ begin
     FOnGetDefaultClient(aClient);
 end;
 
+procedure TCefApplicationCore.Internal_OnPrintStart(const browser: ICefBrowser);
+begin
+  if assigned(FOnPrintStart) then
+    FOnPrintStart(browser);
+end;
+
+procedure TCefApplicationCore.Internal_OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
+begin
+  if assigned(FOnPrintSettings) then
+    FOnPrintSettings(browser, settings, getDefaults);
+end;
+
+procedure TCefApplicationCore.Internal_OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
+begin
+  if assigned(FOnPrintDialog) then
+    FOnPrintDialog(browser, hasSelection, callback, aResult);
+end;
+
+procedure TCefApplicationCore.Internal_OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
+begin
+  if assigned(FOnPrintJob) then
+    FOnPrintJob(browser, documentName, PDFFilePath, callback, aResult);
+end;
+
+procedure TCefApplicationCore.Internal_OnPrintReset(const browser: ICefBrowser);
+begin
+  if assigned(FOnPrintReset) then
+    FOnPrintReset(browser);
+end;
+
+procedure TCefApplicationCore.Internal_OnGetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult : TCefSize);
+begin
+  if assigned(FOnGetPDFPaperSize) then
+    FOnGetPDFPaperSize(deviceUnitsPerInch, aResult);
+end;
+
 procedure TCefApplicationCore.AppendSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
 var
   TempKey : ustring;
@@ -1940,6 +2015,9 @@ begin
       ReplaceSwitch(aKeys, aValues, '--force-device-scale-factor', FloatToStr(FForcedDeviceScaleFactor, TempFormatSettings));
     end;
 
+  if FDisableZygote then
+    ReplaceSwitch(aKeys, aValues, '--no-zygote');
+
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
   if (length(FEnableFeatures) > 0) then
@@ -2050,6 +2128,7 @@ function TCefApplicationCore.GetMustCreateBrowserProcessHandler : boolean;
 begin
   Result := ((FSingleProcess or (FProcessType = ptBrowser)) and
              (FMustCreateBrowserProcessHandler        or
+              MustCreatePrintHandler                  or
               assigned(FOnGetCookieableSchemes)       or
               assigned(FOnContextInitialized)         or
               assigned(FOnBeforeChildProcessLaunch)   or
@@ -2080,6 +2159,22 @@ begin
               assigned(FOnLoadStart)          or
               assigned(FOnLoadEnd)            or
               assigned(FOnLoadError)));
+end;
+
+function TCefApplicationCore.GetMustCreatePrintHandler : boolean;
+begin
+  {$IFDEF LINUX}
+  Result := ((FSingleProcess or (FProcessType = ptBrowser)) and
+             (FMustCreatePrintHandler    or
+              assigned(FOnPrintStart)    or
+              assigned(FOnPrintSettings) or
+              assigned(FOnPrintDialog)   or
+              assigned(FOnPrintJob)      or
+              assigned(FOnPrintReset)    or
+              assigned(FOnGetPDFPaperSize)));
+  {$ELSE}
+  Result := False;
+  {$ENDIF}
 end;
 
 function TCefApplicationCore.GetGlobalContextInitialized : boolean;

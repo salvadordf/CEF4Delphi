@@ -138,8 +138,6 @@ begin
   // GlobalCEFApp.StartMainProcess call.
   GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
 
-  //sleep(1000);
-
   GlobalCEFApp                           := TCefApplication.Create;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
@@ -147,7 +145,7 @@ begin
 
   // This is a workaround for the 'GPU is not usable error' issue :
   // https://bitbucket.org/chromiumembedded/cef/issues/2964/gpu-is-not-usable-error-during-cef
-  GlobalCEFApp.AddCustomCommandLine('--no-zygote');
+  GlobalCEFApp.DisableZygote := True; // this property adds the "--no-zygote" command line switch
   {
   GlobalCEFApp.LogFile     := 'cef.log';
   GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
@@ -170,6 +168,7 @@ end;
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
+
   if not(Chromium1.CreateBrowser(CEFLinkedWindowParent1.Handle, CEFLinkedWindowParent1.BoundsRect)) and
      not(Chromium1.Initialized) then
     Timer1.Enabled := True;

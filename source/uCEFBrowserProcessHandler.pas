@@ -74,11 +74,13 @@ type
 
   TCefCustomBrowserProcessHandler = class(TCefBrowserProcessHandlerOwn)
     protected
-      FCefApp : TCefApplicationCore;
+      FCefApp       : TCefApplicationCore;
+      FPrintHandler : ICefPrintHandler;
 
       procedure GetCookieableSchemes(var schemes: TStringList; var include_defaults : boolean); override;
       procedure OnContextInitialized; override;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
+      procedure GetPrintHandler(var aHandler : ICefPrintHandler); override;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
       procedure GetDefaultClient(var aClient : ICefClient); override;
 
@@ -97,7 +99,8 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFCommandLine, uCEFListValue, uCEFConstants, uCEFStringList;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFCommandLine, uCEFListValue, uCEFConstants, uCEFStringList,
+  uCEFPrintHandler;
 
 procedure cef_browser_process_handler_get_cookieable_schemes(self             : PCefBrowserProcessHandler;
                                                              schemes          : TCefStringList;
@@ -228,7 +231,7 @@ end;
 
 procedure TCefBrowserProcessHandlerOwn.GetPrintHandler(var aHandler : ICefPrintHandler);
 begin
-  aHandler := nil; // only linux
+  aHandler := nil;
 end;
 
 procedure TCefBrowserProcessHandlerOwn.GetDefaultClient(var aClient : ICefClient);
@@ -245,6 +248,11 @@ begin
   inherited Create;
 
   FCefApp := aCefApp;
+
+  if (FCefApp <> nil) and FCefApp.MustCreatePrintHandler then
+    FPrintHandler := TCustomPrintHandler.Create(FCefApp)
+   else
+    FPrintHandler := nil;
 end;
 
 destructor TCefCustomBrowserProcessHandler.Destroy;
@@ -256,7 +264,11 @@ end;
 
 procedure TCefCustomBrowserProcessHandler.RemoveReferences;
 begin
-  FCefApp := nil;
+  if (FPrintHandler <> nil) then
+    FPrintHandler.RemoveReferences;
+
+  FCefApp       := nil;
+  FPrintHandler := nil;
 end;
 
 procedure TCefCustomBrowserProcessHandler.GetCookieableSchemes(var schemes          : TStringList;
@@ -288,6 +300,14 @@ begin
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch', e) then raise;
   end;
+end;
+
+procedure TCefCustomBrowserProcessHandler.GetPrintHandler(var aHandler : ICefPrintHandler);
+begin
+  if (FPrintHandler <> nil) then
+    aHandler := FPrintHandler
+   else
+    inherited GetPrintHandler(aHandler);
 end;
 
 procedure TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork(const delayMs: Int64);

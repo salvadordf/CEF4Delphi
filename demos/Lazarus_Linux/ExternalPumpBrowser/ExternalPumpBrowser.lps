@@ -19,12 +19,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="123"/>
-        <CursorPos X="61" Y="156"/>
+        <TopLine Value="44"/>
+        <CursorPos X="3" Y="171"/>
         <UsageCount Value="49"/>
         <Bookmarks Count="2">
-          <Item0 Y="259" ID="3"/>
-          <Item1 X="57" Y="222" ID="1"/>
+          <Item0 Y="258" ID="3"/>
+          <Item1 X="57" Y="221" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

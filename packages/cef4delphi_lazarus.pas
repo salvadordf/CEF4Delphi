@@ -63,6 +63,7 @@ uses
   uCEFScrollViewComponent, uCEFTextfieldComponent, uCEFViewComponent, 
   uCEFViewsFrameworkEvents, uCEFAudioHandler, uCEFDevToolsMessageObserver, 
   uCEFMediaSinkDeviceInfoCallback, uCEFJson, uCEFBitmapBitBuffer, 
+  uCEFPrintDialogCallback, uCEFPrintHandler, uCEFPrintJobCallback, 
   LazarusPackageIntf;
 
 implementation

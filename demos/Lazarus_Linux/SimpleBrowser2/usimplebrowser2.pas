@@ -130,7 +130,6 @@ uses
 
 { TForm1 }
 
-
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp             := TCefApplication.Create;
