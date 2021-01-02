@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="58">
+    <Units Count="59">
       <Unit0>
         <Filename Value="SubProcess.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,11 +20,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="95"/>
-        <CursorPos X="31" Y="109"/>
+        <TopLine Value="50"/>
+        <CursorPos Y="61"/>
         <UsageCount Value="46"/>
         <Bookmarks Count="1">
-          <Item0 Y="235" ID="3"/>
+          <Item0 Y="250" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -436,8 +436,16 @@
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit57>
+      <Unit58>
+        <Filename Value="../SimpleBrowser2/usimplebrowser2.pas"/>
+        <UnitName Value="uSimpleBrowser2"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="53"/>
+        <CursorPos X="60" Y="73"/>
+        <UsageCount Value="10"/>
+      </Unit58>
     </Units>
-    <JumpHistory Count="25" HistoryIndex="24">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
         <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
         <Caret Line="1613" TopLine="1591"/>
@@ -538,6 +546,18 @@
         <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
         <Caret Line="2950" TopLine="2928"/>
       </Position25>
+      <Position26>
+        <Filename Value="uSubProcess.pas"/>
+        <Caret Line="110" Column="31" TopLine="96"/>
+      </Position26>
+      <Position27>
+        <Filename Value="uSubProcess.pas"/>
+        <Caret Line="171" Column="6" TopLine="162"/>
+      </Position27>
+      <Position28>
+        <Filename Value="uSubProcess.pas"/>
+        <Caret Line="62" Column="15" TopLine="45"/>
+      </Position28>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

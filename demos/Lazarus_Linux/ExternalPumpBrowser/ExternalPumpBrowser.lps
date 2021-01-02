@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="57">
+    <Units Count="58">
       <Unit0>
         <Filename Value="ExternalPumpBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -19,12 +19,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="44"/>
-        <CursorPos X="3" Y="171"/>
+        <TopLine Value="235"/>
+        <CursorPos X="6" Y="271"/>
         <UsageCount Value="49"/>
         <Bookmarks Count="2">
-          <Item0 Y="258" ID="3"/>
-          <Item1 X="57" Y="221" ID="1"/>
+          <Item0 Y="273" ID="3"/>
+          <Item1 X="57" Y="222" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -424,8 +424,16 @@
         <CursorPos X="59" Y="135"/>
         <UsageCount Value="11"/>
       </Unit56>
+      <Unit57>
+        <Filename Value="../SimpleBrowser2/usimplebrowser2.pas"/>
+        <UnitName Value="uSimpleBrowser2"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="227"/>
+        <CursorPos Y="234"/>
+        <UsageCount Value="10"/>
+      </Unit57>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="13" HistoryIndex="12">
       <Position1>
         <Filename Value="uExternalPumpBrowser.pas"/>
         <Caret Line="153" Column="60" TopLine="127"/>
@@ -466,6 +474,18 @@
         <Filename Value="uExternalPumpBrowser.pas"/>
         <Caret Line="147" Column="16" TopLine="111"/>
       </Position10>
+      <Position11>
+        <Filename Value="uExternalPumpBrowser.pas"/>
+        <Caret Line="172" Column="3" TopLine="128"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uExternalPumpBrowser.pas"/>
+        <Caret Line="197" Column="82" TopLine="190"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uExternalPumpBrowser.pas"/>
+        <Caret Line="62" Column="15" TopLine="45"/>
+      </Position13>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

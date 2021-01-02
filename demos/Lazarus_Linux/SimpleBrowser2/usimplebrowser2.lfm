@@ -30,6 +30,7 @@ object Form1: TForm1
       Align = alRight
       Caption = 'Go'
       OnClick = GoBtnClick
+      OnEnter = CEFLinkedWindowParent1Exit
       TabOrder = 0
     end
     object AddressEdt: TEdit
@@ -38,6 +39,7 @@ object Form1: TForm1
       Top = 0
       Width = 932
       Align = alClient
+      OnEnter = CEFLinkedWindowParent1Exit
       TabOrder = 1
       Text = 'https://www.google.com'
     end
@@ -55,6 +57,7 @@ object Form1: TForm1
     Chromium = Chromium1
   end
   object Chromium1: TChromium
+    OnGotFocus = Chromium1GotFocus
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose

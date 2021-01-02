@@ -65,6 +65,7 @@ type
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);    
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
     procedure FormCreate(Sender: TObject);   
@@ -196,7 +197,7 @@ procedure TForm1.Chromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
-end;      
+end;
 
 procedure TForm1.Chromium1OpenUrlFromTab(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
@@ -245,14 +246,28 @@ begin
   AddressPnl.Enabled := True;
 end;
 
-procedure TForm1.CEFLinkedWindowParent1Enter(Sender: TObject);
-begin
-  If not(csDesigning in ComponentState) then Chromium1.SetFocus(True);
-end;
-
+// This is a workaround for the CEF issue #2026
+// https://bitbucket.org/chromiumembedded/cef/issues/2026/multiple-major-keyboard-focus-issues-on
+// We use CEFLinkedWindowParent1.OnEnter, CEFLinkedWindowParent1.OnExit and
+// TChromium.OnGotFocus to avoid most of the focus issues.
+// CEFLinkedWindowParent1.TabStop must be TRUE.
 procedure TForm1.CEFLinkedWindowParent1Exit(Sender: TObject);
 begin
-  if not(csDesigning in ComponentState) then Chromium1.SendCaptureLostEvent;
+  if not(csDesigning in ComponentState) then
+    Chromium1.SendCaptureLostEvent;
+end;
+
+procedure TForm1.CEFLinkedWindowParent1Enter(Sender: TObject);
+begin
+  if not(csDesigning in ComponentState) and
+     Chromium1.Initialized and
+     not(Chromium1.FrameIsFocused) then
+    Chromium1.SendFocusEvent(True);
+end;
+
+procedure TForm1.Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
+begin
+  CEFLinkedWindowParent1.SetFocus;
 end;
 
 procedure TForm1.WMMove(var Message: TLMMove);
