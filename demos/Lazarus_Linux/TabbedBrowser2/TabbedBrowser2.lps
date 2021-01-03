@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="12">
+      <Unit0>
+        <Filename Value="TabbedBrowser2.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="31"/>
+        <CursorPos X="48" Y="56"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uMainForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="86"/>
+        <CursorPos X="54" Y="201"/>
+        <UsageCount Value="24"/>
+        <Bookmarks Count="1">
+          <Item0 X="26" Y="194" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="uBrowserFrame.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="BrowserFrame"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="118"/>
+        <CursorPos X="16" Y="145"/>
+        <UsageCount Value="24"/>
+        <Bookmarks Count="3">
+          <Item0 X="22" Y="471" ID="2"/>
+          <Item1 X="50" Y="392" ID="3"/>
+          <Item2 X="36" Y="415" ID="4"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="uBrowserTab.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="87" Y="78"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Interfaces"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="24"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\source\uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="953"/>
+        <CursorPos Y="960"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\..\source\uCEFMiscFunctions.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1476"/>
+        <CursorPos X="86" Y="1495"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\..\..\..\..\usr\share\lazarus\2.0.10\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1461"/>
+        <CursorPos X="69" Y="1482"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\..\..\..\usr\share\lazarus\2.0.10\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2242"/>
+        <CursorPos X="14" Y="2262"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\..\..\..\usr\share\fpcsrc\3.2.0\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="96"/>
+        <CursorPos X="27" Y="118"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\SimpleBrowser2\usimplebrowser2.pas"/>
+        <UnitName Value="uSimpleBrowser2"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="130"/>
+        <CursorPos X="33" Y="159"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\..\source\uCEFLinkedWindowParent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="85"/>
+        <CursorPos X="3" Y="177"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+    </Units>
+    <OtherDefines Count="1">
+      <Define0 Value="UseCThreads"/>
+    </OtherDefines>
+    <JumpHistory Count="29" HistoryIndex="28">
+      <Position1>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="124" Column="17" TopLine="103"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="463" Column="3" TopLine="436"/>
+      </Position2>
+      <Position3>
+        <Filename Value="uBrowserTab.pas"/>
+        <Caret Line="117" Column="67" TopLine="84"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uBrowserTab.pas"/>
+        <Caret Line="128" Column="61" TopLine="103"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="144" Column="19" TopLine="123"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uBrowserTab.pas"/>
+        <Caret Line="133" Column="90" TopLine="103"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uBrowserTab.pas"/>
+        <Caret Line="61" Column="67" TopLine="39"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uBrowserTab.pas"/>
+        <Caret Line="131" Column="41" TopLine="103"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uBrowserTab.pas"/>
+        <Caret Line="61" Column="19" TopLine="39"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uBrowserTab.pas"/>
+        <Caret Line="126" Column="42" TopLine="103"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="144" Column="19" TopLine="90"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="96" Column="28" TopLine="86"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="264" Column="38" TopLine="240"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="87" Column="15" TopLine="71"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="262" Column="75" TopLine="240"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="303" Column="41" TopLine="261"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="84" Column="15" TopLine="71"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="271" Column="41" TopLine="264"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="85" Column="15" TopLine="63"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="113" Column="73" TopLine="90"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="132" Column="32" TopLine="96"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="303" Column="69" TopLine="259"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="190" Column="3" TopLine="170"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="219" TopLine="205"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="71" TopLine="60"/>
+      </Position25>
+      <Position26>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="78" Column="25" TopLine="62"/>
+      </Position26>
+      <Position27>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="359" Column="49" TopLine="355"/>
+      </Position27>
+      <Position28>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="77" Column="17" TopLine="56"/>
+      </Position28>
+      <Position29>
+        <Filename Value="uBrowserFrame.pas"/>
+        <Caret Line="464" Column="59" TopLine="40"/>
+      </Position29>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

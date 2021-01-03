@@ -58,10 +58,13 @@ uses
 type
   TCEFBitmapBitBuffer = class
     protected
-      FBuffer : pointer;
-      FWidth  : integer;
-      FHeight : integer;
+      FBuffer          : pointer;
+      FImageWidth      : integer;
+      FImageHeight     : integer;
+      FBufferWidth     : integer;
+      FBufferHeight    : integer;
 
+      function  GetBufferScanlineSize : integer;
       function  GetScanlineSize : integer;
       function  GetBufferLength : integer;
       function  GetEmpty : boolean;
@@ -73,13 +76,15 @@ type
     public
       constructor Create(aWidth, aHeight : integer);
       destructor  Destroy; override;
+      procedure   UpdateSize(aWidth, aHeight : integer);
 
-      property    Width                  : integer   read FWidth;
-      property    Height                 : integer   read FHeight;
+      property    Width                  : integer   read FImageWidth;
+      property    Height                 : integer   read FImageHeight;
       property    BufferLength           : integer   read GetBufferLength;
       property    Empty                  : boolean   read GetEmpty;
       property    Scanline[y : integer]  : PByte     read GetScanline;
-      property    ScanlineSize           : integer   read GetScanlineSize;
+      property    ScanlineSize           : integer   read GetScanlineSize;       
+      property    BufferScanlineSize     : integer   read GetBufferScanlineSize;
       property    BufferBits             : pointer   read FBuffer;
   end;
 
@@ -87,24 +92,19 @@ implementation
 
 const
   RGBQUAD_SIZE = 4;
+  BUFFER_MULTIPLIER = 1.1;
 
 constructor TCEFBitmapBitBuffer.Create(aWidth, aHeight : integer);
 begin
   inherited Create;
 
-  if (aWidth > 0) and (aHeight > 0) then
-    begin
-      FWidth  := aWidth;
-      FHeight := aHeight;
+  FBuffer       := nil;
+  FImageWidth   := 0;
+  FImageHeight  := 0;
+  FBufferWidth  := 0;
+  FBufferHeight := 0;
 
-      CreateBuffer;
-    end
-   else
-    begin
-      FWidth  := 0;
-      FHeight := 0;
-      FBuffer := nil;
-    end;
+  UpdateSize(aWidth, aHeight);
 end;
 
 destructor TCEFBitmapBitBuffer.Destroy;
@@ -125,12 +125,17 @@ end;
 
 function TCEFBitmapBitBuffer.GetScanlineSize : integer;
 begin
-  Result := FWidth * RGBQUAD_SIZE;
+  Result := FImageWidth * RGBQUAD_SIZE;
+end;
+
+function TCEFBitmapBitBuffer.GetBufferScanlineSize : integer;
+begin
+  Result := FBufferWidth * RGBQUAD_SIZE;
 end;
 
 function TCEFBitmapBitBuffer.GetBufferLength : integer;
 begin
-  Result := FHeight * ScanlineSize;
+  Result := FBufferHeight * BufferScanlineSize;
 end;
 
 function TCEFBitmapBitBuffer.GetEmpty : boolean;
@@ -140,12 +145,12 @@ end;
 
 function TCEFBitmapBitBuffer.GetScanline(y : integer) : PByte;
 begin
-  if (FBuffer = nil) or (y >= FHeight) then
+  if (FBuffer = nil) or (y >= FImageHeight) then
     Result := nil
    else
     begin
       Result := PByte(FBuffer);
-      if (y > 0) then inc(Result, y * ScanlineSize);
+      if (y > 0) then inc(Result, y * BufferScanlineSize);
     end;
 end;
 
@@ -159,6 +164,34 @@ begin
     begin
       GetMem(FBuffer, TempLen);
       FillChar(FBuffer^, TempLen, $FF);
+    end;
+end;
+
+procedure TCEFBitmapBitBuffer.UpdateSize(aWidth, aHeight : integer);
+begin
+  if (aWidth > 0) and (aHeight > 0) then
+    begin
+      FImageWidth  := aWidth;
+      FImageHeight := aHeight;
+
+      if (FImageWidth  > FBufferWidth)  or
+         (FImageHeight > FBufferHeight) then
+        begin
+          FBufferWidth  := round(FImageWidth  * BUFFER_MULTIPLIER);
+          FBufferHeight := round(FImageHeight * BUFFER_MULTIPLIER);
+
+          DestroyBuffer;
+          CreateBuffer;
+        end;
+    end
+   else
+    begin
+      FImageWidth   := 0;
+      FImageHeight  := 0;
+      FBufferWidth  := 0;
+      FBufferHeight := 0;
+
+      DestroyBuffer;
     end;
 end;
 

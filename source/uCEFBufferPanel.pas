@@ -983,16 +983,12 @@ function TBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolea
 begin
   Result := False;
 
-  if ((FBuffer        =  nil)      or
-      (FBuffer.Width  <> aWidth)   or
-      (FBuffer.Height <> aHeight)) then
+  if (FBuffer = nil) then
     begin
-      if (FBuffer <> nil) then FreeAndNil(FBuffer);
-
       {$IFDEF MSWINDOWS}
       FBuffer             := TBitmap.Create;
       FBuffer.PixelFormat := pf32bit;
-      FBuffer.HandleType  := bmDIB;     
+      FBuffer.HandleType  := bmDIB;
       FBuffer.Width       := aWidth;
       FBuffer.Height      := aHeight;
       FScanlineSize       := aWidth * SizeOf(TRGBQuad);
@@ -1002,7 +998,22 @@ begin
       {$ENDIF}
 
       Result := True;
-    end;
+    end
+   else
+    if (FBuffer.Width  <> aWidth)  or
+       (FBuffer.Height <> aHeight) then
+      begin
+        {$IFDEF MSWINDOWS}
+        FBuffer.Width  := aWidth;
+        FBuffer.Height := aHeight;
+        FScanlineSize  := aWidth * SizeOf(TRGBQuad);
+        {$ELSE}
+        FBuffer.UpdateSize(aWidth, aHeight);
+        FScanlineSize := FBuffer.ScanlineSize;
+        {$ENDIF}
+
+        Result := True;
+      end;
 end;   
 
 {$IFNDEF MSWINDOWS}
@@ -1010,16 +1021,20 @@ function TBufferPanel.UpdatePopupBufferDimensions(aWidth, aHeight : integer) : b
 begin
   Result := False;
 
-  if ((FPopupBuffer        =  nil)      or
-      (FPopupBuffer.Width  <> aWidth)   or
-      (FPopupBuffer.Height <> aHeight)) then
+  if (FPopupBuffer = nil) then
     begin
-      if (FPopupBuffer <> nil) then FreeAndNil(FPopupBuffer);
-
       FPopupBuffer       := TCEFBitmapBitBuffer.Create(aWidth, aHeight);
       FPopupScanlineSize := FPopupBuffer.ScanlineSize;
       Result             := True;
-    end;
+    end
+   else
+    if (FPopupBuffer.Width  <> aWidth)  or
+       (FPopupBuffer.Height <> aHeight) then
+      begin
+        FPopupBuffer.UpdateSize(aWidth, aHeight);
+        FPopupScanlineSize := FPopupBuffer.ScanlineSize;
+        Result             := True;
+      end;
 end;
 {$ENDIF}
 
