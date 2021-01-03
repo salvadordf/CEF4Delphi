@@ -556,8 +556,10 @@ begin
                   FBitmap             := TBitmap.Create;
                   FBitmap.PixelFormat := pf32bit;
                   FBitmap.HandleType  := bmDIB;
-                  FBitmap.Width       := 1;
-                  FBitmap.Height      := 1;
+                  FBitmap.Width       := 1001;
+                  FBitmap.Height      := 600;        
+                  FBitmap.Canvas.Brush.Color := clWhite;
+                  FBitmap.Canvas.FillRect(0, 0, FBitmap.Width, FBitmap.Height);
                 end;
 
               if (FBitmap.Width  <> FBuffer.Width)  or
