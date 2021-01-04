@@ -198,6 +198,7 @@ object BrowserFrame: TBrowserFrame
     Top = 28
     Width = 932
     Align = alClient
+    TabStop = True
     TabOrder = 2
     OnEnter = CEFLinkedWindowParent1Enter
     OnExit = CEFLinkedWindowParent1Exit

@@ -309,18 +309,29 @@ begin
   SendCompMessage(CEF_AFTERCREATED);
 end;
 
+// This is a workaround for the CEF issue #2026
+// https://bitbucket.org/chromiumembedded/cef/issues/2026/multiple-major-keyboard-focus-issues-on
+// We use CEFLinkedWindowParent1.OnEnter, CEFLinkedWindowParent1.OnExit and
+// TChromium.OnGotFocus to avoid most of the focus issues.
+// CEFLinkedWindowParent1.TabStop must be TRUE.
+procedure TBrowserFrame.CEFLinkedWindowParent1Exit(Sender: TObject);
+begin
+  if not(csDesigning in ComponentState) then
+    Chromium1.SendCaptureLostEvent;
+end;    
+
 procedure TBrowserFrame.CEFLinkedWindowParent1Enter(Sender: TObject);
 begin
   if not(csDesigning in ComponentState) and
      Chromium1.Initialized and
      not(Chromium1.FrameIsFocused) then
     Chromium1.SendFocusEvent(True);
-end;
+end;   
 
-procedure TBrowserFrame.CEFLinkedWindowParent1Exit(Sender: TObject);
+procedure TBrowserFrame.Chromium1GotFocus(Sender: TObject;
+  const browser: ICefBrowser);
 begin
-  if not(csDesigning in ComponentState) then
-    Chromium1.SendCaptureLostEvent;
+  CEFLinkedWindowParent1.SetFocus;
 end;
 
 procedure TBrowserFrame.BackBtnClick(Sender: TObject);
@@ -358,12 +369,6 @@ procedure TBrowserFrame.Chromium1Close(Sender: TObject;
 begin
   // continue closing the browser
   aAction := cbaClose;
-end;
-
-procedure TBrowserFrame.Chromium1GotFocus(Sender: TObject;
-  const browser: ICefBrowser);
-begin
-  CEFLinkedWindowParent1.SetFocus;
 end;
 
 procedure TBrowserFrame.Chromium1LoadError(Sender: TObject;
@@ -431,7 +436,8 @@ var
 begin
   TempURL := BrowserAddress;
 
-  if (URLCbx.Items.IndexOf(TempURL) < 0) then URLCbx.Items.Add(TempURL);
+  if (URLCbx.Items.IndexOf(TempURL) < 0) then
+     URLCbx.Items.Add(TempURL);
 
   URLCbx.Text := TempURL;
 end;

@@ -70,7 +70,6 @@ type
                                                    
       {$IFDEF FPC}{$IFDEF LINUX}
       procedure SetVisible(Value: Boolean); override;  
-      procedure UpdateSize; override;
       {$ENDIF}{$ENDIF}
       procedure SetChromium(aValue : TChromium);
 
@@ -82,6 +81,9 @@ type
 
     public
       constructor Create(AOwner : TComponent); override;
+      {$IFDEF FPC}{$IFDEF LINUX}
+      procedure UpdateSize; override;
+      {$ENDIF}{$ENDIF}
 
     published
       property Chromium   : TChromium    read FChromium   write SetChromium;
