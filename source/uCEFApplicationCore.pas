@@ -46,6 +46,11 @@ unit uCEFApplicationCore;
 
 {$I cef.inc}
 
+{$IFNDEF FPC}{$IFNDEF DELPHI12_UP}
+  // Workaround for "Internal error" in old Delphi versions caused by uint64 handling
+  {$R-}
+{$ENDIF}{$ENDIF}
+
 interface
 
 uses
@@ -2234,8 +2239,7 @@ var
 {$ENDIF}
 begin
   Result := 0;
-
-{$IFDEF MSWINDOWS}
+  {$IFDEF MSWINDOWS}
   TempHandle := CreateToolHelp32SnapShot(TH32CS_SNAPPROCESS, 0);
   if (TempHandle = INVALID_HANDLE_VALUE) then exit;
 
@@ -2264,7 +2268,8 @@ begin
                 ZeroMemory(@TempMemCtrs, SizeOf(TProcessMemoryCounters));
                 TempMemCtrs.cb := SizeOf(TProcessMemoryCounters);
 
-                if GetProcessMemoryInfo(TempProcHWND, {$IFNDEF FPC}@{$ENDIF}TempMemCtrs, TempMemCtrs.cb) then inc(Result, TempMemCtrs.WorkingSetSize);
+                if GetProcessMemoryInfo(TempProcHWND, {$IFNDEF FPC}@{$ENDIF}TempMemCtrs, TempMemCtrs.cb) then
+                  inc(Result, TempMemCtrs.WorkingSetSize);
 
                 CloseHandle(TempProcHWND);
               end;
@@ -2273,7 +2278,7 @@ begin
   until not(Process32Next(TempHandle, TempProcess));
 
   CloseHandle(TempHandle);
-{$ENDIF}
+  {$ENDIF}
 end;
 
 function TCefApplicationCore.GetTotalSystemMemory : uint64;
@@ -2283,11 +2288,11 @@ var
 {$ENDIF}
 begin
   Result := 0;
-
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.ullTotalPhys;
+  if GetGlobalMemoryStatusEx(TempMemStatus) then
+    Result := TempMemStatus.ullTotalPhys;
   {$ENDIF}
 end;
 
@@ -2298,11 +2303,11 @@ var
 {$ENDIF}
 begin
   Result := 0;
-
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.ullAvailPhys;
+  if GetGlobalMemoryStatusEx(TempMemStatus) then
+    Result := TempMemStatus.ullAvailPhys;
   {$ENDIF}
 end;
 
