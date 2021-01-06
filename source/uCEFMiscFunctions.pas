@@ -762,20 +762,29 @@ end;
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');   
+var
+  TempParent : TCefWindowHandle;
 begin
+  if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
+    TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window)
+   else
+    TempParent := aParent;
+
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := aRect.left;
   aWindowInfo.y                            := aRect.top;
   aWindowInfo.width                        := aRect.right  - aRect.left;
   aWindowInfo.height                       := aRect.bottom - aRect.top;
-  aWindowInfo.parent_window                := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+  aWindowInfo.parent_window                := TempParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 
+// WindowInfoAsPopUp only exists for Windows. The Linux version of cefclient
+// calls WindowInfoAsChild with aParent set to NULL to create a popup window.
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -783,7 +792,7 @@ begin
   aWindowInfo.y                            := 0;
   aWindowInfo.width                        := 0;
   aWindowInfo.height                       := 0;
-  aWindowInfo.parent_window                := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+  aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);

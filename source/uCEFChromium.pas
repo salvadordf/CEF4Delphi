@@ -134,17 +134,22 @@ uses
 {$IFDEF MSWINDOWS}
 procedure TChromium.InitializeDragAndDrop(const aDropTargetCtrl: TWinControl);
 begin
-  if aDropTargetCtrl <> nil then
+  if (aDropTargetCtrl <> nil) then
     inherited InitializeDragAndDrop(aDropTargetCtrl.Handle);
 end;
 {$ENDIF MSWINDOWS}
 
 procedure TChromium.InitializeDevToolsWindowInfo(aDevTools: TWinControl);
+var
+  TempHandle : TCefWindowHandle;
 begin
-  if aDevTools <> nil then
+  if (aDevTools <> nil) then
     DefaultInitializeDevToolsWindowInfo(aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
    else
-    DefaultInitializeDevToolsWindowInfo(0, Rect(0, 0, 0, 0), '');
+    begin
+      InitializeWindowHandle(TempHandle);
+      DefaultInitializeDevToolsWindowInfo(TempHandle, Rect(0, 0, 0, 0), '');
+    end;
 end;
 
 procedure TChromium.ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);

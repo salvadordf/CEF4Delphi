@@ -1961,7 +1961,9 @@ begin
   {$ELSE}
     WindowInfoAsChild(FDevWindowInfo, aDevToolsWnd, aClientRect)
    else
-    WindowInfoAsPopUp(FDevWindowInfo, WindowHandle);
+    // WindowInfoAsPopUp only exists for Windows. The Linux version of cefclient
+    // calls WindowInfoAsChild with aParent set to NULL to create a popup window.
+    WindowInfoAsPopUp(FDevWindowInfo, aDevToolsWnd);
   {$ENDIF}
 end;
 
