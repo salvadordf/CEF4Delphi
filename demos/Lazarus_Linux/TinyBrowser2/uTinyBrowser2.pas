@@ -93,32 +93,15 @@ begin
 end;
 
 procedure CreateGlobalCEFApp;          
-var
-  TempHome, TempBinDir : ustring;
 begin
-  TempHome     := IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
-  TempBinDir   := TempHome + 'Lazarus/CEF4Delphi/bin';
-
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.ExternalMessagePump        := False;
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
-  GlobalCEFApp.SetCurrentDir              := True;
-
-  // This is a workaround for the CEF4Delphi issue #324 :
-  // https://github.com/salvadordf/CEF4Delphi/issues/324
-  GlobalCEFApp.DisableFeatures := 'WinUseBrowserSpellChecker';
-
-  if DirectoryExists(TempBinDir) then
-    begin
-      GlobalCEFApp.FrameworkDirPath := TempBinDir;
-      GlobalCEFApp.ResourcesDirPath := TempBinDir;
-      GlobalCEFApp.LocalesDirPath   := TempBinDir + '/locales';
-    end;
 
   // Add a debug log in the BIN directory
-  GlobalCEFApp.LogFile     := 'cef.log';
-  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
+  //GlobalCEFApp.LogFile     := 'cef.log';
+  //GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
 end;
 
 procedure DestroyTinyBrowser;
