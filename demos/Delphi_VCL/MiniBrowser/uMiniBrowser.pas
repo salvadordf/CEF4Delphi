@@ -1138,13 +1138,20 @@ begin
 
   if success then
     begin
-      TempDict  := result.GetDictionary;
-      TempValue := TempDict.GetValue('data');
+      TempResult        := 1;
+      FDevToolsMsgValue := '';
 
-      if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+      if (result <> nil) then
         begin
-          FDevToolsMsgValue := TempValue.GetString;
-          if (length(FDevToolsMsgValue) > 0) then TempResult := 1;
+          TempDict := result.GetDictionary;
+
+          if (TempDict <> nil) and (TempDict.GetSize > 0) then
+            begin
+              TempValue := TempDict.GetValue('data');
+
+              if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+                FDevToolsMsgValue := TempValue.GetString;
+            end;
         end;
     end
    else
@@ -1182,39 +1189,44 @@ var
 begin
   if (aMessage.WParam <> 0) then
     begin
-      TempData := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
-      TempLen  := length(TempData);
-
-      if (TempLen > 0) then
+      if (length(FDevToolsMsgValue) > 0) then
         begin
-          TempFile := nil;
+          TempData := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+          TempLen  := length(TempData);
 
-          if (aMessage.LParam = FScreenshotMsgID) then
+          if (TempLen > 0) then
             begin
-              SaveDialog1.DefaultExt := 'png';
-              SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+              TempFile := nil;
+
+              if (aMessage.LParam = FScreenshotMsgID) then
+                begin
+                  SaveDialog1.DefaultExt := 'png';
+                  SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+                end
+               else
+                begin
+                  SaveDialog1.DefaultExt := '';
+                  SaveDialog1.Filter     := 'All files (*.*)|*.*';
+                end;
+
+              if SaveDialog1.Execute then
+                try
+                  try
+                    TempFile := TFileStream.Create(SaveDialog1.FileName, fmCreate);
+                    TempFile.WriteBuffer(TempData[0], TempLen);
+                    showmessage('File saved successfully');
+                  except
+                    showmessage('There was an error saving the file');
+                  end;
+                finally
+                  if (TempFile <> nil) then TempFile.Free;
+                end;
             end
            else
-            begin
-              SaveDialog1.DefaultExt := '';
-              SaveDialog1.Filter     := 'All files (*.*)|*.*';
-            end;
-
-          if SaveDialog1.Execute then
-            try
-              try
-                TempFile := TFileStream.Create(SaveDialog1.FileName, fmCreate);
-                TempFile.WriteBuffer(TempData[0], TempLen);
-                showmessage('File saved successfully');
-              except
-                showmessage('There was an error saving the file');
-              end;
-            finally
-              if (TempFile <> nil) then TempFile.Free;
-            end;
+            showmessage('There was an error decoding the data');
         end
        else
-        showmessage('There was an error decoding the data');
+        showmessage('DevTools method executed successfully!');
     end
    else
     if (length(FDevToolsMsgValue) > 0) then
