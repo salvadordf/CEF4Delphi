@@ -76,8 +76,8 @@ uses
 const
   Kernel32DLL = 'kernel32.dll';
   SHLWAPIDLL  = 'shlwapi.dll';
-  NTDLL = 'ntdll.dll';
-  User32DLL = 'User32.dll';
+  NTDLL       = 'ntdll.dll';
+  User32DLL   = 'User32.dll';
 
 type
   TOSVersionInfoEx = record
@@ -762,14 +762,16 @@ end;
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');   
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
 var
   TempParent : TCefWindowHandle;
 begin
+  // TODO: Find a way to get the right "parent_window" in FMX
+  TempParent := aParent;
+  {$IFDEF FPC}
   if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
-    TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window)
-   else
-    TempParent := aParent;
+    TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+  {$ENDIF}
 
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := aRect.left;

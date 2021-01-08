@@ -250,7 +250,11 @@ type
   PCefMediaSinkDeviceInfo = ^TCefMediaSinkDeviceInfo;
 
   {$IFDEF LINUX}
-  PXEvent = Pointer;
+  PXEvent = pointer;
+  {$IFNDEF FPC}
+    // TODO: Find the FMX unit where PXDisplay is declared
+    PXDisplay = pointer;
+  {$ENDIF}
   {$ENDIF}
 
 
