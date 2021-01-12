@@ -4641,14 +4641,14 @@ begin
 end;
 
 procedure TChromiumCore.doUpdateSize(aLeft, aTop, aWidth, aHeight : integer);
-{$IFDEF LINUX}
+{$IFDEF LINUX}{$IFDEF FPC}
 var
   TempHandle   : TCefWindowHandle;
   TempChanges  : TXWindowChanges;
   TempXDisplay : PXDisplay;
-{$ENDIF}
+{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF LINUX}
+  {$IFDEF LINUX}{$IFDEF FPC}
   if (GlobalCEFApp <> nil) then
     begin
       TempXDisplay := GlobalCEFApp.XDisplay;
@@ -4668,16 +4668,16 @@ begin
             end;
         end;
     end;
-  {$ENDIF}
+  {$ENDIF}{$ENDIF}
 end;   
 
 procedure TChromiumCore.doSendCaptureLostEvent;  
-{$IFDEF LINUX}
+{$IFDEF LINUX}{$IFDEF FPC}
 var
   TempXDisplay : PXDisplay;
-{$ENDIF}
+{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF LINUX}
+  {$IFDEF LINUX}{$IFDEF FPC}
   if (GlobalCEFApp <> nil) then
     begin
       TempXDisplay := GlobalCEFApp.XDisplay;
@@ -4685,22 +4685,22 @@ begin
       if (TempXDisplay <> nil) then
         XSetInputFocus(TempXDisplay, X.None, RevertToNone, CurrentTime);
     end;
-  {$ENDIF}
+  {$ENDIF}{$ENDIF}
 
   if Initialized then
     Browser.Host.SendCaptureLostEvent;
 end;
 
 procedure TChromiumCore.doUpdateXWindowVisibility(aVisible : boolean);   
-{$IFDEF LINUX}
+{$IFDEF LINUX}{$IFDEF FPC}
 var
-  TempXDisplay : PXDisplay;        
+  TempXDisplay : PXDisplay;
   TempHandle   : TCefWindowHandle;
   TempState    : TAtom;
   TempHidden   : TAtom;
-{$ENDIF}
+{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF LINUX}
+  {$IFDEF LINUX}{$IFDEF FPC}
   if (GlobalCEFApp <> nil) then
     begin
       TempXDisplay := GlobalCEFApp.XDisplay;
@@ -4723,7 +4723,7 @@ begin
             end;
         end;
     end;
-  {$ENDIF}
+  {$ENDIF}{$ENDIF}
 end;
 
 {$IFDEF LINUX}
