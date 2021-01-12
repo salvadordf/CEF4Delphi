@@ -47,3 +47,7 @@ Some icons used in this project belong to these icon packages :
 * [Fugue & Diagona icons](http://yusukekamiyamane.com/)
 * [FatCow Farm-Fresh Web Icons](https://www.fatcow.com/free-icons)
 * [Material Design Icons](https://github.com/google/material-design-icons) 
+
+## Other resources
+* [Learn Delphi](https://learndelphi.org/)
+* [Essential Pascal by Marco Cantù](https://www.marcocantu.com/epascal/)
