@@ -6,6 +6,7 @@ object Form1: TForm1
   Caption = ' Initializing browser. Please wait...'
   ClientHeight = 630
   ClientWidth = 1000
+  OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -74,6 +75,8 @@ object Form1: TForm1
     Width = 1000
     Align = alClient
     Caption = 'Panel1'
+    Color = clWhite
+    ParentColor = False
     TabOrder = 1
     OnClick = Panel1Click
     OnEnter = Panel1Enter

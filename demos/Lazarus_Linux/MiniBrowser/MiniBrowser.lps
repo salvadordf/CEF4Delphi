@@ -7,7 +7,7 @@
       <Unit0>
         <Filename Value="MiniBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="26"/>
         <CursorPos X="62" Y="52"/>
         <UsageCount Value="22"/>
@@ -20,7 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="183"/>
+        <TopLine Value="187"/>
         <CursorPos Y="352"/>
         <FoldState Value=" TJmA1{32 pjZlg1@4 pmOoL1{D1q"/>
         <UsageCount Value="22"/>
@@ -70,33 +70,30 @@
       </Unit6>
       <Unit7>
         <Filename Value="../../../source/uCEFChromium.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="130"/>
         <CursorPos X="3" Y="146"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="780"/>
         <CursorPos X="70" Y="807"/>
         <UsageCount Value="10"/>
         <Bookmarks Count="1">
           <Item0 X="68" Y="793" ID="2"/>
         </Bookmarks>
-        <Loaded Value="True"/>
       </Unit8>
       <Unit9>
         <Filename Value="../../../source/uCEFChromiumCore.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1950"/>
         <CursorPos X="71" Y="1975"/>
         <UsageCount Value="10"/>
         <Bookmarks Count="1">
           <Item0 X="56" Y="1966" ID="1"/>
         </Bookmarks>
-        <Loaded Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="/usr/share/fpcsrc/3.2.0/packages/gtk2/src/gtk+/gtk/gtkwidget.inc"/>
@@ -107,144 +104,42 @@
       </Unit10>
       <Unit11>
         <Filename Value="../../../source/uCEFTypes.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1228"/>
         <CursorPos X="53" Y="1251"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="../../../source/uCEFApplicationCore.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="220"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit12>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="UseCThreads"/>
     </OtherDefines>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
-        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <Caret Line="173" Column="11" TopLine="150"/>
-      </Position1>
-      <Position2>
-        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <Caret Line="786" TopLine="767"/>
-      </Position2>
-      <Position3>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="142" Column="49" TopLine="121"/>
-      </Position3>
-      <Position4>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="148" Column="45" TopLine="121"/>
-      </Position4>
-      <Position5>
-        <Filename Value="../../../source/uCEFChromiumCore.pas"/>
-        <Caret Line="447" Column="17" TopLine="426"/>
-      </Position5>
-      <Position6>
-        <Filename Value="../../../source/uCEFChromiumCore.pas"/>
-        <Caret Line="1956" Column="3" TopLine="1950"/>
-      </Position6>
-      <Position7>
-        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <Caret Line="173" Column="11" TopLine="150"/>
-      </Position7>
-      <Position8>
-        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <Caret Line="790" Column="3" TopLine="786"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <Caret Line="772" Column="17" TopLine="749"/>
-      </Position9>
-      <Position10>
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="865" TopLine="829"/>
-      </Position10>
-      <Position11>
+      </Position1>
+      <Position2>
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="158" Column="15" TopLine="137"/>
-      </Position11>
-      <Position12>
+      </Position2>
+      <Position3>
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="863" Column="3" TopLine="829"/>
-      </Position12>
-      <Position13>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="76" Column="17" TopLine="53"/>
-      </Position13>
-      <Position14>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="157" Column="3" TopLine="146"/>
-      </Position14>
-      <Position15>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="70" Column="17" TopLine="47"/>
-      </Position15>
-      <Position16>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="146" Column="3" TopLine="133"/>
-      </Position16>
-      <Position17>
-        <Filename Value="../../../source/uCEFChromiumCore.pas"/>
-        <Caret Line="447" Column="17" TopLine="426"/>
-      </Position17>
-      <Position18>
-        <Filename Value="../../../source/uCEFChromiumCore.pas"/>
-        <Caret Line="1956" Column="3" TopLine="1950"/>
-      </Position18>
-      <Position19>
-        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <Caret Line="173" Column="11" TopLine="150"/>
-      </Position19>
-      <Position20>
+      </Position3>
+      <Position4>
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="849" Column="74" TopLine="829"/>
-      </Position20>
-      <Position21>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="76" Column="17" TopLine="53"/>
-      </Position21>
-      <Position22>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="157" Column="3" TopLine="140"/>
-      </Position22>
-      <Position23>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="70" Column="17" TopLine="48"/>
-      </Position23>
-      <Position24>
-        <Filename Value="../../../source/uCEFChromium.pas"/>
-        <Caret Line="146" Column="3" TopLine="130"/>
-      </Position24>
-      <Position25>
-        <Filename Value="../../../source/uCEFChromiumCore.pas"/>
-        <Caret Line="447" Column="17" TopLine="426"/>
-      </Position25>
-      <Position26>
-        <Filename Value="../../../source/uCEFChromiumCore.pas"/>
-        <Caret Line="1964" Column="66" TopLine="1950"/>
-      </Position26>
-      <Position27>
-        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <Caret Line="173" Column="11" TopLine="150"/>
-      </Position27>
-      <Position28>
-        <Filename Value="../../../source/uCEFChromiumCore.pas"/>
-        <Caret Line="1964" Column="56" TopLine="1950"/>
-      </Position28>
-      <Position29>
-        <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
-        <Caret Line="173" Column="11" TopLine="150"/>
-      </Position29>
-      <Position30>
+      </Position4>
+      <Position5>
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="222" Column="47" TopLine="210"/>
-      </Position30>
+      </Position5>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

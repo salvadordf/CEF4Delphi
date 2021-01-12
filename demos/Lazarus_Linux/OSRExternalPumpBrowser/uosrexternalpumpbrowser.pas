@@ -43,7 +43,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  LCLType, ComCtrls, Types, SyncObjs,
+  LCLType, ComCtrls, Types, SyncObjs, LMessages,
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
   uCEFChromiumEvents;
 
@@ -82,9 +82,10 @@ type
     procedure Chromium1PopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
 
-    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);     
+    procedure FormActivate(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
 
@@ -96,38 +97,25 @@ type
     procedure AddressEdtEnter(Sender: TObject);
   private             
 
-  protected
+  protected                      
+    FPopUpBitmap     : TBitmap;
     FPopUpRect       : TRect;
     FShowPopUp       : boolean;
     FResizing        : boolean;
     FPendingResize   : boolean;
     FCanClose        : boolean;
     FClosing         : boolean;
+    FFirstLoad       : boolean;
     FResizeCS        : TCriticalSection;     
-    FBrowserCS       : TCriticalSection;
-    FPanelCursor     : TCursor;
-    FPanelHint       : ustring;
 
-    function  GetPanelCursor : TCursor;
-    function  GetPanelHint : ustring;
-
-    procedure SetPanelCursor(aValue : TCursor);
-    procedure SetPanelHint(const aValue : ustring);
-
-    procedure SendCompMessage(aMsg : cardinal);
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure DoResize;
 
-    procedure BrowserCreatedMsg(Data: PtrInt);
-    procedure BrowserCloseFormMsg(Data: PtrInt);
-    procedure PendingResizeMsg(Data: PtrInt);
-    procedure PendingInvalidateMsg(Data: PtrInt);
-    procedure PendingCursorUpdateMsg(Data: PtrInt);
-    procedure PendingHintUpdateMsg(Data: PtrInt);
-
-    property PanelCursor  : TCursor   read GetPanelCursor   write SetPanelCursor;
-    property PanelHint    : ustring   read GetPanelHint     write SetPanelHint;
+    // CEF needs to handle these messages to call TChromium.NotifyMoveOrResizeStarted
+    procedure WMMove(var Message: TLMMove); message LM_MOVE;
+    procedure WMSize(var Message: TLMSize); message LM_SIZE;
+    procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
 
   public
     procedure SendCEFKeyEvent(const aCefEvent : TCefKeyEvent);
@@ -143,7 +131,7 @@ implementation
 {$R *.lfm}
 
 // This is a simple CEF browser in "off-screen rendering" mode (a.k.a OSR mode)
-// with a different executable for the Chromium subprocesses and an external 
+// with a different executable for the Chromium subprocesses and an external
 // message pump
 
 // Chromium needs the key press data available in the GDK signals
@@ -197,21 +185,16 @@ implementation
 // to initialize and finalize the WidgetSet at the right time.
 
 // This is the destruction sequence in OSR mode :
-// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and calls Chromium1.CloseBrowser(True).
-// 2- Chromium1.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
-//    set "Result" to false and CEF will destroy the internal browser immediately.
-// 3- Chromium1.OnBeforeClose is triggered because the internal browser was destroyed.
-//    FCanClose is set to True and calls SendCompMessage(CEF_BEFORECLOSE) to
-//    close the form asynchronously.
+// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and
+//    calls Chromium1.CloseBrowser(True) which will destroy the internal browser
+//    immediately.
+// 2- Chromium1.OnBeforeClose is triggered because the internal browser was
+//    destroyed. FCanClose is set to True and we can close the form safely.
 
 uses
   Math, gtk2, glib2, gdk2, gtk2proc, gtk2int,
   uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFWorkScheduler;
 
-const
-  CEF_UPDATE_CURSOR = $A0D;
-  CEF_UPDATE_HINT   = $A0E;
-                          
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then
@@ -291,7 +274,10 @@ end;
 procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can initialize the UI.
-  SendCompMessage(CEF_AFTERCREATED);
+  Caption            := 'OSR External Pump Browser';
+  AddressPnl.Enabled := True;
+
+  Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.AddressEdtEnter(Sender: TObject);
@@ -302,6 +288,32 @@ end;
 procedure TForm1.Panel1Click(Sender: TObject);
 begin
   Panel1.SetFocus;
+end;
+
+procedure TForm1.FormActivate(Sender: TObject);
+begin
+  // You *MUST* call CreateBrowser to create and initialize the browser.
+  // This will trigger the AfterCreated event when the browser is fully
+  // initialized and ready to receive commands.
+
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+
+  // Linux needs a visible form to create a browser so we need to use the
+  // TForm.OnActivate event instead of the TForm.OnShow event
+
+  if not(Chromium1.Initialized) then
+    begin
+      // We have to update the DeviceScaleFactor here to get the scale of the
+      // monitor where the main application form is located.
+      GlobalCEFApp.UpdateDeviceScaleFactor;
+
+      // opaque white background color
+      Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+      Chromium1.DefaultURL              := UTF8Decode(AddressEdt.Text);
+
+      if not(Chromium1.CreateBrowser) then Timer1.Enabled := True;
+    end;
 end;
 
 procedure TForm1.Panel1Enter(Sender: TObject);
@@ -396,7 +408,7 @@ procedure TForm1.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
   FCanClose := True;
-  SendCompMessage(CEF_BEFORECLOSE);
+  Close;
 end;
 
 procedure TForm1.Chromium1BeforePopup(Sender: TObject;
@@ -416,10 +428,8 @@ procedure TForm1.Chromium1CursorChange(Sender: TObject;
   cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; 
   var aResult : boolean);
 begin
-  PanelCursor := CefCursorToWindowsCursor(cursorType);
-  aResult     := True;
-
-  SendCompMessage(CEF_UPDATE_CURSOR);
+  Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
+  aResult       := True;
 end;
 
 procedure TForm1.Chromium1GetScreenInfo(Sender: TObject;
@@ -493,7 +503,7 @@ var
   TempWidth, TempHeight : integer;
   TempBufferBits : Pointer;
   TempForcedResize : boolean;
-  TempBitmap : TCEFBitmapBitBuffer;
+  TempBitmap : TBitmap;
   TempSrcRect : TRect;
 begin
   try
@@ -504,18 +514,41 @@ begin
       begin
         if (type_ = PET_POPUP) then
           begin
-            Panel1.UpdatePopupBufferDimensions(aWidth, aHeight);
+            if (FPopUpBitmap = nil) then
+               begin
+                 FPopUpBitmap             := TBitmap.Create;
+                 FPopUpBitmap.PixelFormat := pf32bit;
+                 FPopUpBitmap.HandleType  := bmDIB;
+                 FPopUpBitmap.Width       := aWidth;
+                 FPopUpBitmap.Height      := aHeight;
 
-            TempBitmap := Panel1.PopupBuffer;
-            TempWidth  := Panel1.PopupBufferWidth;
-            TempHeight := Panel1.PopupBufferHeight;
+                 FPopUpBitmap.Canvas.Brush.Color := clWhite;
+                 FPopUpBitmap.Canvas.FillRect(rect(0, 0, aWidth, aHeight));
+               end;
+
+            if (aWidth  <> FPopUpBitmap.Width) or
+               (aHeight <> FPopUpBitmap.Height) then
+              begin
+                FPopUpBitmap.Width  := aWidth;
+                FPopUpBitmap.Height := aHeight;
+
+                FPopUpBitmap.Canvas.Brush.Color := clWhite;
+                FPopUpBitmap.Canvas.FillRect(rect(0, 0, aWidth, aHeight));
+              end;
+
+            TempBitmap := FPopUpBitmap;
+            TempBitmap.BeginUpdate;
+
+            TempWidth  := FPopUpBitmap.Width;
+            TempHeight := FPopUpBitmap.Height;
           end
          else
           begin
-            TempForcedResize := Panel1.UpdateBufferDimensions(aWidth, aHeight) or
-                                not(Panel1.BufferIsResized(False));
+            TempForcedResize := Panel1.UpdateBufferDimensions(aWidth, aHeight) or not(Panel1.BufferIsResized(False));
 
             TempBitmap := Panel1.Buffer;
+            TempBitmap.BeginUpdate;
+
             TempWidth  := Panel1.BufferWidth;
             TempHeight := Panel1.BufferHeight;
           end;
@@ -555,23 +588,24 @@ begin
             inc(n);
           end;
 
-        if FShowPopup then
+        TempBitmap.EndUpdate;
+
+        if FShowPopup and (FPopUpBitmap <> nil) then
           begin
             TempSrcRect := Rect(0, 0,
-                                FPopUpRect.Right  - FPopUpRect.Left,
-                                FPopUpRect.Bottom - FPopUpRect.Top);
+                                min(FPopUpRect.Right  - FPopUpRect.Left, FPopUpBitmap.Width),
+                                min(FPopUpRect.Bottom - FPopUpRect.Top,  FPopUpBitmap.Height));
 
-            Panel1.DrawPopupBuffer(TempSrcRect, FPopUpRect);
+            Panel1.BufferDraw(FPopUpBitmap, TempSrcRect, FPopUpRect);
           end;
 
         Panel1.EndBufferDraw;
-
-        SendCompMessage(CEF_PENDINGINVALIDATE);
+        Panel1.InvalidatePanel;
 
         if (type_ = PET_VIEW) then
           begin
             if TempForcedResize or FPendingResize then
-              SendCompMessage(CEF_PENDINGRESIZE);
+              TThread.Queue(nil, @DoResize);
 
             FResizing      := False;
             FPendingResize := False;
@@ -607,10 +641,9 @@ end;
 
 procedure TForm1.Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
 begin
-  PanelHint := aText;
-  Result    := True;
-
-  SendCompMessage(CEF_UPDATE_HINT);
+  Panel1.hint     := aText;
+  Panel1.ShowHint := (length(aText) > 0);
+  Result          := True;
 end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -626,23 +659,24 @@ begin
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
-begin
+begin                             
+  FPopUpBitmap    := nil;
   FPopUpRect      := rect(0, 0, 0, 0);
   FShowPopUp      := False;
   FResizing       := False;
   FPendingResize  := False;
   FCanClose       := False;
   FClosing        := False;
+  FFirstLoad      := True;
   FResizeCS       := TCriticalSection.Create;
-  FBrowserCS      := TCriticalSection.Create;
 
   ConnectKeyPressReleaseEvents(PGtkWidget(Panel1.Handle));
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
-begin
-  if (FResizeCS  <> nil) then FreeAndNil(FResizeCS);
-  if (FBrowserCS <> nil) then FreeAndNil(FBrowserCS);
+begin                                              
+  if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
+  if (FResizeCS    <> nil) then FreeAndNil(FResizeCS);
 end;
 
 procedure TForm1.FormHide(Sender: TObject);
@@ -653,23 +687,8 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  if Chromium1.Initialized then
-    begin
-      Chromium1.WasHidden(False);
-      Chromium1.SendFocusEvent(True);
-    end
-   else
-    begin
-      // We have to update the DeviceScaleFactor here to get the scale of the
-      // monitor where the main application form is located.
-      GlobalCEFApp.UpdateDeviceScaleFactor;
-
-      // opaque white background color
-      Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);  
-      Chromium1.DefaultURL              := UTF8Decode(AddressEdt.Text);
-
-      if not(Chromium1.CreateBrowser) then Timer1.Enabled := True;
-    end;
+  Chromium1.WasHidden(False);
+  Chromium1.SendFocusEvent(True);
 end;
 
 procedure TForm1.GoBtnEnter(Sender: TObject);
@@ -691,50 +710,6 @@ begin
     Timer1.Enabled := True;
 end;
 
-procedure TForm1.BrowserCreatedMsg(Data: PtrInt);
-begin
-  Caption            := 'Simple OSR Browser';
-  AddressPnl.Enabled := True;
-end;
-
-procedure TForm1.BrowserCloseFormMsg(Data: PtrInt);
-begin
-  Close;
-end;  
-
-procedure TForm1.PendingResizeMsg(Data: PtrInt);
-begin
-  DoResize;
-end;
-
-procedure TForm1.PendingInvalidateMsg(Data: PtrInt);
-begin
-  Panel1.Invalidate;
-end;
-
-procedure TForm1.PendingCursorUpdateMsg(Data: PtrInt);
-begin
-  Panel1.Cursor := PanelCursor;
-end;
-
-procedure TForm1.PendingHintUpdateMsg(Data: PtrInt);
-begin
-  Panel1.hint     := PanelHint;
-  Panel1.ShowHint := (length(Panel1.hint) > 0);
-end;
-
-procedure TForm1.SendCompMessage(aMsg : cardinal);
-begin
-  case aMsg of
-    CEF_AFTERCREATED      : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
-    CEF_BEFORECLOSE       : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
-    CEF_PENDINGRESIZE     : Application.QueueAsyncCall(@PendingResizeMsg, 0);
-    CEF_PENDINGINVALIDATE : Application.QueueAsyncCall(@PendingInvalidateMsg, 0);
-    CEF_UPDATE_CURSOR     : Application.QueueAsyncCall(@PendingCursorUpdateMsg, 0);
-    CEF_UPDATE_HINT       : Application.QueueAsyncCall(@PendingHintUpdateMsg, 0);
-  end;
-end;    
-
 procedure TForm1.DoResize;
 begin
   try
@@ -753,46 +728,24 @@ begin
   finally
     FResizeCS.Release;
   end;
-end;     
-
-function TForm1.GetPanelCursor : TCursor;
-begin
-  try
-    FBrowserCS.Acquire;
-    Result := FPanelCursor;
-  finally
-    FBrowserCS.Release;
-  end;
 end;
 
-function TForm1.GetPanelHint : ustring;
+procedure TForm1.WMMove(var Message: TLMMove);
 begin
-  try
-    FBrowserCS.Acquire;
-    Result := FPanelHint;
-  finally
-    FBrowserCS.Release;
-  end;
+  inherited;
+  Chromium1.NotifyMoveOrResizeStarted;
 end;
 
-procedure TForm1.SetPanelCursor(aValue : TCursor);
+procedure TForm1.WMSize(var Message: TLMSize);
 begin
-  try
-    FBrowserCS.Acquire;
-    FPanelCursor := aValue;
-  finally
-    FBrowserCS.Release;
-  end;
+  inherited;
+  Chromium1.NotifyMoveOrResizeStarted;
 end;
 
-procedure TForm1.SetPanelHint(const aValue : ustring);
+procedure TForm1.WMWindowPosChanged(var Message: TLMWindowPosChanged);
 begin
-  try
-    FBrowserCS.Acquire;
-    FPanelHint := aValue;
-  finally
-    FBrowserCS.Release;
-  end;
+  inherited;
+  Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 end.

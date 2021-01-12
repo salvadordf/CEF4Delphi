@@ -10,7 +10,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="29"/>
         <CursorPos X="57" Y="58"/>
-        <UsageCount Value="81"/>
+        <UsageCount Value="83"/>
       </Unit0>
       <Unit1>
         <Filename Value="usimpleosrbrowser.pas"/>
@@ -20,12 +20,12 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleOSRBrowser"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="55"/>
-        <CursorPos X="65" Y="96"/>
-        <UsageCount Value="81"/>
+        <TopLine Value="187"/>
+        <CursorPos X="72" Y="225"/>
+        <UsageCount Value="83"/>
         <Bookmarks Count="2">
-          <Item0 X="47" Y="222" ID="2"/>
-          <Item1 X="76" Y="501" ID="6"/>
+          <Item0 X="49" Y="223" ID="2"/>
+          <Item1 X="80" Y="528" ID="6"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -36,7 +36,7 @@
         <UnitName Value="Interfaces"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="40" Y="20"/>
-        <UsageCount Value="77"/>
+        <UsageCount Value="79"/>
       </Unit2>
       <Unit3>
         <Filename Value="/usr/share/lazarus/2.0.6/lcl/lcltype.pp"/>
@@ -126,14 +126,14 @@
       <Unit15>
         <Filename Value="../../../source/uCEFBufferPanel.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="111"/>
-        <CursorPos X="17" Y="123"/>
+        <TopLine Value="1034"/>
+        <CursorPos X="3" Y="1037"/>
         <UsageCount Value="29"/>
         <Bookmarks Count="4">
-          <Item0 Y="1010" ID="9"/>
-          <Item1 X="63" Y="581" ID="8"/>
-          <Item2 X="5" Y="345" ID="7"/>
-          <Item3 X="5" Y="375" ID="1"/>
+          <Item0 Y="1036" ID="9"/>
+          <Item1 X="63" Y="589" ID="8"/>
+          <Item2 X="5" Y="350" ID="7"/>
+          <Item3 X="5" Y="380" ID="1"/>
         </Bookmarks>
       </Unit15>
       <Unit16>
@@ -706,7 +706,7 @@
         <Filename Value="../../../source/uCEFBitmapBitBuffer.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="153"/>
-        <CursorPos X="58" Y="183"/>
+        <CursorPos X="3" Y="172"/>
         <UsageCount Value="13"/>
       </Unit94>
       <Unit95>
@@ -802,7 +802,88 @@
       <Define0 Value="UseCthreads"/>
       <Define1 Value="EnabledGtkThreading"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="20" HistoryIndex="19">
+      <Position1>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="56" Column="63" TopLine="51"/>
+      </Position1>
+      <Position2>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="634" Column="63" TopLine="619"/>
+      </Position2>
+      <Position3>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="80" Column="15" TopLine="64"/>
+      </Position3>
+      <Position4>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="501" Column="35" TopLine="478"/>
+      </Position4>
+      <Position5>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="512" Column="52" TopLine="478"/>
+      </Position5>
+      <Position6>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="514" Column="38" TopLine="497"/>
+      </Position6>
+      <Position7>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="506" Column="70" TopLine="497"/>
+      </Position7>
+      <Position8>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="558" Column="39" TopLine="536"/>
+      </Position8>
+      <Position9>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="569" Column="56" TopLine="475"/>
+      </Position9>
+      <Position10>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="469" Column="61" TopLine="460"/>
+      </Position10>
+      <Position11>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="89" Column="15" TopLine="56"/>
+      </Position11>
+      <Position12>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="663" Column="3" TopLine="660"/>
+      </Position12>
+      <Position13>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="309" Column="3" TopLine="280"/>
+      </Position13>
+      <Position14>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="90" Column="24" TopLine="45"/>
+      </Position14>
+      <Position15>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="679" Column="12" TopLine="661"/>
+      </Position15>
+      <Position16>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="85" Column="15" TopLine="68"/>
+      </Position16>
+      <Position17>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="319" Column="12" TopLine="306"/>
+      </Position17>
+      <Position18>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="90" Column="15" TopLine="63"/>
+      </Position18>
+      <Position19>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="675" TopLine="671"/>
+      </Position19>
+      <Position20>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="85" Column="15" TopLine="68"/>
+      </Position20>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="0" ActiveMode=""/>
