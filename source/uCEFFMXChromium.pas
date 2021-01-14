@@ -164,18 +164,18 @@ begin
 end;
 
 function TFMXChromium.GetScreenScale : Single;
-{$IFDEF DELPHI24_UP}
+{$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
 var
   TempHandle : TCefWindowHandle;
-{$ENDIF}
+{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF DELPHI24_UP}
+  {$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
     Result := GetWndScale(TempHandle)
    else
-  {$ENDIF}
+  {$ENDIF}{$ENDIF}
     if (GlobalCEFApp <> nil) then
       Result := GlobalCEFApp.DeviceScaleFactor
      else

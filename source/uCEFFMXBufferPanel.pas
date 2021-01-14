@@ -385,15 +385,15 @@ begin
 end;
 
 function TFMXBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
-{$IFDEF DELPHI24_UP}
+{$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
 var
   TempHandle : TCefWindowHandle;
-{$ENDIF}
+{$ENDIF}{$ENDIF}
 begin
   Result       := False;
   aResultScale := 1;
 
-  {$IFDEF DELPHI24_UP}
+  {$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
@@ -401,7 +401,7 @@ begin
       Result       := True;
       aResultScale := GetWndScale(TempHandle);
     end;
-  {$ENDIF}
+  {$ENDIF}{$ENDIF}
 end;
 
 function TFMXBufferPanel.GetScreenScale : single;

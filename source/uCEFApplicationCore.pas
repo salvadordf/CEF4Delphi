@@ -617,7 +617,9 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Math, System.IOUtils, System.SysUtils, {$IFDEF MSWINDOWS}WinApi.TlHelp32, WinApi.PSAPI,{$ENDIF}
+    System.Math, System.IOUtils, System.SysUtils,
+    {$IFDEF MSWINDOWS}WinApi.TlHelp32, WinApi.PSAPI,{$ENDIF}
+    {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
@@ -1227,6 +1229,7 @@ begin
   try
     if (aApp <> nil) then
       begin
+        {$WARN SYMBOL_PLATFORM OFF}
         {$IFDEF MSWINDOWS}
           TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
         {$ELSE}
@@ -1249,7 +1252,7 @@ begin
             {$ENDIF}
           {$ENDIF}
         {$ENDIF}
-
+        {$WARN SYMBOL_PLATFORM ON}
         Result := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
       end;
   except
@@ -1321,6 +1324,7 @@ begin
           {$IFDEF MSWINDOWS}
             TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
           {$ELSE}
+            {$WARN SYMBOL_PLATFORM OFF}
             {$IFDEF LINUX}
               {$IFDEF FPC}
               TempArgs.argc := argc;
@@ -1339,6 +1343,7 @@ begin
               TempArgs.argv := 0;
               {$ENDIF}
             {$ENDIF}
+            {$WARN SYMBOL_PLATFORM ON}
           {$ENDIF}
 
           if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
