@@ -182,8 +182,11 @@ type
 
   // ICefDevToolsMessageObserver
   TOnDevToolsMessageEvent         = procedure(Sender: TObject; const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean) of object;
+  TOnDevToolsRawMessageEvent      = procedure(Sender: TObject; const browser: ICefBrowser; const message_: Pointer; message_size: NativeUInt; var aHandled: boolean) of object;
   TOnDevToolsMethodResultEvent    = procedure(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue) of object;
+  TOnDevToolsMethodRawResultEvent = procedure(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const result: Pointer; result_size: NativeUInt) of object;
   TOnDevToolsEventEvent           = procedure(Sender: TObject; const browser: ICefBrowser; const method: ustring; const params: ICefValue) of object;
+  TOnDevToolsEventRawEvent        = procedure(Sender: TObject; const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: NativeUInt) of object;
   TOnDevToolsAgentAttachedEvent   = procedure(Sender: TObject; const browser: ICefBrowser) of object;
   TOnDevToolsAgentDetachedEvent   = procedure(Sender: TObject; const browser: ICefBrowser) of object;
 

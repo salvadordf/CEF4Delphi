@@ -281,8 +281,11 @@ type
 
       // ICefDevToolsMessageObserver
       FOnDevToolsMessage                  : TOnDevToolsMessageEvent;
+      FOnDevToolsRawMessage               : TOnDevToolsRawMessageEvent;
       FOnDevToolsMethodResult             : TOnDevToolsMethodResultEvent;
+      FOnDevToolsMethodRawResult          : TOnDevToolsMethodRawResultEvent;
       FOnDevToolsEvent                    : TOnDevToolsEventEvent;
+      FOnDevToolsRawEvent                 : TOnDevToolsEventRawEvent;
       FOnDevToolsAgentAttached            : TOnDevToolsAgentAttachedEvent;
       FOnDevToolsAgentDetached            : TOnDevToolsAgentDetachedEvent;
 
@@ -599,9 +602,9 @@ type
       procedure doOnAudioStreamError(const browser: ICefBrowser; const message_: ustring); virtual;
 
       // ICefDevToolsMessageObserver
-      procedure doOnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean); virtual;
-      procedure doOnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue); virtual;
-      procedure doOnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: ICefValue); virtual;
+      procedure doOnDevToolsMessage(const browser: ICefBrowser; const message_: Pointer; message_size: NativeUInt; var aHandled: boolean); virtual;
+      procedure doOnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: Pointer; result_size: NativeUInt); virtual;
+      procedure doOnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: NativeUInt); virtual;
       procedure doOnDevToolsAgentAttached(const browser: ICefBrowser); virtual;
       procedure doOnDevToolsAgentDetached(const browser: ICefBrowser); virtual;
 
@@ -1071,8 +1074,11 @@ type
 
       // ICefDevToolsMessageObserver
       property OnDevToolsMessage                      : TOnDevToolsMessageEvent           read FOnDevToolsMessage                      write FOnDevToolsMessage;
+      property OnDevToolsRawMessage                   : TOnDevToolsRawMessageEvent        read FOnDevToolsRawMessage                   write FOnDevToolsRawMessage;
       property OnDevToolsMethodResult                 : TOnDevToolsMethodResultEvent      read FOnDevToolsMethodResult                 write FOnDevToolsMethodResult;
+      property OnDevToolsMethodRawResult              : TOnDevToolsMethodRawResultEvent   read FOnDevToolsMethodRawResult              write FOnDevToolsMethodRawResult;
       property OnDevToolsEvent                        : TOnDevToolsEventEvent             read FOnDevToolsEvent                        write FOnDevToolsEvent;
+      property OnDevToolsRawEvent                     : TOnDevToolsEventRawEvent          read FOnDevToolsRawEvent                     write FOnDevToolsRawEvent;
       property OnDevToolsAgentAttached                : TOnDevToolsAgentAttachedEvent     read FOnDevToolsAgentAttached                write FOnDevToolsAgentAttached;
       property OnDevToolsAgentDetached                : TOnDevToolsAgentDetachedEvent     read FOnDevToolsAgentDetached                write FOnDevToolsAgentDetached;
 
@@ -1742,8 +1748,11 @@ begin
 
   // ICefDevToolsMessageObserver
   FOnDevToolsMessage                  := nil;
+  FOnDevToolsRawMessage               := nil;
   FOnDevToolsMethodResult             := nil;
+  FOnDevToolsMethodRawResult          := nil;
   FOnDevToolsEvent                    := nil;
+  FOnDevToolsRawEvent                 := nil;
   FOnDevToolsAgentAttached            := nil;
   FOnDevToolsAgentDetached            := nil;
 
@@ -4878,8 +4887,11 @@ end;
 function TChromiumCore.MustCreateDevToolsMessageObserver : boolean;
 begin
   Result := assigned(FOnDevToolsMessage) or
+            assigned(FOnDevToolsRawMessage) or
             assigned(FOnDevToolsMethodResult) or
+            assigned(FOnDevToolsMethodRawResult) or
             assigned(FOnDevToolsEvent) or
+            assigned(FOnDevToolsRawEvent) or
             assigned(FOnDevToolsAgentAttached) or
             assigned(FOnDevToolsAgentDetached);
 end;
@@ -5646,30 +5658,61 @@ end;
 
 // ICefDevToolsMessageObserver
 procedure TChromiumCore.doOnDevToolsMessage(const browser      : ICefBrowser;
-                                            const message_     : ICefValue;
+                                            const message_     : Pointer;
+                                                  message_size : NativeUInt;
                                             var   aHandled     : boolean);
+var
+  TempValue : ICefValue;
 begin
-  aHandled := False;
-
-  if assigned(FOnDevToolsMessage) then
-    FOnDevToolsMessage(self, browser, message_, aHandled);
+  if assigned(FOnDevToolsRawMessage) then
+    FOnDevToolsRawMessage(self, browser, message_, message_size, aHandled)
+   else
+    if assigned(FOnDevToolsMessage) then
+      try
+        TempValue := TCEFJson.Parse(message_, message_size);
+        FOnDevToolsMessage(self, browser, TempValue, aHandled);
+      finally
+        TempValue := nil;
+      end;
 end;
 
 procedure TChromiumCore.doOnDevToolsMethodResult(const browser     : ICefBrowser;
                                                        message_id  : integer;
                                                        success     : boolean;
-                                                 const result      : ICefValue);
+                                                 const result      : Pointer;
+                                                       result_size : NativeUInt);
+var
+  TempValue : ICefValue;
 begin
-  if assigned(FOnDevToolsMethodResult) then
-    FOnDevToolsMethodResult(self, browser, message_id, success, result);
+  if assigned(FOnDevToolsMethodRawResult) then
+    FOnDevToolsMethodRawResult(self, browser, message_id, success, result, result_size)
+   else
+    if assigned(FOnDevToolsMethodResult) then
+      try
+        TempValue := TCEFJson.Parse(result, result_size);
+        FOnDevToolsMethodResult(self, browser, message_id, success, TempValue);
+      finally
+        TempValue := nil;
+      end;
 end;
 
-procedure TChromiumCore.doOnDevToolsEvent(const browser : ICefBrowser;
-                                          const method  : ustring;
-                                          const params  : ICefValue);
+procedure TChromiumCore.doOnDevToolsEvent(const browser     : ICefBrowser;
+                                          const method      : ustring;
+                                          const params      : Pointer;
+                                                params_size : NativeUInt);
+var
+  TempValue : ICefValue;
 begin
-  if assigned(FOnDevToolsEvent) then
-    FOnDevToolsEvent(self, browser, method, params);
+  if assigned(FOnDevToolsRawEvent) then
+    FOnDevToolsRawEvent(self, browser, method, params, params_size)
+   else
+    if assigned(FOnDevToolsEvent) then
+      try
+        TempValue := TCEFJson.Parse(params, params_size);
+        FOnDevToolsEvent(self, browser, method, TempValue);
+      finally
+        TempValue := nil;
+      end;
 end;
 
 procedure TChromiumCore.doOnDevToolsAgentAttached(const browser: ICefBrowser);

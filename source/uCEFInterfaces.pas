@@ -442,9 +442,9 @@ type
     procedure doOnAudioStreamError(const browser: ICefBrowser; const message_: ustring);
 
     // ICefDevToolsMessageObserver
-    procedure doOnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean);
-    procedure doOnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue);
-    procedure doOnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: ICefValue);
+    procedure doOnDevToolsMessage(const browser: ICefBrowser; const message_: Pointer; message_size: NativeUInt; var aHandled: boolean);
+    procedure doOnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: Pointer; result_size: NativeUInt);
+    procedure doOnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: NativeUInt);
     procedure doOnDevToolsAgentAttached(const browser: ICefBrowser);
     procedure doOnDevToolsAgentDetached(const browser: ICefBrowser);
 
@@ -1331,9 +1331,9 @@ type
   // /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t)
   ICefDevToolsMessageObserver = interface(ICefBaseRefCounted)
     ['{76E5BB2B-7F69-4BC9-94C7-B55C61CE630F}']
-    procedure OnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean);
-    procedure OnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue);
-    procedure OnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: ICefValue);
+    procedure OnDevToolsMessage(const browser: ICefBrowser; const message_: Pointer; message_size: NativeUInt; var aHandled: boolean);
+    procedure OnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: Pointer; result_size: NativeUInt);
+    procedure OnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: NativeUInt);
     procedure OnDevToolsAgentAttached(const browser: ICefBrowser);
     procedure OnDevToolsAgentDetached(const browser: ICefBrowser);
   end;

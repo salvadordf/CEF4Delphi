@@ -85,9 +85,16 @@ type
       property  Enabled;
       property  ShowHint;
       property  Hint;
+      property  DragKind;
+      property  DragCursor;
+      property  DragMode;
       property  OnResize;        
       property  OnEnter;
       property  OnExit;
+      property  OnDragDrop;
+      property  OnDragOver;
+      property  OnStartDrag;
+      property  OnEndDrag;
       {$IFDEF DELPHI14_UP}
       property  Touch;
       property  OnGesture;
