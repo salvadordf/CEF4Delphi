@@ -116,8 +116,8 @@ function CefInt64Set(int32_low, int32_high: Integer): Int64;
 function CefInt64GetLow(const int64_val: Int64): Integer;
 function CefInt64GetHigh(const int64_val: Int64): Integer;
 
-function CefGetObject(ptr: Pointer): TObject;  {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
-function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
+function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 function CefStringAlloc(const str: ustring): TCefString;
 function CefStringClearAndGet(str: PCefString): ustring;
@@ -128,7 +128,7 @@ function  CefUserFreeString(const str: ustring): PCefStringUserFree;
 procedure CefStringFree(const str: PCefString);
 function  CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
 procedure CefStringSet(const str: PCefString; const value: ustring);
-procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
 
@@ -148,6 +148,7 @@ function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
   {$ENDIF}
 {$ENDIF}
 
+function FixCefTime(const dt : TCefTime): TCefTime;
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 
@@ -176,8 +177,6 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 
 {$IFDEF MSWINDOWS}
 function ProcessUnderWow64(hProcess: THandle; var Wow64Process: BOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
-function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
-function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
 function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
@@ -574,48 +573,36 @@ end;
   {$ENDIF}
 {$ENDIF}
 
-function CefTimeToDateTime(const dt: TCefTime): TDateTime;
-{$IFDEF MSWINDOWS}
+function FixCefTime(const dt : TCefTime): TCefTime;
 var
-  TempTime : TSystemTime;
-{$ENDIF}
+  DayTable : PDayTable;
 begin
-  {$IFDEF MSWINDOWS}
-  Result := 0;
+  Result := dt;
 
-  try
-    TempTime := CefTimeToSystemTime(dt);
-    SystemTimeToTzSpecificLocalTime(nil, @TempTime, @TempTime);
-    Result   := SystemTimeToDateTime(TempTime);
-  except
-    on e : exception do
-      if CustomExceptionHandler('CefTimeToDateTime', e) then raise;
-  end;
-  {$ELSE}
-  Result := EncodeDate(dt.year, dt.month, dt.day_of_month) + EncodeTime(dt.hour, dt.minute, dt.second, dt.millisecond);
-  {$ENDIF}
+  Result.year         := min(9999, max(1, Result.year));
+  Result.month        := min(12,   max(1, Result.month));
+  Result.hour         := min(23,   max(1, Result.hour));
+  Result.minute       := min(59,   max(1, Result.minute));
+  Result.second       := min(59,   max(1, Result.second));
+  Result.millisecond  := min(999,  max(1, Result.millisecond));
+
+  DayTable            := @MonthDays[IsLeapYear(Result.year)];
+  Result.day_of_month := min(DayTable^[Result.month], max(1, Result.day_of_month));
+end;
+
+function CefTimeToDateTime(const dt: TCefTime): TDateTime;
+var
+  TempFixedCefTime : TCefTime;
+begin
+  TempFixedCefTime := FixCefTime(dt);
+  Result := EncodeDate(TempFixedCefTime.year, TempFixedCefTime.month, TempFixedCefTime.day_of_month) +
+            EncodeTime(TempFixedCefTime.hour, TempFixedCefTime.minute, TempFixedCefTime.second, TempFixedCefTime.millisecond);
 end;
 
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 var
-  {$IFDEF MSWINDOWS}
-  TempTime : TSystemTime;
-  {$ELSE}
   TempYear, TempMonth, TempDay, TempHour, TempMin, TempSec, TempMSec : Word;
-  {$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
-  FillChar(Result, SizeOf(TCefTime), 0);
-
-  try
-    DateTimeToSystemTime(dt, TempTime);
-    TzSpecificLocalTimeToSystemTime(nil, @TempTime, @TempTime);
-    Result := SystemTimeToCefTime(TempTime);
-  except
-    on e : exception do
-      if CustomExceptionHandler('DateTimeToCefTime', e) then raise;
-  end;
-  {$ELSE}
   DecodeDate(dt, TempYear, TempMonth, TempDay);
   DecodeTime(dt, TempHour, TempMin, TempSec, TempMSec);
 
@@ -627,7 +614,6 @@ begin
   Result.minute       := TempMin;
   Result.second       := TempSec;
   Result.millisecond  := TempMSec;
-  {$ENDIF}
 end;
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
