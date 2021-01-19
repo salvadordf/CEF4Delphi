@@ -1,0 +1,140 @@
+object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
+  Left = 0
+  Top = 0
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 633
+  ClientWidth = 800
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  OnCloseQuery = FormCloseQuery
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  OnHide = FormHide
+  DesignerMasterStyle = 0
+  object AddressPnl: TPanel
+    Align = Top
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 5.000000000000000000
+    Size.Width = 800.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object AddressEdt: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 0
+      Text = 'https://www.google.com'
+      Size.Width = 709.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      OnEnter = AddressEdtEnter
+    end
+    object Layout1: TLayout
+      Align = Right
+      Padding.Left = 5.000000000000000000
+      Position.X = 714.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 81.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object GoBtn: TButton
+        Align = Left
+        Position.X = 5.000000000000000000
+        Size.Width = 36.000000000000000000
+        Size.Height = 23.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Go'
+        OnClick = GoBtnClick
+        OnEnter = GoBtnEnter
+      end
+      object SnapshotBtn: TButton
+        Align = Right
+        StyledSettings = [Style, FontColor]
+        Position.X = 45.000000000000000000
+        Size.Width = 36.000000000000000000
+        Size.Height = 23.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Text = #181
+        TextSettings.Font.Family = 'Webdings'
+        TextSettings.Font.Size = 32.000000000000000000
+        OnClick = SnapshotBtnClick
+        OnEnter = SnapshotBtnEnter
+      end
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 40
+    Top = 137
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'bmp'
+    Filter = 'Bitmap files (*.bmp)|*.BMP'
+    Title = 'Save snapshot'
+    Left = 40
+    Top = 201
+  end
+  object Panel1: TFMXBufferPanel
+    Align = Client
+    TabOrder = 0
+    CanFocus = True
+    Size.Width = 800.000000000000000000
+    Size.Height = 578.000000000000000000
+    Size.PlatformDefault = False
+    OnEnter = Panel1Enter
+    OnExit = Panel1Exit
+    OnResize = Panel1Resize
+    OnClick = Panel1Click
+    OnMouseDown = Panel1MouseDown
+    OnMouseMove = Panel1MouseMove
+    OnMouseUp = Panel1MouseUp
+    OnMouseLeave = Panel1MouseLeave
+    OnMouseWheel = Panel1MouseWheel
+    OnKeyDown = Panel1KeyDown
+    OnDialogKey = Panel1DialogKey
+  end
+  object StatusBar1: TStatusBar
+    Position.Y = 611.000000000000000000
+    ShowSizeGrip = True
+    Size.Width = 800.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    object StatusLbl: TLabel
+      Align = Client
+      Margins.Left = 5.000000000000000000
+      Margins.Right = 50.000000000000000000
+      Size.Width = 745.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+  end
+  object chrmosr: TFMXChromium
+    OnLoadError = chrmosrLoadError
+    OnLoadingStateChange = chrmosrLoadingStateChange
+    OnTooltip = chrmosrTooltip
+    OnBeforePopup = chrmosrBeforePopup
+    OnAfterCreated = chrmosrAfterCreated
+    OnBeforeClose = chrmosrBeforeClose
+    OnGetViewRect = chrmosrGetViewRect
+    OnGetScreenPoint = chrmosrGetScreenPoint
+    OnGetScreenInfo = chrmosrGetScreenInfo
+    OnPopupShow = chrmosrPopupShow
+    OnPopupSize = chrmosrPopupSize
+    OnPaint = chrmosrPaint
+    Left = 40
+    Top = 73
+  end
+end

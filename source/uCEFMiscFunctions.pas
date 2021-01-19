@@ -58,7 +58,7 @@ uses
     {$IFDEF MSWINDOWS}
       WinApi.Windows, WinApi.ActiveX, {$IFDEF FMX}FMX.Types,{$ENDIF}
     {$ELSE}
-      {$IFDEF FMX}FMX.Types,{$ENDIF} {$IFDEF MACOS}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
+      {$IFDEF MACOS}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
     {$ENDIF}
     System.Types, System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
@@ -926,13 +926,13 @@ const
   DEFAULT_LINE = 1;
 begin
   {$IFDEF DEBUG}
-  {$IFDEF FMX}
-    FMX.Types.Log.d(aMessage);
-  {$ELSE}
     {$IFDEF MSWINDOWS}
-    OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
+      {$IFDEF FMX}
+        FMX.Types.Log.d(aMessage);
+      {$ELSE}
+        OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
+      {$ENDIF}
     {$ENDIF}
-  {$ENDIF}
 
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);

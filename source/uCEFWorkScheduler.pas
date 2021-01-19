@@ -284,7 +284,14 @@ begin
     PostMessage(FCompHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
   {$ELSE}
   if not(FStopped) then
+    {$IFDEF FPC}
     Application.QueueAsyncCall(@ScheduleWorkAsync, integer(delay_ms));
+    {$ELSE}
+    TThread.Queue(nil, procedure
+                       begin
+                         ScheduleWork(delay_ms);
+                       end);
+    {$ENDIF}
   {$ENDIF}
 end;
 
