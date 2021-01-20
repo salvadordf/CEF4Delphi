@@ -8,9 +8,9 @@
         <Filename Value="OSRExternalPumpBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="30"/>
-        <CursorPos X="37" Y="51"/>
-        <UsageCount Value="90"/>
+        <TopLine Value="31"/>
+        <CursorPos X="20" Y="72"/>
+        <UsageCount Value="91"/>
       </Unit0>
       <Unit1>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
@@ -20,16 +20,16 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uOSRExternalPumpBrowser"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="158"/>
-        <CursorPos X="75" Y="192"/>
-        <UsageCount Value="90"/>
+        <TopLine Value="201"/>
+        <CursorPos X="25" Y="218"/>
+        <UsageCount Value="91"/>
         <Bookmarks Count="6">
-          <Item0 Y="713" ID="2"/>
-          <Item1 X="9" Y="603" ID="3"/>
-          <Item2 X="13" Y="316" ID="9"/>
-          <Item3 Y="690" ID="8"/>
-          <Item4 X="41" Y="280" ID="7"/>
-          <Item5 X="52" Y="189" ID="1"/>
+          <Item0 Y="723" ID="2"/>
+          <Item1 X="9" Y="620" ID="3"/>
+          <Item2 X="13" Y="333" ID="9"/>
+          <Item3 Y="708" ID="8"/>
+          <Item4 X="41" Y="298" ID="7"/>
+          <Item5 X="52" Y="187" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -40,7 +40,7 @@
         <UnitName Value="Interfaces"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="40" Y="20"/>
-        <UsageCount Value="86"/>
+        <UsageCount Value="87"/>
       </Unit2>
       <Unit3>
         <Filename Value="/usr/share/lazarus/2.0.6/lcl/lcltype.pp"/>
@@ -160,8 +160,8 @@
       <Unit19>
         <Filename Value="/usr/share/fpcsrc/3.2.0/packages/fcl-base/src/syncobjs.pp"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="122"/>
-        <CursorPos X="54" Y="146"/>
+        <TopLine Value="12"/>
+        <CursorPos X="29" Y="35"/>
         <UsageCount Value="10"/>
       </Unit19>
       <Unit20>
@@ -830,115 +830,127 @@
       <Define0 Value="UseCthreads"/>
       <Define1 Value="EnabledGtkThreading"/>
     </OtherDefines>
-    <JumpHistory Count="27" HistoryIndex="26">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="506" TopLine="491"/>
+        <Caret Line="724" TopLine="686"/>
       </Position1>
       <Position2>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="740" TopLine="717"/>
+        <Caret Line="762" Column="9" TopLine="717"/>
       </Position2>
       <Position3>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="508" Column="3" TopLine="485"/>
+        <Caret Line="90" Column="45" TopLine="68"/>
       </Position3>
       <Position4>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="733" Column="31" TopLine="720"/>
+        <Caret Line="309" Column="3" TopLine="297"/>
       </Position4>
       <Position5>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="117" Column="15" TopLine="95"/>
+        <Caret Line="91" Column="24" TopLine="59"/>
       </Position5>
       <Position6>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="743" Column="36" TopLine="719"/>
+        <Caret Line="696" Column="37" TopLine="691"/>
       </Position6>
       <Position7>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="205" Column="73" TopLine="182"/>
+        <Caret Line="310" TopLine="286"/>
       </Position7>
       <Position8>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="409" TopLine="370"/>
+        <Caret Line="708" TopLine="682"/>
       </Position8>
       <Position9>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="725" TopLine="700"/>
+        <Caret Line="709" Column="22" TopLine="682"/>
       </Position9>
       <Position10>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="724" TopLine="686"/>
+        <Caret Line="706" Column="39" TopLine="682"/>
       </Position10>
       <Position11>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="762" Column="9" TopLine="717"/>
+        <Caret Line="72" Column="32" TopLine="54"/>
       </Position11>
       <Position12>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="90" Column="45" TopLine="68"/>
+        <Caret Line="117" Column="33" TopLine="92"/>
       </Position12>
       <Position13>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="309" Column="3" TopLine="297"/>
+        <Caret Line="88" Column="22" TopLine="61"/>
       </Position13>
       <Position14>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="91" Column="24" TopLine="59"/>
+        <Caret Line="328" Column="58" TopLine="308"/>
       </Position14>
       <Position15>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="696" Column="37" TopLine="691"/>
+        <Caret Line="216" Column="77" TopLine="205"/>
       </Position15>
       <Position16>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="310" TopLine="286"/>
+        <Caret Line="87" Column="22" TopLine="60"/>
       </Position16>
       <Position17>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="708" TopLine="682"/>
+        <Caret Line="73" Column="13" TopLine="63"/>
       </Position17>
       <Position18>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="709" Column="22" TopLine="682"/>
+        <Caret Line="410" Column="3" TopLine="406"/>
       </Position18>
       <Position19>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="706" Column="39" TopLine="682"/>
+        <Caret Line="277" Column="73" TopLine="237"/>
       </Position19>
       <Position20>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="72" Column="32" TopLine="54"/>
+        <Caret Line="86" Column="24" TopLine="81"/>
       </Position20>
       <Position21>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="117" Column="33" TopLine="92"/>
+        <Caret Line="768" TopLine="54"/>
       </Position21>
       <Position22>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="88" Column="22" TopLine="61"/>
+        <Caret Line="195" Column="47" TopLine="172"/>
       </Position22>
       <Position23>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="328" Column="58" TopLine="308"/>
+        <Caret Line="220" Column="36" TopLine="197"/>
       </Position23>
       <Position24>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="216" Column="77" TopLine="205"/>
+        <Caret Line="221" Column="51" TopLine="197"/>
       </Position24>
       <Position25>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="87" Column="22" TopLine="60"/>
+        <Caret Line="235" Column="62" TopLine="208"/>
       </Position25>
       <Position26>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="73" Column="13" TopLine="63"/>
+        <Caret Line="240" Column="47" TopLine="205"/>
       </Position26>
       <Position27>
         <Filename Value="uosrexternalpumpbrowser.pas"/>
-        <Caret Line="410" Column="3" TopLine="406"/>
+        <Caret Line="331" TopLine="310"/>
       </Position27>
+      <Position28>
+        <Filename Value="uosrexternalpumpbrowser.pas"/>
+        <Caret Line="722" TopLine="713"/>
+      </Position28>
+      <Position29>
+        <Filename Value="uosrexternalpumpbrowser.pas"/>
+        <Caret Line="96" TopLine="74"/>
+      </Position29>
+      <Position30>
+        <Filename Value="uosrexternalpumpbrowser.pas"/>
+        <Caret Line="95" TopLine="73"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

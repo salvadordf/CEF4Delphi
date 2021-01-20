@@ -55,23 +55,20 @@ uses
 begin
   CreateGlobalCEFApp;
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      // The LCL Widgetset must be initialized after the CEF initialization and
-      // only in the browser process.
-      CustomWidgetSetInitialization;
-      RequireDerivedFormResource:=True;
-      Application.Scaled:=True;
-      Application.Initialize;              
-      Application.CreateForm(TForm1, Form1);
-      Application.Run;          
+  // The LCL Widgetset must be initialized after the CEF initialization and
+  // only in the browser process.
+  CustomWidgetSetInitialization;
+  RequireDerivedFormResource:=True;
+  Application.Scaled:=True;
+  Application.Initialize;
+  Application.CreateForm(TForm1, Form1);
+  Application.Run;
 
-      // The form needs to be destroyed *BEFORE* stopping the scheduler.
-      Form1.Free;
+  // The form needs to be destroyed *BEFORE* stopping the scheduler.
+  Form1.Free;
 
-      GlobalCEFWorkScheduler.StopScheduler;
-      CustomWidgetSetFinalization;
-    end;
+  GlobalCEFWorkScheduler.StopScheduler;
+  CustomWidgetSetFinalization;
 
   DestroyGlobalCEFApp;        
   DestroyGlobalCEFWorkScheduler;

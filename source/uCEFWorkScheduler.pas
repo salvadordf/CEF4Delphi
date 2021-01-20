@@ -77,7 +77,6 @@ type
       {$WARN SYMBOL_PLATFORM ON}
       {$ENDIF}
 
-      procedure CreateThread;
       procedure DestroyThread;
       procedure DepleteWork;
       {$IFDEF MSWINDOWS}
@@ -92,6 +91,7 @@ type
       procedure ScheduleWork(const delay_ms : int64);
       procedure DoWork;
       procedure DoMessageLoopWork;
+      procedure Initialize;
 
       procedure SetDefaultInterval(aValue : integer);
       {$IFDEF MSWINDOWS}
@@ -104,10 +104,11 @@ type
 
     public
       constructor Create(AOwner: TComponent); override;
+      constructor CreateDelayed;
       destructor  Destroy; override;
-      procedure   AfterConstruction; override;
       procedure   ScheduleMessagePumpWork(const delay_ms : int64);
       procedure   StopScheduler;
+      procedure   CreateThread;
 
     published
       {$IFDEF MSWINDOWS}
@@ -148,6 +149,47 @@ constructor TCEFWorkScheduler.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
+  Initialize;
+
+  if not(csDesigning in ComponentState) then
+    begin
+      {$IFDEF MSWINDOWS}
+      if (GlobalCEFApp <> nil) and
+         ((GlobalCEFApp.ProcessType = ptBrowser) or GlobalCEFApp.SingleProcess) then
+        FCompHandle := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
+      {$ENDIF}
+
+      CreateThread;
+    end;
+end;
+
+constructor TCEFWorkScheduler.CreateDelayed;
+begin
+  inherited Create(nil);
+
+  Initialize;
+
+  if not(csDesigning in ComponentState) then
+    begin
+      {$IFDEF MSWINDOWS}
+      if (GlobalCEFApp <> nil) and
+         ((GlobalCEFApp.ProcessType = ptBrowser) or GlobalCEFApp.SingleProcess) then
+        FCompHandle := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
+      {$ENDIF}
+    end;
+end;
+
+destructor TCEFWorkScheduler.Destroy;
+begin
+  DestroyThread;
+  {$IFDEF MSWINDOWS}
+  DeallocateWindowHandle;
+  {$ENDIF}
+  inherited Destroy;
+end;
+
+procedure TCEFWorkScheduler.Initialize;
+begin
   FThread             := nil;
   FStopped            := False;
   {$IFDEF MSWINDOWS}
@@ -161,35 +203,10 @@ begin
   FDepleteWorkDelay   := CEF_TIMER_DEPLETEWORK_DELAY;
 end;
 
-destructor TCEFWorkScheduler.Destroy;
-begin
-  DestroyThread;
-  {$IFDEF MSWINDOWS}
-  DeallocateWindowHandle;
-  {$ENDIF}
-  inherited Destroy;
-end;
-
-procedure TCEFWorkScheduler.AfterConstruction;
-begin
-  inherited AfterConstruction;
-
-  if not(csDesigning in ComponentState) then
-    begin
-      {$IFDEF MSWINDOWS}
-      if (GlobalCEFApp <> nil) and
-         ((GlobalCEFApp.ProcessType = ptBrowser) or GlobalCEFApp.SingleProcess) then
-        begin
-          FCompHandle      := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
-        end;
-      {$ENDIF}
-
-      CreateThread;
-    end;
-end;
-
 procedure TCEFWorkScheduler.CreateThread;
 begin
+  if (FThread <> nil) then exit;
+
   FThread                 := TCEFWorkSchedulerThread.Create;
   {$IFDEF MSWINDOWS}
   FThread.Priority        := FPriority;

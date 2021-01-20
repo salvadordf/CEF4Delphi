@@ -65,12 +65,12 @@ type
       {$WARN SYMBOL_PLATFORM ON}
       {$ENDIF}
 
-      procedure CreateThread;
       procedure DestroyThread;
       procedure DepleteWork;
       procedure NextPulse(aInterval : integer);
       procedure DoWork;
       procedure DoMessageLoopWork;
+      procedure Initialize;
 
       procedure SetDefaultInterval(aValue : integer);
       {$IFDEF MSWINDOWS}
@@ -84,11 +84,12 @@ type
 
     public
       constructor Create(AOwner: TComponent); override;
+      constructor CreateDelayed;
       destructor  Destroy; override;
-      procedure   AfterConstruction; override;
       procedure   ScheduleMessagePumpWork(const delay_ms : int64);
       procedure   StopScheduler;
       procedure   ScheduleWork(const delay_ms : int64);
+      procedure   CreateThread;
 
     published
       {$IFDEF MSWINDOWS}
@@ -122,6 +123,27 @@ constructor TFMXWorkScheduler.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
+  Initialize;
+
+  if not(csDesigning in ComponentState) then CreateThread;
+end;
+
+constructor TFMXWorkScheduler.CreateDelayed;
+begin
+  inherited Create(nil);
+
+  Initialize;
+end;
+
+destructor TFMXWorkScheduler.Destroy;
+begin
+  DestroyThread;
+
+  inherited Destroy;
+end;
+
+procedure TFMXWorkScheduler.Initialize;
+begin
   FThread             := nil;
   FStopped            := False;
   {$IFDEF MSWINDOWS}
@@ -134,22 +156,10 @@ begin
   FDepleteWorkDelay   := CEF_TIMER_DEPLETEWORK_DELAY;
 end;
 
-destructor TFMXWorkScheduler.Destroy;
-begin
-  DestroyThread;
-
-  inherited Destroy;
-end;
-
-procedure TFMXWorkScheduler.AfterConstruction;
-begin
-  inherited AfterConstruction;
-
-  if not(csDesigning in ComponentState) then CreateThread;
-end;
-
 procedure TFMXWorkScheduler.CreateThread;
 begin
+  if (FThread <> nil) then exit;
+
   FThread                 := TCEFWorkSchedulerThread.Create;
   {$IFDEF MSWINDOWS}
   FThread.Priority        := FPriority;

@@ -103,17 +103,11 @@ object Form1: TForm1
     Left = 48
     Top = 72
   end
-  object Timer1: TTimer
-    Enabled = False
-    OnTimer = Timer1Timer
-    Left = 48
-    Top = 144
-  end
   object SaveDialog1: TSaveDialog
     Title = 'Save screenshot bitmap as'
     DefaultExt = '.bmp'
     Filter = 'Bitmap file|*.bmp'
     Left = 48
-    Top = 216
+    Top = 152
   end
 end

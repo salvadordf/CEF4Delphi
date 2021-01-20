@@ -58,7 +58,6 @@ type
     Chromium1: TChromium;
     AddressPnl: TPanel;
     Panel2: TPanel;
-    Timer1: TTimer;
 
     procedure Panel1Click(Sender: TObject);
     procedure Panel1Enter(Sender: TObject);
@@ -93,7 +92,6 @@ type
     procedure GoBtnEnter(Sender: TObject);
     procedure SnapshotBtnClick(Sender: TObject);
 
-    procedure Timer1Timer(Sender: TObject);  
     procedure AddressEdtEnter(Sender: TObject);
   private             
 
@@ -195,10 +193,19 @@ uses
   Math, gtk2, glib2, gdk2, gtk2proc, gtk2int,
   uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFWorkScheduler;
 
+var
+  CEFContextInitEvent : TSimpleEvent = nil;
+
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then
      GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+end;     
+
+procedure GlobalCEFApp_OnContextInitialized;
+begin
+  if (CEFContextInitEvent <> nil) then
+     CEFContextInitEvent.SetEvent;
 end;
 
 procedure CreateGlobalCEFApp;
@@ -207,7 +214,10 @@ begin
   // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
   // GlobalCEFWorkScheduler needs to be created before the
   // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
+  // We use CreateDelayed in order to have a single thread in the process while
+  // CEF is initialized.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
+  CEFContextInitEvent    := TSimpleEvent.Create;
 
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
@@ -222,8 +232,16 @@ begin
   // https://bitbucket.org/chromiumembedded/cef/issues/2964/gpu-is-not-usable-error-during-cef
   GlobalCEFApp.DisableZygote := True; // this property adds the "--no-zygote" command line switch
 
-  //GlobalCEFApp.LogFile             := 'debug.log';
-  //GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  GlobalCEFApp.LogFile             := 'debug.log';
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+
+  if GlobalCEFApp.StartMainProcess then
+    begin
+      // Wait until the context is initialized
+      CEFContextInitEvent.WaitFor(5000);
+      // Now we can create the GlobalCEFWorkScheduler background thread
+      GlobalCEFWorkScheduler.CreateThread;
+    end;
 end;
 
 function GTKKeyPress(Widget: PGtkWidget; Event: PGdkEventKey; Data: gPointer) : GBoolean; cdecl;
@@ -311,8 +329,7 @@ begin
       // opaque white background color
       Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
       Chromium1.DefaultURL              := UTF8Decode(AddressEdt.Text);
-
-      if not(Chromium1.CreateBrowser) then Timer1.Enabled := True;
+      Chromium1.CreateBrowser;
     end;
 end;
 
@@ -675,8 +692,9 @@ end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin                                              
-  if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
-  if (FResizeCS    <> nil) then FreeAndNil(FResizeCS);
+  if (FPopUpBitmap        <> nil) then FreeAndNil(FPopUpBitmap);
+  if (FResizeCS           <> nil) then FreeAndNil(FResizeCS);
+  if (CEFContextInitEvent <> nil) then FreeAndNil(CEFContextInitEvent);
 end;
 
 procedure TForm1.FormHide(Sender: TObject);
@@ -700,14 +718,6 @@ procedure TForm1.SnapshotBtnClick(Sender: TObject);
 begin
   if SaveDialog1.Execute then
     Panel1.SaveToFile(SaveDialog1.FileName);
-end;
-
-procedure TForm1.Timer1Timer(Sender: TObject);
-begin
-  Timer1.Enabled := False;
-
-  if not(Chromium1.CreateBrowser) and not(Chromium1.Initialized) then
-    Timer1.Enabled := True;
 end;
 
 procedure TForm1.DoResize;

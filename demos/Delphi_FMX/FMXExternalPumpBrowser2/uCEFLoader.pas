@@ -47,14 +47,23 @@ uses
   // project.
   // Read the answer to this question for more more information :
   // https://stackoverflow.com/questions/52103407/changing-the-initialization-order-of-the-unit-in-delphi
+  System.SyncObjs,
   uCEFApplication, uCEFConstants, uCEFWorkScheduler;
 
 implementation
+
+var
+  CEFContextInitEvent : TEvent;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then
     GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+end;
+
+procedure GlobalCEFApp_OnContextInitialized;
+begin
+  CEFContextInitEvent.SetEvent;
 end;
 
 procedure InitializeGlobalCEFApp;
@@ -63,27 +72,39 @@ begin
   // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
   // GlobalCEFWorkScheduler needs to be created before the
   // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
+  // We use CreateDelayed in order to have a single thread in the process while
+  // CEF is initialized.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
 
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  GlobalCEFApp.DisableZygote              := True;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
+  GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
   GlobalCEFApp.BrowserSubprocessPath      := 'FMXExternalPumpBrowser2_sp';
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
 
-  GlobalCEFApp.StartMainProcess;
+  if GlobalCEFApp.StartMainProcess then
+    begin
+      // Wait until the context is initialized
+      CEFContextInitEvent.WaitFor(10000);
+      // Now we can create the GlobalCEFWorkScheduler background thread
+      GlobalCEFWorkScheduler.CreateThread;
+    end;
 end;
 
 initialization
+  CEFContextInitEvent := TEvent.Create;
   InitializeGlobalCEFApp;
 
 finalization
   if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.StopScheduler;
   DestroyGlobalCEFApp;
   DestroyGlobalCEFWorkScheduler;
+  CEFContextInitEvent.Free;
 
 end.
