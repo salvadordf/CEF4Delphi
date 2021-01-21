@@ -343,6 +343,7 @@ type
       procedure AddCustomCommandLineSwitches(var aKeys, aValues : TStringList); virtual;
       procedure AppendSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
       procedure ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
+      procedure CleanupFeatures(var aKeys, aValues : TStringList; const aEnableKey, aDisableKey : string);
 
     public
       constructor Create;
@@ -1744,47 +1745,137 @@ end;
 
 procedure TCefApplicationCore.AppendSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
 var
-  TempKey : ustring;
+  TempKey, TempHyphenatedKey : ustring;
   i : integer;
 begin
   if (copy(aNewKey, 1, 2) = '--') then
-    TempKey := copy(aNewKey, 3, length(aNewKey))
+    begin
+      TempHyphenatedKey := aNewKey;
+      TempKey           := copy(aNewKey, 3, length(aNewKey));
+    end
    else
-    TempKey := aNewKey;
+    begin
+      TempHyphenatedKey := '--' + aNewKey;
+      TempKey           := aNewKey;
+    end;
 
   i := aKeys.IndexOf(TempKey);
 
   if (i < 0) then
     begin
-      aKeys.Add(aNewKey);
-      aValues.Add(aNewValue);
+      i := aKeys.IndexOf(TempHyphenatedKey);
+
+      if (i < 0) then
+        begin
+          aKeys.Add(aNewKey);
+          aValues.Add(aNewValue);
+          exit;
+        end;
+    end;
+
+  if (length(aNewValue) > 0) then
+    begin
+      if (length(aValues[i]) > 0) then
+        aValues[i] := aValues[i] + ',' + aNewValue
+       else
+        aValues[i] := aNewValue;
+    end;
+end;
+
+procedure TCefApplicationCore.CleanupFeatures(var aKeys, aValues : TStringList; const aEnableKey, aDisableKey : string);
+var
+  i, j, k, n : integer;
+  TempEnabledValues, TempDisabledValues : TStringList;
+  TempEnableKey, TempHyphenatedEnableKey, TempDisableKey, TempHyphenatedDisableKey : ustring;
+begin
+  if (copy(aEnableKey, 1, 2) = '--') then
+    begin
+      TempHyphenatedEnableKey := aEnableKey;
+      TempEnableKey           := copy(aEnableKey, 3, length(aEnableKey));
     end
    else
-    if (length(aNewValue) > 0) then
-      begin
-        if (length(aValues[i]) > 0) then
-          aValues[i] := aValues[i] + ',' + aNewValue
-         else
-          aValues[i] := aNewValue;
-      end;
+    begin
+      TempHyphenatedEnableKey := '--' + aEnableKey;
+      TempEnableKey           := aEnableKey;
+    end;
+
+  if (copy(aDisableKey, 1, 2) = '--') then
+    begin
+      TempHyphenatedDisableKey := aDisableKey;
+      TempDisableKey           := copy(aDisableKey, 3, length(aDisableKey));
+    end
+   else
+    begin
+      TempHyphenatedDisableKey := '--' + aDisableKey;
+      TempDisableKey           := aDisableKey;
+    end;
+
+  i := aKeys.IndexOf(TempEnableKey);
+  if (i < 0) then i := aKeys.IndexOf(TempHyphenatedEnableKey);
+
+  j := aKeys.IndexOf(TempDisableKey);
+  if (j < 0) then j := aKeys.IndexOf(TempHyphenatedDisableKey);
+
+  if (i < 0) or (j < 0) then exit;
+
+  TempEnabledValues            := TStringList.Create;
+  TempDisabledValues           := TStringList.Create;
+  TempEnabledValues.CommaText  := aValues[i];
+  TempDisabledValues.CommaText := aValues[j];
+
+  k := 0;
+  while (k < TempDisabledValues.Count) do
+    begin
+      if (length(TempDisabledValues[k]) > 0) then
+        begin
+          n := TempEnabledValues.IndexOf(TempDisabledValues[k]);
+          if (n >= 0) then TempEnabledValues.Delete(n);
+        end;
+
+      inc(k);
+    end;
+
+  if (TempEnabledValues.Count > 0) then
+    aValues[i] := TempEnabledValues.CommaText
+   else
+    begin
+      aKeys.Delete(i);
+      aValues.Delete(i);
+    end;
+
+  FreeAndNil(TempEnabledValues);
+  FreeAndNil(TempDisabledValues);
 end;
 
 procedure TCefApplicationCore.ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
 var
-  TempKey : ustring;
+  TempKey, TempHyphenatedKey : ustring;
   i : integer;
 begin
   if (copy(aNewKey, 1, 2) = '--') then
-    TempKey := copy(aNewKey, 3, length(aNewKey))
+    begin
+      TempHyphenatedKey := aNewKey;
+      TempKey           := copy(aNewKey, 3, length(aNewKey));
+    end
    else
-    TempKey := aNewKey;
+    begin
+      TempHyphenatedKey := '--' + aNewKey;
+      TempKey           := aNewKey;
+    end;
 
   i := aKeys.IndexOf(TempKey);
 
   if (i < 0) then
     begin
-      aKeys.Add(aNewKey);
-      aValues.Add(aNewValue);
+      i := aKeys.IndexOf(TempHyphenatedKey);
+
+      if (i < 0) then
+        begin
+          aKeys.Add(aNewKey);
+          aValues.Add(aNewValue);
+        end
+       else
+        aValues[i] := aNewValue;
     end
    else
     aValues[i] := aNewValue;
@@ -1975,6 +2066,8 @@ begin
   if (length(FDisableFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--disable-features', FDisableFeatures);
 
+  CleanupFeatures(aKeys, aValues, '--enable-features', '--disable-features');
+
   // The list of Blink features you can enable is here :
   // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
   if (length(FEnableBlinkFeatures) > 0) then
@@ -1984,6 +2077,8 @@ begin
   // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
   if (length(FDisableBlinkFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--disable-blink-features', FDisableBlinkFeatures);
+
+  CleanupFeatures(aKeys, aValues, '--enable-blink-features', '--disable-blink-features');
 
   // The list of Blink settings you can modify is here :
   // https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/frame/settings.json5

@@ -996,7 +996,14 @@ end;
 
 procedure TBufferPanel.BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect);
 begin
-  if (FBuffer <> nil) then FBuffer.Canvas.CopyRect(aDstRect, aBitmap.Canvas, aSrcRect);
+  if (FBuffer <> nil) and (aBitmap <> nil) then
+    begin
+      FBuffer.Canvas.Lock;
+      aBitmap.Canvas.Lock;
+      FBuffer.Canvas.CopyRect(aDstRect, aBitmap.Canvas, aSrcRect);
+      aBitmap.Canvas.UnLock;
+      FBuffer.Canvas.UnLock;
+    end;
 end;
 
 function TBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
