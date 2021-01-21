@@ -63,15 +63,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 87;
+  CEF_SUPPORTED_VERSION_MAJOR   = 88;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 13;
+  CEF_SUPPORTED_VERSION_RELEASE = 4;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 87;
+  CEF_CHROMEELF_VERSION_MAJOR   = 88;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4280;
-  CEF_CHROMEELF_VERSION_BUILD   = 141;
+  CEF_CHROMEELF_VERSION_RELEASE = 4324;
+  CEF_CHROMEELF_VERSION_BUILD   = 96;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL                    = 'libcef.dll';
@@ -93,7 +93,6 @@ type
       FLocalesRequired                   : ustring;
       FLogFile                           : ustring;
       FBrowserSubprocessPath             : ustring;
-      FCustomFlashPath                   : ustring;
       FFrameworkDirPath                  : ustring;
       FMainBundlePath                    : ustring; // Only used in macOS
       FChromeRuntime                     : boolean;
@@ -121,7 +120,6 @@ type
       FDeleteCookies                     : boolean;
       FCustomCommandLines                : TStringList;
       FCustomCommandLineValues           : TStringList;
-      FFlashEnabled                      : boolean;
       FEnableMediaStream                 : boolean;
       FEnableSpeechInput                 : boolean;
       FUseFakeUIForMediaStream           : boolean;
@@ -144,6 +142,7 @@ type
       FDisablePDFExtension               : boolean;
       FLogProcessInfo                    : boolean;
       FDisableSiteIsolationTrials        : boolean;
+      FDisableChromeLoginPrompt          : boolean;
       FEnableFeatures                    : ustring;
       FDisableFeatures                   : ustring;
       FEnableBlinkFeatures               : ustring;
@@ -338,9 +337,6 @@ type
       procedure BeforeInitSubProcess; virtual;
       function  CheckCEFLibrary : boolean;
       procedure RegisterWidevineCDM;
-      {$IFDEF MSWINDOWS}
-      function  FindFlashDLL(var aFileName : ustring) : boolean;
-      {$ENDIF}
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       procedure UpdateSupportedSchemes(aIncludeDefaults : boolean = True); virtual;
       function  ParseProcessType : TCefProcessType;
@@ -427,7 +423,6 @@ type
 
       // Properties used to set command line switches
       property SingleProcess                     : Boolean                             read FSingleProcess                     write FSingleProcess;                    // --single-process
-      property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;                     // --enable-system-flash
       property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;                // --enable-media-stream
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;                // --enable-speech-input
       property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;          // --use-fake-ui-for-media-stream
@@ -448,6 +443,7 @@ type
       property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;               // --disable-web-security
       property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;              // --disable-pdf-extension
       property DisableSiteIsolationTrials        : boolean                             read FDisableSiteIsolationTrials        write FDisableSiteIsolationTrials;       // --disable-site-isolation-trials
+      property DisableChromeLoginPrompt          : boolean                             read FDisableChromeLoginPrompt          write FDisableChromeLoginPrompt;         // --disable-chrome-login-prompt
       property DisableExtensions                 : boolean                             read FDisableExtensions                 write FDisableExtensions;                // --disable-extensions
       property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;                   // --autoplay-policy
       property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;      // --disable-background-networking
@@ -504,7 +500,6 @@ type
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
-      property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
       property ProcessType                       : TCefProcessType                     read FProcessType;
       property MustCreateResourceBundleHandler   : boolean                             read GetMustCreateResourceBundleHandler write FMustCreateResourceBundleHandler;
       property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
@@ -655,7 +650,6 @@ begin
   FLocale                            := '';
   FLogFile                           := '';
   FBrowserSubprocessPath             := '';
-  FCustomFlashPath                   := '';
   FFrameworkDirPath                  := '';
   FMainBundlePath                    := '';
   FChromeRuntime                     := False;
@@ -681,7 +675,6 @@ begin
   FExternalMessagePump               := False;
   FDeleteCache                       := False;
   FDeleteCookies                     := False;
-  FFlashEnabled                      := True;
   FEnableMediaStream                 := True;
   FEnableSpeechInput                 := True;
   FUseFakeUIForMediaStream           := False;
@@ -700,6 +693,7 @@ begin
   FDisableWebSecurity                := False;
   FDisablePDFExtension               := False;
   FDisableSiteIsolationTrials        := False;
+  FDisableChromeLoginPrompt          := False;
   FLogProcessInfo                    := False;
   FReRaiseExceptions                 := False;
   FLibLoaded                         := False;
@@ -1486,42 +1480,6 @@ begin
   end;
 end;
 
-{$IFDEF MSWINDOWS}
-function TCefApplicationCore.FindFlashDLL(var aFileName : ustring) : boolean;
-var
-  TempSearchRec : TSearchRec;
-  TempProductName, TempPath : ustring;
-begin
-  Result    := False;
-  aFileName := '';
-
-  try
-    if (length(FCustomFlashPath) > 0) then
-      begin
-        TempPath := IncludeTrailingPathDelimiter(FCustomFlashPath);
-
-        if (FindFirst(TempPath + '*.dll', faAnyFile, TempSearchRec) = 0) then
-          begin
-            repeat
-              if (TempSearchRec.Attr <> faDirectory) and
-                 GetStringFileInfo(TempPath + TempSearchRec.Name, 'ProductName', TempProductName) and
-                 (CompareText(TempProductName, 'Shockwave Flash') = 0) then
-                begin
-                  aFileName := TempPath + TempSearchRec.Name;
-                  Result    := True;
-                end;
-            until Result or (FindNext(TempSearchRec) <> 0);
-
-            FindClose(TempSearchRec);
-          end;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplicationCore.FindFlashDLL', e) then raise;
-  end;
-end;
-{$ENDIF}
-
 procedure TCefApplicationCore.ShowErrorMessageDlg(const aError : string);
 begin
   OutputDebugMessage(aError);
@@ -1836,31 +1794,7 @@ procedure TCefApplicationCore.AddCustomCommandLineSwitches(var aKeys, aValues : 
 var
   i : integer;
   TempFormatSettings : TFormatSettings;
-  {$IFDEF MSWINDOWS}
-  TempVersionInfo : TFileVersionInfo;
-  TempFileName : ustring;
-  {$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
-  if FindFlashDLL(TempFileName) and
-     GetDLLVersion(TempFileName, TempVersionInfo) then
-    begin
-      if FEnableGPU then ReplaceSwitch(aKeys, aValues, '--enable-gpu-plugin');
-
-      ReplaceSwitch(aKeys, aValues, '--enable-accelerated-plugins');
-      ReplaceSwitch(aKeys, aValues, '--ppapi-flash-path', TempFileName);
-      ReplaceSwitch(aKeys, aValues, '--ppapi-flash-version', FileVersionInfoToString(TempVersionInfo));
-    end
-   else
-   {$ENDIF}
-    if FFlashEnabled then
-      begin
-        if FEnableGPU then ReplaceSwitch(aKeys, aValues, '--enable-gpu-plugin');
-
-        ReplaceSwitch(aKeys, aValues, '--enable-accelerated-plugins');
-        ReplaceSwitch(aKeys, aValues, '--enable-system-flash');
-      end;
-
   ReplaceSwitch(aKeys, aValues, '--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
   ReplaceSwitch(aKeys, aValues, '--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
 
@@ -1930,6 +1864,9 @@ begin
 
   if FDisableSiteIsolationTrials then
     ReplaceSwitch(aKeys, aValues, '--disable-site-isolation-trials');
+
+  if FDisableChromeLoginPrompt then
+    ReplaceSwitch(aKeys, aValues, '--disable-chrome-login-prompt');
 
   if FSitePerProcess then
     ReplaceSwitch(aKeys, aValues, '--site-per-process');

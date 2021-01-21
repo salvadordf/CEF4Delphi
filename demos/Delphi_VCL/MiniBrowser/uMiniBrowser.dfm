@@ -137,33 +137,21 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_styl' +
             'e_backgroundcolor'
+          
+            'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
+            '_name'
           'https://www.w3schools.com/html/html5_video.asp'
-          'http://www.adobe.com/software/flash/about/'
-          'http://isflashinstalled.com/'
-          'https://helpx.adobe.com/flash-player.html'
-          'https://www.ultrasounds.com/'
-          'https://www.whatismybrowser.com/detect/is-flash-installed'
           'http://html5test.com/'
           
             'https://webrtc.github.io/samples/src/content/devices/input-outpu' +
             't/'
           'https://test.webrtc.org/'
-          'https://www.w3schools.com/'
+          'https://www.browserleaks.com/webrtc'
           'http://webglsamples.org/'
           'https://get.webgl.org/'
           'https://www.briskbard.com'
           'https://www.youtube.com'
           'https://html5demos.com/drag/'
-          
-            'https://developers.google.com/maps/documentation/javascript/exam' +
-            'ples/streetview-embed?hl=fr'
-          
-            'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
-            '_name'
-          
-            'http://www-db.deis.unibo.it/courses/TW/DOCS/w3schools/html/tryit' +
-            '.asp-filename=tryhtml5_html_manifest.html'
-          'https://www.browserleaks.com/webrtc'
           'https://frames-per-second.appspot.com/'
           'chrome://version/'
           'chrome://net-internals/'

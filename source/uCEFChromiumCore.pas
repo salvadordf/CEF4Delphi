@@ -109,7 +109,6 @@ type
       FDoNotTrack             : boolean;
       FSendReferrer           : boolean;
       FHyperlinkAuditing      : boolean;
-      FRunAllFlashInAllowMode : boolean;
       FAllowOutdatedPlugins   : boolean;
       FAlwaysAuthorizePlugins : boolean;
       FSpellChecking          : boolean;
@@ -361,7 +360,6 @@ type
       procedure SetDoNotTrack(aValue : boolean);
       procedure SetSendReferrer(aValue : boolean);
       procedure SetHyperlinkAuditing(aValue : boolean);
-      procedure SetRunAllFlashInAllowMode(aValue : boolean);
       procedure SetAllowOutdatedPlugins(aValue : boolean);
       procedure SetAlwaysAuthorizePlugins(aValue : boolean);
       procedure SetSpellChecking(aValue : boolean);
@@ -887,7 +885,6 @@ type
       property  DoNotTrack                    : boolean                      read FDoNotTrack                  write SetDoNotTrack;
       property  SendReferrer                  : boolean                      read FSendReferrer                write SetSendReferrer;
       property  HyperlinkAuditing             : boolean                      read FHyperlinkAuditing           write SetHyperlinkAuditing;
-      property  RunAllFlashInAllowMode        : boolean                      read FRunAllFlashInAllowMode      write SetRunAllFlashInAllowMode;
       property  AllowOutdatedPlugins          : boolean                      read FAllowOutdatedPlugins        write SetAllowOutdatedPlugins;
       property  AlwaysAuthorizePlugins        : boolean                      read FAlwaysAuthorizePlugins      write SetAlwaysAuthorizePlugins;
       property  SpellChecking                 : boolean                      read FSpellChecking               write SetSpellChecking;
@@ -1206,7 +1203,6 @@ begin
   FAddCustomHeader         := False;
   FDoNotTrack              := True;
   FSendReferrer            := True;
-  FRunAllFlashInAllowMode  := False;
   FAllowOutdatedPlugins    := False;
   FAlwaysAuthorizePlugins  := False;
   FSpellChecking           := True;
@@ -3144,15 +3140,6 @@ begin
     end;
 end;
 
-procedure TChromiumCore.SetRunAllFlashInAllowMode(aValue : boolean);
-begin
-  if (FRunAllFlashInAllowMode <> aValue) then
-    begin
-      FRunAllFlashInAllowMode := aValue;
-      FUpdatePreferences      := True;
-    end;
-end;
-
 procedure TChromiumCore.SetAllowOutdatedPlugins(aValue : boolean);
 begin
   if (FAllowOutdatedPlugins <> aValue) then
@@ -4020,7 +4007,6 @@ begin
   UpdatePreference(aBrowser, 'enable_do_not_track',                  FDoNotTrack);
   UpdatePreference(aBrowser, 'enable_referrers',                     FSendReferrer);
   UpdatePreference(aBrowser, 'enable_a_ping',                        FHyperlinkAuditing);
-  UpdatePreference(aBrowser, 'plugins.run_all_flash_in_allow_mode',  FRunAllFlashInAllowMode);
   UpdatePreference(aBrowser, 'plugins.allow_outdated',               FAllowOutdatedPlugins);
   UpdatePreference(aBrowser, 'plugins.always_authorize',             FAlwaysAuthorizePlugins);
   UpdatePreference(aBrowser, 'browser.enable_spellchecking',         FSpellChecking);
@@ -4052,9 +4038,6 @@ begin
 
   if (FMaxConnectionsPerProxy <> CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE) then
     UpdatePreference(aBrowser, 'net.max_connections_per_proxy', FMaxConnectionsPerProxy);
-
-  if FRunAllFlashInAllowMode then
-    UpdatePreference(aBrowser, 'profile.default_content_setting_values.plugins', 1);
 
   case FWebRTCIPHandlingPolicy of
     hpDefaultPublicAndPrivateInterfaces :

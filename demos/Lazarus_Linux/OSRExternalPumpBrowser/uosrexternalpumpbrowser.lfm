@@ -21,6 +21,7 @@ object Form1: TForm1
     Align = alTop
     ClientHeight = 30
     ClientWidth = 1001
+    Enabled = False
     TabOrder = 0
     object AddressEdt: TEdit
       Left = 1
