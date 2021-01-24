@@ -677,7 +677,7 @@ begin
   FDeleteCache                       := False;
   FDeleteCookies                     := False;
   FEnableMediaStream                 := True;
-  FEnableSpeechInput                 := True;
+  FEnableSpeechInput                 := False;
   FUseFakeUIForMediaStream           := False;
   FEnableUsermediaScreenCapturing    := False;
   FEnableGPU                         := False;
@@ -1887,7 +1887,9 @@ var
   TempFormatSettings : TFormatSettings;
 begin
   ReplaceSwitch(aKeys, aValues, '--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
-  ReplaceSwitch(aKeys, aValues, '--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
+
+  if FEnableSpeechInput then
+    ReplaceSwitch(aKeys, aValues, '--enable-speech-input');
 
   if FUseFakeUIForMediaStream then
     ReplaceSwitch(aKeys, aValues, '--use-fake-ui-for-media-stream');
