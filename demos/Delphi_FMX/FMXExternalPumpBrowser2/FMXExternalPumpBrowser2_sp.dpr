@@ -50,6 +50,12 @@ begin
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
+
+  // This is a workaround to fix a Chromium initialization crash.
+  // The current FMX solution to initialize CEF with a loader unit
+  // creates a race condition with the media key controller in Chromium.
+  GlobalCEFApp.DisableFeatures := 'HardwareMediaKeyHandling';
+
   GlobalCEFApp.StartSubProcess;
   DestroyGlobalCEFApp;
 end.

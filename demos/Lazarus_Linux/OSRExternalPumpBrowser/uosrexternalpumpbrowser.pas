@@ -193,20 +193,11 @@ uses
   Math, gtk2, glib2, gdk2, gtk2proc, gtk2int,
   uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFWorkScheduler;
 
-var
-  CEFContextInitEvent : TSimpleEvent = nil;
-
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then
-     GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+    GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
 end;     
-
-procedure GlobalCEFApp_OnContextInitialized;
-begin
-  if (CEFContextInitEvent <> nil) then
-     CEFContextInitEvent.SetEvent;
-end;
 
 procedure CreateGlobalCEFApp;
 begin               
@@ -217,7 +208,6 @@ begin
   // We use CreateDelayed in order to have a single thread in the process while
   // CEF is initialized.
   GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
-  CEFContextInitEvent    := TSimpleEvent.Create;
 
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
@@ -232,16 +222,8 @@ begin
   // https://bitbucket.org/chromiumembedded/cef/issues/2964/gpu-is-not-usable-error-during-cef
   GlobalCEFApp.DisableZygote := True; // this property adds the "--no-zygote" command line switch
 
-  GlobalCEFApp.LogFile             := 'debug.log';
-  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
-
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      // Wait until the context is initialized
-      CEFContextInitEvent.WaitFor(5000);
-      // Now we can create the GlobalCEFWorkScheduler background thread
-      GlobalCEFWorkScheduler.CreateThread;
-    end;
+  GlobalCEFApp.StartMainProcess;
+  GlobalCEFWorkScheduler.CreateThread;
 end;
 
 function GTKKeyPress(Widget: PGtkWidget; Event: PGdkEventKey; Data: gPointer) : GBoolean; cdecl;
@@ -694,7 +676,6 @@ procedure TForm1.FormDestroy(Sender: TObject);
 begin                                              
   if (FPopUpBitmap        <> nil) then FreeAndNil(FPopUpBitmap);
   if (FResizeCS           <> nil) then FreeAndNil(FResizeCS);
-  if (CEFContextInitEvent <> nil) then FreeAndNil(CEFContextInitEvent);
 end;
 
 procedure TForm1.FormHide(Sender: TObject);
