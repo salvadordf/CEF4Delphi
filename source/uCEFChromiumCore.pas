@@ -510,7 +510,7 @@ type
       function  doOnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const aMessage, source: ustring; line: Integer): Boolean; virtual;
       function  doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
       procedure doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
-      procedure doOnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
+      procedure doOnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
 
       // ICefDownloadHandler
       procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
@@ -5462,7 +5462,7 @@ begin
 end;
 
 procedure TChromiumCore.doOnCursorChange(const browser          : ICefBrowser;
-                                               cursor           : TCefCursorHandle;
+                                               cursor_          : TCefCursorHandle;
                                                cursorType       : TCefCursorType;
                                          const customCursorInfo : PCefCursorInfo;
                                          var   aResult          : boolean);
@@ -5470,7 +5470,7 @@ begin
   aResult := False;
 
   if assigned(FOnCursorChange) then
-    FOnCursorChange(self, browser, cursor, cursorType, customCursorInfo, aResult);
+    FOnCursorChange(self, browser, cursor_, cursorType, customCursorInfo, aResult);
 end;
 
 procedure TChromiumCore.doOnDialogClosed(const browser: ICefBrowser);

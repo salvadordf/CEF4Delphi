@@ -259,24 +259,24 @@ type
 
 
   {$IFDEF MSWINDOWS}
-  TCefWindowHandle = HWND;     // /include/internal/cef_types_win.h (cef_window_handle_t)
-  TCefCursorHandle = HCURSOR;  // /include/internal/cef_types_win.h (cef_cursor_handle_t)
-  TCefEventHandle  = PMsg;     // /include/internal/cef_types_win.h (cef_event_handle_t)
+  TCefWindowHandle = type HWND;     // /include/internal/cef_types_win.h (cef_window_handle_t)
+  TCefCursorHandle = type HCURSOR;  // /include/internal/cef_types_win.h (cef_cursor_handle_t)
+  TCefEventHandle  = type PMsg;     // /include/internal/cef_types_win.h (cef_event_handle_t)
   {$ENDIF}
   {$IFDEF MACOS}
-  TCefWindowHandle = Pointer;  // /include/internal/cef_types_mac.h (cef_window_handle_t)
-  TCefCursorHandle = Pointer;  // /include/internal/cef_types_mac.h (cef_cursor_handle_t)
-  TCefEventHandle  = Pointer;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
+  TCefWindowHandle = type Pointer;  // /include/internal/cef_types_mac.h (cef_window_handle_t)
+  TCefCursorHandle = type Pointer;  // /include/internal/cef_types_mac.h (cef_cursor_handle_t)
+  TCefEventHandle  = type Pointer;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
   {$ENDIF}
   {$IFDEF LINUX}
     {$IFDEF FPC}
-    TCefWindowHandle = culong;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
-    TCefCursorHandle = culong;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+    TCefWindowHandle = type culong;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
+    TCefCursorHandle = type culong;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
     {$ELSE}
-    TCefWindowHandle = LongWord;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
-    TCefCursorHandle = LongWord;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+    TCefWindowHandle = type LongWord;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
+    TCefCursorHandle = type LongWord;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
     {$ENDIF}
-  TCefEventHandle = PXEvent;  // /include/internal/cef_types_linux.h (cef_event_handle_t)
+  TCefEventHandle = type PXEvent;  // /include/internal/cef_types_linux.h (cef_event_handle_t)
   {$ENDIF}
 
 

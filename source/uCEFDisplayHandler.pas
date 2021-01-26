@@ -68,7 +68,7 @@ type
       function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean; virtual;
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
       procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
-      procedure OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
+      procedure OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -89,7 +89,7 @@ type
       function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean; override;
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; override;
       procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); override;
-      procedure OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); override;
+      procedure OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); override;
 
       procedure RemoveReferences; override;
 
@@ -323,7 +323,7 @@ begin
   //
 end;
 
-procedure TCefDisplayHandlerOwn.OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
+procedure TCefDisplayHandlerOwn.OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
 begin
   aResult := False;
 end;
@@ -414,13 +414,13 @@ begin
 end;
 
 procedure TCustomDisplayHandler.OnCursorChange(const browser          : ICefBrowser;
-                                                     cursor           : TCefCursorHandle;
+                                                     cursor_          : TCefCursorHandle;
                                                      cursorType       : TCefCursorType;
                                                const customCursorInfo : PCefCursorInfo;
                                                var   aResult          : boolean);
 begin
   if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnCursorChange(browser, cursor, cursorType, customCursorInfo, aResult);
+    IChromiumEvents(FEvents).doOnCursorChange(browser, cursor_, cursorType, customCursorInfo, aResult);
 end;
 
 procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
