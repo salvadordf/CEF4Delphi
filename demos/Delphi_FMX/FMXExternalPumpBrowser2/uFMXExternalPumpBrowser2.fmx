@@ -125,6 +125,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnLoadError = chrmosrLoadError
     OnLoadingStateChange = chrmosrLoadingStateChange
     OnTooltip = chrmosrTooltip
+    OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose

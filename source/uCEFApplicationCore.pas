@@ -620,7 +620,7 @@ uses
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
       {$IFDEF MSWINDOWS}jwatlhelp32, jwapsapi,{$ENDIF}
-      {$IFDEF LINUX}lcltype, Forms, InterfaceBase,{$ENDIF}
+      {$IFDEF LINUX}lcltype, Forms, InterfaceBase, uCEFLinuxFunctions,{$ENDIF}
     {$ELSE}
       TlHelp32, {$IFDEF MSWINDOWS}PSAPI,{$ENDIF}
     {$ENDIF}

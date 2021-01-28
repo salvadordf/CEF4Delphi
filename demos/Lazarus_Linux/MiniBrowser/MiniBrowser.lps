@@ -20,9 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="187"/>
-        <CursorPos Y="352"/>
-        <FoldState Value=" TJmA1{32 pjZlg1@4 pmOoL1{D1q"/>
+        <TopLine Value="168"/>
+        <CursorPos X="52" Y="196"/>
+        <FoldState Value=" TJmA1{32 pjZlg1@311]B8qW1JF"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -119,7 +119,7 @@
     <OtherDefines Count="1">
       <Define0 Value="UseCThreads"/>
     </OtherDefines>
-    <JumpHistory Count="5" HistoryIndex="4">
+    <JumpHistory Count="6" HistoryIndex="5">
       <Position1>
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="865" TopLine="829"/>
@@ -140,6 +140,10 @@
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="222" Column="47" TopLine="210"/>
       </Position5>
+      <Position6>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="352" TopLine="188"/>
+      </Position6>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

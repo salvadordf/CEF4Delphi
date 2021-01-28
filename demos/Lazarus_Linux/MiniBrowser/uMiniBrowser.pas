@@ -193,7 +193,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uCEFMiscFunctions, uCefClient;
+  uCEFMiscFunctions, uCefClient, uCEFLinuxConstants;
 
 const
   CEF_UPDATEADDRESS      = 1;

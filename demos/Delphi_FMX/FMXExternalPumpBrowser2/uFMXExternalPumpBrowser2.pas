@@ -49,16 +49,6 @@ uses
   uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore;
 
 type
-  PRGBQuad = ^TRGBQuad;
-  tagRGBQUAD = record
-    rgbBlue: Byte;
-    rgbGreen: Byte;
-    rgbRed: Byte;
-    rgbReserved: Byte;
-  end;
-  TRGBQuad = tagRGBQUAD;
-  RGBQUAD = tagRGBQUAD;
-
   TFMXExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
     AddressEdt: TEdit;
@@ -108,12 +98,12 @@ type
     procedure chrmosrLoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
     procedure chrmosrLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
 
-
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
+
   protected
     FPopUpBitmap       : TBitmap;
     FPopUpRect         : TRect;
@@ -137,6 +127,7 @@ type
     procedure NotifyMoveOrResizeStarted;
     procedure SendCaptureLostEvent;
     procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
+    procedure SendCEFKeyEvent(const aCefEvent : TCefKeyEvent);
   end;
 
 var
@@ -172,8 +163,40 @@ implementation
 {$R *.fmx}
 
 uses
-  System.SysUtils, System.Math, FMX.Platform,
-  uCEFMiscFunctions, uCEFApplication;
+  System.SysUtils, System.Math, FMX.Platform, FMX.Platform.Linux,
+  uCEFMiscFunctions, uCEFApplication, uCEFLinuxTypes, uCEFLinuxConstants,
+  uCEFLinuxFunctions;
+
+function GTKKeyPress(Widget: PGtkWidget; Event: PGdkEventKey; Data: gPointer) : GBoolean; cdecl;
+var
+  TempCefEvent : TCefKeyEvent;
+begin
+  if FMXExternalPumpBrowserFrm.Panel1.IsFocused then
+    begin
+      GdkEventKeyToCEFKeyEvent(Event, TempCefEvent);
+
+      if (Event^._type = GDK_KEY_PRESS) then
+        begin
+          TempCefEvent.kind := KEYEVENT_RAWKEYDOWN;
+          FMXExternalPumpBrowserFrm.SendCEFKeyEvent(TempCefEvent);
+          TempCefEvent.kind := KEYEVENT_CHAR;
+          FMXExternalPumpBrowserFrm.SendCEFKeyEvent(TempCefEvent);
+        end
+       else
+        begin
+          TempCefEvent.kind := KEYEVENT_KEYUP;
+          FMXExternalPumpBrowserFrm.SendCEFKeyEvent(TempCefEvent);
+        end;
+    end;
+
+  Result := True;
+end;
+
+procedure ConnectKeyPressReleaseEvents(const aWidget : PGtkWidget);
+begin
+  g_signal_connect(aWidget, 'key-press-event',   TGCallback(@GTKKeyPress), nil);
+  g_signal_connect(aWidget, 'key-release-event', TGCallback(@GTKKeyPress), nil);
+end;
 
 procedure TFMXExternalPumpBrowserFrm.FormActivate(Sender: TObject);
 var
@@ -201,13 +224,17 @@ begin
         end);
     end
    else
-    if not(chrmosr.Initialized) then
-      begin
-        // opaque white background color
-        chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+    begin
+      ConnectKeyPressReleaseEvents(TLinuxWindowHandle(Handle).NativeHandle);
 
-        if not(chrmosr.CreateBrowser) then Timer1.Enabled := True;
-      end;
+      if not(chrmosr.Initialized) then
+        begin
+          // opaque white background color
+          chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+
+          if not(chrmosr.CreateBrowser) then Timer1.Enabled := True;
+        end;
+    end;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -795,6 +822,11 @@ begin
   inherited SetBounds(ALeft, ATop, AWidth, AHeight);
 
   if PositionChanged then NotifyMoveOrResizeStarted;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.SendCEFKeyEvent(const aCefEvent : TCefKeyEvent);
+begin
+  chrmosr.SendKeyEvent(@aCefEvent);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.NotifyMoveOrResizeStarted;

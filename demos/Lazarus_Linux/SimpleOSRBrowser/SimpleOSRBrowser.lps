@@ -20,8 +20,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleOSRBrowser"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="187"/>
-        <CursorPos X="72" Y="225"/>
+        <TopLine Value="213"/>
+        <CursorPos X="78" Y="229"/>
         <UsageCount Value="83"/>
         <Bookmarks Count="2">
           <Item0 X="49" Y="223" ID="2"/>
@@ -802,7 +802,7 @@
       <Define0 Value="UseCthreads"/>
       <Define1 Value="EnabledGtkThreading"/>
     </OtherDefines>
-    <JumpHistory Count="20" HistoryIndex="19">
+    <JumpHistory Count="21" HistoryIndex="20">
       <Position1>
         <Filename Value="usimpleosrbrowser.pas"/>
         <Caret Line="56" Column="63" TopLine="51"/>
@@ -883,6 +883,10 @@
         <Filename Value="usimpleosrbrowser.pas"/>
         <Caret Line="85" Column="15" TopLine="68"/>
       </Position20>
+      <Position21>
+        <Filename Value="usimpleosrbrowser.pas"/>
+        <Caret Line="225" Column="72" TopLine="187"/>
+      </Position21>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

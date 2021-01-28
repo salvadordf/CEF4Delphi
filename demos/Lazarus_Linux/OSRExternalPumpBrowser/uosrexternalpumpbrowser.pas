@@ -191,7 +191,8 @@ implementation
 
 uses
   Math, gtk2, glib2, gdk2, gtk2proc, gtk2int,
-  uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFWorkScheduler;
+  uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFWorkScheduler,
+  uCEFLinuxFunctions;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin

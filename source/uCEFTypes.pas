@@ -366,6 +366,31 @@ type
      ullAvailVirtual : uint64;
      ullAvailExtendedVirtual : uint64;
   end;
+
+  TOSVersionInfoEx = record
+    dwOSVersionInfoSize: DWORD;
+    dwMajorVersion: DWORD;
+    dwMinorVersion: DWORD;
+    dwBuildNumber: DWORD;
+    dwPlatformId: DWORD;
+    szCSDVersion: array[0..127] of WideChar;
+    wServicePackMajor: WORD;
+    wServicePackMinor: WORD;
+    wSuiteMask: WORD;
+    wProductType: BYTE;
+    wReserved:BYTE;
+  end;
+
+  {$IFDEF DELPHI14_UP}
+  TDigitizerStatus = record
+    IntegratedTouch : boolean;
+    ExternalTouch   : boolean;
+    IntegratedPen   : boolean;
+    ExternalPen     : boolean;
+    MultiInput      : boolean;
+    Ready           : boolean;
+  end;
+  {$ENDIF}
   {$ENDIF}
 
   PPSingle = ^PSingle;

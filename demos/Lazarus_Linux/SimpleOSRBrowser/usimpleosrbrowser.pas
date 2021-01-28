@@ -226,7 +226,7 @@ implementation
 
 uses
   Math, gtk2, glib2, gdk2, gtk2proc, gtk2int,
-  uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer;
+  uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFLinuxFunctions;
 
 const
   CEF_UPDATE_CURSOR = $A0D;
