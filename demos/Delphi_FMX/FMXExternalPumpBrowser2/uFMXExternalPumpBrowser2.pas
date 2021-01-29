@@ -224,17 +224,15 @@ begin
         end);
     end
    else
-    begin
-      ConnectKeyPressReleaseEvents(TLinuxWindowHandle(Handle).NativeHandle);
+    if not(chrmosr.Initialized) then
+      begin
+        ConnectKeyPressReleaseEvents(TLinuxWindowHandle(Handle).NativeHandle);
 
-      if not(chrmosr.Initialized) then
-        begin
-          // opaque white background color
-          chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+        // opaque white background color
+        chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 
-          if not(chrmosr.CreateBrowser) then Timer1.Enabled := True;
-        end;
-    end;
+        if not(chrmosr.CreateBrowser) then Timer1.Enabled := True;
+      end;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
