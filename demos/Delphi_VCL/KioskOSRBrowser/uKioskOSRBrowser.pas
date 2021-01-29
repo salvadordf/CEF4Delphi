@@ -192,6 +192,7 @@ procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
   TempKeyEvent   : TCefKeyEvent;
   TempMouseEvent : TCefMouseEvent;
+  TempPoint      : TPoint;
 begin
   case Msg.message of
     WM_SYSCHAR :
@@ -302,11 +303,18 @@ begin
     WM_MOUSEWHEEL :
       if Panel1.Focused then
         begin
-          TempMouseEvent.x         := Msg.lParam and $FFFF;
-          TempMouseEvent.y         := Msg.lParam shr 16;
+          GetCursorPos(TempPoint);
+          TempPoint                := Panel1.ScreenToclient(TempPoint);
+          TempMouseEvent.x         := TempPoint.x;
+          TempMouseEvent.y         := TempPoint.y;
           TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
+
           DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
-          chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, int16(Msg.wParam shr 16));
+
+          if CefIsKeyDown(VK_SHIFT) then
+            chrmosr.SendMouseWheelEvent(@TempMouseEvent, smallint(Msg.wParam shr 16), 0)
+           else
+            chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
         end;
   end;
 end;

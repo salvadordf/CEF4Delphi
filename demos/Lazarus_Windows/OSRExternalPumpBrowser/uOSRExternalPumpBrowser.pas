@@ -996,7 +996,11 @@ begin
   TempEvent.y         := MousePos.y;
   TempEvent.modifiers := getModifiers(Shift);
   DeviceToLogical(TempEvent, Panel1.ScreenScale);
-  chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
+
+  if CefIsKeyDown(VK_SHIFT) then
+    chrmosr.SendMouseWheelEvent(@TempEvent, WheelDelta, 0)
+   else
+    chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.SnapshotBtnClick(Sender: TObject);

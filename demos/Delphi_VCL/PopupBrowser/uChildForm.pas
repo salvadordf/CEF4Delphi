@@ -293,14 +293,23 @@ end;
 procedure TChildForm.HandleMouseWheelMsg(var Msg: tagMSG; var Handled: Boolean);
 var
   TempMouseEvent : TCefMouseEvent;
+  TempPoint      : TPoint;
 begin
   if Panel1.Focused and (GlobalCEFApp <> nil) then
     begin
-      TempMouseEvent.x         := Msg.lParam and $FFFF;
-      TempMouseEvent.y         := Msg.lParam shr 16;
+      GetCursorPos(TempPoint);
+      TempPoint                := Panel1.ScreenToclient(TempPoint);
+      TempMouseEvent.x         := TempPoint.x;
+      TempMouseEvent.y         := TempPoint.y;
       TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
-      DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
-      Chromium1.SendMouseWheelEvent(@TempMouseEvent, 0, int16(Msg.wParam shr 16));
+
+      DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
+
+      if CefIsKeyDown(VK_SHIFT) then
+        Chromium1.SendMouseWheelEvent(@TempMouseEvent, smallint(Msg.wParam shr 16), 0)
+       else
+        Chromium1.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
+
       Handled := False;
     end;
 end;

@@ -952,7 +952,11 @@ begin
       TempEvent.y         := MousePos.y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
+
+      if CefIsKeyDown(VK_SHIFT) then
+        chrmosr.SendMouseWheelEvent(@TempEvent, WheelDelta, 0)
+       else
+        chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
     end;
 end;
 
