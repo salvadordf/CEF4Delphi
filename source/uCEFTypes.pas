@@ -53,7 +53,7 @@ uses
     {$IFDEF MSWINDOWS}
       WinApi.Windows,
     {$ELSE}
-      System.Types,
+      System.Types, {$IFDEF LINUX}uCEFLinuxTypes,{$ENDIF}
     {$ENDIF}
     System.Math;
   {$ELSE}
@@ -249,32 +249,32 @@ type
   PCefMediaSource = ^TCefMediaSource;
   PCefMediaSinkDeviceInfo = ^TCefMediaSinkDeviceInfo;
 
-  {$IFDEF LINUX}
-  PXEvent = pointer;
-  {$IFNDEF FPC}
-    // TODO: Find the FMX unit where PXDisplay is declared
-    PXDisplay = pointer;
-  {$ENDIF}
-  {$ENDIF}
-
 
   {$IFDEF MSWINDOWS}
   TCefWindowHandle = type HWND;     // /include/internal/cef_types_win.h (cef_window_handle_t)
   TCefCursorHandle = type HCURSOR;  // /include/internal/cef_types_win.h (cef_cursor_handle_t)
   TCefEventHandle  = type PMsg;     // /include/internal/cef_types_win.h (cef_event_handle_t)
   {$ENDIF}
-  {$IFDEF MACOS}
-  TCefWindowHandle = type Pointer;  // /include/internal/cef_types_mac.h (cef_window_handle_t)
-  TCefCursorHandle = type Pointer;  // /include/internal/cef_types_mac.h (cef_cursor_handle_t)
-  TCefEventHandle  = type Pointer;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
+
+  {$IFDEF MACOSX}
+    {$IFDEF FPC}
+    TCefWindowHandle = type PtrUInt;  // /include/internal/cef_types_mac.h (cef_window_handle_t)
+    TCefCursorHandle = type PtrUInt;  // /include/internal/cef_types_mac.h (cef_cursor_handle_t)
+    TCefEventHandle  = type PtrUInt;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
+    {$ELSE}
+    TCefWindowHandle = type Pointer;  // /include/internal/cef_types_mac.h (cef_window_handle_t)
+    TCefCursorHandle = type Pointer;  // /include/internal/cef_types_mac.h (cef_cursor_handle_t)
+    TCefEventHandle  = type Pointer;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
+    {$ENDIF}
   {$ENDIF}
+
   {$IFDEF LINUX}
     {$IFDEF FPC}
     TCefWindowHandle = type culong;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
     TCefCursorHandle = type culong;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
     {$ELSE}
-    TCefWindowHandle = type LongWord;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
-    TCefCursorHandle = type LongWord;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+    TCefWindowHandle = type LongWord; // /include/internal/cef_types_linux.h (cef_window_handle_t)
+    TCefCursorHandle = type LongWord; // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
     {$ENDIF}
   TCefEventHandle = type PXEvent;  // /include/internal/cef_types_linux.h (cef_event_handle_t)
   {$ENDIF}
@@ -322,9 +322,6 @@ type
   TCefMediaRouterCreateResult      = Integer;     // /include/internal/cef_types.h (cef_media_route_create_result_t)
   TCefCookiePriority               = Integer;     // /include/internal/cef_types.h (cef_cookie_priority_t)
   TCefTextFieldCommands            = Integer;     // /include/internal/cef_types.h (cef_text_field_commands_t)
-
-
-
 
 
 {$IFDEF FPC}
@@ -1258,7 +1255,7 @@ type
     external_begin_frame_enabled  : Integer;
     window                        : TCefWindowHandle;
     {$ENDIF}
-    {$IFDEF MACOS}
+    {$IFDEF MACOSX}
     window_name                   : TCefString;
     x                             : Integer;
     y                             : Integer;

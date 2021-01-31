@@ -54,7 +54,10 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math,
   {$ENDIF}
-  {$IFDEF LINUX}{$IFDEF FPC}xlib,{$ENDIF}{$ENDIF}
+  {$IFDEF LINUX}
+    {$IFDEF FPC}xlib,{$ENDIF}
+    {$IFDEF FMX}uCEFLinuxTypes,{$ENDIF}
+  {$ENDIF}
   uCEFTypes;
 
 var

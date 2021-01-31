@@ -40,8 +40,10 @@ unit uCEFLinuxTypes;
 interface
 
 {$IFDEF LINUX}
-{$IFDEF FMX}
 type
+  PXEvent        = pointer;
+
+  {$IFDEF FMX}
   // https://developer.gnome.org/glib/stable/glib-Basic-Types.htm
   gboolean       = longbool;
   gpointer       = pointer;
@@ -77,6 +79,7 @@ type
   PGtkWidget     = pointer;
   TGdkEventType  = int32;
   PGdkEventKey   = ^TGdkEventKey;
+  PXDisplay      = pointer;
 
   PGTypeClass = ^TGTypeClass;
   TGTypeClass = record

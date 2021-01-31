@@ -39,6 +39,7 @@ Delphinus-Support
 ## Attribution
 Other projects :
 * [DCEF3](https://github.com/hgourvest/dcef3) 
+* [fpCEF3](https://github.com/dliw/fpCEF3)
 * [CEF](https://bitbucket.org/chromiumembedded/cef/)
 * [DCPcrypt](http://www.cityinthesky.co.uk/opensource/dcpcrypt/)
 * [Chromium](https://chromium.googlesource.com/chromium/src/)

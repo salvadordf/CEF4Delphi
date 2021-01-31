@@ -58,13 +58,13 @@ uses
     {$IFDEF MSWINDOWS}
       WinApi.Windows, WinApi.ActiveX, {$IFDEF FMX}FMX.Types,{$ENDIF}
     {$ELSE}
-      {$IFDEF MACOS}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
+      {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
     {$ENDIF}
     System.Types, System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
-    {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
+    {$IFDEF FPC}LCLType, LazFileUtils,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FPC}
       ctypes, keysym, xf86keysym, x, xlib,
       {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
@@ -138,7 +138,7 @@ procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
 {$ENDIF}
 
-{$IFDEF MACOS}
+{$IFDEF MACOSX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False);
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
@@ -664,7 +664,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF MACOS}
+{$IFDEF MACOSX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -815,16 +815,22 @@ begin
     begin
       {$IFDEF MSWINDOWS}
         TempString := 'PID: ' + IntToStr(GetCurrentProcessID) + ', TID: ' + IntToStr(GetCurrentThreadID);
-      {$ELSE}
-        {$IFDEF MACOS}
-        TempString := 'PID: ' + IntToStr(TNSProcessInfo.Wrap(TNSProcessInfo.OCClass.processInfo).processIdentifier) + ', TID: ' + IntToStr(TThread.Current.ThreadID);
+      {$ENDIF}
+
+      {$IFDEF LINUX}
+        {$IFDEF FPC}
+        TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
         {$ELSE}
-          {$IFDEF FPC}
-          TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
-          {$ELSE}
-          // TODO: Find the equivalent function to get the process ID in Delphi FMX for Linux
-          // TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
-          {$ENDIF}
+          // TO-DO: Find the equivalent function to get the process ID in Delphi FMX for Linux
+        {$ENDIF}
+      {$ENDIF}
+
+      {$IFDEF MACOSX}
+        {$IFDEF FPC}
+          // TO-DO: Find the equivalent function to get the process ID in Lazarus/FPC for MacOS
+        {$ELSE}
+          TempString := 'PID: ' + IntToStr(TNSProcessInfo.Wrap(TNSProcessInfo.OCClass.processInfo).processIdentifier) +
+                        ', TID: ' + IntToStr(TThread.Current.ThreadID);
         {$ENDIF}
       {$ENDIF}
 
@@ -1505,13 +1511,28 @@ begin
 end;
 
 function GetModulePath : string;
+{$IFDEF MACOSX}
+const
+  MAC_APP_POSTFIX = '.app/';
+  MAC_APP_SUBPATH = 'Contents/MacOS/';
+{$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(GetModuleName(HINSTANCE{$IFDEF FPC}(){$ENDIF})));
-  {$ELSE}
-  // DLL filename not supported
+  {$ENDIF}
+
+  {$IFDEF LINUX}
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
-  {$ENDIF MSWINDOWS}
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+  Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
+
+  if copy(Result, Length(Result) + 1 - Length(MAC_APP_POSTFIX) - Length(MAC_APP_SUBPATH)) = MAC_APP_POSTFIX + MAC_APP_SUBPATH then
+    SetLength(Result, Length(Result) - Length(MAC_APP_SUBPATH));
+
+  Result := CreateAbsolutePath(Result, GetCurrentDirUTF8);
+  {$ENDIF}
 end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
@@ -2143,11 +2164,10 @@ begin
   TempDC := GetDC(0);
   Result := GetDeviceCaps(TempDC, LOGPIXELSX);
   ReleaseDC(0, TempDC);
-  {$ELSE}
-    {$IFDEF MACOS}
-    Result := trunc(MainScreen.backingScaleFactor);
-    {$ELSE}
-      {$IFDEF FPC}
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
       if (Application                  <> nil) and
          (Application.MainForm         <> nil) and
          (Application.MainForm.Monitor <> nil) then
@@ -2162,10 +2182,18 @@ begin
           end
          else
           Result := USER_DEFAULT_SCREEN_DPI;
-      {$ELSE}
+    {$ELSE}
       // TODO: Find a way to get the screen scale in Delphi FMX for Linux
       Result := USER_DEFAULT_SCREEN_DPI;
-      {$ENDIF}
+    {$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+    {$IFDEF FPC}
+      // TODO: Find a way to get the screen scale in Lazarus/FPC for MacOS
+      Result := USER_DEFAULT_SCREEN_DPI;
+    {$ELSE}
+      Result := trunc(MainScreen.backingScaleFactor);
     {$ENDIF}
   {$ENDIF}
 end;
@@ -2306,7 +2334,7 @@ end;
 
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 begin
-  {$IFDEF MACOS}
+  {$IFDEF MACOSX}
   Result := (aHandle <> nil);
   {$ELSE}
   Result := (aHandle <> 0);
@@ -2315,7 +2343,7 @@ end;
 
 procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 begin
-  {$IFDEF MACOS}
+  {$IFDEF MACOSX}
   aHandle := nil;
   {$ELSE}
   aHandle := 0;
