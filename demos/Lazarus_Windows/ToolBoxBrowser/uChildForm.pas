@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -69,10 +69,10 @@ type
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
       var aAction : TCefCloseBrowserAction);
     procedure Chromium1PreKeyEvent(Sender: TObject;
-      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
       out isKeyboardShortcut, Result: Boolean);
     procedure Chromium1KeyEvent(Sender: TObject;
-      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
       out Result: Boolean);
     procedure Chromium1BeforeClose(Sender: TObject;
       const browser: ICefBrowser);
@@ -152,7 +152,7 @@ begin
 end;
 
 procedure TChildForm.Chromium1KeyEvent(Sender: TObject;
-  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out Result: Boolean);
 var
   TempMsg : TMsg;
@@ -206,7 +206,7 @@ begin
 end;
 
 procedure TChildForm.Chromium1PreKeyEvent(Sender: TObject;
-  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out isKeyboardShortcut, Result: Boolean);
 begin
   Result := False;

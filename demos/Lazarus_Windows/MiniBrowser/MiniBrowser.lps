@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="823"/>
-        <CursorPos X="60" Y="833"/>
+        <TopLine Value="757"/>
+        <CursorPos X="9" Y="780"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -267,7 +267,7 @@
         <UsageCount Value="10"/>
       </Unit33>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
+    <JumpHistory Count="15" HistoryIndex="14">
       <Position1>
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="305" TopLine="293"/>
@@ -288,6 +288,46 @@
         <Filename Value="uMiniBrowser.pas"/>
         <Caret Line="232" Column="74" TopLine="213"/>
       </Position5>
+      <Position6>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="835" Column="58" TopLine="823"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="222" Column="31" TopLine="209"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="782" Column="5" TopLine="754"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="775" Column="70" TopLine="757"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="222" Column="15" TopLine="137"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="692" Column="82" TopLine="690"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="179" Column="62" TopLine="178"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="862" Column="82" TopLine="860"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="176" Column="62" TopLine="175"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uMiniBrowser.pas"/>
+        <Caret Line="886" Column="14" TopLine="860"/>
+      </Position15>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

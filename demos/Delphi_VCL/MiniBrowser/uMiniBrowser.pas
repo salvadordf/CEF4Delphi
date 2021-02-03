@@ -154,8 +154,8 @@ type
     procedure Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
     procedure Chromium1TextResultAvailable(Sender: TObject; const aText: ustring);
     procedure Chromium1FullScreenModeChange(Sender: TObject; const browser: ICefBrowser; fullscreen: Boolean);
-    procedure Chromium1PreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg; out isKeyboardShortcut, Result: Boolean);
-    procedure Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg; out Result: Boolean);
+    procedure Chromium1PreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut, Result: Boolean);
+    procedure Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: Boolean);
     procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
     procedure Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
     procedure Chromium1ResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: Boolean);
@@ -655,7 +655,7 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Chromium1KeyEvent(Sender: TObject;
-  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out Result: Boolean);
 var
   TempMsg : TMsg;
@@ -726,13 +726,25 @@ end;
 procedure TMiniBrowserFrm.Chromium1LoadEnd(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   httpStatusCode: Integer);
+var
+  TempHandle : THandle;
 begin
-  if (frame = nil) or not(frame.IsValid) then exit;
+  if FClosing or (frame = nil) or not(frame.IsValid) or (browser = nil) then exit;
 
-  if frame.IsMain then
-    StatusBar1.Panels[1].Text := 'main frame loaded : ' + quotedstr(frame.name)
+  if Chromium1.IsSameBrowser(browser) then
+    begin
+      if frame.IsMain then
+        StatusBar1.Panels[1].Text := 'main frame loaded : ' + quotedstr(frame.name)
+       else
+        StatusBar1.Panels[1].Text := 'frame loaded : ' + quotedstr(frame.name);
+    end
    else
-    StatusBar1.Panels[1].Text := 'frame loaded : ' + quotedstr(frame.name);
+    begin
+      // This is a workaround for a focus issue in popup windows handled by CEF
+      TempHandle := WinApi.Windows.GetWindow(Browser.Host.WindowHandle, GW_OWNER);
+      if (TempHandle <> Handle) then
+        WinApi.Windows.SetFocus(TempHandle);
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadError(Sender: TObject;
@@ -813,7 +825,7 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;
-  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out isKeyboardShortcut, Result: Boolean);
 begin
   Result := False;
