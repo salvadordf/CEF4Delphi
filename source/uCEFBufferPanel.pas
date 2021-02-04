@@ -915,7 +915,7 @@ begin
             begin
               TempMonitor := TempForm.Monitor;
 
-              if (TempMonitor <> nil) then
+              if (TempMonitor <> nil) and (TempMonitor.PixelsPerInch > 0) then
                 begin
                   aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
                   Result       := True;

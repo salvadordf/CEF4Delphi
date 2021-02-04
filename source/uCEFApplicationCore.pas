@@ -65,14 +65,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 88;
-  CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 6;
+  CEF_SUPPORTED_VERSION_MINOR   = 2;
+  CEF_SUPPORTED_VERSION_RELEASE = 1;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 88;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 4324;
-  CEF_CHROMEELF_VERSION_BUILD   = 96;
+  CEF_CHROMEELF_VERSION_BUILD   = 146;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -1552,7 +1552,10 @@ begin
                 if (CompareText(TempValue, 'utility') = 0) then
                   Result := ptUtility
                  else
-                  Result := ptOther;
+                  if (CompareText(TempValue, 'broker') = 0) then
+                    Result := ptBroker
+                   else
+                    Result := ptOther;
         end;
 
       dec(i);
@@ -2159,7 +2162,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateResourceBundleHandler : boolean;
 begin
-  Result := ((FSingleProcess or (FProcessType in [ptBrowser, ptRenderer])) and
+  Result := ((FSingleProcess or (FProcessType in [ptBrowser, ptRenderer, ptZygote])) and
              (FMustCreateResourceBundleHandler or
               assigned(FOnGetLocalizedString)  or
               assigned(FOnGetDataResource)     or
@@ -2180,7 +2183,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateRenderProcessHandler : boolean;
 begin
-  Result := ((FSingleProcess or (FProcessType = ptRenderer)) and
+  Result := ((FSingleProcess or (FProcessType in [ptRenderer, ptZygote])) and
              (FMustCreateRenderProcessHandler     or
               MustCreateLoadHandler               or
               assigned(FOnWebKitInitialized)      or
@@ -2195,7 +2198,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateLoadHandler : boolean;
 begin
-  Result := ((FSingleProcess or (FProcessType = ptRenderer)) and
+  Result := ((FSingleProcess or (FProcessType in [ptRenderer, ptZygote])) and
              (FMustCreateLoadHandler          or
               assigned(FOnLoadingStateChange) or
               assigned(FOnLoadStart)          or

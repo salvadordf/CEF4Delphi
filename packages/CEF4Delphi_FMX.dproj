@@ -342,6 +342,9 @@
         <DCCReference Include="..\source\uCEFPrintHandler.pas"/>
         <DCCReference Include="..\source\uCEFPrintDialogCallback.pas"/>
         <DCCReference Include="..\source\uCEFPrintJobCallback.pas"/>
+        <DCCReference Include="..\source\uCEFLinuxConstants.pas"/>
+        <DCCReference Include="..\source\uCEFLinuxTypes.pas"/>
+        <DCCReference Include="..\source\uCEFLinuxFunctions.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
