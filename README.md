@@ -8,7 +8,7 @@ The CEF binaries used by CEF4Delphi are available for download at spotify :
 * [Windows 32 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.1%2Bg0b18d0b%2Bchromium-88.0.4324.146_windows32.tar.bz2)
 * [Windows 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.1%2Bg0b18d0b%2Bchromium-88.0.4324.146_windows64.tar.bz2)
 * [Linux x86 32 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.1%2Bg0b18d0b%2Bchromium-88.0.4324.146_linux32.tar.bz2)
-* [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.1%2Bg0b18d0b%2Bchromium-88.0.4324.146_linux64.tar.bz2
+* [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.1%2Bg0b18d0b%2Bchromium-88.0.4324.146_linux64.tar.bz2)
 * [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.1%2Bg0b18d0b%2Bchromium-88.0.4324.146_linuxarm.tar.bz2)
 * [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.1%2Bg0b18d0b%2Bchromium-88.0.4324.146_linuxarm64.tar.bz2)
 
