@@ -48,6 +48,42 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       StyleLookup = 'deleteitembutton'
     end
+    object PrevTabBtn: TSpeedButton
+      Action = PrevTabAction
+      Align = Top
+      Enabled = True
+      ImageIndex = -1
+      Position.X = 5.000000000000000000
+      Position.Y = 54.000000000000000000
+      Size.Width = 22.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'arrowlefttoolbutton'
+    end
+    object NextTabBtn: TSpeedButton
+      Action = NextTabAction
+      Align = Top
+      Enabled = True
+      ImageIndex = -1
+      Position.X = 5.000000000000000000
+      Position.Y = 76.000000000000000000
+      Size.Width = 22.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'arrowrighttoolbutton'
+    end
+    object ShowTabsBtn: TSpeedButton
+      Action = ShowTabsAction
+      Align = Top
+      Enabled = True
+      ImageIndex = -1
+      Position.X = 5.000000000000000000
+      Position.Y = 98.000000000000000000
+      Size.Width = 22.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'passwordeditbutton'
+    end
   end
   object BrowserTabCtrl: TTabControl
     Align = Client
@@ -68,6 +104,18 @@ object MainForm: TMainForm
     object RemoveTabAction: TAction
       Text = 'RemoveTabAction'
       OnExecute = RemoveTabActionExecute
+    end
+    object PrevTabAction: TAction
+      Text = 'PrevTabAction'
+      OnExecute = PrevTabActionExecute
+    end
+    object NextTabAction: TAction
+      Text = 'NextTabAction'
+      OnExecute = NextTabActionExecute
+    end
+    object ShowTabsAction: TAction
+      Text = 'ShowTabsAction'
+      OnExecute = ShowTabsActionExecute
     end
   end
 end
