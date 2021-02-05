@@ -69,6 +69,12 @@ type
     ActionList1: TActionList;
     AddTabAction: TAction;
     RemoveTabAction: TAction;
+    PrevTabBtn: TSpeedButton;
+    PrevTabAction: TAction;
+    NextTabAction: TAction;
+    NextTabBtn: TSpeedButton;
+    ShowTabsBtn: TSpeedButton;
+    ShowTabsAction: TAction;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -78,6 +84,9 @@ type
     procedure AddTabActionExecute(Sender: TObject);
     procedure RemoveTabActionExecute(Sender: TObject);
     procedure BrowserTabCtrlChange(Sender: TObject);
+    procedure PrevTabActionExecute(Sender: TObject);
+    procedure NextTabActionExecute(Sender: TObject);
+    procedure ShowTabsActionExecute(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -174,6 +183,18 @@ begin
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
 end;
 
+procedure TMainForm.NextTabActionExecute(Sender: TObject);
+begin
+  if (BrowserTabCtrl.TabIndex < pred(BrowserTabCtrl.TabCount)) then
+    BrowserTabCtrl.TabIndex := BrowserTabCtrl.TabIndex + 1;
+end;
+
+procedure TMainForm.PrevTabActionExecute(Sender: TObject);
+begin
+  if (BrowserTabCtrl.TabIndex > 0) then
+    BrowserTabCtrl.TabIndex := BrowserTabCtrl.TabIndex - 1;
+end;
+
 procedure TMainForm.NotifyMoveOrResizeStarted;
 var
   i : integer;
@@ -259,6 +280,14 @@ procedure TMainForm.ShowSelectedBrowser;
 begin
   if (BrowserTabCtrl.ActiveTab <> nil) then
     TBrowserTab(BrowserTabCtrl.ActiveTab).ShowBrowser;
+end;
+
+procedure TMainForm.ShowTabsActionExecute(Sender: TObject);
+begin
+  if (BrowserTabCtrl.TabPosition = TTabPosition.PlatformDefault) then
+    BrowserTabCtrl.TabPosition := TTabPosition.None
+   else
+    BrowserTabCtrl.TabPosition := TTabPosition.PlatformDefault;
 end;
 
 procedure TMainForm.AddTabActionExecute(Sender: TObject);
