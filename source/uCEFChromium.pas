@@ -190,14 +190,10 @@ begin
 end;
 
 function TChromium.GetParentFormHandle : TCefWindowHandle;
-{$IFDEF MSWINDOWS}
 var
   TempForm : TCustomForm;
-{$ENDIF}
 begin
-  Result := inherited GetParentFormHandle;
-
-  {$IFDEF MSWINDOWS}
+  Result   := inherited GetParentFormHandle;
   TempForm := GetParentForm;
 
   if (TempForm <> nil) and TempForm.HandleAllocated then
@@ -207,7 +203,6 @@ begin
        (Application.MainForm <> nil) and
        Application.MainForm.HandleAllocated then
       Result := Application.MainForm.Handle;
-  {$ENDIF}
 end;
 
 procedure TChromium.MoveFormTo(const x, y: Integer);
