@@ -10,7 +10,7 @@
         <MainUnitHasScaledStatement Value="False"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="cef_subprocess"/>
+      <Title Value="AppHelper"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
@@ -40,7 +40,7 @@
     </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="cef_subprocess.lpr"/>
+        <Filename Value="AppHelper.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
@@ -49,7 +49,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="cef_subprocess"/>
+      <Filename Value="..\..\..\bin\AppHelper"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

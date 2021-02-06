@@ -1,4 +1,4 @@
-program cef_subprocess;
+program AppHelper;
 
 (*
  * The compiled exe should be copied into
@@ -23,7 +23,6 @@ begin
   // LocalesDirPath, cache and UserDataPath paths.
 
 
-  GlobalCEFApp.MultiThreadedMessageLoop:=false;
   GlobalCEFApp.StartSubProcess;
   GlobalCEFApp.Free;
   GlobalCEFApp := nil;
