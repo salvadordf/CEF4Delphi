@@ -270,6 +270,8 @@ type
       function  GetLibCefVersion : ustring;
       function  GetLibCefPath : ustring;
       function  GetChromeElfPath : ustring;
+      function GetLocalesDirPath: ustring;
+      function GetResourcesDirPath: ustring;
       function  GetMustCreateResourceBundleHandler : boolean; virtual;
       function  GetMustCreateBrowserProcessHandler : boolean; virtual;
       function  GetMustCreateRenderProcessHandler : boolean; virtual;
@@ -427,8 +429,8 @@ type
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
-      property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
-      property LocalesDirPath                    : ustring                             read FLocalesDirPath                    write SetLocalesDirPath;
+      property ResourcesDirPath                  : ustring                             read GetResourcesDirPath                  write SetResourcesDirPath;
+      property LocalesDirPath                    : ustring                             read GetLocalesDirPath                    write SetLocalesDirPath;
       property PackLoadingDisabled               : Boolean                             read FPackLoadingDisabled               write FPackLoadingDisabled;
       property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
       property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
@@ -905,15 +907,8 @@ begin
         {$ENDIF}
         if FileExists(MBPath + LIBCEF_DLL) then begin
           FrameworkDirPath := MBPath;
-          if FileExists(MBPath + LIBCEF_PAK) then begin
-            ResourcesDirPath := MBPath;
-          {$IFNDEF MACOSX}
-          if FileExists(IncludeTrailingPathDelimiter(MBPath + LIBCEF_LOCALE_DIR) + LIBCEF_LOCALE_ENUS) then
-            LocalesDirPath := MBPath + LIBCEF_LOCALE_DIR;
-          {$ENDIF}
         end;
       end;
-    end;
 end;
 
 // This function must only be called by the main executable when the application
@@ -1023,6 +1018,28 @@ begin
     Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + CHROMEELF_DLL
    else
     Result := CHROMEELF_DLL;
+end;
+
+function TCefApplicationCore.GetLocalesDirPath: ustring;
+begin
+  Result := FLocalesDirPath;
+  {$IFNDEF MACOSX}
+  if (Result = '') and (FrameworkDirPath <> '') then
+    begin
+      if FileExists(IncludeTrailingPathDelimiter(FrameworkDirPath + LIBCEF_LOCALE_DIR) + LIBCEF_LOCALE_ENUS) then
+        Result := FrameworkDirPath + LIBCEF_LOCALE_DIR;
+    end;
+  {$ENDIF}
+end;
+
+function TCefApplicationCore.GetResourcesDirPath: ustring;
+begin
+  Result := FResourcesDirPath;
+  if (Result = '') and (FrameworkDirPath <> '') then
+    begin
+      if FileExists(IncludeTrailingPathDelimiter(FrameworkDirPath) + LIBCEF_PAK) then
+        Result := FrameworkDirPath;
+    end;
 end;
 
 procedure TCefApplicationCore.SetCache(const aValue : ustring);
