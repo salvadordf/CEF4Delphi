@@ -45,7 +45,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Menus, ComCtrls, SyncObjs, LMessages, Printers, PrintersDlgs,
+  Menus, ComCtrls, SyncObjs, LMessages, Printers, PrintersDlgs, osprinters,
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
   uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFLinkedWindowParent;
 
@@ -273,7 +273,7 @@ begin
   GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
-  GlobalCEFApp.EnablePrintPreview  := True;
+  //GlobalCEFApp.EnablePrintPreview  := True;
   GlobalCEFApp.OnPrintStart        := @GlobalCEFApp_OnPrintStart;
   GlobalCEFApp.OnPrintSettings     := @GlobalCEFApp_OnPrintSettings;
   GlobalCEFApp.OnPrintDialog       := @GlobalCEFApp_OnPrintDialog;
@@ -615,6 +615,7 @@ begin
         begin
           FPrintJobCallback.Cont();
           FPrintJobCallback := nil;
+          Timer1.Enabled    := False;
         end;
     end
    else
@@ -975,8 +976,15 @@ end;
 
 procedure TMiniBrowserFrm.BrowserPrintJobStartedMsg(Data: PtrInt);
 begin
-  StatusBar1.Panels[0].Text := 'Print job started';
-  Timer1.Enabled            := True;
+  TCUPSPrinter(Printer).Title := FPrintJobDocumentName;
+
+  if (TCUPSPrinter(Printer).PrintFile(FPrintJobPDFFilePath) >= 0) then
+    begin
+      StatusBar1.Panels[0].Text := 'Print job started';
+      Timer1.Enabled            := True;
+    end
+   else
+    StatusBar1.Panels[0].Text := TCUPSPrinter(Printer).GetLastError;
 end;
 
 procedure TMiniBrowserFrm.BrowserPrintStartMsg(Data: PtrInt);
@@ -986,7 +994,7 @@ end;
 
 procedure TMiniBrowserFrm.BrowserPrintResetMsg(Data: PtrInt);
 begin
-  StatusBar1.Panels[0].Text := 'Print reset';
+  StatusBar1.Panels[0].Text := '';
 end;
 
 procedure TMiniBrowserFrm.SendCompMessage(aMsg : cardinal; Data: PtrInt);
