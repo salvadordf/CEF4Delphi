@@ -1,4 +1,4 @@
-program cef_subprocess;
+program AppHelper;
 
 (*
  * The compiled exe should be copied into
@@ -21,9 +21,8 @@ begin
   // The main process and the subprocess *MUST* have the same GlobalCEFApp
   // properties and events, specially FrameworkDirPath, ResourcesDirPath,
   // LocalesDirPath, cache and UserDataPath paths.
+  GlobalCEFApp.InitLibLocationFromArgs;
 
-
-  GlobalCEFApp.MultiThreadedMessageLoop:=false;
   GlobalCEFApp.StartSubProcess;
   GlobalCEFApp.Free;
   GlobalCEFApp := nil;

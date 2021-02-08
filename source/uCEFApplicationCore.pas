@@ -90,6 +90,11 @@ const
   CHROMEELF_DLL  = '';
   {$ENDIF}
 
+  // for InitLibLocationFromArgs
+  LIBCEF_PAK         = 'cef.pak';
+  LIBCEF_LOCALE_DIR  = 'locales';
+  LIBCEF_LOCALE_ENUS = 'en-US.pak';
+
 type
   TCefApplicationCore = class
     protected
@@ -265,6 +270,8 @@ type
       function  GetLibCefVersion : ustring;
       function  GetLibCefPath : ustring;
       function  GetChromeElfPath : ustring;
+      function GetLocalesDirPath: ustring;
+      function GetResourcesDirPath: ustring;
       function  GetMustCreateResourceBundleHandler : boolean; virtual;
       function  GetMustCreateBrowserProcessHandler : boolean; virtual;
       function  GetMustCreateRenderProcessHandler : boolean; virtual;
@@ -359,6 +366,7 @@ type
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
+      procedure   InitLibLocationFromArgs;
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
 
@@ -421,8 +429,8 @@ type
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
-      property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
-      property LocalesDirPath                    : ustring                             read FLocalesDirPath                    write SetLocalesDirPath;
+      property ResourcesDirPath                  : ustring                             read GetResourcesDirPath                  write SetResourcesDirPath;
+      property LocalesDirPath                    : ustring                             read GetLocalesDirPath                    write SetLocalesDirPath;
       property PackLoadingDisabled               : Boolean                             read FPackLoadingDisabled               write FPackLoadingDisabled;
       property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
       property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
@@ -859,6 +867,50 @@ begin
   if (FCustomCommandLineValues <> nil) then FCustomCommandLineValues.Add(aValue);
 end;
 
+// This function checks if argv contains
+// --framework-dir-path=
+// --main-bundle-path=
+// It sets the corresponding fields in the config
+// This params are passed on Mac.
+// The values can also be calculated, instead of calling this procedure
+var
+  PARAM_FRAME_PATH  : string = '--framework-dir-path';
+  PARAM_BUNDLE_PATH : string = '--main-bundle-path';
+procedure TCefApplicationCore.InitLibLocationFromArgs;
+var
+  i, l : Integer;
+  p : PChar;
+  MBPath : ustring;
+begin
+  for i := 0 to argc - 1 do
+    begin
+      p := strscan(argv[i], '=');
+      if p = nil then continue;
+      l := p - argv[i];
+      if (l = Length(PARAM_FRAME_PATH)) and
+         (strlcomp(argv[i], PChar(PARAM_FRAME_PATH), Length(PARAM_FRAME_PATH)) = 0) then
+        begin
+          FrameworkDirPath := PChar(argv[i] + Length(PARAM_FRAME_PATH) + 1);
+        end;
+      if (l = Length(PARAM_BUNDLE_PATH)) and
+         (strlcomp(argv[i], PChar(PARAM_BUNDLE_PATH), Length(PARAM_BUNDLE_PATH)) = 0) then
+        begin
+          MBPath := PChar(argv[i] + Length(PARAM_BUNDLE_PATH) + 1);
+          MainBundlePath := MBPath;
+        end;
+    end;
+    if (MBPath <> '') and (FrameworkDirPath = '') then
+      begin
+        MBPath := IncludeTrailingPathDelimiter(MBPath);
+        {$IFDEF MACOSX}
+        MBPath := MBPath + LIBCEF_PREFIX;
+        {$ENDIF}
+        if FileExists(MBPath + LIBCEF_DLL) then begin
+          FrameworkDirPath := MBPath;
+        end;
+      end;
+end;
+
 // This function must only be called by the main executable when the application
 // is configured to use a different executable for the subprocesses.
 // The process calling ths function must be the browser process.
@@ -966,6 +1018,28 @@ begin
     Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + CHROMEELF_DLL
    else
     Result := CHROMEELF_DLL;
+end;
+
+function TCefApplicationCore.GetLocalesDirPath: ustring;
+begin
+  Result := FLocalesDirPath;
+  {$IFNDEF MACOSX}
+  if (Result = '') and (FrameworkDirPath <> '') then
+    begin
+      if FileExists(IncludeTrailingPathDelimiter(FrameworkDirPath + LIBCEF_LOCALE_DIR) + LIBCEF_LOCALE_ENUS) then
+        Result := FrameworkDirPath + LIBCEF_LOCALE_DIR;
+    end;
+  {$ENDIF}
+end;
+
+function TCefApplicationCore.GetResourcesDirPath: ustring;
+begin
+  Result := FResourcesDirPath;
+  if (Result = '') and (FrameworkDirPath <> '') then
+    begin
+      if FileExists(IncludeTrailingPathDelimiter(FrameworkDirPath) + LIBCEF_PAK) then
+        Result := FrameworkDirPath;
+    end;
 end;
 
 procedure TCefApplicationCore.SetCache(const aValue : ustring);
@@ -1583,7 +1657,8 @@ begin
     FOnScheduleMessagePumpWork(delayMs);
 end;
 
-function TCefApplicationCore.Internal_GetLocalizedString(stringid: Integer; var stringVal: ustring) : boolean;
+function TCefApplicationCore.Internal_GetLocalizedString(stringId: Integer;
+  var stringVal: ustring): boolean;
 begin
   Result := False;
 
@@ -1744,7 +1819,8 @@ begin
     FOnGetPDFPaperSize(deviceUnitsPerInch, aResult);
 end;
 
-procedure TCefApplicationCore.AppendSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
+procedure TCefApplicationCore.AppendSwitch(var aKeys, aValues: TStringList;
+  const aNewKey: ustring; const aNewValue: ustring);
 var
   TempKey, TempHyphenatedKey : ustring;
   i : integer;
@@ -1848,7 +1924,8 @@ begin
   FreeAndNil(TempDisabledValues);
 end;
 
-procedure TCefApplicationCore.ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
+procedure TCefApplicationCore.ReplaceSwitch(var aKeys, aValues: TStringList;
+  const aNewKey: ustring; const aNewValue: ustring);
 var
   TempKey, TempHyphenatedKey : ustring;
   i : integer;

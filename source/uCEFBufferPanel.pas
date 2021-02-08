@@ -871,14 +871,15 @@ begin
 end;
 
 function TBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
-var
   {$IFDEF MSWINDOWS}
+var
   TempHandle : TCefWindowHandle;
   TempDC     : HDC;
   TempDPI    : UINT;
   {$ELSE}
     {$IFDEF LINUX}
       {$IFDEF FPC}
+var
       TempForm    : TCustomForm;
       TempMonitor : TMonitor;
       {$ENDIF}

@@ -2334,7 +2334,7 @@ end;
 
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 begin
-  {$IFDEF MACOSX}
+  {$IFDEF MACOS}
   Result := (aHandle <> nil);
   {$ELSE}
   Result := (aHandle <> 0);
@@ -2343,7 +2343,7 @@ end;
 
 procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 begin
-  {$IFDEF MACOSX}
+  {$IFDEF MACOS}
   aHandle := nil;
   {$ELSE}
   aHandle := 0;
