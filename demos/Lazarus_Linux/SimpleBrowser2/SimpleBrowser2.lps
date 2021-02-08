@@ -3,14 +3,14 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="62">
+    <Units Count="64">
       <Unit0>
         <Filename Value="SimpleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="18"/>
         <CursorPos X="74" Y="42"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit0>
       <Unit1>
         <Filename Value="usimplebrowser2.pas"/>
@@ -21,8 +21,8 @@
         <UnitName Value="uSimpleBrowser2"/>
         <IsVisibleTab Value="True"/>
         <TopLine Value="225"/>
-        <CursorPos X="57" Y="246"/>
-        <UsageCount Value="49"/>
+        <CursorPos X="49" Y="250"/>
+        <UsageCount Value="52"/>
         <Bookmarks Count="2">
           <Item0 X="57" Y="243" ID="3"/>
           <Item1 Y="239" ID="9"/>
@@ -35,7 +35,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Interfaces"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="50"/>
       </Unit2>
       <Unit3>
         <Filename Value="../../../../source/uCEFConstants.pas"/>
@@ -143,9 +143,9 @@
       <Unit18>
         <Filename Value="../../../source/uCEFChromiumCore.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="6390"/>
-        <CursorPos X="25" Y="6396"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="6342"/>
+        <CursorPos X="3" Y="6346"/>
+        <UsageCount Value="24"/>
         <Bookmarks Count="1">
           <Item0 Y="4727" ID="2"/>
         </Bookmarks>
@@ -262,9 +262,9 @@
       <Unit35>
         <Filename Value="../../../source/uCEFApplicationCore.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="520"/>
-        <CursorPos X="53" Y="563"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="2367"/>
+        <CursorPos X="77" Y="2398"/>
+        <UsageCount Value="11"/>
       </Unit35>
       <Unit36>
         <Filename Value="../../../source/uCEFApplication.pas"/>
@@ -459,6 +459,19 @@
         <CursorPos X="54" Y="232"/>
         <UsageCount Value="11"/>
       </Unit61>
+      <Unit62>
+        <Filename Value="../../../source/uCEFLinuxConstants.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3896"/>
+        <CursorPos X="40" Y="3736"/>
+        <UsageCount Value="10"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="../../../source/uCEFLinuxFunctions.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="514"/>
+        <UsageCount Value="10"/>
+      </Unit63>
     </Units>
     <JumpHistory Count="11" HistoryIndex="10">
       <Position1>

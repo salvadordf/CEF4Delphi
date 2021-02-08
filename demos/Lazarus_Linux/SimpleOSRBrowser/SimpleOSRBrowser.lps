@@ -3,14 +3,14 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="108">
+    <Units Count="111">
       <Unit0>
         <Filename Value="SimpleOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="29"/>
         <CursorPos X="57" Y="58"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="85"/>
       </Unit0>
       <Unit1>
         <Filename Value="usimpleosrbrowser.pas"/>
@@ -20,12 +20,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleOSRBrowser"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="213"/>
-        <CursorPos X="78" Y="229"/>
-        <UsageCount Value="83"/>
-        <Bookmarks Count="2">
-          <Item0 X="49" Y="223" ID="2"/>
-          <Item1 X="80" Y="528" ID="6"/>
+        <TopLine Value="341"/>
+        <CursorPos X="27" Y="359"/>
+        <UsageCount Value="85"/>
+        <Bookmarks Count="1">
+          <Item0 X="80" Y="554" ID="6"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -36,7 +35,7 @@
         <UnitName Value="Interfaces"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="40" Y="20"/>
-        <UsageCount Value="79"/>
+        <UsageCount Value="81"/>
       </Unit2>
       <Unit3>
         <Filename Value="/usr/share/lazarus/2.0.6/lcl/lcltype.pp"/>
@@ -90,8 +89,8 @@
       <Unit10>
         <Filename Value="../../../source/uCEFMiscFunctions.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="184"/>
-        <CursorPos X="22" Y="211"/>
+        <TopLine Value="721"/>
+        <CursorPos X="3" Y="756"/>
         <UsageCount Value="15"/>
       </Unit10>
       <Unit11>
@@ -105,9 +104,9 @@
       <Unit12>
         <Filename Value="../../../source/uCEFChromium.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="62"/>
-        <CursorPos X="17" Y="86"/>
-        <UsageCount Value="8"/>
+        <TopLine Value="294"/>
+        <CursorPos X="3" Y="302"/>
+        <UsageCount Value="10"/>
       </Unit12>
       <Unit13>
         <Filename Value="../../../source/uCEFConstants.pas"/>
@@ -126,14 +125,14 @@
       <Unit15>
         <Filename Value="../../../source/uCEFBufferPanel.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1034"/>
-        <CursorPos X="3" Y="1037"/>
+        <TopLine Value="231"/>
+        <CursorPos Y="257"/>
         <UsageCount Value="29"/>
         <Bookmarks Count="4">
-          <Item0 Y="1036" ID="9"/>
-          <Item1 X="63" Y="589" ID="8"/>
-          <Item2 X="5" Y="350" ID="7"/>
-          <Item3 X="5" Y="380" ID="1"/>
+          <Item0 Y="1038" ID="9"/>
+          <Item1 X="63" Y="591" ID="8"/>
+          <Item2 X="5" Y="352" ID="7"/>
+          <Item3 X="5" Y="382" ID="1"/>
         </Bookmarks>
       </Unit15>
       <Unit16>
@@ -184,15 +183,15 @@
         <Filename Value="/usr/share/lazarus/2.0.10/lcl/controls.pp"/>
         <UnitName Value="Controls"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1718"/>
-        <CursorPos X="29" Y="1745"/>
+        <TopLine Value="1472"/>
+        <CursorPos Y="1502"/>
         <UsageCount Value="16"/>
       </Unit22>
       <Unit23>
         <Filename Value="/usr/share/lazarus/2.0.10/lcl/extctrls.pp"/>
         <UnitName Value="ExtCtrls"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1025"/>
+        <TopLine Value="1034"/>
         <CursorPos X="3" Y="1046"/>
         <UsageCount Value="12"/>
       </Unit23>
@@ -401,9 +400,15 @@
       <Unit52>
         <Filename Value="../../../source/uCEFChromiumCore.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1122"/>
-        <CursorPos Y="1147"/>
+        <TopLine Value="2506"/>
+        <CursorPos Y="2529"/>
         <UsageCount Value="10"/>
+        <Bookmarks Count="4">
+          <Item0 Y="4619" ID="2"/>
+          <Item1 X="41" Y="2931" ID="9"/>
+          <Item2 Y="6346" ID="1"/>
+          <Item3 Y="2529" ID="3"/>
+        </Bookmarks>
       </Unit52>
       <Unit53>
         <Filename Value="/usr/share/lazarus/2.0.10/lcl/include/wincontrol.inc"/>
@@ -579,9 +584,9 @@
       <Unit76>
         <Filename Value="../../../source/uCEFTypes.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1243"/>
-        <CursorPos X="9" Y="1271"/>
-        <UsageCount Value="9"/>
+        <TopLine Value="1404"/>
+        <CursorPos X="17" Y="1427"/>
+        <UsageCount Value="10"/>
       </Unit76>
       <Unit77>
         <Filename Value="/usr/share/fpcsrc/3.2.0/rtl/inc/objpash.inc"/>
@@ -797,96 +802,37 @@
         <CursorPos X="77" Y="127"/>
         <UsageCount Value="10"/>
       </Unit107>
+      <Unit108>
+        <Filename Value="../../../source/uCEFLinuxFunctions.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="538"/>
+        <CursorPos X="127" Y="573"/>
+        <UsageCount Value="10"/>
+      </Unit108>
+      <Unit109>
+        <Filename Value="../../../source/uCEFInterfaces.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="452"/>
+        <CursorPos Y="488"/>
+        <UsageCount Value="10"/>
+      </Unit109>
+      <Unit110>
+        <Filename Value="../../../source/uCEFTask.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="641"/>
+        <CursorPos Y="684"/>
+        <UsageCount Value="10"/>
+      </Unit110>
     </Units>
     <OtherDefines Count="2">
       <Define0 Value="UseCthreads"/>
       <Define1 Value="EnabledGtkThreading"/>
     </OtherDefines>
-    <JumpHistory Count="21" HistoryIndex="20">
+    <JumpHistory Count="1">
       <Position1>
         <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="56" Column="63" TopLine="51"/>
+        <Caret Line="359" Column="27" TopLine="341"/>
       </Position1>
-      <Position2>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="634" Column="63" TopLine="619"/>
-      </Position2>
-      <Position3>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="80" Column="15" TopLine="64"/>
-      </Position3>
-      <Position4>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="501" Column="35" TopLine="478"/>
-      </Position4>
-      <Position5>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="512" Column="52" TopLine="478"/>
-      </Position5>
-      <Position6>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="514" Column="38" TopLine="497"/>
-      </Position6>
-      <Position7>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="506" Column="70" TopLine="497"/>
-      </Position7>
-      <Position8>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="558" Column="39" TopLine="536"/>
-      </Position8>
-      <Position9>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="569" Column="56" TopLine="475"/>
-      </Position9>
-      <Position10>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="469" Column="61" TopLine="460"/>
-      </Position10>
-      <Position11>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="89" Column="15" TopLine="56"/>
-      </Position11>
-      <Position12>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="663" Column="3" TopLine="660"/>
-      </Position12>
-      <Position13>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="309" Column="3" TopLine="280"/>
-      </Position13>
-      <Position14>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="90" Column="24" TopLine="45"/>
-      </Position14>
-      <Position15>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="679" Column="12" TopLine="661"/>
-      </Position15>
-      <Position16>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="85" Column="15" TopLine="68"/>
-      </Position16>
-      <Position17>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="319" Column="12" TopLine="306"/>
-      </Position17>
-      <Position18>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="90" Column="15" TopLine="63"/>
-      </Position18>
-      <Position19>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="675" TopLine="671"/>
-      </Position19>
-      <Position20>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="85" Column="15" TopLine="68"/>
-      </Position20>
-      <Position21>
-        <Filename Value="usimpleosrbrowser.pas"/>
-        <Caret Line="225" Column="72" TopLine="187"/>
-      </Position21>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -1957,7 +1957,7 @@ begin
     WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName, FDefaultWindowInfoExStyle);
   {$ELSE}
   if FIsOSR then
-    WindowInfoAsWindowless(FWindowInfo, 0)
+    WindowInfoAsWindowless(FWindowInfo, aParentHandle)
    else
     WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect);
   {$ENDIF}

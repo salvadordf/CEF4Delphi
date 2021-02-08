@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="58">
+    <Units Count="60">
       <Unit0>
         <Filename Value="ExternalPumpBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,7 +20,7 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <TopLine Value="235"/>
-        <CursorPos X="6" Y="271"/>
+        <CursorPos X="49" Y="264"/>
         <UsageCount Value="49"/>
         <Bookmarks Count="2">
           <Item0 Y="273" ID="3"/>
@@ -167,8 +167,8 @@
         <Filename Value="/usr/share/lazarus/2.0.10/lcl/controls.pp"/>
         <UnitName Value="Controls"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1958"/>
-        <CursorPos X="3" Y="1981"/>
+        <TopLine Value="1137"/>
+        <CursorPos X="13" Y="1158"/>
         <UsageCount Value="14"/>
       </Unit21>
       <Unit22>
@@ -432,6 +432,20 @@
         <CursorPos Y="234"/>
         <UsageCount Value="10"/>
       </Unit57>
+      <Unit58>
+        <Filename Value="../../../source/uCEFBufferPanel.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="37"/>
+        <UsageCount Value="10"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="/usr/share/lazarus/2.0.10/lcl/extctrls.pp"/>
+        <UnitName Value="ExtCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1023"/>
+        <CursorPos X="3" Y="1046"/>
+        <UsageCount Value="10"/>
+      </Unit59>
     </Units>
     <JumpHistory Count="13" HistoryIndex="12">
       <Position1>

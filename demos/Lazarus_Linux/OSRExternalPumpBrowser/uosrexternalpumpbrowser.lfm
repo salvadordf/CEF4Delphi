@@ -86,6 +86,8 @@ object Form1: TForm1
     OnMouseMove = Panel1MouseMove
     OnMouseUp = Panel1MouseUp
     OnMouseWheel = Panel1MouseWheel
+    OnMouseEnter = Panel1MouseEnter
+    OnMouseLeave = Panel1MouseLeave
     OnResize = Panel1Resize
   end
   object Chromium1: TChromium

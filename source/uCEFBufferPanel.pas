@@ -270,6 +270,10 @@ type
       property OnMouseEnter;
       property OnMouseLeave;
       {$ENDIF}
+      {$IFDEF FPC}
+      property OnMouseEnter;
+      property OnMouseLeave;
+      {$ENDIF}
       {$IFDEF DELPHI12_UP}
       property ShowCaption;
       property ParentDoubleBuffered;

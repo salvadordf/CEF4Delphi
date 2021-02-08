@@ -44,7 +44,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, uMiniBrowser
+  Forms, printer4lazarus, uMiniBrowser
   { you can add units after this },
   uCEFApplication;
 

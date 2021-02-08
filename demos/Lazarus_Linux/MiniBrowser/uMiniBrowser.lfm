@@ -236,6 +236,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnAddressChange = Chromium1AddressChange
     OnTitleChange = Chromium1TitleChange
     OnStatusMessage = Chromium1StatusMessage
+    OnJsdialog = Chromium1Jsdialog
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
@@ -270,12 +271,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     end
     object Print1: TMenuItem
       Caption = 'Print'
-      Enabled = False
       OnClick = Print1Click
     end
     object PrintinPDF1: TMenuItem
       Caption = 'Print to PDF'
-      Enabled = False
       OnClick = PrintinPDF1Click
     end
     object N3: TMenuItem
@@ -312,5 +311,11 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnTimer = Timer1Timer
     Left = 32
     Top = 344
+  end
+  object PrintDialog1: TPrintDialog
+    FromPage = 1
+    ToPage = 1
+    Left = 32
+    Top = 416
   end
 end

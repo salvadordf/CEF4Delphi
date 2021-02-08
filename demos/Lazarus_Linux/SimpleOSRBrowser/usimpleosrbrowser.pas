@@ -64,6 +64,8 @@ type
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
     procedure Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure Panel1MouseEnter(Sender: TObject);
+    procedure Panel1MouseLeave(Sender: TObject);
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure Panel1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
@@ -344,7 +346,6 @@ procedure TForm1.Panel1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
-  TempTime  : integer;
 begin
   Panel1.SetFocus;
 
@@ -355,11 +356,36 @@ begin
   Chromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), False, 1);
 end;
 
+procedure TForm1.Panel1MouseEnter(Sender: TObject);
+var
+  TempEvent : TCefMouseEvent;
+  TempPoint : TPoint;
+begin
+  TempPoint           := Panel1.ScreenToClient(mouse.CursorPos);
+  TempEvent.x         := TempPoint.x;
+  TempEvent.y         := TempPoint.y;
+  TempEvent.modifiers := EVENTFLAG_NONE;
+  DeviceToLogical(TempEvent, Panel1.ScreenScale);
+  Chromium1.SendMouseMoveEvent(@TempEvent, False);
+end;
+
+procedure TForm1.Panel1MouseLeave(Sender: TObject);
+var
+  TempEvent : TCefMouseEvent;   
+  TempPoint : TPoint;
+begin
+  TempPoint           := Panel1.ScreenToClient(mouse.CursorPos);
+  TempEvent.x         := TempPoint.x;
+  TempEvent.y         := TempPoint.y;
+  TempEvent.modifiers := EVENTFLAG_NONE;
+  DeviceToLogical(TempEvent, Panel1.ScreenScale);
+  Chromium1.SendMouseMoveEvent(@TempEvent, True);
+end;
+
 procedure TForm1.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 var
   TempEvent : TCefMouseEvent;
-  TempTime  : integer;
 begin
   TempEvent.x         := x;
   TempEvent.y         := y;
