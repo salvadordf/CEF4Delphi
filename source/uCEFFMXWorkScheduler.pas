@@ -225,6 +225,11 @@ begin
       if CustomExceptionHandler('TFMXWorkScheduler.DestroyQueueThread', e) then raise;
   end;
 end;
+
+procedure TFMXWorkScheduler.QueueThread_OnPulse(Sender : TObject; aDelay : integer);
+begin
+  ScheduleWork(aDelay);
+end;
 {$ENDIF}
 
 procedure TFMXWorkScheduler.DestroyThread;
@@ -306,11 +311,6 @@ end;
 procedure TFMXWorkScheduler.Thread_OnPulse(Sender: TObject);
 begin
   if not(FStopped) then DoMessageLoopWork;
-end;
-
-procedure TFMXWorkScheduler.QueueThread_OnPulse(Sender : TObject; aDelay : integer);
-begin
-  ScheduleWork(aDelay);
 end;
 
 procedure TFMXWorkScheduler.DoWork;
