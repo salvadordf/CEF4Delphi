@@ -652,6 +652,10 @@ const
   USER_DEFAULT_SCREEN_DPI = 96;
   {$IFEND}
 
+  {$IF NOT DECLARED(INFINITE)}
+  INFINITE = Cardinal($FFFFFFFF);
+  {$IFEND}
+
 implementation
 
 end.

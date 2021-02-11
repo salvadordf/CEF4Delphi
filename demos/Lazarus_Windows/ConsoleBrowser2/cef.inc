@@ -460,9 +460,9 @@
 {$IFDEF FPC}
   {$IFDEF DARWIN}
     {$DEFINE MACOSX}
-  {$IFEND}
+  {$ENDIF}
 {$ELSE}
   {$IFDEF MACOS}
     {$DEFINE MACOSX}
-  {$IFEND}
-{$IFEND}
+  {$ENDIF}
+{$ENDIF}

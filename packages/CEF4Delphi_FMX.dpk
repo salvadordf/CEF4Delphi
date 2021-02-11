@@ -229,7 +229,8 @@ contains
   uCEFPrintJobCallback in '..\source\uCEFPrintJobCallback.pas',
   uCEFLinuxConstants in '..\source\uCEFLinuxConstants.pas',
   uCEFLinuxTypes in '..\source\uCEFLinuxTypes.pas',
-  uCEFLinuxFunctions in '..\source\uCEFLinuxFunctions.pas';
+  uCEFLinuxFunctions in '..\source\uCEFLinuxFunctions.pas',
+  uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas';
 
 end.
 

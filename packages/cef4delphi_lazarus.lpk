@@ -21,8 +21,8 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="88" Minor="2" Release="4"/>
-    <Files Count="196">
+    <Version Major="88" Minor="2" Release="5"/>
+    <Files Count="197">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -823,6 +823,10 @@
         <Filename Value="..\source\uCEFLinuxConstants.pas"/>
         <UnitName Value="uCEFLinuxConstants"/>
       </Item196>
+      <Item197>
+        <Filename Value="..\source\uCEFWorkSchedulerQueueThread.pas"/>
+        <UnitName Value="uCEFWorkSchedulerQueueThread"/>
+      </Item197>
     </Files>
     <RequiredPkgs Count="4">
       <Item1>

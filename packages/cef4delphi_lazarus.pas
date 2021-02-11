@@ -64,7 +64,8 @@ uses
   uCEFViewsFrameworkEvents, uCEFAudioHandler, uCEFDevToolsMessageObserver, 
   uCEFMediaSinkDeviceInfoCallback, uCEFJson, uCEFBitmapBitBuffer, 
   uCEFPrintDialogCallback, uCEFPrintHandler, uCEFPrintJobCallback, 
-  uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, LazarusPackageIntf;
+  uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
+  uCEFWorkSchedulerQueueThread, LazarusPackageIntf;
 
 implementation
 

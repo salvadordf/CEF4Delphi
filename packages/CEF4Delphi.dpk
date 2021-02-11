@@ -221,7 +221,8 @@ contains
   uCEFBitmapBitBuffer in '..\source\uCEFBitmapBitBuffer.pas',
   uCEFPrintHandler in '..\source\uCEFPrintHandler.pas',
   uCEFPrintDialogCallback in '..\source\uCEFPrintDialogCallback.pas',
-  uCEFPrintJobCallback in '..\source\uCEFPrintJobCallback.pas';
+  uCEFPrintJobCallback in '..\source\uCEFPrintJobCallback.pas',
+  uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas';
 
 end.
 
