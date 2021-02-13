@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="64">
+    <Units Count="65">
       <Unit0>
         <Filename Value="SimpleBrowser2.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,12 +20,12 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleBrowser2"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="225"/>
-        <CursorPos X="49" Y="250"/>
+        <TopLine Value="90"/>
+        <CursorPos X="50" Y="123"/>
         <UsageCount Value="52"/>
         <Bookmarks Count="2">
-          <Item0 X="57" Y="243" ID="3"/>
-          <Item1 Y="239" ID="9"/>
+          <Item0 X="57" Y="250" ID="3"/>
+          <Item1 Y="246" ID="9"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -472,8 +472,15 @@
         <TopLine Value="514"/>
         <UsageCount Value="10"/>
       </Unit63>
+      <Unit64>
+        <Filename Value="../../../source/uCEFConstants.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="601"/>
+        <CursorPos X="3" Y="624"/>
+        <UsageCount Value="10"/>
+      </Unit64>
     </Units>
-    <JumpHistory Count="11" HistoryIndex="10">
+    <JumpHistory Count="23" HistoryIndex="22">
       <Position1>
         <Filename Value="usimplebrowser2.pas"/>
         <Caret Line="245" Column="35" TopLine="242"/>
@@ -518,6 +525,54 @@
         <Filename Value="usimplebrowser2.pas"/>
         <Caret Line="76" Column="38" TopLine="51"/>
       </Position11>
+      <Position12>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="260" Column="48" TopLine="234"/>
+      </Position12>
+      <Position13>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="230" Column="3" TopLine="228"/>
+      </Position13>
+      <Position14>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="222" Column="3" TopLine="220"/>
+      </Position14>
+      <Position15>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="184" Column="3" TopLine="176"/>
+      </Position15>
+      <Position16>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="216" Column="3" TopLine="176"/>
+      </Position16>
+      <Position17>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="255" Column="3" TopLine="251"/>
+      </Position17>
+      <Position18>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="90" Column="20" TopLine="73"/>
+      </Position18>
+      <Position19>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="272" Column="3" TopLine="252"/>
+      </Position19>
+      <Position20>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="256" Column="31" TopLine="225"/>
+      </Position20>
+      <Position21>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="265" Column="32" TopLine="247"/>
+      </Position21>
+      <Position22>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="90" Column="25" TopLine="77"/>
+      </Position22>
+      <Position23>
+        <Filename Value="usimplebrowser2.pas"/>
+        <Caret Line="283" Column="24" TopLine="263"/>
+      </Position23>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

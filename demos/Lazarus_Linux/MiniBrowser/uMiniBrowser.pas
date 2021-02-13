@@ -50,6 +50,14 @@ uses
   uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFLinkedWindowParent;
 
 type
+  TJSDialogParams = record
+    originUrl         : ustring;
+    dialogType        : TCefJsDialogType;
+    messageText       : ustring;
+    defaultPromptText : ustring;
+    callback          : ICefJsDialogCallback;
+  end;
+
   { TMiniBrowserFrm }
   TMiniBrowserFrm = class(TForm)
     CEFLinkedWindowParent1: TCEFLinkedWindowParent;
@@ -141,12 +149,14 @@ type
     FBrowserCanGoForward  : boolean;
     FBrowserStatusText    : string;
     FBrowserTitle         : string;
+    FBrowserPendingHTML   : string;
 
     FPrintJobCallback        : ICefPrintJobCallback;
     FPrintJobDocumentName    : ustring;
     FPrintJobPDFFilePath     : ustring;
     FPrintDialogCallback     : ICefPrintDialogCallback;
     FPrintDialogHasSelection : boolean;
+    FJSDialogParams          : TJSDialogParams;
 
 
     procedure SetBrowserAddress(const aValue : string);
@@ -187,6 +197,9 @@ type
     procedure BrowserPrintJobStartedMsg(Data: PtrInt);
     procedure BrowserPrintStartMsg(Data: PtrInt);
     procedure BrowserPrintResetMsg(Data: PtrInt);
+    procedure BrowserShowJSDialogMsg(Data: PtrInt);
+    procedure BrowserLoadErrorMsg(Data: PtrInt);
+    procedure BrowserSetFocusMsg(Data: PtrInt);
 
     property  BrowserAddress       : string              read GetBrowserAddress      write SetBrowserAddress;
     property  BrowserIsLoading     : boolean             read GetBrowserIsLoading    write SetBrowserIsLoading;
@@ -226,9 +239,17 @@ const
   CEF_PRINTJOBSTARTED    = 9;
   CEF_PRINTSTART         = 10;
   CEF_PRINTRESET         = 11;
+  CEF_SHOWJSDIALOG       = 12;
+  CEF_LOADERROR          = 13;
+  CEF_SETFOCUS           = 14;
 
   MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS    = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS    = MENU_ID_USER_FIRST + 2;
+
+// Most of the TChromium events are executed in a CEF thread and this causes
+// issues with most GTK API functions. If you need to update the GUI, store the
+// TChromium event parameters and use SendCompMessage (Application.QueueAsyncCall)
+// to do it in the main application thread.
 
 // Destruction steps
 // =================
@@ -539,6 +560,12 @@ begin
   FPrintDialogCallback   := nil;
   FPrintJobCallback      := nil;
 
+  FJSDialogParams.originUrl         := '';
+  FJSDialogParams.messageText       := '';
+  FJSDialogParams.defaultPromptText := '';
+  FJSDialogParams.dialogType        := JSDIALOGTYPE_ALERT;
+  FJSDialogParams.callback          := nil;
+
   FBrowserCS             := TCriticalSection.Create;
 
   // The MultiBrowserMode store all the browser references in TChromium.
@@ -560,8 +587,9 @@ end;
 
 procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
 begin
-  FPrintDialogCallback := nil;
-  FPrintJobCallback    := nil;
+  FPrintDialogCallback     := nil;
+  FPrintJobCallback        := nil;
+  FJSDialogParams.callback := nil;
 
   FBrowserCS.Free;
 end;
@@ -611,12 +639,16 @@ procedure TMiniBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   if Chromium1.Initialized then
     begin
+      FBrowserCS.Acquire;
+
       if (FPrintJobCallback <> nil) and not(Printer.Printing) then
         begin
           FPrintJobCallback.Cont();
           FPrintJobCallback := nil;
           Timer1.Enabled    := False;
         end;
+
+      FBrowserCS.Release;
     end
    else
     begin
@@ -753,17 +785,21 @@ end;
 procedure TMiniBrowserFrm.Chromium1LoadError(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
   const errorText, failedUrl: ustring);
-var
-  TempString : ustring;
 begin
-  if (errorCode = ERR_ABORTED) then exit;
+  if (errorCode = ERR_ABORTED) or
+     (frame = nil) or
+     not(frame.IsValid) or
+     not(frame.IsMain) then
+    exit;
 
-  TempString := '<html><body bgcolor="white">' +
-                '<h2>Failed to load URL ' + failedUrl +
-                ' with error ' + errorText +
-                ' (' + inttostr(errorCode) + ').</h2></body></html>';
+  FBrowserCS.Acquire;
+  FBrowserPendingHTML := '<html><body bgcolor="white">' +
+                         '<h2>Failed to load URL ' + failedUrl +
+                         ' with error ' + errorText +
+                         ' (' + inttostr(errorCode) + ').</h2></body></html>';
+  FBrowserCS.Release;
 
-  Chromium1.LoadString(TempString, frame);
+  SendCompMessage(CEF_LOADERROR);
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadingStateChange(Sender: TObject;
@@ -825,7 +861,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1GotFocus(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  CEFLinkedWindowParent1.SetFocus;
+  SendCompMessage(CEF_SETFOCUS);
 end;
 
 procedure TMiniBrowserFrm.Chromium1Jsdialog(Sender: TObject;
@@ -834,11 +870,20 @@ procedure TMiniBrowserFrm.Chromium1Jsdialog(Sender: TObject;
   const callback: ICefJsDialogCallback; out suppressMessage: Boolean; out
   Result: Boolean);
 begin
-  // We skip JS dialogs to avoid a crash due to the CEF issue #3087
-  // https://bitbucket.org/chromiumembedded/cef/issues/3087/linux-multi-threaded-message-loop-not
-  // Even with this workaround the application may have issues if a JS dialog is suppressed.
-  suppressMessage := True;
-  Result          := False;
+  FBrowserCS.Acquire;
+
+  FJSDialogParams.originUrl         := originUrl;
+  FJSDialogParams.dialogType        := dialogType;
+  FJSDialogParams.messageText       := messageText;
+  FJSDialogParams.defaultPromptText := defaultPromptText;
+  FJSDialogParams.callback          := callback;
+
+  suppressMessage := False;
+  Result          := True;           
+
+  FBrowserCS.Release;
+
+  SendCompMessage(CEF_SHOWJSDIALOG);
 end;
 
 {%Endregion}
@@ -997,6 +1042,54 @@ begin
   StatusBar1.Panels[0].Text := '';
 end;
 
+procedure TMiniBrowserFrm.BrowserShowJSDialogMsg(Data: PtrInt);
+var
+  TempCaption : string;
+begin
+  FBrowserCS.Acquire;
+
+  if (FJSDialogParams.callback <> nil) then
+    begin
+      TempCaption := 'JavaScript message from : ' + FJSDialogParams.originUrl;
+
+      case FJSDialogParams.dialogType of
+        JSDIALOGTYPE_CONFIRM : FJSDialogParams.callback.cont((MessageDlg(TempCaption + CRLF + CRLF + FJSDialogParams.messageText, mtConfirmation, [mbYes, mbNo], 0, mbYes) = mrYes), '');
+        JSDIALOGTYPE_PROMPT  : FJSDialogParams.callback.cont(True, InputBox(TempCaption, FJSDialogParams.messageText, FJSDialogParams.defaultPromptText));
+        else
+          begin
+            showmessage(TempCaption + CRLF + CRLF + FJSDialogParams.messageText);
+            FJSDialogParams.callback.cont(True, '');
+          end;
+      end;
+    end;
+
+  FJSDialogParams.originUrl         := '';
+  FJSDialogParams.messageText       := '';
+  FJSDialogParams.defaultPromptText := '';
+  FJSDialogParams.dialogType        := JSDIALOGTYPE_ALERT;
+  FJSDialogParams.callback          := nil;
+
+  FBrowserCS.Release;
+end;
+                        
+procedure TMiniBrowserFrm.BrowserLoadErrorMsg(Data: PtrInt);
+var
+  TempHTML : ustring;
+begin
+  FBrowserCS.Acquire;
+  TempHTML            := FBrowserPendingHTML;
+  FBrowserPendingHTML := '';
+  FBrowserCS.Release;
+
+  if (length(TempHTML) > 0) then
+    Chromium1.LoadString(TempHTML);
+end;
+
+procedure TMiniBrowserFrm.BrowserSetFocusMsg(Data: PtrInt);
+begin
+  CEFLinkedWindowParent1.SetFocus;
+end;
+
 procedure TMiniBrowserFrm.SendCompMessage(aMsg : cardinal; Data: PtrInt);
 begin
   case aMsg of
@@ -1013,6 +1106,9 @@ begin
     CEF_PRINTJOBSTARTED    : Application.QueueAsyncCall(@BrowserPrintJobStartedMsg, Data);
     CEF_PRINTSTART         : Application.QueueAsyncCall(@BrowserPrintStartMsg, Data);
     CEF_PRINTRESET         : Application.QueueAsyncCall(@BrowserPrintResetMsg, Data);
+    CEF_SHOWJSDIALOG       : Application.QueueAsyncCall(@BrowserShowJSDialogMsg, Data);
+    CEF_LOADERROR          : Application.QueueAsyncCall(@BrowserLoadErrorMsg, Data);
+    CEF_SETFOCUS           : Application.QueueAsyncCall(@BrowserSetFocusMsg, Data);
   end;
 end;
 {%Endregion}
@@ -1076,11 +1172,15 @@ procedure TMiniBrowserFrm.HandlePrintDialog(const browser: ICefBrowser; hasSelec
 begin
   if (browser <> nil) and (callback <> nil) and Chromium1.IsSameBrowser(browser) then
     begin
+      FBrowserCS.Acquire;
+
       FPrintDialogCallback     := callback;
       FPrintDialogHasSelection := hasSelection;
       aResult                  := True;
 
       SendCompMessage(CEF_SHOWPRINTDIALOG);
+
+      FBrowserCS.Release;
     end
    else
     aResult := False;
@@ -1090,12 +1190,16 @@ procedure TMiniBrowserFrm.HandlePrintJob(const browser: ICefBrowser; const docum
 begin
   if (browser <> nil) and (callback <> nil) and Chromium1.IsSameBrowser(browser) then
     begin
+      FBrowserCS.Acquire;
+
       FPrintJobCallback     := callback;
       FPrintJobDocumentName := documentName;
       FPrintJobPDFFilePath  := PDFFilePath;
       aResult               := True;   
 
       SendCompMessage(CEF_PRINTJOBSTARTED);
+
+      FBrowserCS.Release;
     end
    else
     aResult := False;

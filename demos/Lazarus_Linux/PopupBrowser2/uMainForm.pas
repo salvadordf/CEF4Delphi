@@ -53,6 +53,9 @@ const
   CEF_CREATENEXTCHILD  = $A50;
   CEF_CHILDDESTROYED   = $A51;
   CEF_INITIALIZED      = $A52;
+  CEF_SETFOCUS         = $A53;
+  CEF_TITLECHANGE      = $A54;
+  CEF_CLOSECHILD       = $A55;
 
 type
 
@@ -102,6 +105,7 @@ type
     procedure BrowserCreateNextChildMsg(Data: PtrInt);
     procedure BrowserChildDestroyedMsg(Data: PtrInt);
     procedure BrowserCloseFormMsg(Data: PtrInt);
+    procedure BrowserSetFocusMsg(Data: PtrInt);
 
     property  PopupChildCount : integer  read  GetPopupChildCount;
 
@@ -329,7 +333,7 @@ end;
 procedure TMainForm.Chromium1GotFocus(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  CEFLinkedWindowParent1.SetFocus;
+  SendCompMessage(CEF_SETFOCUS);
 end;
 
 procedure TMainForm.FormActivate(Sender: TObject);
@@ -429,6 +433,11 @@ begin
   Close;
 end;
 
+procedure TMainForm.BrowserSetFocusMsg(Data: PtrInt);
+begin
+  CEFLinkedWindowParent1.SetFocus;
+end;
+
 procedure TMainForm.SendCompMessage(aMsg : cardinal; aData : PtrInt);
 begin
   case aMsg of
@@ -437,6 +446,7 @@ begin
     CEF_CREATENEXTCHILD : Application.QueueAsyncCall(@BrowserCreateNextChildMsg, aData);
     CEF_CHILDDESTROYED  : Application.QueueAsyncCall(@BrowserChildDestroyedMsg, aData);  
     CEF_BEFORECLOSE     : Application.QueueAsyncCall(@BrowserCloseFormMsg, aData);
+    CEF_SETFOCUS        : Application.QueueAsyncCall(@BrowserSetFocusMsg, aData);
   end;
 end;
 

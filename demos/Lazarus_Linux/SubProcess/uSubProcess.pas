@@ -46,10 +46,11 @@ uses
   uCEFChromium, uCEFWindowParent, uCEFConstants, uCEFTypes, uCEFInterfaces,
   uCEFChromiumEvents, uCEFLinkedWindowParent;
 
+const
+  CEF_SETFOCUS = 1;
+
 type
-
   { TForm1 }
-
   TForm1 = class(TForm)
     AddressEdt: TEdit;
     CEFLinkedWindowParent1: TCEFLinkedWindowParent;
@@ -90,6 +91,7 @@ type
 
     procedure BrowserCreatedMsg(Data: PtrInt);
     procedure BrowserCloseFormMsg(Data: PtrInt);
+    procedure BrowserSetFocusMsg(Data: PtrInt);
   public
 
   end;
@@ -238,7 +240,7 @@ end;
 
 procedure TForm1.Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFLinkedWindowParent1.SetFocus;
+  SendCompMessage(CEF_SETFOCUS);
 end;
 
 procedure TForm1.BrowserCreatedMsg(Data: PtrInt);
@@ -252,11 +254,17 @@ begin
   Close;
 end;
 
+procedure TForm1.BrowserSetFocusMsg(Data: PtrInt);
+begin
+  CEFLinkedWindowParent1.SetFocus;
+end;
+
 procedure TForm1.SendCompMessage(aMsg : cardinal);
 begin
   case aMsg of                                       
     CEF_AFTERCREATED : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
     CEF_BEFORECLOSE  : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
+    CEF_SETFOCUS     : Application.QueueAsyncCall(@BrowserSetFocusMsg, 0);
   end;
 end;
 

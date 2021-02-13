@@ -20,6 +20,7 @@
         <ComponentName Value="OSRExternalPumpBrowserFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="171"/>
         <CursorPos Y="999"/>
@@ -102,22 +103,19 @@
       </Unit12>
       <Unit13>
         <Filename Value="..\..\..\source\uCEFWorkSchedulerQueueThread.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="69" Y="11"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit13>
       <Unit14>
         <Filename Value="..\..\..\source\uCEFWorkScheduler.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="48"/>
         <CursorPos X="3" Y="359"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit14>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="uOSRExternalPumpBrowser.pas"/>
         <Caret Line="354" Column="21" TopLine="317"/>
@@ -234,10 +232,6 @@
         <Filename Value="uOSRExternalPumpBrowser.pas"/>
         <Caret Line="999" TopLine="171"/>
       </Position29>
-      <Position30>
-        <Filename Value="..\..\..\source\uCEFWorkScheduler.pas"/>
-        <Caret Line="126" Column="19" TopLine="113"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

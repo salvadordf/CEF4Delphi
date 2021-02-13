@@ -49,13 +49,8 @@ uses
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFWindowParent,
   uCEFWinControl, uCEFLinkedWindowParent, uCEFChromiumEvents;
                                      
-const
-  CEF_CLOSECHILD = $A52;
-
 type
-
   { TChildForm }
-
   TChildForm = class(TForm)
     CEFLinkedWindowParent1: TCEFLinkedWindowParent;
     Chromium1: TChromium;
@@ -80,12 +75,15 @@ type
     FClosing           : boolean;
     FClientInitialized : boolean;
     FPopupFeatures     : TCefPopupFeatures;
+    FCaption           : ustring;
 
     procedure WMMove(var aMessage: TLMMove); message LM_MOVE;
     procedure WMSize(var aMessage: TLMSize); message LM_SIZE;
     procedure WMWindowPosChanged(var aMessage: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
 
     procedure BrowserCloseFormMsg(Data: PtrInt);
+    procedure BrowserSetFocusMsg(Data: PtrInt);
+    procedure BrowserTitleChangeMsg(Data: PtrInt);
 
   public
     procedure AfterConstruction; override;
@@ -167,7 +165,8 @@ end;
 
 procedure TChildForm.Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 begin
-  Caption := title;
+  FCaption := title;
+  SendCompMessage(CEF_TITLECHANGE);
 end;
 
 procedure TChildForm.WMMove(var aMessage : TLMMove);
@@ -253,7 +252,7 @@ end;
 procedure TChildForm.Chromium1GotFocus(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  CEFLinkedWindowParent1.SetFocus;
+  SendCompMessage(CEF_SETFOCUS);
 end;
 
 procedure TChildForm.FormShow(Sender: TObject);
@@ -270,12 +269,24 @@ end;
 procedure TChildForm.BrowserCloseFormMsg(Data: PtrInt);
 begin
   Close;
+end;       
+
+procedure TChildForm.BrowserSetFocusMsg(Data: PtrInt);
+begin
+  CEFLinkedWindowParent1.SetFocus;
+end;
+
+procedure TChildForm.BrowserTitleChangeMsg(Data: PtrInt);
+begin
+  Caption := FCaption;
 end;
 
 procedure TChildForm.SendCompMessage(aMsg : cardinal; aData : PtrInt);
 begin
   case aMsg of
-    CEF_BEFORECLOSE : Application.QueueAsyncCall(@BrowserCloseFormMsg, aData);
+    CEF_BEFORECLOSE : Application.QueueAsyncCall(@BrowserCloseFormMsg, aData);   
+    CEF_SETFOCUS    : Application.QueueAsyncCall(@BrowserSetFocusMsg, aData);
+    CEF_TITLECHANGE : Application.QueueAsyncCall(@BrowserTitleChangeMsg, aData);
   end;
 end;
 

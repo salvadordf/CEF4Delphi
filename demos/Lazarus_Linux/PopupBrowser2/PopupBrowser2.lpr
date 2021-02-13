@@ -51,8 +51,6 @@ uses
   uMainForm in 'uMainForm.pas' {MainForm},
   uChildForm in 'uChildForm.pas' {ChildForm};
 
-//{$R *.res}
-
 begin
   CreateGlobalCEFApp;
 

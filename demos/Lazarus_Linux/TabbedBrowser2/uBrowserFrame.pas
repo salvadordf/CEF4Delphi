@@ -102,6 +102,7 @@ type
       FBrowserCanGoForward  : boolean;
       FBrowserStatusText    : string;       
       FBrowserTitle         : string;
+      FBrowserPendingHTML   : string;
 
       procedure SetBrowserAddress(const aValue : string);     
       procedure SetBrowserIsLoading(aValue : boolean);
@@ -122,6 +123,8 @@ type
       procedure BrowserUpdateLoadingStateMsg(Data: PtrInt);
       procedure BrowserUpdateStatusTextMsg(Data: PtrInt);
       procedure BrowserUpdateTitleMsg(Data: PtrInt);
+      procedure BrowserSetFocusMsg(Data: PtrInt);
+      procedure BrowserLoadErrorMsg(Data: PtrInt);
 
       procedure SendCompMessage(aMsg : cardinal);
 
@@ -154,6 +157,8 @@ const
   CEF_UPDATELOADINGSTATE = 302;
   CEF_UPDATESTATUSTEXT   = 303;    
   CEF_UPDATETITLE        = 304;
+  CEF_SETFOCUS           = 305;
+  CEF_LOADERROR          = 306;
 
 constructor TBrowserFrame.Create(AOwner : TComponent);
 begin
@@ -331,7 +336,7 @@ end;
 procedure TBrowserFrame.Chromium1GotFocus(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  CEFLinkedWindowParent1.SetFocus;
+  SendCompMessage(CEF_SETFOCUS);
 end;
 
 procedure TBrowserFrame.BackBtnClick(Sender: TObject);
@@ -374,17 +379,21 @@ end;
 procedure TBrowserFrame.Chromium1LoadError(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
   const errorText, failedUrl: ustring);
-var
-  TempString : string;
 begin
-  if (errorCode = ERR_ABORTED) then exit;
+  if (errorCode = ERR_ABORTED) or
+     (frame = nil) or
+     not(frame.IsValid) or
+     not(frame.IsMain) then
+    exit;
 
-  TempString := '<html><body bgcolor="white">' +
-                '<h2>Failed to load URL ' + failedUrl +
-                ' with error ' + errorText +
-                ' (' + inttostr(errorCode) + ').</h2></body></html>';
+  FBrowserCS.Acquire;
+  FBrowserPendingHTML := '<html><body bgcolor="white">' +
+                         '<h2>Failed to load URL ' + failedUrl +
+                         ' with error ' + errorText +
+                         ' (' + inttostr(errorCode) + ').</h2></body></html>';
+  FBrowserCS.Release;
 
-  Chromium1.LoadString(UTF8Decode(TempString), frame);
+  SendCompMessage(CEF_LOADERROR);
 end;
 
 procedure TBrowserFrame.Chromium1LoadingStateChange(Sender: TObject;
@@ -470,6 +479,24 @@ begin
     FOnBrowserTitleChange(self, BrowserTitle);
 end;
 
+procedure TBrowserFrame.BrowserSetFocusMsg(Data: PtrInt);
+begin
+  CEFLinkedWindowParent1.SetFocus;
+end;
+
+procedure TBrowserFrame.BrowserLoadErrorMsg(Data: PtrInt);
+var
+  TempHTML : ustring;
+begin
+  FBrowserCS.Acquire;
+  TempHTML            := FBrowserPendingHTML;
+  FBrowserPendingHTML := '';
+  FBrowserCS.Release;
+
+  if (length(TempHTML) > 0) then
+    Chromium1.LoadString(TempHTML);
+end;
+
 procedure TBrowserFrame.SendCompMessage(aMsg : cardinal);
 begin
   case aMsg of
@@ -478,6 +505,8 @@ begin
     CEF_UPDATELOADINGSTATE : Application.QueueAsyncCall(@BrowserUpdateLoadingStateMsg, 0);
     CEF_UPDATESTATUSTEXT   : Application.QueueAsyncCall(@BrowserUpdateStatusTextMsg, 0);
     CEF_UPDATETITLE        : Application.QueueAsyncCall(@BrowserUpdateTitleMsg, 0);
+    CEF_SETFOCUS           : Application.QueueAsyncCall(@BrowserSetFocusMsg, 0);
+    CEF_LOADERROR          : Application.QueueAsyncCall(@BrowserLoadErrorMsg, 0);
   end;
 end;
 
