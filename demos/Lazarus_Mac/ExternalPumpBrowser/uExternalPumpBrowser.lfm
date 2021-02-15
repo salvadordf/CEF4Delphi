@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 768
+  Left = 473
   Height = 589
-  Top = 220
+  Top = 227
   Width = 967
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 589
@@ -55,6 +55,7 @@ object Form1: TForm1
     Chromium = Chromium1
   end
   object Chromium1: TChromium
+    OnGotFocus = Chromium1GotFocus
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose

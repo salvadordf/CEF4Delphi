@@ -38,10 +38,11 @@
 
  (*
  * Include the following files
- * SimpleBrowser2.app/Content/Frameworks/SimpleBrowser2 Helper.app/
- *   files from the SubProcess project / rename exe into SimpleBrowser2 Helper
+ * SimpleBrowser2.app/Contents/Frameworks/ExternalPumpBrowser Helper.app/
+ *   files from the demos/Lazarus_Mac/AppHelper project
+ *   use create_mac_helper.sh
  *
- * SimpleBrowser2.app/Content/Frameworks/
+ * SimpleBrowser2.app/Contents/Frameworks/Chromium Embedded Framework.framework
  *   files from Release folder in cef download
  *
  *)
@@ -56,7 +57,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces,
-  uSimpleBrowser2, // Use before/after unit "Interfaces" to decide if GlobalApp is created before/after Widgetset
+  uExternalPumpBrowser,
   Forms
   { you can add units after this }
   ;

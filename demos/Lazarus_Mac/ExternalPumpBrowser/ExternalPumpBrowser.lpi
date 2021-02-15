@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="12"/>
+    <Version Value="11"/>
     <General>
-      <Flags>
-        <CompatibilityMode Value="True"/>
-      </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="SimpleBrowser2"/>
+      <MainUnit Value="0"/>
+      <Title Value="External Pump Browser"/>
       <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -25,6 +23,7 @@
     </PublishOptions>
     <RunParams>
       <FormatVersion Value="2"/>
+      <Modes Count="0"/>
     </RunParams>
     <RequiredPackages Count="2">
       <Item1>
@@ -36,16 +35,15 @@
     </RequiredPackages>
     <Units Count="3">
       <Unit0>
-        <Filename Value="SimpleBrowser2.lpr"/>
+        <Filename Value="ExternalPumpBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="usimplebrowser2.pas"/>
+        <Filename Value="uExternalPumpBrowser.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="uSimpleBrowser2"/>
       </Unit1>
       <Unit2>
         <Filename Value="interfaces.pas"/>
@@ -57,16 +55,13 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../../../bin/SimpleBrowser2"/>
+      <Filename Value="../../../bin/ExternalPumpBrowser"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
-      <Debugging>
-        <DebugInfoType Value="dsDwarf3"/>
-      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>

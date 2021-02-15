@@ -35,7 +35,7 @@
  *
  *)
 
-unit uSimpleBrowser2;
+unit uExternalPumpBrowser;
 
 {$mode objfpc}{$H+}
 
@@ -44,7 +44,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, LMessages,
   uCEFChromium, uCEFWindowParent, uCEFConstants, uCEFTypes, uCEFInterfaces,
-  uCEFChromiumEvents, uCEFLinkedWindowParent;
+  uCEFChromiumEvents, uCEFLinkedWindowParent, uCEFWorkScheduler;
 
 type
 
@@ -65,6 +65,7 @@ type
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);    
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
     procedure FormCreate(Sender: TObject);   
@@ -74,7 +75,6 @@ type
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
-    procedure dotiemr(Sender: TObject);
                  
   protected
     // Variables to control when can we destroy the form safely
@@ -131,14 +131,23 @@ uses
 
 { TForm1 }
 
-var ft: ttimer;
-procedure CreateGlobalCEFApp;
+procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
-  GlobalCEFApp             := TCefApplication.Create;
-  GlobalCEFApp.BrowserSubprocessPath:='Contents/Frameworks/SimpleBrowser2 Helper.app/Contents/MacOS/SimpleBrowser2 Helper';
-  GlobalCEFApp.ExternalMessagePump:=true;
-  GlobalCEFApp.MultiThreadedMessageLoop:=false;
-//  GlobalCEFApp.SingleProcess:=true;
+  if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+end;
+
+procedure CreateGlobalCEFApp;
+begin                          
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
+
+  GlobalCEFApp                           := TCefApplication.Create;
+  GlobalCEFApp.ExternalMessagePump       := True;
+  GlobalCEFApp.MultiThreadedMessageLoop  := False;
+  GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
 
   {
   GlobalCEFApp.LogFile     := 'cef.log';
@@ -151,6 +160,7 @@ begin
   FCanClose   := False;
   FClosing    := False;
 
+  Chromium1.DefaultURL := UTF8Decode(AddressEdt.Text);
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
@@ -163,18 +173,7 @@ begin
   Timer1.Enabled := False;
   if not(Chromium1.CreateBrowser(CEFLinkedWindowParent1.Handle, CEFLinkedWindowParent1.BoundsRect)) and
      not(Chromium1.Initialized) then
-    Timer1.Enabled := True
-  else begin
-  ft:= TTimer.Create(nil);
-ft.Interval:=2100;
-ft.OnTimer:=@Form1.dotiemr;
-ft.Enabled:=true;
-  end;
-end;
-
-procedure TForm1.dotiemr(Sender: TObject);
-begin
-  GlobalCEFApp.DoMessageLoopWork;
+    Timer1.Enabled := True;
 end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -199,7 +198,7 @@ procedure TForm1.Chromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
-end;      
+end;
 
 procedure TForm1.Chromium1OpenUrlFromTab(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
@@ -242,9 +241,15 @@ begin
   If not(csDesigning in ComponentState) then Chromium1.SetFocus(True);
 end;
 
+// This is a workaround for the CEF issue #2026
+// https://bitbucket.org/chromiumembedded/cef/issues/2026/multiple-major-keyboard-focus-issues-on
+// We use CEFLinkedWindowParent1.OnEnter, CEFLinkedWindowParent1.OnExit and
+// TChromium.OnGotFocus to avoid most of the focus issues.
+// CEFLinkedWindowParent1.TabStop must be TRUE.
 procedure TForm1.CEFLinkedWindowParent1Exit(Sender: TObject);
 begin
-  if not(csDesigning in ComponentState) then Chromium1.SendCaptureLostEvent;
+  if not(csDesigning in ComponentState) then
+    Chromium1.SendCaptureLostEvent;
 end;
 
 procedure TForm1.BrowserCreatedMsg(Data: PtrInt);
@@ -264,6 +269,11 @@ begin
     CEF_AFTERCREATED : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
     CEF_BEFORECLOSE  : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
   end;
+end;
+
+procedure TForm1.Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
+begin
+  CEFLinkedWindowParent1.SetFocus;
 end;
 
 procedure TForm1.WMMove(var Message: TLMMove);
