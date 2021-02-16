@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
       <Title Value="External Pump Browser"/>
@@ -33,7 +36,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="ExternalPumpBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -46,10 +49,15 @@
         <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
-        <Filename Value="interfaces.pas"/>
+        <Filename Value="initsubprocess.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Interfaces"/>
+        <UnitName Value="InitSubProcess"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="globalcefapplication.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GlobalCefApplication"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

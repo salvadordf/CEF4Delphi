@@ -42,6 +42,7 @@ unit uExternalPumpBrowser;
 interface
 
 uses
+  GlobalCefApplication,
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, LMessages,
   uCEFChromium, uCEFWindowParent, uCEFConstants, uCEFTypes, uCEFInterfaces,
   uCEFChromiumEvents, uCEFLinkedWindowParent, uCEFWorkScheduler;
@@ -97,7 +98,6 @@ type
 var
   Form1: TForm1;
 
-procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -130,30 +130,6 @@ uses
   uCEFApplication;
 
 { TForm1 }
-
-procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
-begin
-  if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
-end;
-
-procedure CreateGlobalCEFApp;
-begin                          
-  // TCEFWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalCEFWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
-
-  GlobalCEFApp                           := TCefApplication.Create;
-  GlobalCEFApp.ExternalMessagePump       := True;
-  GlobalCEFApp.MultiThreadedMessageLoop  := False;
-  GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
-
-  {
-  GlobalCEFApp.LogFile     := 'cef.log';
-  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
-  }
-end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
@@ -219,7 +195,10 @@ end;
 procedure TForm1.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
 begin
   // continue closing the browser
-  aAction := cbaClose;
+  if CEFLinkedWindowParent1.DestroyChildWindow then
+    aAction := cbaDelay
+  else
+    aAction := cbaClose;
 end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -295,11 +274,15 @@ begin
 end;
 
 initialization
-  CreateGlobalCEFApp;
-  GlobalCEFApp.StartMainProcess;
+  if GlobalCEFApp = nil then begin
+    CreateGlobalCEFApp;
+    if not GlobalCEFApp.StartMainProcess then
+      halt(0); // exit the subprocess
+  end;
 
 finalization
-    DestroyGlobalCEFApp;
+  (* Destroy from this unit, which is used after "Interfaces". So this happens before the Application object is destroyed *)
+  DestroyGlobalCEFApp;
 
 end.
 
