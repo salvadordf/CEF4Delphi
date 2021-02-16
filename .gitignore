@@ -62,6 +62,9 @@ __history/
 __recovery/
 *.~*
 
+# FPC / Lazarus
+*.lps
+
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
 *.stat
 
