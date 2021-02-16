@@ -1,6 +1,7 @@
 unit GlobalCefApplication;
 
 {$mode ObjFPC}{$H+}
+{$I cef.inc}
 
 interface
 
@@ -32,6 +33,12 @@ begin
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
 
+  {$IFDEF MACOSX}
+  (* Enable the below to prevent being asked for permission to access "Chromium Safe Storage"
+     If set to true, Cookies will not be encrypted.
+  *)
+  //GlobalCEFApp.UseMockKeyChain := True;
+  {$ENDIF}
   {$IFDEF LINUX}
   // This is a workaround for the 'GPU is not usable error' issue :
   // https://bitbucket.org/chromiumembedded/cef/issues/2964/gpu-is-not-usable-error-during-cef

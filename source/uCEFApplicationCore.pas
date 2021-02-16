@@ -191,6 +191,7 @@ type
       FDeviceScaleFactor                 : single;
       FForcedDeviceScaleFactor           : single;
       FDisableZygote                     : boolean;
+      FUseMockKeyChain: boolean;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : ustring;
@@ -493,6 +494,7 @@ type
       property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;          // --devtools-protocol-log-file
       property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
       property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
+      property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;                  // --use-mock-keychain
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -2140,6 +2142,9 @@ begin
 
   if FDisableZygote then
     ReplaceSwitch(aKeys, aValues, '--no-zygote');
+
+  if FUseMockKeyChain then
+    ReplaceSwitch(aKeys, aValues, '--use-mock-keychain');
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
