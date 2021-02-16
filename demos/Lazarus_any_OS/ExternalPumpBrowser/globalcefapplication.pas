@@ -6,7 +6,7 @@ unit GlobalCefApplication;
 interface
 
 uses
-  uCEFApplication, uCEFWorkScheduler;
+  uCEFApplication, uCEFWorkScheduler, FileUtil;
 
 procedure CreateGlobalCEFApp;
 
@@ -32,6 +32,11 @@ begin
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
+
+  {$IFnDEF MACOSX}
+  (* Use AppHelper as subprocess, instead of the main exe *)
+  //GlobalCEFApp.BrowserSubprocessPath := 'AppHelper' + GetExeExt;
+  {$ENDIF}
 
   {$IFDEF MACOSX}
   (* Enable the below to prevent being asked for permission to access "Chromium Safe Storage"

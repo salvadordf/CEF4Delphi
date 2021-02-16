@@ -21,7 +21,9 @@ begin
   // The main process and the subprocess *MUST* have the same GlobalCEFApp
   // properties and events, specially FrameworkDirPath, ResourcesDirPath,
   // LocalesDirPath, cache and UserDataPath paths.
+  {$IFDEF MACOSX}
   GlobalCEFApp.InitLibLocationFromArgs;
+  {$ENDIF}
 
   GlobalCEFApp.StartSubProcess;
   GlobalCEFApp.Free;
