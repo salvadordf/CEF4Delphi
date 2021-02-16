@@ -110,6 +110,7 @@ type
     FBrowserCS       : TCriticalSection;
     FPanelCursor     : TCursor;
     FPanelHint       : ustring;
+    FPanelOffset     : TPoint;
 
     function  GetPanelCursor : TCursor;
     function  GetPanelHint : ustring;
@@ -121,6 +122,7 @@ type
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure DoResize;
+    procedure UpdatePanelOffset;
 
     procedure BrowserCreatedMsg(Data: PtrInt);
     procedure BrowserCloseFormMsg(Data: PtrInt);
@@ -308,7 +310,6 @@ end;
 
 procedure TForm1.FormActivate(Sender: TObject);
 begin
-  // You *MUST* call CreateBrowser to create and initialize the browser.
   // This will trigger the AfterCreated event when the browser is fully
   // initialized and ready to receive commands.
 
@@ -323,6 +324,8 @@ begin
       // We have to update the DeviceScaleFactor here to get the scale of the
       // monitor where the main application form is located.
       GlobalCEFApp.UpdateDeviceScaleFactor;
+      Panel1.UpdateDeviceScaleFactor;
+      UpdatePanelOffset;
 
       // opaque white background color
       Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
@@ -497,20 +500,22 @@ begin
   Result := True;
 end;
 
-procedure TForm1.Chromium1GetScreenPoint(Sender: TObject;
-  const browser: ICefBrowser; viewX, viewY: Integer; var screenX,
-  screenY: Integer; out Result: Boolean);
-var
-  TempScreenPt, TempViewPt : TPoint;
-  TempScale : single;
+procedure TForm1.Chromium1GetScreenPoint(      Sender  : TObject;
+                                         const browser : ICefBrowser;
+                                               viewX   : Integer;
+                                               viewY   : Integer;
+                                         var   screenX : Integer;
+                                         var   screenY : Integer;
+                                         out   Result  : Boolean);
 begin
-  TempScale    := Panel1.ScreenScale;
-  TempViewPt.x := LogicalToDevice(viewX, TempScale);
-  TempViewPt.y := LogicalToDevice(viewY, TempScale);
-  TempScreenPt := Panel1.ClientToScreen(TempViewPt);
-  screenX      := TempScreenPt.x;
-  screenY      := TempScreenPt.y;
-  Result       := True;
+  try
+    FBrowserCS.Acquire;
+    screenX := LogicalToDevice(viewX, Panel1.ScreenScale) + FPanelOffset.x;
+    screenY := LogicalToDevice(viewY, Panel1.ScreenScale) + FPanelOffset.y;
+    Result  := True;
+  finally
+    FBrowserCS.Release;
+  end;
 end;
 
 procedure TForm1.Chromium1GetViewRect(Sender: TObject;
@@ -796,6 +801,20 @@ begin
   end;
 end;     
 
+procedure TForm1.UpdatePanelOffset;
+var
+  TempPoint : TPoint;
+begin
+  try
+    FBrowserCS.Acquire;
+    TempPoint.x  := 0;
+    TempPoint.y  := 0;
+    FPanelOffset := Panel1.ClientToScreen(TempPoint);
+  finally
+    FBrowserCS.Release;
+  end;
+end;
+
 function TForm1.GetPanelCursor : TCursor;
 begin
   try
@@ -839,18 +858,21 @@ end;
 procedure TForm1.WMMove(var Message: TLMMove);
 begin
   inherited;
+  UpdatePanelOffset;
   Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.WMSize(var Message: TLMSize);
 begin
   inherited;
+  UpdatePanelOffset;
   Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.WMWindowPosChanged(var Message: TLMWindowPosChanged);
 begin
   inherited;
+  UpdatePanelOffset;
   Chromium1.NotifyMoveOrResizeStarted;
 end;
 
