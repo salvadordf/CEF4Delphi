@@ -74,6 +74,7 @@ type
       FTransparent             : boolean;
       FOnPaintParentBkg        : TNotifyEvent;
       FForcedDeviceScaleFactor : single;
+      FDeviceScaleFactor       : single;
       FCopyOriginalBuffer      : boolean;
       FMustInitBuffer          : boolean;
       FBuffer                  : TBitmap;
@@ -147,6 +148,7 @@ type
       function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;        
       function    UpdateOrigBufferDimensions(aWidth, aHeight : integer) : boolean;
       function    UpdateOrigPopupBufferDimensions(aWidth, aHeight : integer) : boolean;
+      procedure   UpdateDeviceScaleFactor;
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
       procedure   CreateIMEHandler;
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
@@ -313,6 +315,7 @@ begin
   FOrigBuffer              := nil;
   FOrigPopupBuffer         := nil;
   FOrigPopupScanlineSize   := 0;
+  FDeviceScaleFactor       := 0;
 
   if (GlobalCEFApp <> nil) and (GlobalCEFApp.ForcedDeviceScaleFactor <> 0) then
     FForcedDeviceScaleFactor := GlobalCEFApp.ForcedDeviceScaleFactor
@@ -353,6 +356,7 @@ begin
   inherited AfterConstruction;
 
   CreateSyncObj;
+  UpdateDeviceScaleFactor;
 
   {$IFDEF MSWINDOWS}
     {$IFNDEF FPC}
@@ -874,6 +878,14 @@ begin
     Result := 0;
 end;
 
+procedure TBufferPanel.UpdateDeviceScaleFactor;
+var
+  TempScale : single;
+begin
+  if GetRealScreenScale(TempScale) then
+    FDeviceScaleFactor := TempScale;
+end;
+
 function TBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
   {$IFDEF MSWINDOWS}
 var
@@ -909,38 +921,43 @@ begin
           ReleaseDC(TempHandle, TempDC);
         end;
     end;
-  {$ELSE}
-    {$IFDEF LINUX}
-      {$IFDEF FPC}
-      if (MainThreadID = GetCurrentThreadId()) then
-        begin
-          TempForm := GetParentForm(self, True);
+  {$ENDIF}
 
-          if (TempForm <> nil) then
-            begin
-              TempMonitor := TempForm.Monitor;
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
+    TempForm := GetParentForm(self, True);
 
-              if (TempMonitor <> nil) and (TempMonitor.PixelsPerInch > 0) then
-                begin
-                  aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
-                  Result       := True;
-                end;
-            end;
-        end;
-      {$ENDIF}
+    if (TempForm <> nil) then
+      begin
+        TempMonitor := TempForm.Monitor;
+
+        if (TempMonitor <> nil) and (TempMonitor.PixelsPerInch > 0) then
+          begin
+            aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
+            Result       := True;
+          end;
+      end;
+    {$ELSE}
+    // TODO: Get the screen scale in FMXLinux
+    {$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+    {$IFDEF FPC}
+    // TODO: Get the screen scale in Lazarus/FPC
+    {$ELSE}
+    // TODO: Get the screen scale in FMX
     {$ENDIF}
   {$ENDIF}
 end;
 
 function TBufferPanel.GetScreenScale : single;
-var
-  TempScale : single;
 begin
   if (FForcedDeviceScaleFactor <> 0) then
     Result := FForcedDeviceScaleFactor
    else
-    if GetRealScreenScale(TempScale) then
-      Result := TempScale
+    if (FDeviceScaleFactor <> 0) then
+      Result := FDeviceScaleFactor
      else
       if (GlobalCEFApp <> nil) then
         Result := GlobalCEFApp.DeviceScaleFactor
