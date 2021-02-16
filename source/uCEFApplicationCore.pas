@@ -1209,10 +1209,14 @@ begin
   if (FStatus <> asLoading) then
     Result := False
    else
+    {$IFDEF MACOSX}
+    Result := MultiExeProcessing;
+    {$ELSE}
     if not(FSingleProcess) and (length(FBrowserSubprocessPath) > 0) then
       Result := MultiExeProcessing
      else
       Result := SingleExeProcessing;
+    {$ENDIF}
 end;
 
 // This function can only be called by the executable used for the subprocesses.
