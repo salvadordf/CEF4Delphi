@@ -284,7 +284,10 @@ initialization
 
 finalization
   (* Destroy from this unit, which is used after "Interfaces". So this happens before the Application object is destroyed *)
+  if GlobalCEFWorkScheduler <> nil then
+    GlobalCEFWorkScheduler.StopScheduler;
   DestroyGlobalCEFApp;
+  DestroyGlobalCEFWorkScheduler;
 
 end.
 
