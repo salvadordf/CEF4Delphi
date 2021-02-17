@@ -191,6 +191,7 @@ type
       FDeviceScaleFactor                 : single;
       FForcedDeviceScaleFactor           : single;
       FDisableZygote                     : boolean;
+      FUseMockKeyChain: boolean;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : ustring;
@@ -493,6 +494,7 @@ type
       property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;          // --devtools-protocol-log-file
       property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
       property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
+      property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;                  // --use-mock-keychain
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -1112,8 +1114,8 @@ begin
       try
         TempMissingSubProc := not(CheckSubprocessPath(FBrowserSubprocessPath, FMissingLibFiles));
         TempMissingFrm     := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
-        TempMissingRsc     := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
-        TempMissingLoc     := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
+        TempMissingRsc     := not(CheckResources(ResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
+        TempMissingLoc     := not(CheckLocales(LocalesDirPath, FMissingLibFiles, FLocalesRequired));
 
         if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
           begin
@@ -1209,10 +1211,14 @@ begin
   if (FStatus <> asLoading) then
     Result := False
    else
+    {$IFDEF MACOSX}
+    Result := MultiExeProcessing;
+    {$ELSE}
     if not(FSingleProcess) and (length(FBrowserSubprocessPath) > 0) then
       Result := MultiExeProcessing
      else
       Result := SingleExeProcessing;
+    {$ENDIF}
 end;
 
 // This function can only be called by the executable used for the subprocesses.
@@ -1369,8 +1375,8 @@ begin
   aSettings.log_file                                := CefString(FLogFile);
   aSettings.log_severity                            := FLogSeverity;
   aSettings.javascript_flags                        := CefString(FJavaScriptFlags);
-  aSettings.resources_dir_path                      := CefString(FResourcesDirPath);
-  aSettings.locales_dir_path                        := CefString(FLocalesDirPath);
+  aSettings.resources_dir_path                      := CefString(ResourcesDirPath);
+  aSettings.locales_dir_path                        := CefString(LocalesDirPath);
   aSettings.pack_loading_disabled                   := Ord(FPackLoadingDisabled);
   aSettings.remote_debugging_port                   := FRemoteDebuggingPort;
   aSettings.uncaught_exception_stack_size           := FUncaughtExceptionStackSize;
@@ -2136,6 +2142,9 @@ begin
 
   if FDisableZygote then
     ReplaceSwitch(aKeys, aValues, '--no-zygote');
+
+  if FUseMockKeyChain then
+    ReplaceSwitch(aKeys, aValues, '--use-mock-keychain');
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc

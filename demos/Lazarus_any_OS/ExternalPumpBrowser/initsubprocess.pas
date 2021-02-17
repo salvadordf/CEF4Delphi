@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,39 +35,21 @@
  *
  *)
 
+unit InitSubProcess;
 
- (*
- * Include the following files
- * SimpleBrowser2.app/Content/Frameworks/SimpleBrowser2 Helper.app/
- *   files from the SubProcess project / rename exe into SimpleBrowser2 Helper
- *
- * SimpleBrowser2.app/Content/Frameworks/
- *   files from Release folder in cef download
- *
- *)
+{$mode ObjFPC}{$H+}
 
-
-program SimpleBrowser2;
-
-{$mode objfpc}{$H+}
+interface
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
-  cthreads,
-  {$ENDIF}{$ENDIF}
-  Interfaces,
-  uSimpleBrowser2, // Use before/after unit "Interfaces" to decide if GlobalApp is created before/after Widgetset
-  Forms
-  { you can add units after this }
-  ;
+  GlobalCefApplication, uCEFApplication;
 
-{$R *.res}
+implementation
 
-begin
-  RequireDerivedFormResource:=True;
-  Application.Scaled:=True;
-  Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
-  Application.Run;
+initialization
+  CreateGlobalCEFApp;
+  if not GlobalCEFApp.StartMainProcess then
+    halt(0); // exit the subprocess
+
 end.
 
