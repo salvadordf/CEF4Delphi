@@ -276,8 +276,10 @@ end;
 initialization
   if GlobalCEFApp = nil then begin
     CreateGlobalCEFApp;
-    if not GlobalCEFApp.StartMainProcess then
+    if not GlobalCEFApp.StartMainProcess then begin
+      DestroyGlobalCEFApp;
       halt(0); // exit the subprocess
+    end;
   end;
 
 finalization
