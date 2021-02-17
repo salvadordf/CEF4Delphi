@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <PathDelim Value="\"/>
     <Name Value="CEF4Delphi_Lazarus"/>
     <Type Value="RunAndDesignTime"/>
@@ -22,7 +22,7 @@
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
     <Version Major="88" Minor="2" Release="9"/>
-    <Files Count="199">
+    <Files Count="200">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -835,7 +835,13 @@
         <Filename Value="..\source\uceflazaruscocoa.pas"/>
         <UnitName Value="uceflazaruscocoa"/>
       </Item199>
+      <Item200>
+        <Filename Value="..\source\uceflazarusbrowserwindow.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uceflazarusbrowserwindow"/>
+      </Item200>
     </Files>
+    <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="4">
       <Item1>
         <PackageName Value="dcpcrypt"/>
