@@ -52,7 +52,7 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
-    AddressEdt: TEdit;
+    AddressEdt: TComboBox;
     CEFLinkedWindowParent1: TCEFLinkedWindowParent;
     GoBtn: TButton;
     Chromium1: TChromium;
@@ -86,8 +86,10 @@ type
     procedure WMMove(var Message: TLMMove); message LM_MOVE;
     procedure WMSize(var Message: TLMSize); message LM_SIZE;
     procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
+    {$IFDEF WINDOWS}
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
+    {$ENDIF}
 
     procedure SendCompMessage(aMsg : cardinal);
 
@@ -235,7 +237,7 @@ end;
 
 procedure TForm1.BrowserCreatedMsg(Data: PtrInt);
 begin
-  Caption            := 'Simple Browser 2';
+  Caption            := 'External-Pump Browser 2';
   AddressPnl.Enabled := True;
 end;
 
@@ -275,6 +277,7 @@ begin
   Chromium1.NotifyMoveOrResizeStarted;
 end;
 
+{$IFDEF WINDOWS}
 procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
 begin
   inherited;
@@ -288,6 +291,7 @@ begin
 
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
+{$ENDIF}
 
 initialization
   if GlobalCEFApp = nil then begin

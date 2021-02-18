@@ -32,12 +32,33 @@ object Form1: TForm1
       OnClick = GoBtnClick
       TabOrder = 0
     end
-    object AddressEdt: TEdit
+    object AddressEdt: TComboBox
       Left = 0
-      Height = 23
+      Height = 21
       Top = 0
       Width = 932
       Align = alClient
+      ItemHeight = 13
+      ItemIndex = 0
+      Items.Strings = (
+        'https://www.google.com'
+        'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+        'https://www.w3schools.com/html/html5_video.asp'
+        'http://www.adobe.com/software/flash/about/'
+        'http://isflashinstalled.com/'
+        'chrome://version/'
+        'http://html5test.com/'
+        'https://www.w3schools.com/'
+        'http://webglsamples.org/'
+        'https://get.webgl.org/'
+        'https://www.youtube.com'
+        'https://html5demos.com/drag/'
+        'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+        'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+        'https://www.browserleaks.com/webrtc'
+        'https://frames-per-second.appspot.com/'
+      )
       TabOrder = 1
       Text = 'https://www.google.com'
     end
