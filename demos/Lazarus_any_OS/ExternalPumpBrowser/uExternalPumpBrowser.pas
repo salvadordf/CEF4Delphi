@@ -42,10 +42,10 @@ unit uExternalPumpBrowser;
 interface
 
 uses
-  GlobalCefApplication,
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, LMessages,
-  uCEFChromium, uCEFWindowParent, uCEFConstants, uCEFTypes, uCEFInterfaces,
-  uCEFChromiumEvents, uCEFLinkedWindowParent, uCEFWorkScheduler;
+  GlobalCefApplication, Classes, SysUtils, Messages, Forms, Controls, Graphics,
+  Dialogs, ExtCtrls, StdCtrls, LMessages, uCEFChromium, uCEFWindowParent,
+  uCEFConstants, uCEFTypes, uCEFInterfaces, uCEFChromiumEvents,
+  uCEFLinkedWindowParent, uCEFWorkScheduler;
 
 type
 
@@ -76,7 +76,7 @@ type
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
-                 
+
   protected
     // Variables to control when can we destroy the form safely
     FCanClose  : boolean;  // Set to True in TChromium.OnBeforeClose
@@ -86,6 +86,8 @@ type
     procedure WMMove(var Message: TLMMove); message LM_MOVE;
     procedure WMSize(var Message: TLMSize); message LM_SIZE;
     procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
+    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
+    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
 
     procedure SendCompMessage(aMsg : cardinal);
 
@@ -273,6 +275,20 @@ begin
   Chromium1.NotifyMoveOrResizeStarted;
 end;
 
+procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+end;
+
+procedure TForm1.WMExitMenuLoop(var aMessage: TMessage);
+begin
+  inherited;
+
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
+end;
+
 initialization
   if GlobalCEFApp = nil then begin
     CreateGlobalCEFApp;
@@ -284,7 +300,10 @@ initialization
 
 finalization
   (* Destroy from this unit, which is used after "Interfaces". So this happens before the Application object is destroyed *)
+  if GlobalCEFWorkScheduler <> nil then
+    GlobalCEFWorkScheduler.StopScheduler;
   DestroyGlobalCEFApp;
+  DestroyGlobalCEFWorkScheduler;
 
 end.
 

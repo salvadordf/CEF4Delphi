@@ -42,14 +42,19 @@ unit InitSubProcess;
 interface
 
 uses
-  GlobalCefApplication, uCEFApplication;
+  GlobalCefApplication, uCEFApplication, uCEFWorkScheduler;
 
 implementation
 
 initialization
   CreateGlobalCEFApp;
-  if not GlobalCEFApp.StartMainProcess then
+  if not GlobalCEFApp.StartMainProcess then begin
+    if GlobalCEFWorkScheduler <> nil then
+      GlobalCEFWorkScheduler.StopScheduler;
+    DestroyGlobalCEFApp;
+    DestroyGlobalCEFWorkScheduler;
     halt(0); // exit the subprocess
+  end;
 
 end.
 

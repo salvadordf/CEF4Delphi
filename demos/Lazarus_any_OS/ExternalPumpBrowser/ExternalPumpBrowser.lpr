@@ -38,17 +38,17 @@
 
  (*
  * Include the following files
- * SimpleBrowser2.app/Contents/Frameworks/ExternalPumpBrowser Helper.app/
+ * ExternalPumpBrowser.app/Contents/Frameworks/ExternalPumpBrowser Helper.app/
  *   files from the demos/Lazarus_Mac/AppHelper project
  *   use create_mac_helper.sh
  *
- * SimpleBrowser2.app/Contents/Frameworks/Chromium Embedded Framework.framework
+ * ExternalPumpBrowser.app/Contents/Frameworks/Chromium Embedded Framework.framework
  *   files from Release folder in cef download
  *
  *)
 
 
-program SimpleBrowser2;
+program ExternalPumpBrowser;
 
 {$mode objfpc}{$H+}
 
