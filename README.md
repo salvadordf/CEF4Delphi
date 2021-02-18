@@ -52,6 +52,6 @@ Some icons used in this project belong to these icon packages :
 ## Other resources
 * [Learn Delphi](https://learndelphi.org/)
 * [Essential Pascal by Marco Cantù](https://www.marcocantu.com/epascal/)
-* [FreePascal from SquareOne by Jeff Duntemann](http://www.copperwood.com/pub/FreePascalFromSquareOne.pdf)
+* [FreePascal from Square One by Jeff Duntemann](http://www.copperwood.com/pub/FreePascalFromSquareOne.pdf)
 * [Pascal and Lazarus Books and Magazines](https://wiki.freepascal.org/Pascal_and_Lazarus_Books_and_Magazines)
 * [Lazarus Documentation](https://wiki.freepascal.org/Lazarus_Documentation)
