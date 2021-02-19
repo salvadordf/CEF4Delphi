@@ -86,10 +86,6 @@ type
     procedure WMMove(var Message: TLMMove); message LM_MOVE;
     procedure WMSize(var Message: TLMSize); message LM_SIZE;
     procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
-    {$IFDEF WINDOWS}
-    procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
-    procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
-    {$ENDIF}
 
     procedure SendCompMessage(aMsg : cardinal);
 
@@ -198,11 +194,7 @@ end;
 
 procedure TForm1.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
 begin
-  // continue closing the browser
-  if CEFLinkedWindowParent1.DestroyChildWindow then
-    aAction := cbaDelay
-  else
-    aAction := cbaClose;
+  aAction := cbaClose;
 end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -276,22 +268,6 @@ begin
   inherited;
   Chromium1.NotifyMoveOrResizeStarted;
 end;
-
-{$IFDEF WINDOWS}
-procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
-begin
-  inherited;
-
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
-end;
-
-procedure TForm1.WMExitMenuLoop(var aMessage: TMessage);
-begin
-  inherited;
-
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
-end;
-{$ENDIF}
 
 initialization
   if GlobalCEFApp = nil then begin
