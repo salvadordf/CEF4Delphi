@@ -67,6 +67,11 @@ uses
 
 {$R *.res}
 
+{$IFDEF WIN32}
+  // CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+  {$SetPEFlags $20}
+{$ENDIF}
+
 begin
   RequireDerivedFormResource:=True;
   Application.Title := 'External Pump Browser';
