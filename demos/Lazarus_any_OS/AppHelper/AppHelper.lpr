@@ -8,6 +8,8 @@ program AppHelper;
 
 {$mode objfpc}{$H+}
 
+{$I cef.inc}
+
 uses
   {$IFDEF UNIX}
   cthreads,

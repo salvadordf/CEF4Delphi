@@ -38,6 +38,7 @@
 unit InitSubProcess;
 
 {$mode ObjFPC}{$H+}
+{$I cef.inc}
 
 interface
 
