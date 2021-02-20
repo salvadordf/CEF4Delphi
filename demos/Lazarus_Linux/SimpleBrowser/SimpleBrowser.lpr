@@ -34,21 +34,25 @@
  * this source code without explicit permission.
  *
  *)
- 
+
 program SimpleBrowser;
+
+{$mode objfpc}{$H+}         
 
 {$I cef.inc}
 
 uses
-  Forms, Interfaces,
-  uCEFApplication,
-  uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};
+  {$IFDEF UNIX}{$IFDEF UseCThreads}
+  cthreads,
+  {$ENDIF}{$ENDIF}             
+  // "Interfaces" is a custom unit used to initialize the LCL WidgetSet
+  // We keep the same name to avoid a Lazarus warning.
+  Interfaces, // this includes the LCL widgetset
+  Forms, uSimpleBrowser,
+  { you can add units after this }
+  uCEFApplication;
 
-{$IFDEF WIN32}
-  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-  // If you don't add this flag the rederer process will crash when you try to load large images.
-  {$SetPEFlags $20}
-{$ENDIF}
+{$R *.res}
 
 begin
   GlobalCEFApp := TCefApplication.Create;
@@ -69,11 +73,18 @@ begin
   // Read this https://www.briskbard.com/index.php?lang=en&pageid=cef
   if GlobalCEFApp.StartMainProcess then
     begin
+      // The LCL Widgetset must be initialized after the CEF initialization and
+      // only in the browser process.
+      CustomWidgetSetInitialization;
+      RequireDerivedFormResource:=True;
+      Application.Scaled:=True;
       Application.Initialize;
       Application.CreateForm(TForm1, Form1);
       Application.Run;
-    end;           
+      CustomWidgetSetFinalization;
+    end;
 
   GlobalCEFApp.Free;
   GlobalCEFApp := nil;
 end.
+

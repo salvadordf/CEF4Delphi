@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces,
-  uCEFWinControl, uCEFSentinel;
+  uCEFWinControl;
 
 type
 
@@ -62,15 +62,16 @@ type
     AddressEdt: TEdit;
     GoBtn: TButton;
     Timer1: TTimer;
-    procedure CEFSentinel1Close(Sender: TObject);
+
     procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+
+    procedure FormShow(Sender: TObject);                         
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
+
+    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure ChromiumWindow1Close(Sender: TObject);
-    procedure ChromiumWindow1BeforeClose(Sender: TObject);
   private
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -81,7 +82,7 @@ type
 
   protected
     // Variables to control when can we destroy the form safely
-    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
+    FCanClose : boolean;  // Set to True in TChromium.OnClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
@@ -93,7 +94,6 @@ type
 var
   Form1: TForm1;
 
-procedure CreateGlobalCEFApp;
 
 implementation
 
@@ -110,32 +110,20 @@ uses
 
 // Depending on your internet connection it may take longer than expected.
 
+// This demo uses a TChromiumWindow component which should *ONLY* be used for extremely
+// simple applications with a simple browser. For any other configuration it's
+// recommended using a TChromium with a TCEFWindowParent as shown in the SimpleBrowser2 demo.
+
 // Please check that your firewall or antivirus are not blocking this application
 // or the domain "google.com". If you don't live in the US, you'll be redirected to
 // another domain which will take a little time too.
 
 // Destruction steps
 // =================
-// 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
-// 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
-// 3. TChromiumWindow.OnBeforeClose calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser,
+//    which triggers the TChromiumWindow.OnClose event.
+// 2. The TChromiumWindow.OnClose sets FCanClose to true and sends WM_CLOSE to the form.
                  
-
-procedure CreateGlobalCEFApp;
-begin
-  GlobalCEFApp                     := TCefApplication.Create;
-
-  // In case you want to use custom directories for the CEF binaries, cache and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
-end;
-
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   CanClose := FCanClose;
@@ -151,7 +139,10 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
-  FClosing  := False;
+  FClosing  := False;     
+
+  // The browser will load the URL in AddressEdt initially.
+  ChromiumWindow1.ChromiumBrowser.DefaultURL := AddressEdt.Text;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -168,31 +159,26 @@ begin
   if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
 end;
 
-procedure TForm1.ChromiumWindow1BeforeClose(Sender: TObject);
+procedure TForm1.ChromiumWindow1Close(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TForm1.ChromiumWindow1Close(Sender: TObject);
-begin
-  // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then
-    begin
-      FCanClose := True;
-      PostMessage(Handle, WM_CLOSE, 0, 0);
-    end;
-end;
-
-procedure TForm1.Chromium_OnBeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
-  var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings;
-  var extra_info: ICefDictionaryValue;
-  var noJavascriptAccess: Boolean;
-  var Result: Boolean);
+procedure TForm1.Chromium_OnBeforePopup(      Sender             : TObject;
+                                        const browser            : ICefBrowser;
+                                        const frame              : ICefFrame;
+                                        const targetUrl          : ustring;
+                                        const targetFrameName    : ustring;
+                                              targetDisposition  : TCefWindowOpenDisposition;
+                                              userGesture        : Boolean;
+                                        const popupFeatures      : TCefPopupFeatures;
+                                        var   windowInfo         : TCefWindowInfo;
+                                        var   client             : ICefClient;
+                                        var   settings           : TCefBrowserSettings;
+                                        var   extra_info         : ICefDictionaryValue;
+                                        var   noJavascriptAccess : Boolean;
+                                        var   Result             : Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
@@ -200,22 +186,14 @@ end;
 
 procedure TForm1.ChromiumWindow1AfterCreated(Sender: TObject);
 begin
-  // Now the browser is fully initialized we can load the initial web page.
   Caption            := 'Simple Browser';
   AddressPnl.Enabled := True;
-  GoBtn.Click;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
   // This will load the URL in the edit box
   ChromiumWindow1.LoadURL(AddressEdt.Text);
-end;
-
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

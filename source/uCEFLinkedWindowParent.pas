@@ -50,7 +50,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes, Vcl.Controls,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
@@ -67,10 +67,10 @@ type
   TCEFLinkedWindowParent = class(TCEFWinControl)
     protected
       FChromium               : TChromium;
-                                                   
-      {$IFDEF FPC}{$IFDEF LINUX}
-      procedure SetVisible(Value: Boolean); override;  
-      {$ENDIF}{$ENDIF}
+
+      {$IFDEF FPC}
+      procedure SetVisible(Value: Boolean); override;
+      {$ENDIF}
       procedure SetChromium(aValue : TChromium);
 
       function  GetChildWindowHandle : THandle; override;
@@ -81,9 +81,7 @@ type
 
     public
       constructor Create(AOwner : TComponent); override;
-      {$IFDEF FPC}{$IFDEF LINUX}
-      procedure UpdateSize; override;
-      {$ENDIF}{$ENDIF}
+      procedure   UpdateSize; override;
 
     published
       property Chromium   : TChromium    read FChromium   write SetChromium;
@@ -158,30 +156,40 @@ begin
   if (Operation = opRemove) and (AComponent = FChromium) then FChromium := nil;
 end;
 
-{$IFDEF FPC}{$IFDEF LINUX}   
+{$IFDEF FPC}
 procedure TCEFLinkedWindowParent.SetVisible(Value: Boolean);
+{$IFDEF LINUX}
 var
   TempChanged : boolean;
+{$ENDIF}
 begin
+  {$IFDEF LINUX}
   TempChanged := (Visible <> Value);
+  {$ENDIF}
 
   inherited SetVisible(Value);
 
+  {$IFDEF LINUX}
   if not(csDesigning in ComponentState) and
      TempChanged and
      (FChromium <> nil) and
      FChromium.Initialized then
     FChromium.UpdateXWindowVisibility(Visible);
+  {$ENDIF}
 end;
+{$ENDIF}
 
 procedure TCEFLinkedWindowParent.UpdateSize;
 begin
+  {$IFDEF LINUX}
   if not(csDesigning in ComponentState) and
      (FChromium <> nil) and
      FChromium.Initialized then
     FChromium.UpdateBrowserSize(Left, Top, Width, Height);
+  {$ELSE}
+  inherited UpdateSize;
+  {$ENDIF}
 end;
-{$ENDIF}{$ENDIF}
 
 procedure TCEFLinkedWindowParent.SetChromium(aValue : TChromium);
 begin

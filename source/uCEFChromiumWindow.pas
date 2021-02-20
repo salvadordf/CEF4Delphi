@@ -71,6 +71,9 @@ type
       FOnAfterCreated : TNotifyEvent;
       FUseSetFocus    : boolean;
 
+      {$IFDEF FPC}
+      procedure   SetVisible(Value: Boolean); override;
+      {$ENDIF}
       function    GetBrowserInitialized : boolean;
       {$IFDEF MSWINDOWS}
       function    GetChildWindowHandle : THandle; override;
@@ -84,6 +87,11 @@ type
       procedure   WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure   WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 
+      {$IFDEF FPC}
+      procedure   BrowserAfterCreated(Data: PtrInt);      
+      procedure   BrowserOnCLose(Data: PtrInt);
+      {$ENDIF}
+
    public
       constructor Create(AOwner: TComponent); override;
       procedure   AfterConstruction; override;
@@ -91,9 +99,10 @@ type
       procedure   CloseBrowser(aForceClose : boolean);
       procedure   LoadURL(const aURL : ustring);
       procedure   NotifyMoveOrResizeStarted;
+      procedure   UpdateSize; override;
 
-      property ChromiumBrowser    : TChromium       read FChromium;
-      property Initialized        : boolean         read GetBrowserInitialized;
+      property ChromiumBrowser  : TChromium       read FChromium;
+      property Initialized      : boolean         read GetBrowserInitialized;
 
     published
       property UseSetFocus      : boolean         read FUseSetFocus      write FUseSetFocus default True;
@@ -132,6 +141,10 @@ procedure Register;
 // **                                                     **
 // *********************************************************
 // *********************************************************
+
+// This component should *ONLY* be used in emtremely simple applications with simple browsers.
+// In other cases it's recomended using a TChromium with a TCEFWindowParent as shown in the
+// SimpleBrowser2 demo.
 
 implementation
 
@@ -218,13 +231,17 @@ end;
 procedure TChromiumWindow.WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   aAction := cbaClose;
-  {$IFDEF MSWINDOWS}
   if assigned(FOnClose) then
     begin
-      PostMessage(Handle, CEF_DOONCLOSE, 0, 0);
-      aAction := cbaDelay;
+      {$IFDEF MSWINDOWS}
+        PostMessage(Handle, CEF_DOONCLOSE, 0, 0);
+        aAction := cbaDelay;
+      {$ELSE}
+        {$IFDEF FPC}
+        Application.QueueAsyncCall(@BrowserOnClose, 0);
+        {$ENDIF}
+      {$ENDIF}
     end;
-  {$ENDIF}
 end;
 
 procedure TChromiumWindow.WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -235,7 +252,11 @@ end;
 procedure TChromiumWindow.WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   {$IFDEF MSWINDOWS}
-  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+    PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+  {$ELSE}
+    {$IFDEF FPC}
+    Application.QueueAsyncCall(@BrowserAfterCreated, 0);
+    {$ENDIF}
   {$ENDIF}
 end;
 
@@ -249,6 +270,19 @@ procedure TChromiumWindow.OnAfterCreatedMsg(var aMessage : TMessage);
 begin
   UpdateSize;
   if assigned(FOnAfterCreated) then FOnAfterCreated(self);
+end;
+{$ENDIF}
+
+{$IFDEF FPC}
+procedure TChromiumWindow.BrowserAfterCreated(Data: PtrInt);
+begin
+  UpdateSize;
+  if assigned(FOnAfterCreated) then FOnAfterCreated(self);
+end;
+
+procedure TChromiumWindow.BrowserOnCLose(Data: PtrInt);
+begin
+  if assigned(FOnClose) then FOnClose(self);
 end;
 {$ENDIF}
 
@@ -273,6 +307,41 @@ end;
 procedure TChromiumWindow.NotifyMoveOrResizeStarted;
 begin
   if (FChromium <> nil) then FChromium.NotifyMoveOrResizeStarted;
+end;
+
+{$IFDEF FPC}
+procedure TChromiumWindow.SetVisible(Value: Boolean);
+{$IFDEF LINUX}
+var
+  TempChanged : boolean;
+{$ENDIF}
+begin
+  {$IFDEF LINUX}
+  TempChanged := (Visible <> Value);
+  {$ENDIF}
+
+  inherited SetVisible(Value);
+
+  {$IFDEF LINUX}
+  if not(csDesigning in ComponentState) and
+     TempChanged and
+     (FChromium <> nil) and
+     FChromium.Initialized then
+    FChromium.UpdateXWindowVisibility(Visible);
+  {$ENDIF}
+end;
+{$ENDIF}
+
+procedure TChromiumWindow.UpdateSize;
+begin
+  {$IFDEF LINUX}
+  if not(csDesigning in ComponentState) and
+     (FChromium <> nil) and
+     FChromium.Initialized then
+    FChromium.UpdateBrowserSize(Left, Top, Width, Height);
+  {$ELSE}
+  inherited UpdateSize;
+  {$ENDIF}
 end;
 
 {$IFDEF FPC}
