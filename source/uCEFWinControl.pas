@@ -62,7 +62,7 @@ uses
 type
   TCEFWinControl = class(TWinControl)
     protected
-      function  GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}{LclType.}{$ENDIF}{$ENDIF}THandle; virtual;
+      function  GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; virtual;
       procedure Resize; override;
 
     public
@@ -110,7 +110,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFClient, uCEFConstants;
 
-function TCEFWinControl.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}{LclType.}{$ENDIF}{$ENDIF}THandle;
+function TCEFWinControl.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
 begin
   {$IFDEF MSWINDOWS}
   if not(csDesigning in ComponentState) and HandleAllocated then
