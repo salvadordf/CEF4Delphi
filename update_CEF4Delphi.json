@@ -2,7 +2,7 @@
   "UpdateLazPackages" : [
     {
       "ForceNotify" : true,
-      "InternalVersion" : 261,
+      "InternalVersion" : 262,
       "Name" : "cef4delphi_lazarus.lpk",
       "Version" : "88.2.9.0"
     }

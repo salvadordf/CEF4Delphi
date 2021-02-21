@@ -4922,6 +4922,7 @@ var
   TempPoint  : TCefPoint;
   TempClient : ICefClient;
   TempPPoint : PCefPoint;
+  TempHandle : TCefWindowHandle;
 begin
   try
     try
@@ -4929,7 +4930,10 @@ begin
         begin
           InitializeSettings(FDevBrowserSettings);
           if aWindowInfo = nil then
-            DefaultInitializeDevToolsWindowInfo(0, Rect(0, 0, 0, 0), '')
+            begin
+              InitializeWindowHandle(TempHandle);
+              DefaultInitializeDevToolsWindowInfo(TempHandle, Rect(0, 0, 0, 0), '');
+            end
            else
              if aWindowInfo <> @FDevWindowInfo then
                FDevWindowInfo := aWindowInfo^;

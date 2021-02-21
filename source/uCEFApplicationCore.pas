@@ -352,6 +352,10 @@ type
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       procedure BeforeInitSubProcess; virtual;
+      function  CheckCEFResources : boolean;
+      {$IFDEF MSWINDOWS}
+      function  CheckCEFDLL : boolean;
+      {$ENDIF}
       function  CheckCEFLibrary : boolean;
       procedure RegisterWidevineCDM;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
@@ -637,6 +641,7 @@ uses
     System.Math, System.IOUtils, System.SysUtils,
     {$IFDEF MSWINDOWS}WinApi.TlHelp32, WinApi.PSAPI,{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
+    {$IFDEF MACOS}Posix.Stdio,{$ENDIF}
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
@@ -708,7 +713,11 @@ begin
   FEnableGPU                         := False;
   FCustomCommandLines                := nil;
   FCustomCommandLineValues           := nil;
+  {$IFDEF MACOSX}
+  FCheckCEFFiles                     := False;
+  {$ELSE}
   FCheckCEFFiles                     := True;
+  {$ENDIF}
   FSmoothScrolling                   := STATE_DEFAULT;
   FFastUnload                        := False;
   FDisableSafeBrowsing               := False;
@@ -872,6 +881,7 @@ begin
 end;
 
 {$IFDEF MACOSX}
+{$WARN SYMBOL_PLATFORM OFF}
 // This function checks if argv contains
 // --framework-dir-path=
 // --main-bundle-path=
@@ -882,25 +892,42 @@ procedure TCefApplicationCore.InitLibLocationFromArgs;
 const
   PARAM_FRAME_PATH  = '--framework-dir-path';
   PARAM_BUNDLE_PATH = '--main-bundle-path';
+type
+  PCharArray = Array of PAnsiChar;
 var
   i, l : Integer;
-  p : PChar;
   MBPath : ustring;
+  {$IFDEF FPC}
+  p             : PChar;
+  TempArgCount  : longint;
+  TempArgValues : PPChar;
+  {$ELSE}
+  p             : PAnsiChar;
+  TempArgCount  : integer;
+  TempArgValues : PCharArray;
+  {$ENDIF}
 begin
-  for i := 0 to argc - 1 do
+  {$IFDEF FPC}
+  TempArgCount  := argc;
+  TempArgValues := argv;
+  {$ELSE}
+  TempArgCount  := ArgCount;
+  TempArgValues := PCharArray(ArgValues^);
+  {$ENDIF}
+  for i := 0 to TempArgCount - 1 do
     begin
-      p := strscan(argv[i], '=');
+      p := strscan(TempArgValues[i], '=');
       if p = nil then continue;
-      l := p - argv[i];
+      l := p - TempArgValues[i];
 
       if (l = Length(PARAM_FRAME_PATH)) and
-         (strlcomp(argv[i], PChar(PARAM_FRAME_PATH), Length(PARAM_FRAME_PATH)) = 0) then
-        FrameworkDirPath := PChar(argv[i] + Length(PARAM_FRAME_PATH) + 1);
+         (strlcomp(TempArgValues[i], PAnsiChar(PARAM_FRAME_PATH), Length(PARAM_FRAME_PATH)) = 0) then
+        FrameworkDirPath := PChar(TempArgValues[i] + Length(PARAM_FRAME_PATH) + 1);
 
       if (l = Length(PARAM_BUNDLE_PATH)) and
-         (strlcomp(argv[i], PChar(PARAM_BUNDLE_PATH), Length(PARAM_BUNDLE_PATH)) = 0) then
+         (strlcomp(TempArgValues[i], PAnsiChar(PARAM_BUNDLE_PATH), Length(PARAM_BUNDLE_PATH)) = 0) then
         begin
-          MBPath := PChar(argv[i] + Length(PARAM_BUNDLE_PATH) + 1);
+          MBPath := PChar(TempArgValues[i] + Length(PARAM_BUNDLE_PATH) + 1);
           MainBundlePath := MBPath;
         end;
     end;
@@ -913,6 +940,7 @@ begin
         FrameworkDirPath := MBPath;
     end;
 end;
+{$WARN SYMBOL_PLATFORM ON}
 {$ENDIF}
 
 // This function must only be called by the main executable when the application
@@ -1088,122 +1116,130 @@ begin
   FLocalesDirPath := CustomAbsolutePath(aValue, True);
 end;
 
-function TCefApplicationCore.CheckCEFLibrary : boolean;
+function TCefApplicationCore.CheckCEFResources : boolean;
 var
-  TempString, TempOldDir : string;
+  TempString : string;
   TempMissingFrm, TempMissingRsc, TempMissingLoc, TempMissingSubProc : boolean;
-  {$IFDEF MSWINDOWS}
-  TempMachine : integer;
-  TempVersionInfo : TFileVersionInfo;
-  {$ENDIF}
 begin
-  {$IFDEF MACOSX}
-  exit(true);
-  {$ENDIF}
   Result := False;
 
-  if not(FCheckCEFFiles) or (FProcessType <> ptBrowser) then
-    Result := True
-   else
+  TempMissingSubProc := not(CheckSubprocessPath(FBrowserSubprocessPath, FMissingLibFiles));
+  TempMissingFrm     := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
+  TempMissingRsc     := not(CheckResources(ResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
+  TempMissingLoc     := not(CheckLocales(LocalesDirPath, FMissingLibFiles, FLocalesRequired));
+
+  if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
     begin
-      if FSetCurrentDir then
-        begin
-          TempOldDir := GetCurrentDir;
-          chdir(GetModulePath);
-        end;
-      try
-        TempMissingSubProc := not(CheckSubprocessPath(FBrowserSubprocessPath, FMissingLibFiles));
-        TempMissingFrm     := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
-        TempMissingRsc     := not(CheckResources(ResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
-        TempMissingLoc     := not(CheckLocales(LocalesDirPath, FMissingLibFiles, FLocalesRequired));
+      FStatus    := asErrorMissingFiles;
+      TempString := 'CEF binaries missing !';
 
-        if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
-          begin
-            FStatus    := asErrorMissingFiles;
-            TempString := 'CEF binaries missing !';
+      if (length(FMissingLibFiles) > 0) then
+        TempString := TempString + CRLF + CRLF +
+                      'The missing files are :' + CRLF +
+                      trim(FMissingLibFiles);
 
-            if (length(FMissingLibFiles) > 0) then
-              TempString := TempString + CRLF + CRLF +
-                            'The missing files are :' + CRLF +
-                            trim(FMissingLibFiles);
+      ShowErrorMessageDlg(TempString);
+    end
+   else
+    Result := True;
+end;
 
-            ShowErrorMessageDlg(TempString);
-          end
-         else
-          {$IFDEF MSWINDOWS}
-          if CheckDLLVersion(LibCefPath,
-                             CEF_SUPPORTED_VERSION_MAJOR,
-                             CEF_SUPPORTED_VERSION_MINOR,
-                             CEF_SUPPORTED_VERSION_RELEASE,
-                             CEF_SUPPORTED_VERSION_BUILD) then
-            begin
-              if GetDLLHeaderMachine(LibCefPath, TempMachine) then
-                case TempMachine of
-                  CEF_IMAGE_FILE_MACHINE_I386 :
-                    if Is32BitProcess then
-                      Result := True
-                     else
-                      begin
-                        FStatus    := asErrorDLLVersion;
-                        TempString := 'Wrong CEF binaries !' +
-                                      CRLF + CRLF +
-                                      'Use the 32 bit CEF binaries with 32 bits applications only.';
+{$IFDEF MSWINDOWS}
+function TCefApplicationCore.CheckCEFDLL : boolean;
+var
+  TempString : string;
+  TempMachine : integer;
+  TempVersionInfo : TFileVersionInfo;
+begin
+  Result := False;
 
-                        ShowErrorMessageDlg(TempString);
-                      end;
+  if CheckDLLVersion(LibCefPath,
+                     CEF_SUPPORTED_VERSION_MAJOR,
+                     CEF_SUPPORTED_VERSION_MINOR,
+                     CEF_SUPPORTED_VERSION_RELEASE,
+                     CEF_SUPPORTED_VERSION_BUILD) then
+    begin
+      if GetDLLHeaderMachine(LibCefPath, TempMachine) then
+        case TempMachine of
+          CEF_IMAGE_FILE_MACHINE_I386 :
+            if Is32BitProcess then
+              Result := True
+             else
+              begin
+                FStatus    := asErrorDLLVersion;
+                TempString := 'Wrong CEF binaries !' +
+                              CRLF + CRLF +
+                              'Use the 32 bit CEF binaries with 32 bits applications only.';
 
-                  CEF_IMAGE_FILE_MACHINE_AMD64 :
-                    if not(Is32BitProcess) then
-                      Result := True
-                     else
+                ShowErrorMessageDlg(TempString);
+              end;
 
-                      begin
-                        FStatus    := asErrorDLLVersion;
-                        TempString := 'Wrong CEF binaries !' +
-                                      CRLF + CRLF +
-                                      'Use the 64 bit CEF binaries with 64 bits applications only.';
+          CEF_IMAGE_FILE_MACHINE_AMD64 :
+            if not(Is32BitProcess) then
+              Result := True
+             else
 
-                        ShowErrorMessageDlg(TempString);
-                      end;
+              begin
+                FStatus    := asErrorDLLVersion;
+                TempString := 'Wrong CEF binaries !' +
+                              CRLF + CRLF +
+                              'Use the 64 bit CEF binaries with 64 bits applications only.';
 
-                  else
-                    begin
-                      FStatus    := asErrorDLLVersion;
-                      TempString := 'Unknown CEF binaries !' +
-                                    CRLF + CRLF +
-                                    'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
-                                    CEF4DELPHI_URL;
+                ShowErrorMessageDlg(TempString);
+              end;
 
-                      ShowErrorMessageDlg(TempString);
-                    end;
-                end
-               else
-                Result := True;
-            end
-           else
+          else
             begin
               FStatus    := asErrorDLLVersion;
-              TempString := 'Unsupported CEF version !' +
+              TempString := 'Unknown CEF binaries !' +
                             CRLF + CRLF +
                             'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
                             CEF4DELPHI_URL;
 
-              if GetDLLVersion(LibCefPath, TempVersionInfo) then
-                TempString := TempString + CRLF + CRLF +
-                              'Expected ' + LIBCEF_DLL + ' version : ' + LibCefVersion + CRLF +
-                              'Found ' + LIBCEF_DLL + ' version : ' + FileVersionInfoToString(TempVersionInfo);
-
               ShowErrorMessageDlg(TempString);
             end;
-          {$ELSE}
-            begin
-              Result := True;
-            end;
-          {$ENDIF}
-      finally
-        if FSetCurrentDir then chdir(TempOldDir);
-      end;
+        end
+       else
+        Result := True;
+    end
+   else
+    begin
+      FStatus    := asErrorDLLVersion;
+      TempString := 'Unsupported CEF version !' +
+                    CRLF + CRLF +
+                    'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
+                    CEF4DELPHI_URL;
+
+      if GetDLLVersion(LibCefPath, TempVersionInfo) then
+        TempString := TempString + CRLF + CRLF +
+                      'Expected ' + LIBCEF_DLL + ' version : ' + LibCefVersion + CRLF +
+                      'Found ' + LIBCEF_DLL + ' version : ' + FileVersionInfoToString(TempVersionInfo);
+
+      ShowErrorMessageDlg(TempString);
     end;
+end;
+{$ENDIF}
+
+function TCefApplicationCore.CheckCEFLibrary : boolean;
+var
+  TempOldDir : string;
+begin
+  if not(FCheckCEFFiles) or (FProcessType <> ptBrowser) then
+    begin
+      Result := True;
+      exit;
+    end;
+
+  if FSetCurrentDir then
+    begin
+      TempOldDir := GetCurrentDir;
+      chdir(GetModulePath);
+    end;
+
+  Result := CheckCEFResources
+            {$IFDEF MSWINDOWS}and CheckCEFDLL{$ENDIF};
+
+  if FSetCurrentDir then chdir(TempOldDir);
 end;
 
 function TCefApplicationCore.StartMainProcess : boolean;

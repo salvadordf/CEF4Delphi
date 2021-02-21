@@ -291,6 +291,7 @@ implementation
 
 uses
   {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
+  {$IFDEF MACOS}Posix.Unistd, Posix.Stdio,{$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
@@ -677,7 +678,11 @@ begin
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
+  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
+  {$ELSE}
+  aWindowInfo.view                         := nil;
+  {$ENDIF}
 end;
 
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
@@ -692,7 +697,11 @@ begin
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
+  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
+  {$ELSE}
+  aWindowInfo.view                         := nil;
+  {$ENDIF}
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
@@ -707,7 +716,11 @@ begin
   aWindowInfo.windowless_rendering_enabled := ord(True);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
+  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
+  {$ELSE}
+  aWindowInfo.view                         := nil;
+  {$ENDIF}
 end;
 {$ENDIF}
 
@@ -1528,10 +1541,15 @@ begin
   {$IFDEF MACOSX}
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
 
+  {$IFDEF FPC}
   if copy(Result, Length(Result) + 1 - Length(MAC_APP_POSTFIX) - Length(MAC_APP_SUBPATH)) = MAC_APP_POSTFIX + MAC_APP_SUBPATH then
     SetLength(Result, Length(Result) - Length(MAC_APP_SUBPATH));
 
   Result := CreateAbsolutePath(Result, GetCurrentDirUTF8);
+  {$ELSE}
+  if Result.Contains(MAC_APP_POSTFIX + MAC_APP_SUBPATH) then
+    Result := Result.Remove(Result.LastIndexOf(MAC_APP_SUBPATH));
+  {$ENDIF}
   {$ENDIF}
 end;
 

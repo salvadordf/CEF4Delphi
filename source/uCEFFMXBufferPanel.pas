@@ -370,7 +370,7 @@ var
   TempForm : TCustomForm;
 {$ENDIF}
 begin
-  Result := 0;
+  InitializeWindowHandle(Result);
 
   {$IFDEF MSWINDOWS}
   TempForm := GetParentForm;

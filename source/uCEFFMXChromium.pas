@@ -119,7 +119,7 @@ function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
 var
   TempHandle : TCefWindowHandle;
 begin
-  {$IFDEF MACOSX}
+  {$IFDEF MACOS}
   TempHandle := nil;
   {$ELSE}
   TempHandle := 0;
@@ -128,8 +128,15 @@ begin
 end;
 
 procedure TFMXChromium.InitializeDevToolsWindowInfo;
+var
+  TempHandle : TCefWindowHandle;
 begin
-  DefaultInitializeDevToolsWindowInfo(0, Rect(0, 0, 0, 0), '');
+  {$IFDEF MACOS}
+  TempHandle := nil;
+  {$ELSE}
+  TempHandle := 0;
+  {$ENDIF}
+  DefaultInitializeDevToolsWindowInfo(TempHandle, Rect(0, 0, 0, 0), '');
 end;
 
 procedure TFMXChromium.ShowDevTools(inspectElementAt: TPoint);

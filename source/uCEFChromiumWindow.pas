@@ -75,7 +75,7 @@ type
       procedure   SetVisible(Value: Boolean); override;
       {$ENDIF}
       function    GetBrowserInitialized : boolean;   
-      function    GetChildWindowHandle : {$IFDEF FPC}LclType.{$ENDIF}THandle; override;
+      function    GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; override;
       {$IFDEF MSWINDOWS}
       procedure   WndProc(var aMessage: TMessage); override;
 
@@ -186,7 +186,7 @@ begin
     end;
 end;
 
-function TChromiumWindow.GetChildWindowHandle : {$IFDEF FPC}LclType.{$ENDIF}THandle;
+function TChromiumWindow.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
 begin
   Result := 0;
 
