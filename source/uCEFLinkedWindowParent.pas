@@ -73,7 +73,7 @@ type
       {$ENDIF}
       procedure SetChromium(aValue : TChromium);
 
-      function  GetChildWindowHandle : THandle; override;
+      function  GetChildWindowHandle : {$IFDEF FPC}LclType.{$ENDIF}THandle; override;
       {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage); override;
       {$ENDIF}
@@ -105,7 +105,7 @@ begin
   FChromium := nil;
 end;
 
-function TCEFLinkedWindowParent.GetChildWindowHandle : THandle;
+function TCEFLinkedWindowParent.GetChildWindowHandle : {$IFDEF FPC}LclType.{$ENDIF}THandle;
 begin
   Result := 0;
 

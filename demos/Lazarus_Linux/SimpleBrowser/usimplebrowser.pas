@@ -64,7 +64,7 @@ type
     procedure FormCreate(Sender: TObject);
 
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
-    procedure ChromiumWindow1BeforeClose(Sender: TObject);
+    procedure ChromiumWindow1BeforeClose(Sender: TObject);     
   private
 
   protected
@@ -136,7 +136,7 @@ begin
   FClosing  := False;
 
   // The browser will load the URL in AddressEdt initially.
-  ChromiumWindow1.ChromiumBrowser.DefaultURL := AddressEdt.Text;
+  ChromiumWindow1.ChromiumBrowser.DefaultURL := UTF8Decode(AddressEdt.Text);
 end;
 
 procedure TForm1.Chromium_OnBeforePopup(Sender: TObject;
@@ -160,7 +160,7 @@ end;
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
   // This will load the URL in the edit box
-  ChromiumWindow1.LoadURL(AddressEdt.Text);
+  ChromiumWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
 procedure TForm1.FormActivate(Sender: TObject);

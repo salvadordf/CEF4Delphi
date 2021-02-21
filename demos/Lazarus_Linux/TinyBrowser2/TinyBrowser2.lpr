@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -42,9 +42,7 @@ program TinyBrowser2;
 uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
-  cmem,
   {$ENDIF}{$ENDIF}
-  Interfaces,
   uCEFApplication,
   uTinyBrowser2 in 'uTinyBrowser2.pas';
 
