@@ -75,9 +75,6 @@ type
       function  GetChromium: TChromium; override;
       procedure SetChromium(aValue : TChromium);
 
-      {$IFDEF MSWINDOWS}
-      procedure WndProc(var aMessage: TMessage); override;
-      {$ENDIF}
       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
     public
@@ -104,41 +101,6 @@ begin
 
   FChromium := nil;
 end;
-
-{$IFDEF MSWINDOWS}
-procedure TCEFLinkedWindowParent.WndProc(var aMessage: TMessage);
-var
-  TempHandle : THandle;
-begin
-  case aMessage.Msg of
-    WM_SETFOCUS:
-      begin
-        if (FChromium <> nil) then
-          FChromium.SetFocus(True)
-         else
-          begin
-            TempHandle := ChildWindowHandle;
-            if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
-          end;
-
-        inherited WndProc(aMessage);
-      end;
-
-    WM_ERASEBKGND:
-      if (ChildWindowHandle = 0) then inherited WndProc(aMessage);
-
-    CM_WANTSPECIALKEY:
-      if not(TWMKey(aMessage).CharCode in [VK_LEFT .. VK_DOWN, VK_RETURN, VK_ESCAPE]) then
-        aMessage.Result := 1
-       else
-        inherited WndProc(aMessage);
-
-    WM_GETDLGCODE : aMessage.Result := DLGC_WANTARROWS or DLGC_WANTCHARS;
-
-    else inherited WndProc(aMessage);
-  end;
-end;
-{$ENDIF}
 
 procedure TCEFLinkedWindowParent.Notification(AComponent: TComponent; Operation: TOperation);
 begin

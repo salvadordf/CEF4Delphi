@@ -69,11 +69,15 @@ type
   TCEFLinkedWinControlBase = class(TCEFWinControl)
     protected
       function  GetChromium: TChromium; virtual; abstract;
+      function  GetUseSetFocus: Boolean; virtual;
 
       {$IFDEF FPC}
       procedure SetVisible(Value: Boolean); override;
       {$ENDIF}
       function  GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; override;
+      {$IFDEF MSWINDOWS}
+      procedure WndProc(var aMessage: TMessage); override;
+      {$ENDIF}
 
       property  Chromium   : TChromium    read GetChromium;
     public
@@ -85,6 +89,11 @@ implementation
 { TCEFLinkedWinControlBase }
 
 {$IFDEF FPC}
+
+function TCEFLinkedWinControlBase.GetUseSetFocus: Boolean;
+begin
+  Result := True;
+end;
 
 procedure TCEFLinkedWinControlBase.SetVisible(Value: Boolean);
 {$IFDEF LINUX}
@@ -116,6 +125,41 @@ begin
 
   if (Result = 0) then Result := inherited GetChildWindowHandle;
 end;
+
+{$IFDEF MSWINDOWS}
+procedure TCEFLinkedWinControlBase.WndProc(var aMessage: TMessage);
+var
+  TempHandle : THandle;
+begin
+  case aMessage.Msg of
+    WM_SETFOCUS:
+      begin
+        if GetUseSetFocus and (Chromium <> nil) then
+          Chromium.SetFocus(True)
+         else
+          begin
+            TempHandle := ChildWindowHandle;
+            if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
+          end;
+
+        inherited WndProc(aMessage);
+      end;
+
+    WM_ERASEBKGND:
+      if (ChildWindowHandle = 0) then inherited WndProc(aMessage);
+
+    CM_WANTSPECIALKEY:
+      if not(TWMKey(aMessage).CharCode in [VK_LEFT .. VK_DOWN, VK_RETURN, VK_ESCAPE]) then
+        aMessage.Result := 1
+       else
+        inherited WndProc(aMessage);
+
+    WM_GETDLGCODE : aMessage.Result := DLGC_WANTARROWS or DLGC_WANTCHARS;
+
+    else inherited WndProc(aMessage);
+  end;
+end;
+{$ENDIF}
 
 procedure TCEFLinkedWinControlBase.UpdateSize;
 begin

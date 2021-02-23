@@ -76,10 +76,9 @@ type
       FUseSetFocus    : boolean;
 
       function    GetChromium: TChromium; override;
+      function    GetUseSetFocus: Boolean; override;
       function    GetBrowserInitialized : boolean;
       {$IFDEF MSWINDOWS}
-      procedure   WndProc(var aMessage: TMessage); override;
-
       procedure   OnCloseMsg(var aMessage : TMessage); message CEF_DOONCLOSE;
       procedure   OnAfterCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
       {$ENDIF}
@@ -186,41 +185,6 @@ begin
     end;
 end;
 
-{$IFDEF MSWINDOWS}
-procedure TChromiumWindow.WndProc(var aMessage: TMessage);
-var
-  TempHandle : THandle;
-begin
-  case aMessage.Msg of
-    WM_SETFOCUS:
-      begin
-        if FUseSetFocus and (FChromium <> nil) then
-          FChromium.SetFocus(True)
-         else
-          begin
-            TempHandle := ChildWindowHandle;
-            if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
-          end;
-
-        inherited WndProc(aMessage);
-      end;
-
-    WM_ERASEBKGND:
-      if (ChildWindowHandle = 0) then inherited WndProc(aMessage);
-
-    CM_WANTSPECIALKEY:
-      if not(TWMKey(aMessage).CharCode in [VK_LEFT .. VK_DOWN, VK_RETURN, VK_ESCAPE]) then
-        aMessage.Result := 1
-       else
-        inherited WndProc(aMessage);
-
-    WM_GETDLGCODE : aMessage.Result := DLGC_WANTARROWS or DLGC_WANTCHARS;
-
-    else inherited WndProc(aMessage);
-  end;
-end;
-{$ENDIF}
-
 function TChromiumWindow.GetBrowserInitialized : boolean;
 begin
   Result := (FChromium <> nil) and FChromium.Initialized;
@@ -320,6 +284,11 @@ end;
 function TChromiumWindow.GetChromium: TChromium;
 begin
   result := FChromium;
+end;
+
+function TChromiumWindow.GetUseSetFocus: Boolean;
+begin
+  Result := FUseSetFocus;
 end;
 
 
