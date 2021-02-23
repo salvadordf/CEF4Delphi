@@ -59,11 +59,15 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFWinControl;
+  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes,
+  uCEFWinControl, uCEFLinkedWinControlBase;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
-  TChromiumWindow = class(TCEFWinControl)
+
+  { TChromiumWindow }
+
+  TChromiumWindow = class(TCEFLinkedWinControlBase)
     protected
       FChromium       : TChromium;
       FOnClose        : TNotifyEvent;
@@ -71,11 +75,8 @@ type
       FOnAfterCreated : TNotifyEvent;
       FUseSetFocus    : boolean;
 
-      {$IFDEF FPC}
-      procedure   SetVisible(Value: Boolean); override;
-      {$ENDIF}
-      function    GetBrowserInitialized : boolean;   
-      function    GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; override;
+      function    GetChromium: TChromium; override;
+      function    GetBrowserInitialized : boolean;
       {$IFDEF MSWINDOWS}
       procedure   WndProc(var aMessage: TMessage); override;
 
@@ -101,9 +102,8 @@ type
       procedure   CloseBrowser(aForceClose : boolean);
       procedure   LoadURL(const aURL : ustring);
       procedure   NotifyMoveOrResizeStarted;
-      procedure   UpdateSize; override;
 
-      property ChromiumBrowser  : TChromium       read FChromium;
+      property ChromiumBrowser  : TChromium       read GetChromium;
       property Initialized      : boolean         read GetBrowserInitialized;
 
     published
@@ -184,15 +184,6 @@ begin
       TabStop                  := True;
       {$ENDIF}
     end;
-end;
-
-function TChromiumWindow.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
-begin
-  Result := 0;
-
-  if (FChromium <> nil) then Result := FChromium.WindowHandle;
-
-  if (Result = 0) then Result := inherited GetChildWindowHandle;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -326,39 +317,9 @@ begin
   if (FChromium <> nil) then FChromium.NotifyMoveOrResizeStarted;
 end;
 
-{$IFDEF FPC}
-procedure TChromiumWindow.SetVisible(Value: Boolean);
-{$IFDEF LINUX}
-var
-  TempChanged : boolean;
-{$ENDIF}
+function TChromiumWindow.GetChromium: TChromium;
 begin
-  {$IFDEF LINUX}
-  TempChanged := (Visible <> Value);
-  {$ENDIF}
-
-  inherited SetVisible(Value);
-
-  {$IFDEF LINUX}
-  if not(csDesigning in ComponentState) and
-     TempChanged and
-     (FChromium <> nil) and
-     FChromium.Initialized then
-    FChromium.UpdateXWindowVisibility(Visible);
-  {$ENDIF}
-end;
-{$ENDIF}
-
-procedure TChromiumWindow.UpdateSize;
-begin
-  {$IFDEF LINUX}
-  if not(csDesigning in ComponentState) and
-     (FChromium <> nil) and
-     FChromium.Initialized then
-    FChromium.UpdateBrowserSize(Left, Top, Width, Height);
-  {$ELSE}
-  inherited UpdateSize;
-  {$ENDIF}
+  result := FChromium;
 end;
 
 
