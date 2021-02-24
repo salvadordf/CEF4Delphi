@@ -5184,9 +5184,11 @@ end;
 function TChromiumCore.doOnClose(const browser: ICefBrowser): Boolean;
 var
   TempAction : TCefCloseBrowserAction;
+  id: Integer;
 begin
   Result     := False;
   TempAction := cbaClose;
+  id := browser.Identifier;
 
   // TempAction values
   // -----------------
@@ -5205,11 +5207,11 @@ begin
     cbaDelay :
       begin
         Result := True;
-        SetBrowserIsClosing(browser.Identifier);
+        SetBrowserIsClosing(id);
       end;
 
     else
-      SetBrowserIsClosing(browser.Identifier);
+      SetBrowserIsClosing(id);
   end;
 end;
 
