@@ -291,7 +291,6 @@ begin
   Result := FUseSetFocus;
 end;
 
-
 // This is a workaround for the CEF issue #2026
 // https://bitbucket.org/chromiumembedded/cef/issues/2026/multiple-major-keyboard-focus-issues-on
 // We use ChromiumWindow1.OnEnter, ChromiumWindow1.OnExit and

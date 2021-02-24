@@ -230,7 +230,8 @@ contains
   uCEFLinuxConstants in '..\source\uCEFLinuxConstants.pas',
   uCEFLinuxTypes in '..\source\uCEFLinuxTypes.pas',
   uCEFLinuxFunctions in '..\source\uCEFLinuxFunctions.pas',
-  uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas';
+  uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
+  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas';
 
 end.
 

@@ -1548,7 +1548,7 @@ begin
   Result := CreateAbsolutePath(Result, GetCurrentDirUTF8);
   {$ELSE}
   if Result.Contains(MAC_APP_POSTFIX + MAC_APP_SUBPATH) then
-    Result := Result.Remove(Result.LastIndexOf(MAC_APP_SUBPATH));
+    Result := Result.Remove(Result.IndexOf(MAC_APP_SUBPATH));
   {$ENDIF}
   {$ENDIF}
 end;
@@ -2210,15 +2210,17 @@ begin
     {$IFDEF FPC}
       // TODO: Find a way to get the screen scale in Lazarus/FPC for MacOS
       Result := USER_DEFAULT_SCREEN_DPI;
-    {$ELSE}
-      Result := trunc(MainScreen.backingScaleFactor);
     {$ENDIF}
   {$ENDIF}
 end;
 
 function GetDeviceScaleFactor : single;
 begin
+  {$IFDEF MACOS}
+  Result := MainScreen.backingScaleFactor;
+  {$ELSE}
   Result := GetScreenDPI / USER_DEFAULT_SCREEN_DPI;
+  {$ENDIF}
 end;
 
 function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList) : boolean;

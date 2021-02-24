@@ -222,7 +222,8 @@ contains
   uCEFPrintHandler in '..\source\uCEFPrintHandler.pas',
   uCEFPrintDialogCallback in '..\source\uCEFPrintDialogCallback.pas',
   uCEFPrintJobCallback in '..\source\uCEFPrintJobCallback.pas',
-  uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas';
+  uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
+  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas';
 
 end.
 

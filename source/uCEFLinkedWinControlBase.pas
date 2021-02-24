@@ -53,9 +53,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, {$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Controls,
+    {$IFDEF MSWINDOWS}Windows, Messages,{$ENDIF} Classes, Controls,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf,
     {$ENDIF}
@@ -88,13 +88,12 @@ implementation
 
 { TCEFLinkedWinControlBase }
 
-{$IFDEF FPC}
-
 function TCEFLinkedWinControlBase.GetUseSetFocus: Boolean;
 begin
   Result := True;
 end;
 
+{$IFDEF FPC}
 procedure TCEFLinkedWinControlBase.SetVisible(Value: Boolean);
 {$IFDEF LINUX}
 var

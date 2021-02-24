@@ -828,7 +828,7 @@
         <UnitName Value="uCEFWorkSchedulerQueueThread"/>
       </Item197>
       <Item198>
-        <Filename Value="uCEFLinkedWinControlBase.pas"/>
+        <Filename Value="..\source\uCEFLinkedWinControlBase.pas"/>
         <UnitName Value="uCEFLinkedWinControlBase"/>
       </Item198>
     </Files>

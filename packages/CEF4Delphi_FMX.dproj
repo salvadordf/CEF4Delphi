@@ -346,6 +346,7 @@
         <DCCReference Include="..\source\uCEFLinuxTypes.pas"/>
         <DCCReference Include="..\source\uCEFLinuxFunctions.pas"/>
         <DCCReference Include="..\source\uCEFWorkSchedulerQueueThread.pas"/>
+        <DCCReference Include="..\source\uCEFLinkedWinControlBase.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
