@@ -65,7 +65,7 @@ uses
   uCEFMediaSinkDeviceInfoCallback, uCEFJson, uCEFBitmapBitBuffer, 
   uCEFPrintDialogCallback, uCEFPrintHandler, uCEFPrintJobCallback, 
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
-  uCEFWorkSchedulerQueueThread, LazarusPackageIntf;
+  uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, LazarusPackageIntf;
 
 implementation
 

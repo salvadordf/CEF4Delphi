@@ -51,6 +51,7 @@
 program ExternalPumpBrowser;
 
 {$mode objfpc}{$H+}
+{$I cef.inc}
 
 uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}

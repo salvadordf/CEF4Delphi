@@ -59,11 +59,15 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFWinControl;
+  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes,
+  uCEFWinControl, uCEFLinkedWinControlBase;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
-  TChromiumWindow = class(TCEFWinControl)
+
+  { TChromiumWindow }
+
+  TChromiumWindow = class(TCEFLinkedWinControlBase)
     protected
       FChromium       : TChromium;
       FOnClose        : TNotifyEvent;
@@ -71,14 +75,10 @@ type
       FOnAfterCreated : TNotifyEvent;
       FUseSetFocus    : boolean;
 
-      {$IFDEF FPC}
-      procedure   SetVisible(Value: Boolean); override;
-      {$ENDIF}
-      function    GetBrowserInitialized : boolean;   
-      function    GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; override;
+      function    GetChromium: TChromium; override;
+      function    GetUseSetFocus: Boolean; override;
+      function    GetBrowserInitialized : boolean;
       {$IFDEF MSWINDOWS}
-      procedure   WndProc(var aMessage: TMessage); override;
-
       procedure   OnCloseMsg(var aMessage : TMessage); message CEF_DOONCLOSE;
       procedure   OnAfterCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
       {$ENDIF}
@@ -101,9 +101,8 @@ type
       procedure   CloseBrowser(aForceClose : boolean);
       procedure   LoadURL(const aURL : ustring);
       procedure   NotifyMoveOrResizeStarted;
-      procedure   UpdateSize; override;
 
-      property ChromiumBrowser  : TChromium       read FChromium;
+      property ChromiumBrowser  : TChromium       read GetChromium;
       property Initialized      : boolean         read GetBrowserInitialized;
 
     published
@@ -185,50 +184,6 @@ begin
       {$ENDIF}
     end;
 end;
-
-function TChromiumWindow.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
-begin
-  Result := 0;
-
-  if (FChromium <> nil) then Result := FChromium.WindowHandle;
-
-  if (Result = 0) then Result := inherited GetChildWindowHandle;
-end;
-
-{$IFDEF MSWINDOWS}
-procedure TChromiumWindow.WndProc(var aMessage: TMessage);
-var
-  TempHandle : THandle;
-begin
-  case aMessage.Msg of
-    WM_SETFOCUS:
-      begin
-        if FUseSetFocus and (FChromium <> nil) then
-          FChromium.SetFocus(True)
-         else
-          begin
-            TempHandle := ChildWindowHandle;
-            if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
-          end;
-
-        inherited WndProc(aMessage);
-      end;
-
-    WM_ERASEBKGND:
-      if (ChildWindowHandle = 0) then inherited WndProc(aMessage);
-
-    CM_WANTSPECIALKEY:
-      if not(TWMKey(aMessage).CharCode in [VK_LEFT .. VK_DOWN, VK_RETURN, VK_ESCAPE]) then
-        aMessage.Result := 1
-       else
-        inherited WndProc(aMessage);
-
-    WM_GETDLGCODE : aMessage.Result := DLGC_WANTARROWS or DLGC_WANTCHARS;
-
-    else inherited WndProc(aMessage);
-  end;
-end;
-{$ENDIF}
 
 function TChromiumWindow.GetBrowserInitialized : boolean;
 begin
@@ -326,39 +281,14 @@ begin
   if (FChromium <> nil) then FChromium.NotifyMoveOrResizeStarted;
 end;
 
-{$IFDEF FPC}
-procedure TChromiumWindow.SetVisible(Value: Boolean);
-{$IFDEF LINUX}
-var
-  TempChanged : boolean;
-{$ENDIF}
+function TChromiumWindow.GetChromium: TChromium;
 begin
-  {$IFDEF LINUX}
-  TempChanged := (Visible <> Value);
-  {$ENDIF}
-
-  inherited SetVisible(Value);
-
-  {$IFDEF LINUX}
-  if not(csDesigning in ComponentState) and
-     TempChanged and
-     (FChromium <> nil) and
-     FChromium.Initialized then
-    FChromium.UpdateXWindowVisibility(Visible);
-  {$ENDIF}
+  result := FChromium;
 end;
-{$ENDIF}
 
-procedure TChromiumWindow.UpdateSize;
+function TChromiumWindow.GetUseSetFocus: Boolean;
 begin
-  {$IFDEF LINUX}
-  if not(csDesigning in ComponentState) and
-     (FChromium <> nil) and
-     FChromium.Initialized then
-    FChromium.UpdateBrowserSize(Left, Top, Width, Height);
-  {$ELSE}
-  inherited UpdateSize;
-  {$ENDIF}
+  Result := FUseSetFocus;
 end;
 
 

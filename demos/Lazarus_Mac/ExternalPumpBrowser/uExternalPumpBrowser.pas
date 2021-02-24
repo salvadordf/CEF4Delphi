@@ -38,6 +38,7 @@
 unit uExternalPumpBrowser;
 
 {$mode objfpc}{$H+}
+{$I cef.inc}
 
 interface
 
