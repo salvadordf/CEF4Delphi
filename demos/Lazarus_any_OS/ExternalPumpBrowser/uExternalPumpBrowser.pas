@@ -299,6 +299,7 @@ initialization
     CreateGlobalCEFApp;
     if not GlobalCEFApp.StartMainProcess then begin
       DestroyGlobalCEFApp;
+      DestroyGlobalCEFWorkScheduler;
       halt(0); // exit the subprocess
     end;
   end;
