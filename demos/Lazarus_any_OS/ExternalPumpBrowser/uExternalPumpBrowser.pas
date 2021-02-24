@@ -92,10 +92,9 @@ type
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     {$ENDIF}
 
-    procedure SendCompMessage(aMsg : cardinal);
-
     procedure BrowserCreatedMsg(Data: PtrInt);
-    procedure BrowserCloseFormMsg(Data: PtrInt);
+    procedure BrowserFocusMsg(Data: PtrInt);
+    procedure BrowserBeforeCloseMsg(Data: PtrInt);
   public
 
   end;
@@ -211,13 +210,13 @@ begin
   // We must wait until all browsers trigger the TChromium.OnBeforeClose event
   // in order to close the application safely or we will have shutdown issues.
   FCanClose := True;
-  SendCompMessage(CEF_BEFORECLOSE);
+  Application.QueueAsyncCall(@BrowserBeforeCloseMsg, 0);
 end;
 
 procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can initialize the UI.
-  SendCompMessage(CEF_AFTERCREATED);
+  Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
 end;
 
 procedure TForm1.CEFLinkedWindowParent1Enter(Sender: TObject);
@@ -242,22 +241,19 @@ begin
   AddressPnl.Enabled := True;
 end;
 
-procedure TForm1.BrowserCloseFormMsg(Data: PtrInt);
+procedure TForm1.BrowserFocusMsg(Data: PtrInt);
+begin
+  CEFLinkedWindowParent1.SetFocus;
+end;
+
+procedure TForm1.BrowserBeforeCloseMsg(Data: PtrInt);
 begin
   Close;
 end;
 
-procedure TForm1.SendCompMessage(aMsg : cardinal);
-begin
-  case aMsg of                                       
-    CEF_AFTERCREATED : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
-    CEF_BEFORECLOSE  : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
-  end;
-end;
-
 procedure TForm1.Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
 begin
-  CEFLinkedWindowParent1.SetFocus;
+  Application.QueueAsyncCall(@BrowserFocusMsg, 0);
 end;
 
 procedure TForm1.WMMove(var Message: TLMMove);
