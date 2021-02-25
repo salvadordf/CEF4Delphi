@@ -43,7 +43,9 @@ unit uExternalPumpBrowser;
 interface
 
 uses
-  GlobalCefApplication, Classes, SysUtils, Messages, Forms, Controls, Graphics,
+  GlobalCefApplication,
+  uCEFLazarusCocoa, // required for Cocoa
+  Classes, SysUtils, Messages, Forms, Controls, Graphics,
   Dialogs, ExtCtrls, StdCtrls, LMessages, uCEFChromium, uCEFWindowParent,
   uCEFConstants, uCEFTypes, uCEFInterfaces, uCEFChromiumEvents,
   uCEFLinkedWindowParent, uCEFWorkScheduler;
@@ -194,7 +196,9 @@ end;
 
 procedure TForm1.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
 begin
-  aAction := cbaClose;
+  // continue closing the browser
+  CEFLinkedWindowParent1.DestroyChildWindow;
+  aAction := cbaDelay;
 end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -267,6 +271,7 @@ begin
 end;
 
 initialization
+  AddCrDelegate;
   if GlobalCEFApp = nil then begin
     CreateGlobalCEFApp;
     if not GlobalCEFApp.StartMainProcess then begin

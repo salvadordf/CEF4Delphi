@@ -43,7 +43,9 @@ unit uExternalPumpBrowser;
 interface
 
 uses
-  GlobalCefApplication, Classes, SysUtils, Messages, Forms, Controls, Graphics,
+  GlobalCefApplication,
+  uCEFLazarusCocoa, // required for Cocoa
+  Classes, SysUtils, Messages, Forms, Controls, Graphics,
   Dialogs, ExtCtrls, StdCtrls, LMessages, uCEFChromium, uCEFWindowParent,
   uCEFConstants, uCEFTypes, uCEFInterfaces, uCEFChromiumEvents,
   uCEFLinkedWindowParent, uCEFWorkScheduler;
@@ -291,6 +293,9 @@ end;
 {$ENDIF}
 
 initialization
+  {$IFDEF DARWIN}  // $IFDEF MACOSX
+  AddCrDelegate;
+  {$ENDIF}
   if GlobalCEFApp = nil then begin
     CreateGlobalCEFApp;
     if not GlobalCEFApp.StartMainProcess then begin
