@@ -1,5 +1,4 @@
 package CEF4Delphi_FMX;
-
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
@@ -234,5 +233,4 @@ contains
   uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas';
 
 end.
-
 

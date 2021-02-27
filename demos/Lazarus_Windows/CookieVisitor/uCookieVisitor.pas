@@ -60,10 +60,9 @@ const
   MINIBROWSER_CONTEXTMENU_DELETECOOKIES     = MENU_ID_USER_FIRST + 1;
   MINIBROWSER_CONTEXTMENU_GETCOOKIES        = MENU_ID_USER_FIRST + 2;
   MINIBROWSER_CONTEXTMENU_SETCOOKIE         = MENU_ID_USER_FIRST + 3;
-  MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES  = MENU_ID_USER_FIRST + 4;
+  MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES  = MENU_ID_USER_FIRST + 4; 
+  MINIBROWSER_CONTEXTMENU_DELETECACHE       = MENU_ID_USER_FIRST + 5;
                         
-  BLOCKED_COOKIE_DOMAIN = 'briskbard.com';
-
 type
 
   { TCookieVisitorFrm }
@@ -75,46 +74,24 @@ type
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
+
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1CanSaveCookie(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const request: ICefRequest; const response: ICefResponse;
-      const cookie: PCefCookie; var aResult: boolean);
-    procedure Chromium1CookieSet(Sender: TObject; aSuccess: boolean;
-      aID: integer);
-    procedure Chromium1CookiesVisited(Sender: TObject; const name_, value,
-      domain, path: ustring; secure, httponly, hasExpires: Boolean;
-      const creation, lastAccess, expires: TDateTime; count, total, aID: Integer;
-      same_site: TCefCookieSameSite; priority: Integer;
-      var aDeleteCookie, aResult: Boolean);
+    procedure Chromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
+    procedure Chromium1CookiesDeleted(Sender: TObject; numDeleted: Integer);   
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
+    procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1CookieSet(Sender: TObject; aSuccess: boolean; aID: integer);
     procedure Chromium1CookieVisitorDestroyed(Sender: TObject; aID: integer);
-    procedure FormShow(Sender: TObject);
-    procedure GoBtnClick(Sender: TObject);
-    procedure Chromium1BeforeContextMenu(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; const model: ICefMenuModel);
-    procedure Chromium1ContextMenuCommand(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; commandId: Integer;
-      eventFlags: Cardinal; out Result: Boolean);
-    procedure Chromium1CookiesDeleted(Sender: TObject;
-      numDeleted: Integer);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure Chromium1CookiesVisited(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID: Integer; same_site: TCefCookieSameSite; priority: Integer; var aDeleteCookie, aResult: Boolean);
+
+    procedure GoBtnClick(Sender: TObject); 
     procedure Timer1Timer(Sender: TObject);
-    procedure Chromium1BeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-      var client: ICefClient; var settings: TCefBrowserSettings;
-      var extra_info: ICefDictionaryValue;
-      var noJavascriptAccess: Boolean; var Result: Boolean);
+
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      var aAction : TCefCloseBrowserAction);
-    procedure Chromium1BeforeClose(Sender: TObject;
-      const browser: ICefBrowser);
 
   private
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -205,6 +182,8 @@ end;
 
 procedure TCookieVisitorFrm.CookieSetMsg(var aMessage : TMessage);
 begin
+  Chromium1.FlushCookieStore;
+
   if (aMessage.wParam <> 0) then
     showmessage('Cookie set successfully !')
    else
@@ -226,29 +205,6 @@ end;
 procedure TCookieVisitorFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
-end;
-
-procedure TCookieVisitorFrm.Chromium1CanSaveCookie(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame;
-  const request: ICefRequest; const response: ICefResponse;
-  const cookie: PCefCookie; var aResult: boolean);
-var
-  TempDomain : string;
-begin
-  aResult := True;
-
-  // This event can't block cookies set in JavaScript
-
-  if (cookie               <> nil) and
-     (cookie.domain.str    <> nil) and
-     (cookie.domain.length  > 0)   then
-    begin
-      SetString(TempDomain, cookie.domain.str, cookie.domain.length);
-
-      // TO-DO: See the "Domain Matching" section in the RFC for "HTTP State Management Mechanism".
-      if AnsiEndsStr(BLOCKED_COOKIE_DOMAIN, TempDomain) then
-        aResult := False;
-    end;
 end;
 
 procedure TCookieVisitorFrm.Chromium1CookieSet(Sender: TObject;
@@ -306,7 +262,8 @@ begin
   model.AddSeparator;
   model.AddItem(MINIBROWSER_CONTEXTMENU_GETCOOKIES,       'Visit all cookies');
   model.AddItem(MINIBROWSER_CONTEXTMENU_GETGOOGLECOOKIES, 'Visit cookies from Google');
-  model.AddItem(MINIBROWSER_CONTEXTMENU_SETCOOKIE,        'Set cookie');
+  model.AddItem(MINIBROWSER_CONTEXTMENU_SETCOOKIE,        'Set cookie');  
+  model.AddItem(MINIBROWSER_CONTEXTMENU_DELETECACHE,      'Delete cache');
 end;
 
 procedure TCookieVisitorFrm.Chromium1BeforePopup(Sender: TObject;
@@ -355,20 +312,23 @@ begin
       end;
 
     MINIBROWSER_CONTEXTMENU_SETCOOKIE :
-      Chromium1.SetCookie('https://www.example.com',
-                          'example_cookie_name',
-                          '1234',
-                          '',
-                          '/',
-                          True,
-                          True,
-                          False,
-                          now,
-                          now,
-                          now,
-                          CEF_COOKIE_SAME_SITE_UNSPECIFIED,
-                          CEF_COOKIE_PRIORITY_MEDIUM,
-                          False);
+    Chromium1.SetCookie('https://www.example.com',
+                        'example_cookie_name',
+                        '1234',
+                        '',
+                        '/',
+                        True,
+                        True,
+                        False,
+                        now,
+                        now,
+                        now,
+                        CEF_COOKIE_SAME_SITE_UNSPECIFIED,
+                        CEF_COOKIE_PRIORITY_MEDIUM,
+                        False);
+
+    MINIBROWSER_CONTEXTMENU_DELETECACHE :
+      Chromium1.ExecuteDevToolsMethod(0, 'Network.clearBrowserCache', nil);
   end;
 end;
 
@@ -393,11 +353,6 @@ procedure TCookieVisitorFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
-end;
-
-procedure TCookieVisitorFrm.FormDestroy(Sender: TObject);
-begin
-
 end;
 
 procedure TCookieVisitorFrm.FormShow(Sender: TObject);

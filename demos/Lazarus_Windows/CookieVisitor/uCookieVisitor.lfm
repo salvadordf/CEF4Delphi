@@ -12,10 +12,9 @@ object CookieVisitorFrm: TCookieVisitorFrm
   Font.Name = 'Tahoma'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.0.12.0'
   object AddressBarPnl: TPanel
     Left = 0
     Height = 21
@@ -68,15 +67,14 @@ object CookieVisitorFrm: TCookieVisitorFrm
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
-    OnCanSaveCookie = Chromium1CanSaveCookie
-    left = 32
-    top = 224
+    Left = 32
+    Top = 224
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 32
-    top = 280
+    Left = 32
+    Top = 280
   end
 end

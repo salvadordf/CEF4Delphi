@@ -137,8 +137,7 @@ const
   CEF_CLOSE_BROWSER_MSG    = WM_APP + 3;
   CEF_LOAD_PENDING_URL_MSG = WM_APP + 4;
 
-
-  constructor TCEFBrowserThread.Create(const aDefaultURL : ustring; aWidth, aHeight, aDelayMs : integer; const aScreenScale : single);
+constructor TCEFBrowserThread.Create(const aDefaultURL : ustring; aWidth, aHeight, aDelayMs : integer; const aScreenScale : single);
 begin
   inherited Create(True);
 

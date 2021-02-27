@@ -621,28 +621,32 @@ procedure TChildForm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
-  Chromium1.NotifyMoveOrResizeStarted;
+  if (Chromium1 <> nil) then
+    Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TChildForm.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
-  Chromium1.NotifyMoveOrResizeStarted;
+  if (Chromium1 <> nil) then
+    Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TChildForm.WMCaptureChanged(var aMessage : TMessage);
 begin
   inherited;
 
-  Chromium1.SendCaptureLostEvent;
+  if (Chromium1 <> nil) then
+    Chromium1.SendCaptureLostEvent;
 end;
 
 procedure TChildForm.WMCancelMode(var aMessage : TMessage);
 begin
   inherited;
 
-  Chromium1.SendCaptureLostEvent;
+  if (Chromium1 <> nil) then
+    Chromium1.SendCaptureLostEvent;
 end;
 
 procedure TChildForm.WMEnterMenuLoop(var aMessage: TMessage);
@@ -664,8 +668,11 @@ begin
   if (GlobalCEFApp <> nil) then
     GlobalCEFApp.UpdateDeviceScaleFactor;
 
-  Chromium1.NotifyScreenInfoChanged;
-  Chromium1.WasResized;
+  if (Chromium1 <> nil) then
+    begin
+      Chromium1.NotifyScreenInfoChanged;
+      Chromium1.WasResized;
+    end;
 end;
 
 procedure TChildForm.FormClose(Sender: TObject; var Action: TCloseAction);
