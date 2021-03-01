@@ -47,7 +47,7 @@ uses
   LResources,
   {$ENDIF}
   uCEFApplication, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces, uCEFChromium,
-  uCEFLinkedWinControlBase, Forms, ExtCtrls, Classes, sysutils;
+  uCEFLinkedWinControlBase, uCEFLazApplication, Forms, ExtCtrls, Classes, sysutils;
 
 type
 
@@ -112,6 +112,7 @@ type
       FTimer            : TTimer;
 
       procedure   DoCreateBrowser(Sender: TObject);
+      procedure DoCreateBrowserAfterContext(Sender: TObject);
     protected
       function    GetChromium: TChromium; override;
       procedure   DestroyHandle; override;
@@ -330,7 +331,8 @@ end;
 
 procedure TLazarusBrowserWindow.DoCreateBrowser(Sender: TObject);
 begin
-  FTimer.Enabled := False;
+  if FTimer <> nil then
+    FTimer.Enabled := False;
 
   case FChromiumWrapper.FChromiumState of
     csCreatingBrowser, csHasBrowser: begin
@@ -351,9 +353,24 @@ begin
     if GlobalCEFApp.ExternalMessagePump then
       GlobalCEFApp.DoMessageLoopWork;
 
+    if FTimer = nil then
+      FTimer := TTimer.Create(Self);
+    FTimer.OnTimer := @DoCreateBrowser;
     FTimer.Interval := 100;
     FTimer.Enabled  := True;
   end;
+end;
+
+procedure TLazarusBrowserWindow.DoCreateBrowserAfterContext(Sender: TObject);
+begin
+  {$IFDEF LINUX}
+  FTimer := TTimer.Create(Self);
+  FTimer.Interval := 20;
+  FTimer.OnTimer := @DoCreateBrowser;
+  FTimer.Enabled := True;
+  {$ELSE}
+    DoCreateBrowser(nil);
+  {$ENDIF}
 end;
 
 function TLazarusBrowserWindow.GetChromium: TChromium;
@@ -368,10 +385,11 @@ begin
     (* On Windows we can create the browser immediately.
        But at least on Linux, we need to wait
     *)
-    FTimer := TTimer.Create(Self);
-    FTimer.Interval := 20;
-    FTimer.OnTimer := @DoCreateBrowser;
-    FTimer.Enabled := True;
+
+    if GlobalCEFApp is TCefLazApplication then
+      TCefLazApplication(GlobalCEFApp).AddContextInitializedHandler(@DoCreateBrowserAfterContext)
+    else
+      DoCreateBrowserAfterContext(nil);
   end;
 end;
 

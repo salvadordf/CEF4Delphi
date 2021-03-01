@@ -51,7 +51,7 @@ unit GlobalCefApplication;
 interface
 
 uses
-  uCEFApplication, uCEFWorkScheduler, FileUtil;
+  uCEFApplication, uCEFWorkScheduler, uCEFLazApplication, FileUtil;
 
 procedure CreateGlobalCEFApp;
 
@@ -75,7 +75,8 @@ begin
   GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
   {$ENDIF}
 
-  GlobalCEFApp                           := TCefApplication.Create;
+  GlobalCEFApp                           := TCefLazApplication.Create;
+  GlobalCEFApp.CheckCEFFiles := False;
   {$IFDEF USE_MULTI_THREAD_LOOP}
   // On Windows/Linux CEF can use threads for the message-loop
   GlobalCEFApp.MultiThreadedMessageLoop  := True;
