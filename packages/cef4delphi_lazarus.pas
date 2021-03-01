@@ -65,7 +65,8 @@ uses
   uCEFMediaSinkDeviceInfoCallback, uCEFJson, uCEFBitmapBitBuffer, 
   uCEFPrintDialogCallback, uCEFPrintHandler, uCEFPrintJobCallback, 
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
-  uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, LazarusPackageIntf;
+  uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa,
+  uCEFLazarusBrowserWindow, LazarusPackageIntf;
 
 implementation
 
@@ -88,6 +89,7 @@ begin
   RegisterUnit('uCEFPanelComponent', @uCEFPanelComponent.Register);
   RegisterUnit('uCEFScrollViewComponent', @uCEFScrollViewComponent.Register);
   RegisterUnit('uCEFTextfieldComponent', @uCEFTextfieldComponent.Register);
+  RegisterUnit('uCEFLazarusBrowserWindow', @uCEFLazarusBrowserWindow.Register);
 end;
 
 initialization
