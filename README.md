@@ -1,5 +1,5 @@
 # CEF4Delphi [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Use%20CEF4Delphi%20to%20embed%20Chromium-based%20browsers%20in%20your%20application&url=https://github.com/salvadordf/CEF4Delphi&via=briskbard&hashtags=cef4delphi,delphi,lazarus,fpc)
-CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with [Delphi](https://www.embarcadero.com/products/delphi/starter) or [Lazarus/FPC](https://www.lazarus-ide.org/) for Windows and Linux.
+CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with [Delphi](https://www.embarcadero.com/products/delphi/starter) or [Lazarus/FPC](https://www.lazarus-ide.org/) for Windows, Linux and MacOS.
 
 CEF4Delphi is based on DCEF3 and fpCEF3. The original license of those projects still applies to CEF4Delphi. Read the license terms in the first lines of any *.pas file.
 
@@ -11,11 +11,11 @@ The CEF binaries used by CEF4Delphi are available for download at spotify :
 * [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_linux64.tar.bz2)
 * [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_linuxarm.tar.bz2)
 * [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_linuxarm64.tar.bz2)
+* [MacOS x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_macosx64.tar.bz2)
 
 CEF4Delphi was developed and tested on Delphi 10.4.2 and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2, Delphi 10.3 and Lazarus 2.0.12/FPC 3.2.0. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
 
 CEF4Delphi demos have been tested in Windows 7, Windows 10, Linux Mint 20.1 and Raspberry Pi OS.
-MacOS demos are considered experimental at this moment.
 
 ## Links
 * [Installation instructions and more information about CEF4Delphi](https://www.briskbard.com/index.php?lang=en&pageid=cef)
