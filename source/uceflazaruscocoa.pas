@@ -36,11 +36,11 @@ uses
 {$IFDEF DARWIN}  // $IFDEF MACOSX
 type
   CrAppProtocol = objcprotocol
-    function isHandlingSendEvent: objcbool; message 'isHandlingSendEvent';
+    function isHandlingSendEvent: LCLObjCBoolean; message 'isHandlingSendEvent';
   end;
 
   CrAppControlProtocol = objcprotocol(CrAppProtocol)
-    procedure setHandlingSendEvent(handlingSendEvent: objcbool); message 'setHandlingSendEvent:';
+    procedure setHandlingSendEvent(handlingSendEvent: LCLObjCBoolean); message 'setHandlingSendEvent:';
   end;
 
   TCrCocoaApplication = objcclass(TCocoaApplication, CrAppControlProtocol)
