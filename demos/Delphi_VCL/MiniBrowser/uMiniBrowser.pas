@@ -138,6 +138,7 @@ type
     akescreenshot1: TMenuItem;
     Useragent1: TMenuItem;
     ClearallstorageforcurrentURL1: TMenuItem;
+    CEFinfo1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -206,6 +207,7 @@ type
     procedure akescreenshot1Click(Sender: TObject);
     procedure Useragent1Click(Sender: TObject);
     procedure ClearallstorageforcurrentURL1Click(Sender: TObject);
+    procedure CEFinfo1Click(Sender: TObject);
 
   protected
     FDevToolsMsgID    : integer;
@@ -320,6 +322,19 @@ var
 begin
   TempURL := inputbox('Resolve host', 'URL :', 'http://google.com');
   if (length(TempURL) > 0) then Chromium1.ResolveHost(TempURL);
+end;
+
+procedure TMiniBrowserFrm.CEFinfo1Click(Sender: TObject);
+var
+  TempInfo : string;
+begin
+  TempInfo := 'libcef.dll : '         + CRLF + GlobalCEFApp.LibCefVersion    + CRLF + CRLF +
+              'chrome_elf.dll : '     + CRLF + GlobalCEFApp.ChromeVersion    + CRLF + CRLF +
+              'Universal API hash : ' + CRLF + GlobalCEFApp.ApiHashUniversal + CRLF + CRLF +
+              'Platform API hash : '  + CRLF + GlobalCEFApp.ApiHashPlatform  + CRLF + CRLF +
+              'Commit API hash : '    + CRLF + GlobalCEFApp.ApiHashCommit;
+
+  showmessage(TempInfo);
 end;
 
 procedure TMiniBrowserFrm.Chromium1AddressChange(Sender: TObject;

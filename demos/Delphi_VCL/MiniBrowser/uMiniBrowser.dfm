@@ -387,6 +387,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Memory info...'
       OnClick = Memoryinfo1Click
     end
+    object CEFinfo1: TMenuItem
+      Caption = 'CEF info...'
+      OnClick = CEFinfo1Click
+    end
   end
   object SaveDialog1: TSaveDialog
     Left = 32

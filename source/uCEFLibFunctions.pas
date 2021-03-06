@@ -61,6 +61,18 @@ uses
   uCEFTypes;
 
 var
+  // *********************************
+  // *********** API HASH ************
+  // *********************************
+
+  // /include/cef_api_hash.h
+  cef_api_hash               : function(entry: integer): PAnsiChar; cdecl;
+
+
+  // *********************************
+  // ************* CAPI **************
+  // *********************************
+
   // /include/capi/cef_app_capi.h
   cef_initialize             : function(const args: PCefMainArgs; const settings: PCefSettings; application: PCefApp; windows_sandbox_info: Pointer): Integer; cdecl;
   cef_shutdown               : procedure; cdecl;
@@ -236,7 +248,7 @@ var
 
 
   // *********************************
-  // ************* VIEWS *************
+  // ********** CAPI VIEWS ***********
   // *********************************
 
   // /include/capi/views/cef_browser_view_capi.h

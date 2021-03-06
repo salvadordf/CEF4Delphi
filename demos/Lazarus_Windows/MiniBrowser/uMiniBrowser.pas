@@ -88,6 +88,7 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
     NavControlPnl: TPanel;
     NavButtonPnl: TPanel;
     StatusPnl: TPanel;
@@ -142,6 +143,7 @@ type
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
+    procedure MenuItem5Click(Sender: TObject);
     procedure ReloadBtnClick(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
@@ -375,6 +377,19 @@ begin
   if (length(TempLanguageList) = 0) then TempLanguageList := GlobalCEFApp.AcceptLanguageList;
 
   Chromium1.AcceptLanguageList := InputBox('Language', 'Accept language list', TempLanguageList);
+end;
+
+procedure TMiniBrowserFrm.MenuItem5Click(Sender: TObject);
+var
+  TempInfo : string;
+begin
+  TempInfo := 'libcef.dll : '         + CRLF + GlobalCEFApp.LibCefVersion    + CRLF + CRLF +
+              'chrome_elf.dll : '     + CRLF + GlobalCEFApp.ChromeVersion    + CRLF + CRLF +
+              'Universal API hash : ' + CRLF + GlobalCEFApp.ApiHashUniversal + CRLF + CRLF +
+              'Platform API hash : '  + CRLF + GlobalCEFApp.ApiHashPlatform  + CRLF + CRLF +
+              'Commit API hash : '    + CRLF + GlobalCEFApp.ApiHashCommit;
+
+  showmessage(TempInfo);
 end;
 
 procedure TMiniBrowserFrm.GoBtnClick(Sender: TObject);

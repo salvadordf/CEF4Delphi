@@ -62,6 +62,8 @@ type
   TMiniBrowserFrm = class(TForm)
     CEFLinkedWindowParent1: TCEFLinkedWindowParent;
     HideDevTools1: TMenuItem;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
     NavControlPnl: TPanel;
     NavButtonPnl: TPanel;
     PrintDialog1: TPrintDialog;
@@ -118,6 +120,7 @@ type
     procedure CEFLinkedWindowParent1Enter(Sender: TObject);
     procedure CEFLinkedWindowParent1Exit(Sender: TObject);
     procedure HideDevTools1Click(Sender: TObject);
+    procedure MenuItem2Click(Sender: TObject);
 
     procedure Timer1Timer(Sender: TObject);
 
@@ -509,6 +512,20 @@ procedure TMiniBrowserFrm.HideDevTools1Click(Sender: TObject);
 begin
   HideDevTools;
 end;
+
+procedure TMiniBrowserFrm.MenuItem2Click(Sender: TObject);
+var
+  TempInfo : string;
+begin
+  TempInfo := 'CEF : '                + CRLF + GlobalCEFApp.LibCefVersion    + CRLF + CRLF +
+              'Chromium : '           + CRLF + GlobalCEFApp.ChromeVersion    + CRLF + CRLF +
+              'Universal API hash : ' + CRLF + GlobalCEFApp.ApiHashUniversal + CRLF + CRLF +
+              'Platform API hash : '  + CRLF + GlobalCEFApp.ApiHashPlatform  + CRLF + CRLF +
+              'Commit API hash : '    + CRLF + GlobalCEFApp.ApiHashCommit;
+
+  showmessage(TempInfo);
+end;
+
 {%Endregion}
 
 {Form events}

@@ -15,7 +15,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '2.0.12.0'
   object Splitter1: TSplitter
     Left = 1179
     Height = 663
@@ -348,6 +348,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object Memoryinfo1: TMenuItem
       Caption = 'Memory info...'
       OnClick = Memoryinfo1Click
+    end
+    object MenuItem5: TMenuItem
+      Caption = 'CEF info...'
+      OnClick = MenuItem5Click
     end
   end
   object SaveDialog1: TSaveDialog

@@ -64,15 +64,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 88;
-  CEF_SUPPORTED_VERSION_MINOR   = 2;
-  CEF_SUPPORTED_VERSION_RELEASE = 9;
+  CEF_SUPPORTED_VERSION_MAJOR   = 89;
+  CEF_SUPPORTED_VERSION_MINOR   = 0;
+  CEF_SUPPORTED_VERSION_RELEASE = 6;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 88;
+  CEF_CHROMEELF_VERSION_MAJOR   = 89;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4324;
-  CEF_CHROMEELF_VERSION_BUILD   = 182;
+  CEF_CHROMEELF_VERSION_RELEASE = 4389;
+  CEF_CHROMEELF_VERSION_BUILD   = 72;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -284,11 +284,15 @@ type
       function  GetTotalSystemMemory : uint64;
       function  GetAvailableSystemMemory : uint64;
       function  GetSystemMemoryLoad : cardinal;
+      function  GetApiHashUniversal : ustring;
+      function  GetApiHashPlatform : ustring;
+      function  GetApiHashCommit : ustring;
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
       {$ENDIF}
 
       function  LoadCEFlibrary : boolean; virtual;
+      function  Load_cef_api_hash_h : boolean;
       function  Load_cef_app_capi_h : boolean;
       function  Load_cef_browser_capi_h : boolean;
       function  Load_cef_command_line_capi_h : boolean;
@@ -542,6 +546,9 @@ type
       property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
       property AvailableSystemMemory             : uint64                              read GetAvailableSystemMemory;
       property SystemMemoryLoad                  : cardinal                            read GetSystemMemoryLoad;
+      property ApiHashUniversal                  : ustring                             read GetApiHashUniversal;
+      property ApiHashPlatform                   : ustring                             read GetApiHashPlatform;
+      property ApiHashCommit                     : ustring                             read GetApiHashCommit;
       property SupportedSchemes                  : TStringList                         read FSupportedSchemes;
       {$IFDEF LINUX}
       property XDisplay                          : PXDisplay                           read GetXDisplay;
@@ -2489,6 +2496,45 @@ begin
   {$ENDIF}
 end;
 
+function TCefApplicationCore.GetApiHashUniversal : ustring;
+var
+  TempHash : PAnsiChar;
+begin
+  Result := '';
+  if not(FLibLoaded) then exit;
+
+  TempHash := cef_api_hash(CEF_API_HASH_UNIVERSAL);
+
+  if (TempHash <> nil) then
+    Result := ustring(AnsiString(TempHash));
+end;
+
+function TCefApplicationCore.GetApiHashPlatform : ustring;
+var
+  TempHash : PAnsiChar;
+begin
+  Result := '';
+  if not(FLibLoaded) then exit;
+
+  TempHash := cef_api_hash(CEF_API_HASH_PLATFORM);
+
+  if (TempHash <> nil) then
+    Result := ustring(AnsiString(TempHash));
+end;
+
+function TCefApplicationCore.GetApiHashCommit : ustring;
+var
+  TempHash : PAnsiChar;
+begin
+  Result := '';
+  if not(FLibLoaded) then exit;
+
+  TempHash := cef_api_hash(CEF_COMMIT_HASH);
+
+  if (TempHash <> nil) then
+    Result := ustring(AnsiString(TempHash));
+end;
+
 {$IFDEF LINUX}
 function TCefApplicationCore.GetXDisplay : PXDisplay;
 begin
@@ -2552,7 +2598,8 @@ begin
     end;
 
 
-  if Load_cef_app_capi_h and
+  if Load_cef_api_hash_h and
+     Load_cef_app_capi_h and
      Load_cef_browser_capi_h and
      Load_cef_command_line_capi_h and
      Load_cef_cookie_capi_h and
@@ -2622,6 +2669,13 @@ begin
     end;
 
   if FSetCurrentDir then chdir(TempOldDir);
+end;
+
+function TCefApplicationCore.Load_cef_api_hash_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_api_hash{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_api_hash');
+
+  Result := assigned(cef_api_hash);
 end;
 
 function TCefApplicationCore.Load_cef_app_capi_h : boolean;

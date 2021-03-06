@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCustomResourceHandler,
-  uCEFConstants, uCEFTypes, uCEFWinControl, uCEFSentinel;
+  uCEFConstants, uCEFTypes, uCEFWinControl, uCEFLinkedWinControlBase;
 
 type
   TMainForm = class(TForm)

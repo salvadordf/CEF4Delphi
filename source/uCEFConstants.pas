@@ -552,6 +552,11 @@ const
   CEF_TFC_DELETE     = 5;
   CEF_TFC_SELECT_ALL = 6;
 
+  // /include/cef_api_hash.h (used as "cef_api_hash" parameters)
+  CEF_API_HASH_PLATFORM  = 0;
+  CEF_API_HASH_UNIVERSAL = 1;
+  CEF_COMMIT_HASH        = 2;
+
 
 //******************************************************
 //****************** OTHER CONSTANTS *******************

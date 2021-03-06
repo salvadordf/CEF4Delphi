@@ -15,7 +15,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '2.0.12.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 25
@@ -294,6 +294,13 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Caption = 'Reset zoom'
         OnClick = Resetzoom1Click
       end
+    end
+    object MenuItem1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'CEF info...'
+      OnClick = MenuItem2Click
     end
   end
   object SaveDialog1: TSaveDialog
