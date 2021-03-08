@@ -2173,7 +2173,7 @@ begin
       {$IFDEF FPC}
       TempFormatSettings.DecimalSeparator := '.';
       {$ELSE}
-        {$IFDEF DELPHI26_UP}
+        {$IFDEF DELPHI24_UP}
         TempFormatSettings := TFormatSettings.Create('en-US');
         {$ELSE}
         GetLocaleFormatSettings(GetThreadLocale, TempFormatSettings);
