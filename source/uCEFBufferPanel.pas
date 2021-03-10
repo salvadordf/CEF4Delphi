@@ -641,6 +641,8 @@ begin
         Canvas.Brush.Style := bsSolid;
         Canvas.FillRect(rect(0, 0, Width, Height));
       end;
+
+  if Assigned(OnPaint) then OnPaint(Self);
 end;
 
 {$IFDEF MSWINDOWS}
