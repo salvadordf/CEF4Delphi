@@ -137,7 +137,6 @@ type
       procedure DoOnIMECancelComposition; virtual;
       procedure DoOnIMECommitText(const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer); virtual;
       procedure DoOnIMESetComposition(const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange); virtual;
-
       {$ENDIF}
 
     public
@@ -642,7 +641,9 @@ begin
         Canvas.FillRect(rect(0, 0, Width, Height));
       end;
 
-  if Assigned(OnPaint) then OnPaint(Self);
+  {$IFDEF FPC}
+  if assigned(OnPaint) then OnPaint(Self);
+  {$ENDIF}
 end;
 
 {$IFDEF MSWINDOWS}
@@ -822,14 +823,14 @@ end;
 
 procedure TBufferPanel.DoOnIMECancelComposition;
 begin
-  if FOnIMECancelComposition <> nil then
+  if assigned(FOnIMECancelComposition) then
     FOnIMECancelComposition(Self);
 end;
 
 procedure TBufferPanel.DoOnIMECommitText(const aText: ustring;
   const replacement_range: PCefRange; relative_cursor_pos: integer);
 begin
-  if FOnIMECommitText <> nil then
+  if assigned(FOnIMECommitText) then
     FOnIMECommitText(Self, aText, replacement_range, relative_cursor_pos);
 end;
 
@@ -837,10 +838,9 @@ procedure TBufferPanel.DoOnIMESetComposition(const aText: ustring;
   const underlines: TCefCompositionUnderlineDynArray; const replacement_range,
   selection_range: TCefRange);
 begin
-  if FOnIMESetComposition <> nil then
+  if assigned(FOnIMESetComposition) then
     FOnIMESetComposition(Self, aText, underlines, replacement_range, selection_range);
 end;
-
 {$ENDIF}
 
 function TBufferPanel.GetBufferBits : pointer;
