@@ -133,6 +133,11 @@ type
       procedure WMIMEEndComp(var aMessage: TMessage);
       procedure WMIMESetContext(var aMessage: TMessage);
       procedure WMIMEComposition(var aMessage: TMessage);
+
+      procedure DoOnIMECancelComposition; virtual;
+      procedure DoOnIMECommitText(const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer); virtual;
+      procedure DoOnIMESetComposition(const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange); virtual;
+
       {$ENDIF}
 
     public
@@ -636,6 +641,8 @@ begin
         Canvas.Brush.Style := bsSolid;
         Canvas.FillRect(rect(0, 0, Width, Height));
       end;
+
+  if Assigned(OnPaint) then OnPaint(Self);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -735,7 +742,7 @@ end;
 
 procedure TBufferPanel.WMIMEEndComp(var aMessage: TMessage);
 begin
-  if assigned(FOnIMECancelComposition) then FOnIMECancelComposition(self);
+  DoOnIMECancelComposition;
 
   if (FIMEHandler <> nil) then
     begin
@@ -775,7 +782,7 @@ begin
                 TempRange.from := high(Integer);
                 TempRange.to_  := high(Integer);
 
-                FOnIMECommitText(self, TempText, @TempRange, 0);
+                DoOnIMECommitText(TempText, @TempRange, 0);
               end;
 
             FIMEHandler.ResetComposition;
@@ -791,14 +798,14 @@ begin
                 TempSelection.from := TempCompStart;
                 TempSelection.to_  := TempCompStart + length(TempText);
 
-                FOnIMESetComposition(self, TempText, TempUnderlines, TempRange, TempSelection);
+                DoOnIMESetComposition(TempText, TempUnderlines, TempRange, TempSelection);
               end;
 
             FIMEHandler.UpdateCaretPosition(pred(TempCompStart));
           end
          else
           begin
-            if assigned(FOnIMECancelComposition) then FOnIMECancelComposition(self);
+            DoOnIMECancelComposition;
 
             FIMEHandler.ResetComposition;
             FIMEHandler.DestroyImeWindow;
@@ -812,6 +819,28 @@ begin
       end;
   end;
 end;
+
+procedure TBufferPanel.DoOnIMECancelComposition;
+begin
+  if FOnIMECancelComposition <> nil then
+    FOnIMECancelComposition(Self);
+end;
+
+procedure TBufferPanel.DoOnIMECommitText(const aText: ustring;
+  const replacement_range: PCefRange; relative_cursor_pos: integer);
+begin
+  if FOnIMECommitText <> nil then
+    FOnIMECommitText(Self, aText, replacement_range, relative_cursor_pos);
+end;
+
+procedure TBufferPanel.DoOnIMESetComposition(const aText: ustring;
+  const underlines: TCefCompositionUnderlineDynArray; const replacement_range,
+  selection_range: TCefRange);
+begin
+  if FOnIMESetComposition <> nil then
+    FOnIMESetComposition(Self, aText, underlines, replacement_range, selection_range);
+end;
+
 {$ENDIF}
 
 function TBufferPanel.GetBufferBits : pointer;

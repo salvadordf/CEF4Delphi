@@ -51,7 +51,7 @@ unit GlobalCefApplication;
 interface
 
 uses
-  uCEFApplication, uCEFWorkScheduler, uCEFLazApplication, FileUtil;
+  uCEFApplication, uCEFWorkScheduler, FileUtil;
 
 procedure CreateGlobalCEFApp;
 
@@ -75,8 +75,7 @@ begin
   GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
   {$ENDIF}
 
-  GlobalCEFApp                           := TCefLazApplication.Create;
-  GlobalCEFApp.CheckCEFFiles := False;
+  GlobalCEFApp                           := TCefApplication.Create;
   {$IFDEF USE_MULTI_THREAD_LOOP}
   // On Windows/Linux CEF can use threads for the message-loop
   GlobalCEFApp.MultiThreadedMessageLoop  := True;
@@ -86,6 +85,8 @@ begin
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
   {$ENDIF}
+
+  GlobalCEFApp.CheckCEFFiles := false;
 
   {$IFnDEF MACOSX}
   {$IFDEF USE_APP_HELPER}
@@ -98,7 +99,7 @@ begin
   (* Enable the below to prevent being asked for permission to access "Chromium Safe Storage"
      If set to true, Cookies will not be encrypted.
   *)
-  //GlobalCEFApp.UseMockKeyChain := True;
+  GlobalCEFApp.UseMockKeyChain := True;
   {$ENDIF}
   {$IFDEF LINUX}
   // This is a workaround for the 'GPU is not usable error' issue :

@@ -391,7 +391,7 @@ type
       // ICefLoadHandler and ICefPrintHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
-      procedure   Internal_OnContextInitialized;
+      procedure   Internal_OnContextInitialized; virtual;
       procedure   Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
       procedure   Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
       function    Internal_GetLocalizedString(stringId: Integer; var stringVal: ustring) : boolean;

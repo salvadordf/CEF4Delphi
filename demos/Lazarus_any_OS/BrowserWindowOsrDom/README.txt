@@ -4,7 +4,7 @@ BrowserWindow
 
 This example uses 
   TLazarusBrowserWindow
-  TCEFWorkScheduler 
+  Examining DOM
 
 TCEFWorkScheduler feeds the CEF messageloop by calling DoMessageLoopWork(). On Mac this is currently the only way to run the CEF messageloop.
 
@@ -28,13 +28,13 @@ Note:
 
 ** Mac
 1) Go to "project options" and create the "App Bundle"
-2) Download the CEF framework and place the content of the "Release" folder into BrowserWindow.app/Contents/Frameworks/Chromium Embedded Framework.framework
+2) Download the CEF framework and place the content of the "Release" folder into BrowserWindowOsrDom.app/Contents/Frameworks/Chromium Embedded Framework.framework
 You should have:
   Chromium Embedded Framework
   Libraries/*
   Resources/*
-3) Open project "AppHelper", create App Bundle and compile the AppHelper.
+3) Open project "AppHelper" (from the subfolder in this project's folder), create App Bundle and compile the AppHelper.
    Run create_mac_helper.sh
-4) Open project BrowserWindow, compile and run
+4) Open project BrowserWindowOsrDom, compile and run
 
 
