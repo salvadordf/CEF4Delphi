@@ -10,6 +10,7 @@
       <MainUnit Value="0"/>
       <Title Value="External Pump Browser"/>
       <Scaled Value="True"/>
+      <NSPrincipalClass Value="TCrCocoaApplication"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
