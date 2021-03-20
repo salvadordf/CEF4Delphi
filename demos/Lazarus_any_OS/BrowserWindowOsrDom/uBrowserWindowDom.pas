@@ -58,7 +58,7 @@ type
     AddressEdt: TComboBox;
     GoBtn: TButton;
     AddressPnl: TPanel;
-    LazarusOsrBrowserWindow1: TOsrBrowserWindow;
+    OsrBrowserWindow1: TOsrBrowserWindow;
     mDomHere: TMenuItem;
     MenuItem1: TMenuItem;
     PopupMenu1: TPopupMenu;
@@ -69,8 +69,8 @@ type
     procedure FormCreate(Sender: TObject);
 
     procedure GoBtnClick(Sender: TObject);
-    procedure LazarusBrowserWindow1BrowserClosed(Sender: TObject);
-    procedure LazarusOsrBrowserWindow1MouseMove(Sender: TObject;
+    procedure OsrBrowserWindow1BrowserClosed(Sender: TObject);
+    procedure OsrBrowserWindow1MouseMove(Sender: TObject;
       Shift: TShiftState; X, Y: Integer);
   private
     FCurRect: TRect;
@@ -109,15 +109,15 @@ uses
 
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
-  LazarusOsrBrowserWindow1.Chromium.LoadURL(UTF8Decode(AddressEdt.Text));
+  OsrBrowserWindow1.Chromium.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
-procedure TForm1.LazarusBrowserWindow1BrowserClosed(Sender: TObject);
+procedure TForm1.OsrBrowserWindow1BrowserClosed(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm1.LazarusOsrBrowserWindow1MouseMove(Sender: TObject;
+procedure TForm1.OsrBrowserWindow1MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 var
   TempMsg : ICefProcessMessage;
@@ -125,7 +125,7 @@ begin
   TempMsg := TCefProcessMessageRef.New(MSG_REQUEST_DOM_R); // Same name than TCefCustomRenderProcessHandler.MessageName
   TempMsg.ArgumentList.SetInt(0, X);
   TempMsg.ArgumentList.SetInt(1, Y);
-  LazarusOsrBrowserWindow1.Chromium.SendProcessMessage(PID_RENDERER, TempMsg);
+  OsrBrowserWindow1.Chromium.SendProcessMessage(PID_RENDERER, TempMsg);
 end;
 
 procedure TForm1.DoOnMouseDown(Sender: TObject; Button: TMouseButton;
@@ -147,10 +147,10 @@ end;
 procedure TForm1.DoOnPaint(Sender: TObject);
 begin
   if (FCurRect.Width > 0) and (FCurRect.Height > 0) then begin
-    LazarusOsrBrowserWindow1.Canvas.Brush.Style := bsClear;
-    LazarusOsrBrowserWindow1.Canvas.Pen.Style := psSolid;
-    LazarusOsrBrowserWindow1.Canvas.Pen.Color := clRed;
-    LazarusOsrBrowserWindow1.Canvas.Rectangle(FCurRect);
+    OsrBrowserWindow1.Canvas.Brush.Style := bsClear;
+    OsrBrowserWindow1.Canvas.Pen.Style := psSolid;
+    OsrBrowserWindow1.Canvas.Pen.Color := clRed;
+    OsrBrowserWindow1.Canvas.Rectangle(FCurRect);
   end;
 end;
 
@@ -167,7 +167,7 @@ begin
       FCurRect.Width := message.ArgumentList.GetInt(2);
       FCurRect.Height := message.ArgumentList.GetInt(3);
       Result := True;
-      LazarusOsrBrowserWindow1.Invalidate;
+      OsrBrowserWindow1.Invalidate;
     end;
   end;
 end;
@@ -194,10 +194,10 @@ begin
   if (GlobalCEFApp <> nil) then
     GlobalCEFApp.UpdateDeviceScaleFactor;
 
-  if (LazarusOsrBrowserWindow1.Chromium <> nil) then
+  if (OsrBrowserWindow1.Chromium <> nil) then
     begin
-      LazarusOsrBrowserWindow1.Chromium.NotifyScreenInfoChanged;
-      LazarusOsrBrowserWindow1.Chromium.WasResized;
+      OsrBrowserWindow1.Chromium.NotifyScreenInfoChanged;
+      OsrBrowserWindow1.Chromium.WasResized;
     end;
 end;
 
@@ -226,20 +226,20 @@ end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  LazarusOsrBrowserWindow1.CloseBrowser(True);
+  OsrBrowserWindow1.CloseBrowser(True);
 
-  CanClose := LazarusOsrBrowserWindow1.IsClosed;
+  CanClose := OsrBrowserWindow1.IsClosed;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   FCurRect.Width := 0;
-  LazarusOsrBrowserWindow1.Chromium.OnProcessMessageReceived := @DoProcessMessageReceived;
-  LazarusOsrBrowserWindow1.OnMouseDown := @DoOnMouseDown;
-  LazarusOsrBrowserWindow1.OnMouseUp := @DoOnMouseUp;
-  LazarusOsrBrowserWindow1.OnPaint  := @DoOnPaint;
+  OsrBrowserWindow1.Chromium.OnProcessMessageReceived := @DoProcessMessageReceived;
+  OsrBrowserWindow1.OnMouseDown := @DoOnMouseDown;
+  OsrBrowserWindow1.OnMouseUp := @DoOnMouseUp;
+  OsrBrowserWindow1.OnPaint  := @DoOnPaint;
 
-  LazarusOsrBrowserWindow1.Chromium.LoadURL(UTF8Decode(AddressEdt.Text));
+  OsrBrowserWindow1.Chromium.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
 initialization

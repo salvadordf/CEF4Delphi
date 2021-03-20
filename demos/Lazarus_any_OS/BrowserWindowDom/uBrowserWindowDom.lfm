@@ -61,13 +61,13 @@ object Form1: TForm1
       Text = 'https://www.google.com'
     end
   end
-  object LazarusBrowserWindow1: TBrowserWindow
+  object BrowserWindow1: TBrowserWindow
     Left = 0
     Height = 566
     Top = 23
     Width = 967
     Align = alClient
     TabOrder = 1
-    OnBrowserClosed = LazarusBrowserWindow1BrowserClosed
+    OnBrowserClosed = BrowserWindow1BrowserClosed
   end
 end
