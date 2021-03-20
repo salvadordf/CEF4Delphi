@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,7 +35,7 @@
  *
  *)
 
-program SubProcess;
+program SimpleBrowser_sp;
 
 {$I cef.inc}
 
@@ -45,34 +45,22 @@ uses
   {$ELSE}
   Windows,
   {$ENDIF}
-  uCEFApplicationCore;
+  uCEFLoader in 'uCEFLoader.pas';
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes
 // to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
-  GlobalCEFApp                  := TCefApplicationCore.Create;
+  // This SubProcess project is only used for the CEF subprocesses and it needs
+  // to declare "CEFSUBPROCESS" conditional define. Follow these steps to add it:
+  // 1. Open the project options in the Project->Options menu option and select
+  // "Building->Delphi Compiler" on the left.
+  // 2. Select "All configurations - All platforms" option as the "Target" on
+  // the right section of that window.
+  // 3. Add "CEFSUBPROCESS" (without quotes) in the "Conditional defines" box.
 
-  // The main process and the subprocess *MUST* have the same GlobalCEFApp
-  // properties and events, specially FrameworkDirPath, ResourcesDirPath,
-  // LocalesDirPath, cache and UserDataPath paths.
-
-  // The demos are compiled into the BIN directory. Make sure SubProcess.exe
-  // and SimpleBrowser.exe are in that directory or this demo won't work.
-
-  // In case you want to use custom directories for the CEF3 binaries, cache
-  // and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
-
-  GlobalCEFApp.StartSubProcess;
-  GlobalCEFApp.Free;
-  GlobalCEFApp := nil;
+  // uCEFLoader will call CreateGlobalCEFApp and DestroyGlobalCEFApp in the
+  // initialization and finalization sections of that unit.
 end.
 

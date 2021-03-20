@@ -42,17 +42,26 @@ interface
 implementation
 
 uses
+  {$IFDEF CEFSUBPROCESS}
+  uCEFApplicationCore;
+  {$ELSE}
   uCEFApplication;
-
-  // Follow these steps to test this demo :
-  // 1. Build the SubProcess project in this directory.
-  // 2. Copy the CEF binaries to the BIN directory in CEF4Delphi.
-  // 3. Build this project : SimpleBrowser
-  // 4. Run this demo : SimpleBrowser
+  {$ENDIF}
 
 procedure CreateGlobalCEFApp;
 begin
+  // In case you prefer to call CreateGlobalCEFApp and DestroyGlobalCEFApp manually
+  // you have to remember that GlobalCEFApp can only be initialized *ONCE* per process.
+  // This is a CEF requirement and there's no workaround.
+  if (GlobalCEFApp <> nil) then
+    exit;
+
+  {$IFDEF CEFSUBPROCESS}
+  GlobalCEFApp := TCefApplicationCore.Create;
+  {$ELSE}
   GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp.BrowserSubprocessPath := 'SimpleBrowser_sp.exe';
+  {$ENDIF}
 
   // In case you want to use custom directories for the CEF binaries, cache and user data.
   // If you don't set a cache directory the browser will use in-memory cache.
@@ -65,12 +74,9 @@ begin
   GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
 
-  GlobalCEFApp.BrowserSubprocessPath := 'SubProcess.exe';
-
   // This demo uses a different EXE for the subprocesses.
   // With this configuration it's not necessary to have the
   // GlobalCEFApp.StartMainProcess call in a if..then clause.
-
   GlobalCEFApp.StartMainProcess;
 end;
 
