@@ -31,7 +31,7 @@ uses
 {$IFDEF DARWIN}  // $IFDEF MACOSX
   CocoaAll, CocoaInt, Cocoa_Extra,
 {$ENDIF}
-  Classes, SysUtils;
+  Classes, SysUtils, ctypes;
 
 {$IFDEF DARWIN}  // $IFDEF MACOSX
 type
@@ -56,6 +56,7 @@ type
 
   procedure AddCrDelegate;
 
+var   LastMacOsKeyDownCode: cushort;
 {$ENDIF}
 
 implementation
@@ -156,7 +157,12 @@ var
 begin
   CurrentHandling:=isHandlingSendEvent;
   setHandlingSendEvent(true);
+  if (theEvent.type_ = NSKeyDown)
+  then begin
+    LastMacOsKeyDownCode := theEvent.keyCode;
+    end;
   inherited;
+  LastMacOsKeyDownCode:=0;
   setHandlingSendEvent(CurrentHandling);
 end;
 

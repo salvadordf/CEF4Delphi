@@ -35,6 +35,15 @@
  *
  *)
 
+(*
+
+  === State of Implementation ===
+
+  On MacOS the keyboard support is currently incomplete
+
+
+*)
+
 unit uCEFLazarusOsrBrowserWindow;
 
 {$mode objfpc}{$H+}
@@ -43,21 +52,34 @@ unit uCEFLazarusOsrBrowserWindow;
 interface
 
 uses
+  uCEFLazarusCocoa,
   {$IFDEF FPC}
-  LResources,
+  LResources, PropEdits,
   {$ENDIF}
   uCEFApplication, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces, uCEFChromium,
   uCEFLinkedWinControlBase, uCEFLazApplication, uCEFBufferPanel,
   uCEFLazarusBrowserWindow, uCEFBitmapBitBuffer, uCEFMiscFunctions,
-  uCEFConstants, Forms, ExtCtrls, LCLType, Graphics, Controls, syncobjs,
-  LazLogger, Classes, sysutils, math;
+  uCEFConstants, uCEFChromiumEvents, Forms, ExtCtrls, LCLType, Graphics,
+  Controls, syncobjs, LazLogger, Classes, sysutils, math;
 
 type
 
   TBrowserMouseEvent = procedure(Sender: TObject; Button: TMouseButton;
-                          Shift: TShiftState; X, Y: Integer;
-                          var AHandled: Boolean) of Object;
+    Shift: TShiftState; X, Y: Integer;
+    var AHandled: Boolean) of Object;
+  TBrowserMouseMoveEvent = procedure(Sender: TObject; Shift: TShiftState;
+    X, Y: Integer;
+    var AHandled: Boolean) of Object;
+  TBrowserMouseWheelEvent = procedure(Sender: TObject; Shift: TShiftState;
+    WheelDelta: Integer; MousePos: TPoint;
+    var AHandled: Boolean) of Object;
+  TBrowserKeyEvent = procedure(Sender: TObject; var Key: Word; Shift: TShiftState; var AHandled: Boolean) of Object;
+  //TBrowserKeyPressEvent = procedure(Sender: TObject; var Key: char; var AHandled: Boolean) of Object;
+  TBrowserUTF8KeyPressEvent = procedure(Sender: TObject; var UTF8Key: TUTF8Char; var AHandled: Boolean) of Object;
 
+
+  TLazOsrChromium = class(TLazChromium)
+  end;
 
   { TLazarusOsrBrowserWindow }
 
@@ -114,17 +136,22 @@ type
         AHeight: Integer);
 
     private
-      FChromium  : TLazChromium;
+      FChromium  : TLazOsrChromium;
 
       FOnBrowserClosed  : TNotifyEvent;
       FOnBrowserCreated : TNotifyEvent;
+      FOnKeyDown: TBrowserKeyEvent;
+      FOnKeyUp: TBrowserKeyEvent;
       FOnMouseDown: TBrowserMouseEvent;
+      FOnMouseMove: TBrowserMouseMoveEvent;
       FOnMouseUp: TBrowserMouseEvent;
+      FOnMouseWheel: TBrowserMouseWheelEvent;
+      FOnUtf8KeyPress: TBrowserUTF8KeyPressEvent;
 
       procedure DoCreateBrowserAfterContext(Sender: TObject);
 
     protected
-      function    GetChromium: TLazChromium;
+      function    GetChromium: TLazOsrChromium;
       function    getModifiers(Shift: TShiftState): TCefEventFlags;
       function    getKeyModifiers(Shift: TShiftState): TCefEventFlags;
       function    GetButton(Button: TMouseButton): TCefMouseButtonType;
@@ -166,13 +193,18 @@ type
       procedure   LoadURL(aURL: ustring);
     //
     published
-      property    Chromium : TLazChromium    read GetChromium;
+      property    Chromium : TLazOsrChromium    read GetChromium;
 
       property    OnBrowserCreated : TNotifyEvent read FOnBrowserCreated write FOnBrowserCreated;
       property    OnBrowserClosed  : TNotifyEvent read FOnBrowserClosed write FOnBrowserClosed;
 
-      property    OnMouseDown: TBrowserMouseEvent read FOnMouseDown write FOnMouseDown;
-      property    OnMouseUp: TBrowserMouseEvent read FOnMouseUp write FOnMouseUp;
+      property    OnMouseDown:    TBrowserMouseEvent      read FOnMouseDown write FOnMouseDown;
+      property    OnMouseUp:      TBrowserMouseEvent      read FOnMouseUp write FOnMouseUp;
+      property    OnMouseMove:    TBrowserMouseMoveEvent  read FOnMouseMove write FOnMouseMove;
+      property    OnMouseWheel:   TBrowserMouseWheelEvent read FOnMouseWheel write FOnMouseWheel;
+      property    OnKeyDown:      TBrowserKeyEvent        read FOnKeyDown write FOnKeyDown;
+      property    OnKeyUp:        TBrowserKeyEvent        read FOnKeyUp write FOnKeyUp;
+      property    OnUtf8KeyPress: TBrowserUTF8KeyPressEvent read FOnUtf8KeyPress write FOnUtf8KeyPress;
   end;
 
 {$IFDEF FPC}
@@ -498,7 +530,7 @@ begin
   end;
 end;
 
-function TLazarusOsrBrowserWindow.GetChromium: TLazChromium;
+function TLazarusOsrBrowserWindow.GetChromium: TLazOsrChromium;
 begin
   Result := FChromium;
 end;
@@ -511,6 +543,7 @@ begin
   if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
   if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
   if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (ssMeta   in Shift) then Result := Result or EVENTFLAG_COMMAND_DOWN;
   if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
   if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
   if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
@@ -523,6 +556,7 @@ begin
   if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
   if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
   if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (ssMeta   in Shift) then Result := Result or EVENTFLAG_COMMAND_DOWN;
   if (ssNum    in Shift) then Result := Result or EVENTFLAG_NUM_LOCK_ON;
   if (ssCaps   in Shift) then Result := Result or EVENTFLAG_CAPS_LOCK_ON;
 end;
@@ -649,8 +683,14 @@ end;
 procedure TLazarusOsrBrowserWindow.MouseMove(Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
+  IsHandled: Boolean;
 begin
   inherited MouseMove(Shift, X, Y);
+  IsHandled := False;
+  if FOnMouseMove <> nil then
+    FOnMouseMove(Self, Shift, X, Y, IsHandled);
+  if IsHandled then
+    exit;
 
   TempEvent.x         := x;
   TempEvent.y         := y;
@@ -699,8 +739,14 @@ function TLazarusOsrBrowserWindow.DoMouseWheel(Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint): Boolean;
 var
   TempEvent  : TCefMouseEvent;
+  IsHandled: Boolean;
 begin
   Result := inherited DoMouseWheel(Shift, WheelDelta, MousePos);
+  IsHandled := False;
+  if FOnMouseWheel <> nil then
+    FOnMouseWheel(Self, Shift, WheelDelta, MousePos, IsHandled);
+  if IsHandled then
+    exit;
 
   TempEvent.x         := MousePos.x;
   TempEvent.y         := MousePos.y;
@@ -717,14 +763,27 @@ end;
 procedure TLazarusOsrBrowserWindow.KeyDown(var Key: Word; Shift: TShiftState);
 var
   TempKeyEvent : TCefKeyEvent;
+  IsHandled: Boolean;
 begin
+  IsHandled := False;
+  if FOnKeyDown <> nil then
+    FOnKeyDown(Self, Key, Shift, IsHandled);
+  if IsHandled then begin
+    inherited KeyDown(Key, Shift);
+    exit;
+  end;
+
   FLastKeyDown := Key;
   if (Key <> 0) and (Chromium <> nil) then
     begin
       TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := getModifiers(Shift);
       TempKeyEvent.windows_key_code        := Key;
+      {$IFDEF DARWIN}  // $IFDEF MACOSX
+      TempKeyEvent.native_key_code         := LastMacOsKeyDownCode;
+      {$ELSE}
       TempKeyEvent.native_key_code         := 0;
+      {$ENDIF}
       TempKeyEvent.is_system_key           := ord(False);
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
@@ -742,7 +801,16 @@ procedure TLazarusOsrBrowserWindow.UTF8KeyPress(var UTF8Key: TUTF8Char);
 var
   TempKeyEvent : TCefKeyEvent;
   TempString   : UnicodeString;
+  IsHandled: Boolean;
 begin
+  IsHandled := False;
+  if FOnUtf8KeyPress <> nil then
+    FOnUtf8KeyPress(Self, UTF8Key, IsHandled);
+  if IsHandled then begin
+    inherited UTF8KeyPress(UTF8Key);
+    exit;
+  end;
+
   if Focused then
     begin
       TempString := UTF8Decode(UTF8Key);
@@ -773,7 +841,16 @@ end;
 procedure TLazarusOsrBrowserWindow.KeyUp(var Key: Word; Shift: TShiftState);
 var
   TempKeyEvent : TCefKeyEvent;
+  IsHandled: Boolean;
 begin
+  IsHandled := False;
+  if FOnKeyUp <> nil then
+    FOnKeyUp(Self, Key, Shift, IsHandled);
+  if IsHandled then begin
+    inherited KeyUp(Key, Shift);
+    exit;
+  end;
+
   if (Key <> 0) and (Chromium <> nil) then
     begin
       TempKeyEvent.kind                    := KEYEVENT_KEYUP;
@@ -843,9 +920,9 @@ begin
   FSelectedRange.from   := 0;
   FSelectedRange.to_    := 0;
 
-  FChromium := TLazChromium.Create(Self);
-  FChromium.OnBrowserClosed              := {$IFDEF FPC}@{$ENDIF}DoOnClosed;
-  FChromium.OnBrowserCreated             := {$IFDEF FPC}@{$ENDIF}DoOnCreated;
+  FChromium := TLazOsrChromium.Create(Self);
+  FChromium.InternalOnBrowserClosed              := {$IFDEF FPC}@{$ENDIF}DoOnClosed;
+  FChromium.InternalOnBrowserCreated             := {$IFDEF FPC}@{$ENDIF}DoOnCreated;
 
   FChromium.OnPaint                      := {$IFDEF FPC}@{$ENDIF}DoChromiumPaint;
   FChromium.OnGetViewRect                := {$IFDEF FPC}@{$ENDIF}DoGetChromiumViewRect;
@@ -910,6 +987,17 @@ procedure Register;
 begin
 //  {$I res/tlazarusosrbrowserwindow.lrs}
   RegisterComponents('Chromium', [TLazarusOsrBrowserWindow]);
+  RegisterPropertyEditor(TypeInfo(TOnClose),                      TLazOsrChromium,'OnClose',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnPaint),                      TLazOsrChromium,'OnPaint',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnGetViewRect),                TLazOsrChromium,'OnGetViewRect',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnCursorChange),               TLazOsrChromium,'OnCursorChange',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnGetScreenPoint),             TLazOsrChromium,'OnGetScreenPoint',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnGetScreenInfo),              TLazOsrChromium,'OnGetScreenInfo',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnPopupShow),                  TLazOsrChromium,'OnPopupShow',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnPopupSize),                  TLazOsrChromium,'OnPopupSize',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnTooltip),                    TLazOsrChromium,'OnTooltip',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnBeforePopup),                TLazOsrChromium,'OnBeforePopup',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnIMECompositionRangeChanged), TLazOsrChromium,'OnIMECompositionRangeChanged',THiddenPropertyEditor);
 end;
 {$ENDIF}
 

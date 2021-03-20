@@ -1,9 +1,9 @@
-BrowserWindow
+BrowserWindowOSR
 
 # ABOUT
 
 This example uses 
-  TLazarusBrowserWindow
+  TLazarusBrowserWindowOSR
   Examining DOM
 
 TCEFWorkScheduler feeds the CEF messageloop by calling DoMessageLoopWork(). On Mac this is currently the only way to run the CEF messageloop.

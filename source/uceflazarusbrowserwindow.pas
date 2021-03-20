@@ -44,11 +44,11 @@ interface
 
 uses
   {$IFDEF FPC}
-  LResources,
+  LResources, PropEdits,
   {$ENDIF}
   uCEFApplication, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces, uCEFChromium,
-  uCEFLinkedWinControlBase, uCEFLazApplication, uCEFBrowserViewComponent, Forms,
-  ExtCtrls, Controls, Classes, sysutils;
+  uCEFLinkedWinControlBase, uCEFLazApplication, uCEFBrowserViewComponent,
+  uCEFChromiumEvents, Forms, ExtCtrls, Controls, Classes, sysutils;
 
 type
 
@@ -63,18 +63,22 @@ type
     private type
       TLazChromiumState   = (csNoBrowser, csCreatingBrowser, csHasBrowser, csClosingBrowser, csCloseAfterCreate);
     private
-      FState               : TLazChromiumState;
-      FOnBrowserClosed     : TNotifyEvent;
-      FOnBrowserCreated    : TNotifyEvent;
+      FInternalOnGotFocus: TOnGotFocus;
+      FState                    : TLazChromiumState;
+      FInternalOnBrowserClosed  : TNotifyEvent;
+      FInternalOnBrowserCreated : TNotifyEvent;
 
       FLoadUrl, FFrameName : ustring;
       function GetIsClosing: Boolean;
+      procedure SetInternalOnClose(AValue: TOnClose);
 
     protected
       function    GetHasBrowser : boolean; reintroduce;
 
       procedure   doOnBeforeClose(const ABrowser: ICefBrowser); override;
       procedure   doOnAfterCreated(const ABrowser: ICefBrowser); override;
+      procedure   doOnGotFocus(const Abrowser: ICefBrowser); override;
+      function    MustCreateFocusHandler: boolean; override;
 
       procedure   DoCreated(Data: PtrInt);
       procedure   DoOnClosed(Data: PtrInt);
@@ -108,8 +112,9 @@ type
          - OnBrowserCreated: the parent event may be called when procedure Initialized is still false.
          - OnBrowserCreated: may not be called, if the CloseBrowser has already been called
       *)
-      property    OnBrowserCreated : TNotifyEvent read FOnBrowserCreated write FOnBrowserCreated;
-      property    OnBrowserClosed  : TNotifyEvent read FOnBrowserClosed write FOnBrowserClosed;
+      property    InternalOnBrowserCreated : TNotifyEvent read FInternalOnBrowserCreated write FInternalOnBrowserCreated;
+      property    InternalOnBrowserClosed  : TNotifyEvent read FInternalOnBrowserClosed  write FInternalOnBrowserClosed;
+      property    InternalOnGotFocus       : TOnGotFocus  read FInternalOnGotFocus       write FInternalOnGotFocus;
   end;
 
   TLazarusBrowserWindow = class;
@@ -148,6 +153,7 @@ type
       *)
       procedure   WaitForBrowserClosed;
 
+    published
       property Chromium: TLazChromium read FChromium;
   end;
 
@@ -167,6 +173,7 @@ type
 
       procedure   DoCreateBrowser(Sender: TObject);
       procedure   DoCreateBrowserAfterContext(Sender: TObject);
+      function    GetLazChromium: TLazChromium;
     protected
       function    GetChromium: TChromium; override;
       procedure   DestroyHandle; override;
@@ -188,7 +195,7 @@ type
       procedure   LoadURL(aURL: ustring);
 
     published
-      property    Chromium; //        : TChromium    read GetChromium;
+      property    Chromium: TLazChromium read GetLazChromium;
 
       property    OnBrowserCreated : TNotifyEvent read FOnBrowserCreated write FOnBrowserCreated;
       (* OnBrowserClosed will not be called, if the TLazarusBrowserWindow is
@@ -208,6 +215,11 @@ implementation
 function TLazChromium.GetIsClosing: Boolean;
 begin
   Result := FState in [csCloseAfterCreate, csClosingBrowser];
+end;
+
+procedure TLazChromium.SetInternalOnClose(AValue: TOnClose);
+begin
+  inherited OnClose := AValue;
 end;
 
 function TLazChromium.GetHasBrowser: boolean;
@@ -233,6 +245,19 @@ begin
   Application.QueueAsyncCall(@DoCreated, 0);
 end;
 
+procedure TLazChromium.doOnGotFocus(const Abrowser: ICefBrowser);
+begin
+  inherited doOnGotFocus(Abrowser);
+  if Assigned(FInternalOnGotFocus) then
+    FInternalOnGotFocus(Self, Abrowser);
+end;
+
+function TLazChromium.MustCreateFocusHandler: boolean;
+begin
+  Result := assigned(FInternalOnGotFocus) or
+            inherited MustCreateFocusHandler;
+end;
+
 procedure TLazChromium.DoCreated(Data: PtrInt);
 var
   u, f: ustring;
@@ -247,8 +272,8 @@ begin
           LoadURL(u, f);
         end;
 
-        if (FOnBrowserCreated <> nil) then
-          FOnBrowserCreated(Self);
+        if (FInternalOnBrowserCreated <> nil) then
+          FInternalOnBrowserCreated(Self);
       end;
     csCloseAfterCreate: begin
         FState := csHasBrowser;
@@ -259,8 +284,8 @@ end;
 
 procedure TLazChromium.DoOnClosed(Data: PtrInt);
 begin
-  if (FOnBrowserClosed <> nil) then
-    FOnBrowserClosed(Self);
+  if (FInternalOnBrowserClosed <> nil) then
+    FInternalOnBrowserClosed(Self);
 end;
 
 constructor TLazChromium.Create(AOwner: TComponent);
@@ -400,15 +425,15 @@ begin
   FBrowserWindow := AOwner;
   FWrapperState  := wsNone;
 
+  FChromium                  := TLazChromium.Create(nil);
   if not(csDesigning in AOwner.ComponentState) then
     begin
-      FChromium                  := TLazChromium.Create(nil);
-      FChromium.OnClose          := {$IFDEF FPC}@{$ENDIF}BrowserThread_OnClose;
-      FChromium.OnBrowserClosed  := {$IFDEF FPC}@{$ENDIF}DoOnBeforeClose;
-      FChromium.OnBrowserCreated := {$IFDEF FPC}@{$ENDIF}DoOnAfterCreated;
+      FChromium.OnClose                  := {$IFDEF FPC}@{$ENDIF}BrowserThread_OnClose;
+      FChromium.InternalOnBrowserClosed  := {$IFDEF FPC}@{$ENDIF}DoOnBeforeClose;
+      FChromium.InternalOnBrowserCreated := {$IFDEF FPC}@{$ENDIF}DoOnAfterCreated;
       {$IFDEF LINUX}
       // This is a workaround for the CEF issue #2026. Read below for more info.
-      FChromium.OnGotFocus     := {$IFDEF FPC}@{$ENDIF}BrowserThread_OnGotFocus;
+      FChromium.InternalOnGotFocus     := {$IFDEF FPC}@{$ENDIF}BrowserThread_OnGotFocus;
       {$ENDIF}
     end;
 
@@ -516,6 +541,11 @@ begin
   {$ELSE}
     DoCreateBrowser(nil);
   {$ENDIF}
+end;
+
+function TLazarusBrowserWindow.GetLazChromium: TLazChromium;
+begin
+  Result := FChromiumWrapper.Chromium;
 end;
 
 function TLazarusBrowserWindow.GetChromium: TChromium;
@@ -643,6 +673,8 @@ procedure Register;
 begin
   {$I res/tlazarusbrowserwindow.lrs}
   RegisterComponents('Chromium', [TLazarusBrowserWindow]);
+  RegisterPropertyEditor(ClassTypeInfo(TLazChromium), nil,'',TClassPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnClose), TLazChromium, 'OnClose', THiddenPropertyEditor);
 end;
 {$ENDIF}
 

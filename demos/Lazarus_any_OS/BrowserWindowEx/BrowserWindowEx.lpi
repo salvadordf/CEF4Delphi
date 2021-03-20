@@ -9,6 +9,7 @@
       <SessionStorage Value="InProjectDir"/>
       <Title Value="BrowserWindowEx"/>
       <Scaled Value="True"/>
+      <NSPrincipalClass Value="TCrCocoaApplication"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
