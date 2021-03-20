@@ -35,6 +35,15 @@
  *
  *)
 
+(*
+
+  === State of Implementation ===
+
+  On MacOS the keyboard support is currently incomplete
+
+
+*)
+
 unit uCEFLazarusOsrBrowserWindow;
 
 {$mode objfpc}{$H+}
