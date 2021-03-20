@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <PathDelim Value="\"/>
     <Name Value="CEF4Delphi_Lazarus"/>
     <Type Value="RunAndDesignTime"/>
@@ -850,19 +850,23 @@
         <UnitName Value="uCEFLazarusOsrBrowserWindow"/>
       </Item202>
     </Files>
-    <RequiredPkgs Count="4">
+    <CompatibilityMode Value="True"/>
+    <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="dcpcrypt"/>
+        <PackageName Value="IDEIntf"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="dcpcrypt"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCLBase"/>
+        <PackageName Value="LCL"/>
       </Item3>
       <Item4>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCLBase"/>
       </Item4>
+      <Item5>
+        <PackageName Value="FCL"/>
+      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
