@@ -43,6 +43,7 @@ unit uCEFLazarusOsrBrowserWindow;
 interface
 
 uses
+  uCEFLazarusCocoa,
   {$IFDEF FPC}
   LResources, PropEdits,
   {$ENDIF}
@@ -533,6 +534,7 @@ begin
   if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
   if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
   if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (ssMeta   in Shift) then Result := Result or EVENTFLAG_COMMAND_DOWN;
   if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
   if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
   if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
@@ -545,6 +547,7 @@ begin
   if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
   if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
   if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (ssMeta   in Shift) then Result := Result or EVENTFLAG_COMMAND_DOWN;
   if (ssNum    in Shift) then Result := Result or EVENTFLAG_NUM_LOCK_ON;
   if (ssCaps   in Shift) then Result := Result or EVENTFLAG_CAPS_LOCK_ON;
 end;
@@ -767,7 +770,11 @@ begin
       TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := getModifiers(Shift);
       TempKeyEvent.windows_key_code        := Key;
+      {$IFDEF DARWIN}  // $IFDEF MACOSX
+      TempKeyEvent.native_key_code         := LastMacOsKeyDownCode;
+      {$ELSE}
       TempKeyEvent.native_key_code         := 0;
+      {$ENDIF}
       TempKeyEvent.is_system_key           := ord(False);
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
