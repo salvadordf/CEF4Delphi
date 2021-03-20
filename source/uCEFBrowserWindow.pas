@@ -346,6 +346,8 @@ constructor TEmbeddedChromium.Create(AOwner: TComponent);
 begin
   FState := csNoBrowser;
   inherited Create(AOwner);
+  SetSubComponent(True);
+  Name := 'Chromium';
 end;
 
 destructor TEmbeddedChromium.Destroy;
@@ -464,6 +466,8 @@ end;
 
 procedure TChromiumWrapper.MaybeDestroy;
 begin
+  if FChromium.Owner <> nil then
+    FBrowserWindow.RemoveComponent(FChromium);
   CloseBrowser(True);
   FBrowserWindow := nil;
 
@@ -479,7 +483,7 @@ begin
   FBrowserWindow := AOwner;
   FWrapperState  := wsNone;
 
-  FChromium                  := TEmbeddedChromium.Create(nil);
+  FChromium                  := TEmbeddedChromium.Create(AOwner);
   if not(csDesigning in AOwner.ComponentState) then
     begin
       FChromium.OnClose                  := {$IFDEF FPC}@{$ENDIF}BrowserThread_OnClose;
@@ -692,10 +696,12 @@ constructor TBrowserWindow.Create(AOwner: TComponent);
 begin
   FChromiumWrapper := TChromiumWrapper.Create(Self);
   inherited Create(AOwner);
+  ControlStyle := ControlStyle + [csOwnedChildrenNotSelectable];
 end;
 
 destructor TBrowserWindow.Destroy;
 begin
+  RemoveComponent(FChromiumWrapper.FChromium);
   inherited Destroy;
   FChromiumWrapper.MaybeDestroy;
   Application.RemoveAsyncCalls(Self);
@@ -727,7 +733,7 @@ procedure Register;
 begin
   {$I res/TBrowserWindow.lrs}
   RegisterComponents('Chromium', [TBrowserWindow]);
-  RegisterPropertyEditor(ClassTypeInfo(TEmbeddedChromium), nil,'',TClassPropertyEditor);
+  RegisterClass(TEmbeddedChromium);
   RegisterPropertyEditor(TypeInfo(TOnClose), TEmbeddedChromium, 'OnClose', THiddenPropertyEditor);
 end;
 {$ENDIF}

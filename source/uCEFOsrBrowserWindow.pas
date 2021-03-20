@@ -961,6 +961,7 @@ begin
   FChromium.OnIMECompositionRangeChanged := @DoGetChromiumIMECompositionRangeChanged;
 
   inherited Create(AOwner);
+  ControlStyle := ControlStyle + [csOwnedChildrenNotSelectable];
   CopyOriginalBuffer := true;
 end;
 
@@ -1012,6 +1013,7 @@ procedure Register;
 begin
   {$I res/TOsrBrowserWindow.lrs}
   RegisterComponents('Chromium', [TOsrBrowserWindow]);
+  RegisterClass(TEmbeddedOsrChromium);
   RegisterPropertyEditor(TypeInfo(TOnClose),                      TEmbeddedOsrChromium,'OnClose',THiddenPropertyEditor);
   RegisterPropertyEditor(TypeInfo(TOnPaint),                      TEmbeddedOsrChromium,'OnPaint',THiddenPropertyEditor);
   RegisterPropertyEditor(TypeInfo(TOnGetViewRect),                TEmbeddedOsrChromium,'OnGetViewRect',THiddenPropertyEditor);
