@@ -833,21 +833,21 @@
       </Item198>
       <Item199>
         <Filename Value="..\source\uceflazaruscocoa.pas"/>
-        <UnitName Value="uceflazaruscocoa"/>
+        <UnitName Value="uCEFLazarusCocoa"/>
       </Item199>
       <Item200>
-        <Filename Value="..\source\uceflazarusbrowserwindow.pas"/>
+        <Filename Value="..\source\uCEFBrowserWindow.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="uceflazarusbrowserwindow"/>
+        <UnitName Value="uCEFBrowserWindow"/>
       </Item200>
       <Item201>
         <Filename Value="..\source\uCEFLazApplication.pas"/>
         <UnitName Value="uCEFLazApplication"/>
       </Item201>
       <Item202>
-        <Filename Value="..\source\uCEFLazarusOsrBrowserWindow.pas"/>
+        <Filename Value="..\source\uCEFOsrBrowserWindow.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFLazarusOsrBrowserWindow"/>
+        <UnitName Value="uCEFOsrBrowserWindow"/>
       </Item202>
     </Files>
     <CompatibilityMode Value="True"/>

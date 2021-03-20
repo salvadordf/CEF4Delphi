@@ -48,7 +48,7 @@ uses
   SysUtils, Messages, Forms, Controls,
   Dialogs, ExtCtrls, StdCtrls, LMessages, Menus,
   uCEFTypes, uCEFInterfaces, uHelperProcessDom,
-  uCEFWorkScheduler, uCEFLazarusBrowserWindow, uCEFProcessMessage, Classes;
+  uCEFWorkScheduler, uCEFBrowserWindow, uCEFProcessMessage, Classes;
 
 type
 
@@ -58,7 +58,7 @@ type
     AddressEdt: TComboBox;
     GoBtn: TButton;
     AddressPnl: TPanel;
-    LazarusBrowserWindow1: TLazarusBrowserWindow;
+    LazarusBrowserWindow1: TBrowserWindow;
     mDomHere: TMenuItem;
 
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);

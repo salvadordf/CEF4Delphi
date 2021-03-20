@@ -47,8 +47,8 @@ uses
   uCEFLazarusCocoa, // required for Cocoa
   SysUtils, Messages, Forms, Controls, Dialogs, ExtCtrls, StdCtrls, LMessages,
   Menus, Graphics, uCEFTypes, uCEFInterfaces, uHelperProcessDom,
-  uCEFWorkScheduler, uCEFLazarusBrowserWindow, uCEFProcessMessage,
-  uCEFLazarusOsrBrowserWindow, Classes;
+  uCEFWorkScheduler, uCEFBrowserWindow, uCEFProcessMessage,
+  uCEFOsrBrowserWindow, Classes;
 
 type
 
@@ -58,7 +58,7 @@ type
     AddressEdt: TComboBox;
     GoBtn: TButton;
     AddressPnl: TPanel;
-    LazarusOsrBrowserWindow1: TLazarusOsrBrowserWindow;
+    LazarusOsrBrowserWindow1: TOsrBrowserWindow;
     mDomHere: TMenuItem;
     MenuItem1: TMenuItem;
     PopupMenu1: TPopupMenu;

@@ -66,7 +66,7 @@ uses
   uCEFPrintDialogCallback, uCEFPrintHandler, uCEFPrintJobCallback, 
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
   uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa, 
-  uCEFLazarusBrowserWindow, uCEFLazApplication, uCEFLazarusOsrBrowserWindow, 
+  uCEFBrowserWindow, uCEFLazApplication, uCEFOsrBrowserWindow, 
   LazarusPackageIntf;
 
 implementation
@@ -90,9 +90,8 @@ begin
   RegisterUnit('uCEFPanelComponent', @uCEFPanelComponent.Register);
   RegisterUnit('uCEFScrollViewComponent', @uCEFScrollViewComponent.Register);
   RegisterUnit('uCEFTextfieldComponent', @uCEFTextfieldComponent.Register);
-  RegisterUnit('uCEFLazarusBrowserWindow', @uCEFLazarusBrowserWindow.Register);
-  RegisterUnit('uCEFLazarusOsrBrowserWindow', 
-    @uCEFLazarusOsrBrowserWindow.Register);
+  RegisterUnit('uCEFBrowserWindow', @uCEFBrowserWindow.Register);
+  RegisterUnit('uCEFOsrBrowserWindow', @uCEFOsrBrowserWindow.Register);
 end;
 
 initialization
