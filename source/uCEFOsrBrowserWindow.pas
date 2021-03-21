@@ -59,7 +59,7 @@ uses
   LResources, PropEdits,
   {$ENDIF}
   uCEFApplication, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces, uCEFChromium,
-  uCEFLinkedWinControlBase, uCEFLazApplication, uCEFBufferPanel,
+  uCEFLinkedWinControlBase, uCEFBufferPanel,
   uCEFBrowserWindow, uCEFBitmapBitBuffer, uCEFMiscFunctions,
   uCEFConstants, uCEFChromiumEvents, Forms, ExtCtrls, LCLType, Graphics,
   Controls, syncobjs, Classes, sysutils, math;
@@ -605,10 +605,7 @@ procedure TOsrBrowserWindow.CreateHandle;
 begin
   inherited CreateHandle;
   if not (csDesigning in ComponentState) then begin
-    if GlobalCEFApp is TCefLazApplication then
-      TCefLazApplication(GlobalCEFApp).AddContextInitializedHandler(@DoCreateBrowserAfterContext)
-    else
-      DoCreateBrowserAfterContext(nil);
+    GlobalCEFApp.AddContextInitializedHandler(@DoCreateBrowserAfterContext);
   end;
 end;
 

@@ -47,7 +47,7 @@ uses
   LResources, PropEdits,
   {$ENDIF}
   uCEFApplication, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces, uCEFChromium,
-  uCEFLinkedWinControlBase, uCEFLazApplication, uCEFBrowserViewComponent,
+  uCEFLinkedWinControlBase, uCEFBrowserViewComponent,
   uCEFChromiumEvents, Forms, ExtCtrls, Controls, Classes, sysutils;
 
 type
@@ -619,10 +619,7 @@ begin
        But at least on Linux, we need to wait
     *)
 
-    if GlobalCEFApp is TCefLazApplication then
-      TCefLazApplication(GlobalCEFApp).AddContextInitializedHandler(@DoCreateBrowserAfterContext)
-    else
-      DoCreateBrowserAfterContext(nil);
+    GlobalCEFApp.AddContextInitializedHandler(@DoCreateBrowserAfterContext);
   end;
 end;
 
