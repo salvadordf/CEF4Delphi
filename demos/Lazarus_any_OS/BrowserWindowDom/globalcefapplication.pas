@@ -77,7 +77,7 @@ begin
   {$ENDIF}
 
   GlobalCEFApp                           := TCefApplication.Create;
-  GlobalCEFApp.CheckCEFFiles := False;
+  //GlobalCEFApp.CheckCEFFiles := False;
   {$IFDEF USE_MULTI_THREAD_LOOP}
   // On Windows/Linux CEF can use threads for the message-loop
   GlobalCEFApp.MultiThreadedMessageLoop  := True;
