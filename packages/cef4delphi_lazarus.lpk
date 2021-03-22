@@ -22,7 +22,7 @@
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
     <Version Major="89" Release="7"/>
-    <Files Count="202">
+    <Files Count="201">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -833,22 +833,18 @@
       </Item198>
       <Item199>
         <Filename Value="..\source\uceflazaruscocoa.pas"/>
-        <UnitName Value="uceflazaruscocoa"/>
+        <UnitName Value="uCEFLazarusCocoa"/>
       </Item199>
       <Item200>
-        <Filename Value="..\source\uceflazarusbrowserwindow.pas"/>
+        <Filename Value="..\source\uCEFBrowserWindow.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="uceflazarusbrowserwindow"/>
+        <UnitName Value="uCEFBrowserWindow"/>
       </Item200>
       <Item201>
-        <Filename Value="..\source\uCEFLazApplication.pas"/>
-        <UnitName Value="uCEFLazApplication"/>
-      </Item201>
-      <Item202>
-        <Filename Value="..\source\uCEFLazarusOsrBrowserWindow.pas"/>
+        <Filename Value="..\source\uCEFOsrBrowserWindow.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFLazarusOsrBrowserWindow"/>
-      </Item202>
+        <UnitName Value="uCEFOsrBrowserWindow"/>
+      </Item201>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="5">

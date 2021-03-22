@@ -44,7 +44,7 @@
 
 *)
 
-unit uCEFLazarusOsrBrowserWindow;
+unit uCEFOsrBrowserWindow;
 
 {$mode objfpc}{$H+}
 {$i cef.inc}
@@ -52,15 +52,17 @@ unit uCEFLazarusOsrBrowserWindow;
 interface
 
 uses
+  {$IFDEF DARWIN}  // $IFDEF MACOSX
   uCEFLazarusCocoa,
+  {$ENDIF}
   {$IFDEF FPC}
   LResources, PropEdits,
   {$ENDIF}
   uCEFApplication, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces, uCEFChromium,
-  uCEFLinkedWinControlBase, uCEFLazApplication, uCEFBufferPanel,
-  uCEFLazarusBrowserWindow, uCEFBitmapBitBuffer, uCEFMiscFunctions,
+  uCEFLinkedWinControlBase, uCEFBufferPanel,
+  uCEFBrowserWindow, uCEFBitmapBitBuffer, uCEFMiscFunctions,
   uCEFConstants, uCEFChromiumEvents, Forms, ExtCtrls, LCLType, Graphics,
-  Controls, syncobjs, LazLogger, Classes, sysutils, math;
+  Controls, syncobjs, Classes, sysutils, math;
 
 type
 
@@ -77,13 +79,31 @@ type
   //TBrowserKeyPressEvent = procedure(Sender: TObject; var Key: char; var AHandled: Boolean) of Object;
   TBrowserUTF8KeyPressEvent = procedure(Sender: TObject; var UTF8Key: TUTF8Char; var AHandled: Boolean) of Object;
 
+  (* TEmbeddedOsrChromium
 
-  TLazOsrChromium = class(TLazChromium)
+     Hides (THiddenPropertyEditor) any published event that is used by TOsrBrowserWindow
+     * Hidden events must also not be used by user code *
+  *)
+
+  TEmbeddedOsrChromium = class(TEmbeddedChromium)
   end;
 
-  { TLazarusOsrBrowserWindow }
+  { TOsrBrowserWindow - Off-Screen-Rendering
 
-  TLazarusOsrBrowserWindow = class(TBufferPanel)
+    A simple "drop on the Form" component for an full embedded browser.
+
+    See notes an TBrowserWindow for requirements in user code.
+    Further:
+    - Some keystrokes may not be sent to KeyDown/KeyPress by the LCL.
+      They may be available as WM_SYSKEYDOWN/UP message on the containing Form.
+
+
+    This component is still experimental.
+    - On MacOS Keyboard support is not complete
+
+  }
+
+  TOsrBrowserWindow = class(TBufferPanel)
     private
       FPopUpBitmap     : TBitmap;
       FPopUpRect       : TRect;
@@ -136,7 +156,7 @@ type
         AHeight: Integer);
 
     private
-      FChromium  : TLazOsrChromium;
+      FChromium  : TEmbeddedOsrChromium;
 
       FOnBrowserClosed  : TNotifyEvent;
       FOnBrowserCreated : TNotifyEvent;
@@ -151,7 +171,7 @@ type
       procedure DoCreateBrowserAfterContext(Sender: TObject);
 
     protected
-      function    GetChromium: TLazOsrChromium;
+      function    GetChromium: TEmbeddedOsrChromium;
       function    getModifiers(Shift: TShiftState): TCefEventFlags;
       function    getKeyModifiers(Shift: TShiftState): TCefEventFlags;
       function    GetButton(Button: TMouseButton): TCefMouseButtonType;
@@ -193,11 +213,16 @@ type
       procedure   LoadURL(aURL: ustring);
     //
     published
-      property    Chromium : TLazOsrChromium    read GetChromium;
+      property    Chromium : TEmbeddedOsrChromium    read GetChromium;
 
       property    OnBrowserCreated : TNotifyEvent read FOnBrowserCreated write FOnBrowserCreated;
       property    OnBrowserClosed  : TNotifyEvent read FOnBrowserClosed write FOnBrowserClosed;
 
+      (* Mouse/Key events
+         The below events can be used to see mouse/key input before it is sent to CEF.
+         All events have a "AHandled" parameter, which can be used to prevent the event
+         from being sent to CEF.
+      *)
       property    OnMouseDown:    TBrowserMouseEvent      read FOnMouseDown write FOnMouseDown;
       property    OnMouseUp:      TBrowserMouseEvent      read FOnMouseUp write FOnMouseUp;
       property    OnMouseMove:    TBrowserMouseMoveEvent  read FOnMouseMove write FOnMouseMove;
@@ -214,14 +239,14 @@ procedure Register;
 
 implementation
 
-{ TLazarusOsrBrowserWindow }
+{ TOsrBrowserWindow }
 
-procedure TLazarusOsrBrowserWindow.AsyncInvalidate(Data: PtrInt);
+procedure TOsrBrowserWindow.AsyncInvalidate(Data: PtrInt);
 begin
   Invalidate;
 end;
 
-procedure TLazarusOsrBrowserWindow.AsyncResize(Data: PtrInt);
+procedure TOsrBrowserWindow.AsyncResize(Data: PtrInt);
 begin
   try
     FResizeCS.Acquire;
@@ -241,12 +266,12 @@ begin
   end;
 end;
 
-procedure TLazarusOsrBrowserWindow.SyncIMERangeChanged;
+procedure TOsrBrowserWindow.SyncIMERangeChanged;
 begin
   ChangeCompositionRange(FSelectedRange, FDeviceBounds);
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumBeforePopup(Sender: TObject;
+procedure TOsrBrowserWindow.DoGetChromiumBeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
@@ -258,7 +283,7 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumPopupShow(Sender: TObject;
+procedure TOsrBrowserWindow.DoGetChromiumPopupShow(Sender: TObject;
   const browser: ICefBrowser; AShow: Boolean);
 begin
   if aShow then
@@ -272,7 +297,7 @@ begin
     end;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumPopupSize(Sender: TObject;
+procedure TOsrBrowserWindow.DoGetChromiumPopupSize(Sender: TObject;
   const browser: ICefBrowser; const rect: PCefRect);
 begin
   LogicalToDevice(rect^, ScreenScale);
@@ -283,7 +308,7 @@ begin
   FPopUpRect.Bottom := rect^.y + rect^.height - 1;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumTooltip(Sender: TObject;
+procedure TOsrBrowserWindow.DoGetChromiumTooltip(Sender: TObject;
   const browser: ICefBrowser; var AText: ustring; out Result: Boolean);
 begin
   hint     := aText;
@@ -291,7 +316,7 @@ begin
   Result   := True;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumIMECompositionRangeChanged(
+procedure TOsrBrowserWindow.DoGetChromiumIMECompositionRangeChanged(
   Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange;
   character_boundsCount: NativeUInt; const character_bounds: PCefRect);
 var
@@ -334,7 +359,7 @@ begin
   TThread.Synchronize(nil, @SyncIMERangeChanged);
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumCursorChange(Sender: TObject;
+procedure TOsrBrowserWindow.DoGetChromiumCursorChange(Sender: TObject;
   const browser: ICefBrowser; cursor_: TCefCursorHandle;
   cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo;
   var aResult: boolean);
@@ -343,7 +368,7 @@ begin
   aResult       := True;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumGetScreenInfo(Sender: TObject;
+procedure TOsrBrowserWindow.DoGetChromiumGetScreenInfo(Sender: TObject;
   const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out
   Result: Boolean);
 var
@@ -366,7 +391,7 @@ begin
   Result := True;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumGetScreenPoint(Sender: TObject;
+procedure TOsrBrowserWindow.DoGetChromiumGetScreenPoint(Sender: TObject;
   const browser: ICefBrowser; viewX, viewY: Integer; var screenX,
   screenY: Integer; out Result: Boolean);
 var
@@ -382,7 +407,7 @@ begin
   Result       := True;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoGetChromiumViewRect(Sender: TObject;
+procedure TOsrBrowserWindow.DoGetChromiumViewRect(Sender: TObject;
   const browser: ICefBrowser; var rect: TCefRect);
 var
   TempScale : single;
@@ -394,7 +419,7 @@ begin
   rect.height := DeviceToLogical(Height, TempScale);
 end;
 
-procedure TLazarusOsrBrowserWindow.DoChromiumPaint(Sender: TObject;
+procedure TOsrBrowserWindow.DoChromiumPaint(Sender: TObject;
   const browser: ICefBrowser; kind: TCefPaintElementType;
   dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray;
   const ABuffer: Pointer; AWidth, AHeight: Integer);
@@ -530,12 +555,12 @@ begin
   end;
 end;
 
-function TLazarusOsrBrowserWindow.GetChromium: TLazOsrChromium;
+function TOsrBrowserWindow.GetChromium: TEmbeddedOsrChromium;
 begin
   Result := FChromium;
 end;
 
-function TLazarusOsrBrowserWindow.getModifiers(Shift: TShiftState
+function TOsrBrowserWindow.getModifiers(Shift: TShiftState
   ): TCefEventFlags;
 begin
   Result := EVENTFLAG_NONE;
@@ -549,7 +574,7 @@ begin
   if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
 end;
 
-function TLazarusOsrBrowserWindow.getKeyModifiers(Shift: TShiftState): TCefEventFlags;
+function TOsrBrowserWindow.getKeyModifiers(Shift: TShiftState): TCefEventFlags;
 begin
   Result := EVENTFLAG_NONE;
 
@@ -561,7 +586,7 @@ begin
   if (ssCaps   in Shift) then Result := Result or EVENTFLAG_CAPS_LOCK_ON;
 end;
 
-function TLazarusOsrBrowserWindow.GetButton(Button: TMouseButton
+function TOsrBrowserWindow.GetButton(Button: TMouseButton
   ): TCefMouseButtonType;
 begin
   case Button of
@@ -571,23 +596,20 @@ begin
   end;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoCreateBrowserAfterContext(Sender: TObject);
+procedure TOsrBrowserWindow.DoCreateBrowserAfterContext(Sender: TObject);
 begin
   FChromium.CreateBrowser(nil);
 end;
 
-procedure TLazarusOsrBrowserWindow.CreateHandle;
+procedure TOsrBrowserWindow.CreateHandle;
 begin
   inherited CreateHandle;
   if not (csDesigning in ComponentState) then begin
-    if GlobalCEFApp is TCefLazApplication then
-      TCefLazApplication(GlobalCEFApp).AddContextInitializedHandler(@DoCreateBrowserAfterContext)
-    else
-      DoCreateBrowserAfterContext(nil);
+    GlobalCEFApp.AddContextInitializedHandler(@DoCreateBrowserAfterContext);
   end;
 end;
 
-procedure TLazarusOsrBrowserWindow.DestroyHandle;
+procedure TOsrBrowserWindow.DestroyHandle;
 begin
   if (GlobalCEFApp = nil) or
      (not FChromium.HasBrowser) or
@@ -601,32 +623,32 @@ begin
   inherited DestroyHandle;
 end;
 
-procedure TLazarusOsrBrowserWindow.RealizeBounds;
+procedure TOsrBrowserWindow.RealizeBounds;
 begin
   inherited RealizeBounds;
   Chromium.NotifyMoveOrResizeStarted;
   AsyncResize(0);
 end;
 
-procedure TLazarusOsrBrowserWindow.DoEnter;
+procedure TOsrBrowserWindow.DoEnter;
 begin
   inherited DoEnter;
   Chromium.SendFocusEvent(True);
 end;
 
-procedure TLazarusOsrBrowserWindow.DoExit;
+procedure TOsrBrowserWindow.DoExit;
 begin
   inherited DoExit;
   Chromium.SendFocusEvent(False);
 end;
 
-procedure TLazarusOsrBrowserWindow.Click;
+procedure TOsrBrowserWindow.Click;
 begin
   inherited Click;
   SetFocus;
 end;
 
-procedure TLazarusOsrBrowserWindow.MouseDown(Button: TMouseButton;
+procedure TOsrBrowserWindow.MouseDown(Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
@@ -654,7 +676,7 @@ begin
   Chromium.SendMouseClickEvent(@TempEvent, GetButton(Button), False, LastClickCount);
 end;
 
-procedure TLazarusOsrBrowserWindow.MouseUp(Button: TMouseButton;
+procedure TOsrBrowserWindow.MouseUp(Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
@@ -680,7 +702,7 @@ begin
   Chromium.SendMouseClickEvent(@TempEvent, GetButton(Button), True, LastClickCount);
 end;
 
-procedure TLazarusOsrBrowserWindow.MouseMove(Shift: TShiftState; X, Y: Integer);
+procedure TOsrBrowserWindow.MouseMove(Shift: TShiftState; X, Y: Integer);
 var
   TempEvent : TCefMouseEvent;
   IsHandled: Boolean;
@@ -699,7 +721,7 @@ begin
   Chromium.SendMouseMoveEvent(@TempEvent, False);
 end;
 
-procedure TLazarusOsrBrowserWindow.MouseEnter;
+procedure TOsrBrowserWindow.MouseEnter;
 var
   TempEvent : TCefMouseEvent;
   TempPoint : TPoint;
@@ -714,7 +736,7 @@ begin
   Chromium.SendMouseMoveEvent(@TempEvent, False);
 end;
 
-procedure TLazarusOsrBrowserWindow.MouseLeave;
+procedure TOsrBrowserWindow.MouseLeave;
 var
   TempEvent : TCefMouseEvent;
   TempPoint : TPoint;
@@ -735,7 +757,7 @@ begin
   Chromium.SendMouseMoveEvent(@TempEvent, True);
 end;
 
-function TLazarusOsrBrowserWindow.DoMouseWheel(Shift: TShiftState;
+function TOsrBrowserWindow.DoMouseWheel(Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint): Boolean;
 var
   TempEvent  : TCefMouseEvent;
@@ -760,7 +782,7 @@ begin
     Chromium.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
 end;
 
-procedure TLazarusOsrBrowserWindow.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TOsrBrowserWindow.KeyDown(var Key: Word; Shift: TShiftState);
 var
   TempKeyEvent : TCefKeyEvent;
   IsHandled: Boolean;
@@ -797,7 +819,7 @@ begin
   inherited KeyDown(Key, Shift);
 end;
 
-procedure TLazarusOsrBrowserWindow.UTF8KeyPress(var UTF8Key: TUTF8Char);
+procedure TOsrBrowserWindow.UTF8KeyPress(var UTF8Key: TUTF8Char);
 var
   TempKeyEvent : TCefKeyEvent;
   TempString   : UnicodeString;
@@ -838,7 +860,7 @@ begin
   inherited UTF8KeyPress(UTF8Key);
 end;
 
-procedure TLazarusOsrBrowserWindow.KeyUp(var Key: Word; Shift: TShiftState);
+procedure TOsrBrowserWindow.KeyUp(var Key: Word; Shift: TShiftState);
 var
   TempKeyEvent : TCefKeyEvent;
   IsHandled: Boolean;
@@ -869,20 +891,20 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-procedure TLazarusOsrBrowserWindow.DoOnIMECancelComposition;
+procedure TOsrBrowserWindow.DoOnIMECancelComposition;
 begin
   inherited DoOnIMECancelComposition;
   Chromium.IMECancelComposition;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoOnIMECommitText(const aText: ustring;
+procedure TOsrBrowserWindow.DoOnIMECommitText(const aText: ustring;
   const replacement_range: PCefRange; relative_cursor_pos: integer);
 begin
   inherited DoOnIMECommitText(aText, replacement_range, relative_cursor_pos);
   Chromium.IMECommitText(aText, replacement_range, relative_cursor_pos);;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoOnIMESetComposition(const aText: ustring;
+procedure TOsrBrowserWindow.DoOnIMESetComposition(const aText: ustring;
   const underlines: TCefCompositionUnderlineDynArray; const replacement_range,
   selection_range: TCefRange);
 begin
@@ -891,20 +913,20 @@ begin
 end;
 {$ENDIF}
 
-procedure TLazarusOsrBrowserWindow.CaptureChanged;
+procedure TOsrBrowserWindow.CaptureChanged;
 begin
   inherited CaptureChanged;
 
   if (Chromium <> nil) then Chromium.SendCaptureLostEvent;
 end;
 
-procedure TLazarusOsrBrowserWindow.DoOnCreated(Sender: TObject);
+procedure TOsrBrowserWindow.DoOnCreated(Sender: TObject);
 begin
   if Assigned(FOnBrowserCreated) then
     FOnBrowserCreated(Self);
 end;
 
-procedure TLazarusOsrBrowserWindow.DoOnClosed(Sender: TObject);
+procedure TOsrBrowserWindow.DoOnClosed(Sender: TObject);
 begin
   if (not(csDestroying in ComponentState)) and
      Assigned(FOnBrowserClosed)
@@ -912,7 +934,7 @@ begin
     FOnBrowserClosed(Self);
 end;
 
-constructor TLazarusOsrBrowserWindow.Create(AOwner: TComponent);
+constructor TOsrBrowserWindow.Create(AOwner: TComponent);
 begin
   FResizeCS       := TCriticalSection.Create;
 
@@ -920,7 +942,7 @@ begin
   FSelectedRange.from   := 0;
   FSelectedRange.to_    := 0;
 
-  FChromium := TLazOsrChromium.Create(Self);
+  FChromium := TEmbeddedOsrChromium.Create(Self);
   FChromium.InternalOnBrowserClosed              := {$IFDEF FPC}@{$ENDIF}DoOnClosed;
   FChromium.InternalOnBrowserCreated             := {$IFDEF FPC}@{$ENDIF}DoOnCreated;
 
@@ -936,10 +958,11 @@ begin
   FChromium.OnIMECompositionRangeChanged := @DoGetChromiumIMECompositionRangeChanged;
 
   inherited Create(AOwner);
+  ControlStyle := ControlStyle + [csOwnedChildrenNotSelectable];
   CopyOriginalBuffer := true;
 end;
 
-destructor TLazarusOsrBrowserWindow.Destroy;
+destructor TOsrBrowserWindow.Destroy;
 begin
   inherited Destroy;
   FreeAndNil(FResizeCS);
@@ -950,12 +973,12 @@ begin
     end;
 end;
 
-procedure TLazarusOsrBrowserWindow.CloseBrowser(aForceClose: boolean);
+procedure TOsrBrowserWindow.CloseBrowser(aForceClose: boolean);
 begin
   FChromium.CloseBrowser(aForceClose);
 end;
 
-procedure TLazarusOsrBrowserWindow.WaitForBrowserClosed;
+procedure TOsrBrowserWindow.WaitForBrowserClosed;
 begin
   if not FChromium.HasBrowser then
     exit;
@@ -971,12 +994,12 @@ begin
   // TODO : sent closed?
 end;
 
-function TLazarusOsrBrowserWindow.IsClosed: boolean;
+function TOsrBrowserWindow.IsClosed: boolean;
 begin
   Result := not FChromium.HasBrowser;
 end;
 
-procedure TLazarusOsrBrowserWindow.LoadURL(aURL: ustring);
+procedure TOsrBrowserWindow.LoadURL(aURL: ustring);
 begin
   FChromium.LoadURL(aURL);
 end;
@@ -985,19 +1008,20 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-//  {$I res/tlazarusosrbrowserwindow.lrs}
-  RegisterComponents('Chromium', [TLazarusOsrBrowserWindow]);
-  RegisterPropertyEditor(TypeInfo(TOnClose),                      TLazOsrChromium,'OnClose',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnPaint),                      TLazOsrChromium,'OnPaint',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnGetViewRect),                TLazOsrChromium,'OnGetViewRect',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnCursorChange),               TLazOsrChromium,'OnCursorChange',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnGetScreenPoint),             TLazOsrChromium,'OnGetScreenPoint',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnGetScreenInfo),              TLazOsrChromium,'OnGetScreenInfo',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnPopupShow),                  TLazOsrChromium,'OnPopupShow',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnPopupSize),                  TLazOsrChromium,'OnPopupSize',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnTooltip),                    TLazOsrChromium,'OnTooltip',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnBeforePopup),                TLazOsrChromium,'OnBeforePopup',THiddenPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TOnIMECompositionRangeChanged), TLazOsrChromium,'OnIMECompositionRangeChanged',THiddenPropertyEditor);
+  {$I res/TOsrBrowserWindow.lrs}
+  RegisterComponents('Chromium', [TOsrBrowserWindow]);
+  RegisterClass(TEmbeddedOsrChromium);
+  RegisterPropertyEditor(TypeInfo(TOnClose),                      TEmbeddedOsrChromium,'OnClose',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnPaint),                      TEmbeddedOsrChromium,'OnPaint',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnGetViewRect),                TEmbeddedOsrChromium,'OnGetViewRect',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnCursorChange),               TEmbeddedOsrChromium,'OnCursorChange',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnGetScreenPoint),             TEmbeddedOsrChromium,'OnGetScreenPoint',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnGetScreenInfo),              TEmbeddedOsrChromium,'OnGetScreenInfo',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnPopupShow),                  TEmbeddedOsrChromium,'OnPopupShow',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnPopupSize),                  TEmbeddedOsrChromium,'OnPopupSize',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnTooltip),                    TEmbeddedOsrChromium,'OnTooltip',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnBeforePopup),                TEmbeddedOsrChromium,'OnBeforePopup',THiddenPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TOnIMECompositionRangeChanged), TEmbeddedOsrChromium,'OnIMECompositionRangeChanged',THiddenPropertyEditor);
 end;
 {$ENDIF}
 

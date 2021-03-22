@@ -48,7 +48,7 @@ uses
   SysUtils, Messages, Forms, Controls,
   Dialogs, ExtCtrls, StdCtrls, LMessages, Menus,
   uCEFTypes, uCEFInterfaces, uHelperProcessDom,
-  uCEFWorkScheduler, uCEFLazarusBrowserWindow, uCEFProcessMessage, Classes;
+  uCEFWorkScheduler, uCEFBrowserWindow, uCEFProcessMessage, Classes;
 
 type
 
@@ -58,7 +58,7 @@ type
     AddressEdt: TComboBox;
     GoBtn: TButton;
     AddressPnl: TPanel;
-    LazarusBrowserWindow1: TLazarusBrowserWindow;
+    BrowserWindow1: TBrowserWindow;
     mDomHere: TMenuItem;
 
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
@@ -67,7 +67,7 @@ type
     procedure FormCreate(Sender: TObject);
 
     procedure GoBtnClick(Sender: TObject);
-    procedure LazarusBrowserWindow1BrowserClosed(Sender: TObject);
+    procedure BrowserWindow1BrowserClosed(Sender: TObject);
   private
     FContextXY: TPoint;
 
@@ -130,10 +130,10 @@ uses
 
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
-  LazarusBrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
+  BrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
-procedure TForm1.LazarusBrowserWindow1BrowserClosed(Sender: TObject);
+procedure TForm1.BrowserWindow1BrowserClosed(Sender: TObject);
 begin
   Close;
 end;
@@ -149,7 +149,7 @@ end;
 
 procedure TForm1.DoCaptureMenuXY;
 begin
-  FContextXY := LazarusBrowserWindow1.ScreenToClient(Mouse.CursorPos);
+  FContextXY := BrowserWindow1.ScreenToClient(Mouse.CursorPos);
 end;
 
 procedure TForm1.DoContextMenuCmd(Sender: TObject; const browser: ICefBrowser;
@@ -163,7 +163,7 @@ begin
       TempMsg := TCefProcessMessageRef.New(MSG_REQUEST_DOM); // Same name than TCefCustomRenderProcessHandler.MessageName
       TempMsg.ArgumentList.SetInt(0, FContextXY.X);
       TempMsg.ArgumentList.SetInt(1, FContextXY.Y);
-      LazarusBrowserWindow1.Chromium.SendProcessMessage(PID_RENDERER, TempMsg);
+      BrowserWindow1.Chromium.SendProcessMessage(PID_RENDERER, TempMsg);
     end;
 end;
 
@@ -220,18 +220,18 @@ end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  LazarusBrowserWindow1.CloseBrowser(True);
+  BrowserWindow1.CloseBrowser(True);
 
-  CanClose := LazarusBrowserWindow1.IsClosed;
+  CanClose := BrowserWindow1.IsClosed;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  LazarusBrowserWindow1.Chromium.OnBeforeContextMenu := @DoBeforeContextMenu;
-  LazarusBrowserWindow1.Chromium.OnContextMenuCommand := @DoContextMenuCmd;
-  LazarusBrowserWindow1.Chromium.OnProcessMessageReceived := @DoProcessMessageReceived;
+  BrowserWindow1.Chromium.OnBeforeContextMenu := @DoBeforeContextMenu;
+  BrowserWindow1.Chromium.OnContextMenuCommand := @DoContextMenuCmd;
+  BrowserWindow1.Chromium.OnProcessMessageReceived := @DoProcessMessageReceived;
 
-  LazarusBrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
+  BrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
 initialization

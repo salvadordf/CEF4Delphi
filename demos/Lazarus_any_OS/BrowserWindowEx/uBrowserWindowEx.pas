@@ -48,7 +48,7 @@ uses
   SysUtils, Messages, Forms, Controls,
   Dialogs, ExtCtrls, StdCtrls, LMessages, Buttons,
   uCEFTypes, uCEFInterfaces,
-  uCEFWorkScheduler, uCEFLazarusBrowserWindow, Classes;
+  uCEFWorkScheduler, uCEFBrowserWindow, Classes;
 
 type
 
@@ -98,7 +98,7 @@ type
     procedure MaybeTerminateApp(Sender: TObject);
     procedure MaybeCloseApp(Sender: TObject);
   protected
-    FBrowserLeft, FBrowserRight: TLazarusBrowserWindow;
+    FBrowserLeft, FBrowserRight: TBrowserWindow;
     FClosingBrowsers: TList;
 
     {$IFDEF WINDOWS}
@@ -150,7 +150,7 @@ uses
 
 procedure TForm1.OpenBtnLeftClick(Sender: TObject);
 begin
-  FBrowserLeft := TLazarusBrowserWindow.Create(Self);
+  FBrowserLeft := TBrowserWindow.Create(Self);
   FBrowserLeft.Chromium.OnBeforePopup    := @Chromium1BeforePopup;
   FBrowserLeft.Chromium.OnOpenUrlFromTab := @Chromium1OpenUrlFromTab;
   FBrowserLeft.OnBrowserCreated := @LeftBrowserCreated;
@@ -191,7 +191,7 @@ end;
 
 procedure TForm1.OpenBtnRightClick(Sender: TObject);
 begin
-  FBrowserRight := TLazarusBrowserWindow.Create(Self);
+  FBrowserRight := TBrowserWindow.Create(Self);
   FBrowserRight.Chromium.OnBeforePopup    := @Chromium1BeforePopup;
   FBrowserRight.Chromium.OnOpenUrlFromTab := @Chromium1OpenUrlFromTab;
   FBrowserRight.OnBrowserCreated := @RightBrowserCreated;

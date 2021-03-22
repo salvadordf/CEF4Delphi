@@ -48,7 +48,7 @@ uses
   SysUtils, Messages, Forms, Controls,
   Dialogs, ExtCtrls, StdCtrls, LMessages,
   uCEFTypes, uCEFInterfaces,
-  uCEFWorkScheduler, uCEFLazarusBrowserWindow, Classes;
+  uCEFWorkScheduler, uCEFBrowserWindow;
 
 type
 
@@ -58,7 +58,7 @@ type
     AddressEdt: TComboBox;
     GoBtn: TButton;
     AddressPnl: TPanel;
-    LazarusBrowserWindow1: TLazarusBrowserWindow;
+    BrowserWindow1: TBrowserWindow;
 
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
@@ -66,8 +66,8 @@ type
     procedure FormCreate(Sender: TObject);
 
     procedure GoBtnClick(Sender: TObject);
-    procedure LazarusBrowserWindow1BrowserClosed(Sender: TObject);
-    procedure LazarusBrowserWindow1BrowserCreated(Sender: TObject);
+    procedure BrowserWindow1BrowserClosed(Sender: TObject);
+    procedure BrowserWindow1BrowserCreated(Sender: TObject);
 
   protected
     {$IFDEF WINDOWS}
@@ -117,15 +117,15 @@ uses
 
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
-  LazarusBrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
+  BrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
-procedure TForm1.LazarusBrowserWindow1BrowserClosed(Sender: TObject);
+procedure TForm1.BrowserWindow1BrowserClosed(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm1.LazarusBrowserWindow1BrowserCreated(Sender: TObject);
+procedure TForm1.BrowserWindow1BrowserCreated(Sender: TObject);
 begin
   Caption := 'BrowserWindow';
 end;
@@ -169,14 +169,14 @@ end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  LazarusBrowserWindow1.CloseBrowser(True);
+  BrowserWindow1.CloseBrowser(True);
 
-  CanClose := LazarusBrowserWindow1.IsClosed;
+  CanClose := BrowserWindow1.IsClosed;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  LazarusBrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
+  BrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
 initialization

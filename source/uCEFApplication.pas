@@ -60,7 +60,11 @@ uses
     {$ENDIF}
     System.Classes, System.UITypes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, Forms, ActiveX,{$ENDIF} Classes, Controls, {$IFDEF FPC}dynlibs,{$ENDIF}
+    Forms,
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Controls, {$IFDEF FPC}dynlibs,{$ENDIF}
+  {$ENDIF}
+  {$IFDEF FPC}
+  LCLProc,
   {$ENDIF}
   uCEFApplicationCore, uCEFTypes;
 
@@ -83,6 +87,12 @@ type
     protected
       FDestroyApplicationObject      : boolean;
       FDestroyAppWindows             : boolean;
+      {$IFDEF FPC}
+      FContextInitializedHandlers: TMethodList;
+      FContextInitializedDone: Boolean;
+
+      procedure CallContextInitializedHandlers(Data: PtrInt);
+      {$ENDIF}
 
       procedure BeforeInitSubProcess; override;
 
@@ -93,6 +103,13 @@ type
 
       property DestroyApplicationObject: boolean read FDestroyApplicationObject write FDestroyApplicationObject;
       property DestroyAppWindows       : boolean read FDestroyAppWindows        write FDestroyAppWindows;
+
+      {$IFDEF FPC}
+      procedure Internal_OnContextInitialized; override; // In UI thread
+
+      Procedure AddContextInitializedHandler(AHandler: TNotifyEvent);
+      Procedure RemoveContextInitializedHandler(AHandler: TNotifyEvent);
+      {$ENDIF}
   end;
 
   TCEFDirectoryDeleterThread = uCEFApplicationCore.TCEFDirectoryDeleterThread;
@@ -187,6 +204,10 @@ end;
 
 constructor TCefApplication.Create;
 begin
+  {$IFDEF FPC}
+  FContextInitializedHandlers := TMethodList.Create;
+  {$ENDIF}
+
   inherited Create;
   if GlobalCEFApp = nil then
     GlobalCEFApp := Self;
@@ -200,6 +221,10 @@ begin
   if GlobalCEFApp = Self then
     GlobalCEFApp := nil;
   inherited Destroy;
+
+  {$IFDEF FPC}
+  FContextInitializedHandlers.Free;
+  {$ENDIF}
 end;
 
 procedure TCefApplication.UpdateDeviceScaleFactor;
@@ -237,6 +262,34 @@ begin
   inherited UpdateDeviceScaleFactor;
   {$ENDIF}
 end;
+
+{$IFDEF FPC}
+procedure TCefApplication.Internal_OnContextInitialized;
+begin
+  inherited Internal_OnContextInitialized;
+  Application.QueueAsyncCall(@CallContextInitializedHandlers, 0);
+end;
+
+procedure TCefApplication.AddContextInitializedHandler(AHandler: TNotifyEvent);
+begin
+  FContextInitializedHandlers.Add(TMethod(AHandler));
+  if FContextInitializedDone then
+    AHandler(Self);
+end;
+
+procedure TCefApplication.RemoveContextInitializedHandler(AHandler: TNotifyEvent);
+begin
+  FContextInitializedHandlers.Remove(TMethod(AHandler));
+end;
+{$ENDIF}
+
+{$IFDEF FPC}
+procedure TCefApplication.CallContextInitializedHandlers(Data: PtrInt);
+begin
+  FContextInitializedHandlers.CallNotifyEvents(Self);
+  FContextInitializedDone := True;
+end;
+{$ENDIF}
 
 procedure TCefApplication.BeforeInitSubProcess;
 {$IFNDEF FPC}

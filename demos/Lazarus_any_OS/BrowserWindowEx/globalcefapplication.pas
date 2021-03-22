@@ -86,7 +86,7 @@ begin
   GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
   {$ENDIF}
 
-  GlobalCEFApp.CheckCEFFiles := false;
+  //GlobalCEFApp.CheckCEFFiles := false;
 
   {$IFnDEF MACOSX}
   {$IFDEF USE_APP_HELPER}

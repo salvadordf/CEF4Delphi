@@ -61,7 +61,7 @@ object Form1: TForm1
       Text = 'https://www.google.com'
     end
   end
-  object LazarusOsrBrowserWindow1: TLazarusOsrBrowserWindow
+  object OsrBrowserWindow1: TOsrBrowserWindow
     Left = 0
     Height = 566
     Top = 23
@@ -69,8 +69,8 @@ object Form1: TForm1
     CopyOriginalBuffer = True
     Align = alClient
     TabOrder = 1
-    OnMouseMove = LazarusOsrBrowserWindow1MouseMove
-    OnBrowserClosed = LazarusBrowserWindow1BrowserClosed
+    OnMouseMove = OsrBrowserWindow1MouseMove
+    OnBrowserClosed = OsrBrowserWindow1BrowserClosed
   end
   object PopupMenu1: TPopupMenu
     left = 418
