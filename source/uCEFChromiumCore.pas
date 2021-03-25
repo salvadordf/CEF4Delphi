@@ -5102,12 +5102,10 @@ begin
     try
       FBrowsersCS.Acquire;
 
-      if (aBrowser <> nil) and (FBrowsers <> nil) then
-        begin
-          if FBrowsers.RemoveBrowser(aBrowser) and
-             (FBrowserId = aBrowser.Identifier) then
-            FBrowserId := FBrowsers.FirstID;
-        end;
+      if (FBrowsers <> nil) and
+         FBrowsers.RemoveBrowser(aBrowser) and
+         (FBrowserId = aBrowser.Identifier) then
+        FBrowserId := FBrowsers.FirstID;
     finally
       FBrowsersCS.Release;
     end;
@@ -5121,8 +5119,7 @@ begin
     try
       FBrowsersCS.Acquire;
 
-      if (aBrowser  <> nil) and
-         (FBrowsers <> nil) and
+      if (FBrowsers <> nil) and
          (FMultiBrowserMode or (FBrowsers.Count = 0)) and
          FBrowsers.AddBrowser(aBrowser) then
         begin
@@ -5184,11 +5181,11 @@ end;
 function TChromiumCore.doOnClose(const browser: ICefBrowser): Boolean;
 var
   TempAction : TCefCloseBrowserAction;
-  id: Integer;
+  TempID     : Integer;
 begin
   Result     := False;
   TempAction := cbaClose;
-  id := browser.Identifier;
+  TempID     := browser.Identifier;
 
   // TempAction values
   // -----------------
@@ -5207,11 +5204,11 @@ begin
     cbaDelay :
       begin
         Result := True;
-        SetBrowserIsClosing(id);
+        SetBrowserIsClosing(TempID);
       end;
 
     else
-      SetBrowserIsClosing(id);
+      SetBrowserIsClosing(TempID);
   end;
 end;
 
@@ -6868,16 +6865,20 @@ var
   TempInfo : TBrowserInfo;
 begin
   Result := False;
-  i      := SearchBrowser(aBrowser.Identifier);
 
-  if (i < 0) then
+  if (aBrowser <> nil) then
     begin
-      TempInfo := TBrowserInfo.Create(aBrowser);
+      i := SearchBrowser(aBrowser.Identifier);
 
-      if (Add(TempInfo) >= 0) then
-        Result := True
-       else
-        TempInfo.Free;
+      if (i < 0) then
+        begin
+          TempInfo := TBrowserInfo.Create(aBrowser);
+
+          if (Add(TempInfo) >= 0) then
+            Result := True
+           else
+            TempInfo.Free;
+        end;
     end;
 end;
 
@@ -6886,13 +6887,17 @@ var
   i : integer;
 begin
   Result := False;
-  i      := SearchBrowser(aBrowser.Identifier);
 
-  if (i >= 0) then
+  if (aBrowser <> nil) then
     begin
-      TBrowserInfo(Items[i]).Free;
-      Delete(i);
-      Result := True;
+      i := SearchBrowser(aBrowser.Identifier);
+
+      if (i >= 0) then
+        begin
+          TBrowserInfo(Items[i]).Free;
+          Delete(i);
+          Result := True;
+        end;
     end;
 end;
 

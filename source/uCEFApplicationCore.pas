@@ -66,7 +66,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 89;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 12;
+  CEF_SUPPORTED_VERSION_RELEASE = 15;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 89;
@@ -192,6 +192,7 @@ type
       FForcedDeviceScaleFactor           : single;
       FDisableZygote                     : boolean;
       FUseMockKeyChain                   : boolean;
+      FLastErrorMessage                  : ustring;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : ustring;
@@ -550,6 +551,7 @@ type
       property ApiHashPlatform                   : ustring                             read GetApiHashPlatform;
       property ApiHashCommit                     : ustring                             read GetApiHashCommit;
       property SupportedSchemes                  : TStringList                         read FSupportedSchemes;
+      property LastErrorMessage                  : ustring                             read FLastErrorMessage;
       {$IFDEF LINUX}
       property XDisplay                          : PXDisplay                           read GetXDisplay;
       {$ENDIF}
@@ -770,6 +772,8 @@ begin
   FDevToolsProtocolLogFile           := '';
   FForcedDeviceScaleFactor           := 0;
   FDisableZygote                     := False;
+  FUseMockKeyChain                   := False;
+  FLastErrorMessage                  := '';
 
   FDisableJavascriptCloseWindows     := False;
   FDisableJavascriptAccessClipboard  := False;
@@ -1125,7 +1129,6 @@ end;
 
 function TCefApplicationCore.CheckCEFResources : boolean;
 var
-  TempString : string;
   TempMissingFrm, TempMissingRsc, TempMissingLoc, TempMissingSubProc : boolean;
 begin
   Result := False;
@@ -1137,15 +1140,15 @@ begin
 
   if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
     begin
-      FStatus    := asErrorMissingFiles;
-      TempString := 'CEF binaries missing !';
+      FStatus           := asErrorMissingFiles;
+      FLastErrorMessage := 'CEF binaries missing !';
 
       if (length(FMissingLibFiles) > 0) then
-        TempString := TempString + CRLF + CRLF +
-                      'The missing files are :' + CRLF +
-                      trim(FMissingLibFiles);
+        FLastErrorMessage := FLastErrorMessage + CRLF + CRLF +
+                             'The missing files are :' + CRLF +
+                             trim(FMissingLibFiles);
 
-      ShowErrorMessageDlg(TempString);
+      ShowErrorMessageDlg(FLastErrorMessage);
     end
    else
     Result := True;
@@ -1154,7 +1157,6 @@ end;
 {$IFDEF MSWINDOWS}
 function TCefApplicationCore.CheckCEFDLL : boolean;
 var
-  TempString : string;
   TempMachine : integer;
   TempVersionInfo : TFileVersionInfo;
 begin
@@ -1173,12 +1175,12 @@ begin
               Result := True
              else
               begin
-                FStatus    := asErrorDLLVersion;
-                TempString := 'Wrong CEF binaries !' +
-                              CRLF + CRLF +
-                              'Use the 32 bit CEF binaries with 32 bits applications only.';
+                FStatus           := asErrorDLLVersion;
+                FLastErrorMessage := 'Wrong CEF binaries !' +
+                                     CRLF + CRLF +
+                                     'Use the 32 bit CEF binaries with 32 bits applications only.';
 
-                ShowErrorMessageDlg(TempString);
+                ShowErrorMessageDlg(FLastErrorMessage);
               end;
 
           CEF_IMAGE_FILE_MACHINE_AMD64 :
@@ -1187,23 +1189,23 @@ begin
              else
 
               begin
-                FStatus    := asErrorDLLVersion;
-                TempString := 'Wrong CEF binaries !' +
-                              CRLF + CRLF +
-                              'Use the 64 bit CEF binaries with 64 bits applications only.';
+                FStatus           := asErrorDLLVersion;
+                FLastErrorMessage := 'Wrong CEF binaries !' +
+                                     CRLF + CRLF +
+                                     'Use the 64 bit CEF binaries with 64 bits applications only.';
 
-                ShowErrorMessageDlg(TempString);
+                ShowErrorMessageDlg(FLastErrorMessage);
               end;
 
           else
             begin
-              FStatus    := asErrorDLLVersion;
-              TempString := 'Unknown CEF binaries !' +
-                            CRLF + CRLF +
-                            'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
-                            CEF4DELPHI_URL;
+              FStatus           := asErrorDLLVersion;
+              FLastErrorMessage := 'Unknown CEF binaries !' +
+                                   CRLF + CRLF +
+                                   'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
+                                   CEF4DELPHI_URL;
 
-              ShowErrorMessageDlg(TempString);
+              ShowErrorMessageDlg(FLastErrorMessage);
             end;
         end
        else
@@ -1212,17 +1214,17 @@ begin
    else
     begin
       FStatus    := asErrorDLLVersion;
-      TempString := 'Unsupported CEF version !' +
-                    CRLF + CRLF +
-                    'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
-                    CEF4DELPHI_URL;
+      FLastErrorMessage := 'Unsupported CEF version !' +
+                           CRLF + CRLF +
+                           'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
+                           CEF4DELPHI_URL;
 
       if GetDLLVersion(LibCefPath, TempVersionInfo) then
-        TempString := TempString + CRLF + CRLF +
-                      'Expected ' + LIBCEF_DLL + ' version : ' + LibCefVersion + CRLF +
-                      'Found ' + LIBCEF_DLL + ' version : ' + FileVersionInfoToString(TempVersionInfo);
+        FLastErrorMessage := FLastErrorMessage + CRLF + CRLF +
+                             'Expected ' + LIBCEF_DLL + ' version : ' + LibCefVersion + CRLF +
+                             'Found ' + LIBCEF_DLL + ' version : ' + FileVersionInfoToString(TempVersionInfo);
 
-      ShowErrorMessageDlg(TempString);
+      ShowErrorMessageDlg(FLastErrorMessage);
     end;
 end;
 {$ENDIF}
@@ -2548,7 +2550,7 @@ end;
 
 function TCefApplicationCore.LoadCEFlibrary : boolean;
 var
-  TempOldDir, TempString : string;
+  TempOldDir : string;
   {$IFDEF MSWINDOWS}
   TempError : DWORD;
   {$ENDIF}
@@ -2557,10 +2559,10 @@ begin
 
   if (FStatus <> asLoading) or FLibLoaded or (FLibHandle <> 0) then
     begin
-      FStatus    := asErrorLoadingLibrary;
-      TempString := 'GlobalCEFApp can only be initialized once per process.';
+      FStatus           := asErrorLoadingLibrary;
+      FLastErrorMessage := 'GlobalCEFApp can only be initialized once per process.';
 
-      ShowErrorMessageDlg(TempString);
+      ShowErrorMessageDlg(FLastErrorMessage);
       exit;
     end;
 
@@ -2585,15 +2587,15 @@ begin
       FStatus := asErrorLoadingLibrary;
 
       {$IFDEF MSWINDOWS}
-      TempError  := GetLastError;
-      TempString := 'Error loading ' + LIBCEF_DLL + CRLF + CRLF +
-                    'Error code : 0x' + inttohex(TempError, 8) + CRLF +
-                    SysErrorMessage(TempError);
+      TempError         := GetLastError;
+      FLastErrorMessage := 'Error loading ' + LIBCEF_DLL + CRLF + CRLF +
+                           'Error code : 0x' + inttohex(TempError, 8) + CRLF +
+                           SysErrorMessage(TempError);
       {$ELSE}
-      TempString := 'Error loading ' + LIBCEF_DLL;
+      FLastErrorMessage := 'Error loading ' + LIBCEF_DLL;
       {$ENDIF}
 
-      ShowErrorMessageDlg(TempString);
+      ShowErrorMessageDlg(FLastErrorMessage);
       exit;
     end;
 
@@ -2659,13 +2661,13 @@ begin
     end
    else
     begin
-      FStatus    := asErrorDLLVersion;
-      TempString := 'Unsupported CEF version !' +
-                    CRLF + CRLF +
-                    'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
-                    CRLF + CEF4DELPHI_URL;
+      FStatus           := asErrorDLLVersion;
+      FLastErrorMessage := 'Unsupported CEF version !' +
+                           CRLF + CRLF +
+                           'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
+                           CRLF + CEF4DELPHI_URL;
 
-      ShowErrorMessageDlg(TempString);
+      ShowErrorMessageDlg(FLastErrorMessage);
     end;
 
   if FSetCurrentDir then chdir(TempOldDir);
