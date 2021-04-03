@@ -3,7 +3,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   Top = 0
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 710
-  ClientWidth = 1038
+  ClientWidth = 1054
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   object Splitter1: TSplitter
     Left = 0
     Top = 477
-    Width = 1038
+    Width = 1054
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -31,8 +31,8 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   object AddressPnl: TPanel
     Left = 0
     Top = 0
-    Width = 1038
-    Height = 49
+    Width = 1054
+    Height = 67
     Align = alTop
     BevelOuter = bvNone
     Enabled = False
@@ -41,34 +41,37 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 0
+    DesignSize = (
+      1054
+      67)
     object AddressEdt: TEdit
       Left = 5
       Top = 5
-      Width = 724
-      Height = 39
+      Width = 735
+      Height = 21
       Margins.Right = 5
-      Align = alClient
+      Anchors = [akLeft, akTop, akRight]
       ReadOnly = True
       TabOrder = 0
       Text = 'https://www.briskbard.com/'
-      ExplicitHeight = 21
     end
     object Panel1: TPanel
-      Left = 729
+      Left = 745
       Top = 5
       Width = 304
-      Height = 39
+      Height = 57
       Align = alRight
       BevelOuter = bvNone
       Padding.Left = 5
       TabOrder = 1
+      ExplicitLeft = 729
+      ExplicitHeight = 39
       object GoBtn: TButton
         Left = 5
         Top = 0
         Width = 63
-        Height = 39
+        Height = 21
         Margins.Left = 5
-        Align = alLeft
         Caption = 'Go'
         TabOrder = 0
         OnClick = GoBtnClick
@@ -76,7 +79,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       object RscNameEdt: TEdit
         Left = 176
         Top = 0
-        Width = 129
+        Width = 122
         Height = 21
         TabOrder = 1
         Text = 'script.js'
@@ -99,38 +102,51 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Caption = 'Replace logo'
         TabOrder = 3
       end
+      object ReplaceTextBtn: TRadioButton
+        Left = 74
+        Top = 40
+        Width = 96
+        Height = 17
+        Caption = 'Replace text'
+        TabOrder = 4
+      end
     end
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
-    Top = 49
-    Width = 1038
-    Height = 428
+    Top = 67
+    Width = 1054
+    Height = 410
     Align = alClient
     TabOrder = 1
+    ExplicitTop = 49
+    ExplicitWidth = 1038
+    ExplicitHeight = 428
   end
   object Panel2: TPanel
     Left = 0
     Top = 480
-    Width = 1038
+    Width = 1054
     Height = 230
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitWidth = 1038
     object Memo1: TMemo
       Left = 0
       Top = 0
-      Width = 1038
+      Width = 1054
       Height = 211
       Align = alClient
       ReadOnly = True
       ScrollBars = ssBoth
       TabOrder = 0
+      ExplicitWidth = 1038
     end
     object StatusBar1: TStatusBar
       Left = 0
       Top = 211
-      Width = 1038
+      Width = 1054
       Height = 19
       Panels = <
         item
@@ -145,6 +161,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         item
           Width = 200
         end>
+      ExplicitWidth = 1038
     end
   end
   object Timer1: TTimer
