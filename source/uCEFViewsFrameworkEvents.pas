@@ -64,6 +64,7 @@ type
   TOnGetHeightForWidthEvent = procedure(const Sender: TObject; const view: ICefView; width: Integer; var aResult: Integer) of object;
   TOnParentViewChangedEvent = procedure(const Sender: TObject; const view: ICefView; added: boolean; const parent: ICefView) of object;
   TOnChildViewChangedEvent  = procedure(const Sender: TObject; const view: ICefView; added: boolean; const child: ICefView) of object;
+  TOnWindowChangedEvent     = procedure(const Sender: TObject; const view: ICefView; added: boolean) of object;
   TOnFocusEvent             = procedure(const Sender: TObject; const view: ICefView) of object;
   TOnBlurEvent              = procedure(const Sender: TObject; const view: ICefView) of object;
 
@@ -78,6 +79,7 @@ type
   TOnBrowserDestroyedEvent               = procedure(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser) of object;
   TOnGetDelegateForPopupBrowserViewEvent = procedure(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate) of object;
   TOnPopupBrowserViewCreatedEvent        = procedure(const Sender: TObject; const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean) of object;
+  TOnGetChromeToolbarTypeEvent           = procedure(const Sender: TObject; var aChromeToolbarType: TCefChromeToolbarType) of object;
 
   // ICefButtonDelegate
   TOnButtonPressedEvent      = procedure(const Sender: TObject; const button: ICefButton) of object;

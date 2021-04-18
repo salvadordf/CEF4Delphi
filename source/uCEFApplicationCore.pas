@@ -64,15 +64,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 89;
-  CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 18;
+  CEF_SUPPORTED_VERSION_MAJOR   = 90;
+  CEF_SUPPORTED_VERSION_MINOR   = 5;
+  CEF_SUPPORTED_VERSION_RELEASE = 4;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 89;
+  CEF_CHROMEELF_VERSION_MAJOR   = 90;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4389;
-  CEF_CHROMEELF_VERSION_BUILD   = 114;
+  CEF_CHROMEELF_VERSION_RELEASE = 4430;
+  CEF_CHROMEELF_VERSION_BUILD   = 72;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -125,6 +125,8 @@ type
       FIgnoreCertificateErrors           : Boolean;
       FBackgroundColor                   : TCefColor;
       FAcceptLanguageList                : ustring;
+      FCookieableSchemesList             : ustring;
+      FCookieableSchemesExcludeDefaults  : boolean;
       FApplicationClientID               : ustring;
       FWindowsSandboxInfo                : Pointer;
       FWindowlessRenderingEnabled        : Boolean;
@@ -172,7 +174,6 @@ type
       {$ENDIF}
       FOnRegisterCustomSchemes           : TOnRegisterCustomSchemesEvent;
       FAppSettings                       : TCefSettings;
-      FCheckDevToolsResources            : boolean;
       FDisableExtensions                 : boolean;
       FDisableGPUCache                   : boolean;
       FStatus                            : TCefAplicationStatus;
@@ -218,7 +219,6 @@ type
       FMustCreateBrowserProcessHandler   : boolean;
       FMustCreateRenderProcessHandler    : boolean;
       FMustCreateLoadHandler             : boolean;
-      FMustCreatePrintHandler            : boolean;
 
       // ICefBrowserProcessHandler
       FOnGetCookieableSchemes            : TOnGetCookieableSchemesEvent;
@@ -251,14 +251,6 @@ type
       FOnLoadEnd                         : TOnRenderLoadEnd;
       FOnLoadError                       : TOnRenderLoadError;
 
-      // ICefPrintHandler
-      FOnPrintStart                      : TOnPrintStartEvent;
-      FOnPrintSettings                   : TOnPrintSettingsEvent;
-      FOnPrintDialog                     : TOnPrintDialogEvent;
-      FOnPrintJob                        : TOnPrintJobEvent;
-      FOnPrintReset                      : TOnPrintResetEvent;
-      FOnGetPDFPaperSize                 : TOnGetPDFPaperSizeEvent;
-
       procedure SetCache(const aValue : ustring);
       procedure SetRootCache(const aValue : ustring);
       procedure SetUserDataPath(const aValue : ustring);
@@ -278,7 +270,6 @@ type
       function  GetMustCreateBrowserProcessHandler : boolean; virtual;
       function  GetMustCreateRenderProcessHandler : boolean; virtual;
       function  GetMustCreateLoadHandler : boolean; virtual;
-      function  GetMustCreatePrintHandler : boolean; virtual;
       function  GetGlobalContextInitialized : boolean;
       function  GetChildProcessesCount : integer;
       function  GetUsedMemory : uint64;
@@ -364,7 +355,6 @@ type
       function  CheckCEFLibrary : boolean;
       procedure RegisterWidevineCDM;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
-      procedure UpdateSupportedSchemes(aIncludeDefaults : boolean = True); virtual;
       function  ParseProcessType : TCefProcessType;
       procedure AddCustomCommandLineSwitches(var aKeys, aValues : TStringList); virtual;
       procedure AppendSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
@@ -388,8 +378,8 @@ type
       procedure   UpdateDeviceScaleFactor; virtual;
 
       // Internal procedures. Only ICefApp, ICefBrowserProcessHandler,
-      // ICefResourceBundleHandler, ICefRenderProcessHandler, ICefRegisterCDMCallback,
-      // ICefLoadHandler and ICefPrintHandler should use them.
+      // ICefResourceBundleHandler, ICefRenderProcessHandler, ICefRegisterCDMCallback and
+      // ICefLoadHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
       procedure   Internal_OnContextInitialized; virtual;
@@ -413,12 +403,6 @@ type
       procedure   Internal_OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
       procedure   Internal_GetCookieableSchemes(var schemes: TStringList; var include_defaults : boolean);
       procedure   Internal_GetDefaultClient(var aClient : ICefClient);
-      procedure   Internal_OnPrintStart(const browser: ICefBrowser);
-      procedure   Internal_OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
-      procedure   Internal_OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
-      procedure   Internal_OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
-      procedure   Internal_OnPrintReset(const browser: ICefBrowser);
-      procedure   Internal_OnGetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult : TCefSize);
 
       // Properties used to populate TCefSettings (cef_settings_t)
       property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
@@ -441,14 +425,16 @@ type
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
-      property ResourcesDirPath                  : ustring                             read GetResourcesDirPath                  write SetResourcesDirPath;
-      property LocalesDirPath                    : ustring                             read GetLocalesDirPath                    write SetLocalesDirPath;
+      property ResourcesDirPath                  : ustring                             read GetResourcesDirPath                write SetResourcesDirPath;
+      property LocalesDirPath                    : ustring                             read GetLocalesDirPath                  write SetLocalesDirPath;
       property PackLoadingDisabled               : Boolean                             read FPackLoadingDisabled               write FPackLoadingDisabled;
       property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
       property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
       property IgnoreCertificateErrors           : Boolean                             read FIgnoreCertificateErrors           write FIgnoreCertificateErrors;
       property BackgroundColor                   : TCefColor                           read FBackgroundColor                   write FBackgroundColor;
       property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
+      property CookieableSchemesList             : ustring                             read FCookieableSchemesList             write FCookieableSchemesList;
+      property CookieableSchemesExcludeDefaults  : boolean                             read FCookieableSchemesExcludeDefaults  write FCookieableSchemesExcludeDefaults;
       property ApplicationClientID               : ustring                             read FApplicationClientID               write FApplicationClientID;
 
       // Properties used to set command line switches
@@ -529,14 +515,12 @@ type
       property LogProcessInfo                    : boolean                             read FLogProcessInfo                    write FLogProcessInfo;
       property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
-      property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
       property ProcessType                       : TCefProcessType                     read FProcessType;
       property MustCreateResourceBundleHandler   : boolean                             read GetMustCreateResourceBundleHandler write FMustCreateResourceBundleHandler;
       property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
       property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
       property MustCreateLoadHandler             : boolean                             read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
-      property MustCreatePrintHandler            : boolean                             read GetMustCreatePrintHandler          write FMustCreatePrintHandler;
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
@@ -589,16 +573,6 @@ type
       property OnLoadStart                       : TOnRenderLoadStart                  read FOnLoadStart                       write FOnLoadStart;
       property OnLoadEnd                         : TOnRenderLoadEnd                    read FOnLoadEnd                         write FOnLoadEnd;
       property OnLoadError                       : TOnRenderLoadError                  read FOnLoadError                       write FOnLoadError;
-
-      // ICefPrintHandler
-      {$IFDEF LINUX}
-      property OnPrintStart                      : TOnPrintStartEvent                  read FOnPrintStart                      write FOnPrintStart;
-      property OnPrintSettings                   : TOnPrintSettingsEvent               read FOnPrintSettings                   write FOnPrintSettings;
-      property OnPrintDialog                     : TOnPrintDialogEvent                 read FOnPrintDialog                     write FOnPrintDialog;
-      property OnPrintJob                        : TOnPrintJobEvent                    read FOnPrintJob                        write FOnPrintJob;
-      property OnPrintReset                      : TOnPrintResetEvent                  read FOnPrintReset                      write FOnPrintReset;
-      property OnGetPDFPaperSize                 : TOnGetPDFPaperSizeEvent             read FOnGetPDFPaperSize                 write FOnGetPDFPaperSize;
-      {$ENDIF}
   end;
 
   TCEFDirectoryDeleterThread = class(TThread)
@@ -672,7 +646,8 @@ end;
 constructor TCefApplicationCore.Create;
 begin
   inherited Create;
-  if GlobalCEFApp = nil then
+
+  if (GlobalCEFApp = nil) then
     GlobalCEFApp := Self;
 
   FStatus                            := asLoading;
@@ -708,6 +683,8 @@ begin
   FIgnoreCertificateErrors           := False;
   FBackgroundColor                   := 0;
   FAcceptLanguageList                := '';
+  FCookieableSchemesList             := '';
+  FCookieableSchemesExcludeDefaults  := False;
   FApplicationClientID               := '';
   FWindowsSandboxInfo                := nil;
   FWindowlessRenderingEnabled        := False;
@@ -745,7 +722,6 @@ begin
   FMissingBinariesException          := False;
   FSetCurrentDir                     := False;
   FGlobalContextInitialized          := False;
-  FCheckDevToolsResources            := True;
   FDisableExtensions                 := False;
   FDisableGPUCache                   := True;
   FLocalesRequired                   := '';
@@ -796,7 +772,6 @@ begin
   FMustCreateBrowserProcessHandler   := True;
   FMustCreateRenderProcessHandler    := False;
   FMustCreateLoadHandler             := False;
-  FMustCreatePrintHandler            := False;
 
   // ICefBrowserProcessHandler
   FOnGetCookieableSchemes            := nil;
@@ -828,14 +803,6 @@ begin
   FOnLoadStart                       := nil;
   FOnLoadEnd                         := nil;
   FOnLoadError                       := nil;
-
-  // ICefPrintHandler
-  FOnPrintStart                      := nil;
-  FOnPrintSettings                   := nil;
-  FOnPrintDialog                     := nil;
-  FOnPrintJob                        := nil;
-  FOnPrintReset                      := nil;
-  FOnGetPDFPaperSize                 := nil;
 
   UpdateDeviceScaleFactor;
 
@@ -1135,7 +1102,7 @@ begin
 
   TempMissingSubProc := not(CheckSubprocessPath(FBrowserSubprocessPath, FMissingLibFiles));
   TempMissingFrm     := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
-  TempMissingRsc     := not(CheckResources(ResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
+  TempMissingRsc     := not(CheckResources(ResourcesDirPath, FMissingLibFiles));
   TempMissingLoc     := not(CheckLocales(LocalesDirPath, FMissingLibFiles, FLocalesRequired));
 
   if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
@@ -1428,6 +1395,8 @@ begin
   aSettings.ignore_certificate_errors               := Ord(FIgnoreCertificateErrors);
   aSettings.background_color                        := FBackgroundColor;
   aSettings.accept_language_list                    := CefString(FAcceptLanguageList);
+  aSettings.cookieable_schemes_list                 := CefString(FCookieableSchemesList);
+  aSettings.cookieable_schemes_exclude_defaults     := Ord(FCookieableSchemesExcludeDefaults);
   aSettings.application_client_id_for_file_scanning := CefString(FApplicationClientID);
 end;
 
@@ -1632,24 +1601,6 @@ begin
     raise Exception.Create(aError);
 end;
 
-procedure TCefApplicationCore.UpdateSupportedSchemes(aIncludeDefaults : boolean);
-var
-  TempManager : ICefCookieManager;
-begin
-  try
-    if (FSupportedSchemes       <> nil) and
-       (FSupportedSchemes.Count  > 0)   then
-      begin
-        TempManager := TCefCookieManagerRef.Global(nil);
-
-        if (TempManager <> nil) then
-          TempManager.SetSupportedSchemes(FSupportedSchemes, aIncludeDefaults, nil);
-      end;
-  finally
-    TempManager := nil;
-  end;
-end;
-
 function TCefApplicationCore.ParseProcessType : TCefProcessType;
 const
   TYPE_PARAMETER_NAME = '--type=';
@@ -1694,7 +1645,6 @@ end;
 procedure TCefApplicationCore.Internal_OnContextInitialized;
 begin
   FGlobalContextInitialized := True;
-  UpdateSupportedSchemes;
 
   if assigned(FOnContextInitialized) then
     FOnContextInitialized();
@@ -1835,42 +1785,6 @@ procedure TCefApplicationCore.Internal_GetDefaultClient(var aClient : ICefClient
 begin
   if assigned(FOnGetDefaultClient) then
     FOnGetDefaultClient(aClient);
-end;
-
-procedure TCefApplicationCore.Internal_OnPrintStart(const browser: ICefBrowser);
-begin
-  if assigned(FOnPrintStart) then
-    FOnPrintStart(browser);
-end;
-
-procedure TCefApplicationCore.Internal_OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
-begin
-  if assigned(FOnPrintSettings) then
-    FOnPrintSettings(browser, settings, getDefaults);
-end;
-
-procedure TCefApplicationCore.Internal_OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
-begin
-  if assigned(FOnPrintDialog) then
-    FOnPrintDialog(browser, hasSelection, callback, aResult);
-end;
-
-procedure TCefApplicationCore.Internal_OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
-begin
-  if assigned(FOnPrintJob) then
-    FOnPrintJob(browser, documentName, PDFFilePath, callback, aResult);
-end;
-
-procedure TCefApplicationCore.Internal_OnPrintReset(const browser: ICefBrowser);
-begin
-  if assigned(FOnPrintReset) then
-    FOnPrintReset(browser);
-end;
-
-procedure TCefApplicationCore.Internal_OnGetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult : TCefSize);
-begin
-  if assigned(FOnGetPDFPaperSize) then
-    FOnGetPDFPaperSize(deviceUnitsPerInch, aResult);
 end;
 
 procedure TCefApplicationCore.AppendSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
@@ -2305,7 +2219,6 @@ function TCefApplicationCore.GetMustCreateBrowserProcessHandler : boolean;
 begin
   Result := ((FSingleProcess or (FProcessType = ptBrowser)) and
              (FMustCreateBrowserProcessHandler        or
-              MustCreatePrintHandler                  or
               assigned(FOnGetCookieableSchemes)       or
               assigned(FOnContextInitialized)         or
               assigned(FOnBeforeChildProcessLaunch)   or
@@ -2336,22 +2249,6 @@ begin
               assigned(FOnLoadStart)          or
               assigned(FOnLoadEnd)            or
               assigned(FOnLoadError)));
-end;
-
-function TCefApplicationCore.GetMustCreatePrintHandler : boolean;
-begin
-  {$IFDEF LINUX}
-  Result := ((FSingleProcess or (FProcessType = ptBrowser)) and
-             (FMustCreatePrintHandler    or
-              assigned(FOnPrintStart)    or
-              assigned(FOnPrintSettings) or
-              assigned(FOnPrintDialog)   or
-              assigned(FOnPrintJob)      or
-              assigned(FOnPrintReset)    or
-              assigned(FOnGetPDFPaperSize)));
-  {$ELSE}
-  Result := False;
-  {$ENDIF}
 end;
 
 function TCefApplicationCore.GetGlobalContextInitialized : boolean;

@@ -59,7 +59,7 @@ type
       procedure OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult: boolean); virtual;
       procedure OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult: boolean); virtual;
       procedure OnPrintReset(const browser: ICefBrowser); virtual; abstract;
-      procedure GetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult: TCefSize); virtual;
+      procedure GetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult: TCefSize); virtual;
 
       procedure RemoveReferences; virtual; abstract;
 
@@ -69,19 +69,19 @@ type
 
   TCustomPrintHandler = class(TCefPrintHandlerOwn)
     protected
-      FCefApp : TCefApplicationCore;
+      FEvents : Pointer;
 
       procedure OnPrintStart(const browser: ICefBrowser); override;
       procedure OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean); override;
       procedure OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult: boolean); override;
       procedure OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult: boolean); override;
       procedure OnPrintReset(const browser: ICefBrowser); override;
-      procedure GetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult: TCefSize); override;
+      procedure GetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult: TCefSize); override;
 
       procedure RemoveReferences; override;
 
     public
-      constructor Create(const aCefApp : TCefApplicationCore); reintroduce; virtual;
+      constructor Create(const events : IChromiumEvents); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -178,6 +178,7 @@ begin
 end;
 
 function cef_print_handler_get_pdf_paper_size(self                  : PCefPrintHandler;
+                                              browser               : PCefBrowser;
                                               device_units_per_inch : Integer): TCefSize; stdcall;
 var
   TempObject : TObject;
@@ -188,7 +189,9 @@ begin
   TempSize.Height := 0;
 
   if (TempObject <> nil) and (TempObject is TCefPrintHandlerOwn) then
-    TCefPrintHandlerOwn(TempObject).GetPDFPaperSize(device_units_per_inch, TempSize);
+    TCefPrintHandlerOwn(TempObject).GetPDFPaperSize(TCefBrowserRef.UnWrap(browser),
+                                                    device_units_per_inch,
+                                                    TempSize);
 
   Result := TempSize;
 end;
@@ -218,7 +221,7 @@ begin
   aResult := False;
 end;
 
-procedure TCefPrintHandlerOwn.GetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult: TCefSize);
+procedure TCefPrintHandlerOwn.GetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult: TCefSize);
 begin
   aResult.Width  := 0;
   aResult.Height := 0;
@@ -227,11 +230,11 @@ end;
 
 // TCustomPrintHandler
 
-constructor TCustomPrintHandler.Create(const aCefApp : TCefApplicationCore);
+constructor TCustomPrintHandler.Create(const events : IChromiumEvents);
 begin
   inherited Create;
 
-  FCefApp := aCefApp;
+  FEvents := Pointer(events);
 end;
 
 destructor TCustomPrintHandler.Destroy;
@@ -243,29 +246,21 @@ end;
 
 procedure TCustomPrintHandler.RemoveReferences;
 begin
-  FCefApp := nil;
+  FEvents := nil;
 end;
 
 procedure TCustomPrintHandler.OnPrintStart(const browser : ICefBrowser);
 begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnPrintStart(browser);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomPrintHandler.OnPrintStart', e) then raise;
-  end;
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnPrintStart(browser);
 end;
 
 procedure TCustomPrintHandler.OnPrintSettings(const browser     : ICefBrowser;
                                               const settings    : ICefPrintSettings;
                                                     getDefaults : boolean);
 begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnPrintSettings(browser, settings, getDefaults);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomPrintHandler.OnPrintSettings', e) then raise;
-  end;
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnPrintSettings(browser, settings, getDefaults);
 end;
 
 procedure TCustomPrintHandler.OnPrintDialog(const browser      : ICefBrowser;
@@ -273,12 +268,8 @@ procedure TCustomPrintHandler.OnPrintDialog(const browser      : ICefBrowser;
                                             const callback     : ICefPrintDialogCallback;
                                             var   aResult      : boolean);
 begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnPrintDialog(browser, hasSelection, callback, aResult);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomPrintHandler.OnPrintDialog', e) then raise;
-  end;
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnPrintDialog(browser, hasSelection, callback, aResult);
 end;
 
 procedure TCustomPrintHandler.OnPrintJob(const browser      : ICefBrowser;
@@ -287,33 +278,22 @@ procedure TCustomPrintHandler.OnPrintJob(const browser      : ICefBrowser;
                                          const callback     : ICefPrintJobCallback;
                                          var   aResult      : boolean);
 begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnPrintJob(browser, documentName, PDFFilePath, callback, aResult);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomPrintHandler.OnPrintJob', e) then raise;
-  end;
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnPrintJob(browser, documentName, PDFFilePath, callback, aResult);
 end;
 
 procedure TCustomPrintHandler.OnPrintReset(const browser : ICefBrowser);
 begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnPrintReset(browser);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomPrintHandler.OnPrintReset', e) then raise;
-  end;
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnPrintReset(browser);
 end;
 
-procedure TCustomPrintHandler.GetPDFPaperSize(    deviceUnitsPerInch : Integer;
-                                              var aResult            : TCefSize);
+procedure TCustomPrintHandler.GetPDFPaperSize(const browser            : ICefBrowser;
+                                                    deviceUnitsPerInch : Integer;
+                                              var   aResult            : TCefSize);
 begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnGetPDFPaperSize(deviceUnitsPerInch, aResult);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomPrintHandler.GetPDFPaperSize', e) then raise;
-  end;
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnGetPDFPaperSize(browser, deviceUnitsPerInch, aResult);
 end;
 
 end.

@@ -85,6 +85,7 @@ type
       procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
+      procedure OnWindowChanged(const view: ICefView; added: boolean); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
 
@@ -244,6 +245,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomMenuButtonDelegate.OnChildViewChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomMenuButtonDelegate.OnWindowChanged(const view: ICefView; added: boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefMenuButtonDelegateEvents(FEvents).doOnWindowChanged(view, added);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomMenuButtonDelegate.OnWindowChanged', e) then raise;
   end;
 end;
 

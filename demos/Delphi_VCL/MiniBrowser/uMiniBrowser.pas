@@ -445,7 +445,7 @@ begin
    else
     TempFullPath := TempName;
 
-  callback.cont(TempFullPath, False);
+  callback.cont(TempFullPath, True);
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;

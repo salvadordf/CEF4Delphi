@@ -212,7 +212,7 @@ function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
 function CheckSubprocessPath(const aSubprocessPath : string; var aMissingFiles : string) : boolean;
 function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;
-function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True; aCheckExtensions: boolean = True) : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
 {$IFDEF MSWINDOWS}
 function CheckDLLVersion(const aDLLFile : ustring; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
@@ -1141,7 +1141,7 @@ begin
   end;
 end;
 
-function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources, aCheckExtensions: boolean) : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string) : boolean;
 var
   TempDir    : string;
   TempList   : TStringList;
@@ -1156,12 +1156,9 @@ begin
       TempList := TStringList.Create;
       TempList.Add(TempDir + 'snapshot_blob.bin');
       TempList.Add(TempDir + 'v8_context_snapshot.bin');
-      TempList.Add(TempDir + 'cef.pak');
-      TempList.Add(TempDir + 'cef_100_percent.pak');
-      TempList.Add(TempDir + 'cef_200_percent.pak');
-
-      if aCheckExtensions   then TempList.Add(TempDir + 'cef_extensions.pak');
-      if aCheckDevResources then TempList.Add(TempDir + 'devtools_resources.pak');
+      TempList.Add(TempDir + 'resources.pak');
+      TempList.Add(TempDir + 'chrome_100_percent.pak');
+      TempList.Add(TempDir + 'chrome_200_percent.pak');
 
       if TempExists then
         Result := CheckFilesExist(TempList, aMissingFiles)

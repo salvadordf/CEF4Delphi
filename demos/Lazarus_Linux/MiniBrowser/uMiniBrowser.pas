@@ -99,9 +99,15 @@ type
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType, pluginUrl: ustring; isMainFrame: boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult: boolean);
+    procedure Chromium1GetPDFPaperSize(Sender: TObject; const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult: TCefSize);
     procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1Jsdialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean; out Result: Boolean);
     procedure Chromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+    procedure Chromium1PrintDialog(Sender: TObject; const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult: boolean);
+    procedure Chromium1PrintJob(Sender: TObject; const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult: boolean);
+    procedure Chromium1PrintReset(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1PrintSettings(Sender: TObject; const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
+    procedure Chromium1PrintStart(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1AddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
     procedure Chromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
@@ -210,12 +216,6 @@ type
     property  BrowserCanGoForward  : boolean             read GetBrowserCanGoForward write SetBrowserCanGoForward;
     property  BrowserStatusText    : string              read GetBrowserStatusText   write SetBrowserStatusText;
     property  BrowserTitle         : string              read GetBrowserTitle        write SetBrowserTitle;
-  public
-    procedure HandlePrintStart(const browser: ICefBrowser);
-    procedure HandlePrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);       
-    procedure HandlePrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
-    procedure HandlePrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
-    procedure HandlePrintReset(const browser: ICefBrowser);
   end;
 
 var
@@ -260,37 +260,6 @@ const
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
-procedure GlobalCEFApp_OnPrintStart(const browser: ICefBrowser);
-begin
-  MiniBrowserFrm.HandlePrintStart(browser);
-end;
-
-procedure GlobalCEFApp_OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
-begin
-  MiniBrowserFrm.HandlePrintSettings(browser, settings, getDefaults);
-end;
-
-procedure GlobalCEFApp_OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
-begin
-  MiniBrowserFrm.HandlePrintDialog(browser, hasSelection, callback, aResult);
-end;
-
-procedure GlobalCEFApp_OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
-begin
-  MiniBrowserFrm.HandlePrintJob(browser, documentName, PDFFilePath, callback, aResult);
-end;
-
-procedure GlobalCEFApp_OnPrintReset(const browser: ICefBrowser);
-begin
-  MiniBrowserFrm.HandlePrintReset(browser);
-end;
-
-procedure GlobalCEFApp_OnGetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult : TCefSize);
-begin
-  aResult.width  := Printer.PaperSize.Width;
-  aResult.height := Printer.PaperSize.Height;
-end;
-
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
@@ -298,12 +267,6 @@ begin
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   //GlobalCEFApp.EnablePrintPreview  := True;
-  GlobalCEFApp.OnPrintStart        := @GlobalCEFApp_OnPrintStart;
-  GlobalCEFApp.OnPrintSettings     := @GlobalCEFApp_OnPrintSettings;
-  GlobalCEFApp.OnPrintDialog       := @GlobalCEFApp_OnPrintDialog;
-  GlobalCEFApp.OnPrintJob          := @GlobalCEFApp_OnPrintJob;
-  GlobalCEFApp.OnPrintReset        := @GlobalCEFApp_OnPrintReset;
-  GlobalCEFApp.OnGetPDFPaperSize   := @GlobalCEFApp_OnGetPDFPaperSize;
 end;
 
 {Property setters and getters}
@@ -831,6 +794,88 @@ begin
   SendCompMessage(CEF_UPDATELOADINGSTATE);
 end;
 
+procedure TMiniBrowserFrm.Chromium1PrintDialog(Sender: TObject;
+  const browser: ICefBrowser; hasSelection: boolean;
+  const callback: ICefPrintDialogCallback; var aResult: boolean);
+begin
+  if (browser <> nil) and (callback <> nil) and Chromium1.IsSameBrowser(browser) then
+    begin
+      FBrowserCS.Acquire;
+
+      FPrintDialogCallback     := callback;
+      FPrintDialogHasSelection := hasSelection;
+      aResult                  := True;
+
+      SendCompMessage(CEF_SHOWPRINTDIALOG);
+
+      FBrowserCS.Release;
+    end
+   else
+    aResult := False;
+end;
+
+procedure TMiniBrowserFrm.Chromium1PrintJob(Sender: TObject;
+  const browser: ICefBrowser; const documentName, PDFFilePath: ustring;
+  const callback: ICefPrintJobCallback; var aResult: boolean);
+begin
+  if (browser <> nil) and (callback <> nil) and Chromium1.IsSameBrowser(browser) then
+    begin
+      FBrowserCS.Acquire;
+
+      FPrintJobCallback     := callback;
+      FPrintJobDocumentName := documentName;
+      FPrintJobPDFFilePath  := PDFFilePath;
+      aResult               := True;
+
+      SendCompMessage(CEF_PRINTJOBSTARTED);
+
+      FBrowserCS.Release;
+    end
+   else
+    aResult := False;
+end;
+
+procedure TMiniBrowserFrm.Chromium1PrintReset(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  if (browser <> nil) and Chromium1.IsSameBrowser(browser) then
+    SendCompMessage(CEF_PRINTRESET);
+end;
+
+procedure TMiniBrowserFrm.Chromium1PrintSettings(Sender: TObject;
+  const browser: ICefBrowser; const settings: ICefPrintSettings;
+  getDefaults: boolean);
+var
+  TempSize : TCefSize;
+  TempArea : TCefRect;
+begin
+  if (settings <> nil) and (browser <> nil) and settings.IsValid and not(settings.IsReadOnly) and Chromium1.IsSameBrowser(browser) then
+    begin
+      // if getDefaults then ...
+
+      TempSize.width  := Printer.PaperSize.Width;
+      TempSize.height := Printer.PaperSize.Height;
+
+      TempArea.x      := TPrinterCanvas(Printer.Canvas).LeftMargin;
+      TempArea.y      := TPrinterCanvas(Printer.Canvas).TopMargin;
+      TempArea.width  := TPrinterCanvas(Printer.Canvas).PageWidth;
+      TempArea.height := TPrinterCanvas(Printer.Canvas).PageHeight;
+
+      settings.DeviceName := Printer.PrinterName;
+      settings.Dpi        := Printer.XDPI;
+
+      settings.SetOrientation(Printer.Orientation in [TPrinterOrientation.poLandscape, TPrinterOrientation.poReverseLandscape]);
+      settings.SetPrinterPrintableArea(@TempSize, @TempArea, Printer.Orientation = TPrinterOrientation.poReverseLandscape);
+    end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1PrintStart(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  if (browser <> nil) and Chromium1.IsSameBrowser(browser) then
+    SendCompMessage(CEF_PRINTSTART);
+end;
+
 procedure TMiniBrowserFrm.Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
 begin                              
   SendCompMessage(CEF_PDFPRINTEND, PtrInt(ord(aResultOK)));
@@ -873,6 +918,14 @@ begin
     end
    else
     aResult := False;
+end;
+
+procedure TMiniBrowserFrm.Chromium1GetPDFPaperSize(Sender: TObject;
+  const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult: TCefSize
+  );
+begin
+  aResult.width  := Printer.PaperSize.Width;
+  aResult.height := Printer.PaperSize.Height;
 end;
 
 procedure TMiniBrowserFrm.Chromium1GotFocus(Sender: TObject;
@@ -1149,83 +1202,6 @@ end;
 procedure TMiniBrowserFrm.HideDevTools;
 begin
   Chromium1.CloseDevTools;
-end;
-{%Endregion}
-
-{Printing procedures}
-{%Region}
-procedure TMiniBrowserFrm.HandlePrintStart(const browser: ICefBrowser);
-begin
-  if (browser <> nil) and Chromium1.IsSameBrowser(browser) then
-    SendCompMessage(CEF_PRINTSTART);
-end;
-
-procedure TMiniBrowserFrm.HandlePrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
-var
-  TempSize : TCefSize;
-  TempArea : TCefRect;
-begin
-  if (settings <> nil) and (browser <> nil) and settings.IsValid and not(settings.IsReadOnly) and Chromium1.IsSameBrowser(browser) then
-    begin
-      // if getDefaults then ...
-
-      TempSize.width  := Printer.PaperSize.Width;
-      TempSize.height := Printer.PaperSize.Height;
-
-      TempArea.x      := TPrinterCanvas(Printer.Canvas).LeftMargin;
-      TempArea.y      := TPrinterCanvas(Printer.Canvas).TopMargin;
-      TempArea.width  := TPrinterCanvas(Printer.Canvas).PageWidth;
-      TempArea.height := TPrinterCanvas(Printer.Canvas).PageHeight;
-
-      settings.DeviceName := Printer.PrinterName;
-      settings.Dpi        := Printer.XDPI;
-
-      settings.SetOrientation(Printer.Orientation in [TPrinterOrientation.poLandscape, TPrinterOrientation.poReverseLandscape]);
-      settings.SetPrinterPrintableArea(@TempSize, @TempArea, Printer.Orientation = TPrinterOrientation.poReverseLandscape);
-    end;
-end;
-
-procedure TMiniBrowserFrm.HandlePrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
-begin
-  if (browser <> nil) and (callback <> nil) and Chromium1.IsSameBrowser(browser) then
-    begin
-      FBrowserCS.Acquire;
-
-      FPrintDialogCallback     := callback;
-      FPrintDialogHasSelection := hasSelection;
-      aResult                  := True;
-
-      SendCompMessage(CEF_SHOWPRINTDIALOG);
-
-      FBrowserCS.Release;
-    end
-   else
-    aResult := False;
-end;
-
-procedure TMiniBrowserFrm.HandlePrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
-begin
-  if (browser <> nil) and (callback <> nil) and Chromium1.IsSameBrowser(browser) then
-    begin
-      FBrowserCS.Acquire;
-
-      FPrintJobCallback     := callback;
-      FPrintJobDocumentName := documentName;
-      FPrintJobPDFFilePath  := PDFFilePath;
-      aResult               := True;   
-
-      SendCompMessage(CEF_PRINTJOBSTARTED);
-
-      FBrowserCS.Release;
-    end
-   else
-    aResult := False;
-end;
-
-procedure TMiniBrowserFrm.HandlePrintReset(const browser: ICefBrowser);
-begin
-  if (browser <> nil) and Chromium1.IsSameBrowser(browser) then
-    SendCompMessage(CEF_PRINTRESET);
 end;
 {%Endregion}
 

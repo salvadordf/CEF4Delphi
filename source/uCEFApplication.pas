@@ -101,8 +101,8 @@ type
       destructor  Destroy; override;
       procedure   UpdateDeviceScaleFactor; override;
 
-      property DestroyApplicationObject: boolean read FDestroyApplicationObject write FDestroyApplicationObject;
-      property DestroyAppWindows       : boolean read FDestroyAppWindows        write FDestroyAppWindows;
+      property DestroyApplicationObject : boolean read FDestroyApplicationObject write FDestroyApplicationObject;
+      property DestroyAppWindows        : boolean read FDestroyAppWindows        write FDestroyAppWindows;
 
       {$IFDEF FPC}
       procedure Internal_OnContextInitialized; override; // In UI thread
@@ -209,17 +209,19 @@ begin
   {$ENDIF}
 
   inherited Create;
-  if GlobalCEFApp = nil then
+
+  if (GlobalCEFApp = nil) then
     GlobalCEFApp := Self;
 
-  FDestroyApplicationObject      := False;
-  FDestroyAppWindows             := True;
+  FDestroyApplicationObject := False;
+  FDestroyAppWindows        := True;
 end;
 
 destructor TCefApplication.Destroy;
 begin
-  if GlobalCEFApp = Self then
+  if (GlobalCEFApp = Self) then
     GlobalCEFApp := nil;
+
   inherited Destroy;
 
   {$IFDEF FPC}
@@ -301,7 +303,7 @@ var
 begin
   {$IFNDEF FPC}
   {$IFNDEF FMX}
-  if Application <> nil then
+  if (Application <> nil) then
     begin
       if FDestroyApplicationObject then
         begin
@@ -335,7 +337,8 @@ begin
               if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
               {$ENDIF}
             end;
-          if not IsLibrary then
+
+          if not(IsLibrary) then
             begin
               // Undo the OleInitialize from TApplication.Create. The sub-processes want a different
               // COM thread model and fail with an assertion if the Debug-DLLs are used.

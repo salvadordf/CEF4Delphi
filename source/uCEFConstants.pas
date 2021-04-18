@@ -552,6 +552,11 @@ const
   CEF_TFC_DELETE     = 5;
   CEF_TFC_SELECT_ALL = 6;
 
+  // /include/internal/cef_types.h (cef_chrome_toolbar_type_t)
+  CEF_CTT_NONE       = 1;
+  CEF_CTT_NORMAL     = 2;
+  CEF_CTT_LOCATION   = 3;
+
   // /include/cef_api_hash.h (used as "cef_api_hash" parameters)
   CEF_API_HASH_PLATFORM  = 0;
   CEF_API_HASH_UNIVERSAL = 1;
@@ -638,9 +643,14 @@ const
   WM_POINTERUP             = $0247;
   {$IFEND}
 
+  // Default values for the Windowsless framerate setting in TChromiumOptions
+  // The values are frames per second.
+  CEF_OSR_FRAMERATE_DEFAULT                  = 30;  // Used when the shared textures are disabled.
+  CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT  = 60;  // Used when the shared textures are enabled.
+
   CEF_TIMER_MINIMUM            = $0000000A;
   CEF_TIMER_MAXIMUM            = $7FFFFFFF;
-  CEF_TIMER_MAXDELAY           = 1000 div 30; // 30fps
+  CEF_TIMER_MAXDELAY           = 1000 div CEF_OSR_FRAMERATE_DEFAULT;
   CEF_TIMER_DEPLETEWORK_CYCLES = 10;
   CEF_TIMER_DEPLETEWORK_DELAY  = 50;
 

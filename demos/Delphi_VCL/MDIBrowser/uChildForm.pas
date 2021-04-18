@@ -222,8 +222,7 @@ begin
          else
           TempCache := GlobalCEFApp.RootCache + '\cache' + inttostr(MainForm.BrowserCount);
 
-        TempContext := TCefRequestContextRef.New(TempCache, '', False, False, False)
-
+        TempContext := TCefRequestContextRef.New(TempCache, '', '', True, False, False, False)
       end
      else
       TempContext := nil;

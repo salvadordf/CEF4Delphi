@@ -241,6 +241,12 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
     OnBeforePluginLoad = Chromium1BeforePluginLoad
+    OnPrintStart = Chromium1PrintStart
+    OnPrintSettings = Chromium1PrintSettings
+    OnPrintDialog = Chromium1PrintDialog
+    OnPrintJob = Chromium1PrintJob
+    OnPrintReset = Chromium1PrintReset
+    OnGetPDFPaperSize = Chromium1GetPDFPaperSize
     Left = 32
     Top = 224
   end

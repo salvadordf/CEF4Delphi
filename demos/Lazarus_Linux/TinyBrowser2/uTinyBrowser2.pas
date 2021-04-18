@@ -42,7 +42,7 @@ unit uTinyBrowser2;
 interface
 
 uses
-  SysUtils,
+  SysUtils, Classes,
   uCEFInterfaces, uCEFTypes, uCEFChromiumCore;
 
 type
@@ -57,6 +57,7 @@ type
     public
       constructor Create;
       destructor  Destroy; override;
+      procedure   AfterConstruction; override;
   end;
 
 procedure CreateGlobalCEFApp;
@@ -77,12 +78,12 @@ implementation
 
 // The destruction steps are much simpler for that reason.
 // In this demo it's only necessary to implement the TChromium.OnBeforeClose
-// events. The TChromium.OnBeforeClose event calls GlobalCEFApp.QuitMessageLoop
+// event. The TChromium.OnBeforeClose event calls GlobalCEFApp.QuitMessageLoop
 // because the browser has been destroyed and it's necessary to close the
 // message loop.
 
 uses
-  uCEFApplication, uCEFConstants;
+  uCEFApplication, uCEFConstants, uCEFMiscFunctions;
 
 var
   TinyBrowser : TTinyBrowser2 = nil;
@@ -100,8 +101,8 @@ begin
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
 
   // Add a debug log in the BIN directory
-  //GlobalCEFApp.LogFile     := 'cef.log';
-  //GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
+  GlobalCEFApp.LogFile     := 'cef.log';
+  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
 end;
 
 procedure DestroyTinyBrowser;
@@ -117,12 +118,7 @@ constructor TTinyBrowser2.Create;
 begin
   inherited Create;
 
-  FChromium                  := TChromiumCore.Create(nil);
-  FChromium.DefaultURL       := 'https://www.google.com';
-  FChromium.OnBeforeClose    := Chromium_OnBeforeClose;
-  FChromium.OnBeforePopup    := Chromium_OnBeforePopup;
-  FChromium.OnOpenUrlFromTab := Chromium_OnOpenUrlFromTab;
-  FChromium.CreateBrowser('Tiny Browser 2');
+  FChromium := nil;
 end;
 
 destructor TTinyBrowser2.Destroy;
@@ -131,6 +127,23 @@ begin
     FreeAndNil(FChromium);
 
   inherited Destroy;
+end;
+
+procedure TTinyBrowser2.AfterConstruction;
+var
+  TempHandle : TCefWindowHandle;
+  TempRect : TRect;
+begin
+  inherited AfterConstruction;
+  
+  FChromium                  := TChromiumCore.Create(nil);
+  FChromium.DefaultURL       := 'https://www.google.com';
+  FChromium.OnBeforeClose    := Chromium_OnBeforeClose;
+  FChromium.OnBeforePopup    := Chromium_OnBeforePopup;
+  FChromium.OnOpenUrlFromTab := Chromium_OnOpenUrlFromTab;
+
+  InitializeWindowHandle(TempHandle);
+  FChromium.CreateBrowser(TempHandle, TempRect, 'Tiny Browser 2', nil, nil, True);
 end;
 
 procedure TTinyBrowser2.Chromium_OnBeforeClose(Sender: TObject;

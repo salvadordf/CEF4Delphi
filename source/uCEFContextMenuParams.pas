@@ -79,7 +79,6 @@ type
     function IsSpellCheckEnabled: Boolean;
     function GetEditStateFlags: TCefContextMenuEditStateFlags;
     function IsCustomMenu: Boolean;
-    function IsPepperMenu: Boolean;
   public
     class function UnWrap(data: Pointer): ICefContextMenuParams;
   end;
@@ -191,11 +190,6 @@ end;
 function TCefContextMenuParamsRef.IsEditable: Boolean;
 begin
   Result := PCefContextMenuParams(FData)^.is_editable(PCefContextMenuParams(FData)) <> 0;
-end;
-
-function TCefContextMenuParamsRef.IsPepperMenu: Boolean;
-begin
-  Result := PCefContextMenuParams(FData)^.is_pepper_menu(PCefContextMenuParams(FData)) <> 0;
 end;
 
 function TCefContextMenuParamsRef.IsSpellCheckEnabled: Boolean;

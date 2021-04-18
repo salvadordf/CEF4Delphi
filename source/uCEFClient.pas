@@ -66,6 +66,7 @@ type
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
+      procedure GetPrintHandler(var aHandler : ICefPrintHandler); virtual;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
@@ -90,6 +91,7 @@ type
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
+      procedure GetPrintHandler(var aHandler : ICefPrintHandler); virtual;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
@@ -117,6 +119,7 @@ type
       FRequestHandler     : ICefRequestHandler;
       FDragHandler        : ICefDragHandler;
       FFindHandler        : ICefFindHandler;
+      FPrintHandler       : ICefPrintHandler;
 
       procedure GetAudioHandler(var aHandler : ICefAudioHandler); override;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); override;
@@ -130,6 +133,7 @@ type
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); override;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); override;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); override;
+      procedure GetPrintHandler(var aHandler : ICefPrintHandler); override;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); override;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; override;
@@ -154,7 +158,8 @@ uses
   uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
   uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
-  uCEFFindHandler, uCEFConstants, uCEFApplicationCore, uCEFFrame, uCEFAudioHandler;
+  uCEFFindHandler, uCEFConstants, uCEFApplicationCore, uCEFFrame, uCEFAudioHandler,
+  uCEFPrintHandler;
 
 
 // ******************************************************
@@ -225,6 +230,11 @@ begin
 end;
 
 procedure TCefClientRef.GetLoadHandler(var aHandler : ICefLoadHandler);
+begin
+  aHandler := nil;
+end;
+
+procedure TCefClientRef.GetPrintHandler(var aHandler : ICefPrintHandler);
 begin
   aHandler := nil;
 end;
@@ -459,7 +469,7 @@ begin
     end;
 end;
 
-function cef_client_own_get_get_render_handler(self: PCefClient): PCefRenderHandler; stdcall;
+function cef_client_own_get_render_handler(self: PCefClient): PCefRenderHandler; stdcall;
 var
   TempObject  : TObject;
   TempHandler : ICefRenderHandler;
@@ -487,6 +497,24 @@ begin
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
       TCefClientOwn(TempObject).GetRequestHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
+end;
+
+function cef_client_own_get_print_handler(self: PCefClient): PCefPrintHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefPrintHandler;
+begin
+  Result     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TempHandler := nil;
+      TCefClientOwn(TempObject).GetPrintHandler(TempHandler);
       if (TempHandler <> nil) then Result := TempHandler.Wrap;
     finally
       TempHandler := nil;
@@ -529,7 +557,8 @@ begin
       get_keyboard_handler        := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_keyboard_handler;
       get_life_span_handler       := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_life_span_handler;
       get_load_handler            := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_load_handler;
-      get_render_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_get_render_handler;
+      get_print_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_print_handler;
+      get_render_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_render_handler;
       get_request_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_request_handler;
       on_process_message_received := {$IFDEF FPC}@{$ENDIF}cef_client_own_on_process_message_received;
     end;
@@ -595,6 +624,11 @@ begin
   aHandler := nil;
 end;
 
+procedure TCefClientOwn.GetPrintHandler(var aHandler : ICefPrintHandler);
+begin
+  aHandler := nil;
+end;
+
 procedure TCefClientOwn.GetRenderHandler(var aHandler : ICefRenderHandler);
 begin
   aHandler := nil;
@@ -654,6 +688,7 @@ begin
           if events.MustCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(events);
           if events.MustCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(events);
           if events.MustCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(events);
+          if events.MustCreatePrintHandler       then FPrintHandler       := TCustomPrintHandler.Create(events);
         end;
     end;
 end;
@@ -683,6 +718,7 @@ begin
   if (FRenderHandler      <> nil) then FRenderHandler.RemoveReferences;
   if (FDragHandler        <> nil) then FDragHandler.RemoveReferences;
   if (FFindHandler        <> nil) then FFindHandler.RemoveReferences;
+  if (FPrintHandler       <> nil) then FPrintHandler.RemoveReferences;
 end;
 
 procedure TCustomClientHandler.InitializeVars;
@@ -701,6 +737,7 @@ begin
   FRenderHandler      := nil;
   FDragHandler        := nil;
   FFindHandler        := nil;
+  FPrintHandler       := nil;
   FEvents             := nil;
 end;
 
@@ -796,6 +833,14 @@ procedure TCustomClientHandler.GetLoadHandler(var aHandler : ICefLoadHandler);
 begin
   if (FLoadHandler <> nil) then
     aHandler := FLoadHandler
+   else
+    aHandler := nil;
+end;
+
+procedure TCustomClientHandler.GetPrintHandler(var aHandler : ICefPrintHandler);
+begin
+  if (FPrintHandler <> nil) then
+    aHandler := FPrintHandler
    else
     aHandler := nil;
 end;

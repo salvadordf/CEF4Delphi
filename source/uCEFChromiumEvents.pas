@@ -200,6 +200,14 @@ type
   TOnCanAccessBrowserEvent        = procedure(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser; var aResult : boolean) of object;
   TOnGetExtensionResourceEvent    = procedure(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback; var aResult : boolean) of object;
 
+  // ICefPrintHandler
+  TOnPrintStartEvent              = procedure(Sender: TObject; const browser: ICefBrowser) of object;
+  TOnPrintSettingsEvent           = procedure(Sender: TObject; const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean) of object;
+  TOnPrintDialogEvent             = procedure(Sender: TObject; const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean) of object;
+  TOnPrintJobEvent                = procedure(Sender: TObject; const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean) of object;
+  TOnPrintResetEvent              = procedure(Sender: TObject; const browser: ICefBrowser) of object;
+  TOnGetPDFPaperSizeEvent         = procedure(Sender: TObject; const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult : TCefSize) of object;
+
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;

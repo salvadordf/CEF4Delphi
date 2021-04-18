@@ -63,6 +63,7 @@ type
       procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
       procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
       procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
+      function  GetChromeToolbarType: TCefChromeToolbarType;
 
     public
       class function UnWrap(data: Pointer): ICefBrowserViewDelegate;
@@ -74,6 +75,7 @@ type
       procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser); virtual;
       procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate); virtual;
       procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean); virtual;
+      function  GetChromeToolbarType: TCefChromeToolbarType; virtual;
 
       procedure InitializeCEFMethods; override;
 
@@ -92,6 +94,7 @@ type
       procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
+      procedure OnWindowChanged(const view: ICefView; added: boolean); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
 
@@ -100,6 +103,7 @@ type
       procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser); override;
       procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate); override;
       procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean); override;
+      function  GetChromeToolbarType: TCefChromeToolbarType; override;
 
     public
       constructor Create(const events: ICefBrowserViewDelegateEvents); reintroduce;
@@ -108,7 +112,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFBrowserView, uCEFBrowser, uCEFClient;
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFBrowserView, uCEFBrowser, uCEFClient, uCEFConstants;
 
 
 // **************************************************************
@@ -153,6 +157,11 @@ begin
                                                                             CefGetData(browser_view),
                                                                             CefGetData(popup_browser_view),
                                                                             ord(is_devtools)) <> 0);
+end;
+
+function TCefBrowserViewDelegateRef.GetChromeToolbarType: TCefChromeToolbarType;
+begin
+  Result := PCefBrowserViewDelegate(FData)^.get_chrome_toolbar_type(PCefBrowserViewDelegate(FData));
 end;
 
 class function TCefBrowserViewDelegateRef.UnWrap(data: Pointer): ICefBrowserViewDelegate;
@@ -236,6 +245,17 @@ begin
   Result := ord(TempResult);
 end;
 
+function cef_browserview_delegate_get_chrome_toolbar_type(self : PCefBrowserViewDelegate): TCefChromeToolbarType; stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+  Result     := CEF_CTT_NONE;
+
+  if (TempObject <> nil) and (TempObject is TCefBrowserViewDelegateOwn) then
+    Result := TCefBrowserViewDelegateOwn(TempObject).GetChromeToolbarType();
+end;
+
 constructor TCefBrowserViewDelegateOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefBrowserViewDelegate));
@@ -253,6 +273,7 @@ begin
       on_browser_destroyed                := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_destroyed;
       get_delegate_for_popup_browser_view := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_delegate_for_popup_browser_view;
       on_popup_browser_view_created       := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_popup_browser_view_created;
+      get_chrome_toolbar_type             := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_chrome_toolbar_type;
     end;
 end;
 
@@ -274,6 +295,11 @@ end;
 procedure TCefBrowserViewDelegateOwn.OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
 begin
   //
+end;
+
+function TCefBrowserViewDelegateOwn.GetChromeToolbarType: TCefChromeToolbarType;
+begin
+  Result := CEF_CTT_NONE;
 end;
 
 
@@ -354,6 +380,17 @@ begin
   end;
 end;
 
+procedure TCustomBrowserViewDelegate.OnWindowChanged(const view: ICefView; added: boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefBrowserViewDelegateEvents(FEvents).doOnWindowChanged(view, added);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomBrowserViewDelegate.OnWindowChanged', e) then raise;
+  end;
+end;
+
 procedure TCustomBrowserViewDelegate.OnFocus(const view: ICefView);
 begin
   try
@@ -420,6 +457,18 @@ begin
   end;
 end;
 
+function TCustomBrowserViewDelegate.GetChromeToolbarType: TCefChromeToolbarType;
+begin
+  Result := inherited GetChromeToolbarType();
+
+  try
+    if (FEvents <> nil) then
+      ICefBrowserViewDelegateEvents(FEvents).doOnGetChromeToolbarType(Result);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomBrowserViewDelegate.GetChromeToolbarType', e) then raise;
+  end;
+end;
 
 end.
 
