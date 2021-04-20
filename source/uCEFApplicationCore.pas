@@ -186,7 +186,6 @@ type
       FMetricsRecordingOnly              : boolean;
       FAllowFileAccessFromFiles          : boolean;
       FAllowRunningInsecureContent       : boolean;
-      FSupportedSchemes                  : TStringList;
       FDisableNewBrowserInfoTimeout      : boolean;
       FDevToolsProtocolLogFile           : ustring;
       FDeviceScaleFactor                 : single;
@@ -534,7 +533,6 @@ type
       property ApiHashUniversal                  : ustring                             read GetApiHashUniversal;
       property ApiHashPlatform                   : ustring                             read GetApiHashPlatform;
       property ApiHashCommit                     : ustring                             read GetApiHashCommit;
-      property SupportedSchemes                  : TStringList                         read FSupportedSchemes;
       property LastErrorMessage                  : ustring                             read FLastErrorMessage;
       {$IFDEF LINUX}
       property XDisplay                          : PXDisplay                           read GetXDisplay;
@@ -743,7 +741,6 @@ begin
   FForceFieldTrials                  := '';
   FForceFieldTrialParams             := '';
   FBlinkSettings                     := '';
-  FSupportedSchemes                  := nil;
   FDisableNewBrowserInfoTimeout      := False;
   FDevToolsProtocolLogFile           := '';
   FForcedDeviceScaleFactor           := 0;
@@ -837,7 +834,6 @@ begin
 
     if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
-    if (FSupportedSchemes        <> nil) then FreeAndNil(FSupportedSchemes);
   finally
     inherited Destroy;
   end;
@@ -849,7 +845,6 @@ begin
 
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
-  FSupportedSchemes        := TStringList.Create;
 end;
 
 procedure TCefApplicationCore.AddCustomCommandLine(const aCommandLine, aValue : string);
