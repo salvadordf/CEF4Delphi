@@ -37,16 +37,24 @@
 
 unit uTinyBrowser2;
 
+{$I cef.inc}
+
 interface
 
 uses
-  Types,
+  {$IFDEF DELPHI16_UP}
+  System.Types, System.SysUtils,
+  {$ELSE}
+  Types, SysUtils,
+  {$ENDIF}
   uCEFInterfaces, uCEFTypes, uCEFChromiumCore;
 
 type
   TTinyBrowser2 = class
     private
       FChromium : TChromiumCore;
+
+      function GetClient : ICefClient;
 
       procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
@@ -56,6 +64,8 @@ type
       constructor Create;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
+
+      property Client      : ICefClient read GetClient;
   end;
 
 procedure CreateGlobalCEFApp;
@@ -89,12 +99,20 @@ begin
   TinyBrowser := TTinyBrowser2.Create;
 end;
 
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient : ICefClient);
+begin
+  aClient := TinyBrowser.Client;
+end;
+
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.ExternalMessagePump        := False;
+  GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
+  GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.OnGetDefaultClient         := GlobalCEFApp_OnGetDefaultClient;    // This event is only used in "ChromeRuntime" mode
 
   // This is a workaround for the CEF4Delphi issue #324 :
   // https://github.com/salvadordf/CEF4Delphi/issues/324
@@ -104,10 +122,7 @@ end;
 procedure DestroyTinyBrowser;
 begin
   if (TinyBrowser <> nil) then
-    begin
-      TinyBrowser.Free;
-      TinyBrowser := nil;
-    end;
+    FreeAndNil(TinyBrowser);
 end;
 
 constructor TTinyBrowser2.Create;
@@ -120,10 +135,7 @@ end;
 destructor TTinyBrowser2.Destroy;
 begin
   if (FChromium <> nil) then
-    begin
-      FChromium.Free;
-      FChromium := nil;
-    end;
+    FreeAndNil(FChromium);
 
   inherited Destroy;
 end;
@@ -143,6 +155,14 @@ begin
 
   InitializeWindowHandle(TempHandle);
   FChromium.CreateBrowser(TempHandle, TempRect, 'Tiny Browser 2', nil, nil, True);
+end;
+
+function TTinyBrowser2.GetClient : ICefClient;
+begin
+  if (FChromium <> nil) then
+    Result := FChromium.CefClient
+   else
+    Result := nil;
 end;
 
 procedure TTinyBrowser2.Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);

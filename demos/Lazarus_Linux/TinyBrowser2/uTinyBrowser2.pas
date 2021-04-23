@@ -48,7 +48,9 @@ uses
 type
   TTinyBrowser2 = class
     private
-      FChromium : TChromiumCore;
+      FChromium : TChromiumCore;         
+
+      function GetClient : ICefClient;
 
       procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
@@ -57,7 +59,9 @@ type
     public
       constructor Create;
       destructor  Destroy; override;
-      procedure   AfterConstruction; override;
+      procedure   AfterConstruction; override;      
+
+      property Client      : ICefClient read GetClient;
   end;
 
 procedure CreateGlobalCEFApp;
@@ -83,35 +87,61 @@ implementation
 // message loop.
 
 uses
+  xlib,
   uCEFApplication, uCEFConstants, uCEFMiscFunctions;
 
 var
   TinyBrowser : TTinyBrowser2 = nil;
 
+function CustomX11ErrorHandler(Display:PDisplay; ErrorEv:PXErrorEvent):longint;cdecl;
+begin
+  {$IFDEF DEBUG}
+  XError := ErrorEv^.error_code;
+  WriteLn('Error: ' + IntToStr(XError));
+  {$ENDIF}
+  Result := 0;
+end;
+
+function CustomXIOErrorHandler(Display:PDisplay):longint;cdecl;
+begin
+  Result := 0;
+end;
+
 procedure GlobalCEFApp_OnContextInitialized;
 begin
   TinyBrowser := TTinyBrowser2.Create;
+end;                  
+
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient : ICefClient);
+begin
+  aClient := TinyBrowser.Client;
 end;
 
 procedure CreateGlobalCEFApp;          
 begin
+  // Install xlib error handlers so that the application won't be terminated
+  // on non-fatal errors. Must be done after initializing GTK.
+  XSetErrorHandler(@CustomX11ErrorHandler);
+  XSetIOErrorHandler(@CustomXIOErrorHandler);
+
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.ExternalMessagePump        := False;
-  GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.ExternalMessagePump        := False;                         
+  //GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
+  GlobalCEFApp.cache                      := 'cache';
+  GlobalCEFApp.DisableZygote              := True;
+  GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;     
+  GlobalCEFApp.OnGetDefaultClient         := GlobalCEFApp_OnGetDefaultClient;    // This event is only used in "ChromeRuntime" mode
 
   // Add a debug log in the BIN directory
-  GlobalCEFApp.LogFile     := 'cef.log';
-  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
+  //GlobalCEFApp.LogFile     := 'cef.log';
+  //GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
 end;
 
 procedure DestroyTinyBrowser;
 begin
   if (TinyBrowser <> nil) then
-    begin
-      TinyBrowser.Free;
-      TinyBrowser := nil;
-    end;
+    FreeAndNil(TinyBrowser);
 end;
 
 constructor TTinyBrowser2.Create;
@@ -144,6 +174,14 @@ begin
 
   InitializeWindowHandle(TempHandle);
   FChromium.CreateBrowser(TempHandle, TempRect, 'Tiny Browser 2', nil, nil, True);
+end;             
+
+function TTinyBrowser2.GetClient : ICefClient;
+begin
+  if (FChromium <> nil) then
+    Result := FChromium.CefClient
+   else
+    Result := nil;
 end;
 
 procedure TTinyBrowser2.Chromium_OnBeforeClose(Sender: TObject;
