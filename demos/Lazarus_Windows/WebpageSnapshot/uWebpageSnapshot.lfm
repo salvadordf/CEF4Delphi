@@ -1,0 +1,68 @@
+object WebpageSnapshotFrm: TWebpageSnapshotFrm
+  Left = 0
+  Height = 486
+  Top = 0
+  Width = 711
+  Caption = 'Web page snapshot'
+  ClientHeight = 486
+  ClientWidth = 711
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.0.10.0'
+  object Image1: TImage
+    Left = 0
+    Height = 438
+    Top = 25
+    Width = 711
+    Align = alClient
+    AutoSize = True
+    Center = True
+    Proportional = True
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 463
+    Width = 711
+    Panels = <    
+      item
+        Width = 1000
+      end>
+    SimplePanel = False
+  end
+  object NavigationPnl: TPanel
+    Left = 0
+    Height = 25
+    Top = 0
+    Width = 711
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 25
+    ClientWidth = 711
+    TabOrder = 1
+    object GoBtn: TButton
+      Left = 636
+      Height = 25
+      Top = 0
+      Width = 75
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 0
+    end
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 25
+      Top = 0
+      Width = 636
+      Align = alClient
+      TabOrder = 1
+      Text = 'https://www.google.com'
+    end
+  end
+end

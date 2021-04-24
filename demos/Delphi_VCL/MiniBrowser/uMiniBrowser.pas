@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -70,7 +70,7 @@ const
   MINIBROWSER_COOKIESFLUSHED   = WM_APP + $10B;
   MINIBROWSER_PDFPRINT_END     = WM_APP + $10C;
   MINIBROWSER_PREFS_AVLBL      = WM_APP + $10D;
-  MINIBROWSER_SCREENSHOT_AVLBL = WM_APP + $10E;
+  MINIBROWSER_DTDATA_AVLBL     = WM_APP + $10E;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -138,6 +138,7 @@ type
     akescreenshot1: TMenuItem;
     Useragent1: TMenuItem;
     ClearallstorageforcurrentURL1: TMenuItem;
+    CEFinfo1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -154,8 +155,8 @@ type
     procedure Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
     procedure Chromium1TextResultAvailable(Sender: TObject; const aText: ustring);
     procedure Chromium1FullScreenModeChange(Sender: TObject; const browser: ICefBrowser; fullscreen: Boolean);
-    procedure Chromium1PreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg; out isKeyboardShortcut, Result: Boolean);
-    procedure Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg; out Result: Boolean);
+    procedure Chromium1PreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut, Result: Boolean);
+    procedure Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: Boolean);
     procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
     procedure Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
     procedure Chromium1ResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: Boolean);
@@ -206,11 +207,12 @@ type
     procedure akescreenshot1Click(Sender: TObject);
     procedure Useragent1Click(Sender: TObject);
     procedure ClearallstorageforcurrentURL1Click(Sender: TObject);
+    procedure CEFinfo1Click(Sender: TObject);
 
   protected
-    FScreenshotMsgID : integer;
-    FScreenshotRslt  : boolean;
-    FScreenshotValue : ustring;
+    FDevToolsMsgID    : integer;
+    FScreenshotMsgID  : integer;
+    FDevToolsMsgValue : ustring;
 
     FResponse   : TStringList;
     FRequest    : TStringList;
@@ -246,7 +248,7 @@ type
     procedure CookiesFlushedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESFLUSHED;
     procedure PrintPDFEndMsg(var aMessage : TMessage); message MINIBROWSER_PDFPRINT_END;
     procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;
-    procedure ScreenshotAvailableMsg(var aMessage : TMessage); message MINIBROWSER_SCREENSHOT_AVLBL;
+    procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -268,7 +270,7 @@ implementation
 
 uses
   uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer,
-  uCEFClient, uFindFrm;
+  uCEFClient, uFindFrm, uCEFDictionaryValue;
 
 // Destruction steps
 // =================
@@ -283,6 +285,10 @@ begin
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.EnablePrintPreview  := True;
+
+  // This is a workaround for the CEF4Delphi issue #324 :
+  // https://github.com/salvadordf/CEF4Delphi/issues/324
+  GlobalCEFApp.DisableFeatures := 'WinUseBrowserSpellChecker';
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -316,6 +322,19 @@ var
 begin
   TempURL := inputbox('Resolve host', 'URL :', 'http://google.com');
   if (length(TempURL) > 0) then Chromium1.ResolveHost(TempURL);
+end;
+
+procedure TMiniBrowserFrm.CEFinfo1Click(Sender: TObject);
+var
+  TempInfo : string;
+begin
+  TempInfo := 'libcef.dll : '         + CRLF + GlobalCEFApp.LibCefVersion    + CRLF + CRLF +
+              'chrome_elf.dll : '     + CRLF + GlobalCEFApp.ChromeVersion    + CRLF + CRLF +
+              'Universal API hash : ' + CRLF + GlobalCEFApp.ApiHashUniversal + CRLF + CRLF +
+              'Platform API hash : '  + CRLF + GlobalCEFApp.ApiHashPlatform  + CRLF + CRLF +
+              'Commit API hash : '    + CRLF + GlobalCEFApp.ApiHashCommit;
+
+  showmessage(TempInfo);
 end;
 
 procedure TMiniBrowserFrm.Chromium1AddressChange(Sender: TObject;
@@ -426,7 +445,7 @@ begin
    else
     TempFullPath := TempName;
 
-  callback.cont(TempFullPath, False);
+  callback.cont(TempFullPath, True);
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
@@ -651,7 +670,7 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Chromium1KeyEvent(Sender: TObject;
-  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out Result: Boolean);
 var
   TempMsg : TMsg;
@@ -722,13 +741,25 @@ end;
 procedure TMiniBrowserFrm.Chromium1LoadEnd(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   httpStatusCode: Integer);
+var
+  TempHandle : THandle;
 begin
-  if (frame = nil) or not(frame.IsValid) then exit;
+  if FClosing or (frame = nil) or not(frame.IsValid) or (browser = nil) then exit;
 
-  if frame.IsMain then
-    StatusBar1.Panels[1].Text := 'main frame loaded : ' + quotedstr(frame.name)
+  if Chromium1.IsSameBrowser(browser) then
+    begin
+      if frame.IsMain then
+        StatusBar1.Panels[1].Text := 'main frame loaded : ' + quotedstr(frame.name)
+       else
+        StatusBar1.Panels[1].Text := 'frame loaded : ' + quotedstr(frame.name);
+    end
    else
-    StatusBar1.Panels[1].Text := 'frame loaded : ' + quotedstr(frame.name);
+    begin
+      // This is a workaround for a focus issue in popup windows handled by CEF
+      TempHandle := WinApi.Windows.GetWindow(Browser.Host.WindowHandle, GW_OWNER);
+      if (TempHandle <> Handle) then
+        WinApi.Windows.SetFocus(TempHandle);
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadError(Sender: TObject;
@@ -809,7 +840,7 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;
-  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out isKeyboardShortcut, Result: Boolean);
 begin
   Result := False;
@@ -1029,6 +1060,8 @@ begin
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
 
+  FDevToolsMsgID       := 0;
+
   // The MultiBrowserMode store all the browser references in TChromium.
   // The first browser reference is the browser in the main form.
   // When MiniBrowser allows CEF to create child popup browsers it will also
@@ -1110,7 +1143,8 @@ end;
 
 procedure TMiniBrowserFrm.akescreenshot1Click(Sender: TObject);
 begin
-  inc(FScreenshotMsgID);
+  inc(FDevToolsMsgID);
+  FScreenshotMsgID := FDevToolsMsgID;
   Chromium1.ExecuteDevToolsMethod(FScreenshotMsgID, 'Page.captureScreenshot', nil);
 end;
 
@@ -1120,66 +1154,112 @@ procedure TMiniBrowserFrm.Chromium1DevToolsMethodResult(      Sender     : TObje
                                                               success    : Boolean;
                                                         const result     : ICefValue);
 var
-  TempDict : ICefDictionaryValue;
-  TempValue : ICefValue;
+  TempDict    : ICefDictionaryValue;
+  TempValue   : ICefValue;
+  TempResult  : WPARAM;
+  TempCode    : integer;
+  TempMessage : string;
 begin
-  if (message_id = FScreenshotMsgID) then
+  FDevToolsMsgValue := '';
+  TempResult        := 0;
+
+  if success then
     begin
-      FScreenshotRslt := success;
+      TempResult        := 1;
+      FDevToolsMsgValue := '';
 
-      if success then
+      if (result <> nil) then
         begin
-          TempDict  := result.GetDictionary;
-          TempValue := TempDict.GetValue('data');
+          TempDict := result.GetDictionary;
 
-          if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
-            FScreenshotValue := TempValue.GetString
-           else
-            FScreenshotValue := '';
-        end
-       else
-        FScreenshotValue := '';
+          if (TempDict <> nil) and (TempDict.GetSize > 0) then
+            begin
+              TempValue := TempDict.GetValue('data');
 
-      PostMessage(Handle, MINIBROWSER_SCREENSHOT_AVLBL, 0, 0);
-    end;
+              if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+                FDevToolsMsgValue := TempValue.GetString;
+            end;
+        end;
+    end
+   else
+    if (result <> nil) then
+      begin
+        TempDict := result.GetDictionary;
+
+        if (TempDict <> nil) then
+          begin
+            TempCode    := 0;
+            TempMessage := '';
+            TempValue   := TempDict.GetValue('code');
+
+            if (TempValue <> nil) and (TempValue.GetType = VTYPE_INT) then
+              TempCode := TempValue.GetInt;
+
+            TempValue := TempDict.GetValue('message');
+
+            if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+              TempMessage := TempValue.GetString;
+
+            if (length(TempMessage) > 0) then
+              FDevToolsMsgValue := 'DevTools Error (' + inttostr(TempCode) + ') : ' + quotedstr(TempMessage);
+          end;
+      end;
+
+  PostMessage(Handle, MINIBROWSER_DTDATA_AVLBL, TempResult, message_id);
 end;
 
-procedure TMiniBrowserFrm.ScreenshotAvailableMsg(var aMessage : TMessage);
+procedure TMiniBrowserFrm.DevToolsDataAvailableMsg(var aMessage : TMessage);
 var
   TempData : TBytes;
   TempFile : TFileStream;
   TempLen  : integer;
 begin
-  if FScreenshotRslt and (length(FScreenshotValue) > 0) then
+  if (aMessage.WParam <> 0) then
     begin
-      TempData := TNetEncoding.Base64.DecodeStringToBytes(FScreenshotValue);
-      TempLen  := length(TempData);
-
-      if (TempLen > 0) then
+      if (length(FDevToolsMsgValue) > 0) then
         begin
-          TempFile := nil;
+          TempData := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+          TempLen  := length(TempData);
 
-          SaveDialog1.DefaultExt := 'png';
-          SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+          if (TempLen > 0) then
+            begin
+              TempFile := nil;
 
-          if SaveDialog1.Execute then
-            try
-              try
-                TempFile := TFileStream.Create(SaveDialog1.FileName, fmCreate);
-                TempFile.WriteBuffer(TempData[0], TempLen);
-                showmessage('Screenshot saved successfully');
-              except
-                showmessage('There was an error saving the screenshot');
-              end;
-            finally
-              if (TempFile <> nil) then TempFile.Free;
-            end;
+              if (aMessage.LParam = FScreenshotMsgID) then
+                begin
+                  SaveDialog1.DefaultExt := 'png';
+                  SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+                end
+               else
+                begin
+                  SaveDialog1.DefaultExt := '';
+                  SaveDialog1.Filter     := 'All files (*.*)|*.*';
+                end;
+
+              if SaveDialog1.Execute then
+                try
+                  try
+                    TempFile := TFileStream.Create(SaveDialog1.FileName, fmCreate);
+                    TempFile.WriteBuffer(TempData[0], TempLen);
+                    showmessage('File saved successfully');
+                  except
+                    showmessage('There was an error saving the file');
+                  end;
+                finally
+                  if (TempFile <> nil) then TempFile.Free;
+                end;
+            end
+           else
+            showmessage('There was an error decoding the data');
         end
        else
-        showmessage('There was an error decoding the screenshot');
+        showmessage('DevTools method executed successfully!');
     end
    else
-    showmessage('There was an error taking the screenshot');
+    if (length(FDevToolsMsgValue) > 0) then
+      showmessage(FDevToolsMsgValue)
+     else
+      showmessage('There was an error in the DevTools method');
 end;
 
 procedure TMiniBrowserFrm.ShowDevToolsMsg(var aMessage : TMessage);

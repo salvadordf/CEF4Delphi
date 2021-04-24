@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -57,10 +57,10 @@ type
     Chromium1: TChromium;
     Timer1: TTimer;
     procedure Chromium1PreKeyEvent(Sender: TObject;
-      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
       out isKeyboardShortcut, Result: Boolean);
     procedure Chromium1KeyEvent(Sender: TObject;
-      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
       out Result: Boolean);
     procedure FormShow(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
@@ -204,7 +204,7 @@ begin
 end;
 
 procedure TMainForm.Chromium1KeyEvent(Sender: TObject;
-  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out Result: Boolean);
 var
   TempMsg : TMsg;
@@ -230,7 +230,7 @@ begin
 end;
 
 procedure TMainForm.Chromium1PreKeyEvent(Sender: TObject;
-  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: PMsg;
+  const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out isKeyboardShortcut, Result: Boolean);
 begin
   Result := False;

@@ -124,6 +124,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   end
   object chrmosr: TChromium
     OnTooltip = chrmosrTooltip
+    OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
@@ -133,7 +134,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnPopupShow = chrmosrPopupShow
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
-    OnCursorChange = chrmosrCursorChange
     OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
     Left = 24
     Top = 56

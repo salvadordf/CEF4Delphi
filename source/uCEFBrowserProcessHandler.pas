@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -49,6 +49,11 @@ unit uCEFBrowserProcessHandler;
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.Classes,
+  {$ELSE}
+  Classes,
+  {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplicationCore;
 
 type
@@ -56,8 +61,10 @@ type
     protected
       procedure OnContextInitialized; virtual; abstract;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); virtual; abstract;
-      procedure GetPrintHandler(var aHandler : ICefPrintHandler); virtual;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual; abstract;
+      procedure GetDefaultClient(var aClient : ICefClient); virtual;
+
+      procedure RemoveReferences; virtual; abstract;
 
     public
       constructor Create; virtual;
@@ -65,11 +72,14 @@ type
 
   TCefCustomBrowserProcessHandler = class(TCefBrowserProcessHandlerOwn)
     protected
-      FCefApp : TCefApplicationCore;
+      FCefApp       : TCefApplicationCore;
 
       procedure OnContextInitialized; override;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
+      procedure GetDefaultClient(var aClient : ICefClient); override;
+
+      procedure RemoveReferences; override;
 
     public
       constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
@@ -84,7 +94,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFCommandLine, uCEFListValue, uCEFConstants;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFCommandLine, uCEFListValue, uCEFConstants, uCEFStringList;
 
 procedure cef_browser_process_handler_on_context_initialized(self: PCefBrowserProcessHandler); stdcall;
 var
@@ -92,7 +102,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
     TCefBrowserProcessHandlerOwn(TempObject).OnContextInitialized;
 end;
 
@@ -103,25 +114,9 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
     TCefBrowserProcessHandlerOwn(TempObject).OnBeforeChildProcessLaunch(TCefCommandLineRef.UnWrap(command_line));
-end;
-
-function cef_browser_process_handler_get_print_handler(self: PCefBrowserProcessHandler): PCefPrintHandler; stdcall;
-var
-  TempObject  : TObject;
-  TempHandler : ICefPrintHandler;
-begin
-  Result     := nil;
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
-    try
-      TCefBrowserProcessHandlerOwn(TempObject).GetPrintHandler(TempHandler);
-      if (TempHandler <> nil) then Result := TempHandler.Wrap;
-    finally
-      TempHandler := nil;
-    end;
 end;
 
 procedure cef_browser_process_handler_on_schedule_message_pump_work(self     : PCefBrowserProcessHandler;
@@ -131,8 +126,28 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefBrowserProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
     TCefBrowserProcessHandlerOwn(TempObject).OnScheduleMessagePumpWork(delay_ms);
+end;
+
+function cef_browser_process_handler_get_default_client(self: PCefBrowserProcessHandler): PCefClient; stdcall;
+var
+  TempObject : TObject;
+  TempClient : ICefClient;
+begin
+  Result     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
+    try
+      TempClient := nil;
+      TCefBrowserProcessHandlerOwn(TempObject).GetDefaultClient(TempClient);
+      if (TempClient <> nil) then Result := TempClient.Wrap;
+    finally
+      TempClient := nil;
+    end;
 end;
 
 constructor TCefBrowserProcessHandlerOwn.Create;
@@ -143,14 +158,14 @@ begin
     begin
       on_context_initialized           := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_context_initialized;
       on_before_child_process_launch   := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_before_child_process_launch;
-      get_print_handler                := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_get_print_handler;
       on_schedule_message_pump_work    := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_schedule_message_pump_work;
+      get_default_client               := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_get_default_client;
     end;
 end;
 
-procedure TCefBrowserProcessHandlerOwn.GetPrintHandler(var aHandler : ICefPrintHandler);
+procedure TCefBrowserProcessHandlerOwn.GetDefaultClient(var aClient : ICefClient);
 begin
-  aHandler := nil; // only linux
+  aClient := nil;
 end;
 
 
@@ -166,11 +181,15 @@ end;
 
 destructor TCefCustomBrowserProcessHandler.Destroy;
 begin
-  FCefApp := nil;
+  RemoveReferences;
 
   inherited Destroy;
 end;
-
+procedure TCefCustomBrowserProcessHandler.RemoveReferences;
+begin
+  FCefApp := nil;
+end;
+
 procedure TCefCustomBrowserProcessHandler.OnContextInitialized;
 begin
   try
@@ -198,6 +217,16 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork', e) then raise;
+  end;
+end;
+
+procedure TCefCustomBrowserProcessHandler.GetDefaultClient(var aClient : ICefClient);
+begin
+  try
+    if (FCefApp <> nil) then FCefApp.Internal_GetDefaultClient(aClient);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomBrowserProcessHandler.GetDefaultClient', e) then raise;
   end;
 end;
 

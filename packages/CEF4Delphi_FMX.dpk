@@ -1,5 +1,4 @@
 package CEF4Delphi_FMX;
-
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
@@ -222,7 +221,16 @@ contains
   uCEFAudioHandler in '..\source\uCEFAudioHandler.pas',
   uCEFDevToolsMessageObserver in '..\source\uCEFDevToolsMessageObserver.pas',
   uCEFMediaSinkDeviceInfoCallback in '..\source\uCEFMediaSinkDeviceInfoCallback.pas',
-  uCEFJson in '..\source\uCEFJson.pas';
+  uCEFJson in '..\source\uCEFJson.pas',
+  uCEFBitmapBitBuffer in '..\source\uCEFBitmapBitBuffer.pas',
+  uCEFPrintHandler in '..\source\uCEFPrintHandler.pas',
+  uCEFPrintDialogCallback in '..\source\uCEFPrintDialogCallback.pas',
+  uCEFPrintJobCallback in '..\source\uCEFPrintJobCallback.pas',
+  uCEFLinuxConstants in '..\source\uCEFLinuxConstants.pas',
+  uCEFLinuxTypes in '..\source\uCEFLinuxTypes.pas',
+  uCEFLinuxFunctions in '..\source\uCEFLinuxFunctions.pas',
+  uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
+  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas';
 
 end.
 

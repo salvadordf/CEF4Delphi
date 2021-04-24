@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -61,26 +61,28 @@ type
   TFMXBufferPanel = class(TControl)
     protected
       {$IFDEF MSWINDOWS}
-      FMutex            : THandle;
+      FMutex                   : THandle;
       {$ELSE}
-      FBufferCS         : TCriticalSection;
+      FBufferCS                : TCriticalSection;
       {$ENDIF}
-      FBuffer           : TBitmap;
-      FScanlineSize     : integer;
-      FColor            : TAlphaColor;
-      FHighSpeedDrawing : boolean;
-      FOnDialogKey      : TDialogKeyEvent;
+      FBuffer                  : TBitmap;
+      FScanlineSize            : integer;
+      FColor                   : TAlphaColor;
+      FHighSpeedDrawing        : boolean;
+      FOnDialogKey             : TDialogKeyEvent;
+      FForcedDeviceScaleFactor : single;
 
       procedure CreateSyncObj;
 
       procedure DestroySyncObj;
       procedure DestroyBuffer;
 
-      function  GetScreenScale : Single;
+      function  GetScreenScale : single; virtual;
       function  GetBufferWidth : integer;
       function  GetBufferHeight : integer;
       function  GetParentForm : TCustomForm;
       function  GetParentFormHandle : TCefWindowHandle;
+      function  GetRealScreenScale(var aResultScale : single) : boolean; virtual;
 
       function  CopyBuffer : boolean;
       function  SaveBufferToFile(const aFilename : string) : boolean;
@@ -104,11 +106,12 @@ type
       function    ClientToScreen(aPoint : TPoint) : TPoint; overload;
       function    ClientToScreen(aPoint : TPointF) : TPointF; overload;
 
-      property Buffer         : TBitmap            read FBuffer;
-      property ScanlineSize   : integer            read FScanlineSize;
-      property BufferWidth    : integer            read GetBufferWidth;
-      property BufferHeight   : integer            read GetBufferHeight;
-      property ScreenScale    : single             read GetScreenScale;
+      property Buffer                    : TBitmap                   read FBuffer;
+      property ScanlineSize              : integer                   read FScanlineSize;
+      property BufferWidth               : integer                   read GetBufferWidth;
+      property BufferHeight              : integer                   read GetBufferHeight;
+      property ScreenScale               : single                    read GetScreenScale;
+      property ForcedDeviceScaleFactor   : single                    read FForcedDeviceScaleFactor   write FForcedDeviceScaleFactor;
 
     published
       property Align;
@@ -175,6 +178,11 @@ begin
   FColor            := claWhite;
   FOnDialogKey      := nil;
   FHighSpeedDrawing := True;
+
+  if (GlobalCEFApp <> nil) and (GlobalCEFApp.ForcedDeviceScaleFactor <> 0) then
+    FForcedDeviceScaleFactor := GlobalCEFApp.ForcedDeviceScaleFactor
+   else
+    FForcedDeviceScaleFactor := 0;
 end;
 
 destructor TFMXBufferPanel.Destroy;
@@ -362,7 +370,7 @@ var
   TempForm : TCustomForm;
 {$ENDIF}
 begin
-  Result := 0;
+  InitializeWindowHandle(Result);
 
   {$IFDEF MSWINDOWS}
   TempForm := GetParentForm;
@@ -376,23 +384,40 @@ begin
   {$ENDIF}
 end;
 
-function TFMXBufferPanel.GetScreenScale : Single;
-{$IFDEF MSWINDOWS}
+function TFMXBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
+{$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
 var
   TempHandle : TCefWindowHandle;
-{$ENDIF}
+{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
+  Result       := False;
+  aResultScale := 1;
+
+  {$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
-    Result := GetWndScale(TempHandle)
+    begin
+      Result       := True;
+      aResultScale := GetWndScale(TempHandle);
+    end;
+  {$ENDIF}{$ENDIF}
+end;
+
+function TFMXBufferPanel.GetScreenScale : single;
+var
+  TempScale : single;
+begin
+  if (FForcedDeviceScaleFactor <> 0) then
+    Result := FForcedDeviceScaleFactor
    else
-  {$ENDIF}
-    if (GlobalCEFApp <> nil) then
-      Result := GlobalCEFApp.DeviceScaleFactor
+    if GetRealScreenScale(TempScale) then
+      Result := TempScale
      else
-      Result := 1;
+      if (GlobalCEFApp <> nil) then
+        Result := GlobalCEFApp.DeviceScaleFactor
+       else
+        Result := 1;
 end;
 
 function TFMXBufferPanel.GetBufferWidth : integer;

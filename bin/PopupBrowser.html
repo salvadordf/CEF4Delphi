@@ -6,11 +6,13 @@
 <button onclick="return popitup('https://www.google.com')">Click me to open Google</button><br/><br/>
 <button onclick="return popitup('about:blank')">Click me to open blank</button><br/><br/>
 <button onclick="return popitup('file:///PopupBrowser.html')">Click me to open a file</button><br/><br/>
+<button onclick="return popitup('https://www.w3schools.com/HTML/html5_draganddrop.asp')">Click me to open a drag and drop example</button><br/><br/>
+<button onclick="return popitup('https://code-boxx.com/simple-drag-and-drop-file-upload/')">Click me to open a drop file example</button><br/><br/>
 
 <script language="javascript" type="text/javascript">
 <!--
 function popitup(url) {
-	newwindow=window.open(url,'name','height=500,width=700');
+	newwindow=window.open(url,'name' + Math.floor(Date.now() / 1000),'height=500,width=700');
 	if (window.focus) {newwindow.focus()}
 	return false;
 }

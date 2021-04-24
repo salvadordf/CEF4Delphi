@@ -1,0 +1,71 @@
+object MainForm: TMainForm
+  Left = 364
+  Height = 624
+  Top = 213
+  Width = 1038
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 624
+  ClientWidth = 1038
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  LCLVersion = '2.0.10.0'
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 1038
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 1038
+    Enabled = False
+    TabOrder = 0
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 1007
+      Align = alClient
+      TabOrder = 0
+      Text = 'file:///PopupBrowser.html'
+    end
+    object GoBtn: TButton
+      Left = 1007
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 1
+    end
+  end
+  object CEFLinkedWindowParent1: TCEFLinkedWindowParent
+    Left = 0
+    Height = 603
+    Top = 21
+    Width = 1038
+    Align = alClient
+    TabStop = True
+    TabOrder = 1
+    OnEnter = CEFLinkedWindowParent1Enter
+    OnExit = CEFLinkedWindowParent1Exit
+    Chromium = Chromium1
+  end
+  object Chromium1: TChromium
+    OnGotFocus = Chromium1GotFocus
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    Left = 56
+    Top = 152
+  end
+end

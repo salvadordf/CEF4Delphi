@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -54,7 +54,7 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFTypes;
+  uCEFTypes, uCEFConstants;
 
 type
   TChromiumOptions = class(TPersistent)
@@ -67,7 +67,6 @@ type
       FPlugins                     : TCefState;
       FUniversalAccessFromFileUrls : TCefState;
       FFileAccessFromFileUrls      : TCefState;
-      FWebSecurity                 : TCefState;
       FImageLoading                : TCefState;
       FImageShrinkStandaloneToFit  : TCefState;
       FTextAreaResize              : TCefState;
@@ -90,7 +89,6 @@ type
       property Plugins                     : TCefState read FPlugins                      write FPlugins                     default STATE_DEFAULT;
       property UniversalAccessFromFileUrls : TCefState read FUniversalAccessFromFileUrls  write FUniversalAccessFromFileUrls default STATE_DEFAULT;
       property FileAccessFromFileUrls      : TCefState read FFileAccessFromFileUrls       write FFileAccessFromFileUrls      default STATE_DEFAULT;
-      property WebSecurity                 : TCefState read FWebSecurity                  write FWebSecurity                 default STATE_DEFAULT;
       property ImageLoading                : TCefState read FImageLoading                 write FImageLoading                default STATE_DEFAULT;
       property ImageShrinkStandaloneToFit  : TCefState read FImageShrinkStandaloneToFit   write FImageShrinkStandaloneToFit  default STATE_DEFAULT;
       property TextAreaResize              : TCefState read FTextAreaResize               write FTextAreaResize              default STATE_DEFAULT;
@@ -101,14 +99,15 @@ type
       property Webgl                       : TCefState read FWebgl                        write FWebgl                       default STATE_DEFAULT;
       property BackgroundColor             : TCefColor read FBackgroundColor              write FBackgroundColor             default 0;
       property AcceptLanguageList          : ustring   read FAcceptLanguageList           write FAcceptLanguageList;
-      property WindowlessFrameRate         : Integer   read FWindowlessFrameRate          write FWindowlessFrameRate         default 30;
+      property WindowlessFrameRate         : Integer   read FWindowlessFrameRate          write FWindowlessFrameRate         default CEF_OSR_FRAMERATE_DEFAULT;
   end;
 
 implementation
 
 constructor TChromiumOptions.Create;
 begin
-  FWindowlessFrameRate         := 30;
+
+  FWindowlessFrameRate         := CEF_OSR_FRAMERATE_DEFAULT;  // Use CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT if the shared textures are enabled.
   FJavascript                  := STATE_DEFAULT;
   FJavascriptCloseWindows      := STATE_DEFAULT;
   FJavascriptAccessClipboard   := STATE_DEFAULT;
@@ -116,7 +115,6 @@ begin
   FPlugins                     := STATE_DEFAULT;
   FUniversalAccessFromFileUrls := STATE_DEFAULT;
   FFileAccessFromFileUrls      := STATE_DEFAULT;
-  FWebSecurity                 := STATE_DEFAULT;
   FImageLoading                := STATE_DEFAULT;
   FImageShrinkStandaloneToFit  := STATE_DEFAULT;
   FTextAreaResize              := STATE_DEFAULT;

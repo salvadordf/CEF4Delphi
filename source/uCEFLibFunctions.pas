@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -54,9 +54,25 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math,
   {$ENDIF}
+  {$IFDEF LINUX}
+    {$IFDEF FPC}xlib,{$ENDIF}
+    {$IFDEF FMX}uCEFLinuxTypes,{$ENDIF}
+  {$ENDIF}
   uCEFTypes;
 
 var
+  // *********************************
+  // *********** API HASH ************
+  // *********************************
+
+  // /include/cef_api_hash.h
+  cef_api_hash               : function(entry: integer): PAnsiChar; cdecl;
+
+
+  // *********************************
+  // ************* CAPI **************
+  // *********************************
+
   // /include/capi/cef_app_capi.h
   cef_initialize             : function(const args: PCefMainArgs; const settings: PCefSettings; application: PCefApp; windows_sandbox_info: Pointer): Integer; cdecl;
   cef_shutdown               : procedure; cdecl;
@@ -99,7 +115,7 @@ var
   cef_image_create : function : PCefImage; cdecl;
 
   // /include/capi/cef_media_router_capi.h
-  cef_media_router_get_global : function : PCefMediaRouter; cdecl;
+  cef_media_router_get_global : function(callback: PCefCompletionCallback) : PCefMediaRouter; cdecl;
 
   // /include/capi/cef_menu_model_capi.h
   cef_menu_model_create : function(delegate: PCefMenuModelDelegate): PCefMenuModel; cdecl;
@@ -121,7 +137,7 @@ var
   cef_uridecode                       : function(const text: PCefString; convert_to_utf8: Integer; unescape_rule: TCefUriUnescapeRule): PCefStringUserFree; cdecl;
   cef_parse_json                      : function(const json_string: PCefString; options: TCefJsonParserOptions): PCefValue; cdecl;
   cef_parse_json_buffer               : function(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions): PCefValue; cdecl;
-  cef_parse_jsonand_return_error      : function(const json_string: PCefString; options: TCefJsonParserOptions; error_code_out: PCefJsonParserError; error_msg_out: PCefString): PCefValue; cdecl;
+  cef_parse_jsonand_return_error      : function(const json_string: PCefString; options: TCefJsonParserOptions; error_msg_out: PCefString): PCefValue; cdecl;
   cef_write_json                      : function(node: PCefValue; options: TCefJsonWriterOptions): PCefStringUserFree; cdecl;
 
   // /include/capi/cef_path_util_capi.h
@@ -232,7 +248,7 @@ var
 
 
   // *********************************
-  // ************* VIEWS *************
+  // ********** CAPI VIEWS ***********
   // *********************************
 
   // /include/capi/views/cef_browser_view_capi.h

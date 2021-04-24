@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -45,13 +45,13 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   System.SyncObjs, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Vcl.AppEvnts, WinApi.imm,
+  Vcl.ExtCtrls, Vcl.AppEvnts, WinApi.imm, Vcl.ComCtrls,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
-  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts,
+  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFSentinel, uCEFChromiumCore;
+  uCEFChromiumCore;
 
 const
   // Set this constant to True and load "file://transparency.html" to test a
@@ -101,7 +101,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure chrmosrPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
-    procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
+    procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
     procedure chrmosrGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
     procedure chrmosrGetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
     procedure chrmosrGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
@@ -249,7 +249,7 @@ begin
   GlobalCEFApp.TouchEvents                := STATE_ENABLED;
   //GlobalCEFApp.EnableGPU                  := True;
   GlobalCEFApp.LogFile                    := 'debug.log';
-  GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  GlobalCEFApp.LogSeverity                := LOGSEVERITY_VERBOSE;
 
   // If you need transparency leave the GlobalCEFApp.BackgroundColor property
   // with the default value or set the alpha channel to 0
@@ -263,6 +263,7 @@ procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 var
   TempKeyEvent   : TCefKeyEvent;
   TempMouseEvent : TCefMouseEvent;
+  TempPoint      : TPoint;
 begin
   case Msg.message of
     WM_SYSCHAR :
@@ -366,11 +367,18 @@ begin
     WM_MOUSEWHEEL :
       if Panel1.Focused then
         begin
-          TempMouseEvent.x         := Msg.lParam and $FFFF;
-          TempMouseEvent.y         := Msg.lParam shr 16;
+          GetCursorPos(TempPoint);
+          TempPoint                := Panel1.ScreenToclient(TempPoint);
+          TempMouseEvent.x         := TempPoint.x;
+          TempMouseEvent.y         := TempPoint.y;
           TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
+
           DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
-          chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
+
+          if CefIsKeyDown(VK_SHIFT) then
+            chrmosr.SendMouseWheelEvent(@TempMouseEvent, smallint(Msg.wParam shr 16), 0)
+           else
+            chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
         end;
   end;
 end;
@@ -422,11 +430,13 @@ end;
 
 procedure TForm1.chrmosrCursorChange(      Sender           : TObject;
                                      const browser          : ICefBrowser;
-                                           cursor           : HICON;
+                                           cursor_          : TCefCursorHandle;
                                            cursorType       : TCefCursorType;
-                                     const customCursorInfo : PCefCursorInfo);
+                                     const customCursorInfo : PCefCursorInfo;
+                                     var   aResult          : boolean);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
+  aResult       := True;
 end;
 
 procedure TForm1.chrmosrGetScreenInfo(      Sender     : TObject;
@@ -713,6 +723,9 @@ end;
 
 procedure TForm1.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
 begin
+  if (GlobalCEFApp <> nil) then
+    GlobalCEFApp.UpdateDeviceScaleFactor;
+
   if (chrmosr <> nil) then
     begin
       chrmosr.NotifyScreenInfoChanged;

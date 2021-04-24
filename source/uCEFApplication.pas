@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -51,11 +51,20 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX,{$IFNDEF FMX} Vcl.Forms,{$ENDIF}
+      WinApi.Windows, WinApi.ActiveX,
+      {$IFDEF FMX}
+      FMX.Forms,
+      {$ELSE}
+      Vcl.Forms,
+      {$ENDIF}
     {$ENDIF}
     System.Classes, System.UITypes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, Forms, ActiveX,{$ENDIF} Classes, Controls, {$IFDEF FPC}dynlibs,{$ENDIF}
+    Forms,
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Controls, {$IFDEF FPC}dynlibs,{$ENDIF}
+  {$ENDIF}
+  {$IFDEF FPC}
+  LCLProc,
   {$ENDIF}
   uCEFApplicationCore, uCEFTypes;
 
@@ -78,14 +87,29 @@ type
     protected
       FDestroyApplicationObject      : boolean;
       FDestroyAppWindows             : boolean;
+      {$IFDEF FPC}
+      FContextInitializedHandlers: TMethodList;
+      FContextInitializedDone: Boolean;
+
+      procedure CallContextInitializedHandlers(Data: PtrInt);
+      {$ENDIF}
 
       procedure BeforeInitSubProcess; override;
+
     public
       constructor Create;
       destructor  Destroy; override;
+      procedure   UpdateDeviceScaleFactor; override;
 
-      property DestroyApplicationObject: boolean read FDestroyApplicationObject write FDestroyApplicationObject;
-      property DestroyAppWindows       : boolean read FDestroyAppWindows        write FDestroyAppWindows;
+      property DestroyApplicationObject : boolean read FDestroyApplicationObject write FDestroyApplicationObject;
+      property DestroyAppWindows        : boolean read FDestroyAppWindows        write FDestroyAppWindows;
+
+      {$IFDEF FPC}
+      procedure Internal_OnContextInitialized; override; // In UI thread
+
+      Procedure AddContextInitializedHandler(AHandler: TNotifyEvent);
+      Procedure RemoveContextInitializedHandler(AHandler: TNotifyEvent);
+      {$ENDIF}
   end;
 
   TCEFDirectoryDeleterThread = uCEFApplicationCore.TCEFDirectoryDeleterThread;
@@ -136,7 +160,7 @@ uses
       TlHelp32, {$IFDEF MSWINDOWS}PSAPI,{$ENDIF}
     {$ENDIF}
   {$ENDIF}
-  uCEFConstants;
+  uCEFConstants, uCEFMiscFunctions;
 
 function CefCursorToWindowsCursor(aCefCursor : TCefCursorType) : TCursor;
 begin
@@ -180,20 +204,94 @@ end;
 
 constructor TCefApplication.Create;
 begin
+  {$IFDEF FPC}
+  FContextInitializedHandlers := TMethodList.Create;
+  {$ENDIF}
+
   inherited Create;
-  if GlobalCEFApp = nil then
+
+  if (GlobalCEFApp = nil) then
     GlobalCEFApp := Self;
 
-  FDestroyApplicationObject      := False;
-  FDestroyAppWindows             := True;
+  FDestroyApplicationObject := False;
+  FDestroyAppWindows        := True;
 end;
 
 destructor TCefApplication.Destroy;
 begin
-  if GlobalCEFApp = Self then
+  if (GlobalCEFApp = Self) then
     GlobalCEFApp := nil;
+
   inherited Destroy;
+
+  {$IFDEF FPC}
+  FContextInitializedHandlers.Free;
+  {$ENDIF}
 end;
+
+procedure TCefApplication.UpdateDeviceScaleFactor;
+{$IFDEF MSWINDOWS}
+{$IFNDEF FMX}
+var
+  TempHandle : HWND;
+  TempDPI    : UINT;
+{$ENDIF}
+{$ENDIF}
+begin
+  {$IFDEF MSWINDOWS}
+  {$IFNDEF FMX}
+  if RunningWindows10OrNewer then
+    begin
+      if assigned(screen.ActiveForm) and
+         screen.ActiveForm.HandleAllocated then
+        TempHandle := screen.ActiveForm.Handle
+       else
+        if assigned(Application.MainForm) and
+           Application.MainForm.HandleAllocated then
+          TempHandle := Application.MainForm.Handle
+         else
+          TempHandle := Application.Handle;
+
+     if GetDPIForHandle(TempHandle, TempDPI) then
+       FDeviceScaleFactor := TempDPI / USER_DEFAULT_SCREEN_DPI
+      else
+       inherited UpdateDeviceScaleFactor;
+    end
+   else
+  {$ENDIF}
+    inherited UpdateDeviceScaleFactor;
+  {$ELSE}
+  inherited UpdateDeviceScaleFactor;
+  {$ENDIF}
+end;
+
+{$IFDEF FPC}
+procedure TCefApplication.Internal_OnContextInitialized;
+begin
+  inherited Internal_OnContextInitialized;
+  Application.QueueAsyncCall(@CallContextInitializedHandlers, 0);
+end;
+
+procedure TCefApplication.AddContextInitializedHandler(AHandler: TNotifyEvent);
+begin
+  FContextInitializedHandlers.Add(TMethod(AHandler));
+  if FContextInitializedDone then
+    AHandler(Self);
+end;
+
+procedure TCefApplication.RemoveContextInitializedHandler(AHandler: TNotifyEvent);
+begin
+  FContextInitializedHandlers.Remove(TMethod(AHandler));
+end;
+{$ENDIF}
+
+{$IFDEF FPC}
+procedure TCefApplication.CallContextInitializedHandlers(Data: PtrInt);
+begin
+  FContextInitializedHandlers.CallNotifyEvents(Self);
+  FContextInitializedDone := True;
+end;
+{$ENDIF}
 
 procedure TCefApplication.BeforeInitSubProcess;
 {$IFNDEF FPC}
@@ -205,7 +303,7 @@ var
 begin
   {$IFNDEF FPC}
   {$IFNDEF FMX}
-  if Application <> nil then
+  if (Application <> nil) then
     begin
       if FDestroyApplicationObject then
         begin
@@ -239,7 +337,8 @@ begin
               if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
               {$ENDIF}
             end;
-          if not IsLibrary then
+
+          if not(IsLibrary) then
             begin
               // Undo the OleInitialize from TApplication.Create. The sub-processes want a different
               // COM thread model and fail with an assertion if the Debug-DLLs are used.

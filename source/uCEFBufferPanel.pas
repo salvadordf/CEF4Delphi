@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -58,7 +58,7 @@ uses
     {$ENDIF}
     ExtCtrls, SyncObjs, SysUtils,
   {$ENDIF}
-  {$IFDEF MSWINDOWS}uCEFOSRIMEHandler,{$ENDIF} uCEFConstants, uCEFTypes;
+  {$IFDEF MSWINDOWS}uCEFOSRIMEHandler,{$ENDIF} uCEFConstants, uCEFTypes, uCEFBitmapBitBuffer;
 
 type
   TOnIMECommitTextEvent     = procedure(Sender: TObject; const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer) of object;
@@ -70,20 +70,29 @@ type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TBufferPanel = class(TCustomPanel)
     protected
-      FMutex                  : THandle;
-      FBuffer                 : TBitmap;
-      FScanlineSize           : integer;
-      FTransparent            : boolean;
-      FOnPaintParentBkg       : TNotifyEvent;
+      FScanlineSize            : integer;
+      FTransparent             : boolean;
+      FOnPaintParentBkg        : TNotifyEvent;
+      FForcedDeviceScaleFactor : single;
+      FDeviceScaleFactor       : single;
+      FCopyOriginalBuffer      : boolean;
+      FMustInitBuffer          : boolean;
+      FBuffer                  : TBitmap;
+      FOrigBuffer              : TCEFBitmapBitBuffer;
+      FOrigPopupBuffer         : TCEFBitmapBitBuffer;
+      FOrigPopupScanlineSize   : integer;
       {$IFDEF MSWINDOWS}
-      FIMEHandler             : TCEFOSRIMEHandler;
-      FOnIMECancelComposition : TNotifyEvent;
-      FOnIMECommitText        : TOnIMECommitTextEvent;
-      FOnIMESetComposition    : TOnIMESetCompositionEvent;
-      FOnCustomTouch          : TOnHandledMessageEvent;
-      FOnPointerDown          : TOnHandledMessageEvent;
-      FOnPointerUp            : TOnHandledMessageEvent;
-      FOnPointerUpdate        : TOnHandledMessageEvent;
+      FSyncObj                 : THandle;
+      FIMEHandler              : TCEFOSRIMEHandler;
+      FOnIMECancelComposition  : TNotifyEvent;
+      FOnIMECommitText         : TOnIMECommitTextEvent;
+      FOnIMESetComposition     : TOnIMESetCompositionEvent;
+      FOnCustomTouch           : TOnHandledMessageEvent;
+      FOnPointerDown           : TOnHandledMessageEvent;
+      FOnPointerUp             : TOnHandledMessageEvent;
+      FOnPointerUpdate         : TOnHandledMessageEvent;
+      {$ELSE}
+      FSyncObj                 : TCriticalSection;
       {$ENDIF}
 
       procedure CreateSyncObj;
@@ -93,8 +102,14 @@ type
 
       function  GetBufferBits : pointer;
       function  GetBufferWidth : integer;
-      function  GetBufferHeight : integer;
-      function  GetScreenScale : single;
+      function  GetBufferHeight : integer;          
+      function  GetOrigBufferWidth : integer;
+      function  GetOrigBufferHeight : integer;
+      function  GetScreenScale : single; virtual;
+      function  GetRealScreenScale(var aResultScale : single) : boolean; virtual;
+      function  GetOrigPopupBufferBits : pointer;
+      function  GetOrigPopupBufferWidth : integer;
+      function  GetOrigPopupBufferHeight : integer;
       {$IFDEF MSWINDOWS}
       function  GetParentFormHandle : TCefWindowHandle;
       function  GetParentForm : TCustomForm;
@@ -118,6 +133,10 @@ type
       procedure WMIMEEndComp(var aMessage: TMessage);
       procedure WMIMESetContext(var aMessage: TMessage);
       procedure WMIMEComposition(var aMessage: TMessage);
+
+      procedure DoOnIMECancelComposition; virtual;
+      procedure DoOnIMECommitText(const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer); virtual;
+      procedure DoOnIMESetComposition(const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange); virtual;
       {$ENDIF}
 
     public
@@ -130,20 +149,36 @@ type
       procedure   EndBufferDraw;
       procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap); overload;
       procedure   BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); overload;
-      function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
+      function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;        
+      function    UpdateOrigBufferDimensions(aWidth, aHeight : integer) : boolean;
+      function    UpdateOrigPopupBufferDimensions(aWidth, aHeight : integer) : boolean;
+      procedure   UpdateDeviceScaleFactor;
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
       procedure   CreateIMEHandler;
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
+      procedure   DrawOrigPopupBuffer(const aSrcRect, aDstRect : TRect);
 
-      property Buffer           : TBitmap            read FBuffer;
-      property ScanlineSize     : integer            read FScanlineSize;
-      property BufferWidth      : integer            read GetBufferWidth;
-      property BufferHeight     : integer            read GetBufferHeight;
-      property BufferBits       : pointer            read GetBufferBits;
-      property ScreenScale      : single             read GetScreenScale;
+      property ScanlineSize              : integer                   read FScanlineSize;
+      property BufferWidth               : integer                   read GetBufferWidth;
+      property BufferHeight              : integer                   read GetBufferHeight;
+      property BufferBits                : pointer                   read GetBufferBits;
+      property ScreenScale               : single                    read GetScreenScale;
+      property ForcedDeviceScaleFactor   : single                    read FForcedDeviceScaleFactor   write FForcedDeviceScaleFactor;
+      property MustInitBuffer            : boolean                   read FMustInitBuffer            write FMustInitBuffer;
+
+      property Buffer                    : TBitmap                   read FBuffer;
+      property OrigBuffer                : TCEFBitmapBitBuffer       read FOrigBuffer;
+      property OrigBufferWidth           : integer                   read GetOrigBufferWidth;
+      property OrigBufferHeight          : integer                   read GetOrigBufferHeight;
+      property OrigPopupBuffer           : TCEFBitmapBitBuffer       read FOrigPopupBuffer;
+      property OrigPopupBufferWidth      : integer                   read GetOrigPopupBufferWidth;
+      property OrigPopupBufferHeight     : integer                   read GetOrigPopupBufferHeight;
+      property OrigPopupBufferBits       : pointer                   read GetOrigPopupBufferBits;
+      property OrigPopupScanlineSize     : integer                   read FOrigPopupScanlineSize;
+
       {$IFDEF MSWINDOWS}
-      property ParentFormHandle : TCefWindowHandle   read GetParentFormHandle;
-      property ParentForm       : TCustomForm        read GetParentForm;
+      property ParentFormHandle          : TCefWindowHandle          read GetParentFormHandle;
+      property ParentForm                : TCustomForm               read GetParentForm;
       {$ENDIF}
 
       property DockManager;
@@ -161,7 +196,8 @@ type
       {$ENDIF}
       property OnPaintParentBkg          : TNotifyEvent              read FOnPaintParentBkg          write FOnPaintParentBkg;
 
-      property Transparent               : boolean                   read FTransparent               write SetTransparent     default False;
+      property Transparent               : boolean                   read FTransparent               write SetTransparent       default False;
+      property CopyOriginalBuffer        : boolean                   read FCopyOriginalBuffer        write FCopyOriginalBuffer  default False;
 
       property Align;
       property Alignment;
@@ -240,6 +276,10 @@ type
       property OnMouseEnter;
       property OnMouseLeave;
       {$ENDIF}
+      {$IFDEF FPC}
+      property OnMouseEnter;
+      property OnMouseLeave;
+      {$ENDIF}
       {$IFDEF DELPHI12_UP}
       property ShowCaption;
       property ParentDoubleBuffered;
@@ -260,18 +300,34 @@ procedure Register;
 implementation
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.Math,
+  {$ELSE}
+  Math,
+  {$ENDIF}
   uCEFMiscFunctions, uCEFApplicationCore;
 
 constructor TBufferPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FMutex            := 0;
-  FBuffer           := nil;
-  FTransparent      := False;
-  FOnPaintParentBkg := nil;
+  FBuffer                  := nil;
+  FTransparent             := False;
+  FOnPaintParentBkg        := nil;
+  FScanlineSize            := 0;
+  FCopyOriginalBuffer      := False;
+  FOrigBuffer              := nil;
+  FOrigPopupBuffer         := nil;
+  FOrigPopupScanlineSize   := 0;
+  FDeviceScaleFactor       := 0;
 
-  {$IFDEF MSWINDOWS}
+  if (GlobalCEFApp <> nil) and (GlobalCEFApp.ForcedDeviceScaleFactor <> 0) then
+    FForcedDeviceScaleFactor := GlobalCEFApp.ForcedDeviceScaleFactor
+   else
+    FForcedDeviceScaleFactor := 0;
+
+  {$IFDEF MSWINDOWS}           
+  FSyncObj                := 0;
   FIMEHandler             := nil;
   FOnIMECancelComposition := nil;
   FOnIMECommitText        := nil;
@@ -280,6 +336,10 @@ begin
   FOnPointerDown          := nil;
   FOnPointerUp            := nil;
   FOnPointerUpdate        := nil;
+  FMustInitBuffer         := False;
+  {$ELSE}
+  FSyncObj                := nil;
+  FMustInitBuffer         := True;
   {$ENDIF}
 end;
 
@@ -300,6 +360,7 @@ begin
   inherited AfterConstruction;
 
   CreateSyncObj;
+  UpdateDeviceScaleFactor;
 
   {$IFDEF MSWINDOWS}
     {$IFNDEF FPC}
@@ -326,21 +387,63 @@ begin
   {$ENDIF}
 end;
 
+procedure TBufferPanel.DrawOrigPopupBuffer(const aSrcRect, aDstRect : TRect);
+var
+  src_y, dst_y, TempWidth : integer;
+  src, dst : PByte;
+begin
+  if (FOrigBuffer = nil) or (FOrigPopupBuffer = nil) then exit;
+
+  src_y := aSrcRect.Top;
+  dst_y := aDstRect.Top;
+
+  TempWidth := min(aSrcRect.Right - aSrcRect.Left + 1,
+                   aDstRect.Right - aDstRect.Left + 1);
+
+  if (aSrcRect.Left + TempWidth >= FOrigPopupBuffer.Width) then
+    TempWidth := FOrigPopupBuffer.Width - aSrcRect.Left;
+
+  if (aDstRect.Left + TempWidth >= FOrigBuffer.Width) then
+    TempWidth := FOrigBuffer.Width - aDstRect.Left;
+
+  while (src_y <= aSrcRect.Bottom) and (src_y < FOrigPopupBuffer.Height) and
+        (dst_y <= aDstRect.Bottom) and (dst_y < FOrigBuffer.Height) do
+    begin
+      src := FOrigPopupBuffer.ScanLine[src_y];
+      dst := FOrigBuffer.ScanLine[dst_y];
+
+      if (aSrcRect.Left > 0) then
+        inc(src, aSrcRect.Left * SizeOf(TRGBQuad));
+
+      if (aDstRect.Left > 0) then
+        inc(dst, aDstRect.Left * SizeOf(TRGBQuad));
+
+      move(src^, dst^, TempWidth * SizeOf(TRGBQuad));
+
+      inc(src_y);
+      inc(dst_y);
+    end;
+end;
+
 procedure TBufferPanel.CreateSyncObj;
 begin
   {$IFDEF MSWINDOWS}
-  FMutex := CreateMutex(nil, False, nil);
+  FSyncObj := CreateMutex(nil, False, nil);
+  {$ELSE}
+  FSyncObj := TCriticalSection.Create;
   {$ENDIF}
 end;
 
 procedure TBufferPanel.DestroySyncObj;
 begin
   {$IFDEF MSWINDOWS}
-  if (FMutex <> 0) then
+  if (FSyncObj <> 0) then
     begin
-      CloseHandle(FMutex);
-      FMutex := 0;
+      CloseHandle(FSyncObj);
+      FSyncObj := 0;
     end;
+  {$ELSE}
+  if (FSyncObj <> nil) then FreeAndNil(FSyncObj);
   {$ENDIF}
 end;
 
@@ -348,7 +451,10 @@ procedure TBufferPanel.DestroyBuffer;
 begin
   if BeginBufferDraw then
     begin
-      if (FBuffer <> nil) then FreeAndNil(FBuffer);
+      if (FBuffer          <> nil) then FreeAndNil(FBuffer);
+      if (FOrigBuffer      <> nil) then FreeAndNil(FOrigBuffer);
+      if (FOrigPopupBuffer <> nil) then FreeAndNil(FOrigPopupBuffer);
+
       EndBufferDraw;
     end;
 end;
@@ -356,7 +462,6 @@ end;
 function TBufferPanel.SaveBufferToFile(const aFilename : string) : boolean;
 begin
   Result := False;
-
   try
     if (FBuffer <> nil) then
       begin
@@ -384,62 +489,137 @@ function TBufferPanel.InvalidatePanel : boolean;
 begin
   {$IFDEF MSWINDOWS}
   Result := HandleAllocated and PostMessage(Handle, CM_INVALIDATE, 0, 0);
+  {$ELSE}
+  Result := True;
+  TThread.Queue(nil, @Invalidate);
   {$ENDIF}
 end;
 
 function TBufferPanel.BeginBufferDraw : boolean;
 begin
   {$IFDEF MSWINDOWS}
-  Result := (FMutex <> 0) and (WaitForSingleObject(FMutex, 5000) = WAIT_OBJECT_0);
+  Result := (FSyncObj <> 0) and (WaitForSingleObject(FSyncObj, 5000) = WAIT_OBJECT_0);
+  {$ELSE}
+  if (FSyncObj <> nil) then
+    begin
+      FSyncObj.Acquire;
+      Result := True;
+    end
+   else
+    Result := False;
   {$ENDIF}
 end;
 
 procedure TBufferPanel.EndBufferDraw;
 begin
   {$IFDEF MSWINDOWS}
-  if (FMutex <> 0) then ReleaseMutex(FMutex);
+  if (FSyncObj <> 0) then ReleaseMutex(FSyncObj);
+  {$ELSE}
+  if (FSyncObj <> nil) then FSyncObj.Release;
   {$ENDIF}
 end;
 
 function TBufferPanel.CopyBuffer : boolean;
-{$IFDEF MSWINDOWS}
 var
+  {$IFDEF MSWINDOWS}
   TempFunction  : TBlendFunction;
-{$ENDIF}
+  {$ENDIF}
+  y : integer;
+  src, dst : pointer;
 begin
   Result := False;
 
-  {$IFDEF MSWINDOWS}
   if BeginBufferDraw then
     try
-      if (FBuffer <> nil) then
+      if FCopyOriginalBuffer then
         begin
-          if FTransparent then
+          if (FBuffer = nil) then
             begin
-              // TODO : To avoid flickering we should be using another bitmap
-              // for the background image. We should blend "FBuffer" with the
-              // "background bitmap" and then blit the result to the canvas.
+              FBuffer             := TBitmap.Create;
+              FBuffer.PixelFormat := pf32bit;
+              FBuffer.HandleType  := bmDIB;  
+              FBuffer.Width       := 1001;
+              FBuffer.Height      := 600;
 
-              if assigned(FOnPaintParentBkg) then FOnPaintParentBkg(self);
+              if FMustInitBuffer then
+                begin
+                  FBuffer.Canvas.Brush.Color := clWhite;
+                  FBuffer.Canvas.FillRect(rect(0, 0, FBuffer.Width, FBuffer.Height));
+                end;
+            end;
 
-              TempFunction.BlendOp             := AC_SRC_OVER;
-              TempFunction.BlendFlags          := 0;
-              TempFunction.SourceConstantAlpha := 255;
-              TempFunction.AlphaFormat         := AC_SRC_ALPHA;
+          if (FOrigBuffer <> nil) and not(FOrigBuffer.Empty) then
+            begin
+              if (FBuffer.Width  <> FOrigBuffer.Width)  or
+                 (FBuffer.Height <> FOrigBuffer.Height) then
+                begin
+                  FBuffer.Width  := FOrigBuffer.Width;
+                  FBuffer.Height := FOrigBuffer.Height;
 
-              Result := AlphaBlend(Canvas.Handle, 0, 0, Width, Height,
-                                   FBuffer.Canvas.Handle, 0, 0, FBuffer.Width, FBuffer.Height,
-                                   TempFunction);
-            end
-           else
-            Result := BitBlt(Canvas.Handle, 0, 0, Width, Height,
-                             FBuffer.Canvas.Handle, 0, 0,
-                             SrcCopy);
+                  if FMustInitBuffer then
+                    begin
+                      FBuffer.Canvas.Brush.Color := clWhite;
+                      FBuffer.Canvas.FillRect(rect(0, 0, FBuffer.Width, FBuffer.Height));
+                    end;
+                end;
+
+              try
+                {$IFDEF FPC}
+                FBuffer.BeginUpdate;
+                {$ENDIF}
+                y := 0;
+                while (y < FBuffer.Height) do
+                  begin
+                    src := FOrigBuffer.ScanLine[y];
+                    dst := FBuffer.ScanLine[y];
+                    move(src^, dst^, FOrigBuffer.ScanLineSize);
+                    inc(y);
+                  end;
+              finally
+                {$IFDEF FPC}
+                FBuffer.EndUpdate;
+                {$ENDIF}
+              end;
+            end;
+        end;
+
+      if (FBuffer <> nil) and (FBuffer.Width <> 0) and (FBuffer.Height <> 0) then
+        begin
+          {$IFDEF MSWINDOWS}
+            if FTransparent then
+              begin
+                // TODO : To avoid flickering we should be using another bitmap
+                // for the background image. We should blend "FBuffer" with the
+                // "background bitmap" and then blit the result to the canvas.
+
+                if assigned(FOnPaintParentBkg) then FOnPaintParentBkg(self);
+
+                TempFunction.BlendOp             := AC_SRC_OVER;
+                TempFunction.BlendFlags          := 0;
+                TempFunction.SourceConstantAlpha := 255;
+                TempFunction.AlphaFormat         := AC_SRC_ALPHA;
+
+                Result := AlphaBlend(Canvas.Handle, 0, 0, Width, Height,
+                                     FBuffer.Canvas.Handle, 0, 0, FBuffer.Width, FBuffer.Height,
+                                     TempFunction);
+              end
+             else
+              Result := BitBlt(Canvas.Handle, 0, 0, Width, Height,
+                               FBuffer.Canvas.Handle, 0, 0,
+                               SrcCopy);
+          {$ELSE}
+            try
+              Canvas.Lock;
+              Canvas.Draw(0, 0, FBuffer);
+              Result := True;
+            finally
+              Canvas.Unlock;
+            end;
+          {$ENDIF}
         end;
     finally
       EndBufferDraw;
     end;
-  {$ENDIF}
 end;
 
 procedure TBufferPanel.Paint;
@@ -460,6 +640,10 @@ begin
         Canvas.Brush.Style := bsSolid;
         Canvas.FillRect(rect(0, 0, Width, Height));
       end;
+
+  {$IFDEF FPC}
+  if assigned(OnPaint) then OnPaint(Self);
+  {$ENDIF}
 end;
 
 {$IFDEF MSWINDOWS}
@@ -559,7 +743,7 @@ end;
 
 procedure TBufferPanel.WMIMEEndComp(var aMessage: TMessage);
 begin
-  if assigned(FOnIMECancelComposition) then FOnIMECancelComposition(self);
+  DoOnIMECancelComposition;
 
   if (FIMEHandler <> nil) then
     begin
@@ -599,7 +783,7 @@ begin
                 TempRange.from := high(Integer);
                 TempRange.to_  := high(Integer);
 
-                FOnIMECommitText(self, TempText, @TempRange, 0);
+                DoOnIMECommitText(TempText, @TempRange, 0);
               end;
 
             FIMEHandler.ResetComposition;
@@ -615,14 +799,14 @@ begin
                 TempSelection.from := TempCompStart;
                 TempSelection.to_  := TempCompStart + length(TempText);
 
-                FOnIMESetComposition(self, TempText, TempUnderlines, TempRange, TempSelection);
+                DoOnIMESetComposition(TempText, TempUnderlines, TempRange, TempSelection);
               end;
 
             FIMEHandler.UpdateCaretPosition(pred(TempCompStart));
           end
          else
           begin
-            if assigned(FOnIMECancelComposition) then FOnIMECancelComposition(self);
+            DoOnIMECancelComposition;
 
             FIMEHandler.ResetComposition;
             FIMEHandler.DestroyImeWindow;
@@ -636,11 +820,32 @@ begin
       end;
   end;
 end;
+
+procedure TBufferPanel.DoOnIMECancelComposition;
+begin
+  if assigned(FOnIMECancelComposition) then
+    FOnIMECancelComposition(Self);
+end;
+
+procedure TBufferPanel.DoOnIMECommitText(const aText: ustring;
+  const replacement_range: PCefRange; relative_cursor_pos: integer);
+begin
+  if assigned(FOnIMECommitText) then
+    FOnIMECommitText(Self, aText, replacement_range, relative_cursor_pos);
+end;
+
+procedure TBufferPanel.DoOnIMESetComposition(const aText: ustring;
+  const underlines: TCefCompositionUnderlineDynArray; const replacement_range,
+  selection_range: TCefRange);
+begin
+  if assigned(FOnIMESetComposition) then
+    FOnIMESetComposition(Self, aText, underlines, replacement_range, selection_range);
+end;
 {$ENDIF}
 
 function TBufferPanel.GetBufferBits : pointer;
 begin
-  if (FBuffer <> nil) then
+  if (FBuffer <> nil) and (FBuffer.Height <> 0) then
     Result := FBuffer.Scanline[pred(FBuffer.Height)]
    else
     Result := nil;
@@ -660,30 +865,133 @@ begin
     Result := FBuffer.Height
    else
     Result := 0;
+end;          
+
+function TBufferPanel.GetOrigBufferWidth : integer;
+begin
+  if (FOrigBuffer <> nil) then
+    Result := FOrigBuffer.Width
+   else
+    Result := 0;
 end;
 
-function TBufferPanel.GetScreenScale : single;
-{$IFDEF MSWINDOWS}
+function TBufferPanel.GetOrigBufferHeight : integer;
+begin
+  if (FOrigBuffer <> nil) then
+    Result := FOrigBuffer.Height
+   else
+    Result := 0;
+end;
+
+function TBufferPanel.GetOrigPopupBufferBits : pointer;
+begin
+  if (FOrigPopupBuffer <> nil) then
+    Result := FOrigPopupBuffer.BufferBits
+   else
+    Result := nil;
+end;
+
+function TBufferPanel.GetOrigPopupBufferWidth : integer;
+begin
+  if (FOrigPopupBuffer <> nil) then
+    Result := FOrigPopupBuffer.Width
+   else
+    Result := 0;
+end;
+
+function TBufferPanel.GetOrigPopupBufferHeight : integer;    
+begin
+  if (FOrigPopupBuffer <> nil) then
+    Result := FOrigPopupBuffer.Height
+   else
+    Result := 0;
+end;
+
+procedure TBufferPanel.UpdateDeviceScaleFactor;
+var
+  TempScale : single;
+begin
+  if GetRealScreenScale(TempScale) then
+    FDeviceScaleFactor := TempScale;
+end;
+
+function TBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
+  {$IFDEF MSWINDOWS}
 var
   TempHandle : TCefWindowHandle;
   TempDC     : HDC;
-{$ENDIF}
+  TempDPI    : UINT;
+  {$ELSE}
+    {$IFDEF LINUX}
+      {$IFDEF FPC}
+var
+      TempForm    : TCustomForm;
+      TempMonitor : TMonitor;
+      {$ENDIF}
+    {$ENDIF}
+  {$ENDIF}
 begin
+  Result       := False;
+  aResultScale := 1;
+
   {$IFDEF MSWINDOWS}
   TempHandle := ParentFormHandle;
 
   if (TempHandle <> 0) then
     begin
-      TempDC := GetWindowDC(TempHandle);
-      Result := GetDeviceCaps(TempDC, LOGPIXELSX) / USER_DEFAULT_SCREEN_DPI;
-      ReleaseDC(TempHandle, TempDC);
-    end
-   else
+      Result := True;
+
+      if RunningWindows10OrNewer and GetDPIForHandle(TempHandle, TempDPI) then
+        aResultScale := TempDPI / USER_DEFAULT_SCREEN_DPI
+       else
+        begin
+          TempDC       := GetWindowDC(TempHandle);
+          aResultScale := GetDeviceCaps(TempDC, LOGPIXELSX) / USER_DEFAULT_SCREEN_DPI;
+          ReleaseDC(TempHandle, TempDC);
+        end;
+    end;
   {$ENDIF}
-    if (GlobalCEFApp <> nil) then
-      Result := GlobalCEFApp.DeviceScaleFactor
+
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
+    TempForm := GetParentForm(self, True);
+
+    if (TempForm <> nil) then
+      begin
+        TempMonitor := TempForm.Monitor;
+
+        if (TempMonitor <> nil) and (TempMonitor.PixelsPerInch > 0) then
+          begin
+            aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
+            Result       := True;
+          end;
+      end;
+    {$ELSE}
+    // TODO: Get the screen scale in FMXLinux
+    {$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+    {$IFDEF FPC}
+    // TODO: Get the screen scale in Lazarus/FPC
+    {$ELSE}
+    // TODO: Get the screen scale in FMX
+    {$ENDIF}
+  {$ENDIF}
+end;
+
+function TBufferPanel.GetScreenScale : single;
+begin
+  if (FForcedDeviceScaleFactor <> 0) then
+    Result := FForcedDeviceScaleFactor
+   else
+    if (FDeviceScaleFactor <> 0) then
+      Result := FDeviceScaleFactor
      else
-      Result := 1;
+      if (GlobalCEFApp <> nil) then
+        Result := GlobalCEFApp.DeviceScaleFactor
+       else
+        Result := 1;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -739,28 +1047,93 @@ end;
 
 procedure TBufferPanel.BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect);
 begin
-  if (FBuffer <> nil) then FBuffer.Canvas.CopyRect(aDstRect, aBitmap.Canvas, aSrcRect);
+  if (FBuffer <> nil) and (aBitmap <> nil) then
+    begin
+      FBuffer.Canvas.Lock;
+      aBitmap.Canvas.Lock;
+      FBuffer.Canvas.CopyRect(aDstRect, aBitmap.Canvas, aSrcRect);
+      aBitmap.Canvas.UnLock;
+      FBuffer.Canvas.UnLock;
+    end;
 end;
 
 function TBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
 begin
   Result := False;
 
-  if ((FBuffer        =  nil)      or
-      (FBuffer.Width  <> aWidth)   or
-      (FBuffer.Height <> aHeight)) then
+  if (FBuffer = nil) then
     begin
-      if (FBuffer <> nil) then FreeAndNil(FBuffer);
-
       FBuffer             := TBitmap.Create;
       FBuffer.PixelFormat := pf32bit;
       FBuffer.HandleType  := bmDIB;
       FBuffer.Width       := aWidth;
       FBuffer.Height      := aHeight;
+      FScanlineSize       := aWidth * SizeOf(TRGBQuad);
 
-      FScanlineSize := FBuffer.Width * SizeOf(TRGBQuad);
+      if FMustInitBuffer then
+        begin
+          FBuffer.Canvas.Brush.Color := clWhite;
+          FBuffer.Canvas.FillRect(rect(0, 0, FBuffer.Width, FBuffer.Height));
+        end;
+
+      Result := True;
+    end
+   else
+    if (FBuffer.Width  <> aWidth)  or
+       (FBuffer.Height <> aHeight) then
+      begin
+        FBuffer.Width  := aWidth;
+        FBuffer.Height := aHeight;
+        FScanlineSize  := aWidth * SizeOf(TRGBQuad);
+
+        if FMustInitBuffer then
+          begin
+            FBuffer.Canvas.Brush.Color := clWhite;
+            FBuffer.Canvas.FillRect(rect(0, 0, FBuffer.Width, FBuffer.Height));
+          end;
+
+        Result := True;
+      end;
+end;         
+
+function TBufferPanel.UpdateOrigBufferDimensions(aWidth, aHeight : integer) : boolean;
+begin
+  Result := False;
+
+  if (FOrigBuffer = nil) then
+    begin
+      FOrigBuffer   := TCEFBitmapBitBuffer.Create(aWidth, aHeight);
+      FScanlineSize := FOrigBuffer.ScanlineSize;
       Result        := True;
-    end;
+    end
+   else
+    if (FOrigBuffer.Width  <> aWidth)  or
+       (FOrigBuffer.Height <> aHeight) then
+      begin
+        FOrigBuffer.UpdateSize(aWidth, aHeight);
+        FScanlineSize := FOrigBuffer.ScanlineSize;
+        Result        := True;
+      end;
+end;
+
+function TBufferPanel.UpdateOrigPopupBufferDimensions(aWidth, aHeight : integer) : boolean;
+begin
+  Result := False;
+
+  if (FOrigPopupBuffer = nil) then
+    begin
+      FOrigPopupBuffer       := TCEFBitmapBitBuffer.Create(aWidth, aHeight);
+      FOrigPopupScanlineSize := FOrigPopupBuffer.ScanlineSize;
+      Result                 := True;
+    end
+   else
+    if (FOrigPopupBuffer.Width  <> aWidth)  or
+       (FOrigPopupBuffer.Height <> aHeight) then
+      begin
+        FOrigPopupBuffer.UpdateSize(aWidth, aHeight);
+        FOrigPopupScanlineSize := FOrigPopupBuffer.ScanlineSize;
+        Result                 := True;
+      end;
 end;
 
 function TBufferPanel.BufferIsResized(aUseMutex : boolean) : boolean;
@@ -777,9 +1150,14 @@ begin
 
       if (TempScale = 1) then
         begin
-          Result := (FBuffer <> nil) and
-                    (FBuffer.Width  = Width) and
-                    (FBuffer.Height = Height);
+          if FCopyOriginalBuffer then
+            Result := (FOrigBuffer <> nil) and
+                      (FOrigBuffer.Width  = Width) and
+                      (FOrigBuffer.Height = Height)
+           else
+            Result := (FBuffer <> nil) and
+                      (FBuffer.Width  = Width) and
+                      (FBuffer.Height = Height);
         end
        else
         begin
@@ -793,9 +1171,14 @@ begin
           TempDevWidth  := LogicalToDevice(TempLogWidth,  TempScale);
           TempDevHeight := LogicalToDevice(TempLogHeight, TempScale);
 
-          Result := (FBuffer <> nil) and
-                    (FBuffer.Width  = TempDevWidth) and
-                    (FBuffer.Height = TempDevHeight);
+          if FCopyOriginalBuffer then
+            Result := (FOrigBuffer <> nil) and
+                      (FOrigBuffer.Width  = TempDevWidth) and
+                      (FOrigBuffer.Height = TempDevHeight)
+           else
+            Result := (FBuffer <> nil) and
+                      (FBuffer.Width  = TempDevWidth) and
+                      (FBuffer.Height = TempDevHeight);
         end;
 
       if aUseMutex then EndBufferDraw;

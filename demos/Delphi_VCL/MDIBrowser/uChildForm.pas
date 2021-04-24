@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -222,8 +222,7 @@ begin
          else
           TempCache := GlobalCEFApp.RootCache + '\cache' + inttostr(MainForm.BrowserCount);
 
-        TempContext := TCefRequestContextRef.New(TempCache, '', False, False, False)
-
+        TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, False, False)
       end
      else
       TempContext := nil;

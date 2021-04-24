@@ -72,6 +72,7 @@ type
     StatusBar1: TStatusBar;
     CopyScriptBtn: TRadioButton;
     ReplaceLogoBtn: TRadioButton;
+    ReplaceTextBtn: TRadioButton;
 
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1GetResourceResponseFilter(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: ICefResponseFilter);
@@ -118,6 +119,7 @@ type
 
     procedure CopyScript(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
     procedure ReplaceLogo(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
+    procedure ReplaceBufferText(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
     procedure UpdateRscEncoding(const aMimeType, aContentType : string);
     function  IsMyResource(const aRequest : ICefRequest) : boolean;
     procedure CheckResponseHeaders(const response  : ICefResponse);
@@ -207,7 +209,11 @@ begin
   if CopyScriptBtn.Checked then
     CopyScript(data_in, data_in_size, data_in_read, data_out, data_out_size, data_out_written, aResult)
    else
-    ReplaceLogo(data_in, data_in_size, data_in_read, data_out, data_out_size, data_out_written, aResult);
+    if ReplaceLogoBtn.Checked then
+      ReplaceLogo(data_in, data_in_size, data_in_read, data_out, data_out_size, data_out_written, aResult)
+     else
+      if ReplaceTextBtn.Checked then
+        ReplaceBufferText(data_in, data_in_size, data_in_read, data_out, data_out_size, data_out_written, aResult);
 end;
 
 procedure TResponseFilterBrowserFrm.CopyScript(    data_in          : Pointer;
@@ -332,6 +338,82 @@ begin
   end;
 end;
 
+procedure TResponseFilterBrowserFrm.ReplaceBufferText(    data_in          : Pointer;
+                                                          data_in_size     : NativeUInt;
+                                                      var data_in_read     : NativeUInt;
+                                                          data_out         : Pointer;
+                                                          data_out_size    : NativeUInt;
+                                                      var data_out_written : NativeUInt;
+                                                      var aResult          : TCefResponseFilterStatus);
+const
+  // To keep this demo as simple as possible we replace strings with the same length
+  REPLACE_TEXT : AnsiString = 'Save time and effort with BriskBard';
+  NEW_TEXT     : AnsiString = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+var
+  TempAnsiString : AnsiString;
+  TempChar : PAnsiChar;
+  i : integer;
+begin
+  try
+    try
+      FStreamCS.Acquire;
+
+      if FFilterInit then
+        begin
+          // This event will be called repeatedly until the input buffer has been fully read.
+          // When there's no more data then data_in is nil and you can show the stream contents.
+
+          if (data_in = nil) then
+            begin
+              // This is the last filter call
+              data_in_read     := 0;  // data_in_size is 0 too in this situation
+              data_out_written := 0;
+              aResult          := RESPONSE_FILTER_DONE;
+              FRscCompleted    := True;
+            end
+           else
+            if (data_out <> nil) then
+              begin
+                // The filter may call this function several times because it splits the resource contents in several chunks.
+                // If you replace a long string it could be part of 2 or more chunks and this demo would not find it.
+
+                aResult          := RESPONSE_FILTER_DONE;
+                data_out_written := min(data_in_size, data_out_size);
+                data_in_read     := data_out_written;
+
+                if (data_out_written > 0) then
+                  begin
+                    // We assume that this is a UTF8 or Ansi string.
+                    // We use deprecated ansi string functions to search and replace strings but we should
+                    // be decoding the buffer contents to a normal string, replace the text, encode the
+                    // new string and copy it to the output buffer (data_out).
+
+                    SetLength(TempAnsiString, data_out_written);
+                    Move(data_in^, TempAnsiString[1], data_out_written);
+                    TempChar := AnsiStrPos(PAnsiChar(TempAnsiString), PAnsiChar(REPLACE_TEXT));
+
+                    if (TempChar <> nil) then
+                      begin
+                        i := (IntPtr(TempChar) - IntPtr(PAnsiChar(TempAnsiString))) div SizeOf(AnsiChar) + 1;
+                        TempAnsiString := copy(TempAnsiString, 1, pred(i)) + NEW_TEXT + copy(TempAnsiString, i + length(REPLACE_TEXT), data_out_written);
+                      end;
+
+                    Move(TempAnsiString[1], data_out^, data_out_written);
+                  end;
+              end;
+        end;
+    except
+      on e : exception do
+        begin
+          aResult := RESPONSE_FILTER_ERROR;
+          if CustomExceptionHandler('TResponseFilterBrowserFrm.ReplaceBufferText', e) then raise;
+        end;
+    end;
+  finally
+    FStreamCS.Release;
+  end;
+end;
+
 function TResponseFilterBrowserFrm.IsMyResource(const aRequest : ICefRequest) : boolean;
 var
   TempName : string;
@@ -346,8 +428,13 @@ begin
         Result := (pos(TempName, aRequest.URL) > 0);
     end
    else
-    Result := (aRequest <> nil) and
-              (CompareText(aRequest.URL, 'https://www.briskbard.com/images/logo.png') = 0);
+    if ReplaceLogoBtn.Checked then
+      Result := (aRequest <> nil) and
+                (CompareText(aRequest.URL, 'https://www.briskbard.com/images/logo.png') = 0)
+     else
+      if ReplaceTextBtn.Checked then
+        Result := (aRequest <> nil) and
+                  (CompareText(aRequest.URL, 'https://www.briskbard.com/index.php?lang=en') = 0);
 end;
 
 procedure TResponseFilterBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -532,7 +619,8 @@ begin
   FRscMimeType := aMimeType;
 
   {$IFDEF DELPHI15_UP}
-  if (aMimeType = 'application/json') or
+  if (aMimeType = 'text/html')        or
+     (aMimeType = 'application/json') or
      (aMimeType = 'text/json')        or
      (aMimeType = 'text/javascript')  or
      (aMimeType = 'application/javascript') then
@@ -634,8 +722,8 @@ end;
 // This procedure handles the stream contents after it's fully downloaded
 procedure TResponseFilterBrowserFrm.StreamCopyCompleteMsg(var aMessage : TMessage);
 var
-  LAS: AnsiString;
-  LS: String;
+  TempAnsiString : AnsiString;
+  TempString     : String;
 begin
   try
     FStreamCS.Acquire;
@@ -655,17 +743,17 @@ begin
               begin
                 StatusBar1.Panels[1].Text := 'Stream size : ' + inttostr(FStream.Size);
 
-                SetLength(LAS, FStream.Size);
-                FStream.Read(LAS[1], FStream.Size);
+                SetLength(TempAnsiString, FStream.Size);
+                FStream.Read(TempAnsiString[1], FStream.Size);
 
                 if (FRscEncoding = TEncoding.UTF8) then
-                  LS := UTF8Decode(LAS) // UTF8 Here
+                  TempString := UTF8Decode(TempAnsiString) // UTF8 Here
                  else
-                  LS := string(LAS); // Others encoding text
+                  TempString := string(TempAnsiString); // Others encoding text
 
-                Memo1.Lines.Add(LS);
+                Memo1.Lines.Add(TempString);
 
-                StatusBar1.Panels[2].Text := 'Decoded size : ' + inttostr(length(LS));
+                StatusBar1.Panels[2].Text := 'Decoded size : ' + inttostr(length(TempString));
               end
              else
               Memo1.Lines.LoadFromStream(FStream); // Image or others
@@ -680,7 +768,8 @@ begin
           Memo1.Lines.Clear;
       end
      else
-      StatusBar1.Panels[1].Text := 'Stream size : ' + inttostr(FStream.Size);
+      if ReplaceLogoBtn.Checked then
+        StatusBar1.Panels[1].Text := 'Stream size : ' + inttostr(FStream.Size);
   finally
     FStreamCS.Release;
   end;

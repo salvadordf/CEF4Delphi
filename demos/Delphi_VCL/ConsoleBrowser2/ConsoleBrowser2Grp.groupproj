@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{B3B59DC2-AFE8-41F8-81CF-6F7882A9E196}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ConsoleBrowser2.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ConsoleBrowser2_sp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ConsoleBrowser2">
+        <MSBuild Projects="ConsoleBrowser2.dproj"/>
+    </Target>
+    <Target Name="ConsoleBrowser2:Clean">
+        <MSBuild Projects="ConsoleBrowser2.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ConsoleBrowser2:Make">
+        <MSBuild Projects="ConsoleBrowser2.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ConsoleBrowser2_sp">
+        <MSBuild Projects="ConsoleBrowser2_sp.dproj"/>
+    </Target>
+    <Target Name="ConsoleBrowser2_sp:Clean">
+        <MSBuild Projects="ConsoleBrowser2_sp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ConsoleBrowser2_sp:Make">
+        <MSBuild Projects="ConsoleBrowser2_sp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ConsoleBrowser2;ConsoleBrowser2_sp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ConsoleBrowser2:Clean;ConsoleBrowser2_sp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ConsoleBrowser2:Make;ConsoleBrowser2_sp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

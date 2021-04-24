@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces,
-  uCEFWinControl, uCEFSentinel;
+  uCEFWinControl, uCEFSentinel, uCEFLinkedWinControlBase;
 
 type
   TForm1 = class(TForm)
@@ -60,12 +60,11 @@ type
     GoBtn: TButton;
     Timer1: TTimer;
     procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure ChromiumWindow1Close(Sender: TObject);
-    procedure ChromiumWindow1BeforeClose(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -109,12 +108,11 @@ uses
 // Destruction steps
 // =================
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.
-// 2. The TChromiumWindow.OnClose event calls TChromiumWindow.DestroyChildWindow which triggers the TChromiumWindow.OnBeforeClose event.
-// 3. TChromiumWindow.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 2. The TChromiumWindow.OnClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  if GlobalCEFApp.LibLoaded then
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
       CanClose := FCanClose;
 
@@ -129,11 +127,13 @@ begin
     CanClose := True;
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
+procedure TForm1.FormActivate(Sender: TObject);
 begin
-  Caption := 'Simple Browser - Initializing browser. Please wait...';
+  if ChromiumWindow1.Initialized then
+    exit;
 
-  ChromiumWindow1.ChromiumBrowser.OnBeforePopup        := Chromium_OnBeforePopup;
+  ChromiumWindow1.ChromiumBrowser.OnBeforePopup := Chromium_OnBeforePopup;
+  ChromiumWindow1.ChromiumBrowser.DefaultURL    := AddressEdt.Text;
 
   // You *MUST* call CreateBrowser to create and initialize the browser.
   // This will trigger the AfterCreated event when the browser is fully
@@ -141,20 +141,11 @@ begin
 
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
-  if not(ChromiumWindow1.CreateBrowser) then Timer1.Enabled := True;
+  if not(ChromiumWindow1.CreateBrowser) then
+    Timer1.Enabled := True;
 end;
 
 procedure TForm1.ChromiumWindow1Close(Sender: TObject);
-begin
-  // DestroyChildWindow will destroy the child window created by CEF at the top of the Z order.
-  if not(ChromiumWindow1.DestroyChildWindow) then
-    begin
-      FCanClose := True;
-      PostMessage(Handle, WM_CLOSE, 0, 0);
-    end;
-end;
-
-procedure TForm1.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
@@ -176,10 +167,9 @@ end;
 
 procedure TForm1.ChromiumWindow1AfterCreated(Sender: TObject);
 begin
-  // Now the browser is fully initialized we can load the initial web page.
+  // Now the browser is fully initialized we can enable the user interface.
   Caption            := 'Simple Browser';
   AddressPnl.Enabled := True;
-  GoBtn.Click;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
@@ -199,28 +189,32 @@ procedure TForm1.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
-  if (ChromiumWindow1 <> nil) then ChromiumWindow1.NotifyMoveOrResizeStarted;
+  if (ChromiumWindow1 <> nil) then
+    ChromiumWindow1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
-  if (ChromiumWindow1 <> nil) then ChromiumWindow1.NotifyMoveOrResizeStarted;
+  if (ChromiumWindow1 <> nil) then
+    ChromiumWindow1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then
+    GlobalCEFApp.OsmodalLoop := True;
 end;
 
 procedure TForm1.WMExitMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then
+    GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

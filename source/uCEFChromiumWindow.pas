@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -59,11 +59,15 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFWinControl;
+  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes,
+  uCEFWinControl, uCEFLinkedWinControlBase;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
-  TChromiumWindow = class(TCEFWinControl)
+
+  { TChromiumWindow }
+
+  TChromiumWindow = class(TCEFLinkedWinControlBase)
     protected
       FChromium       : TChromium;
       FOnClose        : TNotifyEvent;
@@ -71,18 +75,24 @@ type
       FOnAfterCreated : TNotifyEvent;
       FUseSetFocus    : boolean;
 
+      function    GetChromium: TChromium; override;
+      function    GetUseSetFocus: Boolean; override;
       function    GetBrowserInitialized : boolean;
       {$IFDEF MSWINDOWS}
-      function    GetChildWindowHandle : THandle; override;
-
-      procedure   WndProc(var aMessage: TMessage); override;
-
       procedure   OnCloseMsg(var aMessage : TMessage); message CEF_DOONCLOSE;
       procedure   OnAfterCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
       {$ENDIF}
       procedure   WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
       procedure   WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure   WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
+      {$IFDEF FPC}
+      procedure   WebBrowser_OnGotFocus(Sender: TObject; const browser: ICefBrowser);
+      procedure   BrowserSetFocusMsg(Data: PtrInt);
+      procedure   BrowserAfterCreated(Data: PtrInt);
+      procedure   BrowserOnCLose(Data: PtrInt);
+      {$ENDIF}
+      procedure   DoEnter; override;
+      procedure   DoExit; override;
 
    public
       constructor Create(AOwner: TComponent); override;
@@ -92,8 +102,8 @@ type
       procedure   LoadURL(const aURL : ustring);
       procedure   NotifyMoveOrResizeStarted;
 
-      property ChromiumBrowser    : TChromium       read FChromium;
-      property Initialized        : boolean         read GetBrowserInitialized;
+      property ChromiumBrowser  : TChromium       read GetChromium;
+      property Initialized      : boolean         read GetBrowserInitialized;
 
     published
       property UseSetFocus      : boolean         read FUseSetFocus      write FUseSetFocus default True;
@@ -133,6 +143,10 @@ procedure Register;
 // *********************************************************
 // *********************************************************
 
+// This component should *ONLY* be used in emtremely simple applications with simple browsers.
+// In other cases it's recomended using a TChromium with a TCEFWindowParent as shown in the
+// SimpleBrowser2 demo.
+
 implementation
 
 uses
@@ -163,52 +177,13 @@ begin
       FChromium.OnClose        := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnClose;
       FChromium.OnBeforeClose  := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnBeforeClose;
       FChromium.OnAfterCreated := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnAfterCreated;
+      {$IFDEF LINUX}
+      // This is a workaround for the CEF issue #2026. Read below for more info.
+      FChromium.OnGotFocus     := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnGotFocus;
+      TabStop                  := True;
+      {$ENDIF}
     end;
 end;
-
-{$IFDEF MSWINDOWS}
-function TChromiumWindow.GetChildWindowHandle : THandle;
-begin
-  Result := 0;
-
-  if (FChromium <> nil) then Result := FChromium.WindowHandle;
-
-  if (Result = 0) then Result := inherited GetChildWindowHandle;
-end;
-
-procedure TChromiumWindow.WndProc(var aMessage: TMessage);
-var
-  TempHandle : THandle;
-begin
-  case aMessage.Msg of
-    WM_SETFOCUS:
-      begin
-        if FUseSetFocus and (FChromium <> nil) then
-          FChromium.SetFocus(True)
-         else
-          begin
-            TempHandle := ChildWindowHandle;
-            if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
-          end;
-
-        inherited WndProc(aMessage);
-      end;
-
-    WM_ERASEBKGND:
-      if (ChildWindowHandle = 0) then inherited WndProc(aMessage);
-
-    CM_WANTSPECIALKEY:
-      if not(TWMKey(aMessage).CharCode in [VK_LEFT .. VK_DOWN, VK_RETURN, VK_ESCAPE]) then
-        aMessage.Result := 1
-       else
-        inherited WndProc(aMessage);
-
-    WM_GETDLGCODE : aMessage.Result := DLGC_WANTARROWS or DLGC_WANTCHARS;
-
-    else inherited WndProc(aMessage);
-  end;
-end;
-{$ENDIF}
 
 function TChromiumWindow.GetBrowserInitialized : boolean;
 begin
@@ -218,13 +193,17 @@ end;
 procedure TChromiumWindow.WebBrowser_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   aAction := cbaClose;
-  {$IFDEF MSWINDOWS}
   if assigned(FOnClose) then
     begin
-      PostMessage(Handle, CEF_DOONCLOSE, 0, 0);
-      aAction := cbaDelay;
+      {$IFDEF MSWINDOWS}
+        PostMessage(Handle, CEF_DOONCLOSE, 0, 0);
+        aAction := cbaDelay;
+      {$ELSE}
+        {$IFDEF FPC}
+        Application.QueueAsyncCall(@BrowserOnClose, 0);
+        {$ENDIF}
+      {$ENDIF}
     end;
-  {$ENDIF}
 end;
 
 procedure TChromiumWindow.WebBrowser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -235,7 +214,11 @@ end;
 procedure TChromiumWindow.WebBrowser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   {$IFDEF MSWINDOWS}
-  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+    PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+  {$ELSE}
+    {$IFDEF FPC}
+    Application.QueueAsyncCall(@BrowserAfterCreated, 0);
+    {$ENDIF}
   {$ENDIF}
 end;
 
@@ -249,6 +232,29 @@ procedure TChromiumWindow.OnAfterCreatedMsg(var aMessage : TMessage);
 begin
   UpdateSize;
   if assigned(FOnAfterCreated) then FOnAfterCreated(self);
+end;
+{$ENDIF}
+
+{$IFDEF FPC}
+procedure TChromiumWindow.WebBrowser_OnGotFocus(Sender: TObject; const browser: ICefBrowser);
+begin
+  Application.QueueAsyncCall(@BrowserSetFocusMsg, 0);
+end;
+
+procedure TChromiumWindow.BrowserSetFocusMsg(Data: PtrInt);
+begin
+  SetFocus;
+end;
+
+procedure TChromiumWindow.BrowserAfterCreated(Data: PtrInt);
+begin
+  UpdateSize;
+  if assigned(FOnAfterCreated) then FOnAfterCreated(self);
+end;
+
+procedure TChromiumWindow.BrowserOnCLose(Data: PtrInt);
+begin
+  if assigned(FOnClose) then FOnClose(self);
 end;
 {$ENDIF}
 
@@ -273,6 +279,43 @@ end;
 procedure TChromiumWindow.NotifyMoveOrResizeStarted;
 begin
   if (FChromium <> nil) then FChromium.NotifyMoveOrResizeStarted;
+end;
+
+function TChromiumWindow.GetChromium: TChromium;
+begin
+  result := FChromium;
+end;
+
+function TChromiumWindow.GetUseSetFocus: Boolean;
+begin
+  Result := FUseSetFocus;
+end;
+
+// This is a workaround for the CEF issue #2026
+// https://bitbucket.org/chromiumembedded/cef/issues/2026/multiple-major-keyboard-focus-issues-on
+// We use ChromiumWindow1.OnEnter, ChromiumWindow1.OnExit and
+// TChromium.OnGotFocus to avoid most of the focus issues.
+// ChromiumWindow1.TabStop must be TRUE.
+procedure TChromiumWindow.DoEnter;
+begin
+  inherited DoEnter;
+
+  {$IFDEF LINUX}
+  if not(csDesigning in ComponentState) and
+     FChromium.Initialized and
+     not(FChromium.FrameIsFocused) then
+    FChromium.SendFocusEvent(True);
+  {$ENDIF}
+end;
+
+procedure TChromiumWindow.DoExit;
+begin
+  inherited DoExit;
+
+  {$IFDEF LINUX}
+  if not(csDesigning in ComponentState) then
+    FChromium.SendCaptureLostEvent;
+  {$ENDIF}
 end;
 
 {$IFDEF FPC}

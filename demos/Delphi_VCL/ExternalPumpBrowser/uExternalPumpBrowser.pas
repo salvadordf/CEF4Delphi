@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -130,7 +130,6 @@ begin
   GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
 
   GlobalCEFApp                           := TCefApplication.Create;
-  GlobalCEFApp.FlashEnabled              := False;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;

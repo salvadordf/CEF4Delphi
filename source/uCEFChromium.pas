@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -123,27 +123,33 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Math;
+  System.SysUtils, System.Math,
   {$ELSE}
-  SysUtils, Math;
+  SysUtils, Math,
   {$ENDIF}
+  uCEFMiscFunctions;
 
 { TChromium }
 
 {$IFDEF MSWINDOWS}
 procedure TChromium.InitializeDragAndDrop(const aDropTargetCtrl: TWinControl);
 begin
-  if aDropTargetCtrl <> nil then
+  if (aDropTargetCtrl <> nil) then
     inherited InitializeDragAndDrop(aDropTargetCtrl.Handle);
 end;
 {$ENDIF MSWINDOWS}
 
 procedure TChromium.InitializeDevToolsWindowInfo(aDevTools: TWinControl);
+var
+  TempHandle : TCefWindowHandle;
 begin
-  if aDevTools <> nil then
+  if (aDevTools <> nil) then
     DefaultInitializeDevToolsWindowInfo(aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
    else
-    DefaultInitializeDevToolsWindowInfo(0, Rect(0, 0, 0, 0), '');
+    begin
+      InitializeWindowHandle(TempHandle);
+      DefaultInitializeDevToolsWindowInfo(TempHandle, Rect(0, 0, 0, 0), '');
+    end;
 end;
 
 procedure TChromium.ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl);
@@ -184,14 +190,10 @@ begin
 end;
 
 function TChromium.GetParentFormHandle : TCefWindowHandle;
-{$IFDEF MSWINDOWS}
 var
   TempForm : TCustomForm;
-{$ENDIF}
 begin
-  Result := inherited GetParentFormHandle;
-
-  {$IFDEF MSWINDOWS}
+  Result   := inherited GetParentFormHandle;
   TempForm := GetParentForm;
 
   if (TempForm <> nil) and TempForm.HandleAllocated then
@@ -201,7 +203,6 @@ begin
        (Application.MainForm <> nil) and
        Application.MainForm.HandleAllocated then
       Result := Application.MainForm.Handle;
-  {$ENDIF}
 end;
 
 procedure TChromium.MoveFormTo(const x, y: Integer);
@@ -295,7 +296,7 @@ function TChromium.CreateBrowser(const aBrowserParent : TWinControl;
                                  const aContext       : ICefRequestContext;
                                  const aExtraInfo     : ICefDictionaryValue) : boolean;
 var
-  TempHandle : HWND;
+  TempHandle : TCefWindowHandle;
   TempRect   : TRect;
 begin
   if (aBrowserParent <> nil) then
@@ -305,8 +306,8 @@ begin
     end
    else
     begin
-      TempHandle := 0;
-      TempRect   := rect(0, 0, 0, 0);
+      InitializeWindowHandle(TempHandle);
+      TempRect := rect(0, 0, 0, 0);
     end;
 
   Result := inherited CreateBrowser(TempHandle, TempRect, aWindowName, aContext, aExtraInfo);

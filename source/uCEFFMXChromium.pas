@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -116,13 +116,27 @@ uses
 function TFMXChromium.CreateBrowser(const aWindowName  : ustring;
                                     const aContext     : ICefRequestContext;
                                     const aExtraInfo   : ICefDictionaryValue) : boolean;
+var
+  TempHandle : TCefWindowHandle;
 begin
-  Result := inherited CreateBrowser(0, Rect(0, 0, 0, 0), aWindowName, aContext, aExtraInfo);
+  {$IFDEF MACOS}
+  TempHandle := nil;
+  {$ELSE}
+  TempHandle := 0;
+  {$ENDIF}
+  Result := inherited CreateBrowser(TempHandle, Rect(0, 0, 0, 0), aWindowName, aContext, aExtraInfo);
 end;
 
 procedure TFMXChromium.InitializeDevToolsWindowInfo;
+var
+  TempHandle : TCefWindowHandle;
 begin
-  DefaultInitializeDevToolsWindowInfo(0, Rect(0, 0, 0, 0), '');
+  {$IFDEF MACOS}
+  TempHandle := nil;
+  {$ELSE}
+  TempHandle := 0;
+  {$ENDIF}
+  DefaultInitializeDevToolsWindowInfo(TempHandle, Rect(0, 0, 0, 0), '');
 end;
 
 procedure TFMXChromium.ShowDevTools(inspectElementAt: TPoint);
@@ -157,18 +171,18 @@ begin
 end;
 
 function TFMXChromium.GetScreenScale : Single;
-{$IFDEF MSWINDOWS}
+{$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
 var
   TempHandle : TCefWindowHandle;
-{$ENDIF}
+{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
+  {$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
     Result := GetWndScale(TempHandle)
    else
-  {$ENDIF}
+  {$ENDIF}{$ENDIF}
     if (GlobalCEFApp <> nil) then
       Result := GlobalCEFApp.DeviceScaleFactor
      else

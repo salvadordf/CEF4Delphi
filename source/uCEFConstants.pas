@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -527,16 +527,17 @@ const
   DUPLEX_MODE_SHORT_EDGE = 2;
 
   // /include/internal/cef_types.h (cef_media_route_create_result_t)
-  CEF_MRCR_UNKNOWN_ERROR         = 0;
-  CEF_MRCR_OK                    = 1;
-  CEF_MRCR_TIMED_OUT             = 2;
-  CEF_MRCR_ROUTE_NOT_FOUND       = 3;
-  CEF_MRCR_SINK_NOT_FOUND        = 4;
-  CEF_MRCR_INVALID_ORIGIN        = 5;
-  CEF_MRCR_NO_SUPPORTED_PROVIDER = 7;
-  CEF_MRCR_CANCELLED             = 8;
-  CEF_MRCR_ROUTE_ALREADY_EXISTS  = 9;
-  CEF_MRCR_TOTAL_COUNT           = 11;
+  CEF_MRCR_UNKNOWN_ERROR            = 0;
+  CEF_MRCR_OK                       = 1;
+  CEF_MRCR_TIMED_OUT                = 2;
+  CEF_MRCR_ROUTE_NOT_FOUND          = 3;
+  CEF_MRCR_SINK_NOT_FOUND           = 4;
+  CEF_MRCR_INVALID_ORIGIN           = 5;
+  CEF_MRCR_NO_SUPPORTED_PROVIDER    = 7;
+  CEF_MRCR_CANCELLED                = 8;
+  CEF_MRCR_ROUTE_ALREADY_EXISTS     = 9;
+  CEF_MRCR_ROUTE_ALREADY_TERMINATED = 11;
+  CEF_MRCR_TOTAL_COUNT              = 12;
 
   // /include/internal/cef_types.h (cef_cookie_priority_t)
   CEF_COOKIE_PRIORITY_LOW    = -1;
@@ -550,6 +551,16 @@ const
   CEF_TFC_UNDO       = 4;
   CEF_TFC_DELETE     = 5;
   CEF_TFC_SELECT_ALL = 6;
+
+  // /include/internal/cef_types.h (cef_chrome_toolbar_type_t)
+  CEF_CTT_NONE       = 1;
+  CEF_CTT_NORMAL     = 2;
+  CEF_CTT_LOCATION   = 3;
+
+  // /include/cef_api_hash.h (used as "cef_api_hash" parameters)
+  CEF_API_HASH_PLATFORM  = 0;
+  CEF_API_HASH_UNIVERSAL = 1;
+  CEF_COMMIT_HASH        = 2;
 
 
 //******************************************************
@@ -632,9 +643,14 @@ const
   WM_POINTERUP             = $0247;
   {$IFEND}
 
+  // Default values for the Windowsless framerate setting in TChromiumOptions
+  // The values are frames per second.
+  CEF_OSR_FRAMERATE_DEFAULT                  = 30;  // Used when the shared textures are disabled.
+  CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT  = 60;  // Used when the shared textures are enabled.
+
   CEF_TIMER_MINIMUM            = $0000000A;
   CEF_TIMER_MAXIMUM            = $7FFFFFFF;
-  CEF_TIMER_MAXDELAY           = 1000 div 30; // 30fps
+  CEF_TIMER_MAXDELAY           = 1000 div CEF_OSR_FRAMERATE_DEFAULT;
   CEF_TIMER_DEPLETEWORK_CYCLES = 10;
   CEF_TIMER_DEPLETEWORK_DELAY  = 50;
 
@@ -649,6 +665,10 @@ const
 
   {$IF NOT DECLARED(USER_DEFAULT_SCREEN_DPI)}
   USER_DEFAULT_SCREEN_DPI = 96;
+  {$IFEND}
+
+  {$IF NOT DECLARED(INFINITE)}
+  INFINITE = Cardinal($FFFFFFFF);
   {$IFEND}
 
 implementation

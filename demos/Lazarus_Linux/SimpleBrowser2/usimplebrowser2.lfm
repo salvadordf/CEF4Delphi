@@ -1,0 +1,75 @@
+object Form1: TForm1
+  Left = 380
+  Height = 589
+  Top = 222
+  Width = 967
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 589
+  ClientWidth = 967
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.0.10.0'
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 23
+    Top = 0
+    Width = 967
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 23
+    ClientWidth = 967
+    Enabled = False
+    TabOrder = 0
+    object GoBtn: TButton
+      Left = 932
+      Height = 23
+      Top = 0
+      Width = 35
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      OnEnter = CEFLinkedWindowParent1Exit
+      TabOrder = 0
+    end
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 23
+      Top = 0
+      Width = 932
+      Align = alClient
+      OnEnter = CEFLinkedWindowParent1Exit
+      TabOrder = 1
+      Text = 'https://www.google.com'
+    end
+  end
+  object CEFLinkedWindowParent1: TCEFLinkedWindowParent
+    Left = 0
+    Height = 566
+    Top = 23
+    Width = 967
+    Align = alClient
+    TabStop = True
+    TabOrder = 1
+    OnEnter = CEFLinkedWindowParent1Enter
+    OnExit = CEFLinkedWindowParent1Exit
+    Chromium = Chromium1
+  end
+  object Chromium1: TChromium
+    OnGotFocus = Chromium1GotFocus
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
+    Left = 56
+    Top = 80
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 56
+    Top = 160
+  end
+end

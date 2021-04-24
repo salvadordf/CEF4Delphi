@@ -26,7 +26,6 @@ object Form1: TForm1
     TabStop = True
     TabOrder = 0
     OnClose = ChromiumWindow1Close
-    OnBeforeClose = ChromiumWindow1BeforeClose
     OnAfterCreated = ChromiumWindow1AfterCreated
   end
   object AddressPnl: TPanel

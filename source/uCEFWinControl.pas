@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,14 +37,17 @@
 
 unit uCEFWinControl;
 
+{$I cef.inc}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
+  {$IFDEF MACOSX}
+    {$ModeSwitch objectivec1}
+  {$ENDIF}
 {$ENDIF}
 
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
-
-{$I cef.inc}
 
 interface
 
@@ -57,12 +60,15 @@ uses
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
+  {$IFDEF FPC}{$IFDEF MACOSX}
+  CocoaAll,
+  {$ENDIF}{$ENDIF}
   uCEFTypes, uCEFInterfaces;
 
 type
   TCEFWinControl = class(TWinControl)
     protected
-      function  GetChildWindowHandle : THandle; virtual;
+      function  GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; virtual;
       procedure Resize; override;
 
     public
@@ -70,7 +76,7 @@ type
       function    DestroyChildWindow : boolean;
       procedure   CreateHandle; override;
       procedure   InvalidateChildren;
-      procedure   UpdateSize;
+      procedure   UpdateSize; virtual;
 
       property  ChildWindowHandle : THandle  read GetChildWindowHandle;
 
@@ -85,7 +91,16 @@ type
       property  Enabled;
       property  ShowHint;
       property  Hint;
-      property  OnResize;
+      property  DragKind;
+      property  DragCursor;
+      property  DragMode;
+      property  OnResize;        
+      property  OnEnter;
+      property  OnExit;
+      property  OnDragDrop;
+      property  OnDragOver;
+      property  OnStartDrag;
+      property  OnEndDrag;
       {$IFDEF DELPHI14_UP}
       property  Touch;
       property  OnGesture;
@@ -101,7 +116,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFClient, uCEFConstants;
 
-function TCEFWinControl.GetChildWindowHandle : THandle;
+function TCEFWinControl.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
 begin
   {$IFDEF MSWINDOWS}
   if not(csDesigning in ComponentState) and HandleAllocated then
@@ -122,10 +137,13 @@ begin
 end;
 
 procedure TCEFWinControl.UpdateSize;
+{$IFDEF MSWINDOWS}
 var
   TempRect : TRect;
   TempHWND : THandle;
+{$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
   TempHWND := ChildWindowHandle;
   if (TempHWND = 0) then exit;
 
@@ -134,6 +152,7 @@ begin
   SetWindowPos(TempHWND, 0,
                0, 0, TempRect.right, TempRect.bottom,
                SWP_NOZORDER);
+  {$ENDIF}
 end;
 
 function TCEFWinControl.TakeSnapshot(var aBitmap : TBitmap) : boolean;
@@ -173,12 +192,25 @@ function TCEFWinControl.DestroyChildWindow : boolean;
 var
   TempHWND : HWND;
 {$ENDIF}
+{$IFDEF FPC}{$IFDEF MACOSX}
+var
+  ViewObj: NSObject;
+{$ENDIF}{$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
   TempHWND := ChildWindowHandle;
   Result   := (TempHWND <> 0) and DestroyWindow(TempHWND);
   {$ELSE}
   Result := False;
+  {$IFDEF FPC}{$IFDEF MACOSX}
+  ViewObj := NSObject(ChildWindowHandle);
+  if ViewObj <> nil then begin
+    if ViewObj.isKindOfClass_(nsview) then begin
+      NSView(ViewObj).removeFromSuperview;
+      Result := True;
+    end;
+  end;
+  {$ENDIF}{$ENDIF}
   {$ENDIF}
 end;
 

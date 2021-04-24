@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -59,8 +59,6 @@ uses
 type
   TCefCookieManagerRef = class(TCefBaseRefCountedRef, ICefCookieManager)
     protected
-      procedure SetSupportedSchemes(const schemes: TStrings; include_defaults: boolean; const callback: ICefCompletionCallback);
-      procedure SetSupportedSchemesProc(const schemes: TStrings; include_defaults: boolean; const callback: TCefCompletionCallbackProc);
       function  VisitAllCookies(const visitor: ICefCookieVisitor): Boolean;
       function  VisitAllCookiesProc(const visitor: TCefCookieVisitorProc): Boolean;
       function  VisitUrlCookies(const url: ustring; includeHttpOnly: Boolean; const visitor: ICefCookieVisitor): Boolean;
@@ -171,39 +169,6 @@ begin
                       creation, lastAccess, expires,
                       same_site, priority,
                       TCefFastSetCookieCallback.Create(callback));
-end;
-
-procedure TCefCookieManagerRef.SetSupportedSchemes(const schemes          : TStrings;
-                                                         include_defaults : boolean;
-                                                   const callback         : ICefCompletionCallback);
-var
-  TempSL     : ICefStringList;
-  TempHandle : TCefStringList;
-begin
-  try
-    if (schemes <> nil) and (schemes.count > 0) then
-      begin
-        TempSL := TCefStringListOwn.Create;
-        TempSL.AddStrings(schemes);
-        TempHandle := TempSL.Handle;
-      end
-     else
-      TempHandle := nil;
-
-    PCefCookieManager(FData)^.set_supported_schemes(PCefCookieManager(FData),
-                                                    TempHandle,
-                                                    ord(include_defaults),
-                                                    CefGetData(callback));
-  finally
-    TempSL := nil;
-  end;
-end;
-
-procedure TCefCookieManagerRef.SetSupportedSchemesProc(const schemes          : TStrings;
-                                                             include_defaults : boolean;
-                                                       const callback         : TCefCompletionCallbackProc);
-begin
-  SetSupportedSchemes(schemes, include_defaults, TCefFastCompletionCallback.Create(callback));
 end;
 
 class function TCefCookieManagerRef.UnWrap(data: Pointer): ICefCookieManager;

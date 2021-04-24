@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -54,9 +54,9 @@ uses
 type
   TCEFDevToolsMessageObserverOwn = class(TCefBaseRefCountedOwn, ICefDevToolsMessageObserver)
     protected
-      procedure OnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean); virtual;
-      procedure OnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue); virtual;
-      procedure OnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: ICefValue); virtual;
+      procedure OnDevToolsMessage(const browser: ICefBrowser; const message_: Pointer; message_size: NativeUInt; var aHandled: boolean); virtual;
+      procedure OnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: Pointer; result_size: NativeUInt); virtual;
+      procedure OnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: NativeUInt); virtual;
       procedure OnDevToolsAgentAttached(const browser: ICefBrowser); virtual;
       procedure OnDevToolsAgentDetached(const browser: ICefBrowser); virtual;
 
@@ -68,9 +68,9 @@ type
     protected
       FEvents : Pointer;
 
-      procedure OnDevToolsMessage(const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean); override;
-      procedure OnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue); override;
-      procedure OnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: ICefValue); override;
+      procedure OnDevToolsMessage(const browser: ICefBrowser; const message_: Pointer; message_size: NativeUInt; var aHandled: boolean); override;
+      procedure OnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: Pointer; result_size: NativeUInt); override;
+      procedure OnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: NativeUInt); override;
       procedure OnDevToolsAgentAttached(const browser: ICefBrowser); override;
       procedure OnDevToolsAgentDetached(const browser: ICefBrowser); override;
 
@@ -101,20 +101,15 @@ function cef_on_dev_tools_message(      self         : PCefDevToolsMessageObserv
 var
   TempObject  : TObject;
   TempHandled : boolean;
-  TempValue   : ICefValue;
 begin
   TempObject  := CefGetObject(self);
   TempHandled := False;
 
   if (TempObject <> nil) and (TempObject is TCEFDevToolsMessageObserverOwn) then
-    try
-      TempValue := TCEFJson.Parse(message_, message_size);
-      TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsMessage(TCefBrowserRef.UnWrap(browser),
-                                                                   TempValue,
-                                                                   TempHandled);
-    finally
-      TempValue := nil;
-    end;
+    TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsMessage(TCefBrowserRef.UnWrap(browser),
+                                                                 message_,
+                                                                 message_size,
+                                                                 TempHandled);
 
   Result := ord(TempHandled);
 end;
@@ -127,20 +122,15 @@ procedure cef_on_dev_tools_method_result(      self        : PCefDevToolsMessage
                                                result_size : NativeUInt); stdcall;
 var
   TempObject : TObject;
-  TempValue  : ICefValue;
 begin
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCEFDevToolsMessageObserverOwn) then
-    try
-      TempValue := TCEFJson.Parse(result, result_size);
-      TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsMethodResult(TCefBrowserRef.UnWrap(browser),
-                                                                        message_id,
-                                                                        success <> 0,
-                                                                        TempValue);
-    finally
-      TempValue := nil;
-    end;
+    TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsMethodResult(TCefBrowserRef.UnWrap(browser),
+                                                                      message_id,
+                                                                      success <> 0,
+                                                                      result,
+                                                                      result_size);
 end;
 
 procedure cef_on_dev_tools_event(      self        : PCefDevToolsMessageObserver;
@@ -150,19 +140,14 @@ procedure cef_on_dev_tools_event(      self        : PCefDevToolsMessageObserver
                                        params_size : NativeUInt); stdcall;
 var
   TempObject : TObject;
-  TempValue  : ICefValue;
 begin
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCEFDevToolsMessageObserverOwn) then
-    try
-      TempValue := TCEFJson.Parse(params, params_size);
-      TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsEvent(TCefBrowserRef.UnWrap(browser),
-                                                                 CefString(method),
-                                                                 TempValue);
-    finally
-      TempValue := nil;
-    end;
+    TCEFDevToolsMessageObserverOwn(TempObject).OnDevToolsEvent(TCefBrowserRef.UnWrap(browser),
+                                                               CefString(method),
+                                                               params,
+                                                               params_size);
 end;
 
 procedure cef_on_dev_tools_agent_attached(self    : PCefDevToolsMessageObserver;
@@ -202,7 +187,8 @@ begin
 end;
 
 procedure TCEFDevToolsMessageObserverOwn.OnDevToolsMessage(const browser      : ICefBrowser;
-                                                           const message_     : ICefValue;
+                                                           const message_     : Pointer;
+                                                                 message_size : NativeUInt;
                                                            var   aHandled     : boolean);
 begin
   //
@@ -211,14 +197,16 @@ end;
 procedure TCEFDevToolsMessageObserverOwn.OnDevToolsMethodResult(const browser     : ICefBrowser;
                                                                       message_id  : integer;
                                                                       success     : boolean;
-                                                                const result      : ICefValue);
+                                                                const result      : Pointer;
+                                                                      result_size : NativeUInt);
 begin
   //
 end;
 
-procedure TCEFDevToolsMessageObserverOwn.OnDevToolsEvent(const browser : ICefBrowser;
-                                                         const method  : ustring;
-                                                         const params  : ICefValue);
+procedure TCEFDevToolsMessageObserverOwn.OnDevToolsEvent(const browser     : ICefBrowser;
+                                                         const method      : ustring;
+                                                         const params      : Pointer;
+                                                               params_size : NativeUInt);
 begin
   //
 end;
@@ -253,12 +241,13 @@ begin
 end;
 
 procedure TCustomDevToolsMessageObserver.OnDevToolsMessage(const browser      : ICefBrowser;
-                                                           const message_     : ICefValue;
+                                                           const message_     : Pointer;
+                                                                 message_size : NativeUInt;
                                                            var   aHandled     : boolean);
 begin
   try
     if (FEvents <> nil) then
-      IChromiumEvents(FEvents).doOnDevToolsMessage(browser, message_, aHandled);
+      IChromiumEvents(FEvents).doOnDevToolsMessage(browser, message_, message_size, aHandled);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomDevToolsMessageObserver.OnDevToolsMessage', e) then raise;
@@ -268,24 +257,26 @@ end;
 procedure TCustomDevToolsMessageObserver.OnDevToolsMethodResult(const browser     : ICefBrowser;
                                                                       message_id  : integer;
                                                                       success     : boolean;
-                                                                const result      : ICefValue);
+                                                                const result      : Pointer;
+                                                                      result_size : NativeUInt);
 begin
   try
     if (FEvents <> nil) then
-      IChromiumEvents(FEvents).doOnDevToolsMethodResult(browser, message_id, success, result);
+      IChromiumEvents(FEvents).doOnDevToolsMethodResult(browser, message_id, success, result, result_size);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomDevToolsMessageObserver.OnDevToolsMethodResult', e) then raise;
   end;
 end;
 
-procedure TCustomDevToolsMessageObserver.OnDevToolsEvent(const browser : ICefBrowser;
-                                                         const method  : ustring;
-                                                         const params  : ICefValue);
+procedure TCustomDevToolsMessageObserver.OnDevToolsEvent(const browser     : ICefBrowser;
+                                                         const method      : ustring;
+                                                         const params      : Pointer;
+                                                               params_size : NativeUInt);
 begin
   try
     if (FEvents <> nil) then
-      IChromiumEvents(FEvents).doOnDevToolsEvent(browser, method, params);
+      IChromiumEvents(FEvents).doOnDevToolsEvent(browser, method, params, params_size);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomDevToolsMessageObserver.OnDevToolsEvent', e) then raise;

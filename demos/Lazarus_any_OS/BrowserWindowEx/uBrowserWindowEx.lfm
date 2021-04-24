@@ -1,0 +1,245 @@
+object Form1: TForm1
+  Left = 473
+  Height = 589
+  Top = 227
+  Width = 967
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 589
+  ClientWidth = 967
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.1.0.0'
+  object PanelLeft: TPanel
+    Left = 0
+    Height = 557
+    Top = 32
+    Width = 484
+    Align = alLeft
+    ClientHeight = 557
+    ClientWidth = 484
+    TabOrder = 0
+    object AddressPnlLeft: TPanel
+      Left = 1
+      Height = 23
+      Top = 1
+      Width = 482
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 23
+      ClientWidth = 482
+      Enabled = False
+      TabOrder = 0
+      object GoBtnLeft: TButton
+        Left = 424
+        Height = 23
+        Top = 0
+        Width = 35
+        Align = alRight
+        Caption = 'Go'
+        OnClick = GoBtnLeftClick
+        TabOrder = 0
+      end
+      object AddressEdtLeft: TComboBox
+        Left = 0
+        Height = 23
+        Top = 0
+        Width = 424
+        Align = alClient
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'https://www.google.com'
+          'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+          'https://www.w3schools.com/html/html5_video.asp'
+          'http://www.adobe.com/software/flash/about/'
+          'http://isflashinstalled.com/'
+          'chrome://version/'
+          'http://html5test.com/'
+          'https://www.w3schools.com/'
+          'http://webglsamples.org/'
+          'https://get.webgl.org/'
+          'https://www.youtube.com'
+          'https://html5demos.com/drag/'
+          'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+          'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+          'https://www.browserleaks.com/webrtc'
+          'https://frames-per-second.appspot.com/'
+        )
+        TabOrder = 1
+        Text = 'https://www.google.com'
+      end
+      object CloseBtnLeft: TSpeedButton
+        Left = 459
+        Height = 23
+        Top = 0
+        Width = 23
+        Align = alRight
+        Images = ImageList1
+        ImageIndex = 0
+        OnClick = CloseBtnLeftClick
+      end
+    end
+    object OpenBtnLeft: TSpeedButton
+      AnchorSideLeft.Control = PanelLeft
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = PanelLeft
+      AnchorSideTop.Side = asrCenter
+      Left = 182
+      Height = 70
+      Top = 243
+      Width = 120
+      Caption = 'Open Browser'
+      OnClick = OpenBtnLeftClick
+    end
+  end
+  object Splitter1: TSplitter
+    Left = 484
+    Height = 557
+    Top = 32
+    Width = 5
+  end
+  object PanelRight: TPanel
+    Left = 489
+    Height = 557
+    Top = 32
+    Width = 478
+    Align = alClient
+    ClientHeight = 557
+    ClientWidth = 478
+    TabOrder = 2
+    object AddressPnlRight: TPanel
+      Left = 1
+      Height = 23
+      Top = 1
+      Width = 476
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 23
+      ClientWidth = 476
+      Enabled = False
+      TabOrder = 0
+      object GoBtnRight: TButton
+        Left = 418
+        Height = 23
+        Top = 0
+        Width = 35
+        Align = alRight
+        Caption = 'Go'
+        OnClick = GoBtnRightClick
+        TabOrder = 0
+      end
+      object AddressEdtRight: TComboBox
+        Left = 0
+        Height = 23
+        Top = 0
+        Width = 418
+        Align = alClient
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'https://www.google.com'
+          'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+          'https://www.w3schools.com/html/html5_video.asp'
+          'http://www.adobe.com/software/flash/about/'
+          'http://isflashinstalled.com/'
+          'chrome://version/'
+          'http://html5test.com/'
+          'https://www.w3schools.com/'
+          'http://webglsamples.org/'
+          'https://get.webgl.org/'
+          'https://www.youtube.com'
+          'https://html5demos.com/drag/'
+          'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+          'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+          'https://www.browserleaks.com/webrtc'
+          'https://frames-per-second.appspot.com/'
+        )
+        TabOrder = 1
+        Text = 'https://www.google.com'
+      end
+      object CloseBtnRight: TSpeedButton
+        Left = 453
+        Height = 23
+        Top = 0
+        Width = 23
+        Align = alRight
+        Images = ImageList1
+        ImageIndex = 0
+        OnClick = CloseBtnRightClick
+      end
+    end
+    object OpenBtnRight: TSpeedButton
+      AnchorSideLeft.Control = PanelRight
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = PanelRight
+      AnchorSideTop.Side = asrCenter
+      Left = 179
+      Height = 70
+      Top = 243
+      Width = 120
+      Caption = 'Open Browser'
+      OnClick = OpenBtnRightClick
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 32
+    Top = 0
+    Width = 967
+    Align = alTop
+    AutoSize = True
+    ChildSizing.LeftRightSpacing = 5
+    ChildSizing.TopBottomSpacing = 3
+    ChildSizing.HorizontalSpacing = 10
+    ChildSizing.VerticalSpacing = 3
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 5
+    ClientHeight = 32
+    ClientWidth = 967
+    TabOrder = 3
+    object BtnCloseApp: TButton
+      Left = 5
+      Height = 25
+      Top = 3
+      Width = 80
+      Caption = 'Close App'
+      OnClick = BtnCloseAppClick
+      TabOrder = 0
+    end
+    object BtnCloseForm: TButton
+      Left = 95
+      Height = 25
+      Top = 3
+      Width = 86
+      Caption = 'Close Form'
+      OnClick = BtnCloseFormClick
+      TabOrder = 1
+    end
+    object BtnModal: TButton
+      Left = 191
+      Height = 25
+      Top = 3
+      Width = 92
+      Caption = 'Show Modal'
+      OnClick = BtnModalClick
+      TabOrder = 2
+    end
+  end
+  object ImageList1: TImageList
+    left = 672
+    top = 104
+    Bitmap = {
+      4C7A010000001000000010000000D70000000000000078DAE591CB0A82501445
+      FD19C5C7F58DA2A0F8C2FFF2178BA0226C12A6A1627DC1E9EE410D1CA8E3BA70
+      270716FBEC7504E1775E92BCCA3C6FC8B2A66C3ECFB22B99665B2CF160E3F841
+      41D092A24C296661F82CD2B4E1B30B79DE9E9678E482759C9E5C77204D9BAA28
+      6AC9F7917D20513C966B1D900BD63447DE6320DB6E48D7CF244975B1D503726D
+      7B20C67ABEC39D7719ABAD2CFA6267E48255D58EFFDBD7C79A7FB8425FEC8C5C
+      B09AD69061D424CB5DB6C4E346F00C579FBEC805CBD889CF778BFE715FDC68EE
+      19B960B7F8FFB7F70660608313
+    }
+  end
+end

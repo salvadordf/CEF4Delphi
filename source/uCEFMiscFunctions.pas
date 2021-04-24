@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -46,6 +46,11 @@ unit uCEFMiscFunctions;
 
 {$I cef.inc}
 
+{$IFNDEF FPC}{$IFNDEF DELPHI12_UP}
+  // Workaround for "Internal error" in old Delphi versions caused by uint64 handling
+  {$R-}
+{$ENDIF}{$ENDIF}
+
 interface
 
 uses
@@ -53,13 +58,17 @@ uses
     {$IFDEF MSWINDOWS}
       WinApi.Windows, WinApi.ActiveX, {$IFDEF FMX}FMX.Types,{$ENDIF}
     {$ELSE}
-      {$IFDEF FMX}FMX.Types,{$ENDIF} {$IFDEF MACOS}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
+      {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
     {$ENDIF}
     System.Types, System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
-    {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
+    {$IFDEF FPC}LCLType, LazFileUtils,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
+    {$IFDEF LINUX}{$IFDEF FPC}
+      ctypes, keysym, xf86keysym, x, xlib,
+      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
+    {$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
   uCEFRegisterCDMCallback, uCEFConstants;
@@ -67,32 +76,8 @@ uses
 const
   Kernel32DLL = 'kernel32.dll';
   SHLWAPIDLL  = 'shlwapi.dll';
-  NTDLL = 'ntdll.dll';
-
-type
-  TOSVersionInfoEx = record
-    dwOSVersionInfoSize: DWORD;
-    dwMajorVersion: DWORD;
-    dwMinorVersion: DWORD;
-    dwBuildNumber: DWORD;
-    dwPlatformId: DWORD;
-    szCSDVersion: array[0..127] of WideChar;
-    wServicePackMajor: WORD;
-    wServicePackMinor: WORD;
-    wSuiteMask: WORD;
-    wProductType: BYTE;
-    wReserved:BYTE;
-  end;
-  {$IFDEF DELPHI14_UP}
-  TDigitizerStatus = record
-    IntegratedTouch : boolean;
-    ExternalTouch   : boolean;
-    IntegratedPen   : boolean;
-    ExternalPen     : boolean;
-    MultiInput      : boolean;
-    Ready           : boolean;
-  end;
-  {$ENDIF}
+  NTDLL       = 'ntdll.dll';
+  User32DLL   = 'User32.dll';
 
 function CefColorGetA(color: TCefColor): Byte;
 function CefColorGetR(color: TCefColor): byte;
@@ -106,8 +91,8 @@ function CefInt64Set(int32_low, int32_high: Integer): Int64;
 function CefInt64GetLow(const int64_val: Int64): Integer;
 function CefInt64GetHigh(const int64_val: Int64): Integer;
 
-function CefGetObject(ptr: Pointer): TObject;  {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
-function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
+function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 function CefStringAlloc(const str: ustring): TCefString;
 function CefStringClearAndGet(str: PCefString): ustring;
@@ -118,7 +103,7 @@ function  CefUserFreeString(const str: ustring): PCefStringUserFree;
 procedure CefStringFree(const str: PCefString);
 function  CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
 procedure CefStringSet(const str: PCefString; const value: ustring);
-procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
+procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
 
@@ -126,11 +111,19 @@ function CefPostTask(aThreadId : TCefThreadId; const aTask: ICefTask) : boolean;
 function CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; aDelayMs : Int64) : boolean;
 function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
 
-{$IFNDEF MACOS}
+{$IFDEF MSWINDOWS}
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
+{$ELSE}
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
+    function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
+    function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
+    {$ENDIF}
+  {$ENDIF}
 {$ENDIF}
 
+function FixCefTime(const dt : TCefTime): TCefTime;
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 
@@ -145,7 +138,7 @@ procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
 {$ENDIF}
 
-{$IFDEF MACOS}
+{$IFDEF MACOSX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False);
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
@@ -159,8 +152,6 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 
 {$IFDEF MSWINDOWS}
 function ProcessUnderWow64(hProcess: THandle; var Wow64Process: BOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
-function TzSpecificLocalTimeToSystemTime(lpTimeZoneInformation: PTimeZoneInformation; lpLocalTime, lpUniversalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
-function SystemTimeToTzSpecificLocalTime(lpTimeZoneInformation: PTimeZoneInformation; lpUniversalTime, lpLocalTime: PSystemTime): BOOL; stdcall; external Kernel32DLL;
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
 function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
@@ -173,7 +164,7 @@ function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL 
 
 {$IFNDEF DELPHI12_UP}
 const
-  GWLP_WNDPROC = GWL_WNDPROC;
+  GWLP_WNDPROC    = GWL_WNDPROC;
   GWLP_HWNDPARENT = GWL_HWNDPARENT;
   {$IFDEF WIN64}
     function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: int64): int64; stdcall; external user32 name 'SetWindowLongPtrW';
@@ -213,7 +204,6 @@ function CefClearCrossOriginWhitelist: Boolean;
 procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
 {$IFDEF MSWINDOWS}
 function  GetExtendedFileVersion(const aFileName : ustring) : uint64;
-function  GetStringFileInfo(const aFileName, aField : ustring; var aValue : ustring) : boolean;
 function  GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
 procedure OutputLastErrorMessage;
 {$ENDIF}
@@ -222,7 +212,7 @@ function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
 function CheckSubprocessPath(const aSubprocessPath : string; var aMissingFiles : string) : boolean;
 function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;
-function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True; aCheckExtensions: boolean = True) : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
 {$IFDEF MSWINDOWS}
 function CheckDLLVersion(const aDLLFile : ustring; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
@@ -266,6 +256,8 @@ procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDra
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
 
 function  GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
+function  RunningWindows10OrNewer : boolean;
+function  GetDPIForHandle(aHandle : HWND; var aDPI : UINT) : boolean;
 function  GetDefaultCEFUserAgent : string;
 {$IFDEF DELPHI14_UP}
 function  TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
@@ -298,6 +290,8 @@ procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 implementation
 
 uses
+  {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
+  {$IFDEF MACOS}Posix.Unistd, Posix.Stdio,{$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
@@ -489,10 +483,9 @@ begin
     Result := False;
 end;
 
-{$IFNDEF MACOS}
+{$IFDEF MSWINDOWS}
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 begin
-  {$IFDEF MSWINDOWS}
   Result.wYear          := dt.year;
   Result.wMonth         := dt.month;
   Result.wDayOfWeek     := dt.day_of_week;
@@ -501,21 +494,10 @@ begin
   Result.wMinute        := dt.minute;
   Result.wSecond        := dt.second;
   Result.wMilliseconds  := dt.millisecond;
-  {$ELSE}
-  Result.Year          := dt.year;
-  Result.Month         := dt.month;
-  Result.DayOfWeek     := dt.day_of_week;
-  Result.Day           := dt.day_of_month;
-  Result.Hour          := dt.hour;
-  Result.Minute        := dt.minute;
-  Result.Second        := dt.second;
-  Result.Millisecond   := dt.millisecond;
-  {$ENDIF}
 end;
 
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 begin
-  {$IFDEF MSWINDOWS}
   Result.year         := dt.wYear;
   Result.month        := dt.wMonth;
   Result.day_of_week  := dt.wDayOfWeek;
@@ -524,7 +506,24 @@ begin
   Result.minute       := dt.wMinute;
   Result.second       := dt.wSecond;
   Result.millisecond  := dt.wMilliseconds;
-  {$ELSE}
+end;
+{$ELSE}
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
+function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
+begin
+  Result.Year          := dt.year;
+  Result.Month         := dt.month;
+  Result.DayOfWeek     := dt.day_of_week;
+  Result.Day           := dt.day_of_month;
+  Result.Hour          := dt.hour;
+  Result.Minute        := dt.minute;
+  Result.Second        := dt.second;
+  Result.Millisecond   := dt.millisecond;
+end;
+
+function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
+begin
   Result.year         := dt.Year;
   Result.month        := dt.Month;
   Result.day_of_week  := dt.DayOfWeek;
@@ -533,52 +532,41 @@ begin
   Result.minute       := dt.Minute;
   Result.second       := dt.Second;
   Result.millisecond  := dt.Millisecond;
-  {$ENDIF}
 end;
+    {$ENDIF}
+  {$ENDIF}
 {$ENDIF}
+
+function FixCefTime(const dt : TCefTime): TCefTime;
+var
+  DayTable : PDayTable;
+begin
+  Result := dt;
+
+  Result.year         := min(9999, max(1, Result.year));
+  Result.month        := min(12,   max(1, Result.month));
+  Result.hour         := min(23,   max(0, Result.hour));
+  Result.minute       := min(59,   max(0, Result.minute));
+  Result.second       := min(59,   max(0, Result.second));
+  Result.millisecond  := min(999,  max(0, Result.millisecond));
+
+  DayTable            := @MonthDays[IsLeapYear(Result.year)];
+  Result.day_of_month := min(DayTable^[Result.month], max(1, Result.day_of_month));
+end;
 
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
-{$IFDEF MSWINDOWS}
 var
-  TempTime : TSystemTime;
-{$ENDIF}
+  TempFixedCefTime : TCefTime;
 begin
-  {$IFDEF MSWINDOWS}
-  Result := 0;
-
-  try
-    TempTime := CefTimeToSystemTime(dt);
-    SystemTimeToTzSpecificLocalTime(nil, @TempTime, @TempTime);
-    Result   := SystemTimeToDateTime(TempTime);
-  except
-    on e : exception do
-      if CustomExceptionHandler('CefTimeToDateTime', e) then raise;
-  end;
-  {$ELSE}
-  Result := EncodeDate(dt.year, dt.month, dt.day_of_month) + EncodeTime(dt.hour, dt.minute, dt.second, dt.millisecond);
-  {$ENDIF}
+  TempFixedCefTime := FixCefTime(dt);
+  Result := EncodeDate(TempFixedCefTime.year, TempFixedCefTime.month, TempFixedCefTime.day_of_month) +
+            EncodeTime(TempFixedCefTime.hour, TempFixedCefTime.minute, TempFixedCefTime.second, TempFixedCefTime.millisecond);
 end;
 
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
 var
-  {$IFDEF MSWINDOWS}
-  TempTime : TSystemTime;
-  {$ELSE}
   TempYear, TempMonth, TempDay, TempHour, TempMin, TempSec, TempMSec : Word;
-  {$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
-  FillChar(Result, SizeOf(TCefTime), 0);
-
-  try
-    DateTimeToSystemTime(dt, TempTime);
-    TzSpecificLocalTimeToSystemTime(nil, @TempTime, @TempTime);
-    Result := SystemTimeToCefTime(TempTime);
-  except
-    on e : exception do
-      if CustomExceptionHandler('DateTimeToCefTime', e) then raise;
-  end;
-  {$ELSE}
   DecodeDate(dt, TempYear, TempMonth, TempDay);
   DecodeTime(dt, TempHour, TempMin, TempSec, TempMSec);
 
@@ -590,7 +578,6 @@ begin
   Result.minute       := TempMin;
   Result.second       := TempSec;
   Result.millisecond  := TempMSec;
-  {$ENDIF}
 end;
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
@@ -678,7 +665,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF MACOS}
+{$IFDEF MACOSX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -691,7 +678,11 @@ begin
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
+  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
+  {$ELSE}
+  aWindowInfo.view                         := nil;
+  {$ENDIF}
 end;
 
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
@@ -706,7 +697,11 @@ begin
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
+  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
+  {$ELSE}
+  aWindowInfo.view                         := nil;
+  {$ENDIF}
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
@@ -721,25 +716,40 @@ begin
   aWindowInfo.windowless_rendering_enabled := ord(True);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
+  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
+  {$ELSE}
+  aWindowInfo.view                         := nil;
+  {$ENDIF}
 end;
 {$ENDIF}
 
 {$IFDEF LINUX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
+var
+  TempParent : TCefWindowHandle;
 begin
+  // TODO: Find a way to get the right "parent_window" in FMX
+  TempParent := aParent;
+  {$IFDEF FPC}
+  if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
+    TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+  {$ENDIF}
+
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.x                            := aRect.left;
   aWindowInfo.y                            := aRect.top;
   aWindowInfo.width                        := aRect.right  - aRect.left;
   aWindowInfo.height                       := aRect.bottom - aRect.top;
-  aWindowInfo.parent_window                := aParent;
+  aWindowInfo.parent_window                := TempParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
 end;
 
+// WindowInfoAsPopUp only exists for Windows. The Linux version of cefclient
+// calls WindowInfoAsChild with aParent set to NULL to create a popup window.
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -818,11 +828,22 @@ begin
     begin
       {$IFDEF MSWINDOWS}
         TempString := 'PID: ' + IntToStr(GetCurrentProcessID) + ', TID: ' + IntToStr(GetCurrentThreadID);
-      {$ELSE}
-        {$IFDEF MACOS}
-        TempString := 'PID: ' + IntToStr(TNSProcessInfo.Wrap(TNSProcessInfo.OCClass.processInfo).processIdentifier) + ', TID: ' + IntToStr(TThread.Current.ThreadID);
-        {$ELSE}
+      {$ENDIF}
+
+      {$IFDEF LINUX}
+        {$IFDEF FPC}
         TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+        {$ELSE}
+          // TO-DO: Find the equivalent function to get the process ID in Delphi FMX for Linux
+        {$ENDIF}
+      {$ENDIF}
+
+      {$IFDEF MACOSX}
+        {$IFDEF FPC}
+          // TO-DO: Find the equivalent function to get the process ID in Lazarus/FPC for MacOS
+        {$ELSE}
+          TempString := 'PID: ' + IntToStr(TNSProcessInfo.Wrap(TNSProcessInfo.OCClass.processInfo).processIdentifier) +
+                        ', TID: ' + IntToStr(TThread.Current.ThreadID);
         {$ENDIF}
       {$ENDIF}
 
@@ -887,13 +908,13 @@ const
   DEFAULT_LINE = 1;
 begin
   {$IFDEF DEBUG}
-  {$IFDEF FMX}
-    FMX.Types.Log.d(aMessage);
-  {$ELSE}
     {$IFDEF MSWINDOWS}
-    OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
+      {$IFDEF FMX}
+        FMX.Types.Log.d(aMessage);
+      {$ELSE}
+        OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
+      {$ENDIF}
     {$ENDIF}
-  {$ENDIF}
 
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
@@ -1120,7 +1141,7 @@ begin
   end;
 end;
 
-function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources, aCheckExtensions: boolean) : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string) : boolean;
 var
   TempDir    : string;
   TempList   : TStringList;
@@ -1135,12 +1156,9 @@ begin
       TempList := TStringList.Create;
       TempList.Add(TempDir + 'snapshot_blob.bin');
       TempList.Add(TempDir + 'v8_context_snapshot.bin');
-      TempList.Add(TempDir + 'cef.pak');
-      TempList.Add(TempDir + 'cef_100_percent.pak');
-      TempList.Add(TempDir + 'cef_200_percent.pak');
-
-      if aCheckExtensions   then TempList.Add(TempDir + 'cef_extensions.pak');
-      if aCheckDevResources then TempList.Add(TempDir + 'devtools_resources.pak');
+      TempList.Add(TempDir + 'resources.pak');
+      TempList.Add(TempDir + 'chrome_100_percent.pak');
+      TempList.Add(TempDir + 'chrome_200_percent.pak');
 
       if TempExists then
         Result := CheckFilesExist(TempList, aMissingFiles)
@@ -1299,96 +1317,6 @@ begin
   {$ENDIF}
 end;
 
-function GetStringFileInfo(const aFileName, aField : ustring; var aValue : ustring) : boolean;
-type
-  PLangAndCodepage = ^TLangAndCodepage;
-  TLangAndCodepage = record
-    wLanguage : word;
-    wCodePage : word;
-  end;
-var
-  TempSize     : DWORD;
-  TempBuffer   : pointer;
-  TempHandle   : cardinal;
-  TempPointer  : pointer;
-  TempSubBlock : ustring;
-  TempLang     : PLangAndCodepage;
-  TempArray    : array of TLangAndCodepage;
-  i, j : DWORD;
-begin
-  Result     := False;
-  TempBuffer := nil;
-  TempArray  := nil;
-  aValue     := '';
-
-  try
-    try
-      TempSize := GetFileVersionInfoSizeW(PWideChar(aFileName), TempHandle);
-
-      if (TempSize > 0) then
-        begin
-          GetMem(TempBuffer, TempSize);
-
-          if GetFileVersionInfoW(PWideChar(aFileName), 0, TempSize, TempBuffer) then
-            begin
-              if VerQueryValue(TempBuffer, '\VarFileInfo\Translation\', Pointer(TempLang), TempSize) then
-                begin
-                  i := 0;
-                  j := TempSize div SizeOf(TLangAndCodepage);
-
-                  SetLength(TempArray, j);
-
-                  while (i < j) do
-                    begin
-                      TempArray[i].wLanguage := TempLang^.wLanguage;
-                      TempArray[i].wCodePage := TempLang^.wCodePage;
-                      inc(TempLang);
-                      inc(i);
-                    end;
-                end;
-
-              i := 0;
-              j := Length(TempArray);
-
-              while (i < j) and not(Result) do
-                begin
-                  TempSubBlock := '\StringFileInfo\' +
-                                  IntToHex(TempArray[i].wLanguage, 4) + IntToHex(TempArray[i].wCodePage, 4) +
-                                  '\' + aField;
-
-                  if VerQueryValueW(TempBuffer, PWideChar(TempSubBlock), TempPointer, TempSize) then
-                    begin
-                      aValue := trim(PChar(TempPointer));
-                      Result := (length(aValue) > 0);
-                    end;
-
-                  inc(i);
-                end;
-
-              // Adobe's flash player DLL uses a different codepage to store the StringFileInfo fields
-              if not(Result) and (j > 0) and (TempArray[0].wCodePage <> 1252) then
-                begin
-                  TempSubBlock := '\StringFileInfo\' +
-                                  IntToHex(TempArray[0].wLanguage, 4) + IntToHex(1252, 4) +
-                                  '\' + aField;
-
-                  if VerQueryValueW(TempBuffer, PWideChar(TempSubBlock), TempPointer, TempSize) then
-                    begin
-                      aValue := trim(PChar(TempPointer));
-                      Result := (length(aValue) > 0);
-                    end;
-                end;
-            end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('GetStringFileInfo', e) then raise;
-    end;
-  finally
-    if (TempBuffer <> nil) then FreeMem(TempBuffer);
-  end;
-end;
-
 function GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
 var
   TempVersion : uint64;
@@ -1438,7 +1366,7 @@ begin
     try
       if FileExists(aDLLFile) then
         begin
-          TempStream := TFileStream.Create(aDLLFile, fmOpenRead);
+          TempStream := TFileStream.Create(aDLLFile, fmOpenRead or fmShareDenyWrite);
           TempStream.seek(0, soFromBeginning);
           TempStream.ReadBuffer(TempHeader, SizeOf(TempHeader));
 
@@ -1593,13 +1521,33 @@ begin
 end;
 
 function GetModulePath : string;
+{$IFDEF MACOSX}
+const
+  MAC_APP_POSTFIX = '.app/';
+  MAC_APP_SUBPATH = 'Contents/MacOS/';
+{$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(GetModuleName(HINSTANCE{$IFDEF FPC}(){$ENDIF})));
-  {$ELSE}
-  // DLL filename not supported
+  {$ENDIF}
+
+  {$IFDEF LINUX}
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
-  {$ENDIF MSWINDOWS}
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+  Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
+
+  {$IFDEF FPC}
+  if copy(Result, Length(Result) + 1 - Length(MAC_APP_POSTFIX) - Length(MAC_APP_SUBPATH)) = MAC_APP_POSTFIX + MAC_APP_SUBPATH then
+    SetLength(Result, Length(Result) - Length(MAC_APP_SUBPATH));
+
+  Result := CreateAbsolutePath(Result, GetCurrentDirUTF8);
+  {$ELSE}
+  if Result.Contains(MAC_APP_POSTFIX + MAC_APP_SUBPATH) then
+    Result := Result.Remove(Result.IndexOf(MAC_APP_SUBPATH));
+  {$ENDIF}
+  {$ENDIF}
 end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
@@ -2072,6 +2020,47 @@ begin
   end;
 end;
 
+// GetDpiForWindow is only available in Windows 10 (version 1607) or newer
+function GetDPIForHandle(aHandle : HWND; var aDPI : UINT) : boolean;
+type
+  TGetDpiForWindow = function(hwnd: HWND): UINT; stdcall;
+var
+  TempHandle : THandle;
+  TempGetDpiForWindowFunc : TGetDpiForWindow;
+begin
+  Result := False;
+  aDPI   := 0;
+
+  if (aHandle = 0) then exit;
+
+  try
+    TempHandle := LoadLibrary(User32DLL);
+
+    if (TempHandle <> 0) then
+      try
+        {$IFDEF FPC}Pointer({$ENDIF}TempGetDpiForWindowFunc{$IFDEF FPC}){$ENDIF} := GetProcAddress(TempHandle, 'GetDpiForWindow');
+
+        if assigned(TempGetDpiForWindowFunc) then
+          begin
+            aDPI   := TempGetDpiForWindowFunc(aHandle);
+            Result := (aDPI <> 0);
+          end;
+      finally
+        FreeLibrary(TempHandle);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('GetDPIForHandle', e) then raise;
+  end;
+end;
+
+function RunningWindows10OrNewer : boolean;
+var
+  TempMajorVer, TempMinorVer : DWORD;
+begin
+  Result := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and (TempMajorVer >= 10);
+end;
+
 function GetDefaultCEFUserAgent : string;
 var
   TempOS, TempChromiumVersion : string;
@@ -2190,18 +2179,45 @@ begin
   TempDC := GetDC(0);
   Result := GetDeviceCaps(TempDC, LOGPIXELSX);
   ReleaseDC(0, TempDC);
-  {$ELSE}
-    {$IFDEF MACOS}
-    Result := trunc(MainScreen.backingScaleFactor);
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
+      if (Application                  <> nil) and
+         (Application.MainForm         <> nil) and
+         (Application.MainForm.Monitor <> nil) then
+        Result := Application.MainForm.Monitor.PixelsPerInch
+       else
+        if (screen <> nil) then
+          begin
+            if (WidgetSet <> nil) and (screen.PrimaryMonitor <> nil) then
+              Result := screen.PrimaryMonitor.PixelsPerInch
+             else
+              Result := screen.PixelsPerInch;
+          end
+         else
+          Result := USER_DEFAULT_SCREEN_DPI;
     {$ELSE}
-    Result := screen.PrimaryMonitor.PixelsPerInch;
+      // TODO: Find a way to get the screen scale in Delphi FMX for Linux
+      Result := USER_DEFAULT_SCREEN_DPI;
+    {$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+    {$IFDEF FPC}
+      // TODO: Find a way to get the screen scale in Lazarus/FPC for MacOS
+      Result := USER_DEFAULT_SCREEN_DPI;
     {$ENDIF}
   {$ENDIF}
 end;
 
 function GetDeviceScaleFactor : single;
 begin
-  Result := GetScreenDPI / 96;
+  {$IFDEF MACOS}
+  Result := MainScreen.backingScaleFactor;
+  {$ELSE}
+  Result := GetScreenDPI / USER_DEFAULT_SCREEN_DPI;
+  {$ENDIF}
 end;
 
 function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList) : boolean;

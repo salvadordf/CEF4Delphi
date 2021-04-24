@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -70,6 +70,8 @@ type
       procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode); virtual; abstract;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean; virtual;
 
+      procedure RemoveReferences; virtual; abstract;
+
     public
       constructor Create; virtual;
   end;
@@ -88,6 +90,8 @@ type
       procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const V8Exception: ICefV8Exception; const stackTrace: ICefV8StackTrace); override;
       procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode); override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage : ICefProcessMessage): Boolean; override;
+
+      procedure RemoveReferences; override;
 
     public
       constructor Create(const aCefApp : TCefApplicationCore); reintroduce;
@@ -110,7 +114,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     TCefRenderProcessHandlerOwn(TempObject).OnWebKitInitialized;
 end;
 
@@ -122,7 +127,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     TCefRenderProcessHandlerOwn(TempObject).OnBrowserCreated(TCefBrowserRef.UnWrap(browser),
                                                              TCefDictionaryValueRef.UnWrap(extra_info));
 end;
@@ -134,7 +140,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     TCefRenderProcessHandlerOwn(TempObject).OnBrowserDestroyed(TCefBrowserRef.UnWrap(browser));
 end;
 
@@ -145,7 +152,8 @@ begin
   Result     := nil;
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     Result := CefGetData(TCefRenderProcessHandlerOwn(TempObject).GetLoadHandler);
 end;
 
@@ -158,7 +166,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     TCefRenderProcessHandlerOwn(TempObject).OnContextCreated(TCefBrowserRef.UnWrap(browser),
                                                              TCefFrameRef.UnWrap(frame),
                                                              TCefv8ContextRef.UnWrap(context));
@@ -173,7 +182,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     TCefRenderProcessHandlerOwn(TempObject).OnContextReleased(TCefBrowserRef.UnWrap(browser),
                                                               TCefFrameRef.UnWrap(frame),
                                                               TCefv8ContextRef.UnWrap(context));
@@ -190,7 +200,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     TCefRenderProcessHandlerOwn(TempObject).OnUncaughtException(TCefBrowserRef.UnWrap(browser),
                                                                 TCefFrameRef.UnWrap(frame),
                                                                 TCefv8ContextRef.UnWrap(context),
@@ -207,7 +218,8 @@ var
 begin
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     TCefRenderProcessHandlerOwn(TempObject).OnFocusedNodeChanged(TCefBrowserRef.UnWrap(browser),
                                                                  TCefFrameRef.UnWrap(frame),
                                                                  TCefDomNodeRef.UnWrap(node));
@@ -224,7 +236,8 @@ begin
   Result     := Ord(False);
   TempObject := CefGetObject(self);
 
-  if (TempObject <> nil) and (TempObject is TCefRenderProcessHandlerOwn) then
+  if (TempObject <> nil) and
+     (TempObject is TCefRenderProcessHandlerOwn) then
     Result := Ord(TCefRenderProcessHandlerOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
                                                                                    TCefFrameRef.UnWrap(frame),
                                                                                    source_process,
@@ -284,10 +297,18 @@ end;
 
 destructor TCefCustomRenderProcessHandler.Destroy;
 begin
-  FCefApp      := nil;
-  FLoadHandler := nil;
+  RemoveReferences;
 
   inherited Destroy;
+end;
+
+procedure TCefCustomRenderProcessHandler.RemoveReferences;
+begin
+  if (FLoadHandler <> nil) then
+    FLoadHandler.RemoveReferences;
+
+  FCefApp      := nil;
+  FLoadHandler := nil;
 end;
 
 procedure TCefCustomRenderProcessHandler.OnWebKitInitialized;
@@ -378,10 +399,10 @@ begin
   end;
 end;
 
-function  TCefCustomRenderProcessHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
-                                                                  const frame         : ICefFrame;
-                                                                        sourceProcess : TCefProcessId;
-                                                                  const aMessage      : ICefProcessMessage): Boolean;
+function TCefCustomRenderProcessHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
+                                                                 const frame         : ICefFrame;
+                                                                       sourceProcess : TCefProcessId;
+                                                                 const aMessage      : ICefProcessMessage): Boolean;
 begin
   Result := inherited OnProcessMessageReceived(browser, frame, sourceProcess, aMessage);
 

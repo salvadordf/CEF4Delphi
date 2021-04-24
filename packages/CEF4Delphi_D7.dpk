@@ -214,6 +214,12 @@ contains
   uCEFAudioHandler in '..\source\uCEFAudioHandler.pas',
   uCEFDevToolsMessageObserver in '..\source\uCEFDevToolsMessageObserver.pas',
   uCEFMediaSinkDeviceInfoCallback in '..\source\uCEFMediaSinkDeviceInfoCallback.pas',
-  uCEFJson in '..\source\uCEFJson.pas';
+  uCEFJson in '..\source\uCEFJson.pas',
+  uCEFBitmapBitBuffer in '..\source\uCEFBitmapBitBuffer.pas',
+  uCEFPrintHandler in '..\source\uCEFPrintHandler.pas',
+  uCEFPrintDialogCallback in '..\source\uCEFPrintDialogCallback.pas',
+  uCEFPrintJobCallback in '..\source\uCEFPrintJobCallback.pas',
+  uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
+  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas';
 
 end.

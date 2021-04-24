@@ -1,0 +1,82 @@
+object Form1: TForm1
+  Left = 473
+  Height = 589
+  Top = 227
+  Width = 967
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 589
+  ClientWidth = 967
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.1.0.0'
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 23
+    Top = 0
+    Width = 967
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 23
+    ClientWidth = 967
+    TabOrder = 0
+    object GoBtn: TButton
+      Left = 932
+      Height = 23
+      Top = 0
+      Width = 35
+      Align = alRight
+      Caption = 'Go'
+      OnClick = GoBtnClick
+      TabOrder = 0
+    end
+    object AddressEdt: TComboBox
+      Left = 0
+      Height = 23
+      Top = 0
+      Width = 932
+      Align = alClient
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'https://www.google.com'
+        'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+        'https://www.w3schools.com/html/html5_video.asp'
+        'http://www.adobe.com/software/flash/about/'
+        'http://isflashinstalled.com/'
+        'chrome://version/'
+        'http://html5test.com/'
+        'https://www.w3schools.com/'
+        'http://webglsamples.org/'
+        'https://get.webgl.org/'
+        'https://www.youtube.com'
+        'https://html5demos.com/drag/'
+        'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+        'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+        'https://www.browserleaks.com/webrtc'
+        'https://frames-per-second.appspot.com/'
+      )
+      TabOrder = 1
+      Text = 'https://www.google.com'
+    end
+  end
+  object OsrBrowserWindow1: TOsrBrowserWindow
+    Left = 0
+    Height = 566
+    Top = 23
+    Width = 967
+    CopyOriginalBuffer = True
+    Align = alClient
+    TabOrder = 1
+    OnMouseMove = OsrBrowserWindow1MouseMove
+    OnBrowserClosed = OsrBrowserWindow1BrowserClosed
+  end
+  object PopupMenu1: TPopupMenu
+    left = 418
+    top = 126
+    object MenuItem1: TMenuItem
+      Caption = 'Nothing in this menu'
+    end
+  end
+end

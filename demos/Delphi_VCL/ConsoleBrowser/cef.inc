@@ -454,3 +454,15 @@
   {$DEFINE TARGET_32BITS}
 {$IFEND}
 
+// Delphi uses MACOS for the new MacOSX and DARWIN is not defined
+// FPC uses DARWIN for the new MacOSX and MACOS is defined for the classic Macintosh OS (System 7)
+// We define MACOSX to avoid conflicts in both situations
+{$IFDEF FPC}
+  {$IFDEF DARWIN}
+    {$DEFINE MACOSX}
+  {$ENDIF}
+{$ELSE}
+  {$IFDEF MACOS}
+    {$DEFINE MACOSX}
+  {$ENDIF}
+{$ENDIF}

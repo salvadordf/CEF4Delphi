@@ -1,0 +1,147 @@
+object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
+  Left = 293
+  Height = 584
+  Top = 210
+  Width = 913
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 584
+  ClientWidth = 913
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnHide = FormHide
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.10.0'
+  object NavControlPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 913
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 913
+    Enabled = False
+    TabOrder = 0
+    object ComboBox1: TComboBox
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 844
+      Align = alClient
+      ItemHeight = 13
+      ItemIndex = 0
+      Items.Strings = (
+        'https://www.google.com'
+        'https://html5demos.com/drag'
+        'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_select_form'
+        'https://www.briskbard.com'
+        'https://frames-per-second.appspot.com/'
+        'https://www.youtube.com'
+      )
+      OnEnter = ComboBox1Enter
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+    object Panel2: TPanel
+      Left = 844
+      Height = 21
+      Top = 0
+      Width = 69
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 21
+      ClientWidth = 69
+      TabOrder = 1
+      object GoBtn: TButton
+        Left = 0
+        Height = 21
+        Top = 0
+        Width = 31
+        Align = alLeft
+        Caption = 'Go'
+        OnClick = GoBtnClick
+        OnEnter = GoBtnEnter
+        TabOrder = 0
+      end
+      object SnapshotBtn: TButton
+        Left = 38
+        Height = 21
+        Hint = 'Take snapshot'
+        Top = 0
+        Width = 31
+        Align = alRight
+        Caption = 'µ'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -24
+        Font.Name = 'Webdings'
+        OnClick = SnapshotBtnClick
+        OnEnter = SnapshotBtnEnter
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+      end
+    end
+  end
+  object Panel1: TBufferPanel
+    Left = 0
+    Height = 563
+    Top = 21
+    Width = 913
+    OnIMECancelComposition = Panel1IMECancelComposition
+    OnIMECommitText = Panel1IMECommitText
+    OnIMESetComposition = Panel1IMESetComposition
+    Align = alClient
+    OnUTF8KeyPress = Panel1UTF8KeyPress
+    Caption = 'Panel1'
+    TabOrder = 1
+    TabStop = True
+    OnClick = Panel1Click
+    OnEnter = Panel1Enter
+    OnExit = Panel1Exit
+    OnMouseDown = Panel1MouseDown
+    OnMouseMove = Panel1MouseMove
+    OnMouseUp = Panel1MouseUp
+    OnMouseWheel = Panel1MouseWheel
+    OnKeyDown = Panel1KeyDown
+    OnKeyUp = Panel1KeyUp
+    OnResize = Panel1Resize
+  end
+  object chrmosr: TChromium
+    OnTooltip = chrmosrTooltip
+    OnCursorChange = chrmosrCursorChange
+    OnBeforePopup = chrmosrBeforePopup
+    OnAfterCreated = chrmosrAfterCreated
+    OnBeforeClose = chrmosrBeforeClose
+    OnGetViewRect = chrmosrGetViewRect
+    OnGetScreenPoint = chrmosrGetScreenPoint
+    OnGetScreenInfo = chrmosrGetScreenInfo
+    OnPopupShow = chrmosrPopupShow
+    OnPopupSize = chrmosrPopupSize
+    OnPaint = chrmosrPaint
+    OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
+    Left = 24
+    Top = 56
+  end
+  object SaveDialog1: TSaveDialog
+    Title = 'Save snapshot'
+    DefaultExt = '.bmp'
+    Filter = 'Bitmap files (*.bmp)|*.BMP'
+    Left = 24
+    Top = 278
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 24
+    Top = 206
+  end
+end

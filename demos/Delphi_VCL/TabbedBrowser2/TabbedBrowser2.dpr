@@ -41,16 +41,17 @@ program TabbedBrowser2;
 
 uses
   {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
   Vcl.Forms,
+  WinApi.Windows,
   {$ELSE}
   Forms,
   Windows,
-  {$ENDIF}
+  {$ENDIF }
   uCEFApplication,
   uMainForm in 'uMainForm.pas' {MainForm},
   uBrowserFrame in 'uBrowserFrame.pas' {BrowserFrame: TFrame},
-  uBrowserTab in 'uBrowserTab.pas';
+  uBrowserTab in 'uBrowserTab.pas',
+  uChildForm in 'uChildForm.pas' {ChildForm};
 
 {$R *.res}
 

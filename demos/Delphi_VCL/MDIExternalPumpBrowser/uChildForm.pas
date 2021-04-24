@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -211,11 +211,11 @@ begin
 
   // If you use an empty cache path, CEF will use in-memory cache.
 
-    // The cache directories of all the browsers *MUST* be a subdirectory of
-    // GlobalCEFApp.RootCache unless you use a blank cache (in-memory).
+  // The cache directories of all the browsers *MUST* be a subdirectory of
+  // GlobalCEFApp.RootCache unless you use a blank cache (in-memory).
 
   if MainForm.NewContextChk.Checked then
-    TempContext := TCefRequestContextRef.New('', '', False, False, False)
+    TempContext := TCefRequestContextRef.New('', '', '', False, False, False, False)
    else
     TempContext := nil;
 

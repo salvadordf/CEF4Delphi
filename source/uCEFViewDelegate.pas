@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -65,6 +65,7 @@ type
       procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+      procedure OnWindowChanged(const view: ICefView; added: boolean);
       procedure OnFocus(const view: ICefView);
       procedure OnBlur(const view: ICefView);
 
@@ -80,6 +81,7 @@ type
       procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); virtual;
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); virtual;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); virtual;
+      procedure OnWindowChanged(const view: ICefView; added: boolean); virtual;
       procedure OnFocus(const view: ICefView); virtual;
       procedure OnBlur(const view: ICefView); virtual;
 
@@ -98,6 +100,7 @@ type
       procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
+      procedure OnWindowChanged(const view: ICefView; added: boolean); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
 
@@ -155,6 +158,13 @@ begin
                                                  CefGetData(view),
                                                  ord(added),
                                                  CefGetData(child));
+end;
+
+procedure TCefViewDelegateRef.OnWindowChanged(const view: ICefView; added: boolean);
+begin
+  PCefViewDelegate(FData)^.on_window_changed(PCefViewDelegate(FData),
+                                             CefGetData(view),
+                                             ord(added));
 end;
 
 procedure TCefViewDelegateRef.OnFocus(const view: ICefView);
@@ -271,6 +281,17 @@ begin
                                                        TCefViewRef.UnWrap(child));
 end;
 
+procedure cef_view_delegate_on_window_changed(self: PCefViewDelegate; view: PCefView; added: Integer); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnWindowChanged(TCefViewRef.UnWrap(view),
+                                                    added <> 0);
+end;
+
 procedure cef_view_delegate_on_focus(self: PCefViewDelegate; view: PCefView); stdcall;
 var
   TempObject : TObject;
@@ -308,6 +329,7 @@ begin
       get_height_for_width    := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_height_for_width;
       on_parent_view_changed  := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_parent_view_changed;
       on_child_view_changed   := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_child_view_changed;
+      on_window_changed       := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_window_changed;
       on_focus                := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_focus;
       on_blur                 := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_blur;
     end;
@@ -339,6 +361,11 @@ begin
 end;
 
 procedure TCefViewDelegateOwn.OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnWindowChanged(const view: ICefView; added: boolean);
 begin
   //
 end;
@@ -435,6 +462,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomViewDelegate.OnChildViewChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnWindowChanged(const view: ICefView; added: boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnWindowChanged(view, added);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnWindowChanged', e) then raise;
   end;
 end;
 

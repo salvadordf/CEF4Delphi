@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -79,7 +79,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure Chromium1Paint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
-    procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor: HICON; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo);
+    procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
     procedure Chromium1GetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
     procedure Chromium1GetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean);
     procedure Chromium1GetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
@@ -89,6 +89,7 @@ type
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+
    protected
     FPopUpBitmap       : TBitmap;
     FPopUpRect         : TRect;
@@ -292,14 +293,23 @@ end;
 procedure TChildForm.HandleMouseWheelMsg(var Msg: tagMSG; var Handled: Boolean);
 var
   TempMouseEvent : TCefMouseEvent;
+  TempPoint      : TPoint;
 begin
   if Panel1.Focused and (GlobalCEFApp <> nil) then
     begin
-      TempMouseEvent.x         := Msg.lParam and $FFFF;
-      TempMouseEvent.y         := Msg.lParam shr 16;
+      GetCursorPos(TempPoint);
+      TempPoint                := Panel1.ScreenToclient(TempPoint);
+      TempMouseEvent.x         := TempPoint.x;
+      TempMouseEvent.y         := TempPoint.y;
       TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
-      DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
-      Chromium1.SendMouseWheelEvent(@TempMouseEvent, 0, int16(Msg.wParam shr 16));
+
+      DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
+
+      if CefIsKeyDown(VK_SHIFT) then
+        Chromium1.SendMouseWheelEvent(@TempMouseEvent, smallint(Msg.wParam shr 16), 0)
+       else
+        Chromium1.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
+
       Handled := False;
     end;
 end;
@@ -357,11 +367,13 @@ end;
 
 procedure TChildForm.Chromium1CursorChange(      Sender           : TObject;
                                            const browser          : ICefBrowser;
-                                                 cursor           : HICON;
+                                                 cursor_          : TCefCursorHandle;
                                                  cursorType       : TCefCursorType;
-                                           const customCursorInfo : PCefCursorInfo);
+                                           const customCursorInfo : PCefCursorInfo;
+                                           var   aResult          : boolean);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
+  aResult       := True;
 end;
 
 procedure TChildForm.Chromium1GetScreenInfo(      Sender     : TObject;
@@ -609,28 +621,32 @@ procedure TChildForm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
-  Chromium1.NotifyMoveOrResizeStarted;
+  if (Chromium1 <> nil) then
+    Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TChildForm.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
-  Chromium1.NotifyMoveOrResizeStarted;
+  if (Chromium1 <> nil) then
+    Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TChildForm.WMCaptureChanged(var aMessage : TMessage);
 begin
   inherited;
 
-  Chromium1.SendCaptureLostEvent;
+  if (Chromium1 <> nil) then
+    Chromium1.SendCaptureLostEvent;
 end;
 
 procedure TChildForm.WMCancelMode(var aMessage : TMessage);
 begin
   inherited;
 
-  Chromium1.SendCaptureLostEvent;
+  if (Chromium1 <> nil) then
+    Chromium1.SendCaptureLostEvent;
 end;
 
 procedure TChildForm.WMEnterMenuLoop(var aMessage: TMessage);
@@ -649,8 +665,14 @@ end;
 
 procedure TChildForm.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
 begin
-  Chromium1.NotifyScreenInfoChanged;
-  Chromium1.WasResized;
+  if (GlobalCEFApp <> nil) then
+    GlobalCEFApp.UpdateDeviceScaleFactor;
+
+  if (Chromium1 <> nil) then
+    begin
+      Chromium1.NotifyScreenInfoChanged;
+      Chromium1.WasResized;
+    end;
 end;
 
 procedure TChildForm.FormClose(Sender: TObject; var Action: TCloseAction);

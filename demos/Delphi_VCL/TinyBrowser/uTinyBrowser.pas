@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -43,9 +43,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes,
+  System.Classes, System.Types, System.SysUtils,
   {$ELSE}
-  Classes,
+  Classes, Types, SysUtils,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFApplication, uCEFChromium,
   uCEFWindowComponent, uCEFBrowserViewComponent;
@@ -67,6 +67,8 @@ type
       FCEFBrowserViewComponent : TCEFBrowserViewComponent;
       FHomepage                : string;
 
+      function GetClient : ICefClient;
+
       procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
       procedure Chromium_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
@@ -81,6 +83,7 @@ type
       procedure   CreateTopLevelWindow;
 
       property Homepage    : string     read FHomepage     write FHomepage;
+      property Client      : ICefClient read GetClient;
   end;
 
 var
@@ -246,6 +249,14 @@ begin
   aResult.height := DEFAULT_WINDOW_VIEW_HEIGHT;
 end;
 
+function TTinyBrowser.GetClient : ICefClient;
+begin
+  if (FChromium <> nil) then
+    Result := FChromium.CefClient
+   else
+    Result := nil;
+end;
+
 procedure GlobalCEFApp_OnContextInitialized;
 begin
   TinyBrowser          := TTinyBrowser.Create(nil);
@@ -253,18 +264,25 @@ begin
   TinyBrowser.CreateTopLevelWindow;
 end;
 
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient : ICefClient);
+begin
+  aClient := TinyBrowser.Client;
+end;
+
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop := False;
   GlobalCEFApp.ExternalMessagePump      := False;
+  //GlobalCEFApp.ChromeRuntime            := True;  // Enable this line to test the new "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.OnContextInitialized     := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.OnGetDefaultClient       := GlobalCEFApp_OnGetDefaultClient;  // This event is only used in "ChromeRuntime" mode
 end;
 
 procedure DestroyTinyBrowser;
 begin
   if (TinyBrowser <> nil) then
-    TinyBrowser.Free;
+    FreeAndNil(TinyBrowser);
 end;
 
 end.

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2020 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -50,48 +50,50 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, Vcl.Controls,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+      LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+      {$IFDEF LINUX}xlib, x,{$ENDIF}
     {$ELSE}
-    Messages,
+      Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWinControl, uCEFTypes, uCEFInterfaces, uCEFChromium;
+  uCEFWinControl, uCEFTypes, uCEFInterfaces, uCEFChromium,
+  uCEFLinkedWinControlBase;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
-  TCEFLinkedWindowParent = class(TCEFWinControl)
+
+  { TCEFLinkedWindowParent }
+
+  TCEFLinkedWindowParent = class(TCEFLinkedWinControlBase)
     protected
       FChromium               : TChromium;
 
+      function  GetChromium: TChromium; override;
       procedure SetChromium(aValue : TChromium);
 
-      function  GetChildWindowHandle : THandle; override;
-      {$IFDEF MSWINDOWS}
-      procedure WndProc(var aMessage: TMessage); override;
-      {$ENDIF}
       procedure Notification(AComponent: TComponent; Operation: TOperation); override;
 
     public
       constructor Create(AOwner : TComponent); override;
 
     published
-      property Chromium   : TChromium    read FChromium   write SetChromium;
+      property  Chromium   : TChromium    read FChromium   write SetChromium;
   end;
 
 
 {$IFDEF FPC}
-
 procedure Register;
 {$ENDIF}
 
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFClient, uCEFConstants;
+  uCEFMiscFunctions, uCEFClient, uCEFConstants, uCEFLibFunctions,
+  uCEFApplication;
 
 constructor TCEFLinkedWindowParent.Create(AOwner : TComponent);
 begin
@@ -100,55 +102,16 @@ begin
   FChromium := nil;
 end;
 
-function TCEFLinkedWindowParent.GetChildWindowHandle : THandle;
-begin
-  Result := 0;
-
-  if (FChromium <> nil) then Result := FChromium.WindowHandle;
-
-  if (Result = 0) then Result := inherited GetChildWindowHandle;
-end;
-
-{$IFDEF MSWINDOWS}
-procedure TCEFLinkedWindowParent.WndProc(var aMessage: TMessage);
-var
-  TempHandle : THandle;
-begin
-  case aMessage.Msg of
-    WM_SETFOCUS:
-      begin
-        if (FChromium <> nil) then
-          FChromium.SetFocus(True)
-         else
-          begin
-            TempHandle := ChildWindowHandle;
-            if (TempHandle <> 0) then PostMessage(TempHandle, WM_SETFOCUS, aMessage.WParam, 0);
-          end;
-
-        inherited WndProc(aMessage);
-      end;
-
-    WM_ERASEBKGND:
-      if (ChildWindowHandle = 0) then inherited WndProc(aMessage);
-
-    CM_WANTSPECIALKEY:
-      if not(TWMKey(aMessage).CharCode in [VK_LEFT .. VK_DOWN, VK_RETURN, VK_ESCAPE]) then
-        aMessage.Result := 1
-       else
-        inherited WndProc(aMessage);
-
-    WM_GETDLGCODE : aMessage.Result := DLGC_WANTARROWS or DLGC_WANTCHARS;
-
-    else inherited WndProc(aMessage);
-  end;
-end;
-{$ENDIF}
-
 procedure TCEFLinkedWindowParent.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
 
   if (Operation = opRemove) and (AComponent = FChromium) then FChromium := nil;
+end;
+
+function TCEFLinkedWindowParent.GetChromium: TChromium;
+begin
+  Result := FChromium;
 end;
 
 procedure TCEFLinkedWindowParent.SetChromium(aValue : TChromium);

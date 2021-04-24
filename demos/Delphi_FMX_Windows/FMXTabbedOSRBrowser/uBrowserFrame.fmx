@@ -1,0 +1,152 @@
+object BrowserFrame: TBrowserFrame
+  Padding.Left = 1.000000000000000000
+  Padding.Top = 1.000000000000000000
+  Padding.Right = 1.000000000000000000
+  Padding.Bottom = 1.000000000000000000
+  Size.Width = 1000.000000000000000000
+  Size.Height = 733.000000000000000000
+  Size.PlatformDefault = False
+  object StatusBar: TStatusBar
+    Padding.Left = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Position.X = 1.000000000000000000
+    Position.Y = 710.000000000000000000
+    ShowSizeGrip = False
+    Size.Width = 998.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object StatusLbl: TLabel
+      Align = Client
+      Size.Width = 988.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+  end
+  object AddressLay: TLayout
+    Align = Top
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 5.000000000000000000
+    Position.X = 1.000000000000000000
+    Position.Y = 1.000000000000000000
+    Size.Width = 998.000000000000000000
+    Size.Height = 35.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    object GoBtn: TSpeedButton
+      Align = Right
+      Margins.Left = 5.000000000000000000
+      Position.X = 966.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 27.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'arrowrighttoolbutton'
+      Text = 'GoBtn'
+      OnClick = GoBtnClick
+    end
+    object NavButtonLay: TLayout
+      Align = Left
+      Margins.Right = 5.000000000000000000
+      Position.X = 5.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 115.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object BackBtn: TSpeedButton
+        Align = Left
+        Margins.Right = 5.000000000000000000
+        Size.Width = 25.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'priortoolbutton'
+        Text = 'BackBtn'
+        OnClick = BackBtnClick
+      end
+      object ForwardBtn: TSpeedButton
+        Align = Left
+        Margins.Right = 5.000000000000000000
+        Position.X = 30.000000000000000000
+        Size.Width = 25.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'nexttoolbutton'
+        Text = 'SpeedButton1'
+        OnClick = ForwardBtnClick
+      end
+      object ReloadBtn: TSpeedButton
+        Align = Left
+        Margins.Right = 5.000000000000000000
+        Position.X = 60.000000000000000000
+        Size.Width = 25.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'refreshtoolbutton'
+        Text = 'SpeedButton1'
+        OnClick = ReloadBtnClick
+      end
+      object StopBtn: TSpeedButton
+        Align = Left
+        Position.X = 90.000000000000000000
+        Size.Width = 25.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'stoptoolbutton'
+        Text = 'SpeedButton1'
+        OnClick = StopBtnClick
+      end
+    end
+    object URLEdt: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 3
+      Size.Width = 836.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object FMXBufferPanel1: TFMXBufferPanel
+    Align = Client
+    TabOrder = 6
+    CanFocus = True
+    Size.Width = 998.000000000000000000
+    Size.Height = 674.000000000000000000
+    Size.PlatformDefault = False
+    OnEnter = FMXBufferPanel1Enter
+    OnExit = FMXBufferPanel1Exit
+    OnResize = FMXBufferPanel1Resize
+    OnClick = FMXBufferPanel1Click
+    OnMouseDown = FMXBufferPanel1MouseDown
+    OnMouseMove = FMXBufferPanel1MouseMove
+    OnMouseUp = FMXBufferPanel1MouseUp
+    OnMouseLeave = FMXBufferPanel1MouseLeave
+    OnMouseWheel = FMXBufferPanel1MouseWheel
+    OnKeyDown = FMXBufferPanel1KeyDown
+    OnDialogKey = FMXBufferPanel1DialogKey
+  end
+  object FMXChromium1: TFMXChromium
+    OnLoadError = FMXChromium1LoadError
+    OnLoadingStateChange = FMXChromium1LoadingStateChange
+    OnAddressChange = FMXChromium1AddressChange
+    OnTitleChange = FMXChromium1TitleChange
+    OnTooltip = FMXChromium1Tooltip
+    OnStatusMessage = FMXChromium1StatusMessage
+    OnCursorChange = FMXChromium1CursorChange
+    OnBeforePopup = FMXChromium1BeforePopup
+    OnAfterCreated = FMXChromium1AfterCreated
+    OnBeforeClose = FMXChromium1BeforeClose
+    OnOpenUrlFromTab = FMXChromium1OpenUrlFromTab
+    OnGetViewRect = FMXChromium1GetViewRect
+    OnGetScreenPoint = FMXChromium1GetScreenPoint
+    OnGetScreenInfo = FMXChromium1GetScreenInfo
+    OnPopupShow = FMXChromium1PopupShow
+    OnPopupSize = FMXChromium1PopupSize
+    OnPaint = FMXChromium1Paint
+    Left = 40
+    Top = 65
+  end
+end
