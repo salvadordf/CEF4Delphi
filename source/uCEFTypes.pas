@@ -1223,7 +1223,7 @@ type
     persist_session_cookies                  : Integer;
     persist_user_preferences                 : Integer;
     user_agent                               : TCefString;
-    product_version                          : TCefString;
+    user_agent_product                       : TCefString;
     locale                                   : TCefString;
     log_file                                 : TCefString;
     log_severity                             : TCefLogSeverity;
