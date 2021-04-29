@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, ComCtrls, StdCtrls,
   {$ENDIF}
   uCEFInterfaces, uCEFUrlRequestClientComponent, uCEFRequest, uCEFUrlRequest,
-  uCEFSentinel;
+  uCEFSentinel, uCEFUrlRequestClientEvents, uCEFTypes;
 
 const
   URLREQUEST_SUCCESS    = WM_APP + $101;
@@ -84,7 +84,6 @@ type
     PostParam2NameEdt: TEdit;
     PostParam2ValueEdt: TEdit;
 
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure DownloadBtnClick(Sender: TObject);
     procedure SendPostReqBtnClick(Sender: TObject);
 
@@ -144,7 +143,7 @@ implementation
 // 3- in the TCEFUrlRequestClientComponent.OnRequestComplete event we set FCanClose to TRUE and send WM_CLOSE to the form.
 
 uses
-  uCEFApplication, uCEFMiscFunctions, uCEFTypes, uCEFPostData, uCEFPostDataElement, uCEFConstants;
+  uCEFApplication, uCEFMiscFunctions, uCEFPostData, uCEFPostDataElement, uCEFConstants;
 
 procedure CreateGlobalCEFApp;
 begin
@@ -202,9 +201,23 @@ begin
     end;
 end;
 
-procedure TURLRequestFrm.CEFSentinel1Close(Sender: TObject);
+procedure TURLRequestFrm.CEFUrlRequestClientComponent1DownloadData(
+  Sender: TObject; const request: ICefUrlRequest; data: Pointer;
+  dataLength: NativeUInt);
 begin
-
+  try
+    if FClosing then
+      request.Cancel
+     else
+      if FSendingGET then
+        begin
+          if (data <> nil) and (dataLength > 0) then
+            FMemStream.WriteBuffer(data^, dataLength);
+        end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TURLRequestFrm.CEFUrlRequestClientComponent1DownloadData', e) then raise;
+  end;
 end;
 
 procedure TURLRequestFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -315,23 +328,6 @@ begin
     TempElement  := nil;
     TempPostData := nil;
     TempRequest  := nil;
-  end;
-end;
-
-procedure TURLRequestFrm.CEFUrlRequestClientComponent1DownloadData(Sender: TObject; const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt);
-begin
-  try
-    if FClosing then
-      request.Cancel
-     else
-      if FSendingGET then
-        begin
-          if (data <> nil) and (dataLength > 0) then
-            FMemStream.WriteBuffer(data^, dataLength);
-        end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TURLRequestFrm.CEFUrlRequestClientComponent1DownloadData', e) then raise;
   end;
 end;
 

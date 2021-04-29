@@ -16,7 +16,7 @@ object URLRequestFrm: TURLRequestFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.12.0'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
@@ -192,15 +192,15 @@ object URLRequestFrm: TURLRequestFrm
     end
   end
   object SaveDialog1: TSaveDialog
-    left = 448
-    top = 104
+    Left = 448
+    Top = 104
   end
   object CEFUrlRequestClientComponent1: TCEFUrlRequestClientComponent
     OnRequestComplete = CEFUrlRequestClientComponent1RequestComplete
     OnDownloadProgress = CEFUrlRequestClientComponent1DownloadProgress
     OnDownloadData = CEFUrlRequestClientComponent1DownloadData
     OnCreateURLRequest = CEFUrlRequestClientComponent1CreateURLRequest
-    left = 304
-    top = 104
+    Left = 304
+    Top = 104
   end
 end

@@ -88,8 +88,7 @@ type
       FDestroyApplicationObject      : boolean;
       FDestroyAppWindows             : boolean;
       {$IFDEF FPC}
-      FContextInitializedHandlers: TMethodList;
-      FContextInitializedDone: Boolean;
+      FContextInitializedHandlers    : TMethodList;
 
       procedure CallContextInitializedHandlers(Data: PtrInt);
       {$ENDIF}
@@ -222,11 +221,11 @@ begin
   if (GlobalCEFApp = Self) then
     GlobalCEFApp := nil;
 
-  inherited Destroy;
-
   {$IFDEF FPC}
-  FContextInitializedHandlers.Free;
+  FreeAndNil(FContextInitializedHandlers);
   {$ENDIF}
+
+  inherited Destroy;
 end;
 
 procedure TCefApplication.UpdateDeviceScaleFactor;
@@ -269,27 +268,29 @@ end;
 procedure TCefApplication.Internal_OnContextInitialized;
 begin
   inherited Internal_OnContextInitialized;
+
   Application.QueueAsyncCall(@CallContextInitializedHandlers, 0);
 end;
 
 procedure TCefApplication.AddContextInitializedHandler(AHandler: TNotifyEvent);
 begin
-  FContextInitializedHandlers.Add(TMethod(AHandler));
-  if FContextInitializedDone then
-    AHandler(Self);
+  if FGlobalContextInitialized then
+    AHandler(Self)
+   else
+    if (FContextInitializedHandlers <> nil) then
+      FContextInitializedHandlers.Add(TMethod(AHandler));
 end;
 
 procedure TCefApplication.RemoveContextInitializedHandler(AHandler: TNotifyEvent);
 begin
-  FContextInitializedHandlers.Remove(TMethod(AHandler));
+  if (FContextInitializedHandlers <> nil) then
+    FContextInitializedHandlers.Remove(TMethod(AHandler));
 end;
-{$ENDIF}
 
-{$IFDEF FPC}
 procedure TCefApplication.CallContextInitializedHandlers(Data: PtrInt);
 begin
-  FContextInitializedHandlers.CallNotifyEvents(Self);
-  FContextInitializedDone := True;
+  if (FContextInitializedHandlers <> nil) then
+    FContextInitializedHandlers.CallNotifyEvents(Self);
 end;
 {$ENDIF}
 
