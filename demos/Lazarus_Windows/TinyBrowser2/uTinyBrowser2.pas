@@ -37,19 +37,21 @@
 
 unit uTinyBrowser2;
 
-{$MODE Delphi}
+{$MODE Delphi}          
 
 interface
 
 uses
+  Types, SysUtils,
   uCEFInterfaces, uCEFTypes, uCEFChromiumCore;
 
 type
   TTinyBrowser2 = class
     private
-      FChromium : TChromiumCore;
+      FChromium : TChromiumCore;    
 
-      procedure Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
+      function GetClient : ICefClient;
+
       procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
       procedure Chromium_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
@@ -57,7 +59,9 @@ type
     public
       constructor Create;
       destructor  Destroy; override;
-      procedure   AfterConstruction; override;
+      procedure   AfterConstruction; override;   
+
+      property Client      : ICefClient read GetClient;
   end;
 
 procedure CreateGlobalCEFApp;
@@ -81,7 +85,7 @@ implementation
 // and it's necessary to close the message loop.
 
 uses
-  uCEFApplication;
+  uCEFApplication, uCEFConstants, uCEFMiscFunctions;
 
 var
   TinyBrowser : TTinyBrowser2 = nil;
@@ -89,14 +93,22 @@ var
 procedure GlobalCEFApp_OnContextInitialized;
 begin
   TinyBrowser := TTinyBrowser2.Create;
+end;                 
+
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient : ICefClient);
+begin
+  aClient := TinyBrowser.Client;
 end;
 
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.ExternalMessagePump        := False;
+  GlobalCEFApp.ExternalMessagePump        := False;                              
+  GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
+  GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.OnGetDefaultClient         := GlobalCEFApp_OnGetDefaultClient;    // This event is only used in "ChromeRuntime" mode
 
   // This is a workaround for the CEF4Delphi issue #324 :
   // https://github.com/salvadordf/CEF4Delphi/issues/324
@@ -130,22 +142,29 @@ begin
   inherited Destroy;
 end;
 
-procedure TTinyBrowser2.AfterConstruction;
+procedure TTinyBrowser2.AfterConstruction;     
+var
+  TempHandle : TCefWindowHandle;
+  TempRect : TRect;
 begin
   inherited AfterConstruction;
 
   FChromium                  := TChromiumCore.Create(nil);
   FChromium.DefaultURL       := 'https://www.google.com';
-  FChromium.OnClose          := Chromium_OnClose;
   FChromium.OnBeforeClose    := Chromium_OnBeforeClose;
   FChromium.OnBeforePopup    := Chromium_OnBeforePopup;
   FChromium.OnOpenUrlFromTab := Chromium_OnOpenUrlFromTab;
-  FChromium.CreateBrowser('Tiny Browser 2');
-end;
 
-procedure TTinyBrowser2.Chromium_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
+  InitializeWindowHandle(TempHandle);
+  FChromium.CreateBrowser(TempHandle, TempRect, 'Tiny Browser 2', nil, nil, True);
+end;     
+
+function TTinyBrowser2.GetClient : ICefClient;
 begin
-  aAction := cbaClose;
+  if (FChromium <> nil) then
+    Result := FChromium.CefClient
+   else
+    Result := nil;
 end;
 
 procedure TTinyBrowser2.Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
