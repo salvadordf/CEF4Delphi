@@ -304,6 +304,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Open file with a DATA URL...'
       OnClick = OpenfilewithaDAT1Click
     end
+    object SaveasMHTML1: TMenuItem
+      Caption = 'Save as MHTML...'
+      OnClick = SaveasMHTML1Click
+    end
     object N2: TMenuItem
       Caption = '-'
     end
