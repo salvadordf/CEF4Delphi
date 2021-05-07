@@ -558,7 +558,8 @@ procedure TCustomResourceRequestHandler.RemoveReferences;
 begin
   FEvents := nil;
 
-  if (FCookieAccessFilter <> nil) then FCookieAccessFilter.RemoveReferences;
+  if (FCookieAccessFilter <> nil) then
+    FCookieAccessFilter.RemoveReferences;
 end;
 
 procedure TCustomResourceRequestHandler.InitializeVars;
@@ -583,10 +584,15 @@ function TCustomResourceRequestHandler.OnBeforeResourceLoad(const browser  : ICe
                                                             const request  : ICefRequest;
                                                             const callback : ICefRequestCallback): TCefReturnValue;
 begin
-  if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnBeforeResourceLoad(browser, frame, request, callback)
-   else
-    Result := inherited OnBeforeResourceLoad(browser, frame, request, callback);
+  Result := RV_CONTINUE;
+
+  try
+    if (FEvents <> nil) then
+      Result := IChromiumEvents(FEvents).doOnBeforeResourceLoad(browser, frame, request, callback);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomResourceRequestHandler.OnBeforeResourceLoad', e) then raise;
+  end;
 end;
 
 procedure TCustomResourceRequestHandler.GetResourceHandler(const browser          : ICefBrowser;
@@ -594,10 +600,13 @@ procedure TCustomResourceRequestHandler.GetResourceHandler(const browser        
                                                            const request          : ICefRequest;
                                                            var   aResourceHandler : ICefResourceHandler);
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnGetResourceHandler(browser, frame, request, aResourceHandler)
-   else
-    inherited GetResourceHandler(browser, frame, request, aResourceHandler);
+  try
+    if (FEvents <> nil) then
+      IChromiumEvents(FEvents).doOnGetResourceHandler(browser, frame, request, aResourceHandler);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomResourceRequestHandler.GetResourceHandler', e) then raise;
+  end;
 end;
 
 procedure TCustomResourceRequestHandler.OnResourceRedirect(const browser  : ICefBrowser;
@@ -606,8 +615,13 @@ procedure TCustomResourceRequestHandler.OnResourceRedirect(const browser  : ICef
                                                            const response : ICefResponse;
                                                            var   newUrl   : ustring);
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnResourceRedirect(browser, frame, request, response, newUrl);
+  try
+    if (FEvents <> nil) then
+      IChromiumEvents(FEvents).doOnResourceRedirect(browser, frame, request, response, newUrl);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomResourceRequestHandler.OnResourceRedirect', e) then raise;
+  end;
 end;
 
 function TCustomResourceRequestHandler.OnResourceResponse(const browser  : ICefBrowser;
@@ -615,10 +629,15 @@ function TCustomResourceRequestHandler.OnResourceResponse(const browser  : ICefB
                                                           const request  : ICefRequest;
                                                           const response : ICefResponse): Boolean;
 begin
-  if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnResourceResponse(browser, frame, request, response)
-   else
-    Result := inherited OnResourceResponse(browser, frame, request, response);
+  Result := False;
+
+  try
+    if (FEvents <> nil) then
+      Result := IChromiumEvents(FEvents).doOnResourceResponse(browser, frame, request, response);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomResourceRequestHandler.OnResourceResponse', e) then raise;
+  end;
 end;
 
 procedure TCustomResourceRequestHandler.GetResourceResponseFilter(const browser         : ICefBrowser;
@@ -627,10 +646,13 @@ procedure TCustomResourceRequestHandler.GetResourceResponseFilter(const browser 
                                                                   const response        : ICefResponse;
                                                                   var   aResponseFilter : ICefResponseFilter);
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnGetResourceResponseFilter(browser, frame, request, response, aResponseFilter)
-   else
-    inherited GetResourceResponseFilter(browser, frame, request, response, aResponseFilter);
+  try
+    if (FEvents <> nil) then
+      IChromiumEvents(FEvents).doOnGetResourceResponseFilter(browser, frame, request, response, aResponseFilter);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomResourceRequestHandler.GetResourceResponseFilter', e) then raise;
+  end;
 end;
 
 procedure TCustomResourceRequestHandler.OnResourceLoadComplete(const browser               : ICefBrowser;
@@ -640,8 +662,13 @@ procedure TCustomResourceRequestHandler.OnResourceLoadComplete(const browser    
                                                                      status                : TCefUrlRequestStatus;
                                                                      receivedContentLength : Int64);
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnResourceLoadComplete(browser, frame, request, response, status, receivedContentLength);
+  try
+    if (FEvents <> nil) then
+      IChromiumEvents(FEvents).doOnResourceLoadComplete(browser, frame, request, response, status, receivedContentLength);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomResourceRequestHandler.OnResourceLoadComplete', e) then raise;
+  end;
 end;
 
 procedure TCustomResourceRequestHandler.OnProtocolExecution(const browser          : ICefBrowser;
@@ -649,10 +676,13 @@ procedure TCustomResourceRequestHandler.OnProtocolExecution(const browser       
                                                             const request          : ICefRequest;
                                                             var   allowOsExecution : Boolean);
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnProtocolExecution(browser, frame, request, allowOsExecution);
+  try
+    if (FEvents <> nil) then
+      IChromiumEvents(FEvents).doOnProtocolExecution(browser, frame, request, allowOsExecution);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomResourceRequestHandler.OnProtocolExecution', e) then raise;
+  end;
 end;
-
-
 
 end.

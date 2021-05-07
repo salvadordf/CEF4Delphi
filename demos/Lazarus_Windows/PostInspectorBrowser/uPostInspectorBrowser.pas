@@ -68,7 +68,6 @@ type
     Memo1: TMemo;
     AddressCb: TComboBox;
     Splitter1: TSplitter;
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -433,11 +432,6 @@ procedure TForm1.GoBtnClick(Sender: TObject);
 begin
   // This will load the URL in the edit box
   Chromium1.LoadURL(AddressCb.Text);
-end;
-
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
-begin
-
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

@@ -65,14 +65,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 90;
-  CEF_SUPPORTED_VERSION_MINOR   = 5;
-  CEF_SUPPORTED_VERSION_RELEASE = 9;
+  CEF_SUPPORTED_VERSION_MINOR   = 6;
+  CEF_SUPPORTED_VERSION_RELEASE = 5;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 90;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 4430;
-  CEF_CHROMEELF_VERSION_BUILD   = 85;
+  CEF_CHROMEELF_VERSION_BUILD   = 93;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -102,7 +102,7 @@ type
       FRootCache                         : ustring;
       FUserDataPath                      : ustring;
       FUserAgent                         : ustring;
-      FProductVersion                    : ustring;
+      FUserAgentProduct                  : ustring;
       FLocale                            : ustring;
       FLocalesRequired                   : ustring;
       FLogFile                           : ustring;
@@ -417,7 +417,7 @@ type
       property PersistSessionCookies             : Boolean                             read FPersistSessionCookies             write FPersistSessionCookies;
       property PersistUserPreferences            : Boolean                             read FPersistUserPreferences            write FPersistUserPreferences;
       property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
-      property ProductVersion                    : ustring                             read FProductVersion                    write FProductVersion;
+      property UserAgentProduct                  : ustring                             read FUserAgentProduct                  write FUserAgentProduct;
       property Locale                            : ustring                             read FLocale                            write FLocale;
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
@@ -652,7 +652,7 @@ begin
   FRootCache                         := '';
   FUserDataPath                      := '';
   FUserAgent                         := '';
-  FProductVersion                    := '';
+  FUserAgentProduct                  := '';
   FLocale                            := '';
   FLogFile                           := '';
   FBrowserSubprocessPath             := '';
@@ -1373,7 +1373,7 @@ begin
   aSettings.persist_session_cookies                 := Ord(FPersistSessionCookies);
   aSettings.persist_user_preferences                := Ord(FPersistUserPreferences);
   aSettings.user_agent                              := CefString(FUserAgent);
-  aSettings.product_version                         := CefString(FProductVersion);
+  aSettings.user_agent_product                      := CefString(FUserAgentProduct);
   aSettings.locale                                  := CefString(FLocale);
   aSettings.log_file                                := CefString(FLogFile);
   aSettings.log_severity                            := FLogSeverity;

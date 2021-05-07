@@ -49,6 +49,11 @@ unit uCEFRequestContextHandler;
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
+  System.SysUtils,
+  {$ELSE}
+  SysUtils,
+  {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
@@ -184,7 +189,7 @@ end;
 
 procedure TCefRequestContextHandlerOwn.OnRequestContextInitialized(const request_context: ICefRequestContext);
 begin
-  //
+  //
 end;
 
 function TCefRequestContextHandlerOwn.OnBeforePluginLoad(const mimeType     : ustring;
@@ -219,7 +224,8 @@ end;
 
 procedure TCefRequestContextHandlerRef.OnRequestContextInitialized(const request_context: ICefRequestContext);
 begin
-  PCefRequestContextHandler(FData)^.on_request_context_initialized(PCefRequestContextHandler(FData), CefGetData(request_context));
+
+  PCefRequestContextHandler(FData)^.on_request_context_initialized(PCefRequestContextHandler(FData), CefGetData(request_context));
 end;
 
 function TCefRequestContextHandlerRef.OnBeforePluginLoad(const mimeType     : ustring;
@@ -259,9 +265,10 @@ var
   TempResourceRequestHandler : PCefResourceRequestHandler;
 begin
   TempRequestInitiator       := CefString(request_initiator);
-  TempDisableDefaultHandling := ord(disable_default_handling);
-  TempResourceRequestHandler := PCefRequestContextHandler(FData)^.get_resource_request_handler(PCefRequestContextHandler(FData),
-                                                                                               CefGetData(browser),
+  TempDisableDefaultHandling := ord(disable_default_handling);
+  TempResourceRequestHandler := PCefRequestContextHandler(FData)^.get_resource_request_handler(PCefRequestContextHandler(FData),
+
+                                                                                               CefGetData(browser),
                                                                                                CefGetData(frame),
                                                                                                CefGetData(request),
                                                                                                ord(is_navigation),
@@ -269,10 +276,10 @@ begin
                                                                                                @TempRequestInitiator,
                                                                                                @TempDisableDefaultHandling);
 
-  disable_default_handling := TempDisableDefaultHandling <> 0;
+  disable_default_handling := TempDisableDefaultHandling <> 0;
 
-  if (TempResourceRequestHandler <> nil) then
-    aResourceRequestHandler := TCefResourceRequestHandlerRef.UnWrap(TempResourceRequestHandler)
+  if (TempResourceRequestHandler <> nil) then
+    aResourceRequestHandler := TCefResourceRequestHandlerRef.UnWrap(TempResourceRequestHandler)
    else
     aResourceRequestHandler := nil;
 end;
@@ -314,10 +321,13 @@ end;
 
 procedure TCustomRequestContextHandler.OnRequestContextInitialized(const request_context: ICefRequestContext);
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnRequestContextInitialized(request_context)
-   else
-    inherited OnRequestContextInitialized(request_context);
+  try
+    if (FEvents <> nil) then
+      IChromiumEvents(FEvents).doOnRequestContextInitialized(request_context);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRequestContextHandler.OnRequestContextInitialized', e) then raise;
+  end;
 end;
 
 function TCustomRequestContextHandler.OnBeforePluginLoad(const mimeType     : ustring;
@@ -327,20 +337,20 @@ function TCustomRequestContextHandler.OnBeforePluginLoad(const mimeType     : us
                                                          const pluginInfo   : ICefWebPluginInfo;
                                                          var   pluginPolicy : TCefPluginPolicy): Boolean;
 begin
-  if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnBeforePluginLoad(mimeType,
-                                                            pluginUrl,
-                                                            isMainFrame,
-                                                            topOriginUrl,
-                                                            pluginInfo,
-                                                            pluginPolicy)
-   else
-    Result := inherited OnBeforePluginLoad(mimeType,
-                                           pluginUrl,
-                                           isMainFrame,
-                                           topOriginUrl,
-                                           pluginInfo,
-                                           pluginPolicy);
+  Result := False;
+
+  try
+    if (FEvents <> nil) then
+      Result := IChromiumEvents(FEvents).doOnBeforePluginLoad(mimeType,
+                                                              pluginUrl,
+                                                              isMainFrame,
+                                                              topOriginUrl,
+                                                              pluginInfo,
+                                                              pluginPolicy);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRequestContextHandler.OnBeforePluginLoad', e) then raise;
+  end;
 end;
 
 procedure TCustomRequestContextHandler.GetResourceRequestHandler(const browser                  : ICefBrowser;
@@ -352,24 +362,20 @@ procedure TCustomRequestContextHandler.GetResourceRequestHandler(const browser  
                                                                  var   disable_default_handling : boolean;
                                                                  var   aResourceRequestHandler  : ICefResourceRequestHandler);
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doGetResourceRequestHandler_ReqCtxHdlr(browser,
-                                                                    frame,
-                                                                    request,
-                                                                    is_navigation,
-                                                                    is_download,
-                                                                    request_initiator,
-                                                                    disable_default_handling,
-                                                                    aResourceRequestHandler)
-   else
-    inherited GetResourceRequestHandler(browser,
-                                        frame,
-                                        request,
-                                        is_navigation,
-                                        is_download,
-                                        request_initiator,
-                                        disable_default_handling,
-                                        aResourceRequestHandler);
+  try
+    if (FEvents <> nil) then
+      IChromiumEvents(FEvents).doGetResourceRequestHandler_ReqCtxHdlr(browser,
+                                                                      frame,
+                                                                      request,
+                                                                      is_navigation,
+                                                                      is_download,
+                                                                      request_initiator,
+                                                                      disable_default_handling,
+                                                                      aResourceRequestHandler);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRequestContextHandler.GetResourceRequestHandler', e) then raise;
+  end;
 end;
 
 

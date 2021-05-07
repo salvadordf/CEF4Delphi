@@ -15,7 +15,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.12.0'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -82,8 +82,8 @@ object Form1: TForm1
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 56
-    top = 88
+    Left = 56
+    Top = 88
   end
   object Chromium1: TChromium
     OnBeforePopup = Chromium1BeforePopup
@@ -91,7 +91,7 @@ object Form1: TForm1
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
-    left = 56
-    top = 152
+    Left = 56
+    Top = 152
   end
 end
