@@ -1,0 +1,84 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D4B5233A-9AFB-4168-9245-A64B57FA7F26}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="FMXExternalPumpBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FMXExternalPumpBrowser_helper_gpu.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FMXExternalPumpBrowser_helper_plugin.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FMXExternalPumpBrowser_helper_renderer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FMXExternalPumpBrowser_helper.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FMXExternalPumpBrowser">
+        <MSBuild Projects="FMXExternalPumpBrowser.dproj"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser:Clean">
+        <MSBuild Projects="FMXExternalPumpBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser:Make">
+        <MSBuild Projects="FMXExternalPumpBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_gpu">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_gpu.dproj"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_gpu:Clean">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_gpu.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_gpu:Make">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_gpu.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_plugin">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_plugin.dproj"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_plugin:Clean">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_plugin.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_plugin:Make">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_plugin.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_renderer">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_renderer.dproj"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_renderer:Clean">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_renderer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_renderer:Make">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_renderer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper.dproj"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper:Clean">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper:Make">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FMXExternalPumpBrowser;FMXExternalPumpBrowser_helper_gpu;FMXExternalPumpBrowser_helper_plugin;FMXExternalPumpBrowser_helper_renderer;FMXExternalPumpBrowser_helper"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FMXExternalPumpBrowser:Clean;FMXExternalPumpBrowser_helper_gpu:Clean;FMXExternalPumpBrowser_helper_plugin:Clean;FMXExternalPumpBrowser_helper_renderer:Clean;FMXExternalPumpBrowser_helper:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FMXExternalPumpBrowser:Make;FMXExternalPumpBrowser_helper_gpu:Make;FMXExternalPumpBrowser_helper_plugin:Make;FMXExternalPumpBrowser_helper_renderer:Make;FMXExternalPumpBrowser_helper:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

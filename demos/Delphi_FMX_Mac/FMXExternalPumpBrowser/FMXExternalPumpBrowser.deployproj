@@ -1,0 +1,77 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Condition="Exists('$(BDS)\bin\CodeGear.Deployment.targets')" Project="$(BDS)\bin\CodeGear.Deployment.targets"/>
+    <ProjectExtensions>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <PropertyGroup/>
+    <ItemGroup Condition="'$(Platform)'=='Win32'">
+        <DeployFile Include="..\..\bin\FMXExternalPumpBrowser.exe" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser.exe</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Platform)'=='Win64'"/>
+    <ItemGroup Condition="'$(Platform)'=='OSX64'">
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.entitlements" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\..\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser.entitlements</RemoteName>
+            <DeployClass>ProjectOSXEntitlements</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\bin\delphi_PROJECTICNS.icns" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\Contents\Resources\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser.icns</RemoteName>
+            <DeployClass>ProjectOSXResource</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.info.plist" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\Contents\</RemoteDir>
+            <RemoteName>Info.plist</RemoteName>
+            <DeployClass>ProjectOSXInfoPList</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="$(BDS)\Redist\osx64\libcgsqlite3.dylib">
+            <RemoteDir>FMXExternalPumpBrowser.app\Contents\MacOS\</RemoteDir>
+            <RemoteName>libcgsqlite3.dylib</RemoteName>
+            <DeployClass>DependencyModule</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\Contents\MacOS\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.dSYM" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser</RemoteName>
+            <DeployClass>ProjectOSXDebug</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+    </ItemGroup>
+</Project>
