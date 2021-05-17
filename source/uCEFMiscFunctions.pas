@@ -287,7 +287,7 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 
-function GetCommandLineSwitchValue(const aKey : ustring; var aValue : ustring) : boolean;
+function GetCommandLineSwitchValue(const aKey : string; var aValue : ustring) : boolean;
 
 implementation
 
@@ -2399,10 +2399,10 @@ begin
   {$ENDIF}
 end;
 
-function GetCommandLineSwitchValue(const aKey : ustring; var aValue : ustring) : boolean;
+function GetCommandLineSwitchValue(const aKey : string; var aValue : ustring) : boolean;
 var
   i, TempLen : integer;
-  TempKey : ustring;
+  TempKey : string;
 begin
   Result  := False;
   TempKey := '--' + aKey + '=';
@@ -2412,7 +2412,11 @@ begin
   while (i >= 1) do
     if (CompareText(copy(paramstr(i), 1, TempLen), TempKey) = 0) then
       begin
+        {$IFDEF FPC}
+        aValue := UTF8Decode(copy(paramstr(i), succ(TempLen), length(paramstr(i))));
+        {$ELSE}
         aValue := copy(paramstr(i), succ(TempLen), length(paramstr(i)));
+        {$ENDIF}
         Result := True;
         break;
       end
