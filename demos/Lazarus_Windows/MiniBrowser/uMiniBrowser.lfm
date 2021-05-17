@@ -214,6 +214,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Align = alClient
     TabStop = True
     TabOrder = 0
+    OnDragDrop = CEFWindowParent1DragDrop
   end
   object DevTools: TCEFWindowParent
     Left = 1184
@@ -264,6 +265,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     OnBeforePluginLoad = Chromium1BeforePluginLoad
+    OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 32
     Top = 224
   end
@@ -285,6 +287,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object OpenfilewithaDAT1: TMenuItem
       Caption = 'Open file with a DATA URL...'
       OnClick = OpenfilewithaDAT1Click
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'Save as MHTML...'
+      OnClick = MenuItem6Click
     end
     object N2: TMenuItem
       Caption = '-'

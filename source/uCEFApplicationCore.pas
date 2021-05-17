@@ -366,14 +366,15 @@ type
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
-      {$IFDEF MACOSX}
-      procedure   InitLibLocationFromArgs;
-      {$ENDIF}
 
       procedure   DoMessageLoopWork;
       procedure   RunMessageLoop;
       procedure   QuitMessageLoop;
       procedure   UpdateDeviceScaleFactor; virtual;
+
+      {$IFDEF MACOSX}
+      procedure InitLibLocationFromArgs;
+      {$ENDIF}
 
       // Internal procedures. Only ICefApp, ICefBrowserProcessHandler,
       // ICefResourceBundleHandler, ICefRenderProcessHandler, ICefRegisterCDMCallback and
@@ -850,66 +851,26 @@ begin
 end;
 
 {$IFDEF MACOSX}
-{$WARN SYMBOL_PLATFORM OFF}
-// This function checks if argv contains
-// --framework-dir-path=
-// --main-bundle-path=
-// It sets the corresponding fields in the config
-// This params are passed on Mac.
-// The values can also be calculated, instead of calling this procedure
+// This function is used by the CEF subprocesses in MacOS to read the framework
+// and bundle settings from the command line switches.
 procedure TCefApplicationCore.InitLibLocationFromArgs;
-const
-  PARAM_FRAME_PATH  = '--framework-dir-path';
-  PARAM_BUNDLE_PATH = '--main-bundle-path';
-type
-  PCharArray = Array of PAnsiChar;
 var
-  i, l : Integer;
-  MBPath : ustring;
-  {$IFDEF FPC}
-  p             : PChar;
-  TempArgCount  : longint;
-  TempArgValues : PPChar;
-  {$ELSE}
-  p             : PAnsiChar;
-  TempArgCount  : integer;
-  TempArgValues : PCharArray;
-  {$ENDIF}
+  TempFrameworkPath, TempBundlePath : ustring;
 begin
-  {$IFDEF FPC}
-  TempArgCount  := argc;
-  TempArgValues := argv;
-  {$ELSE}
-  TempArgCount  := ArgCount;
-  TempArgValues := PCharArray(ArgValues^);
-  {$ENDIF}
-  for i := 0 to TempArgCount - 1 do
+  if GetCommandLineSwitchValue('framework-dir-path', TempFrameworkPath) then
+    FrameworkDirPath := TempFrameworkPath;
+
+  if GetCommandLineSwitchValue('main-bundle-path', TempBundlePath) then
+    MainBundlePath := TempBundlePath;
+
+  if (TempBundlePath <> '') and (FrameworkDirPath = '') then
     begin
-      p := strscan(TempArgValues[i], '=');
-      if p = nil then continue;
-      l := p - TempArgValues[i];
+      TempBundlePath := IncludeTrailingPathDelimiter(TempBundlePath) + LIBCEF_PREFIX;
 
-      if (l = Length(PARAM_FRAME_PATH)) and
-         (strlcomp(TempArgValues[i], PAnsiChar(PARAM_FRAME_PATH), Length(PARAM_FRAME_PATH)) = 0) then
-        FrameworkDirPath := PChar(TempArgValues[i] + Length(PARAM_FRAME_PATH) + 1);
-
-      if (l = Length(PARAM_BUNDLE_PATH)) and
-         (strlcomp(TempArgValues[i], PAnsiChar(PARAM_BUNDLE_PATH), Length(PARAM_BUNDLE_PATH)) = 0) then
-        begin
-          MBPath := PChar(TempArgValues[i] + Length(PARAM_BUNDLE_PATH) + 1);
-          MainBundlePath := MBPath;
-        end;
-    end;
-
-  if (MBPath <> '') and (FrameworkDirPath = '') then
-    begin
-      MBPath := IncludeTrailingPathDelimiter(MBPath) + LIBCEF_PREFIX;
-
-      if FileExists(MBPath + LIBCEF_DLL) then
-        FrameworkDirPath := MBPath;
+      if FileExists(TempBundlePath + LIBCEF_DLL) then
+        FrameworkDirPath := TempBundlePath;
     end;
 end;
-{$WARN SYMBOL_PLATFORM ON}
 {$ENDIF}
 
 // This function must only be called by the main executable when the application
@@ -1236,9 +1197,9 @@ begin
 
   try
     try
-      if not(FSingleProcess)        and
+      if not(FSingleProcess) and
          (ProcessType <> ptBrowser) and
-         LoadCEFlibrary             then
+         LoadCEFlibrary then
         begin
           TempApp := TCustomCefApp.Create(self);
 
@@ -1593,44 +1554,30 @@ begin
 end;
 
 function TCefApplicationCore.ParseProcessType : TCefProcessType;
-const
-  TYPE_PARAMETER_NAME = '--type=';
 var
-  i, TempLen : integer;
-  TempName, TempValue : string;
+  TempValue : ustring;
 begin
-  Result  := ptBrowser;
-  i       := paramCount;
-  TempLen := length(TYPE_PARAMETER_NAME);
-
-  while (i >= 1) and (Result = ptBrowser) do
+  if GetCommandLineSwitchValue('type', TempValue) then
     begin
-      TempName := copy(paramstr(i), 1, TempLen);
-
-      if (CompareText(TempName, TYPE_PARAMETER_NAME) = 0) then
-        begin
-          TempValue := copy(paramstr(i), succ(TempLen), length(paramstr(i)));
-
-          if (CompareText(TempValue, 'renderer') = 0) then
-            Result := ptRenderer
+      if (CompareText(TempValue, 'renderer') = 0) then
+        Result := ptRenderer
+       else
+        if (CompareText(TempValue, 'zygote') = 0) then
+          Result := ptZygote
+         else
+          if (CompareText(TempValue, 'gpu-process') = 0) then
+            Result := ptGPU
            else
-            if (CompareText(TempValue, 'zygote') = 0) then
-              Result := ptZygote
+            if (CompareText(TempValue, 'utility') = 0) then
+              Result := ptUtility
              else
-              if (CompareText(TempValue, 'gpu-process') = 0) then
-                Result := ptGPU
+              if (CompareText(TempValue, 'broker') = 0) then
+                Result := ptBroker
                else
-                if (CompareText(TempValue, 'utility') = 0) then
-                  Result := ptUtility
-                 else
-                  if (CompareText(TempValue, 'broker') = 0) then
-                    Result := ptBroker
-                   else
-                    Result := ptOther;
-        end;
-
-      dec(i);
-    end;
+                Result := ptOther;
+    end
+   else
+    Result := ptBrowser;
 end;
 
 procedure TCefApplicationCore.Internal_OnContextInitialized;

@@ -91,7 +91,7 @@ function CefInt64Set(int32_low, int32_high: Integer): Int64;
 function CefInt64GetLow(const int64_val: Int64): Integer;
 function CefInt64GetHigh(const int64_val: Int64): Integer;
 
-function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
+function CefGetObject(ptr: Pointer): TObject; {$IFNDEF CEF4DELHI_ALLOC_DEBUG}{$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}{$ENDIF}
 function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 function CefStringAlloc(const str: ustring): TCefString;
@@ -287,6 +287,8 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 
+function GetCommandLineSwitchValue(const aKey : ustring; var aValue : ustring) : boolean;
+
 implementation
 
 uses
@@ -346,6 +348,32 @@ begin
     Result := '';
 end;
 
+{$IFDEF CEF4DELHI_ALLOC_DEBUG}
+function CefGetObject(ptr: Pointer): TObject;
+var
+  TempPointer : pointer;
+begin
+  Result := nil;
+
+  if (ptr <> nil) then
+    begin
+      Dec(PByte(ptr), SizeOf(Pointer));
+      TempPointer := ptr;
+
+      if (PPointer(ptr)^ <> nil) then
+        begin
+          Dec(PByte(TempPointer), SizeOf(Pointer) * 2);
+
+          if (PPointer(TempPointer)^ = CEF4DELPHI_ALLOC_PADDING) then
+            Result := TObject(PPointer(ptr)^)
+           else
+            CefDebugLog('Pointer to an unknown memory address!', CEF_LOG_SEVERITY_INFO);
+        end
+       else
+        CefDebugLog('Object pointer is NIL!', CEF_LOG_SEVERITY_INFO);
+    end;
+end;
+{$ELSE}
 function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 begin
   if (ptr <> nil) then
@@ -356,6 +384,7 @@ begin
    else
     Result := nil;
 end;
+{$ENDIF}
 
 function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 begin
@@ -2207,6 +2236,9 @@ begin
     {$IFDEF FPC}
       // TODO: Find a way to get the screen scale in Lazarus/FPC for MacOS
       Result := USER_DEFAULT_SCREEN_DPI;
+    {$ELSE}
+      // TODO: Find a way to get the screen scale in Delphi FMX for MacOS
+      Result := USER_DEFAULT_SCREEN_DPI;
     {$ENDIF}
   {$ENDIF}
 end;
@@ -2365,6 +2397,27 @@ begin
   {$ELSE}
   aHandle := 0;
   {$ENDIF}
+end;
+
+function GetCommandLineSwitchValue(const aKey : ustring; var aValue : ustring) : boolean;
+var
+  i, TempLen : integer;
+  TempKey : ustring;
+begin
+  Result  := False;
+  TempKey := '--' + aKey + '=';
+  TempLen := length(TempKey);
+  i       := paramCount;
+
+  while (i >= 1) do
+    if (CompareText(copy(paramstr(i), 1, TempLen), TempKey) = 0) then
+      begin
+        aValue := copy(paramstr(i), succ(TempLen), length(paramstr(i)));
+        Result := True;
+        break;
+      end
+     else
+      dec(i);
 end;
 
 end.

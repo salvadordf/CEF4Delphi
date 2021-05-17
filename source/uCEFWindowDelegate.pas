@@ -280,7 +280,10 @@ begin
     TCefWindowDelegateOwn(TempObject).OnGetInitialBounds(TCefWindowRef.UnWrap(window),
                                                          TempRect);
 
-  Result := TempRect;
+  Result.x      := TempRect.x;
+  Result.y      := TempRect.y;
+  Result.width  := TempRect.width;
+  Result.height := TempRect.height;
 end;
 
 function cef_window_delegate_is_frameless(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;

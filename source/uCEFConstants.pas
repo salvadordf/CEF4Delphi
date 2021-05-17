@@ -671,6 +671,9 @@ const
   INFINITE = Cardinal($FFFFFFFF);
   {$IFEND}
 
+  {$IFDEF CEF4DELHI_ALLOC_DEBUG}
+  CEF4DELPHI_ALLOC_PADDING = Pointer($44332211); // Some random value used as padding
+  {$ENDIF}
 implementation
 
 end.

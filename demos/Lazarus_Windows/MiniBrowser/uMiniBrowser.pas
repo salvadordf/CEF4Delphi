@@ -60,7 +60,8 @@ const
   MINIBROWSER_SHOWNAVIGATION  = WM_APP + $10A;   
   MINIBROWSER_COOKIESFLUSHED  = WM_APP + $10B;
   MINIBROWSER_PDFPRINT_END    = WM_APP + $10C;
-  MINIBROWSER_PREFS_AVLBL     = WM_APP + $10D;
+  MINIBROWSER_PREFS_AVLBL     = WM_APP + $10D;  
+  MINIBROWSER_DTDATA_AVLBL    = WM_APP + $10E;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -89,6 +90,7 @@ type
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
     NavControlPnl: TPanel;
     NavButtonPnl: TPanel;
     StatusPnl: TPanel;
@@ -127,11 +129,15 @@ type
     OpenfilewithaDAT1: TMenuItem;
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
+    procedure CEFWindowParent1DragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType,
       pluginUrl: ustring; isMainFrame: boolean; const topOriginUrl: ustring;
       const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy;
       var aResult: boolean);
     procedure Chromium1CookiesFlushed(Sender: TObject);
+    procedure Chromium1DevToolsMethodResult(Sender: TObject;
+      const browser: ICefBrowser; message_id: integer; success: boolean;
+      const result: ICefValue);
     procedure Chromium1DownloadImageFinished(Sender: TObject;
       const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: double
@@ -144,6 +150,7 @@ type
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
+    procedure MenuItem6Click(Sender: TObject);
     procedure ReloadBtnClick(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject;
       const browser: ICefBrowser);
@@ -243,6 +250,10 @@ type
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
+    FDevToolsMsgID    : integer;
+    FMHTMLMsgID       : integer;
+    FDevToolsMsgValue : ustring;
+
     procedure AddURL(const aURL : string);
 
     procedure ShowDevTools(aPoint : TPoint); overload;
@@ -269,7 +280,8 @@ type
     procedure TakeSnapshotMsg(var aMessage : TMessage); message MINIBROWSER_TAKESNAPSHOT;
     procedure CookiesFlushedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESFLUSHED;
     procedure PrintPDFEndMsg(var aMessage : TMessage); message MINIBROWSER_PDFPRINT_END;
-    procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;
+    procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;        
+    procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -291,7 +303,7 @@ implementation
 
 uses
   uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer,
-  uCefClient;
+  uCefClient, uCEFDictionaryValue;
 
 // Destruction steps
 // =================
@@ -390,6 +402,21 @@ begin
               'Commit API hash : '    + CRLF + GlobalCEFApp.ApiHashCommit;
 
   showmessage(TempInfo);
+end;
+
+procedure TMiniBrowserFrm.MenuItem6Click(Sender: TObject);
+var
+  TempParams : ICefDictionaryValue;
+begin
+  try
+    inc(FDevToolsMsgID);
+    FMHTMLMsgID := FDevToolsMsgID;
+    TempParams  := TCefDictionaryValueRef.New;
+    TempParams.SetString('format', 'mhtml');
+    Chromium1.ExecuteDevToolsMethod(FMHTMLMsgID, 'Page.captureSnapshot', TempParams);
+  finally
+    TempParams := nil;
+  end;
 end;
 
 procedure TMiniBrowserFrm.GoBtnClick(Sender: TObject);
@@ -1033,6 +1060,8 @@ begin
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
 
+  FDevToolsMsgID       := 0;
+
   // The MultiBrowserMode store all the browser references in TChromium.
   // The first browser reference is the browser in the main form.
   // When MiniBrowser allows CEF to create child popup browsers it will also
@@ -1071,6 +1100,70 @@ begin
   PostMessage(Handle, MINIBROWSER_COOKIESFLUSHED, 0, 0);
 end;
 
+procedure TMiniBrowserFrm.Chromium1DevToolsMethodResult(Sender: TObject;
+  const browser: ICefBrowser; message_id: integer; success: boolean;
+  const result: ICefValue);
+var
+  TempDict    : ICefDictionaryValue;
+  TempValue   : ICefValue;
+  TempResult  : WPARAM;
+  TempCode    : integer;
+  TempMessage : string;
+begin
+  FDevToolsMsgValue := '';
+  TempResult        := 0;
+
+  if success then
+    begin
+      TempResult        := 1;
+      FDevToolsMsgValue := '';
+
+      if (result <> nil) then
+        begin
+          TempDict := result.GetDictionary;
+
+          if (TempDict <> nil) and (TempDict.GetSize > 0) then
+            begin
+              TempValue := TempDict.GetValue('data');
+
+              if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+                FDevToolsMsgValue := TempValue.GetString;
+            end;
+        end;
+    end
+   else
+    if (result <> nil) then
+      begin
+        TempDict := result.GetDictionary;
+
+        if (TempDict <> nil) then
+          begin
+            TempCode    := 0;
+            TempMessage := '';
+            TempValue   := TempDict.GetValue('code');
+
+            if (TempValue <> nil) and (TempValue.GetType = VTYPE_INT) then
+              TempCode := TempValue.GetInt;
+
+            TempValue := TempDict.GetValue('message');
+
+            if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+              TempMessage := TempValue.GetString;
+
+            if (length(TempMessage) > 0) then
+              FDevToolsMsgValue := 'DevTools Error (' + inttostr(TempCode) + ') : ' + quotedstr(TempMessage);
+          end;
+      end;
+
+  PostMessage(Handle, MINIBROWSER_DTDATA_AVLBL, TempResult, message_id);
+end;
+
+procedure TMiniBrowserFrm.CEFWindowParent1DragDrop(Sender, Source: TObject; X,
+  Y: Integer);
+begin
+
+end;
+
 procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
   const mimeType, pluginUrl: ustring; isMainFrame: boolean;
   const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
@@ -1087,7 +1180,7 @@ begin
     aResult := False;
 end;
 
-procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);  
+procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);
 begin
   showmessage('The cookies were flushed successfully');
 end;
@@ -1106,6 +1199,51 @@ begin
     showmessage('The preferences file was generated successfully')
    else
     showmessage('There was a problem generating the preferences file.');
+end;
+
+procedure TMiniBrowserFrm.DevToolsDataAvailableMsg(var aMessage : TMessage);
+var
+  TempData : TBytes;
+  TempFile : TFileStream;
+  TempLen  : integer;
+begin
+  if (aMessage.WParam <> 0) then
+    begin
+      if (length(FDevToolsMsgValue) > 0) and (aMessage.LParam = FMHTMLMsgID) then
+        begin
+          SaveDialog1.DefaultExt := 'mhtml';
+          SaveDialog1.Filter     := 'MHTML files (*.mhtml)|*.MHTML';
+          TempData               := BytesOf(FDevToolsMsgValue);
+          TempLen                := length(TempData);
+
+          if (TempLen > 0) then
+            begin
+              TempFile := nil;
+
+              if SaveDialog1.Execute then
+                try
+                  try
+                    TempFile := TFileStream.Create(SaveDialog1.FileName, fmCreate);
+                    TempFile.WriteBuffer(TempData[0], TempLen);
+                    showmessage('File saved successfully');
+                  except
+                    showmessage('There was an error saving the file');
+                  end;
+                finally
+                  if (TempFile <> nil) then TempFile.Free;
+                end;
+            end
+           else
+            showmessage('There was an error decoding the data');
+        end
+       else
+        showmessage('DevTools method executed successfully!');
+    end
+   else
+    if (length(FDevToolsMsgValue) > 0) then
+      showmessage(FDevToolsMsgValue)
+     else
+      showmessage('There was an error in the DevTools method');
 end;
 
 procedure TMiniBrowserFrm.Chromium1DownloadImageFinished(Sender: TObject;

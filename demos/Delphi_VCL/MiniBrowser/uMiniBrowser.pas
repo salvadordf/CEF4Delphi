@@ -139,6 +139,7 @@ type
     Useragent1: TMenuItem;
     ClearallstorageforcurrentURL1: TMenuItem;
     CEFinfo1: TMenuItem;
+    SaveasMHTML1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -208,10 +209,12 @@ type
     procedure Useragent1Click(Sender: TObject);
     procedure ClearallstorageforcurrentURL1Click(Sender: TObject);
     procedure CEFinfo1Click(Sender: TObject);
+    procedure SaveasMHTML1Click(Sender: TObject);
 
   protected
     FDevToolsMsgID    : integer;
     FScreenshotMsgID  : integer;
+    FMHTMLMsgID       : integer;
     FDevToolsMsgValue : ustring;
 
     FResponse   : TStringList;
@@ -1218,23 +1221,31 @@ begin
     begin
       if (length(FDevToolsMsgValue) > 0) then
         begin
-          TempData := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
-          TempLen  := length(TempData);
+          if (aMessage.LParam = FScreenshotMsgID) then
+              begin
+                SaveDialog1.DefaultExt := 'png';
+                SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+                TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+              end
+             else
+              if (aMessage.LParam = FMHTMLMsgID) then
+                begin
+                  SaveDialog1.DefaultExt := 'mhtml';
+                  SaveDialog1.Filter     := 'MHTML files (*.mhtml)|*.MHTML';
+                  TempData               := BytesOf(FDevToolsMsgValue);
+                end
+              else
+                begin
+                  SaveDialog1.DefaultExt := '';
+                  SaveDialog1.Filter     := 'All files (*.*)|*.*';
+                  TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+                end;
+
+          TempLen := length(TempData);
 
           if (TempLen > 0) then
             begin
               TempFile := nil;
-
-              if (aMessage.LParam = FScreenshotMsgID) then
-                begin
-                  SaveDialog1.DefaultExt := 'png';
-                  SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
-                end
-               else
-                begin
-                  SaveDialog1.DefaultExt := '';
-                  SaveDialog1.Filter     := 'All files (*.*)|*.*';
-                end;
 
               if SaveDialog1.Execute then
                 try
@@ -1472,6 +1483,21 @@ begin
   SimpleTextViewerFrm.Memo1.Lines.Clear;
   SimpleTextViewerFrm.Memo1.Lines.AddStrings(FNavigation);
   SimpleTextViewerFrm.ShowModal;
+end;
+
+procedure TMiniBrowserFrm.SaveasMHTML1Click(Sender: TObject);
+var
+  TempParams : ICefDictionaryValue;
+begin
+  try
+    inc(FDevToolsMsgID);
+    FMHTMLMsgID := FDevToolsMsgID;
+    TempParams  := TCefDictionaryValueRef.New;
+    TempParams.SetString('format', 'mhtml');
+    Chromium1.ExecuteDevToolsMethod(FMHTMLMsgID, 'Page.captureSnapshot', TempParams);
+  finally
+    TempParams := nil;
+  end;
 end;
 
 procedure TMiniBrowserFrm.SavePreferencesMsg(var aMessage : TMessage);

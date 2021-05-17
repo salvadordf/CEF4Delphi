@@ -104,7 +104,7 @@ type
 implementation
 
 uses
-  uCEFTypes, uCEFMiscFunctions;
+  {$IFDEF CEF4DELHI_ALLOC_DEBUG}uCEFConstants,{$ENDIF} uCEFTypes, uCEFMiscFunctions;
 
 
 // ***********************************************
@@ -180,11 +180,23 @@ end;
 
 constructor TCefBaseRefCountedOwn.CreateData(size: Cardinal; owned : boolean);
 begin
+  {$IFDEF CEF4DELHI_ALLOC_DEBUG}
+  GetMem(FData, size + (SizeOf(Pointer) * 3));
+  PPointer(FData)^ := CEF4DELPHI_ALLOC_PADDING;
+  Inc(PByte(FData), SizeOf(Pointer));
+  PPointer(FData)^ := CEF4DELPHI_ALLOC_PADDING;
+  Inc(PByte(FData), SizeOf(Pointer));
+  PPointer(FData)^ := Self;
+  Inc(PByte(FData), SizeOf(Pointer));
+  FillChar(FData^, size, 0);
+  PCefBaseRefCounted(FData)^.size := size;
+  {$ELSE}
   GetMem(FData, size + SizeOf(Pointer));
   PPointer(FData)^ := Self;
   Inc(PByte(FData), SizeOf(Pointer));
   FillChar(FData^, size, 0);
   PCefBaseRefCounted(FData)^.size := size;
+  {$ENDIF}
 
   if owned then
     begin
@@ -210,8 +222,13 @@ begin
     if (FData <> nil) then
       begin
         TempPointer := FData;
+        {$IFDEF CEF4DELHI_ALLOC_DEBUG}
+        Dec(PByte(TempPointer), SizeOf(Pointer) * 3);
+        FillChar(TempPointer^, (SizeOf(Pointer) * 3) + SizeOf(TCefBaseRefCounted), 0);
+        {$ELSE}
         Dec(PByte(TempPointer), SizeOf(Pointer));
         FillChar(TempPointer^, SizeOf(Pointer) + SizeOf(TCefBaseRefCounted), 0);
+        {$ENDIF}
         FreeMem(TempPointer);
       end;
   finally
@@ -252,11 +269,32 @@ begin
 end;
 
 function TCefBaseRefCountedOwn.Wrap: Pointer;
+{$IFDEF CEF4DELHI_ALLOC_DEBUG}
+var
+  TempPointer : pointer;
+{$ENDIF}
 begin
   Result := FData;
 
+  {$IFDEF CEF4DELHI_ALLOC_DEBUG}
+  if (FData <> nil) then
+    begin
+      TempPointer := FData;
+      Dec(PByte(TempPointer), SizeOf(Pointer) * 3);
+
+      if (PPointer(TempPointer)^ <> CEF4DELPHI_ALLOC_PADDING) then
+        begin
+          Result := nil;
+          CefDebugLog('Pointer to an unknown memory address!', CEF_LOG_SEVERITY_INFO);
+        end
+       else
+        if Assigned(PCefBaseRefCounted(FData)^.add_ref) then
+          PCefBaseRefCounted(FData)^.add_ref(PCefBaseRefCounted(FData));
+    end;
+  {$ELSE}
   if (FData <> nil) and Assigned(PCefBaseRefCounted(FData)^.add_ref) then
     PCefBaseRefCounted(FData)^.add_ref(PCefBaseRefCounted(FData));
+  {$ENDIF}
 end;
 
 function TCefBaseRefCountedOwn.HasOneRef : boolean;
