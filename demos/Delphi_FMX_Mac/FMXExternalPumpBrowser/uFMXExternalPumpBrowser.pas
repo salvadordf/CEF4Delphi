@@ -167,13 +167,12 @@ type
 var
   FMXExternalPumpBrowserFrm : TFMXExternalPumpBrowserFrm;
 
-// ***************************************************************************
-// ********************************* WARNING *********************************
-// ***************************************************************************
-// This demo is in ALFA state. It's incomplete and some features may not work!
-// ***************************************************************************
+// ****************************************************************************
+// ********************************* WARNING **********************************
+// ****************************************************************************
+// This demo is in ALPHA state. It's incomplete and some features may not work!
+// ****************************************************************************
 // Known issues and missing features :
-// - Wrong colors : Red and blue channels are swapped.
 // - Keyboard support not implemented yet.
 // - Maximize event is not handled correctly.
 // - Missing CrAppProtocol implementation in NSApplication. The original file in
@@ -781,20 +780,22 @@ begin
                               TempBufferBits := TempBitmapData.GetScanline(dirtyRects[n].y + i);
                               dst            := @PByte(TempBufferBits)[TempDstOffset];
                               {$ENDIF}
-                                              {
+
                               srcPixel := src;
                               dstPixel := dst;
-                              k        := TempLineSize;
+                              k        := TempLineSize div SizeOf(TRGBQuad);
 
                               while (k > 0) do
                                 begin
-                                  PCardinal(dstPixel)^ := (srcPixel[0] shl 24) or (srcPixel[1] shl 16) or (srcPixel[2] shl 8) or srcPixel[3];
+                                  // Switch the red and blue channels
+                                  dstPixel[0] := srcPixel[2];
+                                  dstPixel[1] := srcPixel[1];
+                                  dstPixel[2] := srcPixel[0];
+                                  dstPixel[3] := srcPixel[3];
                                   inc(dstPixel, SizeOf(TRGBQuad));
                                   inc(srcPixel, SizeOf(TRGBQuad));
                                   dec(k);
-                                end;        }
-
-                              Move(src^, dst^, TempLineSize);
+                                end;
 
                               {$IFNDEF DELPHI17_UP}
                               inc(dst, DstStride);

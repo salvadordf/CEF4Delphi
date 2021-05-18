@@ -88,7 +88,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   object Panel1: TFMXBufferPanel
     Align = Client
     TabOrder = 0
-    Color = claTomato
     CanFocus = True
     Size.Width = 800.000000000000000000
     Size.Height = 600.000000000000000000

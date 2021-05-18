@@ -406,7 +406,7 @@ type
       property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
       property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
       property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
-      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;  // Only used in macOS
+      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;           // Only used in macOS
       property ChromeRuntime                     : boolean                             read FChromeRuntime                     write FChromeRuntime;
       property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
       property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
@@ -1480,13 +1480,13 @@ begin
 
             TempThread := TCEFDirectoryDeleterThread.Create(TempNewDir);
             {$IFDEF DELPHI14_UP}
-            TempThread.Start;
+              TempThread.Start;
             {$ELSE}
-            {$IFNDEF FPC}
-            TempThread.Resume;
-            {$ELSE}
-            TempThread.Start;
-            {$ENDIF}
+              {$IFNDEF FPC}
+              TempThread.Resume;
+              {$ELSE}
+              TempThread.Start;
+              {$ENDIF}
             {$ENDIF}
           end
          else
@@ -1537,14 +1537,24 @@ begin
     begin
       {$IFDEF MSWINDOWS}
       MessageBox(0, PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK or MB_TOPMOST);
-      {$ELSE}
-        {$IFDEF LINUX}
-          {$IFDEF FPC}
-          if (WidgetSet <> nil) then
-            Application.MessageBox(PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK)
-           else
-            ShowX11Message(aError);
-          {$ENDIF}
+      {$ENDIF}
+
+      {$IFDEF LINUX}
+        {$IFDEF FPC}
+        if (WidgetSet <> nil) then
+          Application.MessageBox(PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK)
+         else
+          ShowX11Message(aError);
+        {$ELSE}
+        // TO-DO: Find a way to show message boxes in FMXLinux
+        {$ENDIF}
+      {$ENDIF}
+
+      {$IFDEF MACOSX}
+        {$IFDEF FPC}
+        // TO-DO: Find a way to show message boxes in Lazarus/FPC for MacOS
+        {$ELSE}
+        // TO-DO: Find a way to show message boxes in FMX for MacOS
         {$ENDIF}
       {$ENDIF}
     end;

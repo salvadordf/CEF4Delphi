@@ -945,6 +945,21 @@ begin
       {$ENDIF}
     {$ENDIF}
 
+    {$IFDEF LINUX}
+      {$IFDEF FPC}
+      // TO-DO: Find a way to write in the error console using Lazarus in Linux
+      {$ELSE}
+      // TO-DO: Find a way to write in the error console using FMXLinux
+      {$ENDIF}
+    {$ENDIF}
+    {$IFDEF MACOSX}
+      {$IFDEF FPC}
+      // TO-DO: Find a way to write in the error console using Lazarus in MacOS
+      {$ELSE}
+      // TO-DO: Find a way to write in the error console using FMX for MacOS
+      {$ENDIF}
+    {$ENDIF}
+
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     CefLog('CEF4Delphi', DEFAULT_LINE, CEF_LOG_SEVERITY_ERROR, aMessage);
   {$ENDIF}

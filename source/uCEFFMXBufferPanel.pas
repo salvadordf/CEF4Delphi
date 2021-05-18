@@ -136,6 +136,7 @@ type
       property RotationCenter;
       property Scale;
       property Size;
+      property OnResized;
       {$ENDIF}
       {$IFNDEF DELPHI23_UP}
       property Hint;
