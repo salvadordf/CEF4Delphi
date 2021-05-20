@@ -1221,25 +1221,35 @@ begin
     begin
       if (length(FDevToolsMsgValue) > 0) then
         begin
+          TempData := nil;
+
           if (aMessage.LParam = FScreenshotMsgID) then
+            begin
+              SaveDialog1.DefaultExt := 'png';
+              SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+              {$IFDEF DELPHI21_UP}
+              // TO-DO: TNetEncoding was a new feature in Delphi XE7. Replace
+              // TNetEncoding.Base64.DecodeStringToBytes with Soap.EncdDecd.DecodeBase64 for older Delphi versions
+              TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+              {$ENDIF}
+            end
+           else
+            if (aMessage.LParam = FMHTMLMsgID) then
               begin
-                SaveDialog1.DefaultExt := 'png';
-                SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
-                TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+                SaveDialog1.DefaultExt := 'mhtml';
+                SaveDialog1.Filter     := 'MHTML files (*.mhtml)|*.MHTML';
+                TempData               := BytesOf(FDevToolsMsgValue);
               end
-             else
-              if (aMessage.LParam = FMHTMLMsgID) then
-                begin
-                  SaveDialog1.DefaultExt := 'mhtml';
-                  SaveDialog1.Filter     := 'MHTML files (*.mhtml)|*.MHTML';
-                  TempData               := BytesOf(FDevToolsMsgValue);
-                end
-              else
-                begin
-                  SaveDialog1.DefaultExt := '';
-                  SaveDialog1.Filter     := 'All files (*.*)|*.*';
-                  TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
-                end;
+            else
+              begin
+                SaveDialog1.DefaultExt := '';
+                SaveDialog1.Filter     := 'All files (*.*)|*.*';
+                {$IFDEF DELPHI21_UP}
+                // TO-DO: TNetEncoding was a new feature in Delphi XE7. Replace
+                // TNetEncoding.Base64.DecodeStringToBytes with Soap.EncdDecd.DecodeBase64 for older Delphi versions
+                TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+                {$ENDIF}
+              end;
 
           TempLen := length(TempData);
 
