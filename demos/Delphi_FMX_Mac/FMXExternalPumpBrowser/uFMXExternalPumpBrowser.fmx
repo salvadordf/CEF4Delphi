@@ -14,6 +14,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   OnHide = FormHide
+  OnSaveState = Panel1Resize
   DesignerMasterStyle = 0
   object AddressPnl: TPanel
     Align = Top
@@ -92,6 +93,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     Size.Width = 800.000000000000000000
     Size.Height = 600.000000000000000000
     Size.PlatformDefault = False
+    OnResized = Panel1Resize
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
     OnResize = Panel1Resize

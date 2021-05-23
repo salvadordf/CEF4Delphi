@@ -115,7 +115,6 @@ type
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
 
-
   protected
     FPopUpBitmap       : TBitmap;
     FPopUpRect         : TRect;
@@ -125,7 +124,6 @@ type
     FCanClose          : boolean;
     FClosing           : boolean;
     FResizeCS          : TCriticalSection;
-    FAtLeastWin8       : boolean;
     {$IFDEF DELPHI17_UP}
     FMouseWheelService : IFMXMouseService;
     {$ENDIF}
@@ -174,11 +172,10 @@ var
 // ****************************************************************************
 // Known issues and missing features :
 // - Keyboard support not implemented yet.
-// - Maximize event is not handled correctly.
-// - Missing CrAppProtocol implementation in NSApplication. The original file in
-//      the CEF sources is here : https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_application_mac.h
-//      Lazarus implementation is in the uCEFLazarusCocoa.pas unit.
+// - Full screen event is not handled correctly.
+// - The CrAppProtocol implementation in uFMXApplicationService needs to be tested.
 // - All Windows code in this demo must be removed.
+// - Right-click crashes the demo.
 
 
 // This is a simple browser using FireMonkey components in OSR mode (off-screen rendering)
@@ -324,14 +321,6 @@ begin
   FClosing        := False;
   FResizeCS       := TCriticalSection.Create;
 
-  {$IFDEF MSWINDOWS}
-  FAtLeastWin8 := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
-                  ((TempMajorVer > 6) or
-                   ((TempMajorVer = 6) and (TempMinorVer >= 2)));
-  {$ELSE}
-  FAtLeastWin8 := False;
-  {$ENDIF}
-
   chrmosr.DefaultURL := AddressEdt.Text;
 
   InitializeLastClick;
@@ -418,6 +407,7 @@ begin
       TempKeyEvent.kind                    := KEYEVENT_CHAR;
       TempKeyEvent.modifiers               := getModifiers(Shift);
       TempKeyEvent.windows_key_code        := ord(KeyChar);
+     // TempKeyEvent.native_key_code         := TFMXApplicationService.LastMacOsKeyDownCode;
       TempKeyEvent.native_key_code         := 0;
       TempKeyEvent.is_system_key           := ord(False);
       TempKeyEvent.character               := #0;
@@ -754,7 +744,7 @@ begin
                 begin
                   if (dirtyRects[n].x >= 0) and (dirtyRects[n].y >= 0) then
                     begin
-                      TempLineSize := min(dirtyRects[n].width, TempWidth - dirtyRects[n].x) * SizeOf(TRGBQuad);
+                      TempLineSize := min(dirtyRects[n].width, TempWidth - dirtyRects[n].x);
 
                       if (TempLineSize > 0) then
                         begin
@@ -783,7 +773,7 @@ begin
 
                               srcPixel := src;
                               dstPixel := dst;
-                              k        := TempLineSize div SizeOf(TRGBQuad);
+                              k        := TempLineSize;
 
                               while (k > 0) do
                                 begin
