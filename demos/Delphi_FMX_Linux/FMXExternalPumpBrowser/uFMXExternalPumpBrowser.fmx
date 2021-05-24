@@ -14,7 +14,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   OnHide = FormHide
-  OnSaveState = Panel1Resize
   DesignerMasterStyle = 0
   object AddressPnl: TPanel
     Align = Top
@@ -91,9 +90,8 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     TabOrder = 0
     CanFocus = True
     Size.Width = 800.000000000000000000
-    Size.Height = 600.000000000000000000
+    Size.Height = 578.000000000000000000
     Size.PlatformDefault = False
-    OnResized = Panel1Resize
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
     OnResize = Panel1Resize
@@ -103,11 +101,29 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnMouseUp = Panel1MouseUp
     OnMouseLeave = Panel1MouseLeave
     OnMouseWheel = Panel1MouseWheel
-    OnKeyUp = Panel1KeyUp
     OnKeyDown = Panel1KeyDown
     OnDialogKey = Panel1DialogKey
   end
+  object StatusBar1: TStatusBar
+    Position.Y = 611.000000000000000000
+    ShowSizeGrip = True
+    Size.Width = 800.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    object StatusLbl: TLabel
+      Align = Client
+      Margins.Left = 5.000000000000000000
+      Margins.Right = 50.000000000000000000
+      Size.Width = 745.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+  end
   object chrmosr: TFMXChromium
+    OnLoadError = chrmosrLoadError
+    OnLoadingStateChange = chrmosrLoadingStateChange
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup

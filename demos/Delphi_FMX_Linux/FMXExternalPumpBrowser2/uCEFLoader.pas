@@ -47,6 +47,7 @@ uses
   // project.
   // Read the answer to this question for more more information :
   // https://stackoverflow.com/questions/52103407/changing-the-initialization-order-of-the-unit-in-delphi
+  System.IOUtils,
   uCEFApplication, uCEFConstants, uCEFWorkScheduler;
 
 implementation
@@ -74,7 +75,13 @@ begin
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.DisableZygote              := True;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
-  GlobalCEFApp.BrowserSubprocessPath      := 'FMXExternalPumpBrowser2_sp';
+
+  GlobalCEFApp.FrameworkDirPath      := TPath.GetHomePath + TPath.DirectorySeparatorChar + 'cef';
+  GlobalCEFApp.ResourcesDirPath      := GlobalCEFApp.FrameworkDirPath;
+  GlobalCEFApp.LocalesDirPath        := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'locales';
+  GlobalCEFApp.cache                 := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'cache';
+  GlobalCEFApp.UserDataPath          := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'User Data';
+  GlobalCEFApp.BrowserSubprocessPath := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'FMXExternalPumpBrowser2_sp';
 
   // This is a workaround to fix a Chromium initialization crash.
   // The current FMX solution to initialize CEF with a loader unit

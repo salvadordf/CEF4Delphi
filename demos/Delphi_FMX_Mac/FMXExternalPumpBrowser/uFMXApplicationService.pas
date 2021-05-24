@@ -86,7 +86,6 @@ type
     private
       FNewDelegate          : ICrAppControlProtocol;
       FOldDelegate          : NSApplicationDelegate;
-      FLastMacOsKeyDownCode : integer;
 
     protected
       class var OldFMXApplicationService: IFMXApplicationService;
@@ -122,7 +121,6 @@ type
       function  applicationDockMenu(sender: NSApplication): NSMenu;
 
       class procedure AddPlatformService;
-      class function  LastMacOsKeyDownCode: integer;
 
       property  DefaultTitle         : string    read GetDefaultTitle;
       property  Title                : string    read GetTitle                write SetTitle;
@@ -201,7 +199,6 @@ begin
 
   FNewDelegate          := nil;
   FOldDelegate          := nil;
-  FLastMacOsKeyDownCode := 0;
 end;
 
 procedure TFMXApplicationService.AfterConstruction;
@@ -272,14 +269,6 @@ begin
       NewFMXApplicationService := TFMXApplicationService.Create;
       TPlatformServices.Current.AddPlatformService(IFMXApplicationService, NewFMXApplicationService);
     end;
-end;
-
-class function TFMXApplicationService.LastMacOsKeyDownCode: integer;
-begin
-  if assigned(NewFMXApplicationService) then
-    Result := TFMXApplicationService(NewFMXApplicationService).FLastMacOsKeyDownCode
-   else
-    Result := 0;
 end;
 
 function TFMXApplicationService.GetDefaultTitle: string;
@@ -377,22 +366,8 @@ begin
     Result := nil;
 end;
 
-function TFMXApplicationService.HandleMessage: Boolean;     {
-const
-  WaitTimeout = 0.001;
-var
-  TempEvent    : NSEvent;
-  TempNSApp    : NSApplication;
-  TempTimeout  : NSDate;   }
-begin            {
-  TempNSApp    := TNSApplication.Wrap(TNSApplication.OCClass.sharedApplication);
-  TempTimeout  := TNSDate.Wrap(TNSDate.OCClass.dateWithTimeIntervalSinceNow(WaitTimeout));
-  TempEvent    := TempNSApp.nextEventMatchingMask(NSAnyEventMask, TempTimeout, NSDefaultRunLoopMode, False);
-
-  if (TempEvent <> nil) and (TempEvent.&type = NSKeyDown) then
-    FLastMacOsKeyDownCode := TempEvent.keyCode;
-            }
-
+function TFMXApplicationService.HandleMessage: Boolean;
+begin
   Result := OldFMXApplicationService.HandleMessage;
 end;
 

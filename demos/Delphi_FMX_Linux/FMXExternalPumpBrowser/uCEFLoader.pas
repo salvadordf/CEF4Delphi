@@ -35,34 +35,66 @@
  *
  *)
 
-program FMXExternalPumpBrowser2_sp;
+unit uCEFLoader;
 
-{$APPTYPE CONSOLE}
+interface
 
-{$R *.res}
-
+{$IFDEF LINUX}
 uses
-  System.IOUtils,
-  uCEFApplicationCore;
+  FMUX.Config;
 
+procedure InitializeGTK;
+{$ENDIF}
+
+implementation
+
+{$IFDEF LINUX}
+uses
+  System.SysUtils, System.IOUtils;
+
+function GetLibDirName: string;
 begin
-  GlobalCEFApp                            := TCefApplicationCore.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
-  GlobalCEFApp.ExternalMessagePump        := True;
-  GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  {$IFNDEF FMXLINUX_EXTERNAL_RUNTIME}
+  Result := TPath.Combine(TPath.GetHomePath, '.fmxlinux');
+  {$ELSE}
+  Result := ExtractFilePath(ParamStr(0));
+  {$ENDIF}
+end;
 
-  GlobalCEFApp.FrameworkDirPath     := TPath.GetHomePath + TPath.DirectorySeparatorChar + 'cef';
-  GlobalCEFApp.ResourcesDirPath     := GlobalCEFApp.FrameworkDirPath;
-  GlobalCEFApp.LocalesDirPath       := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'locales';
-  GlobalCEFApp.cache                := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'cache';
-  GlobalCEFApp.UserDataPath         := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'User Data';
+function GetLibFileName: string;
+const
+  LibName = 'libfmux';
+  LibVer = '1.60';
+begin
+  {$IFDEF FMXLINUX_EXTERNAL_RUNTIME}
+  Result := TPath.Combine(GetLibDirName, LibName + '.so');
+  {$ELSE}
+    {$IFDEF TRIAL}
+    Result := TPath.Combine(GetLibDirName, LibName + '-Trial-' + LibVer + '.so');
+    {$ELSEIF GETIT}
+    Result := TPath.Combine(GetLibDirName, LibName + '-Getit' + LibVer + '.so');
+    {$ELSE}
+    Result := TPath.Combine(GetLibDirName, LibName + '-' + LibVer + '.so');
+    {$ENDIF}
+  {$ENDIF}
+end;
 
-  // This is a workaround to fix a Chromium initialization crash.
-  // The current FMX solution to initialize CEF with a loader unit
-  // creates a race condition with the media key controller in Chromium.
-  GlobalCEFApp.DisableFeatures := 'HardwareMediaKeyHandling';
+procedure InitializeGTK;
+var
+  FmuxInit: procedure (Flags: Integer); cdecl;
+  TempHandle : NativeInt;
+begin
+  TempHandle := LoadLibrary(PChar(GetLibFileName));
 
-  GlobalCEFApp.StartSubProcess;
-  DestroyGlobalCEFApp;
+  if (TempHandle <> 0) then
+    begin
+      FmuxInit := GetProcAddress(TempHandle, 'FmuxInit');
+      FmuxInit(0);
+    end;
+end;
+
+initialization
+  DoNotCallFmuxInit := True;
+{$ENDIF}
+
 end.
