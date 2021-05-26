@@ -65,6 +65,13 @@ function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
 {$IFDEF FMX}
+type
+   TXErrorHandler   = function (para1:PDisplay; para2:PXErrorEvent):longint; cdecl;
+   TXIOErrorHandler = function (para1:PDisplay):longint; cdecl;
+
+function XSetErrorHandler(para1:TXErrorHandler):TXErrorHandler; cdecl; external 'libX11.so';
+function XSetIOErrorHandler(para1:TXIOErrorHandler):TXIOErrorHandler; cdecl; external 'libX11.so';
+
 function gdk_keyval_to_unicode(keyval: guint): guint32; cdecl; external 'libgdk-3.so';
 function g_signal_connect_data(instance: gpointer; detailed_signal: Pgchar; c_handler: TGCallback; data: gpointer; destroy_data: TGClosureNotify; connect_flags: TGConnectFlags): gulong; cdecl; external 'libgobject-2.0.so';
 function g_signal_connect(instance: gpointer; detailed_signal: Pgchar; c_handler: TGCallback; data: gpointer): gulong; overload;

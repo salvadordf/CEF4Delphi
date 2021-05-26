@@ -93,7 +93,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     Size.Width = 800.000000000000000000
     Size.Height = 600.000000000000000000
     Size.PlatformDefault = False
-    OnResized = Panel1Resize
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
     OnResize = Panel1Resize
@@ -106,6 +105,58 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnKeyUp = Panel1KeyUp
     OnKeyDown = Panel1KeyDown
     OnDialogKey = Panel1DialogKey
+  end
+  object MainMenu1: TMainMenu
+    Left = 40
+    Top = 273
+    object EditMenu: TMenuItem
+      Text = 'Edit'
+      object UndoMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4186
+        Text = 'Undo'
+        OnClick = UndoMenuItemClick
+      end
+      object RedoMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 12378
+        Text = 'Redo'
+        OnClick = RedoMenuItemClick
+      end
+      object SeparatorMenuItem: TMenuItem
+        Locked = True
+        Text = '-'
+      end
+      object CutMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4184
+        Text = 'Cut'
+        OnClick = CutMenuItemClick
+      end
+      object CopyMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4163
+        Text = 'Copy'
+        OnClick = CopyMenuItemClick
+      end
+      object PasteMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4182
+        Text = 'Paste'
+        OnClick = PasteMenuItemClick
+      end
+      object DeleteMenuItem: TMenuItem
+        Locked = True
+        Text = 'Delete'
+        OnClick = DeleteMenuItemClick
+      end
+      object SelectAllMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4161
+        Text = 'Select all'
+        OnClick = SelectAllMenuItemClick
+      end
+    end
   end
   object chrmosr: TFMXChromium
     OnTooltip = chrmosrTooltip

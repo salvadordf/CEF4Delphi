@@ -35,17 +35,37 @@
  *
  *)
 
-unit uFMXMiscFunctions;
+unit uCEFMacOSFunctions;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
+uses
+  System.UITypes,
+  uCEFMacOSConstants;
+
+{$IFDEF MACOSX}
+function  KeyToMacOSKeyCode(aKey : Word): integer;
+{$IFDEF FMX}
 procedure CopyCEFFramework;
 procedure CopyCEFHelpers(const aProjectName : string);
+{$ENDIF}
+{$ENDIF}
 
 implementation
 
+{$IFDEF MACOSX}
+{$IFDEF FMX}
 uses
-  System.SysUtils, System.Types, System.IOUtils, Posix.Stdio,
+  System.SysUtils, System.Types, System.IOUtils, Posix.Stdio, FMX.Types,
   uCEFMiscFunctions;
 
 const
@@ -53,11 +73,144 @@ const
   PRJ_GPU_SUBFIX      = '_helper_gpu';
   PRJ_PLUGIN_SUBFIX   = '_helper_plugin';
   PRJ_RENDERER_SUBFIX = '_helper_renderer';
-  HELPER_SUBFIX   = ' Helper';
-  GPU_SUBFIX      = ' Helper (GPU)';
-  PLUGIN_SUBFIX   = ' Helper (Plugin)';
-  RENDERER_SUBFIX = ' Helper (Renderer)';
+  HELPER_SUBFIX       = ' Helper';
+  GPU_SUBFIX          = ' Helper (GPU)';
+  PLUGIN_SUBFIX       = ' Helper (Plugin)';
+  RENDERER_SUBFIX     = ' Helper (Renderer)';
+{$ENDIF}
 
+// Key Code translation following the information found in these documents :
+// https://developer.apple.com/library/archive/documentation/mac/pdf/MacintoshToolboxEssentials.pdf
+// https://eastmanreference.com/complete-list-of-applescript-key-codes
+
+function KeyToMacOSKeyCode(aKey : Word): integer;
+begin
+  case aKey of
+    vkBack             : Result := kVK_Delete;
+    vkTab              : Result := kVK_Tab;
+    vkClear            : Result := kVK_ANSI_KeypadClear;
+    vkReturn           : Result := kVK_Return;
+    vkShift            : Result := kVK_Shift;
+    vkControl          : Result := kVK_Control;
+    vkMenu             : Result := kVK_Option;
+    vkPause            : Result := kVK_F15;
+    vkCapital          : Result := kVK_CapsLock;
+    vkEscape           : Result := kVK_Escape;
+    vkSpace            : Result := kVK_Space;
+    vkPrior            : Result := kVK_PageUp;
+    vkNext             : Result := kVK_PageDown;
+    vkEnd              : Result := kVK_End;
+    vkHome             : Result := kVK_Home;
+    vkLeft             : Result := kVK_LeftArrow;
+    vkUp               : Result := kVK_UpArrow;
+    vkRight            : Result := kVK_RightArrow;
+    vkDown             : Result := kVK_DownArrow;
+    vkSnapshot         : Result := kVK_F13;
+    vkHelp,
+    vkInsert           : Result := kVK_Help;
+    vkDelete           : Result := kVK_ForwardDelete;
+    vk0                : Result := kVK_ANSI_0;
+    vk1                : Result := kVK_ANSI_1;
+    vk2                : Result := kVK_ANSI_2;
+    vk3                : Result := kVK_ANSI_3;
+    vk4                : Result := kVK_ANSI_4;
+    vk5                : Result := kVK_ANSI_5;
+    vk6                : Result := kVK_ANSI_6;
+    vk7                : Result := kVK_ANSI_7;
+    vk8                : Result := kVK_ANSI_8;
+    vk9                : Result := kVK_ANSI_9;
+    vkA                : Result := kVK_ANSI_A;
+    vkB                : Result := kVK_ANSI_B;
+    vkC                : Result := kVK_ANSI_C;
+    vkD                : Result := kVK_ANSI_D;
+    vkE                : Result := kVK_ANSI_E;
+    vkF                : Result := kVK_ANSI_F;
+    vkG                : Result := kVK_ANSI_G;
+    vkH                : Result := kVK_ANSI_H;
+    vkI                : Result := kVK_ANSI_I;
+    vkJ                : Result := kVK_ANSI_J;
+    vkK                : Result := kVK_ANSI_K;
+    vkL                : Result := kVK_ANSI_L;
+    vkM                : Result := kVK_ANSI_M;
+    vkN                : Result := kVK_ANSI_N;
+    vkO                : Result := kVK_ANSI_O;
+    vkP                : Result := kVK_ANSI_P;
+    vkQ                : Result := kVK_ANSI_Q;
+    vkR                : Result := kVK_ANSI_R;
+    vkS                : Result := kVK_ANSI_S;
+    vkT                : Result := kVK_ANSI_T;
+    vkU                : Result := kVK_ANSI_U;
+    vkV                : Result := kVK_ANSI_V;
+    vkW                : Result := kVK_ANSI_W;
+    vkX                : Result := kVK_ANSI_X;
+    vkY                : Result := kVK_ANSI_Y;
+    vkZ                : Result := kVK_ANSI_Z;
+    vkLWin             : Result := kVK_Option;
+    vkRWin             : Result := kVK_RightOption;
+    vkNumpad0          : Result := kVK_ANSI_Keypad0;
+    vkNumpad1          : Result := kVK_ANSI_Keypad1;
+    vkNumpad2          : Result := kVK_ANSI_Keypad2;
+    vkNumpad3          : Result := kVK_ANSI_Keypad3;
+    vkNumpad4          : Result := kVK_ANSI_Keypad4;
+    vkNumpad5          : Result := kVK_ANSI_Keypad5;
+    vkNumpad6          : Result := kVK_ANSI_Keypad6;
+    vkNumpad7          : Result := kVK_ANSI_Keypad7;
+    vkNumpad8          : Result := kVK_ANSI_Keypad8;
+    vkNumpad9          : Result := kVK_ANSI_Keypad9;
+    vkMultiply         : Result := kVK_ANSI_KeypadMultiply;
+    vkAdd              : Result := kVK_ANSI_KeypadPlus;
+    vkSubtract         : Result := kVK_ANSI_KeypadMinus;
+    vkDecimal          : Result := kVK_ANSI_KeypadDecimal;
+    vkDivide           : Result := kVK_ANSI_KeypadDivide;
+    vkF1               : Result := kVK_F1;
+    vkF2               : Result := kVK_F2;
+    vkF3               : Result := kVK_F3;
+    vkF4               : Result := kVK_F4;
+    vkF5               : Result := kVK_F5;
+    vkF6               : Result := kVK_F6;
+    vkF7               : Result := kVK_F7;
+    vkF8               : Result := kVK_F8;
+    vkF9               : Result := kVK_F9;
+    vkF10              : Result := kVK_F10;
+    vkF11              : Result := kVK_F11;
+    vkF12              : Result := kVK_F12;
+    vkF13              : Result := kVK_F13;
+    vkF14              : Result := kVK_F14;
+    vkF15              : Result := kVK_F15;
+    vkF16              : Result := kVK_F16;
+    vkF17              : Result := kVK_F17;
+    vkF18              : Result := kVK_F18;
+    vkF19              : Result := kVK_F19;
+    vkF20              : Result := kVK_F20;
+    vkNumLock          : Result := kVK_ANSI_KeypadClear;
+    vkScroll           : Result := kVK_F14;
+    vkLShift           : Result := kVK_Shift;
+    vkRShift           : Result := kVK_RightShift;
+    vkLControl         : Result := kVK_Control;
+    vkRControl         : Result := kVK_RightControl;
+    vkLMenu,
+    vkRMenu            : Result := kVK_Command;
+    vkVolumeMute       : Result := kVK_Mute;
+    vkVolumeDown       : Result := kVK_VolumeDown;
+    vkVolumeUp         : Result := kVK_VolumeUp;
+    vkSemicolon        : Result := kVK_ANSI_Semicolon;
+    vkEqual            : Result := kVK_ANSI_Equal;
+    vkComma            : Result := kVK_ANSI_Comma;
+    vkMinus            : Result := kVK_ANSI_Minus;
+    vkPeriod           : Result := kVK_ANSI_Period;
+    vkSlash            : Result := kVK_ANSI_Slash;
+    vkTilde            : Result := kVK_ANSI_Grave;
+    vkLeftBracket      : Result := kVK_ANSI_LeftBracket;
+    vkBackslash        : Result := kVK_ANSI_Backslash;
+    vkRightBracket     : Result := kVK_ANSI_RightBracket;
+    vkQuote            : Result := kVK_ANSI_Quote;
+    vkOem102           : Result := kVK_ANSI_Backslash;   // kVK_JIS_Yen in Japanese keyboards ?
+    vkOemClear         : Result := kVK_ANSI_KeypadClear;
+    else                 Result := 0;
+  end;
+end;
+
+{$IFDEF FMX}
 procedure CopyAllFiles(const aSrcPath, aDstPath: string);
 var
   TempDirectories, TempFiles : TStringDynArray;
@@ -88,7 +241,7 @@ begin
       end;
   except
     on e : exception do
-      WriteLn('CopyAllFiles error : ' + e.Message);
+      FMX.Types.Log.d('CopyAllFiles error : ' + e.Message);
   end;
 end;
 
@@ -114,7 +267,7 @@ begin
       end;
   except
     on e : exception do
-      WriteLn('CopyCEFFramework error : ' + e.Message);
+      FMX.Types.Log.d('CopyCEFFramework error : ' + e.Message);
   end;
 end;
 
@@ -171,8 +324,8 @@ begin
         RenameFile(aHelperPrjPath, appNewBundlePath);
       end;
   except
-    on e: exception do
-      WriteLn('RenameCEFHelper error : ' + e.Message);
+    on e : exception do
+      FMX.Types.Log.d('RenameCEFHelper error : ' + e.Message);
   end;
 end;
 
@@ -212,7 +365,7 @@ begin
         end;
     end;
 end;
-
-
+{$ENDIF}
+{$ENDIF}
 
 end.

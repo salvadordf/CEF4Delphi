@@ -48,7 +48,7 @@ uses
   {$IFDEF DELPHI17_UP}FMX.Graphics,{$ENDIF}
   uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
   uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore, FMX.Layouts,
-  FMX.Memo.Types, FMX.ScrollBox, FMX.Memo;
+  FMX.Memo.Types, FMX.ScrollBox, FMX.Memo, FMX.Menus;
 
 type
   tagRGBQUAD = record
@@ -69,6 +69,16 @@ type
     Layout1: TLayout;
     GoBtn: TButton;
     SnapshotBtn: TButton;
+    MainMenu1: TMainMenu;
+    EditMenu: TMenuItem;
+    UndoMenuItem: TMenuItem;
+    RedoMenuItem: TMenuItem;
+    SeparatorMenuItem: TMenuItem;
+    CutMenuItem: TMenuItem;
+    CopyMenuItem: TMenuItem;
+    PasteMenuItem: TMenuItem;
+    DeleteMenuItem: TMenuItem;
+    SelectAllMenuItem: TMenuItem;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -110,6 +120,13 @@ type
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
+    procedure CopyMenuItemClick(Sender: TObject);
+    procedure CutMenuItemClick(Sender: TObject);
+    procedure DeleteMenuItemClick(Sender: TObject);
+    procedure PasteMenuItemClick(Sender: TObject);
+    procedure RedoMenuItemClick(Sender: TObject);
+    procedure SelectAllMenuItemClick(Sender: TObject);
+    procedure UndoMenuItemClick(Sender: TObject);
 
   protected
     FPopUpBitmap       : TBitmap;
@@ -124,17 +141,10 @@ type
     FMouseWheelService : IFMXMouseService;
     {$ENDIF}
 
-    FLastClickCount  : integer;
-    FLastClickTime   : integer;
-    FLastClickPoint  : TPointF;
-    FLastClickButton : TMouseButton;
-
     procedure LoadURL;
-    function  getModifiers(Shift: TShiftState): TCefEventFlags;
+    function  getModifiers(Shift: TShiftState; KeyCode: integer = 0): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     function  GetMousePosition(var aPoint : TPointF) : boolean;
-    procedure InitializeLastClick;
-    function  CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
 
   public
     procedure DoResize;
@@ -152,10 +162,7 @@ var
 // This demo is in ALPHA state. It's incomplete and some features may not work!
 // ****************************************************************************
 // Known issues and missing features :
-// - Keyboard support is incomplete.
 // - Full screen event is not handled correctly.
-// - The CrAppProtocol implementation in uFMXApplicationService needs to be tested.
-// - All Windows code in this demo must be removed.
 // - Right-click crashes the demo.
 
 
@@ -227,8 +234,10 @@ implementation
 {$R *.fmx}
 
 uses
-  System.SysUtils, System.Math, FMX.Platform, {$IFDEF MSWINDOWS}FMX.Platform.Win,{$ENDIF}
-  uCEFMiscFunctions, uCEFApplication, uFMXApplicationService;
+  System.SysUtils, System.Math, System.IOUtils,
+  FMX.Platform,
+  uCEFMiscFunctions, uCEFApplication, uFMXApplicationService,
+  uCEFMacOSConstants, uCEFMacOSFunctions;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
@@ -252,13 +261,12 @@ begin
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.UseMockKeyChain            := True;
-  //GlobalCEFApp.SingleProcess              := True;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
-  //GlobalCEFApp.EnableGPU                  := True;
 
-  // Replace <username> with your username to create a log file in your home directory
-  //GlobalCEFApp.LogFile                    := '/Users/<username>/debug.log';
-  //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  {$IFDEF DEBUG}
+  GlobalCEFApp.LogFile     := TPath.GetHomePath + TPath.DirectorySeparatorChar + 'debug.log';
+  GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO;
+  {$ENDIF}
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormActivate(Sender: TObject);
@@ -268,7 +276,8 @@ begin
       // opaque white background color
       chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 
-      if not(chrmosr.CreateBrowser) then Timer1.Enabled := True;
+      if not(chrmosr.CreateBrowser) then
+        Timer1.Enabled := True;
     end;
 end;
 
@@ -286,10 +295,6 @@ begin
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormCreate(Sender: TObject);
-{$IFDEF MSWINDOWS}
-var
-  TempMajorVer, TempMinorVer : DWORD;
-{$ENDIF}
 begin
   TFMXApplicationService.AddPlatformService;
 
@@ -303,8 +308,6 @@ begin
   FResizeCS       := TCriticalSection.Create;
 
   chrmosr.DefaultURL := AddressEdt.Text;
-
-  InitializeLastClick;
 
   {$IFDEF DELPHI17_UP}
   if TPlatformServices.Current.SupportsPlatformService(IFMXMouseService) then
@@ -358,8 +361,9 @@ begin
   Panel1.SetFocus;
 end;
 
-procedure TFMXExternalPumpBrowserFrm.Panel1DialogKey(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
+procedure TFMXExternalPumpBrowserFrm.Panel1DialogKey(    Sender : TObject;
+                                                     var Key    : Word;
+                                                         Shift  : TShiftState);
 begin
   if (Key = vkTab) then Key := 0;
 end;
@@ -374,29 +378,23 @@ begin
   chrmosr.SendFocusEvent(False);
 end;
 
-procedure TFMXExternalPumpBrowserFrm.Panel1KeyUp(Sender: TObject; var Key: Word;
-  var KeyChar: Char; Shift: TShiftState);
+procedure TFMXExternalPumpBrowserFrm.Panel1KeyUp(    Sender  : TObject;
+                                                 var Key     : Word;
+                                                 var KeyChar : Char;
+                                                     Shift   : TShiftState);
 var
   TempKeyEvent : TCefKeyEvent;
-  TempChar : char;
 begin
-  if not(Panel1.IsFocused) then exit;
-
-  if (KeyChar <> #0) then
-    TempChar := KeyChar
-   else
-    if (Key <> 0) then
-      TempChar := chr(Key)
-     else
-      TempChar := #0;
+  if not(Panel1.IsFocused) or (KeyChar = #0) then
+    exit;
 
   TempKeyEvent.kind                    := KEYEVENT_KEYUP;
-  TempKeyEvent.modifiers               := getModifiers(Shift);
+  TempKeyEvent.native_key_code         := KeyToMacOSKeyCode(Key);
+  TempKeyEvent.modifiers               := getModifiers(Shift, TempKeyEvent.native_key_code);
   TempKeyEvent.windows_key_code        := 0;
-  TempKeyEvent.native_key_code         := 0;
   TempKeyEvent.is_system_key           := ord(False);
-  TempKeyEvent.character               := TempChar;
-  TempKeyEvent.unmodified_character    := TempChar;
+  TempKeyEvent.character               := KeyChar;
+  TempKeyEvent.unmodified_character    := KeyChar;
   TempKeyEvent.focus_on_editable_field := ord(False);
 
   chrmosr.SendKeyEvent(@TempKeyEvent);
@@ -408,40 +406,27 @@ procedure TFMXExternalPumpBrowserFrm.Panel1KeyDown(    Sender  : TObject;
                                                        Shift   : TShiftState);
 var
   TempKeyEvent : TCefKeyEvent;
-  TempChar : char;
 begin
   if not(Panel1.IsFocused) then exit;
 
-  if (KeyChar <> #0) then
-    TempChar := KeyChar
-   else
-    if (Key <> 0) then
-      begin
-        TempChar := chr(Key);
-
-        if (Key in [vkLeft, vkRight, vkUp, vkDown]) then
-          begin
-            Key := 0;
-            exit;
-          end;
-      end
-     else
-      TempChar := #0;
-
   TempKeyEvent.kind                    := KEYEVENT_KEYDOWN;
-  TempKeyEvent.modifiers               := getModifiers(Shift);
+  TempKeyEvent.native_key_code         := KeyToMacOSKeyCode(Key);
+  TempKeyEvent.modifiers               := getModifiers(Shift, TempKeyEvent.native_key_code);
   TempKeyEvent.windows_key_code        := 0;
-  TempKeyEvent.native_key_code         := 0;
   TempKeyEvent.is_system_key           := ord(False);
-  TempKeyEvent.character               := TempChar;
-  TempKeyEvent.unmodified_character    := TempChar;
+  TempKeyEvent.character               := KeyChar;
+  TempKeyEvent.unmodified_character    := KeyChar;
   TempKeyEvent.focus_on_editable_field := ord(False);
 
   chrmosr.SendKeyEvent(@TempKeyEvent);
 
-  TempKeyEvent.kind := KEYEVENT_CHAR;
-
-  chrmosr.SendKeyEvent(@TempKeyEvent);
+  if not(TempKeyEvent.native_key_code in CEF_MACOS_KEYPAD_KEYS +
+                                         CEF_MACOS_ARROW_KEYS +
+                                         CEF_MACOS_FUNCTION_KEYS) then
+    begin
+      TempKeyEvent.kind := KEYEVENT_CHAR;
+      chrmosr.SendKeyEvent(@TempKeyEvent);
+    end;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
@@ -450,28 +435,22 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
                                                      X, Y   : Single);
 var
   TempEvent : TCefMouseEvent;
-  TempTime  : integer;
+  TempCount : integer;
 begin
   if not(ssTouch in Shift) then
     begin
       Panel1.SetFocus;
 
-      if not(CancelPreviousClick(x, y, TempTime)) and (Button = FLastClickButton) then
-        inc(FLastClickCount)
-       else
-        begin
-          FLastClickPoint.x := x;
-          FLastClickPoint.y := y;
-          FLastClickCount   := 1;
-        end;
-
-      FLastClickTime      := TempTime;
-      FLastClickButton    := Button;
-
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
       TempEvent.modifiers := getModifiers(Shift);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
+
+      if (ssDouble in Shift) then
+        TempCount := 2
+       else
+        TempCount := 1;
+
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, TempCount);
     end;
 end;
 
@@ -499,21 +478,14 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseLeave(Sender: TObject);
 var
   TempEvent  : TCefMouseEvent;
   TempPoint  : TPointF;
-  TempTime   : integer;
 begin
   if GetMousePosition(TempPoint) then
     begin
-      TempPoint := Panel1.ScreenToClient(TempPoint);
-
-      if CancelPreviousClick(TempPoint.x, TempPoint.y, TempTime) then InitializeLastClick;
-
+      TempPoint           := Panel1.ScreenToClient(TempPoint);
       TempEvent.x         := round(TempPoint.x);
       TempEvent.y         := round(TempPoint.y);
-      {$IFDEF MSWINDOWS}
-      TempEvent.modifiers := GetCefMouseModifiers;
-      {$ELSE}
       TempEvent.modifiers := EVENTFLAG_NONE;
-      {$ENDIF}
+
       chrmosr.SendMouseMoveEvent(@TempEvent, True);
     end;
 end;
@@ -523,15 +495,13 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseMove(Sender : TObject;
                                                      X, Y   : Single);
 var
   TempEvent : TCefMouseEvent;
-  TempTime  : integer;
 begin
   if not(ssTouch in Shift) then
     begin
-      if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
-
       TempEvent.x         := round(x);
       TempEvent.y         := round(y);
       TempEvent.modifiers := getModifiers(Shift);
+
       chrmosr.SendMouseMoveEvent(@TempEvent, False);
     end;
 end;
@@ -542,13 +512,20 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseUp(Sender : TObject;
                                                    X, Y   : Single);
 var
   TempEvent : TCefMouseEvent;
+  TempCount : integer;
 begin
   if not(ssTouch in Shift) then
     begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
       TempEvent.modifiers := getModifiers(Shift);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
+
+      if (ssDouble in Shift) then
+        TempCount := 2
+       else
+        TempCount := 1;
+
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, TempCount);
     end;
 end;
 
@@ -566,6 +543,7 @@ begin
       TempEvent.x         := round(TempPoint.x);
       TempEvent.y         := round(TempPoint.y);
       TempEvent.modifiers := getModifiers(Shift);
+
       chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
     end;
 end;
@@ -575,12 +553,27 @@ begin
   DoResize;
 end;
 
+procedure TFMXExternalPumpBrowserFrm.PasteMenuItemClick(Sender: TObject);
+begin
+  chrmosr.ClipboardPaste;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.RedoMenuItemClick(Sender: TObject);
+begin
+  chrmosr.ClipboardRedo;
+end;
+
 procedure TFMXExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
 
   if not(chrmosr.CreateBrowser) then
     Timer1.Enabled := True;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.UndoMenuItemClick(Sender: TObject);
+begin
+  chrmosr.ClipboardUndo;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.AddressEdtEnter(Sender: TObject);
@@ -600,10 +593,10 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const b
 begin
   FCanClose := True;
 
-  TThread.Queue(nil, procedure
-                     begin
-                       close
-                     end);
+  TThread.ForceQueue(nil, procedure
+                          begin
+                            close
+                          end);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(      Sender             : TObject;
@@ -842,7 +835,7 @@ begin
         if (type_ = PET_VIEW) then
           begin
             if TempForcedResize or FPendingResize then
-              TThread.Queue(nil, DoResize);
+              TThread.ForceQueue(nil, DoResize);
 
             FResizing      := False;
             FPendingResize := False;
@@ -895,6 +888,21 @@ begin
   Result          := True;
 end;
 
+procedure TFMXExternalPumpBrowserFrm.CopyMenuItemClick(Sender: TObject);
+begin
+  chrmosr.ClipboardCopy;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.CutMenuItemClick(Sender: TObject);
+begin
+  chrmosr.ClipboardCut;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.DeleteMenuItemClick(Sender: TObject);
+begin
+  chrmosr.ClipboardDel;
+end;
+
 procedure TFMXExternalPumpBrowserFrm.DoResize;
 begin
   try
@@ -934,21 +942,30 @@ begin
   if (chrmosr <> nil) then chrmosr.NotifyMoveOrResizeStarted;
 end;
 
+procedure TFMXExternalPumpBrowserFrm.SelectAllMenuItemClick(Sender: TObject);
+begin
+  chrmosr.SelectAll;
+end;
+
 procedure TFMXExternalPumpBrowserFrm.SendCaptureLostEvent;
 begin
   if (chrmosr <> nil) then chrmosr.SendCaptureLostEvent;
 end;
 
-function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;
+function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState; KeyCode: integer): TCefEventFlags;
 begin
   Result := EVENTFLAG_NONE;
 
-  if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
-  if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
-  if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
-  if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
-  if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
-  if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+  if (ssShift   in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
+  if (ssAlt     in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
+  if (ssCtrl    in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (ssLeft    in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+  if (ssRight   in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+  if (ssMiddle  in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+  if (ssCommand in Shift) then Result := Result or EVENTFLAG_COMMAND_DOWN;
+
+  if (KeyCode in CEF_MACOS_KEYPAD_KEYS) then
+    Result := Result or EVENTFLAG_IS_KEY_PAD;
 end;
 
 function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;
@@ -958,29 +975,6 @@ begin
     TMouseButton.mbMiddle : Result := MBT_MIDDLE;
     else                    Result := MBT_LEFT;
   end;
-end;
-
-procedure TFMXExternalPumpBrowserFrm.InitializeLastClick;
-begin
-  FLastClickCount   := 1;
-  FLastClickTime    := 0;
-  FLastClickPoint.x := 0;
-  FLastClickPoint.y := 0;
-  FLastClickButton  := TMouseButton.mbLeft;
-end;
-
-function TFMXExternalPumpBrowserFrm.CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
-begin
-  {$IFDEF MSWINDOWS}
-  aCurrentTime := GetMessageTime;
-
-  Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
-            (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
-            (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
-  {$ELSE}
-  aCurrentTime := 0;
-  Result       := False;
-  {$ENDIF}
 end;
 
 procedure TFMXExternalPumpBrowserFrm.SnapshotBtnClick(Sender: TObject);

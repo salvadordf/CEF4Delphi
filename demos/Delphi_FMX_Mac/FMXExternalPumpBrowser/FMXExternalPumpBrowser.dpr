@@ -46,9 +46,9 @@ uses
   FMX.Forms,
   uCEFApplication,
   uCEFFMXWorkScheduler,
+  uCEFMacOSFunctions,
   uFMXExternalPumpBrowser in 'uFMXExternalPumpBrowser.pas' {FMXExternalPumpBrowserFrm},
-  uFMXApplicationService in 'uFMXApplicationService.pas',
-  uFMXMiscFunctions in 'uFMXMiscFunctions.pas';
+  uFMXApplicationService in 'uFMXApplicationService.pas';
 
 {$R *.res}
 

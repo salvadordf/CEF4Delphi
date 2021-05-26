@@ -276,10 +276,10 @@ begin
   if FUseQueueThread and (FQueueThread <> nil) and FQueueThread.Ready then
     FQueueThread.EnqueueValue(integer(delay_ms))
    else
-    TThread.Queue(nil, procedure
-                       begin
-                         ScheduleWork(delay_ms);
-                       end);
+    TThread.ForceQueue(nil, procedure
+                            begin
+                              ScheduleWork(delay_ms);
+                            end);
 end;
 
 procedure TFMXWorkScheduler.StopScheduler;

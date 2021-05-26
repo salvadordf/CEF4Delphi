@@ -491,7 +491,7 @@ begin
   Result := HandleAllocated and PostMessage(Handle, CM_INVALIDATE, 0, 0);
   {$ELSE}
   Result := True;
-  TThread.Queue(nil, @Invalidate);
+  TThread.ForceQueue(nil, @Invalidate);
   {$ENDIF}
 end;
 

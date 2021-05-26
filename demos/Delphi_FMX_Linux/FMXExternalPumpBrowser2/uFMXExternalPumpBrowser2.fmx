@@ -17,6 +17,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   DesignerMasterStyle = 0
   object AddressPnl: TPanel
     Align = Top
+    Enabled = False
     Padding.Left = 5.000000000000000000
     Padding.Top = 5.000000000000000000
     Padding.Right = 5.000000000000000000
@@ -24,7 +25,8 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     Size.Width = 800.000000000000000000
     Size.Height = 33.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 1
+    TabOrder = 0
+    TabStop = False
     object AddressEdt: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       Align = Client
@@ -43,7 +45,8 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
       Size.Width = 81.000000000000000000
       Size.Height = 23.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 2
+      TabOrder = 1
+      TabStop = False
       object GoBtn: TButton
         Align = Left
         Position.X = 5.000000000000000000
@@ -87,7 +90,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   end
   object Panel1: TFMXBufferPanel
     Align = Client
-    TabOrder = 0
+    TabOrder = 1
     CanFocus = True
     Size.Width = 800.000000000000000000
     Size.Height = 578.000000000000000000
@@ -101,8 +104,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnMouseUp = Panel1MouseUp
     OnMouseLeave = Panel1MouseLeave
     OnMouseWheel = Panel1MouseWheel
-    OnKeyDown = Panel1KeyDown
-    OnDialogKey = Panel1DialogKey
   end
   object StatusBar1: TStatusBar
     Position.Y = 611.000000000000000000

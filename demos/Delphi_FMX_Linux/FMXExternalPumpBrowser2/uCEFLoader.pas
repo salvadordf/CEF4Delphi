@@ -48,9 +48,20 @@ uses
   // Read the answer to this question for more more information :
   // https://stackoverflow.com/questions/52103407/changing-the-initialization-order-of-the-unit-in-delphi
   System.IOUtils,
-  uCEFApplication, uCEFConstants, uCEFWorkScheduler;
+  uCEFApplication, uCEFConstants, uCEFWorkScheduler, uCEFLinuxFunctions,
+  uCEFLinuxTypes;
 
 implementation
+
+function CustomX11ErrorHandler(Display:PDisplay; ErrorEv:PXErrorEvent):longint;cdecl;
+begin
+  Result := 0;
+end;
+
+function CustomXIOErrorHandler(Display:PDisplay):longint;cdecl;
+begin
+  Result := 0;
+end;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
@@ -76,12 +87,19 @@ begin
   GlobalCEFApp.DisableZygote              := True;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
 
+  // Use these settings if you already have the CEF binaries in a directory called "cef" inside your home directory.
+  // You can also use the "Deployment" window but debugging might be slower.
   GlobalCEFApp.FrameworkDirPath      := TPath.GetHomePath + TPath.DirectorySeparatorChar + 'cef';
   GlobalCEFApp.ResourcesDirPath      := GlobalCEFApp.FrameworkDirPath;
   GlobalCEFApp.LocalesDirPath        := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'locales';
   GlobalCEFApp.cache                 := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'cache';
   GlobalCEFApp.UserDataPath          := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'User Data';
   GlobalCEFApp.BrowserSubprocessPath := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'FMXExternalPumpBrowser2_sp';
+
+  {$IFDEF DEBUG}
+  GlobalCEFApp.LogFile     := TPath.GetHomePath + TPath.DirectorySeparatorChar + 'debug.log';
+  GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO;
+  {$ENDIF}
 
   // This is a workaround to fix a Chromium initialization crash.
   // The current FMX solution to initialize CEF with a loader unit
@@ -90,6 +108,11 @@ begin
 
   GlobalCEFApp.StartMainProcess;
   GlobalCEFWorkScheduler.CreateThread;
+
+  // Install xlib error handlers so that the application won't be terminated
+  // on non-fatal errors. Must be done after initializing GTK.
+  XSetErrorHandler(@CustomX11ErrorHandler);
+  XSetIOErrorHandler(@CustomXIOErrorHandler);
 end;
 
 initialization
