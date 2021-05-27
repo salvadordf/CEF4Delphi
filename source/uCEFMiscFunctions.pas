@@ -56,11 +56,12 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX, {$IFDEF FMX}FMX.Types,{$ENDIF}
+      WinApi.Windows, WinApi.ActiveX,
     {$ELSE}
       {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
     {$ENDIF}
-    System.Types, System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
+    {$IFDEF FMX}FMX.Types,{$ENDIF} System.Types, System.IOUtils, System.Classes,
+    System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
@@ -947,16 +948,16 @@ begin
 
     {$IFDEF LINUX}
       {$IFDEF FPC}
-      // TO-DO: Find a way to write in the error console using Lazarus in Linux
+        // TO-DO: Find a way to write in the error console using Lazarus in Linux
       {$ELSE}
-      // TO-DO: Find a way to write in the error console using FMXLinux
+        FMX.Types.Log.d(aMessage);
       {$ENDIF}
     {$ENDIF}
     {$IFDEF MACOSX}
       {$IFDEF FPC}
       // TO-DO: Find a way to write in the error console using Lazarus in MacOS
       {$ELSE}
-      // TO-DO: Find a way to write in the error console using FMX for MacOS
+        FMX.Types.Log.d(aMessage);
       {$ENDIF}
     {$ENDIF}
 

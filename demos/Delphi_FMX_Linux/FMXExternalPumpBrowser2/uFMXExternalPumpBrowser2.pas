@@ -322,6 +322,7 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
                                                      X, Y   : Single);
 var
   TempEvent : TCefMouseEvent;
+  TempCount : integer;
 begin
   if not(ssTouch in Shift) then
     begin
@@ -330,7 +331,13 @@ begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
       TempEvent.modifiers := getModifiers(Shift);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, 1);
+
+      if (ssDouble in Shift) then
+        TempCount := 2
+       else
+        TempCount := 1;
+
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, TempCount);
     end;
 end;
 
@@ -388,13 +395,20 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseUp(Sender : TObject;
                                                    X, Y   : Single);
 var
   TempEvent : TCefMouseEvent;
+  TempCount : integer;
 begin
   if not(ssTouch in Shift) then
     begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
       TempEvent.modifiers := getModifiers(Shift);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, 1);
+
+      if (ssDouble in Shift) then
+        TempCount := 2
+       else
+        TempCount := 1;
+
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, TempCount);
     end;
 end;
 

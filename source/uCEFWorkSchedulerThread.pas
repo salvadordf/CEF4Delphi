@@ -88,6 +88,7 @@ type
 implementation
 
 uses
+  uCEFMiscFunctions,
   {$IFDEF DELPHI16_UP}
   System.SysUtils, System.Math;
   {$ELSE}

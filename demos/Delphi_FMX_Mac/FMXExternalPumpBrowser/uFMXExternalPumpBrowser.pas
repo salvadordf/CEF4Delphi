@@ -114,12 +114,14 @@ type
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
-
+    procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+	  
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
+	
     procedure CopyMenuItemClick(Sender: TObject);
     procedure CutMenuItemClick(Sender: TObject);
     procedure DeleteMenuItemClick(Sender: TObject);
@@ -162,7 +164,6 @@ var
 // This demo is in ALPHA state. It's incomplete and some features may not work!
 // ****************************************************************************
 // Known issues and missing features :
-// - Full screen event is not handled correctly.
 // - Right-click crashes the demo.
 
 
@@ -597,6 +598,16 @@ begin
                           begin
                             close
                           end);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeContextMenu(      Sender  : TObject;
+                                                              const browser : ICefBrowser;
+                                                              const frame   : ICefFrame;
+                                                              const params  : ICefContextMenuParams;
+                                                              const model   : ICefMenuModel);
+begin
+  // Disable the context menu to avoid a crash issue for now
+  if (model <> nil) then model.Clear;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(      Sender             : TObject;

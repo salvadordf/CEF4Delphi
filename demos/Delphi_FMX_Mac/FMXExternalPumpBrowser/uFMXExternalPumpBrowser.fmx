@@ -159,6 +159,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     end
   end
   object chrmosr: TFMXChromium
+    OnBeforeContextMenu = chrmosrBeforeContextMenu
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup

@@ -66,13 +66,13 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 90;
   CEF_SUPPORTED_VERSION_MINOR   = 6;
-  CEF_SUPPORTED_VERSION_RELEASE = 6;
+  CEF_SUPPORTED_VERSION_RELEASE = 7;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 90;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 4430;
-  CEF_CHROMEELF_VERSION_BUILD   = 93;
+  CEF_CHROMEELF_VERSION_BUILD   = 212;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -620,7 +620,7 @@ uses
     System.Math, System.IOUtils, System.SysUtils,
     {$IFDEF MSWINDOWS}WinApi.TlHelp32, WinApi.PSAPI,{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
-    {$IFDEF MACOS}Posix.Stdio,{$ENDIF}
+    {$IFDEF MACOS}Posix.Stdio, uCEFMacOSFunctions,{$ENDIF}
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
@@ -1554,7 +1554,7 @@ begin
         {$IFDEF FPC}
         // TO-DO: Find a way to show message boxes in Lazarus/FPC for MacOS
         {$ELSE}
-        // TO-DO: Find a way to show message boxes in FMX for MacOS
+        ShowMessageCF('Error', aError, 10);
         {$ENDIF}
       {$ENDIF}
     end;

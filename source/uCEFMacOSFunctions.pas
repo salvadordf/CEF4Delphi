@@ -57,6 +57,7 @@ function  KeyToMacOSKeyCode(aKey : Word): integer;
 {$IFDEF FMX}
 procedure CopyCEFFramework;
 procedure CopyCEFHelpers(const aProjectName : string);
+procedure ShowMessageCF(const aHeading, aMessage : string; const aTimeoutInSecs : double = 0);
 {$ENDIF}
 {$ENDIF}
 
@@ -66,6 +67,7 @@ implementation
 {$IFDEF FMX}
 uses
   System.SysUtils, System.Types, System.IOUtils, Posix.Stdio, FMX.Types,
+  Macapi.CoreFoundation,
   uCEFMiscFunctions;
 
 const
@@ -364,6 +366,22 @@ begin
             end;
         end;
     end;
+end;
+
+procedure ShowMessageCF(const aHeading, aMessage : string; const aTimeoutInSecs : double = 0);
+var
+  TempHeading, TempMessage : CFStringRef;
+  TempResponse : CFOptionFlags;
+begin
+  TempHeading := CFStringCreateWithCharactersNoCopy(nil, PChar(aHeading), Length(AHeading), kCFAllocatorNull);
+  TempMessage := CFStringCreateWithCharactersNoCopy(nil, PChar(aMessage), Length(AMessage), kCFAllocatorNull);
+
+  try
+    CFUserNotificationDisplayAlert(aTimeoutInSecs, kCFUserNotificationNoteAlertLevel, nil, nil, nil, TempHeading, TempMessage, nil, nil, nil, TempResponse);
+  finally
+    CFRelease(TempHeading);
+    CFRelease(TempMessage);
+  end;
 end;
 {$ENDIF}
 {$ENDIF}
