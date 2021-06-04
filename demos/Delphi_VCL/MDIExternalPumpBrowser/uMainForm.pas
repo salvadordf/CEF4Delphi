@@ -65,10 +65,12 @@ type
     NewBtn: TSpeedButton;
     ExitBtn: TSpeedButton;
     NewContextChk: TCheckBox;
+
     procedure FormCreate(Sender: TObject);
     procedure NewBtnClick(Sender: TObject);
     procedure ExitBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+
   private
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True when all the child forms are closed
@@ -84,7 +86,6 @@ type
 
   public
     function CloseQuery: Boolean; override;
-
     property ChildClosing : boolean read GetChildClosing;
   end;
 
@@ -114,22 +115,25 @@ end;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
-  if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+  if (GlobalCEFWorkScheduler <> nil) then
+    GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
 end;
 
 procedure CreateGlobalCEFApp;
 begin
-  // TCEFWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalCEFWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
-
   GlobalCEFApp                           := TCefApplication.Create;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
   GlobalCEFApp.OnContextInitialized      := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.RootCache                 := ExtractFileDir(ParamStr(0));
+  GlobalCEFApp.cache                     := GlobalCEFApp.RootCache + '\cache';
+
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
 end;
 
 procedure TMainForm.CreateMDIChild(const Name: string);
@@ -161,7 +165,6 @@ var
 begin
   Result := false;
   i      := pred(MDIChildCount);
-
   while (i >= 0) do
     if TChildForm(MDIChildren[i]).Closing then
       begin
@@ -196,6 +199,7 @@ end;
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
 begin
   // If there are no more child forms we can destroy the main form
+
   if FClosing and (MDIChildCount = 0) then
     begin
       ButtonPnl.Enabled := False;

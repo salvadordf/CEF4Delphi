@@ -133,12 +133,6 @@ end;
 
 procedure CreateGlobalCEFApp;
 begin                          
-  // TCEFWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalCEFWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
-
   GlobalCEFApp                           := TCefApplication.Create;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
@@ -147,10 +141,12 @@ begin
   // This is a workaround for the 'GPU is not usable error' issue :
   // https://bitbucket.org/chromiumembedded/cef/issues/2964/gpu-is-not-usable-error-during-cef
   GlobalCEFApp.DisableZygote := True; // this property adds the "--no-zygote" command line switch
-  {
-  GlobalCEFApp.LogFile     := 'cef.log';
-  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
-  }
+
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);

@@ -182,12 +182,6 @@ end;
 
 procedure CreateGlobalCEFApp;
 begin
-  // TFMXWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalFMXWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalFMXWorkScheduler := TFMXWorkScheduler.Create(nil);
-
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
@@ -196,7 +190,16 @@ begin
   GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
-  //GlobalCEFApp.EnableGPU                  := True;
+  {$IFDEF DEBUG}
+  //GlobalCEFApp.LogFile                    := 'debug.log';
+  //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  {$ENDIF}
+
+  // TFMXWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalFMXWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalFMXWorkScheduler := TFMXWorkScheduler.Create(nil);
 end;
 
 procedure TMainForm.NotifyMoveOrResizeStarted;

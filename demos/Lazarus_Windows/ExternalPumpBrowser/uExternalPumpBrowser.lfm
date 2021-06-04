@@ -14,7 +14,7 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.12.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 21
@@ -79,15 +79,15 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 56
-    top = 88
+    Left = 56
+    Top = 88
   end
   object Chromium1: TChromium
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
-    left = 56
-    top = 152
+    Left = 56
+    Top = 152
   end
 end

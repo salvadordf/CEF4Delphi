@@ -233,7 +233,10 @@ contains
   uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
   uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas',
   uCEFMacOSConstants in '..\source\uCEFMacOSConstants.pas',
-  uCEFMacOSFunctions in '..\source\uCEFMacOSFunctions.pas';
+  uCEFMacOSFunctions in '..\source\uCEFMacOSFunctions.pas',
+  uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
+  uCEFMacOSCustomCocoaTimer in '..\source\uCEFMacOSCustomCocoaTimer.pas',
+  uCEFMacOSInterfaces in '..\source\uCEFMacOSInterfaces.pas';
 
 end.
 

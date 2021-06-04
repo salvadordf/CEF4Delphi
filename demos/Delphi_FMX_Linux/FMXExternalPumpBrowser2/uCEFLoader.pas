@@ -48,7 +48,7 @@ uses
   // Read the answer to this question for more more information :
   // https://stackoverflow.com/questions/52103407/changing-the-initialization-order-of-the-unit-in-delphi
   System.IOUtils,
-  uCEFApplication, uCEFConstants, uCEFWorkScheduler, uCEFLinuxFunctions,
+  uCEFApplication, uCEFConstants, uCEFTimerWorkScheduler, uCEFLinuxFunctions,
   uCEFLinuxTypes;
 
 implementation
@@ -65,20 +65,12 @@ end;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
-  if (GlobalCEFWorkScheduler <> nil) then
-    GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+  if (GlobalCEFTimerWorkScheduler <> nil) then
+    GlobalCEFTimerWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
 end;
 
 procedure InitializeGlobalCEFApp;
 begin
-  // TCEFWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalCEFWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  // We use CreateDelayed in order to have a single thread in the process while
-  // CEF is initialized.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
-
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
@@ -96,6 +88,14 @@ begin
   GlobalCEFApp.UserDataPath          := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'User Data';
   GlobalCEFApp.BrowserSubprocessPath := GlobalCEFApp.FrameworkDirPath + TPath.DirectorySeparatorChar + 'FMXExternalPumpBrowser2_sp';
 
+  // TCEFTimerWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFTimerWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  // We use CreateDelayed in order to have a single thread in the process while
+  // CEF is initialized.
+  GlobalCEFTimerWorkScheduler := TCEFTimerWorkScheduler.Create;
+
   {$IFDEF DEBUG}
   GlobalCEFApp.LogFile     := TPath.GetHomePath + TPath.DirectorySeparatorChar + 'debug.log';
   GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO;
@@ -107,7 +107,6 @@ begin
   GlobalCEFApp.DisableFeatures := 'HardwareMediaKeyHandling';
 
   GlobalCEFApp.StartMainProcess;
-  GlobalCEFWorkScheduler.CreateThread;
 
   // Install xlib error handlers so that the application won't be terminated
   // on non-fatal errors. Must be done after initializing GTK.
@@ -119,8 +118,8 @@ initialization
   InitializeGlobalCEFApp;
 
 finalization
-  if (GlobalCEFWorkScheduler <> nil) then GlobalCEFWorkScheduler.StopScheduler;
+  if (GlobalCEFTimerWorkScheduler <> nil) then GlobalCEFTimerWorkScheduler.StopScheduler;
   DestroyGlobalCEFApp;
-  DestroyGlobalCEFWorkScheduler;
+  DestroyGlobalCEFTimerWorkScheduler;
 
 end.

@@ -44,57 +44,50 @@ unit uFMXApplicationService;
 interface
 
 uses
-  Macapi.Foundation, Macapi.CoreFoundation, Macapi.ObjectiveC, Macapi.Helpers,
-  Macapi.CocoaTypes, Macapi.AppKit, FMX.Platform;
+  System.TypInfo, Macapi.Foundation, Macapi.CoreFoundation, Macapi.ObjectiveC,
+  Macapi.Helpers, Macapi.CocoaTypes, Macapi.AppKit, FMX.Platform,
+  uCEFMacOSInterfaces;
 
 type
   TFMXApplicationService = class;
 
-  ICrAppProtocol = interface(NSApplicationDelegate)
-    ['{2071D289-9A54-4AD7-BD83-E521ACD5C528}']
-    function isHandlingSendEvent: boolean; cdecl;
-  end;
+  TFMXApplicationDelegateEx = class(TOCLocal, IFMXApplicationDelegate)
+    protected
+      FAppService : TFMXApplicationService;
 
-  ICrAppControlProtocol = interface(ICrAppProtocol)
-    ['{BCCDF64D-E8D7-4E0B-83BC-30F87145576C}']
-    procedure setHandlingSendEvent(handlingSendEvent: boolean); cdecl;
-  end;
+    public
+      constructor Create(const aAppService : TFMXApplicationService);
+      function    GetObjectiveCClass: PTypeInfo; override;
 
-  TCrAppProtocol = class(TOCLocal, ICrAppControlProtocol)
-  private
-    FAppService : TFMXApplicationService;
+      // CrAppProtocol
+      function  isHandlingSendEvent: boolean; cdecl;
 
-  public
-    constructor Create(const aAppService : TFMXApplicationService);
+      // CrAppControlProtocol
+      procedure setHandlingSendEvent(handlingSendEvent: boolean); cdecl;
 
-    // ICrAppProtocol
-    function  isHandlingSendEvent: boolean; cdecl;
+      // IFMXApplicationDelegate
+      procedure onMenuClicked(sender: NSMenuItem); cdecl;
 
-    // ICrAppControlProtocol
-    procedure setHandlingSendEvent(handlingSendEvent: boolean); cdecl;
-
-    // NSApplicationDelegate
-    function  applicationShouldTerminate(Notification: NSNotification): NSInteger; cdecl;
-    procedure applicationWillTerminate(Notification: NSNotification); cdecl;
-    procedure applicationDidFinishLaunching(Notification: NSNotification); cdecl;
-    procedure applicationDidHide(Notification: NSNotification); cdecl;
-    procedure applicationDidUnhide(Notification: NSNotification); cdecl;
-    function  applicationDockMenu(sender: NSApplication): NSMenu; cdecl;
+      // NSApplicationDelegate
+      function  applicationShouldTerminate(Notification: NSNotification): NSInteger; cdecl;
+      procedure applicationWillTerminate(Notification: NSNotification); cdecl;
+      procedure applicationDidFinishLaunching(Notification: NSNotification); cdecl;
+      procedure applicationDidHide(Notification: NSNotification); cdecl;
+      procedure applicationDidUnhide(Notification: NSNotification); cdecl;
+      function  applicationDockMenu(sender: NSApplication): NSMenu; cdecl;
   end;
 
   TFMXApplicationService = class(TInterfacedObject, IFMXApplicationService)
-    private
-      FNewDelegate          : ICrAppControlProtocol;
-      FOldDelegate          : NSApplicationDelegate;
-
     protected
-      class var OldFMXApplicationService: IFMXApplicationService;
-      class var NewFMXApplicationService: IFMXApplicationService;
+      FNewDelegate : IFMXApplicationDelegate;
+      FOldDelegate : IFMXApplicationDelegate;
+
+      FHandlingSendEventOverride : boolean;
 
       procedure ReplaceNSApplicationDelegate;
       procedure RestoreNSApplicationDelegate;
 
-      function  GetHandlingSendEvent : boolean;
+      function  GetPrivateFieldAsBoolean(const aFieldName : string) : boolean;
 
     public
       constructor Create;
@@ -112,6 +105,10 @@ type
       function  Terminating: Boolean;
       function  Running: Boolean;
 
+      // IFMXApplicationServiceEx
+      function  GetHandlingSendEvent : boolean;
+      procedure SetHandlingSendEvent(aValue : boolean);
+
       // NSApplicationDelegate
       function  applicationShouldTerminate(Notification: NSNotification): NSInteger;
       procedure applicationWillTerminate(Notification: NSNotification);
@@ -120,39 +117,52 @@ type
       procedure applicationDidUnhide(Notification: NSNotification);
       function  applicationDockMenu(sender: NSApplication): NSMenu;
 
+      // IFMXApplicationDelegate
+      procedure onMenuClicked(sender: NSMenuItem);
+
       class procedure AddPlatformService;
+
+      class var OldFMXApplicationService: IFMXApplicationService;
+      class var NewFMXApplicationService: IFMXApplicationService;
 
       property  DefaultTitle         : string    read GetDefaultTitle;
       property  Title                : string    read GetTitle                write SetTitle;
       property  AppVersion           : string    read GetVersionString;
-      property  HandlingSendEvent    : boolean   read GetHandlingSendEvent;
+      property  HandlingSendEvent    : boolean   read GetHandlingSendEvent    write SetHandlingSendEvent;
   end;
 
 implementation
 
 uses
-  System.RTTI, FMX.Forms,
-  uFMXExternalPumpBrowser, uCEFFMXWorkScheduler, uCEFApplication, uCEFConstants;
+  System.RTTI, FMX.Forms, FMX.Helpers.Mac, System.Messaging,
+  uFMXExternalPumpBrowser, uCEFFMXWorkScheduler, uCEFApplication, uCEFConstants,
+  uCEFMacOSFunctions;
 
-// TCrAppProtocol
-constructor TCrAppProtocol.Create(const aAppService : TFMXApplicationService);
+// TFMXApplicationDelegateEx
+constructor TFMXApplicationDelegateEx.Create(const aAppService : TFMXApplicationService);
 begin
   inherited Create;
 
   FAppService := aAppService;
 end;
 
-function TCrAppProtocol.isHandlingSendEvent: Boolean;
+function TFMXApplicationDelegateEx.GetObjectiveCClass: PTypeInfo;
+begin
+  Result := TypeInfo(CrAppControlProtocol);
+end;
+
+function TFMXApplicationDelegateEx.isHandlingSendEvent: Boolean;
 begin
   Result := (FAppService <> nil) and FAppService.HandlingSendEvent;
 end;
 
-procedure TCrAppProtocol.setHandlingSendEvent(handlingSendEvent: boolean);
+procedure TFMXApplicationDelegateEx.setHandlingSendEvent(handlingSendEvent: boolean);
 begin
-  //
+  if (FAppService <> nil) then
+    FAppService.HandlingSendEvent := handlingSendEvent;
 end;
 
-function TCrAppProtocol.applicationShouldTerminate(Notification: NSNotification): NSInteger;
+function TFMXApplicationDelegateEx.applicationShouldTerminate(Notification: NSNotification): NSInteger;
 begin
   if assigned(FAppService) then
     Result := FAppService.applicationShouldTerminate(Notification)
@@ -160,31 +170,31 @@ begin
     Result := 0;
 end;
 
-procedure TCrAppProtocol.applicationWillTerminate(Notification: NSNotification);
+procedure TFMXApplicationDelegateEx.applicationWillTerminate(Notification: NSNotification);
 begin
   if assigned(FAppService) then
     FAppService.applicationWillTerminate(Notification);
 end;
 
-procedure TCrAppProtocol.applicationDidFinishLaunching(Notification: NSNotification);
+procedure TFMXApplicationDelegateEx.applicationDidFinishLaunching(Notification: NSNotification);
 begin
   if assigned(FAppService) then
     FAppService.applicationDidFinishLaunching(Notification);
 end;
 
-procedure TCrAppProtocol.applicationDidHide(Notification: NSNotification);
+procedure TFMXApplicationDelegateEx.applicationDidHide(Notification: NSNotification);
 begin
   if assigned(FAppService) then
     FAppService.applicationDidHide(Notification);
 end;
 
-procedure TCrAppProtocol.applicationDidUnhide(Notification: NSNotification);
+procedure TFMXApplicationDelegateEx.applicationDidUnhide(Notification: NSNotification);
 begin
   if assigned(FAppService) then
     FAppService.applicationDidUnhide(Notification);
 end;
 
-function TCrAppProtocol.applicationDockMenu(sender: NSApplication): NSMenu;
+function TFMXApplicationDelegateEx.applicationDockMenu(sender: NSApplication): NSMenu;
 begin
   if assigned(FAppService) then
     Result := FAppService.applicationDockMenu(sender)
@@ -192,13 +202,21 @@ begin
     Result := nil;
 end;
 
+procedure TFMXApplicationDelegateEx.onMenuClicked(sender: NSMenuItem);
+begin
+  if assigned(FAppService) then
+    FAppService.onMenuClicked(sender);
+end;
+
 //  TFMXApplicationService
 constructor TFMXApplicationService.Create;
 begin
   inherited Create;
 
-  FNewDelegate          := nil;
-  FOldDelegate          := nil;
+  FNewDelegate := nil;
+  FOldDelegate := nil;
+
+  FHandlingSendEventOverride := False;
 end;
 
 procedure TFMXApplicationService.AfterConstruction;
@@ -213,10 +231,10 @@ var
   TempNSApplication : NSApplication;
 begin
   TempNSApplication := TNSApplication.Wrap(TNSApplication.OCClass.sharedApplication);
-  FNewDelegate      := ICrAppControlProtocol(TCrAppProtocol.Create(self));
-  FOldDelegate      := NSApplicationDelegate(TempNSApplication.delegate);
+  FNewDelegate      := IFMXApplicationDelegate(TFMXApplicationDelegateEx.Create(self));
+  FOldDelegate      := IFMXApplicationDelegate(TempNSApplication.delegate);
 
-  TempNSApplication.setDelegate(FNewDelegate);
+  TempNSApplication.setDelegate(NSApplicationDelegate(FNewDelegate));
 end;
 
 procedure TFMXApplicationService.RestoreNSApplicationDelegate;
@@ -231,21 +249,16 @@ begin
     end;
 end;
 
-function TFMXApplicationService.GetHandlingSendEvent : boolean;
+function TFMXApplicationService.GetPrivateFieldAsBoolean(const aFieldName : string) : boolean;
 var
   TempContext  : TRttiContext;
   TempRttiType : TRttiType;
   TempField    : TRttiField;
   TempService  : TObject;
 begin
-  Result := False;
-
-  // We need to know when NSApp.sendEvent is being called and TPlatformCocoa
-  // has a private field with that information. In order to read that field we
-  // have to use RTTI.
   // This function is based on this answer in stackoverflow :
   // https://stackoverflow.com/questions/28135592/showmodal-form-that-opens-nsopenpanel-is-force-closed-in-delphi-firemonkey-osx
-
+  Result      := False;
   TempService := TObject(TPlatformServices.Current.GetPlatformService(IFMXWindowService));
 
   if (TempService <> nil) then
@@ -254,11 +267,25 @@ begin
 
       if (TempRttiType <> nil) then
         begin
-          TempField := TempRttiType.GetField('FDisableClosePopups');
+          TempField := TempRttiType.GetField(aFieldName);
           Result    := (TempField <> nil) and
                        TempField.GetValue(TempService).AsBoolean;
         end;
     end;
+end;
+
+procedure TFMXApplicationService.SetHandlingSendEvent(aValue : boolean);
+begin
+  FHandlingSendEventOverride := aValue;
+end;
+
+function TFMXApplicationService.GetHandlingSendEvent : boolean;
+begin
+  // We need to know when NSApp.sendEvent is being called and TPlatformCocoa
+  // has a private field called FDisableClosePopups with that information.
+  // In order to read that field we have to use RTTI.
+  Result := FHandlingSendEventOverride or
+            GetPrivateFieldAsBoolean('FDisableClosePopups');
 end;
 
 class procedure TFMXApplicationService.AddPlatformService;
@@ -364,6 +391,12 @@ begin
     Result := FOldDelegate.applicationDockMenu(sender)
    else
     Result := nil;
+end;
+
+procedure TFMXApplicationService.onMenuClicked(sender: NSMenuItem);
+begin
+  if assigned(FOldDelegate) then
+    FOldDelegate.onMenuClicked(sender);
 end;
 
 function TFMXApplicationService.HandleMessage: Boolean;

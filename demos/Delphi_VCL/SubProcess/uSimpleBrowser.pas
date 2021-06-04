@@ -59,12 +59,14 @@ type
     AddressEdt: TEdit;
     GoBtn: TButton;
     Timer1: TTimer;
+
     procedure GoBtnClick(Sender: TObject);
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure ChromiumWindow1Close(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+
   private
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -72,6 +74,7 @@ type
     // You also have to handle these two messages to set GlobalCEFApp.OsmodalLoop
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
+
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
@@ -95,12 +98,9 @@ uses
 
 // This is a demo with the simplest web browser you can build using CEF4Delphi and
 // it doesn't show any sign of progress like other web browsers do.
-
 // Remember that it may take a few seconds to load if Windows update, your antivirus or
 // any other windows service is using your hard drive.
-
 // Depending on your internet connection it may take longer than expected.
-
 // Please check that your firewall or antivirus are not blocking this application
 // or the domain "google.com". If you don't live in the US, you'll be redirected to
 // another domain which will take a little time too.
@@ -138,7 +138,6 @@ begin
   // You *MUST* call CreateBrowser to create and initialize the browser.
   // This will trigger the AfterCreated event when the browser is fully
   // initialized and ready to receive commands.
-
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(ChromiumWindow1.CreateBrowser) then
@@ -181,6 +180,7 @@ end;
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
   Timer1.Enabled := False;
+
   if not(ChromiumWindow1.CreateBrowser) and not(ChromiumWindow1.Initialized) then
     Timer1.Enabled := True;
 end;

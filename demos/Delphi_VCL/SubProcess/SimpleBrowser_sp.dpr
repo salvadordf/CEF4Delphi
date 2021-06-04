@@ -34,11 +34,8 @@
  * this source code without explicit permission.
  *
  *)
-
 program SimpleBrowser_sp;
-
 {$I cef.inc}
-
 uses
   {$IFDEF DELPHI16_UP}
   WinApi.Windows,
@@ -50,7 +47,6 @@ uses
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes
 // to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
-
 begin
   // This SubProcess project is only used for the CEF subprocesses and it needs
   // to declare "CEFSUBPROCESS" conditional define. Follow these steps to add it:
@@ -59,8 +55,6 @@ begin
   // 2. Select "All configurations - All platforms" option as the "Target" on
   // the right section of that window.
   // 3. Add "CEFSUBPROCESS" (without quotes) in the "Conditional defines" box.
-
   // uCEFLoader will call CreateGlobalCEFApp and DestroyGlobalCEFApp in the
   // initialization and finalization sections of that unit.
 end.
-

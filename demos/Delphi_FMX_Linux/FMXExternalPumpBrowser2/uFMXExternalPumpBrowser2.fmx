@@ -98,7 +98,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
     OnResize = Panel1Resize
-    OnClick = Panel1Click
     OnMouseDown = Panel1MouseDown
     OnMouseMove = Panel1MouseMove
     OnMouseUp = Panel1MouseUp
@@ -125,6 +124,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   object chrmosr: TFMXChromium
     OnLoadError = chrmosrLoadError
     OnLoadingStateChange = chrmosrLoadingStateChange
+    OnBeforeContextMenu = chrmosrBeforeContextMenu
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup

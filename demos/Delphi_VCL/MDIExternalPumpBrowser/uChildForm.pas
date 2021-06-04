@@ -204,6 +204,7 @@ end;
 procedure TChildForm.FormShow(Sender: TObject);
 var
   TempContext : ICefRequestContext;
+  TempCache : string;
 begin
   // The new request context overrides several GlobalCEFApp properties like :
   // cache, AcceptLanguageList, PersistSessionCookies, PersistUserPreferences and
@@ -214,8 +215,10 @@ begin
   // The cache directories of all the browsers *MUST* be a subdirectory of
   // GlobalCEFApp.RootCache unless you use a blank cache (in-memory).
 
+  TempCache := GlobalCEFApp.RootCache + '\cache2';
+
   if MainForm.NewContextChk.Checked then
-    TempContext := TCefRequestContextRef.New('', '', '', False, False, False, False)
+    TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, False, False)
    else
     TempContext := nil;
 

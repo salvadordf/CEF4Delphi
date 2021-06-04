@@ -45,7 +45,7 @@ uses
   {$ENDIF }
   FMX.Forms,
   uCEFApplication,
-  uCEFFMXWorkScheduler,
+  uCEFTimerWorkScheduler,
   uCEFMacOSFunctions,
   uFMXExternalPumpBrowser in 'uFMXExternalPumpBrowser.pas' {FMXExternalPumpBrowserFrm},
   uFMXApplicationService in 'uFMXApplicationService.pas';
@@ -77,9 +77,10 @@ begin
       // The form needs to be destroyed *BEFORE* stopping the scheduler.
       FMXExternalPumpBrowserFrm.Free;
 
-      GlobalFMXWorkScheduler.StopScheduler;
+      if (GlobalCEFTimerWorkScheduler <> nil) then
+        GlobalCEFTimerWorkScheduler.StopScheduler;
     end;
 
   DestroyGlobalCEFApp;
-  DestroyGlobalFMXWorkScheduler;
+  DestroyGlobalCEFTimerWorkScheduler;
 end.

@@ -318,6 +318,7 @@
         <DCCReference Include="..\source\uCEFPrintJobCallback.pas"/>
         <DCCReference Include="..\source\uCEFWorkSchedulerQueueThread.pas"/>
         <DCCReference Include="..\source\uCEFLinkedWinControlBase.pas"/>
+        <DCCReference Include="..\source\uCEFTimerWorkScheduler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

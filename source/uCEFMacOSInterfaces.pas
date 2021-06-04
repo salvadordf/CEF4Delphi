@@ -35,36 +35,48 @@
  *
  *)
 
-program TinyBrowser;
+unit uCEFMacOSInterfaces;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
+interface
+
+{$IFDEF MACOS}
 uses
-  // FastMM4,
-  {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
-  {$ELSE}
-  Windows,
-  {$ENDIF}
-  uTinyBrowser in 'uTinyBrowser.pas',
-  uCEFApplicationCore;
+  System.TypInfo, Macapi.Foundation, Macapi.CoreFoundation, Macapi.ObjectiveC,
+  Macapi.Helpers, Macapi.CocoaTypes, Macapi.AppKit, FMX.Platform;
 
-{$R *.res}
+type
+  IFMXApplicationDelegate = interface(NSApplicationDelegate)
+    ['{A54E08CA-77CC-4F22-B6D9-833DD6AB696D}']
+    procedure onMenuClicked(sender: NSMenuItem); cdecl;
+  end;
 
-{$IFDEF WIN32}
-  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-  // If you don't add this flag the rederer process will crash when you try to load large images.
-  {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+  CrAppProtocol = interface(NSObject)
+    ['{2071D289-9A54-4AD7-BD83-E521ACD5C528}']
+    function isHandlingSendEvent: boolean; cdecl;
+  end;
+
+  //CrAppControlProtocol = interface(CrAppProtocol)
+  CrAppControlProtocol = interface(NSObject)
+    ['{BCCDF64D-E8D7-4E0B-83BC-30F87145576C}']
+    function isHandlingSendEvent: boolean; cdecl;
+    procedure setHandlingSendEvent(handlingSendEvent: boolean); cdecl;
+  end;
+
+  ICustomCocoaTimer = interface(NSObject)
+    ['{17D92D03-614A-4D4A-B938-FA0D4A3A07F9}']
+    procedure timerTimeout(timer: NSTimer); cdecl;
+  end;
 {$ENDIF}
 
-begin
-  CreateGlobalCEFApp;
+implementation
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      GlobalCEFApp.RunMessageLoop;
-      DestroyTinyBrowser;
-    end;
-
-  DestroyGlobalCEFApp;
 end.

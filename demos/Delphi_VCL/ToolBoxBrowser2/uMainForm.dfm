@@ -45,9 +45,9 @@ object MainForm: TMainForm
     end
   end
   object CEFWindowComponent1: TCEFWindowComponent
-    OnGetPreferredSize = CEFWindowComponent1GetPreferredSize
     OnWindowCreated = CEFWindowComponent1WindowCreated
     OnWindowDestroyed = CEFWindowComponent1WindowDestroyed
+    OnGetInitialBounds = CEFWindowComponent1GetInitialBounds
     OnCanClose = CEFWindowComponent1CanClose
     Left = 48
   end

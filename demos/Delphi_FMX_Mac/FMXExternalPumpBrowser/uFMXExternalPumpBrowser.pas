@@ -46,9 +46,9 @@ uses
   Macapi.AppKit, FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs,
   FMX.Edit, FMX.StdCtrls, FMX.Controls.Presentation,
   {$IFDEF DELPHI17_UP}FMX.Graphics,{$ENDIF}
-  uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
+  uCEFFMXChromium, uCEFFMXBufferPanel, uCEFTimerWorkScheduler,
   uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore, FMX.Layouts,
-  FMX.Memo.Types, FMX.ScrollBox, FMX.Memo, FMX.Menus;
+  FMX.Memo.Types, FMX.ScrollBox, FMX.Memo, FMX.Menus, FMX.ComboEdit;
 
 type
   tagRGBQUAD = record
@@ -59,9 +59,16 @@ type
        end;
   TRGBQuad = tagRGBQUAD;
 
+  TJSDialogInfo = record
+    OriginUrl         : ustring;
+    MessageText       : ustring;
+    DefaultPromptText : ustring;
+    DialogType        : TCefJsDialogType;
+    Callback          : ICefJsDialogCallback;
+  end;
+
   TFMXExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
-    AddressEdt: TEdit;
     chrmosr: TFMXChromium;
     Timer1: TTimer;
     SaveDialog1: TSaveDialog;
@@ -79,6 +86,11 @@ type
     PasteMenuItem: TMenuItem;
     DeleteMenuItem: TMenuItem;
     SelectAllMenuItem: TMenuItem;
+    AddressCb: TComboEdit;
+    PopupMenu1: TPopupMenu;
+    BackMenuItem: TMenuItem;
+    ForwardMenuItem: TMenuItem;
+    OpenDialog1: TOpenDialog;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -115,13 +127,15 @@ type
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
     procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
-	  
+    procedure chrmosrJsdialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage, Result: Boolean);
+
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
+    procedure PopupMenu1Popup(Sender: TObject);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
-	
+
     procedure CopyMenuItemClick(Sender: TObject);
     procedure CutMenuItemClick(Sender: TObject);
     procedure DeleteMenuItemClick(Sender: TObject);
@@ -129,6 +143,8 @@ type
     procedure RedoMenuItemClick(Sender: TObject);
     procedure SelectAllMenuItemClick(Sender: TObject);
     procedure UndoMenuItemClick(Sender: TObject);
+    procedure BackMenuItemClick(Sender: TObject);
+    procedure ForwardMenuItemClick(Sender: TObject);
 
   protected
     FPopUpBitmap       : TBitmap;
@@ -143,10 +159,19 @@ type
     FMouseWheelService : IFMXMouseService;
     {$ENDIF}
 
+    FJSDialogInfo      : TJSDialogInfo;
+    FLastClickPoint    : TPointF;
+
+    procedure GlobalCEFTimerWorkScheduler_OnAllowDoWork(Sender: TObject; var allow : boolean);
+
     procedure LoadURL;
-    function  getModifiers(Shift: TShiftState; KeyCode: integer = 0): TCefEventFlags;
+    function  getModifiers(Shift: TShiftState): TCefEventFlags; overload;
+    function  getModifiers(Shift: TShiftState; KeyCode: integer): TCefEventFlags; overload;
+    function  getModifiers(Button: TMouseButton; Shift: TShiftState): TCefEventFlags; overload;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     function  GetMousePosition(var aPoint : TPointF) : boolean;
+    procedure ShowPendingJSDialog;
+    procedure ShowPendingPopupMenu;
 
   public
     procedure DoResize;
@@ -158,27 +183,20 @@ type
 var
   FMXExternalPumpBrowserFrm : TFMXExternalPumpBrowserFrm;
 
-// ****************************************************************************
-// ********************************* WARNING **********************************
-// ****************************************************************************
-// This demo is in ALPHA state. It's incomplete and some features may not work!
-// ****************************************************************************
-// Known issues and missing features :
-// - Right-click crashes the demo.
+// This is a simple browser using FireMonkey components in OSR mode (off-screen
+// rendering) and a external message pump for MacOS.
 
+// It's recomemded to understand the code in the SimpleOSRBrowser and
+// OSRExternalPumpBrowser demos before reading the code in this demo.
 
-// This is a simple browser using FireMonkey components in OSR mode (off-screen rendering)
-// and a external message pump for MacOS.
-
-// It's recomemded to understand the code in the SimpleOSRBrowser and OSRExternalPumpBrowser demos before
-// reading the code in this demo.
-
-// All FMX applications using CEF4Delphi should add the $(FrameworkType) conditional define
-// in the project options to avoid duplicated resources.
+// All FMX applications using CEF4Delphi should add the $(FrameworkType)
+// conditional define in the project options to avoid duplicated resources.
 // This demo has that define in the menu option :
-// Project -> Options -> Building -> Delphi compiler -> Conditional defines (All configurations)
+// Project -> Options -> Building -> Delphi compiler -> Conditional defines
+// (All configurations)
 
-// The subprocesses may need to use "FMX" instead of the $(FrameworkType) conditional define
+// The subprocesses may need to use "FMX" instead of the $(FrameworkType)
+// conditional define
 
 // As mentioned in the CEF4Delphi information page, Chromium in MacOS requires
 // 4 helper bundles used for the subprocesses. The helpers must be copied inside
@@ -196,6 +214,11 @@ var
 // helper bundles and the executable inside them. The "AppHelperRenamer" tool
 // can be used for that purpose.
 
+// The CopyCEFFramework and CopyCEFHelpers calls in the DPR file will copy
+// the CEF binaries and the helper bundles automatically but those functions
+// should only be used during development because the final build should have
+// all the bundle contents signed using your "Apple developer certificate".
+
 // All the helpers in this demo have extra information in the info.plist file.
 // Open the "Project -> Options..." menu option and select "Application -> Version Info"
 // in the left tree to edit the information in the info.plist file.
@@ -211,14 +234,17 @@ var
 // Adding the CEF binaries and the helpers to the "Contents/Frameworks"
 // directory while the main application is deployed is possible but then Delphi
 // runs codesign to sign all those files. You need to setup your
-// "apple developer certificate" details in the project options.
+// "Apple developer certificate" details in the project options.
 // Open the "Project -> Options..." menu option and select "Deployment -> Provisioning"
 // to fill the certificate details needed to sign your application.
 
-// If you don't have a certificate you can put a breakpoint in the first code
-// line of the DPR file of your application and copy the CEF binaries and the
-// helper bundles in the "Contents/Frameworks" directory while the execution is
-// stopped.
+// Chromium requires subclassing NSApplication and implementing CrAppProtocol in
+// NSApplication but the Firemonkey framework only allows to do that partially.
+// This is a known cause of issues that can be avoided using custom popup menus
+// and dialogs. This demo shows how to use a custom popup menu to replace the
+// context menu and Firemonkey dialogs to replace JavaScript dialogs.
+// If you detect some other issues when the browser shows some native user
+// interface controls then replace them with custom Firemonkey controls.
 
 // This is the destruction sequence in OSR mode :
 // 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and
@@ -236,26 +262,18 @@ implementation
 
 uses
   System.SysUtils, System.Math, System.IOUtils,
-  FMX.Platform,
+  FMX.Platform, FMX.DialogService, FMX.DialogService.Async,
   uCEFMiscFunctions, uCEFApplication, uFMXApplicationService,
   uCEFMacOSConstants, uCEFMacOSFunctions;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
-  if (GlobalFMXWorkScheduler <> nil) then
-    GlobalFMXWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+  if (GlobalCEFTimerWorkScheduler <> nil) then
+    GlobalCEFTimerWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
 end;
 
 procedure CreateGlobalCEFApp;
 begin
-  // TFMXWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalFMXWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalFMXWorkScheduler                := TFMXWorkScheduler.CreateDelayed;
-  GlobalFMXWorkScheduler.UseQueueThread := True;
-  GlobalFMXWorkScheduler.CreateThread;
-
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
@@ -268,6 +286,12 @@ begin
   GlobalCEFApp.LogFile     := TPath.GetHomePath + TPath.DirectorySeparatorChar + 'debug.log';
   GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO;
   {$ENDIF}
+
+  // TCEFTimerWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFTimerWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFTimerWorkScheduler := TCEFTimerWorkScheduler.Create;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormActivate(Sender: TObject);
@@ -288,9 +312,11 @@ begin
 
   if not(FClosing) then
     begin
-      FClosing           := True;
-      Visible            := False;
-      AddressPnl.Enabled := False;
+      FClosing               := True;
+      Visible                := False;
+      AddressPnl.Enabled     := False;
+      FJSDialogInfo.Callback := nil;
+
       chrmosr.CloseBrowser(True);
     end;
 end;
@@ -298,6 +324,8 @@ end;
 procedure TFMXExternalPumpBrowserFrm.FormCreate(Sender: TObject);
 begin
   TFMXApplicationService.AddPlatformService;
+
+  GlobalCEFTimerWorkScheduler.OnAllowDoWork := GlobalCEFTimerWorkScheduler_OnAllowDoWork;
 
   FPopUpBitmap    := nil;
   FPopUpRect      := rect(0, 0, 0, 0);
@@ -308,7 +336,7 @@ begin
   FClosing        := False;
   FResizeCS       := TCriticalSection.Create;
 
-  chrmosr.DefaultURL := AddressEdt.Text;
+  chrmosr.DefaultURL := AddressCb.Text;
 
   {$IFDEF DELPHI17_UP}
   if TPlatformServices.Current.SupportsPlatformService(IFMXMouseService) then
@@ -337,6 +365,11 @@ begin
     end;
 end;
 
+procedure TFMXExternalPumpBrowserFrm.ForwardMenuItemClick(Sender: TObject);
+begin
+  chrmosr.GoForward;
+end;
+
 procedure TFMXExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);
 begin
   LoadURL;
@@ -349,7 +382,7 @@ begin
   FPendingResize := False;
   FResizeCS.Release;
 
-  chrmosr.LoadURL(AddressEdt.Text);
+  chrmosr.LoadURL(AddressCb.Text);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);
@@ -430,29 +463,9 @@ begin
     end;
 end;
 
-procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
-                                                     Button : TMouseButton;
-                                                     Shift  : TShiftState;
-                                                     X, Y   : Single);
-var
-  TempEvent : TCefMouseEvent;
-  TempCount : integer;
+procedure TFMXExternalPumpBrowserFrm.GlobalCEFTimerWorkScheduler_OnAllowDoWork(Sender: TObject; var allow : boolean);
 begin
-  if not(ssTouch in Shift) then
-    begin
-      Panel1.SetFocus;
-
-      TempEvent.x         := round(X);
-      TempEvent.y         := round(Y);
-      TempEvent.modifiers := getModifiers(Shift);
-
-      if (ssDouble in Shift) then
-        TempCount := 2
-       else
-        TempCount := 1;
-
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, TempCount);
-    end;
+  allow := not(TFMXApplicationService(TFMXApplicationService.NewFMXApplicationService).GetHandlingSendEvent);
 end;
 
 function TFMXExternalPumpBrowserFrm.GetMousePosition(var aPoint : TPointF) : boolean;
@@ -517,9 +530,11 @@ var
 begin
   if not(ssTouch in Shift) then
     begin
+      FLastClickPoint.x   := x;
+      FLastClickPoint.y   := y;
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
-      TempEvent.modifiers := getModifiers(Shift);
+      TempEvent.modifiers := getModifiers(Button, Shift);
 
       if (ssDouble in Shift) then
         TempCount := 2
@@ -527,6 +542,44 @@ begin
         TempCount := 1;
 
       chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, TempCount);
+    end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
+                                                     Button : TMouseButton;
+                                                     Shift  : TShiftState;
+                                                     X, Y   : Single);
+var
+  TempEvent : TCefMouseEvent;
+  TempCount : integer;
+begin
+  if not(ssTouch in Shift) then
+    begin
+      Panel1.SetFocus;
+
+      TempEvent.x         := round(X);
+      TempEvent.y         := round(Y);
+      TempEvent.modifiers := getModifiers(Button, Shift);
+
+      if (Button = TMouseButton.mbRight) then
+        begin
+          // We set the focus in another control as a workaround to show the context
+          // menu when we click the right mouse button.
+          GoBtn.SetFocus;
+
+          // We move the event point slightly so the mouse is over the context menu
+          TempEvent.x := TempEvent.x - 5;
+          TempEvent.y := TempEvent.y - 5;
+        end
+       else
+        Panel1.SetFocus;
+
+      if (ssDouble in Shift) then
+        TempCount := 2
+       else
+        TempCount := 1;
+
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, TempCount);
     end;
 end;
 
@@ -559,6 +612,12 @@ begin
   chrmosr.ClipboardPaste;
 end;
 
+procedure TFMXExternalPumpBrowserFrm.PopupMenu1Popup(Sender: TObject);
+begin
+  BackMenuItem.Enabled    := chrmosr.CanGoBack;
+  ForwardMenuItem.Enabled := chrmosr.CanGoForward;
+end;
+
 procedure TFMXExternalPumpBrowserFrm.RedoMenuItemClick(Sender: TObject);
 begin
   chrmosr.ClipboardRedo;
@@ -580,6 +639,11 @@ end;
 procedure TFMXExternalPumpBrowserFrm.AddressEdtEnter(Sender: TObject);
 begin
   chrmosr.SendFocusEvent(False);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.BackMenuItemClick(Sender: TObject);
+begin
+  chrmosr.GoBack;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -606,8 +670,11 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeContextMenu(      Sender  : TO
                                                               const params  : ICefContextMenuParams;
                                                               const model   : ICefMenuModel);
 begin
-  // Disable the context menu to avoid a crash issue for now
+  // Disable the context menu to avoid crashes and show a custom FMX popup menu instead.
+  // You can call the methods in "model" to populate the custom popup menu with the original menu options.
   if (model <> nil) then model.Clear;
+
+  TThread.ForceQueue(nil, ShowPendingPopupMenu);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(      Sender             : TObject;
@@ -689,6 +756,79 @@ begin
   rect.y      := 0;
   rect.width  := round(Panel1.Width);
   rect.height := round(Panel1.Height);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrJsdialog(      Sender            : TObject;
+                                                     const browser           : ICefBrowser;
+                                                     const originUrl         : ustring;
+                                                           dialogType        : TCefJsDialogType;
+                                                     const messageText       : ustring;
+                                                     const defaultPromptText : ustring;
+                                                     const callback          : ICefJsDialogCallback;
+                                                     out   suppressMessage   : Boolean;
+                                                     out   Result            : Boolean);
+begin
+  FJSDialogInfo.OriginUrl         := originUrl;
+  FJSDialogInfo.DialogType        := dialogType;
+  FJSDialogInfo.MessageText       := messageText;
+  FJSDialogInfo.DefaultPromptText := defaultPromptText;
+  FJSDialogInfo.Callback          := callback;
+
+  Result             := True;
+  suppressMessage    := False;
+
+  TThread.ForceQueue(nil, ShowPendingJSDialog);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.ShowPendingJSDialog;
+var
+  TempCaption : string;
+begin
+  TempCaption := 'JavaScript message from : ' + FJSDialogInfo.OriginUrl;
+
+  case FJSDialogInfo.DialogType of
+    JSDIALOGTYPE_CONFIRM :
+      begin
+        TempCaption := TempCaption + CRLF + CRLF + FJSDialogInfo.MessageText;
+        TDialogServiceAsync.MessageDialog(TempCaption,
+                                          TMsgDlgType.mtConfirmation,
+                                          [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo],
+                                          TMsgDlgBtn.mbYes,
+                                          0,
+                                          procedure(const AResult: TModalResult)
+                                          begin
+                                            FJSDialogInfo.Callback.cont(AResult in [mrOk, mrYes], '');
+                                            FJSDialogInfo.Callback := nil;
+                                          end);
+      end;
+
+    JSDIALOGTYPE_PROMPT :
+      TDialogServiceAsync.InputQuery(TempCaption,
+                                     [FJSDialogInfo.MessageText],
+                                     [FJSDialogInfo.DefaultPromptText],
+                                     procedure(const AResult: TModalResult; const AValues: array of string)
+                                     begin
+                                       FJSDialogInfo.Callback.cont(AResult in [mrOk, mrYes], AValues[0]);
+                                       FJSDialogInfo.Callback := nil;
+                                     end);
+
+    else // JSDIALOGTYPE_ALERT
+      begin
+        TempCaption := TempCaption + CRLF + CRLF + FJSDialogInfo.MessageText;
+        TDialogServiceAsync.ShowMessage(TempCaption);
+        FJSDialogInfo.Callback := nil;
+      end;
+  end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.ShowPendingPopupMenu;
+var
+  TempPoint : TPointF;
+begin
+  if not(GetMousePosition(TempPoint)) then
+    TempPoint := Panel1.ClientToScreen(FLastClickPoint);
+
+  PopupMenu1.Popup(TempPoint.X, TempPoint.Y);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrPaint(      Sender          : TObject;
@@ -963,7 +1103,7 @@ begin
   if (chrmosr <> nil) then chrmosr.SendCaptureLostEvent;
 end;
 
-function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState; KeyCode: integer): TCefEventFlags;
+function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;
 begin
   Result := EVENTFLAG_NONE;
 
@@ -974,9 +1114,25 @@ begin
   if (ssRight   in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
   if (ssMiddle  in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
   if (ssCommand in Shift) then Result := Result or EVENTFLAG_COMMAND_DOWN;
+end;
+
+function TFMXExternalPumpBrowserFrm.getModifiers(Shift: TShiftState; KeyCode: integer): TCefEventFlags;
+begin
+  Result := getModifiers(Shift);
 
   if (KeyCode in CEF_MACOS_KEYPAD_KEYS) then
     Result := Result or EVENTFLAG_IS_KEY_PAD;
+end;
+
+function TFMXExternalPumpBrowserFrm.getModifiers(Button: TMouseButton; Shift: TShiftState): TCefEventFlags;
+begin
+  Result := getModifiers(shift);
+
+  case Button of
+    TMouseButton.mbLeft   : Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+    TMouseButton.mbRight  : Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+    TMouseButton.mbMiddle : Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+  end;
 end;
 
 function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;

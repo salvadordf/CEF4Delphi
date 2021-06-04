@@ -50,24 +50,26 @@ interface
 
 uses
   System.UITypes,
+  {$IFDEF MACOS}
+  FMX.Helpers.Mac, System.Messaging, Macapi.CoreFoundation, Macapi.Foundation,
+  {$ENDIF}
   uCEFMacOSConstants;
 
 {$IFDEF MACOSX}
 function  KeyToMacOSKeyCode(aKey : Word): integer;
-{$IFDEF FMX}
+{$ENDIF}
+{$IFDEF MACOS}
 procedure CopyCEFFramework;
 procedure CopyCEFHelpers(const aProjectName : string);
 procedure ShowMessageCF(const aHeading, aMessage : string; const aTimeoutInSecs : double = 0);
-{$ENDIF}
+function  NSEventTrackingRunLoopMode: NSString;
 {$ENDIF}
 
 implementation
 
-{$IFDEF MACOSX}
-{$IFDEF FMX}
+{$IFDEF MACOS}
 uses
   System.SysUtils, System.Types, System.IOUtils, Posix.Stdio, FMX.Types,
-  Macapi.CoreFoundation,
   uCEFMiscFunctions;
 
 const
@@ -81,10 +83,10 @@ const
   RENDERER_SUBFIX     = ' Helper (Renderer)';
 {$ENDIF}
 
+{$IFDEF MACOSX}
 // Key Code translation following the information found in these documents :
 // https://developer.apple.com/library/archive/documentation/mac/pdf/MacintoshToolboxEssentials.pdf
 // https://eastmanreference.com/complete-list-of-applescript-key-codes
-
 function KeyToMacOSKeyCode(aKey : Word): integer;
 begin
   case aKey of
@@ -211,8 +213,9 @@ begin
     else                 Result := 0;
   end;
 end;
+{$ENDIF}
 
-{$IFDEF FMX}
+{$IFDEF MACOS}
 procedure CopyAllFiles(const aSrcPath, aDstPath: string);
 var
   TempDirectories, TempFiles : TStringDynArray;
@@ -383,7 +386,11 @@ begin
     CFRelease(TempMessage);
   end;
 end;
-{$ENDIF}
+
+function NSEventTrackingRunLoopMode: NSString;
+begin
+  result := CocoaNSStringConst(libFoundation, 'NSEventTrackingRunLoopMode');
+end;
 {$ENDIF}
 
 end.

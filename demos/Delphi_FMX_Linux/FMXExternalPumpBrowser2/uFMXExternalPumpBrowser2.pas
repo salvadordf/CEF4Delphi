@@ -66,7 +66,6 @@ type
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
     procedure Panel1Resize(Sender: TObject);
-    procedure Panel1Click(Sender: TObject);
     procedure Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
     procedure Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
@@ -93,6 +92,7 @@ type
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
     procedure chrmosrLoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
     procedure chrmosrLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+    procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
@@ -114,7 +114,8 @@ type
     {$ENDIF}
 
     procedure LoadURL;
-    function  getModifiers(Shift: TShiftState): TCefEventFlags;
+    function  getModifiers(Shift: TShiftState): TCefEventFlags; overload;
+    function  getModifiers(Button: TMouseButton; Shift: TShiftState): TCefEventFlags; overload;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     function  GetMousePosition(var aPoint : TPointF) : boolean;
   public
@@ -127,12 +128,6 @@ type
 
 var
   FMXExternalPumpBrowserFrm : TFMXExternalPumpBrowserFrm;
-
-// ***************************
-// ********* WARNING *********
-// ***************************
-// This is a demo for LINUX and it's in ALPHA state.
-// It still has several features unimplemented!!!
 
 // This is a simple browser using FireMonkey components in OSR mode (off-screen rendering)
 // and a external message pump.
@@ -301,11 +296,6 @@ begin
   if (chrmosr <> nil) then chrmosr.SendFocusEvent(False);
 end;
 
-procedure TFMXExternalPumpBrowserFrm.Panel1Click(Sender: TObject);
-begin
-  Panel1.SetFocus;
-end;
-
 procedure TFMXExternalPumpBrowserFrm.Panel1Enter(Sender: TObject);
 begin
   if (chrmosr <> nil) then chrmosr.SendFocusEvent(True);
@@ -314,31 +304,6 @@ end;
 procedure TFMXExternalPumpBrowserFrm.Panel1Exit(Sender: TObject);
 begin
   if (chrmosr <> nil) then chrmosr.SendFocusEvent(False);
-end;
-
-procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
-                                                     Button : TMouseButton;
-                                                     Shift  : TShiftState;
-                                                     X, Y   : Single);
-var
-  TempEvent : TCefMouseEvent;
-  TempCount : integer;
-begin
-  if not(ssTouch in Shift) then
-    begin
-      Panel1.SetFocus;
-
-      TempEvent.x         := round(X);
-      TempEvent.y         := round(Y);
-      TempEvent.modifiers := getModifiers(Shift);
-
-      if (ssDouble in Shift) then
-        TempCount := 2
-       else
-        TempCount := 1;
-
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, TempCount);
-    end;
 end;
 
 function TFMXExternalPumpBrowserFrm.GetMousePosition(var aPoint : TPointF) : boolean;
@@ -370,6 +335,7 @@ begin
       TempEvent.x         := round(TempPoint.x);
       TempEvent.y         := round(TempPoint.y);
       TempEvent.modifiers := EVENTFLAG_NONE;
+
       chrmosr.SendMouseMoveEvent(@TempEvent, True);
     end;
 end;
@@ -385,6 +351,7 @@ begin
       TempEvent.x         := round(x);
       TempEvent.y         := round(y);
       TempEvent.modifiers := getModifiers(Shift);
+
       chrmosr.SendMouseMoveEvent(@TempEvent, False);
     end;
 end;
@@ -401,7 +368,14 @@ begin
     begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
-      TempEvent.modifiers := getModifiers(Shift);
+      TempEvent.modifiers := getModifiers(Button, Shift);
+
+      if (Button = TMouseButton.mbRight) then
+        begin
+          // We move the event point slightly so the mouse is over the context menu
+          TempEvent.x := TempEvent.x - 5;
+          TempEvent.y := TempEvent.y - 5;
+        end;
 
       if (ssDouble in Shift) then
         TempCount := 2
@@ -409,6 +383,42 @@ begin
         TempCount := 1;
 
       chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, TempCount);
+    end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
+                                                     Button : TMouseButton;
+                                                     Shift  : TShiftState;
+                                                     X, Y   : Single);
+var
+  TempEvent : TCefMouseEvent;
+  TempCount : integer;
+begin
+  if not(ssTouch in Shift) then
+    begin
+      TempEvent.x         := round(X);
+      TempEvent.y         := round(Y);
+      TempEvent.modifiers := getModifiers(Button, Shift);
+
+      if (Button = TMouseButton.mbRight) then
+        begin
+          // We set the focus in another control as a workaround to show the context
+          // menu when we click the right mouse button.
+          GoBtn.SetFocus;
+
+          // We move the event point slightly so the mouse is over the context menu
+          TempEvent.x := TempEvent.x - 5;
+          TempEvent.y := TempEvent.y - 5;
+        end
+       else
+        Panel1.SetFocus;
+
+      if (ssDouble in Shift) then
+        TempCount := 2
+       else
+        TempCount := 1;
+
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, TempCount);
     end;
 end;
 
@@ -426,6 +436,7 @@ begin
       TempEvent.x         := round(TempPoint.x);
       TempEvent.y         := round(TempPoint.y);
       TempEvent.modifiers := getModifiers(Shift);
+
       chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
     end;
 end;
@@ -466,6 +477,18 @@ begin
                           begin
                             close;
                           end);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeContextMenu(      Sender  : TObject;
+                                                              const browser : ICefBrowser;
+                                                              const frame   : ICefFrame;
+                                                              const params  : ICefContextMenuParams;
+                                                              const model   : ICefMenuModel);
+begin
+  // This demo doesn't implement the print events.
+  // See the "Lazarus_Linux/MiniBrowser" demo to know how to print in Linux.
+  if (model <> nil) then
+    model.Remove(MENU_ID_PRINT);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(      Sender             : TObject;
@@ -837,6 +860,17 @@ begin
   if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
   if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
   if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+end;
+
+function TFMXExternalPumpBrowserFrm.getModifiers(Button: TMouseButton; Shift: TShiftState): TCefEventFlags;
+begin
+  Result := getModifiers(shift);
+
+  case Button of
+    TMouseButton.mbLeft   : Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+    TMouseButton.mbRight  : Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+    TMouseButton.mbMiddle : Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+  end;
 end;
 
 function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;
