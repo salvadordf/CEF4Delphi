@@ -96,7 +96,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     Filter = 'Bitmap files (*.bmp)|*.BMP'
     Title = 'Save snapshot'
     Left = 40
-    Top = 241
+    Top = 185
   end
   object Panel1: TFMXBufferPanel
     Align = Client
@@ -120,7 +120,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   end
   object MainMenu1: TMainMenu
     Left = 40
-    Top = 297
+    Top = 241
     object EditMenu: TMenuItem
       Text = 'Edit'
       object UndoMenuItem: TMenuItem
@@ -173,7 +173,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup
     Left = 40
-    Top = 353
+    Top = 297
     object BackMenuItem: TMenuItem
       Text = 'Back'
       OnClick = BackMenuItemClick
@@ -182,10 +182,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
       Text = 'Forward'
       OnClick = ForwardMenuItemClick
     end
-  end
-  object OpenDialog1: TOpenDialog
-    Left = 40
-    Top = 185
   end
   object chrmosr: TFMXChromium
     OnBeforeContextMenu = chrmosrBeforeContextMenu

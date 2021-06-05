@@ -90,7 +90,6 @@ type
     PopupMenu1: TPopupMenu;
     BackMenuItem: TMenuItem;
     ForwardMenuItem: TMenuItem;
-    OpenDialog1: TOpenDialog;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);

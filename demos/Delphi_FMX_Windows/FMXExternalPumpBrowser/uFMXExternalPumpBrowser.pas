@@ -52,12 +52,12 @@ uses
   FMX.Graphics,
   {$ENDIF}
   uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
-  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore, FMX.Layouts;
+  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore, FMX.Layouts,
+  FMX.ComboEdit;
 
 type
   TFMXExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
-    AddressEdt: TEdit;
     chrmosr: TFMXChromium;
     Timer1: TTimer;
     SaveDialog1: TSaveDialog;
@@ -65,6 +65,7 @@ type
     Layout1: TLayout;
     GoBtn: TButton;
     SnapshotBtn: TButton;
+    AddressCb: TComboEdit;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -257,7 +258,7 @@ begin
   FAtLeastWin8 := False;
   {$ENDIF}
 
-  chrmosr.DefaultURL := AddressEdt.Text;
+  chrmosr.DefaultURL := AddressCb.Text;
 
   InitializeLastClick;
 
@@ -307,7 +308,7 @@ begin
   FPendingResize := False;
   FResizeCS.Release;
 
-  chrmosr.LoadURL(AddressEdt.Text);
+  chrmosr.LoadURL(AddressCb.Text);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);

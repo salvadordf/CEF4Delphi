@@ -44,12 +44,19 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Edit, FMX.StdCtrls,
   FMX.Controls.Presentation, FMX.Graphics, FMX.Layouts, FMX.DialogService,
   uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
-  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore;
+  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore, FMX.ComboEdit;
 
 type
+  TJSDialogInfo = record
+    OriginUrl         : ustring;
+    MessageText       : ustring;
+    DefaultPromptText : ustring;
+    DialogType        : TCefJsDialogType;
+    Callback          : ICefJsDialogCallback;
+  end;
+
   TFMXExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
-    AddressEdt: TEdit;
     chrmosr: TFMXChromium;
     Timer1: TTimer;
     SaveDialog1: TSaveDialog;
@@ -59,6 +66,7 @@ type
     SnapshotBtn: TButton;
     StatusBar1: TStatusBar;
     StatusLbl: TLabel;
+    AddressCb: TComboEdit;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -93,6 +101,7 @@ type
     procedure chrmosrLoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
     procedure chrmosrLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
     procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure chrmosrJsdialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage, Result: Boolean);
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
@@ -109,6 +118,7 @@ type
     FCanClose          : boolean;
     FClosing           : boolean;
     FResizeCS          : TCriticalSection;
+    FJSDialogInfo      : TJSDialogInfo;
     {$IFDEF DELPHI17_UP}
     FMouseWheelService : IFMXMouseService;
     {$ENDIF}
@@ -118,6 +128,8 @@ type
     function  getModifiers(Button: TMouseButton; Shift: TShiftState): TCefEventFlags; overload;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     function  GetMousePosition(var aPoint : TPointF) : boolean;
+    procedure ShowPendingJSDialog;
+
   public
     procedure DoResize;
     procedure NotifyMoveOrResizeStarted;
@@ -151,7 +163,7 @@ implementation
 {$R *.fmx}
 
 uses
-  System.SysUtils, System.Math, FMX.Platform, FMX.Platform.Linux,
+  System.SysUtils, System.Math, FMX.Platform, FMX.Platform.Linux, FMX.DialogService.Async,
   uCEFMiscFunctions, uCEFApplication, uCEFLinuxTypes, uCEFLinuxConstants,
   uCEFLinuxFunctions;
 
@@ -232,9 +244,11 @@ begin
 
   if not(FClosing) then
     begin
-      FClosing           := True;
-      Visible            := False;
-      AddressPnl.Enabled := False;
+      FClosing                 := True;
+      Visible                  := False;
+      AddressPnl.Enabled       := False;
+      FJSDialogInfo.Callback   := nil;
+
       chrmosr.CloseBrowser(True);
     end;
 end;
@@ -250,7 +264,13 @@ begin
   FClosing        := False;
   FResizeCS       := TCriticalSection.Create;
 
-  chrmosr.DefaultURL := AddressEdt.Text;
+  FJSDialogInfo.OriginUrl         := '';
+  FJSDialogInfo.MessageText       := '';
+  FJSDialogInfo.DefaultPromptText := '';
+  FJSDialogInfo.DialogType        := JSDIALOGTYPE_ALERT;
+  FJSDialogInfo.Callback          := nil;
+
+  chrmosr.DefaultURL := AddressCb.Text;
 
   {$IFDEF DELPHI17_UP}
   if TPlatformServices.Current.SupportsPlatformService(IFMXMouseService) then
@@ -261,7 +281,9 @@ end;
 procedure TFMXExternalPumpBrowserFrm.FormDestroy(Sender: TObject);
 begin
   FResizeCS.Free;
-  if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
+
+  if (FPopUpBitmap <> nil) then
+    FreeAndNil(FPopUpBitmap);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormHide(Sender: TObject);
@@ -288,7 +310,7 @@ begin
   FPendingResize := False;
   FResizeCS.Release;
 
-  chrmosr.LoadURL(AddressEdt.Text);
+  chrmosr.LoadURL(AddressCb.Text);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);
@@ -570,6 +592,71 @@ begin
   rect.y      := 0;
   rect.width  := round(Panel1.Width);
   rect.height := round(Panel1.Height);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrJsdialog(      Sender            : TObject;
+                                                     const browser           : ICefBrowser;
+                                                     const originUrl         : ustring;
+                                                           dialogType        : TCefJsDialogType;
+                                                     const messageText       : ustring;
+                                                     const defaultPromptText : ustring;
+                                                     const callback          : ICefJsDialogCallback;
+                                                     out   suppressMessage   : Boolean;
+                                                     out   Result            : Boolean);
+begin
+  FJSDialogInfo.OriginUrl         := originUrl;
+  FJSDialogInfo.DialogType        := dialogType;
+  FJSDialogInfo.MessageText       := messageText;
+  FJSDialogInfo.DefaultPromptText := defaultPromptText;
+  FJSDialogInfo.Callback          := callback;
+
+  Result             := True;
+  suppressMessage    := False;
+
+  TThread.ForceQueue(nil, ShowPendingJSDialog);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.ShowPendingJSDialog;
+var
+  TempCaption : string;
+begin
+  if FClosing or (FJSDialogInfo.Callback = nil) then exit;
+
+  TempCaption := 'JavaScript message from : ' + FJSDialogInfo.OriginUrl;
+
+  case FJSDialogInfo.DialogType of
+    JSDIALOGTYPE_CONFIRM :
+      begin
+        TempCaption := TempCaption + CRLF + CRLF + FJSDialogInfo.MessageText;
+        TDialogServiceAsync.MessageDialog(TempCaption,
+                                          TMsgDlgType.mtConfirmation,
+                                          [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo],
+                                          TMsgDlgBtn.mbYes,
+                                          0,
+                                          procedure(const AResult: TModalResult)
+                                          begin
+                                            FJSDialogInfo.Callback.cont(AResult in [mrOk, mrYes], '');
+                                            FJSDialogInfo.Callback := nil;
+                                          end);
+      end;
+
+    JSDIALOGTYPE_PROMPT :
+      TDialogServiceAsync.InputQuery(TempCaption,
+                                     [FJSDialogInfo.MessageText],
+                                     [FJSDialogInfo.DefaultPromptText],
+                                     procedure(const AResult: TModalResult; const AValues: array of string)
+                                     begin
+                                       FJSDialogInfo.Callback.cont(AResult in [mrOk, mrYes], AValues[0]);
+                                       FJSDialogInfo.Callback := nil;
+                                     end);
+
+    else // JSDIALOGTYPE_ALERT
+      begin
+        TempCaption := TempCaption + CRLF + CRLF + FJSDialogInfo.MessageText;
+        TDialogServiceAsync.ShowMessage(TempCaption);
+        FJSDialogInfo.Callback := nil;
+      end;
+  end;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrLoadError(      Sender    : TObject;
