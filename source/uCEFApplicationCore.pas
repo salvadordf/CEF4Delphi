@@ -66,7 +66,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 91;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 12;
+  CEF_SUPPORTED_VERSION_RELEASE = 16;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 91;
@@ -192,6 +192,7 @@ type
       FForcedDeviceScaleFactor           : single;
       FDisableZygote                     : boolean;
       FUseMockKeyChain                   : boolean;
+      FDisableRequestHandlingForTesting  : boolean;
       FLastErrorMessage                  : ustring;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
@@ -488,6 +489,7 @@ type
       property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
       property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
       property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;                  // --use-mock-keychain
+      property DisableRequestHandlingForTesting  : boolean                             read FDisableRequestHandlingForTesting  write FDisableRequestHandlingForTesting; // --disable-request-handling-for-testing
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -744,6 +746,7 @@ begin
   FForcedDeviceScaleFactor           := 0;
   FDisableZygote                     := False;
   FUseMockKeyChain                   := False;
+  FDisableRequestHandlingForTesting  := False;
   FLastErrorMessage                  := '';
 
   FDisableJavascriptCloseWindows     := False;
@@ -2046,6 +2049,9 @@ begin
 
   if FUseMockKeyChain then
     ReplaceSwitch(aKeys, aValues, '--use-mock-keychain');
+
+  if FDisableRequestHandlingForTesting then
+    ReplaceSwitch(aKeys, aValues, '--disable-request-handling-for-testing');
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
