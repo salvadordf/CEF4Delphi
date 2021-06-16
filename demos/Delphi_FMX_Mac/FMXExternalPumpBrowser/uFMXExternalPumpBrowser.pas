@@ -324,7 +324,9 @@ procedure TFMXExternalPumpBrowserFrm.FormCreate(Sender: TObject);
 begin
   TFMXApplicationService.AddPlatformService;
 
-  GlobalCEFTimerWorkScheduler.OnAllowDoWork := GlobalCEFTimerWorkScheduler_OnAllowDoWork;
+  // Enable this code line in case there's an unexpected crash when
+  // cef_do_message_loop_work is called.
+  //GlobalCEFTimerWorkScheduler.OnAllowDoWork := GlobalCEFTimerWorkScheduler_OnAllowDoWork;
 
   FPopUpBitmap    := nil;
   FPopUpRect      := rect(0, 0, 0, 0);
@@ -554,24 +556,9 @@ var
 begin
   if not(ssTouch in Shift) then
     begin
-      Panel1.SetFocus;
-
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
       TempEvent.modifiers := getModifiers(Button, Shift);
-
-      if (Button = TMouseButton.mbRight) then
-        begin
-          // We set the focus in another control as a workaround to show the context
-          // menu when we click the right mouse button.
-          GoBtn.SetFocus;
-
-          // We move the event point slightly so the mouse is over the context menu
-          TempEvent.x := TempEvent.x - 5;
-          TempEvent.y := TempEvent.y - 5;
-        end
-       else
-        Panel1.SetFocus;
 
       if (ssDouble in Shift) then
         TempCount := 2
