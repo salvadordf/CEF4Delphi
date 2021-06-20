@@ -1,62 +1,66 @@
 object MainForm: TMainForm
-  Left = 357
-  Height = 704
-  Top = 89
-  Width = 991
+  Left = 0
+  Top = 0
   Caption = 'Initializing. Please, wait...'
-  ClientHeight = 704
+  ClientHeight = 703
   ClientWidth = 991
   Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Font.Style = []
+  Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  PixelsPerInch = 96
   object BrowserPageCtrl: TPageControl
-    Left = 34
-    Height = 704
+    Left = 32
     Top = 0
-    Width = 957
+    Width = 959
+    Height = 703
     Align = alClient
     TabOrder = 0
+    TabWidth = 150
   end
   object ButtonPnl: TPanel
     Left = 0
-    Height = 704
     Top = 0
-    Width = 34
+    Width = 32
+    Height = 703
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 704
-    ClientWidth = 34
     Enabled = False
     TabOrder = 1
     object AddTabBtn: TSpeedButton
-      Left = 4
-      Height = 26
-      Top = 4
+      Left = 1
+      Top = 1
       Width = 26
+      Height = 26
       Caption = '+'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -24
       Font.Name = 'Arial Black'
-      OnClick = AddTabBtnClick
+      Font.Style = []
       ParentFont = False
+      OnClick = AddTabBtnClick
     end
     object RemoveTabBtn: TSpeedButton
-      Left = 4
-      Height = 26
-      Top = 33
+      Left = 1
+      Top = 30
       Width = 26
+      Height = 26
       Caption = '−'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -24
       Font.Name = 'Arial Black'
-      OnClick = RemoveTabBtnClick
+      Font.Style = []
       ParentFont = False
+      OnClick = RemoveTabBtnClick
     end
   end
 end

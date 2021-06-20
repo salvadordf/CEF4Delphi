@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright Â© 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,6 +37,8 @@
 
 unit uChildForm;
 
+{$MODE Delphi}
+
 {$I cef.inc}
 
 interface
@@ -47,7 +49,7 @@ uses
   System.SyncObjs, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
   Vcl.ExtCtrls,
   {$ELSE}
-  Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, SyncObjs,
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFWindowParent, uCEFWinControl,
@@ -102,7 +104,7 @@ type
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 uses
   {$IFDEF DELPHI16_UP}

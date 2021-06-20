@@ -25,6 +25,7 @@ object MainForm: TMainForm
     Height = 703
     Align = alClient
     TabOrder = 0
+    TabWidth = 150
   end
   object ButtonPnl: TPanel
     Left = 0
@@ -39,15 +40,11 @@ object MainForm: TMainForm
     Padding.Right = 3
     Padding.Bottom = 3
     TabOrder = 1
-    DesignSize = (
-      32
-      703)
     object AddTabBtn: TSpeedButton
       Left = 3
       Top = 3
       Width = 26
       Height = 26
-      Align = alTop
       Caption = '+'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -56,14 +53,12 @@ object MainForm: TMainForm
       Font.Style = []
       ParentFont = False
       OnClick = AddTabBtnClick
-      ExplicitWidth = 27
     end
     object RemoveTabBtn: TSpeedButton
       Left = 3
       Top = 32
       Width = 26
       Height = 26
-      Anchors = [akLeft, akTop, akRight]
       Caption = #8722
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText

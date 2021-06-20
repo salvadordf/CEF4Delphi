@@ -30,7 +30,6 @@ object BrowserFrame: TBrowserFrame
         Top = 5
         Width = 25
         Height = 25
-        Align = alLeft
         Caption = '3'
         Font.Charset = SYMBOL_CHARSET
         Font.Color = clWindowText
@@ -76,7 +75,6 @@ object BrowserFrame: TBrowserFrame
         Top = 5
         Width = 25
         Height = 25
-        Align = alRight
         Caption = '='
         Font.Charset = SYMBOL_CHARSET
         Font.Color = clWindowText
@@ -95,15 +93,16 @@ object BrowserFrame: TBrowserFrame
       Height = 35
       Align = alClient
       BevelOuter = bvNone
-      Padding.Top = 7
-      Padding.Bottom = 10
       TabOrder = 1
+      DesignSize = (
+        774
+        35)
       object URLCbx: TComboBox
-        Left = 0
+        Left = 2
         Top = 7
-        Width = 774
+        Width = 770
         Height = 21
-        Align = alClient
+        Anchors = [akLeft, akTop, akRight]
         ItemIndex = 0
         TabOrder = 0
         Text = 'https://www.google.com'
@@ -173,17 +172,12 @@ object BrowserFrame: TBrowserFrame
       Height = 35
       Align = alRight
       BevelOuter = bvNone
-      Padding.Left = 5
-      Padding.Top = 5
-      Padding.Right = 5
-      Padding.Bottom = 5
       TabOrder = 2
       object GoBtn: TButton
         Left = 5
         Top = 5
         Width = 25
         Height = 25
-        Align = alClient
         Caption = #9658
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
