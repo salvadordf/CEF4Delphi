@@ -137,6 +137,11 @@ type
     rgbRed      : Byte;
     rgbReserved : Byte;
   end;
+
+  PGdkScreen = ^TGdkScreen;
+  TGdkScreen = record
+    parent_instance : TGObject;
+  end;
 {$ENDIF}
 {$ENDIF}
 

@@ -163,7 +163,8 @@ implementation
 uses
   System.SysUtils, System.Math,
   {$IFDEF MSWINDOWS}FMX.Helpers.Win,{$ENDIF}
-  FMX.Platform, uCEFMiscFunctions, uCEFApplicationCore;
+  FMX.Platform, {$IFDEF MACOS}FMX.Platform.Mac,{$ENDIF}
+  uCEFMiscFunctions, uCEFApplicationCore;
 
 constructor TFMXBufferPanel.Create(AOwner: TComponent);
 begin
@@ -394,7 +395,8 @@ begin
   Result       := False;
   aResultScale := 1;
 
-  {$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
+  {$IFDEF MSWINDOWS}
+  {$IFDEF DELPHI24_UP}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
@@ -402,7 +404,17 @@ begin
       Result       := True;
       aResultScale := GetWndScale(TempHandle);
     end;
-  {$ENDIF}{$ENDIF}
+  {$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  // TODO: Get the scale of the screen where the parent form is located in FMXLinux
+  {$ENDIF}
+
+  {$IFDEF MACOS}
+  Result       := True;
+  aResultScale := TMacWindowHandle(GetParentForm.Handle).Wnd.backingScaleFactor;
+  {$ENDIF}
 end;
 
 function TFMXBufferPanel.GetScreenScale : single;

@@ -916,20 +916,22 @@ begin
 end;
 
 function TBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
-  {$IFDEF MSWINDOWS}
+{$IFDEF MSWINDOWS}
 var
   TempHandle : TCefWindowHandle;
   TempDC     : HDC;
   TempDPI    : UINT;
-  {$ELSE}
-    {$IFDEF LINUX}
-      {$IFDEF FPC}
+{$ENDIF}
+{$IFDEF LINUX}{$IFDEF FPC}
 var
-      TempForm    : TCustomForm;
-      TempMonitor : TMonitor;
-      {$ENDIF}
-    {$ENDIF}
-  {$ENDIF}
+  TempForm    : TCustomForm;
+  TempMonitor : TMonitor;
+{$ENDIF}{$ENDIF}
+{$IFDEF MACOSX}{$IFDEF FPC}
+var
+  TempForm    : TCustomForm;
+  TempMonitor : TMonitor;
+{$ENDIF}{$ENDIF}
 begin
   Result       := False;
   aResultScale := 1;
@@ -967,15 +969,27 @@ begin
           end;
       end;
     {$ELSE}
-    // TODO: Get the screen scale in FMXLinux
+    // TODO: Get the scale of the screen where the parent form is located in FMXLinux
     {$ENDIF}
   {$ENDIF}
 
   {$IFDEF MACOSX}
     {$IFDEF FPC}
-    // TODO: Get the screen scale in Lazarus/FPC
+    TempForm := GetParentForm(self, True);
+
+    if (TempForm <> nil) then
+      begin
+        TempMonitor := TempForm.Monitor;
+
+        if (TempMonitor <> nil) and (TempMonitor.PixelsPerInch > 0) then
+          begin
+            aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
+            Result       := True;
+          end;
+      end;
     {$ELSE}
-    // TODO: Get the screen scale in FMX
+    Result       := True;
+    aResultScale := TMacWindowHandle(GetParentForm.Handle).Wnd.backingScaleFactor;
     {$ENDIF}
   {$ENDIF}
 end;

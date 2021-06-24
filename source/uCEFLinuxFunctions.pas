@@ -76,6 +76,10 @@ function gdk_keyval_to_unicode(keyval: guint): guint32; cdecl; external 'libgdk-
 function g_signal_connect_data(instance: gpointer; detailed_signal: Pgchar; c_handler: TGCallback; data: gpointer; destroy_data: TGClosureNotify; connect_flags: TGConnectFlags): gulong; cdecl; external 'libgobject-2.0.so';
 function g_signal_connect(instance: gpointer; detailed_signal: Pgchar; c_handler: TGCallback; data: gpointer): gulong; overload;
 function g_signal_connect(instance: gpointer; const detailed_signal: AnsiString; c_handler: TGCallback; data: gpointer): gulong; overload;
+function gdk_screen_width:gint; cdecl; external 'libgdk-3.so';
+function gdk_screen_width_mm:gint; cdecl; external 'libgdk-3.so';
+function gdk_screen_get_default:PGdkScreen; cdecl; external 'libgdk-3.so';
+function gdk_screen_get_resolution(screen:PGdkScreen):gdouble; cdecl; external 'libgdk-3.so';
 {$ENDIF}
 {$IFDEF FPC}
 procedure ShowX11Message(const aMessage : string);
