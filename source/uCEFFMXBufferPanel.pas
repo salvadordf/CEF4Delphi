@@ -392,9 +392,6 @@ var
   TempHandle : TCefWindowHandle;
 {$ENDIF}{$ENDIF}
 begin
-  Result       := False;
-  aResultScale := 1;
-
   {$IFDEF MSWINDOWS}
   {$IFDEF DELPHI24_UP}
   TempHandle := GetParentFormHandle;
@@ -403,12 +400,22 @@ begin
     begin
       Result       := True;
       aResultScale := GetWndScale(TempHandle);
+    end
+   else
+    begin
+      Result       := False;
+      aResultScale := 1;
     end;
+  {$ELSE}
+  Result       := False;
+  aResultScale := 1;
   {$ENDIF}
   {$ENDIF}
 
   {$IFDEF LINUX}
   // TODO: Get the scale of the screen where the parent form is located in FMXLinux
+  Result       := False;
+  aResultScale := 1;
   {$ENDIF}
 
   {$IFDEF MACOS}
