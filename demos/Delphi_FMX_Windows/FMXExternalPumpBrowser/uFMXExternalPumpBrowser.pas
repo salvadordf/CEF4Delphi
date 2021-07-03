@@ -52,12 +52,12 @@ uses
   FMX.Graphics,
   {$ENDIF}
   uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
-  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore, FMX.Layouts;
+  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore, FMX.Layouts,
+  FMX.ComboEdit;
 
 type
   TFMXExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
-    AddressEdt: TEdit;
     chrmosr: TFMXChromium;
     Timer1: TTimer;
     SaveDialog1: TSaveDialog;
@@ -65,6 +65,7 @@ type
     Layout1: TLayout;
     GoBtn: TButton;
     SnapshotBtn: TButton;
+    AddressCb: TComboEdit;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -197,26 +198,28 @@ uses
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
-  if (GlobalFMXWorkScheduler <> nil) then GlobalFMXWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+  if (GlobalFMXWorkScheduler <> nil) then
+    GlobalFMXWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
 end;
 
 procedure CreateGlobalCEFApp;
 begin
-  // TFMXWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalFMXWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalFMXWorkScheduler := TFMXWorkScheduler.Create(nil);
-
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
-  //GlobalCEFApp.EnableGPU                  := True;
+  {$IFDEF DEBUG}
   //GlobalCEFApp.LogFile                    := 'debug.log';
   //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  {$ENDIF}
+
+  // TFMXWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalFMXWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalFMXWorkScheduler := TFMXWorkScheduler.Create(nil);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -255,7 +258,7 @@ begin
   FAtLeastWin8 := False;
   {$ENDIF}
 
-  chrmosr.DefaultURL := AddressEdt.Text;
+  chrmosr.DefaultURL := AddressCb.Text;
 
   InitializeLastClick;
 
@@ -305,7 +308,7 @@ begin
   FPendingResize := False;
   FResizeCS.Release;
 
-  chrmosr.LoadURL(AddressEdt.Text);
+  chrmosr.LoadURL(AddressCb.Text);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);

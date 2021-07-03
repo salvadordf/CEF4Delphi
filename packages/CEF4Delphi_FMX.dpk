@@ -1,4 +1,5 @@
 package CEF4Delphi_FMX;
+
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
@@ -230,7 +231,12 @@ contains
   uCEFLinuxTypes in '..\source\uCEFLinuxTypes.pas',
   uCEFLinuxFunctions in '..\source\uCEFLinuxFunctions.pas',
   uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
-  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas';
+  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas',
+  uCEFMacOSConstants in '..\source\uCEFMacOSConstants.pas',
+  uCEFMacOSFunctions in '..\source\uCEFMacOSFunctions.pas',
+  uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
+  uCEFMacOSCustomCocoaTimer in '..\source\uCEFMacOSCustomCocoaTimer.pas',
+  uCEFMacOSInterfaces in '..\source\uCEFMacOSInterfaces.pas';
 
 end.
 

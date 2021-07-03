@@ -34,9 +34,7 @@
  * this source code without explicit permission.
  *
  *)
-
 unit uFMXExternalPumpBrowser2;
-
 {$I cef.inc}
 
 interface
@@ -46,12 +44,19 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Edit, FMX.StdCtrls,
   FMX.Controls.Presentation, FMX.Graphics, FMX.Layouts, FMX.DialogService,
   uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
-  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore;
+  uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore, FMX.ComboEdit;
 
 type
+  TJSDialogInfo = record
+    OriginUrl         : ustring;
+    MessageText       : ustring;
+    DefaultPromptText : ustring;
+    DialogType        : TCefJsDialogType;
+    Callback          : ICefJsDialogCallback;
+  end;
+
   TFMXExternalPumpBrowserFrm = class(TForm)
     AddressPnl: TPanel;
-    AddressEdt: TEdit;
     chrmosr: TFMXChromium;
     Timer1: TTimer;
     SaveDialog1: TSaveDialog;
@@ -61,6 +66,7 @@ type
     SnapshotBtn: TButton;
     StatusBar1: TStatusBar;
     StatusLbl: TLabel;
+    AddressCb: TComboEdit;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -68,14 +74,11 @@ type
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
     procedure Panel1Resize(Sender: TObject);
-    procedure Panel1Click(Sender: TObject);
     procedure Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
     procedure Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
     procedure Panel1MouseLeave(Sender: TObject);
     procedure Panel1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; var Handled: Boolean);
-    procedure Panel1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
-    procedure Panel1DialogKey(Sender: TObject; var Key: Word; Shift: TShiftState);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -97,6 +100,8 @@ type
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
     procedure chrmosrLoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
     procedure chrmosrLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+    procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure chrmosrJsdialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage, Result: Boolean);
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
@@ -113,14 +118,17 @@ type
     FCanClose          : boolean;
     FClosing           : boolean;
     FResizeCS          : TCriticalSection;
+    FJSDialogInfo      : TJSDialogInfo;
     {$IFDEF DELPHI17_UP}
     FMouseWheelService : IFMXMouseService;
     {$ENDIF}
 
     procedure LoadURL;
-    function  getModifiers(Shift: TShiftState): TCefEventFlags;
+    function  getModifiers(Shift: TShiftState): TCefEventFlags; overload;
+    function  getModifiers(Button: TMouseButton; Shift: TShiftState): TCefEventFlags; overload;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     function  GetMousePosition(var aPoint : TPointF) : boolean;
+    procedure ShowPendingJSDialog;
 
   public
     procedure DoResize;
@@ -132,14 +140,6 @@ type
 
 var
   FMXExternalPumpBrowserFrm : TFMXExternalPumpBrowserFrm;
-
-// ***************************
-// ********* WARNING *********
-// ***************************
-// This is a demo for LINUX and it's in BETA state.
-// It still has several features unimplemented!!!
-
-
 
 // This is a simple browser using FireMonkey components in OSR mode (off-screen rendering)
 // and a external message pump.
@@ -163,7 +163,7 @@ implementation
 {$R *.fmx}
 
 uses
-  System.SysUtils, System.Math, FMX.Platform, FMX.Platform.Linux,
+  System.SysUtils, System.Math, FMX.Platform, FMX.Platform.Linux, FMX.DialogService.Async,
   uCEFMiscFunctions, uCEFApplication, uCEFLinuxTypes, uCEFLinuxConstants,
   uCEFLinuxFunctions;
 
@@ -187,9 +187,11 @@ begin
           TempCefEvent.kind := KEYEVENT_KEYUP;
           FMXExternalPumpBrowserFrm.SendCEFKeyEvent(TempCefEvent);
         end;
-    end;
 
-  Result := True;
+      Result := True;
+    end
+   else
+    Result := False;
 end;
 
 procedure ConnectKeyPressReleaseEvents(const aWidget : PGtkWidget);
@@ -231,7 +233,8 @@ begin
         // opaque white background color
         chrmosr.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 
-        if not(chrmosr.CreateBrowser) then Timer1.Enabled := True;
+        if not(chrmosr.CreateBrowser) then
+          Timer1.Enabled := True;
       end;
 end;
 
@@ -241,9 +244,11 @@ begin
 
   if not(FClosing) then
     begin
-      FClosing           := True;
-      Visible            := False;
-      AddressPnl.Enabled := False;
+      FClosing                 := True;
+      Visible                  := False;
+      AddressPnl.Enabled       := False;
+      FJSDialogInfo.Callback   := nil;
+
       chrmosr.CloseBrowser(True);
     end;
 end;
@@ -259,7 +264,13 @@ begin
   FClosing        := False;
   FResizeCS       := TCriticalSection.Create;
 
-  chrmosr.DefaultURL := AddressEdt.Text;
+  FJSDialogInfo.OriginUrl         := '';
+  FJSDialogInfo.MessageText       := '';
+  FJSDialogInfo.DefaultPromptText := '';
+  FJSDialogInfo.DialogType        := JSDIALOGTYPE_ALERT;
+  FJSDialogInfo.Callback          := nil;
+
+  chrmosr.DefaultURL := AddressCb.Text;
 
   {$IFDEF DELPHI17_UP}
   if TPlatformServices.Current.SupportsPlatformService(IFMXMouseService) then
@@ -270,7 +281,9 @@ end;
 procedure TFMXExternalPumpBrowserFrm.FormDestroy(Sender: TObject);
 begin
   FResizeCS.Free;
-  if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
+
+  if (FPopUpBitmap <> nil) then
+    FreeAndNil(FPopUpBitmap);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormHide(Sender: TObject);
@@ -297,89 +310,34 @@ begin
   FPendingResize := False;
   FResizeCS.Release;
 
-  chrmosr.LoadURL(AddressEdt.Text);
+  chrmosr.LoadURL(AddressCb.Text);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
-end;
-
-procedure TFMXExternalPumpBrowserFrm.Panel1Click(Sender: TObject);
-begin
-  Panel1.SetFocus;
-end;
-
-procedure TFMXExternalPumpBrowserFrm.Panel1DialogKey(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  if (Key = vkTab) then Key := 0;
+  if (chrmosr <> nil) then chrmosr.SendFocusEvent(False);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1Enter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(True);
+  if (chrmosr <> nil) then chrmosr.SendFocusEvent(True);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1Exit(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
-end;
-
-procedure TFMXExternalPumpBrowserFrm.Panel1KeyDown(    Sender  : TObject;
-                                                   var Key     : Word;
-                                                   var KeyChar : Char;
-                                                       Shift   : TShiftState);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if not(Panel1.IsFocused) then exit;
-
-  if (Key = 0) and (KeyChar <> #0) then
-    begin
-      TempKeyEvent.kind                    := KEYEVENT_CHAR;
-      TempKeyEvent.modifiers               := getModifiers(Shift);
-      TempKeyEvent.windows_key_code        := ord(KeyChar);
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-    end
-   else
-    if (Key <> 0) and (KeyChar = #0) and
-       (Key in [vkLeft, vkRight, vkUp, vkDown]) then
-      Key := 0;
-end;
-
-procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
-                                                     Button : TMouseButton;
-                                                     Shift  : TShiftState;
-                                                     X, Y   : Single);
-var
-  TempEvent : TCefMouseEvent;
-begin
-  if not(ssTouch in Shift) then
-    begin
-      Panel1.SetFocus;
-
-      TempEvent.x         := round(X);
-      TempEvent.y         := round(Y);
-      TempEvent.modifiers := getModifiers(Shift);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, 1);
-    end;
+  if (chrmosr <> nil) then chrmosr.SendFocusEvent(False);
 end;
 
 function TFMXExternalPumpBrowserFrm.GetMousePosition(var aPoint : TPointF) : boolean;
 begin
+  {$IFDEF DELPHI17_UP}
   if (FMouseWheelService <> nil) then
     begin
       aPoint := FMouseWheelService.GetMousePos;
       Result := True;
     end
    else
+ {$ENDIF}
     begin
       aPoint.x := 0;
       aPoint.y := 0;
@@ -399,6 +357,7 @@ begin
       TempEvent.x         := round(TempPoint.x);
       TempEvent.y         := round(TempPoint.y);
       TempEvent.modifiers := EVENTFLAG_NONE;
+
       chrmosr.SendMouseMoveEvent(@TempEvent, True);
     end;
 end;
@@ -414,6 +373,7 @@ begin
       TempEvent.x         := round(x);
       TempEvent.y         := round(y);
       TempEvent.modifiers := getModifiers(Shift);
+
       chrmosr.SendMouseMoveEvent(@TempEvent, False);
     end;
 end;
@@ -424,13 +384,63 @@ procedure TFMXExternalPumpBrowserFrm.Panel1MouseUp(Sender : TObject;
                                                    X, Y   : Single);
 var
   TempEvent : TCefMouseEvent;
+  TempCount : integer;
 begin
   if not(ssTouch in Shift) then
     begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
-      TempEvent.modifiers := getModifiers(Shift);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, 1);
+      TempEvent.modifiers := getModifiers(Button, Shift);
+
+      if (Button = TMouseButton.mbRight) then
+        begin
+          // We move the event point slightly so the mouse is over the context menu
+          TempEvent.x := TempEvent.x - 5;
+          TempEvent.y := TempEvent.y - 5;
+        end;
+
+      if (ssDouble in Shift) then
+        TempCount := 2
+       else
+        TempCount := 1;
+
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, TempCount);
+    end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.Panel1MouseDown(Sender : TObject;
+                                                     Button : TMouseButton;
+                                                     Shift  : TShiftState;
+                                                     X, Y   : Single);
+var
+  TempEvent : TCefMouseEvent;
+  TempCount : integer;
+begin
+  if not(ssTouch in Shift) then
+    begin
+      TempEvent.x         := round(X);
+      TempEvent.y         := round(Y);
+      TempEvent.modifiers := getModifiers(Button, Shift);
+
+      if (Button = TMouseButton.mbRight) then
+        begin
+          // We set the focus in another control as a workaround to show the context
+          // menu when we click the right mouse button.
+          GoBtn.SetFocus;
+
+          // We move the event point slightly so the mouse is over the context menu
+          TempEvent.x := TempEvent.x - 5;
+          TempEvent.y := TempEvent.y - 5;
+        end
+       else
+        Panel1.SetFocus;
+
+      if (ssDouble in Shift) then
+        TempCount := 2
+       else
+        TempCount := 1;
+
+      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, TempCount);
     end;
 end;
 
@@ -448,6 +458,7 @@ begin
       TempEvent.x         := round(TempPoint.x);
       TempEvent.y         := round(TempPoint.y);
       TempEvent.modifiers := getModifiers(Shift);
+
       chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
     end;
 end;
@@ -464,13 +475,14 @@ begin
   if FClosing then
     close
    else
-    if not(chrmosr.CreateBrowser) and not(chrmosr.Initialized) then
+    if not(chrmosr.CreateBrowser) then
       Timer1.Enabled := True;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.AddressEdtEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  if (chrmosr <> nil) then
+    chrmosr.SendFocusEvent(False);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -478,14 +490,27 @@ begin
   // Now the browser is fully initialized we can enable the UI.
   Caption            := 'FMX External Pump Browser 2';
   AddressPnl.Enabled := True;
-  Panel1.SetFocus;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   FCanClose := True;
-  // We need to close the form outside this event so we use the timer
-  Timer1.Enabled := True;
+  TThread.ForceQueue(nil, procedure
+                          begin
+                            close;
+                          end);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeContextMenu(      Sender  : TObject;
+                                                              const browser : ICefBrowser;
+                                                              const frame   : ICefFrame;
+                                                              const params  : ICefContextMenuParams;
+                                                              const model   : ICefMenuModel);
+begin
+  // This demo doesn't implement the print events.
+  // See the "Lazarus_Linux/MiniBrowser" demo to know how to print in Linux.
+  if (model <> nil) then
+    model.Remove(MENU_ID_PRINT);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(      Sender             : TObject;
@@ -569,13 +594,82 @@ begin
   rect.height := round(Panel1.Height);
 end;
 
-procedure TFMXExternalPumpBrowserFrm.chrmosrLoadError(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
-  const errorText, failedUrl: ustring);
+procedure TFMXExternalPumpBrowserFrm.chrmosrJsdialog(      Sender            : TObject;
+                                                     const browser           : ICefBrowser;
+                                                     const originUrl         : ustring;
+                                                           dialogType        : TCefJsDialogType;
+                                                     const messageText       : ustring;
+                                                     const defaultPromptText : ustring;
+                                                     const callback          : ICefJsDialogCallback;
+                                                     out   suppressMessage   : Boolean;
+                                                     out   Result            : Boolean);
+begin
+  FJSDialogInfo.OriginUrl         := originUrl;
+  FJSDialogInfo.DialogType        := dialogType;
+  FJSDialogInfo.MessageText       := messageText;
+  FJSDialogInfo.DefaultPromptText := defaultPromptText;
+  FJSDialogInfo.Callback          := callback;
+
+  Result             := True;
+  suppressMessage    := False;
+
+  TThread.ForceQueue(nil, ShowPendingJSDialog);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.ShowPendingJSDialog;
+var
+  TempCaption : string;
+begin
+  if FClosing or (FJSDialogInfo.Callback = nil) then exit;
+
+  TempCaption := 'JavaScript message from : ' + FJSDialogInfo.OriginUrl;
+
+  case FJSDialogInfo.DialogType of
+    JSDIALOGTYPE_CONFIRM :
+      begin
+        TempCaption := TempCaption + CRLF + CRLF + FJSDialogInfo.MessageText;
+        TDialogServiceAsync.MessageDialog(TempCaption,
+                                          TMsgDlgType.mtConfirmation,
+                                          [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo],
+                                          TMsgDlgBtn.mbYes,
+                                          0,
+                                          procedure(const AResult: TModalResult)
+                                          begin
+                                            FJSDialogInfo.Callback.cont(AResult in [mrOk, mrYes], '');
+                                            FJSDialogInfo.Callback := nil;
+                                          end);
+      end;
+
+    JSDIALOGTYPE_PROMPT :
+      TDialogServiceAsync.InputQuery(TempCaption,
+                                     [FJSDialogInfo.MessageText],
+                                     [FJSDialogInfo.DefaultPromptText],
+                                     procedure(const AResult: TModalResult; const AValues: array of string)
+                                     begin
+                                       FJSDialogInfo.Callback.cont(AResult in [mrOk, mrYes], AValues[0]);
+                                       FJSDialogInfo.Callback := nil;
+                                     end);
+
+    else // JSDIALOGTYPE_ALERT
+      begin
+        TempCaption := TempCaption + CRLF + CRLF + FJSDialogInfo.MessageText;
+        TDialogServiceAsync.ShowMessage(TempCaption);
+        FJSDialogInfo.Callback := nil;
+      end;
+  end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrLoadError(      Sender    : TObject;
+                                                      const browser   : ICefBrowser;
+                                                      const frame     : ICefFrame;
+                                                            errorCode : Integer;
+                                                      const errorText : ustring;
+                                                      const failedUrl : ustring);
 var
   TempString : ustring;
 begin
-  if (errorCode = ERR_ABORTED) then exit;
+  if (errorCode = ERR_ABORTED) then
+    exit;
 
   TempString := '<html><body bgcolor="white">' +
                 '<h2>Failed to load URL ' + failedUrl +
@@ -585,8 +679,11 @@ begin
   chrmosr.LoadString(TempString, frame);
 end;
 
-procedure TFMXExternalPumpBrowserFrm.chrmosrLoadingStateChange(Sender: TObject;
-  const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+procedure TFMXExternalPumpBrowserFrm.chrmosrLoadingStateChange(      Sender       : TObject;
+                                                               const browser      : ICefBrowser;
+                                                                     isLoading    : Boolean;
+                                                                     canGoBack    : Boolean;
+                                                                     canGoForward : Boolean);
 begin
   if isLoading then
     StatusLbl.Text := 'Loading...'
@@ -735,7 +832,7 @@ begin
         if (type_ = PET_VIEW) then
           begin
             if TempForcedResize or FPendingResize then
-              TThread.Queue(nil, DoResize);
+              TThread.ForceQueue(nil, DoResize);
 
             FResizing      := False;
             FPendingResize := False;
@@ -790,6 +887,9 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.DoResize;
 begin
+  if (chrmosr = nil) or not(chrmosr.Initialized) then
+    exit;
+
   try
     if (FResizeCS <> nil) then
       begin
@@ -847,6 +947,17 @@ begin
   if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
   if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
   if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+end;
+
+function TFMXExternalPumpBrowserFrm.getModifiers(Button: TMouseButton; Shift: TShiftState): TCefEventFlags;
+begin
+  Result := getModifiers(shift);
+
+  case Button of
+    TMouseButton.mbLeft   : Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+    TMouseButton.mbRight  : Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+    TMouseButton.mbMiddle : Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+  end;
 end;
 
 function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;

@@ -66,7 +66,8 @@ uses
   uCEFPrintDialogCallback, uCEFPrintHandler, uCEFPrintJobCallback, 
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
   uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa, 
-  uCEFBrowserWindow, uCEFOsrBrowserWindow, LazarusPackageIntf;
+  uCEFBrowserWindow, uCEFOsrBrowserWindow, uCEFTimerWorkScheduler, 
+  LazarusPackageIntf;
 
 implementation
 

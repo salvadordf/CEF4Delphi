@@ -64,15 +64,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 90;
-  CEF_SUPPORTED_VERSION_MINOR   = 6;
-  CEF_SUPPORTED_VERSION_RELEASE = 5;
+  CEF_SUPPORTED_VERSION_MAJOR   = 91;
+  CEF_SUPPORTED_VERSION_MINOR   = 1;
+  CEF_SUPPORTED_VERSION_RELEASE = 22;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 90;
+  CEF_CHROMEELF_VERSION_MAJOR   = 91;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4430;
-  CEF_CHROMEELF_VERSION_BUILD   = 93;
+  CEF_CHROMEELF_VERSION_RELEASE = 4472;
+  CEF_CHROMEELF_VERSION_BUILD   = 124;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -192,6 +192,7 @@ type
       FForcedDeviceScaleFactor           : single;
       FDisableZygote                     : boolean;
       FUseMockKeyChain                   : boolean;
+      FDisableRequestHandlingForTesting  : boolean;
       FLastErrorMessage                  : ustring;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
@@ -406,7 +407,7 @@ type
       property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
       property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
       property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
-      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;  // Only used in macOS
+      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;           // Only used in macOS
       property ChromeRuntime                     : boolean                             read FChromeRuntime                     write FChromeRuntime;
       property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
       property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
@@ -488,6 +489,7 @@ type
       property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
       property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
       property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;                  // --use-mock-keychain
+      property DisableRequestHandlingForTesting  : boolean                             read FDisableRequestHandlingForTesting  write FDisableRequestHandlingForTesting; // --disable-request-handling-for-testing
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -620,7 +622,7 @@ uses
     System.Math, System.IOUtils, System.SysUtils,
     {$IFDEF MSWINDOWS}WinApi.TlHelp32, WinApi.PSAPI,{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
-    {$IFDEF MACOS}Posix.Stdio,{$ENDIF}
+    {$IFDEF MACOS}Posix.Stdio, uCEFMacOSFunctions,{$ENDIF}
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
@@ -744,6 +746,7 @@ begin
   FForcedDeviceScaleFactor           := 0;
   FDisableZygote                     := False;
   FUseMockKeyChain                   := False;
+  FDisableRequestHandlingForTesting  := False;
   FLastErrorMessage                  := '';
 
   FDisableJavascriptCloseWindows     := False;
@@ -1480,13 +1483,13 @@ begin
 
             TempThread := TCEFDirectoryDeleterThread.Create(TempNewDir);
             {$IFDEF DELPHI14_UP}
-            TempThread.Start;
+              TempThread.Start;
             {$ELSE}
-            {$IFNDEF FPC}
-            TempThread.Resume;
-            {$ELSE}
-            TempThread.Start;
-            {$ENDIF}
+              {$IFNDEF FPC}
+              TempThread.Resume;
+              {$ELSE}
+              TempThread.Start;
+              {$ENDIF}
             {$ENDIF}
           end
          else
@@ -1537,14 +1540,24 @@ begin
     begin
       {$IFDEF MSWINDOWS}
       MessageBox(0, PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK or MB_TOPMOST);
-      {$ELSE}
-        {$IFDEF LINUX}
-          {$IFDEF FPC}
-          if (WidgetSet <> nil) then
-            Application.MessageBox(PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK)
-           else
-            ShowX11Message(aError);
-          {$ENDIF}
+      {$ENDIF}
+
+      {$IFDEF LINUX}
+        {$IFDEF FPC}
+        if (WidgetSet <> nil) then
+          Application.MessageBox(PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK)
+         else
+          ShowX11Message(aError);
+        {$ELSE}
+        // TO-DO: Find a way to show message boxes in FMXLinux
+        {$ENDIF}
+      {$ENDIF}
+
+      {$IFDEF MACOSX}
+        {$IFDEF FPC}
+        // TO-DO: Find a way to show message boxes in Lazarus/FPC for MacOS
+        {$ELSE}
+        ShowMessageCF('Error', aError, 10);
         {$ENDIF}
       {$ENDIF}
     end;
@@ -2036,6 +2049,9 @@ begin
 
   if FUseMockKeyChain then
     ReplaceSwitch(aKeys, aValues, '--use-mock-keychain');
+
+  if FDisableRequestHandlingForTesting then
+    ReplaceSwitch(aKeys, aValues, '--disable-request-handling-for-testing');
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc

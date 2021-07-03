@@ -256,6 +256,7 @@ type
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
+    procedure WMQueryEndSession(var aMessage: TWMQueryEndSession); message WM_QUERYENDSESSION;
 
   public
     procedure ShowStatusText(const aText : string);
@@ -1221,25 +1222,35 @@ begin
     begin
       if (length(FDevToolsMsgValue) > 0) then
         begin
+          TempData := nil;
+
           if (aMessage.LParam = FScreenshotMsgID) then
+            begin
+              SaveDialog1.DefaultExt := 'png';
+              SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+              {$IFDEF DELPHI21_UP}
+              // TO-DO: TNetEncoding was a new feature in Delphi XE7. Replace
+              // TNetEncoding.Base64.DecodeStringToBytes with Soap.EncdDecd.DecodeBase64 for older Delphi versions
+              TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+              {$ENDIF}
+            end
+           else
+            if (aMessage.LParam = FMHTMLMsgID) then
               begin
-                SaveDialog1.DefaultExt := 'png';
-                SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
-                TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+                SaveDialog1.DefaultExt := 'mhtml';
+                SaveDialog1.Filter     := 'MHTML files (*.mhtml)|*.MHTML';
+                TempData               := BytesOf(FDevToolsMsgValue);
               end
-             else
-              if (aMessage.LParam = FMHTMLMsgID) then
-                begin
-                  SaveDialog1.DefaultExt := 'mhtml';
-                  SaveDialog1.Filter     := 'MHTML files (*.mhtml)|*.MHTML';
-                  TempData               := BytesOf(FDevToolsMsgValue);
-                end
-              else
-                begin
-                  SaveDialog1.DefaultExt := '';
-                  SaveDialog1.Filter     := 'All files (*.*)|*.*';
-                  TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
-                end;
+            else
+              begin
+                SaveDialog1.DefaultExt := '';
+                SaveDialog1.Filter     := 'All files (*.*)|*.*';
+                {$IFDEF DELPHI21_UP}
+                // TO-DO: TNetEncoding was a new feature in Delphi XE7. Replace
+                // TNetEncoding.Base64.DecodeStringToBytes with Soap.EncdDecd.DecodeBase64 for older Delphi versions
+                TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+                {$ENDIF}
+              end;
 
           TempLen := length(TempData);
 
@@ -1554,6 +1565,18 @@ begin
   inherited;
 
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
+end;
+
+procedure TMiniBrowserFrm.WMQueryEndSession(var aMessage: TWMQueryEndSession);
+begin
+  // We return False (0) to close the browser correctly while we can.
+  // This is not what Microsoft recommends doing when an application receives
+  // WM_QUERYENDSESSION but at least we avoid TApplication calling HALT when
+  // it receives WM_ENDSESSION.
+  // The CEF subprocesses may receive WM_QUERYENDSESSION and WM_ENDSESSION
+  // before the main process and they may crash before closing the main form.
+  aMessage.Result := 0;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMiniBrowserFrm.Deczoom1Click(Sender: TObject);

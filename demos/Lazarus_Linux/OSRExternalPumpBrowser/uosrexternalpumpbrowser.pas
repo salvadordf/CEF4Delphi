@@ -204,14 +204,6 @@ end;
 
 procedure CreateGlobalCEFApp;
 begin               
-  // TCEFWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalCEFWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  // We use CreateDelayed in order to have a single thread in the process while
-  // CEF is initialized.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
-
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
@@ -224,6 +216,14 @@ begin
   // This is a workaround for the 'GPU is not usable error' issue :
   // https://bitbucket.org/chromiumembedded/cef/issues/2964/gpu-is-not-usable-error-during-cef
   GlobalCEFApp.DisableZygote := True; // this property adds the "--no-zygote" command line switch
+
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  // We use CreateDelayed in order to have a single thread in the process while
+  // CEF is initialized.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
 
   GlobalCEFApp.StartMainProcess;
   GlobalCEFWorkScheduler.CreateThread;

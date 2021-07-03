@@ -75,7 +75,7 @@ type
 
       procedure CEFWindowComponent_OnWindowCreated(const Sender : TObject; const window : ICefWindow);
       procedure CEFWindowComponent_OnCanClose(const Sender : TObject; const window : ICefWindow; var aResult : Boolean);
-      procedure CEFWindowComponent_OnGetPreferredSize(const Sender : TObject; const view : ICefView; var aResult : TCefSize);
+      procedure CEFWindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
 
     public
       constructor Create(AOwner : TComponent); override;
@@ -166,7 +166,7 @@ begin
   FCEFWindowComponent                    := TCEFWindowComponent.Create(self);
   FCEFWindowComponent.OnWindowCreated    := CEFWindowComponent_OnWindowCreated;
   FCEFWindowComponent.OnCanClose         := CEFWindowComponent_OnCanClose;
-  FCEFWindowComponent.OnGetPreferredSize := CEFWindowComponent_OnGetPreferredSize;
+  FCEFWindowComponent.OnGetInitialBounds := CEFWindowComponent_OnGetInitialBounds;
 end;
 
 procedure TTinyBrowser.CreateTopLevelWindow;
@@ -240,11 +240,12 @@ begin
   aResult := FChromium.TryCloseBrowser;
 end;
 
-procedure TTinyBrowser.CEFWindowComponent_OnGetPreferredSize(const Sender  : TObject;
-                                                             const view    : ICefView;
-                                                             var   aResult : TCefSize);
+procedure TTinyBrowser.CEFWindowComponent_OnGetInitialBounds(const Sender  : TObject;
+                                                             const window  : ICefWindow;
+                                                             var   aResult : TCefRect);
 begin
-  // This is the initial window size
+  aResult.x      := 0;
+  aResult.y      := 0;
   aResult.width  := DEFAULT_WINDOW_VIEW_WIDTH;
   aResult.height := DEFAULT_WINDOW_VIEW_HEIGHT;
 end;
@@ -277,6 +278,9 @@ begin
   //GlobalCEFApp.ChromeRuntime            := True;  // Enable this line to test the new "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.OnContextInitialized     := GlobalCEFApp_OnContextInitialized;
   GlobalCEFApp.OnGetDefaultClient       := GlobalCEFApp_OnGetDefaultClient;  // This event is only used in "ChromeRuntime" mode
+
+  GlobalCEFApp.LogFile             := 'debug.log';
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_VERBOSE;
 end;
 
 procedure DestroyTinyBrowser;

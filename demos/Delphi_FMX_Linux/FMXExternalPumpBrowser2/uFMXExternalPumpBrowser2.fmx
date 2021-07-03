@@ -17,6 +17,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   DesignerMasterStyle = 0
   object AddressPnl: TPanel
     Align = Top
+    Enabled = False
     Padding.Left = 5.000000000000000000
     Padding.Top = 5.000000000000000000
     Padding.Right = 5.000000000000000000
@@ -24,17 +25,8 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     Size.Width = 800.000000000000000000
     Size.Height = 33.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 1
-    object AddressEdt: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
-      Align = Client
-      TabOrder = 0
-      Text = 'https://www.google.com'
-      Size.Width = 709.000000000000000000
-      Size.Height = 23.000000000000000000
-      Size.PlatformDefault = False
-      OnEnter = AddressEdtEnter
-    end
+    TabOrder = 0
+    TabStop = False
     object Layout1: TLayout
       Align = Right
       Padding.Left = 5.000000000000000000
@@ -43,7 +35,8 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
       Size.Width = 81.000000000000000000
       Size.Height = 23.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 2
+      TabOrder = 0
+      TabStop = False
       object GoBtn: TButton
         Align = Left
         Position.X = 5.000000000000000000
@@ -70,6 +63,28 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
         OnEnter = SnapshotBtnEnter
       end
     end
+    object AddressCb: TComboEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      ItemHeight = 19.000000000000000000
+      Items.Strings = (
+        'https://www.google.com'
+        
+          'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onco' +
+          'ntextmenu'
+        
+          'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input' +
+          '_type_file'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm'
+        'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select')
+      ItemIndex = 0
+      Text = 'https://www.google.com'
+      Size.Width = 709.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+    end
   end
   object Timer1: TTimer
     Enabled = False
@@ -87,7 +102,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   end
   object Panel1: TFMXBufferPanel
     Align = Client
-    TabOrder = 0
+    TabOrder = 1
     CanFocus = True
     Size.Width = 800.000000000000000000
     Size.Height = 578.000000000000000000
@@ -95,14 +110,11 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
     OnResize = Panel1Resize
-    OnClick = Panel1Click
     OnMouseDown = Panel1MouseDown
     OnMouseMove = Panel1MouseMove
     OnMouseUp = Panel1MouseUp
     OnMouseLeave = Panel1MouseLeave
     OnMouseWheel = Panel1MouseWheel
-    OnKeyDown = Panel1KeyDown
-    OnDialogKey = Panel1DialogKey
   end
   object StatusBar1: TStatusBar
     Position.Y = 611.000000000000000000
@@ -124,8 +136,10 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   object chrmosr: TFMXChromium
     OnLoadError = chrmosrLoadError
     OnLoadingStateChange = chrmosrLoadingStateChange
+    OnBeforeContextMenu = chrmosrBeforeContextMenu
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
+    OnJsdialog = chrmosrJsdialog
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose

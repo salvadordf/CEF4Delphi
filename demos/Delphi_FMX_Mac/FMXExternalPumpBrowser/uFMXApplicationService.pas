@@ -34,7 +34,6 @@
  * this source code without explicit permission.
  *
  *)
-
 unit uFMXApplicationService;
 
 {$I cef.inc}
@@ -45,15 +44,56 @@ unit uFMXApplicationService;
 interface
 
 uses
-  FMX.Platform;
+  System.TypInfo, Macapi.Foundation, Macapi.CoreFoundation, Macapi.ObjectiveC,
+  Macapi.Helpers, Macapi.CocoaTypes, Macapi.AppKit, FMX.Platform,
+  uCEFMacOSInterfaces;
 
 type
-  TFMXApplicationService = class(TInterfacedObject, IFMXApplicationService)
+  TFMXApplicationService = class;
+
+  TFMXApplicationDelegateEx = class(TOCLocal, IFMXApplicationDelegate)
     protected
-      class var OldFMXApplicationService: IFMXApplicationService;
-      class var NewFMXApplicationService: IFMXApplicationService;
+      FAppService : TFMXApplicationService;
 
     public
+      constructor Create(const aAppService : TFMXApplicationService);
+      function    GetObjectiveCClass: PTypeInfo; override;
+
+      // CrAppProtocol
+      function  isHandlingSendEvent: boolean; cdecl;
+
+      // CrAppControlProtocol
+      procedure setHandlingSendEvent(handlingSendEvent: boolean); cdecl;
+
+      // IFMXApplicationDelegate
+      procedure onMenuClicked(sender: NSMenuItem); cdecl;
+
+      // NSApplicationDelegate
+      function  applicationShouldTerminate(Notification: NSNotification): NSInteger; cdecl;
+      procedure applicationWillTerminate(Notification: NSNotification); cdecl;
+      procedure applicationDidFinishLaunching(Notification: NSNotification); cdecl;
+      procedure applicationDidHide(Notification: NSNotification); cdecl;
+      procedure applicationDidUnhide(Notification: NSNotification); cdecl;
+      function  applicationDockMenu(sender: NSApplication): NSMenu; cdecl;
+  end;
+
+  TFMXApplicationService = class(TInterfacedObject, IFMXApplicationService)
+    protected
+      FNewDelegate : IFMXApplicationDelegate;
+      FOldDelegate : IFMXApplicationDelegate;
+
+      FHandlingSendEventOverride : boolean;
+
+      procedure ReplaceNSApplicationDelegate;
+      procedure RestoreNSApplicationDelegate;
+
+      function  GetPrivateFieldAsBoolean(const aFieldName : string) : boolean;
+
+    public
+      constructor Create;
+      procedure   AfterConstruction; override;
+
+      // IFMXApplicationService
       procedure Run;
       function  HandleMessage: Boolean;
       procedure WaitMessage;
@@ -65,25 +105,194 @@ type
       function  Terminating: Boolean;
       function  Running: Boolean;
 
+      // IFMXApplicationServiceEx
+      function  GetHandlingSendEvent : boolean;
+      procedure SetHandlingSendEvent(aValue : boolean);
+
+      // NSApplicationDelegate
+      function  applicationShouldTerminate(Notification: NSNotification): NSInteger;
+      procedure applicationWillTerminate(Notification: NSNotification);
+      procedure applicationDidFinishLaunching(Notification: NSNotification);
+      procedure applicationDidHide(Notification: NSNotification);
+      procedure applicationDidUnhide(Notification: NSNotification);
+      function  applicationDockMenu(sender: NSApplication): NSMenu;
+
+      // IFMXApplicationDelegate
+      procedure onMenuClicked(sender: NSMenuItem);
+
       class procedure AddPlatformService;
 
-      property  DefaultTitle  : string read GetDefaultTitle;
-      property  Title         : string read GetTitle          write SetTitle;
-      property  AppVersion    : string read GetVersionString;
+      class var OldFMXApplicationService: IFMXApplicationService;
+      class var NewFMXApplicationService: IFMXApplicationService;
+
+      property  DefaultTitle         : string    read GetDefaultTitle;
+      property  Title                : string    read GetTitle                write SetTitle;
+      property  AppVersion           : string    read GetVersionString;
+      property  HandlingSendEvent    : boolean   read GetHandlingSendEvent    write SetHandlingSendEvent;
   end;
 
 implementation
 
 uses
-  FMX.Forms, {$IFDEF MSWINDOWS}Winapi.Messages, Winapi.Windows,{$ENDIF}
-  uFMXExternalPumpBrowser, uCEFFMXWorkScheduler, uCEFApplication, uCEFConstants;
+  System.RTTI, FMX.Forms, FMX.Helpers.Mac, System.Messaging,
+  uFMXExternalPumpBrowser, uCEFFMXWorkScheduler, uCEFApplication, uCEFConstants,
+  uCEFMacOSFunctions;
+
+// TFMXApplicationDelegateEx
+constructor TFMXApplicationDelegateEx.Create(const aAppService : TFMXApplicationService);
+begin
+  inherited Create;
+
+  FAppService := aAppService;
+end;
+
+function TFMXApplicationDelegateEx.GetObjectiveCClass: PTypeInfo;
+begin
+  Result := TypeInfo(CrAppControlProtocol);
+end;
+
+function TFMXApplicationDelegateEx.isHandlingSendEvent: Boolean;
+begin
+  Result := (FAppService <> nil) and FAppService.HandlingSendEvent;
+end;
+
+procedure TFMXApplicationDelegateEx.setHandlingSendEvent(handlingSendEvent: boolean);
+begin
+  if (FAppService <> nil) then
+    FAppService.HandlingSendEvent := handlingSendEvent;
+end;
+
+function TFMXApplicationDelegateEx.applicationShouldTerminate(Notification: NSNotification): NSInteger;
+begin
+  if assigned(FAppService) then
+    Result := FAppService.applicationShouldTerminate(Notification)
+   else
+    Result := 0;
+end;
+
+procedure TFMXApplicationDelegateEx.applicationWillTerminate(Notification: NSNotification);
+begin
+  if assigned(FAppService) then
+    FAppService.applicationWillTerminate(Notification);
+end;
+
+procedure TFMXApplicationDelegateEx.applicationDidFinishLaunching(Notification: NSNotification);
+begin
+  if assigned(FAppService) then
+    FAppService.applicationDidFinishLaunching(Notification);
+end;
+
+procedure TFMXApplicationDelegateEx.applicationDidHide(Notification: NSNotification);
+begin
+  if assigned(FAppService) then
+    FAppService.applicationDidHide(Notification);
+end;
+
+procedure TFMXApplicationDelegateEx.applicationDidUnhide(Notification: NSNotification);
+begin
+  if assigned(FAppService) then
+    FAppService.applicationDidUnhide(Notification);
+end;
+
+function TFMXApplicationDelegateEx.applicationDockMenu(sender: NSApplication): NSMenu;
+begin
+  if assigned(FAppService) then
+    Result := FAppService.applicationDockMenu(sender)
+   else
+    Result := nil;
+end;
+
+procedure TFMXApplicationDelegateEx.onMenuClicked(sender: NSMenuItem);
+begin
+  if assigned(FAppService) then
+    FAppService.onMenuClicked(sender);
+end;
+
+//  TFMXApplicationService
+constructor TFMXApplicationService.Create;
+begin
+  inherited Create;
+
+  FNewDelegate := nil;
+  FOldDelegate := nil;
+
+  FHandlingSendEventOverride := False;
+end;
+
+procedure TFMXApplicationService.AfterConstruction;
+begin
+  inherited AfterConstruction;
+
+  ReplaceNSApplicationDelegate;
+end;
+
+procedure TFMXApplicationService.ReplaceNSApplicationDelegate;
+var
+  TempNSApplication : NSApplication;
+begin
+  TempNSApplication := TNSApplication.Wrap(TNSApplication.OCClass.sharedApplication);
+  FNewDelegate      := IFMXApplicationDelegate(TFMXApplicationDelegateEx.Create(self));
+  FOldDelegate      := IFMXApplicationDelegate(TempNSApplication.delegate);
+
+  TempNSApplication.setDelegate(NSApplicationDelegate(FNewDelegate));
+end;
+
+procedure TFMXApplicationService.RestoreNSApplicationDelegate;
+var
+  TempNSApplication : NSApplication;
+begin
+  if assigned(FOldDelegate) then
+    begin
+      TempNSApplication := TNSApplication.Wrap(TNSApplication.OCClass.sharedApplication);
+      TempNSApplication.setDelegate(FOldDelegate);
+      FOldDelegate := nil;
+    end;
+end;
+
+function TFMXApplicationService.GetPrivateFieldAsBoolean(const aFieldName : string) : boolean;
+var
+  TempContext  : TRttiContext;
+  TempRttiType : TRttiType;
+  TempField    : TRttiField;
+  TempService  : TObject;
+begin
+  // This function is based on this answer in stackoverflow :
+  // https://stackoverflow.com/questions/28135592/showmodal-form-that-opens-nsopenpanel-is-force-closed-in-delphi-firemonkey-osx
+  Result      := False;
+  TempService := TObject(TPlatformServices.Current.GetPlatformService(IFMXWindowService));
+
+  if (TempService <> nil) then
+    begin
+      TempRttiType := TempContext.GetType(TempService.ClassType);
+
+      if (TempRttiType <> nil) then
+        begin
+          TempField := TempRttiType.GetField(aFieldName);
+          Result    := (TempField <> nil) and
+                       TempField.GetValue(TempService).AsBoolean;
+        end;
+    end;
+end;
+
+procedure TFMXApplicationService.SetHandlingSendEvent(aValue : boolean);
+begin
+  FHandlingSendEventOverride := aValue;
+end;
+
+function TFMXApplicationService.GetHandlingSendEvent : boolean;
+begin
+  // We need to know when NSApp.sendEvent is being called and TPlatformCocoa
+  // has a private field called FDisableClosePopups with that information.
+  // In order to read that field we have to use RTTI.
+  Result := FHandlingSendEventOverride or
+            GetPrivateFieldAsBoolean('FDisableClosePopups');
+end;
 
 class procedure TFMXApplicationService.AddPlatformService;
 begin
   if TPlatformServices.Current.SupportsPlatformService(IFMXApplicationService, IInterface(OldFMXApplicationService)) then
     begin
       TPlatformServices.Current.RemovePlatformService(IFMXApplicationService);
-
       NewFMXApplicationService := TFMXApplicationService.Create;
       TPlatformServices.Current.AddPlatformService(IFMXApplicationService, NewFMXApplicationService);
     end;
@@ -142,85 +351,56 @@ begin
   {$ENDIF}
 end;
 
-function TFMXApplicationService.HandleMessage: Boolean;
-{$IFDEF MSWINDOWS}
-var
-  TempMsg : TMsg;
-{$ENDIF}
+function TFMXApplicationService.applicationShouldTerminate(Notification: NSNotification): NSInteger;
 begin
-  {$IFDEF MSWINDOWS}
-  if PeekMessage(TempMsg, 0, 0, 0, PM_NOREMOVE) then
-    case TempMsg.Message of
-      WM_MOVE,
-      WM_MOVING :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).NotifyMoveOrResizeStarted;
+  if assigned(FOldDelegate) then
+    Result := FOldDelegate.applicationShouldTerminate(Notification)
+   else
+    Result := 0;
+end;
 
-      WM_ENTERMENULOOP :
-        if (TempMsg.wParam = 0) and
-           (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OsmodalLoop := True;
+procedure TFMXApplicationService.applicationWillTerminate(Notification: NSNotification);
+begin
+  RestoreNSApplicationDelegate;
 
-      WM_EXITMENULOOP :
-        if (TempMsg.wParam = 0) and
-           (GlobalCEFApp <> nil) then
-          GlobalCEFApp.OsmodalLoop := False;
+  if assigned(FOldDelegate) then
+    FOldDelegate.applicationWillTerminate(Notification);
+end;
 
-      WM_CAPTURECHANGED,
-      WM_CANCELMODE :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).SendCaptureLostEvent;
+procedure TFMXApplicationService.applicationDidFinishLaunching(Notification: NSNotification);
+begin
+  if assigned(FOldDelegate) then
+    FOldDelegate.applicationDidFinishLaunching(Notification);
+end;
 
-      WM_SYSCHAR :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).HandleSYSCHAR(TempMsg);
+procedure TFMXApplicationService.applicationDidHide(Notification: NSNotification);
+begin
+  if assigned(FOldDelegate) then
+    FOldDelegate.applicationDidHide(Notification);
+end;
 
-      WM_SYSKEYDOWN :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).HandleSYSKEYDOWN(TempMsg);
+procedure TFMXApplicationService.applicationDidUnhide(Notification: NSNotification);
+begin
+  if assigned(FOldDelegate) then
+    FOldDelegate.applicationDidUnhide(Notification);
+end;
 
-      WM_SYSKEYUP :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).HandleSYSKEYUP(TempMsg);
+function TFMXApplicationService.applicationDockMenu(sender: NSApplication): NSMenu;
+begin
+  if assigned(FOldDelegate) then
+    Result := FOldDelegate.applicationDockMenu(sender)
+   else
+    Result := nil;
+end;
 
-      WM_KEYDOWN :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).HandleKEYDOWN(TempMsg);
+procedure TFMXApplicationService.onMenuClicked(sender: NSMenuItem);
+begin
+  if assigned(FOldDelegate) then
+    FOldDelegate.onMenuClicked(sender);
+end;
 
-      WM_KEYUP :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).HandleKEYUP(TempMsg);
-
-      WM_POINTERDOWN,
-      WM_POINTERUPDATE,
-      WM_POINTERUP :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).HandlePOINTER(TempMsg);
-
-      CEF_PENDINGRESIZE :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TFMXExternalPumpBrowserFrm) then
-          TFMXExternalPumpBrowserFrm(Application.MainForm).DoResize;
-    end;
-  {$ENDIF}
-
+function TFMXApplicationService.HandleMessage: Boolean;
+begin
   Result := OldFMXApplicationService.HandleMessage;
 end;
 

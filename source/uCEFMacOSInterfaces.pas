@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,44 +35,48 @@
  *
  *)
 
-program TabbedBrowser2;
+unit uCEFMacOSInterfaces;
+
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
+interface
+
+{$IFDEF MACOS}
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
-  Forms,
-  Windows,
-  {$ENDIF }
-  uCEFApplication,
-  uMainForm in 'uMainForm.pas' {MainForm},
-  uBrowserFrame in 'uBrowserFrame.pas' {BrowserFrame: TFrame},
-  uBrowserTab in 'uBrowserTab.pas',
-  uChildForm in 'uChildForm.pas' {ChildForm};
+  System.TypInfo, Macapi.Foundation, Macapi.CoreFoundation, Macapi.ObjectiveC,
+  Macapi.Helpers, Macapi.CocoaTypes, Macapi.AppKit, FMX.Platform;
 
-{$R *.res}
+type
+  IFMXApplicationDelegate = interface(NSApplicationDelegate)
+    ['{A54E08CA-77CC-4F22-B6D9-833DD6AB696D}']
+    procedure onMenuClicked(sender: NSMenuItem); cdecl;
+  end;
 
-{$IFDEF WIN32}
-  // CEF needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-  // If you don't add this flag the rederer process will crash when you try to load large images.
-  {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+  CrAppProtocol = interface(NSObject)
+    ['{2071D289-9A54-4AD7-BD83-E521ACD5C528}']
+    function isHandlingSendEvent: boolean; cdecl;
+  end;
+
+  //CrAppControlProtocol = interface(CrAppProtocol)
+  CrAppControlProtocol = interface(NSObject)
+    ['{BCCDF64D-E8D7-4E0B-83BC-30F87145576C}']
+    function isHandlingSendEvent: boolean; cdecl;
+    procedure setHandlingSendEvent(handlingSendEvent: boolean); cdecl;
+  end;
+
+  ICustomCocoaTimer = interface(NSObject)
+    ['{17D92D03-614A-4D4A-B938-FA0D4A3A07F9}']
+    procedure timerTimeout(timer: NSTimer); cdecl;
+  end;
 {$ENDIF}
 
-begin
-  CreateGlobalCEFApp;
+implementation
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TMainForm, MainForm);
-      Application.Run;
-    end;
-
-  DestroyGlobalCEFApp;
 end.

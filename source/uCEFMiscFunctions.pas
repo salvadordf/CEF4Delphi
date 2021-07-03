@@ -37,14 +37,17 @@
 
 unit uCEFMiscFunctions;
 
+{$I cef.inc}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
+  {$IFDEF MACOSX}
+    {$ModeSwitch objectivec1}
+  {$ENDIF}
 {$ENDIF}
 
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
-
-{$I cef.inc}
 
 {$IFNDEF FPC}{$IFNDEF DELPHI12_UP}
   // Workaround for "Internal error" in old Delphi versions caused by uint64 handling
@@ -56,11 +59,12 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX, {$IFDEF FMX}FMX.Types,{$ENDIF}
+      WinApi.Windows, WinApi.ActiveX,
     {$ELSE}
-      {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
+      {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac, Macapi.AppKit,{$ENDIF}
     {$ENDIF}
-    System.Types, System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
+    {$IFDEF FMX}FMX.Types, FMX.Platform,{$ENDIF} System.Types, System.IOUtils,
+    System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
@@ -287,12 +291,12 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 
-function GetCommandLineSwitchValue(const aKey : ustring; var aValue : ustring) : boolean;
+function GetCommandLineSwitchValue(const aKey : string; var aValue : ustring) : boolean;
 
 implementation
 
 uses
-  {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
+  {$IFDEF LINUX}{$IFDEF FMX}uCEFLinuxFunctions, Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
   {$IFDEF MACOS}Posix.Unistd, Posix.Stdio,{$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
@@ -942,6 +946,21 @@ begin
         FMX.Types.Log.d(aMessage);
       {$ELSE}
         OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
+      {$ENDIF}
+    {$ENDIF}
+
+    {$IFDEF LINUX}
+      {$IFDEF FPC}
+        // TO-DO: Find a way to write in the error console using Lazarus in Linux
+      {$ELSE}
+        FMX.Types.Log.d(aMessage);
+      {$ENDIF}
+    {$ENDIF}
+    {$IFDEF MACOSX}
+      {$IFDEF FPC}
+      // TO-DO: Find a way to write in the error console using Lazarus in MacOS
+      {$ELSE}
+        FMX.Types.Log.d(aMessage);
       {$ENDIF}
     {$ENDIF}
 
@@ -2202,6 +2221,11 @@ function GetScreenDPI : integer;
 {$IFDEF MSWINDOWS}
 var
   TempDC : HDC;
+{$ELSE}
+{$IFDEF FMX}
+var
+  TempService: IFMXScreenService;
+{$ENDIF}
 {$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
@@ -2227,26 +2251,44 @@ begin
          else
           Result := USER_DEFAULT_SCREEN_DPI;
     {$ELSE}
-      // TODO: Find a way to get the screen scale in Delphi FMX for Linux
-      Result := USER_DEFAULT_SCREEN_DPI;
+    if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
+      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI)
+     else
+      begin
+        Result := round(gdk_screen_get_resolution(gdk_screen_get_default));
+        if (Result < 0) then
+          Result := round(gdk_screen_width / (gdk_screen_width_mm / 25.4));
+      end;
     {$ENDIF}
   {$ENDIF}
 
   {$IFDEF MACOSX}
     {$IFDEF FPC}
-      // TODO: Find a way to get the screen scale in Lazarus/FPC for MacOS
-      Result := USER_DEFAULT_SCREEN_DPI;
+    Result := round(NSScreen.mainScreen.backingScaleFactor * USER_DEFAULT_SCREEN_DPI);
     {$ELSE}
-      // TODO: Find a way to get the screen scale in Delphi FMX for MacOS
-      Result := USER_DEFAULT_SCREEN_DPI;
+    if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
+      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI)
+     else
+      Result := round(TNSScreen.Wrap(TNSScreen.OCClass.mainScreen).backingScaleFactor * USER_DEFAULT_SCREEN_DPI);
     {$ENDIF}
   {$ENDIF}
 end;
 
 function GetDeviceScaleFactor : single;
+{$IFDEF MACOSX}{$IFDEF FMX}
+var
+  TempService: IFMXScreenService;
+{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF MACOS}
-  Result := MainScreen.backingScaleFactor;
+  {$IFDEF MACOSX}
+    {$IFDEF FPC}
+    Result := NSScreen.mainScreen.backingScaleFactor;
+    {$ELSE}
+    if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
+      Result := TempService.GetScreenScale
+     else
+      Result := TNSScreen.Wrap(TNSScreen.OCClass.mainScreen).backingScaleFactor;
+    {$ENDIF}
   {$ELSE}
   Result := GetScreenDPI / USER_DEFAULT_SCREEN_DPI;
   {$ENDIF}
@@ -2399,10 +2441,10 @@ begin
   {$ENDIF}
 end;
 
-function GetCommandLineSwitchValue(const aKey : ustring; var aValue : ustring) : boolean;
+function GetCommandLineSwitchValue(const aKey : string; var aValue : ustring) : boolean;
 var
   i, TempLen : integer;
-  TempKey : ustring;
+  TempKey : string;
 begin
   Result  := False;
   TempKey := '--' + aKey + '=';
@@ -2412,7 +2454,11 @@ begin
   while (i >= 1) do
     if (CompareText(copy(paramstr(i), 1, TempLen), TempKey) = 0) then
       begin
+        {$IFDEF FPC}
+        aValue := UTF8Decode(copy(paramstr(i), succ(TempLen), length(paramstr(i))));
+        {$ELSE}
         aValue := copy(paramstr(i), succ(TempLen), length(paramstr(i)));
+        {$ENDIF}
         Result := True;
         break;
       end

@@ -209,10 +209,8 @@ destructor TBrowserFrame.Destroy;
 begin
   FResizeCS.Free;
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
-
   inherited Destroy;
 end;
-
 procedure TBrowserFrame.ReloadBtnClick(Sender: TObject);
 begin
   FMXChromium1.Reload;
@@ -222,7 +220,6 @@ procedure TBrowserFrame.FocusBrowser;
 begin
   FMXBufferPanel1.SetFocus;
 end;
-
 procedure TBrowserFrame.ResizeBrowser;
 begin
   try
@@ -245,7 +242,6 @@ begin
     if (FResizeCS <> nil) then FResizeCS.Release;
   end;
 end;
-
 procedure TBrowserFrame.NotifyMoveOrResizeStarted;
 begin
   FMXChromium1.NotifyMoveOrResizeStarted;
@@ -256,7 +252,8 @@ begin
   FMXChromium1.SendCaptureLostEvent;
 end;
 
-procedure TBrowserFrame.StopBtnClick(Sender: TObject);
+
+procedure TBrowserFrame.StopBtnClick(Sender: TObject);
 begin
   FMXChromium1.StopLoad;
 end;
@@ -666,12 +663,10 @@ begin
                 TempSrcRect := RectF(0, 0,
                                      min(FPopUpRect.Width,  FPopUpBitmap.Width),
                                      min(FPopUpRect.Height, FPopUpBitmap.Height));
-
                 TempDstRect.Left   := FPopUpRect.Left / GlobalCEFApp.DeviceScaleFactor;
                 TempDstRect.Top    := FPopUpRect.Top  / GlobalCEFApp.DeviceScaleFactor;
                 TempDstRect.Right  := TempDstRect.Left + (TempSrcRect.Width  / GlobalCEFApp.DeviceScaleFactor);
                 TempDstRect.Bottom := TempDstRect.Top  + (TempSrcRect.Height / GlobalCEFApp.DeviceScaleFactor);
-
                 FMXBufferPanel1.BufferDraw(FPopUpBitmap, TempSrcRect, TempDstRect);
               end;
           end;
@@ -713,7 +708,6 @@ begin
   if (GlobalCEFApp <> nil) then
     begin
       LogicalToDevice(rect^, GlobalCEFApp.DeviceScaleFactor);
-
       FPopUpRect.Left   := rect.x;
       FPopUpRect.Top    := rect.y;
       FPopUpRect.Right  := rect.x + rect.width  - 1;
@@ -1051,7 +1045,8 @@ begin
       FMXChromium1.SendKeyEvent(@TempKeyEvent);
     end;
 end;
-
+
+
 procedure TBrowserFrame.HandleKEYDOWN(const aMessage : TMsg);
 var
   TempKeyEvent : TCefKeyEvent;
@@ -1066,7 +1061,6 @@ begin
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
       TempKeyEvent.focus_on_editable_field := ord(False);
-
       FMXChromium1.SendKeyEvent(@TempKeyEvent);
     end;
 end;
@@ -1090,7 +1084,6 @@ begin
 
           FMXChromium1.SendKeyEvent(@TempKeyEvent);
         end;
-
       TempKeyEvent.kind                    := KEYEVENT_KEYUP;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
@@ -1099,7 +1092,6 @@ begin
       TempKeyEvent.character               := #0;
       TempKeyEvent.unmodified_character    := #0;
       TempKeyEvent.focus_on_editable_field := ord(False);
-
       FMXChromium1.SendKeyEvent(@TempKeyEvent);
     end;
 end;

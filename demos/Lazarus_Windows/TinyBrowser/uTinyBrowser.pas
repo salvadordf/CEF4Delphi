@@ -61,7 +61,9 @@ type
       FChromium                : TChromium;
       FCEFWindowComponent      : TCEFWindowComponent;
       FCEFBrowserViewComponent : TCEFBrowserViewComponent;
-      FHomepage                : string;
+      FHomepage                : string;   
+
+      function GetClient : ICefClient;
 
       procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
@@ -69,14 +71,15 @@ type
 
       procedure CEFWindowComponent_OnWindowCreated(const Sender : TObject; const window : ICefWindow);
       procedure CEFWindowComponent_OnCanClose(const Sender : TObject; const window : ICefWindow; var aResult : Boolean);
-      procedure CEFWindowComponent_OnGetPreferredSize(const Sender : TObject; const view : ICefView; var aResult : TCefSize);
+      procedure CEFWindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
 
     public
       constructor Create(AOwner : TComponent); override;
       procedure   AfterConstruction; override;
       procedure   CreateTopLevelWindow;
 
-      property Homepage    : string     read FHomepage     write FHomepage;
+      property Homepage    : string     read FHomepage     write FHomepage;    
+      property Client      : ICefClient read GetClient;
   end;
 
 var
@@ -159,7 +162,7 @@ begin
   FCEFWindowComponent                    := TCEFWindowComponent.Create(self);
   FCEFWindowComponent.OnWindowCreated    := CEFWindowComponent_OnWindowCreated;
   FCEFWindowComponent.OnCanClose         := CEFWindowComponent_OnCanClose;
-  FCEFWindowComponent.OnGetPreferredSize := CEFWindowComponent_OnGetPreferredSize;
+  FCEFWindowComponent.OnGetInitialBounds := CEFWindowComponent_OnGetInitialBounds;
 end;
 
 procedure TTinyBrowser.CreateTopLevelWindow;
@@ -233,13 +236,22 @@ begin
   aResult := FChromium.TryCloseBrowser;
 end;
 
-procedure TTinyBrowser.CEFWindowComponent_OnGetPreferredSize(const Sender  : TObject;
-                                                             const view    : ICefView;
-                                                             var   aResult : TCefSize);
+procedure TTinyBrowser.CEFWindowComponent_OnGetInitialBounds(const Sender  : TObject;
+                                                             const window  : ICefWindow;
+                                                             var   aResult : TCefRect);
 begin
-  // This is the initial window size
+  aResult.x      := 0;
+  aResult.y      := 0;
   aResult.width  := DEFAULT_WINDOW_VIEW_WIDTH;
   aResult.height := DEFAULT_WINDOW_VIEW_HEIGHT;
+end; 
+
+function TTinyBrowser.GetClient : ICefClient;
+begin
+  if (FChromium <> nil) then
+    Result := FChromium.CefClient
+   else
+    Result := nil;
 end;
 
 procedure GlobalCEFApp_OnContextInitialized;
@@ -247,6 +259,11 @@ begin
   TinyBrowser          := TTinyBrowser.Create(nil);
   TinyBrowser.Homepage := 'https://www.briskbard.com';
   TinyBrowser.CreateTopLevelWindow;
+end;       
+
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient : ICefClient);
+begin
+  aClient := TinyBrowser.Client;
 end;
 
 procedure CreateGlobalCEFApp;
@@ -254,7 +271,9 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop := False;
   GlobalCEFApp.ExternalMessagePump      := False;
+  //GlobalCEFApp.ChromeRuntime            := True;  // Enable this line to test the new "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.OnContextInitialized     := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.OnGetDefaultClient       := GlobalCEFApp_OnGetDefaultClient;  // This event is only used in "ChromeRuntime" mode
 end;
 
 procedure DestroyTinyBrowser;

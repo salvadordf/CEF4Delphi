@@ -347,6 +347,11 @@
         <DCCReference Include="..\source\uCEFLinuxFunctions.pas"/>
         <DCCReference Include="..\source\uCEFWorkSchedulerQueueThread.pas"/>
         <DCCReference Include="..\source\uCEFLinkedWinControlBase.pas"/>
+        <DCCReference Include="..\source\uCEFMacOSConstants.pas"/>
+        <DCCReference Include="..\source\uCEFMacOSFunctions.pas"/>
+        <DCCReference Include="..\source\uCEFTimerWorkScheduler.pas"/>
+        <DCCReference Include="..\source\uCEFMacOSCustomCocoaTimer.pas"/>
+        <DCCReference Include="..\source\uCEFMacOSInterfaces.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

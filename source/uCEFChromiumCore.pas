@@ -748,6 +748,7 @@ type
       procedure   ClearDataForOrigin(const aOrigin : ustring; aStorageTypes : TCefClearDataStorageTypes = cdstAll);
       procedure   ClearCache;
 
+
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
       function    VisitAllCookies(aID : integer = 0) : boolean;
       function    VisitURLCookies(const url : ustring; includeHttpOnly : boolean = False; aID : integer = 0) : boolean;
@@ -2165,6 +2166,7 @@ begin
     Browser.Host.Print;
 end;
 
+// The TChromiumCore.OnPdfPrintFinished event will be triggered when the PDF file is created.
 procedure TChromiumCore.PrintToPDF(const aFilePath, aTitle, aURL : ustring);
 var
   TempSettings : TCefPdfPrintSettings;
@@ -2512,7 +2514,7 @@ begin
     Browser.Host.StartDownload(aURL);
 end;
 
-// Use the OnDownloadImageFinished event to receive the image
+// Use the TChromiumCore.OnDownloadImageFinished event to receive the image
 procedure TChromiumCore.DownloadImage(const imageUrl     : ustring;
                                             isFavicon    : boolean;
                                             maxImageSize : cardinal;
@@ -3634,6 +3636,7 @@ begin
 end;
 
 // Leave aFrameName empty to get the HTML source from the main frame
+// The TChromiumCore.OnTextResultAvailable event will be triggered with the HTML contents
 procedure TChromiumCore.RetrieveHTML(const aFrameName : ustring);
 var
   TempFrame   : ICefFrame;
@@ -3692,6 +3695,7 @@ begin
 end;
 
 // Leave aFrameName empty to get the HTML source from the main frame
+// The TChromiumCore.OnTextResultAvailable event will be triggered with the text contents
 procedure TChromiumCore.RetrieveText(const aFrameName : ustring);
 var
   TempFrame   : ICefFrame;
@@ -3749,6 +3753,7 @@ begin
     end;
 end;
 
+// The TChromiumCore.OnNavigationVisitorResultAvailable event will be triggered for each entry
 procedure TChromiumCore.GetNavigationEntries(currentOnly: Boolean);
 var
   TempVisitor : ICefNavigationEntryVisitor;
@@ -6616,6 +6621,7 @@ begin
     end;
 end;
 
+// This procedure will trigger OnMediaSinkDeviceInfo with the device info.
 procedure TChromiumCore.GetDeviceInfo(const aMediaSink: ICefMediaSink);
 var
   TempCallback : ICefMediaSinkDeviceInfoCallback;

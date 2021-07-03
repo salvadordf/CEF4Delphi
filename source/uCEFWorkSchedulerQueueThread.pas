@@ -91,7 +91,7 @@ type
       procedure   EnqueueValue(aValue : integer);
 
       property    Ready           : boolean         read FReady;
-      property    OnPulse         : TOnPulseEvent   read FOnPulse   write FOnPulse;
+      property    OnPulse         : TOnPulseEvent   read FOnPulse         write FOnPulse;
   end;
 
 implementation

@@ -186,19 +186,18 @@ end;
 
 procedure CreateGlobalCEFApp;
 begin
-  // TCEFWorkScheduler will call cef_do_message_loop_work when
-  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
-  // GlobalCEFWorkScheduler needs to be created before the
-  // GlobalCEFApp.StartMainProcess call.
-  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
-
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.OnScheduleMessagePumpWork  := @GlobalCEFApp_OnScheduleMessagePumpWork;
-  //GlobalCEFApp.EnableGPU                  := True;
+
+  // TCEFWorkScheduler will call cef_do_message_loop_work when
+  // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.
+  // GlobalCEFWorkScheduler needs to be created before the
+  // GlobalCEFApp.StartMainProcess call.
+  GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(nil);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);

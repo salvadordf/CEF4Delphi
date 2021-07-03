@@ -136,6 +136,7 @@ type
       property RotationCenter;
       property Scale;
       property Size;
+      property OnResized;
       {$ENDIF}
       {$IFNDEF DELPHI23_UP}
       property Hint;
@@ -162,7 +163,8 @@ implementation
 uses
   System.SysUtils, System.Math,
   {$IFDEF MSWINDOWS}FMX.Helpers.Win,{$ENDIF}
-  FMX.Platform, uCEFMiscFunctions, uCEFApplicationCore;
+  FMX.Platform, {$IFDEF MACOS}FMX.Platform.Mac,{$ENDIF}
+  uCEFMiscFunctions, uCEFApplicationCore;
 
 constructor TFMXBufferPanel.Create(AOwner: TComponent);
 begin
@@ -390,18 +392,36 @@ var
   TempHandle : TCefWindowHandle;
 {$ENDIF}{$ENDIF}
 begin
-  Result       := False;
-  aResultScale := 1;
-
-  {$IFDEF DELPHI24_UP}{$IFDEF MSWINDOWS}
+  {$IFDEF MSWINDOWS}
+  {$IFDEF DELPHI24_UP}
   TempHandle := GetParentFormHandle;
 
   if (TempHandle <> 0) then
     begin
       Result       := True;
       aResultScale := GetWndScale(TempHandle);
+    end
+   else
+    begin
+      Result       := False;
+      aResultScale := 1;
     end;
-  {$ENDIF}{$ENDIF}
+  {$ELSE}
+  Result       := False;
+  aResultScale := 1;
+  {$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  // TODO: Get the scale of the screen where the parent form is located in FMXLinux
+  Result       := False;
+  aResultScale := 1;
+  {$ENDIF}
+
+  {$IFDEF MACOS}
+  Result       := True;
+  aResultScale := TMacWindowHandle(GetParentForm.Handle).Wnd.backingScaleFactor;
+  {$ENDIF}
 end;
 
 function TFMXBufferPanel.GetScreenScale : single;

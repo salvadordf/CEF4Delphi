@@ -14,7 +14,7 @@ uses
   {$ENDIF}
   uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFViewComponent,
   uCEFPanelComponent, uCEFWindowComponent,
-  uCEFBrowserViewComponent, uCEFChromiumCore, uCEFChromium;
+  uCEFBrowserViewComponent, uCEFChromiumCore, uCEFChromium, uCEFViewsFrameworkEvents;
 
 const
   CEFBROWSER_INITIALIZED     = WM_APP + $100;
@@ -23,6 +23,9 @@ const
   DEFAULT_WINDOW_VIEW_HEIGHT = 600;
 
 type
+
+  { TMainForm }
+
   TMainForm = class(TForm)
     ButtonPnl: TPanel;
     Edit1: TEdit;
@@ -34,10 +37,10 @@ type
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
 
-    procedure CEFWindowComponent1GetPreferredSize(const Sender: TObject; const view: ICefView; var aResult: TCefSize);
     procedure CEFWindowComponent1WindowCreated(const Sender: TObject; const window: ICefWindow);
     procedure CEFWindowComponent1WindowDestroyed(const Sender: TObject; const window: ICefWindow);
-    procedure CEFWindowComponent1CanClose(const Sender: TObject; const window: ICefWindow; var aResult: Boolean);
+    procedure CEFWindowComponent1CanClose(const Sender: TObject; const window: ICefWindow; var aResult: Boolean);  
+    procedure CEFWindowComponent1GetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult: TCefRect);
 
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
@@ -133,14 +136,6 @@ begin
   aResult := Chromium1.TryCloseBrowser;
 end;
 
-procedure TMainForm.CEFWindowComponent1GetPreferredSize(const Sender: TObject;
-  const view: ICefView; var aResult: TCefSize);
-begin
-  // This is the initial window size
-  aResult.width  := DEFAULT_WINDOW_VIEW_WIDTH;
-  aResult.height := DEFAULT_WINDOW_VIEW_HEIGHT;
-end;
-
 procedure TMainForm.CEFWindowComponent1WindowCreated(const Sender: TObject;
   const window: ICefWindow);
 var
@@ -204,6 +199,16 @@ procedure TMainForm.FormShow(Sender: TObject);
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.GlobalContextInitialized then
     EnableInterface;
+end;
+
+procedure TMainForm.CEFWindowComponent1GetInitialBounds(const Sender: TObject;
+  const window: ICefWindow; var aResult: TCefRect);
+begin
+  // This is the initial window size
+  aResult.x      := 0;
+  aResult.y      := 0;
+  aResult.width  := DEFAULT_WINDOW_VIEW_WIDTH;
+  aResult.height := DEFAULT_WINDOW_VIEW_HEIGHT;
 end;
 
 procedure TMainForm.EnableInterface;

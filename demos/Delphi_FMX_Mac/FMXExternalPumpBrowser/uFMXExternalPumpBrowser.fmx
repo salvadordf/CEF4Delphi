@@ -14,6 +14,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   OnHide = FormHide
+  OnSaveState = Panel1Resize
   DesignerMasterStyle = 0
   object AddressPnl: TPanel
     Align = Top
@@ -25,16 +26,6 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     Size.Height = 33.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    object AddressEdt: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
-      Align = Client
-      TabOrder = 0
-      Text = 'https://www.google.com'
-      Size.Width = 709.000000000000000000
-      Size.Height = 23.000000000000000000
-      Size.PlatformDefault = False
-      OnEnter = AddressEdtEnter
-    end
     object Layout1: TLayout
       Align = Right
       Padding.Left = 5.000000000000000000
@@ -43,7 +34,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
       Size.Width = 81.000000000000000000
       Size.Height = 23.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 2
+      TabOrder = 1
       object GoBtn: TButton
         Align = Left
         Position.X = 5.000000000000000000
@@ -70,25 +61,46 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
         OnEnter = SnapshotBtnEnter
       end
     end
+    object AddressCb: TComboEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 0
+      ItemHeight = 19.000000000000000000
+      Items.Strings = (
+        'https://www.google.com'
+        
+          'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onco' +
+          'ntextmenu'
+        
+          'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input' +
+          '_type_file'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm'
+        'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select')
+      ItemIndex = 0
+      Text = 'https://www.google.com'
+      Size.Width = 709.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+    end
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
     Left = 40
-    Top = 137
+    Top = 129
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'bmp'
     Filter = 'Bitmap files (*.bmp)|*.BMP'
     Title = 'Save snapshot'
     Left = 40
-    Top = 201
+    Top = 185
   end
   object Panel1: TFMXBufferPanel
     Align = Client
     TabOrder = 0
-    Color = claTomato
     CanFocus = True
     Size.Width = 800.000000000000000000
     Size.Height = 600.000000000000000000
@@ -102,12 +114,80 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnMouseUp = Panel1MouseUp
     OnMouseLeave = Panel1MouseLeave
     OnMouseWheel = Panel1MouseWheel
+    OnKeyUp = Panel1KeyUp
     OnKeyDown = Panel1KeyDown
     OnDialogKey = Panel1DialogKey
   end
+  object MainMenu1: TMainMenu
+    Left = 40
+    Top = 241
+    object EditMenu: TMenuItem
+      Text = 'Edit'
+      object UndoMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4186
+        Text = 'Undo'
+        OnClick = UndoMenuItemClick
+      end
+      object RedoMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 12378
+        Text = 'Redo'
+        OnClick = RedoMenuItemClick
+      end
+      object SeparatorMenuItem: TMenuItem
+        Locked = True
+        Text = '-'
+      end
+      object CutMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4184
+        Text = 'Cut'
+        OnClick = CutMenuItemClick
+      end
+      object CopyMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4163
+        Text = 'Copy'
+        OnClick = CopyMenuItemClick
+      end
+      object PasteMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4182
+        Text = 'Paste'
+        OnClick = PasteMenuItemClick
+      end
+      object DeleteMenuItem: TMenuItem
+        Locked = True
+        Text = 'Delete'
+        OnClick = DeleteMenuItemClick
+      end
+      object SelectAllMenuItem: TMenuItem
+        Locked = True
+        ShortCut = 4161
+        Text = 'Select all'
+        OnClick = SelectAllMenuItemClick
+      end
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
+    Left = 40
+    Top = 297
+    object BackMenuItem: TMenuItem
+      Text = 'Back'
+      OnClick = BackMenuItemClick
+    end
+    object ForwardMenuItem: TMenuItem
+      Text = 'Forward'
+      OnClick = ForwardMenuItemClick
+    end
+  end
   object chrmosr: TFMXChromium
+    OnBeforeContextMenu = chrmosrBeforeContextMenu
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
+    OnJsdialog = chrmosrJsdialog
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
