@@ -236,7 +236,8 @@ contains
   uCEFMacOSFunctions in '..\source\uCEFMacOSFunctions.pas',
   uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
   uCEFMacOSCustomCocoaTimer in '..\source\uCEFMacOSCustomCocoaTimer.pas',
-  uCEFMacOSInterfaces in '..\source\uCEFMacOSInterfaces.pas';
+  uCEFMacOSInterfaces in '..\source\uCEFMacOSInterfaces.pas',
+  uCEFFrameHandler in '..\source\uCEFFrameHandler.pas';
 
 end.
 

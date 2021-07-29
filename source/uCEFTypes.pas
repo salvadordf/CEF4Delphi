@@ -89,6 +89,7 @@ type
   PCefContextMenuHandler = ^TCefContextMenuHandler;
   PCefAccessibilityHandler = ^TCefAccessibilityHandler;
   PCefFrame = ^TCefFrame;
+  PCefFrameHandler = ^TCefFrameHandler;
   PCefApp = ^TCefApp;
   PCefServer = ^TCefServer;
   PCefServerHandler = ^TCefServerHandler;
@@ -902,7 +903,7 @@ type
   // /include/internal/cef_types.h (cef_thread_id_t)
   TCefThreadId = (
     TID_UI,
-    TID_FILE_BACKGROUND,   // TID_FILE = TID_FILE_BACKGROUND
+    TID_FILE_BACKGROUND,
     TID_FILE_USER_VISIBLE,
     TID_FILE_USER_BLOCKING,
     TID_PROCESS_LAUNCHER,
@@ -2862,6 +2863,16 @@ type
     send_process_message : procedure(self: PCefFrame; target_process: TCefProcessId; message_: PCefProcessMessage); stdcall;
   end;
 
+  // /include/capi/cef_frame_handler_capi.h (cef_frame_handler_t)
+  TCefFrameHandler = record
+    base                  : TCefBaseRefCounted;
+    on_frame_created      : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
+    on_frame_attached     : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
+    on_frame_detached     : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
+    on_main_frame_changed : procedure(self: PCefFrameHandler; browser: PCefBrowser; old_frame, new_frame: PCefFrame); stdcall;
+  end;
+
+
   // /include/capi/cef_accessibility_handler_capi.h (cef_accessibility_handler_t)
   TCefAccessibilityHandler = record
     base                             : TCefBaseRefCounted;
@@ -2889,6 +2900,7 @@ type
     get_drag_handler            : function(self: PCefClient): PCefDragHandler; stdcall;
     get_find_handler            : function(self: PCefClient): PCefFindHandler; stdcall;
     get_focus_handler           : function(self: PCefClient): PCefFocusHandler; stdcall;
+    get_frame_handler           : function(self: PCefClient): PCefFrameHandler; stdcall;
     get_jsdialog_handler        : function(self: PCefClient): PCefJsDialogHandler; stdcall;
     get_keyboard_handler        : function(self: PCefClient): PCefKeyboardHandler; stdcall;
     get_life_span_handler       : function(self: PCefClient): PCefLifeSpanHandler; stdcall;
@@ -2967,6 +2979,7 @@ type
   // /include/capi/cef_browser_capi.h (cef_browser_t)
   TCefBrowser = record
     base                  : TCefBaseRefCounted;
+    is_valid              : function(self: PCefBrowser): Integer; stdcall;
     get_host              : function(self: PCefBrowser): PCefBrowserHost; stdcall;
     can_go_back           : function(self: PCefBrowser): Integer; stdcall;
     go_back               : procedure(self: PCefBrowser); stdcall;

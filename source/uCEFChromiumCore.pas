@@ -312,6 +312,12 @@ type
       FOnPrintReset                       : TOnPrintResetEvent;
       FOnGetPDFPaperSize                  : TOnGetPDFPaperSizeEvent;
 
+      // ICefFrameHandler
+      FOnFrameCreated                     : TOnFrameCreated;
+      FOnFrameAttached                    : TOnFrameAttached;
+      FOnFrameDetached                    : TOnFrameDetached;
+      FOnMainFrameChanged                 : TOnMainFrameChanged;
+
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
@@ -632,6 +638,12 @@ type
       procedure doOnPrintReset(const browser: ICefBrowser);
       procedure doOnGetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult : TCefSize);
 
+      // ICefFrameHandler
+      procedure doOnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
+      procedure doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
+      procedure doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
+      procedure doOnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
+
       // Custom
       procedure GetSettings(var aSettings : TCefBrowserSettings);
       procedure doCookiesDeleted(numDeleted : integer); virtual;
@@ -680,6 +692,7 @@ type
       function  MustCreateMediaObserver : boolean; virtual;
       function  MustCreateExtensionHandler : boolean; virtual;
       function  MustCreatePrintHandler : boolean; virtual;
+      function  MustCreateFrameHandler : boolean; virtual;
 
       property  ParentFormHandle   : TCefWindowHandle   read   GetParentFormHandle;
 
@@ -1114,6 +1127,12 @@ type
       property OnPrintReset                           : TOnPrintResetEvent                read FOnPrintReset                           write FOnPrintReset;
       property OnGetPDFPaperSize                      : TOnGetPDFPaperSizeEvent           read FOnGetPDFPaperSize                      write FOnGetPDFPaperSize;
       {$ENDIF}
+
+      // ICefFrameHandler
+      property OnFrameCreated                         : TOnFrameCreated                   read FOnFrameCreated                         write FOnFrameCreated;
+      property OnFrameAttached                        : TOnFrameAttached                  read FOnFrameAttached                        write FOnFrameAttached;
+      property OnFrameDetached                        : TOnFrameDetached                  read FOnFrameDetached                        write FOnFrameDetached;
+      property OnMainFrameChanged                     : TOnMainFrameChanged               read FOnMainFrameChanged                     write FOnMainFrameChanged;
   end;
 
   TBrowserInfo = class
@@ -1122,6 +1141,8 @@ type
       FIsClosing : boolean;
       FID        : integer;
 
+      function GetIsValid : boolean;
+
     public
       constructor Create(const aBrowser : ICefBrowser); reintroduce;
       destructor  Destroy; override;
@@ -1129,6 +1150,7 @@ type
       property Browser    : ICefBrowser   read FBrowser;
       property ID         : integer       read FID;
       property IsClosing  : boolean       read FIsClosing   write FIsClosing;
+      property IsValid    : boolean       read GetIsValid;
   end;
 
   TBrowserInfoList = class(TList)
@@ -1136,6 +1158,7 @@ type
       procedure SetBrowserIsClosing(aID : integer; aValue : boolean);
 
       function  GetBrowserIsClosing(aID : integer) : boolean;
+      function  GetBrowserIsValid(aID : integer) : boolean;
       function  GetBrowser(aID : integer) : ICefBrowser;
       function  GetFirstBrowser : ICefBrowser;
       function  GetFirstID : integer;
@@ -1148,7 +1171,8 @@ type
       procedure  FreeAndClearAllItems;
       procedure  CloseAllBrowsers;
 
-      property BrowserIsClosing[aID : integer] : boolean       read GetBrowserIsClosing write SetBrowserIsClosing;
+      property BrowserIsClosing[aID : integer] : boolean       read GetBrowserIsClosing  write SetBrowserIsClosing;
+      property BrowserIsValid[aID : integer]   : boolean       read GetBrowserIsValid;
       property Browser[aID : integer]          : ICefBrowser   read GetBrowser;
       property FirstBrowser                    : ICefBrowser   read GetFirstBrowser;
       property FirstID                         : integer       read GetFirstID;
@@ -1792,6 +1816,12 @@ begin
   FOnPrintJob                         := nil;
   FOnPrintReset                       := nil;
   FOnGetPDFPaperSize                  := nil;
+
+  // ICefFrameHandler
+  FOnFrameCreated                     := nil;
+  FOnFrameAttached                    := nil;
+  FOnFrameDetached                    := nil;
+  FOnMainFrameChanged                 := nil;
 
   // Custom
   FOnTextResultAvailable              := nil;
@@ -2820,7 +2850,7 @@ begin
   if (FBrowsersCS <> nil) then
     try
       FBrowsersCS.Acquire;
-      Result := (FBrowserId <> 0) and (FBrowsers <> nil) and not(FBrowsers.BrowserIsClosing[FBrowserId]);
+      Result := (FBrowserId <> 0) and (FBrowsers <> nil) and FBrowsers.BrowserIsValid[FBrowserId];
     finally
       FBrowsersCS.Release;
     end;
@@ -4758,6 +4788,14 @@ begin
             assigned(FOnGetPDFPaperSize);
 end;
 
+function TChromiumCore.MustCreateFrameHandler : boolean;
+begin
+  Result := assigned(FOnFrameCreated) or
+            assigned(FOnFrameAttached) or
+            assigned(FOnFrameDetached) or
+            assigned(FOnMainFrameChanged);
+end;
+
 {$IFDEF MSWINDOWS}
 procedure TChromiumCore.PrefsAvailableMsg(aResultOK : boolean);
 begin
@@ -5705,6 +5743,30 @@ procedure TChromiumCore.doOnGetPDFPaperSize(const browser            : ICefBrows
 begin
   if assigned(FOnGetPDFPaperSize) then
     FOnGetPDFPaperSize(self, browser, deviceUnitsPerInch, aResult);
+end;
+
+procedure TChromiumCore.doOnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
+begin
+  if assigned(FOnFrameCreated) then
+    FOnFrameCreated(self, browser, frame);
+end;
+
+procedure TChromiumCore.doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
+begin
+  if assigned(FOnFrameAttached) then
+    FOnFrameAttached(self, browser, frame);
+end;
+
+procedure TChromiumCore.doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
+begin
+  if assigned(FOnFrameDetached) then
+    FOnFrameDetached(self, browser, frame);
+end;
+
+procedure TChromiumCore.doOnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
+begin
+  if assigned(FOnMainFrameChanged) then
+    FOnMainFrameChanged(self, browser, old_frame, new_frame);
 end;
 
 procedure TChromiumCore.doOnFullScreenModeChange(const browser    : ICefBrowser;
@@ -6821,6 +6883,11 @@ begin
   inherited Destroy;
 end;
 
+function TBrowserInfo.GetIsValid : boolean;
+begin
+  Result := not(FIsClosing) and (FBrowser <> nil) and FBrowser.IsValid;
+end;
+
 
 // ******************************************
 // *********** TBrowserInfoList *************
@@ -6907,6 +6974,14 @@ var
 begin
   i := SearchBrowser(aID);
   Result := (i >= 0) and TBrowserInfo(Items[i]).IsClosing;
+end;
+
+function TBrowserInfoList.GetBrowserIsValid(aID : integer) : boolean;
+var
+  i : integer;
+begin
+  i := SearchBrowser(aID);
+  Result := (i >= 0) and TBrowserInfo(Items[i]).IsValid;
 end;
 
 function TBrowserInfoList.GetBrowser(aID : integer) : ICefBrowser;

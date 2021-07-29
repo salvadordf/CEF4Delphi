@@ -208,6 +208,12 @@ type
   TOnPrintResetEvent              = procedure(Sender: TObject; const browser: ICefBrowser) of object;
   TOnGetPDFPaperSizeEvent         = procedure(Sender: TObject; const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult : TCefSize) of object;
 
+  // ICefFrameHandler
+  TOnFrameCreated                 = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame) of object;
+  TOnFrameAttached                = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame) of object;
+  TOnFrameDetached                = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame) of object;
+  TOnMainFrameChanged             = procedure(Sender: TObject; const browser: ICefBrowser; const old_frame, new_frame: ICefFrame) of object;
+
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;
