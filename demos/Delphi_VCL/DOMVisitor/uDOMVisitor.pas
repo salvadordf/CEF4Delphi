@@ -459,7 +459,6 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                          := TCefApplication.Create;
-  GlobalCEFApp.RemoteDebuggingPort      := 9000;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
 
   // Enabling the debug log file for then DOM visitor demo.
@@ -582,7 +581,8 @@ begin
       PostMessage(Handle, MINIBROWSER_COPYFRAMEIDS_2, 0, 0);
 
     MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_JS :
-      frame.ExecuteJavaScript('document.getElementById("' + NODE_ID + '").value = "qwerty";', 'about:blank', 0);
+      if (frame <> nil) and frame.IsValid then
+        frame.ExecuteJavaScript('document.getElementById("' + NODE_ID + '").value = "qwerty";', 'about:blank', 0);
 
     MINIBROWSER_CONTEXTMENU_SETINPUTVALUE_DT :
       // https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-getDocument

@@ -66,7 +66,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 92;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 20;
+  CEF_SUPPORTED_VERSION_RELEASE = 21;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 92;
@@ -98,67 +98,46 @@ const
 type
   TCefApplicationCore = class
     protected
-      FCache                             : ustring;
-      FRootCache                         : ustring;
-      FUserDataPath                      : ustring;
-      FUserAgent                         : ustring;
-      FUserAgentProduct                  : ustring;
-      FLocale                            : ustring;
-      FLocalesRequired                   : ustring;
-      FLogFile                           : ustring;
+      // Fields used to populate TCefSettings
+      FNoSandbox                         : boolean;
       FBrowserSubprocessPath             : ustring;
       FFrameworkDirPath                  : ustring;
       FMainBundlePath                    : ustring; // Only used in macOS
       FChromeRuntime                     : boolean;
+      FMultiThreadedMessageLoop          : boolean;
+      FExternalMessagePump               : boolean;
+      FWindowlessRenderingEnabled        : boolean;
+      FCommandLineArgsDisabled           : boolean;
+      FCache                             : ustring;
+      FRootCache                         : ustring;
+      FUserDataPath                      : ustring;
+      FPersistSessionCookies             : boolean;
+      FPersistUserPreferences            : boolean;
+      FUserAgent                         : ustring;
+      FUserAgentProduct                  : ustring;
+      FLocale                            : ustring;
+      FLogFile                           : ustring;
       FLogSeverity                       : TCefLogSeverity;
       FJavaScriptFlags                   : ustring;
       FResourcesDirPath                  : ustring;
       FLocalesDirPath                    : ustring;
-      FSingleProcess                     : Boolean;
-      FNoSandbox                         : Boolean;
-      FCommandLineArgsDisabled           : Boolean;
-      FPackLoadingDisabled               : Boolean;
-      FRemoteDebuggingPort               : Integer;
-      FUncaughtExceptionStackSize        : Integer;
-      FPersistSessionCookies             : Boolean;
-      FPersistUserPreferences            : boolean;
-      FIgnoreCertificateErrors           : Boolean;
+      FPackLoadingDisabled               : boolean;
+      FRemoteDebuggingPort               : integer;
+      FUncaughtExceptionStackSize        : integer;
+      FIgnoreCertificateErrors           : boolean;
       FBackgroundColor                   : TCefColor;
       FAcceptLanguageList                : ustring;
       FCookieableSchemesList             : ustring;
       FCookieableSchemesExcludeDefaults  : boolean;
       FApplicationClientID               : ustring;
-      FWindowsSandboxInfo                : Pointer;
-      FWindowlessRenderingEnabled        : Boolean;
-      FMultiThreadedMessageLoop          : boolean;
-      FExternalMessagePump               : boolean;
-      FDeleteCache                       : boolean;
-      FDeleteCookies                     : boolean;
-      FCustomCommandLines                : TStringList;
-      FCustomCommandLineValues           : TStringList;
+
+      // Fields used to set command line switches
+      FSingleProcess                     : boolean;
       FEnableMediaStream                 : boolean;
       FEnableSpeechInput                 : boolean;
       FUseFakeUIForMediaStream           : boolean;
       FEnableUsermediaScreenCapturing    : boolean;
       FEnableGPU                         : boolean;
-      FCheckCEFFiles                     : boolean;
-      FLibLoaded                         : boolean;
-      FSmoothScrolling                   : TCefState;
-      FFastUnload                        : boolean;
-      FDisableSafeBrowsing               : boolean;
-      FEnableHighDPISupport              : boolean;
-      FMuteAudio                         : boolean;
-      FReRaiseExceptions                 : boolean;
-      FShowMessageDlg                    : boolean;
-      FMissingBinariesException          : boolean;
-      FSetCurrentDir                     : boolean;
-      FGlobalContextInitialized          : boolean;
-      FSitePerProcess                    : boolean;
-      FDisableWebSecurity                : boolean;
-      FDisablePDFExtension               : boolean;
-      FLogProcessInfo                    : boolean;
-      FDisableSiteIsolationTrials        : boolean;
-      FDisableChromeLoginPrompt          : boolean;
       FEnableFeatures                    : ustring;
       FDisableFeatures                   : ustring;
       FEnableBlinkFeatures               : ustring;
@@ -166,35 +145,22 @@ type
       FBlinkSettings                     : ustring;
       FForceFieldTrials                  : ustring;
       FForceFieldTrialParams             : ustring;
-      FChromeVersionInfo                 : TFileVersionInfo;
-      {$IFDEF FPC}
-      FLibHandle                         : TLibHandle;
-      {$ELSE}
-      FLibHandle                         : THandle;
-      {$ENDIF}
-      FOnRegisterCustomSchemes           : TOnRegisterCustomSchemesEvent;
-      FAppSettings                       : TCefSettings;
+      FSmoothScrolling                   : TCefState;
+      FFastUnload                        : boolean;
+      FDisableSafeBrowsing               : boolean;
+      FMuteAudio                         : boolean;
+      FSitePerProcess                    : boolean;
+      FDisableWebSecurity                : boolean;
+      FDisablePDFExtension               : boolean;
+      FDisableSiteIsolationTrials        : boolean;
+      FDisableChromeLoginPrompt          : boolean;
       FDisableExtensions                 : boolean;
-      FDisableGPUCache                   : boolean;
-      FStatus                            : TCefAplicationStatus;
-      FMissingLibFiles                   : string;
-      FProcessType                       : TCefProcessType;
-      FWidevinePath                      : ustring;
-      FMustFreeLibrary                   : boolean;
       FAutoplayPolicy                    : TCefAutoplayPolicy;
       FDisableBackgroundNetworking       : boolean;
       FMetricsRecordingOnly              : boolean;
       FAllowFileAccessFromFiles          : boolean;
       FAllowRunningInsecureContent       : boolean;
-      FDisableNewBrowserInfoTimeout      : boolean;
-      FDevToolsProtocolLogFile           : ustring;
-      FDeviceScaleFactor                 : single;
-      FForcedDeviceScaleFactor           : single;
-      FDisableZygote                     : boolean;
-      FUseMockKeyChain                   : boolean;
-      FDisableRequestHandlingForTesting  : boolean;
-      FLastErrorMessage                  : ustring;
-
+      FEnablePrintPreview                : boolean;
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : ustring;
       FDisableJavascript                 : boolean;
@@ -210,15 +176,56 @@ type
       FEnableProfanityFilter             : boolean;
       FDisableSpellChecking              : boolean;
       FOverrideSpellCheckLang            : ustring;
-      FEnablePrintPreview                : boolean;
       FTouchEvents                       : TCefState;
       FDisableReadingFromCanvas          : boolean;
       FHyperlinkAuditing                 : boolean;
+      FDisableNewBrowserInfoTimeout      : boolean;
+      FDevToolsProtocolLogFile           : ustring;
+      FForcedDeviceScaleFactor           : single;
+      FDisableZygote                     : boolean; // Only used in Linux
+      FUseMockKeyChain                   : boolean; // Only used in macOS
+      FDisableRequestHandlingForTesting  : boolean;
+      FDisablePopupBlocking              : boolean;
+      FDisableBackForwardCache           : boolean;
 
+      // Fields used during the CEF initialization
+      FWindowsSandboxInfo                : pointer;
+      FEnableHighDPISupport              : boolean;
+
+      // Fields used by custom properties
+      FDeleteCache                       : boolean;
+      FDeleteCookies                     : boolean;
+      FCheckCEFFiles                     : boolean;
+      FShowMessageDlg                    : boolean;
+      FMissingBinariesException          : boolean;
+      FSetCurrentDir                     : boolean;
+      FGlobalContextInitialized          : boolean;
+      FChromeVersionInfo                 : TFileVersionInfo;
+      FLibLoaded                         : boolean;
+      FLogProcessInfo                    : boolean;
+      FReRaiseExceptions                 : boolean;
+      FDeviceScaleFactor                 : single;
+      FLocalesRequired                   : ustring;
+      FProcessType                       : TCefProcessType;
       FMustCreateResourceBundleHandler   : boolean;
       FMustCreateBrowserProcessHandler   : boolean;
       FMustCreateRenderProcessHandler    : boolean;
       FMustCreateLoadHandler             : boolean;
+      FStatus                            : TCefAplicationStatus;
+      FMissingLibFiles                   : string;
+      FWidevinePath                      : ustring;
+      FMustFreeLibrary                   : boolean;
+      FLastErrorMessage                  : ustring;
+
+      // Internal fields
+      FLibHandle                         : {$IFDEF FPC}TLibHandle{$ELSE}THandle{$ENDIF};
+      FCustomCommandLines                : TStringList;
+      FCustomCommandLineValues           : TStringList;
+      FAppSettings                       : TCefSettings;
+      FDisableGPUCache                   : boolean;
+
+      // ICefApp
+      FOnRegisterCustomSchemes           : TOnRegisterCustomSchemesEvent;
 
       // ICefBrowserProcessHandler
       FOnContextInitialized              : TOnContextInitializedEvent;
@@ -490,6 +497,8 @@ type
       property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
       property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;                  // --use-mock-keychain
       property DisableRequestHandlingForTesting  : boolean                             read FDisableRequestHandlingForTesting  write FDisableRequestHandlingForTesting; // --disable-request-handling-for-testing
+      property DisablePopupBlocking              : boolean                             read FDisablePopupBlocking              write FDisablePopupBlocking;             // --disable-popup-blocking
+      property DisableBackForwardCache           : boolean                             read FDisableBackForwardCache           write FDisableBackForwardCache;          // --disable-back-forward-cache
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -648,107 +657,72 @@ begin
   if (GlobalCEFApp = nil) then
     GlobalCEFApp := Self;
 
-  FStatus                            := asLoading;
-  FMissingLibFiles                   := '';
-  FLibHandle                         := 0;
+  // Fields used to populate TCefSettings
+  FNoSandbox                         := True;
+  FBrowserSubprocessPath             := '';
+  FFrameworkDirPath                  := '';
+  FMainBundlePath                    := {$IFDEF MACOSX}GetModulePath{$ELSE}''{$ENDIF};
+  FChromeRuntime                     := False;
+  FMultiThreadedMessageLoop          := True;
+  FExternalMessagePump               := False;
+  FWindowlessRenderingEnabled        := False;
+  FCommandLineArgsDisabled           := False;
   FCache                             := '';
   FRootCache                         := '';
   FUserDataPath                      := '';
+  FPersistSessionCookies             := False;
+  FPersistUserPreferences            := False;
   FUserAgent                         := '';
   FUserAgentProduct                  := '';
   FLocale                            := '';
   FLogFile                           := '';
-  FBrowserSubprocessPath             := '';
-  FFrameworkDirPath                  := '';
-  {$IFDEF MACOSX}
-  FMainBundlePath                    := GetModulePath;
-  {$ELSE}
-  FMainBundlePath                    := '';
-  {$ENDIF}
-  FChromeRuntime                     := False;
   FLogSeverity                       := LOGSEVERITY_DISABLE;
   FJavaScriptFlags                   := '';
   FResourcesDirPath                  := '';
   FLocalesDirPath                    := '';
-  FSingleProcess                     := False;
-  FNoSandbox                         := True;
-  FCommandLineArgsDisabled           := False;
   FPackLoadingDisabled               := False;
   FRemoteDebuggingPort               := 0;
   FUncaughtExceptionStackSize        := 0;
-  FPersistSessionCookies             := False;
-  FPersistUserPreferences            := False;
   FIgnoreCertificateErrors           := False;
   FBackgroundColor                   := 0;
   FAcceptLanguageList                := '';
   FCookieableSchemesList             := '';
   FCookieableSchemesExcludeDefaults  := False;
   FApplicationClientID               := '';
-  FWindowsSandboxInfo                := nil;
-  FWindowlessRenderingEnabled        := False;
-  FMultiThreadedMessageLoop          := True;
-  FExternalMessagePump               := False;
-  FDeleteCache                       := False;
-  FDeleteCookies                     := False;
+
+  // Fields used to set command line switches
+  FSingleProcess                     := False;
   FEnableMediaStream                 := True;
   FEnableSpeechInput                 := False;
   FUseFakeUIForMediaStream           := False;
   FEnableUsermediaScreenCapturing    := False;
   FEnableGPU                         := False;
-  FCustomCommandLines                := nil;
-  FCustomCommandLineValues           := nil;
-  {$IFDEF MACOSX}
-  FCheckCEFFiles                     := False;
-  {$ELSE}
-  FCheckCEFFiles                     := True;
-  {$ENDIF}
+  FEnableFeatures                    := '';
+  FDisableFeatures                   := '';
+  FEnableBlinkFeatures               := '';
+  FDisableBlinkFeatures              := '';
+  FBlinkSettings                     := '';
+  FForceFieldTrials                  := '';
+  FForceFieldTrialParams             := '';
   FSmoothScrolling                   := STATE_DEFAULT;
   FFastUnload                        := False;
   FDisableSafeBrowsing               := False;
-  FOnRegisterCustomSchemes           := nil;
-  FEnableHighDPISupport              := False;
   FMuteAudio                         := False;
   FSitePerProcess                    := False;
   FDisableWebSecurity                := False;
   FDisablePDFExtension               := False;
   FDisableSiteIsolationTrials        := False;
   FDisableChromeLoginPrompt          := False;
-  FLogProcessInfo                    := False;
-  FReRaiseExceptions                 := False;
-  FLibLoaded                         := False;
-  FShowMessageDlg                    := True;
-  FMissingBinariesException          := False;
-  FSetCurrentDir                     := False;
-  FGlobalContextInitialized          := False;
   FDisableExtensions                 := False;
-  FDisableGPUCache                   := True;
-  FLocalesRequired                   := '';
-  FProcessType                       := ParseProcessType;
-  FWidevinePath                      := '';
-  FMustFreeLibrary                   := False;
   FAutoplayPolicy                    := appDefault;
   FDisableBackgroundNetworking       := False;
   FMetricsRecordingOnly              := False;
   FAllowFileAccessFromFiles          := False;
   FAllowRunningInsecureContent       := False;
+  FEnablePrintPreview                := False;
   FPluginPolicy                      := PLUGIN_POLICY_SWITCH_ALLOW;
   FDefaultEncoding                   := '';
   FDisableJavascript                 := False;
-  FEnableFeatures                    := '';
-  FDisableFeatures                   := '';
-  FEnableBlinkFeatures               := '';
-  FDisableBlinkFeatures              := '';
-  FForceFieldTrials                  := '';
-  FForceFieldTrialParams             := '';
-  FBlinkSettings                     := '';
-  FDisableNewBrowserInfoTimeout      := False;
-  FDevToolsProtocolLogFile           := '';
-  FForcedDeviceScaleFactor           := 0;
-  FDisableZygote                     := False;
-  FUseMockKeyChain                   := False;
-  FDisableRequestHandlingForTesting  := False;
-  FLastErrorMessage                  := '';
-
   FDisableJavascriptCloseWindows     := False;
   FDisableJavascriptAccessClipboard  := False;
   FDisableJavascriptDomPaste         := False;
@@ -761,15 +735,64 @@ begin
   FEnableProfanityFilter             := False;
   FDisableSpellChecking              := False;
   FOverrideSpellCheckLang            := '';
-  FEnablePrintPreview                := False;
   FTouchEvents                       := STATE_DEFAULT;
   FDisableReadingFromCanvas          := False;
   FHyperlinkAuditing                 := True;
+  FDisableNewBrowserInfoTimeout      := False;
+  FDevToolsProtocolLogFile           := '';
+  FForcedDeviceScaleFactor           := 0;
+  FDisableZygote                     := False;
+  FUseMockKeyChain                   := False;
+  FDisableRequestHandlingForTesting  := False;
+  FDisablePopupBlocking              := False;
+  FDisableBackForwardCache           := False;
 
+  // Fields used during the CEF initialization
+  FWindowsSandboxInfo                := nil;
+  FEnableHighDPISupport              := False;
+
+  // Fields used by custom properties
+  FDeleteCache                       := False;
+  FDeleteCookies                     := False;
+  FCheckCEFFiles                     := {$IFDEF MACOSX}False{$ELSE}True{$ENDIF};
+  FShowMessageDlg                    := True;
+  FMissingBinariesException          := False;
+  FSetCurrentDir                     := False;
+  FGlobalContextInitialized          := False;
+  FChromeVersionInfo.MajorVer        := CEF_CHROMEELF_VERSION_MAJOR;
+  FChromeVersionInfo.MinorVer        := CEF_CHROMEELF_VERSION_MINOR;
+  FChromeVersionInfo.Release         := CEF_CHROMEELF_VERSION_RELEASE;
+  FChromeVersionInfo.Build           := CEF_CHROMEELF_VERSION_BUILD;
+  FLibLoaded                         := False;
+  FLogProcessInfo                    := False;
+  FReRaiseExceptions                 := False;
+  UpdateDeviceScaleFactor;
+  FLocalesRequired                   := '';
+  FProcessType                       := ParseProcessType;
   FMustCreateResourceBundleHandler   := False;
-  FMustCreateBrowserProcessHandler   := True;
-  FMustCreateRenderProcessHandler    := False;
+  FMustCreateBrowserProcessHandler   := True;  // The official CEF sample application always creates this handler in the browser process
+  FMustCreateRenderProcessHandler    := True;  // The official CEF sample application always creates this handler in the renderer process
   FMustCreateLoadHandler             := False;
+  FStatus                            := asLoading;
+  FMissingLibFiles                   := '';
+  FWidevinePath                      := '';
+  FMustFreeLibrary                   := False;
+  FLastErrorMessage                  := '';
+  {$IFDEF MSWINDOWS}
+  if (FProcessType = ptBrowser) then
+    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  {$ENDIF}
+
+  // Internal filelds
+  FLibHandle                         := 0;
+  FCustomCommandLines                := nil;
+  FCustomCommandLineValues           := nil;
+  FillChar(FAppSettings, SizeOf(TCefSettings), 0);
+  FAppSettings.size := SizeOf(TCefSettings);
+  FDisableGPUCache                   := True;
+
+  // ICefApp
+  FOnRegisterCustomSchemes           := nil;
 
   // ICefBrowserProcessHandler
   FOnContextInitialized              := nil;
@@ -800,21 +823,6 @@ begin
   FOnLoadStart                       := nil;
   FOnLoadEnd                         := nil;
   FOnLoadError                       := nil;
-
-  UpdateDeviceScaleFactor;
-
-  FillChar(FAppSettings, SizeOf(TCefSettings), 0);
-  FAppSettings.size := SizeOf(TCefSettings);
-
-  FChromeVersionInfo.MajorVer    := CEF_CHROMEELF_VERSION_MAJOR;
-  FChromeVersionInfo.MinorVer    := CEF_CHROMEELF_VERSION_MINOR;
-  FChromeVersionInfo.Release     := CEF_CHROMEELF_VERSION_RELEASE;
-  FChromeVersionInfo.Build       := CEF_CHROMEELF_VERSION_BUILD;
-
-  {$IFDEF MSWINDOWS}
-  if (FProcessType = ptBrowser) then
-    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
-  {$ENDIF}
 
   IsMultiThread := True;
 
@@ -2052,6 +2060,12 @@ begin
 
   if FDisableRequestHandlingForTesting then
     ReplaceSwitch(aKeys, aValues, '--disable-request-handling-for-testing');
+
+  if FDisablePopupBlocking then
+    ReplaceSwitch(aKeys, aValues, '--disable-popup-blocking');
+
+  if FDisableBackForwardCache then
+    ReplaceSwitch(aKeys, aValues, '--disable-back-forward-cache');
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
