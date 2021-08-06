@@ -59,6 +59,7 @@ uses
 type
   ICefBrowser = interface;
   ICefFrame = interface;
+  ICefFrameHandler = interface;
   ICefRequest = interface;
   ICefv8Value = interface;
   ICefV8Exception = interface;
@@ -461,6 +462,12 @@ type
     procedure doOnPrintReset(const browser: ICefBrowser);
     procedure doOnGetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult : TCefSize);
 
+    // ICefFrameHandler
+    procedure doOnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
+    procedure doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
+    procedure doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
+    procedure doOnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
+
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
@@ -506,6 +513,7 @@ type
     function  MustCreateCookieAccessFilter : boolean;
     function  MustCreateMediaObserver : boolean;
     function  MustCreatePrintHandler : boolean;
+    function  MustCreateFrameHandler : boolean;
   end;
 
   IServerEvents = interface
@@ -671,6 +679,7 @@ type
   // /include/capi/cef_browser_capi.h (cef_browser_t)
   ICefBrowser = interface(ICefBaseRefCounted)
     ['{BA003C2E-CF15-458F-9D4A-FE3CEFCF3EEF}']
+    function  IsValid: boolean;
     function  GetHost: ICefBrowserHost;
     function  CanGoBack: Boolean;
     procedure GoBack;
@@ -810,6 +819,18 @@ type
     property Browser    : ICefBrowser read GetBrowser;
     property Parent     : ICefFrame   read GetParent;
     property Identifier : int64       read GetIdentifier;
+  end;
+
+  // TCefFrameHandler
+  // /include/capi/cef_frame_handler_capi.h (cef_frame_handler_t)
+  ICefFrameHandler = interface(ICefBaseRefCounted)
+    ['{B437128C-F7CB-4F75-83CF-A257B98C0B6E}']
+    procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
+    procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
+    procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
+    procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
+
+    procedure RemoveReferences; // custom procedure to clear all references
   end;
 
   // TCefStreamReader
@@ -2085,6 +2106,7 @@ type
     procedure GetDragHandler(var aHandler : ICefDragHandler);
     procedure GetFindHandler(var aHandler : ICefFindHandler);
     procedure GetFocusHandler(var aHandler : ICefFocusHandler);
+    procedure GetFrameHandler(var aHandler : ICefFrameHandler);
     procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler);
     procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler);
     procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler);

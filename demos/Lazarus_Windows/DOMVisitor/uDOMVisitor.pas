@@ -445,7 +445,6 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                          := TCefApplication.Create;
-  GlobalCEFApp.RemoteDebuggingPort      := 9000;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
 
   // Enabling the debug log file for then DOM visitor demo.
