@@ -84,7 +84,7 @@ type
       procedure SetFormTopTo(const y : Integer);
 
       function  CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
-      function  SaveAsBitmapStream(var aStream : TStream) : boolean;
+      function  SaveAsBitmapStream(const aStream : TStream) : boolean;
       function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
   end;
 
@@ -313,7 +313,7 @@ begin
   Result := inherited CreateBrowser(TempHandle, TempRect, aWindowName, aContext, aExtraInfo);
 end;
 
-function TChromium.SaveAsBitmapStream(var aStream : TStream) : boolean;
+function TChromium.SaveAsBitmapStream(const aStream : TStream) : boolean;
 {$IFDEF MSWINDOWS}
 var
   TempDC   : HDC;

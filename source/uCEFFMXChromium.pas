@@ -73,7 +73,7 @@ type
       procedure SetFormTopTo(const y : Integer);
 
       function  CreateBrowser(const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
-      function  SaveAsBitmapStream(var aStream : TStream; const aRect : System.Types.TRect) : boolean;
+      function  SaveAsBitmapStream(const aStream : TStream; const aRect : System.Types.TRect) : boolean;
       function  TakeSnapshot(var aBitmap : TBitmap; const aRect : System.Types.TRect) : boolean;
 
       property  ScreenScale    : single             read GetScreenScale;
@@ -313,7 +313,7 @@ begin
     {$ENDIF}
 end;
 
-function TFMXChromium.SaveAsBitmapStream(var aStream : TStream; const aRect : System.Types.TRect) : boolean;
+function TFMXChromium.SaveAsBitmapStream(const aStream : TStream; const aRect : System.Types.TRect) : boolean;
 {$IFDEF MSWINDOWS}
 var
   TempDC   : HDC;
@@ -351,7 +351,7 @@ begin
   try
     TempStream := TMemoryStream.Create;
 
-    if SaveAsBitmapStream(TStream(TempStream), aRect) then
+    if SaveAsBitmapStream(TempStream, aRect) then
       begin
         aBitmap.LoadFromStream(TempStream);
         Result := True;
