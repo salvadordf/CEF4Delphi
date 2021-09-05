@@ -253,7 +253,6 @@
         <DCCReference Include="..\source\uCEFChromiumOptions.pas"/>
         <DCCReference Include="..\source\uCEFChromiumFontOptions.pas"/>
         <DCCReference Include="..\source\uCEFPDFPrintOptions.pas"/>
-        <DCCReference Include="..\source\uCEFRegisterCDMCallback.pas"/>
         <DCCReference Include="..\source\uCEFThread.pas"/>
         <DCCReference Include="..\source\uCEFv8Interceptor.pas"/>
         <DCCReference Include="..\source\uCEFWaitableEvent.pas"/>
@@ -390,14 +389,14 @@
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule"/>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\20.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CEF4Delphi_FMX.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\19.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\21.0\Bpl\CEF4Delphi_FMX.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CEF4Delphi_FMX.bpl</RemoteName>
                         <Overwrite>true</Overwrite>

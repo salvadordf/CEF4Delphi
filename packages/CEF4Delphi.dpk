@@ -137,7 +137,6 @@ contains
   uCEFChromiumOptions in '..\source\uCEFChromiumOptions.pas',
   uCEFChromiumFontOptions in '..\source\uCEFChromiumFontOptions.pas',
   uCEFPDFPrintOptions in '..\source\uCEFPDFPrintOptions.pas',
-  uCEFRegisterCDMCallback in '..\source\uCEFRegisterCDMCallback.pas',
   uCEFThread in '..\source\uCEFThread.pas',
   uCEFv8Interceptor in '..\source\uCEFv8Interceptor.pas',
   uCEFWaitableEvent in '..\source\uCEFWaitableEvent.pas',

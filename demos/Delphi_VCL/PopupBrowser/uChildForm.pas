@@ -125,13 +125,13 @@ type
   public
     function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
     procedure ApplyPopupFeatures;
-    procedure HandleSysCharMsg(var Msg: tagMSG; var Handled: Boolean);
-    procedure HandleSysKeyDownMsg(var Msg: tagMSG; var Handled: Boolean);
-    procedure HandleSysKeyUpMsg(var Msg: tagMSG; var Handled: Boolean);
+    procedure HandleSysCharMsg(var Msg: tagMSG);
+    procedure HandleSysKeyDownMsg(var Msg: tagMSG);
+    procedure HandleSysKeyUpMsg(var Msg: tagMSG);
     procedure HandleKeyDownMsg(var Msg: tagMSG; var Handled: Boolean);
-    procedure HandleKeyUpMsg(var Msg: tagMSG; var Handled: Boolean);
-    procedure HandleCharMsg(var Msg: tagMSG; var Handled: Boolean);
-    procedure HandleMouseWheelMsg(var Msg: tagMSG; var Handled: Boolean);
+    procedure HandleKeyUpMsg(var Msg: tagMSG);
+    procedure HandleCharMsg(var Msg: tagMSG);
+    procedure HandleMouseWheelMsg(var Msg: tagMSG);
 
     property  ClientInitialized : boolean   read FClientInitialized;
     property  Closing           : boolean   read FClosing;
@@ -156,7 +156,7 @@ uses
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
 //    Now we set FCanClose to True and send WM_CLOSE to the form.
 
-procedure TChildForm.HandleSysCharMsg(var Msg: tagMSG; var Handled: Boolean);
+procedure TChildForm.HandleSysCharMsg(var Msg: tagMSG);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
@@ -173,13 +173,10 @@ begin
 
       CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
       Chromium1.SendKeyEvent(@TempKeyEvent);
-      Handled := True;
-    end
-   else
-    Handled := False;
+    end;
 end;
 
-procedure TChildForm.HandleSysKeyDownMsg(var Msg: tagMSG; var Handled: Boolean);
+procedure TChildForm.HandleSysKeyDownMsg(var Msg: tagMSG);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
@@ -195,13 +192,10 @@ begin
       TempKeyEvent.focus_on_editable_field := ord(False);
 
       Chromium1.SendKeyEvent(@TempKeyEvent);
-      Handled := True;
-    end
-   else
-    Handled := False;
+    end;
 end;
 
-procedure TChildForm.HandleSysKeyUpMsg(var Msg: tagMSG; var Handled: Boolean);
+procedure TChildForm.HandleSysKeyUpMsg(var Msg: tagMSG);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
@@ -217,10 +211,7 @@ begin
       TempKeyEvent.focus_on_editable_field := ord(False);
 
       Chromium1.SendKeyEvent(@TempKeyEvent);
-      Handled := True;
-    end
-   else
-    Handled := False;
+    end;
 end;
 
 procedure TChildForm.HandleKeyDownMsg(var Msg: tagMSG; var Handled: Boolean);
@@ -245,7 +236,7 @@ begin
     Handled := False;
 end;
 
-procedure TChildForm.HandleKeyUpMsg(var Msg: tagMSG; var Handled: Boolean);
+procedure TChildForm.HandleKeyUpMsg(var Msg: tagMSG);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
@@ -261,13 +252,10 @@ begin
       TempKeyEvent.focus_on_editable_field := ord(False);
 
       Chromium1.SendKeyEvent(@TempKeyEvent);
-      Handled := True;
-    end
-   else
-    Handled := False;
+    end;
 end;
 
-procedure TChildForm.HandleCharMsg(var Msg: tagMSG; var Handled: Boolean);
+procedure TChildForm.HandleCharMsg(var Msg: tagMSG);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
@@ -284,13 +272,10 @@ begin
 
       CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
       Chromium1.SendKeyEvent(@TempKeyEvent);
-      Handled := True;
-    end
-   else
-    Handled := False;
+    end;
 end;
 
-procedure TChildForm.HandleMouseWheelMsg(var Msg: tagMSG; var Handled: Boolean);
+procedure TChildForm.HandleMouseWheelMsg(var Msg: tagMSG);
 var
   TempMouseEvent : TCefMouseEvent;
   TempPoint      : TPoint;
@@ -309,8 +294,6 @@ begin
         Chromium1.SendMouseWheelEvent(@TempMouseEvent, smallint(Msg.wParam shr 16), 0)
        else
         Chromium1.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
-
-      Handled := False;
     end;
 end;
 

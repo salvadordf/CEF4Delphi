@@ -289,6 +289,7 @@ begin
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.EnablePrintPreview  := True;
+  GlobalCEFApp.EnableGPU           := True;
 
   // This is a workaround for the CEF4Delphi issue #324 :
   // https://github.com/salvadordf/CEF4Delphi/issues/324

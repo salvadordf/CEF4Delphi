@@ -231,7 +231,6 @@
         <DCCReference Include="..\source\uCEFChromiumOptions.pas"/>
         <DCCReference Include="..\source\uCEFChromiumFontOptions.pas"/>
         <DCCReference Include="..\source\uCEFPDFPrintOptions.pas"/>
-        <DCCReference Include="..\source\uCEFRegisterCDMCallback.pas"/>
         <DCCReference Include="..\source\uCEFThread.pas"/>
         <DCCReference Include="..\source\uCEFv8Interceptor.pas"/>
         <DCCReference Include="..\source\uCEFWaitableEvent.pas"/>
@@ -319,6 +318,7 @@
         <DCCReference Include="..\source\uCEFWorkSchedulerQueueThread.pas"/>
         <DCCReference Include="..\source\uCEFLinkedWinControlBase.pas"/>
         <DCCReference Include="..\source\uCEFTimerWorkScheduler.pas"/>
+        <DCCReference Include="..\source\uCEFFrameHandler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

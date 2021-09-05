@@ -237,7 +237,6 @@ var
   cef_unregister_internal_web_plugin : procedure(const path: PCefString); cdecl;
   cef_register_web_plugin_crash      : procedure(const path: PCefString); cdecl;
   cef_is_web_plugin_unstable         : procedure(const path: PCefString; callback: PCefWebPluginUnstableCallback); cdecl;
-  cef_register_widevine_cdm          : procedure(const path: PCefString; callback: PCefRegisterCDMCallback); cdecl;
 
   // /include/capi/cef_xml_reader_capi.h
   cef_xml_reader_create : function(stream: PCefStreamReader; encodingType: TCefXmlEncodingType; const URI: PCefString): PCefXmlReader; cdecl;

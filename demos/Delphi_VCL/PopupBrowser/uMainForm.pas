@@ -317,15 +317,13 @@ end;
 procedure TMainForm.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 begin
   case Msg.message of
-    WM_SYSCHAR    : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysCharMsg(Msg, Handled);
-    WM_SYSKEYDOWN : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysKeyDownMsg(Msg, Handled);
-    WM_SYSKEYUP   : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysKeyUpMsg(Msg, Handled);
+    WM_SYSCHAR    : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysCharMsg(Msg);
+    WM_SYSKEYDOWN : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysKeyDownMsg(Msg);
+    WM_SYSKEYUP   : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysKeyUpMsg(Msg);
     WM_KEYDOWN    : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleKeyDownMsg(Msg, Handled);
-    WM_KEYUP      : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleKeyUpMsg(Msg, Handled);
-    WM_CHAR       : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleCharMsg(Msg, Handled);
-    WM_MOUSEWHEEL : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleMouseWheelMsg(Msg, Handled);
-
-    else Handled := False;
+    WM_KEYUP      : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleKeyUpMsg(Msg);
+    WM_CHAR       : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleCharMsg(Msg);
+    WM_MOUSEWHEEL : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleMouseWheelMsg(Msg);
   end;
 end;
 
