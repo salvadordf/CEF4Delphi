@@ -80,6 +80,7 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const params: ICefContextMenuParams; commandId: Integer;
       eventFlags: Cardinal; out Result: Boolean);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -218,6 +219,12 @@ begin
             MessageDlg('ClearSchemeHandlerFactories error !', mtError, [mbOk], 0);
         end;
   end;
+end;
+
+procedure TSchemeRegistrationBrowserFrm.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  CefClearSchemeHandlerFactories;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

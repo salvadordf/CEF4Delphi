@@ -136,6 +136,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.browserleaks.com/webrtc'
           'http://webglsamples.org/'
           'https://get.webgl.org/'
+          'https://shaka-player-demo.appspot.com/demo/'
           'https://www.briskbard.com'
           'https://www.youtube.com'
           'https://html5demos.com/drag/'

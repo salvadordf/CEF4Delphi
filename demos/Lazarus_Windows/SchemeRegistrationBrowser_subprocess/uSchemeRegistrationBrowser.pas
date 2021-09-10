@@ -79,6 +79,7 @@ type
       const browser: ICefBrowser; const frame: ICefFrame;
       const params: ICefContextMenuParams; commandId: Integer;
       eventFlags: Cardinal; out Result: Boolean);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -140,7 +141,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                       := TCefApplication.Create;
   GlobalCEFApp.OnRegCustomSchemes    := GlobalCEFApp_OnRegCustomSchemes;
-  GlobalCEFApp.BrowserSubprocessPath := 'SchemeRegistrationBrowser_sp.exe';      
+  GlobalCEFApp.BrowserSubprocessPath := 'SchemeRegistrationBrowser_sp.exe';
   GlobalCEFApp.LogFile               := 'debug.log';
   GlobalCEFApp.LogSeverity           := LOGSEVERITY_INFO;
 end;
@@ -215,6 +216,12 @@ begin
             MessageDlg('ClearSchemeHandlerFactories error !', mtError, [mbOk], 0);
         end;
   end;
+end;
+
+procedure TSchemeRegistrationBrowserFrm.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  CefClearSchemeHandlerFactories;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
