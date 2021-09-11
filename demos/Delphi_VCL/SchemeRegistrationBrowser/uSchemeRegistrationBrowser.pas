@@ -82,7 +82,6 @@ type
 
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -224,11 +223,6 @@ begin
         Chromium1.ShowDevTools(TempPoint, nil);
       end;
   end;
-end;
-
-procedure TSchemeRegistrationBrowserFrm.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  CefClearSchemeHandlerFactories;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

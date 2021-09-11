@@ -820,10 +820,13 @@ end;
 
 destructor TCefApplicationCore.Destroy;
 begin
-  if (GlobalCEFApp = Self) then
-    GlobalCEFApp := nil;
-
   try
+    if FLibLoaded then
+      cef_clear_scheme_handler_factories();
+
+    if (GlobalCEFApp = Self) then
+      GlobalCEFApp := nil;
+
     if (FProcessType = ptBrowser) then
       ShutDown;
 

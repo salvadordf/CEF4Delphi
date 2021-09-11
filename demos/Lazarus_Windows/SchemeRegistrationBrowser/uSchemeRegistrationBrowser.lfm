@@ -10,7 +10,6 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
-  OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
