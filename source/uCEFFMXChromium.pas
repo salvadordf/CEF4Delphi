@@ -220,8 +220,8 @@ begin
   {$IFDEF DELPHI17_UP}
   if (TempForm <> nil) then
     begin
-      TempRect.Left   := min(max(x, max(screen.DesktopLeft, 0)), screen.DesktopWidth  - TempForm.Width);
-      TempRect.Top    := min(max(y, max(screen.DesktopTop,  0)), screen.DesktopHeight - TempForm.Height);
+      TempRect.Left   := min(max(x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth)  - TempForm.Width);
+      TempRect.Top    := min(max(y, max(round(screen.DesktopTop),  0)), round(screen.DesktopHeight) - TempForm.Height);
       TempRect.Right  := TempRect.Left + TempForm.Width  - 1;
       TempRect.Bottom := TempRect.Top  + TempForm.Height - 1;
 
@@ -243,8 +243,8 @@ begin
   {$IFDEF DELPHI17_UP}
   if (TempForm <> nil) then
     begin
-      TempRect.Left   := min(max(TempForm.Left + x, max(screen.DesktopLeft, 0)), screen.DesktopWidth  - TempForm.Width);
-      TempRect.Top    := min(max(TempForm.Top  + y, max(screen.DesktopTop,  0)), screen.DesktopHeight - TempForm.Height);
+      TempRect.Left   := min(max(TempForm.Left + x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth)  - TempForm.Width);
+      TempRect.Top    := min(max(TempForm.Top  + y, max(round(screen.DesktopTop),  0)), round(screen.DesktopHeight) - TempForm.Height);
       TempRect.Right  := TempRect.Left + TempForm.Width  - 1;
       TempRect.Bottom := TempRect.Top  + TempForm.Height - 1;
 
@@ -293,7 +293,7 @@ begin
 
   if (TempForm <> nil) then
     {$IFDEF DELPHI17_UP}
-    TempForm.Left := min(max(x, max(screen.DesktopLeft, 0)), screen.DesktopWidth  - TempForm.Width);
+    TempForm.Left := min(max(x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth) - TempForm.Width);
     {$ELSE}
     TempForm.Left := x;
     {$ENDIF}
@@ -307,7 +307,7 @@ begin
 
   if (TempForm <> nil) then
     {$IFDEF DELPHI17_UP}
-    TempForm.Top := min(max(y, max(screen.DesktopTop, 0)), screen.DesktopHeight - TempForm.Height);
+    TempForm.Top := min(max(y, max(round(screen.DesktopTop), 0)), round(screen.DesktopHeight) - TempForm.Height);
     {$ELSE}
     TempForm.Top := y;
     {$ENDIF}
