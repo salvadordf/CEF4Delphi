@@ -123,7 +123,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Width = 978
         Height = 21
         Align = alClient
-        ItemIndex = 0
         TabOrder = 0
         Text = 'https://www.google.com'
         Items.Strings = (
@@ -147,6 +146,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
             't/'
           'https://test.webrtc.org/'
           'https://www.browserleaks.com/webrtc'
+          'https://shaka-player-demo.appspot.com/demo/'
           'http://webglsamples.org/'
           'https://get.webgl.org/'
           'https://www.briskbard.com'

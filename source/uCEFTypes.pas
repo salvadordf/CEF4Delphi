@@ -203,7 +203,6 @@ type
   PCefUrlRequest = ^TCefUrlRequest;
   PCefWebPluginInfoVisitor = ^TCefWebPluginInfoVisitor;
   PCefWebPluginUnstableCallback = ^TCefWebPluginUnstableCallback;
-  PCefRegisterCDMCallback = ^TCefRegisterCDMCallback;
   PCefTaskRunner = ^TCefTaskRunner;
   PCefEndTracingCallback = ^TCefEndTracingCallback;
   PCefRequestContextSettings = ^TCefRequestContextSettings;
@@ -1146,14 +1145,6 @@ type
     CEF_MENU_COLOR_COUNT
   );
 
-  // /include/internal/cef_types.h (cef_cdm_registration_error_t)
-  TCefCDMRegistrationError = (
-    CEF_CDM_REGISTRATION_ERROR_NONE,
-    CEF_CDM_REGISTRATION_ERROR_INCORRECT_CONTENTS,
-    CEF_CDM_REGISTRATION_ERROR_INCOMPATIBLE,
-    CEF_CDM_REGISTRATION_ERROR_NOT_SUPPORTED
-  );
-
   // Values for browser preference "net.network_prediction_options"
   // https://source.chromium.org/chromium/chromium/src/+/master:chrome/browser/net/prediction_options.h
   TCefNetworkPredictionOptions = (
@@ -1918,12 +1909,6 @@ type
   TCefWebPluginUnstableCallback = record
     base        : TCefBaseRefCounted;
     is_unstable : procedure(self: PCefWebPluginUnstableCallback; const path: PCefString; unstable: Integer); stdcall;
-  end;
-
-  // /include/capi/cef_web_plugin_capi.h (cef_register_cdm_callback_t)
-  TCefRegisterCDMCallback = record
-    base                          : TCefBaseRefCounted;
-    on_cdm_registration_complete  : procedure(self:PCefRegisterCDMCallback; result: TCefCDMRegistrationError; const error_message: PCefString); stdcall;
   end;
 
   // /include/capi/cef_thread_capi.h (cef_thread_t)

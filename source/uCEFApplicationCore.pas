@@ -64,15 +64,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 92;
-  CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 21;
+  CEF_SUPPORTED_VERSION_MAJOR   = 93;
+  CEF_SUPPORTED_VERSION_MINOR   = 1;
+  CEF_SUPPORTED_VERSION_RELEASE = 14;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 92;
+  CEF_CHROMEELF_VERSION_MAJOR   = 93;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4515;
-  CEF_CHROMEELF_VERSION_BUILD   = 107;
+  CEF_CHROMEELF_VERSION_RELEASE = 4577;
+  CEF_CHROMEELF_VERSION_BUILD   = 82;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -187,6 +187,7 @@ type
       FDisableRequestHandlingForTesting  : boolean;
       FDisablePopupBlocking              : boolean;
       FDisableBackForwardCache           : boolean;
+      FDisableComponentUpdate            : boolean;
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
@@ -213,7 +214,6 @@ type
       FMustCreateLoadHandler             : boolean;
       FStatus                            : TCefAplicationStatus;
       FMissingLibFiles                   : string;
-      FWidevinePath                      : ustring;
       FMustFreeLibrary                   : boolean;
       FLastErrorMessage                  : ustring;
 
@@ -247,9 +247,6 @@ type
       FOnUncaughtException               : TOnUncaughtExceptionEvent;
       FOnFocusedNodeChanged              : TOnFocusedNodeChangedEvent;
       FOnProcessMessageReceived          : TOnProcessMessageReceivedEvent;
-
-      // ICefRegisterCDMCallback
-      FOnCDMRegistrationComplete         : TOnCDMRegistrationCompleteEvent;
 
       // ICefLoadHandler
       FOnLoadingStateChange              : TOnRenderLoadingStateChange;
@@ -359,7 +356,6 @@ type
       function  CheckCEFDLL : boolean;
       {$ENDIF}
       function  CheckCEFLibrary : boolean;
-      procedure RegisterWidevineCDM;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
       procedure AddCustomCommandLineSwitches(var aKeys, aValues : TStringList); virtual;
@@ -403,7 +399,6 @@ type
       procedure   Internal_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
       procedure   Internal_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
       procedure   Internal_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
-      procedure   Internal_OnCDMRegistrationComplete(result : TCefCDMRegistrationError; const error_message : ustring);
       procedure   Internal_OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
       procedure   Internal_OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
       procedure   Internal_OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
@@ -499,6 +494,7 @@ type
       property DisableRequestHandlingForTesting  : boolean                             read FDisableRequestHandlingForTesting  write FDisableRequestHandlingForTesting; // --disable-request-handling-for-testing
       property DisablePopupBlocking              : boolean                             read FDisablePopupBlocking              write FDisablePopupBlocking;             // --disable-popup-blocking
       property DisableBackForwardCache           : boolean                             read FDisableBackForwardCache           write FDisableBackForwardCache;          // --disable-back-forward-cache
+      property DisableComponentUpdate            : boolean                             read FDisableComponentUpdate            write FDisableComponentUpdate;           // --disable-component-update
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -533,7 +529,6 @@ type
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
-      property WidevinePath                      : ustring                             read FWidevinePath                      write FWidevinePath;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
       property ChildProcessesCount               : integer                             read GetChildProcessesCount;
       property UsedMemory                        : uint64                              read GetUsedMemory;
@@ -571,9 +566,6 @@ type
       property OnUncaughtException               : TOnUncaughtExceptionEvent           read FOnUncaughtException               write FOnUncaughtException;
       property OnFocusedNodeChanged              : TOnFocusedNodeChangedEvent          read FOnFocusedNodeChanged              write FOnFocusedNodeChanged;
       property OnProcessMessageReceived          : TOnProcessMessageReceivedEvent      read FOnProcessMessageReceived          write FOnProcessMessageReceived;
-
-      // ICefRegisterCDMCallback
-      property OnCDMRegistrationComplete         : TOnCDMRegistrationCompleteEvent     read FOnCDMRegistrationComplete         write FOnCDMRegistrationComplete;
 
       // ICefLoadHandler
       property OnLoadingStateChange              : TOnRenderLoadingStateChange         read FOnLoadingStateChange              write FOnLoadingStateChange;
@@ -642,8 +634,8 @@ uses
     {$ENDIF}
   {$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
-  uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFRegisterCDMCallback,
-  uCEFCompletionCallback, uCEFWaitableEvent;
+  uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFCompletionCallback,
+  uCEFWaitableEvent;
 
 procedure DestroyGlobalCEFApp;
 begin
@@ -746,6 +738,7 @@ begin
   FDisableRequestHandlingForTesting  := False;
   FDisablePopupBlocking              := False;
   FDisableBackForwardCache           := False;
+  FDisableComponentUpdate            := False;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -775,7 +768,6 @@ begin
   FMustCreateLoadHandler             := False;
   FStatus                            := asLoading;
   FMissingLibFiles                   := '';
-  FWidevinePath                      := '';
   FMustFreeLibrary                   := False;
   FLastErrorMessage                  := '';
   {$IFDEF MSWINDOWS}
@@ -815,9 +807,6 @@ begin
   FOnFocusedNodeChanged              := nil;
   FOnProcessMessageReceived          := nil;
 
-  // ICefRegisterCDMCallback
-  FOnCDMRegistrationComplete         := nil;
-
   // ICefLoadHandler
   FOnLoadingStateChange              := nil;
   FOnLoadStart                       := nil;
@@ -831,10 +820,13 @@ end;
 
 destructor TCefApplicationCore.Destroy;
 begin
-  if (GlobalCEFApp = Self) then
-    GlobalCEFApp := nil;
-
   try
+    if FLibLoaded then
+      cef_clear_scheme_handler_factories();
+
+    if (GlobalCEFApp = Self) then
+      GlobalCEFApp := nil;
+
     if (FProcessType = ptBrowser) then
       ShutDown;
 
@@ -1382,8 +1374,6 @@ begin
               if FDeleteCache then
                 RenameAndDeleteDir(FCache, True);
 
-          RegisterWidevineCDM;
-
           InitializeSettings(FAppSettings);
 
           {$IFDEF MSWINDOWS}
@@ -1514,29 +1504,6 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCefApplicationCore.RenameAndDeleteDir', e) then raise;
-  end;
-end;
-
-procedure TCefApplicationCore.RegisterWidevineCDM;
-var
-  TempPath     : TCefString;
-  TempCallback : ICefRegisterCDMCallback;
-begin
-  try
-    try
-      if FLibLoaded and (length(FWidevinePath) > 0) and DirectoryExists(FWidevinePath) then
-        begin
-          TempPath     := CefString(FWidevinePath);
-          TempCallback := TCefCustomRegisterCDMCallback.Create(self);
-
-          cef_register_widevine_cdm(@TempPath, TempCallback.Wrap);
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefApplicationCore.RegisterWidevineCDM', e) then raise;
-    end;
-  finally
-    TempCallback := nil;
   end;
 end;
 
@@ -1702,12 +1669,6 @@ begin
     FOnProcessMessageReceived(browser, frame, sourceProcess, aMessage, aHandled)
    else
     aHandled := False;
-end;
-
-procedure TCefApplicationCore.Internal_OnCDMRegistrationComplete(result : TCefCDMRegistrationError; const error_message : ustring);
-begin
-  if assigned(FOnCDMRegistrationComplete) then
-    FOnCDMRegistrationComplete(result, error_message);
 end;
 
 procedure TCefApplicationCore.Internal_OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
@@ -2066,6 +2027,9 @@ begin
 
   if FDisableBackForwardCache then
     ReplaceSwitch(aKeys, aValues, '--disable-back-forward-cache');
+
+  if FDisableComponentUpdate then
+    ReplaceSwitch(aKeys, aValues, '--disable-component-update');
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
@@ -2892,14 +2856,12 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_unregister_internal_web_plugin{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_unregister_internal_web_plugin');
   {$IFDEF FPC}Pointer({$ENDIF}cef_register_web_plugin_crash{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_register_web_plugin_crash');
   {$IFDEF FPC}Pointer({$ENDIF}cef_is_web_plugin_unstable{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_is_web_plugin_unstable');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_register_widevine_cdm{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_register_widevine_cdm');
 
   Result := assigned(cef_visit_web_plugin_info) and
             assigned(cef_refresh_web_plugins) and
             assigned(cef_unregister_internal_web_plugin) and
             assigned(cef_register_web_plugin_crash) and
-            assigned(cef_is_web_plugin_unstable) and
-            assigned(cef_register_widevine_cdm);
+            assigned(cef_is_web_plugin_unstable);
 end;
 
 function TCefApplicationCore.Load_cef_xml_reader_capi_h : boolean;

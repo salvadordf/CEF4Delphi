@@ -280,7 +280,6 @@ begin
 
           CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
           chrmosr.SendKeyEvent(@TempKeyEvent);
-          Handled := True;
         end;
 
     WM_SYSKEYDOWN :
@@ -296,7 +295,6 @@ begin
           TempKeyEvent.focus_on_editable_field := ord(False);
 
           chrmosr.SendKeyEvent(@TempKeyEvent);
-          Handled := True;
         end;
 
     WM_SYSKEYUP :
@@ -312,7 +310,6 @@ begin
           TempKeyEvent.focus_on_editable_field := ord(False);
 
           chrmosr.SendKeyEvent(@TempKeyEvent);
-          Handled := True;
         end;
 
     WM_KEYDOWN :
@@ -344,7 +341,6 @@ begin
           TempKeyEvent.focus_on_editable_field := ord(False);
 
           chrmosr.SendKeyEvent(@TempKeyEvent);
-          Handled := True;
         end;
 
     WM_CHAR :
@@ -361,7 +357,6 @@ begin
 
           CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
           chrmosr.SendKeyEvent(@TempKeyEvent);
-          Handled := True;
         end;
 
     WM_MOUSEWHEEL :

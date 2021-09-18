@@ -74,8 +74,7 @@ uses
       {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
     {$ENDIF}{$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
-  uCEFRegisterCDMCallback, uCEFConstants;
+  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler, uCEFConstants;
 
 const
   Kernel32DLL = 'kernel32.dll';
@@ -1921,7 +1920,8 @@ begin
 
   case aWparam of
     VK_RETURN:
-      if (((aLparam shr 16) and KF_EXTENDED) <> 0) then Result := Result or EVENTFLAG_IS_KEY_PAD;
+      if (((aLparam shr 16) and KF_EXTENDED) <> 0) then
+        Result := Result or EVENTFLAG_IS_KEY_PAD;
 
     VK_INSERT,
     VK_DELETE,
@@ -1933,7 +1933,8 @@ begin
     VK_DOWN,
     VK_LEFT,
     VK_RIGHT :
-      if (((aLparam shr 16) and KF_EXTENDED) = 0) then Result := Result or EVENTFLAG_IS_KEY_PAD;
+      if (((aLparam shr 16) and KF_EXTENDED) = 0) then
+        Result := Result or EVENTFLAG_IS_KEY_PAD;
 
     VK_NUMLOCK,
     VK_NUMPAD0,

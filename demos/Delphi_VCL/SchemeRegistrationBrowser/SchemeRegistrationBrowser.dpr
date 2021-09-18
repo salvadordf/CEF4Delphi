@@ -46,14 +46,16 @@ uses
   {$ELSE}
   Forms,
   Windows,
-  {$ENDIF }
+  {$ENDIF}
   uCEFApplication,
   uSchemeRegistrationBrowser in 'uSchemeRegistrationBrowser.pas' {SchemeRegistrationBrowserFrm},
   uHelloScheme in 'uHelloScheme.pas';
 
 {$R *.res}
 
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+{$IFDEF WIN32}
+  {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+{$ENDIF}
 
 begin
   // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
