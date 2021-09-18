@@ -5195,7 +5195,7 @@ end;
 
 procedure TChromiumCore.doOnAfterCreated(const browser: ICefBrowser);
 begin
-  if MultithreadApp or MultiBrowserMode then
+  if MultithreadApp or MultiBrowserMode or GlobalCEFApp.ChromeRuntime then
     AddBrowser(browser);
 
   doUpdatePreferences(browser);
