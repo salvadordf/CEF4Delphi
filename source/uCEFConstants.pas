@@ -558,6 +558,19 @@ const
   CEF_CTT_NORMAL     = 2;
   CEF_CTT_LOCATION   = 3;
 
+  // /include/internal/cef_types.h (cef_docking_mode_t)
+  CEF_DOCKING_MODE_TOP_LEFT      = 1;
+  CEF_DOCKING_MODE_TOP_RIGHT     = 2;
+  CEF_DOCKING_MODE_BOTTOM_LEFT   = 3;
+  CEF_DOCKING_MODE_BOTTOM_RIGHT  = 4;
+  CEF_DOCKING_MODE_CUSTOM        = 5;
+
+  // /include/internal/cef_types.h (cef_show_state_t)
+  CEF_SHOW_STATE_NORMAL      = 1;
+  CEF_SHOW_STATE_MINIMIZED   = 2;
+  CEF_SHOW_STATE_MAXIMIZED   = 3;
+  CEF_SHOW_STATE_FULLSCREEN  = 4;
+
   // /include/cef_api_hash.h (used as "cef_api_hash" parameters)
   CEF_API_HASH_PLATFORM  = 0;
   CEF_API_HASH_UNIVERSAL = 1;

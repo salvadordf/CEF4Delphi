@@ -43,9 +43,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes, System.Types, System.SysUtils,
+  WinApi.Windows, System.Classes, System.Types, System.SysUtils, Vcl.Forms, Winapi.Messages,
   {$ELSE}
-  Classes, Types, SysUtils,
+  Windows, Classes, Types, SysUtils, Forms, Messages,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFApplication, uCEFChromium,
   uCEFWindowComponent, uCEFBrowserViewComponent;
@@ -71,6 +71,7 @@ type
 
       procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
+      procedure Chromium_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
       procedure Chromium_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 
       procedure CEFWindowComponent_OnWindowCreated(const Sender : TObject; const window : ICefWindow);
@@ -156,10 +157,11 @@ procedure TTinyBrowser.AfterConstruction;
 begin
   inherited AfterConstruction;
 
-  FChromium               := TChromium.Create(self);
-  FChromium.OnBeforeClose := Chromium_OnBeforeClose;
-  FChromium.OnBeforePopup := Chromium_OnBeforePopup;
-  FChromium.OnTitleChange := Chromium_OnTitleChange;
+  FChromium                  := TChromium.Create(self);
+  FChromium.OnBeforeClose    := Chromium_OnBeforeClose;
+  FChromium.OnBeforePopup    := Chromium_OnBeforePopup;
+  FChromium.OnOpenUrlFromTab := Chromium_OnOpenUrlFromTab;
+  FChromium.OnTitleChange    := Chromium_OnTitleChange;
 
   FCEFBrowserViewComponent := TCEFBrowserViewComponent.Create(self);
 
@@ -199,6 +201,18 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
+procedure TTinyBrowser.Chromium_OnOpenUrlFromTab(      Sender            : TObject;
+                                                 const browser           : ICefBrowser;
+                                                 const frame             : ICefFrame;
+                                                 const targetUrl         : ustring;
+                                                       targetDisposition : TCefWindowOpenDisposition;
+                                                       userGesture       : Boolean;
+                                                 out   Result            : Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
 procedure TTinyBrowser.Chromium_OnTitleChange(      Sender  : TObject;
                                               const browser : ICefBrowser;
                                               const title   : ustring);
@@ -230,6 +244,9 @@ begin
         end;
 
       FCEFBrowserViewComponent.RequestFocus;
+
+      // This is an alternative way to set the form icon.
+      SendMessage(FCEFWindowComponent.WindowHandle, WM_SETICON, 1, Application.Icon.Handle);
     end;
 end;
 
@@ -275,12 +292,12 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop := False;
   GlobalCEFApp.ExternalMessagePump      := False;
-  //GlobalCEFApp.ChromeRuntime            := True;  // Enable this line to test the new "ChromeRuntime" mode. It's in experimental state.
+  GlobalCEFApp.ChromeRuntime            := True;  // Enable this line to test the new "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.OnContextInitialized     := GlobalCEFApp_OnContextInitialized;
   GlobalCEFApp.OnGetDefaultClient       := GlobalCEFApp_OnGetDefaultClient;  // This event is only used in "ChromeRuntime" mode
 
   GlobalCEFApp.LogFile             := 'debug.log';
-  GlobalCEFApp.LogSeverity         := LOGSEVERITY_VERBOSE;
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
 end;
 
 procedure DestroyTinyBrowser;

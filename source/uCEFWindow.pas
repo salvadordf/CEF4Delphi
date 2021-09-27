@@ -83,6 +83,7 @@ type
       function  GetWindowIcon : ICefImage;
       procedure SetWindowAppIcon(const image: ICefImage);
       function  GetWindowAppIcon : ICefImage;
+      function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
       procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition);
       procedure CancelMenu;
       function  GetDisplay : ICefDisplay;
@@ -104,7 +105,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFImage, uCEFDisplay;
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFImage, uCEFDisplay, uCEFOverlayController;
 
 procedure TCefWindowRef.Show;
 begin
@@ -227,6 +228,13 @@ end;
 function TCefWindowRef.GetWindowAppIcon : ICefImage;
 begin
   Result := TCefImageRef.UnWrap(PCefWindow(FData)^.get_window_app_icon(PCefWindow(FData)));
+end;
+
+function TCefWindowRef.AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
+begin
+  Result := TCefOverlayControllerRef.UnWrap(PCefWindow(FData)^.add_overlay_view(PCefWindow(FData),
+                                                                                CefGetData(view),
+                                                                                docking_mode));
 end;
 
 procedure TCefWindowRef.ShowMenu(const menu_model      : ICefMenuModel;

@@ -224,6 +224,8 @@ contains
   uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
   uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas',
   uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
-  uCEFFrameHandler in '..\source\uCEFFrameHandler.pas';
+  uCEFFrameHandler in '..\source\uCEFFrameHandler.pas',
+  uCEFOverlayController in '..\source\uCEFOverlayController.pas';
+
 end.
 

@@ -198,6 +198,8 @@ var
   TempMouseEvent : TCefMouseEvent;
   TempPoint      : TPoint;
 begin
+  if Handled then exit;
+
   case Msg.message of
     WM_SYSCHAR :
       if Panel1.Focused then
@@ -274,6 +276,7 @@ begin
           TempKeyEvent.focus_on_editable_field := ord(False);
 
           chrmosr.SendKeyEvent(@TempKeyEvent);
+          Handled := (Msg.wParam <> VK_MENU);
         end;
 
     WM_CHAR :
@@ -290,6 +293,7 @@ begin
 
           CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
           chrmosr.SendKeyEvent(@TempKeyEvent);
+          Handled := True;
         end;
 
     WM_MOUSEWHEEL :

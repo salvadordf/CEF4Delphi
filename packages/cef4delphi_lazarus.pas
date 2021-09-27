@@ -66,7 +66,7 @@ uses
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
   uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa, 
   uCEFBrowserWindow, uCEFOsrBrowserWindow, uCEFTimerWorkScheduler, 
-  uCEFFrameHandler, LazarusPackageIntf;
+  uCEFFrameHandler, uCEFOverlayController, LazarusPackageIntf;
 
 implementation
 

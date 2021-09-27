@@ -640,7 +640,7 @@ type
 
       // ICefFrameHandler
       procedure doOnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
-      procedure doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
+      procedure doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
       procedure doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
       procedure doOnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
 
@@ -5751,10 +5751,10 @@ begin
     FOnFrameCreated(self, browser, frame);
 end;
 
-procedure TChromiumCore.doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
+procedure TChromiumCore.doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
 begin
   if assigned(FOnFrameAttached) then
-    FOnFrameAttached(self, browser, frame);
+    FOnFrameAttached(self, browser, frame, reattached);
 end;
 
 procedure TChromiumCore.doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);

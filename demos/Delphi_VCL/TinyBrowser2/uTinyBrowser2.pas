@@ -43,9 +43,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Types, System.SysUtils,
+  WinApi.Windows, System.Types, System.SysUtils, Vcl.Forms, Winapi.Messages,
   {$ELSE}
-  Types, SysUtils,
+  Windows, Types, SysUtils, Forms, Messages,
   {$ENDIF}
   uCEFInterfaces, uCEFTypes, uCEFChromiumCore;
 
@@ -109,7 +109,7 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.ExternalMessagePump        := False;
-  GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
+  //GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.DisablePopupBlocking       := True;
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
@@ -118,6 +118,9 @@ begin
   // This is a workaround for the CEF4Delphi issue #324 :
   // https://github.com/salvadordf/CEF4Delphi/issues/324
   GlobalCEFApp.DisableFeatures := 'WinUseBrowserSpellChecker';
+
+  GlobalCEFApp.LogFile             := 'debug.log';
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
 end;
 
 procedure DestroyTinyBrowser;

@@ -238,6 +238,8 @@ function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule:
 
 function CefGetPath(const aPathKey : TCefPathKey) : ustring;
 
+function CefIsRTL : boolean;
+
 function CefCreateDirectory(const fullPath: ustring): Boolean;
 function CefGetTempDirectory(out tempDir: ustring): Boolean;
 function CefCreateNewTempDirectory(const prefix: ustring; out newTempPath: ustring): Boolean;
@@ -1748,6 +1750,13 @@ begin
     end
    else
     Result := '';
+end;
+
+function CefIsRTL : boolean;
+begin
+  Result := (GlobalCEFApp <> nil) and
+            GlobalCEFApp.LibLoaded and
+            (cef_is_rtl() <> 0);
 end;
 
 function CefCreateDirectory(const fullPath: ustring): Boolean;

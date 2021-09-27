@@ -64,15 +64,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 93;
-  CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 14;
+  CEF_SUPPORTED_VERSION_MAJOR   = 94;
+  CEF_SUPPORTED_VERSION_MINOR   = 4;
+  CEF_SUPPORTED_VERSION_RELEASE = 1;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 93;
+  CEF_CHROMEELF_VERSION_MAJOR   = 94;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4577;
-  CEF_CHROMEELF_VERSION_BUILD   = 82;
+  CEF_CHROMEELF_VERSION_RELEASE = 4606;
+  CEF_CHROMEELF_VERSION_BUILD   = 54;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -295,6 +295,7 @@ type
       function  Load_cef_crash_util_h : boolean;
       function  Load_cef_drag_data_capi_h : boolean;
       function  Load_cef_file_util_capi_h : boolean;
+      function  Load_cef_i18n_util_capi_h : boolean;
       function  Load_cef_image_capi_h : boolean;
       function  Load_cef_menu_model_capi_h : boolean;
       function  Load_cef_media_router_capi_h : boolean;
@@ -2430,6 +2431,7 @@ begin
      Load_cef_crash_util_h and
      Load_cef_drag_data_capi_h and
      Load_cef_file_util_capi_h and
+     Load_cef_i18n_util_capi_h and
      Load_cef_image_capi_h and
      Load_cef_menu_model_capi_h and
      Load_cef_media_router_capi_h and
@@ -2583,6 +2585,13 @@ begin
             assigned(cef_delete_file) and
             assigned(cef_zip_directory) and
             assigned(cef_load_crlsets_file);
+end;
+
+function TCefApplicationCore.Load_cef_i18n_util_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_is_rtl{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_is_rtl');
+
+  Result := assigned(cef_is_rtl);
 end;
 
 function TCefApplicationCore.Load_cef_image_capi_h : boolean;

@@ -42,7 +42,7 @@ unit uTinyBrowser;
 interface
 
 uses
-  Classes,
+  Windows, Classes, Forms, Messages,
   uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFApplication, uCEFChromium,
   uCEFWindowComponent, uCEFBrowserViewComponent;
 
@@ -225,7 +225,9 @@ begin
           FCEFWindowComponent.Position := TempPosition;
         end;
 
-      FCEFBrowserViewComponent.RequestFocus;
+      FCEFBrowserViewComponent.RequestFocus;        
+
+      SendMessage(FCEFWindowComponent.WindowHandle, WM_SETICON, 1, application.Icon.Handle);
     end;
 end;
 
