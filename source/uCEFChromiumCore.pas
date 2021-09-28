@@ -431,10 +431,17 @@ type
       procedure DestroyExtensionHandler;
       procedure DestroyAllHandlersAndObservers;
 
-      procedure CreateResourceRequestHandler;
-      procedure CreateMediaObserver;
-      procedure CreateDevToolsMsgObserver;
-      procedure CreateExtensionHandler;
+      procedure CreateResourceRequestHandler; virtual;
+      procedure CreateMediaObserver; virtual;
+      procedure CreateDevToolsMsgObserver; virtual;
+      procedure CreateExtensionHandler; virtual;
+      procedure CreateRequestContextHandler; virtual;
+      procedure CreateOptionsClasses; virtual;
+      procedure CreateSyncObjects; virtual;
+      procedure CreateBrowserInfoList; virtual;
+      {$IFDEF MSWINDOWS}
+      procedure CreateWindowWithWndProc; virtual;
+      {$ENDIF}
 
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
@@ -1607,28 +1614,56 @@ begin
     FResourceRequestHandler := TCustomResourceRequestHandler.Create(self);
 end;
 
+procedure TChromiumCore.CreateOptionsClasses;
+begin
+  if (Owner = nil) or not(csDesigning in ComponentState) then
+    begin
+      FOptions         := TChromiumOptions.Create;
+      FFontOptions     := TChromiumFontOptions.Create;
+      FPDFPrintOptions := TPDFPrintOptions.Create;
+    end;
+end;
+
+procedure TChromiumCore.CreateSyncObjects;
+begin
+  if (Owner = nil) or not(csDesigning in ComponentState) then
+    begin
+      FZoomStepCS := TCriticalSection.Create;
+      FBrowsersCS := TCriticalSection.Create;
+    end;
+end;
+
+procedure TChromiumCore.CreateRequestContextHandler;
+begin
+  if (Owner = nil) or not(csDesigning in ComponentState) then
+    FReqContextHandler := TCustomRequestContextHandler.Create(self);
+end;
+
+{$IFDEF MSWINDOWS}
+procedure TChromiumCore.CreateWindowWithWndProc;
+begin
+  if (Owner = nil) or not(csDesigning in ComponentState) then
+    FCompHandle := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
+end;
+{$ENDIF}
+
+procedure TChromiumCore.CreateBrowserInfoList;
+begin
+  if (Owner = nil) or not(csDesigning in ComponentState) then
+    FBrowsers := TBrowserInfoList.Create;
+end;
+
 procedure TChromiumCore.AfterConstruction;
 begin
   inherited AfterConstruction;
 
-  try
-    if not(csDesigning in ComponentState) then
-      begin
-        {$IFDEF MSWINDOWS}
-        FCompHandle        := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
-        {$ENDIF}
-        FBrowsers          := TBrowserInfoList.Create;
-        FOptions           := TChromiumOptions.Create;
-        FFontOptions       := TChromiumFontOptions.Create;
-        FPDFPrintOptions   := TPDFPrintOptions.Create;
-        FZoomStepCS        := TCriticalSection.Create;
-        FBrowsersCS        := TCriticalSection.Create;
-        FReqContextHandler := TCustomRequestContextHandler.Create(self);
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromiumCore.AfterConstruction', e) then raise;
-  end;
+  CreateOptionsClasses;
+  CreateSyncObjects;
+  {$IFDEF MSWINDOWS}
+  CreateWindowWithWndProc;
+  {$ENDIF}
+  CreateBrowserInfoList;
+  CreateRequestContextHandler;
 end;
 
 function TChromiumCore.CreateClientHandler(aIsOSR : boolean) : boolean;

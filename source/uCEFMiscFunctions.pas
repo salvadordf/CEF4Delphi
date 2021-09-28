@@ -607,7 +607,7 @@ begin
   Result.year         := TempYear;
   Result.month        := TempMonth;
   Result.day_of_week  := DayOfWeek(dt);
-  Result.day_of_month := TempMonth;
+  Result.day_of_month := TempDay;
   Result.hour         := TempHour;
   Result.minute       := TempMin;
   Result.second       := TempSec;
