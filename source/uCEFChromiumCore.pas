@@ -1346,9 +1346,10 @@ destructor TChromiumCore.Destroy;
 begin
   try
     try
+      DestroyAllHandlersAndObservers;
+
       {$IFDEF MSWINDOWS}
       RestoreOldCompWndProc;
-      DestroyAllHandlersAndObservers;
 
       if (FDragDropManager <> nil) then FreeAndNil(FDragDropManager);
 

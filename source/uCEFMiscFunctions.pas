@@ -1258,6 +1258,9 @@ begin
       {$IFDEF MSWINDOWS}
       TempList.Add(TempDir + CHROMEELF_DLL);
       TempList.Add(TempDir + 'd3dcompiler_47.dll');
+      TempList.Add(TempDir + 'vk_swiftshader.dll');
+      TempList.Add(TempDir + 'vk_swiftshader_icd.json');
+      TempList.Add(TempDir + 'vulkan-1.dll');
       TempList.Add(TempDir + 'libEGL.dll');
       TempList.Add(TempDir + 'libGLESv2.dll');
       TempList.Add(TempDir + 'swiftshader\libEGL.dll');
@@ -1266,6 +1269,9 @@ begin
       {$IFDEF LINUX}
       TempList.Add(TempDir + 'libEGL.so');
       TempList.Add(TempDir + 'libGLESv2.so');
+      TempList.Add(TempDir + 'libvk_swiftshader.so');
+      TempList.Add(TempDir + 'vk_swiftshader_icd.json');
+      TempList.Add(TempDir + 'libvulkan.so.1');
       TempList.Add(TempDir + 'swiftshader/libEGL.so');
       TempList.Add(TempDir + 'swiftshader/libGLESv2.so');
       {$ENDIF}
