@@ -10,7 +10,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -121,7 +120,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Left = 0
         Top = 9
         Width = 978
-        Height = 21
+        Height = 24
         Align = alClient
         TabOrder = 0
         Text = 'https://www.google.com'

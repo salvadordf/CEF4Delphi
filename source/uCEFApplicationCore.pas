@@ -66,7 +66,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 94;
   CEF_SUPPORTED_VERSION_MINOR   = 4;
-  CEF_SUPPORTED_VERSION_RELEASE = 5;
+  CEF_SUPPORTED_VERSION_RELEASE = 8;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 94;
@@ -1036,7 +1036,8 @@ begin
   FFrameworkDirPath := CustomAbsolutePath(aValue, True);
 
   {$IFDEF MSWINDOWS}
-  if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  if (FProcessType = ptBrowser) then
+    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
   {$ENDIF}
 end;
 
