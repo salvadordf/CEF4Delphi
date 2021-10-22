@@ -64,15 +64,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 94;
-  CEF_SUPPORTED_VERSION_MINOR   = 4;
-  CEF_SUPPORTED_VERSION_RELEASE = 11;
+  CEF_SUPPORTED_VERSION_MAJOR   = 95;
+  CEF_SUPPORTED_VERSION_MINOR   = 7;
+  CEF_SUPPORTED_VERSION_RELEASE = 10;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 94;
+  CEF_CHROMEELF_VERSION_MAJOR   = 95;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4606;
-  CEF_CHROMEELF_VERSION_BUILD   = 81;
+  CEF_CHROMEELF_VERSION_RELEASE = 4638;
+  CEF_CHROMEELF_VERSION_BUILD   = 54;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -363,6 +363,7 @@ type
       procedure AppendSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
       procedure ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
       procedure CleanupFeatures(var aKeys, aValues : TStringList; const aEnableKey, aDisableKey : string);
+      procedure ClearSchemeHandlerFactories;
 
     public
       constructor Create;
@@ -822,8 +823,7 @@ end;
 destructor TCefApplicationCore.Destroy;
 begin
   try
-    if FLibLoaded then
-      cef_clear_scheme_handler_factories();
+    ClearSchemeHandlerFactories;
 
     if (GlobalCEFApp = Self) then
       GlobalCEFApp := nil;
@@ -837,6 +837,17 @@ begin
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
   finally
     inherited Destroy;
+  end;
+end;
+
+procedure TCefApplicationCore.ClearSchemeHandlerFactories;
+begin
+  try
+    if FLibLoaded then
+      cef_clear_scheme_handler_factories();
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplicationCore.ClearSchemeHandlerFactories', e) then raise;
   end;
 end;
 
@@ -1349,7 +1360,6 @@ begin
   aSettings.pack_loading_disabled                   := Ord(FPackLoadingDisabled);
   aSettings.remote_debugging_port                   := FRemoteDebuggingPort;
   aSettings.uncaught_exception_stack_size           := FUncaughtExceptionStackSize;
-  aSettings.ignore_certificate_errors               := Ord(FIgnoreCertificateErrors);
   aSettings.background_color                        := FBackgroundColor;
   aSettings.accept_language_list                    := CefString(FAcceptLanguageList);
   aSettings.cookieable_schemes_list                 := CefString(FCookieableSchemesList);

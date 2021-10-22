@@ -271,12 +271,12 @@ end;
 
 procedure TBrowserFrame.FMXBufferPanel1Enter(Sender: TObject);
 begin
-  FMXChromium1.SendFocusEvent(True);
+  FMXChromium1.SetFocus(True);
 end;
 
 procedure TBrowserFrame.FMXBufferPanel1Exit(Sender: TObject);
 begin
-  FMXChromium1.SendFocusEvent(False);
+  FMXChromium1.SetFocus(False);
 end;
 
 procedure TBrowserFrame.FMXBufferPanel1KeyDown(Sender: TObject; var Key: Word;

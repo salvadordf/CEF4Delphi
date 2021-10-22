@@ -89,7 +89,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Chromium1BeforeResourceLoad(Sender: TObject;
       const browser: ICefBrowser; const frame: ICefFrame;
-      const request: ICefRequest; const callback: ICefRequestCallback;
+      const request: ICefRequest; const callback: ICefCallback;
       out Result: TCefReturnValue);
   protected
     // Variables to control when can we destroy the form safely
@@ -362,7 +362,7 @@ end;
 
 procedure TForm1.Chromium1BeforeResourceLoad(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
-  const request: ICefRequest; const callback: ICefRequestCallback;
+  const request: ICefRequest; const callback: ICefCallback;
   out Result: TCefReturnValue);
 begin
   // This event is called before a resource request is loaded.

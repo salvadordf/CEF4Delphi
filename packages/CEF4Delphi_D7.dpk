@@ -87,7 +87,6 @@ contains
   uCEFv8StackFrame in '..\source\uCEFv8StackFrame.pas',
   uCEFv8StackTrace in '..\source\uCEFv8StackTrace.pas',
   uCEFv8Handler in '..\source\uCEFv8Handler.pas',
-  uCEFRequestCallback in '..\source\uCEFRequestCallback.pas',
   uCEFCustomStreamReader in '..\source\uCEFCustomStreamReader.pas',
   uCEFCallback in '..\source\uCEFCallback.pas',
   uCEFResourceHandler in '..\source\uCEFResourceHandler.pas',

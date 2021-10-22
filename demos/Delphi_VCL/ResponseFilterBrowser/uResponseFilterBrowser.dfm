@@ -10,7 +10,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -64,8 +63,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       BevelOuter = bvNone
       Padding.Left = 5
       TabOrder = 1
-      ExplicitLeft = 729
-      ExplicitHeight = 39
       object GoBtn: TButton
         Left = 5
         Top = 0
@@ -119,9 +116,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Height = 410
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 49
-    ExplicitWidth = 1038
-    ExplicitHeight = 428
   end
   object Panel2: TPanel
     Left = 0
@@ -131,7 +125,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitWidth = 1038
     object Memo1: TMemo
       Left = 0
       Top = 0
@@ -141,7 +134,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       ReadOnly = True
       ScrollBars = ssBoth
       TabOrder = 0
-      ExplicitWidth = 1038
     end
     object StatusBar1: TStatusBar
       Left = 0
@@ -161,7 +153,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         item
           Width = 200
         end>
-      ExplicitWidth = 1038
     end
   end
   object Timer1: TTimer

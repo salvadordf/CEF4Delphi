@@ -183,7 +183,6 @@
         <DCCReference Include="..\source\uCEFv8StackFrame.pas"/>
         <DCCReference Include="..\source\uCEFv8StackTrace.pas"/>
         <DCCReference Include="..\source\uCEFv8Handler.pas"/>
-        <DCCReference Include="..\source\uCEFRequestCallback.pas"/>
         <DCCReference Include="..\source\uCEFCustomStreamReader.pas"/>
         <DCCReference Include="..\source\uCEFCallback.pas"/>
         <DCCReference Include="..\source\uCEFResourceHandler.pas"/>

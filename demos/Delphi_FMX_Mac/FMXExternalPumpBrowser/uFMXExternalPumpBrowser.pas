@@ -353,7 +353,7 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.FormHide(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
   chrmosr.WasHidden(True);
 end;
 
@@ -362,7 +362,7 @@ begin
   if chrmosr.Initialized then
     begin
       chrmosr.WasHidden(False);
-      chrmosr.SendFocusEvent(True);
+      chrmosr.SetFocus(True);
     end;
 end;
 
@@ -388,7 +388,7 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1Click(Sender: TObject);
@@ -405,12 +405,12 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1Enter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(True);
+  chrmosr.SetFocus(True);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1Exit(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1KeyUp(    Sender  : TObject;
@@ -624,7 +624,7 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.AddressEdtEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.BackMenuItemClick(Sender: TObject);
@@ -1137,7 +1137,7 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.SnapshotBtnEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 end.

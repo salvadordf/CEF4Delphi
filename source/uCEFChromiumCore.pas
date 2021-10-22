@@ -322,6 +322,7 @@ type
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
       FOnPrefsAvailable                   : TOnPrefsAvailableEvent;
+      FOnPrefsUpdated                     : TNotifyEvent;
       FOnCookiesDeleted                   : TOnCookiesDeletedEvent;
       FOnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent;
       FOnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent;
@@ -554,8 +555,8 @@ type
       function  doOnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
       procedure doGetResourceRequestHandler_ReqHdlr(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
       function  doOnGetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
-      function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefRequestCallback): Boolean; virtual;
-      function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): Boolean; virtual;
+      function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean; virtual;
+      function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; virtual;
       function  doOnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
       procedure doOnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); virtual;
       procedure doOnRenderViewReady(const browser: ICefBrowser); virtual;
@@ -563,7 +564,7 @@ type
       procedure doOnDocumentAvailableInMainFrame(const browser: ICefBrowser); virtual;
 
       // ICefResourceRequestHandler
-      function  doOnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue; virtual;
+      function  doOnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback): TCefReturnValue; virtual;
       procedure doOnGetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler : ICefResourceHandler); virtual;
       procedure doOnResourceRedirect(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring); virtual;
       function  doOnResourceResponse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): Boolean; virtual;
@@ -816,7 +817,6 @@ type
       procedure   SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
       procedure   SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
       procedure   SendTouchEvent(const event: PCefTouchEvent);
-      procedure   SendFocusEvent(setFocus: Boolean);
       procedure   SendCaptureLostEvent;
 
       procedure   SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameName : ustring = ''); overload;
@@ -961,6 +961,7 @@ type
       property  OnTextResultAvailable              : TOnTextResultAvailableEvent              read FOnTextResultAvailable              write FOnTextResultAvailable;
       property  OnPdfPrintFinished                 : TOnPdfPrintFinishedEvent                 read FOnPdfPrintFinished                 write FOnPdfPrintFinished;
       property  OnPrefsAvailable                   : TOnPrefsAvailableEvent                   read FOnPrefsAvailable                   write FOnPrefsAvailable;
+      property  OnPrefsUpdated                     : TNotifyEvent                             read FOnPrefsUpdated                     write FOnPrefsUpdated;
       property  OnCookiesDeleted                   : TOnCookiesDeletedEvent                   read FOnCookiesDeleted                   write FOnCookiesDeleted;
       property  OnResolvedHostAvailable            : TOnResolvedIPsAvailableEvent             read FOnResolvedHostAvailable            write FOnResolvedHostAvailable;
       property  OnNavigationVisitorResultAvailable : TOnNavigationVisitorResultAvailableEvent read FOnNavigationVisitorResultAvailable write FOnNavigationVisitorResultAvailable;
@@ -1863,6 +1864,7 @@ begin
   FOnTextResultAvailable              := nil;
   FOnPdfPrintFinished                 := nil;
   FOnPrefsAvailable                   := nil;
+  FOnPrefsUpdated                     := nil;
   FOnCookiesDeleted                   := nil;
   FOnResolvedHostAvailable            := nil;
   FOnNavigationVisitorResultAvailable := nil;
@@ -2381,15 +2383,12 @@ begin
       aSettings.javascript_access_clipboard     := FOptions.JavascriptAccessClipboard;
       aSettings.javascript_dom_paste            := FOptions.JavascriptDomPaste;
       aSettings.plugins                         := FOptions.Plugins;
-      aSettings.universal_access_from_file_urls := FOptions.UniversalAccessFromFileUrls;
-      aSettings.file_access_from_file_urls      := FOptions.FileAccessFromFileUrls;
       aSettings.image_loading                   := FOptions.ImageLoading;
       aSettings.image_shrink_standalone_to_fit  := FOptions.ImageShrinkStandaloneToFit;
       aSettings.text_area_resize                := FOptions.TextAreaResize;
       aSettings.tab_to_links                    := FOptions.TabToLinks;
       aSettings.local_storage                   := FOptions.LocalStorage;
       aSettings.databases                       := FOptions.Databases;
-      aSettings.application_cache               := FOptions.ApplicationCache;
       aSettings.webgl                           := FOptions.Webgl;
       aSettings.background_color                := FOptions.BackgroundColor;
       aSettings.accept_language_list            := CefString(FOptions.AcceptLanguageList);
@@ -4034,6 +4033,9 @@ begin
 
   UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
   UpdatePreference(aBrowser, 'webkit.webprefs.loads_images_automatically', FLoadImagesAutomatically);
+
+  if assigned(FOnPrefsUpdated) then
+    FOnPrefsUpdated(self);
 end;
 
 procedure TChromiumCore.doUpdateOwnPreferences;
@@ -5315,7 +5317,7 @@ end;
 function TChromiumCore.doOnBeforeResourceLoad(const browser  : ICefBrowser;
                                               const frame    : ICefFrame;
                                               const request  : ICefRequest;
-                                              const callback : ICefRequestCallback): TCefReturnValue;
+                                              const callback : ICefCallback): TCefReturnValue;
 var
   TempHeaderMap : ICefStringMultimap;
 begin
@@ -5353,7 +5355,7 @@ function TChromiumCore.doOnCertificateError(const browser    : ICefBrowser;
                                                   certError  : TCefErrorcode;
                                             const requestUrl : ustring;
                                             const sslInfo    : ICefSslInfo;
-                                            const callback   : ICefRequestCallback): Boolean;
+                                            const callback   : ICefCallback): Boolean;
 begin
   Result := False;
 
@@ -6089,7 +6091,7 @@ end;
 function TChromiumCore.doOnQuotaRequest(const browser   : ICefBrowser;
                                         const originUrl : ustring;
                                               newSize   : Int64;
-                                        const callback  : ICefRequestCallback): Boolean;
+                                        const callback  : ICefCallback): Boolean;
 begin
   Result := False;
 
@@ -6431,12 +6433,6 @@ procedure TChromiumCore.SendTouchEvent(const event: PCefTouchEvent);
 begin
   if Initialized then
     Browser.Host.SendTouchEvent(event);
-end;
-
-procedure TChromiumCore.SendFocusEvent(setFocus: Boolean);
-begin
-  if Initialized then
-    Browser.Host.SendFocusEvent(setFocus);
 end;
 
 procedure TChromiumCore.SendCaptureLostEvent;

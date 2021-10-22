@@ -120,7 +120,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Left = 0
         Top = 9
         Width = 978
-        Height = 24
+        Height = 21
         Align = alClient
         TabOrder = 0
         Text = 'https://www.google.com'

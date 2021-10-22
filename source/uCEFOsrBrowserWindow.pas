@@ -633,13 +633,13 @@ end;
 procedure TOsrBrowserWindow.DoEnter;
 begin
   inherited DoEnter;
-  Chromium.SendFocusEvent(True);
+  Chromium.SetFocus(True);
 end;
 
 procedure TOsrBrowserWindow.DoExit;
 begin
   inherited DoExit;
-  Chromium.SendFocusEvent(False);
+  Chromium.SetFocus(False);
 end;
 
 procedure TOsrBrowserWindow.Click;

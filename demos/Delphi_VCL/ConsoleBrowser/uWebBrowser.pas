@@ -266,7 +266,7 @@ end;
 
 procedure TWebBrowserFrm.GoBtnEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TWebBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -523,7 +523,7 @@ end;
 
 procedure TWebBrowserFrm.ComboBox1Enter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 function TWebBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;
@@ -645,7 +645,7 @@ end;
 
 procedure TWebBrowserFrm.FormHide(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
   chrmosr.WasHidden(True);
 end;
 
@@ -654,7 +654,7 @@ begin
   if chrmosr.Initialized then
     begin
       chrmosr.WasHidden(False);
-      chrmosr.SendFocusEvent(True);
+      chrmosr.SetFocus(True);
     end
    else
     begin
@@ -792,12 +792,12 @@ end;
 
 procedure TWebBrowserFrm.Panel1Enter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(True);
+  chrmosr.SetFocus(True);
 end;
 
 procedure TWebBrowserFrm.Panel1Exit(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TWebBrowserFrm.SnapshotBtnClick(Sender: TObject);
@@ -807,7 +807,7 @@ end;
 
 procedure TWebBrowserFrm.SnapshotBtnEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TWebBrowserFrm.Timer1Timer(Sender: TObject);

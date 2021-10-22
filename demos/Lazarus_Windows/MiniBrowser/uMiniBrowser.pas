@@ -217,7 +217,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Chromium1BeforeResourceLoad(Sender: TObject;
       const browser: ICefBrowser; const frame: ICefFrame;
-      const request: ICefRequest; const callback: ICefRequestCallback;
+      const request: ICefRequest; const callback: ICefCallback;
       out Result: TCefReturnValue);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
@@ -237,7 +237,7 @@ type
     procedure Chromium1CertificateError(Sender: TObject;
       const browser: ICefBrowser; certError: Integer;
       const requestUrl: ustring; const sslInfo: ICefSslInfo;
-      const callback: ICefRequestCallback; out Result: Boolean);
+      const callback: ICefCallback; out Result: Boolean);
     procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject;
       const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
       var aResult: Boolean);
@@ -555,7 +555,7 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeResourceLoad(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
-  const request: ICefRequest; const callback: ICefRequestCallback;
+  const request: ICefRequest; const callback: ICefCallback;
   out Result: TCefReturnValue);
 begin
   Result := RV_CONTINUE;
@@ -570,7 +570,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1CertificateError(Sender: TObject;
   const browser: ICefBrowser; certError: Integer;
   const requestUrl: ustring; const sslInfo: ICefSslInfo;
-  const callback: ICefRequestCallback; out Result: Boolean);
+  const callback: ICefCallback; out Result: Boolean);
 begin
   CefDebugLog('Certificate error code:' + inttostr(certError) +
               ' - URL:' + requestUrl, CEF_LOG_SEVERITY_ERROR);

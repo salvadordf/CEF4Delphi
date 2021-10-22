@@ -81,7 +81,7 @@ type
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1LoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: Cardinal);
-    procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback; out Result: TCefReturnValue);
+    procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
     procedure Chromium1ResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: Boolean);
 
     procedure FormShow(Sender: TObject);
@@ -516,7 +516,7 @@ procedure TResponseFilterBrowserFrm.Chromium1BeforeResourceLoad(      Sender   :
                                                                 const browser  : ICefBrowser;
                                                                 const frame    : ICefFrame;
                                                                 const request  : ICefRequest;
-                                                                const callback : ICefRequestCallback;
+                                                                const callback : ICefCallback;
                                                                 out   Result   : TCefReturnValue);
 var
   TempOldMap, TempNewMap : ICefStringMultimap;

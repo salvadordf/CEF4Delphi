@@ -7,7 +7,6 @@ object ChildForm: TChildForm
   Color = clBtnFace
   ParentFont = True
   FormStyle = fsMDIChild
-  OldCreateOrder = False
   Position = poDefault
   Visible = True
   OnClose = FormClose
@@ -16,7 +15,7 @@ object ChildForm: TChildForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Panel1: TPanel
     Left = 0
     Top = 0

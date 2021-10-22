@@ -155,7 +155,6 @@ type
   PCefV8StackFrame = ^TCefV8StackFrame;
   PCefProcessMessage = ^TCefProcessMessage;
   PCefRequestHandler = ^TCefRequestHandler;
-  PCefRequestCallback = ^TCefRequestCallback;
   PCefResourceSkipCallback = ^TCefResourceSkipCallback;
   PCefResourceReadCallback = ^TCefResourceReadCallback;
   PCefResourceHandler = ^TCefResourceHandler;
@@ -505,7 +504,7 @@ type
     {$ENDIF}
   end;
 
-  // /include/internal/cef_types.h (cef_rect_t)
+  // /include/internal/cef_types_geometry.h (cef_rect_t)
   TCefRect = record
     x      : Integer;
     y      : Integer;
@@ -515,19 +514,19 @@ type
   TCefRectArray    = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
   TCefRectDynArray = array of TCefRect;
 
-  // /include/internal/cef_types.h (cef_point_t)
+  // /include/internal/cef_types_geometry.h (cef_point_t)
   TCefPoint = record
     x  : Integer;
     y  : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_size_t)
+  // /include/internal/cef_types_geometry.h (cef_size_t)
   TCefSize = record
     width  : Integer;
     height : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_range_t)
+  // /include/internal/cef_types_geometry.h (cef_range_t)
   TCefRange = record
     from  : Integer;
     to_   : Integer;
@@ -569,7 +568,7 @@ type
     fragment : ustring;
   end;
 
-  // /include/internal/cef_types.h (cef_insets_t)
+  // /include/internal/cef_types_geometry.h (cef_insets_t)
   TCefInsets = record
     top    : Integer;
     left   : Integer;
@@ -1231,7 +1230,6 @@ type
     pack_loading_disabled                    : Integer;
     remote_debugging_port                    : Integer;
     uncaught_exception_stack_size            : Integer;
-    ignore_certificate_errors                : Integer;
     background_color                         : TCefColor;
     accept_language_list                     : TCefString;
     cookieable_schemes_list                  : TCefString;
@@ -1245,10 +1243,7 @@ type
     ex_style                      : DWORD;
     window_name                   : TCefString;
     style                         : DWORD;
-    x                             : Integer;
-    y                             : Integer;
-    width                         : Integer;
-    height                        : Integer;
+    bounds                        : TCefRect;
     parent_window                 : TCefWindowHandle;
     menu                          : HMENU;
     windowless_rendering_enabled  : Integer;
@@ -1258,10 +1253,7 @@ type
     {$ENDIF}
     {$IFDEF MACOSX}
     window_name                   : TCefString;
-    x                             : Integer;
-    y                             : Integer;
-    width                         : Integer;
-    height                        : Integer;
+    bounds                        : TCefRect;
     hidden                        : Integer;
     parent_view                   : TCefWindowHandle;
     windowless_rendering_enabled  : Integer;
@@ -1271,10 +1263,7 @@ type
     {$ENDIF}
     {$IFDEF LINUX}
     window_name                   : TCefString;
-    x                             : uint32;
-    y                             : uint32;
-    width                         : uint32;
-    height                        : uint32;
+    bounds                        : TCefRect;
     parent_window                 : TCefWindowHandle;
     windowless_rendering_enabled  : Integer;
     shared_texture_enabled        : Integer;
@@ -1340,15 +1329,12 @@ type
     javascript_access_clipboard     : TCefState;
     javascript_dom_paste            : TCefState;
     plugins                         : TCefState;
-    universal_access_from_file_urls : TCefState;
-    file_access_from_file_urls      : TCefState;
     image_loading                   : TCefState;
     image_shrink_standalone_to_fit  : TCefState;
     text_area_resize                : TCefState;
     tab_to_links                    : TCefState;
     local_storage                   : TCefState;
     databases                       : TCefState;
-    application_cache               : TCefState;
     webgl                           : TCefState;
     background_color                : TCefColor;
     accept_language_list            : TCefString;
@@ -1370,7 +1356,6 @@ type
     cache_path                               : TCefString;
     persist_session_cookies                  : Integer;
     persist_user_preferences                 : Integer;
-    ignore_certificate_errors                : Integer;
     accept_language_list                     : TCefString;
     cookieable_schemes_list                  : TCefString;
     cookieable_schemes_exclude_defaults      : integer;
@@ -2003,20 +1988,13 @@ type
     on_open_urlfrom_tab                 : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; const target_url: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer): Integer; stdcall;
     get_resource_request_handler        : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; is_navigation, is_download: Integer; const request_initiator: PCefString; disable_default_handling: PInteger): PCefResourceRequestHandler; stdcall;
     get_auth_credentials                : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
-    on_quota_request                    : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefRequestCallback): Integer; stdcall;
-    on_certificate_error                : function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefRequestCallback): Integer; stdcall;
+    on_quota_request                    : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefCallback): Integer; stdcall;
+    on_certificate_error                : function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefCallback): Integer; stdcall;
     on_select_client_certificate        : function(self: PCefRequestHandler; browser: PCefBrowser; isProxy: integer; const host: PCefString; port: integer; certificatesCount: NativeUInt; const certificates: PPCefX509Certificate; callback: PCefSelectClientCertificateCallback): integer; stdcall;
     on_plugin_crashed                   : procedure(self: PCefRequestHandler; browser: PCefBrowser; const plugin_path: PCefString); stdcall;
     on_render_view_ready                : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
     on_render_process_terminated        : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus); stdcall;
     on_document_available_in_main_frame : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
-  end;
-
-  // /include/capi/cef_request_callback_capi.h (cef_request_callback_t)
-  TCefRequestCallback = record
-    base   : TCefBaseRefCounted;
-    cont   : procedure(self: PCefRequestCallback; allow: Integer); stdcall;
-    cancel : procedure(self: PCefRequestCallback); stdcall;
   end;
 
   // /include/capi/cef_resource_handler_capi.h (cef_resource_skip_callback_t)
@@ -2047,7 +2025,7 @@ type
   TCefResourceRequestHandler = record
     base                          : TCefBaseRefCounted;
     get_cookie_access_filter      : function(self: PCefResourceRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest): PCefCookieAccessFilter; stdcall;
-    on_before_resource_load       : function(self: PCefResourceRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; callback: PCefRequestCallback): TCefReturnValue; stdcall;
+    on_before_resource_load       : function(self: PCefResourceRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; callback: PCefCallback): TCefReturnValue; stdcall;
     get_resource_handler          : function(self: PCefResourceRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest): PCefResourceHandler; stdcall;
     on_resource_redirect          : procedure(self: PCefResourceRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; response: PCefResponse; new_url: PCefString); stdcall;
     on_resource_response          : function(self: PCefResourceRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; response: PCefResponse): Integer; stdcall;
@@ -2943,7 +2921,6 @@ type
     send_mouse_move_event             : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; mouseLeave: Integer); stdcall;
     send_mouse_wheel_event            : procedure(self: PCefBrowserHost; const event: PCefMouseEvent; deltaX, deltaY: Integer); stdcall;
     send_touch_event                  : procedure(self: PCefBrowserHost; const event: PCefTouchEvent); stdcall;
-    send_focus_event                  : procedure(self: PCefBrowserHost; setFocus: Integer); stdcall;
     send_capture_lost_event           : procedure(self: PCefBrowserHost); stdcall;
     notify_move_or_resize_started     : procedure(self: PCefBrowserHost); stdcall;
     get_windowless_frame_rate         : function(self: PCefBrowserHost): Integer; stdcall;
