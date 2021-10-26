@@ -66,7 +66,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 95;
   CEF_SUPPORTED_VERSION_MINOR   = 7;
-  CEF_SUPPORTED_VERSION_RELEASE = 10;
+  CEF_SUPPORTED_VERSION_RELEASE = 12;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 95;
@@ -774,7 +774,13 @@ begin
   FLastErrorMessage                  := '';
   {$IFDEF MSWINDOWS}
   if (FProcessType = ptBrowser) then
-    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+    GetDLLVersion(ChromeElfPath, FChromeVersionInfo)
+   else
+    // Subprocesses will be the last to be notified about the Windows shutdown.
+    // The main browser process will receive WM_QUERYENDSESSION before the subprocesses
+    // and that allows to close the application in the right order.
+    // See the MiniBrowser demo for all the details.
+    SetProcessShutdownParameters($100, SHUTDOWN_NORETRY);
   {$ENDIF}
 
   // Internal filelds

@@ -212,10 +212,12 @@ type
     procedure SaveasMHTML1Click(Sender: TObject);
 
   protected
-    FDevToolsMsgID    : integer;
-    FScreenshotMsgID  : integer;
-    FMHTMLMsgID       : integer;
-    FDevToolsMsgValue : ustring;
+    FDevToolsMsgID     : integer;
+    FScreenshotMsgID   : integer;
+    FMHTMLMsgID        : integer;
+    FDevToolsMsgValue  : ustring;
+    FShutdownReason    : string;
+    FHasShutdownReason : boolean;
 
     FResponse   : TStringList;
     FRequest    : TStringList;
@@ -1063,6 +1065,10 @@ begin
 
   FDevToolsMsgID       := 0;
 
+  // Windows may show this text message while shutting down the operating system
+  FShutdownReason      := 'MiniBrowser closing...';
+  FHasShutdownReason   := ShutdownBlockReasonCreate(Application.Handle, @FShutdownReason[1]);
+
   // The MultiBrowserMode store all the browser references in TChromium.
   // The first browser reference is the browser in the main form.
   // When MiniBrowser allows CEF to create child popup browsers it will also
@@ -1076,6 +1082,9 @@ end;
 
 procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
 begin
+  if FHasShutdownReason then
+    ShutdownBlockReasonDestroy(Application.Handle);
+
   FResponse.Free;
   FRequest.Free;
   FNavigation.Free;
@@ -1566,12 +1575,12 @@ end;
 
 procedure TMiniBrowserFrm.WMQueryEndSession(var aMessage: TWMQueryEndSession);
 begin
-  // We return False (0) to close the browser correctly while we can.
-  // This is not what Microsoft recommends doing when an application receives
-  // WM_QUERYENDSESSION but at least we avoid TApplication calling HALT when
-  // it receives WM_ENDSESSION.
-  // The CEF subprocesses may receive WM_QUERYENDSESSION and WM_ENDSESSION
-  // before the main process and they may crash before closing the main form.
+  // We return False (0) to close the browser correctly.
+  // Windows may show the FShutdownReason message that we created in
+  // TForm.OnCreate if the shutdown takes too much time.
+  // CEF4Delphi sets the subprocesses to receive the WM_QUERYENDSESSION
+  // message after the main browser process with a
+  // SetProcessShutdownParameters call
   aMessage.Result := 0;
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
