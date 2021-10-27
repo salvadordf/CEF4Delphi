@@ -1114,12 +1114,13 @@ end;
 
 procedure TMiniBrowserFrm.Useragent1Click(Sender: TObject);
 var
-  TempUA : string;
+  TempOldUA, TempNewUA : string;
 begin
-  TempUA := inputbox('MiniBrowser demo', 'Set new user agent string', '');
+  TempOldUA := GetDefaultCEFUserAgent;
+  TempNewUA := inputbox('MiniBrowser demo', 'Set new user agent string', TempOldUA);
 
-  if (length(TempUA) > 0) then
-    Chromium1.SetUserAgentOverride(TempUA);
+  if (length(TempNewUA) > 0) and (TempOldUA <> TempNewUA) then
+    Chromium1.SetUserAgentOverride(TempNewUA);
 end;
 
 procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);

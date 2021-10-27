@@ -2303,7 +2303,7 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(TempMemStatus) then
+  if GetGlobalMemoryStatusEx(@TempMemStatus) then
     Result := TempMemStatus.ullTotalPhys;
   {$ENDIF}
 end;
@@ -2318,7 +2318,7 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(TempMemStatus) then
+  if GetGlobalMemoryStatusEx(@TempMemStatus) then
     Result := TempMemStatus.ullAvailPhys;
   {$ENDIF}
 end;
@@ -2334,7 +2334,8 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.dwMemoryLoad;
+  if GetGlobalMemoryStatusEx(@TempMemStatus) then
+    Result := TempMemStatus.dwMemoryLoad;
   {$ENDIF}
 end;
 

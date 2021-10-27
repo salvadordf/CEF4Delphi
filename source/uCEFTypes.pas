@@ -366,6 +366,7 @@ type
      ullAvailVirtual : uint64;
      ullAvailExtendedVirtual : uint64;
   end;
+  LPMEMORYSTATUSEX = ^TMyMemoryStatusEx;
 
   TOSVersionInfoEx = record
     dwOSVersionInfoSize: DWORD;

@@ -154,10 +154,10 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
-function ProcessUnderWow64(hProcess: THandle; var Wow64Process: BOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
+function ProcessUnderWow64(hProcess: THandle; Wow64Process: PBOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
-function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
+function GetGlobalMemoryStatusEx(lpBuffer: LPMEMORYSTATUSEX): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
 function PathCanonicalizeAnsi(pszBuf: LPSTR; pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeA';
 function PathCanonicalizeUnicode(pszBuf: LPWSTR; pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeW';
 function PathIsUNCAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCA';
@@ -1463,7 +1463,8 @@ function Is32BitProcessRunningIn64BitOS : boolean;
 var
   TempResult : BOOL;
 begin
-  Result := ProcessUnderWow64(GetCurrentProcess, TempResult) and TempResult;
+  Result := ProcessUnderWow64(GetCurrentProcess, @TempResult) and
+            TempResult;
 end;
 {$ENDIF}
 
@@ -2141,7 +2142,7 @@ begin
 
   TempOS := TempOS + ' ' + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer);
 
-  if ProcessUnderWow64(GetCurrentProcess(), Temp64bit) and Temp64bit then
+  if ProcessUnderWow64(GetCurrentProcess(), @Temp64bit) and Temp64bit then
     TempOS := TempOS + '; WOW64';
 
   if (GlobalCEFApp <> nil) then
