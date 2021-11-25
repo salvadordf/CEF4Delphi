@@ -66,7 +66,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 96;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 14;
+  CEF_SUPPORTED_VERSION_RELEASE = 16;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 96;
@@ -188,6 +188,8 @@ type
       FDisablePopupBlocking              : boolean;
       FDisableBackForwardCache           : boolean;
       FDisableComponentUpdate            : boolean;
+      FAllowInsecureLocalhost            : boolean;
+      FKioskPrinting                     : boolean;
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
@@ -262,6 +264,7 @@ type
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
       procedure SetOsmodalLoop(aValue : boolean);
+      procedure SetKioskPrinting(aValue : boolean);
 
       function  GetChromeVersion : ustring;
       function  GetLibCefVersion : ustring;
@@ -497,6 +500,8 @@ type
       property DisablePopupBlocking              : boolean                             read FDisablePopupBlocking              write FDisablePopupBlocking;             // --disable-popup-blocking
       property DisableBackForwardCache           : boolean                             read FDisableBackForwardCache           write FDisableBackForwardCache;          // --disable-back-forward-cache
       property DisableComponentUpdate            : boolean                             read FDisableComponentUpdate            write FDisableComponentUpdate;           // --disable-component-update
+      property AllowInsecureLocalhost            : boolean                             read FAllowInsecureLocalhost            write FAllowInsecureLocalhost;           // --allow-insecure-localhost
+      property KioskPrinting                     : boolean                             read FKioskPrinting                     write SetKioskPrinting;                  // --kiosk-printing
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -741,6 +746,8 @@ begin
   FDisablePopupBlocking              := False;
   FDisableBackForwardCache           := False;
   FDisableComponentUpdate            := False;
+  FAllowInsecureLocalhost            := False;
+  FKioskPrinting                     := False;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -1266,6 +1273,17 @@ end;
 procedure TCefApplicationCore.SetOsmodalLoop(aValue : boolean);
 begin
   if (FStatus = asInitialized) then cef_set_osmodal_loop(Ord(aValue));
+end;
+
+procedure TCefApplicationCore.SetKioskPrinting(aValue : boolean);
+begin
+  if (FKioskPrinting <> aValue) then
+    begin
+      FKioskPrinting := aValue;
+
+      if FKioskPrinting then
+        FEnablePrintPreview := True;
+    end;
 end;
 
 procedure TCefApplicationCore.UpdateDeviceScaleFactor;
@@ -1955,6 +1973,9 @@ begin
   if FAllowRunningInsecureContent then
     ReplaceSwitch(aKeys, aValues, '--allow-running-insecure-content');
 
+  if FKioskPrinting then
+    ReplaceSwitch(aKeys, aValues, '--kiosk-printing');
+
   if FEnablePrintPreview then
     ReplaceSwitch(aKeys, aValues, '--enable-print-preview');
 
@@ -2011,8 +2032,6 @@ begin
   if (length(FOverrideSpellCheckLang) > 0) then
     ReplaceSwitch(aKeys, aValues, '--override-spell-check-lang', FOverrideSpellCheckLang);
 
-  // This is a workaround for the CEF issue #2899
-  // https://bitbucket.org/chromiumembedded/cef/issues/2899/cefsettingsignore_certificate_errors-true
   if FIgnoreCertificateErrors then
     ReplaceSwitch(aKeys, aValues, '--ignore-certificate-errors');
 
@@ -2048,6 +2067,9 @@ begin
 
   if FDisableComponentUpdate then
     ReplaceSwitch(aKeys, aValues, '--disable-component-update');
+
+  if FAllowInsecureLocalhost then
+    ReplaceSwitch(aKeys, aValues, '--allow-insecure-localhost');
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
