@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,43 +35,51 @@
  *
  *)
 
-
-program MiniBrowser;
+unit uDirectorySelector;
 
 {$I cef.inc}
 
+interface
+
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms, WinApi.Windows,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.FileCtrl,
+  Vcl.ExtCtrls;
   {$ELSE}
-  Forms, Windows,
-  {$ENDIF }
-  uCEFApplication,
-  uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
-  uPreferences in 'uPreferences.pas' {PreferencesFrm},
-  uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm},
-  uFindFrm in 'uFindFrm.pas' {FindFrm},
-  uDirectorySelector in 'uDirectorySelector.pas' {DirectorySelectorFrm};
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  FileCtrl, ExtCtrls;
+  {$ENDIF}
 
-{$R *.res}
+type
+  TDirectorySelectorFrm = class(TForm)
+    Panel1: TPanel;
+    OkBtn: TButton;
+    CancelBtn: TButton;
+    Panel2: TPanel;
+    DriveComboBox1: TDriveComboBox;
+    Panel3: TPanel;
+    DirectoryListBox1: TDirectoryListBox;
+  private
+    procedure SetSelectedDir(const aValue : string);
+    function  GetSelectedDir : string;
 
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+  public
+    property SelectedDir : string read GetSelectedDir write SetSelectedDir;
+  end;
 
+implementation
+
+{$R *.dfm}
+
+procedure TDirectorySelectorFrm.SetSelectedDir(const aValue : string);
 begin
-  CreateGlobalCEFApp;
+  DirectoryListBox1.Directory := aValue;
+end;
 
-  if GlobalCEFApp.StartMainProcess then
-    begin
-      Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
-      Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
-      Application.CreateForm(TPreferencesFrm, PreferencesFrm);
-      Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);
-      Application.CreateForm(TFindFrm, FindFrm);
-      Application.Run;
-    end;
+function TDirectorySelectorFrm.GetSelectedDir : string;
+begin
+  Result := DirectoryListBox1.Directory;
+end;
 
-  DestroyGlobalCEFApp;
 end.

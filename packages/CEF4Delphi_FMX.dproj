@@ -352,6 +352,7 @@
         <DCCReference Include="..\source\uCEFMacOSInterfaces.pas"/>
         <DCCReference Include="..\source\uCEFFrameHandler.pas"/>
         <DCCReference Include="..\source\uCEFOverlayController.pas"/>
+        <DCCReference Include="..\source\uCEFFileDialogInfo.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

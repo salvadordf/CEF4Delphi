@@ -492,6 +492,9 @@ type
     hpDisableNonProxiedUDP
   );
 
+  // Used by TCEFFileDialogInfo
+  TCEFDialogType = (dtOpen, dtOpenMultiple, dtOpenFolder, dtSave);
+
   // Used by TCefMediaSinkInfo and TCefMediaSourceInfo
   TCefMediaType = (mtCast, mtDial, mtUnknown);
 

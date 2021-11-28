@@ -122,6 +122,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Width = 978
         Height = 21
         Align = alClient
+        ItemIndex = 0
         TabOrder = 0
         Text = 'https://www.google.com'
         Items.Strings = (
@@ -138,6 +139,16 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
             '_name'
+          
+            'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input' +
+            '_type_file'
+          'https://www.htmlquick.com/es/reference/tags/input-file.html'
+          
+            'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/' +
+            'file'
+          
+            'https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElemen' +
+            't/webkitdirectory'
           'https://www.w3schools.com/html/html5_video.asp'
           'http://html5test.com/'
           
@@ -279,6 +290,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnCertificateError = Chromium1CertificateError
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
+    OnFileDialog = Chromium1FileDialog
     OnBeforePluginLoad = Chromium1BeforePluginLoad
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 32

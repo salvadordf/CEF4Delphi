@@ -59,14 +59,14 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX,
+      WinApi.Windows, WinApi.ActiveX, Winapi.ShellApi,
     {$ELSE}
       {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac, Macapi.AppKit,{$ENDIF}
     {$ENDIF}
     {$IFDEF FMX}FMX.Types, FMX.Platform,{$ENDIF} System.Types, System.IOUtils,
     System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, ActiveX, ShellApi,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType, LazFileUtils,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FPC}
@@ -222,6 +222,7 @@ function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string)
 {$IFDEF MSWINDOWS}
 function CheckDLLVersion(const aDLLFile : ustring; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 function GetDLLHeaderMachine(const aDLLFile : ustring; var aMachine : integer) : boolean;
+function GetFileTypeDescription(const aExtension : ustring) : ustring;
 {$ENDIF}
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
@@ -1339,6 +1340,8 @@ var
 begin
   Result     := 0;
   TempBuffer := nil;
+  TempHandle := 0;
+  TempLen    := 0;
 
   try
     try
@@ -1447,7 +1450,30 @@ begin
   finally
     if (TempStream <> nil) then FreeAndNil(TempStream);
   end;
-end;   
+end;
+
+function GetFileTypeDescription(const aExtension : ustring) : ustring;
+var
+  TempInfo : SHFILEINFOW;
+  TempExt  : ustring;
+begin
+  Result := '';
+
+  if (length(aExtension) > 0) then
+    begin
+      if (aExtension[1] = '.') then
+        TempExt := aExtension
+       else
+        TempExt := '.' + aExtension;
+
+      if (SHGetFileInfoW(@TempExt[1],
+                         FILE_ATTRIBUTE_NORMAL,
+                         TempInfo,
+                         SizeOf(SHFILEINFO),
+                         SHGFI_TYPENAME or SHGFI_USEFILEATTRIBUTES) <> 0) then
+        Result := TempInfo.szTypeName;
+    end;
+end;
 {$ENDIF}
 
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
