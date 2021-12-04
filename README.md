@@ -40,6 +40,7 @@ Delphinus-Support
 
 ## Attribution
 Other projects :
+* [WebView4Delphi](https://github.com/salvadordf/WebView4Delphi)
 * [DCEF3](https://github.com/hgourvest/dcef3) 
 * [fpCEF3](https://github.com/dliw/fpCEF3)
 * [CEF](https://bitbucket.org/chromiumembedded/cef/)
