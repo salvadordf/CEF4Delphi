@@ -304,7 +304,7 @@ begin
   if not(csDesigning in ComponentState) and
      FChromium.Initialized and
      not(FChromium.FrameIsFocused) then
-    FChromium.SendFocusEvent(True);
+    FChromium.SetFocus(True);
   {$ENDIF}
 end;
 

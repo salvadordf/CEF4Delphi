@@ -111,6 +111,9 @@ var
   cef_zip_directory                      : function(const src_dir, dest_file : PCefString; include_hidden_files : integer): Integer; cdecl;
   cef_load_crlsets_file                  : procedure(const path : PCefString); cdecl;
 
+  // / include/capi/cef_i18n_util_capi.h
+  cef_is_rtl                             : function : Integer; cdecl;
+
   // /include/capi/cef_image_capi.h
   cef_image_create : function : PCefImage; cdecl;
 

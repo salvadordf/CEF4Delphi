@@ -217,7 +217,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Chromium1BeforeResourceLoad(Sender: TObject;
       const browser: ICefBrowser; const frame: ICefFrame;
-      const request: ICefRequest; const callback: ICefRequestCallback;
+      const request: ICefRequest; const callback: ICefCallback;
       out Result: TCefReturnValue);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
@@ -237,7 +237,7 @@ type
     procedure Chromium1CertificateError(Sender: TObject;
       const browser: ICefBrowser; certError: Integer;
       const requestUrl: ustring; const sslInfo: ICefSslInfo;
-      const callback: ICefRequestCallback; out Result: Boolean);
+      const callback: ICefCallback; out Result: Boolean);
     procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject;
       const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
       var aResult: Boolean);
@@ -245,7 +245,10 @@ type
   protected
     FResponse   : TStringList;
     FRequest    : TStringList;
-    FNavigation : TStringList;
+    FNavigation : TStringList;       
+    FShutdownReason    : string;
+    FHasShutdownReason : boolean;
+
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
@@ -286,6 +289,7 @@ type
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
+    procedure WMQueryEndSession(var aMessage: TWMQueryEndSession); message WM_QUERYENDSESSION;
 
   public
     procedure ShowStatusText(const aText : string);
@@ -555,7 +559,7 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeResourceLoad(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
-  const request: ICefRequest; const callback: ICefRequestCallback;
+  const request: ICefRequest; const callback: ICefCallback;
   out Result: TCefReturnValue);
 begin
   Result := RV_CONTINUE;
@@ -570,7 +574,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1CertificateError(Sender: TObject;
   const browser: ICefBrowser; certError: Integer;
   const requestUrl: ustring; const sslInfo: ICefSslInfo;
-  const callback: ICefRequestCallback; out Result: Boolean);
+  const callback: ICefCallback; out Result: Boolean);
 begin
   CefDebugLog('Certificate error code:' + inttostr(certError) +
               ' - URL:' + requestUrl, CEF_LOG_SEVERITY_ERROR);
@@ -1060,7 +1064,11 @@ begin
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
 
-  FDevToolsMsgID       := 0;
+  FDevToolsMsgID       := 0;          
+
+  // Windows may show this text message while shutting down the operating system
+  FShutdownReason      := 'MiniBrowser closing...';
+  FHasShutdownReason   := ShutdownBlockReasonCreate(Application.Handle, @FShutdownReason[1]);
 
   // The MultiBrowserMode store all the browser references in TChromium.
   // The first browser reference is the browser in the main form.
@@ -1074,7 +1082,10 @@ begin
 end;
 
 procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
-begin
+begin           
+  if FHasShutdownReason then
+    ShutdownBlockReasonDestroy(Application.Handle);
+
   FResponse.Free;
   FRequest.Free;
   FNavigation.Free;
@@ -1606,6 +1617,18 @@ begin
   inherited;
 
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
+end;
+
+procedure TMiniBrowserFrm.WMQueryEndSession(var aMessage: TWMQueryEndSession);
+begin
+  // We return False (0) to close the browser correctly.
+  // Windows may show the FShutdownReason message that we created in
+  // TForm.OnCreate if the shutdown takes too much time.
+  // CEF4Delphi sets the subprocesses to receive the WM_QUERYENDSESSION
+  // message after the main browser process with a
+  // SetProcessShutdownParameters call
+  aMessage.Result := 0;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TMiniBrowserFrm.Deczoom1Click(Sender: TObject);

@@ -10,7 +10,6 @@ object ChildForm: TChildForm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
   OnClose = FormClose

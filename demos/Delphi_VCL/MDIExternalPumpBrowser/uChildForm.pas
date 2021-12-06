@@ -218,7 +218,7 @@ begin
   TempCache := GlobalCEFApp.RootCache + '\cache2';
 
   if MainForm.NewContextChk.Checked then
-    TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, False, False)
+    TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, False)
    else
     TempContext := nil;
 

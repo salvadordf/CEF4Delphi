@@ -59,14 +59,14 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX,
+      WinApi.Windows, WinApi.ActiveX, Winapi.ShellApi,
     {$ELSE}
       {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac, Macapi.AppKit,{$ENDIF}
     {$ENDIF}
     {$IFDEF FMX}FMX.Types, FMX.Platform,{$ENDIF} System.Types, System.IOUtils,
     System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, ActiveX, ShellApi,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType, LazFileUtils,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FPC}
@@ -154,16 +154,18 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
-function ProcessUnderWow64(hProcess: THandle; var Wow64Process: BOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
+function ProcessUnderWow64(hProcess: THandle; Wow64Process: PBOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
-function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
+function GetGlobalMemoryStatusEx(lpBuffer: LPMEMORYSTATUSEX): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
 function PathCanonicalizeAnsi(pszBuf: LPSTR; pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeA';
 function PathCanonicalizeUnicode(pszBuf: LPWSTR; pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeW';
 function PathIsUNCAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCA';
 function PathIsUNCUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCW';
 function PathIsURLAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLA';
 function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
+function ShutdownBlockReasonCreate(hWnd: HWND; Reason: LPCWSTR): Bool; stdcall; external User32DLL;
+function ShutdownBlockReasonDestroy(hWnd: HWND): Bool; stdcall; external User32DLL;
 
 {$IFNDEF DELPHI12_UP}
 const
@@ -220,6 +222,7 @@ function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string)
 {$IFDEF MSWINDOWS}
 function CheckDLLVersion(const aDLLFile : ustring; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 function GetDLLHeaderMachine(const aDLLFile : ustring; var aMachine : integer) : boolean;
+function GetFileTypeDescription(const aExtension : ustring) : ustring;
 {$ENDIF}
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
@@ -237,6 +240,8 @@ function CefUriEncode(const text: ustring; usePlus: Boolean): ustring;
 function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule: TCefUriUnescapeRule): ustring;
 
 function CefGetPath(const aPathKey : TCefPathKey) : ustring;
+
+function CefIsRTL : boolean;
 
 function CefCreateDirectory(const fullPath: ustring): Boolean;
 function CefGetTempDirectory(out tempDir: ustring): Boolean;
@@ -605,7 +610,7 @@ begin
   Result.year         := TempYear;
   Result.month        := TempMonth;
   Result.day_of_week  := DayOfWeek(dt);
-  Result.day_of_month := TempMonth;
+  Result.day_of_month := TempDay;
   Result.hour         := TempHour;
   Result.minute       := TempMin;
   Result.second       := TempSec;
@@ -650,10 +655,10 @@ begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.style                        := WS_CHILD or WS_VISIBLE or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_TABSTOP;
-  aWindowInfo.x                            := aRect.left;
-  aWindowInfo.y                            := aRect.top;
-  aWindowInfo.width                        := aRect.right  - aRect.left;
-  aWindowInfo.height                       := aRect.bottom - aRect.top;
+  aWindowInfo.bounds.x                     := aRect.left;
+  aWindowInfo.bounds.y                     := aRect.top;
+  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
+  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(False);
@@ -667,10 +672,10 @@ begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.style                        := WS_OVERLAPPEDWINDOW or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_VISIBLE;
-  aWindowInfo.x                            := integer(CW_USEDEFAULT);
-  aWindowInfo.y                            := integer(CW_USEDEFAULT);
-  aWindowInfo.width                        := integer(CW_USEDEFAULT);
-  aWindowInfo.height                       := integer(CW_USEDEFAULT);
+  aWindowInfo.bounds.x                     := integer(CW_USEDEFAULT);
+  aWindowInfo.bounds.y                     := integer(CW_USEDEFAULT);
+  aWindowInfo.bounds.width                 := integer(CW_USEDEFAULT);
+  aWindowInfo.bounds.height                := integer(CW_USEDEFAULT);
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(False);
@@ -684,10 +689,10 @@ begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.style                        := 0;
-  aWindowInfo.x                            := 0;
-  aWindowInfo.y                            := 0;
-  aWindowInfo.width                        := 0;
-  aWindowInfo.height                       := 0;
+  aWindowInfo.bounds.x                     := 0;
+  aWindowInfo.bounds.y                     := 0;
+  aWindowInfo.bounds.width                 := 0;
+  aWindowInfo.bounds.height                := 0;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(True);
@@ -701,10 +706,10 @@ end;
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.x                            := aRect.left;
-  aWindowInfo.y                            := aRect.top;
-  aWindowInfo.width                        := aRect.right  - aRect.left;
-  aWindowInfo.height                       := aRect.bottom - aRect.top;
+  aWindowInfo.bounds.x                     := aRect.left;
+  aWindowInfo.bounds.y                     := aRect.top;
+  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
+  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
@@ -720,10 +725,10 @@ end;
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.x                            := 0;
-  aWindowInfo.y                            := 0;
-  aWindowInfo.width                        := 0;
-  aWindowInfo.height                       := 0;
+  aWindowInfo.bounds.x                     := 0;
+  aWindowInfo.bounds.y                     := 0;
+  aWindowInfo.bounds.width                 := 0;
+  aWindowInfo.bounds.height                := 0;
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
@@ -739,10 +744,10 @@ end;
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.x                            := 0;
-  aWindowInfo.y                            := 0;
-  aWindowInfo.width                        := 0;
-  aWindowInfo.height                       := 0;
+  aWindowInfo.bounds.x                     := 0;
+  aWindowInfo.bounds.y                     := 0;
+  aWindowInfo.bounds.width                 := 0;
+  aWindowInfo.bounds.height                := 0;
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(True);
@@ -769,10 +774,10 @@ begin
   {$ENDIF}
 
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.x                            := aRect.left;
-  aWindowInfo.y                            := aRect.top;
-  aWindowInfo.width                        := aRect.right  - aRect.left;
-  aWindowInfo.height                       := aRect.bottom - aRect.top;
+  aWindowInfo.bounds.x                     := aRect.left;
+  aWindowInfo.bounds.y                     := aRect.top;
+  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
+  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
   aWindowInfo.parent_window                := TempParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
@@ -785,10 +790,10 @@ end;
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.x                            := 0;
-  aWindowInfo.y                            := 0;
-  aWindowInfo.width                        := 0;
-  aWindowInfo.height                       := 0;
+  aWindowInfo.bounds.x                     := 0;
+  aWindowInfo.bounds.y                     := 0;
+  aWindowInfo.bounds.width                 := 0;
+  aWindowInfo.bounds.height                := 0;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
@@ -799,10 +804,10 @@ end;
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.x                            := 0;
-  aWindowInfo.y                            := 0;
-  aWindowInfo.width                        := 0;
-  aWindowInfo.height                       := 0;
+  aWindowInfo.bounds.x                     := 0;
+  aWindowInfo.bounds.y                     := 0;
+  aWindowInfo.bounds.width                 := 0;
+  aWindowInfo.bounds.height                := 0;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(True);
   aWindowInfo.shared_texture_enabled       := ord(False);
@@ -1256,6 +1261,9 @@ begin
       {$IFDEF MSWINDOWS}
       TempList.Add(TempDir + CHROMEELF_DLL);
       TempList.Add(TempDir + 'd3dcompiler_47.dll');
+      TempList.Add(TempDir + 'vk_swiftshader.dll');
+      TempList.Add(TempDir + 'vk_swiftshader_icd.json');
+      TempList.Add(TempDir + 'vulkan-1.dll');
       TempList.Add(TempDir + 'libEGL.dll');
       TempList.Add(TempDir + 'libGLESv2.dll');
       TempList.Add(TempDir + 'swiftshader\libEGL.dll');
@@ -1264,6 +1272,9 @@ begin
       {$IFDEF LINUX}
       TempList.Add(TempDir + 'libEGL.so');
       TempList.Add(TempDir + 'libGLESv2.so');
+      TempList.Add(TempDir + 'libvk_swiftshader.so');
+      TempList.Add(TempDir + 'vk_swiftshader_icd.json');
+      TempList.Add(TempDir + 'libvulkan.so.1');
       TempList.Add(TempDir + 'swiftshader/libEGL.so');
       TempList.Add(TempDir + 'swiftshader/libGLESv2.so');
       {$ENDIF}
@@ -1329,6 +1340,8 @@ var
 begin
   Result     := 0;
   TempBuffer := nil;
+  TempHandle := 0;
+  TempLen    := 0;
 
   try
     try
@@ -1437,7 +1450,30 @@ begin
   finally
     if (TempStream <> nil) then FreeAndNil(TempStream);
   end;
-end;   
+end;
+
+function GetFileTypeDescription(const aExtension : ustring) : ustring;
+var
+  TempInfo : SHFILEINFOW;
+  TempExt  : ustring;
+begin
+  Result := '';
+
+  if (length(aExtension) > 0) then
+    begin
+      if (aExtension[1] = '.') then
+        TempExt := aExtension
+       else
+        TempExt := '.' + aExtension;
+
+      if (SHGetFileInfoW(@TempExt[1],
+                         FILE_ATTRIBUTE_NORMAL,
+                         TempInfo,
+                         SizeOf(SHFILEINFO),
+                         SHGFI_TYPENAME or SHGFI_USEFILEATTRIBUTES) <> 0) then
+        Result := TempInfo.szTypeName;
+    end;
+end;
 {$ENDIF}
 
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
@@ -1453,7 +1489,8 @@ function Is32BitProcessRunningIn64BitOS : boolean;
 var
   TempResult : BOOL;
 begin
-  Result := ProcessUnderWow64(GetCurrentProcess, TempResult) and TempResult;
+  Result := ProcessUnderWow64(GetCurrentProcess, @TempResult) and
+            TempResult;
 end;
 {$ENDIF}
 
@@ -1748,6 +1785,13 @@ begin
     end
    else
     Result := '';
+end;
+
+function CefIsRTL : boolean;
+begin
+  Result := (GlobalCEFApp <> nil) and
+            GlobalCEFApp.LibLoaded and
+            (cef_is_rtl() <> 0);
 end;
 
 function CefCreateDirectory(const fullPath: ustring): Boolean;
@@ -2124,7 +2168,7 @@ begin
 
   TempOS := TempOS + ' ' + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer);
 
-  if ProcessUnderWow64(GetCurrentProcess(), Temp64bit) and Temp64bit then
+  if ProcessUnderWow64(GetCurrentProcess(), @Temp64bit) and Temp64bit then
     TempOS := TempOS + '; WOW64';
 
   if (GlobalCEFApp <> nil) then

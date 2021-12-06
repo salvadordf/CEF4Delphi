@@ -288,14 +288,14 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.FormHide(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
   chrmosr.WasHidden(True);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.FormShow(Sender: TObject);
 begin
   chrmosr.WasHidden(False);
-  chrmosr.SendFocusEvent(True);
+  chrmosr.SetFocus(True);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);
@@ -315,17 +315,17 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);
 begin
-  if (chrmosr <> nil) then chrmosr.SendFocusEvent(False);
+  if (chrmosr <> nil) then chrmosr.SetFocus(False);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1Enter(Sender: TObject);
 begin
-  if (chrmosr <> nil) then chrmosr.SendFocusEvent(True);
+  if (chrmosr <> nil) then chrmosr.SetFocus(True);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.Panel1Exit(Sender: TObject);
 begin
-  if (chrmosr <> nil) then chrmosr.SendFocusEvent(False);
+  if (chrmosr <> nil) then chrmosr.SetFocus(False);
 end;
 
 function TFMXExternalPumpBrowserFrm.GetMousePosition(var aPoint : TPointF) : boolean;
@@ -482,7 +482,7 @@ end;
 procedure TFMXExternalPumpBrowserFrm.AddressEdtEnter(Sender: TObject);
 begin
   if (chrmosr <> nil) then
-    chrmosr.SendFocusEvent(False);
+    chrmosr.SetFocus(False);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -976,7 +976,7 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.SnapshotBtnEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 end.

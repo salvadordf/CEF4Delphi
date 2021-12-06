@@ -84,6 +84,8 @@ type
       function  GetSize : TCefSize;
       procedure SetPosition(const position_: TCefPoint);
       function  GetPosition : TCefPoint;
+      procedure SetInsets(const insets: TCefInsets);
+      function  GetInsets: TCefInsets;
       function  GetPreferredSize : TCefSize;
       procedure SizeToPreferredSize;
       function  GetMinimumSize : TCefSize;
@@ -241,6 +243,16 @@ end;
 function TCefViewRef.GetPosition : TCefPoint;
 begin
   Result := PCefView(FData)^.get_position(PCefView(FData));
+end;
+
+procedure TCefViewRef.SetInsets(const insets: TCefInsets);
+begin
+  PCefView(FData)^.set_insets(PCefView(FData), @insets);
+end;
+
+function TCefViewRef.GetInsets: TCefInsets;
+begin
+  Result := PCefView(FData)^.get_insets(PCefView(FData));
 end;
 
 function TCefViewRef.GetPreferredSize : TCefSize;

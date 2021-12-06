@@ -28,11 +28,11 @@ uses
   uCEFNavigationEntry, uCEFNavigationEntryVisitor, uCEFPDFPrintCallback, 
   uCEFPDFPrintOptions, uCEFPostData, uCEFPostDataElement, uCEFPrintSettings, 
   uCEFProcessMessage, uCEFRenderHandler, uCEFRenderProcessHandler, 
-  uCEFRequest, uCEFRequestCallback, uCEFRequestContext, 
-  uCEFRequestContextHandler, uCEFRequestHandler, uCEFResolveCallback, 
-  uCEFResourceBundle, uCEFResourceBundleHandler, uCEFResourceHandler, 
-  uCEFResponse, uCEFResponseFilter, uCEFRunContextMenuCallback, 
-  uCEFRunFileDialogCallback, uCEFSchemeHandlerFactory, uCEFSchemeRegistrar, 
+  uCEFRequest, uCEFRequestContext, uCEFRequestContextHandler, 
+  uCEFRequestHandler, uCEFResolveCallback, uCEFResourceBundle, 
+  uCEFResourceBundleHandler, uCEFResourceHandler, uCEFResponse, 
+  uCEFResponseFilter, uCEFRunContextMenuCallback, uCEFRunFileDialogCallback, 
+  uCEFSchemeHandlerFactory, uCEFSchemeRegistrar, 
   uCEFSelectClientCertificateCallback, uCEFSetCookieCallback, uCEFSslInfo, 
   uCEFSSLStatus, uCEFStreamReader, uCEFStreamWriter, uCEFStringList, 
   uCEFStringMap, uCEFStringMultimap, uCEFStringVisitor, uCEFTask, 
@@ -66,7 +66,8 @@ uses
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
   uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa, 
   uCEFBrowserWindow, uCEFOsrBrowserWindow, uCEFTimerWorkScheduler, 
-  uCEFFrameHandler, LazarusPackageIntf;
+  uCEFFrameHandler, uCEFOverlayController, uCEFFileDialogInfo, 
+  LazarusPackageIntf;
 
 implementation
 

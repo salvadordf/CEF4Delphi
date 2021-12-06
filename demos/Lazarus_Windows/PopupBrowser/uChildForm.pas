@@ -710,14 +710,14 @@ end;
 
 procedure TChildForm.FormHide(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
   chrmosr.WasHidden(True);
 end;
 
 procedure TChildForm.FormShow(Sender: TObject);
 begin
   chrmosr.WasHidden(False);
-  chrmosr.SendFocusEvent(True);
+  chrmosr.SetFocus(True);
 end;
 
 procedure TChildForm.Panel1Click(Sender: TObject);
@@ -871,12 +871,12 @@ end;
 
 procedure TChildForm.Panel1Enter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(True);
+  chrmosr.SetFocus(True);
 end;
 
 procedure TChildForm.Panel1Exit(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TChildForm.Panel1IMECancelComposition(Sender: TObject);

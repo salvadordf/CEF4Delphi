@@ -54,7 +54,7 @@ uses
   AppEvnts, ActiveX, ShlObj, NetEncoding,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
-  uCEFConstants, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFConstants, uCEFWinControl, uCEFSentinel, uCEFChromiumCore, uCEFFileDialogInfo;
 
 const
   MINIBROWSER_SHOWDEVTOOLS     = WM_APP + $101;
@@ -71,6 +71,7 @@ const
   MINIBROWSER_PDFPRINT_END     = WM_APP + $10C;
   MINIBROWSER_PREFS_AVLBL      = WM_APP + $10D;
   MINIBROWSER_DTDATA_AVLBL     = WM_APP + $10E;
+  MINIBROWSER_SHOWFILEDLG      = WM_APP + $10F;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -165,20 +166,21 @@ type
     procedure Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
     procedure Chromium1BeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
     procedure Chromium1DownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
-    procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback; out Result: TCefReturnValue);
+    procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
     procedure Chromium1LoadingProgressChange(Sender: TObject; const browser: ICefBrowser; const progress: Double);
     procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
     procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
-    procedure Chromium1CertificateError(Sender: TObject; const browser: ICefBrowser; certError: Integer; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback; out Result: Boolean);
+    procedure Chromium1CertificateError(Sender: TObject; const browser: ICefBrowser; certError: Integer; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: Boolean);
     procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject; const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult: Boolean);
     procedure Chromium1DownloadImageFinished(Sender: TObject; const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType, pluginUrl: ustring; isMainFrame: Boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
+    procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: Cardinal; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -212,14 +214,19 @@ type
     procedure SaveasMHTML1Click(Sender: TObject);
 
   protected
-    FDevToolsMsgID    : integer;
-    FScreenshotMsgID  : integer;
-    FMHTMLMsgID       : integer;
-    FDevToolsMsgValue : ustring;
+    FDevToolsMsgID     : integer;
+    FScreenshotMsgID   : integer;
+    FMHTMLMsgID        : integer;
+    FDevToolsMsgValue  : ustring;
+    FShutdownReason    : string;
+    FHasShutdownReason : boolean;
 
     FResponse   : TStringList;
     FRequest    : TStringList;
     FNavigation : TStringList;
+
+    FFileDialogInfo : TCEFFileDialogInfo;
+
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
@@ -235,6 +242,11 @@ type
 
     procedure InspectRequest(const aRequest : ICefRequest);
     procedure InspectResponse(const aResponse : ICefResponse);
+
+    function  ShowOpenFileDialog(var aFilePaths : TStringList; aMultiple : boolean) : boolean;
+    function  ShowOpenFolderDialog(var aFilePaths : TStringList) : boolean;
+    function  ShowSaveFileDialog(var aFilePaths : TStringList) : boolean;
+
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
@@ -252,6 +264,7 @@ type
     procedure PrintPDFEndMsg(var aMessage : TMessage); message MINIBROWSER_PDFPRINT_END;
     procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;
     procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;
+    procedure ShowFileDialogMsg(var aMessage : TMessage); message MINIBROWSER_SHOWFILEDLG;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -274,7 +287,7 @@ implementation
 
 uses
   uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer,
-  uCEFClient, uFindFrm, uCEFDictionaryValue;
+  uCEFClient, uFindFrm, uCEFDictionaryValue, uDirectorySelector;
 
 // Destruction steps
 // =================
@@ -285,15 +298,11 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.LogFile             := 'debug.log';
-  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.EnablePrintPreview  := True;
   GlobalCEFApp.EnableGPU           := True;
-
-  // This is a workaround for the CEF4Delphi issue #324 :
-  // https://github.com/salvadordf/CEF4Delphi/issues/324
-  GlobalCEFApp.DisableFeatures := 'WinUseBrowserSpellChecker';
+  GlobalCEFApp.LogFile             := 'debug.log';
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -471,7 +480,7 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeResourceLoad(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
-  const request: ICefRequest; const callback: ICefRequestCallback;
+  const request: ICefRequest; const callback: ICefCallback;
   out Result: TCefReturnValue);
 begin
   Result := RV_CONTINUE;
@@ -486,7 +495,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1CertificateError(Sender: TObject;
   const browser: ICefBrowser; certError: Integer;
   const requestUrl: ustring; const sslInfo: ICefSslInfo;
-  const callback: ICefRequestCallback; out Result: Boolean);
+  const callback: ICefCallback; out Result: Boolean);
 begin
   CefDebugLog('Certificate error code:' + inttostr(certError) +
               ' - URL:' + requestUrl, CEF_LOG_SEVERITY_ERROR);
@@ -637,6 +646,138 @@ begin
 
           ShowStatusText(TempString);
         end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1FileDialog(      Sender                 : TObject;
+                                              const browser                : ICefBrowser;
+                                                    mode                   : Cardinal;
+                                              const title                  : ustring;
+                                              const defaultFilePath        : ustring;
+                                              const acceptFilters          : TStrings;
+                                                    selectedAcceptFilter   : Integer;
+                                              const callback               : ICefFileDialogCallback;
+                                              out   Result                 : Boolean);
+begin
+  Result := True;
+
+  FFileDialogInfo.Mode                   := mode;
+  FFileDialogInfo.Title                  := title;
+  FFileDialogInfo.DefaultFilePath        := defaultFilePath;
+  FFileDialogInfo.SelectedAcceptFilter   := selectedAcceptFilter;
+  FFileDialogInfo.Callback               := callback;
+  FFileDialogInfo.AcceptFilters          := acceptFilters;
+
+  PostMessage(Handle, MINIBROWSER_SHOWFILEDLG, 0, 0);
+end;
+
+
+function TMiniBrowserFrm.ShowOpenFileDialog(var aFilePaths : TStringList; aMultiple : boolean) : boolean;
+var
+  TempDialog  : TOpenDialog;
+  TempOptions : TOpenOptions;
+begin
+  Result := False;
+
+  TempDialog             := TOpenDialog.Create(Application.MainForm);
+  TempDialog.Title       := FFileDialogInfo.Title;
+  TempDialog.InitialDir  := FFileDialogInfo.DefaultFilePath;
+  TempDialog.Filter      := FFileDialogInfo.DialogFilter;
+  TempDialog.FilterIndex := FFileDialogInfo.SelectedAcceptFilter;
+  TempOptions            := TempDialog.Options;
+
+  if aMultiple                       then include(TempOptions, ofAllowMultiSelect);
+  if FFileDialogInfo.OverwritePrompt then include(TempOptions, ofOverwritePrompt);
+  if FFileDialogInfo.HideReadOnly    then include(TempOptions, ofHideReadOnly);
+
+  TempDialog.Options := TempOptions;
+
+  if TempDialog.Execute(Handle) then
+    begin
+      if aMultiple then
+        aFilePaths.AddStrings(TempDialog.Files)
+       else
+        aFilePaths.Add(TempDialog.FileName);
+
+      FFileDialogInfo.SelectedAcceptFilter := TempDialog.FilterIndex;
+
+      Result := True;
+    end;
+
+  FreeAndNil(TempDialog);
+end;
+
+function TMiniBrowserFrm.ShowOpenFolderDialog(var aFilePaths : TStringList) : boolean;
+var
+  TempDirectorySelector : TDirectorySelectorFrm;
+begin
+  Result := False;
+
+  TempDirectorySelector             := TDirectorySelectorFrm.Create(Application.MainForm);
+  TempDirectorySelector.SelectedDir := FFileDialogInfo.DefaultFilePath;
+
+  if (TempDirectorySelector.ShowModal = mrOk) then
+    begin
+      {$WARN SYMBOL_PLATFORM OFF}
+      aFilePaths.Add(IncludeTrailingBackslash(TempDirectorySelector.SelectedDir));
+      {$WARN SYMBOL_PLATFORM ON}
+      Result := True;
+    end;
+
+  FreeAndNil(TempDirectorySelector);
+end;
+
+function TMiniBrowserFrm.ShowSaveFileDialog(var aFilePaths : TStringList) : boolean;
+var
+  TempDialog  : TSaveDialog;
+  TempOptions : TOpenOptions;
+begin
+  Result := False;
+
+  TempDialog             := TSaveDialog.Create(Application.MainForm);
+  TempDialog.Title       := FFileDialogInfo.Title;
+  TempDialog.Filter      := FFileDialogInfo.DialogFilter;
+  TempDialog.FilterIndex := FFileDialogInfo.SelectedAcceptFilter;
+  TempDialog.FileName    := ExtractFileName(FFileDialogInfo.DefaultFilePath);
+  TempDialog.InitialDir  := ExtractFileDir(FFileDialogInfo.DefaultFilePath);
+  TempOptions            := TempDialog.Options;
+
+  if FFileDialogInfo.OverwritePrompt then include(TempOptions, ofOverwritePrompt);
+  if FFileDialogInfo.HideReadOnly    then include(TempOptions, ofHideReadOnly);
+
+  TempDialog.Options := TempOptions;
+
+  if TempDialog.Execute(Handle) and
+     (length(TempDialog.FileName) > 0) then
+    begin
+      aFilePaths.Add(TempDialog.FileName);
+      Result := True;
+    end;
+
+  FreeAndNil(TempDialog);
+end;
+
+procedure TMiniBrowserFrm.ShowFileDialogMsg(var aMessage : TMessage);
+var
+  TempResult    : boolean;
+  TempFilePaths : TStringList;
+begin
+  TempFilePaths := TStringList.Create;
+
+  case FFileDialogInfo.DialogType of
+    dtOpen          : TempResult := ShowOpenFileDialog(TempFilePaths, False);
+    dtOpenMultiple  : TempResult := ShowOpenFileDialog(TempFilePaths, True);
+    dtOpenFolder    : TempResult := ShowOpenFolderDialog(TempFilePaths);
+    dtSave          : TempResult := ShowSaveFileDialog(TempFilePaths);
+    else              TempResult := False;
+  end;
+
+  if TempResult then
+    FFileDialogInfo.Callback.Cont(FFileDialogInfo.SelectedAcceptFilter, TempFilePaths)
+   else
+    FFileDialogInfo.Callback.Cancel;
+
+  FFileDialogInfo.Clear;
+  TempFilePaths.Free;
 end;
 
 procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
@@ -1067,6 +1208,12 @@ begin
 
   FDevToolsMsgID       := 0;
 
+  // Windows may show this text message while shutting down the operating system
+  FShutdownReason      := 'MiniBrowser closing...';
+  FHasShutdownReason   := ShutdownBlockReasonCreate(Application.Handle, @FShutdownReason[1]);
+
+  FFileDialogInfo := TCEFFileDialogInfo.Create;
+
   // The MultiBrowserMode store all the browser references in TChromium.
   // The first browser reference is the browser in the main form.
   // When MiniBrowser allows CEF to create child popup browsers it will also
@@ -1080,9 +1227,13 @@ end;
 
 procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
 begin
+  if FHasShutdownReason then
+    ShutdownBlockReasonDestroy(Application.Handle);
+
   FResponse.Free;
   FRequest.Free;
   FNavigation.Free;
+  FFileDialogInfo.Free;
 end;
 
 procedure TMiniBrowserFrm.FormShow(Sender: TObject);
@@ -1109,12 +1260,13 @@ end;
 
 procedure TMiniBrowserFrm.Useragent1Click(Sender: TObject);
 var
-  TempUA : string;
+  TempOldUA, TempNewUA : string;
 begin
-  TempUA := inputbox('MiniBrowser demo', 'Set new user agent string', '');
+  TempOldUA := GetDefaultCEFUserAgent;
+  TempNewUA := inputbox('MiniBrowser demo', 'Set new user agent string', TempOldUA);
 
-  if (length(TempUA) > 0) then
-    Chromium1.SetUserAgentOverride(TempUA);
+  if (length(TempNewUA) > 0) and (TempOldUA <> TempNewUA) then
+    Chromium1.SetUserAgentOverride(TempNewUA);
 end;
 
 procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
@@ -1570,12 +1722,12 @@ end;
 
 procedure TMiniBrowserFrm.WMQueryEndSession(var aMessage: TWMQueryEndSession);
 begin
-  // We return False (0) to close the browser correctly while we can.
-  // This is not what Microsoft recommends doing when an application receives
-  // WM_QUERYENDSESSION but at least we avoid TApplication calling HALT when
-  // it receives WM_ENDSESSION.
-  // The CEF subprocesses may receive WM_QUERYENDSESSION and WM_ENDSESSION
-  // before the main process and they may crash before closing the main form.
+  // We return False (0) to close the browser correctly.
+  // Windows may show the FShutdownReason message that we created in
+  // TForm.OnCreate if the shutdown takes too much time.
+  // CEF4Delphi sets the subprocesses to receive the WM_QUERYENDSESSION
+  // message after the main browser process with a
+  // SetProcessShutdownParameters call
   aMessage.Result := 0;
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;

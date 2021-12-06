@@ -609,7 +609,7 @@ begin
   if not(csDesigning in ComponentState) and
      Chromium1.Initialized and
      not(Chromium1.FrameIsFocused) then
-    Chromium1.SendFocusEvent(True);
+    Chromium1.SetFocus(True);
 end;
 {%Endregion}
 

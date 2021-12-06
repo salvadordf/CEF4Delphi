@@ -706,7 +706,7 @@ end;
 
 procedure TChildForm.FormHide(Sender: TObject);
 begin
-  Chromium1.SendFocusEvent(False);
+  Chromium1.SetFocus(False);
   Chromium1.WasHidden(True);
 end;
 
@@ -714,7 +714,7 @@ procedure TChildForm.FormShow(Sender: TObject);
 begin
   Chromium1.InitializeDragAndDrop(Panel1);
   Chromium1.WasHidden(False);
-  Chromium1.SendFocusEvent(True);
+  Chromium1.SetFocus(True);
 end;
 
 procedure TChildForm.Panel1Click(Sender: TObject);
@@ -859,12 +859,12 @@ end;
 
 procedure TChildForm.Panel1Enter(Sender: TObject);
 begin
-  Chromium1.SendFocusEvent(True);
+  Chromium1.SetFocus(True);
 end;
 
 procedure TChildForm.Panel1Exit(Sender: TObject);
 begin
-  Chromium1.SendFocusEvent(False);
+  Chromium1.SetFocus(False);
 end;
 
 end.

@@ -66,6 +66,7 @@ type
     Layout1: TLayout;
     GoBtn: TButton;
     SnapShotBtn: TButton;
+    BrowserLay: TLayout;
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -377,6 +378,7 @@ begin
     begin
       FClosing := True;
       Visible  := False;
+
       FMXChromium1.CloseBrowser(True);
     end;
 end;
@@ -403,10 +405,10 @@ var
   TempScale : single;
 begin
   TempScale     := FMXChromium1.ScreenScale;
-  Result.Left   := 0;
-  Result.Top    := round(AddressPnl.Height * TempScale);
-  Result.Right  := round(ClientWidth  * TempScale) - 1;
-  Result.Bottom := round(ClientHeight * TempScale) - 1;
+  Result.Left   := round(BrowserLay.Position.x);
+  Result.Top    := round(BrowserLay.Position.y);
+  Result.Right  := Result.Left + round(BrowserLay.Width  * TempScale);
+  Result.Bottom := Result.Top  + round(BrowserLay.Height * TempScale);
 end;
 
 procedure TSimpleFMXBrowserFrm.ResizeChild;
@@ -473,7 +475,9 @@ begin
       TempRect.Bottom := round(TempClientRect.Bottom);
 
       FMXChromium1.DefaultUrl := AddressEdt.Text;
-      if not(FMXChromium1.CreateBrowser(TempHandle, TempRect)) then Timer1.Enabled := True;
+
+      if not(FMXChromium1.CreateBrowser(TempHandle, TempRect)) then
+        Timer1.Enabled := True;
     end;
 end;
 
@@ -487,7 +491,9 @@ var
   PositionChanged: Boolean;
 begin
   PositionChanged := (ALeft <> Left) or (ATop <> Top);
+
   inherited SetBounds(ALeft, ATop, AWidth, AHeight);
+
   if PositionChanged then
     NotifyMoveOrResizeStarted;
 end;

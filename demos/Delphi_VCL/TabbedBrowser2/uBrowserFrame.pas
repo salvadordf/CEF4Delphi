@@ -326,13 +326,13 @@ end;
 procedure TBrowserFrame.ShowBrowser;
 begin
   Chromium1.WasHidden(False);
-  Chromium1.SendFocusEvent(True);
+  Chromium1.SetFocus(True);
   Chromium1.AudioMuted := False;
 end;
 
 procedure TBrowserFrame.HideBrowser;
 begin
-  Chromium1.SendFocusEvent(False);
+  Chromium1.SetFocus(False);
   Chromium1.WasHidden(True);
   Chromium1.AudioMuted := True;
 end;

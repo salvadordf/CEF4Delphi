@@ -133,7 +133,8 @@ end;
 
 procedure TCEFWinControl.InvalidateChildren;
 begin
-  if HandleAllocated then RedrawWindow(Handle, nil, 0, RDW_INVALIDATE or RDW_ALLCHILDREN);
+  if HandleAllocated then
+    RedrawWindow(Handle, nil, 0, RDW_INVALIDATE or RDW_ALLCHILDREN);
 end;
 
 procedure TCEFWinControl.UpdateSize;

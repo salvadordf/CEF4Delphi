@@ -128,7 +128,6 @@ type
       procedure SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
       procedure SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
       procedure SendTouchEvent(const event: PCefTouchEvent);
-      procedure SendFocusEvent(aSetFocus: Boolean);
       procedure SendCaptureLostEvent;
       procedure NotifyMoveOrResizeStarted;
       function  GetWindowlessFrameRate : Integer;
@@ -510,11 +509,6 @@ end;
 procedure TCefBrowserHostRef.SendCaptureLostEvent;
 begin
   PCefBrowserHost(FData)^.send_capture_lost_event(PCefBrowserHost(FData));
-end;
-
-procedure TCefBrowserHostRef.SendFocusEvent(aSetFocus: Boolean);
-begin
-  PCefBrowserHost(FData)^.send_focus_event(PCefBrowserHost(FData), Ord(aSetFocus));
 end;
 
 procedure TCefBrowserHostRef.SendKeyEvent(const event: PCefKeyEvent);

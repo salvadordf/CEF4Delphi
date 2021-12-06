@@ -79,6 +79,7 @@ type
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
       procedure OnWindowChanged(const view: ICefView; added: boolean); override;
+      procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
 
@@ -199,6 +200,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomPanelDelegate.OnWindowChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomPanelDelegate.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefPanelDelegateEvents(FEvents).doOnLayoutChanged(view, new_bounds);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomPanelDelegate.OnLayoutChanged', e) then raise;
   end;
 end;
 

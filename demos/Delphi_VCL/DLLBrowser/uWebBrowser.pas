@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
   uCEFApplication, uCEFWindowParent, uCEFChromiumWindow, uCEFInterfaces, uCEFTypes, uCEFConstants,
-  uCEFWinControl;
+  uCEFWinControl, uCEFLinkedWinControlBase;
 
 type
   TWebBrowserFrm = class(TForm)

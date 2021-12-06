@@ -64,15 +64,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 93;
-  CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 14;
+  CEF_SUPPORTED_VERSION_MAJOR   = 96;
+  CEF_SUPPORTED_VERSION_MINOR   = 0;
+  CEF_SUPPORTED_VERSION_RELEASE = 16;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 93;
+  CEF_CHROMEELF_VERSION_MAJOR   = 96;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4577;
-  CEF_CHROMEELF_VERSION_BUILD   = 82;
+  CEF_CHROMEELF_VERSION_RELEASE = 4664;
+  CEF_CHROMEELF_VERSION_BUILD   = 55;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -188,6 +188,8 @@ type
       FDisablePopupBlocking              : boolean;
       FDisableBackForwardCache           : boolean;
       FDisableComponentUpdate            : boolean;
+      FAllowInsecureLocalhost            : boolean;
+      FKioskPrinting                     : boolean;
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
@@ -262,6 +264,7 @@ type
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
       procedure SetOsmodalLoop(aValue : boolean);
+      procedure SetKioskPrinting(aValue : boolean);
 
       function  GetChromeVersion : ustring;
       function  GetLibCefVersion : ustring;
@@ -295,6 +298,7 @@ type
       function  Load_cef_crash_util_h : boolean;
       function  Load_cef_drag_data_capi_h : boolean;
       function  Load_cef_file_util_capi_h : boolean;
+      function  Load_cef_i18n_util_capi_h : boolean;
       function  Load_cef_image_capi_h : boolean;
       function  Load_cef_menu_model_capi_h : boolean;
       function  Load_cef_media_router_capi_h : boolean;
@@ -362,6 +366,7 @@ type
       procedure AppendSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
       procedure ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
       procedure CleanupFeatures(var aKeys, aValues : TStringList; const aEnableKey, aDisableKey : string);
+      procedure ClearSchemeHandlerFactories;
 
     public
       constructor Create;
@@ -495,6 +500,8 @@ type
       property DisablePopupBlocking              : boolean                             read FDisablePopupBlocking              write FDisablePopupBlocking;             // --disable-popup-blocking
       property DisableBackForwardCache           : boolean                             read FDisableBackForwardCache           write FDisableBackForwardCache;          // --disable-back-forward-cache
       property DisableComponentUpdate            : boolean                             read FDisableComponentUpdate            write FDisableComponentUpdate;           // --disable-component-update
+      property AllowInsecureLocalhost            : boolean                             read FAllowInsecureLocalhost            write FAllowInsecureLocalhost;           // --allow-insecure-localhost
+      property KioskPrinting                     : boolean                             read FKioskPrinting                     write SetKioskPrinting;                  // --kiosk-printing
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -739,6 +746,8 @@ begin
   FDisablePopupBlocking              := False;
   FDisableBackForwardCache           := False;
   FDisableComponentUpdate            := False;
+  FAllowInsecureLocalhost            := False;
+  FKioskPrinting                     := False;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -772,7 +781,13 @@ begin
   FLastErrorMessage                  := '';
   {$IFDEF MSWINDOWS}
   if (FProcessType = ptBrowser) then
-    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+    GetDLLVersion(ChromeElfPath, FChromeVersionInfo)
+   else
+    // Subprocesses will be the last to be notified about the Windows shutdown.
+    // The main browser process will receive WM_QUERYENDSESSION before the subprocesses
+    // and that allows to close the application in the right order.
+    // See the MiniBrowser demo for all the details.
+    SetProcessShutdownParameters($100, SHUTDOWN_NORETRY);
   {$ENDIF}
 
   // Internal filelds
@@ -821,8 +836,7 @@ end;
 destructor TCefApplicationCore.Destroy;
 begin
   try
-    if FLibLoaded then
-      cef_clear_scheme_handler_factories();
+    ClearSchemeHandlerFactories;
 
     if (GlobalCEFApp = Self) then
       GlobalCEFApp := nil;
@@ -836,6 +850,17 @@ begin
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
   finally
     inherited Destroy;
+  end;
+end;
+
+procedure TCefApplicationCore.ClearSchemeHandlerFactories;
+begin
+  try
+    if FLibLoaded then
+      cef_clear_scheme_handler_factories();
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplicationCore.ClearSchemeHandlerFactories', e) then raise;
   end;
 end;
 
@@ -1035,7 +1060,8 @@ begin
   FFrameworkDirPath := CustomAbsolutePath(aValue, True);
 
   {$IFDEF MSWINDOWS}
-  if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  if (FProcessType = ptBrowser) then
+    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
   {$ENDIF}
 end;
 
@@ -1249,6 +1275,17 @@ begin
   if (FStatus = asInitialized) then cef_set_osmodal_loop(Ord(aValue));
 end;
 
+procedure TCefApplicationCore.SetKioskPrinting(aValue : boolean);
+begin
+  if (FKioskPrinting <> aValue) then
+    begin
+      FKioskPrinting := aValue;
+
+      if FKioskPrinting then
+        FEnablePrintPreview := True;
+    end;
+end;
+
 procedure TCefApplicationCore.UpdateDeviceScaleFactor;
 begin
   if (FForcedDeviceScaleFactor <> 0) then
@@ -1347,7 +1384,6 @@ begin
   aSettings.pack_loading_disabled                   := Ord(FPackLoadingDisabled);
   aSettings.remote_debugging_port                   := FRemoteDebuggingPort;
   aSettings.uncaught_exception_stack_size           := FUncaughtExceptionStackSize;
-  aSettings.ignore_certificate_errors               := Ord(FIgnoreCertificateErrors);
   aSettings.background_color                        := FBackgroundColor;
   aSettings.accept_language_list                    := CefString(FAcceptLanguageList);
   aSettings.cookieable_schemes_list                 := CefString(FCookieableSchemesList);
@@ -1937,6 +1973,9 @@ begin
   if FAllowRunningInsecureContent then
     ReplaceSwitch(aKeys, aValues, '--allow-running-insecure-content');
 
+  if FKioskPrinting then
+    ReplaceSwitch(aKeys, aValues, '--kiosk-printing');
+
   if FEnablePrintPreview then
     ReplaceSwitch(aKeys, aValues, '--enable-print-preview');
 
@@ -1993,8 +2032,6 @@ begin
   if (length(FOverrideSpellCheckLang) > 0) then
     ReplaceSwitch(aKeys, aValues, '--override-spell-check-lang', FOverrideSpellCheckLang);
 
-  // This is a workaround for the CEF issue #2899
-  // https://bitbucket.org/chromiumembedded/cef/issues/2899/cefsettingsignore_certificate_errors-true
   if FIgnoreCertificateErrors then
     ReplaceSwitch(aKeys, aValues, '--ignore-certificate-errors');
 
@@ -2030,6 +2067,9 @@ begin
 
   if FDisableComponentUpdate then
     ReplaceSwitch(aKeys, aValues, '--disable-component-update');
+
+  if FAllowInsecureLocalhost then
+    ReplaceSwitch(aKeys, aValues, '--allow-insecure-localhost');
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
@@ -2285,7 +2325,7 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(TempMemStatus) then
+  if GetGlobalMemoryStatusEx(@TempMemStatus) then
     Result := TempMemStatus.ullTotalPhys;
   {$ENDIF}
 end;
@@ -2300,7 +2340,7 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(TempMemStatus) then
+  if GetGlobalMemoryStatusEx(@TempMemStatus) then
     Result := TempMemStatus.ullAvailPhys;
   {$ENDIF}
 end;
@@ -2316,7 +2356,8 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.dwMemoryLoad;
+  if GetGlobalMemoryStatusEx(@TempMemStatus) then
+    Result := TempMemStatus.dwMemoryLoad;
   {$ENDIF}
 end;
 
@@ -2430,6 +2471,7 @@ begin
      Load_cef_crash_util_h and
      Load_cef_drag_data_capi_h and
      Load_cef_file_util_capi_h and
+     Load_cef_i18n_util_capi_h and
      Load_cef_image_capi_h and
      Load_cef_menu_model_capi_h and
      Load_cef_media_router_capi_h and
@@ -2583,6 +2625,13 @@ begin
             assigned(cef_delete_file) and
             assigned(cef_zip_directory) and
             assigned(cef_load_crlsets_file);
+end;
+
+function TCefApplicationCore.Load_cef_i18n_util_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_is_rtl{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_is_rtl');
+
+  Result := assigned(cef_is_rtl);
 end;
 
 function TCefApplicationCore.Load_cef_image_capi_h : boolean;

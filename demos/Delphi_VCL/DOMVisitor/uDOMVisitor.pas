@@ -552,6 +552,8 @@ begin
         MsgContents := 'Search box information: ' + quotedstr(MsgContents);
 
       PostMessage(Handle, MINIBROWSER_SHOWMESSAGE, 0, 0);
+
+      Result := True;
     end;
 end;
 

@@ -35,53 +35,51 @@
  *
  *)
 
-unit uCEFRequestCallback;
-
-{$IFDEF FPC}
-  {$MODE OBJFPC}{$H+}
-{$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+unit uDirectorySelector;
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  {$IFDEF DELPHI16_UP}
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.FileCtrl,
+  Vcl.ExtCtrls;
+  {$ELSE}
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  FileCtrl, ExtCtrls;
+  {$ENDIF}
 
 type
-  TCefRequestCallbackRef = class(TCefBaseRefCountedRef, ICefRequestCallback)
-    protected
-      procedure Cont(allow: Boolean);
-      procedure Cancel;
+  TDirectorySelectorFrm = class(TForm)
+    Panel1: TPanel;
+    OkBtn: TButton;
+    CancelBtn: TButton;
+    Panel2: TPanel;
+    DriveComboBox1: TDriveComboBox;
+    Panel3: TPanel;
+    DirectoryListBox1: TDirectoryListBox;
+  private
+    procedure SetSelectedDir(const aValue : string);
+    function  GetSelectedDir : string;
 
-    public
-      class function UnWrap(data: Pointer): ICefRequestCallback;
+  public
+    property SelectedDir : string read GetSelectedDir write SetSelectedDir;
   end;
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+{$R *.dfm}
 
-procedure TCefRequestCallbackRef.Cont(allow: Boolean);
+procedure TDirectorySelectorFrm.SetSelectedDir(const aValue : string);
 begin
-  PCefRequestCallback(FData)^.cont(PCefRequestCallback(FData), Ord(allow));
+  DirectoryListBox1.Directory := aValue;
 end;
 
-procedure TCefRequestCallbackRef.Cancel;
+function TDirectorySelectorFrm.GetSelectedDir : string;
 begin
-  PCefRequestCallback(FData)^.cancel(PCefRequestCallback(FData));
-end;
-
-class function TCefRequestCallbackRef.UnWrap(data: Pointer): ICefRequestCallback;
-begin
-  if (data <> nil) then
-    Result := Create(data) as ICefRequestCallback
-   else
-    Result := nil;
+  Result := DirectoryListBox1.Directory;
 end;
 
 end.

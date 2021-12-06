@@ -148,6 +148,10 @@
         <DCCReference Include="uFindFrm.pas">
             <Form>FindFrm</Form>
         </DCCReference>
+        <DCCReference Include="uDirectorySelector.pas">
+            <Form>DirectorySelectorFrm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

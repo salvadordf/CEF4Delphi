@@ -10,7 +10,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged
   OnCloseQuery = FormCloseQuery
@@ -73,7 +72,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
         Height = 20
         Margins.Left = 5
         Align = alLeft
-        Caption = 'Go'
+        Caption = '&Go'
         TabOrder = 0
         OnClick = GoBtnClick
         OnEnter = GoBtnEnter

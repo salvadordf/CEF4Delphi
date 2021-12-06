@@ -78,6 +78,13 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
     Left = 40
     Top = 192
   end
+  object BrowserLay: TLayout
+    Align = Client
+    Size.Width = 1000.000000000000000000
+    Size.Height = 565.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 6
+  end
   object FMXChromium1: TFMXChromium
     OnBeforeContextMenu = FMXChromium1BeforeContextMenu
     OnContextMenuCommand = FMXChromium1ContextMenuCommand

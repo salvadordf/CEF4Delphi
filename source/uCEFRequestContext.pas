@@ -89,7 +89,7 @@ type
       class function UnWrap(data: Pointer): ICefRequestContext;
       class function Global: ICefRequestContext;
       class function New(const settings: PCefRequestContextSettings; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
-      class function New(const aCache, aAcceptLanguageList, aCookieableSchemesList : ustring; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences, aIgnoreCertificateErrors : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
+      class function New(const aCache, aAcceptLanguageList, aCookieableSchemesList : ustring; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
       class function Shared(const other: ICefRequestContext; const handler: ICefRequestContextHandler): ICefRequestContext;
   end;
 
@@ -179,7 +179,6 @@ class function TCefRequestContextRef.New(const aCache                           
                                                aCookieableSchemesExcludeDefaults : boolean;
                                                aPersistSessionCookies            : boolean;
                                                aPersistUserPreferences           : boolean;
-                                               aIgnoreCertificateErrors          : boolean;
                                          const handler                           : ICefRequestContextHandler): ICefRequestContext;
 var
   TempSettings : TCefRequestContextSettings;
@@ -188,7 +187,6 @@ begin
   TempSettings.cache_path                           := CefString(aCache);
   TempSettings.persist_session_cookies              := Ord(aPersistSessionCookies);
   TempSettings.persist_user_preferences             := Ord(aPersistUserPreferences);
-  TempSettings.ignore_certificate_errors            := Ord(aIgnoreCertificateErrors);
   TempSettings.accept_language_list                 := CefString(aAcceptLanguageList);
   TempSettings.cookieable_schemes_list              := CefString(aCookieableSchemesList);
   TempSettings.cookieable_schemes_exclude_defaults  := Ord(aCookieableSchemesExcludeDefaults);

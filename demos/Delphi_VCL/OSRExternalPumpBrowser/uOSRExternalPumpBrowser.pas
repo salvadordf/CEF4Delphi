@@ -198,6 +198,8 @@ var
   TempMouseEvent : TCefMouseEvent;
   TempPoint      : TPoint;
 begin
+  if Handled then exit;
+
   case Msg.message of
     WM_SYSCHAR :
       if Panel1.Focused then
@@ -274,6 +276,7 @@ begin
           TempKeyEvent.focus_on_editable_field := ord(False);
 
           chrmosr.SendKeyEvent(@TempKeyEvent);
+          Handled := (Msg.wParam <> VK_MENU);
         end;
 
     WM_CHAR :
@@ -290,6 +293,7 @@ begin
 
           CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
           chrmosr.SendKeyEvent(@TempKeyEvent);
+          Handled := True;
         end;
 
     WM_MOUSEWHEEL :
@@ -323,7 +327,7 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.GoBtnEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -571,7 +575,7 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.ComboBox1Enter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 function TOSRExternalPumpBrowserFrm.getModifiers(Shift: TShiftState): TCefEventFlags;
@@ -679,7 +683,7 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.FormHide(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
   chrmosr.WasHidden(True);
 end;
 
@@ -688,7 +692,7 @@ begin
   if chrmosr.Initialized then
     begin
       chrmosr.WasHidden(False);
-      chrmosr.SendFocusEvent(True);
+      chrmosr.SetFocus(True);
     end
    else
     begin
@@ -840,12 +844,12 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.Panel1Enter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(True);
+  chrmosr.SetFocus(True);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.Panel1Exit(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.SnapshotBtnClick(Sender: TObject);
@@ -855,7 +859,7 @@ end;
 
 procedure TOSRExternalPumpBrowserFrm.SnapshotBtnEnter(Sender: TObject);
 begin
-  chrmosr.SendFocusEvent(False);
+  chrmosr.SetFocus(False);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);

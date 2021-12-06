@@ -105,6 +105,11 @@ uses
 // or the domain "google.com". If you don't live in the US, you'll be redirected to
 // another domain which will take a little time too.
 
+// ATTENTION!!!!
+// *************
+// The 2 projects in this group share the same uCEFLoader.pas unit and this causes issues with the "Build All" option.
+// Build the "SimpleBrowser_sp.exe" project first and then build the "SimpleBrowser.exe" project.
+
 // Destruction steps
 // =================
 // 1. The FormCloseQuery event sets CanClose to False and calls TChromiumWindow.CloseBrowser, which triggers the TChromiumWindow.OnClose event.

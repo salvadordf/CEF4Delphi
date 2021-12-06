@@ -11,7 +11,6 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poDefault
   WindowState = wsMaximized
   OnAfterMonitorDpiChanged = FormAfterMonitorDpiChanged

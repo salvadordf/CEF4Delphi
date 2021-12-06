@@ -1,4 +1,4 @@
-// ************************************************************************
+﻿// ************************************************************************
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
@@ -285,7 +285,7 @@ end;
 
 procedure TForm1.AddressEdtEnter(Sender: TObject);
 begin
-  Chromium1.SendFocusEvent(False);
+  Chromium1.SetFocus(False);
 end;
 
 procedure TForm1.Panel1Click(Sender: TObject);
@@ -320,12 +320,12 @@ end;
 
 procedure TForm1.Panel1Enter(Sender: TObject);
 begin
-  Chromium1.SendFocusEvent(True);
+  Chromium1.SetFocus(True);
 end;
 
 procedure TForm1.Panel1Exit(Sender: TObject);
 begin
-  Chromium1.SendFocusEvent(False);
+  Chromium1.SetFocus(False);
 end;
 
 procedure TForm1.Panel1MouseDown(Sender: TObject; Button: TMouseButton;
@@ -707,19 +707,19 @@ end;
 
 procedure TForm1.FormHide(Sender: TObject);
 begin
-  Chromium1.SendFocusEvent(False);
+  Chromium1.SetFocus(False);
   Chromium1.WasHidden(True);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
   Chromium1.WasHidden(False);
-  Chromium1.SendFocusEvent(True);
+  Chromium1.SetFocus(True);
 end;
 
 procedure TForm1.GoBtnEnter(Sender: TObject);
 begin
-  Chromium1.SendFocusEvent(False);
+  Chromium1.SetFocus(False);
 end;
 
 procedure TForm1.SnapshotBtnClick(Sender: TObject);
