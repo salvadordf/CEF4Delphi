@@ -66,13 +66,13 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 96;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 16;
+  CEF_SUPPORTED_VERSION_RELEASE = 17;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 96;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 4664;
-  CEF_CHROMEELF_VERSION_BUILD   = 55;
+  CEF_CHROMEELF_VERSION_BUILD   = 93;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -493,7 +493,7 @@ type
       property HyperlinkAuditing                 : boolean                             read FHyperlinkAuditing                 write FHyperlinkAuditing;                // --no-pings
       property DisableNewBrowserInfoTimeout      : boolean                             read FDisableNewBrowserInfoTimeout      write FDisableNewBrowserInfoTimeout;     // --disable-new-browser-info-timeout
       property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;          // --devtools-protocol-log-file
-      property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
+      property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --force-device-scale-factor
       property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
       property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;                  // --use-mock-keychain
       property DisableRequestHandlingForTesting  : boolean                             read FDisableRequestHandlingForTesting  write FDisableRequestHandlingForTesting; // --disable-request-handling-for-testing
@@ -787,7 +787,7 @@ begin
     // The main browser process will receive WM_QUERYENDSESSION before the subprocesses
     // and that allows to close the application in the right order.
     // See the MiniBrowser demo for all the details.
-    SetProcessShutdownParameters($100, SHUTDOWN_NORETRY);
+    SetProcessShutdownParameters(CHROMIUM_NONBROWSERSHUTDOWNPRIORITY - 1, SHUTDOWN_NORETRY);
   {$ENDIF}
 
   // Internal filelds

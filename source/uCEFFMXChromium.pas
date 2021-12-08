@@ -49,7 +49,10 @@ uses
   {$IFDEF MSWINDOWS}
   WinApi.Windows, WinApi.Messages, FMX.Platform.Win,
   {$ENDIF}
-  FMX.Types, FMX.Platform, FMX.Forms, FMX.Controls, FMX.Graphics,
+  FMX.Types, FMX.Platform, FMX.Forms, FMX.Controls,
+  {$IFDEF DELPHI19_UP}
+  FMX.Graphics,
+  {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFChromiumCore;
 
 type
@@ -109,7 +112,7 @@ type
 implementation
 
 uses
-  {$IFDEF MSWINDOWS}FMX.Helpers.Win,{$ENDIF}
+  {$IFDEF MSWINDOWS}{$IFDEF DELPHI24_UP}FMX.Helpers.Win,{$ENDIF}{$ENDIF}
   System.SysUtils, System.Math,
   uCEFApplicationCore;
 
@@ -212,12 +215,12 @@ end;
 procedure TFMXChromium.MoveFormTo(const x, y: Integer);
 var
   TempForm : TCustomForm;
-  {$IFDEF DELPHI17_UP}
+  {$IFDEF DELPHI21_UP}
   TempRect : TRect;
   {$ENDIF}
 begin
   TempForm := GetParentForm;
-  {$IFDEF DELPHI17_UP}
+  {$IFDEF DELPHI21_UP}
   if (TempForm <> nil) then
     begin
       TempRect.Left   := min(max(x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth)  - TempForm.Width);
@@ -235,12 +238,12 @@ end;
 procedure TFMXChromium.MoveFormBy(const x, y: Integer);
 var
   TempForm : TCustomForm;
-  {$IFDEF DELPHI17_UP}
+  {$IFDEF DELPHI21_UP}
   TempRect : TRect;
   {$ENDIF}
 begin
   TempForm := GetParentForm;
-  {$IFDEF DELPHI17_UP}
+  {$IFDEF DELPHI21_UP}
   if (TempForm <> nil) then
     begin
       TempRect.Left   := min(max(TempForm.Left + x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth)  - TempForm.Width);
@@ -292,7 +295,7 @@ begin
   TempForm := GetParentForm;
 
   if (TempForm <> nil) then
-    {$IFDEF DELPHI17_UP}
+    {$IFDEF DELPHI21_UP}
     TempForm.Left := min(max(x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth) - TempForm.Width);
     {$ELSE}
     TempForm.Left := x;
@@ -306,7 +309,7 @@ begin
   TempForm := GetParentForm;
 
   if (TempForm <> nil) then
-    {$IFDEF DELPHI17_UP}
+    {$IFDEF DELPHI21_UP}
     TempForm.Top := min(max(y, max(round(screen.DesktopTop), 0)), round(screen.DesktopHeight) - TempForm.Height);
     {$ELSE}
     TempForm.Top := y;

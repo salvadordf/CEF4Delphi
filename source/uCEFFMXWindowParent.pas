@@ -63,7 +63,7 @@ type
 
     public
       {$IFDEF MSWINDOWS}
-      procedure Reparent(const aNewParentHandle : TWindowHandle);
+      procedure Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
       property  ChildWindowHandle : HWND   read GetChildWindowHandle;
       {$ENDIF}
 
@@ -130,11 +130,15 @@ begin
   end;
 end;
 
-procedure TFMXWindowParent.Reparent(const aNewParentHandle : TWindowHandle);
+procedure TFMXWindowParent.Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
 var
   TempChildHandle, TempParentHandle : HWND;
 begin
+  {$IFDEF DELPHI18_UP}
   if (aNewParentHandle <> nil) then
+  {$ELSE}
+  if (aNewParentHandle <> 0) then
+  {$ENDIF}
     begin
       TempChildHandle  := FmxHandleToHWND(Handle);
       TempParentHandle := FmxHandleToHWND(aNewParentHandle);
