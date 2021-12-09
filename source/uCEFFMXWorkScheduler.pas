@@ -51,7 +51,6 @@ uses
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
-
   TFMXWorkScheduler = class(TComponent)
     protected
       FThread             : TCEFWorkSchedulerThread;
@@ -276,10 +275,15 @@ begin
   if FUseQueueThread and (FQueueThread <> nil) and FQueueThread.Ready then
     FQueueThread.EnqueueValue(integer(delay_ms))
    else
-    TThread.ForceQueue(nil, procedure
-                            begin
-                              ScheduleWork(delay_ms);
-                            end);
+    {$IFDEF DELPHI18_UP}
+    TThread.ForceQueue(nil,
+    {$ELSE}
+    TThread.Queue(nil,
+    {$ENDIF}
+      procedure
+      begin
+        ScheduleWork(delay_ms);
+      end);
 end;
 
 procedure TFMXWorkScheduler.StopScheduler;

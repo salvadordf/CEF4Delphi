@@ -48,7 +48,7 @@ uses
   System.SyncObjs,
   {$ENDIF}
   System.Classes, System.UIConsts, System.Types, System.UITypes,
-  {$IFDEF DELPHI17_UP}
+  {$IFDEF DELPHI19_UP}
   FMX.Graphics,
   {$ENDIF}
   FMX.Types, FMX.Controls, FMX.Forms,
@@ -123,7 +123,6 @@ type
       property HighSpeedDrawing : boolean            read FHighSpeedDrawing write FHighSpeedDrawing default True;
 
       {$IFDEF DELPHI17_UP}
-      property TabStop;
       property CanFocus;
       property CanParentFocus;
       property Height;
@@ -135,6 +134,9 @@ type
       property RotationAngle;
       property RotationCenter;
       property Scale;
+      {$ENDIF}
+      {$IFDEF DELPHI18_UP}
+      property TabStop;
       property Size;
       property OnResized;
       {$ENDIF}
@@ -162,7 +164,7 @@ implementation
 
 uses
   System.SysUtils, System.Math,
-  {$IFDEF MSWINDOWS}FMX.Helpers.Win,{$ENDIF}
+  {$IFDEF MSWINDOWS}{$IFDEF DELPHI24_UP}FMX.Helpers.Win,{$ENDIF}{$ENDIF}
   FMX.Platform, {$IFDEF MACOS}FMX.Platform.Mac,{$ENDIF}
   uCEFMiscFunctions, uCEFApplicationCore;
 
@@ -468,21 +470,27 @@ begin
 end;
 
 function TFMXBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
+{$IFDEF DELPHI18_UP}
 var
   TempScale : single;
+{$ENDIF}
 begin
   Result    := False;
+  {$IFDEF DELPHI18_UP}
   TempScale := ScreenScale;
+  {$ENDIF}
 
   if ((FBuffer             =  nil)       or
+      {$IFDEF DELPHI18_UP}
       (FBuffer.BitmapScale <> TempScale) or
+      {$ENDIF}
       (FBuffer.Width       <> aWidth)    or
       (FBuffer.Height      <> aHeight))  then
     begin
       if (FBuffer <> nil) then FreeAndNil(FBuffer);
 
       FBuffer             := TBitmap.Create(aWidth, aHeight);
-      {$IFDEF DELPHI17_UP}
+      {$IFDEF DELPHI18_UP}
       FBuffer.BitmapScale := TempScale;
       FScanlineSize       := FBuffer.BytesPerLine;
       {$ELSE}
@@ -506,7 +514,9 @@ begin
       TempHeight := round(Height * TempScale);
 
       Result := (FBuffer <> nil) and
+                {$IFDEF DELPHI18_UP}
                 (FBuffer.BitmapScale = TempScale) and
+                {$ENDIF}
                 (FBuffer.Width       = TempWidth) and
                 (FBuffer.Height      = TempHeight);
 

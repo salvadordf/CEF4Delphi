@@ -681,6 +681,11 @@ const
   USER_DEFAULT_SCREEN_DPI = 96;
   {$IFEND}
 
+  // This constant is defined by Chromium in chrome/app/main_dll_loader_win.cc
+  // It's used with SetProcessShutdownParameters to set a shutdown priority for the
+  // subprocesses. $280 is the default value for applications.
+  CHROMIUM_NONBROWSERSHUTDOWNPRIORITY = $280;
+
   {$IF NOT DECLARED(INFINITE)}
   INFINITE = Cardinal($FFFFFFFF);
   {$IFEND}
