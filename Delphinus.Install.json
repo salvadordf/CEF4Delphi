@@ -88,6 +88,21 @@
       "compiler_min": 33,
       "compiler_max": 33,
 		}
+		{
+			"project": "packages\\CEF4Delphi_FMX.dproj",
+      "compiler_min": 34,
+      "compiler_max": 34,
+		}
+		{
+			"project": "packages\\CEF4Delphi_FMX.dproj",
+      "compiler_min": 35,
+      "compiler_max": 35,
+		}
+		{
+			"project": "packages\\CEF4Delphi_FMX.dproj",
+      "compiler_min": 36,
+      "compiler_max": 36,
+		}
 	],
 
     "experts": []

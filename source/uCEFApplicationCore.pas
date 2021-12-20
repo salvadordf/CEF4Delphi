@@ -66,13 +66,13 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 96;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 17;
+  CEF_SUPPORTED_VERSION_RELEASE = 18;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 96;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 4664;
-  CEF_CHROMEELF_VERSION_BUILD   = 93;
+  CEF_CHROMEELF_VERSION_BUILD   = 110;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -780,14 +780,18 @@ begin
   FMustFreeLibrary                   := False;
   FLastErrorMessage                  := '';
   {$IFDEF MSWINDOWS}
-  if (FProcessType = ptBrowser) then
-    GetDLLVersion(ChromeElfPath, FChromeVersionInfo)
-   else
-    // Subprocesses will be the last to be notified about the Windows shutdown.
-    // The main browser process will receive WM_QUERYENDSESSION before the subprocesses
-    // and that allows to close the application in the right order.
-    // See the MiniBrowser demo for all the details.
-    SetProcessShutdownParameters(CHROMIUM_NONBROWSERSHUTDOWNPRIORITY - 1, SHUTDOWN_NORETRY);
+  case FProcessType of
+    ptBrowser  : GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+    ptCrashpad :
+      // The crashpad handler process must be the last one to be closed
+      SetProcessShutdownParameters($100, SHUTDOWN_NORETRY);
+    else
+      // Subprocesses will be the last to be notified about the Windows shutdown.
+      // The main browser process will receive WM_QUERYENDSESSION before the subprocesses
+      // and that allows to close the application in the right order.
+      // See the MiniBrowser demo for all the details.
+      SetProcessShutdownParameters(CHROMIUM_NONBROWSERSHUTDOWNPRIORITY - 1, SHUTDOWN_NORETRY);
+  end;
   {$ENDIF}
 
   // Internal filelds
@@ -1598,7 +1602,10 @@ begin
               if (CompareText(TempValue, 'broker') = 0) then
                 Result := ptBroker
                else
-                Result := ptOther;
+                if (CompareText(TempValue, 'crashpad-handler') = 0) then
+                  Result := ptCrashpad
+                 else
+                  Result := ptOther;
     end
    else
     Result := ptBrowser;

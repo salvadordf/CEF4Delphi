@@ -448,7 +448,7 @@ type
   //             in the main thread before closing the browser.
   TCefCloseBrowserAction = (cbaClose, cbaDelay, cbaCancel);
 
-  TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptGPU, ptUtility, ptBroker, ptOther);
+  TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptGPU, ptUtility, ptBroker, ptCrashpad, ptOther);
 
   // Used in TChromium preferences to allow or block cookies.
   TCefCookiePref = (cpDefault, cpAllow, cpBlock);
