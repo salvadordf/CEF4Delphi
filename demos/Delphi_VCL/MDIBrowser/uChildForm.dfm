@@ -38,7 +38,7 @@ object ChildForm: TChildForm
       Align = alClient
       TabOrder = 0
       Text = 'http://www.google.com'
-      ExplicitHeight = 21
+      ExplicitHeight = 23
     end
     object Button1: TButton
       Left = 672
