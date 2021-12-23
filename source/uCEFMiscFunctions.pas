@@ -222,8 +222,8 @@ function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string)
 {$IFDEF MSWINDOWS}
 function CheckDLLVersion(const aDLLFile : ustring; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 function GetDLLHeaderMachine(const aDLLFile : ustring; var aMachine : integer) : boolean;
-function GetFileTypeDescription(const aExtension : ustring) : ustring;
 {$ENDIF}
+function GetFileTypeDescription(const aExtension : ustring) : ustring;
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
 function Is32BitProcess : boolean;
@@ -1473,6 +1473,11 @@ begin
                          SHGFI_TYPENAME or SHGFI_USEFILEATTRIBUTES) <> 0) then
         Result := TempInfo.szTypeName;
     end;
+end;
+{$ELSE}
+function GetFileTypeDescription(const aExtension : ustring) : ustring;
+begin
+  Result := uppercase(aExtension) + ' files';
 end;
 {$ENDIF}
 
