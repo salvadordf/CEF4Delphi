@@ -164,7 +164,6 @@ type
 
   // ICefRequestContextHandler
   TOnRequestContextInitialized    = procedure(Sender: TObject; const request_context: ICefRequestContext) of Object;
-  TOnBeforePluginLoad             = procedure(Sender: TObject; const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult : boolean) of Object;
   // ICefRequestContextHandler uses the same TOnGetResourceRequestHandler event type defined for ICefRequestHandler
 
   // ICefMediaObserver

@@ -268,7 +268,6 @@ type
 
       // ICefRequestContextHandler
       FOnRequestContextInitialized             : TOnRequestContextInitialized;
-      FOnBeforePluginLoad                      : TOnBeforePluginLoad;
       FOnGetResourceRequestHandler_ReqCtxHdlr  : TOnGetResourceRequestHandler;
 
       // ICefMediaObserver
@@ -605,7 +604,6 @@ type
 
       // ICefRequestContextHandler
       procedure doOnRequestContextInitialized(const request_context: ICefRequestContext); virtual;
-      function  doOnBeforePluginLoad(const mimeType, pluginUrl:ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean; virtual;
       procedure doGetResourceRequestHandler_ReqCtxHdlr(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
 
       // ICefMediaObserver
@@ -1089,7 +1087,6 @@ type
 
       // ICefRequestContextHandler
       property OnRequestContextInitialized            : TOnRequestContextInitialized      read FOnRequestContextInitialized            write FOnRequestContextInitialized;
-      property OnBeforePluginLoad                     : TOnBeforePluginLoad               read FOnBeforePluginLoad                     write FOnBeforePluginLoad;
       property OnGetResourceRequestHandler_ReqCtxHdlr : TOnGetResourceRequestHandler      read FOnGetResourceRequestHandler_ReqCtxHdlr write FOnGetResourceRequestHandler_ReqCtxHdlr;
 
       // ICefMediaObserver
@@ -1809,7 +1806,6 @@ begin
 
   // ICefRequestContextHandler
   FOnRequestContextInitialized            := nil;
-  FOnBeforePluginLoad                     := nil;
   FOnGetResourceRequestHandler_ReqCtxHdlr := nil;
 
   // ICefMediaObserver
@@ -5488,19 +5484,6 @@ procedure TChromiumCore.doOnRequestContextInitialized(const request_context: ICe
 begin
   if assigned(FOnRequestContextInitialized) then
     FOnRequestContextInitialized(self, request_context);
-end;
-
-function TChromiumCore.doOnBeforePluginLoad(const mimeType     : ustring;
-                                            const pluginUrl    : ustring;
-                                                  isMainFrame  : boolean;
-                                            const topOriginUrl : ustring;
-                                            const pluginInfo   : ICefWebPluginInfo;
-                                            var   pluginPolicy : TCefPluginPolicy): Boolean;
-begin
-  Result := False;
-
-  if assigned(FOnBeforePluginLoad) then
-    FOnBeforePluginLoad(self, mimeType, pluginUrl, isMainFrame, topOriginUrl, pluginInfo, pluginPolicy, Result);
 end;
 
 procedure TChromiumCore.doGetResourceRequestHandler_ReqCtxHdlr(const browser                  : ICefBrowser;

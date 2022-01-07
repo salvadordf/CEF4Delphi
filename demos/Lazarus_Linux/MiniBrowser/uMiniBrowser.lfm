@@ -15,7 +15,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.0.4'
   object NavControlPnl: TPanel
     Left = 0
     Height = 25
@@ -240,7 +240,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
-    OnBeforePluginLoad = Chromium1BeforePluginLoad
     OnPrintStart = Chromium1PrintStart
     OnPrintSettings = Chromium1PrintSettings
     OnPrintDialog = Chromium1PrintDialog
