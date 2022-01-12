@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -177,7 +177,6 @@ type
     procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject; const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult: Boolean);
     procedure Chromium1DownloadImageFinished(Sender: TObject; const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
     procedure Chromium1CookiesFlushed(Sender: TObject);
-    procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType, pluginUrl: ustring; isMainFrame: Boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
     procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: Cardinal; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean);
@@ -460,22 +459,6 @@ begin
     TempFullPath := TempName;
 
   callback.cont(TempFullPath, True);
-end;
-
-procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
-  const mimeType, pluginUrl: ustring; isMainFrame: Boolean;
-  const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
-  var pluginPolicy: TCefPluginPolicy; var aResult: Boolean);
-begin
-  // Always allow the PDF plugin to load.
-  if (pluginPolicy <> PLUGIN_POLICY_ALLOW) and
-     (CompareText(mimeType, 'application/pdf') = 0) then
-    begin
-      pluginPolicy := PLUGIN_POLICY_ALLOW;
-      aResult      := True;
-    end
-   else
-    aResult := False;
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeResourceLoad(Sender: TObject;

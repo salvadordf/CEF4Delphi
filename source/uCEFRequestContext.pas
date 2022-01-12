@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -68,7 +68,6 @@ type
       function  GetCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
       function  RegisterSchemeHandlerFactory(const schemeName, domainName: ustring; const factory: ICefSchemeHandlerFactory): Boolean;
       function  ClearSchemeHandlerFactories: Boolean;
-      procedure PurgePluginListCache(reloadPages: Boolean);
       function  HasPreference(const name: ustring): Boolean;
       function  GetPreference(const name: ustring): ICefValue;
       function  GetAllPreferences(includeDefaults: Boolean): ICefDictionaryValue;
@@ -192,11 +191,6 @@ begin
   TempSettings.cookieable_schemes_exclude_defaults  := Ord(aCookieableSchemesExcludeDefaults);
 
   Result := UnWrap(cef_request_context_create_context(@TempSettings, CefGetData(handler)));
-end;
-
-procedure TCefRequestContextRef.PurgePluginListCache(reloadPages: Boolean);
-begin
-  PCefRequestContext(FData)^.purge_plugin_list_cache(PCefRequestContext(FData), Ord(reloadPages));
 end;
 
 function TCefRequestContextRef.HasPreference(const name: ustring): Boolean;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -60,7 +60,6 @@ type
   TCefRequestContextHandlerRef = class(TCefBaseRefCountedRef, ICefRequestContextHandler)
     protected
       procedure OnRequestContextInitialized(const request_context: ICefRequestContext);
-      function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
 
       procedure RemoveReferences; virtual;
@@ -72,7 +71,6 @@ type
   TCefRequestContextHandlerOwn = class(TCefBaseRefCountedOwn, ICefRequestContextHandler)
     protected
       procedure OnRequestContextInitialized(const request_context: ICefRequestContext); virtual;
-      function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean; virtual;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
 
       procedure RemoveReferences; virtual;
@@ -86,7 +84,6 @@ type
       FEvents : Pointer;
 
       procedure OnRequestContextInitialized(const request_context: ICefRequestContext); override;
-      function  OnBeforePluginLoad(const mimeType, pluginUrl: ustring; isMainFrame : boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy): Boolean; override;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); override;
 
     public
@@ -112,31 +109,6 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
     TCefRequestContextHandlerOwn(TempObject).OnRequestContextInitialized(TCefRequestContextRef.UnWrap(request_context));
-end;
-
-function cef_request_context_handler_on_before_plugin_load(      self           : PCefRequestContextHandler;
-                                                           const mime_type      : PCefString;
-                                                           const plugin_url     : PCefString;
-                                                                 is_main_frame  : integer;
-                                                           const top_origin_url : PCefString;
-                                                                 plugin_info    : PCefWebPluginInfo;
-                                                                 plugin_policy  : PCefPluginPolicy): Integer; stdcall;
-var
-  TempObject : TObject;
-  TempPolicy : TCefPluginPolicy;
-begin
-  Result     := Ord(False);
-  TempObject := CefGetObject(self);
-  TempPolicy := plugin_policy^;
-
-  if (TempObject <> nil) and (TempObject is TCefRequestContextHandlerOwn) then
-    Result := Ord(TCefRequestContextHandlerOwn(TempObject).OnBeforePluginLoad(CefString(mime_type),
-                                                                              CefString(plugin_url),
-                                                                              (is_main_frame <> 0),
-                                                                              CefString(top_origin_url),
-                                                                              TCefWebPluginInfoRef.UnWrap(plugin_info),
-                                                                              TempPolicy));
-  plugin_policy^ := TempPolicy;
 end;
 
 function cef_request_context_handler_get_resource_request_handler(      self                     : PCefRequestContextHandler;
@@ -182,7 +154,6 @@ begin
   with PCefRequestContextHandler(FData)^ do
     begin
       on_request_context_initialized := {$IFDEF FPC}@{$ENDIF}cef_request_context_handler_on_request_context_initialized;
-      on_before_plugin_load          := {$IFDEF FPC}@{$ENDIF}cef_request_context_handler_on_before_plugin_load;
       get_resource_request_handler   := {$IFDEF FPC}@{$ENDIF}cef_request_context_handler_get_resource_request_handler;
     end;
 end;
@@ -190,16 +161,6 @@ end;
 procedure TCefRequestContextHandlerOwn.OnRequestContextInitialized(const request_context: ICefRequestContext);
 begin
   //
-end;
-
-function TCefRequestContextHandlerOwn.OnBeforePluginLoad(const mimeType     : ustring;
-                                                         const pluginUrl    : ustring;
-                                                               isMainFrame  : boolean;
-                                                         const topOriginUrl : ustring;
-                                                         const pluginInfo   : ICefWebPluginInfo;
-                                                         var   pluginPolicy : TCefPluginPolicy): Boolean;
-begin
-  Result := False;
 end;
 
 procedure TCefRequestContextHandlerOwn.GetResourceRequestHandler(const browser                  : ICefBrowser;
@@ -227,29 +188,6 @@ begin
 
   PCefRequestContextHandler(FData)^.on_request_context_initialized(PCefRequestContextHandler(FData), CefGetData(request_context));
 end;
-
-function TCefRequestContextHandlerRef.OnBeforePluginLoad(const mimeType     : ustring;
-                                                         const pluginUrl    : ustring;
-                                                               isMainFrame  : boolean;
-                                                         const topOriginUrl : ustring;
-                                                         const pluginInfo   : ICefWebPluginInfo;
-                                                         var   pluginPolicy : TCefPluginPolicy): Boolean;
-var
-  TempType, TempPluginURL, TempOriginURL : TCefString;
-begin
-  TempType      := CefString(mimeType);
-  TempPluginURL := CefString(pluginUrl);
-  TempOriginURL := CefString(topOriginUrl);
-
-  Result := PCefRequestContextHandler(FData)^.on_before_plugin_load(PCefRequestContextHandler(FData),
-                                                                    @TempType,
-                                                                    @TempPluginURL,
-                                                                    ord(isMainFrame),
-                                                                    @TempOriginURL,
-                                                                    CefGetData(pluginInfo),
-                                                                    @pluginPolicy) <> 0;
-end;
-
 
 procedure TCefRequestContextHandlerRef.GetResourceRequestHandler(const browser                  : ICefBrowser;
                                                                  const frame                    : ICefFrame;
@@ -327,29 +265,6 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomRequestContextHandler.OnRequestContextInitialized', e) then raise;
-  end;
-end;
-
-function TCustomRequestContextHandler.OnBeforePluginLoad(const mimeType     : ustring;
-                                                         const pluginUrl    : ustring;
-                                                               isMainFrame  : boolean;
-                                                         const topOriginUrl : ustring;
-                                                         const pluginInfo   : ICefWebPluginInfo;
-                                                         var   pluginPolicy : TCefPluginPolicy): Boolean;
-begin
-  Result := False;
-
-  try
-    if (FEvents <> nil) then
-      Result := IChromiumEvents(FEvents).doOnBeforePluginLoad(mimeType,
-                                                              pluginUrl,
-                                                              isMainFrame,
-                                                              topOriginUrl,
-                                                              pluginInfo,
-                                                              pluginPolicy);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomRequestContextHandler.OnBeforePluginLoad', e) then raise;
   end;
 end;
 

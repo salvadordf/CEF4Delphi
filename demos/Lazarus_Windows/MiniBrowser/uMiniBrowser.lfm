@@ -15,7 +15,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.0.4'
   object Splitter1: TSplitter
     Left = 1179
     Height = 663
@@ -265,7 +265,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnCertificateError = Chromium1CertificateError
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
-    OnBeforePluginLoad = Chromium1BeforePluginLoad
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 32
     Top = 224

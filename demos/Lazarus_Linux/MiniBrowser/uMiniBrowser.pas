@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -98,7 +98,6 @@ type
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType, pluginUrl: ustring; isMainFrame: boolean; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy; var aResult: boolean);
     procedure Chromium1GetPDFPaperSize(Sender: TObject; const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult: TCefSize);
     procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1Jsdialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean; out Result: Boolean);
@@ -902,22 +901,6 @@ begin
     BrowserTitle := 'MiniBrowser - ' + Chromium1.DocumentURL;
 
   SendCompMessage(CEF_UPDATETITLE);
-end;
-
-procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
-  const mimeType, pluginUrl: ustring; isMainFrame: boolean;
-  const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
-  var pluginPolicy: TCefPluginPolicy; var aResult: boolean);
-begin
-  // Always allow the PDF plugin to load.
-  if (pluginPolicy <> PLUGIN_POLICY_ALLOW) and
-     (CompareText(mimeType, 'application/pdf') = 0) then
-    begin
-      pluginPolicy := PLUGIN_POLICY_ALLOW;
-      aResult      := True;
-    end
-   else
-    aResult := False;
 end;
 
 procedure TMiniBrowserFrm.Chromium1GetPDFPaperSize(Sender: TObject;

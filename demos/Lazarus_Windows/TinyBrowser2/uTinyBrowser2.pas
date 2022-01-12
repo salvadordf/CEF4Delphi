@@ -105,7 +105,7 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.ExternalMessagePump        := False;                              
-  //GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
+  GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.DisablePopupBlocking       := True;
   GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -130,10 +130,6 @@ type
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
     procedure CEFWindowParent1DragDrop(Sender, Source: TObject; X, Y: Integer);
-    procedure Chromium1BeforePluginLoad(Sender: TObject; const mimeType,
-      pluginUrl: ustring; isMainFrame: boolean; const topOriginUrl: ustring;
-      const pluginInfo: ICefWebPluginInfo; var pluginPolicy: TCefPluginPolicy;
-      var aResult: boolean);
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1DevToolsMethodResult(Sender: TObject;
       const browser: ICefBrowser; message_id: integer; success: boolean;
@@ -1173,22 +1169,6 @@ procedure TMiniBrowserFrm.CEFWindowParent1DragDrop(Sender, Source: TObject; X,
   Y: Integer);
 begin
 
-end;
-
-procedure TMiniBrowserFrm.Chromium1BeforePluginLoad(Sender: TObject;
-  const mimeType, pluginUrl: ustring; isMainFrame: boolean;
-  const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
-  var pluginPolicy: TCefPluginPolicy; var aResult: boolean);
-begin
-  // Always allow the PDF plugin to load.
-  if (pluginPolicy <> PLUGIN_POLICY_ALLOW) and
-     (CompareText(mimeType, 'application/pdf') = 0) then
-    begin
-      pluginPolicy := PLUGIN_POLICY_ALLOW;
-      aResult      := True;
-    end
-   else
-    aResult := False;
 end;
 
 procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);

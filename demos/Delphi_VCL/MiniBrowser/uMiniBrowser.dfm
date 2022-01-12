@@ -291,7 +291,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     OnFileDialog = Chromium1FileDialog
-    OnBeforePluginLoad = Chromium1BeforePluginLoad
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 32
     Top = 224
