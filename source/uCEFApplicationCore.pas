@@ -66,7 +66,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 97;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 7;
+  CEF_SUPPORTED_VERSION_RELEASE = 9;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 97;
@@ -2080,11 +2080,13 @@ begin
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
+  // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
   if (length(FEnableFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--enable-features', FEnableFeatures);
 
   // The list of features you can disable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
+  // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
   if (length(FDisableFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--disable-features', FDisableFeatures);
 
