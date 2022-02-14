@@ -222,6 +222,7 @@ contains
   uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
   uCEFFrameHandler in '..\source\uCEFFrameHandler.pas',
   uCEFOverlayController in '..\source\uCEFOverlayController.pas',
-  uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas';
+  uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas',
+  uCEFArgCopy in '..\source\uCEFArgCopy.pas';
 
 end.
