@@ -60,19 +60,21 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
-  {$IFDEF LINUX}{$IFDEF FPC}xlib,{$ENDIF}{$ENDIF}
+  {$IFDEF LINUX}
+    {$IFDEF FPC}xlib,{$ENDIF} uCEFArgCopy,
+  {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 97;
+  CEF_SUPPORTED_VERSION_MAJOR   = 98;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 2;
+  CEF_SUPPORTED_VERSION_RELEASE = 21;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 97;
+  CEF_CHROMEELF_VERSION_MAJOR   = 98;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4692;
-  CEF_CHROMEELF_VERSION_BUILD   = 71;
+  CEF_CHROMEELF_VERSION_RELEASE = 4758;
+  CEF_CHROMEELF_VERSION_BUILD   = 102;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -194,6 +196,9 @@ type
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
       FEnableHighDPISupport              : boolean;
+      {$IFDEF LINUX}
+      FArgCopy                           : TCEFArgCopy;
+      {$ENDIF}
 
       // Fields used by custom properties
       FDeleteCache                       : boolean;
@@ -287,6 +292,8 @@ type
       function  GetApiHashCommit : ustring;
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
+      function  GetArgc : longint;
+      function  GetArgv : PPChar;
       {$ENDIF}
 
       function  LoadCEFlibrary : boolean; virtual;
@@ -506,6 +513,10 @@ type
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
       property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
+      {$IFDEF LINUX}
+      property argc                              : longint                             read GetArgc;
+      property argv                              : PPChar                              read GetArgv;
+      {$ENDIF}
 
       // Custom properties
       property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
@@ -752,6 +763,9 @@ begin
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
   FEnableHighDPISupport              := False;
+  {$IFDEF LINUX}
+  FArgCopy                           := TCEFArgCopy.Create;
+  {$ENDIF}
 
   // Fields used by custom properties
   FDeleteCache                       := False;
@@ -850,6 +864,9 @@ begin
 
     FreeLibcefLibrary;
 
+    {$IFDEF LINUX}
+    if (FArgCopy                 <> nil) then FreeAndNil(FArgCopy);
+    {$ENDIF}
     if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
   finally
@@ -1341,8 +1358,11 @@ begin
           TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
         {$ELSE}
           {$IFDEF FPC}
-          TempArgs.argc := argc;
-          TempArgs.argv := argv;
+            {$IFDEF LINUX}
+            FArgCopy.CopyFromArgs(argc, argv);
+            {$ENDIF}
+            TempArgs.argc := argc;
+            TempArgs.argv := argv;
           {$ELSE}
           TempArgs.argc := ArgCount;
           TempArgs.argv := PPWideChar(ArgValues);
@@ -2080,11 +2100,15 @@ begin
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
+  // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
+  // https://source.chromium.org/search?q=base::Feature
   if (length(FEnableFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--enable-features', FEnableFeatures);
 
   // The list of features you can disable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
+  // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
+  // https://source.chromium.org/search?q=base::Feature
   if (length(FDisableFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--disable-features', FDisableFeatures);
 
@@ -2305,13 +2329,13 @@ begin
             TempProcHWND := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, TempProcess.th32ProcessID);
 
             if (TempProcHWND <> 0) then
-              begin
+              try
                 ZeroMemory(@TempMemCtrs, SizeOf(TProcessMemoryCounters));
                 TempMemCtrs.cb := SizeOf(TProcessMemoryCounters);
 
                 if GetProcessMemoryInfo(TempProcHWND, {$IFNDEF FPC}@{$ENDIF}TempMemCtrs, TempMemCtrs.cb) then
                   inc(Result, TempMemCtrs.WorkingSetSize);
-
+              finally
                 CloseHandle(TempProcHWND);
               end;
           end;
@@ -2413,6 +2437,22 @@ begin
   // This property can only be called in the CEF UI thread.
   if FLibLoaded then
     Result := cef_get_xdisplay{$IFDEF FPC}(){$ENDIF}
+   else
+    Result := nil;
+end;
+
+function TCefApplicationCore.GetArgc : longint;
+begin
+  if (FArgCopy <> nil) then
+    Result := FArgCopy.argc
+   else
+    Result := 0;
+end;
+
+function TCefApplicationCore.GetArgv : PPChar;
+begin
+  if (FArgCopy <> nil) then
+    Result := FArgCopy.argv
    else
     Result := nil;
 end;

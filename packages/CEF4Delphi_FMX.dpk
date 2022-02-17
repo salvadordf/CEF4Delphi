@@ -237,7 +237,8 @@ contains
   uCEFMacOSInterfaces in '..\source\uCEFMacOSInterfaces.pas',
   uCEFFrameHandler in '..\source\uCEFFrameHandler.pas',
   uCEFOverlayController in '..\source\uCEFOverlayController.pas',
-  uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas';
+  uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas',
+  uCEFArgCopy in '..\source\uCEFArgCopy.pas';
 
 end.
 
