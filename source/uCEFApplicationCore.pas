@@ -514,8 +514,8 @@ type
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
       property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
       {$IFDEF LINUX}
-      property argc                              : longint                             read GetArgc;
-      property argv                              : PPChar                              read GetArgv;
+      property argcCopy                          : longint                             read GetArgc;
+      property argvCopy                          : PPChar                              read GetArgv;
       {$ENDIF}
 
       // Custom properties
