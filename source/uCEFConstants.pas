@@ -41,10 +41,10 @@ unit uCEFConstants;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
-
 {$I cef.inc}
+
+{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -519,17 +519,20 @@ const
   CM_TYPEFLAG_EDITABLE  = 1 shl 5;
 
   // /include/internal/cef_types.h (cef_context_menu_media_state_flags_t)
-  CM_MEDIAFLAG_NONE                  = 0;
-  CM_MEDIAFLAG_ERROR                 = 1 shl 0;
-  CM_MEDIAFLAG_PAUSED                = 1 shl 1;
-  CM_MEDIAFLAG_MUTED                 = 1 shl 2;
-  CM_MEDIAFLAG_LOOP                  = 1 shl 3;
-  CM_MEDIAFLAG_CAN_SAVE              = 1 shl 4;
-  CM_MEDIAFLAG_HAS_AUDIO             = 1 shl 5;
-  CM_MEDIAFLAG_HAS_VIDEO             = 1 shl 6;
-  CM_MEDIAFLAG_CONTROL_ROOT_ELEMENT  = 1 shl 7;
-  CM_MEDIAFLAG_CAN_PRINT             = 1 shl 8;
-  CM_MEDIAFLAG_CAN_ROTATE            = 1 shl 9;
+  CM_MEDIAFLAG_NONE                   = 0;
+  CM_MEDIAFLAG_IN_ERROR               = 1 shl 0;
+  CM_MEDIAFLAG_PAUSED                 = 1 shl 1;
+  CM_MEDIAFLAG_MUTED                  = 1 shl 2;
+  CM_MEDIAFLAG_LOOP                   = 1 shl 3;
+  CM_MEDIAFLAG_CAN_SAVE               = 1 shl 4;
+  CM_MEDIAFLAG_HAS_AUDIO              = 1 shl 5;
+  CM_MEDIAFLAG_CAN_TOGGLE_CONTROLS    = 1 shl 6;
+  CM_MEDIAFLAG_CONTROLS               = 1 shl 7;
+  CM_MEDIAFLAG_CAN_PRINT              = 1 shl 8;
+  CM_MEDIAFLAG_CAN_ROTATE             = 1 shl 9;
+  CM_MEDIAFLAG_CAN_PICTURE_IN_PICTURE = 1 shl 10;
+  CM_MEDIAFLAG_PICTURE_IN_PICTURE     = 1 shl 11;
+  CM_MEDIAFLAG_CAN_LOOP               = 1 shl 12;
 
   // /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)
   CM_EDITFLAG_NONE                   = 0;
@@ -541,6 +544,7 @@ const
   CM_EDITFLAG_CAN_DELETE             = 1 shl 5;
   CM_EDITFLAG_CAN_SELECT_ALL         = 1 shl 6;
   CM_EDITFLAG_CAN_TRANSLATE          = 1 shl 7;
+  CM_EDITFLAG_CAN_EDIT_RICHLY        = 1 shl 8;
 
   // /include/internal/cef_types.h (cef_ssl_version_t)
   SSL_CONNECTION_VERSION_UNKNOWN = 0;
@@ -632,6 +636,8 @@ const
 //******************************************************
 //****************** OTHER CONSTANTS *******************
 //******************************************************
+
+  ABOUTBLANK_URI = 'about:blank';
 
   DEVTOOLS_WINDOWNAME = 'DevTools';
 

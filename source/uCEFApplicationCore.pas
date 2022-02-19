@@ -41,10 +41,10 @@ unit uCEFApplicationCore;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
-
 {$I cef.inc}
+
+{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$IFNDEF FPC}{$IFNDEF DELPHI12_UP}
   // Workaround for "Internal error" in old Delphi versions caused by uint64 handling
@@ -67,8 +67,8 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 98;
-  CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 21;
+  CEF_SUPPORTED_VERSION_MINOR   = 2;
+  CEF_SUPPORTED_VERSION_RELEASE = 0;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 98;
@@ -353,6 +353,7 @@ type
       procedure ShutDown;
       procedure FreeLibcefLibrary;
       function  ExecuteProcess(const aApp : ICefApp) : integer;
+      procedure InitializeCefMainArgs(var aCefMainArgs : TCefMainArgs);
       procedure InitializeSettings(var aSettings : TCefSettings);
       function  InitializeLibrary(const aApp : ICefApp) : boolean;
       procedure RenameAndDeleteDir(const aDirectory : string; aKeepCookies : boolean = False);
@@ -1345,6 +1346,41 @@ begin
   end;
 end;
 
+{$WARN SYMBOL_PLATFORM OFF}
+procedure TCefApplicationCore.InitializeCefMainArgs(var aCefMainArgs : TCefMainArgs);
+begin
+  {$IFDEF MSWINDOWS}
+  aCefMainArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+    {$IFDEF FPC}
+    // Create a copy of argv on Linux because Chromium mangles the value internally (see CEF issue #620).
+    // https://bitbucket.org/chromiumembedded/cef/issues/620/cef3-linux-crash-when-passing-command-line
+    if (FArgCopy.argv = nil) then
+      FArgCopy.CopyFromArgs(argc, argv);
+
+    aCefMainArgs.argc := FArgCopy.argc;
+    aCefMainArgs.argv := FArgCopy.argv;
+    {$ELSE}
+    // TO-DO: FMX should also copy argv to FArgCopy like FPC
+    aCefMainArgs.argc := ArgCount;
+    aCefMainArgs.argv := PPWideChar(ArgValues);
+    {$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+    {$IFDEF FPC}
+    aCefMainArgs.argc := argc;
+    aCefMainArgs.argv := argv;
+    {$ELSE}
+    aCefMainArgs.argc := ArgCount;
+    aCefMainArgs.argv := PPWideChar(ArgValues);
+    {$ENDIF}
+  {$ENDIF}
+end;
+{$WARN SYMBOL_PLATFORM ON}
+
 function TCefApplicationCore.ExecuteProcess(const aApp : ICefApp) : integer;
 var
   TempArgs : TCefMainArgs;
@@ -1353,22 +1389,7 @@ begin
   try
     if (aApp <> nil) then
       begin
-        {$WARN SYMBOL_PLATFORM OFF}
-        {$IFDEF MSWINDOWS}
-          TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
-        {$ELSE}
-          {$IFDEF FPC}
-            {$IFDEF LINUX}
-            FArgCopy.CopyFromArgs(argc, argv);
-            {$ENDIF}
-            TempArgs.argc := argc;
-            TempArgs.argv := argv;
-          {$ELSE}
-          TempArgs.argc := ArgCount;
-          TempArgs.argv := PPWideChar(ArgValues);
-          {$ENDIF}
-        {$ENDIF}
-        {$WARN SYMBOL_PLATFORM ON}
+        InitializeCefMainArgs(TempArgs);
         Result := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
       end;
   except
@@ -1435,20 +1456,7 @@ begin
                 RenameAndDeleteDir(FCache, True);
 
           InitializeSettings(FAppSettings);
-
-          {$IFDEF MSWINDOWS}
-            TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
-          {$ELSE}
-            {$WARN SYMBOL_PLATFORM OFF}
-              {$IFDEF FPC}
-              TempArgs.argc := argc;
-              TempArgs.argv := argv;
-              {$ELSE}
-              TempArgs.argc := ArgCount;
-              TempArgs.argv := PPWideChar(ArgValues);
-              {$ENDIF}
-            {$WARN SYMBOL_PLATFORM ON}
-          {$ENDIF}
+          InitializeCefMainArgs(TempArgs);
 
           if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
             begin
