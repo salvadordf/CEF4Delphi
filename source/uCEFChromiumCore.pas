@@ -41,10 +41,10 @@ unit uCEFChromiumCore;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
-
 {$I cef.inc}
+
+{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -418,6 +418,7 @@ type
       procedure SetQuicAllowed(aValue : boolean);
       procedure SetJavascriptEnabled(aValue : boolean);
       procedure SetLoadImagesAutomatically(aValue : boolean);
+      procedure SetDefaultUrl(const aValue : ustring);
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): Boolean;
@@ -862,7 +863,7 @@ type
       function    GetExtensions(const extension_ids: TStringList): boolean;
       function    GetExtension(const extension_id: ustring): ICefExtension;
 
-      property  DefaultUrl                    : ustring                      read FDefaultUrl                  write FDefaultUrl;
+      property  DefaultUrl                    : ustring                      read FDefaultUrl                  write SetDefaultUrl;
       property  Options                       : TChromiumOptions             read FOptions                     write FOptions;
       property  FontOptions                   : TChromiumFontOptions         read FFontOptions                 write FFontOptions;
       property  PDFPrintOptions               : TPDFPrintOptions             read FPDFPrintOptions             write FPDFPrintOptions;
@@ -1237,7 +1238,7 @@ begin
   FCompHandle              := 0;
   {$ENDIF}
   FIsOSR                   := False;
-  FDefaultUrl              := 'about:blank';
+  FDefaultUrl              := ABOUTBLANK_URI;
   FHandler                 := nil;
   FReqContextHandler       := nil;
   FResourceRequestHandler  := nil;
@@ -2844,6 +2845,16 @@ begin
       FLoadImagesAutomatically := aValue;
       FUpdatePreferences       := True;
     end;
+end;
+
+procedure TChromiumCore.SetDefaultUrl(const aValue : ustring);
+begin
+  FDefaultUrl := trim(aValue);
+
+  // Use 'about:blank' if FDefaultUrl is empty to avoid a memory leak when the browser is destroyed.
+  // https://github.com/salvadordf/CEF4Delphi/issues/404
+  if (Length(FDefaultUrl) = 0) then
+    FDefaultUrl := ABOUTBLANK_URI;
 end;
 
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);

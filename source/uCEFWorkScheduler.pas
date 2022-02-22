@@ -41,10 +41,10 @@ unit uCEFWorkScheduler;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
-
 {$I cef.inc}
+
+{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 

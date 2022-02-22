@@ -467,11 +467,14 @@
   {$DEFINE SUPPORTS_INLINE}
 {$ENDIF}
 
+
+// Revisar !!!
+// https://docwiki.embarcadero.com/RADStudio/Sydney/en/Conditional_compilation_(Delphi)
+// https://web.archive.org/web/20210711094300/https://docwiki.embarcadero.com/RADStudio/Sydney/en/Conditional_compilation_(Delphi)
+// https://www.freepascal.org/docs-html/prog/progap7.html
+
 {$IF DEFINED(CPUX32) OR
-     DEFINED(CPU386) OR
-     DEFINED(CPUi386) OR
-     DEFINED(CPUPOWERPC32) OR
-     DEFINED(CPUSPARC32) OR
+     DEFINED(CPU32) OR
      DEFINED(CPU32BITS) OR
      DEFINED(CPUARM32) OR
      DEFINED(WIN32) OR
@@ -481,6 +484,19 @@
      DEFINED(POSIX32) OR
      DEFINED(ANDROID32)}
   {$DEFINE TARGET_32BITS}
+{$ELSE}
+  {$IF DEFINED(CPUX64) OR
+       DEFINED(CPU64) OR
+       DEFINED(CPU64BITS) OR
+       DEFINED(CPUARM64) OR
+       DEFINED(WIN64) OR
+       DEFINED(IOS64) OR
+       DEFINED(MACOS64) OR
+       DEFINED(LINUX64) OR
+       DEFINED(POSIX64) OR
+       DEFINED(ANDROID64)}
+    {$DEFINE TARGET_64BITS}
+  {$IFEND}
 {$IFEND}
 
 // Delphi uses MACOS for the new MacOSX and DARWIN is not defined
