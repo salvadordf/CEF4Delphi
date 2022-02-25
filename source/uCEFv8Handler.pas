@@ -83,7 +83,7 @@ type
 
       function GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret: TValue): Boolean;
       function SetValue(const v: TValue; var ret: ICefv8Value): Boolean;
-  {$IFDEF CPUX64}
+  {$IFDEF TARGET_64BITS}
       class function StrToPtr(const str: ustring): Pointer;
       class function PtrToStr(p: Pointer): ustring;
   {$ENDIF}
@@ -420,7 +420,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
     begin
       ud := v.GetUserData;
       if (ud = nil) then Exit(False);
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
       rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
 {$ELSE}
       rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
@@ -429,7 +429,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
 
       if (rt.TypeKind = tkClass) and td.ClassType.InheritsFrom(GetTypeData(pi).ClassType) then
       begin
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
         i := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
 {$ELSE}
         i := Pointer(ud.GetValueByIndex(1).GetIntValue);
@@ -453,7 +453,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
     begin
       ud := v.GetUserData;
       if (ud = nil) then Exit(False);
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
       rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
 {$ELSE}
       rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
@@ -461,7 +461,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
 
       if (rt.TypeKind = tkClassRef) then
       begin
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
         i := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
 {$ELSE}
         i := Pointer(ud.GetValueByIndex(1).GetIntValue);
@@ -539,7 +539,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
   begin
     ud := TCefv8ValueRef.NewArray(1);
     rt := FCtx.GetType(v.TypeInfo);
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
     ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
 {$ELSE}
     ud.SetValueByIndex(0, TCefv8ValueRef.NewInt(Integer(rt)));
@@ -592,7 +592,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
     rt := FCtx.GetType(v.TypeInfo);
 
     ud := TCefv8ValueRef.NewArray(2);
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
     ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
     ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(v.AsObject)));
 {$ELSE}
@@ -656,7 +656,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
     rt := FCtx.GetType(c);
 
     ud := TCefv8ValueRef.NewArray(2);
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
     ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
     ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(c)));
 {$ELSE}
@@ -724,7 +724,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
 
 
       ud := TCefv8ValueRef.NewArray(2);
-  {$IFDEF CPUX64}
+  {$IFDEF TARGET_64BITS}
       ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
       ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(Pointer(v.AsInterface))));
   {$ELSE}
@@ -792,7 +792,7 @@ begin
   end;
 end;
 
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
 class function TCefRTTIExtension.StrToPtr(const str: ustring): Pointer;
 begin
   HexToBin(PWideChar(str), @Result, SizeOf(Result));
@@ -832,7 +832,7 @@ begin
     ud := object_.GetUserData;
     if ud <> nil then
     begin
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
       rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
 {$ELSE}
       rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
@@ -840,7 +840,7 @@ begin
       case rt.TypeKind of
         tkClass:
           begin
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
             val := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
 {$ELSE}
             val := TObject(ud.GetValueByIndex(1).GetIntValue);
@@ -924,7 +924,7 @@ begin
         tkClassRef:
           begin
             val := nil;
-{$IFDEF CPUX64}
+{$IFDEF TARGET_64BITS}
             cls := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
 {$ELSE}
             cls := TClass(ud.GetValueByIndex(1).GetIntValue);
