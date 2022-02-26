@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{25799C47-D388-41C5-B16D-54A26E1341D3}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CEF4DelphiVCLRTL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="CEF4Delphi_designtime.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="CEF4DelphiFMXRTL.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="CEF4DelphiVCLRTL">
+        <MSBuild Projects="CEF4DelphiVCLRTL.dproj"/>
+    </Target>
+    <Target Name="CEF4DelphiVCLRTL:Clean">
+        <MSBuild Projects="CEF4DelphiVCLRTL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CEF4DelphiVCLRTL:Make">
+        <MSBuild Projects="CEF4DelphiVCLRTL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CEF4Delphi_designtime">
+        <MSBuild Projects="CEF4Delphi_designtime.dproj"/>
+    </Target>
+    <Target Name="CEF4Delphi_designtime:Clean">
+        <MSBuild Projects="CEF4Delphi_designtime.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CEF4Delphi_designtime:Make">
+        <MSBuild Projects="CEF4Delphi_designtime.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CEF4DelphiFMXRTL">
+        <MSBuild Projects="CEF4DelphiFMXRTL.dproj"/>
+    </Target>
+    <Target Name="CEF4DelphiFMXRTL:Clean">
+        <MSBuild Projects="CEF4DelphiFMXRTL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CEF4DelphiFMXRTL:Make">
+        <MSBuild Projects="CEF4DelphiFMXRTL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="CEF4DelphiVCLRTL;CEF4Delphi_designtime;CEF4DelphiFMXRTL"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="CEF4DelphiVCLRTL:Clean;CEF4Delphi_designtime:Clean;CEF4DelphiFMXRTL:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="CEF4DelphiVCLRTL:Make;CEF4Delphi_designtime:Make;CEF4DelphiFMXRTL:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

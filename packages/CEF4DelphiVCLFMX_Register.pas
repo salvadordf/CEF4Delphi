@@ -35,7 +35,7 @@
  *
  *)
 
-unit CEF4Delphi_Register;
+unit CEF4DelphiVCLFMX_Register;
 
 {$R res\chromium.dcr}
 
@@ -48,23 +48,23 @@ procedure Register;
 implementation
 
 uses
-  {$IFDEF DELPHI16_UP}
   System.Classes,
-  {$ELSE}
-  Classes,
-  {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
-  uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
-  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFBrowserViewComponent, 
-  uCEFLabelButtonComponent, uCEFMenuButtonComponent, uCEFPanelComponent, 
-  uCEFTextfieldComponent, uCEFScrollViewComponent, uCEFWindowComponent;
+  uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
+  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
+  uCEFSentinel, uCEFBrowserViewComponent, uCEFLabelButtonComponent,
+  uCEFMenuButtonComponent, uCEFPanelComponent, uCEFTextfieldComponent,
+  uCEFScrollViewComponent, uCEFWindowComponent;
 
 procedure Register;
 begin
-  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
-                                  TBufferPanel, TCEFWorkScheduler,
-                                  TCEFServerComponent, TCEFLinkedWindowParent,
-                        	  TCEFUrlRequestClientComponent, TCEFSentinel]);
+  RegisterComponents('Chromium',
+                     [TChromium, TCEFWindowParent, TChromiumWindow,
+                      TBufferPanel, TFMXBufferPanel, TFMXChromium,
+                      TFMXWorkScheduler, TCEFWorkScheduler,
+                      TCEFServerComponent, TCEFLinkedWindowParent,
+                      TCEFUrlRequestClientComponent,
+                      TCEFSentinel]);
 
   RegisterComponents('Chromium Views Framework',
                      [TCEFBrowserViewComponent, TCEFLabelButtonComponent,
