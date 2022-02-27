@@ -63,6 +63,7 @@ type
       StopBtn: TSpeedButton;
       URLEdt: TEdit;
       WindowParentLay: TLayout;
+      FocusWorkaroundBtn: TButton;
 
       procedure BackBtnClick(Sender: TObject);
       procedure ForwardBtnClick(Sender: TObject);
@@ -80,6 +81,7 @@ type
       procedure FMXChromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
       procedure FMXChromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
       procedure FMXChromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
+      procedure FMXChromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
 
     protected
       FClosing              : boolean;   // Indicates that this frame is destroying the browser
@@ -140,7 +142,7 @@ end;
 
 function TBrowserFrame.GetFMXWindowParentRect : System.Types.TRect;
 var
-  TempRect : TRectF;
+  TempRect  : TRectF;
   TempScale : single;
 begin
   TempScale       := FMXChromium1.ScreenScale;
@@ -168,13 +170,14 @@ begin
     begin
       FMXWindowParent.WindowState := TWindowState.wsNormal;
       ResizeBrowser;
-      FMXWindowParent.Show;
+      FMXWindowParent.Visible := True;
     end;
 end;
 
 procedure TBrowserFrame.HideBrowser;
 begin
-  if (FMXWindowParent <> nil) then FMXWindowParent.Hide;
+  if (FMXWindowParent <> nil) then
+    FMXWindowParent.Visible := False;
 end;
 
 procedure TBrowserFrame.DestroyWindowParent;
@@ -203,7 +206,8 @@ begin
     begin
       FMXWindowParent := TFMXWindowParent.CreateNew(nil);
       FMXWindowParent.Reparent(ParentForm.Handle);
-      ShowBrowser;
+      ResizeBrowser;
+      FMXWindowParent.Show;
     end;
 end;
 
@@ -248,6 +252,17 @@ procedure TBrowserFrame.FMXChromium1Close(Sender: TObject;
 begin
   aAction := cbaDelay;
   if assigned(FOnBrowserClosing) then FOnBrowserClosing(self);
+end;
+
+procedure TBrowserFrame.FMXChromium1GotFocus(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  // We use a hidden button to fix the focus issues when the browser has the real focus.
+  TThread.Queue(nil,
+    procedure
+    begin
+      FocusWorkaroundBtn.SetFocus;
+    end);
 end;
 
 procedure TBrowserFrame.FMXChromium1LoadError(Sender: TObject;

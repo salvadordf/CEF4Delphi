@@ -81,9 +81,10 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
+    procedure BrowserTabCtrlChange(Sender: TObject);
+
     procedure AddTabActionExecute(Sender: TObject);
     procedure RemoveTabActionExecute(Sender: TObject);
-    procedure BrowserTabCtrlChange(Sender: TObject);
     procedure PrevTabActionExecute(Sender: TObject);
     procedure NextTabActionExecute(Sender: TObject);
     procedure ShowTabsActionExecute(Sender: TObject);
@@ -115,8 +116,10 @@ type
     procedure DestroyTab(aTabID : cardinal);
     function  CloseAllTabs : boolean;
     procedure CloseSelectedTab;
+    procedure ResizeAllBrowsers;
 
     property  NextTabID : cardinal   read GetNextTabID;
+
   public
     function  PostCustomMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
     procedure NotifyMoveOrResizeStarted;
@@ -215,7 +218,9 @@ var
   PositionChanged: Boolean;
 begin
   PositionChanged := (ALeft <> Left) or (ATop <> Top);
+
   inherited SetBounds(ALeft, ATop, AWidth, AHeight);
+
   if PositionChanged then
     NotifyMoveOrResizeStarted;
 end;
@@ -241,6 +246,17 @@ begin
 end;
 
 procedure TMainForm.FormResize(Sender: TObject);
+begin
+  ResizeAllBrowsers;
+end;
+
+procedure TMainForm.FormShow(Sender: TObject);
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.GlobalContextInitialized then
+    EnableButtonLay;
+end;
+
+procedure TMainForm.ResizeAllBrowsers;
 var
   i : integer;
 begin
@@ -251,12 +267,6 @@ begin
       TBrowserTab(BrowserTabCtrl.Tabs[i]).ResizeBrowser;
       dec(i);
     end;
-end;
-
-procedure TMainForm.FormShow(Sender: TObject);
-begin
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.GlobalContextInitialized then
-    EnableButtonLay;
 end;
 
 procedure TMainForm.EnableButtonLay;
@@ -288,6 +298,8 @@ begin
     BrowserTabCtrl.TabPosition := TTabPosition.None
    else
     BrowserTabCtrl.TabPosition := TTabPosition.PlatformDefault;
+
+  ResizeAllBrowsers;
 end;
 
 procedure TMainForm.AddTabActionExecute(Sender: TObject);
