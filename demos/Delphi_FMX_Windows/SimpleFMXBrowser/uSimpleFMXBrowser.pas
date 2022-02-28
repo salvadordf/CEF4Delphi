@@ -67,6 +67,7 @@ type
     GoBtn: TButton;
     SnapShotBtn: TButton;
     BrowserLay: TLayout;
+    FocusWorkaroundBtn: TButton;
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -83,6 +84,7 @@ type
     procedure FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure FMXChromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
     procedure FMXChromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
+    procedure FMXChromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -236,6 +238,17 @@ begin
     end;
 end;
 
+procedure TSimpleFMXBrowserFrm.FMXChromium1GotFocus(Sender: TObject;
+  const browser: ICefBrowser);
+begin
+  // We use a hidden button to fix the focus issues when the browser has the real focus.
+  TThread.Queue(nil,
+    procedure
+    begin
+      FocusWorkaroundBtn.SetFocus;
+    end);
+end;
+
 function TSimpleFMXBrowserFrm.PostCustomMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 {$IFDEF MSWINDOWS}
 var
@@ -317,8 +330,7 @@ begin
         if (FMXWindowParent <> nil) then
           begin
             FMXWindowParent.WindowState := TWindowState.wsNormal;
-            FMXWindowParent.Show;
-            FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+            ResizeChild;
           end;
     end;
 

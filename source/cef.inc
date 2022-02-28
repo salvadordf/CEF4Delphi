@@ -467,12 +467,6 @@
   {$DEFINE SUPPORTS_INLINE}
 {$ENDIF}
 
-
-// Revisar !!!
-// https://docwiki.embarcadero.com/RADStudio/Sydney/en/Conditional_compilation_(Delphi)
-// https://web.archive.org/web/20210711094300/https://docwiki.embarcadero.com/RADStudio/Sydney/en/Conditional_compilation_(Delphi)
-// https://www.freepascal.org/docs-html/prog/progap7.html
-
 {$IF DEFINED(CPUX32) OR
      DEFINED(CPU32) OR
      DEFINED(CPU32BITS) OR

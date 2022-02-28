@@ -33,7 +33,7 @@ requires
   vcl;
 
 contains
-  CEF4Delphi_Register in 'CEF4Delphi_Register.pas',
+  CEF4DelphiVCL_Register in 'CEF4DelphiVCL_Register.pas',
   uCEFFindHandler in '..\source\uCEFFindHandler.pas',
   uCEFConstants in '..\source\uCEFConstants.pas',
   uCEFTypes in '..\source\uCEFTypes.pas',
@@ -225,8 +225,7 @@ contains
   uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
   uCEFFrameHandler in '..\source\uCEFFrameHandler.pas',
   uCEFOverlayController in '..\source\uCEFOverlayController.pas',
-  uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas',
-  uCEFArgCopy in '..\source\uCEFArgCopy.pas';
+  uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas';
 
 end.
 

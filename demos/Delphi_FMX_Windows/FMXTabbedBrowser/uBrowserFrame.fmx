@@ -98,10 +98,19 @@ object BrowserFrame: TBrowserFrame
     Size.PlatformDefault = False
     TabOrder = 4
     OnResize = WindowParentLayResize
+    object FocusWorkaroundBtn: TButton
+      Position.X = 304.000000000000000000
+      Position.Y = 120.000000000000000000
+      Size.Width = 1.000000000000000000
+      Size.Height = 1.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
   end
   object FMXChromium1: TFMXChromium
     OnLoadError = FMXChromium1LoadError
     OnLoadingStateChange = FMXChromium1LoadingStateChange
+    OnGotFocus = FMXChromium1GotFocus
     OnAddressChange = FMXChromium1AddressChange
     OnTitleChange = FMXChromium1TitleChange
     OnBeforePopup = FMXChromium1BeforePopup

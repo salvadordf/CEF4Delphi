@@ -84,8 +84,17 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
     Size.Height = 565.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 6
+    object FocusWorkaroundBtn: TButton
+      Position.X = 368.000000000000000000
+      Position.Y = 208.000000000000000000
+      Size.Width = 1.000000000000000000
+      Size.Height = 1.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
   end
   object FMXChromium1: TFMXChromium
+    OnGotFocus = FMXChromium1GotFocus
     OnBeforeContextMenu = FMXChromium1BeforeContextMenu
     OnContextMenuCommand = FMXChromium1ContextMenuCommand
     OnBeforePopup = FMXChromium1BeforePopup

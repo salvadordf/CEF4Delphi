@@ -1,0 +1,50 @@
+package CEF4DelphiFMXRTL;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'CEF4Delphi FMX Runtime'}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  fmx,
+  CEF4DelphiVCLRTL;
+
+contains
+  uCEFFMXBufferPanel in '..\source\uCEFFMXBufferPanel.pas',
+  uCEFFMXChromium in '..\source\uCEFFMXChromium.pas',
+  uCEFFMXWindowParent in '..\source\uCEFFMXWindowParent.pas',
+  uCEFFMXWorkScheduler in '..\source\uCEFFMXWorkScheduler.pas',
+  uCEFMacOSConstants in '..\source\uCEFMacOSConstants.pas',
+  uCEFMacOSCustomCocoaTimer in '..\source\uCEFMacOSCustomCocoaTimer.pas',
+  uCEFMacOSFunctions in '..\source\uCEFMacOSFunctions.pas',
+  uCEFMacOSInterfaces in '..\source\uCEFMacOSInterfaces.pas',
+  uCEFLinuxConstants in '..\source\uCEFLinuxConstants.pas',
+  uCEFLinuxFunctions in '..\source\uCEFLinuxFunctions.pas',
+  uCEFLinuxTypes in '..\source\uCEFLinuxTypes.pas';
+
+end.

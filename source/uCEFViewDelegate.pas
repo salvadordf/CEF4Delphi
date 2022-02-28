@@ -348,7 +348,7 @@ begin
       // https://github.com/salvadordf/CEF4Delphi/issues/278
       // The TCefRect return type seems to be messing the stack and the other parameters
       // are assigned wrong addresses.
-      {$IFDEF CPUX64}
+      {$IFDEF TARGET_64BITS}
       get_preferred_size      := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_preferred_size;
       get_minimum_size        := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_minimum_size;
       get_maximum_size        := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_maximum_size;
