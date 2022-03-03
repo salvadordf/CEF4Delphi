@@ -2902,7 +2902,7 @@ type
     download_image                    : procedure(self: PCefBrowserHost; const image_url: PCefString; is_favicon: Integer; max_image_size: Cardinal; bypass_cache: Integer; callback: PCefDownloadImageCallback); stdcall;
     print                             : procedure(self: PCefBrowserHost); stdcall;
     print_to_pdf                      : procedure(self: PCefBrowserHost; const path: PCefString; const settings: PCefPdfPrintSettings; callback: PCefPdfPrintCallback); stdcall;
-    find                              : procedure(self: PCefBrowserHost; identifier: Integer; const searchText: PCefString; forward_, matchCase, findNext: Integer); stdcall;
+    find                              : procedure(self: PCefBrowserHost; const searchText: PCefString; forward_, matchCase, findNext: Integer); stdcall;
     stop_finding                      : procedure(self: PCefBrowserHost; clearSelection: Integer); stdcall;
     show_dev_tools                    : procedure(self: PCefBrowserHost; const windowInfo: PCefWindowInfo; client: PCefClient; const settings: PCefBrowserSettings; const inspect_element_at: PCefPoint); stdcall;
     close_dev_tools                   : procedure(self: PCefBrowserHost); stdcall;
