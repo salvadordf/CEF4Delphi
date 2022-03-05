@@ -72,6 +72,7 @@ const
   MINIBROWSER_PREFS_AVLBL      = WM_APP + $10D;
   MINIBROWSER_DTDATA_AVLBL     = WM_APP + $10E;
   MINIBROWSER_SHOWFILEDLG      = WM_APP + $10F;
+  MINIBROWSER_SELECTCERT       = WM_APP + $110;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -180,6 +181,7 @@ type
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
     procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: Cardinal; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean);
+    procedure Chromium1SelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: Boolean; const host: ustring; port: Integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: Boolean);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -213,12 +215,14 @@ type
     procedure SaveasMHTML1Click(Sender: TObject);
 
   protected
-    FDevToolsMsgID     : integer;
-    FScreenshotMsgID   : integer;
-    FMHTMLMsgID        : integer;
-    FDevToolsMsgValue  : ustring;
-    FShutdownReason    : string;
-    FHasShutdownReason : boolean;
+    FDevToolsMsgID      : integer;
+    FScreenshotMsgID    : integer;
+    FMHTMLMsgID         : integer;
+    FDevToolsMsgValue   : ustring;
+    FShutdownReason     : string;
+    FHasShutdownReason  : boolean;
+    FSelectCertCallback : ICefSelectClientCertificateCallback;
+    FCertificates       : TCefX509CertificateArray;
 
     FResponse   : TStringList;
     FRequest    : TStringList;
@@ -231,6 +235,7 @@ type
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure AddURL(const aURL : string);
+    procedure DestroyCertificates;
 
     procedure ShowDevTools(aPoint : TPoint); overload;
     procedure ShowDevTools; overload;
@@ -245,7 +250,6 @@ type
     function  ShowOpenFileDialog(var aFilePaths : TStringList; aMultiple : boolean) : boolean;
     function  ShowOpenFolderDialog(var aFilePaths : TStringList) : boolean;
     function  ShowSaveFileDialog(var aFilePaths : TStringList) : boolean;
-
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
@@ -264,6 +268,7 @@ type
     procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;
     procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;
     procedure ShowFileDialogMsg(var aMessage : TMessage); message MINIBROWSER_SHOWFILEDLG;
+    procedure SelectCertificateMsg(var aMessage : TMessage); message MINIBROWSER_SELECTCERT;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -286,7 +291,7 @@ implementation
 
 uses
   uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer,
-  uCEFClient, uFindFrm, uCEFDictionaryValue, uDirectorySelector;
+  uCEFClient, uFindFrm, uCEFDictionaryValue, uDirectorySelector, uSelectCertForm;
 
 // Destruction steps
 // =================
@@ -763,6 +768,38 @@ begin
   TempFilePaths.Free;
 end;
 
+procedure TMiniBrowserFrm.SelectCertificateMsg(var aMessage : TMessage);
+var
+  TempSelector : TSelectCertForm;
+  TempInfo : string;
+  i : integer;
+begin
+  if assigned(FCertificates) and assigned(FSelectCertCallback) then
+    try
+      TempSelector := TSelectCertForm.Create(self);
+
+      i := 0;
+      while (i < length(FCertificates)) do
+        begin
+          TempInfo := FCertificates[i].GetSubject.GetDisplayName + ' - ' +
+                      'Valid until : ' + DateToStr(CefTimeToDateTime(FCertificates[i].GetValidExpiry));
+
+          TempSelector.Certificates.Add(TempInfo);
+          inc(i);
+        end;
+
+      TempSelector.ShowModal;
+
+      if TempSelector.Selected >= 0 then
+        FSelectCertCallback.Select(FCertificates[TempSelector.Selected])
+       else
+        FSelectCertCallback.Select(nil);
+    finally
+      DestroyCertificates;
+      FreeAndNil(TempSelector);
+    end;
+end;
+
 procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
   const browser: ICefBrowser; fullscreen: Boolean);
 begin                    
@@ -1117,6 +1154,30 @@ begin
   Chromium1.StopLoad;
 end;
 
+procedure TMiniBrowserFrm.Chromium1SelectClientCertificate(Sender: TObject;
+  const browser: ICefBrowser; isProxy: Boolean; const host: ustring;
+  port: Integer; certificatesCount: NativeUInt;
+  const certificates: TCefX509CertificateArray;
+  const callback: ICefSelectClientCertificateCallback; var aResult: Boolean);
+var
+  i : integer;
+begin
+  if assigned(callback) and assigned(certificates) and (length(certificates) > 0) then
+    begin
+      aResult             := True;
+      FSelectCertCallback := callback;
+
+      SetLength(FCertificates, length(certificates));
+
+      for i := 0 to pred(length(certificates)) do
+        FCertificates[i] := certificates[i];
+
+      PostMessage(Handle, MINIBROWSER_SELECTCERT, 0, 0);
+    end
+   else
+    aResult := False;
+end;
+
 procedure TMiniBrowserFrm.Chromium1StatusMessage(Sender: TObject;
   const browser: ICefBrowser; const value: ustring);
 begin
@@ -1188,6 +1249,8 @@ begin
   FResponse            := TStringList.Create;
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
+  FSelectCertCallback  := nil;
+  FCertificates        := nil;
 
   FDevToolsMsgID       := 0;
 
@@ -1213,6 +1276,9 @@ begin
   if FHasShutdownReason then
     ShutdownBlockReasonDestroy(Application.Handle);
 
+  DestroyCertificates;
+
+  FSelectCertCallback  := nil;
   FResponse.Free;
   FRequest.Free;
   FNavigation.Free;
@@ -1279,6 +1345,24 @@ begin
   if (URLCbx.Items.IndexOf(aURL) < 0) then URLCbx.Items.Add(aURL);
 
   URLCbx.Text := aURL;
+end;
+
+procedure TMiniBrowserFrm.DestroyCertificates;
+var
+  i : integer;
+begin
+  if assigned(FCertificates) then
+    begin
+      i := 0;
+      while (i < length(FCertificates)) do
+        begin
+          FCertificates[i] := nil;
+          inc(i);
+        end;
+
+      Finalize(FCertificates);
+      FCertificates := nil;
+    end;
 end;
 
 procedure TMiniBrowserFrm.akescreenshot1Click(Sender: TObject);
