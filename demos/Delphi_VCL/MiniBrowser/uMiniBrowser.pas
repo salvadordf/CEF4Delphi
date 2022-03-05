@@ -795,6 +795,7 @@ begin
        else
         FSelectCertCallback.Select(nil);
     finally
+      FSelectCertCallback := nil;
       DestroyCertificates;
       FreeAndNil(TempSelector);
     end;
