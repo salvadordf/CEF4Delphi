@@ -17,7 +17,6 @@ type
     procedure FindNextBtnClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
-    FSearchID : integer;
     FFirstNext : boolean;
   end;
 
@@ -34,13 +33,13 @@ uses
 
 procedure TFindFrm.FindNextBtnClick(Sender: TObject);
 begin
-  MiniBrowserFrm.Chromium1.Find(FSearchID, FindTextEdt.Text, True, False, FFirstNext);
+  MiniBrowserFrm.Chromium1.Find(FindTextEdt.Text, True, False, FFirstNext);
   FFirstNext := True;
 end;
 
 procedure TFindFrm.FindPrevBtnClick(Sender: TObject);
 begin
-  MiniBrowserFrm.Chromium1.Find(FSearchID, FindTextEdt.Text, False, False, FFirstNext);
+  MiniBrowserFrm.Chromium1.Find(FindTextEdt.Text, False, False, FFirstNext);
   FFirstNext := True;
 end;
 
@@ -59,7 +58,6 @@ procedure TFindFrm.FormShow(Sender: TObject);
 begin
   FindTextEdt.Text := '';
   FFirstNext := False;
-  inc(FSearchID);
 end;
 
 end.

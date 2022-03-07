@@ -94,7 +94,7 @@ OutputDir=..\..\..\bin
 UnitOutputDir=
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=
+SearchPath=..\..\..\source
 Packages=vclx;vcl;rtl;dsnapcon;dsnap;dbrtl;vcldb;dbexpress;dbxcds;adortl;bdertl;vcldbx;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;CEF4Delphi_D7
 Conditionals=
 DebugSourceDirs=
@@ -133,6 +133,9 @@ Comments=
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+[HistoryLists\hlSearchPath]
+Count=1
+Item0=..\..\..\source
 [HistoryLists\hlOutputDirectorry]
 Count=1
 Item0=..\..\..\bin

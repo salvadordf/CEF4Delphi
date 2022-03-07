@@ -163,6 +163,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.youtube.com'
           'https://html5demos.com/drag/'
           'https://frames-per-second.appspot.com/'
+          
+            'https://www.sede.fnmt.gob.es/certificados/persona-fisica/verific' +
+            'ar-estado'
           'chrome://version/'
           'chrome://net-internals/'
           'chrome://tracing/'
@@ -288,6 +291,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
     OnCertificateError = Chromium1CertificateError
+    OnSelectClientCertificate = Chromium1SelectClientCertificate
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     OnFileDialog = Chromium1FileDialog

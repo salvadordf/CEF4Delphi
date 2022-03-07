@@ -781,7 +781,7 @@ type
       function    ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
       function    AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
 
-      procedure   Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
+      procedure   Find(const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
       procedure   StopFinding(aClearSelection : Boolean);
 
       procedure   Print;
@@ -2212,10 +2212,10 @@ begin
   Result      := AddBrowser(TempBrowser);
 end;
 
-procedure TChromiumCore.Find(aIdentifier : integer; const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
+procedure TChromiumCore.Find(const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
 begin
   if Initialized then
-    Browser.Host.Find(aIdentifier, aSearchText, aForward, aMatchCase, aFindNext);
+    Browser.Host.Find(aSearchText, aForward, aMatchCase, aFindNext);
 end;
 
 procedure TChromiumCore.StopFinding(aClearSelection : Boolean);

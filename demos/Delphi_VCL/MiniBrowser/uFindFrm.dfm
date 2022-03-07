@@ -16,7 +16,6 @@ object FindFrm: TFindFrm
   Padding.Top = 5
   Padding.Right = 5
   Padding.Bottom = 5
-  OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
   OnShow = FormShow

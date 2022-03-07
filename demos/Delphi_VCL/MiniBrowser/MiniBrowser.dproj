@@ -151,7 +151,9 @@
         </DCCReference>
         <DCCReference Include="uDirectorySelector.pas">
             <Form>DirectorySelectorFrm</Form>
-            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uSelectCertForm.pas">
+            <Form>SelectCertForm</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

@@ -42,16 +42,19 @@ program MiniBrowser;
 
 uses
   {$IFDEF DELPHI16_UP}
-  Vcl.Forms, WinApi.Windows,
+  Winapi.Windows,
+  Vcl.Forms,
   {$ELSE}
-  Forms, Windows,
+  Forms,
+  Windows,
   {$ENDIF }
   uCEFApplication,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uPreferences in 'uPreferences.pas' {PreferencesFrm},
   uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm},
   uFindFrm in 'uFindFrm.pas' {FindFrm},
-  uDirectorySelector in 'uDirectorySelector.pas' {DirectorySelectorFrm};
+  uDirectorySelector in 'uDirectorySelector.pas' {DirectorySelectorFrm},
+  uSelectCertForm in 'uSelectCertForm.pas' {SelectCertForm};
 
 {$R *.res}
 

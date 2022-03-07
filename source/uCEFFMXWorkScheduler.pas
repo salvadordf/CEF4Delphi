@@ -275,7 +275,7 @@ begin
   if FUseQueueThread and (FQueueThread <> nil) and FQueueThread.Ready then
     FQueueThread.EnqueueValue(integer(delay_ms))
    else
-    {$IFDEF DELPHI18_UP}
+    {$IFDEF DELPHI25_UP}
     TThread.ForceQueue(nil,
     {$ELSE}
     TThread.Queue(nil,
