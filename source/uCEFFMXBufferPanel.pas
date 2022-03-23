@@ -139,7 +139,7 @@ type
       property TabStop;
       property Size;
       {$ENDIF}
-      {$IFNDEF DELPHI25_UP}
+      {$IFDEF DELPHI25_UP}
       property OnResized;
       {$ENDIF}
       {$IFNDEF DELPHI23_UP}
