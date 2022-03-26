@@ -504,7 +504,7 @@ type
     instance : HINST;
     {$ELSE}
     argc     : Integer;
-    argv     : PPChar;
+    argv     : PPAnsiChar;
     {$ENDIF}
   end;
 

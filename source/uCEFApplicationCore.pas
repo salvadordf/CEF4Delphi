@@ -293,7 +293,7 @@ type
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
       function  GetArgc : longint;
-      function  GetArgv : PPChar;
+      function  GetArgv : PPAnsiChar;
       {$ENDIF}
 
       function  LoadCEFlibrary : boolean; virtual;
@@ -516,7 +516,7 @@ type
       property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
       {$IFDEF LINUX}
       property argcCopy                          : longint                             read GetArgc;
-      property argvCopy                          : PPChar                              read GetArgv;
+      property argvCopy                          : PPAnsiChar                          read GetArgv;
       {$ENDIF}
 
       // Custom properties
@@ -1354,19 +1354,19 @@ begin
   {$ENDIF}
 
   {$IFDEF LINUX}
-    {$IFDEF FPC}
     // Create a copy of argv on Linux because Chromium mangles the value internally (see CEF issue #620).
     // https://bitbucket.org/chromiumembedded/cef/issues/620/cef3-linux-crash-when-passing-command-line
     if (FArgCopy.argv = nil) then
-      FArgCopy.CopyFromArgs(argc, argv);
+      begin
+        {$IFDEF FPC}
+        FArgCopy.CopyFromArgs(argc, argv);
+        {$ELSE}
+        FArgCopy.CopyFromArgs(ArgCount, ArgValues);
+        {$ENDIF}
+      end;
 
     aCefMainArgs.argc := FArgCopy.argc;
     aCefMainArgs.argv := FArgCopy.argv;
-    {$ELSE}
-    // TO-DO: FMX should also copy argv to FArgCopy like FPC
-    aCefMainArgs.argc := ArgCount;
-    aCefMainArgs.argv := PPWideChar(ArgValues);
-    {$ENDIF}
   {$ENDIF}
 
   {$IFDEF MACOSX}
@@ -1375,7 +1375,7 @@ begin
     aCefMainArgs.argv := argv;
     {$ELSE}
     aCefMainArgs.argc := ArgCount;
-    aCefMainArgs.argv := PPWideChar(ArgValues);
+    aCefMainArgs.argv := ArgValues;
     {$ENDIF}
   {$ENDIF}
 end;
@@ -2457,7 +2457,7 @@ begin
     Result := 0;
 end;
 
-function TCefApplicationCore.GetArgv : PPChar;
+function TCefApplicationCore.GetArgv : PPAnsiChar;
 begin
   if (FArgCopy <> nil) then
     Result := FArgCopy.argv
