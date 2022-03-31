@@ -363,11 +363,10 @@ type
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       procedure BeforeInitSubProcess; virtual;
-      function  CheckCEFResources : boolean;
+      function  CheckCEFResources : boolean; virtual;
       {$IFDEF MSWINDOWS}
-      function  CheckCEFDLL : boolean;
+      function  CheckCEFDLL : boolean; virtual;
       {$ENDIF}
-      function  CheckCEFLibrary : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
       procedure AddCustomCommandLineSwitches(var aKeys, aValues : TStringList); virtual;
@@ -381,6 +380,7 @@ type
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
+      function    CheckCEFLibrary : boolean;
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
 
