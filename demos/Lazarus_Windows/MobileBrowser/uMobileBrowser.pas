@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright Â© 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,15 +37,17 @@
 
 unit uMobileBrowser;
 
+{$MODE Delphi}
+
 {$I cef.inc}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Mask, Vcl.Samples.Spin,
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFJson,
-  uCEFWinControl, uCEFSentinel, uCEFChromiumCore, uCEFDictionaryValue;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, MaskEdit, Spin,
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
+  uCEFJson, uCEFWinControl, uCEFSentinel, uCEFChromiumCore, uCEFDictionaryValue;
 
 type
   TForm1 = class(TForm)
@@ -90,6 +92,9 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure CanEmulateBtnClick(Sender: TObject);
     procedure OverrideUserAgentBtnClick(Sender: TObject);
+    procedure EmulateTouchChkClick(Sender: TObject);
+    procedure ClearDeviceMetricsOverrideBtnClick(Sender: TObject);
+    procedure OverrideDeviceMetricsBtnClick(Sender: TObject);
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -101,15 +106,12 @@ type
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
-    procedure EmulateTouchChkClick(Sender: TObject);
-    procedure ClearDeviceMetricsOverrideBtnClick(Sender: TObject);
-    procedure OverrideDeviceMetricsBtnClick(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
-
+                                  
     FPendingMsgID : integer;
 
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
@@ -127,6 +129,12 @@ type
     procedure HandleCanEmulateResult(aSuccess : boolean; const aResult: ICefValue);
     procedure HandleClearDeviceMetricsOverrideResult(aSuccess : boolean; const aResult: ICefValue);
     procedure HandleSetDeviceMetricsOverrideResult(aSuccess : boolean; const aResult: ICefValue);
+
+    procedure HandleSetUserAgentResultMsg(Data: PtrInt);
+    procedure HandleSetTouchEmulationEnabledResultMsg(Data: PtrInt);
+    procedure HandleCanEmulateResultMsg(Data: PtrInt);
+    procedure HandleClearDeviceMetricsOverrideResultMsg(Data: PtrInt);
+    procedure HandleSetDeviceMetricsOverrideResultMsg(Data: PtrInt);
   public
     { Public declarations }
   end;
@@ -136,10 +144,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 uses
-  uCEFApplication, uCefMiscFunctions;
+  uCEFApplication, uCEFMiscFunctions;
 
 // This demo allows you to emulate a mobile browser using the "Emulation" namespace of the DevTools.
 // It's necesary to reload the browser after using the controls in the right panel.
@@ -159,6 +167,10 @@ const
   DEVTOOLS_CLEARDEVICEMETRICSOVERRIDE_MSGID = 4;
   DEVTOOLS_SETDEVICEMETRICSOVERRIDE_MSGID   = 5;
 
+  CANEMULATE_RESULT_FAIL                    = 0;
+  CANEMULATE_RESULT_SUCCESS_SUPPORTED       = 1;
+  CANEMULATE_RESULT_SUCCESS_UNSUPPORTED     = 2;
+
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   CanClose := FCanClose;
@@ -176,7 +188,7 @@ begin
   FCanClose            := False;
   FClosing             := False;
   FPendingMsgID        := 0;
-  Chromium1.DefaultURL := AddressEdt.Text;
+  Chromium1.DefaultURL := UTF8Decode(AddressEdt.Text);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -191,7 +203,7 @@ begin
 end;
 
 procedure TForm1.CanEmulateBtnClick(Sender: TObject);
-begin
+begin                                 
   FPendingMsgID := DEVTOOLS_CANEMULATE_MSGID;
   Chromium1.ExecuteDevToolsMethod(0, 'Emulation.canEmulate', nil);
 end;
@@ -288,7 +300,7 @@ end;
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
   // This will load the URL in the edit box
-  Chromium1.LoadURL(AddressEdt.Text);
+  Chromium1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
 procedure TForm1.OverrideDeviceMetricsBtnClick(Sender: TObject);
@@ -302,7 +314,6 @@ begin
     TempParams.SetInt('width',  WidthEdt.Value);
     TempParams.SetInt('height', HeightEdt.Value);
 
-    TempFormatSettings := TFormatSettings.Create;
     TempFormatSettings.DecimalSeparator := '.';
     TempParams.SetDouble('deviceScaleFactor', StrToFloat(ScaleEdt.Text, TempFormatSettings));
 
@@ -378,98 +389,91 @@ begin
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
+procedure TForm1.HandleSetUserAgentResultMsg(Data: PtrInt);
+begin
+  if (Data <> 0) then
+    LogMem.Lines.Add('Successful SetUserAgentOverride')
+   else
+    LogMem.Lines.Add('Unsuccessful SetUserAgentOverride');
+end;
+
+procedure TForm1.HandleSetTouchEmulationEnabledResultMsg(Data: PtrInt);
+begin
+  if (Data <> 0) then
+    LogMem.Lines.Add('Successful SetTouchEmulationEnabled')
+   else
+    LogMem.Lines.Add('Unsuccessful SetTouchEmulationEnabled');
+end;
+
+procedure TForm1.HandleCanEmulateResultMsg(Data: PtrInt);      
+begin
+  case Data of
+    CANEMULATE_RESULT_FAIL :
+      LogMem.Lines.Add('Unsuccessful CanEmulate');
+
+    CANEMULATE_RESULT_SUCCESS_UNSUPPORTED :
+      LogMem.Lines.Add('Successful CanEmulate. Emulation is not supported.');
+
+    CANEMULATE_RESULT_SUCCESS_SUPPORTED :
+      LogMem.Lines.Add('Successful CanEmulate. Emulation is supported.');
+  end;
+end;
+
+procedure TForm1.HandleClearDeviceMetricsOverrideResultMsg(Data: PtrInt);   
+begin
+  if (Data <> 0) then
+    LogMem.Lines.Add('Successful ClearDeviceMetricsOverride')
+   else
+    LogMem.Lines.Add('Unsuccessful ClearDeviceMetricsOverride');
+end;
+
+procedure TForm1.HandleSetDeviceMetricsOverrideResultMsg(Data: PtrInt);  
+begin
+  if (Data <> 0) then
+    LogMem.Lines.Add('Successful SetDeviceMetricsOverride')
+   else
+    LogMem.Lines.Add('Unsuccessful SetDeviceMetricsOverride');
+end;
+
 procedure TForm1.HandleSetUserAgentResult(aSuccess : boolean; const aResult: ICefValue);
 begin
-  if aSuccess and (aResult <> nil) then
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Successful SetUserAgentOverride');
-      end)
-   else
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Unsuccessful SetUserAgentOverride');
-      end);
+  Application.QueueAsyncCall(HandleSetUserAgentResultMsg, ord(aSuccess and (aResult <> nil)));
 end;
 
 procedure TForm1.HandleSetTouchEmulationEnabledResult(aSuccess : boolean; const aResult: ICefValue);
-begin
-  if aSuccess and (aResult <> nil) then
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Successful SetTouchEmulationEnabled');
-      end)
-   else
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Unsuccessful SetTouchEmulationEnabled');
-      end);
+begin                
+  Application.QueueAsyncCall(HandleSetTouchEmulationEnabledResultMsg, ord(aSuccess and (aResult <> nil)));
 end;
 
 procedure TForm1.HandleCanEmulateResult(aSuccess : boolean; const aResult: ICefValue);
 var
   TempRsltDict : ICefDictionaryValue;
   TempResult : boolean;
+  TempData : PtrInt;
 begin
   if aSuccess and (aResult <> nil) then
     begin
       TempRsltDict := aResult.GetDictionary;
 
       if TCEFJson.ReadBoolean(TempRsltDict, 'result', TempResult) and TempResult then
-        TThread.ForceQueue(nil,
-          procedure
-          begin
-            LogMem.Lines.Add('Successful CanEmulate. Emulation is supported.');
-          end)
+        TempData := CANEMULATE_RESULT_SUCCESS_SUPPORTED
        else
-        TThread.ForceQueue(nil,
-          procedure
-          begin
-            LogMem.Lines.Add('Successful CanEmulate. Emulation is not supported.');
-          end);
+        TempData := CANEMULATE_RESULT_SUCCESS_UNSUPPORTED;
     end
    else
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Unsuccessful CanEmulate');
-      end);
+    TempData := CANEMULATE_RESULT_FAIL;
+
+  Application.QueueAsyncCall(HandleCanEmulateResultMsg, TempData);
 end;
 
 procedure TForm1.HandleClearDeviceMetricsOverrideResult(aSuccess : boolean; const aResult: ICefValue);
-begin
-  if aSuccess and (aResult <> nil) then
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Successful ClearDeviceMetricsOverride');
-      end)
-   else
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Unsuccessful ClearDeviceMetricsOverride');
-      end);
+begin                            
+  Application.QueueAsyncCall(HandleClearDeviceMetricsOverrideResultMsg, ord(aSuccess and (aResult <> nil)));
 end;
 
 procedure TForm1.HandleSetDeviceMetricsOverrideResult(aSuccess : boolean; const aResult: ICefValue);
-begin
-  if aSuccess and (aResult <> nil) then
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Successful SetDeviceMetricsOverride');
-      end)
-   else
-    TThread.ForceQueue(nil,
-      procedure
-      begin
-        LogMem.Lines.Add('Unsuccessful SetDeviceMetricsOverride');
-      end);
+begin                      
+  Application.QueueAsyncCall(HandleSetDeviceMetricsOverrideResultMsg, ord(aSuccess and (aResult <> nil)));
 end;
 
 end.

@@ -1,0 +1,415 @@
+object Form1: TForm1
+  Left = 407
+  Height = 624
+  Top = 137
+  Width = 1038
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 624
+  ClientWidth = 1038
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.2.0.4'
+  object Splitter1: TSplitter
+    Left = 739
+    Height = 624
+    Top = 0
+    Width = 5
+    Align = alRight
+    MinSize = 220
+    ResizeAnchor = akRight
+  end
+  object Panel1: TPanel
+    Left = 744
+    Height = 624
+    Top = 0
+    Width = 294
+    Align = alRight
+    BevelOuter = bvNone
+    ClientHeight = 624
+    ClientWidth = 294
+    TabOrder = 0
+    object LogMem: TMemo
+      Left = 0
+      Height = 264
+      Top = 360
+      Width = 294
+      Align = alClient
+      ReadOnly = True
+      ScrollBars = ssBoth
+      TabOrder = 0
+    end
+    object Panel3: TPanel
+      Left = 0
+      Height = 58
+      Top = 0
+      Width = 294
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 58
+      ClientWidth = 294
+      TabOrder = 1
+      object CanEmulateBtn: TButton
+        Left = 0
+        Height = 25
+        Top = 0
+        Width = 294
+        Align = alTop
+        Caption = 'Can emulate'
+        OnClick = CanEmulateBtnClick
+        TabOrder = 0
+      end
+      object ClearDeviceMetricsOverrideBtn: TButton
+        Left = 0
+        Height = 25
+        Top = 33
+        Width = 294
+        Align = alBottom
+        Caption = 'Clear device metrics override'
+        OnClick = ClearDeviceMetricsOverrideBtnClick
+        TabOrder = 1
+      end
+    end
+    object Panel4: TPanel
+      Left = 0
+      Height = 97
+      Top = 58
+      Width = 294
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 97
+      ClientWidth = 294
+      TabOrder = 2
+      object GroupBox1: TGroupBox
+        Left = 0
+        Height = 73
+        Top = 0
+        Width = 294
+        Align = alTop
+        Caption = ' User agent '
+        ClientHeight = 55
+        ClientWidth = 290
+        TabOrder = 0
+        object UserAgentCb: TComboBox
+          Left = 0
+          Height = 21
+          Top = 0
+          Width = 290
+          Align = alTop
+          ItemHeight = 13
+          ItemIndex = 0
+          Items.Strings = (
+            'Mozilla/5.0 (Linux; Android 11; M2102K1G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Mobile Safari/537.36'
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1'
+            'Mozilla/5.0 (Linux; U; Android 4.4.2; en-us; SCH-I535 Build/KOT49H) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30'
+            'Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36'
+            'Mozilla/5.0 (Linux; Android 7.0; SM-A310F Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36 OPR/42.7.2246.114996'
+            'Opera/9.80 (Android 4.1.2; Linux; Opera Mobi/ADR-1305251841) Presto/2.11.355 Version/12.10'
+            'Opera/9.80 (J2ME/MIDP; Opera Mini/5.1.21214/28.2725; U; ru) Presto/2.8.119 Version/11.10'
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) OPiOS/10.2.0.93022 Mobile/11D257 Safari/9537.53'
+            'Mozilla/5.0 (Android 7.0; Mobile; rv:54.0) Gecko/54.0 Firefox/54.0'
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/603.2.4 (KHTML, like Gecko) FxiOS/7.5b3349 Mobile/14F89 Safari/603.2.4'
+            'Mozilla/5.0 (Linux; U; Android 7.0; en-US; SM-G935F Build/NRD90M) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 UCBrowser/11.3.8.976 U3/0.8.0 Mobile Safari/534.30'
+            'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36'
+            'Mozilla/5.0 (Linux; Android 5.1.1; SM-N750K Build/LMY47X; ko-kr) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Mobile Safari/537.36 Puffin/6.0.8.15804AP'
+            'Mozilla/5.0 (Linux; Android 5.1.1; SM-N750K Build/LMY47X; ko-kr) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Mobile Safari/537.36 Puffin/6.0.8.15804AP'
+            'Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G955U Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.4 Chrome/51.0.2704.106 Mobile Safari/537.36'
+            'Mozilla/5.0 (Linux; Android 6.0; Lenovo K50a40 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.137 YaBrowser/17.4.1.352.00 Mobile Safari/537.36'
+            'Mozilla/5.0 (Linux; U; Android 7.0; en-us; MI 5 Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.146 Mobile Safari/537.36 XiaoMi/MiuiBrowser/9.0.3'
+            'Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; Microsoft; Lumia 950)'
+            'Mozilla/5.0 (Windows Phone 10.0; Android 6.0.1; Microsoft; Lumia 950) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Mobile Safari/537.36 Edge/15.14977'
+            'Mozilla/5.0 (BB10; Kbd) AppleWebKit/537.35+ (KHTML, like Gecko) Version/10.3.3.2205 Mobile Safari/537.35+'
+          )
+          TabOrder = 0
+          Text = 'Mozilla/5.0 (Linux; Android 11; M2102K1G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Mobile Safari/537.36'
+        end
+        object OverrideUserAgentBtn: TButton
+          Left = 0
+          Height = 25
+          Top = 30
+          Width = 290
+          Align = alBottom
+          Caption = 'Override user agent'
+          OnClick = OverrideUserAgentBtnClick
+          TabOrder = 1
+        end
+      end
+      object EmulateTouchChk: TCheckBox
+        Left = 0
+        Height = 19
+        Top = 78
+        Width = 294
+        Align = alBottom
+        Caption = 'Emulate Touch'
+        OnClick = EmulateTouchChkClick
+        TabOrder = 1
+      end
+    end
+    object Panel5: TPanel
+      Left = 0
+      Height = 205
+      Top = 155
+      Width = 294
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 205
+      ClientWidth = 294
+      TabOrder = 3
+      object GroupBox2: TGroupBox
+        Left = 0
+        Height = 205
+        Top = 0
+        Width = 294
+        Align = alClient
+        Caption = ' Emulate device metrics '
+        ClientHeight = 187
+        ClientWidth = 290
+        TabOrder = 0
+        object Panel6: TPanel
+          Left = 0
+          Height = 27
+          Top = 27
+          Width = 290
+          Align = alTop
+          BevelOuter = bvNone
+          ClientHeight = 27
+          ClientWidth = 290
+          TabOrder = 0
+          object Label1: TLabel
+            Left = 0
+            Height = 27
+            Top = 0
+            Width = 75
+            Align = alLeft
+            AutoSize = False
+            Caption = 'Height'
+            Layout = tlCenter
+          end
+          object HeightEdt: TSpinEdit
+            Left = 75
+            Height = 27
+            Top = 0
+            Width = 215
+            Align = alClient
+            MaxValue = 10000000
+            TabOrder = 0
+          end
+        end
+        object Panel7: TPanel
+          Left = 0
+          Height = 27
+          Top = 0
+          Width = 290
+          Align = alTop
+          BevelOuter = bvNone
+          ClientHeight = 27
+          ClientWidth = 290
+          TabOrder = 1
+          object Label2: TLabel
+            Left = 0
+            Height = 27
+            Top = 0
+            Width = 75
+            Align = alLeft
+            AutoSize = False
+            Caption = 'Width'
+            Layout = tlCenter
+          end
+          object WidthEdt: TSpinEdit
+            Left = 75
+            Height = 27
+            Top = 0
+            Width = 215
+            Align = alClient
+            MaxValue = 10000000
+            TabOrder = 0
+          end
+        end
+        object OverrideDeviceMetricsBtn: TButton
+          Left = 0
+          Height = 25
+          Top = 162
+          Width = 290
+          Align = alBottom
+          Caption = 'Override device metrics'
+          OnClick = OverrideDeviceMetricsBtnClick
+          TabOrder = 2
+        end
+        object Panel8: TPanel
+          Left = 0
+          Height = 27
+          Top = 54
+          Width = 290
+          Align = alTop
+          BevelOuter = bvNone
+          ClientHeight = 27
+          ClientWidth = 290
+          TabOrder = 3
+          object Label3: TLabel
+            Left = 0
+            Height = 27
+            Top = 0
+            Width = 75
+            Align = alLeft
+            AutoSize = False
+            Caption = 'Scale'
+            Layout = tlCenter
+          end
+          object ScaleEdt: TMaskEdit
+            Left = 75
+            Height = 27
+            Top = 0
+            Width = 215
+            Align = alClient
+            MaxLength = 4
+            TabOrder = 0
+            EditMask = '#.##;1;0'
+            Text = '1.  '
+            SpaceChar = '0'
+          end
+        end
+        object Panel9: TPanel
+          Left = 0
+          Height = 27
+          Top = 81
+          Width = 290
+          Align = alTop
+          BevelOuter = bvNone
+          ClientHeight = 27
+          ClientWidth = 290
+          TabOrder = 4
+          object Label4: TLabel
+            Left = 0
+            Height = 27
+            Top = 0
+            Width = 75
+            Align = alLeft
+            AutoSize = False
+            Caption = 'Orientation'
+            Layout = tlCenter
+          end
+          object OrientationCb: TComboBox
+            Left = 75
+            Height = 21
+            Top = 0
+            Width = 215
+            Align = alClient
+            ItemHeight = 13
+            ItemIndex = 0
+            Items.Strings = (
+              'Portrait Primary'
+              'Portrait Secondary'
+              'Landscape Primary'
+              'Landscape Secondary'
+            )
+            Style = csDropDownList
+            TabOrder = 0
+            Text = 'Portrait Primary'
+          end
+        end
+        object Panel10: TPanel
+          Left = 0
+          Height = 27
+          Top = 108
+          Width = 290
+          Align = alTop
+          BevelOuter = bvNone
+          ClientHeight = 27
+          ClientWidth = 290
+          TabOrder = 5
+          object Label5: TLabel
+            Left = 0
+            Height = 27
+            Top = 0
+            Width = 75
+            Align = alLeft
+            AutoSize = False
+            Caption = 'Angle'
+            Layout = tlCenter
+          end
+          object AngleEdt: TSpinEdit
+            Left = 75
+            Height = 27
+            Top = 0
+            Width = 215
+            Align = alClient
+            MaxValue = 360
+            TabOrder = 0
+          end
+        end
+      end
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 624
+    Top = 0
+    Width = 739
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 624
+    ClientWidth = 739
+    TabOrder = 1
+    object AddressPnl: TPanel
+      Left = 0
+      Height = 20
+      Top = 0
+      Width = 739
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 20
+      ClientWidth = 739
+      Enabled = False
+      TabOrder = 0
+      object AddressEdt: TEdit
+        Left = 0
+        Height = 20
+        Top = 0
+        Width = 708
+        Align = alClient
+        TabOrder = 0
+        Text = 'http://www.google.com'
+      end
+      object GoBtn: TButton
+        Left = 708
+        Height = 20
+        Top = 0
+        Width = 31
+        Align = alRight
+        Caption = 'Go'
+        OnClick = GoBtnClick
+        TabOrder = 1
+      end
+    end
+    object CEFWindowParent1: TCEFWindowParent
+      Left = 0
+      Height = 604
+      Top = 20
+      Width = 739
+      Align = alClient
+      TabOrder = 1
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 56
+    Top = 88
+  end
+  object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
+    OnDevToolsMethodResult = Chromium1DevToolsMethodResult
+    Left = 56
+    Top = 152
+  end
+end
