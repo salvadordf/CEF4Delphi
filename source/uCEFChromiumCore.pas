@@ -220,7 +220,6 @@ type
       FOnQuotaRequest                      : TOnQuotaRequest;
       FOnCertificateError                  : TOnCertificateError;
       FOnSelectClientCertificate           : TOnSelectClientCertificate;
-      FOnPluginCrashed                     : TOnPluginCrashed;
       FOnRenderViewReady                   : TOnRenderViewReady;
       FOnRenderProcessTerminated           : TOnRenderProcessTerminated;
       FOnGetResourceRequestHandler_ReqHdlr : TOnGetResourceRequestHandler;
@@ -558,7 +557,6 @@ type
       function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean; virtual;
       function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; virtual;
       function  doOnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
-      procedure doOnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); virtual;
       procedure doOnRenderViewReady(const browser: ICefBrowser); virtual;
       procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
       procedure doOnDocumentAvailableInMainFrame(const browser: ICefBrowser); virtual;
@@ -1040,7 +1038,6 @@ type
       property OnQuotaRequest                      : TOnQuotaRequest                   read FOnQuotaRequest                      write FOnQuotaRequest;
       property OnCertificateError                  : TOnCertificateError               read FOnCertificateError                  write FOnCertificateError;
       property OnSelectClientCertificate           : TOnSelectClientCertificate        read FOnSelectClientCertificate           write FOnSelectClientCertificate;
-      property OnPluginCrashed                     : TOnPluginCrashed                  read FOnPluginCrashed                     write FOnPluginCrashed;
       property OnRenderViewReady                   : TOnRenderViewReady                read FOnRenderViewReady                   write FOnRenderViewReady;
       property OnRenderProcessTerminated           : TOnRenderProcessTerminated        read FOnRenderProcessTerminated           write FOnRenderProcessTerminated;
       property OnGetResourceRequestHandler_ReqHdlr : TOnGetResourceRequestHandler      read FOnGetResourceRequestHandler_ReqHdlr write FOnGetResourceRequestHandler_ReqHdlr;
@@ -1759,7 +1756,6 @@ begin
   FOnQuotaRequest                      := nil;
   FOnCertificateError                  := nil;
   FOnSelectClientCertificate           := nil;
-  FOnPluginCrashed                     := nil;
   FOnRenderViewReady                   := nil;
   FOnRenderProcessTerminated           := nil;
   FOnGetResourceRequestHandler_ReqHdlr := nil;
@@ -2378,7 +2374,6 @@ begin
       aSettings.javascript_close_windows        := FOptions.JavascriptCloseWindows;
       aSettings.javascript_access_clipboard     := FOptions.JavascriptAccessClipboard;
       aSettings.javascript_dom_paste            := FOptions.JavascriptDomPaste;
-      aSettings.plugins                         := FOptions.Plugins;
       aSettings.image_loading                   := FOptions.ImageLoading;
       aSettings.image_shrink_standalone_to_fit  := FOptions.ImageShrinkStandaloneToFit;
       aSettings.text_area_resize                := FOptions.TextAreaResize;
@@ -6030,12 +6025,6 @@ begin
 
   if assigned(FOnSelectClientCertificate) then
     FOnSelectClientCertificate(self, browser, isProxy, host, port, certificatesCount, certificates, callback, Result);
-end;
-
-procedure TChromiumCore.doOnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
-begin
-  if assigned(FOnPluginCrashed) then
-    FOnPluginCrashed(Self, browser, pluginPath);
 end;
 
 procedure TChromiumCore.doOnPopupShow(const browser: ICefBrowser; show: Boolean);

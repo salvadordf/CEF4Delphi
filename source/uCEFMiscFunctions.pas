@@ -962,7 +962,7 @@ begin
     {$ENDIF}
     {$IFDEF MACOSX}
       {$IFDEF FPC}
-      // TO-DO: Find a way to write in the error console using Lazarus in MacOS
+        // TO-DO: Find a way to write in the error console using Lazarus in MacOS
       {$ELSE}
         FMX.Types.Log.d(aMessage);
       {$ENDIF}

@@ -40,7 +40,6 @@ uses
   uCEFv8Accessor, uCEFv8ArrayBufferReleaseCallback, uCEFv8Context, 
   uCEFv8Exception, uCEFv8Handler, uCEFv8Interceptor, uCEFv8StackFrame, 
   uCEFv8StackTrace, uCEFv8Value, uCEFValue, uCEFWaitableEvent, 
-  uCEFWebPluginInfo, uCEFWebPluginInfoVisitor, uCEFWebPluginUnstableCallback, 
   uCEFWindowParent, uCEFWorkScheduler, uCEFWorkSchedulerThread, 
   uCEFWriteHandler, uCEFX509Certificate, uCEFX509CertPrincipal, uCEFXmlReader, 
   uCEFZipReader, uCEFChromiumCore, uCEFChromium, uCEFBufferPanel, uCEFServer, 

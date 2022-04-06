@@ -64,7 +64,6 @@ type
       FJavascriptCloseWindows      : TCefState;
       FJavascriptAccessClipboard   : TCefState;
       FJavascriptDomPaste          : TCefState;
-      FPlugins                     : TCefState;
       FImageLoading                : TCefState;
       FImageShrinkStandaloneToFit  : TCefState;
       FTextAreaResize              : TCefState;
@@ -83,7 +82,6 @@ type
       property JavascriptCloseWindows      : TCefState read FJavascriptCloseWindows       write FJavascriptCloseWindows      default STATE_DEFAULT;
       property JavascriptAccessClipboard   : TCefState read FJavascriptAccessClipboard    write FJavascriptAccessClipboard   default STATE_DEFAULT;
       property JavascriptDomPaste          : TCefState read FJavascriptDomPaste           write FJavascriptDomPaste          default STATE_DEFAULT;
-      property Plugins                     : TCefState read FPlugins                      write FPlugins                     default STATE_DEFAULT;
       property ImageLoading                : TCefState read FImageLoading                 write FImageLoading                default STATE_DEFAULT;
       property ImageShrinkStandaloneToFit  : TCefState read FImageShrinkStandaloneToFit   write FImageShrinkStandaloneToFit  default STATE_DEFAULT;
       property TextAreaResize              : TCefState read FTextAreaResize               write FTextAreaResize              default STATE_DEFAULT;
@@ -105,7 +103,6 @@ begin
   FJavascriptCloseWindows      := STATE_DEFAULT;
   FJavascriptAccessClipboard   := STATE_DEFAULT;
   FJavascriptDomPaste          := STATE_DEFAULT;
-  FPlugins                     := STATE_DEFAULT;
   FImageLoading                := STATE_DEFAULT;
   FImageShrinkStandaloneToFit  := STATE_DEFAULT;
   FTextAreaResize              := STATE_DEFAULT;

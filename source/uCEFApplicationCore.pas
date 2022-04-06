@@ -66,15 +66,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 99;
-  CEF_SUPPORTED_VERSION_MINOR   = 2;
-  CEF_SUPPORTED_VERSION_RELEASE = 15;
+  CEF_SUPPORTED_VERSION_MAJOR   = 100;
+  CEF_SUPPORTED_VERSION_MINOR   = 0;
+  CEF_SUPPORTED_VERSION_RELEASE = 14;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 99;
+  CEF_CHROMEELF_VERSION_MAJOR   = 100;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4844;
-  CEF_CHROMEELF_VERSION_BUILD   = 84;
+  CEF_CHROMEELF_VERSION_RELEASE = 4896;
+  CEF_CHROMEELF_VERSION_BUILD   = 75;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -163,7 +163,6 @@ type
       FAllowFileAccessFromFiles          : boolean;
       FAllowRunningInsecureContent       : boolean;
       FEnablePrintPreview                : boolean;
-      FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : ustring;
       FDisableJavascript                 : boolean;
       FDisableJavascriptCloseWindows     : boolean;
@@ -174,7 +173,6 @@ type
       FImageShrinkStandaloneToFit        : boolean;
       FDisableTextAreaResize             : boolean;
       FDisableTabToLinks                 : boolean;
-      FDisablePlugins                    : boolean;
       FEnableProfanityFilter             : boolean;
       FDisableSpellChecking              : boolean;
       FOverrideSpellCheckLang            : ustring;
@@ -330,7 +328,6 @@ type
       function  Load_cef_v8_capi_h : boolean;
       function  Load_cef_values_capi_h : boolean;
       function  Load_cef_waitable_event_capi_h : boolean;
-      function  Load_cef_web_plugin_capi_h : boolean;
       function  Load_cef_xml_reader_capi_h : boolean;
       function  Load_cef_zip_reader_capi_h : boolean;
       function  Load_cef_logging_internal_h : boolean;
@@ -481,7 +478,6 @@ type
       property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;         // --allow-file-access-from-files
       property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;      // --allow-running-insecure-content
       property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;               // --enable-print-preview
-      property PluginPolicy                      : TCefPluginPolicySwitch              read FPluginPolicy                      write FPluginPolicy;                     // --plugin-policy
       property DefaultEncoding                   : ustring                             read FDefaultEncoding                   write FDefaultEncoding;                  // --default-encoding
       property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;                // --disable-javascript
       property DisableJavascriptCloseWindows     : boolean                             read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;    // --disable-javascript-close-windows
@@ -492,7 +488,6 @@ type
       property ImageShrinkStandaloneToFit        : boolean                             read FImageShrinkStandaloneToFit        write FImageShrinkStandaloneToFit;       // --image-shrink-standalone-to-fit
       property DisableTextAreaResize             : boolean                             read FDisableTextAreaResize             write FDisableTextAreaResize;            // --disable-text-area-resize
       property DisableTabToLinks                 : boolean                             read FDisableTabToLinks                 write FDisableTabToLinks;                // --disable-tab-to-links
-      property DisablePlugins                    : boolean                             read FDisablePlugins                    write FDisablePlugins;                   // --disable-plugins
       property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;            // --enable-profanity-filter
       property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;             // --disable-spell-checking
       property OverrideSpellCheckLang            : ustring                             read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;           // --override-spell-check-lang
@@ -731,7 +726,6 @@ begin
   FAllowFileAccessFromFiles          := False;
   FAllowRunningInsecureContent       := False;
   FEnablePrintPreview                := False;
-  FPluginPolicy                      := PLUGIN_POLICY_SWITCH_ALLOW;
   FDefaultEncoding                   := '';
   FDisableJavascript                 := False;
   FDisableJavascriptCloseWindows     := False;
@@ -742,7 +736,6 @@ begin
   FImageShrinkStandaloneToFit        := False;
   FDisableTextAreaResize             := False;
   FDisableTabToLinks                 := False;
-  FDisablePlugins                    := False;
   FEnableProfanityFilter             := False;
   FDisableSpellChecking              := False;
   FOverrideSpellCheckLang            := '';
@@ -2020,11 +2013,6 @@ begin
   if (length(FDevToolsProtocolLogFile) > 0) then
     ReplaceSwitch(aKeys, aValues, '--devtools-protocol-log-file', FDevToolsProtocolLogFile);
 
-  case FPluginPolicy of
-    PLUGIN_POLICY_SWITCH_DETECT : ReplaceSwitch(aKeys, aValues, '--plugin-policy', 'detect');
-    PLUGIN_POLICY_SWITCH_BLOCK  : ReplaceSwitch(aKeys, aValues, '--plugin-policy', 'block');
-  end;
-
   if (length(FDefaultEncoding) > 0) then
     ReplaceSwitch(aKeys, aValues, '--default-encoding', FDefaultEncoding);
 
@@ -2054,9 +2042,6 @@ begin
 
   if FDisableTabToLinks then
     ReplaceSwitch(aKeys, aValues, '--disable-tab-to-links');
-
-  if FDisablePlugins then
-    ReplaceSwitch(aKeys, aValues, '--disable-plugins');
 
   if FEnableProfanityFilter then
     ReplaceSwitch(aKeys, aValues, '--enable-profanity-filter');
@@ -2551,7 +2536,6 @@ begin
      Load_cef_v8_capi_h and
      Load_cef_values_capi_h and
      Load_cef_waitable_event_capi_h and
-     Load_cef_web_plugin_capi_h and
      Load_cef_xml_reader_capi_h and
      Load_cef_zip_reader_capi_h and
      Load_cef_logging_internal_h and
@@ -2951,21 +2935,6 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_waitable_event_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_waitable_event_create');
 
   Result := assigned(cef_waitable_event_create);
-end;
-
-function TCefApplicationCore.Load_cef_web_plugin_capi_h : boolean;
-begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_visit_web_plugin_info{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_visit_web_plugin_info');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_refresh_web_plugins{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_refresh_web_plugins');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_unregister_internal_web_plugin{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_unregister_internal_web_plugin');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_register_web_plugin_crash{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_register_web_plugin_crash');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_is_web_plugin_unstable{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_is_web_plugin_unstable');
-
-  Result := assigned(cef_visit_web_plugin_info) and
-            assigned(cef_refresh_web_plugins) and
-            assigned(cef_unregister_internal_web_plugin) and
-            assigned(cef_register_web_plugin_crash) and
-            assigned(cef_is_web_plugin_unstable);
 end;
 
 function TCefApplicationCore.Load_cef_xml_reader_capi_h : boolean;

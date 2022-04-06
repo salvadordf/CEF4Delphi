@@ -250,9 +250,6 @@
         <DCCReference Include="..\source\uCEFv8Value.pas"/>
         <DCCReference Include="..\source\uCEFValue.pas"/>
         <DCCReference Include="..\source\uCEFWaitableEvent.pas"/>
-        <DCCReference Include="..\source\uCEFWebPluginInfo.pas"/>
-        <DCCReference Include="..\source\uCEFWebPluginInfoVisitor.pas"/>
-        <DCCReference Include="..\source\uCEFWebPluginUnstableCallback.pas"/>
         <DCCReference Include="..\source\uCEFWinControl.pas"/>
         <DCCReference Include="..\source\uCEFWindowParent.pas"/>
         <DCCReference Include="..\source\uCEFWorkScheduler.pas"/>
@@ -345,7 +342,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\20.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CEF4DelphiVCLRTL.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
