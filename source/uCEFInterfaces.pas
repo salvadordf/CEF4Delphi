@@ -126,7 +126,6 @@ type
   ICefDragHandler = interface;
   ICefFindHandler = interface;
   ICefCookieManager = interface;
-  ICefWebPluginInfo = interface;
   ICefDisplay = interface;
   ICefLayout = interface;
   ICefBoxLayout = interface;
@@ -229,7 +228,6 @@ type
   TCefEndTracingCallbackProc           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const tracingFile: ustring);
   TCefFastTaskProc                     = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure();
   TCefv8ArrayBufferReleaseCallbackProc = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(buffer : Pointer);
-  TCefWebPluginInfoVisitorProc         = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const info: ICefWebPluginInfo; count, total: Integer): Boolean;
   TCefWebPluginIsUnstableProc          = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const path: ustring; unstable: Boolean);
   TCefV8AccessorGetterProc             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const object_: ICefv8Value; var value: ICefv8Value; var exception: ustring): Boolean;
   TCefV8AccessorSetterProc             = {$IFDEF DELPHI12_UP}reference to{$ENDIF} function(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): Boolean;
@@ -371,7 +369,6 @@ type
     function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean;
     function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean;
     function  doOnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean;
-    procedure doOnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
     procedure doOnRenderViewReady(const browser: ICefBrowser);
     procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
     procedure doOnDocumentAvailableInMainFrame(const browser: ICefBrowser);
@@ -1532,21 +1529,6 @@ type
     function  FlushStoreProc(const proc: TCefCompletionCallbackProc): Boolean;
   end;
 
-  // TCefWebPluginInfo
-  // /include/capi/cef_web_plugin_capi.h (cef_web_plugin_info_t)
-  ICefWebPluginInfo = interface(ICefBaseRefCounted)
-    ['{AA879E58-F649-44B1-AF9C-655FF5B79A02}']
-    function GetName: ustring;
-    function GetPath: ustring;
-    function GetVersion: ustring;
-    function GetDescription: ustring;
-
-    property Name         : ustring read GetName;
-    property Path         : ustring read GetPath;
-    property Version      : ustring read GetVersion;
-    property Description  : ustring read GetDescription;
-  end;
-
   // TCefCallback
   // /include/capi/cef_callback_capi.h (cef_callback_t)
   ICefCallback = interface(ICefBaseRefCounted)
@@ -1922,7 +1904,6 @@ type
     function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean;
     function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean;
     function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean;
-    procedure OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
     procedure OnRenderViewReady(const browser: ICefBrowser);
     procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
     procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser);
@@ -2135,20 +2116,6 @@ type
     function  OnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean;
 
     procedure RemoveReferences; // custom procedure to clear all references
-  end;
-
-  // TCefWebPluginInfoVisitor
-  // /include/capi/cef_web_plugin_capi.h (cef_web_plugin_info_visitor_t)
-  ICefWebPluginInfoVisitor = interface(ICefBaseRefCounted)
-    ['{7523D432-4424-4804-ACAD-E67D2313436E}']
-    function Visit(const info: ICefWebPluginInfo; count, total: Integer): Boolean;
-  end;
-
-  // TCefWebPluginUnstableCallback
-  // /include/capi/cef_web_plugin_capi.h (cef_web_plugin_unstable_callback_t)
-  ICefWebPluginUnstableCallback = interface(ICefBaseRefCounted)
-    ['{67459829-EB47-4B7E-9D69-2EE77DF0E71E}']
-    procedure IsUnstable(const path: ustring; unstable: Boolean);
   end;
 
   // TCefEndTracingCallback

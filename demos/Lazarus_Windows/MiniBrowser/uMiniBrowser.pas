@@ -78,7 +78,10 @@ const
   MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT    = MENU_ID_USER_FIRST + 11;
   MINIBROWSER_CONTEXTMENU_GETNAVIGATION   = MENU_ID_USER_FIRST + 12;
   MINIBROWSER_CONTEXTMENU_MUTEAUDIO       = MENU_ID_USER_FIRST + 13;
-  MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO     = MENU_ID_USER_FIRST + 14;
+  MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO     = MENU_ID_USER_FIRST + 14;    
+
+  DEVTOOLS_SCREENSHOT_MSGID       = 1;
+  DEVTOOLS_MHTML_MSGID            = 2;
 
 type
 
@@ -249,8 +252,7 @@ type
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
-    FDevToolsMsgID    : integer;
-    FMHTMLMsgID       : integer;
+    FPendingMsgID     : integer;
     FDevToolsMsgValue : ustring;
 
     procedure AddURL(const aURL : string);
@@ -409,11 +411,10 @@ var
   TempParams : ICefDictionaryValue;
 begin
   try
-    inc(FDevToolsMsgID);
-    FMHTMLMsgID := FDevToolsMsgID;
     TempParams  := TCefDictionaryValueRef.New;
-    TempParams.SetString('format', 'mhtml');
-    Chromium1.ExecuteDevToolsMethod(FMHTMLMsgID, 'Page.captureSnapshot', TempParams);
+    TempParams.SetString('format', 'mhtml');         
+    FPendingMsgID := DEVTOOLS_MHTML_MSGID;
+    Chromium1.ExecuteDevToolsMethod(0, 'Page.captureSnapshot', TempParams);
   finally
     TempParams := nil;
   end;
@@ -1059,8 +1060,7 @@ begin
   FResponse            := TStringList.Create;
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
-
-  FDevToolsMsgID       := 0;          
+  FPendingMsgID        := 0;
 
   // Windows may show this text message while shutting down the operating system
   FShutdownReason      := 'MiniBrowser closing...';
@@ -1162,7 +1162,7 @@ begin
           end;
       end;
 
-  PostMessage(Handle, MINIBROWSER_DTDATA_AVLBL, TempResult, message_id);
+  PostMessage(Handle, MINIBROWSER_DTDATA_AVLBL, TempResult, 0);
 end;
 
 procedure TMiniBrowserFrm.CEFWindowParent1DragDrop(Sender, Source: TObject; X,
@@ -1200,8 +1200,9 @@ var
 begin
   if (aMessage.WParam <> 0) then
     begin
-      if (length(FDevToolsMsgValue) > 0) and (aMessage.LParam = FMHTMLMsgID) then
+      if (length(FDevToolsMsgValue) > 0) and (FPendingMsgID = DEVTOOLS_MHTML_MSGID) then
         begin
+          FPendingMsgID          := 0;
           SaveDialog1.DefaultExt := 'mhtml';
           SaveDialog1.Filter     := 'MHTML files (*.mhtml)|*.MHTML';
           TempData               := BytesOf(FDevToolsMsgValue);

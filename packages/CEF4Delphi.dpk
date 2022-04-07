@@ -1,6 +1,7 @@
 package CEF4Delphi;
 
 {$R *.res}
+{$R *.otares}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -13,8 +14,8 @@ package CEF4Delphi;
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
 {$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
 {$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
 {$STACKFRAMES ON}
@@ -63,7 +64,6 @@ contains
   uCEFCookieManager in '..\source\uCEFCookieManager.pas',
   uCEFCompletionCallback in '..\source\uCEFCompletionCallback.pas',
   uCEFRequestContextHandler in '..\source\uCEFRequestContextHandler.pas',
-  uCEFWebPluginInfo in '..\source\uCEFWebPluginInfo.pas',
   uCEFDomDocument in '..\source\uCEFDomDocument.pas',
   uCEFDomNode in '..\source\uCEFDomNode.pas',
   uCEFv8Value in '..\source\uCEFv8Value.pas',
@@ -116,8 +116,6 @@ contains
   uCEFRenderProcessHandler in '..\source\uCEFRenderProcessHandler.pas',
   uCEFUrlrequestClient in '..\source\uCEFUrlrequestClient.pas',
   uCEFUrlRequest in '..\source\uCEFUrlRequest.pas',
-  uCEFWebPluginInfoVisitor in '..\source\uCEFWebPluginInfoVisitor.pas',
-  uCEFWebPluginUnstableCallback in '..\source\uCEFWebPluginUnstableCallback.pas',
   uCEFEndTracingCallback in '..\source\uCEFEndTracingCallback.pas',
   uCEFFileDialogCallback in '..\source\uCEFFileDialogCallback.pas',
   uCEFDragData in '..\source\uCEFDragData.pas',

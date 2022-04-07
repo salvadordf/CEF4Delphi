@@ -174,8 +174,6 @@ type
   PCefCookieManager = ^TCefCookieManager;
   PCefSchemeHandlerFactory = ^TCefSchemeHandlerFactory;
   PCefResolveCallback = ^TCefResolveCallback;
-  PCefWebPluginInfo = ^TCefWebPluginInfo;
-  PCefPluginPolicy = ^TCefPluginPolicy;
   PCefCookieVisitor = ^TCefCookieVisitor;
   PCefSetCookieCallback = ^TCefSetCookieCallback;
   PCefDeleteCookiesCallback = ^TCefDeleteCookiesCallback;
@@ -200,8 +198,6 @@ type
   PCefZipReader = ^TCefZipReader;
   PCefUrlRequestClient = ^TCefUrlRequestClient;
   PCefUrlRequest = ^TCefUrlRequest;
-  PCefWebPluginInfoVisitor = ^TCefWebPluginInfoVisitor;
-  PCefWebPluginUnstableCallback = ^TCefWebPluginUnstableCallback;
   PCefTaskRunner = ^TCefTaskRunner;
   PCefEndTracingCallback = ^TCefEndTracingCallback;
   PCefRequestContextSettings = ^TCefRequestContextSettings;
@@ -504,7 +500,7 @@ type
     instance : HINST;
     {$ELSE}
     argc     : Integer;
-    argv     : PPChar;
+    argv     : PPAnsiChar;
     {$ENDIF}
   end;
 
@@ -999,21 +995,6 @@ type
     RESPONSE_FILTER_ERROR
   );
 
-  // /include/internal/cef_types.h (cef_plugin_policy_t)
-  TCefPluginPolicy = (
-    PLUGIN_POLICY_ALLOW,
-    PLUGIN_POLICY_DETECT_IMPORTANT,
-    PLUGIN_POLICY_BLOCK,
-    PLUGIN_POLICY_DISABLE
-  );
-
-  // cef/libcef/common/cef_switches.cc (values for the --plugin-policy switch)
-  TCefPluginPolicySwitch = (
-    PLUGIN_POLICY_SWITCH_ALLOW, // Default value
-    PLUGIN_POLICY_SWITCH_DETECT,
-    PLUGIN_POLICY_SWITCH_BLOCK
-  );
-
   // /include/internal/cef_types.h (cef_color_type_t)
   TCefColorType = (
     CEF_COLOR_TYPE_RGBA_8888,
@@ -1333,7 +1314,6 @@ type
     javascript_close_windows        : TCefState;
     javascript_access_clipboard     : TCefState;
     javascript_dom_paste            : TCefState;
-    plugins                         : TCefState;
     image_loading                   : TCefState;
     image_shrink_standalone_to_fit  : TCefState;
     text_area_resize                : TCefState;
@@ -1895,18 +1875,6 @@ type
     cancel              : procedure(self: PCefUrlRequest); stdcall;
   end;
 
-  // /include/capi/cef_web_plugin_capi.h (cef_web_plugin_info_visitor_t)
-  TCefWebPluginInfoVisitor = record
-    base  : TCefBaseRefCounted;
-    visit : function(self: PCefWebPluginInfoVisitor; info: PCefWebPluginInfo; count, total: Integer): Integer; stdcall;
-  end;
-
-  // /include/capi/cef_web_plugin_capi.h (cef_web_plugin_unstable_callback_t)
-  TCefWebPluginUnstableCallback = record
-    base        : TCefBaseRefCounted;
-    is_unstable : procedure(self: PCefWebPluginUnstableCallback; const path: PCefString; unstable: Integer); stdcall;
-  end;
-
   // /include/capi/cef_thread_capi.h (cef_thread_t)
   TCefThread = record
     base                    : TCefBaseRefCounted;
@@ -1996,7 +1964,6 @@ type
     on_quota_request                    : function(self: PCefRequestHandler; browser: PCefBrowser; const origin_url: PCefString; new_size: Int64; callback: PCefCallback): Integer; stdcall;
     on_certificate_error                : function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefCallback): Integer; stdcall;
     on_select_client_certificate        : function(self: PCefRequestHandler; browser: PCefBrowser; isProxy: integer; const host: PCefString; port: integer; certificatesCount: NativeUInt; const certificates: PPCefX509Certificate; callback: PCefSelectClientCertificateCallback): integer; stdcall;
-    on_plugin_crashed                   : procedure(self: PCefRequestHandler; browser: PCefBrowser; const plugin_path: PCefString); stdcall;
     on_render_view_ready                : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
     on_render_process_terminated        : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus); stdcall;
     on_document_available_in_main_frame : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
@@ -2150,15 +2117,6 @@ type
   TCefResolveCallback = record
     base                 : TCefBaseRefCounted;
     on_resolve_completed : procedure(self: PCefResolveCallback; result: TCefErrorCode; resolved_ips: TCefStringList); stdcall;
-  end;
-
-  // /include/capi/cef_web_plugin_capi.h (cef_web_plugin_info_t)
-  TCefWebPluginInfo = record
-    base            : TCefBaseRefCounted;
-    get_name        : function(self: PCefWebPluginInfo): PCefStringUserFree; stdcall;
-    get_path        : function(self: PCefWebPluginInfo): PCefStringUserFree; stdcall;
-    get_version     : function(self: PCefWebPluginInfo): PCefStringUserFree; stdcall;
-    get_description : function(self: PCefWebPluginInfo): PCefStringUserFree; stdcall;
   end;
 
   // /include/capi/cef_cookie_capi.h (cef_cookie_visitor_t)

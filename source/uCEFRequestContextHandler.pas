@@ -96,7 +96,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest,
-  uCEFWebPluginInfo, uCEFRequestContext, uCEFResourceRequestHandler;
+  uCEFRequestContext, uCEFResourceRequestHandler;
 
 // TCefRequestContextHandlerOwn
 

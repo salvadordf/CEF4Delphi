@@ -51,7 +51,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    System.Classes, System.SysUtils;
+    System.Classes, System.SysUtils, System.AnsiStrings;
   {$ELSE}
     Classes, SysUtils;
   {$ENDIF}
@@ -60,7 +60,7 @@ type
   TCEFArgCopy = class
     protected
       FArgCCopy : longint;
-      FArgVCopy : PPChar;
+      FArgVCopy : PPAnsiChar;
 
       procedure InitializeFields;
       procedure DestroyFields;
@@ -68,10 +68,10 @@ type
     public
       constructor Create;
       destructor  Destroy; override;
-      procedure   CopyFromArgs(aArgc : longint; aArgv : PPChar);
+      procedure   CopyFromArgs(aArgc : longint; aArgv : PPAnsiChar);
 
-      property argc : longint read FArgCCopy;
-      property argv : PPChar  read FArgVCopy;
+      property argc : longint     read FArgCCopy;
+      property argv : PPAnsiChar  read FArgVCopy;
   end;
 
 implementation
@@ -109,7 +109,7 @@ begin
       while (i >= 0) do
         begin
           if (FArgVCopy[i] <> nil) then
-            StrDispose(FArgVCopy[i]);
+            {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrDispose(FArgVCopy[i]);
 
           dec(i);
         end;
@@ -120,7 +120,7 @@ begin
   InitializeFields;
 end;
 
-procedure TCEFArgCopy.CopyFromArgs(aArgc : longint; aArgv : PPChar);
+procedure TCEFArgCopy.CopyFromArgs(aArgc : longint; aArgv : PPAnsiChar);
 var
   i : integer;
 begin
@@ -135,8 +135,13 @@ begin
 
       while (i < aArgc) do
         begin
+          {$IFDEF FPC}
           FArgVCopy[i] := StrAlloc(length(aArgv[i]) + 1);
           StrCopy(FArgVCopy[i], aArgv[i]);
+          {$ELSE}
+          FArgVCopy[i] := AnsiStrAlloc(length(aArgv[i]) + 1);
+          System.AnsiStrings.StrCopy(FArgVCopy[i], aArgv[i]);
+          {$ENDIF}
 
           inc(i);
         end;

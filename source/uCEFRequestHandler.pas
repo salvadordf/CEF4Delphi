@@ -61,7 +61,6 @@ type
       function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean; virtual;
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; virtual;
       function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
-      procedure OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); virtual;
       procedure OnRenderViewReady(const browser: ICefBrowser); virtual;
       procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
       procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser); virtual;
@@ -83,7 +82,6 @@ type
       function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean; override;
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; override;
       function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; override;
-      procedure OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); override;
       procedure OnRenderViewReady(const browser: ICefBrowser); override;
       procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); override;
       procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser); override;
@@ -246,19 +244,6 @@ begin
                                                                        TCefCallbackRef.UnWrap(callback)));
 end;
 
-procedure cef_request_handler_on_plugin_crashed(      self        : PCefRequestHandler;
-                                                      browser     : PCefBrowser;
-                                                const plugin_path : PCefString); stdcall;
-var
-  TempObject : TObject;
-begin
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
-    TCefRequestHandlerOwn(TempObject).OnPluginCrashed(TCefBrowserRef.UnWrap(browser),
-                                                      CefString(plugin_path));
-end;
-
 procedure cef_request_handler_on_render_view_ready(self    : PCefRequestHandler;
                                                    browser : PCefBrowser); stdcall;
 var
@@ -367,7 +352,6 @@ begin
       on_quota_request                    := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_quota_request;
       on_certificate_error                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_certificate_error;
       on_select_client_certificate        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_select_client_certificate;
-      on_plugin_crashed                   := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_plugin_crashed;
       on_render_view_ready                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_view_ready;
       on_render_process_terminated        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_process_terminated;
       on_document_available_in_main_frame := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_document_available_in_main_frame;
@@ -434,12 +418,6 @@ procedure TCefRequestHandlerOwn.GetResourceRequestHandler(const browser         
                                                           var   aResourceRequestHandler  : ICefResourceRequestHandler);
 begin
   aResourceRequestHandler := nil;
-end;
-
-procedure TCefRequestHandlerOwn.OnPluginCrashed(const browser    : ICefBrowser;
-                                                const pluginPath : ustring);
-begin
-  //
 end;
 
 function TCefRequestHandlerOwn.OnQuotaRequest(const browser   : ICefBrowser;
@@ -584,11 +562,6 @@ begin
     Result := IChromiumEvents(FEvents).doOnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback)
    else
     Result := inherited OnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback);
-end;
-
-procedure TCustomRequestHandler.OnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring);
-begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnPluginCrashed(browser, pluginPath);
 end;
 
 function TCustomRequestHandler.OnQuotaRequest(const browser   : ICefBrowser;

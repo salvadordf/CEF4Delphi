@@ -91,6 +91,9 @@ const
   MINIBROWSER_CONTEXTMENU_MUTEAUDIO       = MENU_ID_USER_FIRST + 13;
   MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO     = MENU_ID_USER_FIRST + 14;
 
+  DEVTOOLS_SCREENSHOT_MSGID       = 1;
+  DEVTOOLS_MHTML_MSGID            = 2;
+
 type
   TMiniBrowserFrm = class(TForm)
     NavControlPnl: TPanel;
@@ -215,9 +218,7 @@ type
     procedure SaveasMHTML1Click(Sender: TObject);
 
   protected
-    FDevToolsMsgID      : integer;
-    FScreenshotMsgID    : integer;
-    FMHTMLMsgID         : integer;
+    FPendingMsgID       : integer;
     FDevToolsMsgValue   : ustring;
     FShutdownReason     : string;
     FHasShutdownReason  : boolean;
@@ -1252,8 +1253,7 @@ begin
   FNavigation          := TStringList.Create;
   FSelectCertCallback  := nil;
   FCertificates        := nil;
-
-  FDevToolsMsgID       := 0;
+  FPendingMsgID        := 0;
 
   // Windows may show this text message while shutting down the operating system
   FShutdownReason      := 'MiniBrowser closing...';
@@ -1368,9 +1368,8 @@ end;
 
 procedure TMiniBrowserFrm.akescreenshot1Click(Sender: TObject);
 begin
-  inc(FDevToolsMsgID);
-  FScreenshotMsgID := FDevToolsMsgID;
-  Chromium1.ExecuteDevToolsMethod(FScreenshotMsgID, 'Page.captureScreenshot', nil);
+  FPendingMsgID := DEVTOOLS_SCREENSHOT_MSGID;
+  Chromium1.ExecuteDevToolsMethod(0, 'Page.captureScreenshot', nil);
 end;
 
 procedure TMiniBrowserFrm.Chromium1DevToolsMethodResult(      Sender     : TObject;
@@ -1430,7 +1429,7 @@ begin
           end;
       end;
 
-  PostMessage(Handle, MINIBROWSER_DTDATA_AVLBL, TempResult, message_id);
+  PostMessage(Handle, MINIBROWSER_DTDATA_AVLBL, TempResult, 0);
 end;
 
 procedure TMiniBrowserFrm.DevToolsDataAvailableMsg(var aMessage : TMessage);
@@ -1445,23 +1444,25 @@ begin
         begin
           TempData := nil;
 
-          if (aMessage.LParam = FScreenshotMsgID) then
-            begin
-              SaveDialog1.DefaultExt := 'png';
-              SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
-              {$IFDEF DELPHI21_UP}
-              // TO-DO: TNetEncoding was a new feature in Delphi XE7. Replace
-              // TNetEncoding.Base64.DecodeStringToBytes with Soap.EncdDecd.DecodeBase64 for older Delphi versions
-              TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
-              {$ENDIF}
-            end
-           else
-            if (aMessage.LParam = FMHTMLMsgID) then
+          case FPendingMsgID of
+            DEVTOOLS_SCREENSHOT_MSGID :
+              begin
+                SaveDialog1.DefaultExt := 'png';
+                SaveDialog1.Filter     := 'PNG files (*.png)|*.PNG';
+                {$IFDEF DELPHI21_UP}
+                // TO-DO: TNetEncoding was a new feature in Delphi XE7. Replace
+                // TNetEncoding.Base64.DecodeStringToBytes with Soap.EncdDecd.DecodeBase64 for older Delphi versions
+                TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
+                {$ENDIF}
+              end;
+
+            DEVTOOLS_MHTML_MSGID :
               begin
                 SaveDialog1.DefaultExt := 'mhtml';
                 SaveDialog1.Filter     := 'MHTML files (*.mhtml)|*.MHTML';
                 TempData               := BytesOf(FDevToolsMsgValue);
-              end
+              end;
+
             else
               begin
                 SaveDialog1.DefaultExt := '';
@@ -1472,8 +1473,10 @@ begin
                 TempData               := TNetEncoding.Base64.DecodeStringToBytes(FDevToolsMsgValue);
                 {$ENDIF}
               end;
+          end;
 
-          TempLen := length(TempData);
+          FPendingMsgID := 0;
+          TempLen       := length(TempData);
 
           if (TempLen > 0) then
             begin
@@ -1722,11 +1725,10 @@ var
   TempParams : ICefDictionaryValue;
 begin
   try
-    inc(FDevToolsMsgID);
-    FMHTMLMsgID := FDevToolsMsgID;
     TempParams  := TCefDictionaryValueRef.New;
     TempParams.SetString('format', 'mhtml');
-    Chromium1.ExecuteDevToolsMethod(FMHTMLMsgID, 'Page.captureSnapshot', TempParams);
+    FPendingMsgID := DEVTOOLS_MHTML_MSGID;
+    Chromium1.ExecuteDevToolsMethod(0, 'Page.captureSnapshot', TempParams);
   finally
     TempParams := nil;
   end;
