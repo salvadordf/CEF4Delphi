@@ -813,7 +813,7 @@ Var
   TempError : GLenum;
 begin
   TempError := glGetError();
-  if (TempError <> GL_NO_ERROR) then ;
+  if (TempError <> GL_NO_ERROR) then
     WriteLn(StdErr, 'OpenGL error: 0x' + IntToHex(TempError, 8));
 end;
 
