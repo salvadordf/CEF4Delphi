@@ -135,7 +135,7 @@ implementation
 
 // This demo uses a CEF browser in "off-screen rendering" mode (a.k.a OSR mode)
 // but instead of copying the raw bitmap information it uses an OpenGL texture
-// to accelerate drawing the contents.      
+// to accelerate drawing the contents.
 
 // It's recommemded to avoid using OpenGL in multiple threads so this demo uses
 // a external message pump to execute all CEF events in the main appliction
@@ -200,6 +200,7 @@ begin
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.BrowserSubprocessPath      := 'OSRExternalPumpBrowser2_sp';
+  GlobalCEFApp.EnableGPU                  := True;
   GlobalCEFApp.BackgroundColor            := CefColorSetARGB($FF, $FF, $FF, $FF);  
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
