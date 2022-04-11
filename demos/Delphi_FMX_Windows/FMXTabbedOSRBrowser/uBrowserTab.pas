@@ -65,6 +65,8 @@ type
       procedure   CloseBrowser;
       procedure   ResizeBrowser;
       procedure   FocusBrowser;
+      procedure   ShowBrowser;
+      procedure   HideBrowser;
       procedure   SendCaptureLostEvent;
       {$IFDEF MSWINDOWS}
       procedure   HandleSYSCHAR(const aMessage : TMsg);
@@ -149,6 +151,16 @@ end;
 procedure TBrowserTab.FocusBrowser;
 begin
   if (FBrowserFrame <> nil) then FBrowserFrame.FocusBrowser;
+end;
+
+procedure TBrowserTab.ShowBrowser;
+begin
+  if (FBrowserFrame <> nil) then FBrowserFrame.ShowBrowser;
+end;
+
+procedure TBrowserTab.HideBrowser;
+begin
+  if (FBrowserFrame <> nil) then FBrowserFrame.HideBrowser;
 end;
 
 procedure TBrowserTab.BrowserFrame_OnBrowserDestroyed(Sender: TObject);
