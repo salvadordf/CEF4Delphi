@@ -369,9 +369,23 @@ begin
 end;
 
 procedure TMainForm.BrowserTabCtrlChange(Sender: TObject);
+var
+  i : integer;
+  TempTab : TBrowserTab;
 begin
-  if (BrowserTabCtrl.ActiveTab <> nil) then
-    TBrowserTab(BrowserTabCtrl.ActiveTab).FocusBrowser;
+  i := pred(BrowserTabCtrl.TabCount);
+
+  while (i >= 0) do
+    begin
+      TempTab := TBrowserTab(BrowserTabCtrl.Tabs[i]);
+
+      if (BrowserTabCtrl.TabIndex = i) then
+        TempTab.ShowBrowser
+       else
+        TempTab.HideBrowser;
+
+      dec(i);
+    end;
 end;
 
 function TMainForm.CloseAllTabs : boolean;

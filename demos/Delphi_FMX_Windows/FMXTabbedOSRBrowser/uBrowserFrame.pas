@@ -143,6 +143,8 @@ type
 
       procedure   NotifyMoveOrResizeStarted;
       procedure   SendCaptureLostEvent;
+      procedure   ShowBrowser;
+      procedure   HideBrowser;
       {$IFDEF MSWINDOWS}
       procedure   HandleSYSCHAR(const aMessage : TMsg);
       procedure   HandleSYSKEYDOWN(const aMessage : TMsg);
@@ -252,6 +254,17 @@ begin
   FMXChromium1.SendCaptureLostEvent;
 end;
 
+procedure TBrowserFrame.ShowBrowser;
+begin
+  FMXChromium1.WasHidden(False);
+  FMXChromium1.SetFocus(True);
+end;
+
+procedure TBrowserFrame.HideBrowser;
+begin
+  FMXChromium1.SetFocus(False);
+  FMXChromium1.WasHidden(True);
+end;
 
 procedure TBrowserFrame.StopBtnClick(Sender: TObject);
 begin
