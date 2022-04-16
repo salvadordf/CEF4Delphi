@@ -1,0 +1,173 @@
+object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
+  Left = 0
+  Height = 710
+  Top = 0
+  Width = 1054
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 710
+  ClientWidth = 1054
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.2.0.4'
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 3
+    Top = 477
+    Width = 1054
+    Align = alBottom
+    ResizeAnchor = akBottom
+  end
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 67
+    Top = 0
+    Width = 1054
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 67
+    ClientWidth = 1054
+    Enabled = False
+    TabOrder = 0
+    object AddressEdt: TEdit
+      Left = 3
+      Height = 21
+      Top = 3
+      Width = 735
+      Anchors = [akTop, akLeft, akRight]
+      ReadOnly = True
+      TabOrder = 0
+      Text = 'https://www.briskbard.com/'
+    end
+    object Panel1: TPanel
+      Left = 750
+      Height = 67
+      Top = 0
+      Width = 304
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 67
+      ClientWidth = 304
+      TabOrder = 1
+      object GoBtn: TButton
+        Left = 3
+        Height = 21
+        Top = 0
+        Width = 63
+        Caption = 'Go'
+        OnClick = GoBtnClick
+        TabOrder = 0
+      end
+      object RscNameEdt: TEdit
+        Left = 174
+        Height = 21
+        Top = 0
+        Width = 122
+        TabOrder = 1
+        Text = 'script.js'
+      end
+      object CopyScriptBtn: TRadioButton
+        Left = 72
+        Height = 19
+        Top = 0
+        Width = 81
+        Caption = 'Copy script :'
+        Checked = True
+        TabOrder = 2
+        TabStop = True
+      end
+      object ReplaceLogoBtn: TRadioButton
+        Left = 72
+        Height = 19
+        Top = 19
+        Width = 81
+        Caption = 'Replace logo'
+        TabOrder = 3
+      end
+      object ReplaceTextBtn: TRadioButton
+        Left = 72
+        Height = 19
+        Top = 38
+        Width = 81
+        Caption = 'Replace text'
+        TabOrder = 4
+      end
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 410
+    Top = 67
+    Width = 1054
+    Align = alClient
+    TabOrder = 1
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 230
+    Top = 480
+    Width = 1054
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 230
+    ClientWidth = 1054
+    TabOrder = 2
+    object Memo1: TMemo
+      Left = 0
+      Height = 207
+      Top = 0
+      Width = 1054
+      Align = alClient
+      ReadOnly = True
+      ScrollBars = ssBoth
+      TabOrder = 0
+    end
+    object StatusBar1: TStatusBar
+      Left = 0
+      Height = 23
+      Top = 207
+      Width = 1054
+      Panels = <      
+        item
+          Width = 200
+        end      
+        item
+          Width = 200
+        end      
+        item
+          Width = 200
+        end      
+        item
+          Width = 200
+        end>
+      SimplePanel = False
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 56
+    Top = 88
+  end
+  object Chromium1: TChromium
+    OnLoadStart = Chromium1LoadStart
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    OnBeforeResourceLoad = Chromium1BeforeResourceLoad
+    OnResourceResponse = Chromium1ResourceResponse
+    OnGetResourceResponseFilter = Chromium1GetResourceResponseFilter
+    OnResourceLoadComplete = Chromium1ResourceLoadComplete
+    Left = 56
+    Top = 160
+  end
+end
