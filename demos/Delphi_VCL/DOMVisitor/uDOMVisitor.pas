@@ -79,6 +79,7 @@ const
   RETRIEVEDOM_MSGNAME_FULL    = 'retrievedomfull';
   FRAMEIDS_MSGNAME            = 'getframeids';
   CONSOLE_MSG_PREAMBLE        = 'DOMVISITOR';
+  FILLUSERNAME_MSGNAME        = 'fillusername';
 
   NODE_ID = 'keywords';
 
@@ -414,6 +415,27 @@ begin
     end;
 end;
 
+procedure GlobalCEFApp_OnFocusedNodeChanged(const browser : ICefBrowser;
+                                            const frame   : ICefFrame;
+                                            const node    : ICefDomNode);
+var
+  TempMsg : ICefProcessMessage;
+begin
+  // If the user focuses the username box then we send a message to the main
+  // process to fill it with a username value.
+  if (frame <> nil) and
+     frame.IsValid and
+     (node <> nil) and
+     (CompareText(node.ElementTagName, 'input') = 0) and
+     (CompareText(node.GetElementAttribute('id'), 'username') = 0) then
+    try
+      TempMsg := TCefProcessMessageRef.New(FILLUSERNAME_MSGNAME);
+      frame.SendProcessMessage(PID_BROWSER, TempMsg);
+    finally
+      TempMsg := nil;
+    end;
+end;
+
 procedure GlobalCEFApp_OnProcessMessageReceived(const browser       : ICefBrowser;
                                                 const frame         : ICefFrame;
                                                       sourceProcess : TCefProcessId;
@@ -460,6 +482,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
+  GlobalCEFApp.OnFocusedNodeChanged     := GlobalCEFApp_OnFocusedNodeChanged;
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.
@@ -738,7 +761,10 @@ begin
           Clipboard.AsText := message.ArgumentList.GetString(0);
           StatusText := 'Frame IDs copied to the clipboard in the render process.';
           Result := True;
-        end;
+        end
+       else
+        if (message.Name = FILLUSERNAME_MSGNAME) and (frame <> nil) and frame.IsValid then
+          frame.ExecuteJavaScript('document.getElementById("username").value = "myusername";', 'about:blank', 0);
 
   if Result then
     PostMessage(Handle, MINIBROWSER_SHOWSTATUSTEXT, 0, 0);
