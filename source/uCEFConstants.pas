@@ -620,7 +620,6 @@ const
   CEF_DOCKING_MODE_BOTTOM_LEFT   = 3;
   CEF_DOCKING_MODE_BOTTOM_RIGHT  = 4;
   CEF_DOCKING_MODE_CUSTOM        = 5;
-
   // /include/internal/cef_types.h (cef_show_state_t)
   CEF_SHOW_STATE_NORMAL      = 1;
   CEF_SHOW_STATE_MINIMIZED   = 2;
@@ -704,6 +703,7 @@ const
   CEF_SENTINEL_START     = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0A;
   CEF_SENTINEL_DOCLOSE   = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0B;
   CEF_BEFORECLOSE        = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0C;
+  CEF_INVALIDATE         = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0D;
 
   // Lazarus and some old Delphi versions don't have these message contants
   {$IF NOT DECLARED(WM_TOUCH)}

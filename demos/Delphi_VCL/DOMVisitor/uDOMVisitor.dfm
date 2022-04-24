@@ -15,7 +15,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object CEFWindowParent1: TCEFWindowParent
     Left = 0

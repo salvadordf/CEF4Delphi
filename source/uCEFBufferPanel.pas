@@ -124,6 +124,7 @@ type
       {$IFDEF MSWINDOWS}
       procedure CreateParams(var Params: TCreateParams); override;
       procedure WndProc(var aMessage: TMessage); override;
+      procedure WMCEFInvalidate(var aMessage: TMessage); message CEF_INVALIDATE;
       procedure WMEraseBkgnd(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;
       procedure WMTouch(var aMessage: TMessage); message WM_TOUCH;
       procedure WMPointerDown(var aMessage: TMessage); message WM_POINTERDOWN;
@@ -488,7 +489,7 @@ end;
 function TBufferPanel.InvalidatePanel : boolean;
 begin
   {$IFDEF MSWINDOWS}
-  Result := HandleAllocated and PostMessage(Handle, CM_INVALIDATE, 0, 0);
+  Result := HandleAllocated and PostMessage(Handle, CEF_INVALIDATE, 0, 0);
   {$ELSE}
   Result := True;
   TThread.ForceQueue(nil, @Invalidate);
@@ -678,6 +679,11 @@ begin
   end;
 end;
 
+procedure TBufferPanel.WMCEFInvalidate(var aMessage: TMessage);
+begin
+  Invalidate;
+end;
+
 procedure TBufferPanel.WMEraseBkgnd(var aMessage : TWMEraseBkgnd);
 begin
   aMessage.Result := 1;
@@ -762,6 +768,17 @@ begin
 end;
 
 procedure TBufferPanel.WMIMEComposition(var aMessage: TMessage);
+const
+  // CEF uses UINT32_MAX to initialize the TCefRange parameters.
+  // FPC works fine with a high(integer) value but if we try to use
+  // integer(high(cardinal)) then it duplicates the result string.
+  // Delphi however works fine with integer(high(cardinal)) but it doesn't show
+  // any resul string if we use high(integer)
+  {$IFDEF FPC}
+  UINT32_MAX = high(integer);
+  {$ELSE}
+  UINT32_MAX = integer(high(cardinal));
+  {$ENDIF}
 var
   TempText        : ustring;
   TempRange       : TCefRange;
@@ -780,8 +797,8 @@ begin
           begin
             if assigned(FOnIMECommitText) then
               begin
-                TempRange.from := high(Integer);
-                TempRange.to_  := high(Integer);
+                TempRange.from := UINT32_MAX;
+                TempRange.to_  := UINT32_MAX;
 
                 DoOnIMECommitText(TempText, @TempRange, 0);
               end;
@@ -793,8 +810,8 @@ begin
           begin
             if assigned(FOnIMESetComposition) then
               begin
-                TempRange.from := high(Integer);
-                TempRange.to_  := high(Integer);
+                TempRange.from := UINT32_MAX;
+                TempRange.to_  := UINT32_MAX;
 
                 TempSelection.from := TempCompStart;
                 TempSelection.to_  := TempCompStart + length(TempText);
