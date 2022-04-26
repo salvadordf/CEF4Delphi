@@ -109,7 +109,7 @@ begin
       while (i >= 0) do
         begin
           if (FArgVCopy[i] <> nil) then
-            {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrDispose(FArgVCopy[i]);
+            {$IFDEF DELPHI18_UP}System.AnsiStrings.{$ENDIF}StrDispose(FArgVCopy[i]);
 
           dec(i);
         end;
@@ -136,11 +136,16 @@ begin
       while (i < aArgc) do
         begin
           {$IFDEF FPC}
-          FArgVCopy[i] := StrAlloc(length(aArgv[i]) + 1);
-          StrCopy(FArgVCopy[i], aArgv[i]);
+            FArgVCopy[i] := StrAlloc(length(aArgv[i]) + 1);
+            StrCopy(FArgVCopy[i], aArgv[i]);
           {$ELSE}
-          FArgVCopy[i] := AnsiStrAlloc(length(aArgv[i]) + 1);
-          System.AnsiStrings.StrCopy(FArgVCopy[i], aArgv[i]);
+            {$IFDEF DELPHI18_UP}
+              FArgVCopy[i] := System.AnsiStrings.AnsiStrAlloc(length(aArgv[i]) + 1);
+              System.AnsiStrings.StrCopy(FArgVCopy[i], aArgv[i]);
+            {$ELSE}
+              FArgVCopy[i] := System.SysUtils.AnsiStrAlloc(length(aArgv[i]) + 1);
+              System.SysUtils.StrCopy(FArgVCopy[i], aArgv[i]);
+            {$ENDIF}
           {$ENDIF}
 
           inc(i);

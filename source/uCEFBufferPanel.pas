@@ -773,7 +773,7 @@ const
   // FPC works fine with a high(integer) value but if we try to use
   // integer(high(cardinal)) then it duplicates the result string.
   // Delphi however works fine with integer(high(cardinal)) but it doesn't show
-  // any resul string if we use high(integer)
+  // any result string when we use high(integer)
   {$IFDEF FPC}
   UINT32_MAX = high(integer);
   {$ELSE}
