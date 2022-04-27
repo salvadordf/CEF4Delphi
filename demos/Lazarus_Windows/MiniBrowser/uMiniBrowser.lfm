@@ -257,6 +257,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
     OnLoadingProgressChange = Chromium1LoadingProgressChange
+    OnCursorChange = Chromium1CursorChange
     OnBeforeDownload = Chromium1BeforeDownload
     OnDownloadUpdated = Chromium1DownloadUpdated
     OnAfterCreated = Chromium1AfterCreated

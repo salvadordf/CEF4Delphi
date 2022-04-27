@@ -134,6 +134,10 @@ type
     Memoryinfo1: TMenuItem;
     procedure CEFWindowParent1DragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure Chromium1CookiesFlushed(Sender: TObject);
+    procedure Chromium1CursorChange(Sender: TObject;
+      const browser: ICefBrowser; cursor_: TCefCursorHandle;
+      cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo;
+      var aResult: boolean);
     procedure Chromium1DevToolsMethodResult(Sender: TObject;
       const browser: ICefBrowser; message_id: integer; success: boolean;
       const result: ICefValue);
@@ -1105,6 +1109,14 @@ end;
 procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);
 begin
   PostMessage(Handle, MINIBROWSER_COOKIESFLUSHED, 0, 0);
+end;
+
+procedure TMiniBrowserFrm.Chromium1CursorChange(Sender: TObject;
+  const browser: ICefBrowser; cursor_: TCefCursorHandle;
+  cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo;
+  var aResult: boolean);
+begin
+  CEFWindowParent1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
 procedure TMiniBrowserFrm.Chromium1DevToolsMethodResult(Sender: TObject;

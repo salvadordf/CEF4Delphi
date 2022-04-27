@@ -15,7 +15,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 1179
@@ -285,6 +284,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
     OnLoadingProgressChange = Chromium1LoadingProgressChange
+    OnCursorChange = Chromium1CursorChange
     OnBeforeDownload = Chromium1BeforeDownload
     OnDownloadUpdated = Chromium1DownloadUpdated
     OnAfterCreated = Chromium1AfterCreated

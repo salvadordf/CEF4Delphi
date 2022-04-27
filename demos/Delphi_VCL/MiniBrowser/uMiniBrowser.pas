@@ -185,6 +185,7 @@ type
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
     procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: Cardinal; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean);
     procedure Chromium1SelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: Boolean; const host: ustring; port: Integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: Boolean);
+    procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -589,6 +590,14 @@ end;
 procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);
 begin
   PostMessage(Handle, MINIBROWSER_COOKIESFLUSHED, 0, 0);
+end;
+
+procedure TMiniBrowserFrm.Chromium1CursorChange(Sender: TObject;
+  const browser: ICefBrowser; cursor_: TCefCursorHandle;
+  cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo;
+  var aResult: Boolean);
+begin
+  CEFWindowParent1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
 procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);
