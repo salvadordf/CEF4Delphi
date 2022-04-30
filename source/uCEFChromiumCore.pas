@@ -2203,9 +2203,13 @@ var
   TempURL     : TCefString;
   TempBrowser : ICefBrowser;
 begin
-  TempURL     := CefString(aURL);
-  TempBrowser := TCefBrowserRef.UnWrap(cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aExtraInfo), CefGetData(aContext)));
-  Result      := AddBrowser(TempBrowser);
+  try
+    TempURL     := CefString(aURL);
+    TempBrowser := TCefBrowserRef.UnWrap(cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aExtraInfo), CefGetData(aContext)));
+    Result      := assigned(TempBrowser);
+  finally
+    TempBrowser := nil;
+  end;
 end;
 
 procedure TChromiumCore.Find(const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
@@ -5122,9 +5126,7 @@ begin
     try
       FBrowsersCS.Acquire;
 
-      if (FBrowsers <> nil) and
-         (FMultiBrowserMode or (FBrowsers.Count = 0)) and
-         FBrowsers.AddBrowser(aBrowser) then
+      if (FBrowsers <> nil) and FBrowsers.AddBrowser(aBrowser) then
         begin
           Result := True;
 
@@ -5234,9 +5236,7 @@ end;
 
 procedure TChromiumCore.doOnAfterCreated(const browser: ICefBrowser);
 begin
-  if MultithreadApp or MultiBrowserMode or GlobalCEFApp.ChromeRuntime then
-    AddBrowser(browser);
-
+  AddBrowser(browser);
   doUpdatePreferences(browser);
 
   if (FMediaObserver <> nil) and (FMediaObserverReg = nil) then
