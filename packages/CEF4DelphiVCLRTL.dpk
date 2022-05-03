@@ -222,7 +222,8 @@ contains
   uCEFFrameHandler in '..\source\uCEFFrameHandler.pas',
   uCEFOverlayController in '..\source\uCEFOverlayController.pas',
   uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas',
-  uCEFArgCopy in '..\source\uCEFArgCopy.pas';
+  uCEFArgCopy in '..\source\uCEFArgCopy.pas',
+  uCEFCommandHandler in '..\source\uCEFCommandHandler.pas';
 
 end.
 

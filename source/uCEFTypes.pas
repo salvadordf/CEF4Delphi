@@ -70,6 +70,7 @@ type
   PCefBinaryValue = ^TCefBinaryValue;
   PCefSchemeRegistrar = ^TCefSchemeRegistrar;
   PCefCommandLine = ^TCefCommandLine;
+  PCefCommandHandler = ^TCefCommandHandler;
   PCefBaseRefCounted = ^TCefBaseRefCounted;
   PCefBaseScoped = ^TCefBaseScoped;
   PCefWindowInfo = ^TCefWindowInfo;
@@ -751,7 +752,9 @@ type
     WOD_NEW_WINDOW,
     WOD_SAVE_TO_DISK,
     WOD_OFF_THE_RECORD,
-    WOD_IGNORE_ACTION
+    WOD_IGNORE_ACTION,
+    WOD_SWITCH_TO_TAB,
+    WOD_NEW_PICTURE_IN_PICTURE
   );
 
   // /include/internal/cef_types.h (cef_text_input_mode_t)
@@ -1220,7 +1223,6 @@ type
     accept_language_list                     : TCefString;
     cookieable_schemes_list                  : TCefString;
     cookieable_schemes_exclude_defaults      : integer;
-    application_client_id_for_file_scanning  : TCefString;
   end;
 
   // /include/internal/cef_types_win.h (cef_window_info_t)
@@ -1323,6 +1325,7 @@ type
     webgl                           : TCefState;
     background_color                : TCefColor;
     accept_language_list            : TCefString;
+    chrome_status_bubble            : TCefState;
   end;
 
   // /include/internal/cef_types.h (cef_screen_info_t)
@@ -1545,6 +1548,7 @@ type
   // /include/capi/cef_download_handler_capi.h (cef_download_handler_t)
   TCefDownloadHandler = record
     base                : TCefBaseRefCounted;
+    can_download        : function(self: PCefDownloadHandler; browser: PCefBrowser; const url, request_method: PCefString): integer; stdcall;
     on_before_download  : procedure(self: PCefDownloadHandler; browser: PCefBrowser; download_item: PCefDownloadItem; const suggested_name: PCefString; callback: PCefBeforeDownloadCallback); stdcall;
     on_download_updated : procedure(self: PCefDownloadHandler; browser: PCefBrowser; download_item: PCefDownloadItem; callback: PCefDownloadItemCallback); stdcall;
   end;
@@ -2270,6 +2274,7 @@ type
     set_fragment_base_url : procedure(self: PCefDragData; const base_url: PCefString); stdcall;
     reset_file_contents   : procedure(self: PCefDragData); stdcall;
     add_file              : procedure(self: PCefDragData; const path, display_name: PCefString); stdcall;
+    clear_filenames       : procedure(self: PCefDragData); stdcall;
     get_image             : function(self: PCefDragData): PCefImage; stdcall;
     get_image_hotspot     : function(self: PCefDragData): PCefPoint; stdcall;
     has_image             : function(self: PCefDragData): Integer; stdcall;
@@ -2298,6 +2303,12 @@ type
     get_arguments             : procedure(self: PCefCommandLine; arguments: TCefStringList); stdcall;
     append_argument           : procedure(self: PCefCommandLine; const argument: PCefString); stdcall;
     prepend_wrapper           : procedure(self: PCefCommandLine; const wrapper: PCefString); stdcall;
+  end;
+
+  // /include/capi/cef_command_handler_capi.h (cef_command_handler_t)
+  TCefCommandHandler = record
+    base                      : TCefBaseRefCounted;
+    on_chrome_command         : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): Integer; stdcall;
   end;
 
   // /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)
@@ -2823,6 +2834,7 @@ type
   TCefClient = record
     base                        : TCefBaseRefCounted;
     get_audio_handler           : function(self: PCefClient): PCefAudioHandler; stdcall;
+    get_command_handler         : function(self: PCefClient): PCefCommandHandler; stdcall;
     get_context_menu_handler    : function(self: PCefClient): PCefContextMenuHandler; stdcall;
     get_dialog_handler          : function(self: PCefClient): PCefDialogHandler; stdcall;
     get_display_handler         : function(self: PCefClient): PCefDisplayHandler; stdcall;

@@ -304,6 +304,7 @@
         <DCCReference Include="..\source\uCEFOverlayController.pas"/>
         <DCCReference Include="..\source\uCEFFileDialogInfo.pas"/>
         <DCCReference Include="..\source\uCEFArgCopy.pas"/>
+        <DCCReference Include="..\source\uCEFCommandHandler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

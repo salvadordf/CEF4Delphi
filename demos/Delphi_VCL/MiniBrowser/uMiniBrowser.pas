@@ -145,6 +145,7 @@ type
     ClearallstorageforcurrentURL1: TMenuItem;
     CEFinfo1: TMenuItem;
     SaveasMHTML1: TMenuItem;
+    Allowdownloads1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -186,6 +187,7 @@ type
     procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: Cardinal; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean);
     procedure Chromium1SelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: Boolean; const host: ustring; port: Integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: Boolean);
     procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
+    procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: Boolean);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -217,6 +219,7 @@ type
     procedure ClearallstorageforcurrentURL1Click(Sender: TObject);
     procedure CEFinfo1Click(Sender: TObject);
     procedure SaveasMHTML1Click(Sender: TObject);
+    procedure Allowdownloads1Click(Sender: TObject);
 
   protected
     FPendingMsgID       : integer;
@@ -225,6 +228,7 @@ type
     FHasShutdownReason  : boolean;
     FSelectCertCallback : ICefSelectClientCertificateCallback;
     FCertificates       : TCefX509CertificateArray;
+    FAllowDownloads     : boolean;
 
     FResponse   : TStringList;
     FRequest    : TStringList;
@@ -480,6 +484,13 @@ begin
      frame.IsMain and
      frame.IsValid then
     InspectRequest(request);
+end;
+
+procedure TMiniBrowserFrm.Chromium1CanDownload(Sender: TObject;
+  const browser: ICefBrowser; const url, request_method: ustring;
+  var aResult: Boolean);
+begin
+  aResult := FAllowDownloads;
 end;
 
 procedure TMiniBrowserFrm.Chromium1CertificateError(Sender: TObject;
@@ -870,6 +881,11 @@ begin
           HandleKeyDown(TempMsg, Result);
         end;
     end;
+end;
+
+procedure TMiniBrowserFrm.Allowdownloads1Click(Sender: TObject);
+begin
+  FAllowDownloads := not(FAllowDownloads);
 end;
 
 procedure TMiniBrowserFrm.ApplicationEvents1Message(var Msg: tagMSG;
@@ -1263,6 +1279,7 @@ begin
   FSelectCertCallback  := nil;
   FCertificates        := nil;
   FPendingMsgID        := 0;
+  FAllowDownloads      := True;
 
   // Windows may show this text message while shutting down the operating system
   FShutdownReason      := 'MiniBrowser closing...';
@@ -1584,6 +1601,8 @@ begin
     DevTools1.Caption := 'Hide DevTools'
    else
     DevTools1.Caption := 'Show DevTools';
+
+  Allowdownloads1.Checked := FAllowDownloads;
 end;
 
 procedure TMiniBrowserFrm.Preferences1Click(Sender: TObject);

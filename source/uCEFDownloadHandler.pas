@@ -54,6 +54,7 @@ uses
 type
   TCefDownloadHandlerOwn = class(TCefBaseRefCountedOwn, ICefDownloadHandler)
     protected
+      function  CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean; virtual;
       procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
       procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); virtual;
 
@@ -67,6 +68,7 @@ type
     protected
       FEvents : Pointer;
 
+      function  CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean; override;
       procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); override;
       procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); override;
 
@@ -82,6 +84,22 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFDownLoadItem, uCEFBeforeDownloadCallback,
   uCEFDownloadItemCallback;
+
+function cef_download_handler_can_download(      self           : PCefDownloadHandler;
+                                                 browser        : PCefBrowser;
+                                           const url            : PCefString;
+                                           const request_method : PCefString): integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDownloadHandlerOwn) then
+    Result := Ord(TCefDownloadHandlerOwn(TempObject).CanDownload(TCefBrowserRef.UnWrap(browser),
+                                                                 CefString(url),
+                                                                 CefString(request_method)));
+end;
 
 procedure cef_download_handler_on_before_download(      self           : PCefDownloadHandler;
                                                         browser        : PCefBrowser;
@@ -121,9 +139,15 @@ begin
 
   with PCefDownloadHandler(FData)^ do
     begin
+      can_download        := {$IFDEF FPC}@{$ENDIF}cef_download_handler_can_download;
       on_before_download  := {$IFDEF FPC}@{$ENDIF}cef_download_handler_on_before_download;
       on_download_updated := {$IFDEF FPC}@{$ENDIF}cef_download_handler_on_download_updated;
     end;
+end;
+
+function TCefDownloadHandlerOwn.CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
+begin
+  Result := True;
 end;
 
 procedure TCefDownloadHandlerOwn.OnBeforeDownload(const browser       : ICefBrowser;
@@ -167,19 +191,31 @@ begin
   FEvents := nil;
 end;
 
+function TCustomDownloadHandler.CanDownload(const browser        : ICefBrowser;
+                                            const url            : ustring;
+                                            const request_method : ustring): boolean;
+begin
+  Result := True;
+
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnCanDownload(browser, url, request_method);
+end;
+
 procedure TCustomDownloadHandler.OnBeforeDownload(const browser       : ICefBrowser;
                                                   const downloadItem  : ICefDownloadItem;
                                                   const suggestedName : ustring;
                                                   const callback      : ICefBeforeDownloadCallback);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnBeforeDownload(browser, downloadItem, suggestedName, callback);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnBeforeDownload(browser, downloadItem, suggestedName, callback);
 end;
 
 procedure TCustomDownloadHandler.OnDownloadUpdated(const browser      : ICefBrowser;
                                                    const downloadItem : ICefDownloadItem;
                                                    const callback     : ICefDownloadItemCallback);
 begin
-  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnDownloadUpdated(browser, downloadItem, callback);
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnDownloadUpdated(browser, downloadItem, callback);
 end;
 
 end.

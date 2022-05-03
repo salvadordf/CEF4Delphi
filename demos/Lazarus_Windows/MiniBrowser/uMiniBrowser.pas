@@ -94,6 +94,7 @@ type
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
+    Allowdownloads1: TMenuItem;
     NavControlPnl: TPanel;
     NavButtonPnl: TPanel;
     StatusPnl: TPanel;
@@ -132,7 +133,10 @@ type
     OpenfilewithaDAT1: TMenuItem;
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
+    procedure Allowdownloads1Click(Sender: TObject);
     procedure CEFWindowParent1DragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser;
+      const url, request_method: ustring; var aResult: boolean);
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1CursorChange(Sender: TObject;
       const browser: ICefBrowser; cursor_: TCefCursorHandle;
@@ -246,11 +250,12 @@ type
       var aResult: Boolean);
 
   protected
-    FResponse   : TStringList;
-    FRequest    : TStringList;
-    FNavigation : TStringList;       
-    FShutdownReason    : string;
-    FHasShutdownReason : boolean;
+    FResponse           : TStringList;
+    FRequest            : TStringList;
+    FNavigation         : TStringList;
+    FShutdownReason     : string;
+    FHasShutdownReason  : boolean;
+    FAllowDownloads     : boolean;
 
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
@@ -323,7 +328,8 @@ begin
   GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
-  GlobalCEFApp.EnablePrintPreview  := True;
+  GlobalCEFApp.EnablePrintPreview  := True;          
+  GlobalCEFApp.EnableGPU           := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -1065,6 +1071,7 @@ begin
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
   FPendingMsgID        := 0;
+  FAllowDownloads      := True;
 
   // Windows may show this text message while shutting down the operating system
   FShutdownReason      := 'MiniBrowser closing...';
@@ -1181,6 +1188,18 @@ procedure TMiniBrowserFrm.CEFWindowParent1DragDrop(Sender, Source: TObject; X,
   Y: Integer);
 begin
 
+end;
+
+procedure TMiniBrowserFrm.Chromium1CanDownload(Sender: TObject;
+  const browser: ICefBrowser; const url, request_method: ustring;
+  var aResult: boolean);
+begin
+  aResult := FAllowDownloads;
+end;
+
+procedure TMiniBrowserFrm.Allowdownloads1Click(Sender: TObject);
+begin
+  FAllowDownloads := not(FAllowDownloads);
 end;
 
 procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);
@@ -1410,7 +1429,9 @@ begin
   if DevTools.Visible then
     DevTools1.Caption := 'Hide DevTools'
    else
-    DevTools1.Caption := 'Show DevTools';
+    DevTools1.Caption := 'Show DevTools';   
+
+  Allowdownloads1.Checked := FAllowDownloads;
 end;
 
 procedure TMiniBrowserFrm.Preferences1Click(Sender: TObject);

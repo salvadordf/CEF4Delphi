@@ -102,6 +102,7 @@ type
   ICefRenderProcessHandler = interface;
   ICefProcessMessage = interface;
   ICefLifeSpanHandler = interface;
+  ICefCommandHandler = interface;
   ICefGetExtensionResourceCallback = interface;
   ICefExtensionHandler = interface;
   ICefExtension = interface;
@@ -346,6 +347,7 @@ type
     procedure doOnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
 
     // ICefDownloadHandler
+    function  doOnCanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
     procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
     procedure doOnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
 
@@ -461,6 +463,9 @@ type
     procedure doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
     procedure doOnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
 
+    // ICefCommandHandler
+    function  doOnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
+
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
@@ -489,6 +494,7 @@ type
     procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring);
     procedure doBrowserNavigation(aTask : TCefBrowserNavigation);
     function  MustCreateAudioHandler : boolean;
+    function  MustCreateCommandHandler : boolean;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
     function  MustCreateContextMenuHandler : boolean;
@@ -956,6 +962,7 @@ type
   // /include/capi/cef_download_handler_capi.h (cef_download_handler_t)
   ICefDownloadHandler = interface(ICefBaseRefCounted)
     ['{3137F90A-5DC5-43C1-858D-A269F28EF4F1}']
+    function  CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
     procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
     procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
 
@@ -1813,6 +1820,15 @@ type
     procedure RemoveReferences; // custom procedure to clear all references
   end;
 
+  // TCefCommandHandler
+  // /include/capi/cef_command_handler_capi.h (cef_command_handler_t)
+  ICefCommandHandler = interface(ICefBaseRefCounted)
+    ['{7C931B93-53DC-4607-AABB-2CB4AEF7FB96}']
+    function  OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
+
+    procedure RemoveReferences; // custom procedure to clear all references
+  end;
+
   // TCefGetExtensionResourceCallback
   // /include/capi/cef_extension_handler_capi.h (cef_get_extension_resource_callback_t)
   ICefGetExtensionResourceCallback = interface(ICefBaseRefCounted)
@@ -2067,6 +2083,7 @@ type
   ICefClient = interface(ICefBaseRefCounted)
     ['{1D502075-2FF0-4E13-A112-9E541CD811F4}']
     procedure GetAudioHandler(var aHandler : ICefAudioHandler);
+    procedure GetCommandHandler(var aHandler : ICefCommandHandler);
     procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
     procedure GetDialogHandler(var aHandler : ICefDialogHandler);
     procedure GetDisplayHandler(var aHandler : ICefDisplayHandler);
@@ -2159,6 +2176,7 @@ type
     procedure SetFragmentBaseUrl(const baseUrl: ustring);
     procedure ResetFileContents;
     procedure AddFile(const path, displayName: ustring);
+    procedure ClearFilenames;
     function  GetImage : ICefImage;
     function  GetImageHotspot : TCefPoint;
     function  HasImage : boolean;
@@ -2533,7 +2551,6 @@ type
     procedure SetVisible(visible: boolean);
     function  IsVisible: boolean;
     function  IsDrawn: boolean;
-
     property ContentsView   : ICefView          read GetContentsView;
     property Window         : ICefWindow        read GetWindow;
     property DockingMode    : TCefDockingMode   read GetDockingMode;
