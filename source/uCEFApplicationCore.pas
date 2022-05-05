@@ -66,15 +66,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 100;
+  CEF_SUPPORTED_VERSION_MAJOR   = 101;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 24;
+  CEF_SUPPORTED_VERSION_RELEASE = 15;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 100;
+  CEF_CHROMEELF_VERSION_MAJOR   = 101;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 4896;
-  CEF_CHROMEELF_VERSION_BUILD   = 127;
+  CEF_CHROMEELF_VERSION_RELEASE = 4951;
+  CEF_CHROMEELF_VERSION_BUILD   = 54;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -131,7 +131,6 @@ type
       FAcceptLanguageList                : ustring;
       FCookieableSchemesList             : ustring;
       FCookieableSchemesExcludeDefaults  : boolean;
-      FApplicationClientID               : ustring;
 
       // Fields used to set command line switches
       FSingleProcess                     : boolean;
@@ -446,7 +445,6 @@ type
       property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
       property CookieableSchemesList             : ustring                             read FCookieableSchemesList             write FCookieableSchemesList;
       property CookieableSchemesExcludeDefaults  : boolean                             read FCookieableSchemesExcludeDefaults  write FCookieableSchemesExcludeDefaults;
-      property ApplicationClientID               : ustring                             read FApplicationClientID               write FApplicationClientID;
 
       // Properties used to set command line switches
       property SingleProcess                     : Boolean                             read FSingleProcess                     write FSingleProcess;                    // --single-process
@@ -694,7 +692,6 @@ begin
   FAcceptLanguageList                := '';
   FCookieableSchemesList             := '';
   FCookieableSchemesExcludeDefaults  := False;
-  FApplicationClientID               := '';
 
   // Fields used to set command line switches
   FSingleProcess                     := False;
@@ -1426,7 +1423,6 @@ begin
   aSettings.accept_language_list                    := CefString(FAcceptLanguageList);
   aSettings.cookieable_schemes_list                 := CefString(FCookieableSchemesList);
   aSettings.cookieable_schemes_exclude_defaults     := Ord(FCookieableSchemesExcludeDefaults);
-  aSettings.application_client_id_for_file_scanning := CefString(FApplicationClientID);
 end;
 
 function TCefApplicationCore.InitializeLibrary(const aApp : ICefApp) : boolean;

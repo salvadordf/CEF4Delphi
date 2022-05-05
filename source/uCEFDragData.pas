@@ -81,6 +81,7 @@ type
     procedure SetFragmentBaseUrl(const baseUrl: ustring);
     procedure ResetFileContents;
     procedure AddFile(const path, displayName: ustring);
+    procedure ClearFilenames;
     function  GetImage : ICefImage;
     function  GetImageHotspot : TCefPoint;
     function  HasImage : boolean;
@@ -101,6 +102,11 @@ begin
   TempPath := CefString(path);
   TempName := CefString(displayName);
   PCefDragData(FData)^.add_file(FData, @TempPath, @TempName);
+end;
+
+procedure TCefDragDataRef.ClearFilenames;
+begin
+  PCefDragData(FData)^.clear_filenames(FData);
 end;
 
 function TCefDragDataRef.GetImage : ICefImage;

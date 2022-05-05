@@ -15,7 +15,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 1179
@@ -285,6 +284,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
     OnLoadingProgressChange = Chromium1LoadingProgressChange
+    OnCursorChange = Chromium1CursorChange
+    OnCanDownload = Chromium1CanDownload
     OnBeforeDownload = Chromium1BeforeDownload
     OnDownloadUpdated = Chromium1DownloadUpdated
     OnAfterCreated = Chromium1AfterCreated
@@ -397,6 +398,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object Useragent1: TMenuItem
       Caption = 'User agent...'
       OnClick = Useragent1Click
+    end
+    object Allowdownloads1: TMenuItem
+      Caption = 'Allow downloads'
+      OnClick = Allowdownloads1Click
     end
     object N5: TMenuItem
       Caption = '-'

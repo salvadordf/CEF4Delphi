@@ -73,6 +73,7 @@ type
       FWebgl                       : TCefState;
       FBackgroundColor             : TCefColor;
       FAcceptLanguageList          : ustring;
+      FChromeStatusBubble          : TCefState;
 
     public
       constructor Create; virtual;
@@ -92,6 +93,7 @@ type
       property BackgroundColor             : TCefColor read FBackgroundColor              write FBackgroundColor             default 0;
       property AcceptLanguageList          : ustring   read FAcceptLanguageList           write FAcceptLanguageList;
       property WindowlessFrameRate         : Integer   read FWindowlessFrameRate          write FWindowlessFrameRate         default CEF_OSR_FRAMERATE_DEFAULT;
+      property ChromeStatusBubble          : TCefState read FChromeStatusBubble           write FChromeStatusBubble          default STATE_DEFAULT;
   end;
 
 implementation
@@ -111,6 +113,7 @@ begin
   FDatabases                   := STATE_DEFAULT;
   FWebgl                       := STATE_DEFAULT;
   FBackgroundColor             := 0;
+  FChromeStatusBubble          := STATE_DEFAULT;
 end;
 
 end.

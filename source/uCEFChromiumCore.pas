@@ -198,6 +198,7 @@ type
       FOnCursorChange                 : TOnCursorChange;
 
       // ICefDownloadHandler
+      FOnCanDownload                  : TOnCanDownloadEvent;
       FOnBeforeDownload               : TOnBeforeDownload;
       FOnDownloadUpdated              : TOnDownloadUpdated;
 
@@ -315,6 +316,9 @@ type
       FOnFrameAttached                    : TOnFrameAttached;
       FOnFrameDetached                    : TOnFrameDetached;
       FOnMainFrameChanged                 : TOnMainFrameChanged;
+
+      // ICefCommandHandler
+      FOnChromeCommand                    : TOnChromeCommandEvent;
 
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
@@ -534,6 +538,7 @@ type
       procedure doOnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
 
       // ICefDownloadHandler
+      function  doOnCanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
       procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
       procedure doOnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); virtual;
 
@@ -649,6 +654,9 @@ type
       procedure doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
       procedure doOnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
 
+      // ICefCommandHandler
+      function  doOnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
+
       // Custom
       procedure GetSettings(var aSettings : TCefBrowserSettings);
       procedure doCookiesDeleted(numDeleted : integer); virtual;
@@ -678,6 +686,7 @@ type
       procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring); virtual;
       procedure doBrowserNavigation(aTask : TCefBrowserNavigation); virtual;
       function  MustCreateAudioHandler : boolean; virtual;
+      function  MustCreateCommandHandler : boolean; virtual;
       function  MustCreateDevToolsMessageObserver : boolean; virtual;
       function  MustCreateLoadHandler : boolean; virtual;
       function  MustCreateFocusHandler : boolean; virtual;
@@ -1016,6 +1025,7 @@ type
       property OnCursorChange                   : TOnCursorChange                   read FOnCursorChange                   write FOnCursorChange;
 
       // ICefDownloadHandler
+      property OnCanDownload                    : TOnCanDownloadEvent               read FOnCanDownload                    write FOnCanDownload;
       property OnBeforeDownload                 : TOnBeforeDownload                 read FOnBeforeDownload                 write FOnBeforeDownload;
       property OnDownloadUpdated                : TOnDownloadUpdated                read FOnDownloadUpdated                write FOnDownloadUpdated;
 
@@ -1135,6 +1145,9 @@ type
       property OnFrameAttached                        : TOnFrameAttached                  read FOnFrameAttached                        write FOnFrameAttached;
       property OnFrameDetached                        : TOnFrameDetached                  read FOnFrameDetached                        write FOnFrameDetached;
       property OnMainFrameChanged                     : TOnMainFrameChanged               read FOnMainFrameChanged                     write FOnMainFrameChanged;
+
+      // ICefCommandHandler
+      property OnChromeCommand                        : TOnChromeCommandEvent             read FOnChromeCommand                        write FOnChromeCommand;
   end;
 
   TBrowserInfo = class
@@ -1734,6 +1747,7 @@ begin
   FOnCursorChange                 := nil;
 
   // ICefDownloadHandler
+  FOnCanDownload                  := nil;
   FOnBeforeDownload               := nil;
   FOnDownloadUpdated              := nil;
 
@@ -1851,6 +1865,9 @@ begin
   FOnFrameAttached                    := nil;
   FOnFrameDetached                    := nil;
   FOnMainFrameChanged                 := nil;
+
+  // ICefCommandHandler
+  FOnChromeCommand                    := nil;
 
   // Custom
   FOnTextResultAvailable              := nil;
@@ -2203,9 +2220,13 @@ var
   TempURL     : TCefString;
   TempBrowser : ICefBrowser;
 begin
-  TempURL     := CefString(aURL);
-  TempBrowser := TCefBrowserRef.UnWrap(cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aExtraInfo), CefGetData(aContext)));
-  Result      := AddBrowser(TempBrowser);
+  try
+    TempURL     := CefString(aURL);
+    TempBrowser := TCefBrowserRef.UnWrap(cef_browser_host_create_browser_sync(aWindowInfo, FHandler.Wrap, @TempURL, aSettings, CefGetData(aExtraInfo), CefGetData(aContext)));
+    Result      := assigned(TempBrowser);
+  finally
+    TempBrowser := nil;
+  end;
 end;
 
 procedure TChromiumCore.Find(const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
@@ -2383,6 +2404,7 @@ begin
       aSettings.webgl                           := FOptions.Webgl;
       aSettings.background_color                := FOptions.BackgroundColor;
       aSettings.accept_language_list            := CefString(FOptions.AcceptLanguageList);
+      aSettings.chrome_status_bubble            := FOptions.ChromeStatusBubble;
     end;
 end;
 
@@ -4720,7 +4742,8 @@ end;
 
 function TChromiumCore.MustCreateDownloadHandler : boolean;
 begin
-  Result := assigned(FOnBeforeDownload) or
+  Result := assigned(FOnCanDownload)    or
+            assigned(FOnBeforeDownload) or
             assigned(FOnDownloadUpdated);
 end;
 
@@ -4833,6 +4856,11 @@ begin
             assigned(FOnFrameAttached) or
             assigned(FOnFrameDetached) or
             assigned(FOnMainFrameChanged);
+end;
+
+function TChromiumCore.MustCreateCommandHandler : boolean;
+begin
+  Result := assigned(FOnChromeCommand);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -5122,9 +5150,7 @@ begin
     try
       FBrowsersCS.Acquire;
 
-      if (FBrowsers <> nil) and
-         (FMultiBrowserMode or (FBrowsers.Count = 0)) and
-         FBrowsers.AddBrowser(aBrowser) then
+      if (FBrowsers <> nil) and FBrowsers.AddBrowser(aBrowser) then
         begin
           Result := True;
 
@@ -5234,9 +5260,7 @@ end;
 
 procedure TChromiumCore.doOnAfterCreated(const browser: ICefBrowser);
 begin
-  if MultithreadApp or MultiBrowserMode or GlobalCEFApp.ChromeRuntime then
-    AddBrowser(browser);
-
+  AddBrowser(browser);
   doUpdatePreferences(browser);
 
   if (FMediaObserver <> nil) and (FMediaObserverReg = nil) then
@@ -5283,6 +5307,16 @@ begin
 
   if assigned(FOnRunContextMenu) then
     FOnRunContextMenu(Self, browser, frame, params, model, callback, Result);
+end;
+
+function TChromiumCore.doOnCanDownload(const browser        : ICefBrowser;
+                                       const url            : ustring;
+                                       const request_method : ustring): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnCanDownload) then
+    FOnCanDownload(Self, browser, url, request_method, Result);
 end;
 
 procedure TChromiumCore.doOnBeforeDownload(const browser       : ICefBrowser;
@@ -5793,6 +5827,14 @@ procedure TChromiumCore.doOnMainFrameChanged(const browser: ICefBrowser; const o
 begin
   if assigned(FOnMainFrameChanged) then
     FOnMainFrameChanged(self, browser, old_frame, new_frame);
+end;
+
+function TChromiumCore.doOnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
+begin
+  Result := False;
+
+  if assigned(FOnChromeCommand) then
+    FOnChromeCommand(self, browser, command_id, disposition, Result);
 end;
 
 procedure TChromiumCore.doOnFullScreenModeChange(const browser    : ICefBrowser;

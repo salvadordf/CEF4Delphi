@@ -381,14 +381,21 @@ const
   // /include/internal/cef_types.h (cef_transition_type_t)
   TT_LINK                 = 0;
   TT_EXPLICIT             = 1;
+  TT_AUTO_BOOKMARK        = 2;
   TT_AUTO_SUBFRAME        = 3;
   TT_MANUAL_SUBFRAME      = 4;
+  TT_GENERATED            = 5;
+  TT_AUTO_TOPLEVEL        = 6;
   TT_FORM_SUBMIT          = 7;
   TT_RELOAD               = 8;
+  TT_KEYWORD              = 9;
+  TT_KEYWORD_GENERATED    = 10;
   TT_SOURCE_MASK          = $000000FF;
   TT_BLOCKED_FLAG         = $00800000;
   TT_FORWARD_BACK_FLAG    = $01000000;
   TT_DIRECT_LOAD_FLAG     = $02000000;
+  TT_HOME_PAGE_FLAG       = $04000000;
+  TT_FROM_API_FLAG        = $08000000;
   TT_CHAIN_START_FLAG     = $10000000;
   TT_CHAIN_END_FLAG       = $20000000;
   TT_CLIENT_REDIRECT_FLAG = $40000000;
@@ -751,7 +758,8 @@ const
   {$IFDEF CEF4DELHI_ALLOC_DEBUG}
   CEF4DELPHI_ALLOC_PADDING = Pointer($44332211); // Some random value used as padding
   {$ENDIF}
-implementation
+
+  implementation
 
 end.
 
