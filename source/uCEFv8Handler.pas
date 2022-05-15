@@ -87,6 +87,7 @@ type
       class function StrToPtr(const str: ustring): Pointer;
       class function PtrToStr(p: Pointer): ustring;
   {$ENDIF}
+      function HandleProperties(const name: ustring; const arguments: TCefv8ValueArray; var retval: ICefv8Value): boolean;
       function Execute(const name: ustring; const object_: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean; override;
 
     public
@@ -805,6 +806,19 @@ begin
 end;
 {$ENDIF}
 
+function TCefRTTIExtension.HandleProperties(const name      : ustring;
+                                            const arguments : TCefv8ValueArray;
+                                            var   retval    : ICefv8Value): boolean;
+begin
+  Result := True;
+  if name = '$g' then
+    SetValue(FValue, retval)
+  else if name = '$s' then
+    GetValue(FValue.TypeInfo, arguments[0], FValue)
+  else
+    Result := False;
+end;
+
 function TCefRTTIExtension.Execute(const name      : ustring;
                                    const object_   : ICefv8Value;
                                    const arguments : TCefv8ValueArray;
@@ -825,9 +839,12 @@ var
   ret: TValue;
 begin
   Result := True;
+  if HandleProperties(name, arguments, retval) then
+    exit;
+
   p := PChar(name);
   m := nil;
-  if object_ <> nil then
+  if assigned(object_) and object_.IsValid then
   begin
     ud := object_.GetUserData;
     if ud <> nil then
@@ -970,16 +987,6 @@ begin
             Exit(False);
       end else
         Exit(False);
-    end else
-    if p^ = '$' then
-    begin
-      inc(p);
-      case p^ of
-        'g': SetValue(FValue, retval);
-        's': GetValue(FValue.TypeInfo, arguments[0], FValue);
-      else
-        Exit(False);
-      end;
     end else
       Exit(False);
   end else
