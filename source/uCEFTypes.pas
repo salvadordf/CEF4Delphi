@@ -821,7 +821,8 @@ type
     CEF_CHANNEL_LAYOUT_DISCRETE,
     CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC,
     CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE,
-    CEF_CHANNEL_LAYOUT_BITSTREAM  // CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_BITSTREAM
+    CEF_CHANNEL_LAYOUT_BITSTREAM,
+    CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX // CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX
   );
 
   // /include/internal/cef_types.h (cef_cookie_same_site_t)
@@ -1520,14 +1521,14 @@ type
   // /include/capi/cef_dialog_handler_capi.h (cef_file_dialog_callback_t)
   TCefFileDialogCallback = record
     base   : TCefBaseRefCounted;
-    cont   : procedure(self: PCefFileDialogCallback; selected_accept_filter: Integer; file_paths: TCefStringList); stdcall;
+    cont   : procedure(self: PCefFileDialogCallback; file_paths: TCefStringList); stdcall;
     cancel : procedure(self: PCefFileDialogCallback); stdcall;
   end;
 
   // /include/capi/cef_dialog_handler_capi.h (cef_dialog_handler_t)
   TCefDialogHandler = record
     base           : TCefBaseRefCounted;
-    on_file_dialog : function(self: PCefDialogHandler; browser: PCefBrowser; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters: TCefStringList; selected_accept_filter: Integer; callback: PCefFileDialogCallback): Integer; stdcall;
+    on_file_dialog : function(self: PCefDialogHandler; browser: PCefBrowser; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters: TCefStringList; callback: PCefFileDialogCallback): Integer; stdcall;
   end;
 
   // /include/capi/cef_display_handler_capi.h (cef_display_handler_t)
@@ -2144,7 +2145,7 @@ type
   // /include/capi/cef_browser_capi.h (cef_run_file_dialog_callback_t)
   TCefRunFileDialogCallback = record
     base                     : TCefBaseRefCounted;
-    on_file_dialog_dismissed : procedure(self: PCefRunFileDialogCallback; selected_accept_filter: Integer; file_paths: TCefStringList); stdcall;
+    on_file_dialog_dismissed : procedure(self: PCefRunFileDialogCallback; file_paths: TCefStringList); stdcall;
   end;
 
   // /include/capi/cef_browser_capi.h (cef_download_image_callback_t)
@@ -2867,7 +2868,7 @@ type
     get_request_context               : function(self: PCefBrowserHost): PCefRequestContext; stdcall;
     get_zoom_level                    : function(self: PCefBrowserHost): Double; stdcall;
     set_zoom_level                    : procedure(self: PCefBrowserHost; zoomLevel: Double); stdcall;
-    run_file_dialog                   : procedure(self: PCefBrowserHost; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters: TCefStringList; selected_accept_filter: Integer; callback: PCefRunFileDialogCallback); stdcall;
+    run_file_dialog                   : procedure(self: PCefBrowserHost; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters: TCefStringList; callback: PCefRunFileDialogCallback); stdcall;
     start_download                    : procedure(self: PCefBrowserHost; const url: PCefString); stdcall;
     download_image                    : procedure(self: PCefBrowserHost; const image_url: PCefString; is_favicon: Integer; max_image_size: Cardinal; bypass_cache: Integer; callback: PCefDownloadImageCallback); stdcall;
     print                             : procedure(self: PCefBrowserHost); stdcall;
@@ -3360,6 +3361,7 @@ type
     base                             : TCefPanelDelegate;
     on_window_created                : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
     on_window_destroyed              : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
+    on_window_activation_changed     : procedure(self: PCefWindowDelegate; window: PCefWindow; active: integer); stdcall;
     get_parent_window                : function(self: PCefWindowDelegate; window: PCefWindow; is_menu, can_activate_menu: PInteger): PCefWindow; stdcall;
     get_initial_bounds               : function(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
     get_initial_show_state           : function(self: PCefWindowDelegate; window: PCefWindow): TCefShowState; stdcall;

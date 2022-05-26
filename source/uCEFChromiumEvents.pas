@@ -136,7 +136,7 @@ type
   TOnCanSaveCookie                = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie; var aResult : boolean) of object;
 
   // ICefDialogHandler
-  TOnFileDialog                   = procedure(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean) of Object;
+  TOnFileDialog                   = procedure(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean) of Object;
 
   // ICefRenderHandler
   TOnGetAccessibilityHandler      = procedure(Sender: TObject; var aAccessibilityHandler : ICefAccessibilityHandler) of Object;

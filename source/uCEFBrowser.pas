@@ -97,8 +97,8 @@ type
       function  GetRequestContext: ICefRequestContext;
       function  GetZoomLevel: Double;
       procedure SetZoomLevel(const zoomLevel: Double);
-      procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefRunFileDialogCallback);
-      procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: TCefRunFileDialogCallbackProc);
+      procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefRunFileDialogCallback);
+      procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: TCefRunFileDialogCallbackProc);
       procedure StartDownload(const url: ustring);
       procedure DownloadImage(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: Cardinal; bypassCache: Boolean; const callback: ICefDownloadImageCallback);
       procedure DownloadImageProc(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: Cardinal; bypassCache: Boolean; const callback: TOnDownloadImageFinishedProc);
@@ -458,7 +458,6 @@ procedure TCefBrowserHostRef.RunFileDialog(      mode                 : TCefFile
                                            const title                : ustring;
                                            const defaultFilePath      : ustring;
                                            const acceptFilters        : TStrings;
-                                                 selectedAcceptFilter : Integer;
                                            const callback             : ICefRunFileDialogCallback);
 var
   TempTitle, TempPath : TCefString;
@@ -476,7 +475,6 @@ begin
                                             @TempTitle,
                                             @TempPath,
                                             TempAcceptFilters.Handle,
-                                            selectedAcceptFilter,
                                             CefGetData(callback));
   finally
     TempAcceptFilters := nil;
@@ -487,10 +485,9 @@ procedure TCefBrowserHostRef.RunFileDialogProc(      mode                 : TCef
                                                const title                : ustring;
                                                const defaultFilePath      : ustring;
                                                const acceptFilters        : TStrings;
-                                                     selectedAcceptFilter : Integer;
                                                const callback             : TCefRunFileDialogCallbackProc);
 begin
-  RunFileDialog(mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, TCefFastRunFileDialogCallback.Create(callback));
+  RunFileDialog(mode, title, defaultFilePath, acceptFilters, TCefFastRunFileDialogCallback.Create(callback));
 end;
 
 procedure TCefBrowserHostRef.AddWordToDictionary(const word: ustring);
