@@ -8,7 +8,6 @@ CEF4Delphi uses CEF 102.0.8 which includes Chromium 102.0.5005.61.
 The CEF binaries used by CEF4Delphi are available for download at Spotify :
 * [Windows 32 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_windows32.tar.bz2)
 * [Windows 64 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_windows64.tar.bz2)
-* [Linux x86 32 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_linux32.tar.bz2)
 * [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_linux64.tar.bz2)
 * [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_linuxarm.tar.bz2)
 * [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_linuxarm64.tar.bz2)
