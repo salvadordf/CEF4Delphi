@@ -56,9 +56,7 @@ uses
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, Messages,{$ENDIF} Classes, Controls,
-    {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf,
-    {$ENDIF}
+    {$IFDEF FPC}{$IFDEF MACOSX}CocoaAll,{$ENDIF}LCLProc, LCLType, LCLIntf,{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFWinControl, uCEFChromium;
 
@@ -161,14 +159,33 @@ end;
 {$ENDIF}
 
 procedure TCEFLinkedWinControlBase.UpdateSize;
+{$IFDEF MACOSX}{$IFDEF FPC}
+var
+  TempSize: NSSize;
+{$ENDIF}{$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
+  inherited UpdateSize;
+  {$ENDIF}
+
   {$IFDEF LINUX}
   if not(csDesigning in ComponentState) and
      (Chromium <> nil) and
      Chromium.Initialized then
     Chromium.UpdateBrowserSize(Left, Top, Width, Height);
-  {$ELSE}
-  inherited UpdateSize;
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+  {$IFDEF FPC}
+  if not(csDesigning in ComponentState) and
+     (Chromium <> nil) and
+     Chromium.Initialized then
+    begin
+      TempSize.width:= Width;
+      TempSize.height:= Height;
+      NSView(Chromium.WindowHandle).setFrameSize(TempSize);
+    end;
+  {$ENDIF}
   {$ENDIF}
 end;
 
