@@ -59,7 +59,7 @@ uses
 type
   TCefDialogHandlerOwn = class(TCefBaseRefCountedOwn, ICefDialogHandler)
     protected
-      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; virtual;
+      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -71,7 +71,7 @@ type
     protected
       FEvents : Pointer;
 
-      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title: ustring; const defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; override;
+      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title: ustring; const defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean; override;
 
       procedure RemoveReferences; override;
 
@@ -96,7 +96,6 @@ function cef_dialog_handler_on_file_dialog(self                    : PCefDialogH
                                            const title             : PCefString;
                                            const default_file_path : PCefString;
                                            accept_filters          : TCefStringList;
-                                           selected_accept_filter  : Integer;
                                            callback                : PCefFileDialogCallback): Integer; stdcall;
 var
   TempSL     : TStringList;
@@ -121,7 +120,6 @@ begin
                                                                       CefString(title),
                                                                       CefString(default_file_path),
                                                                       TempSL,
-                                                                      selected_accept_filter,
                                                                       TCefFileDialogCallbackRef.UnWrap(callback)));
         end;
     except
@@ -145,7 +143,6 @@ function TCefDialogHandlerOwn.OnFileDialog(const browser                : ICefBr
                                            const title                  : ustring;
                                            const defaultFilePath        : ustring;
                                            const acceptFilters          : TStrings;
-                                                 selectedAcceptFilter   : Integer;
                                            const callback               : ICefFileDialogCallback): Boolean;
 begin
   Result := False;
@@ -182,15 +179,14 @@ function TCustomDialogHandler.OnFileDialog(const browser              : ICefBrow
                                            const title                : ustring;
                                            const defaultFilePath      : ustring;
                                            const acceptFilters        : TStrings;
-                                                 selectedAcceptFilter : Integer;
                                            const callback             : ICefFileDialogCallback): Boolean;
 begin
   if (FEvents <> nil) then
     Result := IChromiumEvents(FEvents).doOnFileDialog(browser, mode, title, defaultFilePath,
-                                                      acceptFilters, selectedAcceptFilter, callback)
+                                                      acceptFilters, callback)
    else
     Result := inherited OnFileDialog(browser, mode, title, defaultFilePath,
-                                     acceptFilters, selectedAcceptFilter, callback);
+                                     acceptFilters, callback);
 end;
 
 end.

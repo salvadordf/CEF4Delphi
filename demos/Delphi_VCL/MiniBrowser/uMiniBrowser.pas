@@ -184,7 +184,7 @@ type
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
-    procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: Cardinal; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean);
+    procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: Cardinal; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean);
     procedure Chromium1SelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: Boolean; const host: ustring; port: Integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: Boolean);
     procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
     procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: Boolean);
@@ -313,6 +313,7 @@ begin
   GlobalCEFApp.EnableGPU           := True;
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  //GlobalCEFApp.ChromeRuntime       := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -663,16 +664,14 @@ procedure TMiniBrowserFrm.Chromium1FileDialog(      Sender                 : TOb
                                               const title                  : ustring;
                                               const defaultFilePath        : ustring;
                                               const acceptFilters          : TStrings;
-                                                    selectedAcceptFilter   : Integer;
                                               const callback               : ICefFileDialogCallback;
-                                              out   Result                 : Boolean);
+                                              var   Result                 : Boolean);
 begin
   Result := True;
 
   FFileDialogInfo.Mode                   := mode;
   FFileDialogInfo.Title                  := title;
   FFileDialogInfo.DefaultFilePath        := defaultFilePath;
-  FFileDialogInfo.SelectedAcceptFilter   := selectedAcceptFilter;
   FFileDialogInfo.Callback               := callback;
   FFileDialogInfo.AcceptFilters          := acceptFilters;
 
@@ -691,12 +690,9 @@ begin
   TempDialog.Title       := FFileDialogInfo.Title;
   TempDialog.InitialDir  := FFileDialogInfo.DefaultFilePath;
   TempDialog.Filter      := FFileDialogInfo.DialogFilter;
-  TempDialog.FilterIndex := FFileDialogInfo.SelectedAcceptFilter;
   TempOptions            := TempDialog.Options;
 
-  if aMultiple                       then include(TempOptions, ofAllowMultiSelect);
-  if FFileDialogInfo.OverwritePrompt then include(TempOptions, ofOverwritePrompt);
-  if FFileDialogInfo.HideReadOnly    then include(TempOptions, ofHideReadOnly);
+  if aMultiple then include(TempOptions, ofAllowMultiSelect);
 
   TempDialog.Options := TempOptions;
 
@@ -706,8 +702,6 @@ begin
         aFilePaths.AddStrings(TempDialog.Files)
        else
         aFilePaths.Add(TempDialog.FileName);
-
-      FFileDialogInfo.SelectedAcceptFilter := TempDialog.FilterIndex;
 
       Result := True;
     end;
@@ -745,13 +739,9 @@ begin
   TempDialog             := TSaveDialog.Create(Application.MainForm);
   TempDialog.Title       := FFileDialogInfo.Title;
   TempDialog.Filter      := FFileDialogInfo.DialogFilter;
-  TempDialog.FilterIndex := FFileDialogInfo.SelectedAcceptFilter;
   TempDialog.FileName    := ExtractFileName(FFileDialogInfo.DefaultFilePath);
   TempDialog.InitialDir  := ExtractFileDir(FFileDialogInfo.DefaultFilePath);
   TempOptions            := TempDialog.Options;
-
-  if FFileDialogInfo.OverwritePrompt then include(TempOptions, ofOverwritePrompt);
-  if FFileDialogInfo.HideReadOnly    then include(TempOptions, ofHideReadOnly);
 
   TempDialog.Options := TempOptions;
 
@@ -781,7 +771,7 @@ begin
   end;
 
   if TempResult then
-    FFileDialogInfo.Callback.Cont(FFileDialogInfo.SelectedAcceptFilter, TempFilePaths)
+    FFileDialogInfo.Callback.Cont(TempFilePaths)
    else
     FFileDialogInfo.Callback.Cancel;
 
@@ -1266,6 +1256,10 @@ begin
       // if TChromium.MultiBrowserMode is enabled then we have to close all
       // stored browsers and not only the main browser.
       Chromium1.CloseAllBrowsers;
+
+      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
+      if GlobalCEFApp.ChromeRuntime then
+        CEFWindowParent1.Free;
     end;
 end;
 

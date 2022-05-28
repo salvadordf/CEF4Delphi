@@ -3,18 +3,17 @@ CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chro
 
 CEF4Delphi is based on DCEF3 and fpCEF3. The original license of those projects still applies to CEF4Delphi. Read the license terms in the first lines of any *.pas file.
 
-CEF4Delphi uses CEF 101.0.15 which includes Chromium 101.0.4951.54. 
+CEF4Delphi uses CEF 102.0.8 which includes Chromium 102.0.5005.61. 
 
 The CEF binaries used by CEF4Delphi are available for download at Spotify :
-* [Windows 32 bits](https://cef-builds.spotifycdn.com/cef_binary_101.0.15%2Bgca159c5%2Bchromium-101.0.4951.54_windows32.tar.bz2)
-* [Windows 64 bits](https://cef-builds.spotifycdn.com/cef_binary_101.0.15%2Bgca159c5%2Bchromium-101.0.4951.54_windows64.tar.bz2)
-* [Linux x86 32 bits](https://cef-builds.spotifycdn.com/cef_binary_101.0.15%2Bgca159c5%2Bchromium-101.0.4951.54_linux32.tar.bz2)
-* [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_101.0.15%2Bgca159c5%2Bchromium-101.0.4951.54_linux64.tar.bz2)
-* [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_101.0.15%2Bgca159c5%2Bchromium-101.0.4951.54_linuxarm.tar.bz2)
-* [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_101.0.15%2Bgca159c5%2Bchromium-101.0.4951.54_linuxarm64.tar.bz2)
-* [MacOS x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_101.0.15%2Bgca159c5%2Bchromium-101.0.4951.54_macosx64.tar.bz2)
+* [Windows 32 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_windows32.tar.bz2)
+* [Windows 64 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_windows64.tar.bz2)
+* [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_linux64.tar.bz2)
+* [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_linuxarm.tar.bz2)
+* [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_linuxarm64.tar.bz2)
+* [MacOS x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_102.0.8%2Bg60bd108%2Bchromium-102.0.5005.61_macosx64.tar.bz2)
 
-CEF4Delphi was developed and tested on Delphi 11.1 and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2, Delphi 10.3, Delphi 10.4 and Lazarus 2.2.0/FPC 3.2.2. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
+CEF4Delphi was developed and tested on Delphi 11.1 and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2, Delphi 10.3, Delphi 10.4 and Lazarus 2.2.2/FPC 3.2.2. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
 
 CEF4Delphi demos have been tested in Windows 7, Windows 10, Windows 11, Linux Mint 20.3 and Raspberry Pi OS.
 

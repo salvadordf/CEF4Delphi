@@ -241,7 +241,7 @@ type
   TCefDomVisitorProc2                  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser : ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument);
   TCefDomVisitorProc3                  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const browser : ICefBrowser; const frame: ICefFrame; const document: ICefDomDocument; const aValue : ustring);
   TCefStringVisitorProc                = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const str: ustring);
-  TCefRunFileDialogCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(selectedAcceptFilter: Integer; const filePaths: TStrings);
+  TCefRunFileDialogCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const filePaths: TStrings);
   TCefCompletionCallbackProc           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure();
   TCefSetCookieCallbackProc            = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(success: Boolean);
   TCefDeleteCookiesCallbackProc        = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(numDeleted: Integer);
@@ -389,7 +389,7 @@ type
     function  doCanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean;
 
     // ICefDialogHandler
-    function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean;
+    function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean;
 
     // ICefRenderHandler
     procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
@@ -562,7 +562,7 @@ type
   // /include/capi/cef_browser_capi.h (cef_run_file_dialog_callback_t)
   ICefRunFileDialogCallback = interface(ICefBaseRefCounted)
     ['{59FCECC6-E897-45BA-873B-F09586C4BE47}']
-    procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings);
+    procedure OnFileDialogDismissed(const filePaths: TStrings);
   end;
 
   // TCefNavigationEntryVisitor
@@ -600,8 +600,8 @@ type
     function  GetRequestContext: ICefRequestContext;
     function  GetZoomLevel: Double;
     procedure SetZoomLevel(const zoomLevel: Double);
-    procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefRunFileDialogCallback);
-    procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: TCefRunFileDialogCallbackProc);
+    procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefRunFileDialogCallback);
+    procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: TCefRunFileDialogCallbackProc);
     procedure StartDownload(const url: ustring);
     procedure DownloadImage(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean; const callback: ICefDownloadImageCallback);
     procedure Print;
@@ -2050,7 +2050,7 @@ type
   // /include/capi/cef_dialog_handler_capi.h (cef_dialog_handler_t)
   ICefDialogHandler = interface(ICefBaseRefCounted)
     ['{7763F4B2-8BE1-4E80-AC43-8B825850DC67}']
-    function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean;
+    function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean;
 
     procedure RemoveReferences; // custom procedure to clear all references
   end;
@@ -2146,7 +2146,7 @@ type
   // /include/capi/cef_dialog_handler_capi.h (cef_file_dialog_callback_t)
   ICefFileDialogCallback = interface(ICefBaseRefCounted)
     ['{1AF659AB-4522-4E39-9C52-184000D8E3C7}']
-    procedure Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
+    procedure Cont(const filePaths: TStrings);
     procedure Cancel;
   end;
 
@@ -2944,6 +2944,7 @@ type
     ['{52D4EE2C-303B-42B6-A35F-30D03834A23F}']
     procedure OnWindowCreated(const window: ICefWindow);
     procedure OnWindowDestroyed(const window: ICefWindow);
+    procedure OnWindowActivationChanged(const window: ICefWindow; active: boolean);
     procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
     procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
     procedure OnGetInitialShowState(const window: ICefWindow; var aResult : TCefShowState);
@@ -2960,6 +2961,7 @@ type
     ['{05C19A41-E75D-459E-AD4D-C8A0CA4A49D3}']
     procedure doOnWindowCreated(const window: ICefWindow);
     procedure doOnWindowDestroyed(const window: ICefWindow);
+    procedure doOnWindowActivationChanged(const window: ICefWindow; active: boolean);
     procedure doOnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
     procedure doOnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
     procedure doOnGetInitialShowState(const window: ICefWindow; var aResult : TCefShowState);

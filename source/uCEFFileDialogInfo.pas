@@ -63,7 +63,6 @@ type
       FTitle                  : ustring;
       FDefaultFilePath        : ustring;
       FAcceptFilters          : TStrings;
-      FSelectedAcceptFilter   : Integer;
       FCallback               : ICefFileDialogCallback;
       FDefaultAudioFileDesc   : ustring;
       FDefaultVideoFileDesc   : ustring;
@@ -72,8 +71,6 @@ type
       FDefaultAllFileDesc     : ustring;
       FDefaultUnknownFileDesc : ustring;
 
-      function  GetOverwritePrompt : boolean;
-      function  GetHideReadonly : boolean;
       function  GetDialogFilter : ustring; virtual;
       function  GetDialogType : TCEFDialogType;
 
@@ -91,10 +88,7 @@ type
       property Title                  : ustring                  read FTitle                  write FTitle;
       property DefaultFilePath        : ustring                  read FDefaultFilePath        write FDefaultFilePath;
       property AcceptFilters          : TStrings                                              write SetAcceptFilters;
-      property SelectedAcceptFilter   : Integer                  read FSelectedAcceptFilter   write FSelectedAcceptFilter;
       property Callback               : ICefFileDialogCallback   read FCallback               write FCallback;
-      property OverwritePrompt        : boolean                  read GetOverwritePrompt;
-      property HideReadonly           : boolean                  read GetHideReadonly;
       property DialogFilter           : ustring                  read GetDialogFilter;
       property DialogType             : TCEFDialogType           read GetDialogType;
       property DefaultAudioFileDesc   : ustring                  read FDefaultAudioFileDesc   write FDefaultAudioFileDesc;
@@ -117,7 +111,6 @@ begin
   FMode                   := 0;
   FTitle                  := '';
   FDefaultFilePath        := '';
-  FSelectedAcceptFilter   := 0;
   FCallback               := nil;
   FAcceptFilters          := nil;
   FDefaultAudioFileDesc   := 'Audio files';
@@ -143,26 +136,15 @@ begin
   FMode                   := 0;
   FTitle                  := '';
   FDefaultFilePath        := '';
-  FSelectedAcceptFilter   := 0;
   FCallback               := nil;
 
   if assigned(FAcceptFilters) then
     FAcceptFilters.Clear;
 end;
 
-function TCEFFileDialogInfo.GetOverwritePrompt : boolean;
-begin
-  Result := ((FMode and FILE_DIALOG_OVERWRITEPROMPT_FLAG) <> 0);
-end;
-
-function TCEFFileDialogInfo.GetHideReadonly : boolean;
-begin
-  Result := ((FMode and FILE_DIALOG_HIDEREADONLY_FLAG) <> 0);
-end;
-
 function TCEFFileDialogInfo.GetDialogType : TCEFDialogType;
 begin
-  case (FMode and FILE_DIALOG_TYPE_MASK) of
+  case FMode of
     FILE_DIALOG_OPEN          : Result := dtOpen;
     FILE_DIALOG_OPEN_MULTIPLE : Result := dtOpenMultiple;
     FILE_DIALOG_OPEN_FOLDER   : Result := dtOpenFolder;

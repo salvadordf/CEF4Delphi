@@ -59,7 +59,7 @@ uses
 type
   TCefRunFileDialogCallbackOwn = class(TCefBaseRefCountedOwn, ICefRunFileDialogCallback)
     protected
-      procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings); virtual;
+      procedure OnFileDialogDismissed(const filePaths: TStrings); virtual;
 
     public
       constructor Create;
@@ -69,7 +69,7 @@ type
     protected
       FCallback: TCefRunFileDialogCallbackProc;
 
-      procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings); override;
+      procedure OnFileDialogDismissed(const filePaths: TStrings); override;
 
     public
       constructor Create(callback: TCefRunFileDialogCallbackProc); reintroduce; virtual;
@@ -80,9 +80,8 @@ implementation
 uses
   uCEFTypes, uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
 
-procedure cef_run_file_dialog_callback_on_file_dialog_dismissed(self                   : PCefRunFileDialogCallback;
-                                                                selected_accept_filter : Integer;
-                                                                file_paths             : TCefStringList); stdcall;
+procedure cef_run_file_dialog_callback_on_file_dialog_dismissed(self       : PCefRunFileDialogCallback;
+                                                                file_paths : TCefStringList); stdcall;
 var
   TempSL     : TStringList;
   TempCefSL  : ICefStringList;
@@ -99,7 +98,7 @@ begin
           TempCefSL := TCefStringListRef.Create(file_paths);
           TempCefSL.CopyToStrings(TempSL);
 
-          TCefRunFileDialogCallbackOwn(TempObject).OnFileDialogDismissed(selected_accept_filter, TempSL);
+          TCefRunFileDialogCallbackOwn(TempObject).OnFileDialogDismissed(TempSL);
         end;
     except
       on e : exception do
@@ -116,20 +115,19 @@ constructor TCefRunFileDialogCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefRunFileDialogCallback));
 
-  with PCefRunFileDialogCallback(FData)^ do
-    on_file_dialog_dismissed := {$IFDEF FPC}@{$ENDIF}cef_run_file_dialog_callback_on_file_dialog_dismissed;
+  PCefRunFileDialogCallback(FData)^.on_file_dialog_dismissed := {$IFDEF FPC}@{$ENDIF}cef_run_file_dialog_callback_on_file_dialog_dismissed;
 end;
 
-procedure TCefRunFileDialogCallbackOwn.OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings);
+procedure TCefRunFileDialogCallbackOwn.OnFileDialogDismissed(const filePaths: TStrings);
 begin
- //
+  //
 end;
 
 // TCefFastRunFileDialogCallback
 
-procedure TCefFastRunFileDialogCallback.OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings);
+procedure TCefFastRunFileDialogCallback.OnFileDialogDismissed(const filePaths: TStrings);
 begin
-  FCallback(selectedAcceptFilter, filePaths);
+  FCallback(filePaths);
 end;
 
 constructor TCefFastRunFileDialogCallback.Create(callback: TCefRunFileDialogCallbackProc);

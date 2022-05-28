@@ -475,9 +475,6 @@ const
   FILE_DIALOG_OPEN_MULTIPLE        = $00000001;
   FILE_DIALOG_OPEN_FOLDER          = $00000002;
   FILE_DIALOG_SAVE                 = $00000003;
-  FILE_DIALOG_TYPE_MASK            = $000000FF;
-  FILE_DIALOG_OVERWRITEPROMPT_FLAG = $01000000;
-  FILE_DIALOG_HIDEREADONLY_FLAG    = $02000000;
 
   // /include/internal/cef_types.h (cef_uri_unescape_rule_t)
   UU_NONE                                     = 0;
