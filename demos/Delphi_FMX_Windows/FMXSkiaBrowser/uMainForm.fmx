@@ -1,0 +1,117 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 742
+  ClientWidth = 945
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnCloseQuery = FormCloseQuery
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  OnHide = FormHide
+  DesignerMasterStyle = 0
+  object AddressPnl: TPanel
+    Align = Top
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 5.000000000000000000
+    Size.Width = 945.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    TabStop = False
+    object AddressCb: TComboEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 0
+      ItemHeight = 19.000000000000000000
+      Items.Strings = (
+        'https://www.google.com'
+        
+          'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_onco' +
+          'ntextmenu'
+        
+          'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input' +
+          '_type_file'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm'
+        'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select')
+      ItemIndex = 0
+      Text = 'https://www.google.com'
+      Size.Width = 894.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object GoBtn: TButton
+      Align = Right
+      Margins.Left = 5.000000000000000000
+      Position.X = 904.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 36.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Go'
+      OnClick = GoBtnClick
+      OnEnter = GoBtnEnter
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 40
+    Top = 137
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'bmp'
+    Filter = 'Bitmap files (*.bmp)|*.BMP'
+    Title = 'Save snapshot'
+    Left = 40
+    Top = 201
+  end
+  object Panel1: TPanel
+    Align = Client
+    Size.Width = 945.000000000000000000
+    Size.Height = 709.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    OnKeyDown = Panel1KeyDown
+    OnEnter = Panel1Enter
+    OnExit = Panel1Exit
+    OnClick = Panel1Click
+    OnMouseDown = Panel1MouseDown
+    OnMouseMove = Panel1MouseMove
+    OnMouseUp = Panel1MouseUp
+    OnMouseWheel = Panel1MouseWheel
+    OnMouseLeave = Panel1MouseLeave
+    OnResized = Panel1Resized
+    object SkPaintBox1: TSkPaintBox
+      Align = Client
+      Size.Width = 945.000000000000000000
+      Size.Height = 709.000000000000000000
+      Size.PlatformDefault = False
+      OnDraw = SkPaintBox1Draw
+    end
+  end
+  object chrmosr: TFMXChromium
+    OnTooltip = chrmosrTooltip
+    OnCursorChange = chrmosrCursorChange
+    OnBeforePopup = chrmosrBeforePopup
+    OnAfterCreated = chrmosrAfterCreated
+    OnBeforeClose = chrmosrBeforeClose
+    OnGetViewRect = chrmosrGetViewRect
+    OnGetScreenPoint = chrmosrGetScreenPoint
+    OnGetScreenInfo = chrmosrGetScreenInfo
+    OnPopupShow = chrmosrPopupShow
+    OnPopupSize = chrmosrPopupSize
+    OnPaint = chrmosrPaint
+    Left = 40
+    Top = 73
+  end
+end

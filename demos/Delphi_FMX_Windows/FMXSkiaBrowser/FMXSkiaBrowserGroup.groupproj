@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F282720A-A14B-4DB7-8677-5BDBF4DD9678}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="FMXSkiaBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FMXSkiaBrowser_sp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FMXSkiaBrowser">
+        <MSBuild Projects="FMXSkiaBrowser.dproj"/>
+    </Target>
+    <Target Name="FMXSkiaBrowser:Clean">
+        <MSBuild Projects="FMXSkiaBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXSkiaBrowser:Make">
+        <MSBuild Projects="FMXSkiaBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FMXSkiaBrowser_sp">
+        <MSBuild Projects="FMXSkiaBrowser_sp.dproj"/>
+    </Target>
+    <Target Name="FMXSkiaBrowser_sp:Clean">
+        <MSBuild Projects="FMXSkiaBrowser_sp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXSkiaBrowser_sp:Make">
+        <MSBuild Projects="FMXSkiaBrowser_sp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FMXSkiaBrowser;FMXSkiaBrowser_sp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FMXSkiaBrowser:Clean;FMXSkiaBrowser_sp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FMXSkiaBrowser:Make;FMXSkiaBrowser_sp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
