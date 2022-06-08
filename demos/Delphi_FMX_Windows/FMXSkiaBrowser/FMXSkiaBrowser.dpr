@@ -42,6 +42,7 @@ uses
   System.StartUpCopy,
   {$ENDIF }
   FMX.Forms,
+  FMX.Types,
   Skia.FMX,     // This unit comes from the Skia4Delphi project
   uCEFApplication,
   uCEFFMXWorkScheduler,
@@ -56,7 +57,9 @@ uses
 {$ENDIF}
 
 begin
-  // Enable Skia usage.
+  // Enable Skia usage. 
+  GlobalUseMetal := True;
+  GlobalUseSkiaRasterWhenAvailable := False;
   GlobalUseSkia := True;
   // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
   // https://github.com/salvadordf/CEF4Delphi/issues/89
