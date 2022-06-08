@@ -68,13 +68,6 @@ object MainForm: TMainForm
     Left = 40
     Top = 137
   end
-  object SaveDialog1: TSaveDialog
-    DefaultExt = 'bmp'
-    Filter = 'Bitmap files (*.bmp)|*.BMP'
-    Title = 'Save snapshot'
-    Left = 40
-    Top = 201
-  end
   object Panel1: TPanel
     Align = Client
     Size.Width = 945.000000000000000000
@@ -90,7 +83,7 @@ object MainForm: TMainForm
     OnMouseUp = Panel1MouseUp
     OnMouseWheel = Panel1MouseWheel
     OnMouseLeave = Panel1MouseLeave
-    OnResized = Panel1Resized
+    OnResize = Panel1Resize
     object SkPaintBox1: TSkPaintBox
       Align = Client
       Size.Width = 945.000000000000000000
