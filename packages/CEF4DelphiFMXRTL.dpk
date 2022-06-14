@@ -45,6 +45,7 @@ contains
   uCEFMacOSInterfaces in '..\source\uCEFMacOSInterfaces.pas',
   uCEFLinuxConstants in '..\source\uCEFLinuxConstants.pas',
   uCEFLinuxFunctions in '..\source\uCEFLinuxFunctions.pas',
-  uCEFLinuxTypes in '..\source\uCEFLinuxTypes.pas';
+  uCEFLinuxTypes in '..\source\uCEFLinuxTypes.pas',
+  uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas';
 
 end.

@@ -158,6 +158,7 @@
         <DCCReference Include="..\source\uCEFLinuxConstants.pas"/>
         <DCCReference Include="..\source\uCEFLinuxFunctions.pas"/>
         <DCCReference Include="..\source\uCEFLinuxTypes.pas"/>
+        <DCCReference Include="..\source\uCEFTimerWorkScheduler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
