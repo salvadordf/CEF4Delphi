@@ -345,6 +345,7 @@ type
       function  Load_cef_textfield_capi_h : boolean;
       function  Load_cef_window_capi_h : boolean;
       function  Load_cef_types_linux_h : boolean;
+      function  Load_cef_time_h : boolean;
 
       procedure ShutDown;
       procedure FreeLibcefLibrary;
@@ -2549,7 +2550,8 @@ begin
      Load_cef_scroll_view_capi_h and
      Load_cef_textfield_capi_h and
      Load_cef_window_capi_h and
-     Load_cef_types_linux_h then
+     Load_cef_types_linux_h and
+     Load_cef_time_h then
     begin
       FStatus    := asLoaded;
       FLibLoaded := True;
@@ -3185,6 +3187,22 @@ begin
   {$ENDIF}
 end;
 
+function TCefApplicationCore.Load_cef_time_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_timet{$IFDEF FPC}){$ENDIF}     := GetProcAddress(FLibHandle, 'cef_time_to_timet');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_timet{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_time_from_timet');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_doublet{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_time_to_doublet');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_doublet{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_time_from_doublet');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_now{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_time_now');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_delta{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_time_delta');
+
+  Result := assigned(cef_time_to_timet) and
+            assigned(cef_time_from_timet) and
+            assigned(cef_time_to_doublet) and
+            assigned(cef_time_from_doublet) and
+            assigned(cef_time_now) and
+            assigned(cef_time_delta);
+end;
 
 // TCEFDirectoryDeleterThread
 
