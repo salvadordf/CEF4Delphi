@@ -129,6 +129,15 @@ function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 function FixCefTime(const dt : TCefTime): TCefTime;
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
+function CefTimeToDouble(const dt: TCefTime): double;
+function DoubleToCefTime(const dt: double): TCefTime;
+function CefTimeToUnixTime(const dt: TCefTime): int64;
+function UnixTimeToCefTime(const dt: int64): TCefTime;
+function CefTimeNow: TCefTime;
+function DoubleTimeNow: double;
+function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
+function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
+procedure InitializeCefTime(var aTime : TCefTime);
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
 function cef_string_utf8_copy(const src: PAnsiChar; src_len: NativeUInt; output: PCefStringUtf8): Integer;
@@ -615,6 +624,87 @@ begin
   Result.minute       := TempMin;
   Result.second       := TempSec;
   Result.millisecond  := TempMSec;
+end;
+
+function CefTimeToDouble(const dt: TCefTime): double;
+begin
+  Result := 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_time_to_doublet(@dt, Result);
+end;
+
+function DoubleToCefTime(const dt: double): TCefTime;
+begin
+  FillChar(Result, SizeOf(TCefTime), #0);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_time_from_doublet(dt, Result);
+end;
+
+function CefTimeToUnixTime(const dt: TCefTime): int64;
+begin
+  Result := 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_time_to_timet(@dt, Result);
+end;
+
+function UnixTimeToCefTime(const dt: int64): TCefTime;
+begin                         
+  FillChar(Result, SizeOf(TCefTime), #0);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_time_from_timet(dt, Result);
+end;
+
+function CefTimeNow: TCefTime;
+begin
+  FillChar(Result, SizeOf(TCefTime), #0);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_time_now(Result);
+end;
+
+function DoubleTimeNow: double;
+var
+  TempTime : TCefTime;
+begin
+  Result := 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      FillChar(TempTime, SizeOf(TCefTime), #0);
+      if (cef_time_now(TempTime) <> 0) then
+        cef_time_to_doublet(@TempTime, Result);
+    end;
+end;
+
+function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
+begin
+  Result := 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_time_delta(@cef_time1, @cef_time2, Result);
+end;
+
+function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
+var
+  TempFrom : double;
+  TempDelay : integer;
+begin
+  Result   := -1;
+  TempFrom := CefTimeToDouble(from_);
+
+  if (TempFrom = 0) then exit;
+
+  TempDelay := ceil((TempFrom - DoubleTimeNow) * 1000);
+  Result    := max(0, TempDelay);
+end;
+
+procedure InitializeCefTime(var aTime : TCefTime);
+begin
+  aTime.year         := 0;
+  aTime.month        := 0;
+  aTime.day_of_week  := 0;
+  aTime.day_of_month := 0;
+  aTime.hour         := 0;
+  aTime.minute       := 0;
+  aTime.second       := 0;
+  aTime.millisecond  := 0;
 end;
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;

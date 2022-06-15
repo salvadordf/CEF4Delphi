@@ -44,7 +44,7 @@ interface
 uses
   {$IFDEF MSWINDOWS}Winapi.Messages, Winapi.Windows,{$ENDIF}
   System.Types, System.UITypes, System.Classes, System.SyncObjs,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Edit, FMX.StdCtrls,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Edit, FMX.StdCtrls,
   FMX.Controls.Presentation, FMX.ComboEdit, {$IFDEF DELPHI17_UP}FMX.Graphics,{$ENDIF}
   uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
   uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore,
@@ -57,7 +57,6 @@ type
     AddressPnl: TPanel;
     chrmosr: TFMXChromium;
     Timer1: TTimer;
-    SaveDialog1: TSaveDialog;
     GoBtn: TButton;
     AddressCb: TComboEdit;
     SkPaintBox1: TSkPaintBox;
@@ -75,7 +74,6 @@ type
     procedure Panel1MouseLeave(Sender: TObject);
     procedure Panel1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; var Handled: Boolean);
     procedure Panel1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
-    procedure Panel1Resized(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -98,16 +96,14 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
     procedure SkPaintBox1Draw(ASender: TObject; const ACanvas: ISkCanvas; const ADest: TRectF; const AOpacity: Single);
+    procedure Panel1Resize(Sender: TObject);
 
   protected
     FPopUpBitmap       : TBitmap;
     FPopUpRect         : TRect;
     FShowPopUp         : boolean;
-    FResizing          : boolean;
-    FPendingResize     : boolean;
     FCanClose          : boolean;
     FClosing           : boolean;
-    FResizeCS          : TCriticalSection;
     FAtLeastWin8       : boolean;
     FImage             : ISkImage;
     FPopupImage        : ISkImage;
@@ -121,14 +117,13 @@ type
     FLastClickPoint  : TPointF;
     FLastClickButton : TMouseButton;
 
-    procedure LoadURL;
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     function  GetMousePosition(var aPoint : TPointF) : boolean;
     procedure InitializeLastClick;
     function  CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
-    procedure DoResize;
     procedure DoRedraw;
+    procedure DoResize;
     {$IFDEF MSWINDOWS}
     function  SendCompMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
     function  ArePointerEventsSupported : boolean;
@@ -254,11 +249,8 @@ begin
   FPopUpBitmap    := nil;
   FPopUpRect      := rect(0, 0, 0, 0);
   FShowPopUp      := False;
-  FResizing       := False;
-  FPendingResize  := False;
   FCanClose       := False;
   FClosing        := False;
-  FResizeCS       := TCriticalSection.Create;
 
   {$IFDEF MSWINDOWS}
   FAtLeastWin8 := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
@@ -280,8 +272,6 @@ end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
-  FResizeCS.Free;
-
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
 
   FImage      := nil;
@@ -332,16 +322,6 @@ end;
 
 procedure TMainForm.GoBtnClick(Sender: TObject);
 begin
-  LoadURL;
-end;
-
-procedure TMainForm.LoadURL;
-begin
-  FResizeCS.Acquire;
-  FResizing      := False;
-  FPendingResize := False;
-  FResizeCS.Release;
-
   chrmosr.LoadURL(AddressCb.Text);
 end;
 
@@ -360,9 +340,9 @@ begin
   chrmosr.SetFocus(False);
 end;
 
-procedure TMainForm.Panel1Resized(Sender: TObject);
+procedure TMainForm.Panel1Resize(Sender: TObject);
 begin
-  DoResize;
+  chrmosr.WasResized;
 end;
 
 procedure TMainForm.Panel1Click(Sender: TObject);
@@ -528,10 +508,11 @@ begin
   {$IFDEF MSWINDOWS}
   SendCompMessage(WM_CLOSE);
   {$ELSE}
-  TThread.Queue(nil, procedure
-                     begin
-                       close
-                     end);
+  TThread.ForceQueue(nil,
+    procedure
+    begin
+      close;
+    end);
   {$ENDIF}
 end;
 
@@ -599,7 +580,7 @@ var
 begin
   TempPoint.x := viewX;
   TempPoint.y := viewY;
-  // TFMXBufferPanel.ClientToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
+  // LocalToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
   TempPoint   := Panel1.LocalToScreen(TempPoint);
   screenX     := round(TempPoint.x);
   screenY     := round(TempPoint.y);
@@ -625,37 +606,28 @@ procedure TMainForm.chrmosrPaint(      Sender          : TObject;
                                        width           : Integer;
                                        height          : Integer);
 var
-  TempForcedResize : boolean;
-  TempImageInfo    : TSkImageInfo;
+  TempMustResize : boolean;
+  TempImageInfo  : TSkImageInfo;
 begin
-  try
-    FResizeCS.Acquire;
+  case type_ of
+    PET_VIEW :
+      begin
+        TempMustResize := (FImageInfo.Width <> width) or (FImageInfo.Height <> height);
+        FImageInfo     := TSkImageInfo.Create(width, height);
+        FImage         := TSkImage.MakeRasterCopy(FImageInfo, buffer, FImageInfo.MinRowBytes);
 
-    case type_ of
-      PET_VIEW :
-        begin
-          TempForcedResize := (FImageInfo.Width <> width) or (FImageInfo.Height <> height);
-          FImageInfo       := TSkImageInfo.Create(width, height);
-          FImage           := TSkImage.MakeRasterCopy(FImageInfo, buffer, FImageInfo.MinRowBytes);
+        TThread.ForceQueue(nil, DoRedraw);
 
-          TThread.ForceQueue(nil, DoRedraw);
+        if TempMustResize then
+          TThread.ForceQueue(nil, DoResize);
+      end;
 
-          if TempForcedResize or FPendingResize then
-            TThread.ForceQueue(nil, DoResize);
-
-          FResizing      := False;
-          FPendingResize := False;
-        end;
-
-      PET_POPUP :
-        begin
-          TempImageInfo := TSkImageInfo.Create(width, height);
-          FPopupImage   := TSkImage.MakeRasterCopy(TempImageInfo, buffer, TempImageInfo.MinRowBytes);
-          TThread.ForceQueue(nil, DoRedraw);
-        end;
-    end;
-  finally
-    FResizeCS.Release;
+    PET_POPUP :
+      begin
+        TempImageInfo := TSkImageInfo.Create(width, height);
+        FPopupImage   := TSkImage.MakeRasterCopy(TempImageInfo, buffer, TempImageInfo.MinRowBytes);
+        TThread.ForceQueue(nil, DoRedraw);
+      end;
   end;
 end;
 
@@ -706,26 +678,7 @@ end;
 
 procedure TMainForm.DoResize;
 begin
-  try
-    if (FResizeCS <> nil) then
-      begin
-        FResizeCS.Acquire;
-
-        if FResizing then
-          FPendingResize := True
-         else
-          if (FImageInfo.Width  = round(SkPaintBox1.width))  and
-             (FImageInfo.Height = round(SkPaintBox1.height)) then
-            chrmosr.Invalidate(PET_VIEW)
-           else
-            begin
-              FResizing := True;
-              chrmosr.WasResized;
-            end;
-      end;
-  finally
-    if (FResizeCS <> nil) then FResizeCS.Release;
-  end;
+  chrmosr.WasResized;
 end;
 
 procedure TMainForm.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
@@ -744,26 +697,30 @@ procedure TMainForm.SkPaintBox1Draw(ASender: TObject; const ACanvas: ISkCanvas;
 var
   TempRect : TRectF;
 begin
-  if assigned(FImage) then
-    begin
-      TempRect.Left   := 0;
-      TempRect.Top    := 0;
-      TempRect.Right  := FImage.Width  / GlobalCEFApp.DeviceScaleFactor;
-      TempRect.Bottom := FImage.Height / GlobalCEFApp.DeviceScaleFactor;
+  if not(assigned(FImage)) then exit;
 
-      ACanvas.ClipRect(ADest);
-      ACanvas.DrawImageRect(FImage, TempRect);
+  ACanvas.Save;
+  try
+    TempRect.Left   := 0;
+    TempRect.Top    := 0;
+    TempRect.Right  := FImage.Width  / GlobalCEFApp.DeviceScaleFactor;
+    TempRect.Bottom := FImage.Height / GlobalCEFApp.DeviceScaleFactor;
 
-      if FShowPopUp and assigned(FPopupImage) then
-        begin
-          TempRect.Left   := FPopUpRect.Left / GlobalCEFApp.DeviceScaleFactor;
-          TempRect.Top    := FPopUpRect.Top  / GlobalCEFApp.DeviceScaleFactor;
-          TempRect.Right  := TempRect.Left + (FPopupImage.Width  / GlobalCEFApp.DeviceScaleFactor);
-          TempRect.Bottom := TempRect.Top  + (FPopupImage.Height / GlobalCEFApp.DeviceScaleFactor);
+    ACanvas.ClipRect(ADest);
+    ACanvas.DrawImageRect(FImage, TempRect);
 
-          ACanvas.DrawImageRect(FPopupImage, TempRect);
-        end;
-    end;
+    if FShowPopUp and assigned(FPopupImage) then
+      begin
+        TempRect.Left   := FPopUpRect.Left / GlobalCEFApp.DeviceScaleFactor;
+        TempRect.Top    := FPopUpRect.Top  / GlobalCEFApp.DeviceScaleFactor;
+        TempRect.Right  := TempRect.Left + (FPopupImage.Width  / GlobalCEFApp.DeviceScaleFactor);
+        TempRect.Bottom := TempRect.Top  + (FPopupImage.Height / GlobalCEFApp.DeviceScaleFactor);
+
+        ACanvas.DrawImageRect(FPopupImage, TempRect);
+      end;
+  finally
+    ACanvas.Restore;
+  end;
 end;
 
 procedure TMainForm.NotifyMoveOrResizeStarted;
@@ -1026,7 +983,7 @@ begin
   TempPointF.x     := TempPenInfo.pointerInfo.ptPixelLocation.x;
   TempPointF.y     := TempPenInfo.pointerInfo.ptPixelLocation.y;
   TempPointF       := Panel1.ScreenToLocal(TempPointF);
-  // TFMXBufferPanel.ScreenToClient applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
+  // ScreenToLocal applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
   TempTouchEvent.x := round(TempPointF.x);
   TempTouchEvent.y := round(TempPointF.y);
 
@@ -1075,7 +1032,7 @@ begin
   TempPointF.x     := TempTouchInfo.pointerInfo.ptPixelLocation.x;
   TempPointF.y     := TempTouchInfo.pointerInfo.ptPixelLocation.y;
   TempPointF       := Panel1.ScreenToLocal(TempPointF);
-  // TFMXBufferPanel.ScreenToClient applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
+  // ScreenToLocal applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
   TempTouchEvent.x := round(TempPointF.x);
   TempTouchEvent.y := round(TempPointF.y);
 

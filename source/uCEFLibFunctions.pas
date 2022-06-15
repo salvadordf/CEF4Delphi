@@ -347,6 +347,14 @@ var
   cef_get_current_platform_thread_id     : function : TCefPlatformThreadId; cdecl;
   cef_get_current_platform_thread_handle : function : TCefPlatformThreadHandle; cdecl;
 
+  // /include/internal/cef_time.h
+  cef_time_to_timet         : function(const cef_time: PCefTime; out time_: Int64): integer; cdecl;
+  cef_time_from_timet       : function(time_: int64; out cef_time: TCefTime): integer; cdecl;
+  cef_time_to_doublet       : function(const cef_time: PCefTime; out time_: double): integer; cdecl;
+  cef_time_from_doublet     : function(time: double; out cef_time: TCefTime): integer; cdecl;
+  cef_time_now              : function(out cef_time: TCefTime): integer; cdecl;
+  cef_time_delta            : function(const cef_time1, cef_time2: PCefTime; out delta: int64): integer; cdecl;
+
   // /include/internal/cef_trace_event_internal.h
   cef_trace_event_instant         : procedure(const category, name, arg1_name: PAnsiChar; arg1_val: uint64; const arg2_name: PAnsiChar; arg2_val: UInt64; copy: Integer); cdecl;
   cef_trace_event_begin           : procedure(const category, name, arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64; copy: Integer); cdecl;
