@@ -72,9 +72,11 @@ uses
     {$IFDEF LINUX}{$IFDEF FPC}
       ctypes, keysym, xf86keysym, x, xlib,
       {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
+      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, gtk3widgets,{$ENDIF}
     {$ENDIF}{$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler, uCEFConstants;
+  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
+  {$IFDEF LINUX}{$IFDEF FPC}uCEFLinuxFunctions,{$ENDIF}{$ENDIF} uCEFConstants;
 
 const
   Kernel32DLL = 'kernel32.dll';
@@ -856,11 +858,18 @@ procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 var
   TempParent : TCefWindowHandle;
 begin
-  // TODO: Find a way to get the right "parent_window" in FMX
   TempParent := aParent;
   {$IFDEF FPC}
-  if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
-    TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+    {$IFDEF LCLGTK2}
+    if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
+      TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+    {$ENDIF}
+    {$IFDEF LCLGTK3}
+    if ValidCefWindowHandle(aParent) and
+       (TGtk3Window(aParent).widget <> nil) and
+       (TGtk3Window(aParent).widget^.window <> nil)then
+      TempParent := gdk_x11_window_get_xid(TGtk3Window(aParent).widget^.window);
+    {$ENDIF}
   {$ENDIF}
 
   aWindowInfo.window_name                  := CefString(aWindowName);

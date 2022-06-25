@@ -51,7 +51,6 @@ var
 {
   Copies DLLs according to default distribution, i.e.:
   \Release              -> \DestDir
-  \Release\swiftshader  -> \DestDir\swiftshader
   \Resources            -> \DestDir
   \Resources\locales    -> \DestDir\locales
 }
@@ -148,7 +147,6 @@ begin
   CopyCount := 0;
   ErrorCount := 0;
   CopyFilesToFolder('\Release', DestDir, '', CopyCount, ErrorCount);
-  CopyFilesToFolder('\Release\swiftshader', DestDir, '\swiftshader', CopyCount, ErrorCount);
   CopyFilesToFolder('\Resources', DestDir, '', CopyCount, ErrorCount);
   CopyFilesToFolder('\Resources\locales', DestDir, '\locales', CopyCount, ErrorCount);
 
@@ -169,12 +167,6 @@ begin
   if not DirectoryExists(GetRootDir + '\Release') then
   begin
     AddLog('\Release directory does not exist');
-    exit;
-  end;
-
-  if not DirectoryExists(GetRootDir + '\Release\swiftshader') then
-  begin
-    AddLog('\Release\swiftshader directory does not exist');
     exit;
   end;
 
