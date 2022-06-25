@@ -578,8 +578,8 @@ procedure TMainForm.chrmosrGetScreenPoint(      Sender  : TObject;
 var
   TempPoint : TPointF;
 begin
-  TempPoint.x := viewX;
-  TempPoint.y := viewY;
+  TempPoint.x := LogicalToDevice(viewX, GlobalCEFApp.DeviceScaleFactor);
+  TempPoint.y := LogicalToDevice(viewY, GlobalCEFApp.DeviceScaleFactor);
   // LocalToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
   TempPoint   := Panel1.LocalToScreen(TempPoint);
   screenX     := round(TempPoint.x);

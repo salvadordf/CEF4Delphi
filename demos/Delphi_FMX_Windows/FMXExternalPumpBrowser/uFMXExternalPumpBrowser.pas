@@ -588,10 +588,11 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrGetScreenPoint(      Sender  : TObje
                                                            out   Result  : Boolean);
 var
   TempScreenPt, TempViewPt : TPoint;
+  TempScale : single;
 begin
-  // TFMXBufferPanel.ClientToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
-  TempViewPt.x := viewX;
-  TempViewPt.y := viewY;
+  TempScale    := Panel1.ScreenScale;
+  TempViewPt.x := LogicalToDevice(viewX, TempScale);
+  TempViewPt.y := LogicalToDevice(viewY, TempScale);
   TempScreenPt := Panel1.ClientToScreen(TempViewPt);
   screenX      := TempScreenPt.x;
   screenY      := TempScreenPt.y;

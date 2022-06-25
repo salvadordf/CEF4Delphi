@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Díaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -34,19 +34,47 @@
  * this source code without explicit permission.
  *
  *)
-program SimpleBrowser_sp;
 
-{$I cef.inc}
+unit uCEFLoader_sp;
+
+interface
+
+implementation
 
 uses
-  uCEFLoader_sp in 'uCEFLoader_sp.pas';
+  uCEFApplicationCore;
 
-{$IFDEF WIN32}
-  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-  // If you don't add this flag the rederer process will crash when you try to load large images.
-  {$SetPEFlags $20}
-{$ENDIF}
-
+procedure CreateGlobalCEFApp;
 begin
-  // This SubProcess project is only used for the CEF subprocesses.
+  // In case you prefer to call CreateGlobalCEFApp and DestroyGlobalCEFApp manually
+  // you have to remember that GlobalCEFApp can only be initialized *ONCE* per process.
+  // This is a CEF requirement and there's no workaround.
+  if (GlobalCEFApp <> nil) then
+    exit;
+
+  GlobalCEFApp := TCefApplicationCore.Create;
+
+  // In case you want to use custom directories for the CEF binaries, cache and user data.
+  // If you don't set a cache directory the browser will use in-memory cache.
+  // The cache and user data directories must be writable.
+{
+  GlobalCEFApp.FrameworkDirPath     := 'cef';
+  GlobalCEFApp.ResourcesDirPath     := 'cef';
+  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
+  GlobalCEFApp.cache                := 'cef\cache';
+  GlobalCEFApp.UserDataPath         := 'cef\User Data';
+}
+
+  // This demo uses a different EXE for the subprocesses.
+  // With this configuration it's not necessary to have the
+  // GlobalCEFApp.StartMainProcess call in a if..then clause.
+  GlobalCEFApp.StartSubProcess;
+end;
+
+initialization
+  CreateGlobalCEFApp;
+
+finalization
+  DestroyGlobalCEFApp;
+
 end.
