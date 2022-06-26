@@ -417,9 +417,12 @@ begin
   {$ENDIF}
 
   {$IFDEF LINUX}
-  // TODO: Get the scale of the screen where the parent form is located in FMXLinux
-  Result       := False;
-  aResultScale := 1;
+  if (Screen.DisplayCount = 1) then
+    aResultScale := Screen.Displays[0].Scale
+   else
+    aResultScale := Screen.DisplayFromForm(GetParentForm).Scale;
+
+  Result := True;
   {$ENDIF}
 
   {$IFDEF MACOS}

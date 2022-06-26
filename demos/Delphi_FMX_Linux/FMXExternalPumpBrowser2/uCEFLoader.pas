@@ -48,8 +48,11 @@ uses
   // Read the answer to this question for more more information :
   // https://stackoverflow.com/questions/52103407/changing-the-initialization-order-of-the-unit-in-delphi
   System.IOUtils,
+  FMUX.Api, // FMUX.Api is part of the FMXLinux project
   uCEFApplication, uCEFConstants, uCEFTimerWorkScheduler, uCEFLinuxFunctions,
   uCEFLinuxTypes;
+
+procedure InitializeGTK;
 
 implementation
 
@@ -107,11 +110,25 @@ begin
   GlobalCEFApp.DisableFeatures := 'HardwareMediaKeyHandling';
 
   GlobalCEFApp.StartMainProcess;
+end;
+
+procedure FmuxLog(S: PChar); cdecl;
+begin
+  Writeln(S);
+end;
+
+procedure InitializeGTK;
+begin
+  FmuxSetLog(FmuxLog);
+  FmuxInit(FMUX_INIT_NOWAYLAND);
 
   // Install xlib error handlers so that the application won't be terminated
   // on non-fatal errors. Must be done after initializing GTK.
   XSetErrorHandler(@CustomX11ErrorHandler);
   XSetIOErrorHandler(@CustomXIOErrorHandler);
+
+  // GTK is now initialized and we can read the screen scale.
+  GlobalCEFApp.UpdateDeviceScaleFactor;
 end;
 
 initialization

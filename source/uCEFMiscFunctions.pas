@@ -2369,7 +2369,8 @@ var
 {$ELSE}
 {$IFDEF FMX}
 var
-  TempService: IFMXScreenService;
+  TempService : IFMXScreenService;
+  TempWidth, TempWidthMM : integer;
 {$ENDIF}
 {$ENDIF}
 begin
@@ -2396,13 +2397,24 @@ begin
          else
           Result := USER_DEFAULT_SCREEN_DPI;
     {$ELSE}
+    Result := -1;
     if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
-      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI)
-     else
+      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI);
+
+    if (Result < 0) then
       begin
         Result := round(gdk_screen_get_resolution(gdk_screen_get_default));
+
         if (Result < 0) then
-          Result := round(gdk_screen_width / (gdk_screen_width_mm / 25.4));
+          begin
+            TempWidthMM := gdk_screen_width_mm;
+            TempWidth   := gdk_screen_width;
+
+            if (TempWidthMM > 0) and (TempWidth > 0) then
+              Result := round(TempWidth / (TempWidthMM / 25.4))
+             else
+              Result := USER_DEFAULT_SCREEN_DPI;
+          end;
       end;
     {$ENDIF}
   {$ENDIF}
