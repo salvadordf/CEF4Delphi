@@ -66,15 +66,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 102;
+  CEF_SUPPORTED_VERSION_MAJOR   = 103;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
   CEF_SUPPORTED_VERSION_RELEASE = 9;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 101;
+  CEF_CHROMEELF_VERSION_MAJOR   = 103;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 5005;
-  CEF_CHROMEELF_VERSION_BUILD   = 63;
+  CEF_CHROMEELF_VERSION_RELEASE = 5060;
+  CEF_CHROMEELF_VERSION_BUILD   = 114;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -189,6 +189,7 @@ type
       FDisableComponentUpdate            : boolean;
       FAllowInsecureLocalhost            : boolean;
       FKioskPrinting                     : boolean;
+      FTreatInsecureOriginAsSecure       : ustring;
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
@@ -504,6 +505,7 @@ type
       property DisableComponentUpdate            : boolean                             read FDisableComponentUpdate            write FDisableComponentUpdate;           // --disable-component-update
       property AllowInsecureLocalhost            : boolean                             read FAllowInsecureLocalhost            write FAllowInsecureLocalhost;           // --allow-insecure-localhost
       property KioskPrinting                     : boolean                             read FKioskPrinting                     write SetKioskPrinting;                  // --kiosk-printing
+      property TreatInsecureOriginAsSecure       : ustring                             read FTreatInsecureOriginAsSecure       write FTreatInsecureOriginAsSecure;      // --unsafely-treat-insecure-origin-as-secure
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -751,6 +753,7 @@ begin
   FDisableComponentUpdate            := False;
   FAllowInsecureLocalhost            := False;
   FKioskPrinting                     := False;
+  FTreatInsecureOriginAsSecure       := '';
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -2087,6 +2090,9 @@ begin
 
   if FAllowInsecureLocalhost then
     ReplaceSwitch(aKeys, aValues, '--allow-insecure-localhost');
+
+  if (length(FTreatInsecureOriginAsSecure) > 0) then
+    ReplaceSwitch(aKeys, aValues, '--unsafely-treat-insecure-origin-as-secure', FTreatInsecureOriginAsSecure);
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc

@@ -213,6 +213,7 @@ begin
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
   inherited Destroy;
 end;
+
 procedure TBrowserFrame.ReloadBtnClick(Sender: TObject);
 begin
   FMXChromium1.Reload;
@@ -222,6 +223,7 @@ procedure TBrowserFrame.FocusBrowser;
 begin
   FMXBufferPanel1.SetFocus;
 end;
+
 procedure TBrowserFrame.ResizeBrowser;
 begin
   try
@@ -244,6 +246,7 @@ begin
     if (FResizeCS <> nil) then FResizeCS.Release;
   end;
 end;
+
 procedure TBrowserFrame.NotifyMoveOrResizeStarted;
 begin
   FMXChromium1.NotifyMoveOrResizeStarted;
@@ -490,10 +493,11 @@ procedure TBrowserFrame.FMXChromium1GetScreenPoint(Sender: TObject;
   screenY: Integer; out Result: Boolean);
 var
   TempScreenPt, TempViewPt : TPoint;
+  TempScale : single;
 begin
-  // TFMXBufferPanel.ClientToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
-  TempViewPt.x := viewX;
-  TempViewPt.y := viewY;
+  TempScale    := FMXBufferPanel1.ScreenScale;
+  TempViewPt.x := LogicalToDevice(viewX, TempScale);
+  TempViewPt.y := LogicalToDevice(viewY, TempScale);
   TempScreenPt := FMXBufferPanel1.ClientToScreen(TempViewPt);
   screenX      := TempScreenPt.x;
   screenY      := TempScreenPt.y;

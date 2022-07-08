@@ -1,0 +1,99 @@
+object Form1: TForm1
+  Left = 518
+  Height = 630
+  Top = 252
+  Width = 1001
+  Caption = ' Initializing browser. Please wait...'
+  ClientHeight = 630
+  ClientWidth = 1001
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnHide = FormHide
+  OnShow = FormShow
+  LCLVersion = '2.2.2.0'
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 30
+    Top = 0
+    Width = 1001
+    Align = alTop
+    ClientHeight = 30
+    ClientWidth = 1001
+    Enabled = False
+    TabOrder = 0
+    object AddressEdt: TEdit
+      Left = 1
+      Height = 28
+      Top = 1
+      Width = 965
+      Align = alClient
+      OnEnter = AddressEdtEnter
+      TabOrder = 0
+      Text = 'https://www.google.com'
+    end
+    object Panel2: TPanel
+      Left = 966
+      Height = 28
+      Top = 1
+      Width = 34
+      Align = alRight
+      ClientHeight = 28
+      ClientWidth = 34
+      TabOrder = 1
+      object GoBtn: TButton
+        Left = 1
+        Height = 26
+        Top = 1
+        Width = 31
+        Align = alLeft
+        Caption = 'Go'
+        OnClick = GoBtnClick
+        OnEnter = GoBtnEnter
+        TabOrder = 0
+      end
+    end
+  end
+  object Panel1: TOpenGLControl
+    Left = 0
+    Height = 600
+    Top = 30
+    Width = 1001
+    Align = alClient
+    OnClick = Panel1Click
+    OnEnter = Panel1Enter
+    OnExit = Panel1Exit
+    OnMouseDown = Panel1MouseDown
+    OnMouseEnter = Panel1MouseEnter
+    OnMouseLeave = Panel1MouseLeave
+    OnMouseMove = Panel1MouseMove
+    OnMouseUp = Panel1MouseUp
+    OnMouseWheel = Panel1MouseWheel
+    OnPaint = Panel1Paint
+    OnResize = Panel1Resize
+  end
+  object Chromium1: TChromium
+    OnTooltip = Chromium1Tooltip
+    OnCursorChange = Chromium1CursorChange
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
+    OnGetViewRect = Chromium1GetViewRect
+    OnGetScreenPoint = Chromium1GetScreenPoint
+    OnGetScreenInfo = Chromium1GetScreenInfo
+    OnPopupShow = Chromium1PopupShow
+    OnPopupSize = Chromium1PopupSize
+    OnPaint = Chromium1Paint
+    Left = 48
+    Top = 72
+  end
+  object SaveDialog1: TSaveDialog
+    Title = 'Save screenshot bitmap as'
+    DefaultExt = '.bmp'
+    Filter = 'Bitmap file|*.bmp'
+    Left = 48
+    Top = 152
+  end
+end

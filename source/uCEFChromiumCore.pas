@@ -65,7 +65,7 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
   {$IFDEF MSWINDOWS}uCEFDragAndDropMgr,{$ENDIF}
-  {$IFDEF LINUX}uCEFLinuxTypes,{$ENDIF}
+  {$IFDEF LINUX}uCEFLinuxTypes, uCEFLinuxFunctions,{$ENDIF}
   uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions,
   uCEFBrowserViewComponent;
 
@@ -1224,9 +1224,15 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Math,
-  {$ELSE}
-  SysUtils, Math, {$IFDEF FPC}{$IFDEF LINUX}x, xatom, gdk2x, gtk2,{$ENDIF}{$ENDIF}
+    System.SysUtils, System.Math,
+    {$ELSE}
+    SysUtils, Math,
+    {$IFDEF FPC}
+      {$IFDEF LINUX}x, xatom,
+        {$IFDEF LCLGTK2}gdk2x, gtk2,{$ENDIF}
+        {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2,{$ENDIF}
+      {$ENDIF}
+    {$ENDIF}
   {$ENDIF}
   uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
   uCEFApplicationCore, uCEFProcessMessage, uCEFRequestContext,
@@ -2768,11 +2774,21 @@ begin
   if (FXDisplay = nil) then
     begin
       {$IFDEF FPC}
-      TempParent := ParentFormHandle;
+        {$IFDEF LCLGTK2}
+        TempParent := ParentFormHandle;
 
-      if ValidCefWindowHandle(TempParent) and
-         (PGtkWidget(TempParent)^.Window <> nil) then
-        FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);
+        if ValidCefWindowHandle(TempParent) and
+           (PGtkWidget(TempParent)^.Window <> nil) then
+          FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);
+        {$ENDIF}
+        {$IFDEF LCLGTK3}
+        TempParent := ParentFormHandle;
+        {
+        if ValidCefWindowHandle(TempParent) and
+           (PGtkWidget(TempParent)^.Window <> nil) then
+          FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);  }
+        FXDisplay := gdk_x11_get_default_xdisplay();
+        {$ENDIF}
       {$ENDIF}
 
       // GlobalCEFApp.XDisplay can only be called in the CEF UI thread.

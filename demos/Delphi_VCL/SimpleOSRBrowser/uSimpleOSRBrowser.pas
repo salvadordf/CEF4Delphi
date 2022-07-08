@@ -237,9 +237,10 @@ uses
 // 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and
 //    calls chrmosr.CloseBrowser(True).
 // 2- chrmosr.CloseBrowser(True) will trigger chrmosr.OnClose and we have to
-//    set "Result" to false and CEF will destroy the internal browser immediately.
+//    set "aAction" to cbaClose and CEF will destroy the internal browser immediately.
+//    cbaClose is the default aAction value so this demo doesn't implement the OnClose event.
 // 3- chrmosr.OnBeforeClose is triggered because the internal browser was destroyed.
-//    Sets FCanClose := True and sends WM_CLOSE to the form.
+//    Sets FCanClose := True and sends WM_CLOSE to the form to close the demo.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -247,7 +248,7 @@ begin
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.TouchEvents                := STATE_ENABLED;
-  //GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.EnableGPU                  := True;
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_VERBOSE;
 

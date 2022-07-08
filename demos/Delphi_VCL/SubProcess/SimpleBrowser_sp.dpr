@@ -35,26 +35,18 @@
  *
  *)
 program SimpleBrowser_sp;
-{$I cef.inc}
-uses
-  {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
-  {$ELSE}
-  Windows,
-  {$ENDIF}
-  uCEFLoader in 'uCEFLoader.pas';
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes
-// to use up to 3GB of RAM.
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+{$I cef.inc}
+
+uses
+  uCEFLoader_sp in 'uCEFLoader_sp.pas';
+
+{$IFDEF WIN32}
+  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+  // If you don't add this flag the rederer process will crash when you try to load large images.
+  {$SetPEFlags $20}
+{$ENDIF}
+
 begin
-  // This SubProcess project is only used for the CEF subprocesses and it needs
-  // to declare "CEFSUBPROCESS" conditional define. Follow these steps to add it:
-  // 1. Open the project options in the Project->Options menu option and select
-  // "Building->Delphi Compiler" on the left.
-  // 2. Select "All configurations - All platforms" option as the "Target" on
-  // the right section of that window.
-  // 3. Add "CEFSUBPROCESS" (without quotes) in the "Conditional defines" box.
-  // uCEFLoader will call CreateGlobalCEFApp and DestroyGlobalCEFApp in the
-  // initialization and finalization sections of that unit.
+  // This SubProcess project is only used for the CEF subprocesses.
 end.

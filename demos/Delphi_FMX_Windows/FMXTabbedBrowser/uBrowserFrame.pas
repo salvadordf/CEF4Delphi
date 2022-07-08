@@ -93,7 +93,7 @@ type
 
       function  GetParentForm : TCustomForm;
       function  GetParentTab : TTabItem;
-      function  GetFMXWindowParentRect : System.Types.TRect;
+      function  GetFMXWindowParentRect : TRect;
       procedure CreateFMXWindowParent;
 
     public
@@ -140,17 +140,17 @@ begin
   FMXWindowParent        := nil;
 end;
 
-function TBrowserFrame.GetFMXWindowParentRect : System.Types.TRect;
+function TBrowserFrame.GetFMXWindowParentRect : TRect;
 var
-  TempRect  : TRectF;
+  TempPoint : TPointF;
   TempScale : single;
 begin
-  TempScale       := FMXChromium1.ScreenScale;
-  TempRect        := WindowParentLay.AbsoluteRect;
-  Result.Left     := round(TempRect.Left   * TempScale);
-  Result.Top      := round(TempRect.Top    * TempScale);
-  Result.Right    := round(TempRect.Right  * TempScale) - 1;
-  Result.Bottom   := round(TempREct.Bottom * TempScale) - 1;
+  TempScale     := FMXChromium1.ScreenScale;
+  TempPoint     := LocalToAbsolute(WindowParentLay.Position.Point);
+  Result.Left   := round(TempPoint.x);
+  Result.Top    := round(TempPoint.y);
+  Result.Right  := round(TempPoint.x + (WindowParentLay.Width  * TempScale));
+  Result.Bottom := round(TempPoint.y + (WindowParentLay.Height * TempScale));
 end;
 
 procedure TBrowserFrame.ReloadBtnClick(Sender: TObject);

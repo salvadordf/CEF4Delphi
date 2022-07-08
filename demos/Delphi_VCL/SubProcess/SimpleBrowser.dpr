@@ -40,21 +40,17 @@ program SimpleBrowser;
 {$I cef.inc}
 
 uses
-  {$IFDEF DELPHI16_UP}
   Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
-  Forms,
-  Windows,
-  {$ENDIF}
   uCEFLoader in 'uCEFLoader.pas',
   uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};
 
 {$R *.res}
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-// If you don't add this flag the rederer process will crash when you try to load large images.
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+{$IFDEF WIN32}
+  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
+  // If you don't add this flag the rederer process will crash when you try to load large images.
+  {$SetPEFlags $20}
+{$ENDIF}
 
 begin
   // This demo has the GlobalCEFApp creation, initialization and destruction in uCEFLoader.pas

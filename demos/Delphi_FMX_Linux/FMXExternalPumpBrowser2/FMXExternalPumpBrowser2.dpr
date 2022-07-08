@@ -38,6 +38,9 @@
 program FMXExternalPumpBrowser2;
 
 uses
+  // FMUX.Config.pas belongs to the FMXLinux project but we need to override it.
+  // Read the comments in that unit for more details.
+  FMUX.Config in 'FMUX.Config.pas',
   // FMX initializes GTK in the initialization section of some of its units and
   // that means that GTK is already initialized when the code in the DPR is
   // executed.
@@ -58,6 +61,8 @@ uses
 {$R *.res}
 
 begin
+  // At this point it's safe to initialize GTK
+  InitializeGTK;
   Application.Initialize;
   Application.CreateForm(TFMXExternalPumpBrowserFrm, FMXExternalPumpBrowserFrm);
   Application.Run;

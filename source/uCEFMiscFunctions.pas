@@ -72,9 +72,11 @@ uses
     {$IFDEF LINUX}{$IFDEF FPC}
       ctypes, keysym, xf86keysym, x, xlib,
       {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
+      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, gtk3widgets,{$ENDIF}
     {$ENDIF}{$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler, uCEFConstants;
+  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
+  {$IFDEF LINUX}{$IFDEF FPC}uCEFLinuxFunctions,{$ENDIF}{$ENDIF} uCEFConstants;
 
 const
   Kernel32DLL = 'kernel32.dll';
@@ -856,11 +858,18 @@ procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 var
   TempParent : TCefWindowHandle;
 begin
-  // TODO: Find a way to get the right "parent_window" in FMX
   TempParent := aParent;
   {$IFDEF FPC}
-  if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
-    TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+    {$IFDEF LCLGTK2}
+    if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
+      TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+    {$ENDIF}
+    {$IFDEF LCLGTK3}
+    if ValidCefWindowHandle(aParent) and
+       (TGtk3Window(aParent).widget <> nil) and
+       (TGtk3Window(aParent).widget^.window <> nil)then
+      TempParent := gdk_x11_window_get_xid(TGtk3Window(aParent).widget^.window);
+    {$ENDIF}
   {$ENDIF}
 
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -2360,7 +2369,8 @@ var
 {$ELSE}
 {$IFDEF FMX}
 var
-  TempService: IFMXScreenService;
+  TempService : IFMXScreenService;
+  TempWidth, TempWidthMM : integer;
 {$ENDIF}
 {$ENDIF}
 begin
@@ -2387,13 +2397,24 @@ begin
          else
           Result := USER_DEFAULT_SCREEN_DPI;
     {$ELSE}
+    Result := -1;
     if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
-      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI)
-     else
+      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI);
+
+    if (Result < 0) then
       begin
         Result := round(gdk_screen_get_resolution(gdk_screen_get_default));
+
         if (Result < 0) then
-          Result := round(gdk_screen_width / (gdk_screen_width_mm / 25.4));
+          begin
+            TempWidthMM := gdk_screen_width_mm;
+            TempWidth   := gdk_screen_width;
+
+            if (TempWidthMM > 0) and (TempWidth > 0) then
+              Result := round(TempWidth / (TempWidthMM / 25.4))
+             else
+              Result := USER_DEFAULT_SCREEN_DPI;
+          end;
       end;
     {$ENDIF}
   {$ENDIF}

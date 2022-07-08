@@ -142,6 +142,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <DCCReference Include="FMUX.Config.pas"/>
         <DCCReference Include="uCEFLoader.pas"/>
         <DCCReference Include="uFMXExternalPumpBrowser2.pas">
             <Form>FMXExternalPumpBrowserFrm</Form>

@@ -42,11 +42,7 @@ interface
 implementation
 
 uses
-  {$IFDEF CEFSUBPROCESS}
-  uCEFApplicationCore;
-  {$ELSE}
   uCEFApplication;
-  {$ENDIF}
 
 procedure CreateGlobalCEFApp;
 begin
@@ -56,12 +52,8 @@ begin
   if (GlobalCEFApp <> nil) then
     exit;
 
-  {$IFDEF CEFSUBPROCESS}
-  GlobalCEFApp := TCefApplicationCore.Create;
-  {$ELSE}
   GlobalCEFApp := TCefApplication.Create;
   GlobalCEFApp.BrowserSubprocessPath := 'SimpleBrowser_sp.exe';
-  {$ENDIF}
 
   // In case you want to use custom directories for the CEF binaries, cache and user data.
   // If you don't set a cache directory the browser will use in-memory cache.
