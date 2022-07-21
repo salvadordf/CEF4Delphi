@@ -68,13 +68,13 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 103;
   CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 11;
+  CEF_SUPPORTED_VERSION_RELEASE = 12;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 103;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 5060;
-  CEF_CHROMEELF_VERSION_BUILD   = 114;
+  CEF_CHROMEELF_VERSION_BUILD   = 134;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -1443,7 +1443,7 @@ begin
             RenameAndDeleteDir(FCache)
            else
             if FDeleteCookies then
-              DeleteCookiesDB(FCache)
+              DeleteCookiesDB(IncludeTrailingPathDelimiter(FCache) + 'Network')
              else
               if FDeleteCache then
                 RenameAndDeleteDir(FCache, True);
@@ -1502,14 +1502,23 @@ end;
 procedure TCefApplicationCore.MoveCookiesDB(const aSrcDirectory, aDstDirectory : string);
 var
   TempFiles : TStringList;
+  TempSrc, TempDst : string;
 begin
   TempFiles := TStringList.Create;
 
   try
+    TempFiles.Add('LocalPrefs.json');
+
+    MoveFileList(TempFiles, aSrcDirectory, aDstDirectory);
+
+    TempSrc := IncludeTrailingPathDelimiter(aSrcDirectory) + 'Network';
+    TempDst := IncludeTrailingPathDelimiter(aDstDirectory) + 'Network';
+
+    TempFiles.Clear;
     TempFiles.Add('Cookies');
     TempFiles.Add('Cookies-journal');
 
-    MoveFileList(TempFiles, aSrcDirectory, aDstDirectory);
+    MoveFileList(TempFiles, TempSrc, TempDst);
   finally
     FreeAndNil(TempFiles);
   end;
@@ -1533,7 +1542,7 @@ begin
 
         repeat
           inc(i);
-          TempNewDir := TempOldDir + '(' + inttostr(i) + ')';
+          TempNewDir := TempOldDir + '_' + inttostr(i);
         until not(DirectoryExists(TempNewDir));
 
         if RenameFile(TempOldDir, TempNewDir) then
