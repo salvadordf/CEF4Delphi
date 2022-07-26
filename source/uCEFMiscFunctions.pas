@@ -2472,7 +2472,7 @@ begin
               if (TempRec.Name <> '.') and (TempRec.Name <> '..') then
                 begin
                   if DeleteDirContents(TempPath, aExcludeFiles) then
-                    Result := RemoveDir(TempPath) and Result
+                    Result := ((TempRec.Name = 'Network') or RemoveDir(TempPath)) and Result
                    else
                     Result := False;
                 end;
