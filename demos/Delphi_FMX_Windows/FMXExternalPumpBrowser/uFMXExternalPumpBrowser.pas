@@ -591,11 +591,11 @@ var
   TempScale : single;
 begin
   TempScale    := Panel1.ScreenScale;
-  TempViewPt.x := LogicalToDevice(viewX, TempScale);
-  TempViewPt.y := LogicalToDevice(viewY, TempScale);
+  TempViewPt.x := viewX;
+  TempViewPt.y := viewY;
   TempScreenPt := Panel1.ClientToScreen(TempViewPt);
-  screenX      := TempScreenPt.x;
-  screenY      := TempScreenPt.y;
+  screenX      := LogicalToDevice(TempScreenPt.x, TempScale);
+  screenY      := LogicalToDevice(TempScreenPt.y, TempScale);
   Result       := True;
 end;
 
@@ -811,25 +811,23 @@ end;
 
 procedure TFMXExternalPumpBrowserFrm.DoResize;
 begin
-  try
-    if (FResizeCS <> nil) then
-      begin
-        FResizeCS.Acquire;
+  if (FResizeCS <> nil) then
+    try
+      FResizeCS.Acquire;
 
-        if FResizing then
-          FPendingResize := True
+      if FResizing then
+        FPendingResize := True
+       else
+        if Panel1.BufferIsResized then
+          chrmosr.Invalidate(PET_VIEW)
          else
-          if Panel1.BufferIsResized then
-            chrmosr.Invalidate(PET_VIEW)
-           else
-            begin
-              FResizing := True;
-              chrmosr.WasResized;
-            end;
-      end;
-  finally
-    if (FResizeCS <> nil) then FResizeCS.Release;
-  end;
+          begin
+            FResizing := True;
+            chrmosr.WasResized;
+          end;
+    finally
+      FResizeCS.Release;
+    end;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
@@ -1064,6 +1062,7 @@ var
   TempPenInfo    : POINTER_PEN_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPoint      : TPoint;
+  TempScale      : single;
 begin
   Result := False;
   if not(GetPointerPenInfo(aID, @TempPenInfo)) then exit;
@@ -1110,8 +1109,11 @@ begin
   if ((TempPenInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
-  TempPoint        := Panel1.ScreenToClient(TempPenInfo.pointerInfo.ptPixelLocation);
-  // TFMXBufferPanel.ScreenToClient applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
+  TempScale   := Panel1.ScreenScale;
+  TempPoint.x := DeviceToLogical(TempPenInfo.pointerInfo.ptPixelLocation.x, TempScale);
+  TempPoint.y := DeviceToLogical(TempPenInfo.pointerInfo.ptPixelLocation.y, TempScale);
+
+  TempPoint        := Panel1.ScreenToClient(TempPoint);
   TempTouchEvent.x := TempPoint.x;
   TempTouchEvent.y := TempPoint.y;
 
@@ -1123,6 +1125,7 @@ var
   TempTouchInfo  : POINTER_TOUCH_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPoint      : TPoint;
+  TempScale      : single;
 begin
   Result := False;
   if not(GetPointerTouchInfo(aID, @TempTouchInfo)) then exit;
@@ -1157,8 +1160,12 @@ begin
   if ((TempTouchInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
-  TempPoint        := Panel1.ScreenToClient(TempTouchInfo.pointerInfo.ptPixelLocation);
-  // TFMXBufferPanel.ScreenToClient applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
+  TempScale   := Panel1.ScreenScale;
+  TempPoint.x := DeviceToLogical(TempTouchInfo.pointerInfo.ptPixelLocation.x, TempScale);
+  TempPoint.y := DeviceToLogical(TempTouchInfo.pointerInfo.ptPixelLocation.y, TempScale);
+
+  TempPoint        := Panel1.ScreenToClient(TempPoint);
+  //TempPoint        := Panel1.ScreenToClient(TempTouchInfo.pointerInfo.ptPixelLocation);
   TempTouchEvent.x := TempPoint.x;
   TempTouchEvent.y := TempPoint.y;
 

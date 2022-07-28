@@ -42,7 +42,7 @@ Delphinus-Support
 * [DCEF3](https://github.com/hgourvest/dcef3) 
 * [fpCEF3](https://github.com/dliw/fpCEF3)
 * [CEF](https://bitbucket.org/chromiumembedded/cef/)
-* [DCPcrypt](http://www.cityinthesky.co.uk/opensource/dcpcrypt/)
+* [DCPcrypt](https://sourceforge.net/projects/lazarus-ccr/files/DCPcrypt/)
 * [Chromium](https://chromium.googlesource.com/chromium/src/)
 
 ## Attribution
