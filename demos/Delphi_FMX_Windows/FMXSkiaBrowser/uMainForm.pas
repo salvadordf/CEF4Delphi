@@ -124,6 +124,7 @@ type
     function  CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
     procedure DoRedraw;
     procedure DoResize;
+    function  RealScreenScale: single;
     {$IFDEF MSWINDOWS}
     function  SendCompMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
     function  ArePointerEventsSupported : boolean;
@@ -190,7 +191,7 @@ implementation
 {$R *.fmx}
 
 uses
-  System.SysUtils, System.Math, FMX.Platform, FMX.Platform.Win,
+  System.SysUtils, System.Math, FMX.Platform, FMX.Platform.Win, FMX.Helpers.Win,
   uCEFMiscFunctions, uCEFApplication, uFMXApplicationService;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
@@ -576,15 +577,16 @@ procedure TMainForm.chrmosrGetScreenPoint(      Sender  : TObject;
                                           var   screenY : Integer;
                                           out   Result  : Boolean);
 var
-  TempPoint : TPointF;
+  TempScreenPt, TempViewPt : TPointF;
+  TempScale : single;
 begin
-  TempPoint.x := LogicalToDevice(viewX, GlobalCEFApp.DeviceScaleFactor);
-  TempPoint.y := LogicalToDevice(viewY, GlobalCEFApp.DeviceScaleFactor);
-  // LocalToScreen applies the scale factor. No need to call LogicalToDevice to set TempViewPt.
-  TempPoint   := Panel1.LocalToScreen(TempPoint);
-  screenX     := round(TempPoint.x);
-  screenY     := round(TempPoint.y);
-  Result      := True;
+  TempScale    := RealScreenScale;
+  TempViewPt.x := viewX;
+  TempViewPt.y := viewY;
+  TempScreenPt := Panel1.LocalToScreen(TempViewPt);
+  screenX      := LogicalToDevice(round(TempScreenPt.x), TempScale);
+  screenY      := LogicalToDevice(round(TempScreenPt.y), TempScale);
+  Result       := True;
 end;
 
 procedure TMainForm.chrmosrGetViewRect(      Sender  : TObject;
@@ -679,6 +681,21 @@ end;
 procedure TMainForm.DoResize;
 begin
   chrmosr.WasResized;
+end;
+
+function TMainForm.RealScreenScale: single;
+var
+  TempHandle: TCefWindowHandle;
+begin
+  if assigned(GlobalCEFApp) then
+    result := GlobalCEFApp.DeviceScaleFactor
+   else
+    result := 1;
+
+  TempHandle := FmxHandleToHWND(Handle);
+
+  if (TempHandle <> 0) then
+    Result := GetWndScale(TempHandle);
 end;
 
 procedure TMainForm.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
@@ -934,6 +951,7 @@ var
   TempPenInfo    : POINTER_PEN_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPointF     : TPointF;
+  TempScale      : single;
 begin
   Result := False;
   if not(GetPointerPenInfo(aID, @TempPenInfo)) then exit;
@@ -980,10 +998,11 @@ begin
   if ((TempPenInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
-  TempPointF.x     := TempPenInfo.pointerInfo.ptPixelLocation.x;
-  TempPointF.y     := TempPenInfo.pointerInfo.ptPixelLocation.y;
+  TempScale    := RealScreenScale;
+  TempPointF.x := DeviceToLogical(TempPenInfo.pointerInfo.ptPixelLocation.x, TempScale);
+  TempPointF.y := DeviceToLogical(TempPenInfo.pointerInfo.ptPixelLocation.y, TempScale);
+
   TempPointF       := Panel1.ScreenToLocal(TempPointF);
-  // ScreenToLocal applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
   TempTouchEvent.x := round(TempPointF.x);
   TempTouchEvent.y := round(TempPointF.y);
 
@@ -995,6 +1014,7 @@ var
   TempTouchInfo  : POINTER_TOUCH_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPointF     : TPointF;
+  TempScale      : single;
 begin
   Result := False;
   if not(GetPointerTouchInfo(aID, @TempTouchInfo)) then exit;
@@ -1029,10 +1049,11 @@ begin
   if ((TempTouchInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
-  TempPointF.x     := TempTouchInfo.pointerInfo.ptPixelLocation.x;
-  TempPointF.y     := TempTouchInfo.pointerInfo.ptPixelLocation.y;
+  TempScale    := RealScreenScale;
+  TempPointF.x := DeviceToLogical(TempTouchInfo.pointerInfo.ptPixelLocation.x, TempScale);
+  TempPointF.y := DeviceToLogical(TempTouchInfo.pointerInfo.ptPixelLocation.y, TempScale);
+
   TempPointF       := Panel1.ScreenToLocal(TempPointF);
-  // ScreenToLocal applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
   TempTouchEvent.x := round(TempPointF.x);
   TempTouchEvent.y := round(TempPointF.y);
 

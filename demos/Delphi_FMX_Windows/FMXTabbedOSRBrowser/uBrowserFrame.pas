@@ -496,11 +496,11 @@ var
   TempScale : single;
 begin
   TempScale    := FMXBufferPanel1.ScreenScale;
-  TempViewPt.x := LogicalToDevice(viewX, TempScale);
-  TempViewPt.y := LogicalToDevice(viewY, TempScale);
+  TempViewPt.x := viewX;
+  TempViewPt.y := viewY;
   TempScreenPt := FMXBufferPanel1.ClientToScreen(TempViewPt);
-  screenX      := TempScreenPt.x;
-  screenY      := TempScreenPt.y;
+  screenX      := LogicalToDevice(TempScreenPt.x, TempScale);
+  screenY      := LogicalToDevice(TempScreenPt.y, TempScale);
   Result       := True;
 end;
 
@@ -903,6 +903,7 @@ var
   TempPenInfo    : POINTER_PEN_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPoint      : TPoint;
+  TempScale      : single;
 begin
   Result := False;
 
@@ -950,8 +951,11 @@ begin
   if ((TempPenInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
-  TempPoint        := FMXBufferPanel1.ScreenToClient(TempPenInfo.pointerInfo.ptPixelLocation);
-  // TFMXBufferPanel.ScreenToClient applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
+  TempScale   := FMXBufferPanel1.ScreenScale;
+  TempPoint.x := DeviceToLogical(TempPenInfo.pointerInfo.ptPixelLocation.x, TempScale);
+  TempPoint.y := DeviceToLogical(TempPenInfo.pointerInfo.ptPixelLocation.y, TempScale);
+
+  TempPoint        := FMXBufferPanel1.ScreenToClient(TempPoint);
   TempTouchEvent.x := TempPoint.x;
   TempTouchEvent.y := TempPoint.y;
 
@@ -963,6 +967,7 @@ var
   TempTouchInfo  : POINTER_TOUCH_INFO;
   TempTouchEvent : TCefTouchEvent;
   TempPoint      : TPoint;
+  TempScale      : single;
 begin
   Result := False;
 
@@ -998,8 +1003,11 @@ begin
   if ((TempTouchInfo.pointerInfo.pointerFlags and POINTER_FLAG_CANCELED) <> 0) then
     TempTouchEvent.type_ := CEF_TET_CANCELLED;
 
-  TempPoint        := FMXBufferPanel1.ScreenToClient(TempTouchInfo.pointerInfo.ptPixelLocation);
-  // TFMXBufferPanel.ScreenToClient applies the scale factor. No need to call DeviceToLogical to set TempTouchEvent.
+  TempScale   := FMXBufferPanel1.ScreenScale;
+  TempPoint.x := DeviceToLogical(TempTouchInfo.pointerInfo.ptPixelLocation.x, TempScale);
+  TempPoint.y := DeviceToLogical(TempTouchInfo.pointerInfo.ptPixelLocation.y, TempScale);
+
+  TempPoint        := FMXBufferPanel1.ScreenToClient(TempPoint);
   TempTouchEvent.x := TempPoint.x;
   TempTouchEvent.y := TempPoint.y;
 
