@@ -180,6 +180,9 @@ type
       FOnRunContextMenu               : TOnRunContextMenu;
       FOnContextMenuCommand           : TOnContextMenuCommand;
       FOnContextMenuDismissed         : TOnContextMenuDismissed;
+      FOnRunQuickMenu                 : TOnRunQuickMenuEvent;
+      FOnQuickMenuCommand             : TOnQuickMenuCommandEvent;
+      FOnQuickMenuDismissed           : TOnQuickMenuDismissedEvent;
 
       // ICefKeyboardHandler
       FOnPreKeyEvent                  : TOnPreKeyEvent;
@@ -196,6 +199,7 @@ type
       FOnAutoResize                   : TOnAutoResize;
       FOnLoadingProgressChange        : TOnLoadingProgressChange;
       FOnCursorChange                 : TOnCursorChange;
+      FOnMediaAccessChange            : TOnMediaAccessChange;
 
       // ICefDownloadHandler
       FOnCanDownload                  : TOnCanDownloadEvent;
@@ -252,6 +256,8 @@ type
       FOnPopupSize                    : TOnPopupSize;
       FOnPaint                        : TOnPaint;
       FOnAcceleratedPaint             : TOnAcceleratedPaint;
+      FOnGetTouchHandleSize           : TOnGetTouchHandleSize;
+      FOnTouchHandleStateChanged      : TOnTouchHandleStateChanged;
       FOnStartDragging                : TOnStartDragging;
       FOnUpdateDragCursor             : TOnUpdateDragCursor;
       FOnScrollOffsetChanged          : TOnScrollOffsetChanged;
@@ -319,6 +325,11 @@ type
 
       // ICefCommandHandler
       FOnChromeCommand                    : TOnChromeCommandEvent;
+
+      // ICefPermissionHandler
+      FOnRequestMediaAccessPermission     : TOnRequestMediaAccessPermissionEvent;
+      FOnShowPermissionPrompt             : TOnShowPermissionPromptEvent;
+      FOnDismissPermissionPrompt          : TOnDismissPermissionPromptEvent;
 
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
@@ -520,6 +531,9 @@ type
       function  doRunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): Boolean; virtual;
       function  doOnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags): Boolean; virtual;
       procedure doOnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame); virtual;
+      function  doRunQuickMenu(const browser: ICefBrowser; const frame: ICefFrame; location: PCefPoint; size: PCefSize; edit_state_flags: TCefQuickMenuEditStateFlags; const callback: ICefRunQuickMenuCallback): boolean; virtual;
+      function  doOnQuickMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; command_id: integer; event_flags: TCefEventFlags): boolean; virtual;
+      procedure doOnQuickMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame); virtual;
 
       // ICefKeyboardHandler
       function  doOnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean): Boolean; virtual;
@@ -536,6 +550,7 @@ type
       function  doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
       procedure doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
       procedure doOnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
+      procedure doOnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean); virtual;
 
       // ICefDownloadHandler
       function  doOnCanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
@@ -592,6 +607,8 @@ type
       procedure doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect); virtual;
       procedure doOnPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); virtual;
       procedure doOnAcceleratedPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); virtual;
+      procedure doGetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize); virtual;
+      procedure doOnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState); virtual;
       function  doOnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean; virtual;
       procedure doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); virtual;
       procedure doOnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double); virtual;
@@ -657,6 +674,11 @@ type
       // ICefCommandHandler
       function  doOnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
 
+      // ICefPermissionHandler
+      function  doOnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback): boolean;
+      function  doOnShowPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback): boolean;
+      procedure doOnDismissPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; result: TCefPermissionRequestResult);
+
       // Custom
       procedure GetSettings(var aSettings : TCefBrowserSettings);
       procedure doCookiesDeleted(numDeleted : integer); virtual;
@@ -707,6 +729,7 @@ type
       function  MustCreateExtensionHandler : boolean; virtual;
       function  MustCreatePrintHandler : boolean; virtual;
       function  MustCreateFrameHandler : boolean; virtual;
+      function  MustCreatePermissionHandler : boolean; virtual;
 
       property  ParentFormHandle   : TCefWindowHandle   read   GetParentFormHandle;
 
@@ -1007,6 +1030,9 @@ type
       property OnRunContextMenu                 : TOnRunContextMenu                 read FOnRunContextMenu                 write FOnRunContextMenu;
       property OnContextMenuCommand             : TOnContextMenuCommand             read FOnContextMenuCommand             write FOnContextMenuCommand;
       property OnContextMenuDismissed           : TOnContextMenuDismissed           read FOnContextMenuDismissed           write FOnContextMenuDismissed;
+      property OnRunQuickMenu                   : TOnRunQuickMenuEvent              read FOnRunQuickMenu                   write FOnRunQuickMenu;
+      property OnQuickMenuCommand               : TOnQuickMenuCommandEvent          read FOnQuickMenuCommand               write FOnQuickMenuCommand;
+      property OnQuickMenuDismissed             : TOnQuickMenuDismissedEvent        read FOnQuickMenuDismissed             write FOnQuickMenuDismissed;
 
       // ICefKeyboardHandler
       property OnPreKeyEvent                    : TOnPreKeyEvent                    read FOnPreKeyEvent                    write FOnPreKeyEvent;
@@ -1023,6 +1049,7 @@ type
       property OnAutoResize                     : TOnAutoResize                     read FOnAutoResize                     write FOnAutoResize;
       property OnLoadingProgressChange          : TOnLoadingProgressChange          read FOnLoadingProgressChange          write FOnLoadingProgressChange;
       property OnCursorChange                   : TOnCursorChange                   read FOnCursorChange                   write FOnCursorChange;
+      property OnMediaAccessChange              : TOnMediaAccessChange              read FOnMediaAccessChange              write FOnMediaAccessChange;
 
       // ICefDownloadHandler
       property OnCanDownload                    : TOnCanDownloadEvent               read FOnCanDownload                    write FOnCanDownload;
@@ -1079,6 +1106,8 @@ type
       property OnPopupSize                      : TOnPopupSize                      read FOnPopupSize                      write FOnPopupSize;
       property OnPaint                          : TOnPaint                          read FOnPaint                          write FOnPaint;
       property OnAcceleratedPaint               : TOnAcceleratedPaint               read FOnAcceleratedPaint               write FOnAcceleratedPaint;
+      property OnGetTouchHandleSize             : TOnGetTouchHandleSize             read FOnGetTouchHandleSize             write FOnGetTouchHandleSize;
+      property OnTouchHandleStateChanged        : TOnTouchHandleStateChanged        read FOnTouchHandleStateChanged        write FOnTouchHandleStateChanged;
       property OnStartDragging                  : TOnStartDragging                  read FOnStartDragging                  write FOnStartDragging;
       property OnUpdateDragCursor               : TOnUpdateDragCursor               read FOnUpdateDragCursor               write FOnUpdateDragCursor;
       property OnScrollOffsetChanged            : TOnScrollOffsetChanged            read FOnScrollOffsetChanged            write FOnScrollOffsetChanged;
@@ -1148,6 +1177,11 @@ type
 
       // ICefCommandHandler
       property OnChromeCommand                        : TOnChromeCommandEvent             read FOnChromeCommand                        write FOnChromeCommand;
+
+      // ICefPermissionHandler
+      property OnRequestMediaAccessPermission         : TOnRequestMediaAccessPermissionEvent read FOnRequestMediaAccessPermission      write FOnRequestMediaAccessPermission;
+      property OnShowPermissionPrompt                 : TOnShowPermissionPromptEvent         read FOnShowPermissionPrompt              write FOnShowPermissionPrompt;
+      property OnDismissPermissionPrompt              : TOnDismissPermissionPromptEvent      read FOnDismissPermissionPrompt           write FOnDismissPermissionPrompt;
   end;
 
   TBrowserInfo = class
@@ -1735,6 +1769,9 @@ begin
   FOnRunContextMenu               := nil;
   FOnContextMenuCommand           := nil;
   FOnContextMenuDismissed         := nil;
+  FOnRunQuickMenu                 := nil;
+  FOnQuickMenuCommand             := nil;
+  FOnQuickMenuDismissed           := nil;
 
   // ICefKeyboardHandler
   FOnPreKeyEvent                  := nil;
@@ -1751,6 +1788,7 @@ begin
   FOnAutoResize                   := nil;
   FOnLoadingProgressChange        := nil;
   FOnCursorChange                 := nil;
+  FOnMediaAccessChange            := nil;
 
   // ICefDownloadHandler
   FOnCanDownload                  := nil;
@@ -1807,6 +1845,8 @@ begin
   FOnPopupSize                    := nil;
   FOnPaint                        := nil;
   FOnAcceleratedPaint             := nil;
+  FOnGetTouchHandleSize           := nil;
+  FOnTouchHandleStateChanged      := nil;
   FOnStartDragging                := nil;
   FOnUpdateDragCursor             := nil;
   FOnScrollOffsetChanged          := nil;
@@ -1874,6 +1914,11 @@ begin
 
   // ICefCommandHandler
   FOnChromeCommand                    := nil;
+
+  // ICefPermissionHandler
+  FOnRequestMediaAccessPermission     := nil;
+  FOnShowPermissionPrompt             := nil;
+  FOnDismissPermissionPrompt          := nil;
 
   // Custom
   FOnTextResultAvailable              := nil;
@@ -4725,10 +4770,13 @@ end;
 
 function TChromiumCore.MustCreateContextMenuHandler : boolean;
 begin
-  Result := assigned(FOnBeforeContextMenu)  or
-            assigned(FOnRunContextMenu)     or
-            assigned(FOnContextMenuCommand) or
-            assigned(FOnContextMenuDismissed);
+  Result := assigned(FOnBeforeContextMenu)    or
+            assigned(FOnRunContextMenu)       or
+            assigned(FOnContextMenuCommand)   or
+            assigned(FOnContextMenuDismissed) or
+            assigned(FOnRunQuickMenu)         or
+            assigned(FOnQuickMenuCommand)     or
+            assigned(FOnQuickMenuDismissed);
 end;
 
 function TChromiumCore.MustCreateDialogHandler : boolean;
@@ -4753,7 +4801,8 @@ begin
             assigned(FOnConsoleMessage)        or
             assigned(FOnAutoResize)            or
             assigned(FOnLoadingProgressChange) or
-            assigned(FOnCursorChange);
+            assigned(FOnCursorChange)          or
+            assigned(FOnMediaAccessChange);
 end;
 
 function TChromiumCore.MustCreateDownloadHandler : boolean;
@@ -4817,8 +4866,8 @@ end;
 
 function TChromiumCore.MustCreateMediaObserver : boolean;
 begin
-  Result := assigned(FOnSinks) or
-            assigned(FOnRoutes) or
+  Result := assigned(FOnSinks)             or
+            assigned(FOnRoutes)            or
             assigned(FOnRouteStateChanged) or
             assigned(FOnRouteMessageReceived);
 end;
@@ -4827,51 +4876,58 @@ function TChromiumCore.MustCreateAudioHandler : boolean;
 begin
   Result := assigned(FOnGetAudioParameters) or
             assigned(FOnAudioStreamStarted) or
-            assigned(FOnAudioStreamPacket) or
+            assigned(FOnAudioStreamPacket)  or
             assigned(FOnAudioStreamStopped) or
             assigned(FOnAudioStreamError);
 end;
 
 function TChromiumCore.MustCreateDevToolsMessageObserver : boolean;
 begin
-  Result := assigned(FOnDevToolsMessage) or
-            assigned(FOnDevToolsRawMessage) or
-            assigned(FOnDevToolsMethodResult) or
+  Result := assigned(FOnDevToolsMessage)         or
+            assigned(FOnDevToolsRawMessage)      or
+            assigned(FOnDevToolsMethodResult)    or
             assigned(FOnDevToolsMethodRawResult) or
-            assigned(FOnDevToolsEvent) or
-            assigned(FOnDevToolsRawEvent) or
-            assigned(FOnDevToolsAgentAttached) or
+            assigned(FOnDevToolsEvent)           or
+            assigned(FOnDevToolsRawEvent)        or
+            assigned(FOnDevToolsAgentAttached)   or
             assigned(FOnDevToolsAgentDetached);
 end;
 
 function TChromiumCore.MustCreateExtensionHandler : boolean;
 begin
-  Result := assigned(FOnExtensionLoadFailed) or
-            assigned(FOnExtensionLoaded) or
-            assigned(FOnExtensionUnloaded) or
+  Result := assigned(FOnExtensionLoadFailed)              or
+            assigned(FOnExtensionLoaded)                  or
+            assigned(FOnExtensionUnloaded)                or
             assigned(FOnExtensionBeforeBackgroundBrowser) or
-            assigned(FOnExtensionBeforeBrowser) or
-            assigned(FOnExtensionGetActiveBrowser) or
-            assigned(FOnExtensionCanAccessBrowser) or
+            assigned(FOnExtensionBeforeBrowser)           or
+            assigned(FOnExtensionGetActiveBrowser)        or
+            assigned(FOnExtensionCanAccessBrowser)        or
             assigned(FOnExtensionGetExtensionResource);
 end;
 
 function TChromiumCore.MustCreatePrintHandler : boolean;
 begin
-  Result := assigned(FOnPrintStart) or
+  Result := assigned(FOnPrintStart)    or
             assigned(FOnPrintSettings) or
-            assigned(FOnPrintDialog) or
-            assigned(FOnPrintJob) or
-            assigned(FOnPrintReset) or
+            assigned(FOnPrintDialog)   or
+            assigned(FOnPrintJob)      or
+            assigned(FOnPrintReset)    or
             assigned(FOnGetPDFPaperSize);
 end;
 
 function TChromiumCore.MustCreateFrameHandler : boolean;
 begin
-  Result := assigned(FOnFrameCreated) or
+  Result := assigned(FOnFrameCreated)  or
             assigned(FOnFrameAttached) or
             assigned(FOnFrameDetached) or
             assigned(FOnMainFrameChanged);
+end;
+
+function TChromiumCore.MustCreatePermissionHandler : boolean;
+begin
+  Result := assigned(FOnRequestMediaAccessPermission) or
+            assigned(FOnShowPermissionPrompt)         or
+            assigned(FOnDismissPermissionPrompt);
 end;
 
 function TChromiumCore.MustCreateCommandHandler : boolean;
@@ -5459,6 +5515,37 @@ begin
     FOnContextMenuDismissed(Self, browser, frame);
 end;
 
+function TChromiumCore.doRunQuickMenu(const browser          : ICefBrowser;
+                                      const frame            : ICefFrame;
+                                            location         : PCefPoint;
+                                            size             : PCefSize;
+                                            edit_state_flags : TCefQuickMenuEditStateFlags;
+                                      const callback         : ICefRunQuickMenuCallback): boolean;
+begin
+  Result := False;
+
+  if assigned(FOnRunQuickMenu) then
+    FOnRunQuickMenu(Self, browser, frame, location^, size^, edit_state_flags, callback, Result);
+end;
+
+function TChromiumCore.doOnQuickMenuCommand(const browser     : ICefBrowser;
+                                            const frame       : ICefFrame;
+                                                  command_id  : integer;
+                                                  event_flags : TCefEventFlags): boolean;
+begin
+  Result := False;
+
+  if assigned(FOnQuickMenuCommand) then
+    FOnQuickMenuCommand(Self, browser, frame, command_id, event_flags, Result);
+end;
+
+procedure TChromiumCore.doOnQuickMenuDismissed(const browser : ICefBrowser;
+                                               const frame   : ICefFrame);
+begin
+  if assigned(FOnQuickMenuDismissed) then
+    FOnQuickMenuDismissed(Self, browser, frame);
+end;
+
 procedure TChromiumCore.doOnCursorChange(const browser          : ICefBrowser;
                                                cursor_          : TCefCursorHandle;
                                                cursorType       : TCefCursorType;
@@ -5469,6 +5556,12 @@ begin
 
   if assigned(FOnCursorChange) then
     FOnCursorChange(self, browser, cursor_, cursorType, customCursorInfo, aResult);
+end;
+
+procedure TChromiumCore.doOnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
+begin
+  if assigned(FOnMediaAccessChange) then
+    FOnMediaAccessChange(self, browser, has_video_access, has_audio_access);
 end;
 
 procedure TChromiumCore.doOnDialogClosed(const browser: ICefBrowser);
@@ -5843,12 +5936,46 @@ begin
     FOnMainFrameChanged(self, browser, old_frame, new_frame);
 end;
 
-function TChromiumCore.doOnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
+function TChromiumCore.doOnChromeCommand(const browser     : ICefBrowser;
+                                               command_id  : integer;
+                                               disposition : TCefWindowOpenDisposition): boolean;
 begin
   Result := False;
 
   if assigned(FOnChromeCommand) then
     FOnChromeCommand(self, browser, command_id, disposition, Result);
+end;
+
+function TChromiumCore.doOnRequestMediaAccessPermission(const browser               : ICefBrowser;
+                                                        const frame                 : ICefFrame;
+                                                        const requesting_origin     : ustring;
+                                                              requested_permissions : cardinal;
+                                                        const callback              : ICefMediaAccessCallback): boolean;
+begin
+  Result := False;
+
+  if assigned(FOnRequestMediaAccessPermission) then
+    FOnRequestMediaAccessPermission(self, browser, frame, requesting_origin, requested_permissions, callback, Result);
+end;
+
+function TChromiumCore.doOnShowPermissionPrompt(const browser               : ICefBrowser;
+                                                      prompt_id             : uint64;
+                                                const requesting_origin     : ustring;
+                                                      requested_permissions : cardinal;
+                                                const callback              : ICefPermissionPromptCallback): boolean;
+begin
+  Result := False;
+
+  if assigned(FOnShowPermissionPrompt) then
+    FOnShowPermissionPrompt(self, browser, prompt_id, requesting_origin, requested_permissions, callback, Result);
+end;
+
+procedure TChromiumCore.doOnDismissPermissionPrompt(const browser   : ICefBrowser;
+                                                          prompt_id : uint64;
+                                                          result    : TCefPermissionRequestResult);
+begin
+  if assigned(FOnDismissPermissionPrompt) then
+    FOnDismissPermissionPrompt(self, browser, prompt_id, result);
 end;
 
 procedure TChromiumCore.doOnFullScreenModeChange(const browser    : ICefBrowser;
@@ -6067,6 +6194,18 @@ procedure TChromiumCore.doOnAcceleratedPaint(const browser         : ICefBrowser
 begin
   if assigned(FOnAcceleratedPaint) then
     FOnAcceleratedPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, shared_handle);
+end;
+
+procedure TChromiumCore.doGetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize);
+begin
+  if assigned(FOnGetTouchHandleSize) then
+    FOnGetTouchHandleSize(Self, browser, orientation, size);
+end;
+
+procedure TChromiumCore.doOnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState);
+begin
+  if assigned(FOnTouchHandleStateChanged) then
+    FOnTouchHandleStateChanged(Self, browser, state);
 end;
 
 function TChromiumCore.doOnSelectClientCertificate(const browser           : ICefBrowser;

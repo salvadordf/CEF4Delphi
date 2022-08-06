@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFProcessMessage;
+ unit uCEFMediaAccessCallback;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
@@ -52,67 +52,34 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefProcessMessageRef = class(TCefBaseRefCountedRef, ICefProcessMessage)
+  TCefMediaAccessCallbackRef = class(TCefBaseRefCountedRef, ICefMediaAccessCallback)
     protected
-      function IsValid: Boolean;
-      function IsReadOnly: Boolean;
-      function Copy: ICefProcessMessage;
-      function GetName: ustring;
-      function GetArgumentList: ICefListValue;
-      function GetSharedMemoryRegion: ICefSharedMemoryRegion;
+      procedure cont(allowed_permissions: TCefMediaAccessPermissionTypes);
+      procedure cancel;
 
     public
-      class function UnWrap(data: Pointer): ICefProcessMessage;
-      class function New(const name: ustring): ICefProcessMessage;
+      class function UnWrap(data: Pointer): ICefMediaAccessCallback;
   end;
 
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFListValue, uCEFSharedMemoryRegion;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
-function TCefProcessMessageRef.Copy: ICefProcessMessage;
+procedure TCefMediaAccessCallbackRef.cont(allowed_permissions: TCefMediaAccessPermissionTypes);
 begin
-  Result := UnWrap(PCefProcessMessage(FData)^.copy(PCefProcessMessage(FData)));
+  PCefMediaAccessCallback(FData)^.cont(PCefMediaAccessCallback(FData), allowed_permissions);
 end;
 
-function TCefProcessMessageRef.GetArgumentList: ICefListValue;
+procedure TCefMediaAccessCallbackRef.cancel;
 begin
-  Result := TCefListValueRef.UnWrap(PCefProcessMessage(FData)^.get_argument_list(PCefProcessMessage(FData)));
+  PCefMediaAccessCallback(FData)^.cancel(PCefMediaAccessCallback(FData));
 end;
 
-function TCefProcessMessageRef.GetSharedMemoryRegion: ICefSharedMemoryRegion;
-begin
-  Result := TCefSharedMemoryRegionRef.UnWrap(PCefProcessMessage(FData)^.get_shared_memory_region(PCefProcessMessage(FData)));
-end;
-
-function TCefProcessMessageRef.GetName: ustring;
-begin
-  Result := CefStringFreeAndGet(PCefProcessMessage(FData)^.get_name(PCefProcessMessage(FData)));
-end;
-
-function TCefProcessMessageRef.IsReadOnly: Boolean;
-begin
-  Result := PCefProcessMessage(FData)^.is_read_only(PCefProcessMessage(FData)) <> 0;
-end;
-
-function TCefProcessMessageRef.IsValid: Boolean;
-begin
-  Result := PCefProcessMessage(FData)^.is_valid(PCefProcessMessage(FData)) <> 0;
-end;
-
-class function TCefProcessMessageRef.New(const name: ustring): ICefProcessMessage;
-var
-  TempString : TCefString;
-begin
-  TempString := CefString(name);
-  Result     := UnWrap(cef_process_message_create(@TempString));
-end;
-
-class function TCefProcessMessageRef.UnWrap(data: Pointer): ICefProcessMessage;
+class function TCefMediaAccessCallbackRef.UnWrap(data: Pointer): ICefMediaAccessCallback;
 begin
   if (data <> nil) then
-    Result := Create(data) as ICefProcessMessage
+    Result := Create(data) as ICefMediaAccessCallback
    else
     Result := nil;
 end;

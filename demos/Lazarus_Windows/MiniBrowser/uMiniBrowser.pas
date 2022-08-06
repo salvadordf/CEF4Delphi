@@ -61,7 +61,8 @@ const
   MINIBROWSER_COOKIESFLUSHED  = WM_APP + $10B;
   MINIBROWSER_PDFPRINT_END    = WM_APP + $10C;
   MINIBROWSER_PREFS_AVLBL     = WM_APP + $10D;  
-  MINIBROWSER_DTDATA_AVLBL    = WM_APP + $10E;
+  MINIBROWSER_DTDATA_AVLBL    = WM_APP + $10E;  
+  MINIBROWSER_MEDIAACCESSRQST = WM_APP + $10F;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -147,6 +148,12 @@ type
       const result: ICefValue);
     procedure Chromium1DownloadImageFinished(Sender: TObject;
       const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
+    procedure Chromium1MediaAccessChange(Sender: TObject;
+      const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
+    procedure Chromium1RequestMediaAccessPermission(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const requesting_origin: ustring; requested_permissions: cardinal;
+      const callback: ICefMediaAccessCallback; var aResult: boolean);
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: double
       );
     procedure FormShow(Sender: TObject);
@@ -255,7 +262,11 @@ type
     FNavigation         : TStringList;
     FShutdownReason     : string;
     FHasShutdownReason  : boolean;
-    FAllowDownloads     : boolean;
+    FAllowDownloads     : boolean;       
+
+    FMediaAccessCallback  : ICefMediaAccessCallback;
+    FRequestingOrigin     : string;
+    FRequestedPermissions : cardinal;
 
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
@@ -291,7 +302,8 @@ type
     procedure CookiesFlushedMsg(var aMessage : TMessage); message MINIBROWSER_COOKIESFLUSHED;
     procedure PrintPDFEndMsg(var aMessage : TMessage); message MINIBROWSER_PDFPRINT_END;
     procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;        
-    procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;
+    procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;      
+    procedure MediaAccessRequestMsg(var aMessage : TMessage); message MINIBROWSER_MEDIAACCESSRQST;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -1092,7 +1104,8 @@ procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
 begin           
   if FHasShutdownReason then
     ShutdownBlockReasonDestroy(Application.Handle);
-
+  
+  FMediaAccessCallback := nil;
   FResponse.Free;
   FRequest.Free;
   FNavigation.Free;
@@ -1269,6 +1282,43 @@ begin
       showmessage('There was an error in the DevTools method');
 end;
 
+procedure TMiniBrowserFrm.MediaAccessRequestMsg(var aMessage : TMessage);
+var
+  TempMessage : string;
+  TempPermissions : TStringList;
+begin
+  TempPermissions := TStringList.Create;
+  try
+    if ((FRequestedPermissions and CEF_MEDIA_PERMISSION_DEVICE_AUDIO_CAPTURE) <> 0) then
+      TempPermissions.Add('Device audio');
+
+    if ((FRequestedPermissions and CEF_MEDIA_PERMISSION_DEVICE_VIDEO_CAPTURE) <> 0) then
+      TempPermissions.Add('Device video');
+
+    if ((FRequestedPermissions and CEF_MEDIA_PERMISSION_DESKTOP_AUDIO_CAPTURE) <> 0) then
+      TempPermissions.Add('Desktop audio');
+
+    if ((FRequestedPermissions and CEF_MEDIA_PERMISSION_DESKTOP_VIDEO_CAPTURE) <> 0) then
+      TempPermissions.Add('Desktop video');
+
+    if assigned(FMediaAccessCallback) and (TempPermissions.Count > 0) then
+      begin
+        TempMessage := FRequestingOrigin +
+                       ' is asking for permission to access : ' + CRLF +
+                       TempPermissions.Text + CRLF +
+                       'Do you want allow it?';
+
+       if (MessageDlg(TempMessage, mtConfirmation, [mbYes, mbNo], 0, mbYes) = mrYes) then
+         FMediaAccessCallback.cont(FRequestedPermissions)
+        else
+         FMediaAccessCallback.Cancel;
+      end;
+  finally
+    TempPermissions.Free;
+    FMediaAccessCallback := nil;
+  end;
+end;
+
 procedure TMiniBrowserFrm.Chromium1DownloadImageFinished(Sender: TObject;
   const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
 var
@@ -1331,6 +1381,36 @@ begin
     if (TempStream <> nil) then FreeAndNil(TempStream);
     SetLength(TempBuffer, 0);
   end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1MediaAccessChange(Sender: TObject;
+  const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
+var
+  TempText : string;
+begin
+  // This event is executed in a CEF thread and this can cause problems when
+  // you change the 'Enabled' and 'Visible' properties from VCL components.
+  // It's recommended to change the 'Enabled' and 'Visible' properties
+  // in the main application thread and not in a CEF thread.
+  // It's much safer to use PostMessage to send a message to the main form with
+  // all this information and update those properties in the procedure handling
+  // that message.
+  TempText := 'Video access : ' + BooltoStr(has_video_access, True) + ' - ' +
+              'Audio access : ' + BooltoStr(has_audio_access, True);
+  StatusPnl.Caption := TempText;
+end;
+
+procedure TMiniBrowserFrm.Chromium1RequestMediaAccessPermission(
+  Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+  const requesting_origin: ustring; requested_permissions: cardinal;
+  const callback: ICefMediaAccessCallback; var aResult: boolean);
+begin
+  aResult                 := True;
+  FMediaAccessCallback    := callback;
+  FRequestingOrigin       := requesting_origin;
+  FRequestedPermissions   := requested_permissions;
+
+  PostMessage(Handle, MINIBROWSER_MEDIAACCESSRQST, 0, 0);
 end;
 
 procedure TMiniBrowserFrm.Chromium1ZoomPctAvailable(Sender: TObject;

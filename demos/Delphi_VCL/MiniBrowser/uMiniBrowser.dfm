@@ -165,6 +165,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://www.sede.fnmt.gob.es/certificados/persona-fisica/verific' +
             'ar-estado'
+          'https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm'
+          'https://www.xdumaine.com/enumerateDevices/test/'
           'chrome://version/'
           'chrome://net-internals/'
           'chrome://tracing/'
@@ -285,6 +287,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnStatusMessage = Chromium1StatusMessage
     OnLoadingProgressChange = Chromium1LoadingProgressChange
     OnCursorChange = Chromium1CursorChange
+    OnMediaAccessChange = Chromium1MediaAccessChange
     OnCanDownload = Chromium1CanDownload
     OnBeforeDownload = Chromium1BeforeDownload
     OnDownloadUpdated = Chromium1DownloadUpdated
@@ -297,6 +300,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnResourceResponse = Chromium1ResourceResponse
     OnFileDialog = Chromium1FileDialog
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
+    OnRequestMediaAccessPermission = Chromium1RequestMediaAccessPermission
     Left = 32
     Top = 224
   end

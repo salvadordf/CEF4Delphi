@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFProcessMessage;
+unit uCEFSharedMemoryRegion;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
@@ -52,67 +52,37 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefProcessMessageRef = class(TCefBaseRefCountedRef, ICefProcessMessage)
+  TCefSharedMemoryRegionRef = class(TCefBaseRefCountedRef, ICefSharedMemoryRegion)
     protected
-      function IsValid: Boolean;
-      function IsReadOnly: Boolean;
-      function Copy: ICefProcessMessage;
-      function GetName: ustring;
-      function GetArgumentList: ICefListValue;
-      function GetSharedMemoryRegion: ICefSharedMemoryRegion;
+      function IsValid: boolean;
+      function Size: NativeUInt;
+      function Memory: pointer;
 
     public
-      class function UnWrap(data: Pointer): ICefProcessMessage;
-      class function New(const name: ustring): ICefProcessMessage;
+      class function UnWrap(data: Pointer): ICefSharedMemoryRegion;
   end;
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFListValue, uCEFSharedMemoryRegion;
-
-function TCefProcessMessageRef.Copy: ICefProcessMessage;
+function TCefSharedMemoryRegionRef.IsValid: Boolean;
 begin
-  Result := UnWrap(PCefProcessMessage(FData)^.copy(PCefProcessMessage(FData)));
+  Result := PCefSharedMemoryRegion(FData)^.is_valid(PCefSharedMemoryRegion(FData)) <> 0;
 end;
 
-function TCefProcessMessageRef.GetArgumentList: ICefListValue;
+function TCefSharedMemoryRegionRef.Size: NativeUInt;
 begin
-  Result := TCefListValueRef.UnWrap(PCefProcessMessage(FData)^.get_argument_list(PCefProcessMessage(FData)));
+  Result := PCefSharedMemoryRegion(FData)^.Size(PCefSharedMemoryRegion(FData));
 end;
 
-function TCefProcessMessageRef.GetSharedMemoryRegion: ICefSharedMemoryRegion;
+function TCefSharedMemoryRegionRef.Memory: pointer;
 begin
-  Result := TCefSharedMemoryRegionRef.UnWrap(PCefProcessMessage(FData)^.get_shared_memory_region(PCefProcessMessage(FData)));
+  Result := PCefSharedMemoryRegion(FData)^.Memory(PCefSharedMemoryRegion(FData));
 end;
 
-function TCefProcessMessageRef.GetName: ustring;
-begin
-  Result := CefStringFreeAndGet(PCefProcessMessage(FData)^.get_name(PCefProcessMessage(FData)));
-end;
-
-function TCefProcessMessageRef.IsReadOnly: Boolean;
-begin
-  Result := PCefProcessMessage(FData)^.is_read_only(PCefProcessMessage(FData)) <> 0;
-end;
-
-function TCefProcessMessageRef.IsValid: Boolean;
-begin
-  Result := PCefProcessMessage(FData)^.is_valid(PCefProcessMessage(FData)) <> 0;
-end;
-
-class function TCefProcessMessageRef.New(const name: ustring): ICefProcessMessage;
-var
-  TempString : TCefString;
-begin
-  TempString := CefString(name);
-  Result     := UnWrap(cef_process_message_create(@TempString));
-end;
-
-class function TCefProcessMessageRef.UnWrap(data: Pointer): ICefProcessMessage;
+class function TCefSharedMemoryRegionRef.UnWrap(data: Pointer): ICefSharedMemoryRegion;
 begin
   if (data <> nil) then
-    Result := Create(data) as ICefProcessMessage
+    Result := Create(data) as ICefSharedMemoryRegion
    else
     Result := nil;
 end;

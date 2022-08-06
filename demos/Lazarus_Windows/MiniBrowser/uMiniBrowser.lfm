@@ -15,7 +15,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.2.0'
   object Splitter1: TSplitter
     Left = 1179
     Height = 663
@@ -141,6 +141,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.youtube.com'
           'https://html5demos.com/drag/'
           'https://frames-per-second.appspot.com/'
+          'https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm'
+          'https://www.xdumaine.com/enumerateDevices/test/'
           'chrome://version/'
           'chrome://net-internals/'
           'chrome://tracing/'
@@ -258,6 +260,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnStatusMessage = Chromium1StatusMessage
     OnLoadingProgressChange = Chromium1LoadingProgressChange
     OnCursorChange = Chromium1CursorChange
+    OnMediaAccessChange = Chromium1MediaAccessChange
     OnCanDownload = Chromium1CanDownload
     OnBeforeDownload = Chromium1BeforeDownload
     OnDownloadUpdated = Chromium1DownloadUpdated
@@ -268,6 +271,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
+    OnRequestMediaAccessPermission = Chromium1RequestMediaAccessPermission
     Left = 32
     Top = 224
   end

@@ -73,6 +73,7 @@ const
   MINIBROWSER_DTDATA_AVLBL     = WM_APP + $10E;
   MINIBROWSER_SHOWFILEDLG      = WM_APP + $10F;
   MINIBROWSER_SELECTCERT       = WM_APP + $110;
+  MINIBROWSER_MEDIAACCESSRQST  = WM_APP + $111;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -188,6 +189,8 @@ type
     procedure Chromium1SelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: Boolean; const host: ustring; port: Integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: Boolean);
     procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
     procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: Boolean);
+    procedure Chromium1MediaAccessChange(Sender: TObject; const browser: ICefBrowser; has_video_access, has_audio_access: Boolean);
+    procedure Chromium1RequestMediaAccessPermission(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: Cardinal; const callback: ICefMediaAccessCallback; var aResult: Boolean);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -222,13 +225,17 @@ type
     procedure Allowdownloads1Click(Sender: TObject);
 
   protected
-    FPendingMsgID       : integer;
-    FDevToolsMsgValue   : ustring;
-    FShutdownReason     : string;
-    FHasShutdownReason  : boolean;
-    FSelectCertCallback : ICefSelectClientCertificateCallback;
-    FCertificates       : TCefX509CertificateArray;
-    FAllowDownloads     : boolean;
+    FPendingMsgID        : integer;
+    FDevToolsMsgValue    : ustring;
+    FShutdownReason      : string;
+    FHasShutdownReason   : boolean;
+    FSelectCertCallback  : ICefSelectClientCertificateCallback;
+    FCertificates        : TCefX509CertificateArray;
+    FAllowDownloads      : boolean;
+
+    FMediaAccessCallback  : ICefMediaAccessCallback;
+    FRequestingOrigin     : string;
+    FRequestedPermissions : cardinal;
 
     FResponse   : TStringList;
     FRequest    : TStringList;
@@ -275,6 +282,7 @@ type
     procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;
     procedure ShowFileDialogMsg(var aMessage : TMessage); message MINIBROWSER_SHOWFILEDLG;
     procedure SelectCertificateMsg(var aMessage : TMessage); message MINIBROWSER_SELECTCERT;
+    procedure MediaAccessRequestMsg(var aMessage : TMessage); message MINIBROWSER_MEDIAACCESSRQST;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -313,7 +321,6 @@ begin
   GlobalCEFApp.EnableGPU           := True;
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
-  //GlobalCEFApp.ChromeRuntime       := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -997,6 +1004,23 @@ begin
     end;
 end;
 
+procedure TMiniBrowserFrm.Chromium1MediaAccessChange(Sender: TObject;
+  const browser: ICefBrowser; has_video_access, has_audio_access: Boolean);
+var
+  TempText : string;
+begin
+  // This event is executed in a CEF thread and this can cause problems when
+  // you change the 'Enabled' and 'Visible' properties from VCL components.
+  // It's recommended to change the 'Enabled' and 'Visible' properties
+  // in the main application thread and not in a CEF thread.
+  // It's much safer to use PostMessage to send a message to the main form with
+  // all this information and update those properties in the procedure handling
+  // that message.
+  TempText := 'Video access : ' + BooltoStr(has_video_access, True) + ' - ' +
+              'Audio access : ' + BooltoStr(has_audio_access, True);
+  StatusBar1.Panels[1].Text := TempText;
+end;
+
 procedure TMiniBrowserFrm.Chromium1NavigationVisitorResultAvailable(Sender: TObject;
   const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
   var aResult: Boolean);
@@ -1041,6 +1065,56 @@ begin
       StatusBar1.Panels[2].Text := 'x : ' + inttostr(aMessage.lParam and $FFFF);
       StatusBar1.Panels[3].Text := 'y : ' + inttostr((aMessage.lParam and $FFFF0000) shr 16);
     end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1RequestMediaAccessPermission(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  const requesting_origin: ustring; requested_permissions: Cardinal;
+  const callback: ICefMediaAccessCallback; var aResult: Boolean);
+begin
+  aResult                 := True;
+  FMediaAccessCallback    := callback;
+  FRequestingOrigin       := requesting_origin;
+  FRequestedPermissions   := requested_permissions;
+
+  PostMessage(Handle, MINIBROWSER_MEDIAACCESSRQST, 0, 0);
+end;
+
+procedure TMiniBrowserFrm.MediaAccessRequestMsg(var aMessage : TMessage);
+var
+  TempMessage : string;
+  TempPermissions : TStringList;
+begin
+  TempPermissions := TStringList.Create;
+  try
+    if ((FRequestedPermissions and CEF_MEDIA_PERMISSION_DEVICE_AUDIO_CAPTURE) <> 0) then
+      TempPermissions.Add('Device audio');
+
+    if ((FRequestedPermissions and CEF_MEDIA_PERMISSION_DEVICE_VIDEO_CAPTURE) <> 0) then
+      TempPermissions.Add('Device video');
+
+    if ((FRequestedPermissions and CEF_MEDIA_PERMISSION_DESKTOP_AUDIO_CAPTURE) <> 0) then
+      TempPermissions.Add('Desktop audio');
+
+    if ((FRequestedPermissions and CEF_MEDIA_PERMISSION_DESKTOP_VIDEO_CAPTURE) <> 0) then
+      TempPermissions.Add('Desktop video');
+
+    if assigned(FMediaAccessCallback) and (TempPermissions.Count > 0) then
+      begin
+        TempMessage := FRequestingOrigin +
+                       ' is asking for permission to access : ' + CRLF +
+                       TempPermissions.Text + CRLF +
+                       'Do you want allow it?';
+
+       if (MessageDlg(TempMessage, mtConfirmation, [mbYes, mbNo], 0, mbYes) = mrYes) then
+         FMediaAccessCallback.cont(FRequestedPermissions)
+        else
+         FMediaAccessCallback.Cancel;
+      end;
+  finally
+    TempPermissions.Free;
+    FMediaAccessCallback := nil;
+  end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1ResolvedHostAvailable(Sender: TObject;
@@ -1271,6 +1345,7 @@ begin
   FRequest             := TStringList.Create;
   FNavigation          := TStringList.Create;
   FSelectCertCallback  := nil;
+  FMediaAccessCallback := nil;
   FCertificates        := nil;
   FPendingMsgID        := 0;
   FAllowDownloads      := True;
@@ -1300,6 +1375,7 @@ begin
   DestroyCertificates;
 
   FSelectCertCallback  := nil;
+  FMediaAccessCallback := nil;
   FResponse.Free;
   FRequest.Free;
   FNavigation.Free;
