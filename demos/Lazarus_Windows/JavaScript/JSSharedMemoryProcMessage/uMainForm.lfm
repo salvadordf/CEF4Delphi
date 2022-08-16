@@ -1,0 +1,97 @@
+object MainForm: TMainForm
+  Left = 444
+  Height = 579
+  Top = 161
+  Width = 878
+  Caption = 'JSSharedMemoryProcMessage'
+  ClientHeight = 579
+  ClientWidth = 878
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.2.2.0'
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 559
+    Top = 20
+    Width = 878
+    Align = alClient
+    TabOrder = 0
+  end
+  object AddressBarPnl: TPanel
+    Left = 0
+    Height = 20
+    Top = 0
+    Width = 878
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 20
+    ClientWidth = 878
+    DoubleBuffered = True
+    Enabled = False
+    ParentDoubleBuffered = False
+    TabOrder = 1
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 20
+      Top = 0
+      Width = 750
+      Align = alClient
+      TabOrder = 0
+      Text = 'https://www.google.com/'
+    end
+    object Panel1: TPanel
+      Left = 750
+      Height = 20
+      Top = 0
+      Width = 128
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 20
+      ClientWidth = 128
+      TabOrder = 1
+      object GoBtn: TButton
+        Left = 0
+        Height = 20
+        Top = 0
+        Width = 31
+        Align = alLeft
+        Caption = 'Go'
+        OnClick = GoBtnClick
+        TabOrder = 0
+      end
+      object SendMessageBtn: TButton
+        Left = 40
+        Height = 20
+        Top = 0
+        Width = 88
+        Align = alRight
+        Caption = 'Send message'
+        OnClick = SendMessageBtnClick
+        TabOrder = 1
+      end
+    end
+  end
+  object Chromium1: TChromium
+    OnProcessMessageReceived = Chromium1ProcessMessageReceived
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    Left = 16
+    Top = 40
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 16
+    Top = 96
+  end
+end

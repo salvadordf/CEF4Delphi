@@ -624,11 +624,56 @@ const
   CEF_DOCKING_MODE_BOTTOM_LEFT   = 3;
   CEF_DOCKING_MODE_BOTTOM_RIGHT  = 4;
   CEF_DOCKING_MODE_CUSTOM        = 5;
+
   // /include/internal/cef_types.h (cef_show_state_t)
   CEF_SHOW_STATE_NORMAL      = 1;
   CEF_SHOW_STATE_MINIMIZED   = 2;
   CEF_SHOW_STATE_MAXIMIZED   = 3;
   CEF_SHOW_STATE_FULLSCREEN  = 4;
+
+  // /include/internal/cef_types.h (cef_quick_menu_edit_state_flags_t)
+  QM_EDITFLAG_NONE         = 0;
+  QM_EDITFLAG_CAN_ELLIPSIS = 1 shl 0;
+  QM_EDITFLAG_CAN_CUT      = 1 shl 1;
+  QM_EDITFLAG_CAN_COPY     = 1 shl 2;
+  QM_EDITFLAG_CAN_PASTE    = 1 shl 3;
+
+  // /include/internal/cef_types.h (cef_touch_handle_state_flags_t)
+  CEF_THS_FLAG_NONE        = 0;
+  CEF_THS_FLAG_ENABLED     = 1 shl 0;
+  CEF_THS_FLAG_ORIENTATION = 1 shl 1;
+  CEF_THS_FLAG_ORIGIN      = 1 shl 2;
+  CEF_THS_FLAG_ALPHA       = 1 shl 3;
+
+  // /include/internal/cef_types.h (cef_media_access_permission_types_t)
+  CEF_MEDIA_PERMISSION_NONE                  = 0;
+  CEF_MEDIA_PERMISSION_DEVICE_AUDIO_CAPTURE  = 1 shl 0;
+  CEF_MEDIA_PERMISSION_DEVICE_VIDEO_CAPTURE  = 1 shl 1;
+  CEF_MEDIA_PERMISSION_DESKTOP_AUDIO_CAPTURE = 1 shl 2;
+  CEF_MEDIA_PERMISSION_DESKTOP_VIDEO_CAPTURE = 1 shl 3;
+
+  // /include/internal/cef_types.h (cef_permission_request_types_t)
+  CEF_PERMISSION_TYPE_NONE                       = 0;
+  CEF_PERMISSION_TYPE_ACCESSIBILITY_EVENTS       = 1 shl 0;
+  CEF_PERMISSION_TYPE_AR_SESSION                 = 1 shl 1;
+  CEF_PERMISSION_TYPE_CAMERA_PAN_TILT_ZOOM       = 1 shl 2;
+  CEF_PERMISSION_TYPE_CAMERA_STREAM              = 1 shl 3;
+  CEF_PERMISSION_TYPE_CLIPBOARD                  = 1 shl 4;
+  CEF_PERMISSION_TYPE_DISK_QUOTA                 = 1 shl 5;
+  CEF_PERMISSION_TYPE_LOCAL_FONTS                = 1 shl 6;
+  CEF_PERMISSION_TYPE_GEOLOCATION                = 1 shl 7;
+  CEF_PERMISSION_TYPE_IDLE_DETECTION             = 1 shl 8;
+  CEF_PERMISSION_TYPE_MIC_STREAM                 = 1 shl 9;
+  CEF_PERMISSION_TYPE_MIDI_SYSEX                 = 1 shl 10;
+  CEF_PERMISSION_TYPE_MULTIPLE_DOWNLOADS         = 1 shl 11;
+  CEF_PERMISSION_TYPE_NOTIFICATIONS              = 1 shl 12;
+  CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER = 1 shl 13;
+  CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER  = 1 shl 14;
+  CEF_PERMISSION_TYPE_SECURITY_ATTESTATION       = 1 shl 15;
+  CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 16;
+  CEF_PERMISSION_TYPE_U2F_API_REQUEST            = 1 shl 17;
+  CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 18;
+  CEF_PERMISSION_TYPE_WINDOW_PLACEMENT           = 1 shl 19;
 
   // /include/cef_api_hash.h (used as "cef_api_hash" parameters)
   CEF_API_HASH_PLATFORM  = 0;

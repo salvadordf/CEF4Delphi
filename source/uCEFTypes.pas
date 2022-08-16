@@ -88,6 +88,7 @@ type
   PCefResourceBundleHandler = ^TCefResourceBundleHandler;
   PCefBrowserProcessHandler = ^TCefBrowserProcessHandler;
   PCefContextMenuHandler = ^TCefContextMenuHandler;
+  PCefRunQuickMenuCallback = ^TCefRunQuickMenuCallback;
   PCefAccessibilityHandler = ^TCefAccessibilityHandler;
   PCefFrame = ^TCefFrame;
   PCefFrameHandler = ^TCefFrameHandler;
@@ -156,6 +157,12 @@ type
   PCefV8StackFrame = ^TCefV8StackFrame;
   PCefProcessMessage = ^TCefProcessMessage;
   PCefRequestHandler = ^TCefRequestHandler;
+  PCefMediaAccessCallback = ^TCefMediaAccessCallback;
+  PCefMediaAccessHandler = ^TCefMediaAccessHandler;
+  PCefPermissionHandler = ^TCefPermissionHandler;
+  PCefSharedMemoryRegion = ^TCefSharedMemoryRegion;
+  PCefSharedProcessMessageBuilder = ^TCefSharedProcessMessageBuilder;
+  PCefPermissionPromptCallback = ^TCefPermissionPromptCallback;
   PCefResourceSkipCallback = ^TCefResourceSkipCallback;
   PCefResourceReadCallback = ^TCefResourceReadCallback;
   PCefResourceHandler = ^TCefResourceHandler;
@@ -187,6 +194,7 @@ type
   PCefNavigationEntry = ^TCefNavigationEntry;
   PCefMouseEvent = ^TCefMouseEvent;
   PCefTouchEvent = ^TCefTouchEvent;
+  PCefTouchHandleState = ^TCefTouchHandleState;
   PCefPrintSettings = ^TCefPrintSettings;
   PCefPrintDialogCallback = ^TCefPrintDialogCallback;
   PCefPrintJobCallback = ^TCefPrintJobCallback;
@@ -321,7 +329,11 @@ type
   TCefTextFieldCommands            = Integer;     // /include/internal/cef_types.h (cef_text_field_commands_t)
   TCefChromeToolbarType            = Integer;     // /include/internal/cef_types.h (cef_chrome_toolbar_type_t)
   TCefDockingMode                  = type Integer;   // /include/internal/cef_types.h (cef_docking_mode_t)
-  TCefShowState                    = type Integer;   // /include/internal/cef_types.h (cef_show_state_t)
+  TCefShowState                    = type Integer;   // /include/internal/cef_types.h (cef_show_state_t)4
+  TCefQuickMenuEditStateFlags      = type Integer;   // /include/internal/cef_types.h (cef_quick_menu_edit_state_flags_t)
+  TCefTouchHandleStateFlags        = type Integer;   // /include/internal/cef_types.h (cef_touch_handle_state_flags_t)
+  TCefMediaAccessPermissionTypes   = type Integer;   // /include/internal/cef_types.h (cef_media_access_permission_types_t)
+  TCefPermissionRequestTypes       = type Integer;   // /include/internal/cef_types.h (cef_permission_request_types_t)
 
 
 {$IFDEF FPC}
@@ -1157,6 +1169,26 @@ type
     CEF_CUS_NONE
   );
 
+  // /include/internal/cef_types.h (cef_permission_request_result_t)
+  TCefPermissionRequestResult = (
+    CEF_PERMISSION_RESULT_ACCEPT,
+    CEF_PERMISSION_RESULT_DENY,
+    CEF_PERMISSION_RESULT_DISMISS,
+    CEF_PERMISSION_RESULT_IGNORE
+  );
+
+  // /include/internal/cef_types.h (cef_touch_handle_state_t)
+  TCefTouchHandleState = record
+    touch_handle_id   : integer;
+    flags             : cardinal;
+    enabled           : integer;
+    orientation       : TCefHorizontalAlignment;
+    mirror_vertical   : integer;
+    mirror_horizontal : integer;
+    origin            : TCefPoint;
+    alpha             : single;
+  end;
+
   // /include/internal/cef_types.h (cef_composition_underline_t)
   TCefCompositionUnderline = record
     range            : TCefRange;
@@ -1331,10 +1363,10 @@ type
 
   // /include/internal/cef_types.h (cef_screen_info_t)
   TCefScreenInfo = record
-    device_scale_factor : Single;
-    depth               : Integer;
-    depth_per_component : Integer;
-    is_monochrome       : Integer;
+    device_scale_factor : single;
+    depth               : integer;
+    depth_per_component : integer;
+    is_monochrome       : integer;
     rect                : TCefRect;
     available_rect      : TCefRect;
   end;
@@ -1544,6 +1576,7 @@ type
     on_auto_resize             : function(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
     on_loading_progress_change : procedure(self: PCefDisplayHandler; browser: PCefBrowser; progress: double); stdcall;
     on_cursor_change           : function(self: PCefDisplayHandler; browser: PCefBrowser; cursor: TCefCursorHandle; type_: TCefCursorType; const custom_cursor_info: PCefCursorInfo): Integer; stdcall;
+    on_media_access_change     : procedure(self: PCefDisplayHandler; browser: PCefBrowser; has_video_access, has_audio_access: integer); stdcall;
   end;
 
   // /include/capi/cef_download_handler_capi.h (cef_download_handler_t)
@@ -1747,6 +1780,8 @@ type
     on_popup_size                     : procedure(self: PCefRenderHandler; browser: PCefBrowser; const rect: PCefRect); stdcall;
     on_paint                          : procedure(self: PCefRenderHandler; browser: PCefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); stdcall;
     on_accelerated_paint              : procedure(self: PCefRenderHandler; browser: PCefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); stdcall;
+    get_touch_handle_size             : procedure(self: PCefRenderHandler; browser: PCefBrowser; orientation: TCefHorizontalAlignment; size: PCefSize); stdcall;
+    on_touch_handle_state_changed     : procedure(self: PCefRenderHandler; browser: PCefBrowser; const state: PCefTouchHandleState); stdcall;
     start_dragging                    : function(self: PCefRenderHandler; browser: PCefBrowser; drag_data: PCefDragData; allowed_ops: TCefDragOperations; x, y: Integer): Integer; stdcall;
     update_drag_cursor                : procedure(self: PCefRenderHandler; browser: PCefBrowser; operation: TCefDragOperation); stdcall;
     on_scroll_offset_changed          : procedure(self: PCefRenderHandler; browser: PCefBrowser; x, y: Double); stdcall;
@@ -1937,12 +1972,13 @@ type
 
   // /include/capi/cef_process_message_capi.h (cef_process_message_t)
   TCefProcessMessage = record
-    base              : TCefBaseRefCounted;
-    is_valid          : function(self: PCefProcessMessage): Integer; stdcall;
-    is_read_only      : function(self: PCefProcessMessage): Integer; stdcall;
-    copy              : function(self: PCefProcessMessage): PCefProcessMessage; stdcall;
-    get_name          : function(self: PCefProcessMessage): PCefStringUserFree; stdcall;
-    get_argument_list : function(self: PCefProcessMessage): PCefListValue; stdcall;
+    base                        : TCefBaseRefCounted;
+    is_valid                    : function(self: PCefProcessMessage): Integer; stdcall;
+    is_read_only                : function(self: PCefProcessMessage): Integer; stdcall;
+    copy                        : function(self: PCefProcessMessage): PCefProcessMessage; stdcall;
+    get_name                    : function(self: PCefProcessMessage): PCefStringUserFree; stdcall;
+    get_argument_list           : function(self: PCefProcessMessage): PCefListValue; stdcall;
+    get_shared_memory_region    : function(self: PCefProcessMessage): PCefSharedMemoryRegion; stdcall;
   end;
 
   // /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)
@@ -1972,6 +2008,52 @@ type
     on_render_view_ready                : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
     on_render_process_terminated        : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus); stdcall;
     on_document_available_in_main_frame : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
+  end;
+
+  // This record is declared twice with almost identical parameters. "allowed_permissions" is defined as int and uint32.
+  // /include/capi/cef_media_access_handler_capi.h (cef_media_access_callback_t)
+  // /include/capi/cef_permission_handler_capi.h (cef_media_access_callback_t)
+  TCefMediaAccessCallback = record
+    base   : TCefBaseRefCounted;
+    cont   : procedure(self: PCefMediaAccessCallback; allowed_permissions: integer); stdcall;
+    cancel : procedure(self: PCefMediaAccessCallback); stdcall;
+  end;
+
+  // /include/capi/cef_media_access_handler_capi.h (cef_media_access_handler_t)
+  TCefMediaAccessHandler = record
+    base                               : TCefBaseRefCounted;
+    on_request_media_access_permission : function(self: PCefMediaAccessHandler; browser: PCefBrowser; frame: PCefFrame; const requesting_url: PCefString; requested_permissions: integer; callback: PCefMediaAccessCallback): integer; stdcall;
+  end;
+
+  // /include/capi/cef_permission_handler_capi.h (cef_permission_prompt_callback_t)
+  TCefPermissionPromptCallback = record
+    base : TCefBaseRefCounted;
+    cont : procedure(self: PCefPermissionPromptCallback; result: TCefPermissionRequestResult); stdcall;
+  end;
+
+  // /include/capi/cef_permission_handler_capi.h (cef_permission_handler_t)
+  TCefPermissionHandler = record
+    base                               : TCefBaseRefCounted;
+    on_request_media_access_permission : function(self: PCefPermissionHandler; browser: PCefBrowser; frame: PCefFrame; const requesting_origin: PCefString; requested_permissions: cardinal; callback: PCefMediaAccessCallback): integer; stdcall;
+    on_show_permission_prompt          : function(self: PCefPermissionHandler; browser: PCefBrowser; prompt_id: uint64; const requesting_origin: PCefString; requested_permissions: cardinal; callback: PCefPermissionPromptCallback): integer; stdcall;
+    on_dismiss_permission_prompt       : procedure(self: PCefPermissionHandler; browser: PCefBrowser; prompt_id: uint64; result: TCefPermissionRequestResult); stdcall;
+  end;
+
+  // /include/capi/cef_shared_memory_region_capi.h (cef_shared_memory_region_t)
+  TCefSharedMemoryRegion = record
+    base      : TCefBaseRefCounted;
+    is_valid  : function(self: PCefSharedMemoryRegion): integer; stdcall;
+    size      : function(self: PCefSharedMemoryRegion): NativeUInt; stdcall;
+    memory    : function(self: PCefSharedMemoryRegion): pointer; stdcall;
+  end;
+
+  // /include/capi/cef_shared_process_message_builder_capi.h (cef_shared_process_message_builder_t)
+  TCefSharedProcessMessageBuilder = record
+    base      : TCefBaseRefCounted;
+    is_valid  : function(self: PCefSharedProcessMessageBuilder): integer; stdcall;
+    size      : function(self: PCefSharedProcessMessageBuilder): NativeUInt; stdcall;
+    memory    : function(self: PCefSharedProcessMessageBuilder): pointer; stdcall;
+    build     : function(self: PCefSharedProcessMessageBuilder): PCefProcessMessage; stdcall;
   end;
 
   // /include/capi/cef_resource_handler_capi.h (cef_resource_skip_callback_t)
@@ -2829,6 +2911,16 @@ type
     run_context_menu          : function(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame; params: PCefContextMenuParams; model: PCefMenuModel; callback: PCefRunContextMenuCallback): Integer; stdcall;
     on_context_menu_command   : function(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame; params: PCefContextMenuParams; command_id: Integer; event_flags: TCefEventFlags): Integer; stdcall;
     on_context_menu_dismissed : procedure(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
+    run_quick_menu            : function(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame; location: PCefPoint; size: PCefSize; edit_state_flags: TCefQuickMenuEditStateFlags; callback: PCefRunQuickMenuCallback): integer; stdcall;
+    on_quick_menu_command     : function(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame; command_id: integer; event_flags: TCefEventFlags): integer; stdcall;
+    on_quick_menu_dismissed   : procedure(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
+  end;
+
+  // /include/capi/cef_context_menu_handler_capi.h (cef_run_quick_menu_callback_t)
+  TCefRunQuickMenuCallback = record
+    base   : TCefBaseRefCounted;
+    cont   : procedure(self: PCefRunQuickMenuCallback; command_id: integer; event_flags: TCefEventFlags); stdcall;
+    cancel : procedure(self: PCefRunQuickMenuCallback); stdcall;
   end;
 
   // /include/capi/cef_client_capi.h (cef_client_t)
@@ -2844,6 +2936,7 @@ type
     get_find_handler            : function(self: PCefClient): PCefFindHandler; stdcall;
     get_focus_handler           : function(self: PCefClient): PCefFocusHandler; stdcall;
     get_frame_handler           : function(self: PCefClient): PCefFrameHandler; stdcall;
+    get_permission_handler      : function(self: PCefClient): PCefPermissionHandler; stdcall;
     get_jsdialog_handler        : function(self: PCefClient): PCefJsDialogHandler; stdcall;
     get_keyboard_handler        : function(self: PCefClient): PCefKeyboardHandler; stdcall;
     get_life_span_handler       : function(self: PCefClient): PCefLifeSpanHandler; stdcall;

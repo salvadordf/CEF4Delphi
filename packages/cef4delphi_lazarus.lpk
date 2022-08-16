@@ -21,8 +21,8 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="103" Release="12"/>
-    <Files Count="203">
+    <Version Major="104" Minor="4" Release="22"/>
+    <Files Count="210">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -853,6 +853,34 @@
         <Filename Value="..\source\uCEFLinuxEventPipe.pas"/>
         <UnitName Value="uCEFLinuxEventPipe"/>
       </Item203>
+      <Item204>
+        <Filename Value="..\source\uCEFPermissionHandler.pas"/>
+        <UnitName Value="uCEFPermissionHandler"/>
+      </Item204>
+      <Item205>
+        <Filename Value="..\source\uCEFRunQuickMenuCallback.pas"/>
+        <UnitName Value="uCEFRunQuickMenuCallback"/>
+      </Item205>
+      <Item206>
+        <Filename Value="..\source\uCEFMediaAccessHandler.pas"/>
+        <UnitName Value="uCEFMediaAccessHandler"/>
+      </Item206>
+      <Item207>
+        <Filename Value="..\source\uCEFMediaAccessCallback.pas"/>
+        <UnitName Value="uCEFMediaAccessCallback"/>
+      </Item207>
+      <Item208>
+        <Filename Value="..\source\uCEFPermissionPromptCallback.pas"/>
+        <UnitName Value="uCEFPermissionPromptCallback"/>
+      </Item208>
+      <Item209>
+        <Filename Value="..\source\uCEFSharedProcessMessageBuilder.pas"/>
+        <UnitName Value="uCEFSharedProcessMessageBuilder"/>
+      </Item209>
+      <Item210>
+        <Filename Value="..\source\uCEFSharedMemoryRegion.pas"/>
+        <UnitName Value="uCEFSharedMemoryRegion"/>
+      </Item210>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="5">

@@ -66,15 +66,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 103;
-  CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 12;
+  CEF_SUPPORTED_VERSION_MAJOR   = 104;
+  CEF_SUPPORTED_VERSION_MINOR   = 4;
+  CEF_SUPPORTED_VERSION_RELEASE = 22;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = 103;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 5060;
-  CEF_CHROMEELF_VERSION_BUILD   = 134;
+  CEF_CHROMEELF_VERSION_RELEASE = 5112;
+  CEF_CHROMEELF_VERSION_BUILD   = 81;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -317,8 +317,9 @@ type
       function  Load_cef_request_context_capi_h : boolean;
       function  Load_cef_resource_bundle_capi_h : boolean;
       function  Load_cef_response_capi_h : boolean;
-      function  Load_cef_server_capi_h : boolean;
       function  Load_cef_scheme_capi_h : boolean;
+      function  Load_cef_server_capi_h : boolean;
+      function  Load_cef_shared_process_message_builder_capi_h : boolean;
       function  Load_cef_ssl_info_capi_h : boolean;
       function  Load_cef_stream_capi_h : boolean;
       function  Load_cef_task_capi_h : boolean;
@@ -698,7 +699,7 @@ begin
 
   // Fields used to set command line switches
   FSingleProcess                     := False;
-  FEnableMediaStream                 := True;
+  FEnableMediaStream                 := False;
   FEnableSpeechInput                 := False;
   FUseFakeUIForMediaStream           := False;
   FEnableUsermediaScreenCapturing    := False;
@@ -1917,7 +1918,8 @@ var
   i : integer;
   TempFormatSettings : TFormatSettings;
 begin
-  ReplaceSwitch(aKeys, aValues, '--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
+  if FEnableMediaStream then
+    ReplaceSwitch(aKeys, aValues, '--enable-media-stream');
 
   if FEnableSpeechInput then
     ReplaceSwitch(aKeys, aValues, '--enable-speech-input');
@@ -2537,8 +2539,9 @@ begin
      Load_cef_request_context_capi_h and
      Load_cef_resource_bundle_capi_h and
      Load_cef_response_capi_h and
-     Load_cef_server_capi_h and
      Load_cef_scheme_capi_h and
+     Load_cef_server_capi_h and
+     Load_cef_shared_process_message_builder_capi_h and
      Load_cef_ssl_info_capi_h and
      Load_cef_stream_capi_h and
      Load_cef_task_capi_h and
@@ -2813,13 +2816,6 @@ begin
   Result := assigned(cef_response_create);
 end;
 
-function TCefApplicationCore.Load_cef_server_capi_h : boolean;
-begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_server_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_server_create');
-
-  Result := assigned(cef_server_create);
-end;
-
 function TCefApplicationCore.Load_cef_scheme_capi_h : boolean;
 begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_register_scheme_handler_factory{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_register_scheme_handler_factory');
@@ -2827,6 +2823,20 @@ begin
 
   Result := assigned(cef_register_scheme_handler_factory) and
             assigned(cef_clear_scheme_handler_factories);
+end;
+
+function TCefApplicationCore.Load_cef_server_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_server_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_server_create');
+
+  Result := assigned(cef_server_create);
+end;
+
+function TCefApplicationCore.Load_cef_shared_process_message_builder_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_shared_process_message_builder_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_shared_process_message_builder_create');
+
+  Result := assigned(cef_shared_process_message_builder_create);
 end;
 
 function TCefApplicationCore.Load_cef_ssl_info_capi_h : boolean;

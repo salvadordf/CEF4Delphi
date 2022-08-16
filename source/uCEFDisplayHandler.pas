@@ -69,6 +69,7 @@ type
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
       procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
       procedure OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
+      procedure OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -90,6 +91,7 @@ type
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; override;
       procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); override;
       procedure OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); override;
+      procedure OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean); override;
 
       procedure RemoveReferences; override;
 
@@ -284,6 +286,18 @@ begin
   Result := Ord(TempResult);
 end;
 
+procedure cef_display_handler_on_media_access_change(self: PCefDisplayHandler; browser: PCefBrowser; has_video_access, has_audio_access: integer); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
+    TCefDisplayHandlerOwn(TempObject).OnMediaAccessChange(TCefBrowserRef.UnWrap(browser),
+                                                          has_video_access <> 0,
+                                                          has_audio_access <> 0);
+end;
+
 constructor TCefDisplayHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDisplayHandler));
@@ -300,6 +314,7 @@ begin
       on_auto_resize             := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_auto_resize;
       on_loading_progress_change := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_loading_progress_change;
       on_cursor_change           := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_cursor_change;
+      on_media_access_change     := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_media_access_change;
     end;
 end;
 
@@ -326,6 +341,11 @@ end;
 procedure TCefDisplayHandlerOwn.OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
 begin
   aResult := False;
+end;
+
+procedure TCefDisplayHandlerOwn.OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
+begin
+  //
 end;
 
 procedure TCefDisplayHandlerOwn.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
@@ -421,6 +441,12 @@ procedure TCustomDisplayHandler.OnCursorChange(const browser          : ICefBrow
 begin
   if (FEvents <> nil) then
     IChromiumEvents(FEvents).doOnCursorChange(browser, cursor_, cursorType, customCursorInfo, aResult);
+end;
+
+procedure TCustomDisplayHandler.OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnMediaAccessChange(browser, has_video_access, has_audio_access);
 end;
 
 procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);

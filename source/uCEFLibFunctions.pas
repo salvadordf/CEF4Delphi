@@ -178,6 +178,9 @@ var
   // /include/capi/cef_server_capi.h
   cef_server_create : procedure(const address: PCefString; port: uint16; backlog: Integer; handler: PCefServerHandler); cdecl;
 
+  // /include/capi/cef_shared_process_message_builder_capi.h
+  cef_shared_process_message_builder_create : function(const name: PCefString; byte_size: NativeUInt) : PCefSharedProcessMessageBuilder; cdecl;
+
   // /include/capi/cef_ssl_info_capi.h
   cef_is_cert_status_error       : function(status : TCefCertStatus) : integer; cdecl;
 

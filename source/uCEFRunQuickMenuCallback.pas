@@ -35,7 +35,7 @@
  *
  *)
 
-unit uCEFProcessMessage;
+unit uCEFRunQuickMenuCallback;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
@@ -52,67 +52,33 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefProcessMessageRef = class(TCefBaseRefCountedRef, ICefProcessMessage)
-    protected
-      function IsValid: Boolean;
-      function IsReadOnly: Boolean;
-      function Copy: ICefProcessMessage;
-      function GetName: ustring;
-      function GetArgumentList: ICefListValue;
-      function GetSharedMemoryRegion: ICefSharedMemoryRegion;
-
-    public
-      class function UnWrap(data: Pointer): ICefProcessMessage;
-      class function New(const name: ustring): ICefProcessMessage;
+  TCefRunQuickMenuCallbackRef = class(TCefBaseRefCountedRef, ICefRunQuickMenuCallback)
+  protected
+    procedure Cont(command_id: Integer; event_flags: TCefEventFlags);
+    procedure Cancel;
+  public
+    class function UnWrap(data: Pointer): ICefRunQuickMenuCallback;
   end;
 
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFListValue, uCEFSharedMemoryRegion;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
-function TCefProcessMessageRef.Copy: ICefProcessMessage;
+procedure TCefRunQuickMenuCallbackRef.Cont(command_id: Integer; event_flags: TCefEventFlags);
 begin
-  Result := UnWrap(PCefProcessMessage(FData)^.copy(PCefProcessMessage(FData)));
+  PCefRunQuickMenuCallback(FData)^.cont(PCefRunQuickMenuCallback(FData), command_id, event_flags);
 end;
 
-function TCefProcessMessageRef.GetArgumentList: ICefListValue;
+procedure TCefRunQuickMenuCallbackRef.Cancel;
 begin
-  Result := TCefListValueRef.UnWrap(PCefProcessMessage(FData)^.get_argument_list(PCefProcessMessage(FData)));
+  PCefRunQuickMenuCallback(FData)^.cancel(PCefRunQuickMenuCallback(FData));
 end;
 
-function TCefProcessMessageRef.GetSharedMemoryRegion: ICefSharedMemoryRegion;
-begin
-  Result := TCefSharedMemoryRegionRef.UnWrap(PCefProcessMessage(FData)^.get_shared_memory_region(PCefProcessMessage(FData)));
-end;
-
-function TCefProcessMessageRef.GetName: ustring;
-begin
-  Result := CefStringFreeAndGet(PCefProcessMessage(FData)^.get_name(PCefProcessMessage(FData)));
-end;
-
-function TCefProcessMessageRef.IsReadOnly: Boolean;
-begin
-  Result := PCefProcessMessage(FData)^.is_read_only(PCefProcessMessage(FData)) <> 0;
-end;
-
-function TCefProcessMessageRef.IsValid: Boolean;
-begin
-  Result := PCefProcessMessage(FData)^.is_valid(PCefProcessMessage(FData)) <> 0;
-end;
-
-class function TCefProcessMessageRef.New(const name: ustring): ICefProcessMessage;
-var
-  TempString : TCefString;
-begin
-  TempString := CefString(name);
-  Result     := UnWrap(cef_process_message_create(@TempString));
-end;
-
-class function TCefProcessMessageRef.UnWrap(data: Pointer): ICefProcessMessage;
+class function TCefRunQuickMenuCallbackRef.UnWrap(data: Pointer): ICefRunQuickMenuCallback;
 begin
   if (data <> nil) then
-    Result := Create(data) as ICefProcessMessage
+    Result := Create(data) as ICefRunQuickMenuCallback
    else
     Result := nil;
 end;
