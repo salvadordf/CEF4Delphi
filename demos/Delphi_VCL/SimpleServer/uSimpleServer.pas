@@ -157,7 +157,7 @@ procedure TSimpleServerFrm.CEFServerComponent1HttpRequest(Sender: TObject;
   const server: ICefServer; connection_id: Integer;
   const client_address: ustring; const request: ICefRequest);
 var
-  TempData : string;
+  TempData : AnsiString;
   TempParts : TUrlParts;
 begin
   ConnectionLogMem.Lines.Add('---------------------------------------');
@@ -170,8 +170,8 @@ begin
     begin
       if (TempParts.path = '') or (TempParts.path = '/') then
         begin
-          TempData := 'Hello world from Simple Server';
-          CEFServerComponent1.SendHttp200response(connection_id, 'text/html', @TempData[1], length(TempData) * SizeOf(char));
+          TempData := UTF8Encode('<html><body><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Red dot" />&nbsp;HTML response from SimpleServer.</body></html>');
+          CEFServerComponent1.SendHttp200response(connection_id, 'text/html; charset=utf-8', @TempData[1], length(TempData) * SizeOf(AnsiChar));
         end
        else
         CEFServerComponent1.SendHttp404response(connection_id);
