@@ -512,6 +512,8 @@ type
     procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
     procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring);
     procedure doBrowserNavigation(aTask : TCefBrowserNavigation);
+    procedure doSetAudioMuted(aValue : boolean);
+    procedure doToggleAudioMuted;
     function  MustCreateAudioHandler : boolean;
     function  MustCreateCommandHandler : boolean;
     function  MustCreateLoadHandler : boolean;

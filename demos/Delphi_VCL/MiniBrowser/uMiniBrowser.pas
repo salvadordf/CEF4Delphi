@@ -147,6 +147,7 @@ type
     CEFinfo1: TMenuItem;
     SaveasMHTML1: TMenuItem;
     Allowdownloads1: TMenuItem;
+    Toggleaudio1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -223,6 +224,7 @@ type
     procedure CEFinfo1Click(Sender: TObject);
     procedure SaveasMHTML1Click(Sender: TObject);
     procedure Allowdownloads1Click(Sender: TObject);
+    procedure Toggleaudio1Click(Sender: TObject);
 
   protected
     FPendingMsgID        : integer;
@@ -1185,6 +1187,11 @@ begin
                  'Memory load : ' + inttostr(GlobalCEFApp.SystemMemoryLoad) + ' %';
 
   MessageDlg(TempMessage, mtInformation, [mbOK], 0);
+end;
+
+procedure TMiniBrowserFrm.Toggleaudio1Click(Sender: TObject);
+begin
+  Chromium1.ToggleAudioMuted;
 end;
 
 procedure TMiniBrowserFrm.Chromium1ResourceResponse(Sender: TObject;

@@ -219,6 +219,29 @@ type
       destructor  Destroy; override;
   end;
 
+  TCefSetAudioMutedTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+      FValue  : boolean;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aValue : boolean); reintroduce;
+      destructor  Destroy; override;
+  end;
+
+  TCefToggleAudioMutedTask = class(TCefTaskOwn)
+    protected
+      FEvents : Pointer;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 implementation
 
 uses
@@ -680,5 +703,69 @@ begin
 
   inherited Destroy;
 end;
+
+
+// TCefSetAudioMutedTask
+
+procedure TCefSetAudioMutedTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetAudioMuted(FValue);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefSetAudioMutedTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefSetAudioMutedTask.Create(const aEvents : IChromiumEvents; aValue : boolean);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+  FValue  := aValue;
+end;
+
+destructor TCefSetAudioMutedTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+// TCefToggleAudioMutedTask
+
+procedure TCefToggleAudioMutedTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doToggleAudioMuted;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefToggleAudioMutedTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefToggleAudioMutedTask.Create(const aEvents : IChromiumEvents);
+begin
+  inherited Create;
+
+  FEvents := Pointer(aEvents);
+end;
+
+destructor TCefToggleAudioMutedTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
 
 end.
