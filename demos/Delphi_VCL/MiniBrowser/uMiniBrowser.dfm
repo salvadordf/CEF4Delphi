@@ -407,6 +407,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
       Caption = 'Allow downloads'
       OnClick = Allowdownloads1Click
     end
+    object Toggleaudio1: TMenuItem
+      Caption = 'Toggle audio'
+      OnClick = Toggleaudio1Click
+    end
     object N5: TMenuItem
       Caption = '-'
     end

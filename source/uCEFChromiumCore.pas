@@ -707,6 +707,8 @@ type
       procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute); virtual;
       procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring); virtual;
       procedure doBrowserNavigation(aTask : TCefBrowserNavigation); virtual;
+      procedure doSetAudioMuted(aValue : boolean); virtual;
+      procedure doToggleAudioMuted; virtual;
       function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateCommandHandler : boolean; virtual;
       function  MustCreateDevToolsMessageObserver : boolean; virtual;
@@ -797,6 +799,7 @@ type
       procedure   SetUserAgentOverride(const aUserAgent : ustring; const aAcceptLanguage : ustring = ''; const aPlatform : ustring = '');
       procedure   ClearDataForOrigin(const aOrigin : ustring; aStorageTypes : TCefClearDataStorageTypes = cdstAll);
       procedure   ClearCache;
+      procedure   ToggleAudioMuted;
 
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
       function    VisitAllCookies(aID : integer = 0) : boolean;
@@ -2936,9 +2939,19 @@ begin
 end;
 
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);
+var
+  TempTask : ICefTask;
 begin
-  if Initialized then
-    Browser.Host.SetAudioMuted(aValue);
+  if CefCurrentlyOn(TID_UI) then
+    doSetAudioMuted(aValue)
+   else
+    if Initialized then
+      try
+        TempTask := TCefSetAudioMutedTask.Create(self, aValue);
+        CefPostTask(TID_UI, TempTask);
+      finally
+        TempTask := nil;
+      end;
 end;
 
 procedure TChromiumCore.SetWindowlessFrameRate(aValue : integer);
@@ -4017,6 +4030,22 @@ begin
   ExecuteDevToolsMethod(0, 'Network.clearBrowserCache', nil);
 end;
 
+procedure TChromiumCore.ToggleAudioMuted;
+var
+  TempTask : ICefTask;
+begin
+  if CefCurrentlyOn(TID_UI) then
+    doToggleAudioMuted
+   else
+    if Initialized then
+      try
+        TempTask := TCefToggleAudioMutedTask.Create(self);
+        CefPostTask(TID_UI, TempTask);
+      finally
+        TempTask := nil;
+      end;
+end;
+
 function TChromiumCore.GetRequestContext : ICefRequestContext;
 begin
   if Initialized then
@@ -4689,6 +4718,18 @@ begin
       bnReloadIgnoreCache : Browser.ReloadIgnoreCache;
       bnStopLoad          : Browser.StopLoad;
     end;
+end;
+
+procedure TChromiumCore.doSetAudioMuted(aValue : boolean);
+begin
+  if Initialized then
+    Browser.Host.SetAudioMuted(aValue);
+end;
+
+procedure TChromiumCore.doToggleAudioMuted;
+begin
+  if Initialized then
+    AudioMuted := not(AudioMuted);
 end;
 
 {$IFDEF LINUX}
