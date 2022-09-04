@@ -159,10 +159,10 @@ end;
 
 class function TCefv8ValueRef.NewDate(value: TDateTime): ICefv8Value;
 var
-  TempValue : TCefTime;
+  TempValue : TCefBaseTime;
 begin
-  TempValue := DateTimeToCefTime(value);
-  Result    := UnWrap(cef_v8value_create_date(@TempValue));
+  TempValue := DateTimeToCefBaseTime(value);
+  Result    := UnWrap(cef_v8value_create_date(TempValue));
 end;
 
 class function TCefv8ValueRef.NewDouble(value: Double): ICefv8Value;
@@ -338,7 +338,7 @@ end;
 
 function TCefv8ValueRef.GetDateValue: TDateTime;
 begin
-  Result := CefTimeToDateTime(PCefV8Value(FData)^.get_date_value(PCefV8Value(FData)));
+  Result := CefBaseTimeToDateTime(PCefV8Value(FData)^.get_date_value(PCefV8Value(FData)));
 end;
 
 function TCefv8ValueRef.GetDoubleValue: Double;

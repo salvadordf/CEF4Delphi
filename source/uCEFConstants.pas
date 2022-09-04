@@ -598,7 +598,6 @@ const
   CEF_MRCR_CANCELLED                = 8;
   CEF_MRCR_ROUTE_ALREADY_EXISTS     = 9;
   CEF_MRCR_ROUTE_ALREADY_TERMINATED = 11;
-  CEF_MRCR_TOTAL_COUNT              = 12;
 
   // /include/internal/cef_types.h (cef_cookie_priority_t)
   CEF_COOKIE_PRIORITY_LOW    = -1;

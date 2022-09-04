@@ -131,6 +131,7 @@ function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 function FixCefTime(const dt : TCefTime): TCefTime;
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
+function DateTimeToCefBaseTime(dt: TDateTime): TCefBaseTime;
 function CefTimeToDouble(const dt: TCefTime): double;
 function DoubleToCefTime(const dt: double): TCefTime;
 function CefTimeToUnixTime(const dt: TCefTime): int64;
@@ -138,6 +139,10 @@ function UnixTimeToCefTime(const dt: int64): TCefTime;
 function CefTimeNow: TCefTime;
 function DoubleTimeNow: double;
 function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
+function CefBaseTimeNow: TCefBaseTime;
+function CetTimeToCefBaseTime(const ct: TCefTime) : TCefBaseTime;
+function CetTimeFromCefBaseTime(const cbt: TCefBaseTime) : TCefTime;
+function CefBaseTimeToDateTime(const cbt: TCefBaseTime) : TDateTime;
 function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
 procedure InitializeCefTime(var aTime : TCefTime);
 
@@ -628,6 +633,11 @@ begin
   Result.millisecond  := TempMSec;
 end;
 
+function DateTimeToCefBaseTime(dt: TDateTime): TCefBaseTime;
+begin
+  Result := CetTimeToCefBaseTime(DateTimeToCefTime(dt));
+end;
+
 function CefTimeToDouble(const dt: TCefTime): double;
 begin
   Result := 0;
@@ -681,6 +691,40 @@ begin
   Result := 0;
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     cef_time_delta(@cef_time1, @cef_time2, Result);
+end;
+
+function CefBaseTimeNow: TCefBaseTime;
+begin
+  Result := 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_basetime_now();
+end;
+
+function CetTimeToCefBaseTime(const ct: TCefTime) : TCefBaseTime;
+var
+  TempResult : TCefBaseTime;
+begin
+  Result := 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_to_basetime(@ct, @TempResult) <> 0) then
+    Result := TempResult;
+end;
+
+function CetTimeFromCefBaseTime(const cbt: TCefBaseTime) : TCefTime;
+var
+  TempResult : TCefTime;
+begin
+  FillChar(Result, SizeOf(TCefTime), #0);
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_from_basetime(cbt, @TempResult) <> 0) then
+    Result := TempResult;
+end;
+
+function CefBaseTimeToDateTime(const cbt: TCefBaseTime) : TDateTime;
+var
+  TempResult : TCefTime;
+begin
+  Result := 0;
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_from_basetime(cbt, @TempResult) <> 0) then
+    Result := CefTimeToDateTime(TempResult);
 end;
 
 function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
