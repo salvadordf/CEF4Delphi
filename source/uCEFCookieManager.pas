@@ -143,16 +143,16 @@ begin
   TempCookie.path        := CefString(path);
   TempCookie.secure      := Ord(secure);
   TempCookie.httponly    := Ord(httponly);
-  TempCookie.creation    := DateTimeToCefTime(creation);
-  TempCookie.last_access := DateTimeToCefTime(lastAccess);
+  TempCookie.creation    := DateTimeToCefBaseTime(creation);
+  TempCookie.last_access := DateTimeToCefBaseTime(lastAccess);
   TempCookie.has_expires := Ord(hasExpires);
   TempCookie.same_site   := same_site;
   TempCookie.priority    := priority;
 
   if hasExpires then
-    TempCookie.expires := DateTimeToCefTime(expires)
+    TempCookie.expires := DateTimeToCefBaseTime(expires)
    else
-    FillChar(TempCookie.expires, SizeOf(TCefTime), 0);
+    TempCookie.expires := 0;
 
   Result := PCefCookieManager(FData)^.set_cookie(PCefCookieManager(FData), @TempURL, @TempCookie, CefGetData(callback)) <> 0;
 end;

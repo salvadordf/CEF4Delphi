@@ -60,7 +60,7 @@ type
     function Close: Boolean;
     function GetFileName: ustring;
     function GetFileSize: Int64;
-    function GetFileLastModified: TCefTime;
+    function GetFileLastModified: TCefBaseTime;
     function OpenFile(const password: ustring): Boolean;
     function CloseFile: Boolean;
     function ReadFile(buffer: Pointer; bufferSize: NativeUInt): Integer;
@@ -96,7 +96,7 @@ begin
   Result := PCefZipReader(FData)^.eof(PCefZipReader(FData)) <> 0;
 end;
 
-function TCefZipReaderRef.GetFileLastModified: TCefTime;
+function TCefZipReaderRef.GetFileLastModified: TCefBaseTime;
 begin
   Result := PCefZipReader(FData)^.get_file_last_modified(PCefZipReader(FData));
 end;

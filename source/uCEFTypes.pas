@@ -104,6 +104,7 @@ type
   PCefV8Interceptor = ^TCefV8Interceptor;
   PCefTask = ^TCefTask;
   PCefv8Value = ^TCefv8Value;
+  PCefBaseTime = ^TCefBaseTime;
   PCefTime = ^TCefTime;
   PCefV8Exception = ^TCefV8Exception;
   PCefv8ArrayBufferReleaseCallback = ^TCefv8ArrayBufferReleaseCallback;
@@ -1177,6 +1178,13 @@ type
     CEF_PERMISSION_RESULT_IGNORE
   );
 
+  // /include/internal/cef_types.h (cef_test_cert_type_t)
+  TCefTestCertType = (
+    CEF_TEST_CERT_OK_IP,
+    CEF_TEST_CERT_OK_DOMAIN,
+    CEF_TEST_CERT_EXPIRED
+   );
+
   // /include/internal/cef_types.h (cef_touch_handle_state_t)
   TCefTouchHandleState = record
     touch_handle_id   : integer;
@@ -1198,6 +1206,9 @@ type
     style            : TCefCompositionUnderlineStyle;
   end;
   TCefCompositionUnderlineDynArray = array of TCefCompositionUnderline;
+
+  // /include/internal/cef_time.h (cef_basetime_t)
+  TCefBaseTime = type int64;
 
   // /include/internal/cef_time.h (cef_time_t)
   TCefTime = record
@@ -1390,10 +1401,10 @@ type
     path        : TCefString;
     secure      : Integer;
     httponly    : Integer;
-    creation    : TCefTime;
-    last_access : TCefTime;
+    creation    : TCefBaseTime;
+    last_access : TCefBaseTime;
     has_expires : Integer;
-    expires     : TCefTime;
+    expires     : TCefBaseTime;
     same_site   : TCefCookieSameSite;
     priority    : TCefCookiePriority;
   end;
@@ -1511,8 +1522,8 @@ type
     get_subject                 : function(self: PCefX509Certificate): PCefX509CertPrincipal; stdcall;
     get_issuer                  : function(self: PCefX509Certificate): PCefX509CertPrincipal; stdcall;
     get_serial_number           : function(self: PCefX509Certificate): PCefBinaryValue; stdcall;
-    get_valid_start             : function(self: PCefX509Certificate): TCefTime; stdcall;
-    get_valid_expiry            : function(self: PCefX509Certificate): TCefTime; stdcall;
+    get_valid_start             : function(self: PCefX509Certificate): TCefBaseTime; stdcall;
+    get_valid_expiry            : function(self: PCefX509Certificate): TCefBaseTime; stdcall;
     get_derencoded              : function(self: PCefX509Certificate): PCefBinaryValue; stdcall;
     get_pemencoded              : function(self: PCefX509Certificate): PCefBinaryValue; stdcall;
     get_issuer_chain_size       : function(self: PCefX509Certificate): NativeUInt; stdcall;
@@ -1885,7 +1896,7 @@ type
     close                   : function(Self: PCefZipReader): Integer; stdcall;
     get_file_name           : function(Self: PCefZipReader): PCefStringUserFree; stdcall;
     get_file_size           : function(Self: PCefZipReader): Int64; stdcall;
-    get_file_last_modified  : function(Self: PCefZipReader): TCefTime; stdcall;
+    get_file_last_modified  : function(Self: PCefZipReader): TCefBaseTime; stdcall;
     open_file               : function(Self: PCefZipReader; const password: PCefString): Integer; stdcall;
     close_file              : function(Self: PCefZipReader): Integer; stdcall;
     read_file               : function(Self: PCefZipReader; buffer: Pointer; bufferSize: NativeUInt): Integer; stdcall;
@@ -2276,7 +2287,7 @@ type
     get_title             : function(self: PCefNavigationEntry): PCefStringUserFree; stdcall;
     get_transition_type   : function(self: PCefNavigationEntry): TCefTransitionType; stdcall;
     has_post_data         : function(self: PCefNavigationEntry): Integer; stdcall;
-    get_completion_time   : function(self: PCefNavigationEntry): TCefTime; stdcall;
+    get_completion_time   : function(self: PCefNavigationEntry): TCefBaseTime; stdcall;
     get_http_status_code  : function(self: PCefNavigationEntry): Integer; stdcall;
     get_sslstatus         : function(self: PCefNavigationEntry): PCefSSLStatus; stdcall;
   end;
@@ -2581,54 +2592,54 @@ type
     base                  : TCefBaseRefCounted;
     is_sub_menu           : function(self: PCefMenuModel): Integer; stdcall;
     clear                 : function(self: PCefMenuModel): Integer; stdcall;
-    get_count             : function(self: PCefMenuModel): Integer; stdcall;
+    get_count             : function(self: PCefMenuModel): NativeUInt; stdcall;
     add_separator         : function(self: PCefMenuModel): Integer; stdcall;
     add_item              : function(self: PCefMenuModel; command_id: Integer; const text: PCefString): Integer; stdcall;
     add_check_item        : function(self: PCefMenuModel; command_id: Integer; const text: PCefString): Integer; stdcall;
     add_radio_item        : function(self: PCefMenuModel; command_id: Integer; const text: PCefString; group_id: Integer): Integer; stdcall;
     add_sub_menu          : function(self: PCefMenuModel; command_id: Integer; const text: PCefString): PCefMenuModel; stdcall;
-    insert_separator_at   : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
-    insert_item_at        : function(self: PCefMenuModel; index, command_id: Integer; const text: PCefString): Integer; stdcall;
-    insert_check_item_at  : function(self: PCefMenuModel; index, command_id: Integer; const text: PCefString): Integer; stdcall;
-    insert_radio_item_at  : function(self: PCefMenuModel; index, command_id: Integer; const text: PCefString; group_id: Integer): Integer; stdcall;
-    insert_sub_menu_at    : function(self: PCefMenuModel; index, command_id: Integer; const text: PCefString): PCefMenuModel; stdcall;
+    insert_separator_at   : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
+    insert_item_at        : function(self: PCefMenuModel; index: NativeUInt; command_id: Integer; const text: PCefString): Integer; stdcall;
+    insert_check_item_at  : function(self: PCefMenuModel; index: NativeUInt; command_id: Integer; const text: PCefString): Integer; stdcall;
+    insert_radio_item_at  : function(self: PCefMenuModel; index: NativeUInt; command_id: Integer; const text: PCefString; group_id: Integer): Integer; stdcall;
+    insert_sub_menu_at    : function(self: PCefMenuModel; index: NativeUInt; command_id: Integer; const text: PCefString): PCefMenuModel; stdcall;
     remove                : function(self: PCefMenuModel; command_id: Integer): Integer; stdcall;
-    remove_at             : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
+    remove_at             : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
     get_index_of          : function(self: PCefMenuModel; command_id: Integer): Integer; stdcall;
-    get_command_id_at     : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
-    set_command_id_at     : function(self: PCefMenuModel; index, command_id: Integer): Integer; stdcall;
+    get_command_id_at     : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
+    set_command_id_at     : function(self: PCefMenuModel; index: NativeUInt; command_id: Integer): Integer; stdcall;
     get_label             : function(self: PCefMenuModel; command_id: Integer): PCefStringUserFree; stdcall;
-    get_label_at          : function(self: PCefMenuModel; index: Integer): PCefStringUserFree; stdcall;
+    get_label_at          : function(self: PCefMenuModel; index: NativeUInt): PCefStringUserFree; stdcall;
     set_label             : function(self: PCefMenuModel; command_id: Integer; const text: PCefString): Integer; stdcall;
-    set_label_at          : function(self: PCefMenuModel; index: Integer; const text: PCefString): Integer; stdcall;
+    set_label_at          : function(self: PCefMenuModel; index: NativeUInt; const text: PCefString): Integer; stdcall;
     get_type              : function(self: PCefMenuModel; command_id: Integer): TCefMenuItemType; stdcall;
-    get_type_at           : function(self: PCefMenuModel; index: Integer): TCefMenuItemType; stdcall;
+    get_type_at           : function(self: PCefMenuModel; index: NativeUInt): TCefMenuItemType; stdcall;
     get_group_id          : function(self: PCefMenuModel; command_id: Integer): Integer; stdcall;
-    get_group_id_at       : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
+    get_group_id_at       : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
     set_group_id          : function(self: PCefMenuModel; command_id, group_id: Integer): Integer; stdcall;
-    set_group_id_at       : function(self: PCefMenuModel; index, group_id: Integer): Integer; stdcall;
+    set_group_id_at       : function(self: PCefMenuModel; index: NativeUInt; group_id: Integer): Integer; stdcall;
     get_sub_menu          : function(self: PCefMenuModel; command_id: Integer): PCefMenuModel; stdcall;
-    get_sub_menu_at       : function(self: PCefMenuModel; index: Integer): PCefMenuModel; stdcall;
+    get_sub_menu_at       : function(self: PCefMenuModel; index: NativeUInt): PCefMenuModel; stdcall;
     is_visible            : function(self: PCefMenuModel; command_id: Integer): Integer; stdcall;
-    is_visible_at         : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
+    is_visible_at         : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
     set_visible           : function(self: PCefMenuModel; command_id, visible: Integer): Integer; stdcall;
-    set_visible_at        : function(self: PCefMenuModel; index, visible: Integer): Integer; stdcall;
+    set_visible_at        : function(self: PCefMenuModel; index: NativeUInt; visible: Integer): Integer; stdcall;
     is_enabled            : function(self: PCefMenuModel; command_id: Integer): Integer; stdcall;
-    is_enabled_at         : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
+    is_enabled_at         : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
     set_enabled           : function(self: PCefMenuModel; command_id, enabled: Integer): Integer; stdcall;
-    set_enabled_at        : function(self: PCefMenuModel; index, enabled: Integer): Integer; stdcall;
+    set_enabled_at        : function(self: PCefMenuModel; index: NativeUInt; enabled: Integer): Integer; stdcall;
     is_checked            : function(self: PCefMenuModel; command_id: Integer): Integer; stdcall;
-    is_checked_at         : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
+    is_checked_at         : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
     set_checked           : function(self: PCefMenuModel; command_id, checked: Integer): Integer; stdcall;
-    set_checked_at        : function(self: PCefMenuModel; index, checked: Integer): Integer; stdcall;
+    set_checked_at        : function(self: PCefMenuModel; index: NativeUInt; checked: Integer): Integer; stdcall;
     has_accelerator       : function(self: PCefMenuModel; command_id: Integer): Integer; stdcall;
-    has_accelerator_at    : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
+    has_accelerator_at    : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
     set_accelerator       : function(self: PCefMenuModel; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer): Integer; stdcall;
-    set_accelerator_at    : function(self: PCefMenuModel; index, key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer): Integer; stdcall;
+    set_accelerator_at    : function(self: PCefMenuModel; index: NativeUInt; key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer): Integer; stdcall;
     remove_accelerator    : function(self: PCefMenuModel; command_id: Integer): Integer; stdcall;
-    remove_accelerator_at : function(self: PCefMenuModel; index: Integer): Integer; stdcall;
+    remove_accelerator_at : function(self: PCefMenuModel; index: NativeUInt): Integer; stdcall;
     get_accelerator       : function(self: PCefMenuModel; command_id: Integer; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;
-    get_accelerator_at    : function(self: PCefMenuModel; index: Integer; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;
+    get_accelerator_at    : function(self: PCefMenuModel; index: NativeUInt; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;
     set_color             : function(self: PCefMenuModel; command_id: Integer; color_type: TCefMenuColorType; color: TCefColor): Integer; stdcall;
     set_color_at          : function(self: PCefMenuModel; index: Integer; color_type: TCefMenuColorType; color: TCefColor): Integer; stdcall;
     get_color             : function(self: PCefMenuModel; command_id: Integer; color_type: TCefMenuColorType; color: PCefColor): Integer; stdcall;
@@ -2673,8 +2684,8 @@ type
     get_percent_complete    : function(self: PCefDownloadItem): Integer; stdcall;
     get_total_bytes         : function(self: PCefDownloadItem): Int64; stdcall;
     get_received_bytes      : function(self: PCefDownloadItem): Int64; stdcall;
-    get_start_time          : function(self: PCefDownloadItem): TCefTime; stdcall;
-    get_end_time            : function(self: PCefDownloadItem): TCefTime; stdcall;
+    get_start_time          : function(self: PCefDownloadItem): TCefBaseTime; stdcall;
+    get_end_time            : function(self: PCefDownloadItem): TCefBaseTime; stdcall;
     get_full_path           : function(self: PCefDownloadItem): PCefStringUserFree; stdcall;
     get_id                  : function(self: PCefDownloadItem): Cardinal; stdcall;
     get_url                 : function(self: PCefDownloadItem): PCefStringUserFree; stdcall;
@@ -2796,7 +2807,7 @@ type
     get_int_value                       : function(self: PCefv8Value): Integer; stdcall;
     get_uint_value                      : function(self: PCefv8Value): Cardinal; stdcall;
     get_double_value                    : function(self: PCefv8Value): Double; stdcall;
-    get_date_value                      : function(self: PCefv8Value): TCefTime; stdcall;
+    get_date_value                      : function(self: PCefv8Value): TCefBaseTime; stdcall;
     get_string_value                    : function(self: PCefv8Value): PCefStringUserFree; stdcall;
     is_user_created                     : function(self: PCefv8Value): Integer; stdcall;
     has_exception                       : function(self: PCefv8Value): Integer; stdcall;

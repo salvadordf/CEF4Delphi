@@ -56,54 +56,54 @@ type
   protected
     function IsSubMenu: Boolean;
     function Clear: Boolean;
-    function GetCount: Integer;
+    function GetCount: NativeUInt;
     function AddSeparator: Boolean;
     function AddItem(commandId: Integer; const text: ustring): Boolean;
     function AddCheckItem(commandId: Integer; const text: ustring): Boolean;
     function AddRadioItem(commandId: Integer; const text: ustring; groupId: Integer): Boolean;
     function AddSubMenu(commandId: Integer; const text: ustring): ICefMenuModel;
-    function InsertSeparatorAt(index: Integer): Boolean;
-    function InsertItemAt(index, commandId: Integer; const text: ustring): Boolean;
-    function InsertCheckItemAt(index, commandId: Integer; const text: ustring): Boolean;
-    function InsertRadioItemAt(index, commandId: Integer; const text: ustring; groupId: Integer): Boolean;
-    function InsertSubMenuAt(index, commandId: Integer; const text: ustring): ICefMenuModel;
+    function InsertSeparatorAt(index: NativeUInt): Boolean;
+    function InsertItemAt(index: NativeUInt; commandId: Integer; const text: ustring): Boolean;
+    function InsertCheckItemAt(index: NativeUInt; commandId: Integer; const text: ustring): Boolean;
+    function InsertRadioItemAt(index: NativeUInt; commandId: Integer; const text: ustring; groupId: Integer): Boolean;
+    function InsertSubMenuAt(index: NativeUInt; commandId: Integer; const text: ustring): ICefMenuModel;
     function Remove(commandId: Integer): Boolean;
-    function RemoveAt(index: Integer): Boolean;
+    function RemoveAt(index: NativeUInt): Boolean;
     function GetIndexOf(commandId: Integer): Integer;
-    function GetCommandIdAt(index: Integer): Integer;
-    function SetCommandIdAt(index, commandId: Integer): Boolean;
+    function GetCommandIdAt(index: NativeUInt): Integer;
+    function SetCommandIdAt(index: NativeUInt; commandId: Integer): Boolean;
     function GetLabel(commandId: Integer): ustring;
-    function GetLabelAt(index: Integer): ustring;
+    function GetLabelAt(index: NativeUInt): ustring;
     function SetLabel(commandId: Integer; const text: ustring): Boolean;
-    function SetLabelAt(index: Integer; const text: ustring): Boolean;
+    function SetLabelAt(index: NativeUInt; const text: ustring): Boolean;
     function GetType(commandId: Integer): TCefMenuItemType;
-    function GetTypeAt(index: Integer): TCefMenuItemType;
+    function GetTypeAt(index: NativeUInt): TCefMenuItemType;
     function GetGroupId(commandId: Integer): Integer;
-    function GetGroupIdAt(index: Integer): Integer;
+    function GetGroupIdAt(index: NativeUInt): Integer;
     function SetGroupId(commandId, groupId: Integer): Boolean;
-    function SetGroupIdAt(index, groupId: Integer): Boolean;
+    function SetGroupIdAt(index: NativeUInt; groupId: Integer): Boolean;
     function GetSubMenu(commandId: Integer): ICefMenuModel;
-    function GetSubMenuAt(index: Integer): ICefMenuModel;
+    function GetSubMenuAt(index: NativeUInt): ICefMenuModel;
     function IsVisible(commandId: Integer): Boolean;
-    function isVisibleAt(index: Integer): Boolean;
+    function isVisibleAt(index: NativeUInt): Boolean;
     function SetVisible(commandId: Integer; visible: Boolean): Boolean;
-    function SetVisibleAt(index: Integer; visible: Boolean): Boolean;
+    function SetVisibleAt(index: NativeUInt; visible: Boolean): Boolean;
     function IsEnabled(commandId: Integer): Boolean;
-    function IsEnabledAt(index: Integer): Boolean;
+    function IsEnabledAt(index: NativeUInt): Boolean;
     function SetEnabled(commandId: Integer; enabled: Boolean): Boolean;
-    function SetEnabledAt(index: Integer; enabled: Boolean): Boolean;
+    function SetEnabledAt(index: NativeUInt; enabled: Boolean): Boolean;
     function IsChecked(commandId: Integer): Boolean;
-    function IsCheckedAt(index: Integer): Boolean;
+    function IsCheckedAt(index: NativeUInt): Boolean;
     function setChecked(commandId: Integer; checked: Boolean): Boolean;
-    function setCheckedAt(index: Integer; checked: Boolean): Boolean;
+    function setCheckedAt(index: NativeUInt; checked: Boolean): Boolean;
     function HasAccelerator(commandId: Integer): Boolean;
-    function HasAcceleratorAt(index: Integer): Boolean;
+    function HasAcceleratorAt(index: NativeUInt): Boolean;
     function SetAccelerator(commandId, keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
-    function SetAcceleratorAt(index, keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+    function SetAcceleratorAt(index: NativeUInt; keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
     function RemoveAccelerator(commandId: Integer): Boolean;
-    function RemoveAcceleratorAt(index: Integer): Boolean;
+    function RemoveAcceleratorAt(index: NativeUInt): Boolean;
     function GetAccelerator(commandId: Integer; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
-    function GetAcceleratorAt(index: Integer; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+    function GetAcceleratorAt(index: NativeUInt; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
     function SetColor(commandId: Integer; colorType: TCefMenuColorType; color: TCefColor): Boolean;
     function SetColorAt(index: Integer; colorType: TCefMenuColorType; color: TCefColor): Boolean;
     function GetColor(commandId: Integer; colorType: TCefMenuColorType; out color: TCefColor): Boolean;
@@ -178,7 +178,7 @@ begin
   altPressed   := TempAlt   <> 0;
 end;
 
-function TCefMenuModelRef.GetAcceleratorAt(index: Integer; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+function TCefMenuModelRef.GetAcceleratorAt(index: NativeUInt; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
 var
   TempShift, TempCtrl, TempAlt : Integer;
 begin
@@ -224,12 +224,12 @@ begin
   Result   := PCefMenuModel(FData)^.set_font_list_at(PCefMenuModel(FData), index, @TempList) <> 0;
 end;
 
-function TCefMenuModelRef.GetCommandIdAt(index: Integer): Integer;
+function TCefMenuModelRef.GetCommandIdAt(index: NativeUInt): Integer;
 begin
   Result := PCefMenuModel(FData)^.get_command_id_at(PCefMenuModel(FData), index);
 end;
 
-function TCefMenuModelRef.GetCount: Integer;
+function TCefMenuModelRef.GetCount: NativeUInt;
 begin
   Result := PCefMenuModel(FData)^.get_count(PCefMenuModel(FData));
 end;
@@ -239,7 +239,7 @@ begin
   Result := PCefMenuModel(FData)^.get_group_id(PCefMenuModel(FData), commandId);
 end;
 
-function TCefMenuModelRef.GetGroupIdAt(index: Integer): Integer;
+function TCefMenuModelRef.GetGroupIdAt(index: NativeUInt): Integer;
 begin
   Result := PCefMenuModel(FData)^.get_group_id(PCefMenuModel(FData), index);
 end;
@@ -254,7 +254,7 @@ begin
   Result := CefStringFreeAndGet(PCefMenuModel(FData)^.get_label(PCefMenuModel(FData), commandId));
 end;
 
-function TCefMenuModelRef.GetLabelAt(index: Integer): ustring;
+function TCefMenuModelRef.GetLabelAt(index: NativeUInt): ustring;
 begin
   Result := CefStringFreeAndGet(PCefMenuModel(FData)^.get_label_at(PCefMenuModel(FData), index));
 end;
@@ -264,7 +264,7 @@ begin
   Result := TCefMenuModelRef.UnWrap(PCefMenuModel(FData)^.get_sub_menu(PCefMenuModel(FData), commandId));
 end;
 
-function TCefMenuModelRef.GetSubMenuAt(index: Integer): ICefMenuModel;
+function TCefMenuModelRef.GetSubMenuAt(index: NativeUInt): ICefMenuModel;
 begin
   Result := TCefMenuModelRef.UnWrap(PCefMenuModel(FData)^.get_sub_menu_at(PCefMenuModel(FData), index));
 end;
@@ -274,7 +274,7 @@ begin
   Result := PCefMenuModel(FData)^.get_type(PCefMenuModel(FData), commandId);
 end;
 
-function TCefMenuModelRef.GetTypeAt(index: Integer): TCefMenuItemType;
+function TCefMenuModelRef.GetTypeAt(index: NativeUInt): TCefMenuItemType;
 begin
   Result := PCefMenuModel(FData)^.get_type_at(PCefMenuModel(FData), index);
 end;
@@ -284,12 +284,12 @@ begin
   Result := PCefMenuModel(FData)^.has_accelerator(PCefMenuModel(FData), commandId) <> 0;
 end;
 
-function TCefMenuModelRef.HasAcceleratorAt(index: Integer): Boolean;
+function TCefMenuModelRef.HasAcceleratorAt(index: NativeUInt): Boolean;
 begin
   Result := PCefMenuModel(FData)^.has_accelerator_at(PCefMenuModel(FData), index) <> 0;
 end;
 
-function TCefMenuModelRef.InsertCheckItemAt(index, commandId: Integer; const text: ustring): Boolean;
+function TCefMenuModelRef.InsertCheckItemAt(index: NativeUInt; commandId: Integer; const text: ustring): Boolean;
 var
   TempText : TCefString;
 begin
@@ -297,7 +297,7 @@ begin
   Result   := PCefMenuModel(FData)^.insert_check_item_at(PCefMenuModel(FData), index, commandId, @TempText) <> 0;
 end;
 
-function TCefMenuModelRef.InsertItemAt(index, commandId: Integer; const text: ustring): Boolean;
+function TCefMenuModelRef.InsertItemAt(index: NativeUInt; commandId: Integer; const text: ustring): Boolean;
 var
   TempText : TCefString;
 begin
@@ -305,7 +305,7 @@ begin
   Result   := PCefMenuModel(FData)^.insert_item_at(PCefMenuModel(FData), index, commandId, @TempText) <> 0;
 end;
 
-function TCefMenuModelRef.InsertRadioItemAt(index, commandId: Integer; const text: ustring; groupId: Integer): Boolean;
+function TCefMenuModelRef.InsertRadioItemAt(index: NativeUInt; commandId: Integer; const text: ustring; groupId: Integer): Boolean;
 var
   TempText : TCefString;
 begin
@@ -313,12 +313,12 @@ begin
   Result   := PCefMenuModel(FData)^.insert_radio_item_at(PCefMenuModel(FData), index, commandId, @TempText, groupId) <> 0;
 end;
 
-function TCefMenuModelRef.InsertSeparatorAt(index: Integer): Boolean;
+function TCefMenuModelRef.InsertSeparatorAt(index: NativeUInt): Boolean;
 begin
   Result := PCefMenuModel(FData)^.insert_separator_at(PCefMenuModel(FData), index) <> 0;
 end;
 
-function TCefMenuModelRef.InsertSubMenuAt(index, commandId: Integer; const text: ustring): ICefMenuModel;
+function TCefMenuModelRef.InsertSubMenuAt(index: NativeUInt; commandId: Integer; const text: ustring): ICefMenuModel;
 var
   TempText : TCefString;
 begin
@@ -331,7 +331,7 @@ begin
   Result := PCefMenuModel(FData)^.is_checked(PCefMenuModel(FData), commandId) <> 0;
 end;
 
-function TCefMenuModelRef.IsCheckedAt(index: Integer): Boolean;
+function TCefMenuModelRef.IsCheckedAt(index: NativeUInt): Boolean;
 begin
   Result := PCefMenuModel(FData)^.is_checked_at(PCefMenuModel(FData), index) <> 0;
 end;
@@ -341,7 +341,7 @@ begin
   Result := PCefMenuModel(FData)^.is_enabled(PCefMenuModel(FData), commandId) <> 0;
 end;
 
-function TCefMenuModelRef.IsEnabledAt(index: Integer): Boolean;
+function TCefMenuModelRef.IsEnabledAt(index: NativeUInt): Boolean;
 begin
   Result := PCefMenuModel(FData)^.is_enabled_at(PCefMenuModel(FData), index) <> 0;
 end;
@@ -351,7 +351,7 @@ begin
   Result := PCefMenuModel(FData)^.is_visible(PCefMenuModel(FData), commandId) <> 0;
 end;
 
-function TCefMenuModelRef.isVisibleAt(index: Integer): Boolean;
+function TCefMenuModelRef.isVisibleAt(index: NativeUInt): Boolean;
 begin
   Result := PCefMenuModel(FData)^.is_visible_at(PCefMenuModel(FData), index) <> 0;
 end;
@@ -371,12 +371,12 @@ begin
   Result := PCefMenuModel(FData)^.remove_accelerator(PCefMenuModel(FData), commandId) <> 0;
 end;
 
-function TCefMenuModelRef.RemoveAcceleratorAt(index: Integer): Boolean;
+function TCefMenuModelRef.RemoveAcceleratorAt(index: NativeUInt): Boolean;
 begin
   Result := PCefMenuModel(FData)^.remove_accelerator_at(PCefMenuModel(FData), index) <> 0;
 end;
 
-function TCefMenuModelRef.RemoveAt(index: Integer): Boolean;
+function TCefMenuModelRef.RemoveAt(index: NativeUInt): Boolean;
 begin
   Result := PCefMenuModel(FData)^.remove_at(PCefMenuModel(FData), index) <> 0;
 end;
@@ -387,7 +387,7 @@ begin
                                                   Ord(shiftPressed), Ord(ctrlPressed), Ord(altPressed)) <> 0;
 end;
 
-function TCefMenuModelRef.SetAcceleratorAt(index, keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+function TCefMenuModelRef.SetAcceleratorAt(index: NativeUInt; keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
 begin
   Result := PCefMenuModel(FData)^.set_accelerator_at(PCefMenuModel(FData), index, keyCode,
                                                      Ord(shiftPressed), Ord(ctrlPressed), Ord(altPressed)) <> 0;
@@ -398,12 +398,12 @@ begin
   Result := PCefMenuModel(FData)^.set_checked(PCefMenuModel(FData), commandId, Ord(checked)) <> 0;
 end;
 
-function TCefMenuModelRef.setCheckedAt(index: Integer; checked: Boolean): Boolean;
+function TCefMenuModelRef.setCheckedAt(index: NativeUInt; checked: Boolean): Boolean;
 begin
   Result := PCefMenuModel(FData)^.set_checked_at(PCefMenuModel(FData), index, Ord(checked)) <> 0;
 end;
 
-function TCefMenuModelRef.SetCommandIdAt(index, commandId: Integer): Boolean;
+function TCefMenuModelRef.SetCommandIdAt(index: NativeUInt; commandId: Integer): Boolean;
 begin
   Result := PCefMenuModel(FData)^.set_command_id_at(PCefMenuModel(FData), index, commandId) <> 0;
 end;
@@ -413,7 +413,7 @@ begin
   Result := PCefMenuModel(FData)^.set_enabled(PCefMenuModel(FData), commandId, Ord(enabled)) <> 0;
 end;
 
-function TCefMenuModelRef.SetEnabledAt(index: Integer; enabled: Boolean): Boolean;
+function TCefMenuModelRef.SetEnabledAt(index: NativeUInt; enabled: Boolean): Boolean;
 begin
   Result := PCefMenuModel(FData)^.set_enabled_at(PCefMenuModel(FData), index, Ord(enabled)) <> 0;
 end;
@@ -423,7 +423,7 @@ begin
   Result := PCefMenuModel(FData)^.set_group_id(PCefMenuModel(FData), commandId, groupId) <> 0;
 end;
 
-function TCefMenuModelRef.SetGroupIdAt(index, groupId: Integer): Boolean;
+function TCefMenuModelRef.SetGroupIdAt(index: NativeUInt; groupId: Integer): Boolean;
 begin
   Result := PCefMenuModel(FData)^.set_group_id_at(PCefMenuModel(FData), index, groupId) <> 0;
 end;
@@ -436,7 +436,7 @@ begin
   Result   := PCefMenuModel(FData)^.set_label(PCefMenuModel(FData), commandId, @TempText) <> 0;
 end;
 
-function TCefMenuModelRef.SetLabelAt(index: Integer; const text: ustring): Boolean;
+function TCefMenuModelRef.SetLabelAt(index: NativeUInt; const text: ustring): Boolean;
 var
   TempText : TCefString;
 begin
@@ -449,7 +449,7 @@ begin
   Result := PCefMenuModel(FData)^.set_visible(PCefMenuModel(FData), commandId, Ord(visible)) <> 0;
 end;
 
-function TCefMenuModelRef.SetVisibleAt(index: Integer; visible: Boolean): Boolean;
+function TCefMenuModelRef.SetVisibleAt(index: NativeUInt; visible: Boolean): Boolean;
 begin
   Result := PCefMenuModel(FData)^.set_visible_at(PCefMenuModel(FData), index, Ord(visible)) <> 0;
 end;

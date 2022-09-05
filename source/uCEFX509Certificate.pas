@@ -62,8 +62,10 @@ type
       function  GetSubject: ICefX509CertPrincipal;
       function  GetIssuer: ICefX509CertPrincipal;
       function  GetSerialNumber: ICefBinaryValue;
-      function  GetValidStart: TCefTime;
-      function  GetValidExpiry: TCefTime;
+      function  GetValidStart: TCefBaseTime;
+      function  GetValidExpiry: TCefBaseTime;
+      function  GetValidStartAsDateTime: TDateTime;
+      function  GetValidExpiryAsDateTime: TDateTime;
       function  GetDerEncoded: ICefBinaryValue;
       function  GetPemEncoded: ICefBinaryValue;
       function  GetIssuerChainSize: NativeUInt;
@@ -94,14 +96,24 @@ begin
   Result := TCefBinaryValueRef.UnWrap(PCefX509Certificate(FData)^.get_serial_number(PCefX509Certificate(FData)));
 end;
 
-function TCEFX509CertificateRef.GetValidStart: TCefTime;
+function TCEFX509CertificateRef.GetValidStart: TCefBaseTime;
 begin
   Result := PCefX509Certificate(FData)^.get_valid_start(PCefX509Certificate(FData));
 end;
 
-function TCEFX509CertificateRef.GetValidExpiry: TCefTime;
+function TCEFX509CertificateRef.GetValidExpiry: TCefBaseTime;
 begin
   Result := PCefX509Certificate(FData)^.get_valid_expiry(PCefX509Certificate(FData));
+end;
+
+function TCEFX509CertificateRef.GetValidStartAsDateTime: TDateTime;
+begin
+  Result := CefBaseTimeToDateTime(GetValidStart);
+end;
+
+function TCEFX509CertificateRef.GetValidExpiryAsDateTime: TDateTime;
+begin
+  Result := CefBaseTimeToDateTime(GetValidExpiry);
 end;
 
 function TCEFX509CertificateRef.GetDerEncoded: ICefBinaryValue;

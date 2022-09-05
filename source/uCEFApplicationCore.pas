@@ -66,15 +66,15 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 104;
-  CEF_SUPPORTED_VERSION_MINOR   = 4;
-  CEF_SUPPORTED_VERSION_RELEASE = 26;
+  CEF_SUPPORTED_VERSION_MAJOR   = 105;
+  CEF_SUPPORTED_VERSION_MINOR   = 3;
+  CEF_SUPPORTED_VERSION_RELEASE = 25;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = 103;
+  CEF_CHROMEELF_VERSION_MAJOR   = 105;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 5112;
-  CEF_CHROMEELF_VERSION_BUILD   = 102;
+  CEF_CHROMEELF_VERSION_RELEASE = 5195;
+  CEF_CHROMEELF_VERSION_BUILD   = 54;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -3214,19 +3214,26 @@ end;
 
 function TCefApplicationCore.Load_cef_time_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_timet{$IFDEF FPC}){$ENDIF}     := GetProcAddress(FLibHandle, 'cef_time_to_timet');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_timet{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_time_from_timet');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_doublet{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_time_to_doublet');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_doublet{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_time_from_doublet');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_now{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_time_now');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_delta{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_time_delta');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_timet{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_time_to_timet');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_timet{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_time_from_timet');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_doublet{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_time_to_doublet');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_doublet{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_time_from_doublet');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_now{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_time_now');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_delta{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_time_delta');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_basetime_now{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_basetime_now');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_basetime{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_time_to_basetime');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_basetime{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_time_from_basetime');
+
 
   Result := assigned(cef_time_to_timet) and
             assigned(cef_time_from_timet) and
             assigned(cef_time_to_doublet) and
             assigned(cef_time_from_doublet) and
             assigned(cef_time_now) and
-            assigned(cef_time_delta);
+            assigned(cef_time_delta) and
+            assigned(cef_basetime_now) and
+            assigned(cef_time_to_basetime) and
+            assigned(cef_time_from_basetime);
 end;
 
 // TCEFDirectoryDeleterThread

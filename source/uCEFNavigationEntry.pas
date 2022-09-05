@@ -111,7 +111,7 @@ end;
 
 function TCefNavigationEntryRef.GetCompletionTime: TDateTime;
 begin
-  Result := CefTimeToDateTime(PCefNavigationEntry(FData)^.get_completion_time(FData));
+  Result := CefBaseTimeToDateTime(PCefNavigationEntry(FData)^.get_completion_time(FData));
 end;
 
 function TCefNavigationEntryRef.GetHttpStatusCode: Integer;

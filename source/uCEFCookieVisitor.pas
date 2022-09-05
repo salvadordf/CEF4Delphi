@@ -107,7 +107,7 @@ begin
   TempObject := CefGetObject(self);
 
   if (cookie^.has_expires <> 0) then
-    exp := CefTimeToDateTime(cookie^.expires)
+    exp := CefBaseTimeToDateTime(cookie^.expires)
    else
     exp := 0;
 
@@ -119,8 +119,8 @@ begin
                                                          Boolean(cookie^.secure),
                                                          Boolean(cookie^.httponly),
                                                          Boolean(cookie^.has_expires),
-                                                         CefTimeToDateTime(cookie^.creation),
-                                                         CefTimeToDateTime(cookie^.last_access),
+                                                         CefBaseTimeToDateTime(cookie^.creation),
+                                                         CefBaseTimeToDateTime(cookie^.last_access),
                                                          exp,
                                                          count,
                                                          total,
