@@ -694,10 +694,16 @@ const
   CEF_PROXYTYPE_FIXED_SERVERS = 3;
   CEF_PROXYTYPE_PAC_SCRIPT    = 4;
 
+  // /include/base/cef_logging.h (LogSeverity)
   // Used in the severity parameter in the 'cef_log' function, also known as 'CefLog' in CEF4Delphi.
+  // The log severities are used to index into the array of names, see log_severity_names.
+  // /base/allocator/partition_allocator/partition_alloc_base/logging.h
+  // /base/logging.cc
+  CEF_LOG_SEVERITY_VERBOSE = -1;
   CEF_LOG_SEVERITY_INFO    = 0;
   CEF_LOG_SEVERITY_WARNING = 1;
   CEF_LOG_SEVERITY_ERROR   = 2;
+  CEF_LOG_SEVERITY_FATAL   = 3;   // This severity log level causes a crash
 
   CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE = 32;
   CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE     = 7;
