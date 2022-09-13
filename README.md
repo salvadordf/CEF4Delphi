@@ -13,7 +13,7 @@ The CEF binaries used by CEF4Delphi are available for download at Spotify :
 * [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_105.3.38%2Bg2a6a54b%2Bchromium-105.0.5195.102_linuxarm64.tar.bz2)
 * [MacOS x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_105.3.38%2Bg2a6a54b%2Bchromium-105.0.5195.102_macosx64.tar.bz2)
 
-CEF4Delphi was developed and tested on Delphi 11.1 and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2, Delphi 10.3, Delphi 10.4 and Lazarus 2.2.2/FPC 3.2.2. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
+CEF4Delphi was developed and tested on Delphi 11.2 and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2, Delphi 10.3, Delphi 10.4 and Lazarus 2.2.2/FPC 3.2.2. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
 
 CEF4Delphi demos have been tested in Windows 7, Windows 10, Windows 11, Linux Mint 20.3 and Raspberry Pi OS.
 

@@ -802,7 +802,7 @@ begin
       while (i < length(FCertificates)) do
         begin
           TempInfo := FCertificates[i].GetSubject.GetDisplayName + ' - ' +
-                      'Valid until : ' + DateToStr(CefTimeToDateTime(FCertificates[i].GetValidExpiry));
+                      'Valid until : ' + DateToStr(CefBaseTimeToDateTime(FCertificates[i].GetValidExpiry));
 
           TempSelector.Certificates.Add(TempInfo);
           inc(i);
