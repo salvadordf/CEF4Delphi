@@ -140,7 +140,6 @@ type
       FAcceptCookies            : TCefCookiePref;
       FBlock3rdPartyCookies     : boolean;
       FDefaultWindowInfoExStyle : DWORD;
-      FNetworkPredictions       : TCefNetworkPredictionOptions;
       FQuicAllowed              : boolean;
       FJavascriptEnabled        : boolean;
       FLoadImagesAutomatically  : boolean;
@@ -428,7 +427,6 @@ type
       procedure SetAcceptCookies(const aValue : TCefCookiePref);
       procedure SetBlock3rdPartyCookies(const aValue : boolean);
       procedure SetMultiBrowserMode(aValue : boolean);
-      procedure SetNetworkPredictions(aValue : TCefNetworkPredictionOptions);
       procedure SetQuicAllowed(aValue : boolean);
       procedure SetJavascriptEnabled(aValue : boolean);
       procedure SetLoadImagesAutomatically(aValue : boolean);
@@ -966,7 +964,6 @@ type
       property  MultiBrowserMode              : boolean                      read FMultiBrowserMode            write SetMultiBrowserMode;
       property  DefaultWindowInfoExStyle      : DWORD                        read FDefaultWindowInfoExStyle    write FDefaultWindowInfoExStyle;
       property  Offline                       : boolean                      read FOffline                     write SetOffline;
-      property  NetworkPredictions            : TCefNetworkPredictionOptions read FNetworkPredictions          write SetNetworkPredictions;
       property  QuicAllowed                   : boolean                      read FQuicAllowed                 write SetQuicAllowed;
       property  JavascriptEnabled             : boolean                      read FJavascriptEnabled           write SetJavascriptEnabled;
       property  LoadImagesAutomatically       : boolean                      read FLoadImagesAutomatically     write SetLoadImagesAutomatically;
@@ -1324,7 +1321,6 @@ begin
   FAcceptCookies           := cpAllow;
   FBlock3rdPartyCookies    := False;
   FOffline                 := False;
-  FNetworkPredictions      := CEF_NETWORK_PREDICTION_WIFI_ONLY;
   FQuicAllowed             := True;
   FJavascriptEnabled       := True;
   FLoadImagesAutomatically := True;
@@ -2892,15 +2888,6 @@ begin
   if not(Initialized) then FMultiBrowserMode := aValue;
 end;
 
-procedure TChromiumCore.SetNetworkPredictions(aValue : TCefNetworkPredictionOptions);
-begin
-  if (FNetworkPredictions <> aValue) then
-    begin
-      FNetworkPredictions := aValue;
-      FUpdatePreferences  := True;
-    end;
-end;
-
 procedure TChromiumCore.SetQuicAllowed(aValue : boolean);
 begin
   if (FQuicAllowed <> aValue) then
@@ -4141,7 +4128,6 @@ begin
   if (FWebRTCNonProxiedUDP <> STATE_DEFAULT) then
     UpdatePreference(aBrowser, 'webrtc.nonproxied_udp_enabled', (FWebRTCNonProxiedUDP = STATE_ENABLED));
 
-  UpdatePreference(aBrowser, 'net.network_prediction_options', integer(FNetworkPredictions));
   UpdatePreference(aBrowser, 'net.quic_allowed',               FQuicAllowed);
 
   UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
