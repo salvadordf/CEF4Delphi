@@ -76,61 +76,62 @@ type
   TChromiumCore = class(TComponent, IChromiumEvents)
     protected
       {$IFDEF MSWINDOWS}
-      FCompHandle             : HWND;
+      FCompHandle               : HWND;
       {$ENDIF}
-      FHandler                : ICefClient;
-      FBrowsersCS             : TCriticalSection;
-      FBrowsers               : TBrowserInfoList;
-      FBrowserId              : integer;
-      FMultiBrowserMode       : boolean;
-      FReqContextHandler      : ICefRequestContextHandler;
-      FResourceRequestHandler : ICefResourceRequestHandler;
-      FMediaObserver          : ICefMediaObserver;
-      FMediaObserverReg       : ICefRegistration;
-      FDevToolsMsgObserver    : ICefDevToolsMessageObserver;
-      FDevToolsMsgObserverReg : ICefRegistration;
-      FExtensionHandler       : ICefExtensionHandler;
-      FDefaultUrl             : ustring;
-      FOptions                : TChromiumOptions;
-      FFontOptions            : TChromiumFontOptions;
-      FPDFPrintOptions        : TPDFPrintOptions;
-      FDefaultEncoding        : ustring;
-      FProxyType              : integer;
-      FProxyScheme            : TCefProxyScheme;
-      FProxyServer            : ustring;
-      FProxyPort              : integer;
-      FProxyUsername          : ustring;
-      FProxyPassword          : ustring;
-      FProxyScriptURL         : ustring;
-      FProxyByPassList        : ustring;
-      FMaxConnectionsPerProxy : integer;
-      FUpdatePreferences      : boolean;
-      FCustomHeaderName       : ustring;
-      FCustomHeaderValue      : ustring;
-      FAddCustomHeader        : boolean;
-      FDoNotTrack             : boolean;
-      FSendReferrer           : boolean;
-      FHyperlinkAuditing      : boolean;
-      FAllowOutdatedPlugins   : boolean;
-      FAlwaysAuthorizePlugins : boolean;
-      FSpellChecking          : boolean;
-      FSpellCheckerDicts      : ustring;
-      FZoomStep               : byte;
-      FZoomStepCS             : TCriticalSection;
-      FPrefsFileName          : string;
-      FIsOSR                  : boolean;
-      FSafeSearch             : boolean;
-      FOffline                : boolean;
-      FYouTubeRestrict        : integer;
-      FPrintingEnabled        : boolean;
-      FWindowInfo             : TCefWindowInfo;
-      FBrowserSettings        : TCefBrowserSettings;
-      FDevWindowInfo          : TCefWindowInfo;
-      FDevBrowserSettings     : TCefBrowserSettings;
-      FDragOperations         : TCefDragOperations;
+      FHandler                  : ICefClient;
+      FBrowsersCS               : TCriticalSection;
+      FBrowsers                 : TBrowserInfoList;
+      FBrowserId                : integer;
+      FMultiBrowserMode         : boolean;
+      FReqContextHandler        : ICefRequestContextHandler;
+      FResourceRequestHandler   : ICefResourceRequestHandler;
+      FMediaObserver            : ICefMediaObserver;
+      FMediaObserverReg         : ICefRegistration;
+      FDevToolsMsgObserver      : ICefDevToolsMessageObserver;
+      FDevToolsMsgObserverReg   : ICefRegistration;
+      FExtensionHandler         : ICefExtensionHandler;
+      FDefaultUrl               : ustring;
+      FOptions                  : TChromiumOptions;
+      FFontOptions              : TChromiumFontOptions;
+      FPDFPrintOptions          : TPDFPrintOptions;
+      FDefaultEncoding          : ustring;
+      FProxyType                : integer;
+      FProxyScheme              : TCefProxyScheme;
+      FProxyServer              : ustring;
+      FProxyPort                : integer;
+      FProxyUsername            : ustring;
+      FProxyPassword            : ustring;
+      FProxyScriptURL           : ustring;
+      FProxyByPassList          : ustring;
+      FMaxConnectionsPerProxy   : integer;
+      FUpdatePreferences        : boolean;
+      FCustomHeaderName         : ustring;
+      FCustomHeaderValue        : ustring;
+      FAddCustomHeader          : boolean;
+      FDoNotTrack               : boolean;
+      FSendReferrer             : boolean;
+      FHyperlinkAuditing        : boolean;
+      FAllowOutdatedPlugins     : boolean;
+      FAlwaysAuthorizePlugins   : boolean;
+      FAlwaysOpenPDFExternally  : boolean;
+      FSpellChecking            : boolean;
+      FSpellCheckerDicts        : ustring;
+      FZoomStep                 : byte;
+      FZoomStepCS               : TCriticalSection;
+      FPrefsFileName            : string;
+      FIsOSR                    : boolean;
+      FSafeSearch               : boolean;
+      FOffline                  : boolean;
+      FYouTubeRestrict          : integer;
+      FPrintingEnabled          : boolean;
+      FWindowInfo               : TCefWindowInfo;
+      FBrowserSettings          : TCefBrowserSettings;
+      FDevWindowInfo            : TCefWindowInfo;
+      FDevBrowserSettings       : TCefBrowserSettings;
+      FDragOperations           : TCefDragOperations;
       {$IFDEF MSWINDOWS}
-      FDragDropManager        : TCEFDragAndDropMgr;
-      FDropTargetWnd          : HWND;
+      FDragDropManager          : TCEFDragAndDropMgr;
+      FDropTargetWnd            : HWND;
       {$ENDIF}
       FDragAndDropInitialized   : boolean;
       FWebRTCIPHandlingPolicy   : TCefWebRTCHandlingPolicy;
@@ -140,7 +141,6 @@ type
       FAcceptCookies            : TCefCookiePref;
       FBlock3rdPartyCookies     : boolean;
       FDefaultWindowInfoExStyle : DWORD;
-      FNetworkPredictions       : TCefNetworkPredictionOptions;
       FQuicAllowed              : boolean;
       FJavascriptEnabled        : boolean;
       FLoadImagesAutomatically  : boolean;
@@ -399,6 +399,7 @@ type
       procedure SetHyperlinkAuditing(aValue : boolean);
       procedure SetAllowOutdatedPlugins(aValue : boolean);
       procedure SetAlwaysAuthorizePlugins(aValue : boolean);
+      procedure SetAlwaysOpenPDFExternally(aValue : boolean);
       procedure SetSpellChecking(aValue : boolean);
       procedure SetSpellCheckerDicts(const aValue : ustring);
       procedure SetWebRTCIPHandlingPolicy(aValue : TCefWebRTCHandlingPolicy);
@@ -428,7 +429,6 @@ type
       procedure SetAcceptCookies(const aValue : TCefCookiePref);
       procedure SetBlock3rdPartyCookies(const aValue : boolean);
       procedure SetMultiBrowserMode(aValue : boolean);
-      procedure SetNetworkPredictions(aValue : TCefNetworkPredictionOptions);
       procedure SetQuicAllowed(aValue : boolean);
       procedure SetJavascriptEnabled(aValue : boolean);
       procedure SetLoadImagesAutomatically(aValue : boolean);
@@ -951,6 +951,7 @@ type
       property  HyperlinkAuditing             : boolean                      read FHyperlinkAuditing           write SetHyperlinkAuditing;
       property  AllowOutdatedPlugins          : boolean                      read FAllowOutdatedPlugins        write SetAllowOutdatedPlugins;
       property  AlwaysAuthorizePlugins        : boolean                      read FAlwaysAuthorizePlugins      write SetAlwaysAuthorizePlugins;
+      property  AlwaysOpenPDFExternally       : boolean                      read FAlwaysOpenPDFExternally     write SetAlwaysOpenPDFExternally;
       property  SpellChecking                 : boolean                      read FSpellChecking               write SetSpellChecking;
       property  SpellCheckerDicts             : ustring                      read FSpellCheckerDicts           write SetSpellCheckerDicts;
       property  HasValidMainFrame             : boolean                      read GetHasValidMainFrame;
@@ -966,7 +967,6 @@ type
       property  MultiBrowserMode              : boolean                      read FMultiBrowserMode            write SetMultiBrowserMode;
       property  DefaultWindowInfoExStyle      : DWORD                        read FDefaultWindowInfoExStyle    write FDefaultWindowInfoExStyle;
       property  Offline                       : boolean                      read FOffline                     write SetOffline;
-      property  NetworkPredictions            : TCefNetworkPredictionOptions read FNetworkPredictions          write SetNetworkPredictions;
       property  QuicAllowed                   : boolean                      read FQuicAllowed                 write SetQuicAllowed;
       property  JavascriptEnabled             : boolean                      read FJavascriptEnabled           write SetJavascriptEnabled;
       property  LoadImagesAutomatically       : boolean                      read FLoadImagesAutomatically     write SetLoadImagesAutomatically;
@@ -1313,6 +1313,7 @@ begin
   FSendReferrer            := True;
   FAllowOutdatedPlugins    := False;
   FAlwaysAuthorizePlugins  := False;
+  FAlwaysOpenPDFExternally := False;
   FSpellChecking           := True;
   FSpellCheckerDicts       := '';
   FZoomStep                := ZOOM_STEP_DEF;
@@ -1324,7 +1325,6 @@ begin
   FAcceptCookies           := cpAllow;
   FBlock3rdPartyCookies    := False;
   FOffline                 := False;
-  FNetworkPredictions      := CEF_NETWORK_PREDICTION_WIFI_ONLY;
   FQuicAllowed             := True;
   FJavascriptEnabled       := True;
   FLoadImagesAutomatically := True;
@@ -2892,15 +2892,6 @@ begin
   if not(Initialized) then FMultiBrowserMode := aValue;
 end;
 
-procedure TChromiumCore.SetNetworkPredictions(aValue : TCefNetworkPredictionOptions);
-begin
-  if (FNetworkPredictions <> aValue) then
-    begin
-      FNetworkPredictions := aValue;
-      FUpdatePreferences  := True;
-    end;
-end;
-
 procedure TChromiumCore.SetQuicAllowed(aValue : boolean);
 begin
   if (FQuicAllowed <> aValue) then
@@ -3258,6 +3249,15 @@ begin
     begin
       FAlwaysAuthorizePlugins := aValue;
       FUpdatePreferences      := True;
+    end;
+end;
+
+procedure TChromiumCore.SetAlwaysOpenPDFExternally(aValue : boolean);
+begin
+  if (FAlwaysOpenPDFExternally <> aValue) then
+    begin
+      FAlwaysOpenPDFExternally := aValue;
+      FUpdatePreferences       := True;
     end;
 end;
 
@@ -4094,6 +4094,7 @@ begin
   UpdatePreference(aBrowser, 'enable_a_ping',                        FHyperlinkAuditing);
   UpdatePreference(aBrowser, 'plugins.allow_outdated',               FAllowOutdatedPlugins);
   UpdatePreference(aBrowser, 'plugins.always_authorize',             FAlwaysAuthorizePlugins);
+  UpdatePreference(aBrowser, 'plugins.always_open_pdf_externally',   FAlwaysOpenPDFExternally);
   UpdatePreference(aBrowser, 'browser.enable_spellchecking',         FSpellChecking);
   UpdateStringListPref(aBrowser, 'spellcheck.dictionaries',          FSpellCheckerDicts);
   UpdatePreference(aBrowser, 'settings.force_google_safesearch',     FSafeSearch);
@@ -4141,7 +4142,6 @@ begin
   if (FWebRTCNonProxiedUDP <> STATE_DEFAULT) then
     UpdatePreference(aBrowser, 'webrtc.nonproxied_udp_enabled', (FWebRTCNonProxiedUDP = STATE_ENABLED));
 
-  UpdatePreference(aBrowser, 'net.network_prediction_options', integer(FNetworkPredictions));
   UpdatePreference(aBrowser, 'net.quic_allowed',               FQuicAllowed);
 
   UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
