@@ -101,6 +101,9 @@ type
       property  OnDragOver;
       property  OnStartDrag;
       property  OnEndDrag;
+      {$IFNDEF FPC}
+      property  OnCanResize;
+      {$ENDIF}
       {$IFDEF DELPHI14_UP}
       property  Touch;
       property  OnGesture;

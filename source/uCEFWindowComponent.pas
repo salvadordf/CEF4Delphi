@@ -57,10 +57,10 @@ uses
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFViewsFrameworkEvents, uCEFPanelComponent;
+  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFViewsFrameworkEvents, uCEFPanelComponent;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
   TCEFWindowComponent = class(TCEFPanelComponent, ICefWindowDelegateEvents)
     protected
       FWindow                    : ICefWindow;

@@ -67,14 +67,14 @@ uses
 
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 106;
-  CEF_SUPPORTED_VERSION_MINOR   = 0;
-  CEF_SUPPORTED_VERSION_RELEASE = 27;
+  CEF_SUPPORTED_VERSION_MINOR   = 1;
+  CEF_SUPPORTED_VERSION_RELEASE = 0;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = CEF_SUPPORTED_VERSION_MAJOR;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
   CEF_CHROMEELF_VERSION_RELEASE = 5249;
-  CEF_CHROMEELF_VERSION_BUILD   = 103;
+  CEF_CHROMEELF_VERSION_BUILD   = 119;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -3146,17 +3146,21 @@ end;
 
 function TCefApplicationCore.Load_cef_display_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_primary{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_display_get_primary');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_nearest_point{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_display_get_nearest_point');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_matching_bounds{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_display_get_matching_bounds');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_count{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_display_get_count');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_alls{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_display_get_alls');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_primary{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_display_get_primary');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_nearest_point{$IFDEF FPC}){$ENDIF}                := GetProcAddress(FLibHandle, 'cef_display_get_nearest_point');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_matching_bounds{$IFDEF FPC}){$ENDIF}              := GetProcAddress(FLibHandle, 'cef_display_get_matching_bounds');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_count{$IFDEF FPC}){$ENDIF}                        := GetProcAddress(FLibHandle, 'cef_display_get_count');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_alls{$IFDEF FPC}){$ENDIF}                         := GetProcAddress(FLibHandle, 'cef_display_get_alls');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_point_to_pixels{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_display_convert_screen_point_to_pixels');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_point_from_pixels{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_display_convert_screen_point_from_pixels');
 
   Result := assigned(cef_display_get_primary) and
             assigned(cef_display_get_nearest_point) and
             assigned(cef_display_get_matching_bounds) and
             assigned(cef_display_get_count) and
-            assigned(cef_display_get_alls);
+            assigned(cef_display_get_alls) and
+            assigned(cef_display_convert_screen_point_to_pixels) and
+            assigned(cef_display_convert_screen_point_from_pixels);
 end;
 
 function TCefApplicationCore.Load_cef_label_button_capi_h : boolean;

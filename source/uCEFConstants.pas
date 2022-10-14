@@ -51,9 +51,9 @@ interface
 {$IFDEF MSWINDOWS}
 uses
   {$IFDEF DELPHI16_UP}
-  Winapi.Messages;
+  System.Classes, Winapi.Messages;
   {$ELSE}
-  Messages;
+  Classes, Messages;
   {$ENDIF}
 {$ENDIF}
 
@@ -805,6 +805,43 @@ const
   {$IFDEF CEF4DELHI_ALLOC_DEBUG}
   CEF4DELPHI_ALLOC_PADDING = Pointer($44332211); // Some random value used as padding
   {$ENDIF}
+
+  // If any of the platform IDs are not defined then we set them as 0 to avoid build errors on older Delphi versions.
+  {$IF NOT DECLARED(pidWin32)}
+  pidWin32 = 0;
+  {$IFEND}
+
+  {$IF NOT DECLARED(pidWin64)}
+  pidWin64 = 0;
+  {$IFEND}
+
+  {$IF NOT DECLARED(pfidWindows)}
+  pfidWindows = pidWin32 or pidWin64;
+  {$IFEND}
+
+  {$IF NOT DECLARED(pidOSX32)}
+  pidOSX32 = 0;
+  {$IFEND}
+
+  {$IF NOT DECLARED(pidOSX64)}
+  pidOSX64 = 0;
+  {$IFEND}
+
+  {$IF NOT DECLARED(pidOSXArm64)}
+  pidOSXArm64 = 0;
+  {$IFEND}
+
+  {$IF NOT DECLARED(pfidOSX)}
+  pfidOSX = pidOSX32 or pidOSX64 or pidOSXArm64;
+  {$IFEND}
+
+  {$IF NOT DECLARED(pidLinux64)}
+  pidLinux64 = 0;
+  {$IFEND}
+
+  {$IF NOT DECLARED(pfidLinux)}
+  pfidLinux = pidLinux64;
+  {$IFEND}
 
   implementation
 
