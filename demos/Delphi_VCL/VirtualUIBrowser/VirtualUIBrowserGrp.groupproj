@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{5EA9176C-16E9-421D-9A7B-9D5925539FDB}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="VirtualUIBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="VirtualUIBrowser_sp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="VirtualUIBrowser">
+        <MSBuild Projects="VirtualUIBrowser.dproj"/>
+    </Target>
+    <Target Name="VirtualUIBrowser:Clean">
+        <MSBuild Projects="VirtualUIBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="VirtualUIBrowser:Make">
+        <MSBuild Projects="VirtualUIBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="VirtualUIBrowser_sp">
+        <MSBuild Projects="VirtualUIBrowser_sp.dproj"/>
+    </Target>
+    <Target Name="VirtualUIBrowser_sp:Clean">
+        <MSBuild Projects="VirtualUIBrowser_sp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="VirtualUIBrowser_sp:Make">
+        <MSBuild Projects="VirtualUIBrowser_sp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="VirtualUIBrowser;VirtualUIBrowser_sp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="VirtualUIBrowser:Clean;VirtualUIBrowser_sp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="VirtualUIBrowser:Make;VirtualUIBrowser_sp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
