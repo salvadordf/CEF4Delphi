@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{ACA5C793-B5BE-494D-995D-E5AA20ACA9AE}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="FMXVirtualUIBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FMXVirtualUIBrowser_sp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FMXVirtualUIBrowser">
+        <MSBuild Projects="FMXVirtualUIBrowser.dproj"/>
+    </Target>
+    <Target Name="FMXVirtualUIBrowser:Clean">
+        <MSBuild Projects="FMXVirtualUIBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXVirtualUIBrowser:Make">
+        <MSBuild Projects="FMXVirtualUIBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FMXVirtualUIBrowser_sp">
+        <MSBuild Projects="FMXVirtualUIBrowser_sp.dproj"/>
+    </Target>
+    <Target Name="FMXVirtualUIBrowser_sp:Clean">
+        <MSBuild Projects="FMXVirtualUIBrowser_sp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXVirtualUIBrowser_sp:Make">
+        <MSBuild Projects="FMXVirtualUIBrowser_sp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FMXVirtualUIBrowser;FMXVirtualUIBrowser_sp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FMXVirtualUIBrowser:Clean;FMXVirtualUIBrowser_sp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FMXVirtualUIBrowser:Make;FMXVirtualUIBrowser_sp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

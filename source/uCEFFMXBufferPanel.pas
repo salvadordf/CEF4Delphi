@@ -52,12 +52,12 @@ uses
   FMX.Graphics,
   {$ENDIF}
   FMX.Types, FMX.Controls, FMX.Forms,
-  uCEFTypes;
+  uCEFTypes, uCEFConstants;
 
 type
   TDialogKeyEvent = procedure(Sender: TObject; var Key: Word; Shift: TShiftState) of object;
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
   TFMXBufferPanel = class(TControl)
     protected
       {$IFDEF MSWINDOWS}

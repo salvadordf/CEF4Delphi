@@ -49,10 +49,11 @@ uses
   {$IFDEF MSWINDOWS}
   WinApi.Windows,
   {$ENDIF}
-  FMX.Controls, FMX.Types, FMX.Forms;
+  FMX.Controls, FMX.Types, FMX.Forms,
+  uCEFConstants;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
   TFMXWindowParent = class(TCommonCustomForm)
     protected
       {$IFDEF MSWINDOWS}

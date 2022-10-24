@@ -60,7 +60,7 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFServer, uCEFServerEvents, uCEFServerHandler;
+  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFServer, uCEFServerEvents, uCEFServerHandler;
 
 const
   DEFAULT_CEFSERVER_ADDRESS  = '127.0.0.1';
@@ -68,7 +68,7 @@ const
   DEFAULT_CEFSERVER_BACKLOG  = 10;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
   TCEFServerComponent = class(TComponent, IServerEvents)
     protected
       FHandler                : ICefServerHandler;

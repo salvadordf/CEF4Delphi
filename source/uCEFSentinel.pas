@@ -65,7 +65,7 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces;
+  uCEFTypes, uCEFInterfaces, uCEFConstants;
 
 const
   CEFSENTINEL_DEFAULT_DELAYPERPROCMS = 200;
@@ -77,7 +77,7 @@ const
 type
   TSentinelStatus = (ssIdle, ssInitialDelay, ssCheckingChildren, ssClosing);
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
   TCEFSentinel = class(TComponent)
     protected
       {$IFDEF MSWINDOWS}
@@ -133,7 +133,7 @@ procedure Register;
 implementation
 
 uses
-  uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions, uCEFConstants;
+  uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions;
 
 constructor TCEFSentinel.Create(AOwner: TComponent);
 begin

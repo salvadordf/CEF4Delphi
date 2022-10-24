@@ -254,11 +254,13 @@ var
   cef_browser_view_get_for_browser : function(browser: PCefBrowser): PCefBrowserView; cdecl;
 
   // /include/capi/views/cef_display_capi.h
-  cef_display_get_primary         : function : PCefDisplay; cdecl;
-  cef_display_get_nearest_point   : function(const point: PCefPoint; input_pixel_coords: Integer): PCefDisplay; cdecl;
-  cef_display_get_matching_bounds : function(const bounds: PCefRect; input_pixel_coords: Integer): PCefDisplay; cdecl;
-  cef_display_get_count           : function : NativeUInt; cdecl;
-  cef_display_get_alls            : procedure(displaysCount: PNativeUInt; displays: PPCefDisplay); cdecl;
+  cef_display_get_primary                      : function : PCefDisplay; cdecl;
+  cef_display_get_nearest_point                : function(const point: PCefPoint; input_pixel_coords: Integer): PCefDisplay; cdecl;
+  cef_display_get_matching_bounds              : function(const bounds: PCefRect; input_pixel_coords: Integer): PCefDisplay; cdecl;
+  cef_display_get_count                        : function : NativeUInt; cdecl;
+  cef_display_get_alls                         : procedure(displaysCount: PNativeUInt; displays: PPCefDisplay); cdecl;
+  cef_display_convert_screen_point_to_pixels   : function(const point: PCefPoint): TCefPoint; cdecl;
+  cef_display_convert_screen_point_from_pixels : function(const point: PCefPoint): TCefPoint; cdecl;
 
   // /include/capi/views/cef_label_button_capi.h
   cef_label_button_create         : function(delegate: PCefButtonDelegate; const text: PCefString): PCefLabelButton; cdecl;

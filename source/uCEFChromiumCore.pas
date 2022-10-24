@@ -72,7 +72,6 @@ uses
 type
   TBrowserInfoList = class;
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TChromiumCore = class(TComponent, IChromiumEvents)
     protected
       {$IFDEF MSWINDOWS}

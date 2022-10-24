@@ -60,10 +60,10 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFUrlRequestClientEvents, uCEFUrlrequestClient, uCEFUrlRequest;
+  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFUrlRequestClientEvents, uCEFUrlrequestClient, uCEFUrlRequest;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
   TCEFUrlRequestClientComponent = class(TComponent, ICEFUrlRequestClientEvents)
     protected
       FClient               : ICefUrlrequestClient;

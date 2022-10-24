@@ -50,7 +50,7 @@ uses
   uCEFConstants, uCEFWorkSchedulerQueueThread, uCEFWorkSchedulerThread;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
   TFMXWorkScheduler = class(TComponent)
     protected
       FThread             : TCEFWorkSchedulerThread;

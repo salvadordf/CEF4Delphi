@@ -50,9 +50,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes, System.SysUtils,
+  System.Classes, System.SysUtils, System.Types,
   {$ELSE}
-  Classes, SysUtils,
+  Classes, SysUtils, Types,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -74,12 +74,14 @@ type
       class function MatchingBounds(const bounds: TCefRect; input_pixel_coords: boolean): ICefDisplay;
       class function GetCount: NativeUInt;
       class function GetAlls(var aDisplayArray : TCefDisplayArray) : boolean;
+      class function ScreenPointToPixels(const aScreenPoint : TPoint) : TPoint;
+      class function ScreenPointFromPixels(const aPixelsPoint : TPoint) : TPoint;
   end;
 
 implementation
 
 uses
-  uCEFLibFunctions;
+  uCEFLibFunctions, uCEFApplicationCore;
 
 function TCefDisplayRef.GetID : int64;
 begin
@@ -126,22 +128,34 @@ end;
 
 class function TCefDisplayRef.Primary: ICefDisplay;
 begin
-  Result := UnWrap(cef_display_get_primary());
+  if assigned(GlobalCEFApp) and GlobalCEFApp.LibLoaded then
+    Result := UnWrap(cef_display_get_primary())
+   else
+    Result := nil;
 end;
 
 class function TCefDisplayRef.NearestPoint(const point: TCefPoint; input_pixel_coords: boolean): ICefDisplay;
 begin
-  Result := UnWrap(cef_display_get_nearest_point(@point, ord(input_pixel_coords)));
+  if assigned(GlobalCEFApp) and GlobalCEFApp.LibLoaded then
+    Result := UnWrap(cef_display_get_nearest_point(@point, ord(input_pixel_coords)))
+   else
+    Result := nil;
 end;
 
 class function TCefDisplayRef.MatchingBounds(const bounds: TCefRect; input_pixel_coords: boolean): ICefDisplay;
 begin
-  Result := UnWrap(cef_display_get_matching_bounds(@bounds, ord(input_pixel_coords)));
+  if assigned(GlobalCEFApp) and GlobalCEFApp.LibLoaded then
+    Result := UnWrap(cef_display_get_matching_bounds(@bounds, ord(input_pixel_coords)))
+   else
+    Result := nil;
 end;
 
 class function TCefDisplayRef.GetCount: NativeUInt;
 begin
-  Result := cef_display_get_count();
+  if assigned(GlobalCEFApp) and GlobalCEFApp.LibLoaded then
+    Result := cef_display_get_count()
+   else
+    Result := 0;
 end;
 
 class function TCefDisplayRef.GetAlls(var aDisplayArray : TCefDisplayArray) : boolean;
@@ -152,7 +166,10 @@ var
   displays: PPCefDisplay;
   TempSize : integer;
 begin
-  Result        := False;
+  Result := False;
+  if (GlobalCEFApp = nil) or not(GlobalCEFApp.LibLoaded) then
+    exit;
+
   displaysCount := GetCount;
 
   if (displaysCount > 0) then
@@ -175,6 +192,44 @@ begin
       Result := True;
     finally
       FreeMem(displays);
+    end;
+end;
+
+class function TCefDisplayRef.ScreenPointToPixels(const aScreenPoint : TPoint) : TPoint;
+var
+  TempScreenPt, TempPixelsPt : TCefPoint;
+begin
+  if assigned(GlobalCEFApp) and GlobalCEFApp.LibLoaded then
+    begin
+      TempScreenPt.x := aScreenPoint.X;
+      TempScreenPt.y := aScreenPoint.Y;
+      TempPixelsPt   := cef_display_convert_screen_point_to_pixels(@TempScreenPt);
+      Result.X       := TempPixelsPt.x;
+      Result.Y       := TempPixelsPt.y;
+    end
+   else
+    begin
+      Result.X := aScreenPoint.X;
+      Result.X := aScreenPoint.Y;
+    end;
+end;
+
+class function TCefDisplayRef.ScreenPointFromPixels(const aPixelsPoint : TPoint) : TPoint;
+var
+  TempScreenPt, TempPixelsPt : TCefPoint;
+begin
+  if assigned(GlobalCEFApp) and GlobalCEFApp.LibLoaded then
+    begin
+      TempPixelsPt.x := aPixelsPoint.X;
+      TempPixelsPt.y := aPixelsPoint.Y;
+      TempScreenPt   := cef_display_convert_screen_point_from_pixels(@TempPixelsPt);
+      Result.X       := TempScreenPt.x;
+      Result.Y       := TempScreenPt.y;
+    end
+   else
+    begin
+      Result.X := aPixelsPoint.X;
+      Result.X := aPixelsPoint.Y;
     end;
 end;
 
