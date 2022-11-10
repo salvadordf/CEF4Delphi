@@ -161,7 +161,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFMiscFunctions, uBrowserTab;
+  uCEFApplication, uCEFMiscFunctions, uBrowserTab;
 
 // The TChromium events are executed in a CEF thread and we should only update the
 // GUI controls in the main application thread.
@@ -320,6 +320,9 @@ begin
       FClosing              := True;
       NavControlPnl.Enabled := False;
       Chromium1.CloseBrowser(True);
+
+      if GlobalCEFApp.ChromeRuntime then
+        CEFWindowParent1.Free;
     end;
 end;
 
