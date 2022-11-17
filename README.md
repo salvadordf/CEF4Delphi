@@ -34,6 +34,10 @@ You can also support this project with Patreon.
 
 <a href="https://patreon.com/salvadordf"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Patreon donate button" /></a>
 
+You can also support this project with Liberapay.
+
+<a href="https://liberapay.com/salvadordf/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+
 Additional:
 Delphinus-Support
 
