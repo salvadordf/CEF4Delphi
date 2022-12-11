@@ -68,13 +68,18 @@ type
       procedure Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
       property  ChildWindowHandle : HWND   read GetChildWindowHandle;
       {$ENDIF}
+      {$IFNDEF DELPHI17_UP}
+      procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
+      {$ENDIF}
 
     published
       property Visible;
       property Height;
       property Width;
+      {$IFDEF DELPHI17_UP}
       property Touch;
       property OnGesture;
+      {$ENDIF}
   end;
 
 implementation
@@ -92,6 +97,15 @@ uses
 procedure TFMXWindowParent.Resize;
 begin
   inherited Resize;
+
+  {$IFDEF MSWINDOWS}
+  UpdateSize;
+  {$ENDIF}
+end;
+{$ELSE}
+procedure TFMXWindowParent.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
+begin
+  inherited SetBounds(ALeft, ATop, AWidth, AHeight);
 
   {$IFDEF MSWINDOWS}
   UpdateSize;
