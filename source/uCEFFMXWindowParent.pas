@@ -60,8 +60,9 @@ type
       function  GetChildWindowHandle : HWND;
       procedure UpdateSize;
       {$ENDIF}
+      {$IFDEF DELPHI17_UP}
       procedure Resize; override;
-
+      {$ENDIF}
     public
       {$IFDEF MSWINDOWS}
       procedure Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
@@ -87,6 +88,7 @@ implementation
 uses
   System.SysUtils, FMX.Platform, FMX.Platform.Win;
 
+{$IFDEF DELPHI17_UP}
 procedure TFMXWindowParent.Resize;
 begin
   inherited Resize;
@@ -95,6 +97,7 @@ begin
   UpdateSize;
   {$ENDIF}
 end;
+{$ENDIF}
 
 {$IFDEF MSWINDOWS}
 function TFMXWindowParent.GetChildWindowHandle : HWND;
