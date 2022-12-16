@@ -244,6 +244,7 @@ function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
 function Is32BitProcess : boolean;
 
+function  CefResolveUrl(const base_url, relative_url: ustring): ustring;
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 function  CefCreateUrl(var parts: TUrlParts): ustring;
 function  CefFormatUrlForSecurityDisplay(const originUrl: string): string;
@@ -1776,6 +1777,24 @@ begin
     Result := Result.Remove(Result.IndexOf(MAC_APP_SUBPATH));
   {$ENDIF}
   {$ENDIF}
+end;
+
+function CefResolveUrl(const base_url, relative_url: ustring): ustring;
+var
+  TempBaseURL, TempRelativeURL, TempResolvedURL : TCefString;
+begin
+  Result := '';
+
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    begin
+      TempBaseURL     := CefString(base_url);
+      TempRelativeURL := CefString(relative_url);
+
+      CefStringInitialize(@TempResolvedURL);
+
+      if (cef_resolve_url(@TempBaseURL, @TempRelativeURL, @TempResolvedURL) <> 0) then
+        Result := CefStringClearAndGet(@TempResolvedURL);
+    end;
 end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;

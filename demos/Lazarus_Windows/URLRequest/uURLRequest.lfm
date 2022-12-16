@@ -1,12 +1,12 @@
 object URLRequestFrm: TURLRequestFrm
   Left = 613
-  Height = 445
-  Top = 279
+  Height = 623
+  Top = 125
   Width = 518
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'URL request'
-  ClientHeight = 445
+  ClientHeight = 623
   ClientWidth = 518
   Color = clBtnFace
   Font.Color = clWindowText
@@ -16,11 +16,11 @@ object URLRequestFrm: TURLRequestFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.4.0'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
-    Top = 422
+    Top = 600
     Width = 518
     Panels = <    
       item
@@ -65,11 +65,11 @@ object URLRequestFrm: TURLRequestFrm
   end
   object POSTGbx: TGroupBox
     Left = 10
-    Height = 274
+    Height = 446
     Top = 136
     Width = 494
     Caption = ' POST example '
-    ClientHeight = 256
+    ClientHeight = 428
     ClientWidth = 490
     TabOrder = 2
     object Label2: TLabel
@@ -86,7 +86,7 @@ object URLRequestFrm: TURLRequestFrm
       Top = 12
       Width = 433
       TabOrder = 0
-      Text = 'https://ptsv2.com/t/cef4delphi/post'
+      Text = 'https://httpbin.org/post'
     end
     object SendPostReqBtn: TButton
       Left = 14
@@ -97,15 +97,6 @@ object URLRequestFrm: TURLRequestFrm
       OnClick = SendPostReqBtnClick
       TabOrder = 1
     end
-    object Button1: TButton
-      Left = 14
-      Height = 25
-      Top = 217
-      Width = 462
-      Caption = 'Check results in PTSV2.com'
-      OnClick = Button1Click
-      TabOrder = 2
-    end
     object GroupBox1: TGroupBox
       Left = 14
       Height = 57
@@ -114,7 +105,7 @@ object URLRequestFrm: TURLRequestFrm
       Caption = ' Parameter 1 '
       ClientHeight = 39
       ClientWidth = 458
-      TabOrder = 3
+      TabOrder = 2
       object Label3: TLabel
         Left = 14
         Height = 13
@@ -156,7 +147,7 @@ object URLRequestFrm: TURLRequestFrm
       Caption = ' Parameter 2 '
       ClientHeight = 39
       ClientWidth = 458
-      TabOrder = 4
+      TabOrder = 3
       object Label5: TLabel
         Left = 14
         Height = 13
@@ -189,6 +180,15 @@ object URLRequestFrm: TURLRequestFrm
         TabOrder = 1
         Text = 'value2'
       end
+    end
+    object Memo1: TMemo
+      Left = 16
+      Height = 194
+      Top = 216
+      Width = 462
+      ReadOnly = True
+      ScrollBars = ssBoth
+      TabOrder = 4
     end
   end
   object SaveDialog1: TSaveDialog

@@ -72,6 +72,7 @@ type
       function IsArray: Boolean;
       function IsArrayBuffer: Boolean;
       function IsFunction: Boolean;
+      function IsPromise: Boolean;
       function IsSame(const that: ICefv8Value): Boolean;
       function GetBoolValue: Boolean;
       function GetIntValue: Integer;
@@ -106,6 +107,8 @@ type
       function GetFunctionHandler: ICefv8Handler;
       function ExecuteFunction(const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
       function ExecuteFunctionWithContext(const context: ICefv8Context; const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
+      function ResolvePromise(const arg: ICefv8Value): boolean;
+      function RejectPromise(const errorMsg: ustring): boolean;
 
     public
       class function UnWrap(data: Pointer): ICefv8Value;
@@ -127,6 +130,7 @@ type
       class function NewArray(len: Integer): ICefv8Value;
       class function NewArrayBuffer(buffer: Pointer; length: NativeUInt; const callback : ICefv8ArrayBufferReleaseCallback): ICefv8Value;
       class function NewFunction(const name: ustring; const handler: ICefv8Handler): ICefv8Value;
+      class function NewPromise: ICefv8Value;
   end;
 
 implementation
@@ -176,6 +180,11 @@ var
 begin
   TempName := CefString(name);
   Result   := UnWrap(cef_v8value_create_function(@TempName, CefGetData(handler)));
+end;
+
+class function TCefv8ValueRef.NewPromise: ICefv8Value;
+begin
+  Result := UnWrap(cef_v8value_create_promise());
 end;
 
 class function TCefv8ValueRef.NewInt(value: Integer): ICefv8Value;
@@ -314,6 +323,19 @@ begin
   finally
     if (args <> nil) then FreeMem(args);
   end;
+end;
+
+function TCefv8ValueRef.ResolvePromise(const arg: ICefv8Value): boolean;
+begin
+  Result := PCefV8Value(FData)^.resolve_promise(PCefV8Value(FData), CefGetData(arg)) <> 0;
+end;
+
+function TCefv8ValueRef.RejectPromise(const errorMsg: ustring): boolean;
+var
+  TempErrorMsg : TCefString;
+begin
+  TempErrorMsg := CefString(errorMsg);
+  Result       := PCefV8Value(FData)^.reject_promise(PCefV8Value(FData), @TempErrorMsg) <> 0;
 end;
 
 function TCefv8ValueRef.GetArrayLength: Integer;
@@ -489,6 +511,11 @@ end;
 function TCefv8ValueRef.IsFunction: Boolean;
 begin
   Result := PCefV8Value(FData)^.is_function(PCefV8Value(FData)) <> 0;
+end;
+
+function TCefv8ValueRef.IsPromise: Boolean;
+begin
+  Result := PCefV8Value(FData)^.is_promise(PCefV8Value(FData)) <> 0;
 end;
 
 function TCefv8ValueRef.IsInt: Boolean;

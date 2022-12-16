@@ -61,6 +61,7 @@ type
   { TURLRequestFrm }
 
   TURLRequestFrm = class(TForm)
+    Memo1: TMemo;
     StatusBar1: TStatusBar;
     SaveDialog1: TSaveDialog;
     CEFUrlRequestClientComponent1: TCEFUrlRequestClientComponent;
@@ -72,7 +73,6 @@ type
     PostURLEdt: TEdit;
     Label2: TLabel;
     SendPostReqBtn: TButton;
-    Button1: TButton;
     GroupBox1: TGroupBox;
     Label3: TLabel;
     PostParam1NameEdt: TEdit;
@@ -95,8 +95,6 @@ type
     procedure CEFUrlRequestClientComponent1DownloadProgress(Sender: TObject; const request: ICefUrlRequest; current, total: Int64);
     procedure CEFUrlRequestClientComponent1RequestComplete(Sender: TObject; const request: ICefUrlRequest);
     procedure CEFUrlRequestClientComponent1CreateURLRequest(Sender: TObject);
-
-    procedure Button1Click(Sender: TObject);
 
   private
     FMemStream      : TMemoryStream;
@@ -209,11 +207,8 @@ begin
     if FClosing then
       request.Cancel
      else
-      if FSendingGET then
-        begin
-          if (data <> nil) and (dataLength > 0) then
-            FMemStream.WriteBuffer(data^, dataLength);
-        end;
+      if (data <> nil) and (dataLength > 0) then
+        FMemStream.WriteBuffer(data^, dataLength);
   except
     on e : exception do
       if CustomExceptionHandler('TURLRequestFrm.CEFUrlRequestClientComponent1DownloadData', e) then raise;
@@ -239,11 +234,6 @@ end;
 procedure TURLRequestFrm.FormDestroy(Sender: TObject);
 begin
   if (FMemStream <> nil) then FreeAndNil(FMemStream);
-end;
-
-procedure TURLRequestFrm.Button1Click(Sender: TObject);
-begin
-  OpenURL('https://ptsv2.com/t/cef4delphi'); { *Converted from ShellExecute* }
 end;
 
 procedure TURLRequestFrm.CEFUrlRequestClientComponent1CreateURLRequest(Sender: TObject);
@@ -374,7 +364,11 @@ begin
     end
    else
     if FSendingPOST then
-      TempMessage := 'Parameters sent!';
+      begin
+        TempMessage := 'Parameters sent!';
+        FMemStream.Position := 0;
+        Memo1.Lines.LoadFromStream(FMemStream);
+      end;
 
   StatusBar1.Panels[0].Text := TempMessage;
   showmessage(TempMessage);

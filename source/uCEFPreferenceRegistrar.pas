@@ -2,7 +2,7 @@
 // ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
 // browser in Delphi applications.
 //
 // The original license of DCEF3 still applies to CEF4Delphi.
@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2018 Salvador Díaz Fau. All rights reserved.
+//        Copyright � 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,40 +35,42 @@
  *
  *)
 
-program OSRExternalPumpBrowser_sp;
+unit uCEFPreferenceRegistrar;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$I cef.inc}
+
+{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
+interface
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
-  cthreads,
-  {$ENDIF}{$ENDIF}
-  uCEFApplicationCore;
+  uCEFBaseScopedWrapper, uCEFTypes, uCEFInterfaces;
 
+type
+  TCefPreferenceRegistrarRef = class(TCEFBaseScopedWrapperRef)
+    public
+      function AddPreference(const name: ustring; const default_value: ICefValue): Boolean;
+  end;
+
+implementation
+
+uses
+  uCEFMiscFunctions;
+
+function TCefPreferenceRegistrarRef.AddPreference(const name          : ustring;
+                                                  const default_value : ICefValue): Boolean;
+var
+  TempName : TCefString;
 begin
-  GlobalCEFApp                            := TCefApplicationCore.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.ExternalMessagePump        := True;
-  GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  TempName := CefString(name);
+  Result   := PCefPreferenceRegistrar(FData)^.add_preference(PCefPreferenceRegistrar(FData),
+                                                             @TempName,
+                                                             CefGetData(default_value)) <> 0;
+end;
 
-  // The main process and the subprocess *MUST* have the same GlobalCEFApp
-  // properties and events, specially FrameworkDirPath, ResourcesDirPath,
-  // LocalesDirPath, cache and UserDataPath paths.
-
-  // The demos are compiled into the BIN directory. Make sure OSRExternalPumpBrowser
-  // and OSRExternalPumpBrowser_sp are in that directory or this demo won't work.
-
-  // In case you want to use custom directories for the CEF binaries, cache
-  // and user data.
-{
-  GlobalCEFApp.FrameworkDirPath     := 'cef';
-  GlobalCEFApp.ResourcesDirPath     := 'cef';
-  GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
-}
-
-  GlobalCEFApp.StartSubProcess;
-  DestroyGlobalCEFApp;
 end.
-

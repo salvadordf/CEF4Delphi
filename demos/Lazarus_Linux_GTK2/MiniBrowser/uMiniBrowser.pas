@@ -422,7 +422,7 @@ begin
   SaveDialog1.Filter     := 'PDF files (*.pdf)|*.PDF';
 
   if SaveDialog1.Execute and (length(SaveDialog1.FileName) > 0) then
-    Chromium1.PrintToPDF(SaveDialog1.FileName, Chromium1.DocumentURL, Chromium1.DocumentURL);
+    Chromium1.PrintToPDF(SaveDialog1.FileName);
 end;
 
 procedure TMiniBrowserFrm.ShowDevTools1Click(Sender: TObject);

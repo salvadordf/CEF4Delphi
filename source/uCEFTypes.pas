@@ -69,6 +69,8 @@ type
   PCefValue = ^TCefValue;
   PCefBinaryValue = ^TCefBinaryValue;
   PCefSchemeRegistrar = ^TCefSchemeRegistrar;
+  PCefPreferenceRegistrar = ^TCefPreferenceRegistrar;
+  PCefPreferenceManager = ^TCefPreferenceManager;
   PCefCommandLine = ^TCefCommandLine;
   PCefCommandHandler = ^TCefCommandHandler;
   PCefBaseRefCounted = ^TCefBaseRefCounted;
@@ -1053,7 +1055,6 @@ type
   TCefPdfPrintMarginType = (
     PDF_PRINT_MARGIN_DEFAULT,
     PDF_PRINT_MARGIN_NONE,
-    PDF_PRINT_MARGIN_MINIMUM,
     PDF_PRINT_MARGIN_CUSTOM
   );
 
@@ -1167,6 +1168,12 @@ type
     CEF_PERMISSION_RESULT_DENY,
     CEF_PERMISSION_RESULT_DISMISS,
     CEF_PERMISSION_RESULT_IGNORE
+  );
+
+  // /include/internal/cef_types.h (cef_preferences_type_t)
+  TCefPreferencesType = (
+    CEF_PREFERENCES_TYPE_GLOBAL,
+    CEF_PREFERENCES_TYPE_REQUEST_CONTEXT
   );
 
   // /include/internal/cef_types.h (cef_test_cert_type_t)
@@ -1417,20 +1424,21 @@ type
 
   // /include/internal/cef_types.h (cef_pdf_print_settings_t)
   TCefPdfPrintSettings = record
-    header_footer_title   : TCefString;
-    header_footer_url     : TCefString;
-    page_width            : Integer;
-    page_height           : Integer;
-    scale_factor          : Integer;
-    margin_top            : Integer;
-    margin_right          : Integer;
-    margin_bottom         : Integer;
-    margin_left           : Integer;
-    margin_type           : TCefPdfPrintMarginType;
-    header_footer_enabled : Integer;
-    selection_only        : Integer;
     landscape             : Integer;
-    backgrounds_enabled   : Integer;
+    print_background      : Integer;
+    scale                 : double;
+    paper_width           : double;
+    paper_height          : double;
+    prefer_css_page_size  : Integer;
+    margin_type           : TCefPdfPrintMarginType;
+    margin_top            : double;
+    margin_right          : double;
+    margin_bottom         : double;
+    margin_left           : double;
+    page_ranges           : TCefString;
+    display_header_footer : Integer;
+    header_template       : TCefString;
+    footer_template       : TCefString;
   end;
 
   // /include/internal/cef_types.h (cef_mouse_event_t)
@@ -1792,6 +1800,23 @@ type
     on_virtual_keyboard_requested     : procedure(self: PCefRenderHandler; browser: PCefBrowser; input_mode: TCefTextInpuMode); stdcall;
   end;
 
+  // /include/capi/cef_preference_capi.h (cef_preference_registrar_t)
+  TCefPreferenceRegistrar = record
+    base              : TCefBaseScoped;
+    add_preference    : function(self: PCefPreferenceRegistrar; const name: PCefString; default_value: PCefValue): Integer; stdcall;
+  end;
+
+  // /include/capi/cef_preference_capi.h (cef_preference_manager_t)
+  // /include/capi/cef_preference_manager_capi.h (cef_preference_manager_t)
+  TCefPreferenceManager = record
+    base                            : TCefBaseRefCounted;
+    has_preference                  : function(self: PCefPreferenceManager; const name: PCefString): Integer; stdcall;
+    get_preference                  : function(self: PCefPreferenceManager; const name: PCefString): PCefValue; stdcall;
+    get_all_preferences             : function(self: PCefPreferenceManager; include_defaults: Integer): PCefDictionaryValue; stdcall;
+    can_set_preference              : function(self: PCefPreferenceManager; const name: PCefString): Integer; stdcall;
+    set_preference                  : function(self: PCefPreferenceManager; const name: PCefString; value: PCefValue; error: PCefString): Integer; stdcall;
+  end;
+
   // /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)
   TCefV8StackTrace = record
     base            : TCefBaseRefCounted;
@@ -2147,7 +2172,7 @@ type
 
   // /include/capi/cef_request_context_capi.h (cef_request_context_t)
   TCefRequestContext = record
-    base                            : TCefBaseRefCounted;
+    base                            : TCefPreferenceManager;
     is_same                         : function(self, other: PCefRequestContext): Integer; stdcall;
     is_sharing_with                 : function(self, other: PCefRequestContext): Integer; stdcall;
     is_global                       : function(self: PCefRequestContext): Integer; stdcall;
@@ -2156,11 +2181,6 @@ type
     get_cookie_manager              : function(self: PCefRequestContext; callback: PCefCompletionCallback): PCefCookieManager; stdcall;
     register_scheme_handler_factory : function(self: PCefRequestContext; const scheme_name, domain_name: PCefString; factory: PCefSchemeHandlerFactory): Integer; stdcall;
     clear_scheme_handler_factories  : function(self: PCefRequestContext): Integer; stdcall;
-    has_preference                  : function(self: PCefRequestContext; const name: PCefString): Integer; stdcall;
-    get_preference                  : function(self: PCefRequestContext; const name: PCefString): PCefValue; stdcall;
-    get_all_preferences             : function(self: PCefRequestContext; include_defaults: Integer): PCefDictionaryValue; stdcall;
-    can_set_preference              : function(self: PCefRequestContext; const name: PCefString): Integer; stdcall;
-    set_preference                  : function(self: PCefRequestContext; const name: PCefString; value: PCefValue; error: PCefString): Integer; stdcall;
     clear_certificate_exceptions    : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
     clear_http_auth_credentials     : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
     close_all_connections           : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;
@@ -2793,6 +2813,7 @@ type
     is_array                            : function(self: PCefv8Value): Integer; stdcall;
     is_array_buffer                     : function(self: PCefv8Value): Integer; stdcall;
     is_function                         : function(self: PCefv8Value): Integer; stdcall;
+    is_promise                          : function(self: PCefv8Value): Integer; stdcall;
     is_same                             : function(self, that: PCefv8Value): Integer; stdcall;
     get_bool_value                      : function(self: PCefv8Value): Integer; stdcall;
     get_int_value                       : function(self: PCefv8Value): Integer; stdcall;
@@ -2827,6 +2848,8 @@ type
     get_function_handler                : function(self: PCefv8Value): PCefv8Handler; stdcall;
     execute_function                    : function(self: PCefv8Value; obj: PCefv8Value; argumentsCount: NativeUInt; const arguments: PPCefV8Value): PCefv8Value; stdcall;
     execute_function_with_context       : function(self: PCefv8Value; context: PCefv8Context; obj: PCefv8Value; argumentsCount: NativeUInt; const arguments: PPCefV8Value): PCefv8Value; stdcall;
+    resolve_promise                     : function(self, arg: PCefv8Value): Integer; stdcall;
+    reject_promise                      : function(self: PCefv8Value; const errorMsg: PCefString): Integer; stdcall;
   end;
 
   // /include/capi/cef_v8_capi.h (cef_v8context_t)
@@ -3050,6 +3073,7 @@ type
   // /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)
   TCefBrowserProcessHandler = record
     base                              : TCefBaseRefCounted;
+    on_register_custom_preferences    : procedure(self: PCefBrowserProcessHandler; type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); stdcall;
     on_context_initialized            : procedure(self: PCefBrowserProcessHandler); stdcall;
     on_before_child_process_launch    : procedure(self: PCefBrowserProcessHandler; command_line: PCefCommandLine); stdcall;
     on_schedule_message_pump_work     : procedure(self: PCefBrowserProcessHandler; delay_ms: Int64); stdcall;
@@ -3455,8 +3479,10 @@ type
   TCefWindowDelegate = record
     base                             : TCefPanelDelegate;
     on_window_created                : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
+    on_window_closing                : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
     on_window_destroyed              : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
     on_window_activation_changed     : procedure(self: PCefWindowDelegate; window: PCefWindow; active: integer); stdcall;
+    on_window_bounds_changed         : procedure(self: PCefWindowDelegate; window: PCefWindow; const new_bounds: PCefRect); stdcall;
     get_parent_window                : function(self: PCefWindowDelegate; window: PCefWindow; is_menu, can_activate_menu: PInteger): PCefWindow; stdcall;
     get_initial_bounds               : function(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
     get_initial_show_state           : function(self: PCefWindowDelegate; window: PCefWindow): TCefShowState; stdcall;

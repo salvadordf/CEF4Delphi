@@ -460,8 +460,6 @@ type
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
 
-      procedure GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : ustring);
-
       function  UpdateProxyPrefs(const aBrowser: ICefBrowser) : boolean;
       function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; aValue : boolean) : boolean; overload;
       function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; aValue : integer) : boolean; overload;
@@ -817,7 +815,7 @@ type
       procedure   StopFinding(aClearSelection : Boolean);
 
       procedure   Print;
-      procedure   PrintToPDF(const aFilePath, aTitle, aURL : ustring);
+      procedure   PrintToPDF(const aFilePath : ustring);
 
       procedure   ClipboardCopy;
       procedure   ClipboardPaste;
@@ -2301,14 +2299,14 @@ begin
 end;
 
 // The TChromiumCore.OnPdfPrintFinished event will be triggered when the PDF file is created.
-procedure TChromiumCore.PrintToPDF(const aFilePath, aTitle, aURL : ustring);
+procedure TChromiumCore.PrintToPDF(const aFilePath : ustring);
 var
   TempSettings : TCefPdfPrintSettings;
   TempCallback : ICefPdfPrintCallback;
 begin
-  if Initialized then
+  if Initialized and (FPDFPrintOptions <> nil) then
     begin
-      GetPrintPDFSettings(TempSettings, aTitle, aURL);
+      FPDFPrintOptions.CopyToSettings(TempSettings);
       TempCallback := TCefCustomPDFPrintCallBack.Create(self);
       Browser.Host.PrintToPdf(aFilePath, @TempSettings, TempCallback);
     end;
@@ -2402,27 +2400,6 @@ begin
       if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.SelectAll;
-    end;
-end;
-
-procedure TChromiumCore.GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : ustring);
-begin
-  if (FPDFPrintOptions <> nil) then
-    begin
-      aSettings.header_footer_title   := CefString(aTitle);
-      aSettings.header_footer_url     := CefString(aURL);
-      aSettings.page_width            := FPDFPrintOptions.page_width;
-      aSettings.page_height           := FPDFPrintOptions.page_height;
-      aSettings.scale_factor          := FPDFPrintOptions.scale_factor;
-      aSettings.margin_top            := FPDFPrintOptions.margin_top;
-      aSettings.margin_right          := FPDFPrintOptions.margin_right;
-      aSettings.margin_bottom         := FPDFPrintOptions.margin_bottom;
-      aSettings.margin_left           := FPDFPrintOptions.margin_left;
-      aSettings.margin_type           := FPDFPrintOptions.margin_type;
-      aSettings.header_footer_enabled := Ord(FPDFPrintOptions.header_footer_enabled);
-      aSettings.selection_only        := Ord(FPDFPrintOptions.selection_only);
-      aSettings.landscape             := Ord(FPDFPrintOptions.landscape);
-      aSettings.backgrounds_enabled   := Ord(FPDFPrintOptions.backgrounds_enabled);
     end;
 end;
 

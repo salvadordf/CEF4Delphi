@@ -66,7 +66,6 @@ type
     PostURLEdt: TEdit;
     Label2: TLabel;
     SendPostReqBtn: TButton;
-    Button1: TButton;
     GroupBox1: TGroupBox;
     Label3: TLabel;
     PostParam1NameEdt: TEdit;
@@ -77,10 +76,10 @@ type
     Label6: TLabel;
     PostParam2NameEdt: TEdit;
     PostParam2ValueEdt: TEdit;
+    Memo1: TMemo;
 
     procedure DownloadBtnClick(Sender: TObject);
     procedure SendPostReqBtnClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
 
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -216,11 +215,6 @@ begin
   if (FMemStream <> nil) then FreeAndNil(FMemStream);
 end;
 
-procedure TURLRequestFrm.Button1Click(Sender: TObject);
-begin
-  ShellExecute(0, 'open', 'https://ptsv2.com/t/cef4delphi', nil, nil, SW_SHOWNORMAL);
-end;
-
 procedure TURLRequestFrm.CEFUrlRequestClientComponent1CreateURLRequest(Sender: TObject);
 begin
   if FSendingGET then
@@ -312,11 +306,8 @@ begin
     if FClosing then
       request.Cancel
      else
-      if FSendingGET then
-        begin
-          if (data <> nil) and (dataLength > 0) then
-            FMemStream.WriteBuffer(data^, dataLength);
-        end;
+      if (data <> nil) and (dataLength > 0) then
+        FMemStream.WriteBuffer(data^, dataLength);
   except
     on e : exception do
       if CustomExceptionHandler('TURLRequestFrm.CEFUrlRequestClientComponent1DownloadData', e) then raise;
@@ -366,7 +357,11 @@ begin
     end
    else
     if FSendingPOST then
-      TempMessage := 'Parameters sent!';
+      begin
+        TempMessage := 'Parameters sent!';
+        FMemStream.Position := 0;
+        Memo1.Lines.LoadFromStream(FMemStream);
+      end;
 
   StatusBar1.Panels[0].Text := TempMessage;
   showmessage(TempMessage);

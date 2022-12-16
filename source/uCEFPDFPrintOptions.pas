@@ -57,55 +57,222 @@ uses
   uCEFTypes;
 
 type
-  TPDFPrintOptions = class(TPersistent)
+  TPDFPrintOptions = class
     protected
-      Fpage_width            : integer;
-      Fpage_height           : Integer;
-      Fscale_factor          : integer;
-      Fmargin_top            : integer;
-      Fmargin_right          : integer;
-      Fmargin_bottom         : integer;
-      Fmargin_left           : integer;
-      Fmargin_type           : TCefPdfPrintMarginType;
-      Fheader_footer_enabled : boolean;
-      Fselection_only        : boolean;
-      Flandscape             : boolean;
-      Fbackgrounds_enabled   : boolean;
+      FLandscape            : boolean;
+      FPrintBackground      : boolean;
+      FScale                : double;
+      FPaperWidth           : double;
+      FPaperHeight          : double;
+      FPreferCSSPageSize    : boolean;
+      FMarginType           : TCefPdfPrintMarginType;
+      FMarginTop            : double;
+      FMarginRight          : double;
+      FMarginBottom         : double;
+      FMarginLeft           : double;
+      FPageRanges           : ustring;
+      FDisplayHeaderFooter  : boolean;
+      FHeaderTemplate       : ustring;
+      FFooterTemplate       : ustring;
+
+      function  GetScalePct: double;
+      function  GetPaperWidthMM: double;
+      function  GetPaperHeightMM: double;
+      function  GetMarginTopMM: double;
+      function  GetMarginRightMM: double;
+      function  GetMarginBottomMM: double;
+      function  GetMarginLeftMM: double;
+
+      procedure SetScalePct(const aValue: double);
+      procedure SetPaperWidthMM(const aValue: double);
+      procedure SetPaperHeightMM(const aValue: double);
+      procedure SetMarginTopMM(const aValue: double);
+      procedure SetMarginRightMM(const aValue: double);
+      procedure SetMarginBottomMM(const aValue: double);
+      procedure SetMarginLeftMM(const aValue: double);
+
+      function  InchesToMM(const aInches: double): double;
+      function  MMToInches(const aMM: double): double;
 
     public
       constructor Create; virtual;
+      procedure   CopyToSettings(var aSettings : TCefPdfPrintSettings);
 
-    published
-      property page_width            : integer                 read Fpage_width               write Fpage_width            default 0;
-      property page_height           : integer                 read Fpage_height              write Fpage_height           default 0;
-      property scale_factor          : integer                 read Fscale_factor             write Fscale_factor          default 0;
-      property margin_top            : integer                 read Fmargin_top               write Fmargin_top;
-      property margin_right          : integer                 read Fmargin_right             write Fmargin_right;
-      property margin_bottom         : integer                 read Fmargin_bottom            write Fmargin_bottom;
-      property margin_left           : integer                 read Fmargin_left              write Fmargin_left;
-      property margin_type           : TCefPdfPrintMarginType  read Fmargin_type              write Fmargin_type           default PDF_PRINT_MARGIN_DEFAULT;
-      property header_footer_enabled : boolean                 read Fheader_footer_enabled    write Fheader_footer_enabled default False;
-      property selection_only        : boolean                 read Fselection_only           write Fselection_only        default False;
-      property landscape             : boolean                 read Flandscape                write Flandscape             default False;
-      property backgrounds_enabled   : boolean                 read Fbackgrounds_enabled      write Fbackgrounds_enabled   default False;
+      property Landscape             : boolean                 read FLandscape                write FLandscape;
+      property PrintBackground       : boolean                 read FPrintBackground          write FPrintBackground;
+      property PreferCSSPageSize     : boolean                 read FPreferCSSPageSize        write FPreferCSSPageSize;
+      property PageRanges            : ustring                 read FPageRanges               write FPageRanges;
+      property DisplayHeaderFooter   : boolean                 read FDisplayHeaderFooter      write FDisplayHeaderFooter;
+      property HeaderTemplate        : ustring                 read FHeaderTemplate           write FHeaderTemplate;
+      property FooterTemplate        : ustring                 read FFooterTemplate           write FFooterTemplate;
+
+      property Scale                 : double                  read FScale                    write FScale;
+      property ScalePct              : double                  read GetScalePct               write SetScalePct;
+
+      property PaperWidthInch        : double                  read FPaperWidth               write FPaperWidth;
+      property PaperHeightInch       : double                  read FPaperHeight              write FPaperHeight;
+      property PaperWidthMM          : double                  read GetPaperWidthMM           write SetPaperWidthMM;
+      property PaperHeightMM         : double                  read GetPaperHeightMM          write SetPaperHeightMM;
+
+      property MarginType            : TCefPdfPrintMarginType  read FMarginType               write FMarginType;
+      property MarginTopInch         : double                  read FMarginTop                write FMarginTop;
+      property MarginRightInch       : double                  read FMarginRight              write FMarginRight;
+      property MarginBottomInch      : double                  read FMarginBottom             write FMarginBottom;
+      property MarginLeftInch        : double                  read FMarginLeft               write FMarginLeft;
+      property MarginTopMM           : double                  read GetMarginTopMM            write SetMarginTopMM;
+      property MarginRightMM         : double                  read GetMarginRightMM          write SetMarginRightMM;
+      property MarginBottomMM        : double                  read GetMarginBottomMM         write SetMarginBottomMM;
+      property MarginLeftMM          : double                  read GetMarginLeftMM           write SetMarginLeftMM;
   end;
 
 implementation
 
+uses
+  uCEFMiscFunctions;
+
+const
+  MM_IN_ONE_INCH = 25.4;
+
 constructor TPDFPrintOptions.Create;
 begin
-  Fpage_width            := 0;
-  Fpage_height           := 0;
-  Fscale_factor          := 100;
-  Fmargin_top            := 0;
-  Fmargin_right          := 0;
-  Fmargin_bottom         := 0;
-  Fmargin_left           := 0;
-  Fmargin_type           := PDF_PRINT_MARGIN_DEFAULT;
-  Fheader_footer_enabled := False;
-  Fselection_only        := False;
-  Flandscape             := False;
-  Fbackgrounds_enabled   := False;
+  FLandscape            := False;
+  FPrintBackground      := False;
+  FScale                := 0;
+  FPaperWidth           := 0;
+  FPaperHeight          := 0;
+  FPreferCSSPageSize    := False;
+  FMarginType           := PDF_PRINT_MARGIN_DEFAULT;
+  FMarginTop            := 0;
+  FMarginRight          := 0;
+  FMarginBottom         := 0;
+  FMarginLeft           := 0;
+  FPageRanges           := '';
+  FDisplayHeaderFooter  := False;
+  FHeaderTemplate       := '';
+  FFooterTemplate       := '';
+end;
+
+function TPDFPrintOptions.InchesToMM(const aInches: double): double;
+begin
+  Result := aInches * MM_IN_ONE_INCH;
+end;
+
+function TPDFPrintOptions.MMToInches(const aMM: double): double;
+begin
+  Result := aMM / MM_IN_ONE_INCH;
+end;
+
+function TPDFPrintOptions.GetScalePct: double;
+begin
+  if (FScale <= 0) then
+    Result := 100
+   else
+    Result := FScale * 100;
+end;
+
+function TPDFPrintOptions.GetPaperWidthMM: double;
+begin
+  Result := InchesToMM(FPaperWidth);
+end;
+
+function TPDFPrintOptions.GetPaperHeightMM: double;
+begin
+  Result := InchesToMM(FPaperHeight);
+end;
+
+function TPDFPrintOptions.GetMarginTopMM: double;
+begin
+  Result := InchesToMM(FMarginTop);
+end;
+
+function TPDFPrintOptions.GetMarginRightMM: double;
+begin
+  Result := InchesToMM(FMarginRight);
+end;
+
+function TPDFPrintOptions.GetMarginBottomMM: double;
+begin
+  Result := InchesToMM(FMarginBottom);
+end;
+
+function TPDFPrintOptions.GetMarginLeftMM: double;
+begin
+  Result := InchesToMM(FMarginLeft);
+end;
+
+procedure TPDFPrintOptions.SetScalePct(const aValue: double);
+begin
+  if (aValue <= 0) then
+    FScale := 0
+   else
+    FScale := aValue / 100;
+end;
+
+procedure TPDFPrintOptions.SetPaperWidthMM(const aValue: double);
+begin
+  if (aValue <= 0) then
+    FPaperWidth := 0
+   else
+    FPaperWidth := MMToInches(aValue);
+end;
+
+procedure TPDFPrintOptions.SetPaperHeightMM(const aValue: double);
+begin
+  if (aValue <= 0) then
+    FPaperHeight := 0
+   else
+    FPaperHeight := MMToInches(aValue);
+end;
+
+procedure TPDFPrintOptions.SetMarginTopMM(const aValue: double);
+begin
+  if (aValue <= 0) then
+    FMarginTop := 0
+   else
+    FMarginTop := MMToInches(aValue);
+end;
+
+procedure TPDFPrintOptions.SetMarginRightMM(const aValue: double);
+begin
+  if (aValue <= 0) then
+    FMarginRight := 0
+   else
+    FMarginRight := MMToInches(aValue);
+end;
+
+procedure TPDFPrintOptions.SetMarginBottomMM(const aValue: double);
+begin
+  if (aValue <= 0) then
+    FMarginBottom := 0
+   else
+    FMarginBottom := MMToInches(aValue);
+end;
+
+procedure TPDFPrintOptions.SetMarginLeftMM(const aValue: double);
+begin
+  if (aValue <= 0) then
+    FMarginLeft := 0
+   else
+    FMarginLeft := MMToInches(aValue);
+end;
+
+procedure TPDFPrintOptions.CopyToSettings(var aSettings : TCefPdfPrintSettings);
+begin
+  aSettings.landscape             := Ord(FLandscape);
+  aSettings.print_background      := Ord(FPrintBackground);
+  aSettings.scale                 := FScale;
+  aSettings.paper_width           := FPaperWidth;
+  aSettings.paper_height          := FPaperHeight;
+  aSettings.prefer_css_page_size  := Ord(FPreferCSSPageSize);
+  aSettings.margin_type           := FMarginType;
+  aSettings.margin_top            := FMarginTop;
+  aSettings.margin_right          := FMarginRight;
+  aSettings.margin_bottom         := FMarginBottom;
+  aSettings.margin_left           := FMarginLeft;
+  aSettings.page_ranges           := CefString(FPageRanges);
+  aSettings.display_header_footer := Ord(FDisplayHeaderFooter);
+  aSettings.header_template       := CefString(FHeaderTemplate);
+  aSettings.footer_template       := CefString(FFooterTemplate);
 end;
 
 end.

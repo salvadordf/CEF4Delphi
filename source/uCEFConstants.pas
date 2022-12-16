@@ -672,7 +672,7 @@ const
   CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 16;
   CEF_PERMISSION_TYPE_U2F_API_REQUEST            = 1 shl 17;
   CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 18;
-  CEF_PERMISSION_TYPE_WINDOW_PLACEMENT           = 1 shl 19;
+  CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 19;
 
   // /include/cef_api_hash.h (used as "cef_api_hash" parameters)
   CEF_API_HASH_PLATFORM  = 0;

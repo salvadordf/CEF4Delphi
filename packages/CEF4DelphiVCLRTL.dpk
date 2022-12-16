@@ -230,7 +230,10 @@ contains
   uCEFPermissionHandler in '..\source\uCEFPermissionHandler.pas',
   uCEFSharedMemoryRegion in '..\source\uCEFSharedMemoryRegion.pas',
   uCEFSharedProcessMessageBuilder in '..\source\uCEFSharedProcessMessageBuilder.pas',
-  uCEFRunQuickMenuCallback in '..\source\uCEFRunQuickMenuCallback.pas';
+  uCEFRunQuickMenuCallback in '..\source\uCEFRunQuickMenuCallback.pas',
+  uCEFPreferenceRegistrar in '..\source\uCEFPreferenceRegistrar.pas',
+  uCEFPreferenceManager in '..\source\uCEFPreferenceManager.pas',
+  uCEFApplicationEvents in '..\source\uCEFApplicationEvents.pas';
 
 end.
 
