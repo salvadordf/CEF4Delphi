@@ -240,8 +240,8 @@ begin
       TempPixelsRc   := cef_display_convert_screen_rect_to_pixels(@TempScreenRc);
       Result.Left    := TempPixelsRc.x;
       Result.Top     := TempPixelsRc.y;
-      Result.Right   := TempPixelsRc.Width - 1;
-      Result.Bottom  := TempPixelsRc.Height - 1;
+      Result.Right   := TempPixelsRc.x + TempPixelsRc.Width - 1;
+      Result.Bottom  := TempPixelsRc.y + TempPixelsRc.Height - 1;
     end
    else
     Result := aScreenRect;
@@ -258,8 +258,8 @@ begin
       TempScreenRc   := cef_display_convert_screen_rect_from_pixels(@TempPixelsRc);
       Result.Left    := TempScreenRc.x;
       Result.Top     := TempScreenRc.y;
-      Result.Right   := TempScreenRc.Width - 1;
-      Result.Bottom  := TempScreenRc.Height - 1;
+      Result.Right   := TempScreenRc.x + TempScreenRc.Width - 1;
+      Result.Bottom  := TempScreenRc.y + TempScreenRc.Height - 1;
     end
    else
     Result := aPixelsRect;
