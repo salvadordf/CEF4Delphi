@@ -2,7 +2,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
   Left = 0
   Top = 0
   Caption = 'Initializing browser. Please wait...'
-  ClientHeight = 600
+  ClientHeight = 657
   ClientWidth = 1000
   Position = ScreenCenter
   FormFactor.Width = 320
@@ -23,7 +23,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
     Size.Width = 1000.000000000000000000
     Size.Height = 35.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 1
+    TabOrder = 2
     object AddressEdt: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       Align = Client
@@ -81,9 +81,9 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
   object BrowserLay: TLayout
     Align = Client
     Size.Width = 1000.000000000000000000
-    Size.Height = 565.000000000000000000
+    Size.Height = 600.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 6
+    TabOrder = 7
     object FocusWorkaroundBtn: TButton
       Position.X = 368.000000000000000000
       Position.Y = 208.000000000000000000
@@ -93,10 +93,30 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
       TabOrder = 0
     end
   end
+  object StatusBar1: TStatusBar
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 30.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Position.Y = 635.000000000000000000
+    ShowSizeGrip = True
+    Size.Width = 1000.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object StatusLbl: TLabel
+      Align = Client
+      Size.Width = 967.000000000000000000
+      Size.Height = 16.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+  end
   object FMXChromium1: TFMXChromium
     OnGotFocus = FMXChromium1GotFocus
     OnBeforeContextMenu = FMXChromium1BeforeContextMenu
     OnContextMenuCommand = FMXChromium1ContextMenuCommand
+    OnStatusMessage = FMXChromium1StatusMessage
     OnBeforePopup = FMXChromium1BeforePopup
     OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose
