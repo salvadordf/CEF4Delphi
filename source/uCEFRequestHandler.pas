@@ -58,7 +58,6 @@ type
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
       function  GetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
-      function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean; virtual;
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; virtual;
       function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
       procedure OnRenderViewReady(const browser: ICefBrowser); virtual;
@@ -79,7 +78,6 @@ type
       function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; override;
       procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); override;
       function  GetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; override;
-      function  OnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean; override;
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; override;
       function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; override;
       procedure OnRenderViewReady(const browser: ICefBrowser); override;
@@ -204,24 +202,6 @@ begin
                                                                        CefString(realm),
                                                                        CefString(scheme),
                                                                        TCefAuthCallbackRef.UnWrap(callback)));
-end;
-
-function cef_request_handler_on_quota_request(      self       : PCefRequestHandler;
-                                                    browser    : PCefBrowser;
-                                              const origin_url : PCefString;
-                                                    new_size   : Int64;
-                                                    callback   : PCefCallback): Integer; stdcall;
-var
-  TempObject : TObject;
-begin
-  Result     := Ord(False);
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
-    Result := Ord(TCefRequestHandlerOwn(TempObject).OnQuotaRequest(TCefBrowserRef.UnWrap(browser),
-                                                                   CefString(origin_url),
-                                                                   new_size,
-                                                                   TCefCallbackRef.UnWrap(callback)));
 end;
 
 function cef_request_handler_on_certificate_error(      self        : PCefRequestHandler;
@@ -349,7 +329,6 @@ begin
       on_open_urlfrom_tab                 := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_open_urlfrom_tab;
       get_resource_request_handler        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_resource_request_handler;
       get_auth_credentials                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_get_auth_credentials;
-      on_quota_request                    := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_quota_request;
       on_certificate_error                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_certificate_error;
       on_select_client_certificate        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_select_client_certificate;
       on_render_view_ready                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_view_ready;
@@ -418,14 +397,6 @@ procedure TCefRequestHandlerOwn.GetResourceRequestHandler(const browser         
                                                           var   aResourceRequestHandler  : ICefResourceRequestHandler);
 begin
   aResourceRequestHandler := nil;
-end;
-
-function TCefRequestHandlerOwn.OnQuotaRequest(const browser   : ICefBrowser;
-                                              const originUrl : ustring;
-                                                    newSize   : Int64;
-                                              const callback  : ICefCallback): Boolean;
-begin
-  Result := False;
 end;
 
 procedure TCefRequestHandlerOwn.OnRenderProcessTerminated(const browser : ICefBrowser;
@@ -562,17 +533,6 @@ begin
     Result := IChromiumEvents(FEvents).doOnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback)
    else
     Result := inherited OnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback);
-end;
-
-function TCustomRequestHandler.OnQuotaRequest(const browser   : ICefBrowser;
-                                              const originUrl : ustring;
-                                                    newSize   : Int64;
-                                              const callback  : ICefCallback): Boolean;
-begin
-  if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnQuotaRequest(browser, originUrl, newSize, callback)
-   else
-    Result := inherited OnQuotaRequest(browser, originUrl, newSize, callback);
 end;
 
 procedure TCustomRequestHandler.OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);

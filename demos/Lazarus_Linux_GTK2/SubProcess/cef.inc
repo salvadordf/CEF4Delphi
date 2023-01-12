@@ -505,3 +505,11 @@
     {$DEFINE MACOSX}
   {$ENDIF}
 {$ENDIF}
+
+{$IFDEF LINUX}
+  {$IFDEF FPC}
+    {$DEFINE LINUXFPC}
+  {$ELSE}
+    {$DEFINE LINUXFMX}
+  {$ENDIF}
+{$ENDIF}  
