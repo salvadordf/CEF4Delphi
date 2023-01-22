@@ -910,10 +910,8 @@ begin
       TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
     {$ENDIF}
     {$IFDEF LCLGTK3}
-    if ValidCefWindowHandle(aParent) and
-       (TGtk3Window(aParent).widget <> nil) and
-       (TGtk3Window(aParent).widget^.window <> nil)then
-      TempParent := gdk_x11_window_get_xid(TGtk3Window(aParent).widget^.window);
+    if ValidCefWindowHandle(aParent) then
+      TempParent := gdk_x11_window_get_xid(TGtk3Container(aParent).Widget^.window);
     {$ENDIF}
   {$ENDIF}
 

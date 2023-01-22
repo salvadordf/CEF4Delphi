@@ -504,6 +504,16 @@ type
     hpDisableNonProxiedUDP
   );
 
+  // Values used by the --net-log-capture-mode command line switch.
+  // Sets the granularity of events to capture in the network log.
+  // https://source.chromium.org/chromium/chromium/src/+/main:content/browser/network_service_instance_impl.cc
+  // https://source.chromium.org/chromium/chromium/src/+/main:net/log/net_log_capture_mode.h
+  TCefNetLogCaptureMode = (
+    nlcmDefault,
+    nlcmIncludeSensitive,
+    nlcmEverything
+  );
+
   // Used by TCEFFileDialogInfo
   TCEFDialogType = (dtOpen, dtOpenMultiple, dtOpenFolder, dtSave);
 

@@ -69,7 +69,7 @@ uses
 const
   CEF_SUPPORTED_VERSION_MAJOR   = 109;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 11;
+  CEF_SUPPORTED_VERSION_RELEASE = 13;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = CEF_SUPPORTED_VERSION_MAJOR;
@@ -191,6 +191,10 @@ type
       FAllowInsecureLocalhost            : boolean;
       FKioskPrinting                     : boolean;
       FTreatInsecureOriginAsSecure       : ustring;
+      FNetLogEnabled                     : boolean;
+      FNetLogFile                        : ustring;
+      FNetLogCaptureMode                 : TCefNetLogCaptureMode;
+
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
@@ -516,6 +520,9 @@ type
       property AllowInsecureLocalhost            : boolean                             read FAllowInsecureLocalhost            write FAllowInsecureLocalhost;           // --allow-insecure-localhost
       property KioskPrinting                     : boolean                             read FKioskPrinting                     write SetKioskPrinting;                  // --kiosk-printing
       property TreatInsecureOriginAsSecure       : ustring                             read FTreatInsecureOriginAsSecure       write FTreatInsecureOriginAsSecure;      // --unsafely-treat-insecure-origin-as-secure
+      property NetLogEnabled                     : boolean                             read FNetLogEnabled                     write FNetLogEnabled;                    // --log-net-log
+      property NetLogFile                        : ustring                             read FNetLogFile                        write FNetLogFile;                       // --log-net-log
+      property NetLogCaptureMode                 : TCefNetLogCaptureMode               read FNetLogCaptureMode                 write FNetLogCaptureMode;                // --net-log-capture-mode
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -769,6 +776,9 @@ begin
   FAllowInsecureLocalhost            := False;
   FKioskPrinting                     := False;
   FTreatInsecureOriginAsSecure       := '';
+  FNetLogEnabled                     := False;
+  FNetLogFile                        := '';
+  FNetLogCaptureMode                 := nlcmDefault;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -2123,6 +2133,17 @@ begin
 
   if (length(FTreatInsecureOriginAsSecure) > 0) then
     ReplaceSwitch(aKeys, aValues, '--unsafely-treat-insecure-origin-as-secure', FTreatInsecureOriginAsSecure);
+
+  if FNetLogEnabled then
+    begin
+      ReplaceSwitch(aKeys, aValues, '--log-net-log', FNetLogFile);
+
+      case FNetLogCaptureMode of
+        nlcmDefault          : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'Default');
+        nlcmIncludeSensitive : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'IncludeSensitive');
+        nlcmEverything       : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'Everything');
+      end;
+    end;
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc

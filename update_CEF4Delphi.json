@@ -2,9 +2,9 @@
   "UpdateLazPackages" : [
     {
       "ForceNotify" : true,
-      "InternalVersion" : 455,
+      "InternalVersion" : 456,
       "Name" : "cef4delphi_lazarus.lpk",
-      "Version" : "109.1.11"
+      "Version" : "109.1.13"
     }
   ],
   "UpdatePackageData" : {
