@@ -514,6 +514,16 @@ type
     nlcmEverything
   );
 
+  // Values used by the battery saver mode state preference
+  // https://source.chromium.org/chromium/chromium/src/+/main:components/performance_manager/public/user_tuning/prefs.h
+  TCefBatterySaverModeState = (
+    bsmsDisabled = 0,
+    bsmsEnabledBelowThreshold = 1,
+    bsmsEnabledOnBattery = 2,
+    bsmsEnabled = 3,
+    bsmsDefault = 4 // Custom value used to update the preferences only when there's a non-default value
+  );
+
   // Used by TCEFFileDialogInfo
   TCEFDialogType = (dtOpen, dtOpenMultiple, dtOpenFolder, dtSave);
 

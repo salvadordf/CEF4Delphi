@@ -143,6 +143,8 @@ type
       FQuicAllowed              : boolean;
       FJavascriptEnabled        : boolean;
       FLoadImagesAutomatically  : boolean;
+      FBatterySaverModeState    : TCefBatterySaverModeState;
+      FHighEfficiencyMode       : TCefState;
 
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
@@ -430,6 +432,8 @@ type
       procedure SetQuicAllowed(aValue : boolean);
       procedure SetJavascriptEnabled(aValue : boolean);
       procedure SetLoadImagesAutomatically(aValue : boolean);
+      procedure SetBatterySaverModeState(aValue : TCefBatterySaverModeState);
+      procedure SetHighEfficiencyMode(aValue : TCefState);
       procedure SetDefaultUrl(const aValue : ustring);
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
@@ -965,6 +969,8 @@ type
       property  QuicAllowed                   : boolean                      read FQuicAllowed                 write SetQuicAllowed;
       property  JavascriptEnabled             : boolean                      read FJavascriptEnabled           write SetJavascriptEnabled;
       property  LoadImagesAutomatically       : boolean                      read FLoadImagesAutomatically     write SetLoadImagesAutomatically;
+      property  BatterySaverModeState         : TCefBatterySaverModeState    read FBatterySaverModeState       write SetBatterySaverModeState;
+      property  HighEfficiencyMode            : TCefState                    read FHighEfficiencyMode          write SetHighEfficiencyMode;
       {$IFDEF LINUX}
       property  XDisplay                      : PXDisplay                    read GetXDisplay;
       {$ENDIF}
@@ -1322,6 +1328,8 @@ begin
   FQuicAllowed             := True;
   FJavascriptEnabled       := True;
   FLoadImagesAutomatically := True;
+  FBatterySaverModeState   := bsmsDefault;
+  FHighEfficiencyMode      := STATE_DEFAULT;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -2891,6 +2899,24 @@ begin
     end;
 end;
 
+procedure TChromiumCore.SetBatterySaverModeState(aValue : TCefBatterySaverModeState);
+begin
+  if (FBatterySaverModeState <> aValue) then
+    begin
+      FBatterySaverModeState := aValue;
+      FUpdatePreferences     := True;
+    end;
+end;
+
+procedure TChromiumCore.SetHighEfficiencyMode(aValue : TCefState);
+begin
+  if (FHighEfficiencyMode <> aValue) then
+    begin
+      FHighEfficiencyMode := aValue;
+      FUpdatePreferences  := True;
+    end;
+end;
+
 procedure TChromiumCore.SetDefaultUrl(const aValue : ustring);
 begin
   FDefaultUrl := trim(aValue);
@@ -4118,6 +4144,12 @@ begin
 
   UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
   UpdatePreference(aBrowser, 'webkit.webprefs.loads_images_automatically', FLoadImagesAutomatically);
+
+  if (FHighEfficiencyMode <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'performance_tuning.high_efficiency_mode.enabled', (FHighEfficiencyMode = STATE_ENABLED));
+
+  if (FBatterySaverModeState <> bsmsDefault) then
+    UpdatePreference(aBrowser, 'performance_tuning.battery_saver_mode.state', integer(FBatterySaverModeState));
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);
