@@ -1352,10 +1352,7 @@ type
     widthSet          : Integer;
     height            : Integer;
     heightSet         : Integer;
-    menuBarVisible    : Integer;
-    statusBarVisible  : Integer;
-    toolBarVisible    : Integer;
-    scrollbarsVisible : Integer;
+    isPopup           : Integer;
   end;
 
   // /include/internal/cef_types.h (cef_browser_settings_t)
