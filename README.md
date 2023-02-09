@@ -20,7 +20,7 @@ CEF4Delphi demos have been tested in Windows 10, Windows 11, Linux Mint 20.3 and
 ## Links
 * [Installation instructions and more information about CEF4Delphi](https://www.briskbard.com/index.php?lang=en&pageid=cef)
 * [Developer Forums](https://www.briskbard.com/forum)
-* The Windows components need Windows 10, 11 or newer to run. If you need Windows XP and Vista support use [OldCEF4Delphi](https://github.com/salvadordf/OldCEF4Delphi)
+* The Windows components need Windows 10, 11 or newer to run. If you need Windows XP and Vista support use [OldCEF4Delphi](https://github.com/salvadordf/OldCEF4Delphi). If you need Windows 7, 8/8.1 support use [this CEF4Delphi release](https://github.com/salvadordf/CEF4Delphi/releases/tag/109.0.5414.120).
 
 ## Stable releases 
 This is the development branch and it may have issues. Use the [latest release](https://github.com/salvadordf/CEF4Delphi/releases/latest) if you need a stable component.
