@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D3102F77-BC97-4912-BC3B-63B14860AF1B}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="WindowsServiceBrowser.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="WindowsServiceBrowser_sp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="WindowsServiceBrowser">
+        <MSBuild Projects="WindowsServiceBrowser.dproj"/>
+    </Target>
+    <Target Name="WindowsServiceBrowser:Clean">
+        <MSBuild Projects="WindowsServiceBrowser.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WindowsServiceBrowser:Make">
+        <MSBuild Projects="WindowsServiceBrowser.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="WindowsServiceBrowser_sp">
+        <MSBuild Projects="WindowsServiceBrowser_sp.dproj"/>
+    </Target>
+    <Target Name="WindowsServiceBrowser_sp:Clean">
+        <MSBuild Projects="WindowsServiceBrowser_sp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WindowsServiceBrowser_sp:Make">
+        <MSBuild Projects="WindowsServiceBrowser_sp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="WindowsServiceBrowser;WindowsServiceBrowser_sp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="WindowsServiceBrowser:Clean;WindowsServiceBrowser_sp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="WindowsServiceBrowser:Make;WindowsServiceBrowser_sp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
