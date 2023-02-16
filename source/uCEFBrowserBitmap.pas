@@ -49,8 +49,9 @@ uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}Winapi.Windows,{$ELSE}System.SyncObjs,{$ENDIF} System.Classes, System.SysUtils, Vcl.Graphics;
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ELSE}SyncObjs,{$ENDIF} Classes, SysUtils, Graphics
-    {$IFDEF FPC}, LCLProc, LCLType, LCLIntf, LResources, InterfaceBase{$ENDIF};
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, SysUtils, Graphics
+    {$IFDEF FPC}, LCLProc, LCLType, LCLIntf, LResources, InterfaceBase{$ENDIF}
+    {$IFNDEF MSWINDOWS}, SyncObjs{$ENDIF};
   {$ENDIF}
 
 type
