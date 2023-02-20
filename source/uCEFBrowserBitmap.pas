@@ -167,7 +167,12 @@ begin
   if (Width  <> aWidth)  or
      (Height <> aHeight) then
     begin
+      {$IFDEF DELPHI16_UP}
       SetSize(aWidth, aHeight);
+      {$ELSE}
+      Width  := aWidth;
+      Height := aHeight;
+      {$ENDIF}
       Result := True;
     end;
 end;
