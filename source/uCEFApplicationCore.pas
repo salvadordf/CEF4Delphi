@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -63,18 +63,19 @@ uses
   {$IFDEF LINUX}
     {$IFDEF FPC}xlib,{$ENDIF} uCEFArgCopy,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
+  uCEFTypes, uCEFInterfaces, uCEFApplicationEvents, uCEFBaseRefCounted,
+  uCEFSchemeRegistrar, uCEFPreferenceRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 107;
-  CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 12;
+  CEF_SUPPORTED_VERSION_MAJOR   = 110;
+  CEF_SUPPORTED_VERSION_MINOR   = 0;
+  CEF_SUPPORTED_VERSION_RELEASE = 30;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = CEF_SUPPORTED_VERSION_MAJOR;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 5304;
-  CEF_CHROMEELF_VERSION_BUILD   = 122;
+  CEF_CHROMEELF_VERSION_RELEASE = 5481;
+  CEF_CHROMEELF_VERSION_BUILD   = 178;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -190,10 +191,16 @@ type
       FAllowInsecureLocalhost            : boolean;
       FKioskPrinting                     : boolean;
       FTreatInsecureOriginAsSecure       : ustring;
+      FNetLogEnabled                     : boolean;
+      FNetLogFile                        : ustring;
+      FNetLogCaptureMode                 : TCefNetLogCaptureMode;
+
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
+      {$IFDEF MSWINDOWS}
       FEnableHighDPISupport              : boolean;
+      {$ENDIF}
       {$IFDEF LINUX}
       FArgCopy                           : TCEFArgCopy;
       {$ENDIF}
@@ -233,6 +240,7 @@ type
       FOnRegisterCustomSchemes           : TOnRegisterCustomSchemesEvent;
 
       // ICefBrowserProcessHandler
+      FOnRegisterCustomPreferences       : TOnRegisterCustomPreferencesEvent;
       FOnContextInitialized              : TOnContextInitializedEvent;
       FOnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent;
       FOnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent;
@@ -266,7 +274,9 @@ type
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
+      {$IFDEF MSWINDOWS}
       procedure SetOsmodalLoop(aValue : boolean);
+      {$ENDIF}
       procedure SetKioskPrinting(aValue : boolean);
 
       function  GetChromeVersion : ustring;
@@ -297,6 +307,7 @@ type
       function  LoadCEFlibrary : boolean; virtual;
       function  Load_cef_api_hash_h : boolean;
       function  Load_cef_app_capi_h : boolean;
+      function  Load_cef_app_win_h : boolean;
       function  Load_cef_browser_capi_h : boolean;
       function  Load_cef_command_line_capi_h : boolean;
       function  Load_cef_cookie_capi_h : boolean;
@@ -310,6 +321,7 @@ type
       function  Load_cef_origin_whitelist_capi_h : boolean;
       function  Load_cef_parser_capi_h : boolean;
       function  Load_cef_path_util_capi_h : boolean;
+      function  Load_cef_preference_capi_h : boolean;
       function  Load_cef_print_settings_capi_h : boolean;
       function  Load_cef_process_message_capi_h : boolean;
       function  Load_cef_process_util_capi_h : boolean;
@@ -397,6 +409,7 @@ type
       // ICefLoadHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+      procedure   Internal_OnRegisterCustomPreferences(type_: TCefPreferencesType; const registrar: TCefPreferenceRegistrarRef);
       procedure   Internal_OnContextInitialized; virtual;
       procedure   Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
       procedure   Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
@@ -507,10 +520,15 @@ type
       property AllowInsecureLocalhost            : boolean                             read FAllowInsecureLocalhost            write FAllowInsecureLocalhost;           // --allow-insecure-localhost
       property KioskPrinting                     : boolean                             read FKioskPrinting                     write SetKioskPrinting;                  // --kiosk-printing
       property TreatInsecureOriginAsSecure       : ustring                             read FTreatInsecureOriginAsSecure       write FTreatInsecureOriginAsSecure;      // --unsafely-treat-insecure-origin-as-secure
+      property NetLogEnabled                     : boolean                             read FNetLogEnabled                     write FNetLogEnabled;                    // --log-net-log
+      property NetLogFile                        : ustring                             read FNetLogFile                        write FNetLogFile;                       // --log-net-log
+      property NetLogCaptureMode                 : TCefNetLogCaptureMode               read FNetLogCaptureMode                 write FNetLogCaptureMode;                // --net-log-capture-mode
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
+      {$IFDEF MSWINDOWS}
       property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
+      {$ENDIF}
       {$IFDEF LINUX}
       property argcCopy                          : longint                             read GetArgc;
       property argvCopy                          : PPAnsiChar                          read GetArgv;
@@ -542,7 +560,9 @@ type
       property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
       property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
       property MustCreateLoadHandler             : boolean                             read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
+      {$IFDEF MSWINDOWS}
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
+      {$ENDIF}
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
@@ -563,6 +583,7 @@ type
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
       // ICefBrowserProcessHandler
+      property OnRegisterCustomPreferences       : TOnRegisterCustomPreferencesEvent   read FOnRegisterCustomPreferences       write FOnRegisterCustomPreferences;
       property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitialized              write FOnContextInitialized;
       property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunch        write FOnBeforeChildProcessLaunch;
       property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWork         write FOnScheduleMessagePumpWork;
@@ -755,10 +776,15 @@ begin
   FAllowInsecureLocalhost            := False;
   FKioskPrinting                     := False;
   FTreatInsecureOriginAsSecure       := '';
+  FNetLogEnabled                     := False;
+  FNetLogFile                        := '';
+  FNetLogCaptureMode                 := nlcmDefault;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
+  {$IFDEF MSWINDOWS}
   FEnableHighDPISupport              := False;
+  {$ENDIF}
   {$IFDEF LINUX}
   FArgCopy                           := TCEFArgCopy.Create;
   {$ENDIF}
@@ -816,6 +842,7 @@ begin
   FOnRegisterCustomSchemes           := nil;
 
   // ICefBrowserProcessHandler
+  FOnRegisterCustomPreferences       := nil;
   FOnContextInitialized              := nil;
   FOnBeforeChildProcessLaunch        := nil;
   FOnScheduleMessagePumpWork         := nil;
@@ -1287,10 +1314,12 @@ begin
     cef_quit_message_loop();
 end;
 
+{$IFDEF MSWINDOWS}
 procedure TCefApplicationCore.SetOsmodalLoop(aValue : boolean);
 begin
   if (FStatus = asInitialized) then cef_set_osmodal_loop(Ord(aValue));
 end;
+{$ENDIF}
 
 procedure TCefApplicationCore.SetKioskPrinting(aValue : boolean);
 begin
@@ -2105,6 +2134,17 @@ begin
   if (length(FTreatInsecureOriginAsSecure) > 0) then
     ReplaceSwitch(aKeys, aValues, '--unsafely-treat-insecure-origin-as-secure', FTreatInsecureOriginAsSecure);
 
+  if FNetLogEnabled then
+    begin
+      ReplaceSwitch(aKeys, aValues, '--log-net-log', FNetLogFile);
+
+      case FNetLogCaptureMode of
+        nlcmDefault          : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'Default');
+        nlcmIncludeSensitive : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'IncludeSensitive');
+        nlcmEverything       : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'Everything');
+      end;
+    end;
+
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
   // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
@@ -2208,6 +2248,13 @@ procedure TCefApplicationCore.Internal_OnRegisterCustomSchemes(const registrar: 
 begin
   if assigned(FOnRegisterCustomSchemes) then
     FOnRegisterCustomSchemes(registrar);
+end;
+
+procedure TCefApplicationCore.Internal_OnRegisterCustomPreferences(      type_     : TCefPreferencesType;
+                                                                   const registrar : TCefPreferenceRegistrarRef);
+begin
+  if assigned(FOnRegisterCustomPreferences) then
+    FOnRegisterCustomPreferences(type_, registrar);
 end;
 
 function TCefApplicationCore.GetMustCreateResourceBundleHandler : boolean;
@@ -2519,6 +2566,7 @@ begin
 
   if Load_cef_api_hash_h and
      Load_cef_app_capi_h and
+     Load_cef_app_win_h and
      Load_cef_browser_capi_h and
      Load_cef_command_line_capi_h and
      Load_cef_cookie_capi_h and
@@ -2532,6 +2580,7 @@ begin
      Load_cef_origin_whitelist_capi_h and
      Load_cef_parser_capi_h and
      Load_cef_path_util_capi_h and
+     Load_cef_preference_capi_h and
      Load_cef_print_settings_capi_h and
      Load_cef_process_message_capi_h and
      Load_cef_process_util_capi_h and
@@ -2575,8 +2624,11 @@ begin
       FLibLoaded := True;
       Result     := True;
 
-      if FLogProcessInfo       then CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
+      if FLogProcessInfo then CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
+
+      {$IFDEF MSWINDOWS}
       if FEnableHighDPISupport then cef_enable_highdpi_support();
+      {$ENDIF}
     end
    else
     begin
@@ -2607,17 +2659,26 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_do_message_loop_work{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_do_message_loop_work');
   {$IFDEF FPC}Pointer({$ENDIF}cef_run_message_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_run_message_loop');
   {$IFDEF FPC}Pointer({$ENDIF}cef_quit_message_loop{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_quit_message_loop');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_set_osmodal_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_set_osmodal_loop');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_enable_highdpi_support{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_enable_highdpi_support');
 
   Result := assigned(cef_initialize) and
             assigned(cef_shutdown) and
             assigned(cef_execute_process) and
             assigned(cef_do_message_loop_work) and
             assigned(cef_run_message_loop) and
-            assigned(cef_quit_message_loop) and
-            assigned(cef_set_osmodal_loop) and
-            assigned(cef_enable_highdpi_support);
+            assigned(cef_quit_message_loop);
+end;
+
+function TCefApplicationCore.Load_cef_app_win_h : boolean;
+begin
+  {$IFDEF MSWINDOWS}
+    {$IFDEF FPC}Pointer({$ENDIF}cef_set_osmodal_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_set_osmodal_loop');
+    {$IFDEF FPC}Pointer({$ENDIF}cef_enable_highdpi_support{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_enable_highdpi_support');
+
+    Result := assigned(cef_set_osmodal_loop) and
+              assigned(cef_enable_highdpi_support);
+  {$ELSE}
+    Result := True;
+  {$ENDIF}
 end;
 
 function TCefApplicationCore.Load_cef_browser_capi_h : boolean;
@@ -2723,6 +2784,7 @@ end;
 
 function TCefApplicationCore.Load_cef_parser_capi_h : boolean;
 begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_resolve_url{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_resolve_url');
   {$IFDEF FPC}Pointer({$ENDIF}cef_parse_url{$IFDEF FPC}){$ENDIF}                       := GetProcAddress(FLibHandle, 'cef_parse_url');
   {$IFDEF FPC}Pointer({$ENDIF}cef_create_url{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_create_url');
   {$IFDEF FPC}Pointer({$ENDIF}cef_format_url_for_security_display{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_format_url_for_security_display');
@@ -2737,7 +2799,8 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_parse_jsonand_return_error{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_parse_jsonand_return_error');
   {$IFDEF FPC}Pointer({$ENDIF}cef_write_json{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_write_json');
 
-  Result := assigned(cef_parse_url) and
+  Result := assigned(cef_resolve_url) and
+            assigned(cef_parse_url) and
             assigned(cef_create_url) and
             assigned(cef_format_url_for_security_display) and
             assigned(cef_get_mime_type) and
@@ -2757,6 +2820,13 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_get_path{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_get_path');
 
   Result := assigned(cef_get_path);
+end;
+
+function TCefApplicationCore.Load_cef_preference_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_global{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_preference_manager_get_global');
+
+  Result := assigned(cef_preference_manager_get_global);
 end;
 
 function TCefApplicationCore.Load_cef_print_settings_capi_h : boolean;
@@ -2918,6 +2988,7 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_v8value_create_array');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array_buffer{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_v8value_create_array_buffer');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_function{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_v8value_create_function');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_promise{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_v8value_create_promise');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8stack_trace_get_current{$IFDEF FPC}){$ENDIF}     := GetProcAddress(FLibHandle, 'cef_v8stack_trace_get_current');
   {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_register_extension');
 
@@ -2936,6 +3007,7 @@ begin
             assigned(cef_v8value_create_array) and
             assigned(cef_v8value_create_array_buffer) and
             assigned(cef_v8value_create_function) and
+            assigned(cef_v8value_create_promise) and
             assigned(cef_v8stack_trace_get_current) and
             assigned(cef_register_extension);
 end;
@@ -3153,6 +3225,8 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_alls{$IFDEF FPC}){$ENDIF}                         := GetProcAddress(FLibHandle, 'cef_display_get_alls');
   {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_point_to_pixels{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_display_convert_screen_point_to_pixels');
   {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_point_from_pixels{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_display_convert_screen_point_from_pixels');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_rect_to_pixels{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_display_convert_screen_rect_to_pixels');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_rect_from_pixels{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_display_convert_screen_rect_from_pixels');
 
   Result := assigned(cef_display_get_primary) and
             assigned(cef_display_get_nearest_point) and
@@ -3160,7 +3234,9 @@ begin
             assigned(cef_display_get_count) and
             assigned(cef_display_get_alls) and
             assigned(cef_display_convert_screen_point_to_pixels) and
-            assigned(cef_display_convert_screen_point_from_pixels);
+            assigned(cef_display_convert_screen_point_from_pixels) and
+            assigned(cef_display_convert_screen_rect_to_pixels) and
+            assigned(cef_display_convert_screen_rect_from_pixels);
 end;
 
 function TCefApplicationCore.Load_cef_label_button_capi_h : boolean;

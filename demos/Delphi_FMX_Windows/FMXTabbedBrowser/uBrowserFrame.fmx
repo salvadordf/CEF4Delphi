@@ -94,7 +94,7 @@ object BrowserFrame: TBrowserFrame
   object WindowParentLay: TLayout
     Align = Client
     Size.Width = 998.000000000000000000
-    Size.Height = 696.000000000000000000
+    Size.Height = 674.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 4
     OnResize = WindowParentLayResize
@@ -107,12 +107,33 @@ object BrowserFrame: TBrowserFrame
       TabOrder = 0
     end
   end
+  object StatusBar1: TStatusBar
+    Padding.Left = 3.000000000000000000
+    Padding.Top = 3.000000000000000000
+    Padding.Right = 30.000000000000000000
+    Padding.Bottom = 3.000000000000000000
+    Position.X = 1.000000000000000000
+    Position.Y = 710.000000000000000000
+    ShowSizeGrip = True
+    Size.Width = 998.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object StatusLbl: TLabel
+      Align = Client
+      Size.Width = 965.000000000000000000
+      Size.Height = 16.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+  end
   object FMXChromium1: TFMXChromium
     OnLoadError = FMXChromium1LoadError
     OnLoadingStateChange = FMXChromium1LoadingStateChange
     OnGotFocus = FMXChromium1GotFocus
     OnAddressChange = FMXChromium1AddressChange
     OnTitleChange = FMXChromium1TitleChange
+    OnStatusMessage = FMXChromium1StatusMessage
     OnBeforePopup = FMXChromium1BeforePopup
     OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -85,7 +85,7 @@ function gdk_screen_get_resolution(screen:PGdkScreen):gdouble; cdecl; external '
 {$ENDIF}
 {$IFDEF FPC}
 {$IFDEF LCLGTK3}
-function gdk_x11_window_get_xid(window: PGdkWindow): TWindow; cdecl; external Gdk3_library;
+function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external Gdk3_library;
 function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external Gdk3_library;
 procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external Gdk3_library;
 {$ENDIF}

@@ -66,7 +66,11 @@ uses
   uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa, 
   uCEFBrowserWindow, uCEFOsrBrowserWindow, uCEFTimerWorkScheduler, 
   uCEFFrameHandler, uCEFOverlayController, uCEFFileDialogInfo, uCEFArgCopy, 
-  uCEFCommandHandler, uCEFLinuxEventPipe, LazarusPackageIntf;
+  uCEFCommandHandler, uCEFLinuxEventPipe, uCEFPermissionHandler, 
+  uCEFRunQuickMenuCallback, uCEFMediaAccessHandler, uCEFMediaAccessCallback, 
+  uCEFPermissionPromptCallback, uCEFSharedProcessMessageBuilder, 
+  uCEFSharedMemoryRegion, uCEFPreferenceManager, uCEFPreferenceRegistrar, 
+  uCEFApplicationEvents, LazarusPackageIntf;
 
 implementation
 

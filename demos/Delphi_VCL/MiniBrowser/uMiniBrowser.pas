@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -323,6 +323,7 @@ begin
   GlobalCEFApp.EnableGPU           := True;
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  //GlobalCEFApp.ChromeRuntime       := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -1735,7 +1736,7 @@ begin
   SaveDialog1.Filter     := 'PDF files (*.pdf)|*.PDF';
 
   if SaveDialog1.Execute and (length(SaveDialog1.FileName) > 0) then
-    Chromium1.PrintToPDF(SaveDialog1.FileName, Chromium1.DocumentURL, Chromium1.DocumentURL);
+    Chromium1.PrintToPDF(SaveDialog1.FileName);
 end;
 
 procedure TMiniBrowserFrm.ConfigBtnClick(Sender: TObject);

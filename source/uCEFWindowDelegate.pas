@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -59,19 +59,21 @@ uses
 type
   TCefWindowDelegateRef = class(TCefPanelDelegateRef, ICefWindowDelegate)
     protected
-      procedure OnWindowCreated(const window: ICefWindow);
-      procedure OnWindowDestroyed(const window: ICefWindow);
-      procedure OnWindowActivationChanged(const window: ICefWindow; active: boolean);
-      procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
-      procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
-      procedure OnGetInitialShowState(const window: ICefWindow; var aResult : TCefShowState);
-      procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean);
-      procedure OnCanResize(const window: ICefWindow; var aResult : boolean);
-      procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean);
-      procedure OnCanMinimize(const window: ICefWindow; var aResult : boolean);
-      procedure OnCanClose(const window: ICefWindow; var aResult : boolean);
-      procedure OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean);
-      procedure OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+      procedure OnWindowCreated(const window_: ICefWindow);
+      procedure OnWindowClosing(const window_: ICefWindow);
+      procedure OnWindowDestroyed(const window_: ICefWindow);
+      procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
+      procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+      procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+      procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
+      procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
+      procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
+      procedure OnCanResize(const window_: ICefWindow; var aResult : boolean);
+      procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
+      procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
+      procedure OnCanClose(const window_: ICefWindow; var aResult : boolean);
+      procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
+      procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 
     public
       class function UnWrap(data: Pointer): ICefWindowDelegate;
@@ -79,19 +81,21 @@ type
 
   TCefWindowDelegateOwn = class(TCefPanelDelegateOwn, ICefWindowDelegate)
     protected
-      procedure OnWindowCreated(const window: ICefWindow); virtual;
-      procedure OnWindowDestroyed(const window: ICefWindow); virtual;
-      procedure OnWindowActivationChanged(const window: ICefWindow; active: boolean); virtual;
-      procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); virtual;
-      procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect); virtual;
-      procedure OnGetInitialShowState(const window: ICefWindow; var aResult : TCefShowState); virtual;
-      procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean); virtual;
-      procedure OnCanResize(const window: ICefWindow; var aResult : boolean); virtual;
-      procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean); virtual;
-      procedure OnCanMinimize(const window: ICefWindow; var aResult : boolean); virtual;
-      procedure OnCanClose(const window: ICefWindow; var aResult : boolean); virtual;
-      procedure OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean); virtual;
-      procedure OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
+      procedure OnWindowCreated(const window_: ICefWindow); virtual;
+      procedure OnWindowClosing(const window_: ICefWindow); virtual;
+      procedure OnWindowDestroyed(const window_: ICefWindow); virtual;
+      procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); virtual;
+      procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); virtual;
+      procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); virtual;
+      procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); virtual;
+      procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); virtual;
+      procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); virtual;
+      procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); virtual;
+      procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); virtual;
+      procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); virtual;
+      procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); virtual;
+      procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); virtual;
+      procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
 
       procedure InitializeCEFMethods; override;
 
@@ -116,19 +120,21 @@ type
       procedure OnBlur(const view: ICefView); override;
 
       // ICefWindowDelegate
-      procedure OnWindowCreated(const window: ICefWindow); override;
-      procedure OnWindowDestroyed(const window: ICefWindow); override;
-      procedure OnWindowActivationChanged(const window: ICefWindow; active: boolean); override;
-      procedure OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
-      procedure OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect); override;
-      procedure OnGetInitialShowState(const window: ICefWindow; var aResult : TCefShowState); override;
-      procedure OnIsFrameless(const window: ICefWindow; var aResult : boolean); override;
-      procedure OnCanResize(const window: ICefWindow; var aResult : boolean); override;
-      procedure OnCanMaximize(const window: ICefWindow; var aResult : boolean); override;
-      procedure OnCanMinimize(const window: ICefWindow; var aResult : boolean); override;
-      procedure OnCanClose(const window: ICefWindow; var aResult : boolean); override;
-      procedure OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean); override;
-      procedure OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); override;
+      procedure OnWindowCreated(const window_: ICefWindow); override;
+      procedure OnWindowClosing(const window_: ICefWindow); override;
+      procedure OnWindowDestroyed(const window_: ICefWindow); override;
+      procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
+      procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
+      procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
+      procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); override;
+      procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); override;
+      procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); override;
+      procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); override;
+      procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); override;
+      procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); override;
+      procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); override;
+      procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); override;
+      procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); override;
 
     public
       constructor Create(const events: ICefWindowDelegateEvents); reintroduce;
@@ -144,22 +150,32 @@ uses
 // ******************* TCefWindowDelegateRef ********************
 // **************************************************************
 
-procedure TCefWindowDelegateRef.OnWindowCreated(const window: ICefWindow);
+procedure TCefWindowDelegateRef.OnWindowCreated(const window_: ICefWindow);
 begin
-  PCefWindowDelegate(FData)^.on_window_created(PCefWindowDelegate(FData), CefGetData(window));
+  PCefWindowDelegate(FData)^.on_window_created(PCefWindowDelegate(FData), CefGetData(window_));
 end;
 
-procedure TCefWindowDelegateRef.OnWindowDestroyed(const window: ICefWindow);
+procedure TCefWindowDelegateRef.OnWindowClosing(const window_: ICefWindow);
 begin
-  PCefWindowDelegate(FData)^.on_window_destroyed(PCefWindowDelegate(FData), CefGetData(window));
+  PCefWindowDelegate(FData)^.on_window_closing(PCefWindowDelegate(FData), CefGetData(window_));
 end;
 
-procedure TCefWindowDelegateRef.OnWindowActivationChanged(const window: ICefWindow; active: boolean);
+procedure TCefWindowDelegateRef.OnWindowDestroyed(const window_: ICefWindow);
 begin
-  PCefWindowDelegate(FData)^.on_window_activation_changed(PCefWindowDelegate(FData), CefGetData(window), ord(active));
+  PCefWindowDelegate(FData)^.on_window_destroyed(PCefWindowDelegate(FData), CefGetData(window_));
 end;
 
-procedure TCefWindowDelegateRef.OnGetParentWindow(const window            : ICefWindow;
+procedure TCefWindowDelegateRef.OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
+begin
+  PCefWindowDelegate(FData)^.on_window_activation_changed(PCefWindowDelegate(FData), CefGetData(window_), ord(active));
+end;
+
+procedure TCefWindowDelegateRef.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+begin
+  PCefWindowDelegate(FData)^.on_window_bounds_changed(PCefWindowDelegate(FData), CefGetData(window_), @new_bounds);
+end;
+
+procedure TCefWindowDelegateRef.OnGetParentWindow(const window_            : ICefWindow;
                                                   var   is_menu           : boolean;
                                                   var   can_activate_menu : boolean;
                                                   var   aResult           : ICefWindow);
@@ -169,56 +185,56 @@ begin
   TempIsMenu          := ord(is_menu);
   TempCanActivateMenu := ord(can_activate_menu);
   aResult             := TCefWindowRef.UnWrap(PCefWindowDelegate(FData)^.get_parent_window(PCefWindowDelegate(FData),
-                                                                                           CefGetData(window),
+                                                                                           CefGetData(window_),
                                                                                            @TempIsMenu,
                                                                                            @TempCanActivateMenu));
   is_menu           := TempIsMenu <> 0;
   can_activate_menu := TempCanActivateMenu <> 0;
 end;
 
-procedure TCefWindowDelegateRef.OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
+procedure TCefWindowDelegateRef.OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
 begin
-  aResult := PCefWindowDelegate(FData)^.get_initial_bounds(PCefWindowDelegate(FData), CefGetData(window));
+  aResult := PCefWindowDelegate(FData)^.get_initial_bounds(PCefWindowDelegate(FData), CefGetData(window_));
 end;
 
-procedure TCefWindowDelegateRef.OnGetInitialShowState(const window: ICefWindow; var aResult : TCefShowState);
+procedure TCefWindowDelegateRef.OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
 begin
-  aResult := PCefWindowDelegate(FData)^.get_initial_show_state(PCefWindowDelegate(FData), CefGetData(window));
+  aResult := PCefWindowDelegate(FData)^.get_initial_show_state(PCefWindowDelegate(FData), CefGetData(window_));
 end;
 
-procedure TCefWindowDelegateRef.OnIsFrameless(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateRef.OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
 begin
-  aResult := (PCefWindowDelegate(FData)^.is_frameless(PCefWindowDelegate(FData), CefGetData(window)) <> 0);
+  aResult := (PCefWindowDelegate(FData)^.is_frameless(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
 end;
 
-procedure TCefWindowDelegateRef.OnCanResize(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateRef.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
-  aResult := (PCefWindowDelegate(FData)^.can_resize(PCefWindowDelegate(FData), CefGetData(window)) <> 0);
+  aResult := (PCefWindowDelegate(FData)^.can_resize(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
 end;
 
-procedure TCefWindowDelegateRef.OnCanMaximize(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateRef.OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
 begin
-  aResult := (PCefWindowDelegate(FData)^.can_maximize(PCefWindowDelegate(FData), CefGetData(window)) <> 0);
+  aResult := (PCefWindowDelegate(FData)^.can_maximize(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
 end;
 
-procedure TCefWindowDelegateRef.OnCanMinimize(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateRef.OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
 begin
-  aResult := (PCefWindowDelegate(FData)^.can_minimize(PCefWindowDelegate(FData), CefGetData(window)) <> 0);
+  aResult := (PCefWindowDelegate(FData)^.can_minimize(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
 end;
 
-procedure TCefWindowDelegateRef.OnCanClose(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateRef.OnCanClose(const window_: ICefWindow; var aResult : boolean);
 begin
-  aResult := (PCefWindowDelegate(FData)^.can_close(PCefWindowDelegate(FData), CefGetData(window)) <> 0);
+  aResult := (PCefWindowDelegate(FData)^.can_close(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
 end;
 
-procedure TCefWindowDelegateRef.OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean);
+procedure TCefWindowDelegateRef.OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
 begin
-  aResult := (PCefWindowDelegate(FData)^.on_accelerator(PCefWindowDelegate(FData), CefGetData(window), command_id) <> 0);
+  aResult := (PCefWindowDelegate(FData)^.on_accelerator(PCefWindowDelegate(FData), CefGetData(window_), command_id) <> 0);
 end;
 
-procedure TCefWindowDelegateRef.OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+procedure TCefWindowDelegateRef.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 begin
-  aResult := (PCefWindowDelegate(FData)^.on_key_event(PCefWindowDelegate(FData), CefGetData(window), @event) <> 0);
+  aResult := (PCefWindowDelegate(FData)^.on_key_event(PCefWindowDelegate(FData), CefGetData(window_), @event) <> 0);
 end;
 
 class function TCefWindowDelegateRef.UnWrap(data: Pointer): ICefWindowDelegate;
@@ -234,39 +250,39 @@ end;
 // ******************* TCefWindowDelegateOwn ********************
 // **************************************************************
 
-procedure cef_window_delegate_on_window_created(self: PCefWindowDelegate; window: PCefWindow); stdcall;
+procedure cef_window_delegate_on_window_created(self: PCefWindowDelegate; window_: PCefWindow); stdcall;
 var
   TempObject : TObject;
 begin
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnWindowCreated(TCefWindowRef.UnWrap(window));
+    TCefWindowDelegateOwn(TempObject).OnWindowCreated(TCefWindowRef.UnWrap(window_));
 end;
 
-procedure cef_window_delegate_on_window_destroyed(self: PCefWindowDelegate; window: PCefWindow); stdcall;
+procedure cef_window_delegate_on_window_destroyed(self: PCefWindowDelegate; window_: PCefWindow); stdcall;
 var
   TempObject : TObject;
 begin
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnWindowDestroyed(TCefWindowRef.UnWrap(window));
+    TCefWindowDelegateOwn(TempObject).OnWindowDestroyed(TCefWindowRef.UnWrap(window_));
 end;
 
-procedure cef_window_delegate_on_window_activation_changed(self: PCefWindowDelegate; window: PCefWindow; active: integer); stdcall;
+procedure cef_window_delegate_on_window_activation_changed(self: PCefWindowDelegate; window_: PCefWindow; active: integer); stdcall;
 var
   TempObject : TObject;
 begin
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnWindowActivationChanged(TCefWindowRef.UnWrap(window),
+    TCefWindowDelegateOwn(TempObject).OnWindowActivationChanged(TCefWindowRef.UnWrap(window_),
                                                                 active <> 0);
 end;
 
 function cef_window_delegate_get_parent_window(self              : PCefWindowDelegate;
-                                               window            : PCefWindow;
+                                               window_            : PCefWindow;
                                                is_menu           : PInteger;
                                                can_activate_menu : PInteger): PCefWindow; stdcall;
 var
@@ -282,7 +298,7 @@ begin
       TempIsMenu          := (is_menu^           <> 0);
       TempCanActivateMenu := (can_activate_menu^ <> 0);
 
-      TCefWindowDelegateOwn(TempObject).OnGetParentWindow(TCefWindowRef.UnWrap(window),
+      TCefWindowDelegateOwn(TempObject).OnGetParentWindow(TCefWindowRef.UnWrap(window_),
                                                           TempIsMenu,
                                                           TempCanActivateMenu,
                                                           TempWindow);
@@ -293,7 +309,7 @@ begin
   Result := CefGetData(TempWindow);
 end;
 
-function cef_window_delegate_get_initial_bounds(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
+function cef_window_delegate_get_initial_bounds(self: PCefWindowDelegate; window_: PCefWindow): TCefRect; stdcall;
 var
   TempObject : TObject;
   TempRect   : TCefRect;
@@ -305,7 +321,7 @@ begin
   TempRect.height := 0;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnGetInitialBounds(TCefWindowRef.UnWrap(window),
+    TCefWindowDelegateOwn(TempObject).OnGetInitialBounds(TCefWindowRef.UnWrap(window_),
                                                          TempRect);
 
   Result.x      := TempRect.x;
@@ -314,7 +330,7 @@ begin
   Result.height := TempRect.height;
 end;
 
-function cef_window_delegate_get_initial_show_state(self: PCefWindowDelegate; window: PCefWindow): TCefShowState; stdcall;
+function cef_window_delegate_get_initial_show_state(self: PCefWindowDelegate; window_: PCefWindow): TCefShowState; stdcall;
 var
   TempObject : TObject;
 begin
@@ -322,11 +338,11 @@ begin
   Result     := CEF_SHOW_STATE_NORMAL;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnGetInitialShowState(TCefWindowRef.UnWrap(window),
+    TCefWindowDelegateOwn(TempObject).OnGetInitialShowState(TCefWindowRef.UnWrap(window_),
                                                             Result);
 end;
 
-function cef_window_delegate_is_frameless(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+function cef_window_delegate_is_frameless(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
 var
   TempObject      : TObject;
   TempIsFrameless : boolean;
@@ -335,12 +351,12 @@ begin
   TempIsFrameless := False;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnIsFrameless(TCefWindowRef.UnWrap(window), TempIsFrameless);
+    TCefWindowDelegateOwn(TempObject).OnIsFrameless(TCefWindowRef.UnWrap(window_), TempIsFrameless);
 
   Result := ord(TempIsFrameless);
 end;
 
-function cef_window_delegate_can_resize(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+function cef_window_delegate_can_resize(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
 var
   TempObject    : TObject;
   TempCanResize : boolean;
@@ -349,12 +365,12 @@ begin
   TempCanResize := True;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnCanResize(TCefWindowRef.UnWrap(window), TempCanResize);
+    TCefWindowDelegateOwn(TempObject).OnCanResize(TCefWindowRef.UnWrap(window_), TempCanResize);
 
   Result := ord(TempCanResize);
 end;
 
-function cef_window_delegate_can_maximize(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+function cef_window_delegate_can_maximize(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
 var
   TempObject      : TObject;
   TempCanMaximize : boolean;
@@ -363,12 +379,12 @@ begin
   TempCanMaximize := True;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnCanMaximize(TCefWindowRef.UnWrap(window), TempCanMaximize);
+    TCefWindowDelegateOwn(TempObject).OnCanMaximize(TCefWindowRef.UnWrap(window_), TempCanMaximize);
 
   Result := ord(TempCanMaximize);
 end;
 
-function cef_window_delegate_can_minimize(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+function cef_window_delegate_can_minimize(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
 var
   TempObject      : TObject;
   TempCanMinimize : boolean;
@@ -377,12 +393,12 @@ begin
   TempCanMinimize := True;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnCanMinimize(TCefWindowRef.UnWrap(window), TempCanMinimize);
+    TCefWindowDelegateOwn(TempObject).OnCanMinimize(TCefWindowRef.UnWrap(window_), TempCanMinimize);
 
   Result := ord(TempCanMinimize);
 end;
 
-function cef_window_delegate_can_close(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+function cef_window_delegate_can_close(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
 var
   TempObject   : TObject;
   TempCanClose : boolean;
@@ -391,13 +407,13 @@ begin
   TempCanClose := True;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnCanClose(TCefWindowRef.UnWrap(window), TempCanClose);
+    TCefWindowDelegateOwn(TempObject).OnCanClose(TCefWindowRef.UnWrap(window_), TempCanClose);
 
   Result := ord(TempCanClose);
 end;
 
 function cef_window_delegate_on_accelerator(self       : PCefWindowDelegate;
-                                            window     : PCefWindow;
+                                            window_     : PCefWindow;
                                             command_id : Integer): Integer; stdcall;
 var
   TempObject : TObject;
@@ -407,13 +423,13 @@ begin
   TempResult := False;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnAccelerator(TCefWindowRef.UnWrap(window), command_id, TempResult);
+    TCefWindowDelegateOwn(TempObject).OnAccelerator(TCefWindowRef.UnWrap(window_), command_id, TempResult);
 
   Result := ord(TempResult);
 end;
 
 function cef_window_delegate_on_key_event(      self   : PCefWindowDelegate;
-                                                window : PCefWindow;
+                                                window_ : PCefWindow;
                                           const event  : PCefKeyEvent): Integer; stdcall;
 var
   TempObject : TObject;
@@ -423,7 +439,7 @@ begin
   TempResult := False;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnKeyEvent(TCefWindowRef.UnWrap(window), event^, TempResult);
+    TCefWindowDelegateOwn(TempObject).OnKeyEvent(TCefWindowRef.UnWrap(window_), event^, TempResult);
 
   Result := ord(TempResult);
 end;
@@ -457,67 +473,77 @@ begin
     end;
 end;
 
-procedure TCefWindowDelegateOwn.OnWindowCreated(const window: ICefWindow);
+procedure TCefWindowDelegateOwn.OnWindowCreated(const window_: ICefWindow);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnWindowDestroyed(const window: ICefWindow);
+procedure TCefWindowDelegateOwn.OnWindowClosing(const window_: ICefWindow);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnWindowActivationChanged(const window: ICefWindow; active: boolean);
+procedure TCefWindowDelegateOwn.OnWindowDestroyed(const window_: ICefWindow);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+procedure TCefWindowDelegateOwn.OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
+procedure TCefWindowDelegateOwn.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnGetInitialShowState(const window: ICefWindow; var aResult : TCefShowState);
+procedure TCefWindowDelegateOwn.OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnIsFrameless(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateOwn.OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnCanResize(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateOwn.OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnCanMaximize(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateOwn.OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnCanMinimize(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateOwn.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnCanClose(const window: ICefWindow; var aResult : boolean);
+procedure TCefWindowDelegateOwn.OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean);
+procedure TCefWindowDelegateOwn.OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
 begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+procedure TCefWindowDelegateOwn.OnCanClose(const window_: ICefWindow; var aResult : boolean);
+begin
+  //
+end;
+
+procedure TCefWindowDelegateOwn.OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
+begin
+  //
+end;
+
+procedure TCefWindowDelegateOwn.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 begin
   //
 end;
@@ -644,143 +670,165 @@ begin
   end;
 end;
 
-procedure TCustomWindowDelegate.OnWindowCreated(const window: ICefWindow);
+procedure TCustomWindowDelegate.OnWindowCreated(const window_: ICefWindow);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnWindowCreated(window);
+      ICefWindowDelegateEvents(FEvents).doOnWindowCreated(window_);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnWindowCreated', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnWindowDestroyed(const window: ICefWindow);
+procedure TCustomWindowDelegate.OnWindowClosing(const window_: ICefWindow);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnWindowDestroyed(window);
+      ICefWindowDelegateEvents(FEvents).doOnWindowClosing(window_);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowClosing', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnWindowDestroyed(const window_: ICefWindow);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnWindowDestroyed(window_);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnWindowDestroyed', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnWindowActivationChanged(const window: ICefWindow; active: boolean);
+procedure TCustomWindowDelegate.OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnWindowActivationChanged(window, active);
+      ICefWindowDelegateEvents(FEvents).doOnWindowActivationChanged(window_, active);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnWindowActivationChanged', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnGetParentWindow(const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+procedure TCustomWindowDelegate.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnGetParentWindow(window, is_menu, can_activate_menu, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnWindowBoundsChanged(window_, new_bounds);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowBoundsChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetParentWindow(window_, is_menu, can_activate_menu, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnGetParentWindow', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnGetInitialBounds(const window: ICefWindow; var aResult : TCefRect);
+procedure TCustomWindowDelegate.OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnGetInitialBounds(window, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnGetInitialBounds(window_, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnGetInitialBounds', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnGetInitialShowState(const window: ICefWindow; var aResult : TCefShowState);
+procedure TCustomWindowDelegate.OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnGetInitialShowState(window, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnGetInitialShowState(window_, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnGetInitialShowState', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnIsFrameless(const window: ICefWindow; var aResult : boolean);
+procedure TCustomWindowDelegate.OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnIsFrameless(window, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnIsFrameless(window_, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnIsFrameless', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnCanResize(const window: ICefWindow; var aResult : boolean);
+procedure TCustomWindowDelegate.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnCanResize(window, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnCanResize(window_, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnCanResize', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnCanMaximize(const window: ICefWindow; var aResult : boolean);
+procedure TCustomWindowDelegate.OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnCanMaximize(window, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnCanMaximize(window_, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnCanMaximize', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnCanMinimize(const window: ICefWindow; var aResult : boolean);
+procedure TCustomWindowDelegate.OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnCanMinimize(window, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnCanMinimize(window_, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnCanMinimize', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnCanClose(const window: ICefWindow; var aResult : boolean);
+procedure TCustomWindowDelegate.OnCanClose(const window_: ICefWindow; var aResult : boolean);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnCanClose(window, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnCanClose(window_, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnCanClose', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnAccelerator(const window: ICefWindow; command_id: Integer; var aResult : boolean);
+procedure TCustomWindowDelegate.OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnAccelerator(window, command_id, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnAccelerator(window_, command_id, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnAccelerator', e) then raise;
   end;
 end;
 
-procedure TCustomWindowDelegate.OnKeyEvent(const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+procedure TCustomWindowDelegate.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnKeyEvent(window, event, aResult);
+      ICefWindowDelegateEvents(FEvents).doOnKeyEvent(window_, event, aResult);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnKeyEvent', e) then raise;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -64,6 +64,8 @@ type
       URLEdt: TEdit;
       WindowParentLay: TLayout;
       FocusWorkaroundBtn: TButton;
+    StatusBar1: TStatusBar;
+    StatusLbl: TLabel;
 
       procedure BackBtnClick(Sender: TObject);
       procedure ForwardBtnClick(Sender: TObject);
@@ -82,6 +84,8 @@ type
       procedure FMXChromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
       procedure FMXChromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
       procedure FMXChromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
+    procedure FMXChromium1StatusMessage(Sender: TObject;
+      const browser: ICefBrowser; const value: ustring);
 
     protected
       FClosing              : boolean;   // Indicates that this frame is destroying the browser
@@ -143,14 +147,12 @@ end;
 function TBrowserFrame.GetFMXWindowParentRect : TRect;
 var
   TempPoint : TPointF;
-  TempScale : single;
 begin
-  TempScale     := FMXChromium1.ScreenScale;
   TempPoint     := LocalToAbsolute(WindowParentLay.Position.Point);
   Result.Left   := round(TempPoint.x);
   Result.Top    := round(TempPoint.y);
-  Result.Right  := round(TempPoint.x + (WindowParentLay.Width  * TempScale));
-  Result.Bottom := round(TempPoint.y + (WindowParentLay.Height * TempScale));
+  Result.Right  := round(TempPoint.x + WindowParentLay.Width);
+  Result.Bottom := round(TempPoint.y + WindowParentLay.Height);
 end;
 
 procedure TBrowserFrame.ReloadBtnClick(Sender: TObject);
@@ -161,7 +163,10 @@ end;
 procedure TBrowserFrame.ResizeBrowser;
 begin
   if (FMXWindowParent <> nil) then
-    FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+    begin
+      FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+      FMXWindowParent.UpdateSize;
+    end;
 end;
 
 procedure TBrowserFrame.ShowBrowser;
@@ -204,7 +209,8 @@ procedure TBrowserFrame.CreateFMXWindowParent;
 begin
   if (FMXWindowParent = nil) then
     begin
-      FMXWindowParent := TFMXWindowParent.CreateNew(nil);
+      FMXWindowParent          := TFMXWindowParent.CreateNew(nil);
+      FMXWindowParent.Chromium := FMXChromium1;
       FMXWindowParent.Reparent(ParentForm.Handle);
       ResizeBrowser;
       FMXWindowParent.Show;
@@ -226,6 +232,7 @@ begin
   TThread.Queue(nil, procedure
                      begin
                        AddressLay.Enabled := True;
+                       ResizeBrowser;
                      end);
 end;
 
@@ -311,6 +318,16 @@ begin
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
 end;
 
+procedure TBrowserFrame.FMXChromium1StatusMessage(Sender: TObject;
+  const browser: ICefBrowser; const value: ustring);
+begin
+  TThread.Queue(nil,
+    procedure
+    begin
+      StatusLbl.Text := value;
+    end);
+end;
+
 procedure TBrowserFrame.FMXChromium1TitleChange(Sender: TObject;
   const browser: ICefBrowser; const title: ustring);
 begin
@@ -358,6 +375,7 @@ var
   TempHandle : HWND;
   TempRect   : System.Types.TRect;
   TempClientRect : TRectF;
+  TempScale : single;
   {$ENDIF}
 begin
   CreateFMXWindowParent;
@@ -367,10 +385,11 @@ begin
       {$IFDEF MSWINDOWS}
       TempHandle      := FmxHandleToHWND(FMXWindowParent.Handle);
       TempClientRect  := FMXWindowParent.ClientRect;
+      TempScale       := FMXChromium1.ScreenScale;
       TempRect.Left   := round(TempClientRect.Left);
       TempRect.Top    := round(TempClientRect.Top);
-      TempRect.Right  := round(TempClientRect.Right);
-      TempRect.Bottom := round(TempClientRect.Bottom);
+      TempRect.Right  := round(TempClientRect.Right  * TempScale);
+      TempRect.Bottom := round(TempClientRect.Bottom * TempScale);
 
       FMXChromium1.DefaultUrl := FHomepage;
       FMXChromium1.CreateBrowser(TempHandle, TempRect);

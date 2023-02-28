@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -143,6 +143,8 @@ type
       FQuicAllowed              : boolean;
       FJavascriptEnabled        : boolean;
       FLoadImagesAutomatically  : boolean;
+      FBatterySaverModeState    : TCefBatterySaverModeState;
+      FHighEfficiencyMode       : TCefState;
 
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
@@ -221,7 +223,6 @@ type
       FOnBeforeBrowse                      : TOnBeforeBrowse;
       FOnOpenUrlFromTab                    : TOnOpenUrlFromTab;
       FOnGetAuthCredentials                : TOnGetAuthCredentials;
-      FOnQuotaRequest                      : TOnQuotaRequest;
       FOnCertificateError                  : TOnCertificateError;
       FOnSelectClientCertificate           : TOnSelectClientCertificate;
       FOnRenderViewReady                   : TOnRenderViewReady;
@@ -431,6 +432,8 @@ type
       procedure SetQuicAllowed(aValue : boolean);
       procedure SetJavascriptEnabled(aValue : boolean);
       procedure SetLoadImagesAutomatically(aValue : boolean);
+      procedure SetBatterySaverModeState(aValue : TCefBatterySaverModeState);
+      procedure SetHighEfficiencyMode(aValue : TCefState);
       procedure SetDefaultUrl(const aValue : ustring);
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
@@ -459,8 +462,6 @@ type
 
       procedure InitializeEvents;
       procedure InitializeSettings(var aSettings : TCefBrowserSettings);
-
-      procedure GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : ustring);
 
       function  UpdateProxyPrefs(const aBrowser: ICefBrowser) : boolean;
       function  UpdatePreference(const aBrowser: ICefBrowser; const aName : ustring; aValue : boolean) : boolean; overload;
@@ -573,7 +574,6 @@ type
       function  doOnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean; virtual;
       procedure doGetResourceRequestHandler_ReqHdlr(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler); virtual;
       function  doOnGetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
-      function  doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback): Boolean; virtual;
       function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; virtual;
       function  doOnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
       procedure doOnRenderViewReady(const browser: ICefBrowser); virtual;
@@ -817,7 +817,7 @@ type
       procedure   StopFinding(aClearSelection : Boolean);
 
       procedure   Print;
-      procedure   PrintToPDF(const aFilePath, aTitle, aURL : ustring);
+      procedure   PrintToPDF(const aFilePath : ustring);
 
       procedure   ClipboardCopy;
       procedure   ClipboardPaste;
@@ -969,6 +969,8 @@ type
       property  QuicAllowed                   : boolean                      read FQuicAllowed                 write SetQuicAllowed;
       property  JavascriptEnabled             : boolean                      read FJavascriptEnabled           write SetJavascriptEnabled;
       property  LoadImagesAutomatically       : boolean                      read FLoadImagesAutomatically     write SetLoadImagesAutomatically;
+      property  BatterySaverModeState         : TCefBatterySaverModeState    read FBatterySaverModeState       write SetBatterySaverModeState;
+      property  HighEfficiencyMode            : TCefState                    read FHighEfficiencyMode          write SetHighEfficiencyMode;
       {$IFDEF LINUX}
       property  XDisplay                      : PXDisplay                    read GetXDisplay;
       {$ENDIF}
@@ -1074,7 +1076,6 @@ type
       property OnBeforeBrowse                      : TOnBeforeBrowse                   read FOnBeforeBrowse                      write FOnBeforeBrowse;
       property OnOpenUrlFromTab                    : TOnOpenUrlFromTab                 read FOnOpenUrlFromTab                    write FOnOpenUrlFromTab;
       property OnGetAuthCredentials                : TOnGetAuthCredentials             read FOnGetAuthCredentials                write FOnGetAuthCredentials;
-      property OnQuotaRequest                      : TOnQuotaRequest                   read FOnQuotaRequest                      write FOnQuotaRequest;
       property OnCertificateError                  : TOnCertificateError               read FOnCertificateError                  write FOnCertificateError;
       property OnSelectClientCertificate           : TOnSelectClientCertificate        read FOnSelectClientCertificate           write FOnSelectClientCertificate;
       property OnRenderViewReady                   : TOnRenderViewReady                read FOnRenderViewReady                   write FOnRenderViewReady;
@@ -1327,6 +1328,8 @@ begin
   FQuicAllowed             := True;
   FJavascriptEnabled       := True;
   FLoadImagesAutomatically := True;
+  FBatterySaverModeState   := bsmsDefault;
+  FHighEfficiencyMode      := STATE_DEFAULT;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -1813,7 +1816,6 @@ begin
   FOnBeforeBrowse                      := nil;
   FOnOpenUrlFromTab                    := nil;
   FOnGetAuthCredentials                := nil;
-  FOnQuotaRequest                      := nil;
   FOnCertificateError                  := nil;
   FOnSelectClientCertificate           := nil;
   FOnRenderViewReady                   := nil;
@@ -2301,14 +2303,14 @@ begin
 end;
 
 // The TChromiumCore.OnPdfPrintFinished event will be triggered when the PDF file is created.
-procedure TChromiumCore.PrintToPDF(const aFilePath, aTitle, aURL : ustring);
+procedure TChromiumCore.PrintToPDF(const aFilePath : ustring);
 var
   TempSettings : TCefPdfPrintSettings;
   TempCallback : ICefPdfPrintCallback;
 begin
-  if Initialized then
+  if Initialized and (FPDFPrintOptions <> nil) then
     begin
-      GetPrintPDFSettings(TempSettings, aTitle, aURL);
+      FPDFPrintOptions.CopyToSettings(TempSettings);
       TempCallback := TCefCustomPDFPrintCallBack.Create(self);
       Browser.Host.PrintToPdf(aFilePath, @TempSettings, TempCallback);
     end;
@@ -2402,27 +2404,6 @@ begin
       if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.SelectAll;
-    end;
-end;
-
-procedure TChromiumCore.GetPrintPDFSettings(var aSettings : TCefPdfPrintSettings; const aTitle, aURL : ustring);
-begin
-  if (FPDFPrintOptions <> nil) then
-    begin
-      aSettings.header_footer_title   := CefString(aTitle);
-      aSettings.header_footer_url     := CefString(aURL);
-      aSettings.page_width            := FPDFPrintOptions.page_width;
-      aSettings.page_height           := FPDFPrintOptions.page_height;
-      aSettings.scale_factor          := FPDFPrintOptions.scale_factor;
-      aSettings.margin_top            := FPDFPrintOptions.margin_top;
-      aSettings.margin_right          := FPDFPrintOptions.margin_right;
-      aSettings.margin_bottom         := FPDFPrintOptions.margin_bottom;
-      aSettings.margin_left           := FPDFPrintOptions.margin_left;
-      aSettings.margin_type           := FPDFPrintOptions.margin_type;
-      aSettings.header_footer_enabled := Ord(FPDFPrintOptions.header_footer_enabled);
-      aSettings.selection_only        := Ord(FPDFPrintOptions.selection_only);
-      aSettings.landscape             := Ord(FPDFPrintOptions.landscape);
-      aSettings.backgrounds_enabled   := Ord(FPDFPrintOptions.backgrounds_enabled);
     end;
 end;
 
@@ -2915,6 +2896,24 @@ begin
     begin
       FLoadImagesAutomatically := aValue;
       FUpdatePreferences       := True;
+    end;
+end;
+
+procedure TChromiumCore.SetBatterySaverModeState(aValue : TCefBatterySaverModeState);
+begin
+  if (FBatterySaverModeState <> aValue) then
+    begin
+      FBatterySaverModeState := aValue;
+      FUpdatePreferences     := True;
+    end;
+end;
+
+procedure TChromiumCore.SetHighEfficiencyMode(aValue : TCefState);
+begin
+  if (FHighEfficiencyMode <> aValue) then
+    begin
+      FHighEfficiencyMode := aValue;
+      FUpdatePreferences  := True;
     end;
 end;
 
@@ -4145,6 +4144,12 @@ begin
 
   UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
   UpdatePreference(aBrowser, 'webkit.webprefs.loads_images_automatically', FLoadImagesAutomatically);
+
+  if (FHighEfficiencyMode <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'performance_tuning.high_efficiency_mode.enabled', (FHighEfficiencyMode = STATE_ENABLED));
+
+  if (FBatterySaverModeState <> bsmsDefault) then
+    UpdatePreference(aBrowser, 'performance_tuning.battery_saver_mode.state', integer(FBatterySaverModeState));
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);
@@ -6303,17 +6308,6 @@ procedure TChromiumCore.doOnProtocolExecution(const browser          : ICefBrows
 begin
   if assigned(FOnProtocolExecution) then
     FOnProtocolExecution(Self, browser, frame, request, allowOsExecution);
-end;
-
-function TChromiumCore.doOnQuotaRequest(const browser   : ICefBrowser;
-                                        const originUrl : ustring;
-                                              newSize   : Int64;
-                                        const callback  : ICefCallback): Boolean;
-begin
-  Result := False;
-
-  if assigned(FOnQuotaRequest) then
-    FOnQuotaRequest(Self, browser, originUrl, newSize, callback, Result);
 end;
 
 procedure TChromiumCore.doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);

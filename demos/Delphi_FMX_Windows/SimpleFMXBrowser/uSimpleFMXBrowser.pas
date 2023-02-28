@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -68,6 +68,8 @@ type
     SnapShotBtn: TButton;
     BrowserLay: TLayout;
     FocusWorkaroundBtn: TButton;
+    StatusBar1: TStatusBar;
+    StatusLbl: TLabel;
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -85,6 +87,7 @@ type
     procedure FMXChromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
     procedure FMXChromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
     procedure FMXChromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
+    procedure FMXChromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -249,6 +252,16 @@ begin
     end);
 end;
 
+procedure TSimpleFMXBrowserFrm.FMXChromium1StatusMessage(Sender: TObject;
+  const browser: ICefBrowser; const value: ustring);
+begin
+  TThread.Queue(nil,
+    procedure
+    begin
+      StatusLbl.Text := value;
+    end);
+end;
+
 function TSimpleFMXBrowserFrm.PostCustomMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 {$IFDEF MSWINDOWS}
 var
@@ -320,6 +333,7 @@ begin
         begin
           Caption            := 'Simple FMX Browser';
           AddressPnl.Enabled := True;
+          ResizeChild;
         end;
 
       CEF_DESTROY :
@@ -413,20 +427,20 @@ begin
 end;
 
 function TSimpleFMXBrowserFrm.GetFMXWindowParentRect : System.Types.TRect;
-var
-  TempScale : single;
 begin
-  TempScale     := FMXChromium1.ScreenScale;
   Result.Left   := round(BrowserLay.Position.x);
   Result.Top    := round(BrowserLay.Position.y);
-  Result.Right  := Result.Left + round(BrowserLay.Width  * TempScale);
-  Result.Bottom := Result.Top  + round(BrowserLay.Height * TempScale);
+  Result.Right  := round(Result.Left + BrowserLay.Width);
+  Result.Bottom := round(Result.Top  + BrowserLay.Height);
 end;
 
 procedure TSimpleFMXBrowserFrm.ResizeChild;
 begin
   if (FMXWindowParent <> nil) then
-    FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+    begin
+      FMXWindowParent.SetBounds(GetFMXWindowParentRect);
+      FMXWindowParent.UpdateSize;
+    end;
 end;
 
 procedure TSimpleFMXBrowserFrm.SnapShotBtnClick(Sender: TObject);
@@ -455,7 +469,8 @@ procedure TSimpleFMXBrowserFrm.CreateFMXWindowParent;
 begin
   if (FMXWindowParent = nil) then
     begin
-      FMXWindowParent := TFMXWindowParent.CreateNew(nil);
+      FMXWindowParent          := TFMXWindowParent.CreateNew(nil);
+      FMXWindowParent.Chromium := FMXChromium1;
       FMXWindowParent.Reparent(Handle);
       ResizeChild;
       FMXWindowParent.Show;
@@ -467,6 +482,7 @@ var
   TempHandle : HWND;
   TempRect   : System.Types.TRect;
   TempClientRect : TRectF;
+  TempScale : single;
 begin
   // TFMXWindowParent has to be created at runtime
   CreateFMXWindowParent;
@@ -481,10 +497,11 @@ begin
     begin
       TempHandle      := FmxHandleToHWND(FMXWindowParent.Handle);
       TempClientRect  := FMXWindowParent.ClientRect;
+      TempScale       := FMXChromium1.ScreenScale;
       TempRect.Left   := round(TempClientRect.Left);
       TempRect.Top    := round(TempClientRect.Top);
-      TempRect.Right  := round(TempClientRect.Right);
-      TempRect.Bottom := round(TempClientRect.Bottom);
+      TempRect.Right  := round(TempClientRect.Right  * TempScale);
+      TempRect.Bottom := round(TempClientRect.Bottom * TempScale);
 
       FMXChromium1.DefaultUrl := AddressEdt.Text;
 

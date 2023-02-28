@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -76,6 +76,8 @@ type
       class function GetAlls(var aDisplayArray : TCefDisplayArray) : boolean;
       class function ScreenPointToPixels(const aScreenPoint : TPoint) : TPoint;
       class function ScreenPointFromPixels(const aPixelsPoint : TPoint) : TPoint;
+      class function ScreenRectToPixels(const aScreenRect : TRect) : TRect;
+      class function ScreenRectFromPixels(const aPixelsRect : TRect) : TRect;
   end;
 
 implementation
@@ -208,10 +210,7 @@ begin
       Result.Y       := TempPixelsPt.y;
     end
    else
-    begin
-      Result.X := aScreenPoint.X;
-      Result.X := aScreenPoint.Y;
-    end;
+    Result := aScreenPoint;
 end;
 
 class function TCefDisplayRef.ScreenPointFromPixels(const aPixelsPoint : TPoint) : TPoint;
@@ -227,10 +226,43 @@ begin
       Result.Y       := TempScreenPt.y;
     end
    else
+    Result := aPixelsPoint;
+end;
+
+class function TCefDisplayRef.ScreenRectToPixels(const aScreenRect : TRect) : TRect;
+var
+  TempScreenRc, TempPixelsRc : TCefRect;
+begin
+  if assigned(GlobalCEFApp) and GlobalCEFApp.LibLoaded then
     begin
-      Result.X := aPixelsPoint.X;
-      Result.X := aPixelsPoint.Y;
-    end;
+      TempScreenRc.x := aScreenRect.Left;
+      TempScreenRc.y := aScreenRect.Top;
+      TempPixelsRc   := cef_display_convert_screen_rect_to_pixels(@TempScreenRc);
+      Result.Left    := TempPixelsRc.x;
+      Result.Top     := TempPixelsRc.y;
+      Result.Right   := TempPixelsRc.x + TempPixelsRc.Width - 1;
+      Result.Bottom  := TempPixelsRc.y + TempPixelsRc.Height - 1;
+    end
+   else
+    Result := aScreenRect;
+end;
+
+class function TCefDisplayRef.ScreenRectFromPixels(const aPixelsRect : TRect) : TRect;
+var
+  TempScreenRc, TempPixelsRc : TCefRect;
+begin
+  if assigned(GlobalCEFApp) and GlobalCEFApp.LibLoaded then
+    begin
+      TempPixelsRc.x := aPixelsRect.Left;
+      TempPixelsRc.y := aPixelsRect.Top;
+      TempScreenRc   := cef_display_convert_screen_rect_from_pixels(@TempPixelsRc);
+      Result.Left    := TempScreenRc.x;
+      Result.Top     := TempScreenRc.y;
+      Result.Right   := TempScreenRc.x + TempScreenRc.Width - 1;
+      Result.Bottom  := TempScreenRc.y + TempScreenRc.Height - 1;
+    end
+   else
+    Result := aPixelsRect;
 end;
 
 end.

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -54,11 +54,12 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplicationCore;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplicationCore, uCEFPreferenceRegistrar;
 
 type
   TCefBrowserProcessHandlerOwn = class(TCefBaseRefCountedOwn, ICefBrowserProcessHandler)
     protected
+      procedure OnRegisterCustomPreferences(type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); virtual; abstract;
       procedure OnContextInitialized; virtual; abstract;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); virtual; abstract;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual; abstract;
@@ -74,6 +75,7 @@ type
     protected
       FCefApp       : TCefApplicationCore;
 
+      procedure OnRegisterCustomPreferences(type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); override;
       procedure OnContextInitialized; override;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
@@ -95,6 +97,18 @@ uses
   SysUtils,
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCommandLine, uCEFListValue, uCEFConstants, uCEFStringList;
+
+procedure cef_browser_process_handler_on_register_custom_preferences(self: PCefBrowserProcessHandler; type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  // We have to wrap registrar inside TCefBrowserProcessHandlerOwn.OnRegisterCustomPreferences to avoid a circular reference
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
+    TCefBrowserProcessHandlerOwn(TempObject).OnRegisterCustomPreferences(type_, registrar);
+end;
 
 procedure cef_browser_process_handler_on_context_initialized(self: PCefBrowserProcessHandler); stdcall;
 var
@@ -156,6 +170,7 @@ begin
 
   with PCefBrowserProcessHandler(FData)^ do
     begin
+      on_register_custom_preferences   := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_register_custom_preferences;
       on_context_initialized           := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_context_initialized;
       on_before_child_process_launch   := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_before_child_process_launch;
       on_schedule_message_pump_work    := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_schedule_message_pump_work;
@@ -188,6 +203,29 @@ end;
 procedure TCefCustomBrowserProcessHandler.RemoveReferences;
 begin
   FCefApp := nil;
+end;
+
+procedure TCefCustomBrowserProcessHandler.OnRegisterCustomPreferences(type_     : TCefPreferencesType;
+                                                                      registrar : PCefPreferenceRegistrar);
+var
+  TempRegistrar : TCefPreferenceRegistrarRef;
+begin
+  TempRegistrar := nil;
+
+  try
+    try
+      if (FCefApp <> nil) then
+        begin
+          TempRegistrar := TCefPreferenceRegistrarRef.Create(registrar);
+          FCefApp.Internal_OnRegisterCustomPreferences(type_, TempRegistrar);
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnRegisterCustomPreferences', e) then raise;
+    end;
+  finally
+    if (TempRegistrar <> nil) then FreeAndNil(TempRegistrar);
+  end;
 end;
 
 procedure TCefCustomBrowserProcessHandler.OnContextInitialized;

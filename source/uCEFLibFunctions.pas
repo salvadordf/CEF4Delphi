@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -80,8 +80,6 @@ var
   cef_do_message_loop_work   : procedure; cdecl;
   cef_run_message_loop       : procedure; cdecl;
   cef_quit_message_loop      : procedure; cdecl;
-  cef_set_osmodal_loop       : procedure(osModalLoop: Integer); cdecl;
-  cef_enable_highdpi_support : procedure; cdecl;
 
   // /include/capi/cef_browser_capi.h
   cef_browser_host_create_browser      : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): Integer; cdecl;
@@ -129,6 +127,7 @@ var
   cef_clear_cross_origin_whitelist        : function : Integer; cdecl;
 
   // /include/capi/cef_parser_capi.h
+  cef_resolve_url                     : function(const base_url, relative_url: PCefString; resolved_url: PCefString): Integer; cdecl;
   cef_parse_url                       : function(const url: PCefString; var parts: TCefUrlParts): Integer; cdecl;
   cef_create_url                      : function(const parts: PCefUrlParts; url: PCefString): Integer; cdecl;
   cef_format_url_for_security_display : function(const origin_url: PCefString): PCefStringUserFree; cdecl;
@@ -145,6 +144,9 @@ var
 
   // /include/capi/cef_path_util_capi.h
   cef_get_path : function(key: TCefPathKey; path: PCefString): Integer; cdecl;
+
+  // /include/capi/cef_preference_capi.h
+  cef_preference_manager_get_global : function : PCefPreferenceManager; cdecl;
 
   // /include/capi/cef_print_settings_capi.h
   cef_print_settings_create : function : PCefPrintSettings; cdecl;
@@ -225,6 +227,7 @@ var
   cef_v8value_create_array          : function(length: Integer): PCefv8Value; cdecl;
   cef_v8value_create_array_buffer   : function(buffer : Pointer; length: NativeUInt; release_callback : PCefv8ArrayBufferReleaseCallback): PCefv8Value; cdecl;
   cef_v8value_create_function       : function(const name: PCefString; handler: PCefv8Handler): PCefv8Value; cdecl;
+  cef_v8value_create_promise        : function : PCefv8Value; cdecl;
   cef_v8stack_trace_get_current     : function(frame_limit: Integer): PCefV8StackTrace; cdecl;
   cef_register_extension            : function(const extension_name, javascript_code: PCefString; handler: PCefv8Handler): Integer; cdecl;
 
@@ -261,6 +264,8 @@ var
   cef_display_get_alls                         : procedure(displaysCount: PNativeUInt; displays: PPCefDisplay); cdecl;
   cef_display_convert_screen_point_to_pixels   : function(const point: PCefPoint): TCefPoint; cdecl;
   cef_display_convert_screen_point_from_pixels : function(const point: PCefPoint): TCefPoint; cdecl;
+  cef_display_convert_screen_rect_to_pixels    : function(const rect: PCefRect): TCefRect; cdecl;
+  cef_display_convert_screen_rect_from_pixels  : function(const rect: PCefRect): TCefRect; cdecl;
 
   // /include/capi/views/cef_label_button_capi.h
   cef_label_button_create         : function(delegate: PCefButtonDelegate; const text: PCefString): PCefLabelButton; cdecl;
@@ -285,6 +290,10 @@ var
   // *********************************
   // *********** INTERNAL ************
   // *********************************
+
+  // /include/internal/cef_app_win.h
+  cef_set_osmodal_loop       : procedure(osModalLoop: Integer); cdecl;
+  cef_enable_highdpi_support : procedure; cdecl;
 
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;

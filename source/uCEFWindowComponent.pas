@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -68,8 +68,10 @@ type
 
       // ICefWindowDelegateEvents
       FOnWindowCreated           : TOnWindowCreatedEvent;
+      FOnWindowClosing           : TOnWindowClosingEvent;
       FOnWindowDestroyed         : TOnWindowDestroyedEvent;
       FOnWindowActivationChanged : TOnWindowActivationChangedEvent;
+      FOnWindowBoundsChanged     : TOnWindowBoundsChangedEvent;
       FOnGetParentWindow         : TOnGetParentWindowEvent;
       FOnGetInitialBounds        : TOnGetInitialBoundsEvent;
       FOnGetInitialShowState     : TOnGetInitialShowStateEvent;
@@ -109,8 +111,10 @@ type
 
       // ICefWindowDelegateEvents
       procedure doOnWindowCreated(const window_: ICefWindow);
+      procedure doOnWindowClosing(const window_: ICefWindow);
       procedure doOnWindowDestroyed(const window_: ICefWindow);
       procedure doOnWindowActivationChanged(const window_: ICefWindow; active: boolean);
+      procedure doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
       procedure doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
       procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
       procedure doOnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
@@ -163,8 +167,10 @@ type
 
     published
       property OnWindowCreated           : TOnWindowCreatedEvent            read FOnWindowCreated             write FOnWindowCreated;
+      property OnWindowClosing           : TOnWindowClosingEvent            read FOnWindowClosing             write FOnWindowClosing;
       property OnWindowDestroyed         : TOnWindowDestroyedEvent          read FOnWindowDestroyed           write FOnWindowDestroyed;
       property OnWindowActivationChanged : TOnWindowActivationChangedEvent  read FOnWindowActivationChanged   write FOnWindowActivationChanged;
+      property OnWindowBoundsChanged     : TOnWindowBoundsChangedEvent      read FOnWindowBoundsChanged       write FOnWindowBoundsChanged;
       property OnGetParentWindow         : TOnGetParentWindowEvent          read FOnGetParentWindow           write FOnGetParentWindow;
       property OnGetInitialBounds        : TOnGetInitialBoundsEvent         read FOnGetInitialBounds          write FOnGetInitialBounds;
       property OnGetInitialShowState     : TOnGetInitialShowStateEvent      read FOnGetInitialShowState       write FOnGetInitialShowState;
@@ -220,8 +226,10 @@ begin
   FWindow                    := nil;
   FWindowDlg                 := nil;
   FOnWindowCreated           := nil;
+  FOnWindowClosing           := nil;
   FOnWindowDestroyed         := nil;
   FOnWindowActivationChanged := nil;
+  FOnWindowBoundsChanged     := nil;
   FOnGetParentWindow         := nil;
   FOnGetInitialBounds        := nil;
   FOnGetInitialShowState     := nil;
@@ -296,6 +304,12 @@ begin
     FOnWindowCreated(self, window_);
 end;
 
+procedure TCEFWindowComponent.doOnWindowClosing(const window_: ICefWindow);
+begin
+  if assigned(FOnWindowClosing) then
+    FOnWindowClosing(self, window_);
+end;
+
 procedure TCEFWindowComponent.doOnWindowDestroyed(const window_: ICefWindow);
 begin
   if assigned(FOnWindowDestroyed) then
@@ -308,6 +322,12 @@ procedure TCEFWindowComponent.doOnWindowActivationChanged(const window_: ICefWin
 begin
   if assigned(FOnWindowActivationChanged) then
     FOnWindowActivationChanged(self, window_, active);
+end;
+
+procedure TCEFWindowComponent.doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+begin
+  if assigned(FOnWindowBoundsChanged) then
+    FOnWindowBoundsChanged(self, window_, new_bounds);
 end;
 
 procedure TCEFWindowComponent.doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);

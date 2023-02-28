@@ -2,8 +2,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
   Left = 0
   Top = 0
   Caption = 'MiniBrowser'
-  ClientHeight = 712
-  ClientWidth = 1184
+  ClientHeight = 711
+  ClientWidth = 1180
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,10 +17,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnShow = FormShow
   TextHeight = 13
   object Splitter1: TSplitter
-    Left = 1179
+    Left = 1175
     Top = 41
     Width = 5
-    Height = 652
+    Height = 651
     Align = alRight
     Visible = False
     ExplicitLeft = 0
@@ -30,12 +30,13 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object NavControlPnl: TPanel
     Left = 0
     Top = 0
-    Width = 1184
+    Width = 1180
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     Enabled = False
     TabOrder = 1
+    ExplicitWidth = 1188
     object NavButtonPnl: TPanel
       Left = 0
       Top = 0
@@ -108,7 +109,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object URLEditPnl: TPanel
       Left = 133
       Top = 0
-      Width = 978
+      Width = 982
       Height = 41
       Align = alClient
       BevelOuter = bvNone
@@ -118,7 +119,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
       object URLCbx: TComboBox
         Left = 0
         Top = 9
-        Width = 978
+        Width = 982
         Height = 21
         Align = alClient
         ItemIndex = 0
@@ -167,6 +168,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
             'ar-estado'
           'https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm'
           'https://www.xdumaine.com/enumerateDevices/test/'
+          
+            'https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pd' +
+            'f'
           'chrome://version/'
           'chrome://net-internals/'
           'chrome://tracing/'
@@ -188,13 +192,14 @@ object MiniBrowserFrm: TMiniBrowserFrm
       end
     end
     object ConfigPnl: TPanel
-      Left = 1111
+      Left = 1107
       Top = 0
       Width = 73
       Height = 41
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
+      ExplicitLeft = 1115
       object ConfigBtn: TButton
         Left = 40
         Top = 8
@@ -230,25 +235,29 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Top = 41
-    Width = 1179
-    Height = 652
+    Width = 1175
+    Height = 651
     Align = alClient
     TabStop = True
     TabOrder = 0
+    ExplicitWidth = 1183
+    ExplicitHeight = 653
   end
   object DevTools: TCEFWindowParent
-    Left = 1184
+    Left = 1180
     Top = 41
     Width = 0
-    Height = 652
+    Height = 651
     Align = alRight
     TabOrder = 2
     Visible = False
+    ExplicitLeft = 1188
+    ExplicitHeight = 653
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 693
-    Width = 1184
+    Top = 692
+    Width = 1180
     Height = 19
     Panels = <
       item
@@ -263,6 +272,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
       item
         Width = 100
       end>
+    ExplicitTop = 694
+    ExplicitWidth = 1188
   end
   object Chromium1: TChromium
     OnTextResultAvailable = Chromium1TextResultAvailable
