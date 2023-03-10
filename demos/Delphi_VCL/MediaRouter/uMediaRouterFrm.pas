@@ -646,7 +646,6 @@ begin
           begin
             FSinks[i].ID          := aSinks[i].ID;
             FSinks[i].Name        := aSinks[i].Name;
-            FSinks[i].Description := aSinks[i].Description;
             FSinks[i].IconType    := aSinks[i].IconType;
             FSinks[i].SinkIntf    := aSinks[i];
 

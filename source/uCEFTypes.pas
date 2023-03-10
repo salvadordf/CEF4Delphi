@@ -1721,7 +1721,6 @@ type
     base                  : TCefBaseRefCounted;
     get_id                : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_name              : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
-    get_description       : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_icon_type         : function(self: PCefMediaSink): TCefMediaSinkIconType; stdcall;
     get_device_info       : procedure(self: PCefMediaSink; callback: PCefMediaSinkDeviceInfoCallback); stdcall;
     is_cast_sink          : function(self: PCefMediaSink): Integer; stdcall;
@@ -3503,6 +3502,8 @@ type
     get_initial_bounds               : function(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
     get_initial_show_state           : function(self: PCefWindowDelegate; window: PCefWindow): TCefShowState; stdcall;
     is_frameless                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+    with_standard_window_buttons     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
+    get_titlebar_height              : function(self: PCefWindowDelegate; window: PCefWindow; titlebar_height: PSingle): Integer; stdcall;
     can_resize                       : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_maximize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_minimize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;

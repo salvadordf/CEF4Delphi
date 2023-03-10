@@ -175,7 +175,6 @@ type
   TCefMediaSinkInfo = record
     ID          : ustring;
     Name        : ustring;
-    Description : ustring;
     IconType    : TCefMediaSinkIconType;
     SinkType    : TCefMediaType;
     SinkIntf    : ICefMediaSink;
@@ -1418,7 +1417,6 @@ type
     ['{EDA1A4B2-2A4C-42DD-A7DF-901BF93D908D}']
     function  GetId: ustring;
     function  GetName: ustring;
-    function  GetDescription: ustring;
     function  GetIconType: TCefMediaSinkIconType;
     procedure GetDeviceInfo(const callback: ICefMediaSinkDeviceInfoCallback);
     function  IsCastSink: boolean;
@@ -1427,7 +1425,6 @@ type
 
     property ID          : ustring               read GetId;
     property Name        : ustring               read GetName;
-    property Description : ustring               read GetDescription;
     property IconType    : TCefMediaSinkIconType read GetIconType;
   end;
 
@@ -3026,6 +3023,8 @@ type
     procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
     procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
     procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
+    procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
+    procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
     procedure OnCanResize(const window_: ICefWindow; var aResult : boolean);
     procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
     procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
@@ -3045,6 +3044,8 @@ type
     procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
     procedure doOnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
     procedure doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
     procedure doOnCanResize(const window_: ICefWindow; var aResult : boolean);
     procedure doOnCanMaximize(const window_: ICefWindow; var aResult : boolean);
     procedure doOnCanMinimize(const window_: ICefWindow; var aResult : boolean);
