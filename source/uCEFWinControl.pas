@@ -171,7 +171,6 @@ var
 begin
   Result := False;
   {$IFDEF MSWINDOWS}
-  if (aBitmap = nil) then exit;
 
   TempHWND := ChildWindowHandle;
   if (TempHWND = 0) then exit;
@@ -180,7 +179,9 @@ begin
   TempWidth  := TempRect.Right  - TempRect.Left;
   TempHeight := TempRect.Bottom - TempRect.Top;
 
-  aBitmap        := TBitmap.Create;
+  if (aBitmap = nil) then
+    aBitmap := TBitmap.Create;
+
   aBitmap.Height := TempHeight;
   aBitmap.Width  := TempWidth;
 
