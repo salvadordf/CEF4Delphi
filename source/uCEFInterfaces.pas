@@ -482,6 +482,7 @@ type
     procedure doBrowserNavigation(aTask : TCefBrowserNavigation);
     procedure doSetAudioMuted(aValue : boolean);
     procedure doToggleAudioMuted;
+    procedure doEnableFocus;
     function  MustCreateAudioHandler : boolean;
     function  MustCreateCommandHandler : boolean;
     function  MustCreateLoadHandler : boolean;

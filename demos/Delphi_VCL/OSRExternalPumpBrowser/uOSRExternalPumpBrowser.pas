@@ -102,6 +102,7 @@ type
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
+    procedure chrmosrCanFocus(Sender: TObject);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
@@ -136,6 +137,7 @@ type
     procedure WMCancelMode(var aMessage : TMessage); message WM_CANCELMODE;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
+    procedure FocusEnabledMsg(var aMessage : TMessage); message CEF_FOCUSENABLED;
 
   public
     { Public declarations }
@@ -352,6 +354,14 @@ procedure TOSRExternalPumpBrowserFrm.chrmosrBeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TOSRExternalPumpBrowserFrm.chrmosrCanFocus(Sender: TObject);
+begin
+  // The browser required some time to create associated internal objects
+  // before being able to accept the focus. Now we can set the focus on the
+  // TBufferPanel control
+  PostMessage(Handle, CEF_FOCUSENABLED, 0, 0);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.chrmosrCursorChange(      Sender           : TObject;
@@ -802,6 +812,14 @@ end;
 procedure TOSRExternalPumpBrowserFrm.PendingResizeMsg(var aMessage : TMessage);
 begin
   DoResize;
+end;
+
+procedure TOSRExternalPumpBrowserFrm.FocusEnabledMsg(var aMessage : TMessage);
+begin
+  if Panel1.Focused then
+    chrmosr.SetFocus(True)
+   else
+    Panel1.SetFocus;
 end;
 
 procedure TOSRExternalPumpBrowserFrm.DoResize;

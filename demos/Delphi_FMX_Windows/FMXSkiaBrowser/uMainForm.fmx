@@ -93,6 +93,7 @@ object MainForm: TMainForm
     end
   end
   object chrmosr: TFMXChromium
+    OnCanFocus = chrmosrCanFocus
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup

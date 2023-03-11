@@ -79,6 +79,7 @@ type
     procedure Chromium1PopupShow(Sender: TObject; const browser: ICefBrowser; aShow: Boolean);
     procedure Chromium1PopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
+    procedure Chromium1CanFocus(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);     
@@ -281,8 +282,7 @@ end;
 procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can initialize the UI.
-  Caption            := 'OSR External Pump Browser';
-  AddressPnl.Enabled := True;
+  Caption := 'OSR External Pump Browser';
 
   Chromium1.NotifyMoveOrResizeStarted;
 end;
@@ -296,6 +296,14 @@ procedure TForm1.Panel1Click(Sender: TObject);
 begin
   // GTK3 can't set the focus on a custom panel so we use an invisible edit box
   FocusWorkaroundEdt.SetFocus;
+end;
+
+procedure TForm1.Chromium1CanFocus(Sender: TObject);
+begin
+  if FocusWorkaroundEdt.Focused then
+    Chromium1.SetFocus(True)
+   else
+    FocusWorkaroundEdt.SetFocus;
 end;
 
 procedure TForm1.FocusWorkaroundEdtExit(Sender: TObject);
@@ -695,6 +703,8 @@ begin
   FCanClose         := False;
   FClosing          := False;
   FFirstLoad        := True;
+
+  Chromium1.DefaultURL := AddressEdt.Text;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);

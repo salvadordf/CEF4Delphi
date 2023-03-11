@@ -117,6 +117,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     OnDialogKey = Panel1DialogKey
   end
   object chrmosr: TFMXChromium
+    OnCanFocus = chrmosrCanFocus
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup

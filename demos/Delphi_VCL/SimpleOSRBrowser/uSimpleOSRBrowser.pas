@@ -112,6 +112,7 @@ type
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
+    procedure chrmosrCanFocus(Sender: TObject);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
@@ -159,6 +160,7 @@ type
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
     procedure RangeChangedMsg(var aMessage : TMessage); message CEF_IMERANGECHANGED;
+    procedure FocusEnabledMsg(var aMessage : TMessage); message CEF_FOCUSENABLED;
 
   public
     { Public declarations }
@@ -422,6 +424,14 @@ procedure TForm1.chrmosrBeforePopup(      Sender             : TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TForm1.chrmosrCanFocus(Sender: TObject);
+begin
+  // The browser required some time to create associated internal objects
+  // before being able to accept the focus. Now we can set the focus on the
+  // TBufferPanel control
+  PostMessage(Handle, CEF_FOCUSENABLED, 0, 0);
 end;
 
 procedure TForm1.chrmosrCursorChange(      Sender           : TObject;
@@ -713,8 +723,7 @@ end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage : TMessage);
 begin
-  Caption               := 'Simple OSR Browser';
-  NavControlPnl.Enabled := True;
+  Caption := 'Simple OSR Browser';
 end;
 
 procedure TForm1.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
@@ -1190,6 +1199,14 @@ begin
   finally
     FIMECS.Release;
   end;
+end;
+
+procedure TForm1.FocusEnabledMsg(var aMessage : TMessage);
+begin
+  if Panel1.Focused then
+    chrmosr.SetFocus(True)
+   else
+    Panel1.SetFocus;
 end;
 
 procedure TForm1.DoResize;

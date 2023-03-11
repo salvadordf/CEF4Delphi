@@ -110,6 +110,7 @@ type
     procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
     procedure chrmosrContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
     procedure chrmosrVirtualKeyboardRequested(Sender: TObject; const browser: ICefBrowser; input_mode: TCefTextInpuMode);
+    procedure chrmosrCanFocus(Sender: TObject);
 
   protected
     FPopUpBitmap     : TBitmap;
@@ -146,6 +147,7 @@ type
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
     procedure ShowKeyboardMsg(var aMessage : TMessage); message CEF_SHOWKEYBOARD;
     procedure HideKeyboardMsg(var aMessage : TMessage); message CEF_HIDEKEYBOARD;
+    procedure FocusEnabledMsg(var aMessage : TMessage); message CEF_FOCUSENABLED;
 
   public
     { Public declarations }
@@ -335,6 +337,14 @@ begin
 
   model.AddSeparator;
   model.AddItem(KIOSKBROWSER_CONTEXTMENU_EXIT, 'Exit');
+end;
+
+procedure TForm1.chrmosrCanFocus(Sender: TObject);
+begin
+  // The browser required some time to create associated internal objects
+  // before being able to accept the focus. Now we can set the focus on the
+  // TBufferPanel control
+  PostMessage(Handle, CEF_FOCUSENABLED, 0, 0);
 end;
 
 procedure TForm1.chrmosrContextMenuCommand(      Sender     : TObject;
@@ -955,6 +965,14 @@ end;
 procedure TForm1.HideKeyboardMsg(var aMessage : TMessage);
 begin
   TouchKeyboard1.Visible := False;
+end;
+
+procedure TForm1.FocusEnabledMsg(var aMessage : TMessage);
+begin
+  if Panel1.Focused then
+    chrmosr.SetFocus(True)
+   else
+    Panel1.SetFocus;
 end;
 
 procedure TForm1.DoResize;

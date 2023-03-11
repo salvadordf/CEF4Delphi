@@ -17,7 +17,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object NavControlPnl: TPanel
     Left = 0
@@ -31,7 +30,8 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
-    TabOrder = 0
+    TabOrder = 1
+    ExplicitWidth = 909
     object ComboBox1: TComboBox
       Left = 5
       Top = 5
@@ -51,6 +51,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
         'https://www.briskbard.com'
         'https://frames-per-second.appspot.com/'
         'https://www.youtube.com')
+      ExplicitWidth = 830
     end
     object Panel2: TPanel
       Left = 839
@@ -65,6 +66,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
       BevelOuter = bvNone
       Padding.Left = 4
       TabOrder = 1
+      ExplicitLeft = 835
       object GoBtn: TButton
         Left = 4
         Top = 0
@@ -110,7 +112,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnIMESetComposition = Panel1IMESetComposition
     Align = alClient
     Caption = 'Panel1'
-    TabOrder = 1
+    TabOrder = 0
     TabStop = True
     OnClick = Panel1Click
     OnEnter = Panel1Enter
@@ -120,8 +122,11 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
+    ExplicitWidth = 909
+    ExplicitHeight = 553
   end
   object chrmosr: TChromium
+    OnCanFocus = chrmosrCanFocus
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup

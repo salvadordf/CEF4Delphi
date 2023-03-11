@@ -19,7 +19,6 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TBufferPanel
     Left = 0
@@ -42,6 +41,7 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
+    ExplicitTop = -6
   end
   object TouchKeyboard1: TTouchKeyboard
     Left = 0
@@ -55,6 +55,7 @@ object Form1: TForm1
     Visible = False
   end
   object chrmosr: TChromium
+    OnCanFocus = chrmosrCanFocus
     OnBeforeContextMenu = chrmosrBeforeContextMenu
     OnContextMenuCommand = chrmosrContextMenuCommand
     OnTooltip = chrmosrTooltip

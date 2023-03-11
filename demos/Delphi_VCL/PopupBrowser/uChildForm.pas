@@ -89,6 +89,7 @@ type
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1CanFocus(Sender: TObject);
 
    protected
     FPopUpBitmap       : TBitmap;
@@ -121,6 +122,7 @@ type
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
     procedure ShowChildMsg(var aMessage : TMessage); message CEF_SHOWCHILD;
+    procedure FocusEnabledMsg(var aMessage : TMessage); message CEF_FOCUSENABLED;
 
   public
     function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
@@ -346,6 +348,14 @@ begin
 
     else Result := False;
   end;
+end;
+
+procedure TChildForm.Chromium1CanFocus(Sender: TObject);
+begin
+  // The browser required some time to create associated internal objects
+  // before being able to accept the focus. Now we can set the focus on the
+  // TBufferPanel control
+  PostMessage(Handle, CEF_FOCUSENABLED, 0, 0);
 end;
 
 procedure TChildForm.Chromium1CursorChange(      Sender           : TObject;
@@ -817,6 +827,14 @@ procedure TChildForm.ShowChildMsg(var aMessage : TMessage);
 begin
   ApplyPopupFeatures;
   Show;
+end;
+
+procedure TChildForm.FocusEnabledMsg(var aMessage : TMessage);
+begin
+  if Panel1.Focused then
+    Chromium1.SetFocus(True)
+   else
+    Panel1.SetFocus;
 end;
 
 procedure TChildForm.DoResize;

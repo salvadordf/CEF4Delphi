@@ -12,7 +12,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.6.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 30
@@ -21,7 +21,6 @@ object Form1: TForm1
     Align = alTop
     ClientHeight = 30
     ClientWidth = 1001
-    Enabled = False
     TabOrder = 1
     object AddressEdt: TEdit
       Left = 1
@@ -77,6 +76,7 @@ object Form1: TForm1
     end
   end
   object Chromium1: TChromium
+    OnCanFocus = Chromium1CanFocus
     OnTooltip = Chromium1Tooltip
     OnCursorChange = Chromium1CursorChange
     OnBeforePopup = Chromium1BeforePopup

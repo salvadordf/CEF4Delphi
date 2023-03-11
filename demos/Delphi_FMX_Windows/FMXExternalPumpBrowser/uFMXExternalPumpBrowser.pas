@@ -99,13 +99,13 @@ type
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
+    procedure chrmosrCanFocus(Sender: TObject);
 
     procedure Timer1Timer(Sender: TObject);
     procedure AddressEdtEnter(Sender: TObject);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
-
 
   protected
     FPopUpBitmap       : TBitmap;
@@ -508,9 +508,7 @@ end;
 procedure TFMXExternalPumpBrowserFrm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can enable the UI.
-  Caption            := 'FMX External Pump Browser';
-  AddressPnl.Enabled := True;
-  Panel1.SetFocus;
+  Caption := 'FMX External Pump Browser';
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
@@ -544,6 +542,21 @@ procedure TFMXExternalPumpBrowserFrm.chrmosrBeforePopup(      Sender            
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrCanFocus(Sender: TObject);
+begin
+  TThread.ForceQueue(nil,
+    procedure
+    begin
+      // The browser required some time to create associated internal objects
+      // before being able to accept the focus. Now we can set the focus on the
+      // TBufferPanel control
+      if Panel1.IsFocused then
+        chrmosr.SetFocus(True)
+       else
+        Panel1.SetFocus;
+    end);
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrCursorChange(      Sender           : TObject;

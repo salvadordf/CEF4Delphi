@@ -220,9 +220,9 @@ object BrowserFrame: TBrowserFrame
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitTop = 29
   end
   object chrmosr: TChromium
+    OnCanFocus = chrmosrCanFocus
     OnLoadError = chrmosrLoadError
     OnLoadingStateChange = chrmosrLoadingStateChange
     OnAddressChange = chrmosrAddressChange

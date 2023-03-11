@@ -18,7 +18,6 @@ object ChildForm: TChildForm
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TBufferPanel
     Left = 0
@@ -39,8 +38,11 @@ object ChildForm: TChildForm
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
+    ExplicitWidth = 348
+    ExplicitHeight = 255
   end
   object Chromium1: TChromium
+    OnCanFocus = Chromium1CanFocus
     OnTitleChange = Chromium1TitleChange
     OnTooltip = Chromium1Tooltip
     OnCursorChange = Chromium1CursorChange

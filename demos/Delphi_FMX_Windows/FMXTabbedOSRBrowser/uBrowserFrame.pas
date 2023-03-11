@@ -71,6 +71,7 @@ type
       procedure ReloadBtnClick(Sender: TObject);
       procedure StopBtnClick(Sender: TObject);
       procedure GoBtnClick(Sender: TObject);
+      procedure URLEdtEnter(Sender: TObject);
 
       procedure FMXBufferPanel1Enter(Sender: TObject);
       procedure FMXBufferPanel1Exit(Sender: TObject);
@@ -84,7 +85,6 @@ type
       procedure FMXBufferPanel1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
       procedure FMXBufferPanel1DialogKey(Sender: TObject; var Key: Word; Shift: TShiftState);
 
-      procedure FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
       procedure FMXChromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
       procedure FMXChromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
@@ -101,6 +101,7 @@ type
       procedure FMXChromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
       procedure FMXChromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
       procedure FMXChromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
+      procedure FMXChromium1CanFocus(Sender: TObject);
 
     protected
       FPopUpBitmap          : TBitmap;
@@ -274,6 +275,11 @@ begin
   FMXChromium1.StopLoad;
 end;
 
+procedure TBrowserFrame.URLEdtEnter(Sender: TObject);
+begin
+  FMXChromium1.SetFocus(False);
+end;
+
 procedure TBrowserFrame.FMXBufferPanel1Click(Sender: TObject);
 begin
   FocusBrowser;
@@ -434,13 +440,6 @@ begin
   URLEdt.Text := url;
 end;
 
-procedure TBrowserFrame.FMXChromium1AfterCreated(Sender: TObject;
-  const browser: ICefBrowser);
-begin
-  AddressLay.Enabled := True;
-  FocusBrowser;
-end;
-
 procedure TBrowserFrame.FMXChromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
@@ -457,6 +456,17 @@ procedure TBrowserFrame.FMXChromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+end;
+
+procedure TBrowserFrame.FMXChromium1CanFocus(Sender: TObject);
+begin
+  // The browser required some time to create associated internal objects
+  // before being able to accept the focus. Now we can set the focus on the
+  // TBufferPanel control
+  if FMXBufferPanel1.IsFocused then
+    FMXChromium1.SetFocus(True)
+   else
+    FMXBufferPanel1.SetFocus;
 end;
 
 procedure TBrowserFrame.FMXChromium1CursorChange(Sender: TObject;

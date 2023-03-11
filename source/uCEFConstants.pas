@@ -714,6 +714,8 @@ const
   CEF_COOKIE_PREF_ALLOW   = 1;
   CEF_COOKIE_PREF_BLOCK   = 2;
 
+  CEF_DEFAULT_ENABLEFOCUSDELAY = 500; // delay in ms to enable the browser focus
+
   // https://chromium.googlesource.com/chromium/src/+/refs/tags/77.0.3865.90/chrome/common/net/safe_search_util.h (YouTubeRestrictMode)
   // https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict
   YOUTUBE_RESTRICT_OFF      = 0;
@@ -759,6 +761,7 @@ const
   CEF_SENTINEL_DOCLOSE   = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0B;
   CEF_BEFORECLOSE        = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0C;
   CEF_INVALIDATE         = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0D;
+  CEF_FOCUSENABLED       = {$IFDEF MSWINDOWS}WM_APP +{$ENDIF} $A0E;
 
   // Lazarus and some old Delphi versions don't have these message contants
   {$IF NOT DECLARED(WM_TOUCH)}

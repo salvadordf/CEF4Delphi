@@ -35,7 +35,7 @@ object BrowserFrame: TBrowserFrame
     Size.Width = 998.000000000000000000
     Size.Height = 35.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 4
+    TabOrder = 0
     object GoBtn: TSpeedButton
       Align = Right
       Margins.Left = 5.000000000000000000
@@ -107,11 +107,12 @@ object BrowserFrame: TBrowserFrame
       Size.Width = 836.000000000000000000
       Size.Height = 25.000000000000000000
       Size.PlatformDefault = False
+      OnEnter = URLEdtEnter
     end
   end
   object FMXBufferPanel1: TFMXBufferPanel
     Align = Client
-    TabOrder = 6
+    TabOrder = 5
     CanFocus = True
     Size.Width = 998.000000000000000000
     Size.Height = 674.000000000000000000
@@ -129,6 +130,7 @@ object BrowserFrame: TBrowserFrame
     OnDialogKey = FMXBufferPanel1DialogKey
   end
   object FMXChromium1: TFMXChromium
+    OnCanFocus = FMXChromium1CanFocus
     OnLoadError = FMXChromium1LoadError
     OnLoadingStateChange = FMXChromium1LoadingStateChange
     OnAddressChange = FMXChromium1AddressChange
@@ -137,7 +139,6 @@ object BrowserFrame: TBrowserFrame
     OnStatusMessage = FMXChromium1StatusMessage
     OnCursorChange = FMXChromium1CursorChange
     OnBeforePopup = FMXChromium1BeforePopup
-    OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose
     OnOpenUrlFromTab = FMXChromium1OpenUrlFromTab
     OnGetViewRect = FMXChromium1GetViewRect

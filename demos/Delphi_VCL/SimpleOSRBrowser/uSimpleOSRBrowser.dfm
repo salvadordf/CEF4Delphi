@@ -17,7 +17,6 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object NavControlPnl: TPanel
     Left = 0
@@ -26,31 +25,22 @@ object Form1: TForm1
     Height = 30
     Align = alTop
     BevelOuter = bvNone
-    Enabled = False
     Padding.Left = 5
     Padding.Top = 5
     Padding.Right = 5
     Padding.Bottom = 5
-    TabOrder = 0
+    TabOrder = 1
+    ExplicitWidth = 1046
     object AddressCb: TComboBox
       Left = 5
       Top = 5
       Width = 969
       Height = 21
       Align = alClient
-      ItemIndex = 0
       TabOrder = 0
       Text = 'https://www.google.com'
       OnEnter = AddressCbEnter
-      Items.Strings = (
-        'https://www.google.com'
-        'https://html5demos.com/drag'
-        
-          'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_selec' +
-          't_form'
-        'https://www.briskbard.com'
-        'https://frames-per-second.appspot.com/'
-        'file:///transparency.html')
+      ExplicitWidth = 965
     end
     object Panel2: TPanel
       Left = 974
@@ -65,6 +55,7 @@ object Form1: TForm1
       BevelOuter = bvNone
       Padding.Left = 4
       TabOrder = 1
+      ExplicitLeft = 970
       object GoBtn: TButton
         Left = 4
         Top = 0
@@ -117,7 +108,7 @@ object Form1: TForm1
     Ctl3D = False
     ParentCtl3D = False
     BevelOuter = bvNone
-    TabOrder = 1
+    TabOrder = 0
     TabStop = True
     OnClick = Panel1Click
     OnEnter = Panel1Enter
@@ -127,8 +118,10 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
+    ExplicitTop = 31
   end
   object chrmosr: TChromium
+    OnCanFocus = chrmosrCanFocus
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup
