@@ -194,6 +194,7 @@ type
       FNetLogEnabled                     : boolean;
       FNetLogFile                        : ustring;
       FNetLogCaptureMode                 : TCefNetLogCaptureMode;
+      FRemoteAllowOrigins                : ustring;
 
 
       // Fields used during the CEF initialization
@@ -523,6 +524,7 @@ type
       property NetLogEnabled                     : boolean                             read FNetLogEnabled                     write FNetLogEnabled;                    // --log-net-log
       property NetLogFile                        : ustring                             read FNetLogFile                        write FNetLogFile;                       // --log-net-log
       property NetLogCaptureMode                 : TCefNetLogCaptureMode               read FNetLogCaptureMode                 write FNetLogCaptureMode;                // --net-log-capture-mode
+      property RemoteAllowOrigins                : ustring                             read FRemoteAllowOrigins                write FRemoteAllowOrigins;               // --remote-allow-origins
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -779,6 +781,7 @@ begin
   FNetLogEnabled                     := False;
   FNetLogFile                        := '';
   FNetLogCaptureMode                 := nlcmDefault;
+  FRemoteAllowOrigins                := '';
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -2133,6 +2136,9 @@ begin
 
   if (length(FTreatInsecureOriginAsSecure) > 0) then
     ReplaceSwitch(aKeys, aValues, '--unsafely-treat-insecure-origin-as-secure', FTreatInsecureOriginAsSecure);
+
+  if (length(FRemoteAllowOrigins) > 0) then
+    ReplaceSwitch(aKeys, aValues, '--remote-allow-origins', FRemoteAllowOrigins);
 
   if FNetLogEnabled then
     begin
