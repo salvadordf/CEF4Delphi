@@ -187,11 +187,10 @@ begin
 
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
-  //GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.EnableGPU                  := True;
 end;
 
 procedure TOSRExternalPumpBrowserFrm.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);

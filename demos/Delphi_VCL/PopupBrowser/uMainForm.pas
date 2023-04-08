@@ -148,7 +148,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   //GlobalCEFApp.LogFile                    := 'debug.log';
   //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
   {

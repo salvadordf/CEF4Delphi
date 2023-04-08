@@ -1335,6 +1335,8 @@ begin
       FClosing := True;
       Visible  := False;
 
+      if DevTools.Visible then HideDevTools;
+
       // if TChromium.MultiBrowserMode is enabled then we have to close all
       // stored browsers and not only the main browser.
       Chromium1.CloseAllBrowsers;

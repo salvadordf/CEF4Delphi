@@ -106,7 +106,6 @@ begin
     begin
       GlobalCEFApp                            := TCefApplication.Create;
       GlobalCEFApp.WindowlessRenderingEnabled := True;
-      GlobalCEFApp.EnableHighDPISupport       := True;
       GlobalCEFApp.ShowMessageDlg             := False;                          // This demo shouldn't show any window.
       GlobalCEFApp.BrowserSubprocessPath      := 'WindowsServiceBrowser_sp.exe'; // This is the other EXE for the CEF subprocesses.
       GlobalCEFApp.BlinkSettings              := 'hideScrollbars';               // This setting removes all scrollbars to capture a cleaner snapshot

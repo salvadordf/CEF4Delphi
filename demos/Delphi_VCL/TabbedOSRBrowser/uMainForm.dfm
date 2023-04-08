@@ -2,8 +2,8 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'Initializing. Please, wait...'
-  ClientHeight = 703
-  ClientWidth = 991
+  ClientHeight = 702
+  ClientWidth = 987
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,18 +19,20 @@ object MainForm: TMainForm
   object BrowserPageCtrl: TPageControl
     Left = 32
     Top = 0
-    Width = 959
-    Height = 703
+    Width = 955
+    Height = 702
     Align = alClient
     TabOrder = 0
     TabWidth = 150
     OnChange = BrowserPageCtrlChange
+    ExplicitWidth = 959
+    ExplicitHeight = 703
   end
   object ButtonPnl: TPanel
     Left = 0
     Top = 0
     Width = 32
-    Height = 703
+    Height = 702
     Align = alLeft
     BevelOuter = bvNone
     Enabled = False
@@ -39,6 +41,7 @@ object MainForm: TMainForm
     Padding.Right = 3
     Padding.Bottom = 3
     TabOrder = 1
+    ExplicitHeight = 703
     object AddTabBtn: TSpeedButton
       Left = 3
       Top = 3

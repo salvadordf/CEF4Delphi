@@ -293,7 +293,6 @@ var
 
   // /include/internal/cef_app_win.h
   cef_set_osmodal_loop       : procedure(osModalLoop: Integer); cdecl;
-  cef_enable_highdpi_support : procedure; cdecl;
 
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;

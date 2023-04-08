@@ -219,7 +219,11 @@ type
   TOnMainFrameChanged             = procedure(Sender: TObject; const browser: ICefBrowser; const old_frame, new_frame: ICefFrame) of object;
 
   // ICefCommandHandler
-  TOnChromeCommandEvent           = procedure(Sender: TObject; const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition; var aResult: boolean) of object;
+  TOnChromeCommandEvent                  = procedure(Sender: TObject; const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition; var aResult: boolean) of object;
+  TOnIsChromeAppMenuItemVisibleEvent     = procedure(Sender: TObject; const browser: ICefBrowser; command_id: integer; var aResult: boolean) of object;
+  TOnIsChromeAppMenuItemEnabledEvent     = procedure(Sender: TObject; const browser: ICefBrowser; command_id: integer; var aResult: boolean) of object;
+  TOnIsChromePageActionIconVisibleEvent  = procedure(Sender: TObject; icon_type: TCefChromePageActionIconType; var aResult: boolean) of object;
+  TOnIsChromeToolbarButtonVisibleEvent   = procedure(Sender: TObject; button_type: TCefChromeToolbarButtonType; var aResult: boolean) of object;
 
   // ICefPermissionHandler
   TOnRequestMediaAccessPermissionEvent = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback; var aResult: boolean) of object;

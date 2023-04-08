@@ -327,6 +327,11 @@ type
 
       // ICefCommandHandler
       FOnChromeCommand                    : TOnChromeCommandEvent;
+      FOnIsChromeAppMenuItemVisible       : TOnIsChromeAppMenuItemVisibleEvent;
+      FOnIsChromeAppMenuItemEnabled       : TOnIsChromeAppMenuItemEnabledEvent;
+      FOnIsChromePageActionIconVisible    : TOnIsChromePageActionIconVisibleEvent;
+      FOnIsChromeToolbarButtonVisible     : TOnIsChromeToolbarButtonVisibleEvent;
+
 
       // ICefPermissionHandler
       FOnRequestMediaAccessPermission     : TOnRequestMediaAccessPermissionEvent;
@@ -675,6 +680,10 @@ type
 
       // ICefCommandHandler
       function  doOnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
+      function  doOnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
+      function  doOnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
+      function  doOnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
+      function  doOnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
 
       // ICefPermissionHandler
       function  doOnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback): boolean;
@@ -1186,7 +1195,11 @@ type
       property OnMainFrameChanged                     : TOnMainFrameChanged               read FOnMainFrameChanged                     write FOnMainFrameChanged;
 
       // ICefCommandHandler
-      property OnChromeCommand                        : TOnChromeCommandEvent             read FOnChromeCommand                        write FOnChromeCommand;
+      property OnChromeCommand                        : TOnChromeCommandEvent                 read FOnChromeCommand                    write FOnChromeCommand;
+      property OnIsChromeAppMenuItemVisible           : TOnIsChromeAppMenuItemVisibleEvent    read FOnIsChromeAppMenuItemVisible       write FOnIsChromeAppMenuItemVisible;
+      property OnIsChromeAppMenuItemEnabled           : TOnIsChromeAppMenuItemEnabledEvent    read FOnIsChromeAppMenuItemEnabled       write FOnIsChromeAppMenuItemEnabled;
+      property OnIsChromePageActionIconVisible        : TOnIsChromePageActionIconVisibleEvent read FOnIsChromePageActionIconVisible    write FOnIsChromePageActionIconVisible;
+      property OnIsChromeToolbarButtonVisible         : TOnIsChromeToolbarButtonVisibleEvent  read FOnIsChromeToolbarButtonVisible     write FOnIsChromeToolbarButtonVisible;
 
       // ICefPermissionHandler
       property OnRequestMediaAccessPermission         : TOnRequestMediaAccessPermissionEvent read FOnRequestMediaAccessPermission      write FOnRequestMediaAccessPermission;
@@ -1927,6 +1940,10 @@ begin
 
   // ICefCommandHandler
   FOnChromeCommand                    := nil;
+  FOnIsChromeAppMenuItemVisible       := nil;
+  FOnIsChromeAppMenuItemEnabled       := nil;
+  FOnIsChromePageActionIconVisible    := nil;
+  FOnIsChromeToolbarButtonVisible     := nil;
 
   // ICefPermissionHandler
   FOnRequestMediaAccessPermission     := nil;
@@ -4995,7 +5012,11 @@ end;
 
 function TChromiumCore.MustCreateCommandHandler : boolean;
 begin
-  Result := assigned(FOnChromeCommand);
+  Result := assigned(FOnChromeCommand) or
+            assigned(FOnIsChromeAppMenuItemVisible) or
+            assigned(FOnIsChromeAppMenuItemEnabled) or
+            assigned(FOnIsChromePageActionIconVisible) or
+            assigned(FOnIsChromeToolbarButtonVisible);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -6024,6 +6045,39 @@ begin
   if assigned(FOnChromeCommand) then
     FOnChromeCommand(self, browser, command_id, disposition, Result);
 end;
+
+function TChromiumCore.doOnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnIsChromeAppMenuItemVisible) then
+    FOnIsChromeAppMenuItemVisible(self, browser, command_id, Result);
+end;
+
+function TChromiumCore.doOnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnIsChromeAppMenuItemEnabled) then
+    FOnIsChromeAppMenuItemEnabled(self, browser, command_id, Result);
+end;
+
+function TChromiumCore.doOnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnIsChromePageActionIconVisible) then
+    FOnIsChromePageActionIconVisible(self, icon_type, Result);
+end;
+
+function TChromiumCore.doOnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnIsChromeToolbarButtonVisible) then
+    FOnIsChromeToolbarButtonVisible(self, button_type, Result);
+end;
+
 
 function TChromiumCore.doOnRequestMediaAccessPermission(const browser               : ICefBrowser;
                                                         const frame                 : ICefFrame;

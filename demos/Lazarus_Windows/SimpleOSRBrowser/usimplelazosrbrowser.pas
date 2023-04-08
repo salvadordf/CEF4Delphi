@@ -212,8 +212,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;    
-  //GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.EnableGPU                  := True;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);

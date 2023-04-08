@@ -50,7 +50,6 @@ uses
 begin
   GlobalCEFApp                            := TCefApplicationCore.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ShowMessageDlg             := False;
   GlobalCEFApp.BlinkSettings              := 'hideScrollbars';
 

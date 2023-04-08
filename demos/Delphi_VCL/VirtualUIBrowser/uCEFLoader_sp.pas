@@ -49,7 +49,6 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplicationCore.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.TouchEvents                := STATE_ENABLED;
   GlobalCEFApp.EnableGPU                  := True;
   //GlobalCEFApp.LogFile                    := 'debug.log';

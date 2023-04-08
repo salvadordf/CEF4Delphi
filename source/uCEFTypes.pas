@@ -1203,6 +1203,43 @@ type
     CEF_TEST_CERT_EXPIRED
    );
 
+  // /include/internal/cef_types.h (cef_chrome_page_action_icon_type_t)
+  TCefChromePageActionIconType = (
+    CEF_CPAIT_BOOKMARK_STAR,
+    CEF_CPAIT_CLICK_TO_CALL,
+    CEF_CPAIT_COOKIE_CONTROLS,
+    CEF_CPAIT_FILE_SYSTEM_ACCESS,
+    CEF_CPAIT_FIND,
+    CEF_CPAIT_HIGH_EFFICIENCY,
+    CEF_CPAIT_INTENT_PICKER,
+    CEF_CPAIT_LOCAL_CARD_MIGRATION,
+    CEF_CPAIT_MANAGE_PASSWORDS,
+    CEF_CPAIT_PAYMENTS_OFFER_NOTIFICATION,
+    CEF_CPAIT_PRICE_TRACKING,
+    CEF_CPAIT_PWA_INSTALL,
+    CEF_CPAIT_QR_CODE_GENERATOR,
+    CEF_CPAIT_READER_MODE,
+    CEF_CPAIT_SAVE_AUTOFILL_ADDRESS,
+    CEF_CPAIT_SAVE_CARD,
+    CEF_CPAIT_SEND_TAB_TO_SELF,
+    CEF_CPAIT_SHARING_HUB,
+    CEF_CPAIT_SIDE_SEARCH,
+    CEF_CPAIT_SMS_REMOTE_FETCHER,
+    CEF_CPAIT_TRANSLATE,
+    CEF_CPAIT_VIRTUAL_CARD_ENROLL,
+    CEF_CPAIT_VIRTUAL_CARD_MANUAL_FALLBACK,
+    CEF_CPAIT_ZOOM,
+    CEF_CPAIT_SAVE_IBAN  // CEF_CPAIT_MAX_VALUE = CEF_CPAIT_SAVE_IBAN
+  );
+
+  // /include/internal/cef_types.h (cef_chrome_toolbar_button_type_t)
+  TCefChromeToolbarButtonType = (
+    CEF_CTBT_CAST,
+    CEF_CTBT_DOWNLOAD,
+    CEF_CTBT_SEND_TAB_TO_SELF,
+    CEF_CTBT_SIDE_PANEL  // CEF_CTBT_MAX_VALUE = CEF_CTBT_SIDE_PANEL
+  );
+
   // /include/internal/cef_types.h (cef_touch_handle_state_t)
   TCefTouchHandleState = record
     touch_handle_id   : integer;
@@ -2427,8 +2464,12 @@ type
 
   // /include/capi/cef_command_handler_capi.h (cef_command_handler_t)
   TCefCommandHandler = record
-    base                      : TCefBaseRefCounted;
-    on_chrome_command         : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): Integer; stdcall;
+    base                                 : TCefBaseRefCounted;
+    on_chrome_command                    : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): Integer; stdcall;
+    is_chrome_app_menu_item_visible      : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer): integer; stdcall;
+    is_chrome_app_menu_item_enabled      : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer): integer; stdcall;
+    is_chrome_page_action_icon_visible   : function(self: PCefCommandHandler; icon_type: TCefChromePageActionIconType): integer; stdcall;
+    is_chrome_toolbar_button_visible     : function(self: PCefCommandHandler; button_type: TCefChromeToolbarButtonType): integer; stdcall;
   end;
 
   // /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)

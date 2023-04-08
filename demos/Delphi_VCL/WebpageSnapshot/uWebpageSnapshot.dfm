@@ -2,25 +2,23 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
   Left = 0
   Top = 0
   Caption = 'Web page snapshot'
-  ClientHeight = 737
-  ClientWidth = 1032
+  ClientHeight = 736
+  ClientWidth = 1028
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 0
     Top = 25
-    Width = 1032
-    Height = 693
+    Width = 1028
+    Height = 692
     Align = alClient
     AutoSize = True
     Center = True
@@ -32,18 +30,20 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 718
-    Width = 1032
+    Top = 717
+    Width = 1028
     Height = 19
     Panels = <
       item
         Width = 1000
       end>
+    ExplicitTop = 718
+    ExplicitWidth = 1032
   end
   object NavigationPnl: TPanel
     Left = 0
     Top = 0
-    Width = 1032
+    Width = 1028
     Height = 25
     Align = alTop
     BevelOuter = bvNone
@@ -52,6 +52,7 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
     Padding.Right = 2
     Padding.Bottom = 2
     TabOrder = 1
+    ExplicitWidth = 1032
     object GoBtn: TButton
       Left = 955
       Top = 2

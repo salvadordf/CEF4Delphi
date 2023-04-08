@@ -2,8 +2,8 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   Left = 0
   Top = 0
   Caption = 'Initializing browser. Please wait...'
-  ClientHeight = 584
-  ClientWidth = 913
+  ClientHeight = 583
+  ClientWidth = 909
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   object NavControlPnl: TPanel
     Left = 0
     Top = 0
-    Width = 913
+    Width = 909
     Height = 30
     Align = alTop
     BevelOuter = bvNone
@@ -31,7 +31,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 1
-    ExplicitWidth = 909
     object ComboBox1: TComboBox
       Left = 5
       Top = 5
@@ -51,10 +50,9 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
         'https://www.briskbard.com'
         'https://frames-per-second.appspot.com/'
         'https://www.youtube.com')
-      ExplicitWidth = 830
     end
     object Panel2: TPanel
-      Left = 839
+      Left = 835
       Top = 5
       Width = 69
       Height = 20
@@ -66,7 +64,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
       BevelOuter = bvNone
       Padding.Left = 4
       TabOrder = 1
-      ExplicitLeft = 835
       object GoBtn: TButton
         Left = 4
         Top = 0
@@ -105,8 +102,8 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   object Panel1: TBufferPanel
     Left = 0
     Top = 30
-    Width = 913
-    Height = 554
+    Width = 909
+    Height = 553
     OnIMECancelComposition = Panel1IMECancelComposition
     OnIMECommitText = Panel1IMECommitText
     OnIMESetComposition = Panel1IMESetComposition
@@ -122,8 +119,6 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitWidth = 909
-    ExplicitHeight = 553
   end
   object chrmosr: TChromium
     OnCanFocus = chrmosrCanFocus

@@ -108,7 +108,6 @@ begin
 }
 
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.BrowserSubprocessPath      := 'OSRSubProcess.exe';
   GlobalCEFApp.ExternalMessagePump        := False;

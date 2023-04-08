@@ -74,7 +74,6 @@ begin
 }
 
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.ExternalMessagePump        := False;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;

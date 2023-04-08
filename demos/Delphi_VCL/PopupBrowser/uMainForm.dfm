@@ -2,26 +2,24 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'Initializing browser. Please wait...'
-  ClientHeight = 624
-  ClientWidth = 1038
+  ClientHeight = 623
+  ClientWidth = 1034
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object AddressPnl: TPanel
     Left = 0
     Top = 0
-    Width = 1038
+    Width = 1034
     Height = 30
     Align = alTop
     BevelOuter = bvNone
@@ -31,6 +29,7 @@ object MainForm: TMainForm
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 0
+    ExplicitWidth = 1038
     object AddressEdt: TEdit
       Left = 5
       Top = 5
@@ -57,10 +56,12 @@ object MainForm: TMainForm
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Top = 30
-    Width = 1038
-    Height = 594
+    Width = 1034
+    Height = 593
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 1038
+    ExplicitHeight = 594
   end
   object Timer1: TTimer
     Enabled = False

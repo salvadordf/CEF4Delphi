@@ -118,7 +118,8 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitTop = 31
+    ExplicitWidth = 1046
+    ExplicitHeight = 653
   end
   object chrmosr: TChromium
     OnCanFocus = chrmosrCanFocus

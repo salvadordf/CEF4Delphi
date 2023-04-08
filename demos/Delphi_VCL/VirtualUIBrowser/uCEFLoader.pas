@@ -55,7 +55,6 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.BrowserSubprocessPath      := 'VirtualUIBrowser_sp.exe';
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.TouchEvents                := STATE_ENABLED;
   GlobalCEFApp.EnableGPU                  := True;
   //GlobalCEFApp.LogFile                    := 'debug.log';

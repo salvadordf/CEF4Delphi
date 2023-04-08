@@ -198,7 +198,6 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.EnablePrintPreview         := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;

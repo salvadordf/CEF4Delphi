@@ -67,15 +67,15 @@ uses
   uCEFSchemeRegistrar, uCEFPreferenceRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 111;
+  CEF_SUPPORTED_VERSION_MAJOR   = 112;
   CEF_SUPPORTED_VERSION_MINOR   = 2;
   CEF_SUPPORTED_VERSION_RELEASE = 7;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
   CEF_CHROMEELF_VERSION_MAJOR   = CEF_SUPPORTED_VERSION_MAJOR;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 5563;
-  CEF_CHROMEELF_VERSION_BUILD   = 148;
+  CEF_CHROMEELF_VERSION_RELEASE = 5615;
+  CEF_CHROMEELF_VERSION_BUILD   = 49;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -199,9 +199,6 @@ type
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
-      {$IFDEF MSWINDOWS}
-      FEnableHighDPISupport              : boolean;
-      {$ENDIF}
       {$IFDEF LINUX}
       FArgCopy                           : TCEFArgCopy;
       {$ENDIF}
@@ -528,9 +525,6 @@ type
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
-      {$IFDEF MSWINDOWS}
-      property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
-      {$ENDIF}
       {$IFDEF LINUX}
       property argcCopy                          : longint                             read GetArgc;
       property argvCopy                          : PPAnsiChar                          read GetArgv;
@@ -785,9 +779,6 @@ begin
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
-  {$IFDEF MSWINDOWS}
-  FEnableHighDPISupport              := False;
-  {$ENDIF}
   {$IFDEF LINUX}
   FArgCopy                           := TCEFArgCopy.Create;
   {$ENDIF}
@@ -2631,10 +2622,6 @@ begin
       Result     := True;
 
       if FLogProcessInfo then CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
-
-      {$IFDEF MSWINDOWS}
-      if FEnableHighDPISupport then cef_enable_highdpi_support();
-      {$ENDIF}
     end
    else
     begin
@@ -2678,10 +2665,8 @@ function TCefApplicationCore.Load_cef_app_win_h : boolean;
 begin
   {$IFDEF MSWINDOWS}
     {$IFDEF FPC}Pointer({$ENDIF}cef_set_osmodal_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_set_osmodal_loop');
-    {$IFDEF FPC}Pointer({$ENDIF}cef_enable_highdpi_support{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_enable_highdpi_support');
 
-    Result := assigned(cef_set_osmodal_loop) and
-              assigned(cef_enable_highdpi_support);
+    Result := assigned(cef_set_osmodal_loop);
   {$ELSE}
     Result := True;
   {$ENDIF}

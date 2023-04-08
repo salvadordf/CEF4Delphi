@@ -53,7 +53,6 @@ uses
 begin
   GlobalCEFApp                            := TCefApplicationCore.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.EnableGPU                  := True;
   //GlobalCEFApp.LogFile                    := 'debug.log';
   //GlobalCEFApp.LogSeverity                := LOGSEVERITY_VERBOSE;  
