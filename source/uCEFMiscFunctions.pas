@@ -83,6 +83,7 @@ const
   SHLWAPIDLL  = 'shlwapi.dll';
   NTDLL       = 'ntdll.dll';
   User32DLL   = 'User32.dll';
+  Netapi32DLL = 'Netapi32.dll';
 
 function CefColorGetA(color: TCefColor): Byte;
 function CefColorGetR(color: TCefColor): byte;
@@ -182,6 +183,8 @@ function PathIsURLAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name
 function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
 function ShutdownBlockReasonCreate(hWnd: HWND; Reason: LPCWSTR): Bool; stdcall; external User32DLL;
 function ShutdownBlockReasonDestroy(hWnd: HWND): Bool; stdcall; external User32DLL;
+function NetServerGetInfo(servername: LPWSTR; level: DWORD; out bufptr: Pointer): DWORD; stdcall; external Netapi32DLL;
+function NetApiBufferFree(Buffer: Pointer): DWORD; stdcall; external Netapi32DLL;
 
 {$IFNDEF DELPHI12_UP}
 const
@@ -227,6 +230,8 @@ procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TF
 function  GetExtendedFileVersion(const aFileName : ustring) : uint64;
 function  GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
 procedure OutputLastErrorMessage;
+function  GetRealWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
+function  CheckRealWindowsVersion(aMajor, aMinor: cardinal) : boolean;
 {$ENDIF}
 
 function SplitLongString(aSrcString : string) : string;
@@ -1513,6 +1518,47 @@ begin
   {$IFDEF DEBUG}
   OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(SysErrorMessage(GetLastError()) + chr(0)));
   {$ENDIF}
+end;
+
+function GetRealWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
+type
+  SERVER_INFO_101 = record
+    sv101_platform_id   : DWORD;
+    sv101_name          : LPWSTR;
+    sv101_version_major : DWORD;
+    sv101_version_minor : DWORD;
+    sv101_type          : DWORD;
+    sv101_comment       : LPWSTR;
+  end;
+  PSERVER_INFO_101 = ^SERVER_INFO_101;
+
+const
+  MAJOR_VERSION_MASK = $0F;
+  NO_ERROR           = 0;
+
+var
+  TempBuffer : PSERVER_INFO_101;
+begin
+  Result     := False;
+  TempBuffer := nil;
+
+  if (NetServerGetInfo(nil, 101, Pointer(TempBuffer)) = NO_ERROR) then
+    try
+      aMajor := TempBuffer.sv101_version_major and MAJOR_VERSION_MASK;
+      aMinor := TempBuffer.sv101_version_minor;
+      Result := True;
+    finally
+      NetApiBufferFree(TempBuffer);
+    end;
+end;
+
+function CheckRealWindowsVersion(aMajor, aMinor: cardinal) : boolean;
+var
+  TempMajor, TempMinor: cardinal;
+begin
+  Result := GetRealWindowsVersion(TempMajor, TempMinor) and
+            ((TempMajor > aMajor) or
+             ((TempMajor = aMajor) and (TempMinor >= aMinor)));
 end;
 
 function GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;

@@ -367,6 +367,7 @@ type
       function  CheckCEFResources : boolean; virtual;
       {$IFDEF MSWINDOWS}
       function  CheckCEFDLL : boolean; virtual;
+      function  CheckWindowsVersion: boolean; virtual;
       {$ENDIF}
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
@@ -1205,6 +1206,23 @@ begin
       ShowErrorMessageDlg(FLastErrorMessage);
     end;
 end;
+
+function TCefApplicationCore.CheckWindowsVersion : boolean;
+begin
+  // Chromium 109 requires Windows 10 or later.
+  // https://github.com/salvadordf/CEF4Delphi/issues/452
+  if CheckRealWindowsVersion(10, 0) then
+    Result := True
+   else
+    begin
+      Result            := False;
+      FStatus           := asErrorWindowsVersion;
+      FLastErrorMessage := 'Unsupported Windows version !' +
+                           CRLF + CRLF +
+                           'Chromium requires Windows 10 or later.';
+      ShowErrorMessageDlg(FLastErrorMessage);
+    end;
+end;
 {$ENDIF}
 
 function TCefApplicationCore.CheckCEFLibrary : boolean;
@@ -1223,8 +1241,10 @@ begin
       chdir(GetModulePath);
     end;
 
-  Result := CheckCEFResources
-            {$IFDEF MSWINDOWS}and CheckCEFDLL{$ENDIF};
+  Result := CheckCEFResources;
+  {$IFDEF MSWINDOWS}
+  Result := Result and CheckWindowsVersion and CheckCEFDLL;
+  {$ENDIF}
 
   if FSetCurrentDir then chdir(TempOldDir);
 end;

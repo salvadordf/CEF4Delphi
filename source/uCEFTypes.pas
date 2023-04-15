@@ -475,6 +475,7 @@ type
                           asUnloaded,
                           asErrorMissingFiles,
                           asErrorDLLVersion,
+                          asErrorWindowsVersion,
                           asErrorLoadingLibrary,
                           asErrorInitializingLibrary,
                           asErrorExecutingProcess);
