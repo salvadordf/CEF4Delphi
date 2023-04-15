@@ -39,7 +39,7 @@ unit CEF4DelphiVCL_Register;
 
 {$R res\chromium.dcr}
 
-{$I cef.inc}
+{$I ..\source\cef.inc}
 
 interface
 
