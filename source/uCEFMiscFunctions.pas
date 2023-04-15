@@ -1544,8 +1544,8 @@ begin
 
   if (NetServerGetInfo(nil, 101, Pointer(TempBuffer)) = NO_ERROR) then
     try
-      aMajor := TempBuffer.sv101_version_major and MAJOR_VERSION_MASK;
-      aMinor := TempBuffer.sv101_version_minor;
+      aMajor := TempBuffer^.sv101_version_major and MAJOR_VERSION_MASK;
+      aMinor := TempBuffer^.sv101_version_minor;
       Result := True;
     finally
       NetApiBufferFree(TempBuffer);
