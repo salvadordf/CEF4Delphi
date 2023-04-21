@@ -3552,6 +3552,7 @@ type
     can_close                        : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     on_accelerator                   : function(self: PCefWindowDelegate; window: PCefWindow; command_id: Integer): Integer; stdcall;
     on_key_event                     : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyEvent): Integer; stdcall;
+    on_window_fullscreen_transition  : procedure(self: PCefWindowDelegate; window: PCefWindow; is_completed: integer); stdcall;
   end;
 
 implementation

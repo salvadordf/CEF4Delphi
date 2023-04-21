@@ -3039,6 +3039,7 @@ type
     procedure OnCanClose(const window_: ICefWindow; var aResult : boolean);
     procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
     procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+    procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
   end;
 
   ICefWindowDelegateEvents = interface(ICefPanelDelegateEvents)
@@ -3060,6 +3061,7 @@ type
     procedure doOnCanClose(const window_: ICefWindow; var aResult : boolean);
     procedure doOnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
     procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+    procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
   end;
 
 implementation
