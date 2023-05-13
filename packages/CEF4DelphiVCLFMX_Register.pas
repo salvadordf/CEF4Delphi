@@ -41,6 +41,9 @@ unit CEF4DelphiVCLFMX_Register;
 
 {$I ..\source\cef.inc}
 
+// Disable this DEFINE if your Delphi installation can't find ToolsAPI.pas or designide.dcp
+{$DEFINE ADDSPLASHSCREENLOGO}
+
 interface
 
 procedure Register;
@@ -48,7 +51,7 @@ procedure Register;
 implementation
 
 uses
-  System.Classes, Winapi.Windows, System.SysUtils, ToolsApi,
+  System.Classes, Winapi.Windows, System.SysUtils, {$IFDEF ADDSPLASHSCREENLOGO}ToolsApi,{$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
   uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
   uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
@@ -56,6 +59,7 @@ uses
   uCEFMenuButtonComponent, uCEFPanelComponent, uCEFTextfieldComponent,
   uCEFScrollViewComponent, uCEFWindowComponent;
 
+{$IFDEF ADDSPLASHSCREENLOGO}
 procedure AddBitmapToSplashScreen;
 const
   {$I ..\source\uCEFVersion.inc}
@@ -78,6 +82,7 @@ begin
       end;
     end;
 end;
+{$ENDIF}
 
 procedure Register;
 begin
@@ -95,7 +100,9 @@ begin
                       TCEFTextfieldComponent, TCEFScrollViewComponent,
                       TCEFWindowComponent]);
 
+  {$IFDEF ADDSPLASHSCREENLOGO}
   AddBitmapToSplashScreen;
+  {$ENDIF}
 end;
 
 end.
