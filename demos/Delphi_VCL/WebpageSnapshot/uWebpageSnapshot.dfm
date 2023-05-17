@@ -18,15 +18,25 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
     Left = 0
     Top = 25
     Width = 1028
-    Height = 692
+    Height = 532
     Align = alClient
     AutoSize = True
     Center = True
     Proportional = True
     ExplicitLeft = 104
     ExplicitTop = 112
-    ExplicitWidth = 105
-    ExplicitHeight = 105
+    ExplicitWidth = 777
+    ExplicitHeight = 329
+  end
+  object Splitter1: TSplitter
+    Left = 0
+    Top = 557
+    Width = 1028
+    Height = 3
+    Cursor = crVSplit
+    Align = alBottom
+    ExplicitTop = 25
+    ExplicitWidth = 535
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -37,8 +47,8 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
       item
         Width = 1000
       end>
-    ExplicitTop = 718
-    ExplicitWidth = 1032
+    ExplicitTop = 716
+    ExplicitWidth = 1024
   end
   object NavigationPnl: TPanel
     Left = 0
@@ -52,9 +62,9 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
     Padding.Right = 2
     Padding.Bottom = 2
     TabOrder = 1
-    ExplicitWidth = 1032
+    ExplicitWidth = 1024
     object GoBtn: TButton
-      Left = 955
+      Left = 951
       Top = 2
       Width = 75
       Height = 21
@@ -62,15 +72,27 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
       Caption = 'Go'
       TabOrder = 0
       OnClick = GoBtnClick
+      ExplicitLeft = 947
     end
     object AddressEdt: TEdit
       Left = 2
       Top = 2
-      Width = 953
+      Width = 949
       Height = 21
       Align = alClient
       TabOrder = 1
       Text = 'https://www.google.com'
+      ExplicitWidth = 945
     end
+  end
+  object Memo1: TMemo
+    Left = 0
+    Top = 560
+    Width = 1028
+    Height = 157
+    Align = alBottom
+    ReadOnly = True
+    ScrollBars = ssBoth
+    TabOrder = 2
   end
 end

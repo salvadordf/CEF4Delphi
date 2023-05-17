@@ -68,19 +68,23 @@ type
       FDefaultURL            : ustring;
       FDelayMs               : integer;
       FOnSnapshotAvailable   : TNotifyEvent;
+      FOnHTMLAvailable       : TNotifyEvent;
       FOnError               : TNotifyEvent;
       FErrorCode             : integer;
       FErrorText             : ustring;
       FFailedUrl             : ustring;
       FPendingUrl            : ustring;
       FSyncEvents            : boolean;
+      FHTMLcopy              : ustring;
 
       function  GetErrorCode : integer;
       function  GetErrorText : ustring;
       function  GetFailedUrl : ustring;
+      function  GetHTMLcopy : ustring;
       function  GetInitialized : boolean;
 
       procedure SetErrorText(const aValue : ustring);
+      procedure SetHTMLcopy(const aValue : ustring);
 
       procedure Browser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
       procedure Browser_OnPaint(Sender: TObject; const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; aWidth, aHeight: Integer);
@@ -93,9 +97,11 @@ type
       procedure Browser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure Browser_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
       procedure Browser_OnLoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+      procedure Browser_OnTextResultAvailable(Sender: TObject; const aText : ustring);
 
       procedure DoOnError;
       procedure DoOnSnapshotAvailable;
+      procedure DoOnHTMLAvailable;
       procedure Resize;
       function  CreateBrowser : boolean;
       procedure CloseBrowser;
@@ -120,8 +126,10 @@ type
       property Initialized           : boolean           read GetInitialized;
       property Closing               : boolean           read FClosing;
       property SyncEvents            : boolean           read FSyncEvents              write FSyncEvents;
+      property HTMLcopy              : ustring           read GetHTMLcopy              write SetHTMLcopy;
 
       property OnSnapshotAvailable   : TNotifyEvent      read FOnSnapshotAvailable     write FOnSnapshotAvailable;
+      property OnHTMLAvailable       : TNotifyEvent      read FOnHTMLAvailable         write FOnHTMLAvailable;
       property OnError               : TNotifyEvent      read FOnError                 write FOnError;
   end;
 
@@ -154,6 +162,7 @@ begin
   FBrowserInfoCS         := nil;
   FDelayMs               := aDelayMs;
   FOnSnapshotAvailable   := nil;
+  FOnHTMLAvailable       := nil;
   FOnError               := nil;
   FClosing               := False;
   FSyncEvents            := False;
@@ -206,6 +215,7 @@ begin
   FBrowser.OnBeforeClose           := Browser_OnBeforeClose;
   FBrowser.OnLoadError             := Browser_OnLoadError;
   FBrowser.OnLoadingStateChange    := Browser_OnLoadingStateChange;
+  FBrowser.OnTextResultAvailable   := Browser_OnTextResultAvailable;
 end;
 
 function TCEFBrowserThread.GetErrorCode : integer;
@@ -247,6 +257,19 @@ begin
     Result := '';
 end;
 
+function TCEFBrowserThread.GetHTMLcopy : ustring;
+begin
+  if assigned(FBrowserInfoCS) then
+    try
+      FBrowserInfoCS.Acquire;
+      Result := FHTMLcopy;
+    finally
+      FBrowserInfoCS.Release;
+    end
+   else
+    Result := '';
+end;
+
 function TCEFBrowserThread.GetInitialized : boolean;
 begin
   Result := False;
@@ -266,6 +289,17 @@ begin
     try
       FBrowserInfoCS.Acquire;
       FErrorText := aValue;
+    finally
+      FBrowserInfoCS.Release;
+    end;
+end;
+
+procedure TCEFBrowserThread.SetHTMLcopy(const aValue : ustring);
+begin
+  if assigned(FBrowserInfoCS) then
+    try
+      FBrowserInfoCS.Acquire;
+      FHTMLcopy := aValue;
     finally
       FBrowserInfoCS.Release;
     end;
@@ -566,6 +600,19 @@ begin
     PostThreadMessage(ThreadID, CEF_WEBPAGE_LOADED_MSG, 0, 0);
 end;
 
+procedure TCEFBrowserThread.Browser_OnTextResultAvailable(Sender: TObject; const aText : ustring);
+begin
+  HTMLcopy := aText;
+
+  if assigned(FOnHTMLAvailable) then
+    begin
+      if FSyncEvents then
+        Synchronize(DoOnHTMLAvailable)
+       else
+        DoOnHTMLAvailable;
+    end;
+end;
+
 procedure TCEFBrowserThread.Resize;
 begin
   if FClosing or Terminated or not(Initialized) then exit;
@@ -620,6 +667,9 @@ begin
   if (FDelayMs > 0) then
     sleep(FDelayMs);
 
+  if assigned(FOnHTMLAvailable) then
+    FBrowser.RetrieveHTML();
+
   if assigned(FOnSnapshotAvailable) then
     begin
       if FSyncEvents then
@@ -657,6 +707,11 @@ end;
 procedure TCEFBrowserThread.DoOnSnapshotAvailable;
 begin
   FOnSnapshotAvailable(self);
+end;
+
+procedure TCEFBrowserThread.DoOnHTMLAvailable;
+begin
+  FOnHTMLAvailable(self);
 end;
 
 procedure TCEFBrowserThread.InitError;

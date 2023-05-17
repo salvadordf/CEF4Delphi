@@ -58,6 +58,8 @@ type
     NavigationPnl: TPanel;
     GoBtn: TButton;
     AddressEdt: TEdit;
+    Memo1: TMemo;
+    Splitter1: TSplitter;
     procedure GoBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -67,6 +69,7 @@ type
 
     procedure Thread_OnError(Sender: TObject);
     procedure Thread_OnSnapshotAvailable(Sender: TObject);
+    procedure Thread_OnHTMLAvailable(Sender: TObject);
   end;
 
 var
@@ -114,6 +117,7 @@ begin
       FThread                     := TCEFBrowserThread.Create(AddressEdt.Text, 1024, 768);
       FThread.OnError             := Thread_OnError;
       FThread.OnSnapshotAvailable := Thread_OnSnapshotAvailable;
+      FThread.OnHTMLAvailable     := Thread_OnHTMLAvailable;
       FThread.SyncEvents          := True;
       FThread.Start;
     end
@@ -160,6 +164,12 @@ begin
     end
    else
     StatusBar1.Panels[0].Text := 'There was an error copying the snapshot';
+end;
+
+procedure TWebpageSnapshotFrm.Thread_OnHTMLAvailable(Sender: TObject);
+begin
+  if (FThread <> nil) then
+    Memo1.Lines.Add(FThread.HTMLcopy);
 end;
 
 end.
