@@ -565,8 +565,8 @@ type
 
   // /include/internal/cef_types_geometry.h (cef_range_t)
   TCefRange = record
-    from  : Integer;
-    to_   : Integer;
+    from  : cardinal;
+    to_   : cardinal;
   end;
   TCefRangeArray = array of TCefRange;
 
@@ -1195,6 +1195,12 @@ type
   TCefPreferencesType = (
     CEF_PREFERENCES_TYPE_GLOBAL,
     CEF_PREFERENCES_TYPE_REQUEST_CONTEXT
+  );
+
+  // /include/internal/cef_types.h (cef_gesture_command_t)
+  TCefGestureCommand = (
+    CEF_GESTURE_COMMAND_BACK,
+    CEF_GESTURE_COMMAND_FORWARD
   );
 
   // /include/internal/cef_types.h (cef_test_cert_type_t)
@@ -3436,6 +3442,7 @@ type
     get_delegate_for_popup_browser_view : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; const settings: PCefBrowserSettings; client: PCefClient; is_devtools: Integer): PCefBrowserViewDelegate; stdcall;
     on_popup_browser_view_created       : function(self: PCefBrowserViewDelegate; browser_view, popup_browser_view: PCefBrowserView; is_devtools: Integer): Integer; stdcall;
     get_chrome_toolbar_type             : function(self: PCefBrowserViewDelegate): TCefChromeToolbarType; stdcall;
+    on_gesture_command                  : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
   end;
 
   // /include/capi/views/cef_button_capi.h (cef_button_t)

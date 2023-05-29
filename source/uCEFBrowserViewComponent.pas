@@ -72,6 +72,7 @@ type
       FOnGetDelegateForPopupBrowserView : TOnGetDelegateForPopupBrowserViewEvent;
       FOnPopupBrowserViewCreated        : TOnPopupBrowserViewCreatedEvent;
       FOnGetChromeToolbarType           : TOnGetChromeToolbarTypeEvent;
+      FOnGestureCommand                 : TOnGestureCommandEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -87,6 +88,7 @@ type
       procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
       procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
       procedure doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
+      procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
 
     public
       function  CreateBrowserView(const client: ICefClient; const url: ustring; const settings: TCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext): boolean;
@@ -102,6 +104,7 @@ type
       property OnGetDelegateForPopupBrowserView  : TOnGetDelegateForPopupBrowserViewEvent  read FOnGetDelegateForPopupBrowserView  write FOnGetDelegateForPopupBrowserView;
       property OnPopupBrowserViewCreated         : TOnPopupBrowserViewCreatedEvent         read FOnPopupBrowserViewCreated         write FOnPopupBrowserViewCreated;
       property OnGetChromeToolbarType            : TOnGetChromeToolbarTypeEvent            read FOnGetChromeToolbarType            write FOnGetChromeToolbarType;
+      property OnGestureCommand                  : TOnGestureCommandEvent                  read FOnGestureCommand                  write FOnGestureCommand;
   end;
 
 {$IFDEF FPC}
@@ -151,6 +154,7 @@ begin
   FOnGetDelegateForPopupBrowserView := nil;
   FOnPopupBrowserViewCreated        := nil;
   FOnGetChromeToolbarType           := nil;
+  FOnGestureCommand                 := nil;
 end;
 
 procedure TCEFBrowserViewComponent.DestroyView;
@@ -258,6 +262,14 @@ procedure TCEFBrowserViewComponent.doOnGetChromeToolbarType(var aChromeToolbarTy
 begin
   if assigned(FOnGetChromeToolbarType) then
     FOnGetChromeToolbarType(self, aChromeToolbarType);
+end;
+
+procedure TCEFBrowserViewComponent.doOnGestureCommand(const browser_view    : ICefBrowserView;
+                                                            gesture_command : TCefGestureCommand;
+                                                      var   aResult         : boolean);
+begin
+  if assigned(FOnGestureCommand) then
+    FOnGestureCommand(self, browser_view, aResult);
 end;
 
 {$IFDEF FPC}

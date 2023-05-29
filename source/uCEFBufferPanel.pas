@@ -769,16 +769,7 @@ end;
 
 procedure TBufferPanel.WMIMEComposition(var aMessage: TMessage);
 const
-  // CEF uses UINT32_MAX to initialize the TCefRange parameters.
-  // FPC works fine with a high(integer) value but if we try to use
-  // integer(high(cardinal)) then it duplicates the result string.
-  // Delphi however works fine with integer(high(cardinal)) but it doesn't show
-  // any result string when we use high(integer)
-  {$IFDEF FPC}
-  UINT32_MAX = high(integer);
-  {$ELSE}
-  UINT32_MAX = integer(high(cardinal));
-  {$ENDIF}
+  UINT32_MAX = high(cardinal);
 var
   TempText        : ustring;
   TempRange       : TCefRange;
