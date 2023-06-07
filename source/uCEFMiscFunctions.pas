@@ -59,14 +59,14 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX, Winapi.ShellApi,
+      WinApi.Windows, WinApi.ActiveX, Winapi.ShellApi, System.Win.Registry,
     {$ELSE}
       {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac, Macapi.AppKit,{$ENDIF}
     {$ENDIF}
     {$IFDEF FMX}FMX.Types, FMX.Platform,{$ENDIF} System.Types, System.IOUtils,
     System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX, ShellApi,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, ActiveX, ShellApi, Registry,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType, LazFileUtils,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FPC}
@@ -230,6 +230,7 @@ procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TF
 function  GetExtendedFileVersion(const aFileName : ustring) : uint64;
 function  GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
 procedure OutputLastErrorMessage;
+function  GetRegistryWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
 function  GetRealWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
 function  CheckRealWindowsVersion(aMajor, aMinor: cardinal) : boolean;
 {$ENDIF}
@@ -1520,6 +1521,114 @@ begin
   {$ENDIF}
 end;
 
+function GetRegistryWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
+const
+  SUBKEY = '\SOFTWARE\Microsoft\Windows NT\CurrentVersion';
+var
+  TempRegKey : TRegistry;
+  TempBuild  : integer;
+begin
+  Result     := False;
+  aMajor     := 0;
+  aMinor     := 0;
+  TempRegKey := nil;
+
+  try
+    try
+      TempRegKey         := TRegistry.Create(KEY_READ);
+      TempRegKey.RootKey := HKEY_LOCAL_MACHINE;
+
+      if TempRegKey.KeyExists(SUBKEY) and
+         TempRegKey.OpenKeyReadOnly(SUBKEY) then
+        try
+          if TempRegKey.ValueExists('CurrentMajorVersionNumber') and
+             TempRegKey.ValueExists('CurrentMinorVersionNumber') then
+            begin
+              aMajor := TempRegKey.ReadInteger('CurrentMajorVersionNumber');
+              aMinor := TempRegKey.ReadInteger('CurrentMinorVersionNumber');
+              Result := True;
+            end
+           else
+            if TempRegKey.ValueExists('CurrentBuildNumber') then
+              begin
+                TempBuild := StrToIntDef(TempRegKey.ReadString('CurrentBuildNumber'), 0);
+
+                if (TempBuild > 22000) then // Windows 11
+                  begin
+                    aMajor := 10;
+                    aMinor := 0;
+                    Result := True;
+                  end
+                 else
+                  if (TempBuild > 10240) then // Windows 10
+                    begin
+                      aMajor := 10;
+                      aMinor := 0;
+                      Result := True;
+                    end
+                   else
+                    if (TempBuild > 9600) then // Windows 8.1
+                      begin
+                        aMajor := 6;
+                        aMinor := 3;
+                        Result := True;
+                      end
+                     else
+                      if (TempBuild > 9200) then // Windows 8
+                        begin
+                          aMajor := 6;
+                          aMinor := 2;
+                          Result := True;
+                        end
+                       else
+                        if (TempBuild > 7600) then // Windows 7
+                          begin
+                            aMajor := 6;
+                            aMinor := 1;
+                            Result := True;
+                          end
+                         else
+                          if (TempBuild > 6000) then // Windows Vista
+                            begin
+                              aMajor := 6;
+                              aMinor := 0;
+                              Result := True;
+                            end
+                           else
+                            if (TempBuild > 3790) then // Windows Server 2003
+                              begin
+                                aMajor := 5;
+                                aMinor := 2;
+                                Result := True;
+                              end
+                             else
+                              if (TempBuild > 2600) then // Windows XP
+                                begin
+                                  aMajor := 5;
+                                  aMinor := 1;
+                                  Result := True;
+                                end
+                               else
+                                if (TempBuild > 2195) then // Windows 2000
+                                  begin
+                                    aMajor := 5;
+                                    aMinor := 0;
+                                    Result := True;
+                                  end;
+              end;
+        finally
+          TempRegKey.CloseKey;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('GetRegistryWindowsVersion', e) then raise;
+    end;
+  finally
+    if assigned(TempRegKey) then
+      FreeAndNil(TempRegKey);
+  end;
+end;
+
 function GetRealWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
 type
   SERVER_INFO_101 = record
@@ -1539,7 +1648,9 @@ const
 var
   TempBuffer : PSERVER_INFO_101;
 begin
-  Result     := False;
+  Result     := False;      
+  aMajor     := 0;
+  aMinor     := 0;
   TempBuffer := nil;
 
   if (NetServerGetInfo(nil, 101, Pointer(TempBuffer)) = NO_ERROR) then
@@ -1554,11 +1665,18 @@ end;
 
 function CheckRealWindowsVersion(aMajor, aMinor: cardinal) : boolean;
 var
-  TempMajor, TempMinor: cardinal;
+  TempMajor, TempMinor : cardinal;
+  TempResultAPI, TempResultReg : boolean;
 begin
-  Result := GetRealWindowsVersion(TempMajor, TempMinor) and
-            ((TempMajor > aMajor) or
-             ((TempMajor = aMajor) and (TempMinor >= aMinor)));
+  TempResultAPI := GetRealWindowsVersion(TempMajor, TempMinor) and
+                   ((TempMajor > aMajor) or
+                    ((TempMajor = aMajor) and (TempMinor >= aMinor)));
+
+  TempResultReg := GetRegistryWindowsVersion(TempMajor, TempMinor) and
+                   ((TempMajor > aMajor) or
+                    ((TempMajor = aMajor) and (TempMinor >= aMinor)));
+
+  Result := TempResultAPI or TempResultReg;
 end;
 
 function GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
