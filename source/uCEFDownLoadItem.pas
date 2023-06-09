@@ -58,6 +58,8 @@ type
     function IsInProgress: Boolean;
     function IsComplete: Boolean;
     function IsCanceled: Boolean;
+    function IsInterrupted: Boolean;
+    function GetInterruptReason: TCefDownloadInterruptReason;
     function GetCurrentSpeed: Int64;
     function GetPercentComplete: Integer;
     function GetTotalBytes: Int64;
@@ -148,6 +150,16 @@ end;
 function TCefDownLoadItemRef.IsCanceled: Boolean;
 begin
   Result := PCefDownloadItem(FData)^.is_canceled(PCefDownloadItem(FData)) <> 0;
+end;
+
+function TCefDownLoadItemRef.IsInterrupted: Boolean;
+begin
+  Result := PCefDownloadItem(FData)^.is_interrupted(PCefDownloadItem(FData)) <> 0;
+end;
+
+function TCefDownLoadItemRef.GetInterruptReason: TCefDownloadInterruptReason;
+begin
+  Result := PCefDownloadItem(FData)^.get_interrupt_reason(PCefDownloadItem(FData));
 end;
 
 function TCefDownLoadItemRef.IsComplete: Boolean;

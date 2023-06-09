@@ -1553,63 +1553,63 @@ begin
               begin
                 TempBuild := StrToIntDef(TempRegKey.ReadString('CurrentBuildNumber'), 0);
 
-                if (TempBuild > 22000) then // Windows 11
+                if (TempBuild >= 22000) then // Windows 11
                   begin
                     aMajor := 10;
                     aMinor := 0;
                     Result := True;
                   end
                  else
-                  if (TempBuild > 10240) then // Windows 10
+                  if (TempBuild >= 10240) then // Windows 10
                     begin
                       aMajor := 10;
                       aMinor := 0;
                       Result := True;
                     end
                    else
-                    if (TempBuild > 9600) then // Windows 8.1
+                    if (TempBuild >= 9600) then // Windows 8.1
                       begin
                         aMajor := 6;
                         aMinor := 3;
                         Result := True;
                       end
                      else
-                      if (TempBuild > 9200) then // Windows 8
+                      if (TempBuild >= 9200) then // Windows 8
                         begin
                           aMajor := 6;
                           aMinor := 2;
                           Result := True;
                         end
                        else
-                        if (TempBuild > 7600) then // Windows 7
+                        if (TempBuild >= 7600) then // Windows 7
                           begin
                             aMajor := 6;
                             aMinor := 1;
                             Result := True;
                           end
                          else
-                          if (TempBuild > 6000) then // Windows Vista
+                          if (TempBuild >= 6000) then // Windows Vista
                             begin
                               aMajor := 6;
                               aMinor := 0;
                               Result := True;
                             end
                            else
-                            if (TempBuild > 3790) then // Windows Server 2003
+                            if (TempBuild >= 3790) then // Windows Server 2003
                               begin
                                 aMajor := 5;
                                 aMinor := 2;
                                 Result := True;
                               end
                              else
-                              if (TempBuild > 2600) then // Windows XP
+                              if (TempBuild >= 2600) then // Windows XP
                                 begin
                                   aMajor := 5;
                                   aMinor := 1;
                                   Result := True;
                                 end
                                else
-                                if (TempBuild > 2195) then // Windows 2000
+                                if (TempBuild >= 2195) then // Windows 2000
                                   begin
                                     aMajor := 5;
                                     aMinor := 0;

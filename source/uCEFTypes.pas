@@ -337,6 +337,7 @@ type
   TCefTouchHandleStateFlags        = type Integer;   // /include/internal/cef_types.h (cef_touch_handle_state_flags_t)
   TCefMediaAccessPermissionTypes   = type Integer;   // /include/internal/cef_types.h (cef_media_access_permission_types_t)
   TCefPermissionRequestTypes       = type Integer;   // /include/internal/cef_types.h (cef_permission_request_types_t)
+  TCefDownloadInterruptReason      = type Integer;   // /include/internal/cef_types.h (cef_download_interrupt_reason_t)
 
 
 {$IFDEF FPC}
@@ -2754,6 +2755,8 @@ type
     is_in_progress          : function(self: PCefDownloadItem): Integer; stdcall;
     is_complete             : function(self: PCefDownloadItem): Integer; stdcall;
     is_canceled             : function(self: PCefDownloadItem): Integer; stdcall;
+    is_interrupted          : function(self: PCefDownloadItem): Integer; stdcall;
+    get_interrupt_reason    : function(self: PCefDownloadItem): TCefDownloadInterruptReason; stdcall;
     get_current_speed       : function(self: PCefDownloadItem): Int64; stdcall;
     get_percent_complete    : function(self: PCefDownloadItem): Integer; stdcall;
     get_total_bytes         : function(self: PCefDownloadItem): Int64; stdcall;

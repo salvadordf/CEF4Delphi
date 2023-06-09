@@ -911,6 +911,8 @@ type
     function IsInProgress: Boolean;
     function IsComplete: Boolean;
     function IsCanceled: Boolean;
+    function IsInterrupted: Boolean;
+    function GetInterruptReason: TCefDownloadInterruptReason;
     function GetCurrentSpeed: Int64;
     function GetPercentComplete: Integer;
     function GetTotalBytes: Int64;
@@ -925,19 +927,20 @@ type
     function GetContentDisposition: ustring;
     function GetMimeType: ustring;
 
-    property CurrentSpeed       : Int64     read GetCurrentSpeed;
-    property PercentComplete    : Integer   read GetPercentComplete;
-    property TotalBytes         : Int64     read GetTotalBytes;
-    property ReceivedBytes      : Int64     read GetReceivedBytes;
-    property StartTime          : TDateTime read GetStartTime;
-    property EndTime            : TDateTime read GetEndTime;
-    property FullPath           : ustring   read GetFullPath;
-    property Id                 : Cardinal  read GetId;
-    property Url                : ustring   read GetUrl;
-    property OriginalUrl        : ustring   read GetOriginalUrl;
-    property SuggestedFileName  : ustring   read GetSuggestedFileName;
-    property ContentDisposition : ustring   read GetContentDisposition;
-    property MimeType           : ustring   read GetMimeType;
+    property CurrentSpeed        : Int64                         read GetCurrentSpeed;
+    property PercentComplete     : Integer                       read GetPercentComplete;
+    property TotalBytes          : Int64                         read GetTotalBytes;
+    property ReceivedBytes       : Int64                         read GetReceivedBytes;
+    property StartTime           : TDateTime                     read GetStartTime;
+    property EndTime             : TDateTime                     read GetEndTime;
+    property FullPath            : ustring                       read GetFullPath;
+    property Id                  : Cardinal                      read GetId;
+    property Url                 : ustring                       read GetUrl;
+    property OriginalUrl         : ustring                       read GetOriginalUrl;
+    property SuggestedFileName   : ustring                       read GetSuggestedFileName;
+    property ContentDisposition  : ustring                       read GetContentDisposition;
+    property MimeType            : ustring                       read GetMimeType;
+    property InterruptReason     : TCefDownloadInterruptReason   read GetInterruptReason;
   end;
 
   // TCefBeforeDownloadCallback

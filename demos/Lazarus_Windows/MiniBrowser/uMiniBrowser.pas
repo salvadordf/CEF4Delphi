@@ -708,16 +708,19 @@ begin
    else
     if downloadItem.IsCanceled then
       ShowStatusText(downloadItem.FullPath + ' canceled')
-     else
-      if downloadItem.IsInProgress then
-        begin
-          if (downloadItem.PercentComplete >= 0) then
-            TempString := downloadItem.FullPath + ' : ' + inttostr(downloadItem.PercentComplete) + '%'
-           else
-            TempString := downloadItem.FullPath + ' : ' + inttostr(downloadItem.ReceivedBytes) + ' bytes received';
+     else     
+      if downloadItem.IsInterrupted then
+        ShowStatusText(downloadItem.FullPath + ' interrupted')
+       else
+        if downloadItem.IsInProgress then
+          begin
+            if (downloadItem.PercentComplete >= 0) then
+              TempString := downloadItem.FullPath + ' : ' + inttostr(downloadItem.PercentComplete) + '%'
+             else
+              TempString := downloadItem.FullPath + ' : ' + inttostr(downloadItem.ReceivedBytes) + ' bytes received';
 
-          ShowStatusText(TempString);
-        end;
+            ShowStatusText(TempString);
+          end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1FullScreenModeChange(Sender: TObject;
