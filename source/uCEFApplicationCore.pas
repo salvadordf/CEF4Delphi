@@ -187,6 +187,7 @@ type
       FNetLogFile                        : ustring;
       FNetLogCaptureMode                 : TCefNetLogCaptureMode;
       FRemoteAllowOrigins                : ustring;
+      FAutoAcceptCamAndMicCapture        : boolean;
 
 
       // Fields used during the CEF initialization
@@ -515,6 +516,7 @@ type
       property NetLogFile                        : ustring                             read FNetLogFile                        write FNetLogFile;                       // --log-net-log
       property NetLogCaptureMode                 : TCefNetLogCaptureMode               read FNetLogCaptureMode                 write FNetLogCaptureMode;                // --net-log-capture-mode
       property RemoteAllowOrigins                : ustring                             read FRemoteAllowOrigins                write FRemoteAllowOrigins;               // --remote-allow-origins
+      property AutoAcceptCamAndMicCapture        : boolean                             read FAutoAcceptCamAndMicCapture        write FAutoAcceptCamAndMicCapture;       // --auto-accept-camera-and-microphone-capture
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -769,6 +771,7 @@ begin
   FNetLogFile                        := '';
   FNetLogCaptureMode                 := nlcmDefault;
   FRemoteAllowOrigins                := '';
+  FAutoAcceptCamAndMicCapture        := False;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -2142,6 +2145,9 @@ begin
 
   if (length(FRemoteAllowOrigins) > 0) then
     ReplaceSwitch(aKeys, aValues, '--remote-allow-origins', FRemoteAllowOrigins);
+
+  if FAutoAcceptCamAndMicCapture then
+    ReplaceSwitch(aKeys, aValues, '--auto-accept-camera-and-microphone-capture');
 
   if FNetLogEnabled then
     begin
