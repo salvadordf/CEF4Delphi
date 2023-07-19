@@ -72,6 +72,10 @@ uses
 type
   TBrowserInfoList = class;
 
+  /// <summary>
+  ///  Parent class of TChromium and TFMXChromium that puts together all browser procedures, functions, properties and events in one place.
+  ///  It has all you need to create, modify and destroy a web browser.
+  /// </summary>
   TChromiumCore = class(TComponent, IChromiumEvents)
     protected
       {$IFDEF MSWINDOWS}

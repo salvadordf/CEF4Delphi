@@ -63,6 +63,10 @@ uses
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  ///  VCL and LCL version of TChromiumCore that puts together all browser procedures, functions, properties and events in one place.
+  ///  It has all you need to create, modify and destroy a web browser.
+  /// </summary>
   TChromium = class(TChromiumCore)
     protected
       function  GetParentFormHandle : TCefWindowHandle; override;

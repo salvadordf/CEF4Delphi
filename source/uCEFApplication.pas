@@ -83,6 +83,9 @@ const
   CHROMEELF_DLL                 = uCefApplicationCore.CHROMEELF_DLL;
 
 type
+  /// <summary>
+  ///  Main class used to simplify the CEF initialization and destruction.
+  /// </summary>
   TCefApplication = class(TCefApplicationCore)
     protected
       FDestroyApplicationObject      : boolean;

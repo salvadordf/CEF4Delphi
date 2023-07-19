@@ -91,6 +91,9 @@ const
   LIBCEF_LOCALE_ENUS = 'en-US.pak';
 
 type
+  /// <summary>
+  ///  Parent class of TCefApplication used to simplify the CEF initialization and destruction.
+  /// </summary>
   TCefApplicationCore = class
     protected
       // Fields used to populate TCefSettings
