@@ -65,6 +65,7 @@ type
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+      procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
@@ -90,6 +91,7 @@ type
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); virtual;
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); virtual;
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); virtual;
+      procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); virtual;
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); virtual;
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); virtual;
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); virtual;
@@ -132,6 +134,7 @@ type
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
+      procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); override;
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); override;
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); override;
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); override;
@@ -199,6 +202,11 @@ begin
                                                                                            @TempCanActivateMenu));
   is_menu           := TempIsMenu <> 0;
   can_activate_menu := TempCanActivateMenu <> 0;
+end;
+
+procedure TCefWindowDelegateRef.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
+begin
+  aResult := (PCefWindowDelegate(FData)^.is_window_modal_dialog(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
 end;
 
 procedure TCefWindowDelegateRef.OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
@@ -331,6 +339,20 @@ begin
     end;
 
   Result := CefGetData(TempWindow);
+end;
+
+function cef_window_delegate_is_window_modal_dialog(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnIsWindowModalDialog(TCefWindowRef.UnWrap(window_), TempResult);
+
+  Result := ord(TempResult);
 end;
 
 function cef_window_delegate_get_initial_bounds(self: PCefWindowDelegate; window_: PCefWindow): TCefRect; stdcall;
@@ -498,6 +520,7 @@ begin
       on_window_destroyed              := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_destroyed;
       on_window_activation_changed     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_activation_changed;
       get_parent_window                := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_parent_window;
+      is_window_modal_dialog           := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_is_window_modal_dialog;
       get_initial_bounds               := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_initial_bounds;
       get_initial_show_state           := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_initial_show_state;
       is_frameless                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_is_frameless;
@@ -537,6 +560,11 @@ begin
 end;
 
 procedure TCefWindowDelegateOwn.OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+begin
+  //
+end;
+
+procedure TCefWindowDelegateOwn.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
 begin
   //
 end;
@@ -786,6 +814,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnGetParentWindow', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnIsWindowModalDialog(window_, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnIsWindowModalDialog', e) then raise;
   end;
 end;
 

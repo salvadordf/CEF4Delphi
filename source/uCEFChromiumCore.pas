@@ -905,12 +905,16 @@ type
       procedure   CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink);
       procedure   GetDeviceInfo(const aMediaSink: ICefMediaSink);
 
-      // ICefRequestContext methods for extensions
+      // ICefRequestContext methods
       function    LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue = nil; const handler: ICefExtensionHandler = nil; const requestContext : ICefRequestContext = nil) : boolean;
       function    DidLoadExtension(const extension_id: ustring): boolean;
       function    HasExtension(const extension_id: ustring): boolean;
       function    GetExtensions(const extension_ids: TStringList): boolean;
       function    GetExtension(const extension_id: ustring): ICefExtension;
+      function    GetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): ICefValue;
+      procedure   SetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; const value: ICefValue);
+      function    GetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): TCefContentSettingValues;
+      procedure   SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
 
       property  DefaultUrl                    : ustring                      read FDefaultUrl                  write SetDefaultUrl;
       property  Options                       : TChromiumOptions             read FOptions                     write FOptions;
@@ -7128,6 +7132,62 @@ begin
 
       if (TempContext <> nil) then
         Result := TempContext.GetExtension(extension_id);
+    end;
+end;
+
+function TChromiumCore.GetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): ICefValue;
+var
+  TempContext : ICefRequestContext;
+begin
+  Result := nil;
+
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+
+      if (TempContext <> nil) then
+        Result := TempContext.GetWebsiteSetting(requesting_url, top_level_url, content_type);
+    end;
+end;
+
+procedure TChromiumCore.SetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; const value: ICefValue);
+var
+  TempContext : ICefRequestContext;
+begin
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+
+      if (TempContext <> nil) then
+        TempContext.SetWebsiteSetting(requesting_url, top_level_url, content_type, value);
+    end;
+end;
+
+function TChromiumCore.GetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): TCefContentSettingValues;
+var
+  TempContext : ICefRequestContext;
+begin
+  Result := CEF_CONTENT_SETTING_VALUE_DEFAULT;
+
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+
+      if (TempContext <> nil) then
+        Result := TempContext.GetContentSetting(requesting_url, top_level_url, content_type);
+    end;
+end;
+
+procedure TChromiumCore.SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
+var
+  TempContext : ICefRequestContext;
+begin
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+
+      if (TempContext <> nil) then
+        TempContext.SetContentSetting(requesting_url, top_level_url, content_type, value);
     end;
 end;
 

@@ -57,6 +57,12 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar, uCEFApplicationCore;
 
 type
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <remarks>
+  /// <see cref="uCEFInterfaces|ICefApp">Implements ICefApp</see>
+  /// </remarks>
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
     protected
       procedure OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine); virtual; abstract;

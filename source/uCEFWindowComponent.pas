@@ -73,6 +73,7 @@ type
       FOnWindowActivationChanged    : TOnWindowActivationChangedEvent;
       FOnWindowBoundsChanged        : TOnWindowBoundsChangedEvent;
       FOnGetParentWindow            : TOnGetParentWindowEvent;
+      FOnIsWindowModalDialog        : TOnIsWindowModalDialogEvent;
       FOnGetInitialBounds           : TOnGetInitialBoundsEvent;
       FOnGetInitialShowState        : TOnGetInitialShowStateEvent;
       FOnIsFrameless                : TOnIsFramelessEvent;
@@ -119,6 +120,7 @@ type
       procedure doOnWindowActivationChanged(const window_: ICefWindow; active: boolean);
       procedure doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
       procedure doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+      procedure doOnIsWindowModalDialog(const window_: ICefWindow; var aResult : boolean);
       procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
       procedure doOnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
       procedure doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);
@@ -178,6 +180,7 @@ type
       property OnWindowActivationChanged    : TOnWindowActivationChangedEvent    read FOnWindowActivationChanged    write FOnWindowActivationChanged;
       property OnWindowBoundsChanged        : TOnWindowBoundsChangedEvent        read FOnWindowBoundsChanged        write FOnWindowBoundsChanged;
       property OnGetParentWindow            : TOnGetParentWindowEvent            read FOnGetParentWindow            write FOnGetParentWindow;
+      property OnIsWindowModalDialog        : TOnIsWindowModalDialogEvent        read FOnIsWindowModalDialog        write FOnIsWindowModalDialog;
       property OnGetInitialBounds           : TOnGetInitialBoundsEvent           read FOnGetInitialBounds           write FOnGetInitialBounds;
       property OnGetInitialShowState        : TOnGetInitialShowStateEvent        read FOnGetInitialShowState        write FOnGetInitialShowState;
       property OnIsFrameless                : TOnIsFramelessEvent                read FOnIsFrameless                write FOnIsFrameless;
@@ -240,6 +243,7 @@ begin
   FOnWindowActivationChanged    := nil;
   FOnWindowBoundsChanged        := nil;
   FOnGetParentWindow            := nil;
+  FOnIsWindowModalDialog        := nil;
   FOnGetInitialBounds           := nil;
   FOnGetInitialShowState        := nil;
   FOnIsFrameless                := nil;
@@ -346,6 +350,12 @@ procedure TCEFWindowComponent.doOnGetParentWindow(const window_: ICefWindow; var
 begin
   if assigned(FOnGetParentWindow) then
     FOnGetParentWindow(self, window_, is_menu, can_activate_menu, aResult);
+end;
+
+procedure TCEFWindowComponent.doOnIsWindowModalDialog(const window_: ICefWindow; var aResult : boolean);
+begin
+  if assigned(FOnIsWindowModalDialog) then
+    FOnIsWindowModalDialog(self, window_, aResult);
 end;
 
 procedure TCEFWindowComponent.doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);

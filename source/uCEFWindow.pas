@@ -57,44 +57,265 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFPanel;
 
 type
+  /// <summary>
+  /// A Window is a top-level Window/widget in the Views hierarchy. By default it
+  /// will have a non-client area with title bar, icon and buttons that supports
+  /// moving and resizing. All size and position values are in density independent
+  /// pixels (DIP) unless otherwise indicated. Methods must be called on the
+  /// browser process UI thread unless otherwise indicated.
+  /// </summary>
   TCefWindowRef = class(TCefPanelRef, ICefWindow)
     protected
+      /// <summary>
+      /// Show the Window.
+      /// </summary>
       procedure Show;
+
+      /// <summary>
+      /// Show the Window as a browser modal dialog relative to |browser_view|. A
+      /// parent Window must be returned via
+      /// cef_window_delegate_t::get_parent_window() and |browser_view| must belong
+      /// to that parent Window. While this Window is visible, |browser_view| will
+      /// be disabled while other controls in the parent Window remain enabled.
+      /// Navigating or destroying the |browser_view| will close this Window
+      /// automatically. Alternately, use show() and return true (1) from
+      /// cef_window_delegate_t::is_window_modal_dialog() for a window modal dialog
+      /// where all controls in the parent Window are disabled.
+      /// </summary>
+      procedure ShowAsBrowserModalDialog(const browser_view: ICefBrowserView);
+
+      /// <summary>
+      /// Hide the Window.
+      /// </summary>
       procedure Hide;
+
+      /// <summary>
+      /// Sizes the Window to |size| and centers it in the current display.
+      /// </summary>
       procedure CenterWindow(const size_: TCefSize);
+
+      /// <summary>
+      /// Close the Window.
+      /// </summary>
       procedure Close;
+
+      /// <summary>
+      /// Returns true (1) if the Window has been closed.
+      /// </summary>
       function  IsClosed : boolean;
+
+      /// <summary>
+      /// Activate the Window, assuming it already exists and is visible.
+      /// </summary>
       procedure Activate;
+
+      /// <summary>
+      /// Deactivate the Window, making the next Window in the Z order the active
+      /// Window.
+      /// </summary>
       procedure Deactivate;
+
+      /// <summary>
+      /// Returns whether the Window is the currently active Window.
+      /// </summary>
       function  IsActive : boolean;
+
+      /// <summary>
+      /// Bring this Window to the top of other Windows in the Windowing system.
+      /// </summary>
       procedure BringToTop;
+
+      /// <summary>
+      /// Set the Window to be on top of other Windows in the Windowing system.
+      /// </summary>
       procedure SetAlwaysOnTop(on_top: boolean);
+
+      /// <summary>
+      /// Returns whether the Window has been set to be on top of other Windows in
+      /// the Windowing system.
+      /// </summary>
       function  IsAlwaysOnTop : boolean;
+
+      /// <summary>
+      /// Maximize the Window.
+      /// </summary>
       procedure Maximize;
+
+      /// <summary>
+      /// Minimize the Window.
+      /// </summary>
       procedure Minimize;
+
+      /// <summary>
+      /// Restore the Window.
+      /// </summary>
       procedure Restore;
+
+      /// <summary>
+      /// Set fullscreen Window state.
+      /// </summary>
       procedure SetFullscreen(fullscreen: boolean);
+
+      /// <summary>
+      /// Returns true (1) if the Window is maximized.
+      /// </summary>
       function  IsMaximized : boolean;
+
+      /// <summary>
+      /// Returns true (1) if the Window is minimized.
+      /// </summary>
       function  IsMinimized : boolean;
+
+      /// <summary>
+      /// Returns true (1) if the Window is fullscreen.
+      /// </summary>
       function  IsFullscreen : boolean;
+
+      /// <summary>
+      /// Set the Window title.
+      /// </summary>
       procedure SetTitle(const title_: ustring);
+
+      /// <summary>
+      /// Get the Window title.
+      /// </summary>
       function  GetTitle : ustring;
+
+      /// <summary>
+      /// Set the Window icon. This should be a 16x16 icon suitable for use in the
+      /// Windows's title bar.
+      /// </summary>
       procedure SetWindowIcon(const image: ICefImage);
+
+      /// <summary>
+      /// Get the Window icon.
+      /// </summary>
       function  GetWindowIcon : ICefImage;
+
+      /// <summary>
+      /// Set the Window App icon. This should be a larger icon for use in the host
+      /// environment app switching UI. On Windows, this is the ICON_BIG used in
+      /// Alt-Tab list and Windows taskbar. The Window icon will be used by default
+      /// if no Window App icon is specified.
+      /// </summary>
       procedure SetWindowAppIcon(const image: ICefImage);
+
+      /// <summary>
+      /// Get the Window App icon.
+      /// </summary>
       function  GetWindowAppIcon : ICefImage;
+
+      /// <summary>
+      /// Add a View that will be overlayed on the Window contents with absolute
+      /// positioning and high z-order. Positioning is controlled by |docking_mode|
+      /// as described below. The returned cef_overlay_controller_t object is used
+      /// to control the overlay. Overlays are hidden by default.
+      ///
+      /// With CEF_DOCKING_MODE_CUSTOM:
+      ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
+      ///      and positioned in the top-left corner.
+      ///   2. Optionally change the overlay position and/or size by calling
+      ///      CefOverlayController methods.
+      ///   3. Call CefOverlayController::SetVisible(true) to show the overlay.
+      ///   4. The overlay will be automatically re-sized if |view|'s layout
+      ///      changes. Optionally change the overlay position and/or size when
+      ///      OnLayoutChanged is called on the Window's delegate to indicate a
+      ///      change in Window bounds.
+      ///
+      /// With other docking modes:
+      ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
+      ///      and positioned based on |docking_mode|.
+      ///   2. Call CefOverlayController::SetVisible(true) to show the overlay.
+      ///   3. The overlay will be automatically re-sized if |view|'s layout changes
+      ///      and re-positioned as appropriate when the Window resizes.
+      ///
+      /// Overlays created by this function will receive a higher z-order then any
+      /// child Views added previously. It is therefore recommended to call this
+      /// function last after all other child Views have been added so that the
+      /// overlay displays as the top-most child of the Window.
+      /// </summary>
       function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
+
+      /// <summary>
+      /// Show a menu with contents |menu_model|. |screen_point| specifies the menu
+      /// position in screen coordinates. |anchor_position| specifies how the menu
+      /// will be anchored relative to |screen_point|.
+      /// </summary>
       procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition);
+
+      /// <summary>
+      /// Cancel the menu that is currently showing, if any.
+      /// </summary>
       procedure CancelMenu;
+
+      /// <summary>
+      /// Returns the Display that most closely intersects the bounds of this
+      /// Window. May return NULL if this Window is not currently displayed.
+      /// </summary>
       function  GetDisplay : ICefDisplay;
+
+      /// <summary>
+      /// Returns the bounds (size and position) of this Window's client area.
+      /// Position is in screen coordinates.
+      /// </summary>
       function  GetClientAreaBoundsInScreen : TCefRect;
+
+      /// <summary>
+      /// Set the regions where mouse events will be intercepted by this Window to
+      /// support drag operations. Call this function with an NULL vector to clear
+      /// the draggable regions. The draggable region bounds should be in window
+      /// coordinates.
+      /// </summary>
       procedure SetDraggableRegions(regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
+
+      /// <summary>
+      /// Retrieve the platform window handle for this Window.
+      /// </summary>
       function  GetWindowHandle : TCefWindowHandle;
+
+      /// <summary>
+      /// Simulate a key press. |key_code| is the VKEY_* value from Chromium's
+      /// ui/events/keycodes/keyboard_codes.h header (VK_* values on Windows).
+      /// |event_flags| is some combination of EVENTFLAG_SHIFT_DOWN,
+      /// EVENTFLAG_CONTROL_DOWN and/or EVENTFLAG_ALT_DOWN. This function is exposed
+      /// primarily for testing purposes.
+      /// </summary>
       procedure SendKeyPress(key_code: Integer; event_flags: cardinal);
+
+      /// <summary>
+      /// Simulate a mouse move. The mouse cursor will be moved to the specified
+      /// (screen_x, screen_y) position. This function is exposed primarily for
+      /// testing purposes.
+      /// </summary>
       procedure SendMouseMove(screen_x, screen_y: Integer);
+
+      /// <summary>
+      /// Simulate mouse down and/or mouse up events. |button| is the mouse button
+      /// type. If |mouse_down| is true (1) a mouse down event will be sent. If
+      /// |mouse_up| is true (1) a mouse up event will be sent. If both are true (1)
+      /// a mouse down event will be sent followed by a mouse up event (equivalent
+      /// to clicking the mouse button). The events will be sent using the current
+      /// cursor position so make sure to call send_mouse_move() first to position
+      /// the mouse. This function is exposed primarily for testing purposes.
+      /// </summary>
       procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
+
+      /// <summary>
+      /// Set the keyboard accelerator for the specified |command_id|. |key_code|
+      /// can be any virtual key or character value.
+      /// cef_window_delegate_t::OnAccelerator will be called if the keyboard
+      /// combination is triggered while this window has focus.
+      /// </summary>
       procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
+
+      /// <summary>
+      /// Remove the keyboard accelerator for the specified |command_id|.
+      /// </summary>
       procedure RemoveAccelerator(command_id: Integer);
+
+      /// <summary>
+      /// Remove all keyboard accelerators.
+      /// </summary>
       procedure RemoveAllAccelerators;
 
     public
@@ -110,6 +331,11 @@ uses
 procedure TCefWindowRef.Show;
 begin
   PCefWindow(FData)^.show(PCefWindow(FData));
+end;
+
+procedure TCefWindowRef.ShowAsBrowserModalDialog(const browser_view: ICefBrowserView);
+begin
+  PCefWindow(FData)^.show_as_browser_modal_dialog(PCefWindow(FData), CefGetData(browser_view));
 end;
 
 procedure TCefWindowRef.Hide;

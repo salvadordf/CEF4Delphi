@@ -108,7 +108,6 @@ type
       FCommandLineArgsDisabled           : boolean;
       FCache                             : ustring;
       FRootCache                         : ustring;
-      FUserDataPath                      : ustring;
       FPersistSessionCookies             : boolean;
       FPersistUserPreferences            : boolean;
       FUserAgent                         : ustring;
@@ -263,12 +262,15 @@ type
 
       procedure SetCache(const aValue : ustring);
       procedure SetRootCache(const aValue : ustring);
-      procedure SetUserDataPath(const aValue : ustring);
       procedure SetBrowserSubprocessPath(const aValue : ustring);
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Set to true (1) before calling Windows APIs like TrackPopupMenu that enter a
+      /// modal message loop. Set to false (0) after exiting the modal message loop.
+      /// </summary>
       procedure SetOsmodalLoop(aValue : boolean);
       {$ENDIF}
       procedure SetKioskPrinting(aValue : boolean);
@@ -426,34 +428,242 @@ type
       procedure   Internal_GetDefaultClient(var aClient : ICefClient);
 
       // Properties used to populate TCefSettings (cef_settings_t)
+
+      /// <summary>
+      /// Set to true (1) to disable the sandbox for sub-processes. See
+      /// cef_sandbox_win.h for requirements to enable the sandbox on Windows. Also
+      /// configurable using the "no-sandbox" command-line switch.
+      /// </summary>
       property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
+      /// <summary>
+      /// The path to a separate executable that will be launched for sub-processes.
+      /// If this value is empty on Windows or Linux then the main process
+      /// executable will be used. If this value is empty on macOS then a helper
+      /// executable must exist at "Contents/Frameworks/<app>
+      /// Helper.app/Contents/MacOS/<app> Helper" in the top-level app bundle. See
+      /// the comments on CefExecuteProcess() for details. If this value is
+      /// non-empty then it must be an absolute path. Also configurable using the
+      /// "browser-subprocess-path" command-line switch.
+      /// </summary>
       property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
+      /// <summary>
+      /// The path to the CEF framework directory on macOS. If this value is empty
+      /// then the framework must exist at "Contents/Frameworks/Chromium Embedded
+      /// Framework.framework" in the top-level app bundle. If this value is
+      /// non-empty then it must be an absolute path. Also configurable using the
+      /// "framework-dir-path" command-line switch.
+      /// </summary>
       property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
+      /// <summary>
+      /// The path to the main bundle on macOS. If this value is empty then it
+      /// defaults to the top-level app bundle. If this value is non-empty then it
+      /// must be an absolute path. Also configurable using the "main-bundle-path"
+      /// command-line switch.
+      /// </summary>
       property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;           // Only used in macOS
+      /// <summary>
+      /// Set to true (1) to enable use of the Chrome runtime in CEF. This feature
+      /// is considered experimental and is not recommended for most users at this
+      /// time. See issue #2969 for details.
+      /// </summary>
       property ChromeRuntime                     : boolean                             read FChromeRuntime                     write FChromeRuntime;
+      /// <summary>
+      /// Set to true (1) to have the browser process message loop run in a separate
+      /// thread. If false (0) then the CefDoMessageLoopWork() function must be
+      /// called from your application message loop. This option is only supported
+      /// on Windows and Linux.
+      /// </summary>
       property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
+      /// <summary>
+      /// Set to true (1) to control browser process main (UI) thread message pump
+      /// scheduling via the ICefBrowserProcessHandler.OnScheduleMessagePumpWork()
+      /// callback. This option is recommended for use in combination with the
+      /// CefDoMessageLoopWork() function in cases where the CEF message loop must
+      /// be integrated into an existing application message loop (see additional
+      /// comments and warnings on CefDoMessageLoopWork). Enabling this option is
+      /// not recommended for most users; leave this option disabled and use either
+      /// the CefRunMessageLoop() function or multi_threaded_message_loop if
+      /// possible.
+      /// </summary>
       property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
+      /// <summary>
+      /// Set to true (1) to enable windowless (off-screen) rendering support. Do
+      /// not enable this value if the application does not use windowless rendering
+      /// as it may reduce rendering performance on some systems.
+      /// </summary>
       property WindowlessRenderingEnabled        : Boolean                             read FWindowlessRenderingEnabled        write FWindowlessRenderingEnabled;
+      /// <summary>
+      /// Set to true (1) to disable configuration of browser process features using
+      /// standard CEF and Chromium command-line arguments. Configuration can still
+      /// be specified using CEF data structures or via the
+      /// ICefApp.OnBeforeCommandLineProcessing() method.
+      /// </summary>
       property CommandLineArgsDisabled           : Boolean                             read FCommandLineArgsDisabled           write FCommandLineArgsDisabled;
+      /// <summary>
+      /// The location where data for the global browser cache will be stored on
+      /// disk. If this value is non-empty then it must be an absolute path that is
+      /// either equal to or a child directory of TCefSettings.root_cache_path. If
+      /// this value is empty then browsers will be created in "incognito mode"
+      /// where in-memory caches are used for storage and no data is persisted to
+      /// disk. HTML5 databases such as localStorage will only persist across
+      /// sessions if a cache path is specified. Can be overridden for individual
+      /// CefRequestContext instances via the TCefRequestContextSettings.cache_path
+      /// value. When using the Chrome runtime the "default" profile will be used if
+      /// |cache_path| and |root_cache_path| have the same value.
+      /// </summary>
       property Cache                             : ustring                             read FCache                             write SetCache;
+      /// <summary>
+      /// The root directory that all TCefSettings.cache_path and
+      /// TCefRequestContextSettings.cache_path values must have in common. If this
+      /// value is empty and TCefSettings.cache_path is non-empty then it will
+      /// default to the TCefSettings.cache_path value. If both values are empty
+      /// then the default platform-specific directory will be used
+      /// ("~/.config/cef_user_data" directory on Linux, "~/Library/Application
+      /// Support/CEF/User Data" directory on MacOS, "AppData\Local\CEF\User Data"
+      /// directory under the user profile directory on Windows). If this value is
+      /// non-empty then it must be an absolute path. Failure to set this value
+      /// correctly may result in the sandbox blocking read/write access to certain
+      /// files.
+      /// </summary>
       property RootCache                         : ustring                             read FRootCache                         write SetRootCache;
-      property UserDataPath                      : ustring                             read FUserDataPath                      write SetUserDataPath;
+      /// <summary>
+      /// To persist session cookies (cookies without an expiry date or validity
+      /// interval) by default when using the global cookie manager set this value
+      /// to true (1). Session cookies are generally intended to be transient and
+      /// most Web browsers do not persist them. A |cache_path| value must also be
+      /// specified to enable this feature. Also configurable using the
+      /// "persist-session-cookies" command-line switch. Can be overridden for
+      /// individual CefRequestContext instances via the
+      /// TCefRequestContextSettings.persist_session_cookies value.
+      /// </summary>
       property PersistSessionCookies             : Boolean                             read FPersistSessionCookies             write FPersistSessionCookies;
+      /// <summary>
+      /// To persist user preferences as a JSON file in the cache path directory set
+      /// this value to true (1). A |cache_path| value must also be specified
+      /// to enable this feature. Also configurable using the
+      /// "persist-user-preferences" command-line switch. Can be overridden for
+      /// individual CefRequestContext instances via the
+      /// TCefRequestContextSettings.persist_user_preferences value.
+      /// </summary>
       property PersistUserPreferences            : Boolean                             read FPersistUserPreferences            write FPersistUserPreferences;
+      /// <summary>
+      /// Value that will be returned as the User-Agent HTTP header. If empty the
+      /// default User-Agent string will be used. Also configurable using the
+      /// "user-agent" command-line switch.
+      /// </summary>
       property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
+      /// <summary>
+      /// Value that will be inserted as the product portion of the default
+      /// User-Agent string. If empty the Chromium product version will be used. If
+      /// |userAgent| is specified this value will be ignored. Also configurable
+      /// using the "user-agent-product" command-line switch.
+      /// </summary>
       property UserAgentProduct                  : ustring                             read FUserAgentProduct                  write FUserAgentProduct;
+      /// <summary>
+      /// The locale string that will be passed to WebKit. If empty the default
+      /// locale of "en-US" will be used. This value is ignored on Linux where
+      /// locale is determined using environment variable parsing with the
+      /// precedence order: LANGUAGE, LC_ALL, LC_MESSAGES and LANG. Also
+      /// configurable using the "lang" command-line switch.
+      /// </summary>
       property Locale                            : ustring                             read FLocale                            write FLocale;
+      /// <summary>
+      /// The directory and file name to use for the debug log. If empty a default
+      /// log file name and location will be used. On Windows and Linux a
+      /// "debug.log" file will be written in the main executable directory. On
+      /// MacOS a "~/Library/Logs/[app name]_debug.log" file will be written where
+      /// [app name] is the name of the main app executable. Also configurable using
+      /// the "log-file" command-line switch.
+      /// </summary>
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
+      /// <summary>
+      /// The log severity. Only messages of this severity level or higher will be
+      /// logged. When set to DISABLE no messages will be written to the log file,
+      /// but FATAL messages will still be output to stderr. Also configurable using
+      /// the "log-severity" command-line switch with a value of "verbose", "info",
+      /// "warning", "error", "fatal" or "disable".
+      /// </summary>
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
+      /// <summary>
+      /// Custom flags that will be used when initializing the V8 JavaScript engine.
+      /// The consequences of using custom flags may not be well tested. Also
+      /// configurable using the "js-flags" command-line switch.
+      /// </summary>
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
+      /// <summary>
+      /// The fully qualified path for the resources directory. If this value is
+      /// empty the *.pak files must be located in the module directory on
+      /// Windows/Linux or the app bundle Resources directory on MacOS. If this
+      /// value is non-empty then it must be an absolute path. Also configurable
+      /// using the "resources-dir-path" command-line switch.
+      /// </summary>
       property ResourcesDirPath                  : ustring                             read GetResourcesDirPath                write SetResourcesDirPath;
+      /// <summary>
+      /// The fully qualified path for the locales directory. If this value is empty
+      /// the locales directory must be located in the module directory. If this
+      /// value is non-empty then it must be an absolute path. This value is ignored
+      /// on MacOS where pack files are always loaded from the app bundle Resources
+      /// directory. Also configurable using the "locales-dir-path" command-line
+      /// switch.
+      /// </summary>
       property LocalesDirPath                    : ustring                             read GetLocalesDirPath                  write SetLocalesDirPath;
+      /// <summary>
+      /// Set to true (1) to disable loading of pack files for resources and
+      /// locales. A resource bundle handler must be provided for the browser and
+      /// render processes via ICefApp.GetResourceBundleHandler() if loading of pack
+      /// files is disabled. Also configurable using the "disable-pack-loading"
+      /// command- line switch.
+      /// </summary>
       property PackLoadingDisabled               : Boolean                             read FPackLoadingDisabled               write FPackLoadingDisabled;
+      /// <summary>
+      /// Set to a value between 1024 and 65535 to enable remote debugging on the
+      /// specified port. Also configurable using the "remote-debugging-port"
+      /// command-line switch. Remote debugging can be accessed by loading the
+      /// chrome://inspect page in Google Chrome. Port numbers 9222 and 9229 are
+      /// discoverable by default. Other port numbers may need to be configured via
+      /// "Discover network targets" on the Devices tab.
+      /// </summary>
       property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
+      /// <summary>
+      /// The number of stack trace frames to capture for uncaught exceptions.
+      /// Specify a positive value to enable the
+      /// ICefRenderProcessHandler.OnUncaughtException() callback. Specify 0
+      /// (default value) and OnUncaughtException() will not be called. Also
+      /// configurable using the "uncaught-exception-stack-size" command-line
+      /// switch.
+      /// </summary>
       property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
-      property IgnoreCertificateErrors           : Boolean                             read FIgnoreCertificateErrors           write FIgnoreCertificateErrors;
+      /// <summary>
+      /// Background color used for the browser before a document is loaded and when
+      /// no document color is specified. The alpha component must be either fully
+      /// opaque (0xFF) or fully transparent (0x00). If the alpha component is fully
+      /// opaque then the RGB components will be used as the background color. If
+      /// the alpha component is fully transparent for a windowed browser then the
+      /// default value of opaque white be used. If the alpha component is fully
+      /// transparent for a windowless (off-screen) browser then transparent
+      /// painting will be enabled.
+      /// </summary>
       property BackgroundColor                   : TCefColor                           read FBackgroundColor                   write FBackgroundColor;
+      /// <summary>
+      /// Comma delimited ordered list of language codes without any whitespace that
+      /// will be used in the "Accept-Language" HTTP header. May be overridden on a
+      /// per-browser basis using the TCefBrowserSettings.accept_language_list value.
+      /// If both values are empty then "en-US,en" will be used. Can be overridden
+      /// for individual ICefRequestContext instances via the
+      /// TCefRequestContextSettings.accept_language_list value.
+      /// </summary>
       property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
+      /// <summary>
+      /// Comma delimited list of schemes supported by the associated
+      /// ICefCookieManager. If |cookieable_schemes_exclude_defaults| is false (0)
+      /// the default schemes ("http", "https", "ws" and "wss") will also be
+      /// supported. Not specifying a |cookieable_schemes_list| value and setting
+      /// |cookieable_schemes_exclude_defaults| to true (1) will disable all loading
+      /// and saving of cookies. These settings will only impact the global
+      /// ICefRequestContext. Individual ICefRequestContext instances can be
+      /// configured via the TCefRequestContextSettings.cookieable_schemes_list and
+      /// TCefRequestContextSettings.cookieable_schemes_exclude_defaults values.
+      /// </summary>
       property CookieableSchemesList             : ustring                             read FCookieableSchemesList             write FCookieableSchemesList;
       property CookieableSchemesExcludeDefaults  : boolean                             read FCookieableSchemesExcludeDefaults  write FCookieableSchemesExcludeDefaults;
 
@@ -520,6 +730,7 @@ type
       property NetLogCaptureMode                 : TCefNetLogCaptureMode               read FNetLogCaptureMode                 write FNetLogCaptureMode;                // --net-log-capture-mode
       property RemoteAllowOrigins                : ustring                             read FRemoteAllowOrigins                write FRemoteAllowOrigins;               // --remote-allow-origins
       property AutoAcceptCamAndMicCapture        : boolean                             read FAutoAcceptCamAndMicCapture        write FAutoAcceptCamAndMicCapture;       // --auto-accept-camera-and-microphone-capture
+      property IgnoreCertificateErrors           : Boolean                             read FIgnoreCertificateErrors           write FIgnoreCertificateErrors;          // --ignore-certificate-errors
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -570,6 +781,10 @@ type
       property ApiHashCommit                     : ustring                             read GetApiHashCommit;
       property LastErrorMessage                  : ustring                             read FLastErrorMessage;
       {$IFDEF LINUX}
+      /// <summary>
+      /// Return the singleton X11 display shared with Chromium. The display is not
+      /// thread-safe and must only be accessed on the browser process UI thread.
+      /// </summary>
       property XDisplay                          : PXDisplay                           read GetXDisplay;
       {$ENDIF}
 
@@ -692,7 +907,6 @@ begin
   FCommandLineArgsDisabled           := False;
   FCache                             := '';
   FRootCache                         := '';
-  FUserDataPath                      := '';
   FPersistSessionCookies             := False;
   FPersistUserPreferences            := False;
   FUserAgent                         := '';
@@ -1082,11 +1296,6 @@ begin
   FRootCache := CustomAbsolutePath(aValue);
 end;
 
-procedure TCefApplicationCore.SetUserDataPath(const aValue : ustring);
-begin
-  FUserDataPath := CustomAbsolutePath(aValue);
-end;
-
 procedure TCefApplicationCore.SetBrowserSubprocessPath(const aValue : ustring);
 begin
   FBrowserSubprocessPath := CustomAbsolutePath(aValue);
@@ -1451,7 +1660,6 @@ begin
   aSettings.command_line_args_disabled              := Ord(FCommandLineArgsDisabled);
   aSettings.cache_path                              := CefString(FCache);
   aSettings.root_cache_path                         := CefString(FRootCache);
-  aSettings.user_data_path                          := CefString(FUserDataPath);
   aSettings.persist_session_cookies                 := Ord(FPersistSessionCookies);
   aSettings.persist_user_preferences                := Ord(FPersistUserPreferences);
   aSettings.user_agent                              := CefString(FUserAgent);

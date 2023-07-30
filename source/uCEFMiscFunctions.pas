@@ -85,16 +85,22 @@ const
   User32DLL   = 'User32.dll';
   Netapi32DLL = 'Netapi32.dll';
 
+
+/// <summary>Return the alpha byte from a cef_color_t value.</summary>
 function CefColorGetA(color: TCefColor): Byte;
+/// <summary>Return the red byte from a cef_color_t value.</summary>
 function CefColorGetR(color: TCefColor): byte;
+/// <summary>Return the green byte from a cef_color_t value.</summary>
 function CefColorGetG(color: TCefColor): Byte;
+/// <summary>Return the blue byte from a cef_color_t value.</summary>
 function CefColorGetB(color: TCefColor): Byte;
-
+/// <summary>Return an cef_color_t value with the specified byte component values.</summary>
 function CefColorSetARGB(a, r, g, b: Byte): TCefColor;
-
+/// <summary>Return an int64_t value with the specified low and high int32_t component values.</summary>
 function CefInt64Set(int32_low, int32_high: Integer): Int64;
-
+/// <summary>Return the low int32_t value from an int64_t value.</summary>
 function CefInt64GetLow(const int64_val: Int64): Integer;
+/// <summary>Return the high int32_t value from an int64_t value.</summary>
 function CefInt64GetHigh(const int64_val: Int64): Integer;
 
 function CefGetObject(ptr: Pointer): TObject; {$IFNDEF CEF4DELHI_ALLOC_DEBUG}{$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}{$ENDIF}
@@ -211,6 +217,10 @@ function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
 function  CefCrashReportingEnabled : boolean;
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
 
+/// <summary>
+/// Add a log message. See the LogSeverity defines for supported |severity|
+/// values.
+/// </summary>
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
 procedure CefDebugLog(const aMessage : string; aSeverity : integer = CEF_LOG_SEVERITY_ERROR);
 procedure CefKeyEventLog(const aEvent : TCefKeyEvent);

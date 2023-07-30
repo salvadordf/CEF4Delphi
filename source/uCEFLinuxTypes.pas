@@ -82,15 +82,15 @@ type
   PXDisplay      = pointer;
   PDisplay       = pointer;
 
- PXErrorEvent = ^TXErrorEvent;
- TXErrorEvent = record
-      _type : longint;
-      display : PDisplay;
-      resourceid : uint64;
-      serial : uint64;
-      error_code : uint8;
-      request_code : uint8;
-      minor_code : uint8;
+  PXErrorEvent = ^TXErrorEvent;
+  TXErrorEvent = record
+     _type : longint;
+     display : PDisplay;
+     resourceid : uint64;
+     serial : uint64;
+     error_code : uint8;
+     request_code : uint8;
+     minor_code : uint8;
    end;
 
   PGTypeClass = ^TGTypeClass;

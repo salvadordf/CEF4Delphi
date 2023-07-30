@@ -64,10 +64,8 @@ type
       function  GetLocalityName: ustring;
       function  GetStateOrProvinceName: ustring;
       function  GetCountryName: ustring;
-      procedure GetStreetAddresses(const addresses: TStrings);
       procedure GetOrganizationNames(const names: TStrings);
       procedure GetOrganizationUnitNames(const names: TStrings);
-      procedure GetDomainComponents(const components: TStrings);
 
     public
       class function UnWrap(data: Pointer): ICefX509CertPrincipal;
@@ -108,18 +106,6 @@ begin
   Result := CefStringFreeAndGet(PCefX509CertPrincipal(FData)^.get_country_name(PCefX509CertPrincipal(FData)));
 end;
 
-procedure TCefX509CertPrincipalRef.GetStreetAddresses(const addresses: TStrings);
-var
-  TempSL : ICefStringList;
-begin
-  if (addresses <> nil) then
-    begin
-      TempSL := TCefStringListOwn.Create;
-      PCefX509CertPrincipal(FData)^.get_street_addresses(PCefX509CertPrincipal(FData), TempSL.Handle);
-      TempSL.CopyToStrings(addresses);
-    end;
-end;
-
 procedure TCefX509CertPrincipalRef.GetOrganizationNames(const names: TStrings);
 var
   TempSL : ICefStringList;
@@ -141,18 +127,6 @@ begin
       TempSL := TCefStringListOwn.Create;
       PCefX509CertPrincipal(FData)^.get_organization_unit_names(PCefX509CertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(names);
-    end;
-end;
-
-procedure TCefX509CertPrincipalRef.GetDomainComponents(const components: TStrings);
-var
-  TempSL : ICefStringList;
-begin
-  if (components <> nil) then
-    begin
-      TempSL := TCefStringListOwn.Create;
-      PCefX509CertPrincipal(FData)^.get_domain_components(PCefX509CertPrincipal(FData), TempSL.Handle);
-      TempSL.CopyToStrings(components);
     end;
 end;
 

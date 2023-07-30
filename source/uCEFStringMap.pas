@@ -52,16 +52,38 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
+  /// <summary>
+  /// CEF string maps are a set of key/value string pairs.
+  /// </summary>
   TCefCustomStringMap = class(TInterfacedObject, ICefStringMap)
     protected
       FHandle : TCefStringMap;
 
       function  GetHandle: TCefStringMap; virtual;
+      /// <summary>
+      /// Return the number of elements in the string map.
+      /// </summary>
       function  GetSize: NativeUInt; virtual;
+      /// <summary>
+      /// Return the value assigned to the specified key.
+      /// </summary>
       function  Find(const key: ustring): ustring; virtual;
+      /// <summary>
+      /// Return the key at the specified zero-based string map index.
+      /// </summary>
       function  GetKey(index: NativeUInt): ustring; virtual;
+      /// <summary>
+      /// Return the value at the specified zero-based string map index.
+      /// </summary>
       function  GetValue(index: NativeUInt): ustring; virtual;
+      /// <summary>
+      /// Append a new key/value pair at the end of the string map. If the key exists,
+      /// overwrite the existing value with a new value w/o changing the pair order.
+      /// </summary>
       function  Append(const key, value: ustring) : boolean; virtual;
+      /// <summary>
+      /// Clear the string map.
+      /// </summary>
       procedure Clear; virtual;
 
     public
@@ -70,7 +92,13 @@ type
 
   TCefStringMapOwn = class(TCefCustomStringMap)
     public
+      /// <summary>
+      /// Allocate a new string map.
+      /// </summary>
       constructor Create; override;
+      /// <summary>
+      /// Free the string map.
+      /// </summary>
       destructor  Destroy; override;
   end;
 

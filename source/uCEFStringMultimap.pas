@@ -52,17 +52,42 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
+  /// <summary>
+  /// CEF string multimaps are a set of key/value string pairs.
+  /// More than one value can be assigned to a single key.
+  /// </summary>
   TCefCustomStringMultimap = class(TInterfacedObject, ICefStringMultimap)
     protected
       FHandle : TCefStringMultimap;
 
       function  GetHandle: TCefStringMultimap; virtual;
+      /// <summary>
+      /// Return the number of elements in the string multimap.
+      /// </summary>
       function  GetSize: NativeUInt; virtual;
+      /// <summary>
+      /// Return the number of values with the specified key.
+      /// </summary>
       function  FindCount(const Key: ustring): NativeUInt; virtual;
+      /// <summary>
+      /// Return the value_index-th value with the specified key.
+      /// </summary>
       function  GetEnumerate(const Key: ustring; ValueIndex: NativeUInt): ustring; virtual;
+      /// <summary>
+      /// Return the key at the specified zero-based string multimap index.
+      /// </summary>
       function  GetKey(Index: NativeUInt): ustring; virtual;
+      /// <summary>
+      /// Return the value at the specified zero-based string multimap index.
+      /// </summary>
       function  GetValue(Index: NativeUInt): ustring; virtual;
+      /// <summary>
+      /// Append a new key/value pair at the end of the string multimap.
+      /// </summary>
       function  Append(const Key, Value: ustring) : boolean; virtual;
+      /// <summary>
+      /// Clear the string multimap.
+      /// </summary>
       procedure Clear; virtual;
 
     public
@@ -71,7 +96,13 @@ type
 
   TCefStringMultimapOwn = class(TCefCustomStringMultimap)
     public
+      /// <summary>
+      /// Allocate a new string multimap.
+      /// </summary>
       constructor Create; override;
+      /// <summary>
+      /// Free the string multimap.
+      /// </summary>
       destructor  Destroy; override;
   end;
 

@@ -57,15 +57,34 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
+  /// <summary>
+  /// CEF string maps are a set of key/value string pairs.
+  /// </summary>
   TCefCustomStringList = class(TInterfacedObject, ICefStringList)
     protected
       FHandle : TCefStringList;
 
       function  GetHandle: TCefStringMap; virtual;
+      /// <summary>
+      /// Return the number of elements in the string list.
+      /// </summary>
       function  GetSize: NativeUInt; virtual;
+      /// <summary>
+      /// Retrieve the value at the specified zero-based string list index. Returns
+      /// true (1) if the value was successfully retrieved.
+      /// </summary>
       function  GetValue(index: NativeUInt): ustring; virtual;
+      /// <summary>
+      /// Append a new value at the end of the string list.
+      /// </summary>
       procedure Append(const value: ustring); virtual;
+      /// <summary>
+      /// Clear the string list.
+      /// </summary>
       procedure Clear; virtual;
+      /// <summary>
+      /// Creates a copy of an existing string list.
+      /// </summary>
       function  Copy : TCefStringList; virtual;
       procedure CopyToStrings(const aStrings : TStrings); virtual;
       procedure AddStrings(const aStrings : TStrings); virtual;
@@ -76,7 +95,13 @@ type
 
   TCefStringListOwn = class(TCefCustomStringList)
     public
+      /// <summary>
+      /// Allocate a new string map.
+      /// </summary>
       constructor Create; override;
+      /// <summary>
+      /// Free the string list.
+      /// </summary>
       destructor  Destroy; override;
   end;
 

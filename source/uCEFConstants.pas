@@ -58,25 +58,24 @@ uses
 {$ENDIF}
 
 const
-  // Error list defined in /include/internal/cef_types.h (cef_errorcode_t)
-  // which includes this file /include/base/internal/cef_net_error_list.h
-  // which includes this Chromium source file /net/base/net_error_list.h
-  // available here in the master branch :
-  //     https://chromium.googlesource.com/chromium/src/+/master/net/base/net_error_list.h
-  // Compare the values in the right Chromium branch :
-  //     https://chromium.googlesource.com/chromium/src/+/refs/tags/98.0.4758.55/net/base/net_error_list.h
-  //
-  // Ranges:
-  //     0- 99 System related errors
-  //   100-199 Connection related errors
-  //   200-299 Certificate errors
-  //   300-399 HTTP errors
-  //   400-499 Cache errors
-  //   500-599 ?
-  //   600-699 FTP errors
-  //   700-799 Certificate manager errors
-  //   800-899 DNS resolver errors
-  //
+  /// <summary>
+  /// Supported error code values.
+  /// Ranges:
+  ///     0- 99 System related errors
+  ///   100-199 Connection related errors
+  ///   200-299 Certificate errors
+  ///   300-399 HTTP errors
+  ///   400-499 Cache errors
+  ///   500-599 ?
+  ///   600-699 FTP errors
+  ///   700-799 Certificate manager errors
+  ///   800-899 DNS resolver errors
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefErrorCode">TCefErrorCode values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// <para><see href="https://chromium.googlesource.com/chromium/src/+/master/net/base/net_error_list.h">For the complete list of error values see include/base/internal/cef_net_error_list.h which includes this Chromium source file /net/base/net_error_list.h</see></para>
+  /// </remarks>
   ERR_NONE                                                    = 0;
   ERR_IO_PENDING                                              = -1;
   ERR_FAILED                                                  = -2;
@@ -342,9 +341,13 @@ const
   ERR_DNS_SECURE_RESOLVER_HOSTNAME_RESOLUTION_FAILED          = -808;
   ERR_DNS_NAME_HTTPS_ONLY                                     = -809;
 
-  // command_id constants declared in cef_command_ids.h and used by some callbacks in cef_command_handler_t
-  // cef_command_ids.h is generated in /include/cef_command_ids.h and it's also available here :
-  // https://source.chromium.org/chromium/chromium/src/+/main:chrome/app/chrome_command_ids.h
+  /// <summary>
+  /// command_id constants declared in cef_command_ids.h and used by some callbacks in ICefCommandHandler
+  /// cef_command_ids.h is generated in /include/cef_command_ids.h
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/app/chrome_command_ids.h">The command_id values are also available in chrome/app/chrome_command_ids.h</see></para>
+  /// </remarks>
   IDC_MinimumLabelValue = 4000;
   IDC_BACK = 33000;
   IDC_FORWARD = 33001;
@@ -703,7 +706,15 @@ const
   IDC_MANAGE_HID_DEVICES_LAST = 53269;
   IDC_FIRST_UNBOUNDED_MENU = 0;
 
-  // /include/internal/cef_types.h (cef_cert_status_t)
+  /// <summary>
+  /// Supported certificate status code values. See net\cert\cert_status_flags.h
+  /// for more information. CERT_STATUS_NONE is new in CEF because we use an
+  /// enum while cert_status_flags.h uses a typedef and static const variables.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefCertStatus">TCefCertStatus values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cert_status_t)</see></para>
+  /// </remarks>
   CERT_STATUS_NONE                        = 0;
   CERT_STATUS_COMMON_NAME_INVALID         = 1 shl 0;
   CERT_STATUS_DATE_INVALID                = 1 shl 1;
@@ -726,65 +737,323 @@ const
   CERT_STATUS_FIRST_ERROR = CERT_STATUS_COMMON_NAME_INVALID;
   CERT_STATUS_LAST_ERROR  = CERT_STATUS_VALIDITY_TOO_LONG;
 
-  // /include/internal/cef_types.h (cef_v8_accesscontrol_t)
+  /// <summary>
+  /// V8 access control values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefV8AccessControls">TCefV8AccessControls values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_v8_accesscontrol_t)</see></para>
+  /// </remarks>
   V8_ACCESS_CONTROL_DEFAULT               = 0;
   V8_ACCESS_CONTROL_ALL_CAN_READ          = 1 shl 0;
   V8_ACCESS_CONTROL_ALL_CAN_WRITE         = 1 shl 1;
   V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING = 1 shl 2;
 
-  // /include/internal/cef_types.h (cef_v8_propertyattribute_t)
+  /// <summary>
+  /// V8 property attribute values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefV8PropertyAttributes">TCefV8PropertyAttributes values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_v8_propertyattribute_t)</see></para>
+  /// </remarks>
+  /// <summary>Writeable, Enumerable, Configurable</summary>
   V8_PROPERTY_ATTRIBUTE_NONE       = 0;
+  /// <summary>Not writeable</summary>
   V8_PROPERTY_ATTRIBUTE_READONLY   = 1 shl 0;
+  /// <summary>Not enumerable</summary>
   V8_PROPERTY_ATTRIBUTE_DONTENUM   = 1 shl 1;
+  /// <summary>Not configurable</summary>
   V8_PROPERTY_ATTRIBUTE_DONTDELETE = 1 shl 2;
 
-  // /include/internal/cef_types.h (cef_transition_type_t)
+  /// <summary>
+  /// Transition type for a request. Made up of one source value and 0 or more
+  /// qualifiers.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefTransitionType">TCefTransitionType values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_transition_type_t)</see></para>
+  /// </remarks>
+  /// <summary>
+  /// Source is a link click or the JavaScript window.open function. This is
+  /// also the default value for requests like sub-resource loads that are not
+  /// navigations.
+  /// </summary>
   TT_LINK                 = 0;
+  /// <summary>
+  /// Source is some other "explicit" navigation. This is the default value for
+  /// navigations where the actual type is unknown. See also
+  /// TT_DIRECT_LOAD_FLAG.
+  /// </summary>
   TT_EXPLICIT             = 1;
+  /// <summary>
+  /// User got to this page through a suggestion in the UI (for example, via the
+  /// destinations page). Chrome runtime only.
+  /// </summary>
   TT_AUTO_BOOKMARK        = 2;
+  /// <summary>
+  /// Source is a subframe navigation. This is any content that is automatically
+  /// loaded in a non-toplevel frame. For example, if a page consists of several
+  /// frames containing ads, those ad URLs will have this transition type.
+  /// The user may not even realize the content in these pages is a separate
+  /// frame, so may not care about the URL.
+  /// </summary>
   TT_AUTO_SUBFRAME        = 3;
+  /// <summary>
+  /// Source is a subframe navigation explicitly requested by the user that will
+  /// generate new navigation entries in the back/forward list. These are
+  /// probably more important than frames that were automatically loaded in
+  /// the background because the user probably cares about the fact that this
+  /// link was loaded.
+  /// </summary>
   TT_MANUAL_SUBFRAME      = 4;
+  /// <summary>
+  /// User got to this page by typing in the URL bar and selecting an entry
+  /// that did not look like a URL.  For example, a match might have the URL
+  /// of a Google search result page, but appear like "Search Google for ...".
+  /// These are not quite the same as EXPLICIT navigations because the user
+  /// didn't type or see the destination URL. Chrome runtime only.
+  /// See also TT_KEYWORD.
+  /// </summary>
   TT_GENERATED            = 5;
+  /// <summary>
+  /// This is a toplevel navigation. This is any content that is automatically
+  /// loaded in a toplevel frame.  For example, opening a tab to show the ASH
+  /// screen saver, opening the devtools window, opening the NTP after the safe
+  /// browsing warning, opening web-based dialog boxes are examples of
+  /// AUTO_TOPLEVEL navigations. Chrome runtime only.
+  /// </summary>
   TT_AUTO_TOPLEVEL        = 6;
+  /// <summary>
+  /// Source is a form submission by the user. NOTE: In some situations
+  /// submitting a form does not result in this transition type. This can happen
+  /// if the form uses a script to submit the contents.
+  /// </summary>
   TT_FORM_SUBMIT          = 7;
+  /// <summary>
+  /// Source is a "reload" of the page via the Reload function or by re-visiting
+  /// the same URL. NOTE: This is distinct from the concept of whether a
+  /// particular load uses "reload semantics" (i.e. bypasses cached data).
+  /// </summary>
   TT_RELOAD               = 8;
+  /// <summary>
+  /// The url was generated from a replaceable keyword other than the default
+  /// search provider. If the user types a keyword (which also applies to
+  /// tab-to-search) in the omnibox this qualifier is applied to the transition
+  /// type of the generated url. TemplateURLModel then may generate an
+  /// additional visit with a transition type of TT_KEYWORD_GENERATED against
+  /// the url 'http://' + keyword. For example, if you do a tab-to-search
+  /// against wikipedia the generated url has a transition qualifer of
+  /// TT_KEYWORD, and TemplateURLModel generates a visit for 'wikipedia.org'
+  /// with a transition type of TT_KEYWORD_GENERATED. Chrome runtime only.
+  /// </summary>
   TT_KEYWORD              = 9;
+  /// <summary>
+  /// Corresponds to a visit generated for a keyword. See description of
+  /// TT_KEYWORD for more details. Chrome runtime only.
+  /// </summary>
   TT_KEYWORD_GENERATED    = 10;
+  /// <summary>
+  /// General mask defining the bits used for the source values.
+  /// </summary>
   TT_SOURCE_MASK          = $000000FF;
+
+  /// Qualifiers.
+  /// Any of the core values above can be augmented by one or more qualifiers.
+  /// These qualifiers further define the transition.
+
+  /// <summary>
+  /// Attempted to visit a URL but was blocked.
+  /// </summary>
   TT_BLOCKED_FLAG         = $00800000;
+  /// <summary>
+  /// Used the Forward or Back function to navigate among browsing history.
+  /// Will be ORed to the transition type for the original load.
+  /// </summary>
   TT_FORWARD_BACK_FLAG    = $01000000;
+  /// <summary>
+  /// Loaded a URL directly via CreateBrowser, LoadURL or LoadRequest.
+  /// </summary>
   TT_DIRECT_LOAD_FLAG     = $02000000;
+  /// <summary>
+  /// User is navigating to the home page. Chrome runtime only.
+  /// </summary>
   TT_HOME_PAGE_FLAG       = $04000000;
+  /// <summary>
+  /// The transition originated from an external application; the exact
+  /// definition of this is embedder dependent. Chrome runtime and
+  /// extension system only.
+  /// </summary>
   TT_FROM_API_FLAG        = $08000000;
+  /// <summary>
+  /// The beginning of a navigation chain.
+  /// </summary>
   TT_CHAIN_START_FLAG     = $10000000;
+  /// <summary>
+  /// The last transition in a redirect chain.
+  /// </summary>
   TT_CHAIN_END_FLAG       = $20000000;
+  /// <summary>
+  /// Redirects caused by JavaScript or a meta refresh tag on the page.
+  /// </summary>
   TT_CLIENT_REDIRECT_FLAG = $40000000;
+  /// <summary>
+  /// Redirects sent from the server by HTTP headers.
+  /// </summary>
   TT_SERVER_REDIRECT_FLAG = $80000000;
+  /// <summary>
+  /// Used to test whether a transition involves a redirect.
+  /// </summary>
   TT_IS_REDIRECT_MASK     = $C0000000;
+  /// <summary>
+  /// General mask defining the bits used for the qualifiers.
+  /// </summary>
   TT_QUALIFIER_MASK       = $FFFFFF00;
 
-  // /include/internal/cef_types.h (cef_urlrequest_flags_t)
+  /// <summary>
+  /// Flags used to customize the behavior of CefURLRequest.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefUrlRequestFlags">TCefUrlRequestFlags values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_urlrequest_flags_t)</see></para>
+  /// </remarks>
+  /// <summary>
+  /// Default behavior.
+  /// </summary>
   UR_FLAG_NONE                     = 0;
+  /// <summary>
+  /// If set the cache will be skipped when handling the request. Setting this
+  /// value is equivalent to specifying the "Cache-Control: no-cache" request
+  /// header. Setting this value in combination with UR_FLAG_ONLY_FROM_CACHE
+  /// will cause the request to fail.
+  /// </summary>
   UR_FLAG_SKIP_CACHE               = 1 shl 0;
+  /// <summary>
+  /// If set the request will fail if it cannot be served from the cache (or
+  /// some equivalent local store). Setting this value is equivalent to
+  /// specifying the "Cache-Control: only-if-cached" request header. Setting
+  /// this value in combination with UR_FLAG_SKIP_CACHE or UR_FLAG_DISABLE_CACHE
+  /// will cause the request to fail.
+  /// </summary>
   UR_FLAG_ONLY_FROM_CACHE          = 1 shl 1;
+  /// <summary>
+  /// If set the cache will not be used at all. Setting this value is equivalent
+  /// to specifying the "Cache-Control: no-store" request header. Setting this
+  /// value in combination with UR_FLAG_ONLY_FROM_CACHE will cause the request
+  /// to fail.
+  /// </summary>
   UR_FLAG_DISABLE_CACHE            = 1 shl 2;
+  /// <summary>
+  /// If set user name, password, and cookies may be sent with the request, and
+  /// cookies may be saved from the response.
+  /// </summary>
   UR_FLAG_ALLOW_STORED_CREDENTIALS = 1 shl 3;
+  /// <summary>
+  /// If set upload progress events will be generated when a request has a body.
+  /// </summary>
   UR_FLAG_REPORT_UPLOAD_PROGRESS   = 1 shl 4;
+  /// <summary>
+  /// If set the ICefURLRequestClient.OnDownloadData method will not be called.
+  /// </summary>
   UR_FLAG_NO_DOWNLOAD_DATA         = 1 shl 5;
+  /// <summary>
+  /// If set 5XX redirect errors will be propagated to the observer instead of
+  /// automatically re-tried. This currently only applies for requests
+  /// originated in the browser process.
+  /// </summary>
   UR_FLAG_NO_RETRY_ON_5XX          = 1 shl 6;
+  /// <summary>
+  /// If set 3XX responses will cause the fetch to halt immediately rather than
+  /// continue through the redirect.
+  /// </summary>
   UR_FLAG_STOP_ON_REDIRECT         = 1 shl 7;
 
-  // /include/internal/cef_types.h (cef_scheme_options_t)
+  /// <summary>
+  /// Configuration options for registering a custom scheme.
+  /// These values are used when calling AddCustomScheme.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefSchemeOptions">TCefSchemeOptions values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_scheme_options_t)</see></para>
+  /// </remarks>
   CEF_SCHEME_OPTION_NONE             = 0;
+  /// <summary>
+  /// If CEF_SCHEME_OPTION_STANDARD is set the scheme will be treated as a
+  /// standard scheme. Standard schemes are subject to URL canonicalization and
+  /// parsing rules as defined in the Common Internet Scheme Syntax RFC 1738
+  /// Section 3.1 available at http://www.ietf.org/rfc/rfc1738.txt
+  ///
+  /// In particular, the syntax for standard scheme URLs must be of the form:
+  /// <pre>
+  ///  [scheme]://[username]:[password]@[host]:[port]/[url-path]
+  /// </pre> Standard scheme URLs must have a host component that is a fully
+  /// qualified domain name as defined in Section 3.5 of RFC 1034 [13] and
+  /// Section 2.1 of RFC 1123. These URLs will be canonicalized to
+  /// "scheme://host/path" in the simplest case and
+  /// "scheme://username:password@host:port/path" in the most explicit case. For
+  /// example, "scheme:host/path" and "scheme:///host/path" will both be
+  /// canonicalized to "scheme://host/path". The origin of a standard scheme URL
+  /// is the combination of scheme, host and port (i.e., "scheme://host:port" in
+  /// the most explicit case).
+  ///
+  /// For non-standard scheme URLs only the "scheme:" component is parsed and
+  /// canonicalized. The remainder of the URL will be passed to the handler as-
+  /// is. For example, "scheme:///some%20text" will remain the same.
+  /// Non-standard scheme URLs cannot be used as a target for form submission.
+  /// </summary>
   CEF_SCHEME_OPTION_STANDARD         = 1 shl 0;
+  /// <summary>
+  /// If CEF_SCHEME_OPTION_LOCAL is set the scheme will be treated with the same
+  /// security rules as those applied to "file" URLs. Normal pages cannot link
+  /// to or access local URLs. Also, by default, local URLs can only perform
+  /// XMLHttpRequest calls to the same URL (origin + path) that originated the
+  /// request. To allow XMLHttpRequest calls from a local URL to other URLs with
+  /// the same origin set the CefSettings.file_access_from_file_urls_allowed
+  /// value to true (1). To allow XMLHttpRequest calls from a local URL to all
+  /// origins set the CefSettings.universal_access_from_file_urls_allowed value
+  /// to true (1).
+  /// </summary>
   CEF_SCHEME_OPTION_LOCAL            = 1 shl 1;
+  /// <summary>
+  /// If CEF_SCHEME_OPTION_DISPLAY_ISOLATED is set the scheme can only be
+  /// displayed from other content hosted with the same scheme. For example,
+  /// pages in other origins cannot create iframes or hyperlinks to URLs with
+  /// the scheme. For schemes that must be accessible from other schemes don't
+  /// set this, set CEF_SCHEME_OPTION_CORS_ENABLED, and use CORS
+  /// "Access-Control-Allow-Origin" headers to further restrict access.
+  /// </summary>
   CEF_SCHEME_OPTION_DISPLAY_ISOLATED = 1 shl 2;
+  /// <summary>
+  /// If CEF_SCHEME_OPTION_SECURE is set the scheme will be treated with the
+  /// same security rules as those applied to "https" URLs. For example, loading
+  /// this scheme from other secure schemes will not trigger mixed content
+  /// warnings.
+  /// </summary>
   CEF_SCHEME_OPTION_SECURE           = 1 shl 3;
+  /// <summary>
+  /// If CEF_SCHEME_OPTION_CORS_ENABLED is set the scheme can be sent CORS
+  /// requests. This value should be set in most cases where
+  /// CEF_SCHEME_OPTION_STANDARD is set.
+  /// </summary>
   CEF_SCHEME_OPTION_CORS_ENABLED     = 1 shl 4;
+  /// <summary>
+  /// If CEF_SCHEME_OPTION_CSP_BYPASSING is set the scheme can bypass Content-
+  /// Security-Policy (CSP) checks. This value should not be set in most cases
+  /// where CEF_SCHEME_OPTION_STANDARD is set.
+  /// </summary>
   CEF_SCHEME_OPTION_CSP_BYPASSING    = 1 shl 5;
+  /// <summary>
+  /// If CEF_SCHEME_OPTION_FETCH_ENABLED is set the scheme can perform Fetch API
+  /// requests.
+  /// </summary>
   CEF_SCHEME_OPTION_FETCH_ENABLED    = 1 shl 6;
 
-  // /include/internal/cef_types.h (cef_dom_event_category_t)
+  /// <summary>
+  /// DOM event category flags.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefDomEventCategory">TCefDomEventCategory values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_event_category_t)</see></para>
+  /// </remarks>
   DOM_EVENT_CATEGORY_UNKNOWN                 = 0;
   DOM_EVENT_CATEGORY_UI                      = 1 shl 0;
   DOM_EVENT_CATEGORY_MOUSE                   = 1 shl 1;
@@ -803,7 +1072,13 @@ const
   DOM_EVENT_CATEGORY_PROGRESS                = 1 shl 14;
   DOM_EVENT_CATEGORY_XMLHTTPREQUEST_PROGRESS = 1 shl 15;
 
-  // /include/internal/cef_types.h (cef_event_flags_t)
+  /// <summary>
+  /// Supported event bit flags.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefEventFlags">TCefEventFlags values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// </remarks>
   EVENTFLAG_NONE                 = 0;
   EVENTFLAG_CAPS_LOCK_ON         = 1 shl 0;
   EVENTFLAG_SHIFT_DOWN           = 1 shl 1;
@@ -820,7 +1095,15 @@ const
   EVENTFLAG_ALTGR_DOWN           = 1 shl 12;
   EVENTFLAG_IS_REPEAT            = 1 shl 13;
 
-  // /include/internal/cef_types.h (cef_drag_operations_mask_t)
+  /// <summary>
+  /// "Verb" of a drag-and-drop operation as negotiated between the source and
+  /// destination. These constants match their equivalents in WebCore's
+  /// DragActions.h and should not be renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefDragOperation">TCefDragOperation values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_drag_operations_mask_t)</see></para>
+  /// </remarks>
   DRAG_OPERATION_NONE     = 0;
   DRAG_OPERATION_COPY     = 1 shl 0;
   DRAG_OPERATION_LINK     = 1 shl 1;
@@ -830,26 +1113,96 @@ const
   DRAG_OPERATION_DELETE   = 1 shl 5;
   DRAG_OPERATION_EVERY    = $FFFFFFFF;
 
-  // /include/internal/cef_types.h (cef_file_dialog_mode_t)
+  /// <summary>
+  /// Supported file dialog modes.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefFileDialogMode">TCefFileDialogMode values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_file_dialog_mode_t)</see></para>
+  /// </remarks>
+  /// <summary>
+  /// Requires that the file exists before allowing the user to pick it.
+  /// </summary>
   FILE_DIALOG_OPEN                 = $00000000;
+  /// <summary>
+  /// Like Open, but allows picking multiple files to open.
+  /// </summary>
   FILE_DIALOG_OPEN_MULTIPLE        = $00000001;
+  /// <summary>
+  /// Like Open, but selects a folder to open.
+  /// </summary>
   FILE_DIALOG_OPEN_FOLDER          = $00000002;
+  /// <summary>
+  /// Allows picking a nonexistent file, and prompts to overwrite if the file
+  /// already exists.
+  /// </summary>
   FILE_DIALOG_SAVE                 = $00000003;
 
-  // /include/internal/cef_types.h (cef_uri_unescape_rule_t)
+
+  /// <summary>
+  /// URI unescape rules passed to CefURIDecode().
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefUriUnescapeRule">TCefUriUnescapeRule values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_uri_unescape_rule_t)</see></para>
+  /// </remarks>
+  /// <summary>
+  /// Don't unescape anything at all.
+  /// </summary>
   UU_NONE                                     = 0;
+  /// <summary>
+  /// Don't unescape anything special, but all normal unescaping will happen.
+  /// This is a placeholder and can't be combined with other flags (since it's
+  /// just the absence of them). All other unescape rules imply "normal" in
+  /// addition to their special meaning. Things like escaped letters, digits,
+  /// and most symbols will get unescaped with this mode.
+  /// </summary>
   UU_NORMAL                                   = 1 shl 0;
+  /// <summary>
+  /// Convert %20 to spaces. In some places where we're showing URLs, we may
+  /// want this. In places where the URL may be copied and pasted out, then
+  /// you wouldn't want this since it might not be interpreted in one piece
+  /// by other applications.
+  /// </summary>
   UU_SPACES                                   = 1 shl 1;
+  /// <summary>
+  /// Unescapes '/' and '\\'. If these characters were unescaped, the resulting
+  /// URL won't be the same as the source one. Moreover, they are dangerous to
+  /// unescape in strings that will be used as file paths or names. This value
+  /// should only be used when slashes don't have special meaning, like data
+  /// URLs.
+  /// </summary>
   UU_PATH_SEPARATORS                          = 1 shl 2;
+  /// <summary>
+  /// Unescapes various characters that will change the meaning of URLs,
+  /// including '%', '+', '&', '#'. Does not unescape path separators.
+  /// If these characters were unescaped, the resulting URL won't be the same
+  /// as the source one. This flag is used when generating final output like
+  /// filenames for URLs where we won't be interpreting as a URL and want to do
+  /// as much unescaping as possible.
+  /// </summary>
   UU_URL_SPECIAL_CHARS_EXCEPT_PATH_SEPARATORS = 1 shl 3;
+  /// <summary>
+  /// URL queries use "+" for space. This flag controls that replacement.
+  /// </summary>
   UU_REPLACE_PLUS_WITH_SPACE                  = 1 shl 4;
 
-  // /include/internal/cef_types.h (cef_menu_id_t)
+
+  /// <summary>
+  /// Supported menu IDs. Non-English translations can be provided for the
+  /// IDS_MENU_* strings in ICefResourceBundleHandler.GetLocalizedString().
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefMenuId">TCefMenuId values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_menu_id_t)</see></para>
+  /// </remarks>
+  /// <summary>Navigation.</summary>
   MENU_ID_BACK                       = 100;
   MENU_ID_FORWARD                    = 101;
   MENU_ID_RELOAD                     = 102;
   MENU_ID_RELOAD_NOCACHE             = 103;
   MENU_ID_STOPLOAD                   = 104;
+  /// <summary>Editing.</summary>
   MENU_ID_UNDO                       = 110;
   MENU_ID_REDO                       = 111;
   MENU_ID_CUT                        = 112;
@@ -857,9 +1210,11 @@ const
   MENU_ID_PASTE                      = 114;
   MENU_ID_DELETE                     = 115;
   MENU_ID_SELECT_ALL                 = 116;
+  /// <summary>Miscellaneous.</summary>
   MENU_ID_FIND                       = 130;
   MENU_ID_PRINT                      = 131;
   MENU_ID_VIEW_SOURCE                = 132;
+  /// <summary>Spell checking word correction suggestions.</summary>
   MENU_ID_SPELLCHECK_SUGGESTION_0    = 200;
   MENU_ID_SPELLCHECK_SUGGESTION_1    = 201;
   MENU_ID_SPELLCHECK_SUGGESTION_2    = 202;
@@ -868,21 +1223,62 @@ const
   MENU_ID_SPELLCHECK_SUGGESTION_LAST = 204;
   MENU_ID_NO_SPELLING_SUGGESTIONS    = 205;
   MENU_ID_ADD_TO_DICTIONARY          = 206;
+  /// <summary>Custom menu items originating from the renderer process.</summary>
   MENU_ID_CUSTOM_FIRST               = 220;
   MENU_ID_CUSTOM_LAST                = 250;
+  /// <summary>
+  /// All user-defined menu IDs should come between MENU_ID_USER_FIRST and
+  /// MENU_ID_USER_LAST to avoid overlapping the Chromium and CEF ID ranges
+  /// defined in the tools/gritsettings/resource_ids file.
+  /// </summary>
   MENU_ID_USER_FIRST                 = 26500;
   MENU_ID_USER_LAST                  = 28500;
 
-  // /include/internal/cef_types.h (cef_context_menu_type_flags_t)
+  /// <summary>
+  /// Supported context menu type flags.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefContextMenuTypeFlags">TCefContextMenuTypeFlags values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_context_menu_type_flags_t)</see></para>
+  /// </remarks>
+  /// <summary>
+  /// No node is selected.
+  /// </summary>
   CM_TYPEFLAG_NONE      = 0;
+  /// <summary>
+  /// The top page is selected.
+  /// </summary>
   CM_TYPEFLAG_PAGE      = 1 shl 0;
+  /// <summary>
+  /// A subframe page is selected.
+  /// </summary>
   CM_TYPEFLAG_FRAME     = 1 shl 1;
+  /// <summary>
+  /// A link is selected.
+  /// </summary>
   CM_TYPEFLAG_LINK      = 1 shl 2;
+  /// <summary>
+  /// A media node is selected.
+  /// </summary>
   CM_TYPEFLAG_MEDIA     = 1 shl 3;
+  /// <summary>
+  /// There is a textual or mixed selection that is selected.
+  /// </summary>
   CM_TYPEFLAG_SELECTION = 1 shl 4;
+  /// <summary>
+  /// An editable element is selected.
+  /// </summary>
   CM_TYPEFLAG_EDITABLE  = 1 shl 5;
 
-  // /include/internal/cef_types.h (cef_context_menu_media_state_flags_t)
+  /// <summary>
+  /// Supported context menu media state bit flags. These constants match their
+  /// equivalents in Chromium's ContextMenuData::MediaFlags and should not be
+  /// renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefContextMenuMediaStateFlags">TCefContextMenuMediaStateFlags values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_context_menu_media_state_flags_t)</see></para>
+  /// </remarks>
   CM_MEDIAFLAG_NONE                   = 0;
   CM_MEDIAFLAG_IN_ERROR               = 1 shl 0;
   CM_MEDIAFLAG_PAUSED                 = 1 shl 1;
@@ -898,7 +1294,15 @@ const
   CM_MEDIAFLAG_PICTURE_IN_PICTURE     = 1 shl 11;
   CM_MEDIAFLAG_CAN_LOOP               = 1 shl 12;
 
-  // /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)
+  /// <summary>
+  /// Supported context menu edit state bit flags. These constants match their
+  /// equivalents in Chromium's ContextMenuDataEditFlags and should not be
+  /// renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefContextMenuEditStateFlags">TCefContextMenuEditStateFlags values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)</see></para>
+  /// </remarks>
   CM_EDITFLAG_NONE                   = 0;
   CM_EDITFLAG_CAN_UNDO               = 1 shl 0;
   CM_EDITFLAG_CAN_REDO               = 1 shl 1;
@@ -910,7 +1314,14 @@ const
   CM_EDITFLAG_CAN_TRANSLATE          = 1 shl 7;
   CM_EDITFLAG_CAN_EDIT_RICHLY        = 1 shl 8;
 
-  // /include/internal/cef_types.h (cef_ssl_version_t)
+  /// <summary>
+  /// Supported SSL version values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefSSLVersion">TCefSSLVersion values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_ssl_version_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:net/ssl/ssl_connection_status_flags.h">See net/ssl/ssl_connection_status_flags.h for more information.</see></para>
+  /// </remarks>
   SSL_CONNECTION_VERSION_UNKNOWN = 0;
   SSL_CONNECTION_VERSION_SSL2    = 1;
   SSL_CONNECTION_VERSION_SSL3    = 2;
@@ -920,34 +1331,110 @@ const
   SSL_CONNECTION_VERSION_TLS1_3  = 6;
   SSL_CONNECTION_VERSION_QUIC    = 7;
 
-  // /include/internal/cef_types.h (cef_ssl_content_status_t)
+  /// <summary>
+  /// Supported SSL content status flags. See content/public/common/ssl_status.h
+  /// for more information.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefSSLContentStatus">TCefSSLContentStatus values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_ssl_content_status_t)</see></para>
+  /// </remarks>
   SSL_CONTENT_NORMAL_CONTENT             = 0;
   SSL_CONTENT_DISPLAYED_INSECURE_CONTENT = 1 shl 0;
   SSL_CONTENT_RAN_INSECURE_CONTENT       = 1 shl 1;
 
-  // /include/internal/cef_types.h (cef_json_writer_options_t)
+  /// <summary>
+  /// Options that can be passed to CefWriteJSON.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefJsonWriterOptions">TCefJsonWriterOptions values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_json_writer_options_t)</see></para>
+  /// </remarks>
+  /// <summary>
+  /// Default behavior.
+  /// </summary>
   JSON_WRITER_DEFAULT                       = 0;
+  /// <summary>
+  /// This option instructs the writer that if a Binary value is encountered,
+  /// the value (and key if within a dictionary) will be omitted from the
+  /// output, and success will be returned. Otherwise, if a binary value is
+  /// encountered, failure will be returned.
+  /// </summary>
   JSON_WRITER_OMIT_BINARY_VALUES            = 1 shl 0;
+  /// <summary>
+  /// This option instructs the writer to write doubles that have no fractional
+  /// part as a normal integer (i.e., without using exponential notation
+  /// or appending a '.0') as long as the value is within the range of a
+  /// 64-bit int.
+  /// </summary>
   JSON_WRITER_OMIT_DOUBLE_TYPE_PRESERVATION = 1 shl 1;
+  /// <summary>
+  /// Return a slightly nicer formatted json string (pads with whitespace to
+  /// help with readability).
+  /// </summary>
   JSON_WRITER_PRETTY_PRINT                  = 1 shl 2;
 
-  // /include/internal/cef_types.h (cef_log_severity_t)
+  /// <summary>
+  /// Log severity levels.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefLogSeverity">TCefLogSeverity values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_severity_t)</see></para>
+  /// </remarks>
+  /// <summary>
+  /// Default logging (currently INFO logging).
+  /// </summary>
   LOGSEVERITY_DEFAULT  = 0;
+  /// <summary>
+  /// Verbose logging.
+  /// </summary>
   LOGSEVERITY_VERBOSE  = 1;
+  /// <summary>
+  /// DEBUG logging.
+  /// </summary>
   LOGSEVERITY_DEBUG    = LOGSEVERITY_VERBOSE;
+  /// <summary>
+  /// INFO logging.
+  /// </summary>
   LOGSEVERITY_INFO     = 2;
+  /// <summary>
+  /// WARNING logging.
+  /// </summary>
   LOGSEVERITY_WARNING  = 3;
+  /// <summary>
+  /// ERROR logging.
+  /// </summary>
   LOGSEVERITY_ERROR    = 4;
+  /// <summary>
+  /// FATAL logging.
+  /// </summary>
   LOGSEVERITY_FATAL    = 5;
+  /// <summary>
+  /// Disable logging to file for all messages, and to stderr for messages with
+  /// severity less than FATAL.
+  /// </summary>
   LOGSEVERITY_DISABLE  = 99;
 
-  // /include/internal/cef_types.h (cef_duplex_mode_t)
+  /// <summary>
+  /// Print job duplex mode values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefDuplexMode">TCefDuplexMode values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_duplex_mode_t)</see></para>
+  /// </remarks>
   DUPLEX_MODE_UNKNOWN    = -1;
   DUPLEX_MODE_SIMPLEX    = 0;
   DUPLEX_MODE_LONG_EDGE  = 1;
   DUPLEX_MODE_SHORT_EDGE = 2;
 
-  // /include/internal/cef_types.h (cef_media_route_create_result_t)
+  /// <summary>
+  /// Result codes for ICefMediaRouter.CreateRoute. Should be kept in sync with
+  /// Chromium's media_router::mojom::RouteRequestResultCode type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefMediaRouterCreateResult">TCefMediaRouterCreateResult values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_route_create_result_t)</see></para>
+  /// </remarks>
   CEF_MRCR_UNKNOWN_ERROR            = 0;
   CEF_MRCR_OK                       = 1;
   CEF_MRCR_TIMED_OUT                = 2;
@@ -959,12 +1446,24 @@ const
   CEF_MRCR_ROUTE_ALREADY_EXISTS     = 9;
   CEF_MRCR_ROUTE_ALREADY_TERMINATED = 11;
 
-  // /include/internal/cef_types.h (cef_cookie_priority_t)
+  /// <summary>
+  /// Cookie priority values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefCookiePriority">TCefCookiePriority values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cookie_priority_t)</see></para>
+  /// </remarks>
   CEF_COOKIE_PRIORITY_LOW    = -1;
   CEF_COOKIE_PRIORITY_MEDIUM = 0;
   CEF_COOKIE_PRIORITY_HIGH   = 1;
 
-  // /include/internal/cef_types.h (cef_text_field_commands_t)
+  /// <summary>
+  /// Represents commands available to TextField.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefTextFieldCommands">TCefTextFieldCommands values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_text_field_commands_t)</see></para>
+  /// </remarks>
   CEF_TFC_CUT        = 1;
   CEF_TFC_COPY       = 2;
   CEF_TFC_PASTE      = 3;
@@ -972,46 +1471,106 @@ const
   CEF_TFC_DELETE     = 5;
   CEF_TFC_SELECT_ALL = 6;
 
-  // /include/internal/cef_types.h (cef_chrome_toolbar_type_t)
+  /// <summary>
+  /// Chrome toolbar types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefChromeToolbarType">TCefChromeToolbarType values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_chrome_toolbar_type_t)</see></para>
+  /// </remarks>
   CEF_CTT_NONE       = 1;
   CEF_CTT_NORMAL     = 2;
   CEF_CTT_LOCATION   = 3;
 
-  // /include/internal/cef_types.h (cef_docking_mode_t)
+  /// <summary>
+  /// Docking modes supported by ICefWindow.AddOverlay.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefDockingMode">TCefDockingMode values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_docking_mode_t)</see></para>
+  /// </remarks>
   CEF_DOCKING_MODE_TOP_LEFT      = 1;
   CEF_DOCKING_MODE_TOP_RIGHT     = 2;
   CEF_DOCKING_MODE_BOTTOM_LEFT   = 3;
   CEF_DOCKING_MODE_BOTTOM_RIGHT  = 4;
   CEF_DOCKING_MODE_CUSTOM        = 5;
 
-  // /include/internal/cef_types.h (cef_show_state_t)
+  /// <summary>
+  /// Show states supported by ICefWindowDelegate.GetInitialShowState.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefShowState">TCefShowState values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
+  /// </remarks>
   CEF_SHOW_STATE_NORMAL      = 1;
   CEF_SHOW_STATE_MINIMIZED   = 2;
   CEF_SHOW_STATE_MAXIMIZED   = 3;
   CEF_SHOW_STATE_FULLSCREEN  = 4;
 
-  // /include/internal/cef_types.h (cef_quick_menu_edit_state_flags_t)
+  /// <summary>
+  /// Supported quick menu state bit flags.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefQuickMenuEditStateFlags">TCefQuickMenuEditStateFlags values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_quick_menu_edit_state_flags_t)</see></para>
+  /// </remarks>
   QM_EDITFLAG_NONE         = 0;
   QM_EDITFLAG_CAN_ELLIPSIS = 1 shl 0;
   QM_EDITFLAG_CAN_CUT      = 1 shl 1;
   QM_EDITFLAG_CAN_COPY     = 1 shl 2;
   QM_EDITFLAG_CAN_PASTE    = 1 shl 3;
 
-  // /include/internal/cef_types.h (cef_touch_handle_state_flags_t)
+  /// <summary>
+  /// Values indicating what state of the touch handle is set.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefTouchHandleStateFlags">TCefTouchHandleStateFlags values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_touch_handle_state_flags_t)</see></para>
+  /// </remarks>
   CEF_THS_FLAG_NONE        = 0;
   CEF_THS_FLAG_ENABLED     = 1 shl 0;
   CEF_THS_FLAG_ORIENTATION = 1 shl 1;
   CEF_THS_FLAG_ORIGIN      = 1 shl 2;
   CEF_THS_FLAG_ALPHA       = 1 shl 3;
 
-  // /include/internal/cef_types.h (cef_media_access_permission_types_t)
+  /// <summary>
+  /// Media access permissions used by OnRequestMediaAccessPermission.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefMediaAccessPermissionTypes">TCefMediaAccessPermissionTypes values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_access_permission_types_t)</see></para>
+  /// </remarks>
+  /// <summary>
+  /// No permission.
+  /// </summary>
   CEF_MEDIA_PERMISSION_NONE                  = 0;
+  /// <summary>
+  /// Device audio capture permission.
+  /// </summary>
   CEF_MEDIA_PERMISSION_DEVICE_AUDIO_CAPTURE  = 1 shl 0;
+  /// <summary>
+  /// Device video capture permission.
+  /// </summary>
   CEF_MEDIA_PERMISSION_DEVICE_VIDEO_CAPTURE  = 1 shl 1;
+  /// <summary>
+  /// Desktop audio capture permission.
+  /// </summary>
   CEF_MEDIA_PERMISSION_DESKTOP_AUDIO_CAPTURE = 1 shl 2;
+  /// <summary>
+  /// Desktop video capture permission.
+  /// </summary>
   CEF_MEDIA_PERMISSION_DESKTOP_VIDEO_CAPTURE = 1 shl 3;
 
-  // /include/internal/cef_types.h (cef_permission_request_types_t)
+
+  /// <summary>
+  /// Permission types used with OnShowPermissionPrompt. Some types are
+  /// platform-specific or only supported with the Chrome runtime. Should be kept
+  /// in sync with Chromium's permissions::RequestType type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefPermissionRequestTypes">TCefPermissionRequestTypes values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_permission_request_types_t)</see></para>
+  /// </remarks>
   CEF_PERMISSION_TYPE_NONE                       = 0;
   CEF_PERMISSION_TYPE_ACCESSIBILITY_EVENTS       = 1 shl 0;
   CEF_PERMISSION_TYPE_AR_SESSION                 = 1 shl 1;
@@ -1040,37 +1599,146 @@ const
   CEF_API_HASH_UNIVERSAL = 1;
   CEF_COMMIT_HASH        = 2;
 
-  // /include/internal/cef_types.h (cef_download_interrupt_reason_t)
+  /// <summary>
+  /// Download interrupt reasons. Should be kept in sync with
+  /// Chromium's download::DownloadInterruptReason type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefDownloadInterruptReason">TCefDownloadInterruptReason values</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_download_interrupt_reason_t)</see></para>
+  /// </remarks>
   CEF_DOWNLOAD_INTERRUPT_REASON_NONE                            = 0;
+  /// <summary>
+  /// Generic file operation failure.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_FAILED                     = 1;
+  /// <summary>
+  /// The file cannot be accessed due to security restrictions.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_ACCESS_DENIED              = 2;
+  /// <summary>
+  /// There is not enough room on the drive.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_NO_SPACE                   = 3;
+  /// <summary>
+  /// The directory or file name is too long.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_NAME_TOO_LONG              = 5;
+  /// <summary>
+  /// The file is too large for the file system to handle.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_TOO_LARGE                  = 6;
+  /// <summary>
+  /// The file contains a virus.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_VIRUS_INFECTED             = 7;
+  /// <summary>
+  /// The file was in use. Too many files are opened at once. We have run out of
+  /// memory.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_TRANSIENT_ERROR            = 10;
+  /// <summary>
+  /// The file was blocked due to local policy.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_BLOCKED                    = 11;
+  /// <summary>
+  /// An attempt to check the safety of the download failed due to unexpected
+  /// reasons. See http://crbug.com/153212.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_SECURITY_CHECK_FAILED      = 12;
+  /// <summary>
+  /// An attempt was made to seek past the end of a file in opening
+  /// a file (as part of resuming a previously interrupted download).
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_TOO_SHORT                  = 13;
+  /// <summary>
+  /// The partial file didn't match the expected hash.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_HASH_MISMATCH              = 14;
+  /// <summary>
+  /// The source and the target of the download were the same.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_FILE_SAME_AS_SOURCE             = 15;
+  /// <summary>
+  /// Generic network failure.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_NETWORK_FAILED                  = 20;
+  /// <summary>
+  /// The network operation timed out.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_NETWORK_TIMEOUT                 = 21;
+  /// <summary>
+  /// The network connection has been lost.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_NETWORK_DISCONNECTED            = 22;
+  /// <summary>
+  /// The server has gone down.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_NETWORK_SERVER_DOWN             = 23;
+  /// <summary>
+  /// The network request was invalid. This may be due to the original URL or a
+  /// redirected URL:
+  /// - Having an unsupported scheme.
+  /// - Being an invalid URL.
+  /// - Being disallowed by policy.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_NETWORK_INVALID_REQUEST         = 24;
+  /// <summary>
+  /// The server indicates that the operation has failed (generic).
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_FAILED                   = 30;
+  /// <summary>
+  /// The server does not support range requests.
+  /// Internal use only:  must restart from the beginning.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_NO_RANGE                 = 31;
+  /// <summary>
+  /// The server does not have the requested data.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_BAD_CONTENT              = 33;
+  /// <summary>
+  /// Server didn't authorize access to resource.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_UNAUTHORIZED             = 34;
+  /// <summary>
+  /// Server certificate problem.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_CERT_PROBLEM             = 35;
+  /// <summary>
+  /// Server access forbidden.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_FORBIDDEN                = 36;
+  /// <summary>
+  /// Unexpected server response. This might indicate that the responding server
+  /// may not be the intended server.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_UNREACHABLE              = 37;
+  /// <summary>
+  /// The server sent fewer bytes than the content-length header. It may
+  /// indicate that the connection was closed prematurely, or the Content-Length
+  /// header was invalid. The download is only interrupted if strong validators
+  /// are present. Otherwise, it is treated as finished.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_CONTENT_LENGTH_MISMATCH  = 38;
+  /// <summary>
+  /// An unexpected cross-origin redirect happened.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_SERVER_CROSS_ORIGIN_REDIRECT    = 39;
+  /// <summary>
+  /// The user canceled the download.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_USER_CANCELED                   = 40;
+  /// <summary>
+  /// The user shut down the browser.
+  /// Internal use only:  resume pending downloads if possible.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_USER_SHUTDOWN                   = 41;
+  /// <summary>
+  /// The browser crashed.
+  /// Internal use only:  resume pending downloads if possible.
+  /// </summary>
   CEF_DOWNLOAD_INTERRUPT_REASON_CRASH                           = 50;
+
 
 
 
@@ -1088,16 +1756,21 @@ const
   CEF_PROXYTYPE_FIXED_SERVERS = 3;
   CEF_PROXYTYPE_PAC_SCRIPT    = 4;
 
-  // /include/base/cef_logging.h (LogSeverity)
-  // Used in the severity parameter in the 'cef_log' function, also known as 'CefLog' in CEF4Delphi.
-  // The log severities are used to index into the array of names, see log_severity_names.
-  // /base/allocator/partition_allocator/partition_alloc_base/logging.h
-  // /base/logging.cc
+  /// <summary>
+  /// Used in the severity parameter in the 'cef_log' function, also known as 'CefLog' in CEF4Delphi.
+  /// The log severities are used to index into the array of names, see log_severity_names.
+  /// /base/allocator/partition_allocator/partition_alloc_base/logging.h
+  /// /base/logging.cc
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (LogSeverity)</see></para>
+  /// </remarks>
   CEF_LOG_SEVERITY_VERBOSE = -1;
   CEF_LOG_SEVERITY_INFO    = 0;
   CEF_LOG_SEVERITY_WARNING = 1;
   CEF_LOG_SEVERITY_ERROR   = 2;
-  CEF_LOG_SEVERITY_FATAL   = 3;   // This severity log level causes a crash
+  /// <summary>This severity log level causes a crash.</summary>
+  CEF_LOG_SEVERITY_FATAL   = 3;
 
   CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE = 32;
   CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE     = 7;
@@ -1109,8 +1782,13 @@ const
 
   CEF_DEFAULT_ENABLEFOCUSDELAY = 500; // delay in ms to enable the browser focus
 
-  // https://chromium.googlesource.com/chromium/src/+/refs/tags/77.0.3865.90/chrome/common/net/safe_search_util.h (YouTubeRestrictMode)
-  // https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict
+  /// <summary>
+  /// YouTube restrict mode.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://chromium.googlesource.com/chromium/src/+/refs/tags/77.0.3865.90/chrome/common/net/safe_search_util.h">Chromium source file: /chrome/common/net/safe_search_util.h (YouTubeRestrictMode)</see></para>
+  /// <para><see href="https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict">Chromium policy list: https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict</see></para>
+  /// </remarks>
   YOUTUBE_RESTRICT_OFF      = 0;
   YOUTUBE_RESTRICT_MODERATE = 1;
   YOUTUBE_RESTRICT_STRICT   = 2;
@@ -1240,7 +1918,7 @@ const
   pfidLinux = pidLinux64;
   {$IFEND}
 
-  implementation
+implementation
 
 end.
 

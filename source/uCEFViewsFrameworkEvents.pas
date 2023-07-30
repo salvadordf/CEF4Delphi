@@ -97,6 +97,7 @@ type
   TOnWindowActivationChangedEvent    = procedure(const Sender: TObject; const window_: ICefWindow; active: boolean) of object;
   TOnWindowBoundsChangedEvent        = procedure(const Sender: TObject; const window_: ICefWindow; const new_bounds: TCefRect) of object;
   TOnGetParentWindowEvent            = procedure(const Sender: TObject; const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow) of object;
+  TOnIsWindowModalDialogEvent        = procedure(const Sender: TObject; const window_: ICefWindow; var aResult : boolean) of object;
   TOnGetInitialBoundsEvent           = procedure(const Sender: TObject; const window_: ICefWindow; var aResult : TCefRect) of object;
   TOnGetInitialShowStateEvent        = procedure(const Sender: TObject; const window_: ICefWindow; var aResult : TCefShowState) of object;
   TOnIsFramelessEvent                = procedure(const Sender: TObject; const window_: ICefWindow; var aResult : boolean) of object;

@@ -259,86 +259,484 @@ type
 
 
   {$IFDEF MSWINDOWS}
-  TCefWindowHandle = type HWND;     // /include/internal/cef_types_win.h (cef_window_handle_t)
-  TCefCursorHandle = type HCURSOR;  // /include/internal/cef_types_win.h (cef_cursor_handle_t)
-  TCefEventHandle  = type PMsg;     // /include/internal/cef_types_win.h (cef_event_handle_t)
+  /// <summary>
+  /// Native Window handle
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_window_handle_t)</see></para>
+  /// </remarks>
+  TCefWindowHandle = type HWND;
+  /// <summary>
+  /// Native Cursor handle
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_cursor_handle_t)</see></para>
+  /// </remarks>
+  TCefCursorHandle = type HCURSOR;
+  /// <summary>
+  /// Native event handle
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_event_handle_t)</see></para>
+  /// </remarks>
+  TCefEventHandle  = type PMsg;
   {$ENDIF}
 
   {$IFDEF MACOSX}
     {$IFDEF FPC}
-    TCefWindowHandle = type PtrUInt;  // /include/internal/cef_types_mac.h (cef_window_handle_t)
-    TCefCursorHandle = type PtrUInt;  // /include/internal/cef_types_mac.h (cef_cursor_handle_t)
-    TCefEventHandle  = type PtrUInt;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
+    /// <summary>
+    /// Native Window handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_window_handle_t)</see></para>
+    /// </remarks>
+    TCefWindowHandle = type PtrUInt;
+    /// <summary>
+    /// Native Cursor handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_cursor_handle_t)</see></para>
+    /// </remarks>
+    TCefCursorHandle = type PtrUInt;
+    /// <summary>
+    /// Native event handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_event_handle_t)</see></para>
+    /// </remarks>
+    TCefEventHandle  = type PtrUInt;
     {$ELSE}
-    TCefWindowHandle = type Pointer;  // /include/internal/cef_types_mac.h (cef_window_handle_t)
-    TCefCursorHandle = type Pointer;  // /include/internal/cef_types_mac.h (cef_cursor_handle_t)
-    TCefEventHandle  = type Pointer;  // /include/internal/cef_types_mac.h (cef_event_handle_t)
+    /// <summary>
+    /// Native Window handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_window_handle_t)</see></para>
+    /// </remarks>
+    TCefWindowHandle = type Pointer;
+    /// <summary>
+    /// Native Cursor handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_cursor_handle_t)</see></para>
+    /// </remarks>
+    TCefCursorHandle = type Pointer;
+    /// <summary>
+    /// Native event handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_event_handle_t)</see></para>
+    /// </remarks>
+    TCefEventHandle  = type Pointer;
     {$ENDIF}
   {$ENDIF}
 
   {$IFDEF LINUX}
     {$IFDEF FPC}
-    TCefWindowHandle = type culong;   // /include/internal/cef_types_linux.h (cef_window_handle_t)
-    TCefCursorHandle = type culong;   // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+    /// <summary>
+    /// Native Window handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_handle_t)</see></para>
+    /// </remarks>
+    TCefWindowHandle = type culong;
+    /// <summary>
+    /// Native Cursor handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_cursor_handle_t)</see></para>
+    /// </remarks>
+    TCefCursorHandle = type culong;
     {$ELSE}
-    TCefWindowHandle = type LongWord; // /include/internal/cef_types_linux.h (cef_window_handle_t)
-    TCefCursorHandle = type LongWord; // /include/internal/cef_types_linux.h (cef_cursor_handle_t)
+    /// <summary>
+    /// Native Window handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_handle_t)</see></para>
+    /// </remarks>
+    TCefWindowHandle = type LongWord;
+    /// <summary>
+    /// Native Cursor handle
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_cursor_handle_t)</see></para>
+    /// </remarks>
+    TCefCursorHandle = type LongWord;
     {$ENDIF}
-  TCefEventHandle = type PXEvent;  // /include/internal/cef_types_linux.h (cef_event_handle_t)
+  /// <summary>
+  /// Native event handle
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_event_handle_t)</see></para>
+  /// </remarks>
+  TCefEventHandle = type PXEvent;
   {$ENDIF}
 
+  /// <summary>
+  /// Platform thread ID.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_thread_internal.h">CEF source file: /include/internal/cef_thread_internal.h (cef_platform_thread_id_t)</see></para>
+  /// </remarks>
+  TCefPlatformThreadId             = DWORD;
 
+  /// <summary>
+  /// Platform thread handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_thread_internal.h">CEF source file: /include/internal/cef_thread_internal.h (cef_platform_thread_handle_t)</see></para>
+  /// </remarks>
+  TCefPlatformThreadHandle         = DWORD;
 
+  /// <summary>
+  /// Transition type for a request. Made up of one source value and 0 or more
+  /// qualifiers.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_transition_type_t)</see></para>
+  /// </remarks>
+  TCefTransitionType               = Cardinal;
 
-  // All these types are declared as constants in uCEFConstants.pas.
-  // Search the type name between the parentheses in uCEFConstants.pas.
-  //
-  // Open the original header file for more details :
-  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_types.h
-  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_thread_internal.h
-  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_string_list.h
-  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_string_map.h
-  // https://github.com/chromiumembedded/cef/blob/master/include/internal/cef_string_multimap.h
+  /// <summary>
+  /// 32-bit ARGB color value, not premultiplied. The color components are always
+  /// in a known order. Equivalent to the SkColor type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_color_t)</see></para>
+  /// </remarks>
+  TCefColor                        = Cardinal;
 
-  TCefPlatformThreadId             = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_id_t)
-  TCefPlatformThreadHandle         = DWORD;       // /include/internal/cef_thread_internal.h (cef_platform_thread_handle_t)
-  TCefTransitionType               = Cardinal;    // /include/internal/cef_types.h (cef_transition_type_t)
-  TCefColor                        = Cardinal;    // /include/internal/cef_types.h (cef_color_t)
-  TCefErrorCode                    = Integer;     // /include/internal/cef_types.h (cef_errorcode_t)
-  TCefCertStatus                   = Integer;     // /include/internal/cef_types.h (cef_cert_status_t)
-  TCefSSLVersion                   = integer;     // /include/internal/cef_types.h (cef_ssl_version_t)
-  TCefStringList                   = Pointer;     // /include/internal/cef_string_list.h (cef_string_list_t)
-  TCefStringMap                    = Pointer;     // /include/internal/cef_string_map.h (cef_string_map_t)
-  TCefStringMultimap               = Pointer;     // /include/internal/cef_string_multimap.h (cef_string_multimap_t)
-  TCefUriUnescapeRule              = Integer;     // /include/internal/cef_types.h (cef_uri_unescape_rule_t)
-  TCefDomEventCategory             = Integer;     // /include/internal/cef_types.h (cef_dom_event_category_t)
-  TCefEventFlags                   = Cardinal;    // /include/internal/cef_types.h (cef_event_flags_t)
-  TCefDragOperations               = Cardinal;    // /include/internal/cef_types.h (cef_drag_operations_mask_t)
-  TCefDragOperation                = Cardinal;    // /include/internal/cef_types.h (cef_drag_operations_mask_t)
-  TCefV8AccessControls             = Cardinal;    // /include/internal/cef_types.h (cef_v8_accesscontrol_t)
-  TCefV8PropertyAttributes         = Cardinal;    // /include/internal/cef_types.h (cef_v8_propertyattribute_t)
-  TCefUrlRequestFlags              = Cardinal;    // /include/internal/cef_types.h (cef_urlrequest_flags_t)
-  TCefContextMenuTypeFlags         = Cardinal;    // /include/internal/cef_types.h (cef_context_menu_type_flags_t)
-  TCefContextMenuMediaStateFlags   = Cardinal;    // /include/internal/cef_types.h (cef_context_menu_media_state_flags_t)
-  TCefContextMenuEditStateFlags    = Cardinal;    // /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)
-  TCefJsonWriterOptions            = Cardinal;    // /include/internal/cef_types.h (cef_json_writer_options_t)
-  TCefSSLContentStatus             = Cardinal;    // /include/internal/cef_types.h (cef_ssl_content_status_t)
-  TCefLogSeverity                  = Cardinal;    // /include/internal/cef_types.h (cef_log_severity_t)
-  TCefFileDialogMode               = Cardinal;    // /include/internal/cef_types.h (cef_file_dialog_mode_t)
-  TCefDuplexMode                   = Integer;     // /include/internal/cef_types.h (cef_duplex_mode_t)
-  TCefSchemeOptions                = Integer;     // /include/internal/cef_types.h (cef_scheme_options_t)
-  TCefMediaRouterCreateResult      = Integer;     // /include/internal/cef_types.h (cef_media_route_create_result_t)
-  TCefCookiePriority               = Integer;     // /include/internal/cef_types.h (cef_cookie_priority_t)
-  TCefTextFieldCommands            = Integer;     // /include/internal/cef_types.h (cef_text_field_commands_t)
-  TCefChromeToolbarType            = Integer;     // /include/internal/cef_types.h (cef_chrome_toolbar_type_t)
-  TCefDockingMode                  = type Integer;   // /include/internal/cef_types.h (cef_docking_mode_t)
-  TCefShowState                    = type Integer;   // /include/internal/cef_types.h (cef_show_state_t)4
-  TCefQuickMenuEditStateFlags      = type Integer;   // /include/internal/cef_types.h (cef_quick_menu_edit_state_flags_t)
-  TCefTouchHandleStateFlags        = type Integer;   // /include/internal/cef_types.h (cef_touch_handle_state_flags_t)
-  TCefMediaAccessPermissionTypes   = type Integer;   // /include/internal/cef_types.h (cef_media_access_permission_types_t)
-  TCefPermissionRequestTypes       = type Integer;   // /include/internal/cef_types.h (cef_permission_request_types_t)
-  TCefDownloadInterruptReason      = type Integer;   // /include/internal/cef_types.h (cef_download_interrupt_reason_t)
+  /// <summary>
+  /// Supported error code values.
+  /// Ranges:
+  ///     0- 99 System related errors
+  ///   100-199 Connection related errors
+  ///   200-299 Certificate errors
+  ///   300-399 HTTP errors
+  ///   400-499 Cache errors
+  ///   500-599 ?
+  ///   600-699 FTP errors
+  ///   700-799 Certificate manager errors
+  ///   800-899 DNS resolver errors
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// <para><see href="https://chromium.googlesource.com/chromium/src/+/master/net/base/net_error_list.h">For the complete list of error values see include/base/internal/cef_net_error_list.h which includes this Chromium source file /net/base/net_error_list.h</see></para>
+  /// </remarks>
+  TCefErrorCode                    = Integer;
 
+  /// <summary>
+  /// Supported certificate status code values. See net\cert\cert_status_flags.h
+  /// for more information. CERT_STATUS_NONE is new in CEF because we use an
+  /// enum while cert_status_flags.h uses a typedef and static const variables.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cert_status_t)</see></para>
+  /// </remarks>
+  TCefCertStatus                   = Integer;
+
+  /// <summary>
+  /// Supported SSL version values. 
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_ssl_version_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:net/ssl/ssl_connection_status_flags.h">See net/ssl/ssl_connection_status_flags.h for more information.</see></para>
+  /// </remarks>
+  TCefSSLVersion                   = integer;
+
+  /// <summary>
+  /// CEF string maps are a set of key/value string pairs.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_string_list.h">CEF source file: /include/internal/cef_string_list.h (cef_string_list_t)</see></para>
+  /// </remarks>
+  TCefStringList                   = Pointer;
+
+  /// <summary>
+  /// CEF string maps are a set of key/value string pairs.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_string_map.h">CEF source file: /include/internal/cef_string_map.h (cef_string_map_t)</see></para>
+  /// </remarks>
+  TCefStringMap                    = Pointer;
+
+  /// <summary>
+  /// CEF string multimaps are a set of key/value string pairs.
+  /// More than one value can be assigned to a single key.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_string_multimap.h">CEF source file: /include/internal/cef_string_multimap.h (cef_string_multimap_t)</see></para>
+  /// </remarks>
+  TCefStringMultimap               = Pointer;
+
+  /// <summary>
+  /// URI unescape rules passed to CefURIDecode().
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_uri_unescape_rule_t)</see></para>
+  /// </remarks>
+  TCefUriUnescapeRule              = Integer;
+
+  /// <summary>
+  /// DOM event category flags.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_event_category_t)</see></para>
+  /// </remarks>
+  TCefDomEventCategory             = Integer;
+
+  /// <summary>
+  /// Supported event bit flags.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  TCefEventFlags                   = Cardinal;
+
+  /// <summary>
+  /// "Verb" of a drag-and-drop operation as negotiated between the source and
+  /// destination. These constants match their equivalents in WebCore's
+  /// DragActions.h and should not be renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_drag_operations_mask_t)</see></para>
+  /// </remarks>
+  TCefDragOperations               = Cardinal;
+  TCefDragOperation                = Cardinal;
+
+  /// <summary>
+  /// V8 access control values.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_v8_accesscontrol_t)</see></para>
+  /// </remarks>
+  TCefV8AccessControls             = Cardinal;
+
+  /// <summary>
+  /// V8 property attribute values.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_v8_propertyattribute_t)</see></para>
+  /// </remarks>
+  TCefV8PropertyAttributes         = Cardinal;
+
+  /// <summary>
+  /// Flags used to customize the behavior of CefURLRequest.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_urlrequest_flags_t)</see></para>
+  /// </remarks>
+  TCefUrlRequestFlags              = Cardinal;
+
+  /// <summary>
+  /// Supported context menu type flags.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_context_menu_type_flags_t)</see></para>
+  /// </remarks>
+  TCefContextMenuTypeFlags         = Cardinal;
+
+  /// <summary>
+  /// Supported context menu media state bit flags. These constants match their
+  /// equivalents in Chromium's ContextMenuData::MediaFlags and should not be
+  /// renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_context_menu_media_state_flags_t)</see></para>
+  /// </remarks>
+  TCefContextMenuMediaStateFlags   = Cardinal;
+
+  /// <summary>
+  /// Supported context menu edit state bit flags. These constants match their
+  /// equivalents in Chromium's ContextMenuDataEditFlags and should not be
+  /// renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_context_menu_edit_state_flags_t)</see></para>
+  /// </remarks>
+  TCefContextMenuEditStateFlags    = Cardinal;
+
+  /// <summary>
+  /// Options that can be passed to CefWriteJSON.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_json_writer_options_t)</see></para>
+  /// </remarks>
+  TCefJsonWriterOptions            = Cardinal;
+
+  /// <summary>
+  /// Supported SSL content status flags. See content/public/common/ssl_status.h
+  /// for more information.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_ssl_content_status_t)</see></para>
+  /// </remarks>
+  TCefSSLContentStatus             = Cardinal;
+
+  /// <summary>
+  /// Log severity levels.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_severity_t)</see></para>
+  /// </remarks>
+  TCefLogSeverity                  = Cardinal;
+
+  /// <summary>
+  /// Supported file dialog modes.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_file_dialog_mode_t)</see></para>
+  /// </remarks>
+  TCefFileDialogMode               = Cardinal;
+
+  /// <summary>
+  /// Print job duplex mode values.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_duplex_mode_t)</see></para>
+  /// </remarks>
+  TCefDuplexMode                   = Integer;
+
+  /// <summary>
+  /// Configuration options for registering a custom scheme.
+  /// These values are used when calling AddCustomScheme.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_scheme_options_t)</see></para>
+  /// </remarks>
+  TCefSchemeOptions                = Integer;
+
+  /// <summary>
+  /// Result codes for ICefMediaRouter.CreateRoute. Should be kept in sync with
+  /// Chromium's media_router::mojom::RouteRequestResultCode type.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_route_create_result_t)</see></para>
+  /// </remarks>
+  TCefMediaRouterCreateResult      = Integer;
+
+  /// <summary>
+  /// Cookie priority values.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cookie_priority_t)</see></para>
+  /// </remarks>
+  TCefCookiePriority               = Integer;
+
+  /// <summary>
+  /// Represents commands available to TextField.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_text_field_commands_t)</see></para>
+  /// </remarks>
+  TCefTextFieldCommands            = Integer;
+
+  /// <summary>
+  /// Chrome toolbar types.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_chrome_toolbar_type_t)</see></para>
+  /// </remarks>
+  TCefChromeToolbarType            = Integer;
+
+  /// <summary>
+  /// Docking modes supported by ICefWindow.AddOverlay.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_docking_mode_t)</see></para>
+  /// </remarks>
+  TCefDockingMode                  = type Integer;
+
+  /// <summary>
+  /// Show states supported by ICefWindowDelegate.GetInitialShowState.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
+  /// </remarks>
+  TCefShowState                    = type Integer;
+
+  /// <summary>
+  /// Supported quick menu state bit flags.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_quick_menu_edit_state_flags_t)</see></para>
+  /// </remarks>
+  TCefQuickMenuEditStateFlags      = type Integer;
+
+  /// <summary>
+  /// Values indicating what state of the touch handle is set.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_touch_handle_state_flags_t)</see></para>
+  /// </remarks>
+  TCefTouchHandleStateFlags        = type Integer;
+
+  /// <summary>
+  /// Media access permissions used by OnRequestMediaAccessPermission.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_access_permission_types_t)</see></para>
+  /// </remarks>
+  TCefMediaAccessPermissionTypes   = type Integer;
+
+  /// <summary>
+  /// Permission types used with OnShowPermissionPrompt. Some types are
+  /// platform-specific or only supported with the Chrome runtime. Should be kept
+  /// in sync with Chromium's permissions::RequestType type.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_permission_request_types_t)</see></para>
+  /// </remarks>
+  TCefPermissionRequestTypes       = type Integer;
+
+  /// <summary>
+  /// Download interrupt reasons. Should be kept in sync with
+  /// Chromium's download::DownloadInterruptReason type.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_download_interrupt_reason_t)</see></para>
+  /// </remarks>
+  TCefDownloadInterruptReason      = type Integer;
+
+  /// <summary>
+  /// Supported menu IDs. Non-English translations can be provided for the
+  /// IDS_MENU_* strings in ICefResourceBundleHandler.GetLocalizedString().
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_menu_id_t)</see></para>
+  /// </remarks>
+  TCefMenuId                       = type Integer;
 
 {$IFDEF FPC}
   NativeInt   = PtrInt;
@@ -365,7 +763,10 @@ type
   {$ENDIF}
 {$ENDIF}
 
-  TCefCustomByteArray = array of byte; // Needed only for backwards compatibility with old Delphi versions
+  /// <summary>
+  /// Array of byte. Needed only for backwards compatibility with old Delphi versions.
+  /// </summary>
+  TCefCustomByteArray = array of byte;
 
   {$IFDEF MSWINDOWS}
   TMyMemoryStatusEx = record
@@ -412,21 +813,51 @@ type
   Char16  = WideChar;
   PChar16 = PWideChar;
 
-  // /include/internal/cef_string_types.h (cef_string_wide_t)
+  /// <summary>
+  /// CEF wide string type definition. Whomever allocates |str| is responsible for
+  /// providing an appropriate |dtor| implementation that will free the string in
+  /// the same memory space. When reusing an existing string structure make sure
+  /// to call |dtor| for the old value before assigning new |str| and |dtor|
+  /// values. Static strings will have a NULL |dtor| value. Using the below
+  /// functions if you want this managed for you.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_string_types.h">CEF source file: /include/internal/cef_string_types.h (cef_string_wide_t)</see></para>
+  /// </remarks>
   TCefStringWide = record
     str    : PWideChar;
     length : NativeUInt;
     dtor   : procedure(str: PWideChar); stdcall;
   end;
 
-  // /include/internal/cef_string_types.h (cef_string_utf8_t)
+  /// <summary>
+  /// CEF utf8 string type definition. Whomever allocates |str| is responsible for
+  /// providing an appropriate |dtor| implementation that will free the string in
+  /// the same memory space. When reusing an existing string structure make sure
+  /// to call |dtor| for the old value before assigning new |str| and |dtor|
+  /// values. Static strings will have a NULL |dtor| value. Using the below
+  /// functions if you want this managed for you.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_string_types.h">CEF source file: /include/internal/cef_string_types.h (cef_string_utf8_t)</see></para>
+  /// </remarks>
   TCefStringUtf8 = record
     str    : PAnsiChar;
     length : NativeUInt;
     dtor   : procedure(str: PAnsiChar); stdcall;
   end;
 
-  // /include/internal/cef_string_types.h (cef_string_utf16_t)
+  /// <summary>
+  /// CEF utf16 string type definition. Whomever allocates |str| is responsible for
+  /// providing an appropriate |dtor| implementation that will free the string in
+  /// the same memory space. When reusing an existing string structure make sure
+  /// to call |dtor| for the old value before assigning new |str| and |dtor|
+  /// values. Static strings will have a NULL |dtor| value. Using the below
+  /// functions if you want this managed for you.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_string_types.h">CEF source file: /include/internal/cef_string_types.h (cef_string_utf16_t)</see></para>
+  /// </remarks>
   TCefStringUtf16 = record
     str    : PChar16;
     length : NativeUInt;
@@ -451,22 +882,30 @@ type
     Build    : uint16;
   end;
 
-  // Used in TChromium.Onclose
-  // -------------------------
-  // cbaCancel : stop closing the browser
-  // cbaClose  : continue closing the browser
-  // cbaDelay  : stop closing the browser momentarily. Used when the application
-  //             needs to execute some custom processes before closing the
-  //             browser. This is usually needed to destroy a TCEFWindowParent
-  //             in the main thread before closing the browser.
+  /// <summary>
+  /// Action taken after the TChromium.Onclose event
+  /// cbaCancel : stop closing the browser
+  /// cbaClose  : continue closing the browser
+  /// cbaDelay  : stop closing the browser momentarily. Used when the application
+  ///             needs to execute some custom processes before closing the
+  ///             browser. This is usually needed to destroy a TCEFWindowParent
+  ///             in the main thread before closing the browser.
+  /// </summary>
   TCefCloseBrowserAction = (cbaClose, cbaDelay, cbaCancel);
 
+  /// <summary>
+  /// Sub-process types of Chromium
+  /// </summary>
   TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptGPU, ptUtility, ptBroker, ptCrashpad, ptOther);
 
-  // Used in TChromium preferences to allow or block cookies.
+  /// <summary>
+  /// Used in TChromium preferences to allow or block cookies.
+  /// </summary>
   TCefCookiePref = (cpDefault, cpAllow, cpBlock);
 
-  // Used by TCefBrowserNavigationTask to navigate in the right CEF thread
+  /// <summary>
+  /// Used by TCefBrowserNavigationTask to navigate in the right CEF thread
+  /// </summary>
   TCefBrowserNavigation = (bnBack, bnForward, bnReload, bnReloadIgnoreCache, bnStopLoad);
 
   TCefAplicationStatus = (asLoading,
@@ -506,33 +945,53 @@ type
     hpDisableNonProxiedUDP
   );
 
-  // Values used by the --net-log-capture-mode command line switch.
-  // Sets the granularity of events to capture in the network log.
-  // https://source.chromium.org/chromium/chromium/src/+/main:content/browser/network_service_instance_impl.cc
-  // https://source.chromium.org/chromium/chromium/src/+/main:net/log/net_log_capture_mode.h
+  /// <summary>
+  /// Values used by the --net-log-capture-mode command line switch.
+  /// Sets the granularity of events to capture in the network log.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/browser/network_service_instance_impl.cc">network_service_instance_impl.cc</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:net/log/net_log_capture_mode.h">net_log_capture_mode.h</see></para>
+  /// </remarks>
   TCefNetLogCaptureMode = (
     nlcmDefault,
     nlcmIncludeSensitive,
     nlcmEverything
   );
 
-  // Values used by the battery saver mode state preference
-  // https://source.chromium.org/chromium/chromium/src/+/main:components/performance_manager/public/user_tuning/prefs.h
+  /// <summary>
+  /// Values used by the battery saver mode state preference
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:components/performance_manager/public/user_tuning/prefs.h">prefs.h</see></para>
+  /// </remarks>
   TCefBatterySaverModeState = (
     bsmsDisabled = 0,
     bsmsEnabledBelowThreshold = 1,
     bsmsEnabledOnBattery = 2,
     bsmsEnabled = 3,
-    bsmsDefault = 4 // Custom value used to update the preferences only when there's a non-default value
+    /// <summary>
+    /// Custom value used to update the preferences only when there's a non-default value
+    /// </summary>
+    bsmsDefault = 4
   );
 
-  // Used by TCEFFileDialogInfo
+  /// <summary>
+  /// Used by TCEFFileDialogInfo
+  /// </summary>
   TCEFDialogType = (dtOpen, dtOpenMultiple, dtOpenFolder, dtSave);
 
-  // Used by TCefMediaSinkInfo and TCefMediaSourceInfo
+  /// <summary>
+  /// Used by TCefMediaSinkInfo and TCefMediaSourceInfo
+  /// </summary>
   TCefMediaType = (mtCast, mtDial, mtUnknown);
 
-  // /include/internal/cef_types_win.h (cef_main_args_t)
+  /// <summary>
+  /// Structure representing CefExecuteProcess arguments.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_main_args_t)</see></para>
+  /// </remarks>
   TCefMainArgs = record
     {$IFDEF MSWINDOWS}
     instance : HINST;
@@ -542,7 +1001,12 @@ type
     {$ENDIF}
   end;
 
-  // /include/internal/cef_types_geometry.h (cef_rect_t)
+  /// <summary>
+  /// Structure representing a rectangle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_rect_t)</see></para>
+  /// </remarks>
   TCefRect = record
     x      : Integer;
     y      : Integer;
@@ -552,26 +1016,48 @@ type
   TCefRectArray    = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
   TCefRectDynArray = array of TCefRect;
 
-  // /include/internal/cef_types_geometry.h (cef_point_t)
+  /// <summary>
+  /// Structure representing a point.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_point_t)</see></para>
+  /// </remarks>
   TCefPoint = record
     x  : Integer;
     y  : Integer;
   end;
 
-  // /include/internal/cef_types_geometry.h (cef_size_t)
+  /// <summary>
+  /// Structure representing a size.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_size_t)</see></para>
+  /// </remarks>
   TCefSize = record
     width  : Integer;
     height : Integer;
   end;
 
-  // /include/internal/cef_types_geometry.h (cef_range_t)
+  /// <summary>
+  /// Structure representing a range.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_range_t)</see></para>
+  /// </remarks>
   TCefRange = record
     from  : cardinal;
     to_   : cardinal;
   end;
   TCefRangeArray = array of TCefRange;
 
-  // /include/internal/cef_types.h (cef_cursor_info_t)
+  /// <summary>
+  /// Structure representing cursor information. |buffer| will be
+  /// |size.width|*|size.height|*4 bytes in size and represents a BGRA image with
+  /// an upper-left origin.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cursor_info_t)</see></para>
+  /// </remarks>
   TCefCursorInfo = record
     hotspot            : TCefPoint;
     image_scale_factor : Single;
@@ -579,20 +1065,62 @@ type
     size               : TCefSize;
   end;
 
-  // /include/internal/cef_types.h (cef_urlparts_t)
+  /// <summary>
+  /// URL component parts.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_urlparts_t)</see></para>
+  /// </remarks>
   TCefUrlParts = record
+    /// <summary>
+    /// The complete URL specification.
+    /// </summary>
     spec      : TCefString;
+    /// <summary>
+    /// Scheme component not including the colon (e.g., "http").
+    /// </summary>
     scheme    : TCefString;
+    /// <summary>
+    /// User name component.
+    /// </summary>
     username  : TCefString;
+    /// <summary>
+    /// Password component.
+    /// </summary>
     password  : TCefString;
+    /// <summary>
+    /// Host component. This may be a hostname, an IPv4 address or an IPv6 literal
+    /// surrounded by square brackets (e.g., "[2001:db8::1]").
+    /// </summary>
     host      : TCefString;
+    /// <summary>
+    /// Port number component.
+    /// </summary>
     port      : TCefString;
+    /// <summary>
+    /// Origin contains just the scheme, host, and port from a URL. Equivalent to
+    /// clearing any username and password, replacing the path with a slash, and
+    /// clearing everything after that. This value will be empty for non-standard
+    /// URLs.
+    /// </summary>
     origin    : TCefString;
+    /// <summary>
+    /// Path component including the first slash following the host.
+    /// </summary>
     path      : TCefString;
+    /// <summary>
+    /// Query string component (i.e., everything following the '?').
+    /// </summary>
     query     : TCefString;
+    /// <summary>
+    /// Fragment (hash) identifier component (i.e., the string following the '#').
+    /// </summary>
     fragment  : TCefString;
   end;
 
+  /// <summary>
+  /// String version of TCefUrlParts
+  /// </summary>
   TUrlParts = record
     spec     : ustring;
     scheme   : ustring;
@@ -606,7 +1134,12 @@ type
     fragment : ustring;
   end;
 
-  // /include/internal/cef_types_geometry.h (cef_insets_t)
+  /// <summary>
+  /// Structure representing insets.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_insets_t)</see></para>
+  /// </remarks>
   TCefInsets = record
     top    : Integer;
     left   : Integer;
@@ -614,14 +1147,35 @@ type
     right  : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_state_t)
+  /// <summary>
+  /// Represents the state of a setting.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_state_t)</see></para>
+  /// </remarks>
   TCefState = (
+    /// <summary>
+    /// Use the default state for the setting.
+    /// </summary>
     STATE_DEFAULT = 0,
+    /// <summary>
+    /// Enable or allow the setting.
+    /// </summary>
     STATE_ENABLED,
+    /// <summary>
+    /// Disable or disallow the setting.
+    /// </summary>
     STATE_DISABLED
   );
 
-  // /include/internal/cef_types.h (cef_scale_factor_t)
+  /// <summary>
+  /// Supported UI scale factors for the platform. SCALE_FACTOR_NONE is used for
+  /// density independent resources such as string, html/js files or an image that
+  /// can be used for any scale factors (such as wallpapers).
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_scale_factor_t)</see></para>
+  /// </remarks>
   TCefScaleFactor = (
     SCALE_FACTOR_NONE = 0,
     SCALE_FACTOR_100P,
@@ -635,7 +1189,12 @@ type
     SCALE_FACTOR_300P
   );
 
-  // /include/internal/cef_types.h (cef_value_type_t)
+  /// <summary>
+  /// Supported value types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_value_type_t)</see></para>
+  /// </remarks>
   TCefValueType = (
     VTYPE_INVALID = 0,
     VTYPE_NULL,
@@ -648,7 +1207,12 @@ type
     VTYPE_LIST
   );
 
-  // /include/internal/cef_types.h (cef_media_route_connection_state_t)
+  /// <summary>
+  /// Connection state for a MediaRoute object.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_route_connection_state_t)</see></para>
+  /// </remarks>
   TCefMediaRouteConnectionState = (
     CEF_MRCS_UNKNOWN,
     CEF_MRCS_CONNECTING,
@@ -657,7 +1221,13 @@ type
     CEF_MRCS_TERMINATED
   );
 
-  // /include/internal/cef_types.h (cef_media_sink_icon_type_t)
+  /// <summary>
+  /// Icon types for a MediaSink object. Should be kept in sync with Chromium's
+  /// media_router::SinkIconType type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_sink_icon_type_t)</see></para>
+  /// </remarks>
   TCefMediaSinkIconType = (
     CEF_MSIT_CAST,
     CEF_MSIT_CAST_AUDIO_GROUP,
@@ -667,54 +1237,179 @@ type
     CEF_MSIT_EDUCATION,
     CEF_MSIT_WIRED_DISPLAY,
     CEF_MSIT_GENERIC,
+    /// <summary>
+    /// The total number of values.
+    /// </summary>
     CEF_MSIT_TOTAL_COUNT
   );
 
-  // /include/internal/cef_types.h (cef_referrer_policy_t)
+  /// <summary>
+  /// Policy for how the Referrer HTTP header value will be sent during
+  /// navigation. If the `--no-referrers` command-line flag is specified then the
+  /// policy value will be ignored and the Referrer value will never be sent. Must
+  /// be kept synchronized with net::URLRequest::ReferrerPolicy from Chromium.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_referrer_policy_t)</see></para>
+  /// </remarks>
   TCefReferrerPolicy = (
-    REFERRER_POLICY_CLEAR_REFERRER_ON_TRANSITION_FROM_SECURE_TO_INSECURE,    // same value as REFERRER_POLICY_DEFAULT
+    /// <summary>
+    /// Clear the referrer header if the header value is HTTPS but the request
+    /// destination is HTTP. This is the default behavior. It has the same
+    /// value as REFERRER_POLICY_DEFAULT.
+    /// </summary>
+    REFERRER_POLICY_CLEAR_REFERRER_ON_TRANSITION_FROM_SECURE_TO_INSECURE,
+    /// <summary>
+    /// A slight variant on CLEAR_REFERRER_ON_TRANSITION_FROM_SECURE_TO_INSECURE:
+    /// If the request destination is HTTP, an HTTPS referrer will be cleared. If
+    /// the request's destination is cross-origin with the referrer (but does not
+    /// downgrade), the referrer's granularity will be stripped down to an origin
+    /// rather than a full URL. Same-origin requests will send the full referrer.
+    /// </summary>
     REFERRER_POLICY_REDUCE_REFERRER_GRANULARITY_ON_TRANSITION_CROSS_ORIGIN,
+    /// <summary>
+    /// Strip the referrer down to an origin when the origin of the referrer is
+    /// different from the destination's origin.
+    /// </summary>
     REFERRER_POLICY_ORIGIN_ONLY_ON_TRANSITION_CROSS_ORIGIN,
+    /// <summary>
+    /// Never change the referrer.
+    /// </summary>
     REFERRER_POLICY_NEVER_CLEAR_REFERRER,
+    /// <summary>
+    /// Strip the referrer down to the origin regardless of the redirect location.
+    /// </summary>
     REFERRER_POLICY_ORIGIN,
+    /// <summary>
+    /// Clear the referrer when the request's referrer is cross-origin with the
+    /// request's destination.
+    /// </summary>
     REFERRER_POLICY_CLEAR_REFERRER_ON_TRANSITION_CROSS_ORIGIN,
+    /// <summary>
+    /// Strip the referrer down to the origin, but clear it entirely if the
+    /// referrer value is HTTPS and the destination is HTTP.
+    /// </summary>
     REFERRER_POLICY_ORIGIN_CLEAR_ON_TRANSITION_FROM_SECURE_TO_INSECURE,
-    REFERRER_POLICY_NO_REFERRER // REFERRER_POLICY_LAST_VALUE = REFERRER_POLICY_NO_REFERRER
+    /// <summary>
+    /// Always clear the referrer regardless of the request destination.
+    ///  It has the same value as REFERRER_POLICY_LAST_VALUE
+    /// </summary>
+    REFERRER_POLICY_NO_REFERRER
   );
 
-  // /include/internal/cef_types.h (cef_postdataelement_type_t)
+  /// <summary>
+  /// Post data elements may represent either bytes or files.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_postdataelement_type_t)</see></para>
+  /// </remarks>
   TCefPostDataElementType = (
     PDE_TYPE_EMPTY  = 0,
     PDE_TYPE_BYTES,
     PDE_TYPE_FILE
   );
 
-  // /include/internal/cef_types.h (cef_resource_type_t)
+  /// <summary>
+  /// Resource type for a request. These constants match their equivalents in
+  /// Chromium's ResourceType and should not be renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resource_type_t)</see></para>
+  /// </remarks>
   TCefResourceType = (
+    /// <summary>
+    /// Top level page.
+    /// </summary>
     RT_MAIN_FRAME,
+    /// <summary>
+    /// Frame or iframe.
+    /// </summary>
     RT_SUB_FRAME,
+    /// <summary>
+    /// CSS stylesheet.
+    /// </summary>
     RT_STYLESHEET,
+    /// <summary>
+    /// External script.
+    /// </summary>
     RT_SCRIPT,
+    /// <summary>
+    /// Image (jpg/gif/png/etc).
+    /// </summary>
     RT_IMAGE,
+    /// <summary>
+    /// Font.
+    /// </summary>
     RT_FONT_RESOURCE,
+    /// <summary>
+    /// Some other subresource. This is the default type if the actual type is
+    /// unknown.
+    /// </summary>
     RT_SUB_RESOURCE,
+    /// <summary>
+    /// Object (or embed) tag for a plugin, or a resource that a plugin requested.
+    /// </summary>
     RT_OBJECT,
+    /// <summary>
+    /// Media resource.
+    /// </summary>
     RT_MEDIA,
+    /// <summary>
+    /// Main resource of a dedicated worker.
+    /// </summary>
     RT_WORKER,
+    /// <summary>
+    /// Main resource of a shared worker.
+    /// </summary>
     RT_SHARED_WORKER,
+    /// <summary>
+    /// Explicitly requested prefetch.
+    /// </summary>
     RT_PREFETCH,
+    /// <summary>
+    /// Favicon.
+    /// </summary>
     RT_FAVICON,
+    /// <summary>
+    /// XMLHttpRequest.
+    /// </summary>
     RT_XHR,
+    /// <summary>
+    /// A request for a "<ping>".
+    /// </summary>
     RT_PING,
+    /// <summary>
+    /// Main resource of a service worker.
+    /// </summary>
     RT_SERVICE_WORKER,
+    /// <summary>
+    /// A report of Content Security Policy violations.
+    /// </summary>
     RT_CSP_REPORT,
+    /// <summary>
+    /// A resource that a plugin requested.
+    /// </summary>
     RT_PLUGIN_RESOURCE,
-    RT_EMPTY_FILLER_TYPE_DO_NOT_USE, // This type doesn't exist in CEF and it's here just to fill this position.
-    RT_NAVIGATION_PRELOAD_MAIN_FRAME, // This type must have a value of 19
+    /// <summary>
+    /// This type doesn't exist in CEF and it's here just to fill this position.
+    /// </summary>
+    RT_EMPTY_FILLER_TYPE_DO_NOT_USE,
+    /// <summary>
+    /// A main-frame service worker navigation preload request.
+    /// </summary>
+    RT_NAVIGATION_PRELOAD_MAIN_FRAME,
+    /// <summary>
+    /// A sub-frame service worker navigation preload request.
+    /// </summary>
     RT_NAVIGATION_PRELOAD_SUB_FRAME
   );
 
-  // /include/internal/cef_types.h (cef_dom_document_type_t)
+  /// <summary>
+  /// DOM document types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_document_type_t)</see></para>
+  /// </remarks>
   TCefDomDocumentType = (
     DOM_DOCUMENT_TYPE_UNKNOWN = 0,
     DOM_DOCUMENT_TYPE_HTML,
@@ -722,7 +1417,12 @@ type
     DOM_DOCUMENT_TYPE_PLUGIN
   );
 
-  // /include/internal/cef_types.h (cef_dom_node_type_t)
+  /// <summary>
+  /// DOM node types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_node_type_t)</see></para>
+  /// </remarks>
   TCefDomNodeType = (
     DOM_NODE_TYPE_UNSUPPORTED = 0,
     DOM_NODE_TYPE_ELEMENT,
@@ -736,18 +1436,50 @@ type
     DOM_NODE_TYPE_DOCUMENT_FRAGMENT
   );
 
-  // /include/internal/cef_types.h (cef_context_menu_media_type_t)
+  /// <summary>
+  /// Supported context menu media types. These constants match their equivalents
+  /// in Chromium's ContextMenuDataMediaType and should not be renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_context_menu_media_type_t)</see></para>
+  /// </remarks>
   TCefContextMenuMediaType = (
+    /// <summary>
+    /// No special node is in context.
+    /// </summary>
     CM_MEDIATYPE_NONE,
+    /// <summary>
+    /// An image node is selected.
+    /// </summary>
     CM_MEDIATYPE_IMAGE,
+    /// <summary>
+    /// A video node is selected.
+    /// </summary>
     CM_MEDIATYPE_VIDEO,
+    /// <summary>
+    /// An audio node is selected.
+    /// </summary>
     CM_MEDIATYPE_AUDIO,
+    /// <summary>
+    /// An canvas node is selected.
+    /// </summary>
     CM_MEDIATYPE_CANVAS,
+    /// <summary>
+    /// A file node is selected.
+    /// </summary>
     CM_MEDIATYPE_FILE,
+    /// <summary>
+    /// A plugin node is selected.
+    /// </summary>
     CM_MEDIATYPE_PLUGIN
   );
 
-  // /include/internal/cef_types.h (cef_menu_item_type_t)
+  /// <summary>
+  /// Supported menu item types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_menu_item_type_t)</see></para>
+  /// </remarks>
   TCefMenuItemType = (
     MENUITEMTYPE_NONE,
     MENUITEMTYPE_COMMAND,
@@ -757,44 +1489,138 @@ type
     MENUITEMTYPE_SUBMENU
   );
 
-  // /include/internal/cef_types.h (cef_focus_source_t)
+  /// <summary>
+  /// Focus sources.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_focus_source_t)</see></para>
+  /// </remarks>
   TCefFocusSource = (
+    /// <summary>
+    /// The source is explicit navigation via the API (LoadURL(), etc).
+    /// </summary>
     FOCUS_SOURCE_NAVIGATION = 0,
+    /// <summary>
+    /// The source is a system-generated focus event.
+    /// </summary>
     FOCUS_SOURCE_SYSTEM
   );
 
-  // /include/internal/cef_types.h (cef_jsdialog_type_t)
+  /// <summary>
+  /// Supported JavaScript dialog types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_jsdialog_type_t)</see></para>
+  /// </remarks>
   TCefJsDialogType = (
     JSDIALOGTYPE_ALERT = 0,
     JSDIALOGTYPE_CONFIRM,
     JSDIALOGTYPE_PROMPT
   );
 
-  // /include/internal/cef_types.h (cef_key_event_type_t)
+  /// <summary>
+  /// Notification that a character was typed. Use this for text input. Key
+  /// down events may generate 0, 1, or more than one character event depending
+  /// on the key, locale, and operating system.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_key_event_type_t)</see></para>
+  /// </remarks>
   TCefKeyEventType = (
+    /// <summary>
+    /// Notification that a key transitioned from "up" to "down".
+    /// </summary>
     KEYEVENT_RAWKEYDOWN = 0,
+    /// <summary>
+    /// Notification that a key was pressed. This does not necessarily correspond
+    /// to a character depending on the key and language. Use KEYEVENT_CHAR for
+    /// character input.
+    /// </summary>
     KEYEVENT_KEYDOWN,
+    /// <summary>
+    /// Notification that a key was released.
+    /// </summary>
     KEYEVENT_KEYUP,
+    /// <summary>
+    /// Notification that a character was typed. Use this for text input. Key
+    /// down events may generate 0, 1, or more than one character event depending
+    /// on the key, locale, and operating system.
+    /// </summary>
     KEYEVENT_CHAR
   );
 
-  // /include/internal/cef_types.h (cef_window_open_disposition_t)
+  /// <summary>
+  /// The manner in which a link click should be opened. These constants match
+  /// their equivalents in Chromium's window_open_disposition.h and should not be
+  /// renumbered.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_window_open_disposition_t)</see></para>
+  /// </remarks>
   TCefWindowOpenDisposition = (
+    /// <summary>
+    /// Unknown disposition.
+    /// </summary>
     WOD_UNKNOWN,
+    /// <summary>
+    /// Current tab. This is the default in most cases.
+    /// </summary>
     WOD_CURRENT_TAB,
+    /// <summary>
+    /// Indicates that only one tab with the url should exist in the same window.
+    /// </summary>
     WOD_SINGLETON_TAB,
+    /// <summary>
+    /// Shift key + Middle mouse button or meta/ctrl key while clicking.
+    /// </summary>
     WOD_NEW_FOREGROUND_TAB,
+    /// <summary>
+    /// Middle mouse button or meta/ctrl key while clicking.
+    /// </summary>
     WOD_NEW_BACKGROUND_TAB,
+    /// <summary>
+    /// New popup window.
+    /// </summary>
     WOD_NEW_POPUP,
+    /// <summary>
+    /// Shift key while clicking.
+    /// </summary>
     WOD_NEW_WINDOW,
+    /// <summary>
+    /// Alt key while clicking.
+    /// </summary>
     WOD_SAVE_TO_DISK,
+    /// <summary>
+    /// New off-the-record (incognito) window.
+    /// </summary>
     WOD_OFF_THE_RECORD,
+    /// <summary>
+    /// Special case error condition from the renderer.
+    /// </summary>
     WOD_IGNORE_ACTION,
+    /// <summary>
+    /// Activates an existing tab containing the url, rather than navigating.
+    /// This is similar to SINGLETON_TAB, but searches across all windows from
+    /// the current profile and anonymity (instead of just the current one);
+    /// closes the current tab on switching if the current tab was the NTP with
+    /// no session history; and behaves like CURRENT_TAB instead of
+    /// NEW_FOREGROUND_TAB when no existing tab is found.
+    /// </summary>
     WOD_SWITCH_TO_TAB,
+    /// <summary>
+    /// Creates a new document picture-in-picture window showing a child WebView.
+    /// </summary>
     WOD_NEW_PICTURE_IN_PICTURE
   );
 
-  // /include/internal/cef_types.h (cef_text_input_mode_t)
+  /// <summary>
+  /// Input mode of a virtual keyboard. These constants match their equivalents
+  /// in Chromium's text_input_mode.h and should not be renumbered.
+  /// See https://html.spec.whatwg.org/#input-modalities:-the-inputmode-attribute
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_text_input_mode_t)</see></para>
+  /// </remarks>
   TCefTextInpuMode = (
     CEF_TEXT_INPUT_MODE_DEFAULT,
     CEF_TEXT_INPUT_MODE_NONE,
@@ -807,7 +1633,12 @@ type
     CEF_TEXT_INPUT_MODE_SEARCH    // CEF_TEXT_INPUT_MODE_MAX = CEF_TEXT_INPUT_MODE_SEARCH
   );
 
-  // /include/internal/cef_types.h (cef_touch_event_type_t)
+  /// <summary>
+  /// Touch points states types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_touch_event_type_t)</see></para>
+  /// </remarks>
   TCefTouchEeventType = (
     CEF_TET_RELEASED = 0,
     CEF_TET_PRESSED,
@@ -815,7 +1646,12 @@ type
     CEF_TET_CANCELLED
   );
 
-  // /include/internal/cef_types.h (cef_pointer_type_t)
+  /// <summary>
+  /// The device type that caused the event.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_pointer_type_t)</see></para>
+  /// </remarks>
   TCefPointerType = (
     CEF_POINTER_TYPE_TOUCH = 0,
     CEF_POINTER_TYPE_MOUSE,
@@ -824,45 +1660,104 @@ type
     CEF_POINTER_TYPE_UNKNOWN
   );
 
-  // /include/internal/cef_types.h (cef_channel_layout_t)
+  /// <summary>
+  /// Enumerates the various representations of the ordering of audio channels.
+  /// Must be kept synchronized with media::ChannelLayout from Chromium.
+  /// See media\base\channel_layout.h
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_channel_layout_t)</see></para>
+  /// </remarks>
   TCefChannelLayout = (
     CEF_CHANNEL_LAYOUT_NONE = 0,
-    CEF_CHANNEL_LAYOUT_UNSUPPORTED,
-    CEF_CHANNEL_LAYOUT_MONO,
-    CEF_CHANNEL_LAYOUT_STEREO,
-    CEF_CHANNEL_LAYOUT_2_1,
-    CEF_CHANNEL_LAYOUT_SURROUND,
-    CEF_CHANNEL_LAYOUT_4_0,
-    CEF_CHANNEL_LAYOUT_2_2,
-    CEF_CHANNEL_LAYOUT_QUAD,
-    CEF_CHANNEL_LAYOUT_5_0,
-    CEF_CHANNEL_LAYOUT_5_1,
-    CEF_CHANNEL_LAYOUT_5_0_BACK,
-    CEF_CHANNEL_LAYOUT_5_1_BACK,
-    CEF_CHANNEL_LAYOUT_7_0,
-    CEF_CHANNEL_LAYOUT_7_1,
-    CEF_CHANNEL_LAYOUT_7_1_WIDE,
-    CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX,
-    CEF_CHANNEL_LAYOUT_2POINT1,
-    CEF_CHANNEL_LAYOUT_3_1,
-    CEF_CHANNEL_LAYOUT_4_1,
-    CEF_CHANNEL_LAYOUT_6_0,
-    CEF_CHANNEL_LAYOUT_6_0_FRONT,
-    CEF_CHANNEL_LAYOUT_HEXAGONAL,
-    CEF_CHANNEL_LAYOUT_6_1,
-    CEF_CHANNEL_LAYOUT_6_1_BACK,
-    CEF_CHANNEL_LAYOUT_6_1_FRONT,
-    CEF_CHANNEL_LAYOUT_7_0_FRONT,
-    CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK,
-    CEF_CHANNEL_LAYOUT_OCTAGONAL,
-    CEF_CHANNEL_LAYOUT_DISCRETE,
-    CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC,
-    CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE,
-    CEF_CHANNEL_LAYOUT_BITSTREAM,
-    CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX // CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX
+    CEF_CHANNEL_LAYOUT_UNSUPPORTED = 1,
+    /// <summary>Front C</summary>
+    CEF_CHANNEL_LAYOUT_MONO = 2,
+    /// <summary>Front L, Front R</summary>
+    CEF_CHANNEL_LAYOUT_STEREO = 3,
+    /// <summary>Front L, Front R, Back C</summary>
+    CEF_CHANNEL_LAYOUT_2_1 = 4,
+    /// <summary>Front L, Front R, Front C</summary>
+    CEF_CHANNEL_LAYOUT_SURROUND = 5,
+    /// <summary>Front L, Front R, Front C, Back C</summary>
+    CEF_CHANNEL_LAYOUT_4_0 = 6,
+    /// <summary>Front L, Front R, Side L, Side R</summary>
+    CEF_CHANNEL_LAYOUT_2_2 = 7,
+    /// <summary>Front L, Front R, Back L, Back R</summary>
+    CEF_CHANNEL_LAYOUT_QUAD = 8,
+    /// <summary>Front L, Front R, Front C, Side L, Side R</summary>
+    CEF_CHANNEL_LAYOUT_5_0 = 9,
+    /// <summary>Front L, Front R, Front C, LFE, Side L, Side R</summary>
+    CEF_CHANNEL_LAYOUT_5_1 = 10,
+    /// <summary>Front L, Front R, Front C, Back L, Back R</summary>
+    CEF_CHANNEL_LAYOUT_5_0_BACK = 11,
+    /// <summary>Front L, Front R, Front C, LFE, Back L, Back R</summary>
+    CEF_CHANNEL_LAYOUT_5_1_BACK = 12,
+    /// <summary>Front L, Front R, Front C, Side L, Side R, Back L, Back R</summary>
+    CEF_CHANNEL_LAYOUT_7_0 = 13,
+    /// <summary>Front L, Front R, Front C, LFE, Side L, Side R, Back L, Back R</summary>
+    CEF_CHANNEL_LAYOUT_7_1 = 14,
+    /// <summary>Front L, Front R, Front C, LFE, Side L, Side R, Front LofC, Front RofC</summary>
+    CEF_CHANNEL_LAYOUT_7_1_WIDE = 15,
+    /// <summary>Stereo L, Stereo R</summary>
+    CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX = 16,
+    /// <summary>Stereo L, Stereo R, LFE</summary>
+    CEF_CHANNEL_LAYOUT_2POINT1 = 17,
+    /// <summary>Stereo L, Stereo R, Front C, LFE</summary>
+    CEF_CHANNEL_LAYOUT_3_1 = 18,
+    /// <summary>Stereo L, Stereo R, Front C, Rear C, LFE</summary>
+    CEF_CHANNEL_LAYOUT_4_1 = 19,
+    /// <summary>Stereo L, Stereo R, Front C, Side L, Side R, Back C</summary>
+    CEF_CHANNEL_LAYOUT_6_0 = 20,
+    /// <summary>Stereo L, Stereo R, Side L, Side R, Front LofC, Front RofC</summary>
+    CEF_CHANNEL_LAYOUT_6_0_FRONT = 21,
+    /// <summary>Stereo L, Stereo R, Front C, Rear L, Rear R, Rear C</summary>
+    CEF_CHANNEL_LAYOUT_HEXAGONAL = 22,
+    /// <summary>Stereo L, Stereo R, Front C, LFE, Side L, Side R, Rear Center</summary>
+    CEF_CHANNEL_LAYOUT_6_1 = 23,
+    /// <summary>Stereo L, Stereo R, Front C, LFE, Back L, Back R, Rear Center</summary>
+    CEF_CHANNEL_LAYOUT_6_1_BACK = 24,
+    /// <summary>Stereo L, Stereo R, Side L, Side R, Front LofC, Front RofC, LFE</summary>
+    CEF_CHANNEL_LAYOUT_6_1_FRONT = 25,
+    /// <summary>Front L, Front R, Front C, Side L, Side R, Front LofC, Front RofC</summary>
+    CEF_CHANNEL_LAYOUT_7_0_FRONT = 26,
+    /// <summary>Front L, Front R, Front C, LFE, Back L, Back R, Front LofC, Front RofC</summary>
+    CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK = 27,
+    /// <summary>Front L, Front R, Front C, Side L, Side R, Rear L, Back R, Back C.</summary>
+    CEF_CHANNEL_LAYOUT_OCTAGONAL = 28,
+    /// <summary>Channels are not explicitly mapped to speakers.</summary>
+    CEF_CHANNEL_LAYOUT_DISCRETE = 29,
+    /// <summary>
+    /// Front L, Front R, Front C. Front C contains the keyboard mic audio. This
+    /// layout is only intended for input for WebRTC. The Front C channel
+    /// is stripped away in the WebRTC audio input pipeline and never seen outside
+    /// of that.
+    /// </summary>
+    CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC = 30,
+    /// <summary>Front L, Front R, Side L, Side R, LFE</summary>
+    CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE = 31,
+    /// <summary>
+    /// Actual channel layout is specified in the bitstream and the actual channel
+    /// count is unknown at Chromium media pipeline level (useful for audio
+    /// pass-through mode).
+    /// </summary>
+    CEF_CHANNEL_LAYOUT_BITSTREAM = 32,
+    /// <summary>
+    /// Front L, Front R, Front C, LFE, Side L, Side R,
+    /// Front Height L, Front Height R, Rear Height L, Rear Height R
+    /// Will be represented as six channels (5.1) due to eight channel limit
+    /// kMaxConcurrentChannels
+    /// CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX
+    /// </summary>
+    CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX = 33
   );
 
-  // /include/internal/cef_types.h (cef_cookie_same_site_t)
+  /// <summary>
+  /// Cookie same site values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cookie_same_site_t)</see></para>
+  /// </remarks>
   TCefCookieSameSite = (
     CEF_COOKIE_SAME_SITE_UNSPECIFIED,
     CEF_COOKIE_SAME_SITE_NO_RESTRICTION,
@@ -870,13 +1765,23 @@ type
     CEF_COOKIE_SAME_SITE_STRICT_MODE
   );
 
-  // /include/internal/cef_types.h (cef_paint_element_type_t)
+  /// <summary>
+  /// Paint element types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_paint_element_type_t)</see></para>
+  /// </remarks>
   TCefPaintElementType = (
     PET_VIEW,
     PET_POPUP
   );
 
-  // /include/internal/cef_types.h (cef_cursor_type_t)
+  /// <summary>
+  /// Cursor type values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cursor_type_t)</see></para>
+  /// </remarks>
   TCefCursorType = (
     CT_POINTER = 0,
     CT_CROSS,
@@ -930,7 +1835,12 @@ type
     CT_DND_LIN
   );
 
-  // /include/internal/cef_types.h (cef_navigation_type_t)
+  /// <summary>
+  /// Navigation types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_navigation_type_t)</see></para>
+  /// </remarks>
   TCefNavigationType = (
     NAVIGATION_LINK_CLICKED,
     NAVIGATION_FORM_SUBMITTED,
@@ -940,116 +1850,373 @@ type
     NAVIGATION_OTHER
   );
 
-  // /include/internal/cef_types.h (cef_process_id_t)
+  /// <summary>
+  /// Existing process IDs.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_process_id_t)</see></para>
+  /// </remarks>
   TCefProcessId = (
+    /// <summary>
+    /// Browser process.
+    /// </summary>
     PID_BROWSER,
+    /// <summary>
+    /// Renderer process.
+    /// </summary>
     PID_RENDERER
   );
 
-  // /include/internal/cef_types.h (cef_thread_id_t)
+  /// <summary>
+  /// Existing thread IDs.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_thread_id_t)</see></para>
+  /// </remarks>
   TCefThreadId = (
+    // BROWSER PROCESS THREADS -- Only available in the browser process.
+
+    /// <summary>
+    /// The main thread in the browser. This will be the same as the main
+    /// application thread if CefInitialize() is called with a
+    /// TCefSettings.multi_threaded_message_loop value of false. Do not perform
+    /// blocking tasks on this thread. All tasks posted after
+    /// ICefBrowserProcessHandler.OnContextInitialized() and before CefShutdown()
+    /// are guaranteed to run. This thread will outlive all other CEF threads.
+    /// </summary>
     TID_UI,
+    /// <summary>
+    /// Used for blocking tasks like file system access where the user won't
+    /// notice if the task takes an arbitrarily long time to complete. All tasks
+    /// posted after ICefBrowserProcessHandler.OnContextInitialized() and before
+    /// CefShutdown() are guaranteed to run.
+    /// </summary>
     TID_FILE_BACKGROUND,
+    /// <summary>
+    /// Used for blocking tasks like file system access that affect UI or
+    /// responsiveness of future user interactions. Do not use if an immediate
+    /// response to a user interaction is expected. All tasks posted after
+    /// ICefBrowserProcessHandler.OnContextInitialized() and before CefShutdown()
+    /// are guaranteed to run.
+    /// Examples:
+    /// - Updating the UI to reflect progress on a long task.
+    /// - Loading data that might be shown in the UI after a future user
+    ///   interaction.
+    /// </summary>
     TID_FILE_USER_VISIBLE,
+    /// <summary>
+    /// Used for blocking tasks like file system access that affect UI
+    /// immediately after a user interaction. All tasks posted after
+    /// ICefBrowserProcessHandler.OnContextInitialized() and before CefShutdown()
+    /// are guaranteed to run.
+    /// Example: Generating data shown in the UI immediately after a click.
+    /// </summary>
     TID_FILE_USER_BLOCKING,
+    /// <summary>
+    /// Used to launch and terminate browser processes.
+    /// </summary>
     TID_PROCESS_LAUNCHER,
+    /// <summary>
+    /// Used to process IPC and network messages. Do not perform blocking tasks on
+    /// this thread. All tasks posted after
+    /// ICefBrowserProcessHandler.OnContextInitialized() and before CefShutdown()
+    /// are guaranteed to run.
+    /// </summary>
     TID_IO,
+    // RENDER PROCESS THREADS -- Only available in the render process.
+
+    /// <summary>
+    /// The main thread in the renderer. Used for all WebKit and V8 interaction.
+    /// Tasks may be posted to this thread after
+    /// ICefRenderProcessHandler.OnWebKitInitialized but are not guaranteed to
+    /// run before sub-process termination (sub-processes may be killed at any
+    /// time without warning).
+    /// </summary>
     TID_RENDERER
   );
 
-  // /include/internal/cef_types.h (cef_thread_priority_t)
+  /// <summary>
+  /// Thread priority values listed in increasing order of importance.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_thread_priority_t)</see></para>
+  /// </remarks>
   TCefThreadPriority = (
+    /// <summary>
+    /// Suitable for threads that shouldn't disrupt high priority work.
+    /// </summary>
     TP_BACKGROUND,
+    /// <summary>
+    /// Default priority level.
+    /// </summary>
     TP_NORMAL,
+    /// <summary>
+    /// Suitable for threads which generate data for the display (at ~60Hz).
+    /// </summary>
     TP_DISPLAY,
+    /// <summary>
+    /// Suitable for low-latency, glitch-resistant audio.
+    /// </summary>
     TP_REALTIME_AUDIO
   );
 
-  // /include/internal/cef_types.h (cef_message_loop_type_t)
+  /// <summary>
+  /// Flags used to customize the behavior of CefURLRequest.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_message_loop_type_t)</see></para>
+  /// </remarks>
   TCefMessageLoopType = (
+    /// <summary>
+    /// Supports tasks and timers.
+    /// </summary>
     ML_TYPE_DEFAULT,
+    /// <summary>
+    /// Supports tasks, timers and native UI events (e.g. Windows messages).
+    /// </summary>
     ML_TYPE_UI,
+    /// <summary>
+    /// Supports tasks, timers and asynchronous IO events.
+    /// </summary>
     ML_TYPE_IO
   );
 
-  // /include/internal/cef_types.h (cef_com_init_mode_t)
+  /// <summary>
+  /// Flags used to customize the behavior of CefURLRequest.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_com_init_mode_t)</see></para>
+  /// </remarks>
   TCefCOMInitMode = (
+    /// <summary>
+    /// No COM initialization.
+    /// </summary>
     COM_INIT_MODE_NONE,
+    /// <summary>
+    /// Initialize COM using single-threaded apartments.
+    /// </summary>
     COM_INIT_MODE_STA,
+    /// <summary>
+    /// Initialize COM using multi-threaded apartments.
+    /// </summary>
     COM_INIT_MODE_MTA
   );
 
-  // /include/internal/cef_types.h (cef_mouse_button_type_t)
+  /// <summary>
+  /// Mouse button types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_mouse_button_type_t)</see></para>
+  /// </remarks>
   TCefMouseButtonType = (
     MBT_LEFT,
     MBT_MIDDLE,
     MBT_RIGHT
   );
 
-  // /include/internal/cef_types.h (cef_return_value_t)
+  /// <summary>
+  /// Return value types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_return_value_t)</see></para>
+  /// </remarks>
   TCefReturnValue = (
+    /// <summary>
+    /// Cancel immediately.
+    /// </summary>
     RV_CANCEL = 0,
+    /// <summary>
+    /// Continue immediately.
+    /// </summary>
     RV_CONTINUE,
+    /// <summary>
+    /// Continue asynchronously (usually via a callback).
+    /// </summary>
     RV_CONTINUE_ASYNC
   );
 
-  // /include/internal/cef_types.h (cef_urlrequest_status_t)
+  /// <summary>
+  /// Flags that represent CefURLRequest status.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_urlrequest_status_t)</see></para>
+  /// </remarks>
   TCefUrlRequestStatus = (
+    /// <summary>
+    /// Unknown status.
+    /// </summary>
     UR_UNKNOWN = 0,
+    /// <summary>
+    /// Request succeeded.
+    /// </summary>
     UR_SUCCESS,
+    /// <summary>
+    /// An IO request is pending, and the caller will be informed when it is
+    /// completed.
+    /// </summary>
     UR_IO_PENDING,
+    /// <summary>
+    /// Request was canceled programatically.
+    /// </summary>
     UR_CANCELED,
+    /// <summary>
+    /// Request failed for some reason.
+    /// </summary>
     UR_FAILED
   );
 
-  // /include/internal/cef_types.h (cef_termination_status_t)
+  /// <summary>
+  /// Process termination status values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_termination_status_t)</see></para>
+  /// </remarks>
   TCefTerminationStatus = (
+    /// <summary>
+    /// Non-zero exit status.
+    /// </summary>
     TS_ABNORMAL_TERMINATION,
+    /// <summary>
+    /// SIGKILL or task manager kill.
+    /// </summary>
     TS_PROCESS_WAS_KILLED,
+    /// <summary>
+    /// Segmentation fault.
+    /// </summary>
     TS_PROCESS_CRASHED,
+    /// <summary>
+    /// Out of memory. Some platforms may use TS_PROCESS_CRASHED instead.
+    /// </summary>
     TS_PROCESS_OOM
   );
 
-  // /include/internal/cef_types.h (cef_path_key_t)
+  /// <summary>
+  /// Process termination status values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_path_key_t)</see></para>
+  /// </remarks>
   TCefPathKey = (
+    /// <summary>
+    /// Current directory.
+    /// </summary>
     PK_DIR_CURRENT,
+    /// <summary>
+    /// Directory containing PK_FILE_EXE.
+    /// </summary>
     PK_DIR_EXE,
+    /// <summary>
+    /// Directory containing PK_FILE_MODULE.
+    /// </summary>
     PK_DIR_MODULE,
+    /// <summary>
+    /// Temporary directory.
+    /// </summary>
     PK_DIR_TEMP,
+    /// <summary>
+    /// Path and filename of the current executable.
+    /// </summary>
     PK_FILE_EXE,
+    /// <summary>
+    /// Path and filename of the module containing the CEF code (usually the
+    /// libcef module).
+    /// </summary>
     PK_FILE_MODULE,
+    /// <summary>
+    /// "Local Settings\Application Data" directory under the user profile
+    /// directory on Windows.
+    /// </summary>
     PK_LOCAL_APP_DATA,
+    /// <summary>
+    /// "Application Data" directory under the user profile directory on Windows
+    /// and "~/Library/Application Support" directory on MacOS.
+    /// </summary>
     PK_USER_DATA,
+    /// <summary>
+    /// Directory containing application resources. Can be configured via
+    /// TCefSettings.resources_dir_path.
+    /// </summary>
     PK_DIR_RESOURCES
   );
 
-  // /include/internal/cef_types.h (cef_storage_type_t)
+  /// <summary>
+  /// Storage types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_storage_type_t)</see></para>
+  /// </remarks>
   TCefStorageType = (
     ST_LOCALSTORAGE = 0,
     ST_SESSIONSTORAGE
   );
 
-  // /include/internal/cef_types.h (cef_response_filter_status_t)
+  /// <summary>
+  /// Return values for ICefResponseFilter.Filter().
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_response_filter_status_t)</see></para>
+  /// </remarks>
   TCefResponseFilterStatus = (
+    /// <summary>
+    /// Some or all of the pre-filter data was read successfully but more data is
+    /// needed in order to continue filtering (filtered output is pending).
+    /// </summary>
     RESPONSE_FILTER_NEED_MORE_DATA,
+    /// <summary>
+    /// Some or all of the pre-filter data was read successfully and all available
+    /// filtered output has been written.
+    /// </summary>
     RESPONSE_FILTER_DONE,
+    /// <summary>
+    /// An error occurred during filtering.
+    /// </summary>
     RESPONSE_FILTER_ERROR
   );
 
-  // /include/internal/cef_types.h (cef_color_type_t)
+  /// <summary>
+  /// Describes how to interpret the components of a pixel.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_color_type_t)</see></para>
+  /// </remarks>
   TCefColorType = (
+    /// <summary>
+    /// RGBA with 8 bits per pixel (32bits total).
+    /// </summary>
     CEF_COLOR_TYPE_RGBA_8888,
+    /// <summary>
+    /// BGRA with 8 bits per pixel (32bits total).
+    /// </summary>
     CEF_COLOR_TYPE_BGRA_8888
   );
 
-  // /include/internal/cef_types.h (cef_alpha_type_t)
+  /// <summary>
+  /// Describes how to interpret the alpha component of a pixel.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_alpha_type_t)</see></para>
+  /// </remarks>
   TCefAlphaType = (
+    /// <summary>
+    /// No transparency. The alpha component is ignored.
+    /// </summary>
     CEF_ALPHA_TYPE_OPAQUE,
+    /// <summary>
+    /// Transparency with pre-multiplied alpha component.
+    /// </summary>
     CEF_ALPHA_TYPE_PREMULTIPLIED,
+    /// <summary>
+    /// Transparency with post-multiplied alpha component.
+    /// </summary>
     CEF_ALPHA_TYPE_POSTMULTIPLIED
   );
 
-  // /include/internal/cef_types.h (cef_text_style_t)
+  /// <summary>
+  /// Text style types. Should be kepy in sync with gfx::TextStyle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_text_style_t)</see></para>
+  /// </remarks>
   TCefTextStyle = (
     CEF_TEXT_STYLE_BOLD,
     CEF_TEXT_STYLE_ITALIC,
@@ -1058,29 +2225,81 @@ type
     CEF_TEXT_STYLE_UNDERLINE
   );
 
-  // /include/internal/cef_types.h (cef_main_axis_alignment_t)
+  /// <summary>
+  /// Specifies where along the main axis the CefBoxLayout child views should be
+  /// laid out.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_main_axis_alignment_t)</see></para>
+  /// </remarks>
   TCefMainAxisAlignment = (
+    /// <summary>
+    /// Child views will be left-aligned.
+    /// </summary>
     CEF_MAIN_AXIS_ALIGNMENT_START,
+    /// <summary>
+    /// Child views will be center-aligned.
+    /// </summary>
     CEF_MAIN_AXIS_ALIGNMENT_CENTER,
+    /// <summary>
+    /// Child views will be right-aligned.
+    /// </summary>
     CEF_MAIN_AXIS_ALIGNMENT_END
   );
 
-  // /include/internal/cef_types.h (cef_cross_axis_alignment_t)
+  /// <summary>
+  /// Specifies where along the main axis the CefBoxLayout child views should be
+  /// laid out.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cross_axis_alignment_t)</see></para>
+  /// </remarks>
   TCefCrossAxisAlignment = (
+    /// <summary>
+    /// Child views will be stretched to fit.
+    /// </summary>
     CEF_CROSS_AXIS_ALIGNMENT_STRETCH,
+    /// <summary>
+    /// Child views will be left-aligned.
+    /// </summary>
     CEF_CROSS_AXIS_ALIGNMENT_START,
+    /// <summary>
+    /// Child views will be center-aligned.
+    /// </summary>
     CEF_CROSS_AXIS_ALIGNMENT_CENTER,
+    /// <summary>
+    /// Child views will be right-aligned.
+    /// </summary>
     CEF_CROSS_AXIS_ALIGNMENT_END
   );
 
-  // /include/internal/cef_types.h (cef_pdf_print_margin_type_t)
+  /// <summary>
+  /// Margin type for PDF printing.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_pdf_print_margin_type_t)</see></para>
+  /// </remarks>
   TCefPdfPrintMarginType = (
+    /// <summary>
+    /// Default margins of 1cm (~0.4 inches).
+    /// </summary>
     PDF_PRINT_MARGIN_DEFAULT,
+    /// <summary>
+    /// No margins.
+    /// </summary>
     PDF_PRINT_MARGIN_NONE,
+    /// <summary>
+    /// Custom margins using the |margin_*| values from TCefPdfPrintSettings.
+    /// </summary>
     PDF_PRINT_MARGIN_CUSTOM
   );
 
-  // /include/internal/cef_types.h (cef_color_model_t)
+  /// <summary>
+  /// Print job color mode values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_color_model_t)</see></para>
+  /// </remarks>
   TCefColorModel = (
     COLOR_MODEL_UNKNOWN,
     COLOR_MODEL_GRAY,
@@ -1088,30 +2307,81 @@ type
     COLOR_MODEL_CMYK,
     COLOR_MODEL_CMY,
     COLOR_MODEL_KCMY,
+    /// <summary>
+    /// CMY_K represents CMY+K.
+    /// </summary>
     COLOR_MODEL_CMY_K,
     COLOR_MODEL_BLACK,
     COLOR_MODEL_GRAYSCALE,
     COLOR_MODEL_RGB,
     COLOR_MODEL_RGB16,
     COLOR_MODEL_RGBA,
+    /// <summary>
+    /// Used in samsung printer ppds.
+    /// </summary>
     COLOR_MODEL_COLORMODE_COLOR,
+    /// <summary>
+    /// Used in samsung printer ppds.
+    /// </summary>
     COLOR_MODEL_COLORMODE_MONOCHROME,
+    /// <summary>
+    /// Used in HP color printer ppds.
+    /// </summary>
     COLOR_MODEL_HP_COLOR_COLOR,
+    /// <summary>
+    /// Used in HP color printer ppds.
+    /// </summary>
     COLOR_MODEL_HP_COLOR_BLACK,
+    /// <summary>
+    /// Used in foomatic ppds.
+    /// </summary>
     COLOR_MODEL_PRINTOUTMODE_NORMAL,
+    /// <summary>
+    /// Used in foomatic ppds.
+    /// </summary>
     COLOR_MODEL_PRINTOUTMODE_NORMAL_GRAY,
+    /// <summary>
+    /// Used in canon printer ppds.
+    /// </summary>
     COLOR_MODEL_PROCESSCOLORMODEL_CMYK,
+    /// <summary>
+    /// Used in canon printer ppds.
+    /// </summary>
     COLOR_MODEL_PROCESSCOLORMODEL_GREYSCALE,
+    /// <summary>
+    /// Used in canon printer ppds
+    /// </summary>
     COLOR_MODEL_PROCESSCOLORMODEL_RGB
   );
 
-  // /include/internal/cef_types.h (cef_json_parser_options_t)
+  /// <summary>
+  /// Options that can be passed to CefParseJSON.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_json_parser_options_t)</see></para>
+  /// </remarks>
   TCefJsonParserOptions = (
+    /// <summary>
+    /// Parses the input strictly according to RFC 4627. See comments in
+    /// Chromium's base/json/json_reader.h file for known limitations/
+    /// deviations from the RFC.
+    /// </summary>
     JSON_PARSER_RFC = 0,
+    /// <summary>
+    /// Allows commas to exist after the last element in structures.
+    /// </summary>
     JSON_PARSER_ALLOW_TRAILING_COMMAS = 1 shl 0
   );
 
-  // /include/internal/cef_types.h (cef_xml_encoding_type_t)
+  /// <summary>
+  /// Supported XML encoding types. The parser supports ASCII, ISO-8859-1, and
+  /// UTF16 (LE and BE) by default. All other types must be translated to UTF8
+  /// before being passed to the parser. If a BOM is detected and the correct
+  /// decoder is available then that decoder will be used automatically.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_xml_encoding_type_t)</see></para>
+  /// </remarks>
   TCefXmlEncodingType = (
     XML_ENCODING_NONE = 0,
     XML_ENCODING_UTF8,
@@ -1120,7 +2390,12 @@ type
     XML_ENCODING_ASCII
   );
 
-  // /include/internal/cef_types.h (cef_xml_node_type_t)
+  /// <summary>
+  /// XML node types.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_xml_node_type_t)</see></para>
+  /// </remarks>
   TCefXmlNodeType = (
     XML_NODE_UNSUPPORTED = 0,
     XML_NODE_PROCESSING_INSTRUCTION,
@@ -1135,7 +2410,12 @@ type
     XML_NODE_COMMENT
   );
 
-  // /include/internal/cef_types.h (cef_dom_event_phase_t)
+  /// <summary>
+  /// DOM event processing phases.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_event_phase_t)</see></para>
+  /// </remarks>
   TCefDomEventPhase = (
     DOM_EVENT_PHASE_UNKNOWN = 0,
     DOM_EVENT_PHASE_CAPTURING,
@@ -1143,7 +2423,12 @@ type
     DOM_EVENT_PHASE_BUBBLING
   );
 
-  // /include/internal/cef_types.h (cef_button_state_t)
+  /// <summary>
+  /// Specifies the button display state.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_button_state_t)</see></para>
+  /// </remarks>
   TCefButtonState = (
     CEF_BUTTON_STATE_NORMAL,
     CEF_BUTTON_STATE_HOVERED,
@@ -1151,21 +2436,46 @@ type
     CEF_BUTTON_STATE_DISABLED
   );
 
-  // /include/internal/cef_types.h (cef_horizontal_alignment_t)
+  /// <summary>
+  /// Specifies the horizontal text alignment mode.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_horizontal_alignment_t)</see></para>
+  /// </remarks>
   TCefHorizontalAlignment = (
+    /// <summary>
+    /// Align the text's left edge with that of its display area.
+    /// </summary>
     CEF_HORIZONTAL_ALIGNMENT_LEFT,
+    /// <summary>
+    /// Align the text's center with that of its display area.
+    /// </summary>
     CEF_HORIZONTAL_ALIGNMENT_CENTER,
+    /// <summary>
+    /// Align the text's right edge with that of its display area.
+    /// </summary>
     CEF_HORIZONTAL_ALIGNMENT_RIGHT
   );
 
-  // /include/internal/cef_types.h (cef_menu_anchor_position_t)
+  /// <summary>
+  /// Specifies how a menu will be anchored for non-RTL languages. The opposite
+  /// position will be used for RTL languages.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_menu_anchor_position_t)</see></para>
+  /// </remarks>
   TCefMenuAnchorPosition = (
     CEF_MENU_ANCHOR_TOPLEFT,
     CEF_MENU_ANCHOR_TOPRIGHT,
     CEF_MENU_ANCHOR_BOTTOMCENTER
   );
 
-  // /include/internal/cef_types.h (cef_menu_color_type_t)
+  /// <summary>
+  /// Supported color types for menu items.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_menu_color_type_t)</see></para>
+  /// </remarks>
   TCefMenuColorType = (
     CEF_MENU_COLOR_TEXT,
     CEF_MENU_COLOR_TEXT_HOVERED,
@@ -1176,7 +2486,12 @@ type
     CEF_MENU_COLOR_COUNT
   );
 
-  // /include/internal/cef_types.h (cef_composition_underline_style_t)
+  /// <summary>
+  /// Composition underline style.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_composition_underline_style_t)</see></para>
+  /// </remarks>
   TCefCompositionUnderlineStyle = (
     CEF_CUS_SOLID,
     CEF_CUS_DOT,
@@ -1184,34 +2499,92 @@ type
     CEF_CUS_NONE
   );
 
-  // /include/internal/cef_types.h (cef_permission_request_result_t)
+  /// <summary>
+  /// Permission request results.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_permission_request_result_t)</see></para>
+  /// </remarks>
   TCefPermissionRequestResult = (
+    /// <summary>
+    /// Accept the permission request as an explicit user action.
+    /// </summary>
     CEF_PERMISSION_RESULT_ACCEPT,
+    /// <summary>
+    /// Deny the permission request as an explicit user action.
+    /// </summary>
     CEF_PERMISSION_RESULT_DENY,
+    /// <summary>
+    /// Dismiss the permission request as an explicit user action.
+    /// </summary>
     CEF_PERMISSION_RESULT_DISMISS,
+    /// <summary>
+    /// Ignore the permission request. If the prompt remains unhandled (e.g.
+    /// OnShowPermissionPrompt returns false and there is no default permissions
+    /// UI) then any related promises may remain unresolved.
+    /// </summary>
     CEF_PERMISSION_RESULT_IGNORE
   );
 
-  // /include/internal/cef_types.h (cef_preferences_type_t)
+  /// <summary>
+  /// Preferences type passed to
+  /// ICefBrowserProcessHandler.OnRegisterCustomPreferences.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_preferences_type_t)</see></para>
+  /// </remarks>
   TCefPreferencesType = (
+    /// <summary>
+    /// Global preferences registered a single time at application startup.
+    /// </summary>
     CEF_PREFERENCES_TYPE_GLOBAL,
+    /// <summary>
+    /// Request context preferences registered each time a new CefRequestContext
+    /// is created.
+    /// </summary>
     CEF_PREFERENCES_TYPE_REQUEST_CONTEXT
   );
 
-  // /include/internal/cef_types.h (cef_gesture_command_t)
+  /// <summary>
+  /// Specifies the gesture commands.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_gesture_command_t)</see></para>
+  /// </remarks>
   TCefGestureCommand = (
     CEF_GESTURE_COMMAND_BACK,
     CEF_GESTURE_COMMAND_FORWARD
   );
 
-  // /include/internal/cef_types.h (cef_test_cert_type_t)
+  /// <summary>
+  /// Specifies the gesture commands.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_test_cert_type_t)</see></para>
+  /// </remarks>
   TCefTestCertType = (
+    /// <summary>
+    /// Valid certificate using the IP (127.0.0.1). Loads the "ok_cert.pem" file.
+    /// </summary>
     CEF_TEST_CERT_OK_IP,
+    /// <summary>
+    /// Valid certificate using the domain ("localhost"). Loads the
+    /// "localhost_cert.pem" file.
+    /// </summary>
     CEF_TEST_CERT_OK_DOMAIN,
+    /// <summary>
+    /// Expired certificate. Loads the "expired_cert.pem" file.
+    /// </summary>
     CEF_TEST_CERT_EXPIRED
    );
 
-  // /include/internal/cef_types.h (cef_chrome_page_action_icon_type_t)
+  /// <summary>
+  /// Chrome page action icon types. Should be kept in sync with Chromium's
+  /// PageActionIconType type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_chrome_page_action_icon_type_t)</see></para>
+  /// </remarks>
   TCefChromePageActionIconType = (
     CEF_CPAIT_BOOKMARK_STAR,
     CEF_CPAIT_CLICK_TO_CALL,
@@ -1237,157 +2610,673 @@ type
     CEF_CPAIT_VIRTUAL_CARD_ENROLL,
     CEF_CPAIT_VIRTUAL_CARD_MANUAL_FALLBACK,
     CEF_CPAIT_ZOOM,
-    CEF_CPAIT_SAVE_IBAN  // CEF_CPAIT_MAX_VALUE = CEF_CPAIT_SAVE_IBAN
+    CEF_CPAIT_SAVE_IBAN,
+    /// <summary>
+    /// CEF_CPAIT_MAX_VALUE = CEF_CPAIT_MANDATORY_REAUTH
+    /// </summary>
+    CEF_CPAIT_MANDATORY_REAUTH
   );
 
-  // /include/internal/cef_types.h (cef_chrome_toolbar_button_type_t)
+  /// <summary>
+  /// Chrome toolbar button types. Should be kept in sync with CEF's internal
+  /// ToolbarButtonType type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_chrome_toolbar_button_type_t)</see></para>
+  /// </remarks>
   TCefChromeToolbarButtonType = (
     CEF_CTBT_CAST,
     CEF_CTBT_DOWNLOAD,
     CEF_CTBT_SEND_TAB_TO_SELF,
-    CEF_CTBT_SIDE_PANEL  // CEF_CTBT_MAX_VALUE = CEF_CTBT_SIDE_PANEL
+    /// <summary>
+    /// CEF_CTBT_MAX_VALUE = CEF_CTBT_SIDE_PANEL
+    /// </summary>
+    CEF_CTBT_SIDE_PANEL
   );
 
-  // /include/internal/cef_types.h (cef_touch_handle_state_t)
+  /// <summary>
+  /// Touch handle state
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_touch_handle_state_t)</see></para>
+  /// </remarks>
   TCefTouchHandleState = record
+    /// <summary>
+    /// Touch handle id. Increments for each new touch handle.
+    /// </summary>
     touch_handle_id   : integer;
+    /// <summary>
+    /// Combination of TCefTouchHandleStateFlags values indicating what state
+    /// is set.
+    /// </summary>
     flags             : cardinal;
+    /// <summary>
+    /// Enabled state. Only set if |flags| contains CEF_THS_FLAG_ENABLED.
+    /// </summary>
     enabled           : integer;
+    /// <summary>
+    /// Orientation state. Only set if |flags| contains CEF_THS_FLAG_ORIENTATION.
+    /// </summary>
     orientation       : TCefHorizontalAlignment;
     mirror_vertical   : integer;
     mirror_horizontal : integer;
+    /// <summary>
+    /// Origin state. Only set if |flags| contains CEF_THS_FLAG_ORIGIN.
+    /// </summary>
     origin            : TCefPoint;
+    /// <summary>
+    /// Alpha state. Only set if |flags| contains CEF_THS_FLAG_ALPHA.
+    /// </summary>
     alpha             : single;
   end;
 
-  // /include/internal/cef_types.h (cef_composition_underline_t)
+  /// <summary>
+  /// Structure representing IME composition underline information. This is a thin
+  /// wrapper around Blink's WebCompositionUnderline class and should be kept in
+  /// sync with that.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_composition_underline_t)</see></para>
+  /// </remarks>
   TCefCompositionUnderline = record
+    /// <summary>
+    /// Underline character range.
+    /// </summary>
     range            : TCefRange;
+    /// <summary>
+    /// Text color.
+    /// </summary>
     color            : TCefColor;
+    /// <summary>
+    /// Background color.
+    /// </summary>
     background_color : TCefColor;
+    /// <summary>
+    /// Set to true (1) for thick underline.
+    /// </summary>
     thick            : integer;
+    /// <summary>
+    /// Style.
+    /// </summary>
     style            : TCefCompositionUnderlineStyle;
   end;
   TCefCompositionUnderlineDynArray = array of TCefCompositionUnderline;
 
-  // /include/internal/cef_time.h (cef_basetime_t)
+  /// <summary>
+  /// Represents a wall clock time in UTC. Values are not guaranteed to be
+  /// monotonically non-decreasing and are subject to large amounts of skew.
+  /// Time is stored internally as microseconds since the Windows epoch (1601).
+  ///
+  /// This is equivalent of Chromium `base::Time` (see base/time/time.h).
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file:  /include/internal/cef_time.h (cef_basetime_t)</see></para>
+  /// </remarks>
   TCefBaseTime = type int64;
 
-  // /include/internal/cef_time.h (cef_time_t)
+  /// <summary>
+  /// Time information. Values should always be in UTC.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_t)</see></para>
+  /// </remarks>
   TCefTime = record
+    /// <summary>
+    /// Four or five digit year "2007" (1601 to 30827 on Windows, 1970 to 2038 on
+    /// 32-bit POSIX)
+    /// </summary>
     year         : Integer;
+    /// <summary>
+    /// 1-based month (values 1 = January, etc.)
+    /// </summary>
     month        : Integer;
+    /// <summary>
+    /// 0-based day of week (0 = Sunday, etc.)
+    /// </summary>
     day_of_week  : Integer;
+    /// <summary>
+    /// 1-based day of month (1-31)
+    /// </summary>
     day_of_month : Integer;
+    /// <summary>
+    /// Hour within the current day (0-23)
+    /// </summary>
     hour         : Integer;
+    /// <summary>
+    /// Minute within the current hour (0-59)
+    /// </summary>
     minute       : Integer;
+    /// <summary>
+    /// Second within the current minute (0-59 plus leap seconds which may take
+    /// it up to 60).
+    /// </summary>
     second       : Integer;
+    /// <summary>
+    /// Milliseconds within the current second (0-999)
+    /// </summary>
     millisecond  : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_box_layout_settings_t)
+  /// <summary>
+  /// Initialization settings. Specify NULL or 0 to get the recommended default
+  /// values. Many of these and other settings can also configured using command-
+  /// line switches.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_box_layout_settings_t)</see></para>
+  /// </remarks>
   TCefBoxLayoutSettings = record
+    /// <summary>
+    /// If true (1) the layout will be horizontal, otherwise the layout will be
+    /// vertical.
+    /// </summary>
     horizontal                       : Integer;
+    /// <summary>
+    /// Adds additional horizontal space between the child view area and the host
+    /// view border.
+    /// </summary>
     inside_border_horizontal_spacing : Integer;
+    /// <summary>
+    /// Adds additional vertical space between the child view area and the host
+    /// view border.
+    /// </summary>
     inside_border_vertical_spacing   : Integer;
+    /// <summary>
+    /// Adds additional space around the child view area.
+    /// </summary>
     inside_border_insets             : TCefInsets;
+    /// <summary>
+    /// Adds additional space between child views.
+    /// </summary>
     between_child_spacing            : Integer;
+    /// <summary>
+    /// Specifies where along the main axis the child views should be laid out.
+    /// </summary>
     main_axis_alignment              : TCefMainAxisAlignment;
+    /// <summary>
+    /// Specifies where along the cross axis the child views should be laid out.
+    /// </summary>
     cross_axis_alignment             : TCefCrossAxisAlignment;
+    /// <summary>
+    /// Minimum cross axis size.
+    /// </summary>
     minimum_cross_axis_size          : Integer;
+    /// <summary>
+    /// Default flex for views when none is specified via CefBoxLayout methods.
+    /// Using the preferred size as the basis, free space along the main axis is
+    /// distributed to views in the ratio of their flex weights. Similarly, if the
+    /// views will overflow the parent, space is subtracted in these ratios. A
+    /// flex of 0 means this view is not resized. Flex values must not be
+    /// negative.
+    /// </summary>
     default_flex                     : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_settings_t)
+  /// <summary>
+  /// Initialization settings. Specify NULL or 0 to get the recommended default
+  /// values. Many of these and other settings can also configured using command-
+  /// line switches.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_settings_t)</see></para>
+  /// </remarks>
   TCefSettings = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
     size                                     : NativeUInt;
+    /// <summary>
+    /// Set to true (1) to disable the sandbox for sub-processes. See
+    /// cef_sandbox_win.h for requirements to enable the sandbox on Windows. Also
+    /// configurable using the "no-sandbox" command-line switch.
+    /// </summary>
     no_sandbox                               : Integer;
+    /// <summary>
+    /// The path to a separate executable that will be launched for sub-processes.
+    /// If this value is empty on Windows or Linux then the main process
+    /// executable will be used. If this value is empty on macOS then a helper
+    /// executable must exist at "Contents/Frameworks/<app>
+    /// Helper.app/Contents/MacOS/<app> Helper" in the top-level app bundle. See
+    /// the comments on CefExecuteProcess() for details. If this value is
+    /// non-empty then it must be an absolute path. Also configurable using the
+    /// "browser-subprocess-path" command-line switch.
+    /// </summary>
     browser_subprocess_path                  : TCefString;
+    /// <summary>
+    /// The path to the CEF framework directory on macOS. If this value is empty
+    /// then the framework must exist at "Contents/Frameworks/Chromium Embedded
+    /// Framework.framework" in the top-level app bundle. If this value is
+    /// non-empty then it must be an absolute path. Also configurable using the
+    /// "framework-dir-path" command-line switch.
+    /// </summary>
     framework_dir_path                       : TCefString;
-    main_bundle_path                         : TCefString;  // Only used in macOS
+    /// <summary>
+    /// The path to the main bundle on macOS. If this value is empty then it
+    /// defaults to the top-level app bundle. If this value is non-empty then it
+    /// must be an absolute path. Also configurable using the "main-bundle-path"
+    /// command-line switch.
+    /// </summary>
+    main_bundle_path                         : TCefString;
+    /// <summary>
+    /// Set to true (1) to enable use of the Chrome runtime in CEF. This feature
+    /// is considered experimental and is not recommended for most users at this
+    /// time. See issue #2969 for details.
+    /// </summary>
     chrome_runtime                           : Integer;
+    /// <summary>
+    /// Set to true (1) to have the browser process message loop run in a separate
+    /// thread. If false (0) then the CefDoMessageLoopWork() function must be
+    /// called from your application message loop. This option is only supported
+    /// on Windows and Linux.
+    /// </summary>
     multi_threaded_message_loop              : Integer;
+    /// <summary>
+    /// Set to true (1) to control browser process main (UI) thread message pump
+    /// scheduling via the ICefBrowserProcessHandler.OnScheduleMessagePumpWork()
+    /// callback. This option is recommended for use in combination with the
+    /// CefDoMessageLoopWork() function in cases where the CEF message loop must
+    /// be integrated into an existing application message loop (see additional
+    /// comments and warnings on CefDoMessageLoopWork). Enabling this option is
+    /// not recommended for most users; leave this option disabled and use either
+    /// the CefRunMessageLoop() function or multi_threaded_message_loop if
+    /// possible.
+    /// </summary>
     external_message_pump                    : Integer;
+    /// <summary>
+    /// Set to true (1) to enable windowless (off-screen) rendering support. Do
+    /// not enable this value if the application does not use windowless rendering
+    /// as it may reduce rendering performance on some systems.
+    /// </summary>
     windowless_rendering_enabled             : Integer;
+    /// <summary>
+    /// Set to true (1) to disable configuration of browser process features using
+    /// standard CEF and Chromium command-line arguments. Configuration can still
+    /// be specified using CEF data structures or via the
+    /// ICefApp.OnBeforeCommandLineProcessing() method.
+    /// </summary>
     command_line_args_disabled               : Integer;
+    /// <summary>
+    /// The location where data for the global browser cache will be stored on
+    /// disk. If this value is non-empty then it must be an absolute path that is
+    /// either equal to or a child directory of TCefSettings.root_cache_path. If
+    /// this value is empty then browsers will be created in "incognito mode"
+    /// where in-memory caches are used for storage and no data is persisted to
+    /// disk. HTML5 databases such as localStorage will only persist across
+    /// sessions if a cache path is specified. Can be overridden for individual
+    /// CefRequestContext instances via the TCefRequestContextSettings.cache_path
+    /// value. When using the Chrome runtime the "default" profile will be used if
+    /// |cache_path| and |root_cache_path| have the same value.
+    /// </summary>
     cache_path                               : TCefString;
+    /// <summary>
+    /// The root directory that all TCefSettings.cache_path and
+    /// TCefRequestContextSettings.cache_path values must have in common. If this
+    /// value is empty and TCefSettings.cache_path is non-empty then it will
+    /// default to the TCefSettings.cache_path value. If both values are empty
+    /// then the default platform-specific directory will be used
+    /// ("~/.config/cef_user_data" directory on Linux, "~/Library/Application
+    /// Support/CEF/User Data" directory on MacOS, "AppData\Local\CEF\User Data"
+    /// directory under the user profile directory on Windows). If this value is
+    /// non-empty then it must be an absolute path. Failure to set this value
+    /// correctly may result in the sandbox blocking read/write access to certain
+    /// files.
+    /// </summary>
     root_cache_path                          : TCefString;
-    user_data_path                           : TCefString;
+    /// <summary>
+    /// To persist session cookies (cookies without an expiry date or validity
+    /// interval) by default when using the global cookie manager set this value
+    /// to true (1). Session cookies are generally intended to be transient and
+    /// most Web browsers do not persist them. A |cache_path| value must also be
+    /// specified to enable this feature. Also configurable using the
+    /// "persist-session-cookies" command-line switch. Can be overridden for
+    /// individual CefRequestContext instances via the
+    /// TCefRequestContextSettings.persist_session_cookies value.
+    /// </summary>
     persist_session_cookies                  : Integer;
+    /// <summary>
+    /// To persist user preferences as a JSON file in the cache path directory set
+    /// this value to true (1). A |cache_path| value must also be specified
+    /// to enable this feature. Also configurable using the
+    /// "persist-user-preferences" command-line switch. Can be overridden for
+    /// individual CefRequestContext instances via the
+    /// TCefRequestContextSettings.persist_user_preferences value.
+    /// </summary>
     persist_user_preferences                 : Integer;
+    /// <summary>
+    /// Value that will be returned as the User-Agent HTTP header. If empty the
+    /// default User-Agent string will be used. Also configurable using the
+    /// "user-agent" command-line switch.
+    /// </summary>
     user_agent                               : TCefString;
+    /// <summary>
+    /// Value that will be inserted as the product portion of the default
+    /// User-Agent string. If empty the Chromium product version will be used. If
+    /// |userAgent| is specified this value will be ignored. Also configurable
+    /// using the "user-agent-product" command-line switch.
+    /// </summary>
     user_agent_product                       : TCefString;
+    /// <summary>
+    /// The locale string that will be passed to WebKit. If empty the default
+    /// locale of "en-US" will be used. This value is ignored on Linux where
+    /// locale is determined using environment variable parsing with the
+    /// precedence order: LANGUAGE, LC_ALL, LC_MESSAGES and LANG. Also
+    /// configurable using the "lang" command-line switch.
+    /// </summary>
     locale                                   : TCefString;
+    /// <summary>
+    /// The directory and file name to use for the debug log. If empty a default
+    /// log file name and location will be used. On Windows and Linux a
+    /// "debug.log" file will be written in the main executable directory. On
+    /// MacOS a "~/Library/Logs/[app name]_debug.log" file will be written where
+    /// [app name] is the name of the main app executable. Also configurable using
+    /// the "log-file" command-line switch.
+    /// </summary>
     log_file                                 : TCefString;
+    /// <summary>
+    /// The log severity. Only messages of this severity level or higher will be
+    /// logged. When set to DISABLE no messages will be written to the log file,
+    /// but FATAL messages will still be output to stderr. Also configurable using
+    /// the "log-severity" command-line switch with a value of "verbose", "info",
+    /// "warning", "error", "fatal" or "disable".
+    /// </summary>
     log_severity                             : TCefLogSeverity;
+    /// <summary>
+    /// Custom flags that will be used when initializing the V8 JavaScript engine.
+    /// The consequences of using custom flags may not be well tested. Also
+    /// configurable using the "js-flags" command-line switch.
+    /// </summary>
     javascript_flags                         : TCefString;
+    /// <summary>
+    /// The fully qualified path for the resources directory. If this value is
+    /// empty the *.pak files must be located in the module directory on
+    /// Windows/Linux or the app bundle Resources directory on MacOS. If this
+    /// value is non-empty then it must be an absolute path. Also configurable
+    /// using the "resources-dir-path" command-line switch.
+    /// </summary>
     resources_dir_path                       : TCefString;
+    /// <summary>
+    /// The fully qualified path for the locales directory. If this value is empty
+    /// the locales directory must be located in the module directory. If this
+    /// value is non-empty then it must be an absolute path. This value is ignored
+    /// on MacOS where pack files are always loaded from the app bundle Resources
+    /// directory. Also configurable using the "locales-dir-path" command-line
+    /// switch.
+    /// </summary>
     locales_dir_path                         : TCefString;
+    /// <summary>
+    /// Set to true (1) to disable loading of pack files for resources and
+    /// locales. A resource bundle handler must be provided for the browser and
+    /// render processes via ICefApp.GetResourceBundleHandler() if loading of pack
+    /// files is disabled. Also configurable using the "disable-pack-loading"
+    /// command- line switch.
+    /// </summary>
     pack_loading_disabled                    : Integer;
+    /// <summary>
+    /// Set to a value between 1024 and 65535 to enable remote debugging on the
+    /// specified port. Also configurable using the "remote-debugging-port"
+    /// command-line switch. Remote debugging can be accessed by loading the
+    /// chrome://inspect page in Google Chrome. Port numbers 9222 and 9229 are
+    /// discoverable by default. Other port numbers may need to be configured via
+    /// "Discover network targets" on the Devices tab.
+    /// </summary>
     remote_debugging_port                    : Integer;
+    /// <summary>
+    /// The number of stack trace frames to capture for uncaught exceptions.
+    /// Specify a positive value to enable the
+    /// ICefRenderProcessHandler.OnUncaughtException() callback. Specify 0
+    /// (default value) and OnUncaughtException() will not be called. Also
+    /// configurable using the "uncaught-exception-stack-size" command-line
+    /// switch.
+    /// </summary>
     uncaught_exception_stack_size            : Integer;
+    /// <summary>
+    /// Background color used for the browser before a document is loaded and when
+    /// no document color is specified. The alpha component must be either fully
+    /// opaque (0xFF) or fully transparent (0x00). If the alpha component is fully
+    /// opaque then the RGB components will be used as the background color. If
+    /// the alpha component is fully transparent for a windowed browser then the
+    /// default value of opaque white be used. If the alpha component is fully
+    /// transparent for a windowless (off-screen) browser then transparent
+    /// painting will be enabled.
+    /// </summary>
     background_color                         : TCefColor;
+    /// <summary>
+    /// Comma delimited ordered list of language codes without any whitespace that
+    /// will be used in the "Accept-Language" HTTP header. May be overridden on a
+    /// per-browser basis using the TCefBrowserSettings.accept_language_list value.
+    /// If both values are empty then "en-US,en" will be used. Can be overridden
+    /// for individual ICefRequestContext instances via the
+    /// TCefRequestContextSettings.accept_language_list value.
+    /// </summary>
     accept_language_list                     : TCefString;
+    /// <summary>
+    /// Comma delimited list of schemes supported by the associated
+    /// ICefCookieManager. If |cookieable_schemes_exclude_defaults| is false (0)
+    /// the default schemes ("http", "https", "ws" and "wss") will also be
+    /// supported. Not specifying a |cookieable_schemes_list| value and setting
+    /// |cookieable_schemes_exclude_defaults| to true (1) will disable all loading
+    /// and saving of cookies. These settings will only impact the global
+    /// ICefRequestContext. Individual ICefRequestContext instances can be
+    /// configured via the TCefRequestContextSettings.cookieable_schemes_list and
+    /// TCefRequestContextSettings.cookieable_schemes_exclude_defaults values.
+    /// </summary>
     cookieable_schemes_list                  : TCefString;
     cookieable_schemes_exclude_defaults      : integer;
   end;
 
-  // /include/internal/cef_types_win.h (cef_window_info_t)
+  /// <summary>
+  /// Structure representing window information.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_window_info_t)</see></para>
+  /// </remarks>
   TCefWindowInfo = record
     {$IFDEF MSWINDOWS}
+    /// <summary>
+    /// Standard parameters required by CreateWindowEx()
+    /// </summary>
     ex_style                      : DWORD;
     window_name                   : TCefString;
     style                         : DWORD;
     bounds                        : TCefRect;
     parent_window                 : TCefWindowHandle;
     menu                          : HMENU;
+    /// <summary>
+    /// Set to true (1) to create the browser using windowless (off-screen)
+    /// rendering. No window will be created for the browser and all rendering
+    /// will occur via the ICefRenderHandler interface. The |parent_window| value
+    /// will be used to identify monitor info and to act as the parent window for
+    /// dialogs, context menus, etc. If |parent_window| is not provided then the
+    /// main screen monitor will be used and some functionality that requires a
+    /// parent window may not function correctly. In order to create windowless
+    /// browsers the TCefSettings.windowless_rendering_enabled value must be set to
+    /// true. Transparent painting is enabled by default but can be disabled by
+    /// setting TCefBrowserSettings.background_color to an opaque value.
+    /// </summary>
     windowless_rendering_enabled  : Integer;
+    /// <summary>
+    /// Set to true (1) to enable shared textures for windowless rendering. Only
+    /// valid if windowless_rendering_enabled above is also set to true. Currently
+    /// only supported on Windows (D3D11).
+    /// </summary>
     shared_texture_enabled        : Integer;
+    /// <summary>
+    /// Set to true (1) to enable the ability to issue BeginFrame requests from
+    /// the client application by calling ICefBrowserHost.SendExternalBeginFrame.
+    /// </summary>
     external_begin_frame_enabled  : Integer;
+    /// <summary>
+    /// Handle for the new browser window. Only used with windowed rendering.
+    /// </summary>
     window                        : TCefWindowHandle;
     {$ENDIF}
     {$IFDEF MACOSX}
     window_name                   : TCefString;
+    /// <summary>
+    /// Initial window bounds.
+    /// </summary>
     bounds                        : TCefRect;
+    /// <summary>
+    /// Set to true (1) to create the view initially hidden.
+    /// </summary>
     hidden                        : Integer;
+    /// <summary>
+    /// NSView pointer for the parent view.
+    /// </summary>
     parent_view                   : TCefWindowHandle;
+    /// <summary>
+    /// Set to true (1) to create the browser using windowless (off-screen)
+    /// rendering. No view will be created for the browser and all rendering will
+    /// occur via the CefRenderHandler interface. The |parent_view| value will be
+    /// used to identify monitor info and to act as the parent view for dialogs,
+    /// context menus, etc. If |parent_view| is not provided then the main screen
+    /// monitor will be used and some functionality that requires a parent view
+    /// may not function correctly. In order to create windowless browsers the
+    /// TCefSettings.windowless_rendering_enabled value must be set to true.
+    /// Transparent painting is enabled by default but can be disabled by setting
+    /// TCefBrowserSettings.background_color to an opaque value.
+    /// </summary>
     windowless_rendering_enabled  : Integer;
+    /// <summary>
+    /// Set to true (1) to enable shared textures for windowless rendering. Only
+    /// valid if windowless_rendering_enabled above is also set to true. Currently
+    /// only supported on Windows (D3D11).
+    /// </summary>
     shared_texture_enabled        : Integer;
+    /// <summary>
+    /// Set to true (1) to enable the ability to issue BeginFrame from the client
+    /// application.
+    /// </summary>
     external_begin_frame_enabled  : Integer;
+    /// <summary>
+    /// NSView pointer for the new browser view. Only used with windowed
+    /// rendering.
+    /// </summary>
     view                          : TCefWindowHandle;
     {$ENDIF}
     {$IFDEF LINUX}
+    /// <summary>
+    /// The initial title of the window, to be set when the window is created.
+    /// Some layout managers (e.g., Compiz) can look at the window title
+    /// in order to decide where to place the window when it is
+    /// created. When this attribute is not empty, the window title will
+    /// be set before the window is mapped to the dispay. Otherwise the
+    /// title will be initially empty.
+    /// </summary>
     window_name                   : TCefString;
+    /// <summary>
+    /// Initial window bounds.
+    /// </summary>
     bounds                        : TCefRect;
+    /// <summary>
+    /// Pointer for the parent window.
+    /// </summary>
     parent_window                 : TCefWindowHandle;
+    /// <summary>
+    /// Set to true (1) to create the browser using windowless (off-screen)
+    /// rendering. No window will be created for the browser and all rendering
+    /// will occur via the ICefRenderHandler interface. The |parent_window| value
+    /// will be used to identify monitor info and to act as the parent window for
+    /// dialogs, context menus, etc. If |parent_window| is not provided then the
+    /// main screen monitor will be used and some functionality that requires a
+    /// parent window may not function correctly. In order to create windowless
+    /// browsers the TCefSettings.windowless_rendering_enabled value must be set to
+    /// true. Transparent painting is enabled by default but can be disabled by
+    /// setting TCefBrowserSettings.background_color to an opaque value.
+    /// </summary>
     windowless_rendering_enabled  : Integer;
+    /// <summary>
+    /// Set to true (1) to enable shared textures for windowless rendering. Only
+    /// valid if windowless_rendering_enabled above is also set to true. Currently
+    /// only supported on Windows (D3D11).
+    /// </summary>
     shared_texture_enabled        : Integer;
+    /// <summary>
+    /// Set to true (1) to enable the ability to issue BeginFrame requests from
+    /// the client application by calling ICefBrowserHost.SendExternalBeginFrame.
+    /// </summary>
     external_begin_frame_enabled  : Integer;
+    /// <summary>
+    /// Pointer for the new browser window. Only used with windowed rendering.
+    /// </summary>
     window                        : TCefWindowHandle;
     {$ENDIF}
   end;
 
-  // /include/internal/cef_types.h (cef_draggable_region_t)
+  /// <summary>
+  /// Structure representing a draggable region.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_draggable_region_t)</see></para>
+  /// </remarks>
   TCefDraggableRegion = record
+    /// <summary>
+    /// Bounds of the region.
+    /// </summary>
     bounds    : TCefRect;
+    /// <summary>
+    /// True (1) this this region is draggable and false (0) otherwise.
+    /// </summary>
     draggable : Integer;
   end;
 
   TCefDraggableRegionArray = array[0..(High(Integer) div SizeOf(TCefDraggableRegion))-1]  of TCefDraggableRegion;
 
-  // /include/internal/cef_types.h (cef_key_event_t)
+  /// <summary>
+  /// Structure representing keyboard event information.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_key_event_t)</see></para>
+  /// </remarks>
   TCefKeyEvent = record
-    kind                    : TCefKeyEventType;  // called 'type' in the original CEF source code
+    /// <summary>
+    /// The type of keyboard event. It's called 'type' in the original CEF source code.
+    /// </summary>
+    kind                    : TCefKeyEventType;
+    /// <summary>
+    /// Bit flags describing any pressed modifier keys. See
+    /// TCefEventFlags for values.
+    /// </summary>
     modifiers               : TCefEventFlags;
+    /// <summary>
+    /// The Windows key code for the key event. This value is used by the DOM
+    /// specification. Sometimes it comes directly from the event (i.e. on
+    /// Windows) and sometimes it's determined using a mapping function. See
+    /// WebCore/platform/chromium/KeyboardCodes.h for the list of values.
+    /// </summary>
     windows_key_code        : Integer;
+    /// <summary>
+    /// The actual key code genenerated by the platform.
+    /// </summary>
     native_key_code         : Integer;
+    /// <summary>
+    /// Indicates whether the event is considered a "system key" event (see
+    /// http://msdn.microsoft.com/en-us/library/ms646286(VS.85).aspx for details).
+    /// This value will always be false on non-Windows platforms.
+    /// </summary>
     is_system_key           : Integer;
+    /// <summary>
+    /// The character generated by the keystroke.
+    /// </summary>
     character               : WideChar;
+    /// <summary>
+    /// Same as |character| but unmodified by any concurrently-held modifiers
+    /// (except shift). This is useful for working out shortcut keys.
+    /// </summary>
     unmodified_character    : WideChar;
+    /// <summary>
+    /// True if the focus is currently on an editable field on the page. This is
+    /// useful for determining if standard key events should be intercepted.
+    /// </summary>
     focus_on_editable_field : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_popup_features_t)
+  /// <summary>
+  /// Popup window features.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_popup_features_t)</see></para>
+  /// </remarks>
   TCefPopupFeatures = record
     x                 : Integer;
     xSet              : Integer;
@@ -1397,13 +3286,37 @@ type
     widthSet          : Integer;
     height            : Integer;
     heightSet         : Integer;
+    /// <summary>
+    /// True (1) if browser interface elements should be hidden.
+    /// </summary>
     isPopup           : Integer;
   end;
 
-  // /include/internal/cef_types.h (cef_browser_settings_t)
+  /// <summary>
+  /// Browser initialization settings. Specify NULL or 0 to get the recommended
+  /// default values. The consequences of using custom values may not be well
+  /// tested. Many of these and other settings can also configured using command-
+  /// line switches.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_browser_settings_t)</see></para>
+  /// </remarks>
   TCefBrowserSettings = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
     size                            : NativeUInt;
+    /// <summary>
+    /// The maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint
+    /// will be called for a windowless browser. The actual fps may be lower if
+    /// the browser cannot generate frames at the requested rate. The minimum
+    /// value is 1 and the maximum value is 60 (default 30). This value can also
+    /// be changed dynamically via ICefBrowserHost.SetWindowlessFrameRate.
+    /// </summary>
     windowless_frame_rate           : Integer;
+    /// <summary>
+    /// Font settings.
+    /// </summary>
     standard_font_family            : TCefString;
     fixed_font_family               : TCefString;
     serif_font_family               : TCefString;
@@ -1414,58 +3327,277 @@ type
     default_fixed_font_size         : Integer;
     minimum_font_size               : Integer;
     minimum_logical_font_size       : Integer;
+    /// <summary>
+    /// Default encoding for Web content. If empty "ISO-8859-1" will be used. Also
+    /// configurable using the "default-encoding" command-line switch.
+    /// </summary>
     default_encoding                : TCefString;
+    /// <summary>
+    /// Controls the loading of fonts from remote sources. Also configurable using
+    /// the "disable-remote-fonts" command-line switch.
+    /// </summary>
     remote_fonts                    : TCefState;
+    /// <summary>
+    /// Controls whether JavaScript can be executed. Also configurable using the
+    /// "disable-javascript" command-line switch.
+    /// </summary>
     javascript                      : TCefState;
+    /// <summary>
+    /// Controls whether JavaScript can be used to close windows that were not
+    /// opened via JavaScript. JavaScript can still be used to close windows that
+    /// were opened via JavaScript or that have no back/forward history. Also
+    /// configurable using the "disable-javascript-close-windows" command-line
+    /// switch.
+    /// </summary>
     javascript_close_windows        : TCefState;
+    /// <summary>
+    /// Controls whether JavaScript can access the clipboard. Also configurable
+    /// using the "disable-javascript-access-clipboard" command-line switch.
+    /// </summary>
     javascript_access_clipboard     : TCefState;
+    /// <summary>
+    /// Controls whether DOM pasting is supported in the editor via
+    /// execCommand("paste"). The |javascript_access_clipboard| setting must also
+    /// be enabled. Also configurable using the "disable-javascript-dom-paste"
+    /// command-line switch.
+    /// </summary>
     javascript_dom_paste            : TCefState;
+    /// <summary>
+    /// Controls whether image URLs will be loaded from the network. A cached
+    /// image will still be rendered if requested. Also configurable using the
+    /// "disable-image-loading" command-line switch.
+    /// </summary>
     image_loading                   : TCefState;
+    /// <summary>
+    /// Controls whether standalone images will be shrunk to fit the page. Also
+    /// configurable using the "image-shrink-standalone-to-fit" command-line
+    /// switch.
+    /// </summary>
     image_shrink_standalone_to_fit  : TCefState;
+    /// <summary>
+    /// Controls whether text areas can be resized. Also configurable using the
+    /// "disable-text-area-resize" command-line switch.
+    /// </summary>
     text_area_resize                : TCefState;
+    /// <summary>
+    /// Controls whether the tab key can advance focus to links. Also configurable
+    /// using the "disable-tab-to-links" command-line switch.
+    /// </summary>
     tab_to_links                    : TCefState;
+    /// <summary>
+    /// Controls whether local storage can be used. Also configurable using the
+    /// "disable-local-storage" command-line switch.
+    ///
     local_storage                   : TCefState;
+    /// <summary>
+    /// Controls whether databases can be used. Also configurable using the
+    /// "disable-databases" command-line switch.
+    /// </summary>
     databases                       : TCefState;
+    /// <summary>
+    /// Controls whether WebGL can be used. Note that WebGL requires hardware
+    /// support and may not work on all systems even when enabled. Also
+    /// configurable using the "disable-webgl" command-line switch.
+    /// </summary>
     webgl                           : TCefState;
+    /// <summary>
+    /// Background color used for the browser before a document is loaded and when
+    /// no document color is specified. The alpha component must be either fully
+    /// opaque (0xFF) or fully transparent (0x00). If the alpha component is fully
+    /// opaque then the RGB components will be used as the background color. If
+    /// the alpha component is fully transparent for a windowed browser then the
+    /// TCefSettings.background_color value will be used. If the alpha component is
+    /// fully transparent for a windowless (off-screen) browser then transparent
+    /// painting will be enabled.
+    /// </summary>
     background_color                : TCefColor;
+    /// <summary>
+    /// Comma delimited ordered list of language codes without any whitespace that
+    /// will be used in the "Accept-Language" HTTP header. May be set globally
+    /// using the TCefSettings.accept_language_list value. If both values are
+    /// empty then "en-US,en" will be used.
+    /// </summary>
     accept_language_list            : TCefString;
+    /// <summary>
+    /// Controls whether the Chrome status bubble will be used. Only supported
+    /// with the Chrome runtime. For details about the status bubble see
+    /// https://www.chromium.org/user-experience/status-bubble/
+    /// </summary>
     chrome_status_bubble            : TCefState;
   end;
 
-  // /include/internal/cef_types.h (cef_screen_info_t)
+  /// <summary>
+  /// Screen information used when window rendering is disabled. This structure is
+  /// passed as a parameter to ICefRenderHandler.GetScreenInfo and should be
+  /// filled in by the client.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_screen_info_t)</see></para>
+  /// </remarks>
   TCefScreenInfo = record
+    /// <summary>
+    /// Device scale factor. Specifies the ratio between physical and logical
+    /// pixels.
+    /// </summary>
     device_scale_factor : single;
+    /// <summary>
+    /// The screen depth in bits per pixel.
+    /// </summary>
     depth               : integer;
+    /// <summary>
+    /// The bits per color component. This assumes that the colors are balanced
+    /// equally.
+    /// </summary>
     depth_per_component : integer;
+    /// <summary>
+    /// This can be true for black and white printers.
+    /// </summary>
     is_monochrome       : integer;
+    /// <summary>
+    /// This is set from the rcMonitor member of MONITORINFOEX, to whit:
+    ///   "A RECT structure that specifies the display monitor rectangle,
+    ///   expressed in virtual-screen coordinates. Note that if the monitor
+    ///   is not the primary display monitor, some of the rectangle's
+    ///   coordinates may be negative values."
+    //
+    /// The |rect| and |available_rect| properties are used to determine the
+    /// available surface for rendering popup views.
+    /// </summary>
     rect                : TCefRect;
+    /// <summary>
+    /// This is set from the rcWork member of MONITORINFOEX, to whit:
+    ///   "A RECT structure that specifies the work area rectangle of the
+    ///   display monitor that can be used by applications, expressed in
+    ///   virtual-screen coordinates. Windows uses this rectangle to
+    ///   maximize an application on the monitor. The rest of the area in
+    ///   rcMonitor contains system windows such as the task bar and side
+    ///   bars. Note that if the monitor is not the primary display monitor,
+    ///   some of the rectangle's coordinates may be negative values".
+    //
+    /// The |rect| and |available_rect| properties are used to determine the
+    /// available surface for rendering popup views.
+    /// </summary>
     available_rect      : TCefRect;
   end;
 
-  // /include/internal/cef_types.h (cef_request_context_settings_t)
+  /// <summary>
+  /// Request context initialization settings. Specify NULL or 0 to get the
+  /// recommended default values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_request_context_settings_t)</see></para>
+  /// </remarks>
   TCefRequestContextSettings = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
     size                                     : NativeUInt;
+    /// <summary>
+    /// The location where cache data for this request context will be stored on
+    /// disk. If this value is non-empty then it must be an absolute path that is
+    /// either equal to or a child directory of TCefSettings.root_cache_path. If
+    /// this value is empty then browsers will be created in "incognito mode"
+    /// where in-memory caches are used for storage and no data is persisted to
+    /// disk. HTML5 databases such as localStorage will only persist across
+    /// sessions if a cache path is specified. To share the global browser cache
+    /// and related configuration set this value to match the
+    /// TCefSettings.cache_path value.
+    /// </summary>
     cache_path                               : TCefString;
+    /// <summary>
+    /// To persist session cookies (cookies without an expiry date or validity
+    /// interval) by default when using the global cookie manager set this value
+    /// to true (1). Session cookies are generally intended to be transient and
+    /// most Web browsers do not persist them. Can be set globally using the
+    /// TCefSettings.persist_session_cookies value. This value will be ignored if
+    /// |cache_path| is empty or if it matches the TCefSettings.cache_path value.
+    /// </summary>
     persist_session_cookies                  : Integer;
+    /// <summary>
+    /// To persist user preferences as a JSON file in the cache path directory set
+    /// this value to true (1). Can be set globally using the
+    /// TCefSettings.persist_user_preferences value. This value will be ignored if
+    /// |cache_path| is empty or if it matches the TCefSettings.cache_path value.
+    /// </summary>
     persist_user_preferences                 : Integer;
+    /// <summary>
+    /// Comma delimited ordered list of language codes without any whitespace that
+    /// will be used in the "Accept-Language" HTTP header. Can be set globally
+    /// using the TCefSettings.accept_language_list value or overridden on a per-
+    /// browser basis using the TCefBrowserSettings.accept_language_list value. If
+    /// all values are empty then "en-US,en" will be used. This value will be
+    /// ignored if |cache_path| matches the TCefSettings.cache_path value.
+    /// </summary>
     accept_language_list                     : TCefString;
+    /// <summary>
+    /// Comma delimited list of schemes supported by the associated
+    /// CefCookieManager. If |cookieable_schemes_exclude_defaults| is false (0)
+    /// the default schemes ("http", "https", "ws" and "wss") will also be
+    /// supported. Not specifying a |cookieable_schemes_list| value and setting
+    /// |cookieable_schemes_exclude_defaults| to true (1) will disable all loading
+    /// and saving of cookies. These values will be ignored if |cache_path|
+    /// matches the TCefSettings.cache_path value.
+    /// </summary>
     cookieable_schemes_list                  : TCefString;
     cookieable_schemes_exclude_defaults      : integer;
   end;
 
-  // /include/internal/cef_types.h (cef_cookie_t)
+  /// <summary>
+  /// Cookie information.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cookie_t)</see></para>
+  /// </remarks>
   TCefCookie = record
+    /// <summary>
+    /// The cookie name.
+    /// </summary>
     name        : TCefString;
+    /// <summary>
+    /// The cookie value.
+    /// </summary>
     value       : TCefString;
+    /// <summary>
+    /// If |domain| is empty a host cookie will be created instead of a domain
+    /// cookie. Domain cookies are stored with a leading "." and are visible to
+    /// sub-domains whereas host cookies are not.
+    /// </summary>
     domain      : TCefString;
+    /// <summary>
+    /// If |path| is non-empty only URLs at or below the path will get the cookie
+    /// value.
+    /// </summary>
     path        : TCefString;
+    /// <summary>
+    /// If |secure| is true the cookie will only be sent for HTTPS requests.
+    /// </summary>
     secure      : Integer;
+    /// <summary>
+    /// If |httponly| is true the cookie will only be sent for HTTP requests.
+    /// </summary>
     httponly    : Integer;
+    /// <summary>
+    /// The cookie creation date. This is automatically populated by the system on
+    /// cookie creation.
+    /// </summary>
     creation    : TCefBaseTime;
+    /// <summary>
+    /// The cookie last access date. This is automatically populated by the system
+    /// on access.
+    /// </summary>
     last_access : TCefBaseTime;
+    /// <summary>
+    /// The cookie expiration date is only valid if |has_expires| is true.
+    /// </summary>
     has_expires : Integer;
     expires     : TCefBaseTime;
+    /// <summary>
+    /// Same site.
+    /// </summary>
     same_site   : TCefCookieSameSite;
+    /// <summary>
+    /// Priority.
+    /// </summary>
     priority    : TCefCookiePriority;
   end;
 
@@ -1484,61 +3616,598 @@ type
     priority    : TCefCookiePriority;
   end;
 
-  // /include/internal/cef_types.h (cef_pdf_print_settings_t)
+  /// <summary>
+  /// Structure representing PDF print settings. These values match the parameters
+  /// supported by the DevTools Page.printToPDF function. See
+  /// https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-printToPDF
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_pdf_print_settings_t)</see></para>
+  /// </remarks>
   TCefPdfPrintSettings = record
+    /// <summary>
+    /// Set to true (1) for landscape mode or false (0) for portrait mode.
+    /// </summary>
     landscape             : Integer;
+    /// <summary>
+    /// Set to true (1) to print background graphics.
+    /// </summary>
     print_background      : Integer;
+    /// <summary>
+    /// The percentage to scale the PDF by before printing (e.g. .5 is 50%).
+    /// If this value is less than or equal to zero the default value of 1.0
+    /// will be used.
+    /// </summary>
     scale                 : double;
+    /// <summary>
+    /// Output paper size in inches. If either of these values is less than or
+    /// equal to zero then the default paper size (letter, 8.5 x 11 inches) will
+    /// be used.
+    /// </summary>
     paper_width           : double;
     paper_height          : double;
+    /// <summary>
+    /// Set to true (1) to prefer page size as defined by css. Defaults to false
+    /// (0), in which case the content will be scaled to fit the paper size.
+    /// </summary>
     prefer_css_page_size  : Integer;
+    /// <summary>
+    /// Margin type.
+    /// </summary>
     margin_type           : TCefPdfPrintMarginType;
+    /// <summary>
+    /// Margins in inches. Only used if |margin_type| is set to
+    /// PDF_PRINT_MARGIN_CUSTOM.
+    /// </summary>
     margin_top            : double;
     margin_right          : double;
     margin_bottom         : double;
     margin_left           : double;
+    /// <summary>
+    /// Paper ranges to print, one based, e.g., '1-5, 8, 11-13'. Pages are printed
+    /// in the document order, not in the order specified, and no more than once.
+    /// Defaults to empty string, which implies the entire document is printed.
+    /// The page numbers are quietly capped to actual page count of the document,
+    /// and ranges beyond the end of the document are ignored. If this results in
+    /// no pages to print, an error is reported. It is an error to specify a range
+    /// with start greater than end.
+    /// </summary>
     page_ranges           : TCefString;
+    /// <summary>
+    /// Set to true (1) to display the header and/or footer. Modify
+    /// |header_template| and/or |footer_template| to customize the display.
+    /// </summary>
     display_header_footer : Integer;
+    /// <summary>
+    /// HTML template for the print header. Only displayed if
+    /// |display_header_footer| is true (1). Should be valid HTML markup with
+    /// the following classes used to inject printing values into them:
+    ///
+    /// - date: formatted print date
+    /// - title: document title
+    /// - url: document location
+    /// - pageNumber: current page number
+    /// - totalPages: total pages in the document
+    ///
+    /// For example, "<span class=title></span>" would generate a span containing
+    /// the title.
+    /// </summary>
     header_template       : TCefString;
+    /// <summary>
+    /// HTML template for the print footer. Only displayed if
+    /// |display_header_footer| is true (1). Uses the same format as
+    /// |header_template|.
+    /// </summary>
     footer_template       : TCefString;
   end;
 
-  // /include/internal/cef_types.h (cef_mouse_event_t)
+  /// <summary>
+  /// Structure representing mouse event information.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_mouse_event_t)</see></para>
+  /// </remarks>
   TCefMouseEvent = record
+    /// <summary>
+    /// X coordinate relative to the left side of the view.
+    /// </summary>
     x         : Integer;
+    /// <summary>
+    /// Y coordinate relative to the top side of the view.
+    /// </summary>
     y         : Integer;
+    /// <summary>
+    /// Bit flags describing any pressed modifier keys. See
+    /// TCefEventFlags for values.
+    /// </summary>
     modifiers : TCefEventFlags;
   end;
 
-  // /include/internal/cef_types.h (cef_touch_event_t)
+  /// <summary>
+  /// Structure representing touch event information.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_touch_event_t)</see></para>
+  /// </remarks>
   TCefTouchEvent = record
+    /// <summary>
+    /// Id of a touch point. Must be unique per touch, can be any number except
+    /// -1. Note that a maximum of 16 concurrent touches will be tracked; touches
+    /// beyond that will be ignored.
+    /// </summary>
     id             : integer;
+    /// <summary>
+    /// X coordinate relative to the left side of the view.
+    /// </summary>
     x              : single;
+    /// <summary>
+    /// Y coordinate relative to the top side of the view.
+    /// </summary>
     y              : single;
+    /// <summary>
+    /// X radius in pixels. Set to 0 if not applicable.
+    /// </summary>
     radius_x       : single;
+    /// <summary>
+    /// Y radius in pixels. Set to 0 if not applicable.
+    /// </summary>
     radius_y       : single;
+    /// <summary>
+    /// Rotation angle in radians. Set to 0 if not applicable.
+    /// </summary>
     rotation_angle : single;
+    /// <summary>
+    /// The normalized pressure of the pointer input in the range of [0,1].
+    /// Set to 0 if not applicable.
+    /// </summary>
     pressure       : single;
+    /// <summary>
+    /// The state of the touch point. Touches begin with one CEF_TET_PRESSED event
+    /// followed by zero or more CEF_TET_MOVED events and finally one
+    /// CEF_TET_RELEASED or CEF_TET_CANCELLED event. Events not respecting this
+    /// order will be ignored.
+    /// </summary>
     type_          : TCefTouchEeventType;
+    /// <summary>
+    /// Bit flags describing any pressed modifier keys. See
+    /// TCefEventFlags for values.
+    /// </summary>
     modifiers      : TCefEventFlags;
+    /// <summary>
+    /// The device type that caused the event.
+    /// </summary>
     pointer_type   : TCefPointerType;
   end;
 
-  // /include/internal/cef_types.h (cef_audio_parameters_t)
+  /// <summary>
+  /// Structure representing the audio parameters for setting up the audio
+  /// handler.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_audio_parameters_t)</see></para>
+  /// </remarks>
   TCefAudioParameters = record
+    /// <summary>
+    /// Layout of the audio channels
+    /// </summary>
     channel_layout    : TCefChannelLayout;
+    /// <summary>
+    /// Sample rate
+    /// </summary>
     sample_rate       : integer;
+    /// <summary>
+    /// Number of frames per buffer
+    /// </summary>
     frames_per_buffer : integer;
   end;
 
-  // /include/internal/cef_types.h (cef_media_sink_device_info_t)
+  /// <summary>
+  /// Device information for a MediaSink object.
+  /// handler.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_sink_device_info_t)</see></para>
+  /// </remarks>
   TCefMediaSinkDeviceInfo = record
     ip_address : TCefString;
     port       : integer;
     model_name : TCefString;
   end;
 
-  // /include/capi/cef_base_capi.h (cef_base_ref_counted_t)
+  /// <summary>
+  /// Supported content setting types. Some types are platform-specific or only
+  /// supported with the Chrome runtime. Should be kept in sync with Chromium's
+  /// ContentSettingsType type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_content_setting_types_t)</see></para>
+  /// </remarks>
+  TCefContentSettingTypes = (
+    CEF_CONTENT_SETTING_TYPE_COOKIES = 0,
+    CEF_CONTENT_SETTING_TYPE_IMAGES,
+    CEF_CONTENT_SETTING_TYPE_JAVASCRIPT,
+
+    /// <summary>
+    /// This setting governs both popups and unwanted redirects like tab-unders and framebusting.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_POPUPS,
+
+    CEF_CONTENT_SETTING_TYPE_GEOLOCATION,
+    CEF_CONTENT_SETTING_TYPE_NOTIFICATIONS,
+    CEF_CONTENT_SETTING_TYPE_AUTO_SELECT_CERTIFICATE,
+    CEF_CONTENT_SETTING_TYPE_MIXEDSCRIPT,
+    CEF_CONTENT_SETTING_TYPE_MEDIASTREAM_MIC,
+    CEF_CONTENT_SETTING_TYPE_MEDIASTREAM_CAMERA,
+    CEF_CONTENT_SETTING_TYPE_PROTOCOL_HANDLERS,
+    CEF_CONTENT_SETTING_TYPE_DEPRECATED_PPAPI_BROKER,
+    CEF_CONTENT_SETTING_TYPE_AUTOMATIC_DOWNLOADS,
+    CEF_CONTENT_SETTING_TYPE_MIDI_SYSEX,
+    CEF_CONTENT_SETTING_TYPE_SSL_CERT_DECISIONS,
+    CEF_CONTENT_SETTING_TYPE_PROTECTED_MEDIA_IDENTIFIER,
+    CEF_CONTENT_SETTING_TYPE_APP_BANNER,
+    CEF_CONTENT_SETTING_TYPE_SITE_ENGAGEMENT,
+    CEF_CONTENT_SETTING_TYPE_DURABLE_STORAGE,
+    CEF_CONTENT_SETTING_TYPE_USB_CHOOSER_DATA,
+    CEF_CONTENT_SETTING_TYPE_BLUETOOTH_GUARD,
+    CEF_CONTENT_SETTING_TYPE_BACKGROUND_SYNC,
+    CEF_CONTENT_SETTING_TYPE_AUTOPLAY,
+    CEF_CONTENT_SETTING_TYPE_IMPORTANT_SITE_INFO,
+    CEF_CONTENT_SETTING_TYPE_PERMISSION_AUTOBLOCKER_DATA,
+    CEF_CONTENT_SETTING_TYPE_ADS,
+    /// <summary>
+    /// Website setting which stores metadata for the subresource filter to aid in
+    /// decisions for whether or not to show the UI.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_ADS_DATA,
+    /// <summary>
+    /// This is special-cased in the permissions layer to always allow, and as
+    /// such doesn't have associated prefs data.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_MIDI,
+    /// <summary>
+    /// This content setting type is for caching password protection service's
+    /// verdicts of each origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_PASSWORD_PROTECTION,
+    /// <summary>
+    /// Website setting which stores engagement data for media related to a
+    /// specific origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_MEDIA_ENGAGEMENT,
+    /// <summary>
+    /// Content setting which stores whether or not the site can play audible
+    /// sound. This will not block playback but instead the user will not hear it.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SOUND,
+    /// <summary>
+    /// Website setting which stores the list of client hints that the origin
+    /// requested the browser to remember. The browser is expected to send all
+    /// client hints in the HTTP request headers for every resource requested
+    /// from that origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_CLIENT_HINTS,
+    /// <summary>
+    /// Generic Sensor API covering ambient-light-sensor, accelerometer, gyroscope
+    /// and magnetometer are all mapped to a single content_settings_type.
+    /// Setting for the Generic Sensor API covering ambient-light-sensor,
+    /// accelerometer, gyroscope and magnetometer. These are all mapped to a
+    /// single ContentSettingsType.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SENSORS,
+    /// <summary>
+    /// Content setting which stores whether or not the user has granted the site
+    /// permission to respond to accessibility events, which can be used to
+    /// provide a custom accessibility experience. Requires explicit user consent
+    /// because some users may not want sites to know they're using assistive
+    /// technology.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_ACCESSIBILITY_EVENTS,
+    /// <summary>
+    /// Used to store whether to allow a website to install a payment handler.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_PAYMENT_HANDLER,
+    /// <summary>
+    /// Content setting which stores whether to allow sites to ask for permission
+    /// to access USB devices. If this is allowed specific device permissions are
+    /// stored under USB_CHOOSER_DATA.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_USB_GUARD,
+    /// <summary>
+    /// Nothing is stored in this setting at present. Please refer to
+    /// BackgroundFetchPermissionContext for details on how this permission
+    /// is ascertained.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_BACKGROUND_FETCH,
+    /// <summary>
+    /// Website setting which stores the amount of times the user has dismissed
+    /// intent picker UI without explicitly choosing an option.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_INTENT_PICKER_DISPLAY,
+    /// <summary>
+    /// Used to store whether to allow a website to detect user active/idle state.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_IDLE_DETECTION,
+    /// <summary>
+    /// Setting for enabling auto-select of all screens for getDisplayMediaSet.
+    CEF_CONTENT_SETTING_TYPE_GET_DISPLAY_MEDIA_SET_SELECT_ALL_SCREENS,
+    /// <summary>
+    /// Content settings for access to serial ports. The "guard" content setting
+    /// stores whether to allow sites to ask for permission to access a port. The
+    /// permissions granted to access particular ports are stored in the "chooser
+    /// data" website setting.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SERIAL_GUARD,
+    CEF_CONTENT_SETTING_TYPE_SERIAL_CHOOSER_DATA,
+    /// <summary>
+    /// Nothing is stored in this setting at present. Please refer to
+    /// PeriodicBackgroundSyncPermissionContext for details on how this permission
+    /// is ascertained.
+    /// This content setting is not registered because it does not require access
+    /// to any existing providers.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_PERIODIC_BACKGROUND_SYNC,
+    /// <summary>
+    /// Content setting which stores whether to allow sites to ask for permission
+    /// to do Bluetooth scanning.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_BLUETOOTH_SCANNING,
+    /// <summary>
+    /// Content settings for access to HID devices. The "guard" content setting
+    /// stores whether to allow sites to ask for permission to access a device.
+    /// The permissions granted to access particular devices are stored in the
+    /// "chooser data" website setting.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_HID_GUARD,
+    CEF_CONTENT_SETTING_TYPE_HID_CHOOSER_DATA,
+    /// <summary>
+    /// Wake Lock API, which has two lock types: screen and system locks.
+    /// Currently, screen locks do not need any additional permission, and system
+    /// locks are always denied while the right UI is worked out.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_WAKE_LOCK_SCREEN,
+    CEF_CONTENT_SETTING_TYPE_WAKE_LOCK_SYSTEM,
+    /// <summary>
+    /// Legacy SameSite cookie behavior. This disables SameSite=Lax-by-default,
+    /// SameSite=None requires Secure, and Schemeful Same-Site, forcing the
+    /// legacy behavior wherein 1) cookies that don't specify SameSite are treated
+    /// as SameSite=None, 2) SameSite=None cookies are not required to be Secure,
+    /// and 3) schemeful same-site is not active.
+    ///
+    /// This will also be used to revert to legacy behavior when future changes
+    /// in cookie handling are introduced.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_LEGACY_COOKIE_ACCESS,
+    /// <summary>
+    /// Content settings which stores whether to allow sites to ask for permission
+    /// to save changes to an original file selected by the user through the
+    /// File System Access API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_WRITE_GUARD,
+    /// <summary>
+    /// Used to store whether to allow a website to exchange data with NFC
+    /// devices.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_NFC,
+    /// <summary>
+    /// Website setting to store permissions granted to access particular
+    /// Bluetooth devices.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_BLUETOOTH_CHOOSER_DATA,
+    /// <summary>
+    /// Full access to the system clipboard (sanitized read without user gesture,
+    /// and unsanitized read and write with user gesture).
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_CLIPBOARD_READ_WRITE,
+    /// <summary>
+    /// This is special-cased in the permissions layer to always allow, and as
+    /// such doesn't have associated prefs data.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_CLIPBOARD_SANITIZED_WRITE,
+    /// <summary>
+    /// This content setting type is for caching safe browsing real time url
+    /// check's verdicts of each origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SAFE_BROWSING_URL_CHECK_DATA,
+    /// <summary>
+    /// Used to store whether a site is allowed to request AR or VR sessions with
+    /// the WebXr Device API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_VR,
+    CEF_CONTENT_SETTING_TYPE_AR,
+    /// <summary>
+    /// Content setting which stores whether to allow site to open and read files
+    /// and directories selected through the File System Access API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_READ_GUARD,
+    /// <summary>
+    /// Access to first party storage in a third-party context. Exceptions are
+    /// scoped to the combination of requesting/top-level origin, and are managed
+    /// through the Storage Access API. For the time being, this content setting
+    /// exists in parallel to third-party cookie rules stored in COOKIES.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_STORAGE_ACCESS,
+    /// <summary>
+    /// Content setting which stores whether to allow a site to control camera
+    /// movements. It does not give access to camera.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_CAMERA_PAN_TILT_ZOOM,
+    /// <summary>
+    /// Content setting for Screen Enumeration and Screen Detail functionality.
+    /// Permits access to detailed multi-screen information, like size and
+    /// position. Permits placing fullscreen and windowed content on specific
+    /// screens. See also: https://w3c.github.io/window-placement
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_WINDOW_MANAGEMENT,
+    /// <summary>
+    /// Stores whether to allow insecure websites to make local network requests.
+    /// See also: https://wicg.github.io/local-network-access
+    /// Set through enterprise policies only.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_INSECURE_LOCAL_NETWORK,
+    /// <summary>
+    /// Content setting which stores whether or not a site can access low-level
+    /// locally installed font data using the Local Fonts Access API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_LOCAL_FONTS,
+    /// <summary>
+    /// Stores per-origin state for permission auto-revocation (for all permission
+    /// types).
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_PERMISSION_AUTOREVOCATION_DATA,
+    /// <summary>
+    /// Stores per-origin state of the most recently selected directory for the
+    /// use by the File System Access API.
+    CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_LAST_PICKED_DIRECTORY,
+    /// <summary>
+    /// Controls access to the getDisplayMedia API when {preferCurrentTab: true}
+    /// is specified.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_DISPLAY_CAPTURE,
+    /// <summary>
+    /// Website setting to store permissions metadata granted to paths on the
+    /// local file system via the File System Access API.
+    /// |FILE_SYSTEM_WRITE_GUARD| is the corresponding "guard" setting.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_CHOOSER_DATA,
+    /// <summary>
+    /// Stores a grant that allows a relying party to send a request for identity
+    /// information to specified identity providers, potentially through any
+    /// anti-tracking measures that would otherwise prevent it. This setting is
+    /// associated with the relying party's origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_SHARING,
+    /// <summary>
+    /// Whether to use the v8 optimized JIT for running JavaScript on the page.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_JAVASCRIPT_JIT,
+    /// <summary>
+    /// Content setting which stores user decisions to allow loading a site over
+    /// HTTP. Entries are added by hostname when a user bypasses the HTTPS-First
+    /// Mode interstitial warning when a site does not support HTTPS. Allowed
+    /// hosts are exact hostname matches -- subdomains of a host on the allowlist
+    /// must be separately allowlisted.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_HTTP_ALLOWED,
+    /// <summary>
+    /// Stores metadata related to form fill, such as e.g. whether user data was
+    /// autofilled on a specific website.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FORMFILL_METADATA,
+    /// <summary>
+    /// Setting to indicate that there is an active federated sign-in session
+    /// between a specified relying party and a specified identity provider for
+    /// a specified account. When this is present it allows access to session
+    /// management capabilities between the sites. This setting is associated
+    /// with the relying party's origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_ACTIVE_SESSION,
+    /// <summary>
+    /// Setting to indicate whether Chrome should automatically apply darkening to
+    /// web content.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_AUTO_DARK_WEB_CONTENT,
+    /// <summary>
+    /// Setting to indicate whether Chrome should request the desktop view of a
+    /// site instead of the mobile one.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_REQUEST_DESKTOP_SITE,
+    /// <summary>
+    /// Setting to indicate whether browser should allow signing into a website
+    /// via the browser FedCM API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_API,
+    /// <summary>
+    /// Stores notification interactions per origin for the past 90 days.
+    /// Interactions per origin are pre-aggregated over seven-day windows: A
+    /// notification interaction or display is assigned to the last Monday
+    /// midnight in local time.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_NOTIFICATION_INTERACTIONS,
+    /// <summary>
+    /// Website setting which stores the last reduced accept language negotiated
+    /// for a given origin, to be used on future visits to the origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_REDUCED_ACCEPT_LANGUAGE,
+    /// <summary>
+    /// Website setting which is used for NotificationPermissionReviewService to
+    /// store origin blocklist from review notification permissions feature.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_NOTIFICATION_PERMISSION_REVIEW,
+    /// <summary>
+    /// Website setting to store permissions granted to access particular devices
+    /// in private network.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_GUARD,
+    CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_CHOOSER_DATA,
+    /// <summary>
+    /// Website setting which stores whether the browser has observed the user
+    /// signing into an identity-provider based on observing the IdP-SignIn-Status
+    /// HTTP header.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_IDENTITY_PROVIDER_SIGNIN_STATUS,
+    /// <summary>
+    /// Website setting which is used for UnusedSitePermissionsService to
+    /// store revoked permissions of unused sites from unused site permissions
+    /// feature.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_REVOKED_UNUSED_SITE_PERMISSIONS,
+    /// <summary>
+    /// Similar to STORAGE_ACCESS, but applicable at the page-level rather than
+    /// being specific to a frame.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_STORAGE_ACCESS,
+    /// <summary>
+    /// Setting to indicate whether user has opted in to allowing auto re-authn
+    /// via the FedCM API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_AUTO_REAUTHN_PERMISSION,
+    /// <summary>
+    /// Website setting which stores whether the user has explicitly registered
+    /// a website as an identity-provider.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_IDENTITY_PROVIDER_REGISTRATION,
+    /// <summary>
+    /// Content setting which is used to indicate whether anti-abuse functionality
+    /// should be enabled.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_ANTI_ABUSE,
+    /// <summary>
+    /// Content setting used to indicate whether third-party storage partitioning
+    /// should be enabled.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_THIRD_PARTY_STORAGE_PARTITIONING,
+    /// <summary>
+    /// Used to indicate whether HTTPS-First Mode is enabled on the hostname.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_HTTPS_ENFORCED,
+
+    CEF_CONTENT_SETTING_TYPE_NUM_TYPES
+  );
+
+  /// <summary>
+  /// Supported content setting values. Should be kept in sync with Chromium's
+  /// ContentSetting type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_content_setting_values_t)</see></para>
+  /// </remarks>
+  TCefContentSettingValues = (
+    CEF_CONTENT_SETTING_VALUE_DEFAULT = 0,
+    CEF_CONTENT_SETTING_VALUE_ALLOW,
+    CEF_CONTENT_SETTING_VALUE_BLOCK,
+    CEF_CONTENT_SETTING_VALUE_ASK,
+    CEF_CONTENT_SETTING_VALUE_SESSION_ONLY,
+    CEF_CONTENT_SETTING_VALUE_DETECT_IMPORTANT_CONTENT,
+    CEF_CONTENT_SETTING_VALUE_NUM_VALUES
+  );
+
+  /// <summary>
+  /// All ref-counted framework structures must include this structure first.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBaseRefCounted">Implemented by ICefBaseRefCounted</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_base_capi.h">CEF source file: /include/capi/cef_base_capi.h (cef_base_ref_counted_t)</see></para>
+  /// </remarks>
   TCefBaseRefCounted = record
     size                 : NativeUInt;
     add_ref              : procedure(self: PCefBaseRefCounted); stdcall;
@@ -1547,13 +4216,26 @@ type
     has_at_least_one_ref : function(self: PCefBaseRefCounted): Integer; stdcall;
   end;
 
-  // /include/capi/cef_base_capi.h (cef_base_scoped_t)
+  /// <summary>
+  /// All scoped framework structures must include this structure first.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBaseScoped">Implemented by ICefBaseScoped</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_base_capi.h">CEF source file: /include/capi/cef_base_capi.h (cef_base_scoped_t)</see></para>
+  /// </remarks>
   TCefBaseScoped = record
     size  : NativeUInt;
     del   : procedure(self: PCefBaseScoped); stdcall;
   end;
 
-  // /include/capi/cef_stream_capi.h (cef_stream_writer_t)
+  /// <summary>
+  /// Structure used to write data to a stream. The functions of this structure
+  /// may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefStreamWriter">Implemented by ICefStreamWriter</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_stream_writer_t)</see></para>
+  /// </remarks>
   TCefStreamWriter = record
     base      : TCefBaseRefCounted;
     write     : function(self: PCefStreamWriter; const ptr: Pointer; size, n: NativeUInt): NativeUInt; stdcall;
@@ -1563,7 +4245,13 @@ type
     may_block : function(self: PCefStreamWriter): Integer; stdcall;
   end;
 
-  // /include/capi/cef_x509_certificate_capi.h (cef_x509cert_principal_t)
+  /// <summary>
+  /// Structure representing the issuer or subject field of an X.509 certificate.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefX509CertPrincipal">Implemented by ICefX509CertPrincipal</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509cert_principal_t)</see></para>
+  /// </remarks>
   TCefX509CertPrincipal = record
     base                        : TCefBaseRefCounted;
     get_display_name            : function(self: PCefX509CertPrincipal): PCefStringUserFree; stdcall;
@@ -1571,13 +4259,17 @@ type
     get_locality_name           : function(self: PCefX509CertPrincipal): PCefStringUserFree; stdcall;
     get_state_or_province_name  : function(self: PCefX509CertPrincipal): PCefStringUserFree; stdcall;
     get_country_name            : function(self: PCefX509CertPrincipal): PCefStringUserFree; stdcall;
-    get_street_addresses        : procedure(self: PCefX509CertPrincipal; addresses: TCefStringList); stdcall;
     get_organization_names      : procedure(self: PCefX509CertPrincipal; names: TCefStringList); stdcall;
     get_organization_unit_names : procedure(self: PCefX509CertPrincipal; names: TCefStringList); stdcall;
-    get_domain_components       : procedure(self: PCefX509CertPrincipal; components: TCefStringList); stdcall;
   end;
 
-  // /include/capi/cef_x509_certificate_capi.h (cef_x509certificate_t)
+  /// <summary>
+  /// Structure representing a X.509 certificate.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefX509Certificate">Implemented by ICefX509Certificate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509certificate_t)</see></para>
+  /// </remarks>
   TCefX509Certificate = record
     base                        : TCefBaseRefCounted;
     get_subject                 : function(self: PCefX509Certificate): PCefX509CertPrincipal; stdcall;
@@ -1592,14 +4284,26 @@ type
     get_pemencoded_issuer_chain : procedure(self: PCefX509Certificate; var chainCount: NativeUInt; var chain: PCefBinaryValue); stdcall;
   end;
 
-  // /include/capi/cef_ssl_info_capi.h (cef_sslinfo_t)
+  /// <summary>
+  /// Structure representing SSL information.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefSslInfo">Implemented by ICefSslInfo</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_ssl_info_capi.h">CEF source file: /include/capi/cef_ssl_info_capi.h (cef_sslinfo_t)</see></para>
+  /// </remarks>
   TCefSslInfo = record
     base                : TCefBaseRefCounted;
     get_cert_status     : function(self: PCefSslInfo): TCefCertStatus; stdcall;
     get_x509certificate : function(self: PCefSslInfo): PCefX509Certificate; stdcall;
   end;
 
-  // /include/capi/cef_ssl_status_capi.h (cef_sslstatus_t)
+  /// <summary>
+  /// Structure representing the SSL information for a navigation entry.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefSSLStatus">Implemented by ICefSSLStatus</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_ssl_status_capi.h">CEF source file: /include/capi/cef_ssl_status_capi.h (cef_sslstatus_t)</see></para>
+  /// </remarks>
   TCefSSLStatus = record
     base                 : TCefBaseRefCounted;
     is_secure_connection : function(self: PCefSSLStatus): integer; stdcall;
@@ -1609,33 +4313,65 @@ type
     get_x509certificate  : function(self: PCefSSLStatus): PCefX509Certificate; stdcall;
   end;
 
-  // /include/capi/cef_request_handler_capi.h (cef_select_client_certificate_callback_t)
+  /// <summary>
+  /// Callback structure used to select a client certificate for authentication.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefSelectClientCertificateCallback">Implemented by ICefSelectClientCertificateCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_handler_capi.h">CEF source file: /include/capi/cef_request_handler_capi.h (cef_select_client_certificate_callback_t)</see></para>
+  /// </remarks>
   TCefSelectClientCertificateCallback = record
     base   : TCefBaseRefCounted;
     select : procedure(self: PCefSelectClientCertificateCallback; cert: PCefX509Certificate); stdcall;
   end;
 
-  // /include/capi/cef_context_menu_handler_capi.h (cef_run_context_menu_callback_t)
+  /// <summary>
+  /// Callback structure used for continuation of custom context menu display.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRunContextMenuCallback">Implemented by ICefRunContextMenuCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_run_context_menu_callback_t)</see></para>
+  /// </remarks>
   TCefRunContextMenuCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefRunContextMenuCallback; command_id: Integer; event_flags: TCefEventFlags); stdcall;
     cancel : procedure(self: PCefRunContextMenuCallback); stdcall;
   end;
 
-  // /include/capi/cef_dialog_handler_capi.h (cef_file_dialog_callback_t)
+  /// <summary>
+  /// Callback structure for asynchronous continuation of file dialog requests.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefFileDialogCallback">Implemented by ICefFileDialogCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dialog_handler_capi.h">CEF source file: /include/capi/cef_dialog_handler_capi.h (cef_file_dialog_callback_t)</see></para>
+  /// </remarks>
   TCefFileDialogCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefFileDialogCallback; file_paths: TCefStringList); stdcall;
     cancel : procedure(self: PCefFileDialogCallback); stdcall;
   end;
 
-  // /include/capi/cef_dialog_handler_capi.h (cef_dialog_handler_t)
+  /// <summary>
+  /// Implement this structure to handle dialog events. The functions of this
+  /// structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDialogHandler">Implemented by ICefDialogHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dialog_handler_capi.h">CEF source file: /include/capi/cef_dialog_handler_capi.h (cef_dialog_handler_t)</see></para>
+  /// </remarks>
   TCefDialogHandler = record
     base           : TCefBaseRefCounted;
     on_file_dialog : function(self: PCefDialogHandler; browser: PCefBrowser; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters: TCefStringList; callback: PCefFileDialogCallback): Integer; stdcall;
   end;
 
-  // /include/capi/cef_display_handler_capi.h (cef_display_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to browser display state.
+  /// The functions of this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDisplayHandler">Implemented by ICefDisplayHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_display_handler_capi.h">CEF source file: /include/capi/cef_display_handler_capi.h (cef_display_handler_t)</see></para>
+  /// </remarks>
   TCefDisplayHandler = record
     base                       : TCefBaseRefCounted;
     on_address_change          : procedure(self: PCefDisplayHandler; browser: PCefBrowser; frame: PCefFrame; const url: PCefString); stdcall;
@@ -1651,7 +4387,14 @@ type
     on_media_access_change     : procedure(self: PCefDisplayHandler; browser: PCefBrowser; has_video_access, has_audio_access: integer); stdcall;
   end;
 
-  // /include/capi/cef_download_handler_capi.h (cef_download_handler_t)
+  /// <summary>
+  /// Structure used to handle file downloads. The functions of this structure
+  /// will called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDownloadHandler">Implemented by ICefDownloadHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_handler_capi.h">CEF source file: /include/capi/cef_download_handler_capi.h (cef_download_handler_t)</see></para>
+  /// </remarks>
   TCefDownloadHandler = record
     base                : TCefBaseRefCounted;
     can_download        : function(self: PCefDownloadHandler; browser: PCefBrowser; const url, request_method: PCefString): integer; stdcall;
@@ -1659,20 +4402,41 @@ type
     on_download_updated : procedure(self: PCefDownloadHandler; browser: PCefBrowser; download_item: PCefDownloadItem; callback: PCefDownloadItemCallback); stdcall;
   end;
 
-  // /include/capi/cef_drag_handler_capi.h (cef_drag_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to dragging. The functions
+  /// of this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDragHandler">Implemented by ICefDragHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_drag_handler_capi.h">CEF source file: /include/capi/cef_drag_handler_capi.h (cef_drag_handler_t)</see></para>
+  /// </remarks>
   TCefDragHandler = record
     base                         : TCefBaseRefCounted;
     on_drag_enter                : function(self: PCefDragHandler; browser: PCefBrowser; dragData: PCefDragData; mask: TCefDragOperations): Integer; stdcall;
     on_draggable_regions_changed : procedure(self: PCefDragHandler; browser: PCefBrowser; frame: PCefFrame; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); stdcall;
   end;
 
-  // /include/capi/cef_find_handler_capi.h (cef_find_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to find results. The
+  /// functions of this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefFindHandler">Implemented by ICefFindHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_find_handler_capi.h">CEF source file: /include/capi/cef_find_handler_capi.h (cef_find_handler_t)</see></para>
+  /// </remarks>
   TCefFindHandler = record
     base           : TCefBaseRefCounted;
     on_find_result : procedure(self: PCefFindHandler; browser: PCefBrowser; identifier, count: Integer; const selection_rect: PCefRect; active_match_ordinal, final_update: Integer); stdcall;
   end;
 
-  // /include/capi/cef_focus_handler_capi.h (cef_focus_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to focus. The functions of
+  /// this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefFocusHandler">Implemented by ICefFocusHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_focus_handler_capi.h">CEF source file: /include/capi/cef_focus_handler_capi.h (cef_focus_handler_t)</see></para>
+  /// </remarks>
   TCefFocusHandler = record
     base          : TCefBaseRefCounted;
     on_take_focus : procedure(self: PCefFocusHandler; browser: PCefBrowser; next: Integer); stdcall;
@@ -1680,7 +4444,14 @@ type
     on_got_focus  : procedure(self: PCefFocusHandler; browser: PCefBrowser); stdcall;
   end;
 
-  // /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to JavaScript dialogs. The
+  /// functions of this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefJsDialogHandler">Implemented by ICefJsDialogHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_jsdialog_handler_capi.h">CEF source file: /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_handler_t)</see></para>
+  /// </remarks>
   TCefJsDialogHandler = record
     base                    : TCefBaseRefCounted;
     on_jsdialog             : function(self: PCefJsDialogHandler; browser: PCefBrowser; const origin_url: PCefString; dialog_type: TCefJsDialogType; const message_text, default_prompt_text: PCefString; callback: PCefJsDialogCallback; suppress_message: PInteger): Integer; stdcall;
@@ -1689,20 +4460,42 @@ type
     on_dialog_closed        : procedure(self: PCefJsDialogHandler; browser: PCefBrowser); stdcall;
   end;
 
-  // /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_callback_t)
+  /// <summary>
+  /// Callback structure used for asynchronous continuation of JavaScript dialog
+  /// requests.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefJsDialogCallback">Implemented by ICefJsDialogCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_jsdialog_handler_capi.h">CEF source file: /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_callback_t)</see></para>
+  /// </remarks>
   TCefJsDialogCallback = record
     base : TCefBaseRefCounted;
     cont : procedure(self: PCefJsDialogCallback; success: Integer; const user_input: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_keyboard_handler_capi.h (cef_keyboard_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to keyboard input. The
+  /// functions of this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefKeyboardHandler">Implemented by ICefKeyboardHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_keyboard_handler_capi.h">CEF source file: /include/capi/cef_keyboard_handler_capi.h (cef_keyboard_handler_t)</see></para>
+  /// </remarks>
   TCefKeyboardHandler = record
     base             : TCefBaseRefCounted;
     on_pre_key_event : function(self: PCefKeyboardHandler; browser: PCefBrowser; const event: PCefKeyEvent; os_event: TCefEventHandle; is_keyboard_shortcut: PInteger): Integer; stdcall;
     on_key_event     : function(self: PCefKeyboardHandler; browser: PCefBrowser; const event: PCefKeyEvent; os_event: TCefEventHandle): Integer; stdcall;
   end;
 
-  // /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to browser life span. The
+  /// functions of this structure will be called on the UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefLifeSpanHandler">Implemented by ICefLifeSpanHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h">CEF source file: /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)</see></para>
+  /// </remarks>
   TCefLifeSpanHandler = record
     base              : TCefBaseRefCounted;
     on_before_popup   : function(self: PCefLifeSpanHandler; browser: PCefBrowser; frame: PCefFrame; const target_url, target_frame_name: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer; const popupFeatures: PCefPopupFeatures; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; no_javascript_access: PInteger): Integer; stdcall;
@@ -1711,12 +4504,25 @@ type
     on_before_close   : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
   end;
 
-  // /include/capi/cef_registration_capi.h (cef_registration_t)
+  /// <summary>
+  /// Generic callback structure used for managing the lifespan of a registration.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRegistration">Implemented by ICefRegistration</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_registration_capi.h">CEF source file: /include/capi/cef_registration_capi.h (cef_registration_t)</see></para>
+  /// </remarks>
   TCefRegistration = record
     base  : TCefBaseRefCounted;
   end;
 
-  // /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t)
+  /// <summary>
+  /// Callback structure for ICefBrowserHost.AddDevToolsMessageObserver. The
+  /// functions of this structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDevToolsMessageObserver">Implemented by ICefDevToolsMessageObserver</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_devtools_message_observer_capi.h">CEF source file: /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t)</see></para>
+  /// </remarks>
   TCefDevToolsMessageObserver = record
     base                        : TCefBaseRefCounted;
     on_dev_tools_message        : function(self: PCefDevToolsMessageObserver; browser: PCefBrowser; const message_: Pointer; message_size: NativeUInt): Integer; stdcall;
@@ -1726,7 +4532,15 @@ type
     on_dev_tools_agent_detached : procedure(self: PCefDevToolsMessageObserver; browser: PCefBrowser); stdcall;
   end;
 
-  // /include/capi/cef_media_router_capi.h (cef_media_router_t)
+  /// <summary>
+  /// Supports discovery of and communication with media devices on the local
+  /// network via the Cast and DIAL protocols. The functions of this structure may
+  /// be called on any browser process thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaRouter">Implemented by ICefMediaRouter</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_router_t)</see></para>
+  /// </remarks>
   TCefMediaRouter = record
     base                  : TCefBaseRefCounted;
     add_observer          : function(self: PCefMediaRouter; observer: PCefMediaObserver): PCefRegistration; stdcall;
@@ -1736,7 +4550,15 @@ type
     notify_current_routes : procedure(self: PCefMediaRouter); stdcall;
   end;
 
-  // /include/capi/cef_media_router_capi.h (cef_media_observer_t)
+  /// <summary>
+  /// Implemented by the client to observe MediaRouter events and registered via
+  /// ICefMediaRouter.AddObserver. The functions of this structure will be
+  /// called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaObserver">Implemented by ICefMediaObserver</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_observer_t)</see></para>
+  /// </remarks>
   TCefMediaObserver = record
     base                      : TCefBaseRefCounted;
     on_sinks                  : procedure(self: PCefMediaObserver; sinksCount: NativeUInt; const sinks: PPCefMediaSink); stdcall;
@@ -1745,7 +4567,17 @@ type
     on_route_message_received : procedure(self: PCefMediaObserver; route: PCefMediaRoute; const message_: Pointer; message_size: NativeUInt); stdcall;
   end;
 
-  // /include/capi/cef_media_router_capi.h (cef_media_route_t)
+  /// <summary>
+  /// Represents the route between a media source and sink. Instances of this
+  /// object are created via ICefMediaRouter.CreateRoute and retrieved via
+  /// ICefMediaObserver.OnRoutes. Contains the status and metadata of a
+  /// routing operation. The functions of this structure may be called on any
+  /// browser process thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaRoute">Implemented by ICefMediaRoute</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_route_t)</see></para>
+  /// </remarks>
   TCefMediaRoute = record
     base                  : TCefBaseRefCounted;
     get_id                : function(self: PCefMediaRoute): PCefStringUserFree; stdcall;
@@ -1755,13 +4587,28 @@ type
     terminate             : procedure(self: PCefMediaRoute); stdcall;
   end;
 
-  // /include/capi/cef_media_router_capi.h (cef_media_route_create_callback_t)
+  /// <summary>
+  /// Callback structure for ICefMediaRouter.CreateRoute. The functions of
+  /// this structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaRouteCreateCallback">Implemented by ICefMediaRouteCreateCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_route_create_callback_t)</see></para>
+  /// </remarks>
   TCefMediaRouteCreateCallback = record
     base                           : TCefBaseRefCounted;
     on_media_route_create_finished : procedure(self: PCefMediaRouteCreateCallback; result: TCefMediaRouterCreateResult; const error: PCefString; route: PCefMediaRoute); stdcall;
   end;
 
-  // /include/capi/cef_media_router_capi.h (cef_media_sink_t)
+  /// <summary>
+  /// Represents a sink to which media can be routed. Instances of this object are
+  /// retrieved via ICefMediaObserver.OnSinks. The functions of this structure
+  /// may be called on any browser process thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaSink">Implemented by ICefMediaSink</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_sink_t)</see></para>
+  /// </remarks>
   TCefMediaSink = record
     base                  : TCefBaseRefCounted;
     get_id                : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
@@ -1773,13 +4620,29 @@ type
     is_compatible_with    : function(self: PCefMediaSink; source: PCefMediaSource): Integer; stdcall;
   end;
 
-  // /include/capi/cef_media_router_capi.h (cef_media_sink_device_info_callback_t)
+  /// <summary>
+  /// Callback structure for ICefMediaSink.GetDeviceInfo. The functions of
+  /// this structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaSinkDeviceInfoCallback">Implemented by ICefMediaSinkDeviceInfoCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_sink_device_info_callback_t)</see></para>
+  /// </remarks>
   TCefMediaSinkDeviceInfoCallback = record
     base                      : TCefBaseRefCounted;
     on_media_sink_device_info : procedure(self: PCefMediaSinkDeviceInfoCallback; device_info: PCefMediaSinkDeviceInfo); stdcall;
   end;
 
-  // /include/capi/cef_media_router_capi.h (cef_media_source_t)
+  /// <summary>
+  /// Represents a source from which media can be routed. Instances of this object
+  /// are retrieved via ICefMediaRouter.GetSource. The functions of this
+  /// structure may be called on any browser process thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaSource">Implemented by ICefMediaSource</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_source_t)</see></para>
+  /// </remarks>
   TCefMediaSource = record
     base                  : TCefBaseRefCounted;
     get_id                : function(self: PCefMediaSource): PCefStringUserFree; stdcall;
@@ -1787,14 +4650,30 @@ type
     is_dial_source        : function(self: PCefMediaSource): Integer; stdcall;
   end;
 
-  // /include/capi/cef_extension_handler_capi.h (cef_get_extension_resource_callback_t)
+  /// <summary>
+  /// Callback structure used for asynchronous continuation of
+  /// ICefExtensionHandler.GetExtensionResource.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefGetExtensionResourceCallback">Implemented by ICefGetExtensionResourceCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_get_extension_resource_callback_t)</see></para>
+  /// </remarks>
   TCefGetExtensionResourceCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefGetExtensionResourceCallback; stream: PCefStreamReader); stdcall;
     cancel : procedure(self: PCefGetExtensionResourceCallback); stdcall;
   end;
 
-  // /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to browser extensions. The
+  /// functions of this structure will be called on the UI thread. See
+  /// ICefRequestContext.LoadExtension for information about extension
+  /// loading.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefExtensionHandler">Implemented by ICefExtensionHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
+  /// </remarks>
   TCefExtensionHandler = record
     base                          : TCefBaseRefCounted;
     on_extension_load_failed      : procedure(self: PCefExtensionHandler; result: TCefErrorcode); stdcall;
@@ -1807,7 +4686,13 @@ type
     get_extension_resource        : function(self: PCefExtensionHandler; extension: PCefExtension; browser: PCefBrowser; const file_: PCefString; callback: PCefGetExtensionResourceCallback): Integer; stdcall;
   end;
 
-  // /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)
+  /// <summary>
+  /// Implement this structure to handle audio events.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefAudioHandler">Implemented by ICefAudioHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_audio_handler_capi.h">CEF source file: /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)</see></para>
+  /// </remarks>
   TCefAudioHandler = record
     base                          : TCefBaseRefCounted;
     get_audio_parameters          : function(self: PCefAudioHandler; browser: PCefBrowser; params: PCefAudioParameters): Integer; stdcall;
@@ -1817,7 +4702,14 @@ type
     on_audio_stream_error         : procedure(self: PCefAudioHandler; browser: PCefBrowser; const message_: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_extension_capi.h (cef_extension_t)
+  /// <summary>
+  /// Object representing an extension. Methods may be called on any thread unless
+  /// otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefExtension">Implemented by ICefExtension</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_capi.h">CEF source file: /include/capi/cef_extension_capi.h (cef_extension_t)</see></para>
+  /// </remarks>
   TCefExtension = record
     base                : TCefBaseRefCounted;
     get_identifier      : function(self: PCefExtension) : PCefStringUserFree; stdcall;
@@ -1830,7 +4722,15 @@ type
     unload              : procedure(self: PCefExtension); stdcall;
   end;
 
-  // /include/capi/cef_load_handler_capi.h (cef_load_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to browser load status.
+  /// The functions of this structure will be called on the browser process UI
+  /// thread or render process main thread (TID_RENDERER).
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefLoadHandler">Implemented by ICefLoadHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t)</see></para>
+  /// </remarks>
   TCefLoadHandler = record
     base                    : TCefBaseRefCounted;
     on_loading_state_change : procedure(self: PCefLoadHandler; browser: PCefBrowser; isLoading, canGoBack, canGoForward: Integer); stdcall;
@@ -1839,7 +4739,14 @@ type
     on_load_error           : procedure(self: PCefLoadHandler; browser: PCefBrowser; frame: PCefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_render_handler_capi.h (cef_render_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events when window rendering is disabled.
+  /// The functions of this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRenderHandler">Implemented by ICefRenderHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_handler_capi.h">CEF source file: /include/capi/cef_render_handler_capi.h (cef_render_handler_t)</see></para>
+  /// </remarks>
   TCefRenderHandler = record
     base                              : TCefBaseRefCounted;
     get_accessibility_handler         : function(self: PCefRenderHandler): PCefAccessibilityHandler; stdcall;
@@ -1861,14 +4768,28 @@ type
     on_virtual_keyboard_requested     : procedure(self: PCefRenderHandler; browser: PCefBrowser; input_mode: TCefTextInpuMode); stdcall;
   end;
 
-  // /include/capi/cef_preference_capi.h (cef_preference_registrar_t)
+  /// <summary>
+  /// Structure that manages custom preference registrations.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPreferenceRegistrar">Implemented by ICefPreferenceRegistrar</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_registrar_t)</see></para>
+  /// </remarks>
   TCefPreferenceRegistrar = record
     base              : TCefBaseScoped;
     add_preference    : function(self: PCefPreferenceRegistrar; const name: PCefString; default_value: PCefValue): Integer; stdcall;
   end;
 
-  // /include/capi/cef_preference_capi.h (cef_preference_manager_t)
-  // /include/capi/cef_preference_manager_capi.h (cef_preference_manager_t)
+  /// <summary>
+  /// Manage access to preferences. Many built-in preferences are registered by
+  /// Chromium. Custom preferences can be registered in
+  /// ICefBrowserProcessHandler.OnRegisterCustomPreferences.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPreferenceManager">Implemented by ICefPreferenceManager</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_manager_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_manager_capi.h">CEF source file: /include/capi/cef_preference_manager_capi.h (cef_preference_manager_t)</see></para>
+  /// </remarks>
   TCefPreferenceManager = record
     base                            : TCefBaseRefCounted;
     has_preference                  : function(self: PCefPreferenceManager; const name: PCefString): Integer; stdcall;
@@ -1878,7 +4799,17 @@ type
     set_preference                  : function(self: PCefPreferenceManager; const name: PCefString; value: PCefValue; error: PCefString): Integer; stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)
+  /// <summary>
+  /// Structure representing a V8 stack trace handle. V8 handles can only be
+  /// accessed from the thread on which they are created. Valid threads for
+  /// creating a V8 handle include the render process main thread (TID_RENDERER)
+  /// and WebWorker threads. A task runner for posting tasks on the associated
+  /// thread can be retrieved via the ICefv8context.GetTaskRunner() function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefV8StackTrace">Implemented by ICefV8StackTrace</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)</see></para>
+  /// </remarks>
   TCefV8StackTrace = record
     base            : TCefBaseRefCounted;
     is_valid        : function(self: PCefV8StackTrace): Integer; stdcall;
@@ -1886,7 +4817,17 @@ type
     get_frame       : function(self: PCefV8StackTrace; index: Integer): PCefV8StackFrame; stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8stack_frame_t)
+  /// <summary>
+  /// Structure representing a V8 stack frame handle. V8 handles can only be
+  /// accessed from the thread on which they are created. Valid threads for
+  /// creating a V8 handle include the render process main thread (TID_RENDERER)
+  /// and WebWorker threads. A task runner for posting tasks on the associated
+  /// thread can be retrieved via the ICefv8context.GetTaskRunner() function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefV8StackFrame">Implemented by ICefV8StackFrame</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_frame_t)</see></para>
+  /// </remarks>
   TCefV8StackFrame = record
     base                          : TCefBaseRefCounted;
     is_valid                      : function(self: PCefV8StackFrame): Integer; stdcall;
@@ -1899,8 +4840,15 @@ type
     is_constructor                : function(self: PCefV8StackFrame): Integer; stdcall;
   end;
 
-  // TCefStreamReader is used with ICefStreamReader and ICefCustomStreamReader !!!!
-  // /include/capi/cef_stream_capi.h (cef_stream_reader_t)
+  /// <summary>
+  /// Structure used to read data from a stream. The functions of this structure
+  /// may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefStreamReader">Implemented by ICefStreamReader</see></para>
+  /// <para><see cref="uCEFInterfaces|ICefCustomStreamReader">Implemented by ICefCustomStreamReader</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_stream_reader_t)</see></para>
+  /// </remarks>
   TCefStreamReader = record
     base      : TCefBaseRefCounted;
     read      : function(self: PCefStreamReader; ptr: Pointer; size, n: NativeUInt): NativeUInt; stdcall;
@@ -1910,7 +4858,14 @@ type
     may_block : function(self: PCefStreamReader): Integer; stdcall;
   end;
 
-  // /include/capi/cef_stream_capi.h (cef_read_handler_t)
+  /// <summary>
+  /// Structure the client can implement to provide a custom stream reader. The
+  /// functions of this structure may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefReadHandler">Implemented by ICefReadHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_read_handler_t)</see></para>
+  /// </remarks>
   TCefReadHandler = record
     base      : TCefBaseRefCounted;
     read      : function(self: PCefReadHandler; ptr: Pointer; size, n: NativeUInt): NativeUInt; stdcall;
@@ -1920,7 +4875,14 @@ type
     may_block : function(self: PCefReadHandler): Integer; stdcall;
   end;
 
-  // /include/capi/cef_stream_capi.h (cef_write_handler_t)
+  /// <summary>
+  /// Structure the client can implement to provide a custom stream writer. The
+  /// functions of this structure may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefWriteHandler">Implemented by ICefWriteHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_write_handler_t)</see></para>
+  /// </remarks>
   TCefWriteHandler = record
     base      : TCefBaseRefCounted;
     write     : function(self: PCefWriteHandler; const ptr: Pointer; size, n: NativeUInt): NativeUInt; stdcall;
@@ -1930,7 +4892,15 @@ type
     may_block : function(self: PCefWriteHandler): Integer; stdcall;
   end;
 
-  // /include/capi/cef_xml_reader_capi.h (cef_xml_reader_t)
+  /// <summary>
+  /// Structure that supports the reading of XML data via the libxml streaming
+  /// API. The functions of this structure should only be called on the thread
+  /// that creates the object.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefXmlReader">Implemented by ICefXmlReader</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_xml_reader_capi.h">CEF source file: /include/capi/cef_xml_reader_capi.h (cef_xml_reader_t)</see></para>
+  /// </remarks>
   TCefXmlReader = record
     base                      : TCefBaseRefCounted;
     move_to_next_node         : function(self: PCefXmlReader): Integer; stdcall;
@@ -1964,7 +4934,15 @@ type
     move_to_carrying_element  : function(self: PCefXmlReader): Integer; stdcall;
   end;
 
-  // /include/capi/cef_zip_reader_capi.h (cef_zip_reader_t)
+  /// <summary>
+  /// Structure that supports the reading of zip archives via the zlib unzip API.
+  /// The functions of this structure should only be called on the thread that
+  /// creates the object.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefZipReader">Implemented by ICefZipReader</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_zip_reader_capi.h">CEF source file: /include/capi/cef_zip_reader_capi.h (cef_zip_reader_t)</see></para>
+  /// </remarks>
   TCefZipReader = record
     base                    : TCefBaseRefCounted;
     move_to_first_file      : function(self: PCefZipReader): Integer; stdcall;
@@ -1981,7 +4959,15 @@ type
     eof                     : function(Self: PCefZipReader): Integer; stdcall;
   end;
 
-  // /include/capi/cef_urlrequest_capi.h (cef_urlrequest_client_t)
+  /// <summary>
+  /// Structure that should be implemented by the ICefUrlRequest client. The
+  /// functions of this structure will be called on the same thread that created
+  /// the request unless otherwise documented.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefUrlrequestClient">Implemented by ICefUrlrequestClient</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_urlrequest_capi.h">CEF source file: /include/capi/cef_urlrequest_capi.h (cef_urlrequest_client_t)</see></para>
+  /// </remarks>
   TCefUrlrequestClient = record
     base                  : TCefBaseRefCounted;
     on_request_complete   : procedure(self: PCefUrlRequestClient; request: PCefUrlRequest); stdcall;
@@ -1991,7 +4977,17 @@ type
     get_auth_credentials  : function(self: PCefUrlRequestClient; isProxy: Integer; const host: PCefString; port: Integer; const realm, scheme: PCefString; callback: PCefAuthCallback): Integer; stdcall;
   end;
 
-  // /include/capi/cef_urlrequest_capi.h (cef_urlrequest_t)
+  /// <summary>
+  /// Structure used to make a URL request. URL requests are not associated with a
+  /// browser instance so no ICefClient callbacks will be executed. URL requests
+  /// can be created on any valid CEF thread in either the browser or render
+  /// process. Once created the functions of the URL request object must be
+  /// accessed on the same thread that created it.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefUrlRequest">Implemented by ICefUrlRequest</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_urlrequest_capi.h">CEF source file: /include/capi/cef_urlrequest_capi.h (cef_urlrequest_t)</see></para>
+  /// </remarks>
   TCefUrlRequest = record
     base                : TCefBaseRefCounted;
     get_request         : function(self: PCefUrlRequest): PCefRequest; stdcall;
@@ -2003,7 +4999,21 @@ type
     cancel              : procedure(self: PCefUrlRequest); stdcall;
   end;
 
-  // /include/capi/cef_thread_capi.h (cef_thread_t)
+  /// <summary>
+  /// A simple thread abstraction that establishes a message loop on a new thread.
+  /// The consumer uses ICefTaskRunner to execute code on the thread's message
+  /// loop. The thread is terminated when the ICefThread object is destroyed or
+  /// stop() is called. All pending tasks queued on the thread's message loop will
+  /// run to completion before the thread is terminated. cef_thread_create() can
+  /// be called on any valid CEF thread in either the browser or render process.
+  /// This structure should only be used for tasks that require a dedicated
+  /// thread. In most cases you can post tasks to an existing CEF thread instead
+  /// of creating a new one; see cef_task.h for details.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefThread">Implemented by ICefThread</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_thread_capi.h">CEF source file: /include/capi/cef_thread_capi.h (cef_thread_t)</see></para>
+  /// </remarks>
   TCefThread = record
     base                    : TCefBaseRefCounted;
     get_task_runner         : function(self: PCefThread): PCefTaskRunner; stdcall;
@@ -2012,7 +5022,21 @@ type
     is_running              : function(self: PCefThread): integer; stdcall;
   end;
 
-  // /include/capi/cef_waitable_event_capi.h (cef_waitable_event_t)
+  /// <summary>
+  /// WaitableEvent is a thread synchronization tool that allows one thread to
+  /// wait for another thread to finish some work. This is equivalent to using a
+  /// Lock+ConditionVariable to protect a simple boolean value. However, using
+  /// WaitableEvent in conjunction with a Lock to wait for a more complex state
+  /// change (e.g., for an item to be added to a queue) is not recommended. In
+  /// that case consider using a ConditionVariable instead of a WaitableEvent. It
+  /// is safe to create and/or signal a WaitableEvent from any thread. Blocking on
+  /// a WaitableEvent by calling the *wait() functions is not allowed on the
+  /// browser process UI or IO threads.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefWaitableEvent">Implemented by ICefWaitableEvent</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_waitable_event_capi.h">CEF source file: /include/capi/cef_waitable_event_capi.h (cef_waitable_event_t)</see></para>
+  /// </remarks>
   TCefWaitableEvent = record
     base        : TCefBaseRefCounted;
     reset       : procedure(self: PCefWaitableEvent); stdcall;
@@ -2022,7 +5046,19 @@ type
     timed_wait  : function(self: PCefWaitableEvent; max_ms: int64): integer; stdcall;
   end;
 
-  // /include/capi/cef_task_capi.h (cef_task_runner_t)
+  /// <summary>
+  /// Structure that asynchronously executes tasks on the associated thread. It is
+  /// safe to call the functions of this structure on any thread.
+  ///
+  /// CEF maintains multiple internal threads that are used for handling different
+  /// types of tasks in different processes. The TCefThreadId definitions in
+  /// cef_types.h list the common CEF threads. Task runners are also available for
+  /// other CEF threads as appropriate (for example, V8 WebWorker threads).
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefTaskRunner">Implemented by ICefTaskRunner</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_capi.h">CEF source file: /include/capi/cef_task_capi.h (cef_task_runner_t)</see></para>
+  /// </remarks>
   TCefTaskRunner = record
     base                      : TCefBaseRefCounted;
     is_same                   : function(self, that: PCefTaskRunner): Integer; stdcall;
@@ -2032,13 +5068,31 @@ type
     post_delayed_task         : function(self: PCefTaskRunner; task: PCefTask; delay_ms: Int64): Integer; stdcall;
   end;
 
-  // /include/capi/cef_trace_capi.h (cef_end_tracing_callback_t)
+  /// <summary>
+  /// Implement this structure to receive notification when tracing has completed.
+  /// The functions of this structure will be called on the browser process UI
+  /// thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefEndTracingCallback">Implemented by ICefEndTracingCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_trace_capi.h">CEF source file: /include/capi/cef_trace_capi.h (cef_end_tracing_callback_t)</see></para>
+  /// </remarks>
   TCefEndTracingCallback = record
     base                    : TCefBaseRefCounted;
     on_end_tracing_complete : procedure(self: PCefEndTracingCallback; const tracing_file: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_resource_bundle_capi.h (cef_resource_bundle_t)
+  /// <summary>
+  /// Structure used for retrieving resources from the resource bundle (*.pak)
+  /// files loaded by CEF during startup or via the ICefResourceBundleHandler
+  /// returned from ICefApp.GetResourceBundleHandler. See TCefSettings for
+  /// additional options related to resource bundle loading. The functions of this
+  /// structure may be called on any thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResourceBundle">Implemented by ICefResourceBundle</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_capi.h">CEF source file: /include/capi/cef_resource_bundle_capi.h (cef_resource_bundle_t)</see></para>
+  /// </remarks>
   TCefResourceBundle = record
     base                        : TCefBaseRefCounted;
     get_localized_string        : function(self: PCefResourceBundle; string_id: Integer): PCefStringUserFree; stdcall;
@@ -2046,7 +5100,15 @@ type
     get_data_resource_for_scale : function(self: PCefResourceBundle; resource_id: Integer; scale_factor: TCefScaleFactor): PCefBinaryValue; stdcall;
   end;
 
-  // /include/capi/cef_menu_model_delegate_capi.h (cef_menu_model_delegate_t)
+  /// <summary>
+  /// Implement this structure to handle menu model events. The functions of this
+  /// structure will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMenuModelDelegate">Implemented by ICefMenuModelDelegate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_menu_model_delegate_capi.h">CEF source file: /include/capi/cef_menu_model_delegate_capi.h (cef_menu_model_delegate_t)</see></para>
+  /// </remarks>
   TCefMenuModelDelegate = record
     base                    : TCefBaseRefCounted;
     execute_command         : procedure(self: PCefMenuModelDelegate; menu_model: PCefMenuModel; command_id: Integer; event_flags: TCefEventFlags); stdcall;
@@ -2058,7 +5120,13 @@ type
     format_label            : function(self: PCefMenuModelDelegate; menu_model: PCefMenuModel; label_ : PCefString) : integer; stdcall;
   end;
 
-  // /include/capi/cef_process_message_capi.h (cef_process_message_t)
+  /// <summary>
+  /// Structure representing a message. Can be used on any process and thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefProcessMessage">Implemented by ICefProcessMessage</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_process_message_capi.h">CEF source file: /include/capi/cef_process_message_capi.h (cef_process_message_t)</see></para>
+  /// </remarks>
   TCefProcessMessage = record
     base                        : TCefBaseRefCounted;
     is_valid                    : function(self: PCefProcessMessage): Integer; stdcall;
@@ -2069,7 +5137,15 @@ type
     get_shared_memory_region    : function(self: PCefProcessMessage): PCefSharedMemoryRegion; stdcall;
   end;
 
-  // /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)
+  /// <summary>
+  /// Structure used to implement render process callbacks. The functions of this
+  /// structure will be called on the render process main thread (TID_RENDERER)
+  /// unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRenderProcessHandler">Implemented by ICefRenderProcessHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
+  /// </remarks>
   TCefRenderProcessHandler = record
     base                        : TCefBaseRefCounted;
     on_web_kit_initialized      : procedure(self: PCefRenderProcessHandler); stdcall;
@@ -2083,7 +5159,14 @@ type
     on_process_message_received : function(self: PCefRenderProcessHandler; browser: PCefBrowser; frame: PCefFrame; source_process: TCefProcessId; message_: PCefProcessMessage): Integer; stdcall;
   end;
 
-  // /include/capi/cef_request_handler_capi.h (cef_request_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to browser requests. The
+  /// functions of this structure will be called on the thread indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRequestHandler">Implemented by ICefRequestHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_handler_capi.h">CEF source file: /include/capi/cef_request_handler_capi.h (cef_request_handler_t)</see></para>
+  /// </remarks>
   TCefRequestHandler = record
     base                                : TCefBaseRefCounted;
     on_before_browse                    : function(self: PCefRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; user_gesture, isRedirect: Integer): Integer; stdcall;
@@ -2097,28 +5180,57 @@ type
     on_document_available_in_main_frame : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
   end;
 
-  // This record is declared twice with almost identical parameters. "allowed_permissions" is defined as int and uint32.
-  // /include/capi/cef_media_access_handler_capi.h (cef_media_access_callback_t)
-  // /include/capi/cef_permission_handler_capi.h (cef_media_access_callback_t)
+  /// <summary>
+  /// Callback structure used for asynchronous continuation of media access
+  /// permission requests.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaAccessCallback">Implemented by ICefMediaAccessCallback</see></para>
+  /// This record is declared twice with almost identical parameters. "allowed_permissions" is defined as int and uint32.
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h">CEF source file: /include/capi/cef_media_access_handler_capi.h (cef_media_access_callback_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">CEF source file: /include/capi/cef_permission_handler_capi.h (cef_media_access_callback_t)</see></para>
+  /// </remarks>
   TCefMediaAccessCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefMediaAccessCallback; allowed_permissions: integer); stdcall;
     cancel : procedure(self: PCefMediaAccessCallback); stdcall;
   end;
 
-  // /include/capi/cef_media_access_handler_capi.h (cef_media_access_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to media access permission
+  /// requests. The functions of this structure will be called on the browser
+  /// process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMediaAccessHandler">Implemented by ICefMediaAccessHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h">CEF source file: /include/capi/cef_media_access_handler_capi.h (cef_media_access_handler_t)</see></para>
+  /// </remarks>
   TCefMediaAccessHandler = record
     base                               : TCefBaseRefCounted;
     on_request_media_access_permission : function(self: PCefMediaAccessHandler; browser: PCefBrowser; frame: PCefFrame; const requesting_url: PCefString; requested_permissions: integer; callback: PCefMediaAccessCallback): integer; stdcall;
   end;
 
-  // /include/capi/cef_permission_handler_capi.h (cef_permission_prompt_callback_t)
+  /// <summary>
+  /// Callback structure used for asynchronous continuation of permission prompts.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPermissionPromptCallback">Implemented by ICefPermissionPromptCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">CEF source file: /include/capi/cef_permission_handler_capi.h (cef_permission_prompt_callback_t)</see></para>
+  /// </remarks>
   TCefPermissionPromptCallback = record
     base : TCefBaseRefCounted;
     cont : procedure(self: PCefPermissionPromptCallback; result: TCefPermissionRequestResult); stdcall;
   end;
 
-  // /include/capi/cef_permission_handler_capi.h (cef_permission_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to permission requests.
+  /// The functions of this structure will be called on the browser process UI
+  /// thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPermissionHandler">Implemented by ICefPermissionHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">CEF source file: /include/capi/cef_permission_handler_capi.h (cef_permission_handler_t)</see></para>
+  /// </remarks>
   TCefPermissionHandler = record
     base                               : TCefBaseRefCounted;
     on_request_media_access_permission : function(self: PCefPermissionHandler; browser: PCefBrowser; frame: PCefFrame; const requesting_origin: PCefString; requested_permissions: cardinal; callback: PCefMediaAccessCallback): integer; stdcall;
@@ -2126,7 +5238,13 @@ type
     on_dismiss_permission_prompt       : procedure(self: PCefPermissionHandler; browser: PCefBrowser; prompt_id: uint64; result: TCefPermissionRequestResult); stdcall;
   end;
 
-  // /include/capi/cef_shared_memory_region_capi.h (cef_shared_memory_region_t)
+  /// <summary>
+  /// Structure that wraps platform-dependent share memory region mapping.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefSharedMemoryRegion">Implemented by ICefSharedMemoryRegion</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_shared_memory_region_capi.h">CEF source file: /include/capi/cef_shared_memory_region_capi.h (cef_shared_memory_region_t)</see></para>
+  /// </remarks>
   TCefSharedMemoryRegion = record
     base      : TCefBaseRefCounted;
     is_valid  : function(self: PCefSharedMemoryRegion): integer; stdcall;
@@ -2134,7 +5252,15 @@ type
     memory    : function(self: PCefSharedMemoryRegion): pointer; stdcall;
   end;
 
-  // /include/capi/cef_shared_process_message_builder_capi.h (cef_shared_process_message_builder_t)
+  /// <summary>
+  /// Structure that builds a ICefProcessMessage containing a shared memory
+  /// region. This structure is not thread-safe but may be used exclusively on a
+  /// different thread from the one which constructed it.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefSharedProcessMessageBuilder">Implemented by ICefSharedProcessMessageBuilder</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_shared_process_message_builder_capi.h">CEF source file: /include/capi/cef_shared_process_message_builder_capi.h (cef_shared_process_message_builder_t)</see></para>
+  /// </remarks>
   TCefSharedProcessMessageBuilder = record
     base      : TCefBaseRefCounted;
     is_valid  : function(self: PCefSharedProcessMessageBuilder): integer; stdcall;
@@ -2143,19 +5269,39 @@ type
     build     : function(self: PCefSharedProcessMessageBuilder): PCefProcessMessage; stdcall;
   end;
 
-  // /include/capi/cef_resource_handler_capi.h (cef_resource_skip_callback_t)
+  /// <summary>
+  /// Callback for asynchronous continuation of ICefResourceHandler.skip().
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResourceSkipCallback">Implemented by ICefResourceSkipCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_handler_capi.h">CEF source file: /include/capi/cef_resource_handler_capi.h (cef_resource_skip_callback_t)</see></para>
+  /// </remarks>
   TCefResourceSkipCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefResourceSkipCallback; bytes_skipped: int64); stdcall;
   end;
 
-  // /include/capi/cef_resource_handler_capi.h (cef_resource_read_callback_t)
+  /// <summary>
+  /// Callback for asynchronous continuation of ICefResourceHandler.read().
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResourceReadCallback">Implemented by ICefResourceReadCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_handler_capi.h">CEF source file: /include/capi/cef_resource_handler_capi.h (cef_resource_read_callback_t)</see></para>
+  /// </remarks>
   TCefResourceReadCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefResourceReadCallback; bytes_read: int64); stdcall;
   end;
 
-  // /include/capi/cef_resource_handler_capi.h (cef_resource_handler_t)
+  /// <summary>
+  /// Structure used to implement a custom request handler structure. The
+  /// functions of this structure will be called on the IO thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResourceHandler">Implemented by ICefResourceHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_handler_capi.h">CEF source file: /include/capi/cef_resource_handler_capi.h (cef_resource_handler_t)</see></para>
+  /// </remarks>
   TCefResourceHandler = record
     base                  : TCefBaseRefCounted;
     open                  : function(self: PCefResourceHandler; request: PCefRequest; handle_request: PInteger; callback: PCefCallback): Integer; stdcall;
@@ -2167,7 +5313,15 @@ type
     cancel                : procedure(self: PCefResourceHandler); stdcall;
   end;
 
-  // /include/capi/cef_resource_request_handler_capi.h (cef_resource_request_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to browser requests. The
+  /// functions of this structure will be called on the IO thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResourceRequestHandler">Implemented by ICefResourceRequestHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_request_handler_capi.h">CEF source file: /include/capi/cef_resource_request_handler_capi.h (cef_resource_request_handler_t)</see></para>
+  /// </remarks>
   TCefResourceRequestHandler = record
     base                          : TCefBaseRefCounted;
     get_cookie_access_filter      : function(self: PCefResourceRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest): PCefCookieAccessFilter; stdcall;
@@ -2180,14 +5334,29 @@ type
     on_protocol_execution         : procedure(self: PCefResourceRequestHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; allow_os_execution: PInteger); stdcall;
   end;
 
-  // /include/capi/cef_resource_request_handler_capi.h (cef_cookie_access_filter_t)
+  /// <summary>
+  /// Implement this structure to filter cookies that may be sent or received from
+  /// resource requests. The functions of this structure will be called on the IO
+  /// thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefCookieAccessFilter">Implemented by ICefCookieAccessFilter</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_request_handler_capi.h">CEF source file: /include/capi/cef_resource_request_handler_capi.h (cef_cookie_access_filter_t)</see></para>
+  /// </remarks>
   TCefCookieAccessFilter = record
     base                  : TCefBaseRefCounted;
     can_send_cookie       : function(self: PCefCookieAccessFilter; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; const cookie: PCefCookie): Integer; stdcall;
     can_save_cookie       : function(self: PCefCookieAccessFilter; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; response: PCefResponse; const cookie: PCefCookie): Integer; stdcall;
   end;
 
-  // /include/capi/cef_response_capi.h (cef_response_t)
+  /// <summary>
+  /// Structure used to represent a web response. The functions of this structure
+  /// may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResponse">Implemented by ICefResponse</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_response_capi.h">CEF source file: /include/capi/cef_response_capi.h (cef_response_t)</see></para>
+  /// </remarks>
   TCefResponse = record
     base                : TCefBaseRefCounted;
     is_read_only        : function(self: PCefResponse): Integer; stdcall;
@@ -2209,28 +5378,67 @@ type
     set_url             : procedure(self: PCefResponse; const url: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_response_filter_capi.h (cef_response_filter_t)
+  /// <summary>
+  /// Implement this structure to filter resource response content. The functions
+  /// of this structure will be called on the browser process IO thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResponseFilter">Implemented by ICefResponseFilter</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_response_filter_capi.h">CEF source file: /include/capi/cef_response_filter_capi.h (cef_response_filter_t)</see></para>
+  /// </remarks>
   TCefResponseFilter = record
     base        : TCefBaseRefCounted;
     init_filter : function(self: PCefResponseFilter): Integer; stdcall;
     filter      : function(self: PCefResponseFilter; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt): TCefResponseFilterStatus; stdcall;
   end;
 
-  // /include/capi/cef_auth_callback_capi.h (cef_auth_callback_t)
+  /// <summary>
+  /// Callback structure used for asynchronous continuation of authentication
+  /// requests.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefAuthCallback">Implemented by ICefAuthCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_auth_callback_capi.h">CEF source file: /include/capi/cef_auth_callback_capi.h (cef_auth_callback_t)</see></para>
+  /// </remarks>
   TCefAuthCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefAuthCallback; const username, password: PCefString); stdcall;
     cancel : procedure(self: PCefAuthCallback); stdcall;
   end;
 
-  // /include/capi/cef_callback_capi.h (cef_callback_t)
+  /// <summary>
+  /// Generic callback structure used for asynchronous continuation.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefCallback">Implemented by ICefCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_callback_capi.h">CEF source file: /include/capi/cef_callback_capi.h (cef_callback_t)</see></para>
+  /// </remarks>
   TCefCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefCallback); stdcall;
     cancel : procedure(self: PCefCallback); stdcall;
   end;
 
-  // /include/capi/cef_request_context_capi.h (cef_request_context_t)
+  /// <summary>
+  /// A request context provides request handling for a set of related browser or
+  /// URL request objects. A request context can be specified when creating a new
+  /// browser via the ICefBrowserHost static factory functions or when creating
+  /// a new URL request via the ICefUrlRequest static factory functions. Browser
+  /// objects with different request contexts will never be hosted in the same
+  /// render process. Browser objects with the same request context may or may not
+  /// be hosted in the same render process depending on the process model. Browser
+  /// objects created indirectly via the JavaScript window.open function or
+  /// targeted links will share the same render process and the same request
+  /// context as the source browser. When running in single-process mode there is
+  /// only a single render process (the main process) and so all browsers created
+  /// in single-process mode will share the same request context. This will be the
+  /// first request context passed into a ICefBrowserHost static factory
+  /// function and all other request context objects will be ignored.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRequestContext">Implemented by ICefRequestContext</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_capi.h">CEF source file: /include/capi/cef_request_context_capi.h (cef_request_context_t)</see></para>
+  /// </remarks>
   TCefRequestContext = record
     base                            : TCefPreferenceManager;
     is_same                         : function(self, other: PCefRequestContext): Integer; stdcall;
@@ -2251,22 +5459,47 @@ type
     get_extensions                  : function(self: PCefRequestContext; extension_ids: TCefStringList): Integer; stdcall;
     get_extension                   : function(self: PCefRequestContext; const extension_id: PCefString): PCefExtension; stdcall;
     get_media_router                : function(self: PCefRequestContext; callback: PCefCompletionCallback): PCefMediaRouter; stdcall;
+    get_website_setting             : function(self: PCefRequestContext; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes): PCefValue; stdcall;
+    set_website_setting             : procedure(self: PCefRequestContext; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes; value: PCefValue); stdcall;
+    get_content_setting             : function(self: PCefRequestContext; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes): TCefContentSettingValues; stdcall;
+    set_content_setting             : procedure(self: PCefRequestContext; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes; value: TCefContentSettingValues); stdcall;
   end;
 
-  // /include/capi/cef_request_context_handler_capi.h (cef_request_context_handler_t)
+  /// <summary>
+  /// Implement this structure to provide handler implementations. The handler
+  /// instance will not be released until all objects related to the context have
+  /// been destroyed.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRequestContextHandler">Implemented by ICefRequestContextHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_handler_capi.h">CEF source file: /include/capi/cef_request_context_handler_capi.h (cef_request_context_handler_t)</see></para>
+  /// </remarks>
   TCefRequestContextHandler = record
     base                            : TCefBaseRefCounted;
     on_request_context_initialized  : procedure(self: PCefRequestContextHandler; request_context: PCefRequestContext); stdcall;
     get_resource_request_handler    : function(self: PCefRequestContextHandler; browser: PCefBrowser; frame: PCefFrame; request: PCefRequest; is_navigation, is_download: Integer; const request_initiator: PCefString; disable_default_handling: PInteger): PCefResourceRequestHandler; stdcall;
   end;
 
-  // /include/capi/cef_callback_capi.h (cef_completion_callback_t)
+  /// <summary>
+  /// Generic callback structure used for asynchronous completion.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefCompletionCallback">Implemented by ICefCompletionCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_callback_capi.h">CEF source file: /include/capi/cef_callback_capi.h (cef_completion_callback_t)</see></para>
+  /// </remarks>
   TCefCompletionCallback = record
     base        : TCefBaseRefCounted;
     on_complete : procedure(self: PCefCompletionCallback); stdcall;
   end;
 
-  // /include/capi/cef_cookie_capi.h (cef_cookie_manager_t)
+  /// <summary>
+  /// Structure used for managing cookies. The functions of this structure may be
+  /// called on any thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefCookieManager">Implemented by ICefCookieManager</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">CEF source file: /include/capi/cef_cookie_capi.h (cef_cookie_manager_t)</see></para>
+  /// </remarks>
   TCefCookieManager = record
     base                  : TCefBaseRefCounted;
     visit_all_cookies     : function(self: PCefCookieManager; visitor: PCefCookieVisitor): Integer; stdcall;
@@ -2276,49 +5509,109 @@ type
     flush_store           : function(self: PCefCookieManager; callback: PCefCompletionCallback): Integer; stdcall;
   end;
 
-  // /include/capi/cef_scheme_capi.h (cef_scheme_handler_factory_t)
+  /// <summary>
+  /// Structure that creates ICefResourceHandler instances for handling scheme
+  /// requests. The functions of this structure will always be called on the IO
+  /// thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefSchemeHandlerFactory">Implemented by ICefSchemeHandlerFactory</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_scheme_capi.h">CEF source file: /include/capi/cef_scheme_capi.h (cef_scheme_handler_factory_t)</see></para>
+  /// </remarks>
   TCefSchemeHandlerFactory = record
     base   : TCefBaseRefCounted;
     create : function(self: PCefSchemeHandlerFactory; browser: PCefBrowser; frame: PCefFrame; const scheme_name: PCefString; request: PCefRequest): PCefResourceHandler; stdcall;
   end;
 
-  // /include/capi/cef_request_context_capi.h (cef_resolve_callback_t)
+  /// <summary>
+  /// Callback structure for ICefRequestContext.ResolveHost.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResolveCallback">Implemented by ICefResolveCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_capi.h">CEF source file: /include/capi/cef_request_context_capi.h (cef_resolve_callback_t)</see></para>
+  /// </remarks>
   TCefResolveCallback = record
     base                 : TCefBaseRefCounted;
     on_resolve_completed : procedure(self: PCefResolveCallback; result: TCefErrorCode; resolved_ips: TCefStringList); stdcall;
   end;
 
-  // /include/capi/cef_cookie_capi.h (cef_cookie_visitor_t)
+  /// <summary>
+  /// Structure to implement for visiting cookie values. The functions of this
+  /// structure will always be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefCookieVisitor">Implemented by ICefCookieVisitor</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">CEF source file: /include/capi/cef_cookie_capi.h (cef_cookie_visitor_t)</see></para>
+  /// </remarks>
   TCefCookieVisitor = record
     base  : TCefBaseRefCounted;
     visit : function(self: PCefCookieVisitor; const cookie: PCefCookie; count, total: Integer; deleteCookie: PInteger): Integer; stdcall;
   end;
 
-  // /include/capi/cef_cookie_capi.h (cef_set_cookie_callback_t)
+  /// <summary>
+  /// Structure to implement to be notified of asynchronous completion via
+  /// ICefCookieManager.SetCookie().
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefSetCookieCallback">Implemented by ICefSetCookieCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">CEF source file: /include/capi/cef_cookie_capi.h (cef_set_cookie_callback_t)</see></para>
+  /// </remarks>
   TCefSetCookieCallback = record
     base        : TCefBaseRefCounted;
     on_complete : procedure(self: PCefSetCookieCallback; success: Integer); stdcall;
   end;
 
-  // /include/capi/cef_cookie_capi.h (cef_delete_cookies_callback_t)
+  /// <summary>
+  /// Structure to implement to be notified of asynchronous completion via
+  /// ICefCookieManager.DeleteCookies().
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDeleteCookiesCallback">Implemented by ICefDeleteCookiesCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">CEF source file: /include/capi/cef_cookie_capi.h (cef_delete_cookies_callback_t)</see></para>
+  /// </remarks>
   TCefDeleteCookiesCallback = record
     base        : TCefBaseRefCounted;
     on_complete : procedure(self: PCefDeleteCookiesCallback; num_deleted: Integer); stdcall;
   end;
 
-  // /include/capi/cef_browser_capi.h (cef_run_file_dialog_callback_t)
+  /// <summary>
+  /// Callback structure for ICefBrowserHost.RunFileDialog. The functions of
+  /// this structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRunFileDialogCallback">Implemented by ICefRunFileDialogCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_run_file_dialog_callback_t)</see></para>
+  /// </remarks>
   TCefRunFileDialogCallback = record
     base                     : TCefBaseRefCounted;
     on_file_dialog_dismissed : procedure(self: PCefRunFileDialogCallback; file_paths: TCefStringList); stdcall;
   end;
 
-  // /include/capi/cef_browser_capi.h (cef_download_image_callback_t)
+  /// <summary>
+  /// Callback structure for ICefBrowserHost.DownloadImage. The functions of
+  /// this structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDownloadImageCallback">Implemented by ICefDownloadImageCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_download_image_callback_t)</see></para>
+  /// </remarks>
   TCefDownloadImageCallback = record
     base                       : TCefBaseRefCounted;
     on_download_image_finished : procedure(self: PCefDownloadImageCallback; const image_url: PCefString; http_status_code: Integer; image: PCefImage); stdcall;
   end;
 
-  // /include/capi/cef_image_capi.h (cef_image_t)
+  /// <summary>
+  /// Container for a single image represented at different scale factors. All
+  /// image representations should be the same size in density independent pixel
+  /// (DIP) units. For example, if the image at scale factor 1.0 is 100x100 pixels
+  /// then the image at scale factor 2.0 should be 200x200 pixels -- both images
+  /// will display with a DIP size of 100x100 units. The functions of this
+  /// structure can be called on any browser process thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefImage">Implemented by ICefImage</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_image_capi.h">CEF source file: /include/capi/cef_image_capi.h (cef_image_t)</see></para>
+  /// </remarks>
   TCefImage = record
     base                    : TCefBaseRefCounted;
     is_empty                : function(self: PCefImage): Integer; stdcall;
@@ -2336,19 +5629,39 @@ type
     get_as_jpeg             : function(self: PCefImage; scale_factor: Single; quality: Integer; pixel_width, pixel_height: PInteger): PCefBinaryValue; stdcall;
   end;
 
-  // /include/capi/cef_browser_capi.h (cef_pdf_print_callback_t)
+  /// <summary>
+  /// Callback structure for ICefBrowserHost.PrintToPDF. The functions of this
+  /// structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPdfPrintCallback">Implemented by ICefPdfPrintCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_pdf_print_callback_t)</see></para>
+  /// </remarks>
   TCefPdfPrintCallback = record
     base                  : TCefBaseRefCounted;
     on_pdf_print_finished : procedure(self: PCefPdfPrintCallback; const path: PCefString; ok: Integer); stdcall;
   end;
 
-  // /include/capi/cef_browser_capi.h (cef_navigation_entry_visitor_t)
+  /// <summary>
+  /// Callback structure for ICefBrowserHost.GetNavigationEntries. The
+  /// functions of this structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefNavigationEntryVisitor">Implemented by ICefNavigationEntryVisitor</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_navigation_entry_visitor_t)</see></para>
+  /// </remarks>
   TCefNavigationEntryVisitor = record
     base  : TCefBaseRefCounted;
     visit : function(self: PCefNavigationEntryVisitor; entry: PCefNavigationEntry; current, index, total: Integer): Integer; stdcall;
   end;
 
-  // /include/capi/cef_navigation_entry_capi.h (cef_navigation_entry_t)
+  /// <summary>
+  /// Structure used to represent an entry in navigation history.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefNavigationEntry">Implemented by ICefNavigationEntry</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_navigation_entry_capi.h">CEF source file: /include/capi/cef_navigation_entry_capi.h (cef_navigation_entry_t)</see></para>
+  /// </remarks>
   TCefNavigationEntry = record
     base                  : TCefBaseRefCounted;
     is_valid              : function(self: PCefNavigationEntry): Integer; stdcall;
@@ -2363,7 +5676,13 @@ type
     get_sslstatus         : function(self: PCefNavigationEntry): PCefSSLStatus; stdcall;
   end;
 
-  // /include/capi/cef_print_settings_capi.h (cef_print_settings_t)
+  /// <summary>
+  /// Structure representing print settings.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPrintSettings">Implemented by ICefPrintSettings</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_settings_capi.h">CEF source file: /include/capi/cef_print_settings_capi.h (cef_print_settings_t)</see></para>
+  /// </remarks>
   TCefPrintSettings = record
     base                        : TCefBaseRefCounted;
     is_valid                    : function(self: PCefPrintSettings): Integer; stdcall;
@@ -2390,20 +5709,40 @@ type
     get_duplex_mode             : function(self: PCefPrintSettings): TCefDuplexMode; stdcall;
   end;
 
-  // /include/capi/cef_print_handler_capi.h (cef_print_dialog_callback_t)
+  /// <summary>
+  /// Callback structure for asynchronous continuation of print dialog requests.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPrintDialogCallback">Implemented by ICefPrintDialogCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h">CEF source file: /include/capi/cef_print_handler_capi.h (cef_print_dialog_callback_t)</see></para>
+  /// </remarks>
   TCefPrintDialogCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefPrintDialogCallback; settings: PCefPrintSettings); stdcall;
     cancel : procedure(self: PCefPrintDialogCallback); stdcall;
   end;
 
-  // /include/capi/cef_print_handler_capi.h (cef_print_job_callback_t)
+  /// <summary>
+  /// Callback structure for asynchronous continuation of print job requests.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPrintJobCallback">Implemented by ICefPrintJobCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h">CEF source file: /include/capi/cef_print_handler_capi.h (cef_print_job_callback_t)</see></para>
+  /// </remarks>
   TCefPrintJobCallback = record
     base : TCefBaseRefCounted;
     cont : procedure(self: PCefPrintJobCallback); stdcall;
   end;
 
-  // /include/capi/cef_print_handler_capi.h (cef_print_handler_t)
+  /// <summary>
+  /// Implement this structure to handle printing on Linux. Each browser will have
+  /// only one print job in progress at a time. The functions of this structure
+  /// will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPrintHandler">Implemented by ICefPrintHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h">CEF source file: /include/capi/cef_print_handler_capi.h (cef_print_handler_t)</see></para>
+  /// </remarks>
   TCefPrintHandler = record
     base                : TCefBaseRefCounted;
     on_print_start      : procedure(self: PCefPrintHandler; browser: PCefBrowser); stdcall;
@@ -2414,7 +5753,14 @@ type
     get_pdf_paper_size  : function(self: PCefPrintHandler; browser: PCefBrowser; device_units_per_inch: Integer): TCefSize; stdcall;
   end;
 
-  // /include/capi/cef_drag_data_capi.h (cef_drag_data_t)
+  /// <summary>
+  /// Structure used to represent drag data. The functions of this structure may
+  /// be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDragData">Implemented by ICefDragData</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_drag_data_capi.h">CEF source file: /include/capi/cef_drag_data_capi.h (cef_drag_data_t)</see></para>
+  /// </remarks>
   TCefDragData = record
     base                  : TCefBaseRefCounted;
     clone                 : function(self: PCefDragData): PCefDragData; stdcall;
@@ -2445,7 +5791,21 @@ type
     has_image             : function(self: PCefDragData): Integer; stdcall;
   end;
 
-  // /include/capi/cef_command_line_capi.h (cef_command_line_t)
+  /// <summary>
+  /// Structure used to create and/or parse command line arguments. Arguments with
+  /// "--", "-" and, on Windows, "/" prefixes are considered switches. Switches
+  /// will always precede any arguments without switch prefixes. Switches can
+  /// optionally have a value specified using the "=" delimiter (e.g.
+  /// "-switch=value"). An argument of "--" will terminate switch parsing with all
+  /// subsequent tokens, regardless of prefix, being interpreted as non-switch
+  /// arguments. Switch names should be lowercase ASCII and will be converted to
+  /// such if necessary. Switch values will retain the original case and UTF8
+  /// encoding. This structure can be used before cef_initialize() is called.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefCommandLine">Implemented by ICefCommandLine</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_line_capi.h">CEF source file: /include/capi/cef_command_line_capi.h (cef_command_line_t)</see></para>
+  /// </remarks>
   TCefCommandLine = record
     base                      : TCefBaseRefCounted;
     is_valid                  : function(self: PCefCommandLine): Integer; stdcall;
@@ -2470,7 +5830,14 @@ type
     prepend_wrapper           : procedure(self: PCefCommandLine; const wrapper: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_command_handler_capi.h (cef_command_handler_t)
+  /// <summary>
+  /// Implement this structure to handle events related to commands. The functions
+  /// of this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefCommandHandler">Implemented by ICefCommandHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_handler_capi.h">CEF source file: /include/capi/cef_command_handler_capi.h (cef_command_handler_t)</see></para>
+  /// </remarks>
   TCefCommandHandler = record
     base                                 : TCefBaseRefCounted;
     on_chrome_command                    : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): Integer; stdcall;
@@ -2480,13 +5847,26 @@ type
     is_chrome_toolbar_button_visible     : function(self: PCefCommandHandler; button_type: TCefChromeToolbarButtonType): integer; stdcall;
   end;
 
-  // /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)
+  /// <summary>
+  /// Structure that manages custom scheme registrations.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefSchemeRegistrar">Implemented by ICefSchemeRegistrar</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_scheme_capi.h">CEF source file: /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)</see></para>
+  /// </remarks>
   TCefSchemeRegistrar = record
     base              : TCefBaseScoped;
     add_custom_scheme : function(self: PCefSchemeRegistrar; const scheme_name: PCefString; options : TCefSchemeOptions): Integer; stdcall;
   end;
 
-  // /include/capi/cef_values_capi.h (cef_binary_value_t)
+  /// <summary>
+  /// Structure representing a binary value. Can be used on any process and
+  /// thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBinaryValue">Implemented by ICefBinaryValue</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_binary_value_t)</see></para>
+  /// </remarks>
   TCefBinaryValue = record
     base      : TCefBaseRefCounted;
     is_valid  : function(self: PCefBinaryValue): Integer; stdcall;
@@ -2498,7 +5878,15 @@ type
     get_data  : function(self: PCefBinaryValue; buffer: Pointer; buffer_size, data_offset: NativeUInt): NativeUInt; stdcall;
   end;
 
-  // /include/capi/cef_values_capi.h (cef_value_t)
+  /// <summary>
+  /// Structure that wraps other data value types. Complex types (binary,
+  /// dictionary and list) will be referenced but not owned by this object. Can be
+  /// used on any process and thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefValue">Implemented by ICefValue</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_value_t)</see></para>
+  /// </remarks>
   TCefValue = record
     base            : TCefBaseRefCounted;
     is_valid        : function(self: PCefValue): Integer; stdcall;
@@ -2525,7 +5913,14 @@ type
     set_list        : function(self: PCefValue; value: PCefListValue): Integer; stdcall;
   end;
 
-  // /include/capi/cef_values_capi.h (cef_dictionary_value_t)
+  /// <summary>
+  /// Structure representing a dictionary value. Can be used on any process and
+  /// thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDictionaryValue">Implemented by ICefDictionaryValue</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_dictionary_value_t)</see></para>
+  /// </remarks>
   TCefDictionaryValue = record
     base            : TCefBaseRefCounted;
     is_valid        : function(self: PCefDictionaryValue): Integer; stdcall;
@@ -2559,7 +5954,13 @@ type
     set_list        : function(self: PCefDictionaryValue; const key: PCefString; value: PCefListValue): Integer; stdcall;
   end;
 
-  // /include/capi/cef_values_capi.h (cef_list_value_t)
+  /// <summary>
+  /// Structure representing a list value. Can be used on any process and thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefListValue">Implemented by ICefListValue</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_list_value_t)</see></para>
+  /// </remarks>
   TCefListValue = record
     base            : TCefBaseRefCounted;
     is_valid        : function(self: PCefListValue): Integer; stdcall;
@@ -2592,13 +5993,26 @@ type
     set_list        : function(self: PCefListValue; index: NativeUInt; value: PCefListValue): Integer; stdcall;
   end;
 
-  // /include/capi/cef_string_visitor_capi.h (cef_string_visitor_t)
+  /// <summary>
+  /// Implement this structure to receive string values asynchronously.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefStringVisitor">Implemented by ICefStringVisitor</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_string_visitor_capi.h">CEF source file: /include/capi/cef_string_visitor_capi.h (cef_string_visitor_t)</see></para>
+  /// </remarks>
   TCefStringVisitor = record
     base  : TCefBaseRefCounted;
     visit : procedure(self: PCefStringVisitor; const str: PCefString); stdcall;
   end;
 
-  // /include/capi/cef_request_capi.h (cef_post_data_element_t)
+  /// <summary>
+  /// Structure used to represent a single element in the request post data. The
+  /// functions of this structure may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPostDataElement">Implemented by ICefPostDataElement</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h">CEF source file: /include/capi/cef_request_capi.h (cef_post_data_element_t)</see></para>
+  /// </remarks>
   TCefPostDataElement = record
     base            : TCefBaseRefCounted;
     is_read_only    : function(self: PCefPostDataElement): Integer; stdcall;
@@ -2611,7 +6025,14 @@ type
     get_bytes       : function(self: PCefPostDataElement; size: NativeUInt; bytes: Pointer): NativeUInt; stdcall;
   end;
 
-  // /include/capi/cef_request_capi.h (cef_post_data_t)
+  /// <summary>
+  /// Structure used to represent post data for a web request. The functions of
+  /// this structure may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPostData>Implemented by ICefPostData</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h">CEF source file: /include/capi/cef_request_capi.h (cef_post_data_t)</see></para>
+  /// </remarks>
   TCefPostData = record
     base                  : TCefBaseRefCounted;
     is_read_only          : function(self: PCefPostData): Integer; stdcall;
@@ -2623,7 +6044,14 @@ type
     remove_elements       : procedure(self: PCefPostData); stdcall;
   end;
 
-  // /include/capi/cef_request_capi.h (cef_request_t)
+  /// <summary>
+  /// Structure used to represent a web request. The functions of this structure
+  /// may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRequest">Implemented by ICefRequest</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h">CEF source file: /include/capi/cef_request_capi.h (cef_request_t)</see></para>
+  /// </remarks>
   TCefRequest = record
     base                        : TCefBaseRefCounted;
     is_read_only                : function(self: PCefRequest): Integer; stdcall;
@@ -2650,19 +6078,46 @@ type
     get_identifier              : function(self: PCefRequest): UInt64; stdcall;
   end;
 
-  // /include/capi/cef_task_capi.h (cef_task_t)
+  /// <summary>
+  /// Implement this structure for asynchronous task execution. If the task is
+  /// posted successfully and if the associated message loop is still running then
+  /// the execute() function will be called on the target thread. If the task
+  /// fails to post then the task object may be destroyed on the source thread
+  /// instead of the target thread. For this reason be cautious when performing
+  /// work in the task object destructor.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefTask">Implemented by ICefTask</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_capi.h">CEF source file: /include/capi/cef_task_capi.h (cef_task_t)</see></para>
+  /// </remarks>
   TCefTask = record
     base    : TCefBaseRefCounted;
     execute : procedure(self: PCefTask); stdcall;
   end;
 
-  // /include/capi/cef_dom_capi.h (cef_domvisitor_t)
+  /// <summary>
+  /// Structure to implement for visiting the DOM. The functions of this structure
+  /// will be called on the render process main thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDomVisitor">Implemented by ICefDomVisitor</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h">CEF source file: /include/capi/cef_dom_capi.h (cef_domvisitor_t)</see></para>
+  /// </remarks>
   TCefDomVisitor = record
     base  : TCefBaseRefCounted;
     visit : procedure(self: PCefDomVisitor; document: PCefDomDocument); stdcall;
   end;
 
-  // /include/capi/cef_menu_model_capi.h (cef_menu_model_t)
+  /// <summary>
+  /// Supports creation and modification of menus. See TCefMenuId (cef_menu_id_t) for the
+  /// command ids that have default implementations. All user-defined command ids
+  /// should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of
+  /// this structure can only be accessed on the browser process the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMenuModel">Implemented by ICefMenuModel</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_menu_model_capi.h">CEF source file: /include/capi/cef_menu_model_capi.h (cef_menu_model_t)</see></para>
+  /// </remarks>
   TCefMenuModel = record
     base                  : TCefBaseRefCounted;
     is_sub_menu           : function(self: PCefMenuModel): Integer; stdcall;
@@ -2723,7 +6178,14 @@ type
     set_font_list_at      : function(self: PCefMenuModel; index: Integer; const font_list: PCefString): Integer; stdcall;
   end;
 
-  // /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_params_t)
+  /// <summary>
+  /// Provides information about the context menu state. The functions of this
+  /// structure can only be accessed on browser process the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefContextMenuParams">Implemented by ICefContextMenuParams</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_params_t)</see></para>
+  /// </remarks>
   TCefContextMenuParams = record
     base                        : TCefBaseRefCounted;
     get_xcoord                  : function(self: PCefContextMenuParams): Integer; stdcall;
@@ -2748,7 +6210,13 @@ type
     is_custom_menu              : function(self: PCefContextMenuParams): Integer; stdcall;
   end;
 
-  // /include/capi/cef_download_item_capi.h (cef_download_item_t)
+  /// <summary>
+  /// Structure used to represent a download item.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDownloadItem">Implemented by ICefDownloadItem</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_item_capi.h">CEF source file: /include/capi/cef_download_item_capi.h (cef_download_item_t)</see></para>
+  /// </remarks>
   TCefDownloadItem = record
     base                    : TCefBaseRefCounted;
     is_valid                : function(self: PCefDownloadItem): Integer; stdcall;
@@ -2772,13 +6240,25 @@ type
     get_mime_type           : function(self: PCefDownloadItem): PCefStringUserFree; stdcall;
   end;
 
-  // /include/capi/cef_download_handler_capi.h (cef_before_download_callback_t)
+  /// <summary>
+  /// Callback structure used to asynchronously continue a download.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBeforeDownloadCallback">Implemented by ICefBeforeDownloadCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_handler_capi.h">CEF source file: /include/capi/cef_download_handler_capi.h (cef_before_download_callback_t)</see></para>
+  /// </remarks>
   TCefBeforeDownloadCallback = record
     base : TCefBaseRefCounted;
     cont : procedure(self: PCefBeforeDownloadCallback; const download_path: PCefString; show_dialog: Integer); stdcall;
   end;
 
-  // /include/capi/cef_download_handler_capi.h (cef_download_item_callback_t)
+  /// <summary>
+  /// Callback structure used to asynchronously cancel a download.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDownloadItemCallback">Implemented by ICefDownloadItemCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_handler_capi.h">CEF source file: /include/capi/cef_download_handler_capi.h (cef_download_item_callback_t)</see></para>
+  /// </remarks>
   TCefDownloadItemCallback = record
     base   : TCefBaseRefCounted;
     cancel : procedure(self: PCefDownloadItemCallback); stdcall;
@@ -2786,7 +6266,14 @@ type
     resume : procedure(self: PCefDownloadItemCallback); stdcall;
   end;
 
-  // /include/capi/cef_dom_capi.h (cef_domnode_t)
+  /// <summary>
+  /// Structure used to represent a DOM node. The functions of this structure
+  /// should only be called on the render process main thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDomNode">Implemented by ICefDomNode</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h">CEF source file: /include/capi/cef_dom_capi.h (cef_domnode_t)</see></para>
+  /// </remarks>
   TCefDomNode = record
     base                          : TCefBaseRefCounted;
     get_type                      : function(self: PCefDomNode): TCefDomNodeType; stdcall;
@@ -2817,7 +6304,14 @@ type
     get_element_bounds            : function(self: PCefDomNode): TCefRect; stdcall;
   end;
 
-  // /include/capi/cef_dom_capi.h (cef_domdocument_t)
+  /// <summary>
+  /// Structure used to represent a DOM document. The functions of this structure
+  /// should only be called on the render process main thread thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDomDocument">Implemented by ICefDomDocument</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h">CEF source file: /include/capi/cef_dom_capi.h (cef_domdocument_t)</see></para>
+  /// </remarks>
   TCefDomDocument = record
     base                        : TCefBaseRefCounted;
     get_type                    : function(self: PCefDomDocument): TCefDomDocumentType; stdcall;
@@ -2838,13 +6332,28 @@ type
 
   PCefV8ValueArray = array[0..(High(Integer) div SizeOf(Pointer)) - 1] of PCefV8Value;
 
-  // /include/capi/cef_v8_capi.h (cef_v8handler_t)
+  /// <summary>
+  /// Structure that should be implemented to handle V8 function calls. The
+  /// functions of this structure will be called on the thread associated with the
+  /// V8 function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefv8Handler">Implemented by ICefv8Handler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8handler_t)</see></para>
+  /// </remarks>
   TCefv8Handler = record
     base    : TCefBaseRefCounted;
     execute : function(self: PCefv8Handler; const name: PCefString; object_: PCefv8Value; argumentsCount: NativeUInt; const arguments: PPCefV8Value; var retval: PCefV8Value; exception: PCefString): Integer; stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8exception_t)
+  /// <summary>
+  /// Structure representing a V8 exception. The functions of this structure may
+  /// be called on any render process thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefV8Exception">Implemented by ICefV8Exception</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8exception_t)</see></para>
+  /// </remarks>
   TCefV8Exception = record
     base                      : TCefBaseRefCounted;
     get_message               : function(self: PCefV8Exception): PCefStringUserFree; stdcall;
@@ -2857,13 +6366,29 @@ type
     get_end_column            : function(self: PCefV8Exception): Integer; stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8array_buffer_release_callback_t)
+  /// <summary>
+  /// Callback structure that is passed to ICefv8value.CreateArrayBuffer.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefv8ArrayBufferReleaseCallback">Implemented by ICefv8ArrayBufferReleaseCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8array_buffer_release_callback_t)</see></para>
+  /// </remarks>
   TCefv8ArrayBufferReleaseCallback = record
     base                      : TCefBaseRefCounted;
     release_buffer            : procedure(self: PCefv8ArrayBufferReleaseCallback; buffer : Pointer); stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8value_t)
+  /// <summary>
+  /// Structure representing a V8 value handle. V8 handles can only be accessed
+  /// from the thread on which they are created. Valid threads for creating a V8
+  /// handle include the render process main thread (TID_RENDERER) and WebWorker
+  /// threads. A task runner for posting tasks on the associated thread can be
+  /// retrieved via the ICefv8context.GetTaskRunner() function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefv8Value">Implemented by ICefv8Value</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8value_t)</see></para>
+  /// </remarks>
   TCefv8Value = record
     base                                : TCefBaseRefCounted;
     is_valid                            : function(self: PCefv8Value): Integer; stdcall;
@@ -2918,7 +6443,17 @@ type
     reject_promise                      : function(self: PCefv8Value; const errorMsg: PCefString): Integer; stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8context_t)
+  /// <summary>
+  /// Structure representing a V8 context handle. V8 handles can only be accessed
+  /// from the thread on which they are created. Valid threads for creating a V8
+  /// handle include the render process main thread (TID_RENDERER) and WebWorker
+  /// threads. A task runner for posting tasks on the associated thread can be
+  /// retrieved via the ICefv8context.GetTaskRunner() function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefv8Context">Implemented by ICefv8Context</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8context_t)</see></para>
+  /// </remarks>
   TCefV8Context = record
     base            : TCefBaseRefCounted;
     get_task_runner : function(self: PCefv8Context): PCefTaskRunner; stdcall;
@@ -2932,7 +6467,18 @@ type
     eval            : function(self: PCefv8Context; const code, script_url: PCefString; start_line: integer; var retval: PCefv8Value; var exception: PCefV8Exception): Integer; stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8interceptor_t)
+  /// <summary>
+  /// Structure that should be implemented to handle V8 interceptor calls. The
+  /// functions of this structure will be called on the thread associated with the
+  /// V8 interceptor. Interceptor's named property handlers (with first argument
+  /// of type CefString) are called when object is indexed by string. Indexed
+  /// property handlers (with first argument of type int) are called when object
+  /// is indexed by integer.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefV8Interceptor">Implemented by ICefV8Interceptor</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8interceptor_t)</see></para>
+  /// </remarks>
   TCefV8Interceptor = record
     base        : TCefBaseRefCounted;
     get_byname  : function(self: PCefV8Interceptor; const name: PCefString; object_: PCefV8Value; out retval: PCefv8Value; exception: PCefString): integer; stdcall;
@@ -2941,14 +6487,32 @@ type
     set_byindex : function(self: PCefV8Interceptor; index: integer; object_, value: PCefv8Value; exception: PCefString): integer; stdcall;
   end;
 
-  // /include/capi/cef_v8_capi.h (cef_v8accessor_t)
+  /// <summary>
+  /// Structure that should be implemented to handle V8 accessor calls. Accessor
+  /// identifiers are registered by calling ICefv8value.SetValue(). The
+  /// functions of this structure will be called on the thread associated with the
+  /// V8 accessor.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefV8Accessor">Implemented by ICefV8Accessor</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8accessor_t)</see></para>
+  /// </remarks>
   TCefV8Accessor = record
     base : TCefBaseRefCounted;
     get  : function(self: PCefV8Accessor; const name: PCefString; object_: PCefv8Value; out retval: PCefv8Value; exception: PCefString): Integer; stdcall;
     set_ : function(self: PCefV8Accessor; const name: PCefString; object_, value: PCefv8Value; exception: PCefString): Integer; stdcall;
   end;
 
-  // /include/capi/cef_frame_capi.h (cef_frame_t)
+  /// <summary>
+  /// Structure used to represent a frame in the browser window. When used in the
+  /// browser process the functions of this structure may be called on any thread
+  /// unless otherwise indicated in the comments. When used in the render process
+  /// the functions of this structure may only be called on the main thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefFrame">Implemented by ICefFrame</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_capi.h">CEF source file: /include/capi/cef_frame_capi.h (cef_frame_t)</see></para>
+  /// </remarks>
   TCefFrame = record
     base                 : TCefBaseRefCounted;
     is_valid             : function(self: PCefFrame): Integer; stdcall;
@@ -2978,7 +6542,87 @@ type
     send_process_message : procedure(self: PCefFrame; target_process: TCefProcessId; message_: PCefProcessMessage); stdcall;
   end;
 
-  // /include/capi/cef_frame_handler_capi.h (cef_frame_handler_t)
+  /// <summary>
+  /// Implement this STRUCTURE to handle events related to ICefFrame life span.
+  /// The order of callbacks is:
+  ///
+  /// (1) During initial ICefBrowserHost creation and navigation of the main
+  /// frame:
+  /// - ICefFrameHandler.OnFrameCreated => The initial main frame
+  /// object has been created. Any commands will be queued until the frame is attached.
+  /// - ICefFrameHandler.OnMainFrameChanged => The initial main frame object
+  /// has been assigned to the browser.
+  /// - ICefLifeSpanHandler.OnAfterCreated => The browser is now valid and
+  /// can be used.
+  /// - ICefFrameHandler.OnFrameAttached => The initial main frame object is
+  /// now connected to its peer in the renderer process. Commands can be routed.
+  ///
+  /// (2) During further ICefBrowserHost navigation/loading of the main frame
+  ///     and/or sub-frames:
+  /// - ICefFrameHandler.OnFrameCreated => A new main frame or sub-frame
+  /// object has been created. Any commands will be queued until the frame is attached.
+  /// - ICefFrameHandler.OnFrameAttached => A new main frame or sub-frame
+  /// object is now connected to its peer in the renderer process. Commands can be routed.
+  /// - ICefFrameHandler.OnFrameDetached => An existing main frame or sub-
+  /// frame object has lost its connection to the renderer process. If multiple
+  ///   objects are detached at the same time then notifications will be sent for
+  ///   any sub-frame objects before the main frame object. Commands can no longer
+  ///   be routed and will be discarded.
+  /// - ICefFrameHandler.OnMainFrameChanged => A new main frame object has
+  /// been assigned to the browser. This will only occur with cross-origin navigation
+  ///   or re-navigation after renderer process termination (due to crashes, etc).
+  ///
+  /// (3) During final ICefBrowserHost destruction of the main frame:
+  /// - ICefFrameHandler.OnFrameDetached => Any sub-frame objects have lost
+  /// their connection to the renderer process. Commands can no longer be routed and
+  ///   will be discarded.
+  /// - ICefLifeSpanHandler.OnBeforeClose => The browser has been destroyed.
+  /// - ICefFrameHandler.OnFrameDetached => The main frame object have lost
+  /// its connection to the renderer process. Notifications will be sent for any
+  ///   sub-frame objects before the main frame object. Commands can no longer be
+  ///   routed and will be discarded.
+  /// - ICefFrameHandler.OnMainFrameChanged => The final main frame object has
+  ///   been removed from the browser.
+  ///
+  /// Cross-origin navigation and/or loading receives special handling.
+  ///
+  /// When the main frame navigates to a different origin the OnMainFrameChanged
+  /// callback (2) will be executed with the old and new main frame objects.
+  ///
+  /// When a new sub-frame is loaded in, or an existing sub-frame is navigated to,
+  /// a different origin from the parent frame, a temporary sub-frame object will
+  /// first be created in the parent's renderer process. That temporary sub-frame
+  /// will then be discarded after the real cross-origin sub-frame is created in
+  /// the new/target renderer process. The client will receive cross-origin
+  /// navigation callbacks (2) for the transition from the temporary sub-frame to
+  /// the real sub-frame. The temporary sub-frame will not recieve or execute
+  /// commands during this transitional period (any sent commands will be
+  /// discarded).
+  ///
+  /// When a new popup browser is created in a different origin from the parent
+  /// browser, a temporary main frame object for the popup will first be created
+  /// in the parent's renderer process. That temporary main frame will then be
+  /// discarded after the real cross-origin main frame is created in the
+  /// new/target renderer process. The client will recieve creation and initial
+  /// navigation callbacks (1) for the temporary main frame, followed by cross-
+  /// origin navigation callbacks (2) for the transition from the temporary main
+  /// frame to the real main frame. The temporary main frame may receive and
+  /// execute commands during this transitional period (any sent commands may be
+  /// executed, but the behavior is potentially undesirable since they execute in
+  /// the parent browser's renderer process and not the new/target renderer
+  /// process).
+  ///
+  /// Callbacks will not be executed for placeholders that may be created during
+  /// pre-commit navigation for sub-frames that do not yet exist in the renderer
+  /// process. Placeholders will have ICefFrame.GetIdentifier() == -4.
+  ///
+  /// The functions of this interface will be called on the UI thread unless
+  /// otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefFrameHandler">Implemented by ICefFrameHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_handler_capi.h">CEF source file: /include/capi/cef_frame_handler_capi.h (cef_frame_handler_t)</see></para>
+  /// </remarks>
   TCefFrameHandler = record
     base                  : TCefBaseRefCounted;
     on_frame_created      : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
@@ -2987,15 +6631,29 @@ type
     on_main_frame_changed : procedure(self: PCefFrameHandler; browser: PCefBrowser; old_frame, new_frame: PCefFrame); stdcall;
   end;
 
-
-  // /include/capi/cef_accessibility_handler_capi.h (cef_accessibility_handler_t)
+  /// <summary>
+  /// Implement this structure to receive accessibility notification when
+  /// accessibility events have been registered. The functions of this structure
+  /// will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefAccessibilityHandler">Implemented by ICefAccessibilityHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_accessibility_handler_capi.h">CEF source file: /include/capi/cef_accessibility_handler_capi.h (cef_accessibility_handler_t)</see></para>
+  /// </remarks>
   TCefAccessibilityHandler = record
     base                             : TCefBaseRefCounted;
     on_accessibility_tree_change     : procedure(self: PCefAccessibilityHandler; value: PCefValue); stdcall;
     on_accessibility_location_change : procedure(self: PCefAccessibilityHandler; value: PCefValue); stdcall;
   end;
 
-  // /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_handler_t)
+  /// <summary>
+  /// Implement this structure to handle context menu events. The functions of
+  /// this structure will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefContextMenuHandler">Implemented by ICefContextMenuHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_handler_t)</see></para>
+  /// </remarks>
   TCefContextMenuHandler = record
     base                      : TCefBaseRefCounted;
     on_before_context_menu    : procedure(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame; params: PCefContextMenuParams; model: PCefMenuModel); stdcall;
@@ -3007,14 +6665,26 @@ type
     on_quick_menu_dismissed   : procedure(self: PCefContextMenuHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
   end;
 
-  // /include/capi/cef_context_menu_handler_capi.h (cef_run_quick_menu_callback_t)
+  /// <summary>
+  /// Callback structure used for continuation of custom quick menu display.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefRunQuickMenuCallback">Implemented by ICefRunQuickMenuCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_run_quick_menu_callback_t)</see></para>
+  /// </remarks>
   TCefRunQuickMenuCallback = record
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefRunQuickMenuCallback; command_id: integer; event_flags: TCefEventFlags); stdcall;
     cancel : procedure(self: PCefRunQuickMenuCallback); stdcall;
   end;
 
-  // /include/capi/cef_client_capi.h (cef_client_t)
+  /// <summary>
+  /// Implement this structure to provide handler implementations.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefClient">Implemented by ICefClient</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_client_capi.h">CEF source file: /include/capi/cef_client_capi.h (cef_client_t)</see></para>
+  /// </remarks>
   TCefClient = record
     base                        : TCefBaseRefCounted;
     get_audio_handler           : function(self: PCefClient): PCefAudioHandler; stdcall;
@@ -3038,7 +6708,16 @@ type
     on_process_message_received : function(self: PCefClient; browser: PCefBrowser; frame: PCefFrame; source_process: TCefProcessId; message_: PCefProcessMessage): Integer; stdcall;
   end;
 
-  // /include/capi/cef_browser_capi.h (cef_browser_host_t)
+  /// <summary>
+  /// Structure used to represent the browser process aspects of a browser. The
+  /// functions of this structure can only be called in the browser process. They
+  /// may be called on any thread in that process unless otherwise indicated in
+  /// the comments.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBrowserHost">Implemented by ICefBrowserHost</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_browser_host_t)</see></para>
+  /// </remarks>
   TCefBrowserHost = record
     base                              : TCefBaseRefCounted;
     get_browser                       : function(self: PCefBrowserHost): PCefBrowser; stdcall;
@@ -3102,7 +6781,16 @@ type
     is_audio_muted                    : function(self: PCefBrowserHost): integer; stdcall;
   end;
 
-  // /include/capi/cef_browser_capi.h (cef_browser_t)
+  /// <summary>
+  /// Structure used to represent a browser. When used in the browser process the
+  /// functions of this structure may be called on any thread unless otherwise
+  /// indicated in the comments. When used in the render process the functions of
+  /// this structure may only be called on the main thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBrowser">Implemented by ICefBrowser</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_browser_t)</see></para>
+  /// </remarks>
   TCefBrowser = record
     base                  : TCefBaseRefCounted;
     is_valid              : function(self: PCefBrowser): Integer; stdcall;
@@ -3128,7 +6816,15 @@ type
     get_frame_names       : procedure(self: PCefBrowser; names: TCefStringList); stdcall;
   end;
 
-  // /include/capi/cef_resource_bundle_handler_capi.h (cef_resource_bundle_handler_t)
+  /// <summary>
+  /// Structure used to implement a custom resource bundle structure. See
+  /// TCefSettings for additional options related to resource bundle loading. The
+  /// functions of this structure may be called on multiple threads.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefResourceBundleHandler">Implemented by ICefResourceBundleHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_handler_capi.h">CEF source file: /include/capi/cef_resource_bundle_handler_capi.h (cef_resource_bundle_handler_t)</see></para>
+  /// </remarks>
   TCefResourceBundleHandler = record
     base                        : TCefBaseRefCounted;
     get_localized_string        : function(self: PCefResourceBundleHandler; string_id: Integer; string_val: PCefString): Integer; stdcall;
@@ -3136,7 +6832,15 @@ type
     get_data_resource_for_scale : function(self: PCefResourceBundleHandler; resource_id: Integer; scale_factor: TCefScaleFactor; var data: Pointer; var data_size: NativeUInt): Integer; stdcall;
   end;
 
-  // /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)
+  /// <summary>
+  /// Structure used to implement browser process callbacks. The functions of this
+  /// structure will be called on the browser process main thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBrowserProcessHandler">Implemented by ICefBrowserProcessHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
+  /// </remarks>
   TCefBrowserProcessHandler = record
     base                              : TCefBaseRefCounted;
     on_register_custom_preferences    : procedure(self: PCefBrowserProcessHandler; type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); stdcall;
@@ -3146,7 +6850,14 @@ type
     get_default_client                : function(self: PCefBrowserProcessHandler): PCefClient; stdcall;
   end;
 
-  // /include/capi/cef_app_capi.h (cef_app_t)
+  /// <summary>
+  /// Implement this structure to provide handler implementations. Methods will be
+  /// called by the process and/or thread indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefApp">Implemented by ICefApp</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_app_capi.h">CEF source file: /include/capi/cef_app_capi.h (cef_app_t)</see></para>
+  /// </remarks>
   TCefApp = record
     base                              : TCefBaseRefCounted;
     on_before_command_line_processing : procedure(self: PCefApp; const process_type: PCefString; command_line: PCefCommandLine); stdcall;
@@ -3156,7 +6867,17 @@ type
     get_render_process_handler        : function(self: PCefApp): PCefRenderProcessHandler; stdcall;
   end;
 
-  // /include/capi/cef_server_capi.h (cef_server_t)
+  /// <summary>
+  /// Structure representing a server that supports HTTP and WebSocket requests.
+  /// Server capacity is limited and is intended to handle only a small number of
+  /// simultaneous connections (e.g. for communicating between applications on
+  /// localhost). The functions of this structure are safe to call from any thread
+  /// in the brower process unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefServer">Implemented by ICefServer</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">CEF source file: /include/capi/cef_server_capi.h (cef_server_t)</see></para>
+  /// </remarks>
   TCefServer = record
     base                    : TCefBaseRefCounted;
     get_task_runner         : function(self: PCefServer): PCefTaskRunner; stdcall;
@@ -3174,7 +6895,18 @@ type
     send_web_socket_message : procedure(self: PCefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt); stdcall;
   end;
 
-  // /include/capi/cef_server_capi.h (cef_server_handler_t)
+  /// <summary>
+  /// Implement this structure to handle HTTP server requests. A new thread will
+  /// be created for each ICefServer.CreateServer call (the "dedicated server
+  /// thread"), and the functions of this structure will be called on that thread.
+  /// It is therefore recommended to use a different ICefServerHandler instance
+  /// for each ICefServer.CreateServer call to avoid thread safety issues in
+  /// the ICefServerHandler implementation.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefServerHandler">Implemented by ICefServerHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t)</see></para>
+  /// </remarks>
   TCefServerHandler = record
     base                    : TCefBaseRefCounted;
     on_server_created       : procedure(self: PCefServerHandler; server: PCefServer); stdcall;
@@ -3188,45 +6920,57 @@ type
   end;
 
 
+  /// <summary>
+  /// *********************************
+  /// ************* Views *************
+  /// *********************************
+  ///
+  ///  (*) Has CEF creation function
+  ///  (d) Has delegate
+  ///
+  /// ----------------          ----------------------
+  /// | TCefView (d) | -------> | TCefTextfield (*d) |
+  /// ----------------    |     ----------------------
+  ///                     |
+  ///                     |     ----------------------
+  ///                     |---> | TCefScrollView (*) |
+  ///                     |     ----------------------
+  ///                     |
+  ///                     |     ------------------          -------------------
+  ///                     |---> | TCefPanel (*d) | -------> | TCefWindow (*d) |
+  ///                     |     ------------------          -------------------
+  ///                     |
+  ///                     |     ------------------------
+  ///                     |---> | TCefBrowserView (*d) |
+  ///                     |     ------------------------
+  ///                     |
+  ///                     |     ------------------          -----------------------          -----------------------
+  ///                     |---> | TCefButton (d) | -------> | TCefLabelButton (*) | -------> | TCefMenuButton (*d) |
+  ///                           ------------------          -----------------------          -----------------------
+  ///
+  ///
+  /// --------------          -----------------
+  /// | TCefLayout | -------> | TCefBoxLayout |
+  /// --------------    |     -----------------
+  ///                   |
+  ///                   |     ------------------
+  ///                   |---> | TCefFillLayout |
+  ///                         ------------------
+  /// </summary>
 
-  // *********************************
-  // ************* Views *************
-  // *********************************
-  //
-  //  (*) Has CEF creation function
-  //  (d) Has delegate
-  //
-  // ----------------          ----------------------
-  // | TCefView (d) | -------> | TCefTextfield (*d) |
-  // ----------------    |     ----------------------
-  //                     |
-  //                     |     ----------------------
-  //                     |---> | TCefScrollView (*) |
-  //                     |     ----------------------
-  //                     |
-  //                     |     ------------------          -------------------
-  //                     |---> | TCefPanel (*d) | -------> | TCefWindow (*d) |
-  //                     |     ------------------          -------------------
-  //                     |
-  //                     |     ------------------------
-  //                     |---> | TCefBrowserView (*d) |
-  //                     |     ------------------------
-  //                     |
-  //                     |     ------------------          -----------------------          -----------------------
-  //                     |---> | TCefButton (d) | -------> | TCefLabelButton (*) | -------> | TCefMenuButton (*d) |
-  //                           ------------------          -----------------------          -----------------------
-  //
-  //
-  // --------------          -----------------
-  // | TCefLayout | -------> | TCefBoxLayout |
-  // --------------    |     -----------------
-  //                   |
-  //                   |     ------------------
-  //                   |---> | TCefFillLayout |
-  //                         ------------------
-  //
 
-  // /include/capi/views/cef_display_capi.h (cef_display_t)
+  /// <summary>
+  /// This structure typically, but not always, corresponds to a physical display
+  /// connected to the system. A fake Display may exist on a headless system, or a
+  /// Display may correspond to a remote, virtual display. All size and position
+  /// values are in density independent pixel (DIP) coordinates unless otherwise
+  /// indicated. Methods must be called on the browser process UI thread unless
+  /// otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefDisplay">Implemented by ICefDisplay</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_display_capi.h">CEF source file: /include/capi/views/cef_display_capi.h (cef_display_t)</see></para>
+  /// </remarks>
   TCefDisplay = record
     base                      : TCefBaseRefCounted;
     get_id                    : function(self: PCefDisplay): int64; stdcall;
@@ -3238,7 +6982,15 @@ type
     get_rotation              : function(self: PCefDisplay): Integer; stdcall;
   end;
 
-  // /include/capi/views/cef_layout_capi.h (cef_layout_t)
+  /// <summary>
+  /// A Layout handles the sizing of the children of a Panel according to
+  /// implementation-specific heuristics. Methods must be called on the browser
+  /// process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefLayout">Implemented by ICefLayout</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_layout_capi.h">CEF source file: /include/capi/views/cef_layout_capi.h (cef_layout_t)</see></para>
+  /// </remarks>
   TCefLayout = record
     base                    : TCefBaseRefCounted;
     as_box_layout           : function(self: PCefLayout): PCefBoxLayout; stdcall;
@@ -3246,19 +6998,48 @@ type
     is_valid                : function(self: PCefLayout): Integer; stdcall;
   end;
 
-  // /include/capi/views/cef_box_layout_capi.h (cef_box_layout_t)
+  /// <summary>
+  /// A Layout manager that arranges child views vertically or horizontally in a
+  /// side-by-side fashion with spacing around and between the child views. The
+  /// child views are always sized according to their preferred size. If the
+  /// host's bounds provide insufficient space, child views will be clamped.
+  /// Excess space will not be distributed. Methods must be called on the browser
+  /// process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBoxLayout">Implemented by ICefBoxLayout</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_box_layout_capi.h">CEF source file: /include/capi/views/cef_box_layout_capi.h (cef_box_layout_t)</see></para>
+  /// </remarks>
   TCefBoxLayout = record
     base                    : TCefLayout;
     set_flex_for_view       : procedure(self: PCefBoxLayout; view: PCefView; flex: Integer); stdcall;
     clear_flex_for_view     : procedure(self: PCefBoxLayout; view: PCefView); stdcall;
   end;
 
-  // /include/capi/views/cef_fill_layout_capi.h (cef_fill_layout_t)
+  /// <summary>
+  /// A simple Layout that causes the associated Panel's one child to be sized to
+  /// match the bounds of its parent. Methods must be called on the browser
+  /// process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefFillLayout">Implemented by ICefFillLayout</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_fill_layout_capi.h">CEF source file: /include/capi/views/cef_fill_layout_capi.h (cef_fill_layout_t)</see></para>
+  /// </remarks>
   TCefFillLayout = record
     base                    : TCefLayout;
   end;
 
-  // /include/capi/views/cef_overlay_controller_capi.h (cef_overlay_controller_t)
+  /// <summary>
+  /// Controller for an overlay that contains a contents View added via
+  /// ICefWindow.AddOverlayView. Methods exposed by this controller should be
+  /// called in preference to functions of the same name exposed by the contents
+  /// View unless otherwise indicated. Methods must be called on the browser
+  /// process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefOverlayController">Implemented by ICefOverlayController</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_overlay_controller_capi.h">CEF source file: /include/capi/views/cef_overlay_controller_capi.h (cef_overlay_controller_t)</see></para>
+  /// </remarks>
   TCefOverlayController = record
     base                      : TCefBaseRefCounted;
     is_valid                  : function(self: PCefOverlayController): integer; stdcall;
@@ -3282,7 +7063,16 @@ type
     is_drawn                  : function(self: PCefOverlayController): integer; stdcall;
   end;
 
-  // /include/capi/views/cef_view_capi.h (cef_view_t)
+  /// <summary>
+  /// A View is a rectangle within the views View hierarchy. It is the base
+  /// structure for all Views. All size and position values are in density
+  /// independent pixels (DIP) unless otherwise indicated. Methods must be called
+  /// on the browser process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefView">Implemented by ICefView</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_view_capi.h">CEF source file: /include/capi/views/cef_view_capi.h (cef_view_t)</see></para>
+  /// </remarks>
   TCefView = record
     base                        : TCefBaseRefCounted;
     as_browser_view             : function(self: PCefView): PCefBrowserView; stdcall;
@@ -3337,7 +7127,16 @@ type
     convert_point_from_view     : function(self, view: PCefView; point: PCefPoint): Integer; stdcall;
   end;
 
-  // /include/capi/views/cef_view_delegate_capi.h (cef_view_delegate_t)
+  /// <summary>
+  /// Implement this structure to handle view events. All size and position values
+  /// are in density independent pixels (DIP) unless otherwise indicated. The
+  /// functions of this structure will be called on the browser process UI thread
+  /// unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefViewDelegate">Implemented by ICefViewDelegate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_view_delegate_capi.h">CEF source file: /include/capi/views/cef_view_delegate_capi.h (cef_view_delegate_t)</see></para>
+  /// </remarks>
   TCefViewDelegate = record
     base                        : TCefBaseRefCounted;
     get_preferred_size          : function(self: PCefViewDelegate; view: PCefView): TCefSize; stdcall;
@@ -3352,7 +7151,15 @@ type
     on_blur                     : procedure(self: PCefViewDelegate; view: PCefView); stdcall;
   end;
 
-  // /include/capi/views/cef_textfield_capi.h (cef_textfield_t)
+  /// <summary>
+  /// A Textfield supports editing of text. This control is custom rendered with
+  /// no platform-specific code. Methods must be called on the browser process UI
+  /// thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefTextfield">Implemented by ICefTextfield</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_capi.h">CEF source file: /include/capi/views/cef_textfield_capi.h (cef_textfield_t)</see></para>
+  /// </remarks>
   TCefTextfield = record
     base                           : TCefView;
     set_password_input             : procedure(self: PCefTextfield; password_input: Integer); stdcall;
@@ -3388,14 +7195,30 @@ type
     set_accessible_name            : procedure(self: PCefTextfield; const name: PCefString); stdcall;
   end;
 
-  // /include/capi/views/cef_textfield_delegate_capi.h (cef_textfield_delegate_t)
+  /// <summary>
+  /// Implement this structure to handle Textfield events. The functions of this
+  /// structure will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefTextfieldDelegate">Implemented by ICefTextfieldDelegate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_delegate_capi.h">CEF source file: /include/capi/views/cef_textfield_delegate_capi.h (cef_textfield_delegate_t)</see></para>
+  /// </remarks>
   TCefTextfieldDelegate = record
     base                           : TCefViewDelegate;
     on_key_event                   : function(self: PCefTextfieldDelegate; textfield: PCefTextfield; const event: PCefKeyEvent): Integer; stdcall;
     on_after_user_action           : procedure(self: PCefTextfieldDelegate; textfield: PCefTextfield); stdcall;
   end;
 
-  // /include/capi/views/cef_scroll_view_capi.h (cef_scroll_view_t)
+  /// <summary>
+  /// A ScrollView will show horizontal and/or vertical scrollbars when necessary
+  /// based on the size of the attached content view. Methods must be called on
+  /// the browser process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefScrollView">Implemented by ICefScrollView</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_scroll_view_capi.h">CEF source file: /include/capi/views/cef_scroll_view_capi.h (cef_scroll_view_t)</see></para>
+  /// </remarks>
   TCefScrollView = record
     base                            : TCefView;
     set_content_view                : procedure(self: PCefScrollView; view: PCefView); stdcall;
@@ -3407,7 +7230,15 @@ type
     get_vertical_scrollbar_width    : function(self: PCefScrollView): Integer; stdcall;
   end;
 
-  // /include/capi/views/cef_panel_capi.h (cef_panel_t)
+  /// <summary>
+  /// A Panel is a container in the views hierarchy that can contain other Views
+  /// as children. Methods must be called on the browser process UI thread unless
+  /// otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPanel">Implemented by ICefPanel</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_panel_capi.h">CEF source file: /include/capi/views/cef_panel_capi.h (cef_panel_t)</see></para>
+  /// </remarks>
   TCefPanel = record
     base                            : TCefView;
     as_window                       : function(self: PCefPanel): PCefWindow; stdcall;
@@ -3424,12 +7255,27 @@ type
     get_child_view_at               : function(self: PCefPanel; index: Integer): PCefView; stdcall;
   end;
 
-  // /include/capi/views/cef_panel_delegate_capi.h (cef_panel_delegate_t)
+  /// <summary>
+  /// Implement this structure to handle Panel events. The functions of this
+  /// structure will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefPanelDelegate">Implemented by ICefPanelDelegate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_panel_delegate_capi.h">CEF source file: /include/capi/views/cef_panel_delegate_capi.h (cef_panel_delegate_t)</see></para>
+  /// </remarks>
   TCefPanelDelegate = record
     base                            : TCefViewDelegate;
   end;
 
-  // /include/capi/views/cef_browser_view_capi.h (cef_browser_view_t)
+  /// <summary>
+  /// A View hosting a ICefBrowser instance. Methods must be called on the
+  /// browser process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBrowserView">Implemented by ICefBrowserView</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_capi.h">CEF source file: /include/capi/views/cef_browser_view_capi.h (cef_browser_view_t)</see></para>
+  /// </remarks>
   TCefBrowserView = record
     base                            : TCefView;
     get_browser                     : function(self: PCefBrowserView): PCefBrowser; stdcall;
@@ -3437,7 +7283,15 @@ type
     set_prefer_accelerators         : procedure(self: PCefBrowserView; prefer_accelerators: Integer); stdcall;
   end;
 
-  // /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)
+  /// <summary>
+  /// Implement this structure to handle BrowserView events. The functions of this
+  /// structure will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefBrowserViewDelegate">Implemented by ICefBrowserViewDelegate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_delegate_capi.h">CEF source file: /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)</see></para>
+  /// </remarks>
   TCefBrowserViewDelegate = record
     base                                : TCefViewDelegate;
     on_browser_created                  : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
@@ -3448,7 +7302,15 @@ type
     on_gesture_command                  : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
   end;
 
-  // /include/capi/views/cef_button_capi.h (cef_button_t)
+  /// <summary>
+  /// A View representing a button. Depending on the specific type, the button
+  /// could be implemented by a native control or custom rendered. Methods must be
+  /// called on the browser process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefButton">Implemented by ICefButton</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_capi.h">CEF source file: /include/capi/views/cef_button_capi.h (cef_button_t)</see></para>
+  /// </remarks>
   TCefButton = record
     base                            : TCefView;
     as_label_button                 : function(self: PCefButton): PCefLabelButton; stdcall;
@@ -3459,14 +7321,29 @@ type
     set_accessible_name             : procedure(self: PCefButton; const name: PCefString); stdcall;
   end;
 
-  // /include/capi/views/cef_button_delegate_capi.h (cef_button_delegate_t)
+  /// <summary>
+  /// Implement this structure to handle Button events. The functions of this
+  /// structure will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefButtonDelegate">Implemented by ICefButtonDelegate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_delegate_capi.h">CEF source file: /include/capi/views/cef_button_delegate_capi.h (cef_button_delegate_t)</see></para>
+  /// </remarks>
   TCefButtonDelegate = record
     base                            : TCefViewDelegate;
     on_button_pressed               : procedure(self: PCefButtonDelegate; button: PCefButton); stdcall;
     on_button_state_changed         : procedure(self: PCefButtonDelegate; button: PCefButton); stdcall;
   end;
 
-  // /include/capi/views/cef_label_button_capi.h (cef_label_button_t)
+  /// <summary>
+  /// LabelButton is a button with optional text and/or icon. Methods must be
+  /// called on the browser process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefLabelButton">Implemented by ICefLabelButton</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_label_button_capi.h">CEF source file: /include/capi/views/cef_label_button_capi.h (cef_label_button_t)</see></para>
+  /// </remarks>
   TCefLabelButton = record
     base                            : TCefButton;
     as_menu_button                  : function(self: PCefLabelButton): PCefMenuButton; stdcall;
@@ -3482,28 +7359,63 @@ type
     set_maximum_size                : procedure(self: PCefLabelButton; const size: PCefSize); stdcall;
   end;
 
-  // /include/capi/views/cef_menu_button_capi.h (cef_menu_button_t)
+  /// <summary>
+  /// MenuButton is a button with optional text, icon and/or menu marker that
+  /// shows a menu when clicked with the left mouse button. All size and position
+  /// values are in density independent pixels (DIP) unless otherwise indicated.
+  /// Methods must be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMenuButton">Implemented by ICefMenuButton</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_capi.h">CEF source file: /include/capi/views/cef_menu_button_capi.h (cef_menu_button_t)</see></para>
+  /// </remarks>
   TCefMenuButton = record
     base                            : TCefLabelButton;
     show_menu                       : procedure(self: PCefMenuButton; menu_model: PCefMenuModel; const screen_point: PCefPoint; anchor_position: TCefMenuAnchorPosition); stdcall;
     trigger_menu                    : procedure(self: PCefMenuButton); stdcall;
   end;
 
-  // /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_pressed_lock_t)
+  /// <summary>
+  /// MenuButton pressed lock is released when this object is destroyed.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMenuButtonPressedLock">Implemented by ICefMenuButtonPressedLock</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_delegate_capi.h">CEF source file: /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_pressed_lock_t)</see></para>
+  /// </remarks>
   TCefMenuButtonPressedLock = record
     base                    : TCefBaseRefCounted;
   end;
 
-  // /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_delegate_t)
+  /// <summary>
+  /// Implement this structure to handle MenuButton events. The functions of this
+  /// structure will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefMenuButtonDelegate">Implemented by ICefMenuButtonDelegate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_delegate_capi.h">CEF source file: /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_delegate_t)</see></para>
+  /// </remarks>
   TCefMenuButtonDelegate = record
     base                    : TCefButtonDelegate;
     on_menu_button_pressed  : procedure(self: PCefMenuButtonDelegate; menu_button: PCefMenuButton; const screen_point: PCefPoint; button_pressed_lock: PCefMenuButtonPressedLock); stdcall;
   end;
 
-  // /include/capi/views/cef_window_capi.h (cef_window_t)
+  /// <summary>
+  /// A Window is a top-level Window/widget in the Views hierarchy. By default it
+  /// will have a non-client area with title bar, icon and buttons that supports
+  /// moving and resizing. All size and position values are in density independent
+  /// pixels (DIP) unless otherwise indicated. Methods must be called on the
+  /// browser process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefWindow">Implemented by ICefWindow</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_window_capi.h">CEF source file: /include/capi/views/cef_window_capi.h (cef_window_t)</see></para>
+  /// </remarks>
   TCefWindow = record
     base                             : TCefPanel;
     show                             : procedure(self: PCefWindow); stdcall;
+    show_as_browser_modal_dialog     : procedure(self: PCefWindow; browser_view: PCefBrowserView); stdcall;
     hide                             : procedure(self: PCefWindow); stdcall;
     center_window                    : procedure(self: PCefWindow; const size: PCefSize); stdcall;
     close                            : procedure(self: PCefWindow); stdcall;
@@ -3542,7 +7454,15 @@ type
     remove_all_accelerators          : procedure(self: PCefWindow); stdcall;
   end;
 
-  // /include/capi/views/cef_window_delegate_capi.h (cef_window_delegate_t)
+  /// <summary>
+  /// Implement this structure to handle window events. The functions of this
+  /// structure will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFInterfaces|ICefWindowDelegate">Implemented by ICefWindowDelegate</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_window_delegate_capi.h">CEF source file: /include/capi/views/cef_window_delegate_capi.h (cef_window_delegate_t)</see></para>
+  /// </remarks>
   TCefWindowDelegate = record
     base                             : TCefPanelDelegate;
     on_window_created                : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
@@ -3551,6 +7471,7 @@ type
     on_window_activation_changed     : procedure(self: PCefWindowDelegate; window: PCefWindow; active: integer); stdcall;
     on_window_bounds_changed         : procedure(self: PCefWindowDelegate; window: PCefWindow; const new_bounds: PCefRect); stdcall;
     get_parent_window                : function(self: PCefWindowDelegate; window: PCefWindow; is_menu, can_activate_menu: PInteger): PCefWindow; stdcall;
+    is_window_modal_dialog           : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     get_initial_bounds               : function(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
     get_initial_show_state           : function(self: PCefWindowDelegate; window: PCefWindow): TCefShowState; stdcall;
     is_frameless                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
