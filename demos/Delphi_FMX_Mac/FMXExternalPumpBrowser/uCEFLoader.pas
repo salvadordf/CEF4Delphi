@@ -50,7 +50,6 @@ procedure StartCEFSubprocess;
 begin
   GlobalCEFApp                            := TCefApplicationCore.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.InitLibLocationFromArgs;

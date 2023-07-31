@@ -3,34 +3,26 @@
     <ProjectExtensions>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
-    <PropertyGroup/>
-    <ItemGroup Condition="'$(Platform)'=='Win32'">
-        <DeployFile Include="..\..\bin\FMXExternalPumpBrowser.exe" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser\</RemoteDir>
-            <RemoteName>FMXExternalPumpBrowser.exe</RemoteName>
-            <DeployClass>ProjectOutput</DeployClass>
-            <Operation>0</Operation>
-            <LocalCommand/>
-            <RemoteCommand/>
-            <Overwrite>True</Overwrite>
-            <Required>True</Required>
-        </DeployFile>
-    </ItemGroup>
-    <ItemGroup Condition="'$(Platform)'=='Win64'"/>
+    <PropertyGroup>
+        <DeviceId Condition="'$(Platform)'=='Android'"/>
+        <DeviceId Condition="'$(Platform)'=='Android64'"/>
+        <DeviceId Condition="'$(Platform)'=='iOSDevice64'"/>
+        <DeviceId Condition="'$(Platform)'=='iOSSimARM64'"/>
+    </PropertyGroup>
     <ItemGroup Condition="'$(Platform)'=='OSX64'">
-        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.entitlements" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser.app\..\</RemoteDir>
-            <RemoteName>FMXExternalPumpBrowser.entitlements</RemoteName>
-            <DeployClass>ProjectOSXEntitlements</DeployClass>
+        <DeployFile Include="$(BDS)\bin\delphi_PROJECTICNS.icns" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\Contents\Resources\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser.icns</RemoteName>
+            <DeployClass>ProjectOSXResource</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="$(BDS)\bin\delphi_PROJECTICNS.icns" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser.app\Contents\Resources\</RemoteDir>
-            <RemoteName>FMXExternalPumpBrowser.icns</RemoteName>
-            <DeployClass>ProjectOSXResource</DeployClass>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.entitlements" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\..\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser.entitlements</RemoteName>
+            <DeployClass>ProjectOSXEntitlements</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
@@ -45,10 +37,10 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="$(BDS)\Redist\osx64\libcgsqlite3.dylib">
-            <RemoteDir>FMXExternalPumpBrowser.app\Contents\MacOS\</RemoteDir>
-            <RemoteName>libcgsqlite3.dylib</RemoteName>
-            <DeployClass>DependencyModule</DeployClass>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.dSYM" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser</RemoteName>
+            <DeployClass>ProjectOSXDebug</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
@@ -64,14 +56,12 @@
             <Overwrite>True</Overwrite>
             <Required>True</Required>
         </DeployFile>
-        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.dSYM" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser.app\..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF\</RemoteDir>
-            <RemoteName>FMXExternalPumpBrowser</RemoteName>
-            <DeployClass>ProjectOSXDebug</DeployClass>
-            <Operation>1</Operation>
-            <LocalCommand/>
-            <RemoteCommand/>
-            <Overwrite>True</Overwrite>
-        </DeployFile>
     </ItemGroup>
+    <ItemGroup Condition="'$(Platform)'=='Win32'"/>
+    <ItemGroup Condition="'$(Platform)'=='Android64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Android'"/>
+    <ItemGroup Condition="'$(Platform)'=='OSXARM64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win64'"/>
+    <ItemGroup Condition="'$(Platform)'=='iOSDevice64'"/>
+    <ItemGroup Condition="'$(Platform)'=='iOSSimARM64'"/>
 </Project>
