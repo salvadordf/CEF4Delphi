@@ -314,7 +314,8 @@ end;
 procedure TCefCustomRenderProcessHandler.OnWebKitInitialized;
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnWebKitInitialized;
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnWebKitInitialized;
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnWebKitInitialized', e) then raise;
@@ -324,7 +325,8 @@ end;
 procedure TCefCustomRenderProcessHandler.OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnBrowserCreated(browser, extra_info);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnBrowserCreated(browser, extra_info);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnBrowserCreated', e) then raise;
@@ -334,7 +336,8 @@ end;
 procedure TCefCustomRenderProcessHandler.OnBrowserDestroyed(const browser: ICefBrowser);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnBrowserDestroyed(browser);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnBrowserDestroyed(browser);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnBrowserDestroyed', e) then raise;
@@ -354,7 +357,8 @@ procedure TCefCustomRenderProcessHandler.OnContextCreated(const browser : ICefBr
                                                           const context : ICefv8Context);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnContextCreated(browser, frame, context);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnContextCreated(browser, frame, context);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnContextCreated', e) then raise;
@@ -366,7 +370,8 @@ procedure TCefCustomRenderProcessHandler.OnContextReleased(const browser : ICefB
                                                            const context : ICefv8Context);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnContextReleased(browser, frame, context);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnContextReleased(browser, frame, context);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnContextReleased', e) then raise;
@@ -380,7 +385,8 @@ procedure TCefCustomRenderProcessHandler.OnUncaughtException(const browser     :
                                                              const stackTrace  : ICefV8StackTrace);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnUncaughtException(browser, frame, context, V8Exception, stackTrace);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnUncaughtException(browser, frame, context, V8Exception, stackTrace);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnUncaughtException', e) then raise;
@@ -392,7 +398,8 @@ procedure TCefCustomRenderProcessHandler.OnFocusedNodeChanged(const browser : IC
                                                               const node    : ICefDomNode);
 begin
   try
-   if (FCefApp <> nil) then FCefApp.Internal_OnFocusedNodeChanged(browser, frame, node);
+   if (FCefApp <> nil) then
+    IAppplicationCoreEvents(FCefApp).doOnFocusedNodeChanged(browser, frame, node);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnFocusedNodeChanged', e) then raise;
@@ -407,7 +414,8 @@ begin
   Result := inherited OnProcessMessageReceived(browser, frame, sourceProcess, aMessage);
 
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnProcessMessageReceived(browser, frame, sourceProcess, aMessage, Result);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnProcessMessageReceived(browser, frame, sourceProcess, aMessage, Result);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnProcessMessageReceived', e) then raise;

@@ -285,12 +285,40 @@ begin
   FCefApp := nil;
 end;
 
+procedure TCustomRenderLoadHandler.OnLoadingStateChange(const browser      : ICefBrowser;
+                                                              isLoading    : Boolean;
+                                                              canGoBack    : Boolean;
+                                                              canGoForward : Boolean);
+begin
+  try
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadingStateChange', e) then raise;
+  end;
+end;
+
+procedure TCustomRenderLoadHandler.OnLoadStart(const browser        : ICefBrowser;
+                                               const frame          : ICefFrame;
+                                                     transitionType : TCefTransitionType);
+begin
+  try
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnLoadStart(browser, frame, transitionType);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadStart', e) then raise;
+  end;
+end;
+
 procedure TCustomRenderLoadHandler.OnLoadEnd(const browser        : ICefBrowser;
                                              const frame          : ICefFrame;
                                                    httpStatusCode : Integer);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnLoadEnd(browser, frame, httpStatusCode);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnLoadEnd(browser, frame, httpStatusCode);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadEnd', e) then raise;
@@ -304,37 +332,12 @@ procedure TCustomRenderLoadHandler.OnLoadError(const browser   : ICefBrowser;
                                                const failedUrl : ustring);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnLoadError(browser, frame, errorCode, errorText, failedUrl);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnLoadError(browser, frame, errorCode, errorText, failedUrl);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadError', e) then raise;
   end;
 end;
-
-procedure TCustomRenderLoadHandler.OnLoadingStateChange(const browser      : ICefBrowser;
-                                                              isLoading    : Boolean;
-                                                              canGoBack    : Boolean;
-                                                              canGoForward : Boolean);
-begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadingStateChange', e) then raise;
-  end;
-end;
-
-procedure TCustomRenderLoadHandler.OnLoadStart(const browser        : ICefBrowser;
-                                               const frame          : ICefFrame;
-                                                     transitionType : TCefTransitionType);
-begin
-  try
-    if (FCefApp <> nil) then FCefApp.Internal_OnLoadStart(browser, frame, transitionType);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomRenderLoadHandler.OnLoadStart', e) then raise;
-  end;
-end;
-
 
 end.

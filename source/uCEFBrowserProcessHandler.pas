@@ -207,31 +207,21 @@ end;
 
 procedure TCefCustomBrowserProcessHandler.OnRegisterCustomPreferences(type_     : TCefPreferencesType;
                                                                       registrar : PCefPreferenceRegistrar);
-var
-  TempRegistrar : TCefPreferenceRegistrarRef;
 begin
-  TempRegistrar := nil;
-
-  try
     try
       if (FCefApp <> nil) then
-        begin
-          TempRegistrar := TCefPreferenceRegistrarRef.Create(registrar);
-          FCefApp.Internal_OnRegisterCustomPreferences(type_, TempRegistrar);
-        end;
+        IAppplicationCoreEvents(FCefApp).doOnRegisterCustomPreferences(type_, registrar);
     except
       on e : exception do
         if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnRegisterCustomPreferences', e) then raise;
     end;
-  finally
-    if (TempRegistrar <> nil) then FreeAndNil(TempRegistrar);
-  end;
 end;
 
 procedure TCefCustomBrowserProcessHandler.OnContextInitialized;
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnContextInitialized;
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnContextInitialized;
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnContextInitialized', e) then raise;
@@ -241,7 +231,8 @@ end;
 procedure TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnBeforeChildProcessLaunch(commandLine);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnBeforeChildProcessLaunch(commandLine);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch', e) then raise;
@@ -251,7 +242,8 @@ end;
 procedure TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork(const delayMs: Int64);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnScheduleMessagePumpWork(delayMs);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnScheduleMessagePumpWork(delayMs);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork', e) then raise;
@@ -261,7 +253,8 @@ end;
 procedure TCefCustomBrowserProcessHandler.GetDefaultClient(var aClient : ICefClient);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_GetDefaultClient(aClient);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doGetDefaultClient(aClient);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.GetDefaultClient', e) then raise;

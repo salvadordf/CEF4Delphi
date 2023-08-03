@@ -954,8 +954,29 @@ type
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:net/log/net_log_capture_mode.h">net_log_capture_mode.h</see></para>
   /// </remarks>
   TCefNetLogCaptureMode = (
+    /// <summary>
+    /// Default logging level, which is expected to be light-weight and
+    /// does best-effort stripping of privacy/security sensitive data.
+    ///
+    ///  * Includes most HTTP request/response headers, but strips cookies and
+    ///    auth.
+    ///  * Does not include the full bytes read/written to sockets.
+    /// </summary>
     nlcmDefault,
+    /// <summary>
+    /// Logging level that includes everything from kDefault, plus sensitive data
+    /// that it may have strippped.
+    ///
+    ///  * Includes cookies and authentication headers.
+    ///  * Does not include the full bytes read/written to sockets.
+    /// </summary>
     nlcmIncludeSensitive,
+    /// <summary>
+    /// Logging level that includes everything that is possible to be logged.
+    ///
+    ///  * Includes the actual bytes read/written to sockets
+    ///  * Will result in large log files.
+    /// </summary>
     nlcmEverything
   );
 

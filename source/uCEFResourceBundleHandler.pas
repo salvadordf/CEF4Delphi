@@ -185,7 +185,8 @@ begin
   Result := False;
 
   try
-    Result := (FCefApp <> nil) and FCefApp.Internal_GetLocalizedString(stringid, stringVal);
+    if (FCefApp <> nil) then
+      Result := IAppplicationCoreEvents(FCefApp).doGetLocalizedString(stringid, stringVal);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomResourceBundleHandler.GetLocalizedString', e) then raise;
@@ -199,7 +200,8 @@ begin
   Result := False;
 
   try
-    Result := (FCefApp <> nil) and FCefApp.Internal_GetDataResource(resourceId, data, dataSize);
+    if (FCefApp <> nil) then
+      Result := IAppplicationCoreEvents(FCefApp).doGetDataResource(resourceId, data, dataSize);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomResourceBundleHandler.GetDataResource', e) then raise;
@@ -214,7 +216,8 @@ begin
   Result := False;
 
   try
-    Result := (FCefApp <> nil) and FCefApp.Internal_GetDataResourceForScale(resourceId, scaleFactor, data, dataSize);
+    if (FCefApp <> nil) then
+      Result := IAppplicationCoreEvents(FCefApp).doGetDataResourceForScale(resourceId, scaleFactor, data, dataSize);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomResourceBundleHandler.GetDataResourceForScale', e) then raise;

@@ -94,6 +94,7 @@ type
       FContextInitializedHandlers    : TMethodList;
 
       procedure CallContextInitializedHandlers(Data: PtrInt);
+      procedure doOnContextInitialized; override;
       {$ENDIF}
 
       procedure BeforeInitSubProcess; override;
@@ -107,8 +108,6 @@ type
       property DestroyAppWindows        : boolean read FDestroyAppWindows        write FDestroyAppWindows;
 
       {$IFDEF FPC}
-      procedure Internal_OnContextInitialized; override; // In UI thread
-
       Procedure AddContextInitializedHandler(AHandler: TNotifyEvent);
       Procedure RemoveContextInitializedHandler(AHandler: TNotifyEvent);
       {$ENDIF}
@@ -268,9 +267,9 @@ begin
 end;
 
 {$IFDEF FPC}
-procedure TCefApplication.Internal_OnContextInitialized;
+procedure TCefApplication.doOnContextInitialized;
 begin
-  inherited Internal_OnContextInitialized;
+  inherited doOnContextInitialized;
 
   Application.QueueAsyncCall(@CallContextInitializedHandlers, 0);
 end;

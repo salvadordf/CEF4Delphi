@@ -58,10 +58,11 @@ uses
 
 type
   /// <summary>
-  /// 
+  /// Implement this interface to provide handler implementations. Methods will be
+  /// called by the process and/or thread indicated.
   /// </summary>
   /// <remarks>
-  /// <see cref="uCEFInterfaces|ICefApp">Implements ICefApp</see>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_app_capi.h">CEF source file: /include/capi/cef_app_capi.h (cef_app_t)</see></para>
   /// </remarks>
   TCefAppOwn = class(TCefBaseRefCountedOwn, ICefApp)
     protected
@@ -275,7 +276,8 @@ end;
 procedure TCustomCefApp.OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnBeforeCommandLineProcessing(processType, commandLine);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnBeforeCommandLineProcessing(processType, commandLine);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefApp.OnBeforeCommandLineProcessing', e) then raise;
@@ -285,7 +287,8 @@ end;
 procedure TCustomCefApp.OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnRegisterCustomSchemes(registrar);
+    if (FCefApp <> nil) then
+      IAppplicationCoreEvents(FCefApp).doOnRegisterCustomSchemes(registrar);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefApp.OnRegisterCustomSchemes', e) then raise;

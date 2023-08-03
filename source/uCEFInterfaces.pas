@@ -283,6 +283,43 @@ type
     property Enumerate[const aKey: ustring; aValueIndex: NativeUInt] : ustring            read GetEnumerate;
   end;
 
+  IAppplicationCoreEvents = interface
+    ['{55E99E25-A05D-46D5-B3A4-C8C2E71C1F4D}']
+
+    // ICefApp
+    procedure doOnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
+    procedure doOnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+
+    // ICefBrowserProcessHandler
+    procedure doOnRegisterCustomPreferences(type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar);
+    procedure doOnContextInitialized;
+    procedure doOnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+    procedure doOnScheduleMessagePumpWork(const delayMs: Int64);
+    procedure doGetDefaultClient(var aClient : ICefClient);
+
+    // ICefResourceBundleHandler
+    function  doGetLocalizedString(stringid: Integer; var stringVal: ustring): Boolean;
+    function  doGetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
+    function  doGetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
+
+    // ICefRenderProcessHandler
+    procedure doOnWebKitInitialized;
+    procedure doOnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
+    procedure doOnBrowserDestroyed(const browser: ICefBrowser);
+    procedure doOnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+    procedure doOnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+    procedure doOnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const V8Exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
+    procedure doOnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
+    procedure doOnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled : boolean);
+
+    // ICefLoadHandler
+    procedure doOnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+    procedure doOnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
+    procedure doOnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
+    procedure doOnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
+
+  end;
+
   IChromiumEvents = interface
     ['{0C139DB1-0349-4D7F-8155-76FEA6A0126D}']
     procedure GetSettings(var settings: TCefBrowserSettings);
@@ -1908,8 +1945,30 @@ type
   /// </remarks>
   ICefResourceBundleHandler = interface(ICefBaseRefCounted)
     ['{09C264FD-7E03-41E3-87B3-4234E82B5EA2}']
+    /// <summary>
+    /// Called to retrieve a localized translation for the specified |string_id|.
+    /// To provide the translation set |string| to the translation string and
+    /// return true (1). To use the default translation return false (0). Include
+    /// cef_pack_strings.h for a listing of valid string ID values.
+    /// </summary>
     function GetLocalizedString(stringId: Integer; var stringVal: ustring): Boolean;
+    /// <summary>
+    /// Called to retrieve data for the specified scale independent |resource_id|.
+    /// To provide the resource data set |data| and |data_size| to the data
+    /// pointer and size respectively and return true (1). To use the default
+    /// resource data return false (0). The resource data will not be copied and
+    /// must remain resident in memory. Include cef_pack_resources.h for a listing
+    /// of valid resource ID values.
+    /// </summary>
     function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
+    /// <summary>
+    /// Called to retrieve data for the specified |resource_id| nearest the scale
+    /// factor |scale_factor|. To provide the resource data set |data| and
+    /// |data_size| to the data pointer and size respectively and return true (1).
+    /// To use the default resource data return false (0). The resource data will
+    /// not be copied and must remain resident in memory. Include
+    /// cef_pack_resources.h for a listing of valid resource ID values.
+    /// </summary>
     function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -1928,10 +1987,63 @@ type
   /// </remarks>
   ICefBrowserProcessHandler = interface(ICefBaseRefCounted)
     ['{27291B7A-C0AE-4EE0-9115-15C810E22F6C}']
+    /// <summary>
+    /// Provides an opportunity to register custom preferences prior to global and
+    /// request context initialization.
+    ///
+    /// If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be
+    /// accessed via ICefPreferenceManager.GetGlobalPreferences after
+    /// OnContextInitialized is called. Global preferences are registered a single
+    /// time at application startup. See related TCefSettings.cache_path and
+    /// TCefSettings.persist_user_preferences configuration.
+    ///
+    /// If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be
+    /// accessed via the ICefRequestContext after
+    /// ICefRequestContextHandler.OnRequestContextInitialized is called.
+    /// Request context preferences are registered each time a new
+    /// ICefRequestContext is created. It is intended but not required that all
+    /// request contexts have the same registered preferences. See related
+    /// TCefRequestContextSettings.cache_path and
+    /// TCefRequestContextSettings.persist_user_preferences configuration.
+    ///
+    /// Do not keep a reference to the |registrar| object. This function is called
+    /// on the browser process UI thread.
+    /// </summary>
     procedure OnRegisterCustomPreferences(type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar);
+    /// <summary>
+    /// Called on the browser process UI thread immediately after the CEF context
+    /// has been initialized.
+    /// </summary>
     procedure OnContextInitialized;
+    /// <summary>
+    /// Called before a child process is launched. Will be called on the browser
+    /// process UI thread when launching a render process and on the browser
+    /// process IO thread when launching a GPU process. Provides an opportunity to
+    /// modify the child process command line. Do not keep a reference to
+    /// |command_line| outside of this function.
+    /// </summary>
     procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+    /// <summary>
+    /// Called from any thread when work has been scheduled for the browser
+    /// process main (UI) thread. This callback is used in combination with
+    /// TCefSettings.external_message_pump and GlobalCEFApp.DoMessageLoopWork in
+    /// cases where the CEF message loop must be integrated into an existing
+    /// application message loop (see additional comments and warnings on
+    /// GlobalCEFApp.DoMessageLoopWork). This callback should schedule a
+    /// GlobalCEFApp.DoMessageLoopWork call to happen on the main (UI) thread.
+    /// |delay_ms| is the requested delay in milliseconds. If |delay_ms| is <= 0
+    /// then the call should happen reasonably soon. If |delay_ms| is > 0 then the
+    /// call should be scheduled to happen after the specified delay and any
+    /// currently pending scheduled call should be cancelled.
+    /// </summary>
     procedure OnScheduleMessagePumpWork(const delayMs: Int64);
+    /// <summary>
+    /// Return the default client for use with a newly created browser window. If
+    /// null is returned the browser will be unmanaged (no callbacks will be
+    /// executed for that browser) and application shutdown will be blocked until
+    /// the browser window is closed manually. This function is currently only
+    /// used with the chrome runtime.
+    /// </summary>
     procedure GetDefaultClient(var aClient : ICefClient);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -1950,14 +2062,62 @@ type
   /// </remarks>
   ICefRenderProcessHandler = interface(ICefBaseRefCounted)
     ['{FADEE3BC-BF66-430A-BA5D-1EE3782ECC58}']
+    /// <summary>
+    /// Called after WebKit has been initialized.
+    /// </summary>
     procedure OnWebKitInitialized;
+    /// <summary>
+    /// Called after a browser has been created. When browsing cross-origin a new
+    /// browser will be created before the old browser with the same identifier is
+    /// destroyed. |extra_info| is an optional read-only value originating from
+    /// cef_browser_host_create_browser(),
+    /// cef_browser_host_create_browser_sync(),
+    /// ICefLifeSpanHandler.OnBeforePopup or
+    /// cef_browser_view_create().
+    /// </summary>
     procedure OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
+    /// <summary>
+    /// Called before a browser is destroyed.
+    /// </summary>
     procedure OnBrowserDestroyed(const browser: ICefBrowser);
+    /// <summary>
+    /// Return the handler for browser load status events.
+    /// </summary>
     function  GetLoadHandler : ICefLoadHandler;
+    /// <summary>
+    /// Called immediately after the V8 context for a frame has been created. To
+    /// retrieve the JavaScript 'window' object use the
+    /// ICefv8context.GetGlobal function. V8 handles can only be accessed
+    /// from the thread on which they are created. A task runner for posting tasks
+    /// on the associated thread can be retrieved via the
+    /// ICefv8context.GetTaskRunner() function.
+    /// </summary>
     procedure OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+    /// <summary>
+    /// Called immediately before the V8 context for a frame is released. No
+    /// references to the context should be kept after this function is called.
+    /// </summary>
     procedure OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+    /// <summary>
+    /// Called for global uncaught exceptions in a frame. Execution of this
+    /// callback is disabled by default. To enable set
+    /// TCefSettings.uncaught_exception_stack_size > 0.
+    /// </summary>
     procedure OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const V8Exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
+    /// <summary>
+    /// Called when a new node in the the browser gets focus. The |node| value may
+    /// be NULL if no specific node has gained focus. The node object passed to
+    /// this function represents a snapshot of the DOM at the time this function
+    /// is executed. DOM objects are only valid for the scope of this function. Do
+    /// not keep references to or attempt to access any DOM objects outside the
+    /// scope of this function.
+    /// </summary>
     procedure OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
+    /// <summary>
+    /// Called when a new message is received from a different process. Return
+    /// true (1) if the message was handled or false (0) otherwise. It is safe to
+    /// keep a reference to |message| outside of this callback.
+    /// </summary>
     function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -1975,10 +2135,43 @@ type
   /// </remarks>
   ICefApp = interface(ICefBaseRefCounted)
     ['{970CA670-9070-4642-B188-7D8A22DAEED4}']
+    /// <summary>
+    /// Provides an opportunity to view and/or modify command-line arguments
+    /// before processing by CEF and Chromium. The |process_type| value will be
+    /// NULL for the browser process. Do not keep a reference to the
+    /// cef_command_line_t object passed to this function. The
+    /// cef_settings_t.command_line_args_disabled value can be used to start with
+    /// an NULL command-line object. Any values specified in CefSettings that
+    /// equate to command-line arguments will be set before this function is
+    /// called. Be cautious when using this function to modify command-line
+    /// arguments for non-browser processes as this may result in undefined
+    /// behavior including crashes.
+    /// </summary>
     procedure OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
+    /// <summary>
+    /// Provides an opportunity to register custom schemes. Do not keep a
+    /// reference to the |registrar| object. This function is called on the main
+    /// thread for each process and the registered schemes should be the same
+    /// across all processes.
+    /// </summary>
     procedure OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+    /// <summary>
+    /// Return the handler for resource bundle events. If
+    /// cef_settings_t.pack_loading_disabled is true (1) a handler must be
+    /// returned. If no handler is returned resources will be loaded from pack
+    /// files. This function is called by the browser and render processes on
+    /// multiple threads.
+    /// </summary>
     procedure GetResourceBundleHandler(var aHandler : ICefResourceBundleHandler);
+    /// <summary>
+    /// Return the handler for functionality specific to the browser process. This
+    /// function is called on multiple threads in the browser process.
+    /// </summary>
     procedure GetBrowserProcessHandler(var aHandler : ICefBrowserProcessHandler);
+    /// <summary>
+    /// Return the handler for functionality specific to the render process. This
+    /// function is called on the render process main thread.
+    /// </summary>
     procedure GetRenderProcessHandler(var aHandler : ICefRenderProcessHandler);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -2615,9 +2808,45 @@ type
   /// </remarks>
   ICefLoadHandler = interface(ICefBaseRefCounted)
     ['{2C63FB82-345D-4A5B-9858-5AE7A85C9F49}']
+    /// <summary>
+    /// Called when the loading state has changed. This callback will be executed
+    /// twice -- once when loading is initiated either programmatically or by user
+    /// action, and once when loading is terminated due to completion,
+    /// cancellation of failure. It will be called before any calls to OnLoadStart
+    /// and after all calls to OnLoadError and/or OnLoadEnd.
+    /// </summary>
     procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+    /// <summary>
+    /// Called after a navigation has been committed and before the browser begins
+    /// loading contents in the frame. The |frame| value will never be NULL --
+    /// call the IsMain() function to check if this frame is the main frame.
+    /// |transition_type| provides information about the source of the navigation
+    /// and an accurate value is only available in the browser process. Multiple
+    /// frames may be loading at the same time. Sub-frames may start or continue
+    /// loading after the main frame load has ended. This function will not be
+    /// called for same page navigations (fragments, history state, etc.) or for
+    /// navigations that fail or are canceled before commit. For notification of
+    /// overall browser load status use OnLoadingStateChange instead.
+    /// </summary>
     procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
+    /// <summary>
+    /// Called when the browser is done loading a frame. The |frame| value will
+    /// never be NULL -- call the IsMain() function to check if this frame is the
+    /// main frame. Multiple frames may be loading at the same time. Sub-frames
+    /// may start or continue loading after the main frame load has ended. This
+    /// function will not be called for same page navigations (fragments, history
+    /// state, etc.) or for navigations that fail or are canceled before commit.
+    /// For notification of overall browser load status use OnLoadingStateChange
+    /// instead.
+    /// </summary>
     procedure OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
+    /// <summary>
+    /// Called when a navigation fails or is canceled. This function may be called
+    /// by itself if before commit or in combination with OnLoadStart/OnLoadEnd if
+    /// after commit. |errorCode| is the error code number, |errorText| is the
+    /// error text and |failedUrl| is the URL that failed to load. See
+    /// net\base\net_error_list.h for complete descriptions of the error codes.
+    /// </summary>
     procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
     /// <summary>
     /// Custom procedure to clear all references.
