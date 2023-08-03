@@ -283,7 +283,7 @@ type
     property Enumerate[const aKey: ustring; aValueIndex: NativeUInt] : ustring            read GetEnumerate;
   end;
 
-  IAppplicationCoreEvents = interface
+  IApplicationCoreEvents = interface
     ['{55E99E25-A05D-46D5-B3A4-C8C2E71C1F4D}']
 
     // ICefApp

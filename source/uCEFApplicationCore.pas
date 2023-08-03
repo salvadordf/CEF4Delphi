@@ -94,7 +94,7 @@ type
   /// <summary>
   ///  Parent class of TCefApplication used to simplify the CEF initialization and destruction.
   /// </summary>
-  TCefApplicationCore = class(TInterfacedObject, IAppplicationCoreEvents)
+  TCefApplicationCore = class(TInterfacedObject, IApplicationCoreEvents)
     protected
       // Fields used to populate TCefSettings
       FNoSandbox                         : boolean;

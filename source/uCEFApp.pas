@@ -277,7 +277,7 @@ procedure TCustomCefApp.OnBeforeCommandLineProcessing(const processType: ustring
 begin
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnBeforeCommandLineProcessing(processType, commandLine);
+      IApplicationCoreEvents(FCefApp).doOnBeforeCommandLineProcessing(processType, commandLine);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefApp.OnBeforeCommandLineProcessing', e) then raise;
@@ -288,7 +288,7 @@ procedure TCustomCefApp.OnRegisterCustomSchemes(const registrar: TCefSchemeRegis
 begin
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnRegisterCustomSchemes(registrar);
+      IApplicationCoreEvents(FCefApp).doOnRegisterCustomSchemes(registrar);
   except
     on e : exception do
       if CustomExceptionHandler('TCustomCefApp.OnRegisterCustomSchemes', e) then raise;

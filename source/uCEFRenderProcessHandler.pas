@@ -315,7 +315,7 @@ procedure TCefCustomRenderProcessHandler.OnWebKitInitialized;
 begin
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnWebKitInitialized;
+      IApplicationCoreEvents(FCefApp).doOnWebKitInitialized;
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnWebKitInitialized', e) then raise;
@@ -326,7 +326,7 @@ procedure TCefCustomRenderProcessHandler.OnBrowserCreated(const browser: ICefBro
 begin
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnBrowserCreated(browser, extra_info);
+      IApplicationCoreEvents(FCefApp).doOnBrowserCreated(browser, extra_info);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnBrowserCreated', e) then raise;
@@ -337,7 +337,7 @@ procedure TCefCustomRenderProcessHandler.OnBrowserDestroyed(const browser: ICefB
 begin
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnBrowserDestroyed(browser);
+      IApplicationCoreEvents(FCefApp).doOnBrowserDestroyed(browser);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnBrowserDestroyed', e) then raise;
@@ -358,7 +358,7 @@ procedure TCefCustomRenderProcessHandler.OnContextCreated(const browser : ICefBr
 begin
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnContextCreated(browser, frame, context);
+      IApplicationCoreEvents(FCefApp).doOnContextCreated(browser, frame, context);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnContextCreated', e) then raise;
@@ -371,7 +371,7 @@ procedure TCefCustomRenderProcessHandler.OnContextReleased(const browser : ICefB
 begin
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnContextReleased(browser, frame, context);
+      IApplicationCoreEvents(FCefApp).doOnContextReleased(browser, frame, context);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnContextReleased', e) then raise;
@@ -386,7 +386,7 @@ procedure TCefCustomRenderProcessHandler.OnUncaughtException(const browser     :
 begin
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnUncaughtException(browser, frame, context, V8Exception, stackTrace);
+      IApplicationCoreEvents(FCefApp).doOnUncaughtException(browser, frame, context, V8Exception, stackTrace);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnUncaughtException', e) then raise;
@@ -399,7 +399,7 @@ procedure TCefCustomRenderProcessHandler.OnFocusedNodeChanged(const browser : IC
 begin
   try
    if (FCefApp <> nil) then
-    IAppplicationCoreEvents(FCefApp).doOnFocusedNodeChanged(browser, frame, node);
+    IApplicationCoreEvents(FCefApp).doOnFocusedNodeChanged(browser, frame, node);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnFocusedNodeChanged', e) then raise;
@@ -415,7 +415,7 @@ begin
 
   try
     if (FCefApp <> nil) then
-      IAppplicationCoreEvents(FCefApp).doOnProcessMessageReceived(browser, frame, sourceProcess, aMessage, Result);
+      IApplicationCoreEvents(FCefApp).doOnProcessMessageReceived(browser, frame, sourceProcess, aMessage, Result);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomRenderProcessHandler.OnProcessMessageReceived', e) then raise;
