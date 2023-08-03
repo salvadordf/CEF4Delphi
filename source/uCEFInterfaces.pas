@@ -1018,9 +1018,44 @@ type
   /// </remarks>
   ICefFrameHandler = interface(ICefBaseRefCounted)
     ['{B437128C-F7CB-4F75-83CF-A257B98C0B6E}']
+    /// <summary>
+    /// Called when a new frame is created. This will be the first notification
+    /// that references |frame|. Any commands that require transport to the
+    /// associated renderer process (LoadRequest, SendProcessMessage, GetSource,
+    /// etc.) will be queued until OnFrameAttached is called for |frame|.
+    /// </summary>
     procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
+    /// <summary>
+    /// Called when a frame can begin routing commands to/from the associated
+    /// renderer process. |reattached| will be true (1) if the frame was re-
+    /// attached after exiting the BackForwardCache. Any commands that were queued
+    /// have now been dispatched.
+    /// </summary>
     procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
+    /// <summary>
+    /// Called when a frame loses its connection to the renderer process and will
+    /// be destroyed. Any pending or future commands will be discarded and
+    /// cef_frame_t::is_valid() will now return false (0) for |frame|. If called
+    /// after cef_life_span_handler_t::on_before_close() during browser
+    /// destruction then cef_browser_t::is_valid() will return false (0) for
+    /// |browser|.
+    /// </summary>
     procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
+    /// <summary>
+    /// Called when the main frame changes due to (a) initial browser creation,
+    /// (b) final browser destruction, (c) cross-origin navigation or (d) re-
+    /// navigation after renderer process termination (due to crashes, etc).
+    /// |old_frame| will be NULL and |new_frame| will be non-NULL when a main
+    /// frame is assigned to |browser| for the first time. |old_frame| will be
+    /// non-NULL and |new_frame| will be NULL and  when a main frame is removed
+    /// from |browser| for the last time. Both |old_frame| and |new_frame| will be
+    /// non-NULL for cross-origin navigations or re-navigation after renderer
+    /// process termination. This function will be called after on_frame_created()
+    /// for |new_frame| and/or after on_frame_detached() for |old_frame|. If
+    /// called after cef_life_span_handler_t::on_before_close() during browser
+    /// destruction then cef_browser_t::is_valid() will return false (0) for
+    /// |browser|.
+    ///
     procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -1186,6 +1221,12 @@ type
   /// </remarks>
   ICefBeforeDownloadCallback = interface(ICefBaseRefCounted)
     ['{5A81AF75-CBA2-444D-AD8E-522160F36433}']
+    /// <summary>
+    /// Call to continue the download. Set |download_path| to the full file path
+    /// for the download including the file name or leave blank to use the
+    /// suggested name and the default temp directory. Set |show_dialog| to true
+    /// (1) if you do wish to show the default "Save As" dialog.
+    /// </summary>
     procedure Cont(const downloadPath: ustring; showDialog: Boolean);
   end;
 
@@ -1198,8 +1239,17 @@ type
   /// </remarks>
   ICefDownloadItemCallback = interface(ICefBaseRefCounted)
     ['{498F103F-BE64-4D5F-86B7-B37EC69E1735}']
+    /// <summary>
+    /// Call to cancel the download.
+    /// </summary>
     procedure Cancel;
+    /// <summary>
+    /// Call to pause the download.
+    /// </summary>
     procedure Pause;
+    /// <summary>
+    /// Call to resume the download.
+    /// </summary>
     procedure Resume;
   end;
 
@@ -1213,8 +1263,29 @@ type
   /// </remarks>
   ICefDownloadHandler = interface(ICefBaseRefCounted)
     ['{3137F90A-5DC5-43C1-858D-A269F28EF4F1}']
+    /// <summary>
+    /// Called before a download begins in response to a user-initiated action
+    /// (e.g. alt + link click or link click that returns a `Content-Disposition:
+    /// attachment` response from the server). |url| is the target download URL
+    /// and |request_function| is the target function (GET, POST, etc). Return
+    /// true (1) to proceed with the download or false (0) to cancel the download.
+    /// </summary>
     function  CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
+    /// <summary>
+    /// Called before a download begins. |suggested_name| is the suggested name
+    /// for the download file. By default the download will be canceled. Execute
+    /// |callback| either asynchronously or in this function to continue the
+    /// download if desired. Do not keep a reference to |download_item| outside of
+    /// this function.
+    /// </summary>
     procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
+    /// <summary>
+    /// Called when a download's status or progress information has been updated.
+    /// This may be called multiple times before and after on_before_download().
+    /// Execute |callback| either asynchronously or in this function to cancel the
+    /// download if desired. Do not keep a reference to |download_item| outside of
+    /// this function.
+    /// </summary>
     procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -1788,10 +1859,63 @@ type
   /// </remarks>
   ICefDevToolsMessageObserver = interface(ICefBaseRefCounted)
     ['{76E5BB2B-7F69-4BC9-94C7-B55C61CE630F}']
+    /// <summary>
+    /// Method that will be called on receipt of a DevTools protocol message.
+    /// |browser| is the originating browser instance. |message| is a UTF8-encoded
+    /// JSON dictionary representing either a function result or an event.
+    /// |message| is only valid for the scope of this callback and should be
+    /// copied if necessary. Return true (1) if the message was handled or false
+    /// (0) if the message should be further processed and passed to the
+    /// OnDevToolsMethodResult or OnDevToolsEvent functions as appropriate.
+    ///
+    /// Method result dictionaries include an "id" (int) value that identifies the
+    /// orginating function call sent from
+    /// cef_browser_host_t::SendDevToolsMessage, and optionally either a "result"
+    /// (dictionary) or "error" (dictionary) value. The "error" dictionary will
+    /// contain "code" (int) and "message" (string) values. Event dictionaries
+    /// include a "function" (string) value and optionally a "params" (dictionary)
+    /// value. See the DevTools protocol documentation at
+    /// https://chromedevtools.github.io/devtools-protocol/ for details of
+    /// supported function calls and the expected "result" or "params" dictionary
+    /// contents. JSON dictionaries can be parsed using the CefParseJSON function
+    /// if desired, however be aware of performance considerations when parsing
+    /// large messages (some of which may exceed 1MB in size).
+    /// </summary>
     procedure OnDevToolsMessage(const browser: ICefBrowser; const message_: Pointer; message_size: NativeUInt; var aHandled: boolean);
+    /// <summary>
+    /// Method that will be called after attempted execution of a DevTools
+    /// protocol function. |browser| is the originating browser instance.
+    /// |message_id| is the "id" value that identifies the originating function
+    /// call message. If the function succeeded |success| will be true (1) and
+    /// |result| will be the UTF8-encoded JSON "result" dictionary value (which
+    /// may be NULL). If the function failed |success| will be false (0) and
+    /// |result| will be the UTF8-encoded JSON "error" dictionary value. |result|
+    /// is only valid for the scope of this callback and should be copied if
+    /// necessary. See the OnDevToolsMessage documentation for additional details
+    /// on |result| contents.
+    /// </summary>
     procedure OnDevToolsMethodResult(const browser: ICefBrowser; message_id: integer; success: boolean; const result: Pointer; result_size: NativeUInt);
+    /// <summary>
+    /// Method that will be called on receipt of a DevTools protocol event.
+    /// |browser| is the originating browser instance. |function| is the
+    /// "function" value. |params| is the UTF8-encoded JSON "params" dictionary
+    /// value (which may be NULL). |params| is only valid for the scope of this
+    /// callback and should be copied if necessary. See the OnDevToolsMessage
+    /// documentation for additional details on |params| contents.
+    /// </summary>
     procedure OnDevToolsEvent(const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: NativeUInt);
+    /// <summary>
+    /// Method that will be called when the DevTools agent has attached. |browser|
+    /// is the originating browser instance. This will generally occur in response
+    /// to the first message sent while the agent is detached.
+    /// </summary>
     procedure OnDevToolsAgentAttached(const browser: ICefBrowser);
+    /// <summary>
+    /// Method that will be called when the DevTools agent has detached. |browser|
+    /// is the originating browser instance. Any function results that were
+    /// pending before the agent became detached will not be delivered, and any
+    /// active event subscriptions will be canceled.
+    /// </summary>
     procedure OnDevToolsAgentDetached(const browser: ICefBrowser);
   end;
 
@@ -1806,10 +1930,35 @@ type
   /// </remarks>
   ICefMediaRouter = interface(ICefBaseRefCounted)
     ['{F18C3880-CB8D-48F9-9D74-DCFF4B9E88DF}']
+    /// <summary>
+    /// Add an observer for MediaRouter events. The observer will remain
+    /// registered until the returned Registration object is destroyed.
+    /// </summary>
     function  AddObserver(const observer: ICefMediaObserver): ICefRegistration;
+    /// <summary>
+    /// Returns a MediaSource object for the specified media source URN. Supported
+    /// URN schemes include "cast:" and "dial:", and will be already known by the
+    /// client application (e.g. "cast:<appId>?clientId=<clientId>").
+    /// </summary>
     function  GetSource(const urn: ustring): ICefMediaSource;
+    /// <summary>
+    /// Trigger an asynchronous call to cef_media_observer_t::OnSinks on all
+    /// registered observers.
+    /// </summary>
     procedure NotifyCurrentSinks;
+    /// <summary>
+    /// Create a new route between |source| and |sink|. Source and sink must be
+    /// valid, compatible (as reported by cef_media_sink_t::IsCompatibleWith), and
+    /// a route between them must not already exist. |callback| will be executed
+    /// on success or failure. If route creation succeeds it will also trigger an
+    /// asynchronous call to cef_media_observer_t::OnRoutes on all registered
+    /// observers.
+    /// </summary>
     procedure CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink; const callback: ICefMediaRouteCreateCallback);
+    /// <summary>
+    /// Trigger an asynchronous call to cef_media_observer_t::OnRoutes on all
+    /// registered observers.
+    /// </summary>
     procedure NotifyCurrentRoutes;
   end;
 
@@ -1824,9 +1973,24 @@ type
   /// </remarks>
   ICefMediaObserver = interface(ICefBaseRefCounted)
     ['{0B27C8D1-63E3-4F69-939F-DCAD518654A3}']
+    /// <summary>
+    /// The list of available media sinks has changed or
+    /// cef_media_router_t::NotifyCurrentSinks was called.
+    /// </summary>
     procedure OnSinks(const sinks: TCefMediaSinkArray);
+    /// <summary>
+    /// The list of available media routes has changed or
+    /// cef_media_router_t::NotifyCurrentRoutes was called.
+    /// </summary>
     procedure OnRoutes(const routes: TCefMediaRouteArray);
+    /// <summary>
+    /// The connection state of |route| has changed.
+    /// </summary>
     procedure OnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
+    /// <summary>
+    /// A message was recieved over |route|. |message| is only valid for the scope
+    /// of this callback and should be copied if necessary.
+    /// </summary>
     procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
   end;
 
@@ -1875,6 +2039,12 @@ type
   /// </remarks>
   ICefMediaRouteCreateCallback = interface(ICefBaseRefCounted)
     ['{8848CBFE-36AC-4AC8-BC10-386B69FB27BE}']
+    /// <summary>
+    /// Method that will be executed when the route creation has finished.
+    /// |result| will be CEF_MRCR_OK if the route creation succeeded. |error| will
+    /// be a description of the error if the route creation failed. |route| is the
+    /// resulting route, or NULL if the route creation failed.
+    /// </summary>
     procedure OnMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
   end;
 
@@ -1888,6 +2058,10 @@ type
   /// </remarks>
   ICefMediaSinkDeviceInfoCallback = interface(ICefBaseRefCounted)
     ['{633898DD-4169-45D0-ADDD-6E68B3686E0D}']
+    /// <summary>
+    /// Method that will be executed asyncronously once device information has
+    /// been retrieved.
+    /// </summary>
     procedure OnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring);
   end;
 
@@ -1902,16 +2076,46 @@ type
   /// </remarks>
   ICefMediaSink = interface(ICefBaseRefCounted)
     ['{EDA1A4B2-2A4C-42DD-A7DF-901BF93D908D}']
+    /// <summary>
+    /// Returns the ID for this sink.
+    /// </summary>
     function  GetId: ustring;
+    /// <summary>
+    /// Returns the name of this sink.
+    /// </summary>
     function  GetName: ustring;
+    /// <summary>
+    /// Returns the icon type for this sink.
+    /// </summary>
     function  GetIconType: TCefMediaSinkIconType;
+    /// <summary>
+    /// Asynchronously retrieves device info.
+    /// </summary>
     procedure GetDeviceInfo(const callback: ICefMediaSinkDeviceInfoCallback);
+    /// <summary>
+    /// Returns true (1) if this sink accepts content via Cast.
+    /// </summary>
     function  IsCastSink: boolean;
+    /// <summary>
+    /// Returns true (1) if this sink accepts content via DIAL.
+    /// </summary>
     function  IsDialSink: boolean;
+    /// <summary>
+    /// Returns true (1) if this sink is compatible with |source|.
+    /// </summary>
     function  IsCompatibleWith(const source: ICefMediaSource): boolean;
 
+    /// <summary>
+    /// Returns the ID for this sink.
+    /// </summary>
     property ID          : ustring               read GetId;
+    /// <summary>
+    /// Returns the name of this sink.
+    /// </summary>
     property Name        : ustring               read GetName;
+    /// <summary>
+    /// Returns the icon type for this sink.
+    /// </summary>
     property IconType    : TCefMediaSinkIconType read GetIconType;
   end;
 
@@ -1927,10 +2131,21 @@ type
   /// </remarks>
   ICefMediaSource = interface(ICefBaseRefCounted)
     ['{734ED6E4-6498-43ED-AAA4-6B993EDC30BE}']
+    /// <summary>
+    /// Returns the ID (media source URN or URL) for this source.
+    /// </summary>
     function GetId : ustring;
+    /// <summary>
+    /// Returns true (1) if this source outputs its content via Cast.
+    /// </summary>
     function IsCastSource : boolean;
+    /// <summary>
+    /// Returns true (1) if this source outputs its content via DIAL.
+    /// </summary>
     function IsDialSource : boolean;
-
+    /// <summary>
+    /// Returns the ID (media source URN or URL) for this source.
+    /// </summary>
     property ID : ustring read GetId;
   end;
 
@@ -2417,6 +2632,11 @@ type
   /// </remarks>
   ICefJsDialogCallback = interface(ICefBaseRefCounted)
     ['{187B2156-9947-4108-87AB-32E559E1B026}']
+    /// <summary>
+    /// Continue the JS dialog request. Set |success| to true (1) if the OK button
+    /// was pressed. The |user_input| value should be specified for prompt
+    /// dialogs.
+    /// </summary>
     procedure Cont(success: Boolean; const userInput: ustring);
   end;
 
@@ -2430,40 +2650,179 @@ type
   /// </remarks>
   ICefContextMenuParams = interface(ICefBaseRefCounted)
     ['{E31BFA9E-D4E2-49B7-A05D-20018C8794EB}']
+    /// <summary>
+    /// Returns the X coordinate of the mouse where the context menu was invoked.
+    /// Coords are relative to the associated RenderView's origin.
+    /// </summary>
     function GetXCoord: Integer;
+    /// <summary>
+    /// Returns the Y coordinate of the mouse where the context menu was invoked.
+    /// Coords are relative to the associated RenderView's origin.
+    /// </summary>
     function GetYCoord: Integer;
+    /// <summary>
+    /// Returns flags representing the type of node that the context menu was
+    /// invoked on.
+    /// </summary>
     function GetTypeFlags: TCefContextMenuTypeFlags;
+    /// <summary>
+    /// Returns the URL of the link, if any, that encloses the node that the
+    /// context menu was invoked on.
+    /// </summary>
     function GetLinkUrl: ustring;
+    /// <summary>
+    /// Returns the link URL, if any, to be used ONLY for "copy link address". We
+    /// don't validate this field in the frontend process.
+    /// </summary>
     function GetUnfilteredLinkUrl: ustring;
+    /// <summary>
+    /// Returns the source URL, if any, for the element that the context menu was
+    /// invoked on. Example of elements with source URLs are img, audio, and
+    /// video.
+    /// </summary>
     function GetSourceUrl: ustring;
+    /// <summary>
+    /// Returns true (1) if the context menu was invoked on an image which has
+    /// non-NULL contents.
+    /// </summary>
     function HasImageContents: Boolean;
+    /// <summary>
+    /// Returns the title text or the alt text if the context menu was invoked on
+    /// an image.
+    ///
     function GetTitleText: ustring;
+    /// <summary>
+    /// Returns the URL of the top level page that the context menu was invoked
+    /// on.
+    /// </summary>
     function GetPageUrl: ustring;
+    /// <summary>
+    /// Returns the URL of the subframe that the context menu was invoked on.
+    /// </summary>
     function GetFrameUrl: ustring;
+    /// <summary>
+    /// Returns the character encoding of the subframe that the context menu was
+    /// invoked on.
+    /// </summary>
     function GetFrameCharset: ustring;
+    /// <summary>
+    /// Returns the type of context node that the context menu was invoked on.
+    /// </summary>
     function GetMediaType: TCefContextMenuMediaType;
+    /// <summary>
+    /// Returns flags representing the actions supported by the media element, if
+    /// any, that the context menu was invoked on.
+    /// </summary>
     function GetMediaStateFlags: TCefContextMenuMediaStateFlags;
+    /// <summary>
+    /// Returns the text of the selection, if any, that the context menu was
+    /// invoked on.
+    /// </summary>
     function GetSelectionText: ustring;
+    /// <summary>
+    /// Returns the text of the misspelled word, if any, that the context menu was
+    /// invoked on.
+    /// </summary>
     function GetMisspelledWord: ustring;
+    /// <summary>
+    /// Returns true (1) if suggestions exist, false (0) otherwise. Fills in
+    /// |suggestions| from the spell check service for the misspelled word if
+    /// there is one.
+    /// </summary>
     function GetDictionarySuggestions(const suggestions: TStringList): Boolean;
+    /// <summary>
+    /// Returns true (1) if the context menu was invoked on an editable node.
+    /// </summary>
     function IsEditable: Boolean;
+    /// <summary>
+    /// Returns true (1) if the context menu was invoked on an editable node where
+    /// spell-check is enabled.
+    /// </summary>
     function IsSpellCheckEnabled: Boolean;
+    /// <summary>
+    /// Returns flags representing the actions supported by the editable node, if
+    /// any, that the context menu was invoked on.
+    /// </summary>
     function GetEditStateFlags: TCefContextMenuEditStateFlags;
+    /// <summary>
+    /// Returns true (1) if the context menu contains items specified by the
+    /// renderer process.
+    /// </summary>
     function IsCustomMenu: Boolean;
 
+    /// <summary>
+    /// Returns the X coordinate of the mouse where the context menu was invoked.
+    /// Coords are relative to the associated RenderView's origin.
+    /// </summary>
     property XCoord            : Integer                        read GetXCoord;
+    /// <summary>
+    /// Returns the Y coordinate of the mouse where the context menu was invoked.
+    /// Coords are relative to the associated RenderView's origin.
+    /// </summary>
     property YCoord            : Integer                        read GetYCoord;
+    /// <summary>
+    /// Returns flags representing the type of node that the context menu was
+    /// invoked on.
+    ///
     property TypeFlags         : TCefContextMenuTypeFlags       read GetTypeFlags;
+    /// <summary>
+    /// Returns the URL of the link, if any, that encloses the node that the
+    /// context menu was invoked on.
+    /// </summary>
     property LinkUrl           : ustring                        read GetLinkUrl;
+    /// <summary>
+    /// Returns the link URL, if any, to be used ONLY for "copy link address". We
+    /// don't validate this field in the frontend process.
+    /// </summary>
     property UnfilteredLinkUrl : ustring                        read GetUnfilteredLinkUrl;
+    /// <summary>
+    /// Returns the source URL, if any, for the element that the context menu was
+    /// invoked on. Example of elements with source URLs are img, audio, and
+    /// video.
+    /// </summary>
     property SourceUrl         : ustring                        read GetSourceUrl;
+    /// <summary>
+    /// Returns the title text or the alt text if the context menu was invoked on
+    /// an image.
+    /// </summary>
     property TitleText         : ustring                        read GetTitleText;
+    /// <summary>
+    /// Returns the URL of the top level page that the context menu was invoked
+    /// on.
+    /// </summary>
     property PageUrl           : ustring                        read GetPageUrl;
+    /// <summary>
+    /// Returns the URL of the subframe that the context menu was invoked on.
+    /// </summary>
     property FrameUrl          : ustring                        read GetFrameUrl;
+    /// <summary>
+    /// Returns the character encoding of the subframe that the context menu was
+    /// invoked on.
+    /// </summary>
     property FrameCharset      : ustring                        read GetFrameCharset;
+    /// <summary>
+    /// Returns the type of context node that the context menu was invoked on.
+    /// </summary>
     property MediaType         : TCefContextMenuMediaType       read GetMediaType;
+    /// <summary>
+    /// Returns flags representing the actions supported by the media element, if
+    /// any, that the context menu was invoked on.
+    /// </summary>
     property MediaStateFlags   : TCefContextMenuMediaStateFlags read GetMediaStateFlags;
+    /// <summary>
+    /// Returns the text of the selection, if any, that the context menu was
+    /// invoked on.
+    /// </summary>
     property SelectionText     : ustring                        read GetSelectionText;
+    /// <summary>
+    /// Returns the text of the misspelled word, if any, that the context menu was
+    /// invoked on.
+    /// </summary>
+    property MisspelledWord    : ustring                        read GetMisspelledWord;
+    /// <summary>
+    /// Returns flags representing the actions supported by the editable node, if
+    /// any, that the context menu was invoked on.
+    /// </summary>
     property EditStateFlags    : TCefContextMenuEditStateFlags  read GetEditStateFlags;
   end;
 
@@ -2684,9 +3043,138 @@ type
   /// </remarks>
   ICefLifeSpanHandler = interface(ICefBaseRefCounted)
     ['{0A3EB782-A319-4C35-9B46-09B2834D7169}']
+    /// <summary>
+    /// Called on the UI thread before a new popup browser is created. The
+    /// |browser| and |frame| values represent the source of the popup request.
+    /// The |target_url| and |target_frame_name| values indicate where the popup
+    /// browser should navigate and may be NULL if not specified with the request.
+    /// The |target_disposition| value indicates where the user intended to open
+    /// the popup (e.g. current tab, new tab, etc). The |user_gesture| value will
+    /// be true (1) if the popup was opened via explicit user gesture (e.g.
+    /// clicking a link) or false (0) if the popup opened automatically (e.g. via
+    /// the DomContentLoaded event). The |popupFeatures| structure contains
+    /// additional information about the requested popup window. To allow creation
+    /// of the popup browser optionally modify |windowInfo|, |client|, |settings|
+    /// and |no_javascript_access| and return false (0). To cancel creation of the
+    /// popup browser return true (1). The |client| and |settings| values will
+    /// default to the source browser's values. If the |no_javascript_access|
+    /// value is set to false (0) the new browser will not be scriptable and may
+    /// not be hosted in the same renderer process as the source browser. Any
+    /// modifications to |windowInfo| will be ignored if the parent browser is
+    /// wrapped in a cef_browser_view_t. Popup browser creation will be canceled
+    /// if the parent browser is destroyed before the popup browser creation
+    /// completes (indicated by a call to OnAfterCreated for the popup browser).
+    /// The |extra_info| parameter provides an opportunity to specify extra
+    /// information specific to the created popup browser that will be passed to
+    /// cef_render_process_handler_t::on_browser_created() in the render process.
+    /// </summary>
     function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean;
+    /// <summary>
+    /// Called after a new browser is created. It is now safe to begin performing
+    /// actions with |browser|. cef_frame_handler_t callbacks related to initial
+    /// main frame creation will arrive before this callback. See
+    /// cef_frame_handler_t documentation for additional usage information.
+    /// </summary>
     procedure OnAfterCreated(const browser: ICefBrowser);
+    /// <summary>
+    /// Called when a browser has recieved a request to close. This may result
+    /// directly from a call to cef_browser_host_t::*close_browser() or indirectly
+    /// if the browser is parented to a top-level window created by CEF and the
+    /// user attempts to close that window (by clicking the 'X', for example). The
+    /// do_close() function will be called after the JavaScript 'onunload' event
+    /// has been fired.
+    ///
+    /// An application should handle top-level owner window close notifications by
+    /// calling cef_browser_host_t::try_close_browser() or
+    /// cef_browser_host_t::CloseBrowser(false (0)) instead of allowing the window
+    /// to close immediately (see the examples below). This gives CEF an
+    /// opportunity to process the 'onbeforeunload' event and optionally cancel
+    /// the close before do_close() is called.
+    ///
+    /// When windowed rendering is enabled CEF will internally create a window or
+    /// view to host the browser. In that case returning false (0) from do_close()
+    /// will send the standard close notification to the browser's top-level owner
+    /// window (e.g. WM_CLOSE on Windows, performClose: on OS X, "delete_event" on
+    /// Linux or cef_window_delegate_t::can_close() callback from Views). If the
+    /// browser's host window/view has already been destroyed (via view hierarchy
+    /// tear-down, for example) then do_close() will not be called for that
+    /// browser since is no longer possible to cancel the close.
+    ///
+    /// When windowed rendering is disabled returning false (0) from do_close()
+    /// will cause the browser object to be destroyed immediately.
+    ///
+    /// If the browser's top-level owner window requires a non-standard close
+    /// notification then send that notification from do_close() and return true
+    /// (1).
+    ///
+    /// The cef_life_span_handler_t::on_before_close() function will be called
+    /// after do_close() (if do_close() is called) and immediately before the
+    /// browser object is destroyed. The application should only exit after
+    /// on_before_close() has been called for all existing browsers.
+    ///
+    /// The below examples describe what should happen during window close when
+    /// the browser is parented to an application-provided top-level window.
+    ///
+    /// Example 1: Using cef_browser_host_t::try_close_browser(). This is
+    /// recommended for clients using standard close handling and windows created
+    /// on the browser process UI thread.
+    /// 1.  User clicks the window close button which sends a close notification
+    ///     to the application's top-level window.
+    /// 2.  Application's top-level window receives the close notification and
+    ///     calls TryCloseBrowser() (which internally calls CloseBrowser(false)).
+    ///     TryCloseBrowser() returns false so the client cancels the window
+    ///     close.
+    /// 3.  JavaScript 'onbeforeunload' handler executes and shows the close
+    ///     confirmation dialog (which can be overridden via
+    ///     CefJSDialogHandler::OnBeforeUnloadDialog()).
+    /// 4.  User approves the close.
+    /// 5.  JavaScript 'onunload' handler executes.
+    /// 6.  CEF sends a close notification to the application's top-level window
+    ///     (because DoClose() returned false by default).
+    /// 7.  Application's top-level window receives the close notification and
+    ///     calls TryCloseBrowser(). TryCloseBrowser() returns true so the client
+    ///     allows the window close.
+    /// 8.  Application's top-level window is destroyed.
+    /// 9.  Application's on_before_close() handler is called and the browser object is destroyed.
+    /// 10. Application exits by calling cef_quit_message_loop() if no other browsers exist.
+    ///
+    /// Example 2: Using cef_browser_host_t::CloseBrowser(false (0)) and
+    /// implementing the do_close() callback. This is recommended for clients
+    /// using non-standard close handling or windows that were not created on the
+    /// browser process UI thread.
+    /// 1.  User clicks the window close button which sends a close notification
+    ///     to the application's top-level window.
+    /// 2.  Application's top-level window receives the close notification and:
+    ///     A. Calls CefBrowserHost::CloseBrowser(false).
+    ///     B. Cancels the window close.
+    /// 3.  JavaScript 'onbeforeunload' handler executes and shows the close
+    ///     confirmation dialog (which can be overridden via
+    ///     CefJSDialogHandler::OnBeforeUnloadDialog()).
+    /// 4.  User approves the close.
+    /// 5.  JavaScript 'onunload' handler executes.
+    /// 6.  Application's do_close() handler is called. Application will:
+    ///     A. Set a flag to indicate that the next close attempt will be allowed.
+    ///     B. Return false.
+    /// 7.  CEF sends an close notification to the application's top-level window.
+    /// 8.  Application's top-level window receives the close notification and
+    ///     allows the window to close based on the flag from #6B.
+    /// 9.  Application's top-level window is destroyed.
+    /// 10. Application's on_before_close() handler is called and the browser object is destroyed.
+    /// 11. Application exits by calling cef_quit_message_loop() if no other browsers exist.
+    /// </summary>
     function  DoClose(const browser: ICefBrowser): Boolean;
+    /// <summary>
+    /// Called just before a browser is destroyed. Release all references to the
+    /// browser object and do not attempt to execute any functions on the browser
+    /// object (other than IsValid, GetIdentifier or IsSame) after this callback
+    /// returns. cef_frame_handler_t callbacks related to final main frame
+    /// destruction will arrive after this callback and cef_browser_t::IsValid
+    /// will return false (0) at that time. Any in-progress network requests
+    /// associated with |browser| will be aborted when the browser is destroyed,
+    /// and cef_resource_request_handler_t callbacks related to those requests may
+    /// still arrive on the IO thread after this callback. See cef_frame_handler_t
+    /// and do_close() documentation for additional usage information.
+    /// </summary>
     procedure OnBeforeClose(const browser: ICefBrowser);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -2704,10 +3192,41 @@ type
   /// </remarks>
   ICefCommandHandler = interface(ICefBaseRefCounted)
     ['{7C931B93-53DC-4607-AABB-2CB4AEF7FB96}']
+    /// <summary>
+    /// Called to execute a Chrome command triggered via menu selection or
+    /// keyboard shortcut. Values for |command_id| can be found in the
+    /// cef_command_ids.h file. |disposition| provides information about the
+    /// intended command target. Return true (1) if the command was handled or
+    /// false (0) for the default implementation. For context menu commands this
+    /// will be called after cef_context_menu_handler_t::OnContextMenuCommand.
+    /// Only used with the Chrome runtime.
+    /// </summary>
     function  OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
+    /// <summary>
+    /// Called to check if a Chrome app menu item should be visible. Values for
+    /// |command_id| can be found in the cef_command_ids.h file. Only called for
+    /// menu items that would be visible by default. Only used with the Chrome
+    /// runtime.
+    /// </summary>
     function  OnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
+    /// <summary>
+    /// Called to check if a Chrome app menu item should be enabled. Values for
+    /// |command_id| can be found in the cef_command_ids.h file. Only called for
+    /// menu items that would be enabled by default. Only used with the Chrome
+    /// runtime.
+    /// </summary>
     function  OnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
+    /// <summary>
+    /// Called during browser creation to check if a Chrome page action icon
+    /// should be visible. Only called for icons that would be visible by default.
+    /// Only used with the Chrome runtime.
+    /// </summary>
     function  OnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
+    /// <summary>
+    /// Called during browser creation to check if a Chrome toolbar button should
+    /// be visible. Only called for buttons that would be visible by default. Only
+    /// used with the Chrome runtime.
+    /// </summary>
     function  OnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -2725,7 +3244,13 @@ type
   /// </remarks>
   ICefGetExtensionResourceCallback = interface(ICefBaseRefCounted)
     ['{579C8602-8252-40D0-9E0A-501F32C36C42}']
+    /// <summary>
+    /// Continue the request. Read the resource contents from |stream|.
+    /// </summary>
     procedure cont(const stream: ICefStreamReader);
+    /// <summary>
+    /// Cancel the request.
+    /// </summary>
     procedure cancel;
   end;
 
@@ -2741,13 +3266,82 @@ type
   /// </remarks>
   ICefExtensionHandler = interface(ICefBaseRefCounted)
     ['{3234008F-D809-459D-963D-23BA50219648}']
+    /// <summary>
+    /// Called if the cef_request_context_t::LoadExtension request fails. |result|
+    /// will be the error code.
+    /// </summary>
     procedure OnExtensionLoadFailed(result: TCefErrorcode);
+    /// <summary>
+    /// Called if the cef_request_context_t::LoadExtension request succeeds.
+    /// |extension| is the loaded extension.
+    /// </summary>
     procedure OnExtensionLoaded(const extension: ICefExtension);
+    /// <summary>
+    /// Called after the cef_extension_t::Unload request has completed.
+    /// </summary>
     procedure OnExtensionUnloaded(const extension: ICefExtension);
+    /// <summary>
+    /// Called when an extension needs a browser to host a background script
+    /// specified via the "background" manifest key. The browser will have no
+    /// visible window and cannot be displayed. |extension| is the extension that
+    /// is loading the background script. |url| is an internally generated
+    /// reference to an HTML page that will be used to load the background script
+    /// via a "<script>" src attribute. To allow creation of the browser
+    /// optionally modify |client| and |settings| and return false (0). To cancel
+    /// creation of the browser (and consequently cancel load of the background
+    /// script) return true (1). Successful creation will be indicated by a call
+    /// to cef_life_span_handler_t::OnAfterCreated, and
+    /// cef_browser_host_t::IsBackgroundHost will return true (1) for the
+    /// resulting browser. See https://developer.chrome.com/extensions/event_pages
+    /// for more information about extension background script usage.
+    /// </summary>
     function  OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+    /// <summary>
+    /// Called when an extension API (e.g. chrome.tabs.create) requests creation
+    /// of a new browser. |extension| and |browser| are the source of the API
+    /// call. |active_browser| may optionally be specified via the windowId
+    /// property or returned via the get_active_browser() callback and provides
+    /// the default |client| and |settings| values for the new browser. |index| is
+    /// the position value optionally specified via the index property. |url| is
+    /// the URL that will be loaded in the browser. |active| is true (1) if the
+    /// new browser should be active when opened.  To allow creation of the
+    /// browser optionally modify |windowInfo|, |client| and |settings| and return
+    /// false (0). To cancel creation of the browser return true (1). Successful
+    /// creation will be indicated by a call to
+    /// cef_life_span_handler_t::OnAfterCreated. Any modifications to |windowInfo|
+    /// will be ignored if |active_browser| is wrapped in a cef_browser_view_t.
+    /// </summary>
     function  OnBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
+    /// <summary>
+    /// Called when no tabId is specified to an extension API call that accepts a
+    /// tabId parameter (e.g. chrome.tabs.*). |extension| and |browser| are the
+    /// source of the API call. Return the browser that will be acted on by the
+    /// API call or return NULL to act on |browser|. The returned browser must
+    /// share the same cef_request_context_t as |browser|. Incognito browsers
+    /// should not be considered unless the source extension has incognito access
+    /// enabled, in which case |include_incognito| will be true (1).
+    /// </summary>
     procedure GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser: ICefBrowser);
+    /// <summary>
+    /// Called when the tabId associated with |target_browser| is specified to an
+    /// extension API call that accepts a tabId parameter (e.g. chrome.tabs.*).
+    /// |extension| and |browser| are the source of the API call. Return true (1)
+    /// to allow access of false (0) to deny access. Access to incognito browsers
+    /// should not be allowed unless the source extension has incognito access
+    /// enabled, in which case |include_incognito| will be true (1).
+    /// </summary>
     function  CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
+    /// <summary>
+    /// Called to retrieve an extension resource that would normally be loaded
+    /// from disk (e.g. if a file parameter is specified to
+    /// chrome.tabs.executeScript). |extension| and |browser| are the source of
+    /// the resource request. |file| is the requested relative file path. To
+    /// handle the resource request return true (1) and execute |callback| either
+    /// synchronously or asynchronously. For the default behavior which reads the
+    /// resource from the extension directory on disk return false (0).
+    /// Localization substitutions will not be applied to resources handled via
+    /// this function.
+    ///  </summary>
     function  GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -2878,14 +3472,105 @@ type
   /// </remarks>
   ICefRequestHandler = interface(ICefBaseRefCounted)
     ['{050877A9-D1F8-4EB3-B58E-50DC3E3D39FD}']
+    /// <summary>
+    /// Called on the UI thread before browser navigation. Return true (1) to
+    /// cancel the navigation or false (0) to allow the navigation to proceed. The
+    /// |request| object cannot be modified in this callback.
+    /// cef_load_handler_t::OnLoadingStateChange will be called twice in all
+    /// cases. If the navigation is allowed cef_load_handler_t::OnLoadStart and
+    /// cef_load_handler_t::OnLoadEnd will be called. If the navigation is
+    /// canceled cef_load_handler_t::OnLoadError will be called with an
+    /// |errorCode| value of ERR_ABORTED. The |user_gesture| value will be true
+    /// (1) if the browser navigated via explicit user gesture (e.g. clicking a
+    /// link) or false (0) if it navigated automatically (e.g. via the
+    /// DomContentLoaded event).
+    /// </summary>
     function  OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean): Boolean;
+    /// <summary>
+    /// Called on the UI thread before OnBeforeBrowse in certain limited cases
+    /// where navigating a new or different browser might be desirable. This
+    /// includes user-initiated navigation that might open in a special way (e.g.
+    /// links clicked via middle-click or ctrl + left-click) and certain types of
+    /// cross-origin navigation initiated from the renderer process (e.g.
+    /// navigating the top-level frame to/from a file URL). The |browser| and
+    /// |frame| values represent the source of the navigation. The
+    /// |target_disposition| value indicates where the user intended to navigate
+    /// the browser based on standard Chromium behaviors (e.g. current tab, new
+    /// tab, etc). The |user_gesture| value will be true (1) if the browser
+    /// navigated via explicit user gesture (e.g. clicking a link) or false (0) if
+    /// it navigated automatically (e.g. via the DomContentLoaded event). Return
+    /// true (1) to cancel the navigation or false (0) to allow the navigation to
+    /// proceed in the source browser's top-level frame.
+    /// </summary>
     function  OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean): Boolean;
+    /// <summary>
+    /// Called on the browser process IO thread before a resource request is
+    /// initiated. The |browser| and |frame| values represent the source of the
+    /// request. |request| represents the request contents and cannot be modified
+    /// in this callback. |is_navigation| will be true (1) if the resource request
+    /// is a navigation. |is_download| will be true (1) if the resource request is
+    /// a download. |request_initiator| is the origin (scheme + domain) of the
+    /// page that initiated the request. Set |disable_default_handling| to true
+    /// (1) to disable default handling of the request, in which case it will need
+    /// to be handled via cef_resource_request_handler_t::GetResourceHandler or it
+    /// will be canceled. To allow the resource load to proceed with default
+    /// handling return NULL. To specify a handler for the resource return a
+    /// cef_resource_request_handler_t object. If this callback returns NULL the
+    /// same function will be called on the associated
+    /// cef_request_context_handler_t, if any.
+    /// </summary>
     procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
+    /// <summary>
+    /// Called on the IO thread when the browser needs credentials from the user.
+    /// |origin_url| is the origin making this authentication request. |isProxy|
+    /// indicates whether the host is a proxy server. |host| contains the hostname
+    /// and |port| contains the port number. |realm| is the realm of the challenge
+    /// and may be NULL. |scheme| is the authentication scheme used, such as
+    /// "basic" or "digest", and will be NULL if the source of the request is an
+    /// FTP server. Return true (1) to continue the request and call
+    /// cef_auth_callback_t::cont() either in this function or at a later time
+    /// when the authentication information is available. Return false (0) to
+    /// cancel the request immediately.
+    /// </summary>
     function  GetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean;
+    /// <summary>
+    /// Called on the UI thread to handle requests for URLs with an invalid SSL
+    /// certificate. Return true (1) and call cef_callback_t functions either in
+    /// this function or at a later time to continue or cancel the request. Return
+    /// false (0) to cancel the request immediately. If
+    /// cef_settings_t.ignore_certificate_errors is set all invalid certificates
+    /// will be accepted without calling this function.
+    /// </summary>
     function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean;
+    /// <summary>
+    /// Called on the UI thread when a client certificate is being requested for
+    /// authentication. Return false (0) to use the default behavior and
+    /// automatically select the first certificate available. Return true (1) and
+    /// call cef_select_client_certificate_callback_t::Select either in this
+    /// function or at a later time to select a certificate. Do not call Select or
+    /// call it with NULL to continue without using any certificate. |isProxy|
+    /// indicates whether the host is an HTTPS proxy or the origin server. |host|
+    /// and |port| contains the hostname and port of the SSL server.
+    /// |certificates| is the list of certificates to choose from; this list has
+    /// already been pruned by Chromium so that it only contains certificates from
+    /// issuers that the server trusts.
+    /// </summary>
     function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean;
+    /// <summary>
+    /// Called on the browser process UI thread when the render view associated
+    /// with |browser| is ready to receive/handle IPC messages in the render
+    /// process.
+    /// </summary>
     procedure OnRenderViewReady(const browser: ICefBrowser);
+    /// <summary>
+    /// Called on the browser process UI thread when the render process terminates
+    /// unexpectedly. |status| indicates how the process terminated.
+    /// </summary>
     procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
+    /// <summary>
+    /// Called on the browser process UI thread when the window.document object of
+    /// the main frame has been created.
+    /// </summary>
     procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -2904,13 +3589,97 @@ type
   /// </remarks>
   ICefResourceRequestHandler = interface(ICefBaseRefCounted)
     ['{CFA42A38-EA91-4A95-95CE-178BCD412411}']
+    /// <summary>
+    /// Called on the IO thread before a resource request is loaded. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or cef_urlrequest_t. To
+    /// optionally filter cookies for the request return a
+    /// cef_cookie_access_filter_t object. The |request| object cannot not be
+    /// modified in this callback.
+    /// </summary>
     procedure GetCookieAccessFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aFilter: ICefCookieAccessFilter);
+    /// <summary>
+    /// Called on the IO thread before a resource request is loaded. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or cef_urlrequest_t. To
+    /// redirect or change the resource load optionally modify |request|.
+    /// Modification of the request URL will be treated as a redirect. Return
+    /// RV_CONTINUE to continue the request immediately. Return RV_CONTINUE_ASYNC
+    /// and call cef_callback_t functions at a later time to continue or cancel
+    /// the request asynchronously. Return RV_CANCEL to cancel the request
+    /// immediately.
+    /// </summary>
     function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback): TCefReturnValue;
+    /// <summary>
+    /// Called on the IO thread before a resource is loaded. The |browser| and
+    /// |frame| values represent the source of the request, and may be NULL for
+    /// requests originating from service workers or cef_urlrequest_t. To allow
+    /// the resource to load using the default network loader return NULL. To
+    /// specify a handler for the resource return a cef_resource_handler_t object.
+    /// The |request| object cannot not be modified in this callback.
+    /// </summary>
     procedure GetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler : ICefResourceHandler);
+    /// <summary>
+    /// Called on the IO thread when a resource load is redirected. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or cef_urlrequest_t. The
+    /// |request| parameter will contain the old URL and other request-related
+    /// information. The |response| parameter will contain the response that
+    /// resulted in the redirect. The |new_url| parameter will contain the new URL
+    /// and can be changed if desired. The |request| and |response| objects cannot
+    /// be modified in this callback.
+    /// </summary>
     procedure OnResourceRedirect(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring);
+    /// <summary>
+    /// Called on the IO thread when a resource response is received. The
+    /// |browser| and |frame| values represent the source of the request, and may
+    /// be NULL for requests originating from service workers or cef_urlrequest_t.
+    /// To allow the resource load to proceed without modification return false
+    /// (0). To redirect or retry the resource load optionally modify |request|
+    /// and return true (1). Modification of the request URL will be treated as a
+    /// redirect. Requests handled using the default network loader cannot be
+    /// redirected in this callback. The |response| object cannot be modified in
+    /// this callback.
+    ///
+    /// WARNING: Redirecting using this function is deprecated. Use
+    /// OnBeforeResourceLoad or GetResourceHandler to perform redirects.
+    /// </summary>
     function  OnResourceResponse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): Boolean;
+    /// <summary>
+    /// Called on the IO thread to optionally filter resource response content.
+    /// The |browser| and |frame| values represent the source of the request, and
+    /// may be NULL for requests originating from service workers or
+    /// cef_urlrequest_t. |request| and |response| represent the request and
+    /// response respectively and cannot be modified in this callback.
+    /// </summary>
     procedure GetResourceResponseFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var aResourceFilter: ICefResponseFilter);
+    /// <summary>
+    /// Called on the IO thread when a resource load has completed. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or cef_urlrequest_t.
+    /// |request| and |response| represent the request and response respectively
+    /// and cannot be modified in this callback. |status| indicates the load
+    /// completion status. |received_content_length| is the number of response
+    /// bytes actually read. This function will be called for all requests,
+    /// including requests that are aborted due to CEF shutdown or destruction of
+    /// the associated browser. In cases where the associated browser is destroyed
+    /// this callback may arrive after the cef_life_span_handler_t::OnBeforeClose
+    /// callback for that browser. The cef_frame_t::IsValid function can be used
+    /// to test for this situation, and care should be taken not to call |browser|
+    /// or |frame| functions that modify state (like LoadURL, SendProcessMessage,
+    /// etc.) if the frame is invalid.
+    /// </summary>
     procedure OnResourceLoadComplete(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: Int64);
+    /// <summary>
+    /// Called on the IO thread to handle requests for URLs with an unknown
+    /// protocol component. The |browser| and |frame| values represent the source
+    /// of the request, and may be NULL for requests originating from service
+    /// workers or cef_urlrequest_t. |request| cannot be modified in this
+    /// callback. Set |allow_os_execution| to true (1) to attempt execution via
+    /// the registered OS protocol handler, if any. SECURITY WARNING: YOU SHOULD
+    /// USE THIS METHOD TO ENFORCE RESTRICTIONS BASED ON SCHEME, HOST OR OTHER URL
+    /// ANALYSIS BEFORE ALLOWING OS EXECUTION.
+    /// </summary>
     procedure OnProtocolExecution(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var allowOsExecution: Boolean);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -2947,16 +3716,68 @@ type
   /// </remarks>
   ICefDisplayHandler = interface(ICefBaseRefCounted)
     ['{1EC7C76D-6969-41D1-B26D-079BCFF054C4}']
+    /// <summary>
+    /// Called when a frame's address has changed.
+    /// </summary>
     procedure OnAddressChange(const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
+    /// <summary>
+    /// Called when the page title changes.
+    /// </summary>
     procedure OnTitleChange(const browser: ICefBrowser; const title: ustring);
+    /// <summary>
+    /// Called when the page icon changes.
+    /// </summary>
     procedure OnFaviconUrlChange(const browser: ICefBrowser; const icon_urls: TStrings);
+    /// <summary>
+    /// Called when web content in the page has toggled fullscreen mode. If
+    /// |fullscreen| is true (1) the content will automatically be sized to fill
+    /// the browser content area. If |fullscreen| is false (0) the content will
+    /// automatically return to its original size and position. The client is
+    /// responsible for resizing the browser if desired.
+    /// </summary>
     procedure OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
+    /// <summary>
+    /// Called when the browser is about to display a tooltip. |text| contains the
+    /// text that will be displayed in the tooltip. To handle the display of the
+    /// tooltip yourself return true (1). Otherwise, you can optionally modify
+    /// |text| and then return false (0) to allow the browser to display the
+    /// tooltip. When window rendering is disabled the application is responsible
+    /// for drawing tooltips and the return value is ignored.
+    /// </summary>
     function  OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean;
+    /// <summary>
+    /// Called when the browser receives a status message. |value| contains the
+    /// text that will be displayed in the status message.
+    /// </summary>
     procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring);
+    /// <summary>
+    /// Called to display a console message. Return true (1) to stop the message
+    /// from being output to the console.
+    /// </summary>
     function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean;
+    /// <summary>
+    /// Called when auto-resize is enabled via
+    /// cef_browser_host_t::SetAutoResizeEnabled and the contents have auto-
+    /// resized. |new_size| will be the desired size in view coordinates. Return
+    /// true (1) if the resize was handled or false (0) for default handling.
+    /// </summary>
     function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
+    /// <summary>
+    /// Called when the overall page loading progress has changed. |progress|
+    /// ranges from 0.0 to 1.0.
+    /// </summary>
     procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
+    /// <summary>
+    /// Called when the browser's cursor has changed. If |type| is CT_CUSTOM then
+    /// |custom_cursor_info| will be populated with the custom cursor information.
+    /// Return true (1) if the cursor change was handled or false (0) for default
+    /// handling.
+    /// </summary>
     procedure OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
+    /// <summary>
+    /// Called when the browser's access to an audio and/or video source has
+    /// changed.
+    /// </summary>
     procedure OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -2974,8 +3795,23 @@ type
   /// </remarks>
   ICefFocusHandler = interface(ICefBaseRefCounted)
     ['{BB7FA3FA-7B1A-4ADC-8E50-12A24018DD90}']
+    /// <summary>
+    /// Called when the browser component is about to loose focus. For instance,
+    /// if focus was on the last HTML element and the user pressed the TAB key.
+    /// |next| will be true (1) if the browser is giving focus to the next
+    /// component and false (0) if the browser is giving focus to the previous
+    /// component.
+    /// </summary>
     procedure OnTakeFocus(const browser: ICefBrowser; next: Boolean);
+    /// <summary>
+    /// Called when the browser component is requesting focus. |source| indicates
+    /// where the focus request is originating from. Return false (0) to allow the
+    /// focus to be set or true (1) to cancel setting the focus.
+    /// </summary>
     function  OnSetFocus(const browser: ICefBrowser; source: TCefFocusSource): Boolean;
+    /// <summary>
+    /// Called when the browser component has received focus.
+    /// </summary>
     procedure OnGotFocus(const browser: ICefBrowser);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -2993,7 +3829,21 @@ type
   /// </remarks>
   ICefKeyboardHandler = interface(ICefBaseRefCounted)
     ['{0512F4EC-ED88-44C9-90D3-5C6D03D3B146}']
+    /// <summary>
+    /// Called before a keyboard event is sent to the renderer. |event| contains
+    /// information about the keyboard event. |os_event| is the operating system
+    /// event message, if any. Return true (1) if the event was handled or false
+    /// (0) otherwise. If the event will be handled in on_key_event() as a
+    /// keyboard shortcut set |is_keyboard_shortcut| to true (1) and return false
+    /// (0).
+    /// </summary>
     function OnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean): Boolean;
+    /// <summary>
+    /// Called after the renderer and JavaScript in the page has had a chance to
+    /// handle the event. |event| contains information about the keyboard event.
+    /// |os_event| is the operating system event message, if any. Return true (1)
+    /// if the keyboard event was handled or false (0) otherwise.
+    /// </summary>
     function OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3011,9 +3861,42 @@ type
   /// </remarks>
   ICefJsDialogHandler = interface(ICefBaseRefCounted)
     ['{64E18F86-DAC5-4ED1-8589-44DE45B9DB56}']
+    /// <summary>
+    /// Called to run a JavaScript dialog. If |origin_url| is non-NULL it can be
+    /// passed to the CefFormatUrlForSecurityDisplay function to retrieve a secure
+    /// and user-friendly display string. The |default_prompt_text| value will be
+    /// specified for prompt dialogs only. Set |suppress_message| to true (1) and
+    /// return false (0) to suppress the message (suppressing messages is
+    /// preferable to immediately executing the callback as this is used to detect
+    /// presumably malicious behavior like spamming alert messages in
+    /// onbeforeunload). Set |suppress_message| to false (0) and return false (0)
+    /// to use the default implementation (the default implementation will show
+    /// one modal dialog at a time and suppress any additional dialog requests
+    /// until the displayed dialog is dismissed). Return true (1) if the
+    /// application will use a custom dialog or if the callback has been executed
+    /// immediately. Custom dialogs may be either modal or modeless. If a custom
+    /// dialog is used the application must execute |callback| once the custom
+    /// dialog is dismissed.
+    /// </summary>
     function  OnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean;
+    /// <summary>
+    /// Called to run a dialog asking the user if they want to leave a page.
+    /// Return false (0) to use the default dialog implementation. Return true (1)
+    /// if the application will use a custom dialog or if the callback has been
+    /// executed immediately. Custom dialogs may be either modal or modeless. If a
+    /// custom dialog is used the application must execute |callback| once the
+    /// custom dialog is dismissed.
+    /// </summary>
     function  OnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: Boolean; const callback: ICefJsDialogCallback): Boolean;
+    /// <summary>
+    /// Called to cancel any pending dialogs and reset any saved dialog state.
+    /// Will be called due to events like page navigation irregardless of whether
+    /// any dialogs are currently pending.
+    /// </summary>
     procedure OnResetDialogState(const browser: ICefBrowser);
+    /// <summary>
+    /// Called when the dialog is closed.
+    /// </summary>
     procedure OnDialogClosed(const browser: ICefBrowser);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3030,10 +3913,44 @@ type
   /// </remarks>
   ICefAudioHandler = interface(ICefBaseRefCounted)
     ['{8963271A-0B94-4279-82C8-FB2EA7B3CDEC}']
+    /// <summary>
+    /// Called on the UI thread to allow configuration of audio stream parameters.
+    /// Return true (1) to proceed with audio stream capture, or false (0) to
+    /// cancel it. All members of |params| can optionally be configured here, but
+    /// they are also pre-filled with some sensible defaults.
+    /// </summary>
     procedure OnGetAudioParameters(const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean);
+    /// <summary>
+    /// Called on a browser audio capture thread when the browser starts streaming
+    /// audio. OnAudioStreamStopped will always be called after
+    /// OnAudioStreamStarted; both functions may be called multiple times for the
+    /// same browser. |params| contains the audio parameters like sample rate and
+    /// channel layout. |channels| is the number of channels.
+    /// </summary>
     procedure OnAudioStreamStarted(const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer);
+    /// <summary>
+    /// Called on the audio stream thread when a PCM packet is received for the
+    /// stream. |data| is an array representing the raw PCM data as a floating
+    /// point type, i.e. 4-byte value(s). |frames| is the number of frames in the
+    /// PCM packet. |pts| is the presentation timestamp (in milliseconds since the
+    /// Unix Epoch) and represents the time at which the decompressed packet
+    /// should be presented to the user. Based on |frames| and the
+    /// |channel_layout| value passed to OnAudioStreamStarted you can calculate
+    /// the size of the |data| array in bytes.
+    /// </summary>
     procedure OnAudioStreamPacket(const browser: ICefBrowser; const data : PPSingle; frames: integer; pts: int64);
+    /// <summary>
+    /// Called on the UI thread when the stream has stopped. OnAudioSteamStopped
+    /// will always be called after OnAudioStreamStarted; both functions may be
+    /// called multiple times for the same stream.
+    /// </summary>
     procedure OnAudioStreamStopped(const browser: ICefBrowser);
+    /// <summary>
+    /// Called on the UI or audio stream thread when an error occurred. During the
+    /// stream creation phase this callback will be called on the UI thread while
+    /// in the capturing phase it will be called on the audio stream thread. The
+    /// stream will be stopped immediately.
+    /// </summary>
     procedure OnAudioStreamError(const browser: ICefBrowser; const message_: ustring);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3050,7 +3967,14 @@ type
   /// </remarks>
   ICefRunContextMenuCallback = interface(ICefBaseRefCounted)
     ['{44C3C6E3-B64D-4F6E-A318-4A0F3A72EB00}']
+    /// <summary>
+    /// Complete context menu display by selecting the specified |command_id| and
+    /// |event_flags|.
+    /// </summary>
     procedure Cont(commandId: Integer; eventFlags: TCefEventFlags);
+    /// <summary>
+    /// Cancel context menu display.
+    /// </summary>
     procedure Cancel;
   end;
 
@@ -3063,7 +3987,14 @@ type
   /// </remarks>
   ICefRunQuickMenuCallback = interface(ICefBaseRefCounted)
     ['{11AD68BF-0055-4106-8F6B-B576F90D812F}']
+    /// <summary>
+    /// Complete quick menu display by selecting the specified |command_id| and
+    /// |event_flags|.
+    /// </summary>
     procedure Cont(command_id: Integer; event_flags: TCefEventFlags);
+    /// <summary>
+    /// Cancel quick menu display.
+    /// </summary>
     procedure Cancel;
   end;
 
@@ -3077,12 +4008,59 @@ type
   /// </remarks>
   ICefContextMenuHandler = interface(ICefBaseRefCounted)
     ['{C2951895-4087-49D5-BA18-4D9BA4F5EDD7}']
+    /// <summary>
+    /// Called before a context menu is displayed. |params| provides information
+    /// about the context menu state. |model| initially contains the default
+    /// context menu. The |model| can be cleared to show no context menu or
+    /// modified to show a custom menu. Do not keep references to |params| or
+    /// |model| outside of this callback.
+    /// </summary>
     procedure OnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    /// <summary>
+    /// Called to allow custom display of the context menu. |params| provides
+    /// information about the context menu state. |model| contains the context
+    /// menu model resulting from OnBeforeContextMenu. For custom display return
+    /// true (1) and execute |callback| either synchronously or asynchronously
+    /// with the selected command ID. For default display return false (0). Do not
+    /// keep references to |params| or |model| outside of this callback.
+    /// </summary>
     function  RunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): Boolean;
+    /// <summary>
+    /// Called to execute a command selected from the context menu. Return true
+    /// (1) if the command was handled or false (0) for the default
+    /// implementation. See cef_menu_id_t for the command ids that have default
+    /// implementations. All user-defined command ids should be between
+    /// MENU_ID_USER_FIRST and MENU_ID_USER_LAST. |params| will have the same
+    /// values as what was passed to on_before_context_menu(). Do not keep a
+    /// reference to |params| outside of this callback.
+    /// </summary>
     function  OnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags): Boolean;
+    /// <summary>
+    /// Called when the context menu is dismissed irregardless of whether the menu
+    /// was canceled or a command was selected.
+    /// </summary>
     procedure OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
+    /// <summary>
+    /// Called to allow custom display of the quick menu for a windowless browser.
+    /// |location| is the top left corner of the selected region. |size| is the
+    /// size of the selected region. |edit_state_flags| is a combination of flags
+    /// that represent the state of the quick menu. Return true (1) if the menu
+    /// will be handled and execute |callback| either synchronously or
+    /// asynchronously with the selected command ID. Return false (0) to cancel
+    /// the menu.
+    /// </summary>
     function  RunQuickMenu(const browser: ICefBrowser; const frame: ICefFrame; location: PCefPoint; size: PCefSize; edit_state_flags: TCefQuickMenuEditStateFlags; const callback: ICefRunQuickMenuCallback): boolean;
+    /// <summary>
+    /// Called to execute a command selected from the quick menu for a windowless
+    /// browser. Return true (1) if the command was handled or false (0) for the
+    /// default implementation. See cef_menu_id_t for command IDs that have
+    /// default implementations.
+    /// </summary>
     function  OnQuickMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; command_id: integer; event_flags: TCefEventFlags): boolean;
+    /// <summary>
+    /// Called when the quick menu for a windowless browser is dismissed
+    /// irregardless of whether the menu was canceled or a command was selected.
+    /// </summary>
     procedure OnQuickMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3101,7 +4079,15 @@ type
   /// </remarks>
   ICefAccessibilityHandler = interface(ICefBaseRefCounted)
     ['{1878C3C7-7692-44AB-BFE0-6C387106816B}']
+    /// <summary>
+    /// Called after renderer process sends accessibility tree changes to the
+    /// browser process.
+    /// </summary>
     procedure OnAccessibilityTreeChange(const value: ICefValue);
+    /// <summary>
+    /// Called after renderer process sends accessibility location changes to the
+    /// browser process.
+    /// </summary>
     procedure OnAccessibilityLocationChange(const value: ICefValue);
   end;
 
@@ -3115,6 +4101,20 @@ type
   /// </remarks>
   ICefDialogHandler = interface(ICefBaseRefCounted)
     ['{7763F4B2-8BE1-4E80-AC43-8B825850DC67}']
+    /// <summary>
+    /// Called to run a file chooser dialog. |mode| represents the type of dialog
+    /// to display. |title| to the title to be used for the dialog and may be NULL
+    /// to show the default title ("Open" or "Save" depending on the mode).
+    /// |default_file_path| is the path with optional directory and/or file name
+    /// component that should be initially selected in the dialog.
+    /// |accept_filters| are used to restrict the selectable file types and may
+    /// any combination of (a) valid lower-cased MIME types (e.g. "text/*" or
+    /// "image/*"), (b) individual file extensions (e.g. ".txt" or ".png"), or (c)
+    /// combined description and file extension delimited using "|" and ";" (e.g.
+    /// "Image Types|.png;.gif;.jpg"). To display a custom dialog return true (1)
+    /// and execute |callback| either inline or at a later time. To display the
+    /// default dialog return false (0).
+    /// </summary>
     function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3132,22 +4132,124 @@ type
   /// </remarks>
   ICefRenderHandler = interface(ICefBaseRefCounted)
     ['{1FC1C22B-085A-4741-9366-5249B88EC410}']
+    /// <summary>
+    /// Return the handler for accessibility notifications. If no handler is
+    /// provided the default implementation will be used.
+    /// </summary>
     procedure GetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
+    /// <summary>
+    /// Called to retrieve the root window rectangle in screen DIP coordinates.
+    /// Return true (1) if the rectangle was provided. If this function returns
+    /// false (0) the rectangle from GetViewRect will be used.
+    /// </summary>
     function  GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): Boolean;
+    /// <summary>
+    /// Called to retrieve the view rectangle in screen DIP coordinates. This
+    /// function must always provide a non-NULL rectangle.
+    /// </summary>
     procedure GetViewRect(const browser: ICefBrowser; var rect: TCefRect);
+    /// <summary>
+    /// Called to retrieve the translation from view DIP coordinates to screen
+    /// coordinates. Windows/Linux should provide screen device (pixel)
+    /// coordinates and MacOS should provide screen DIP coordinates. Return true
+    /// (1) if the requested coordinates were provided.
+    /// </summary>
     function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
+    /// <summary>
+    /// Called to allow the client to fill in the CefScreenInfo object with
+    /// appropriate values. Return true (1) if the |screen_info| structure has
+    /// been modified.
+    ///
+    /// If the screen info rectangle is left NULL the rectangle from GetViewRect
+    /// will be used. If the rectangle is still NULL or invalid popups may not be
+    /// drawn correctly.
+    /// </summary>
     function  GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
+    /// <summary>
+    /// Called when the browser wants to show or hide the popup widget. The popup
+    /// should be shown if |show| is true (1) and hidden if |show| is false (0).
+    /// </summary>
     procedure OnPopupShow(const browser: ICefBrowser; show: Boolean);
+    /// <summary>
+    /// Called when the browser wants to move or resize the popup widget. |rect|
+    /// contains the new location and size in view coordinates.
+    /// </summary>
     procedure OnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
+    /// <summary>
+    /// Called when an element should be painted. Pixel values passed to this
+    /// function are scaled relative to view coordinates based on the value of
+    /// CefScreenInfo.device_scale_factor returned from GetScreenInfo. |type|
+    /// indicates whether the element is the view or the popup widget. |buffer|
+    /// contains the pixel data for the whole image. |dirtyRects| contains the set
+    /// of rectangles in pixel coordinates that need to be repainted. |buffer|
+    /// will be |width|*|height|*4 bytes in size and represents a BGRA image with
+    /// an upper-left origin. This function is only called when
+    /// cef_window_tInfo::shared_texture_enabled is set to false (0).
+    /// </summary>
     procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
+    /// <summary>
+    /// Called when an element has been rendered to the shared texture handle.
+    /// |type| indicates whether the element is the view or the popup widget.
+    /// |dirtyRects| contains the set of rectangles in pixel coordinates that need
+    /// to be repainted. |shared_handle| is the handle for a D3D11 Texture2D that
+    /// can be accessed via ID3D11Device using the OpenSharedResource function.
+    /// This function is only called when cef_window_tInfo::shared_texture_enabled
+    /// is set to true (1), and is currently only supported on Windows.
+    /// </summary>
     procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer);
+    /// <summary>
+    /// Called to retrieve the size of the touch handle for the specified
+    /// |orientation|.
+    /// </summary>
     procedure GetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize);
+    /// <summary>
+    /// Called when touch handle state is updated. The client is responsible for
+    /// rendering the touch handles.
+    /// </summary>
     procedure OnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState);
+    /// <summary>
+    /// Called when the user starts dragging content in the web view. Contextual
+    /// information about the dragged content is supplied by |drag_data|. (|x|,
+    /// |y|) is the drag start location in screen coordinates. OS APIs that run a
+    /// system message loop may be used within the StartDragging call.
+    ///
+    /// Return false (0) to abort the drag operation. Don't call any of
+    /// cef_browser_host_t::DragSource*Ended* functions after returning false (0).
+    ///
+    /// Return true (1) to handle the drag operation. Call
+    /// cef_browser_host_t::DragSourceEndedAt and DragSourceSystemDragEnded either
+    /// synchronously or asynchronously to inform the web view that the drag
+    /// operation has ended.
+    /// </summary>
     function  OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean;
+    /// <summary>
+    /// Called when the web view wants to update the mouse cursor during a drag &
+    /// drop operation. |operation| describes the allowed operation (none, move,
+    /// copy, link).
+    /// </summary>
     procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
+    /// <summary>
+    /// Called when the scroll offset has changed.
+    /// </summary>
     procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
+    /// <summary>
+    /// Called when the IME composition range has changed. |selected_range| is the
+    /// range of characters that have been selected. |character_bounds| is the
+    /// bounds of each character in view coordinates.
+    /// </summary>
     procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
+    /// <summary>
+    /// Called when text selection has changed for the specified |browser|.
+    /// |selected_text| is the currently selected text and |selected_range| is the
+    /// character range.
+    /// </summary>
     procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange);
+    /// <summary>
+    /// Called when an on-screen keyboard should be shown or hidden for the
+    /// specified |browser|. |input_mode| specifies what kind of keyboard should
+    /// be opened. If |input_mode| is CEF_TEXT_INPUT_MODE_NONE, any existing
+    /// keyboard for this browser should be hidden.
+    /// </summary>
     procedure OnVirtualKeyboardRequested(const browser: ICefBrowser; input_mode: TCefTextInpuMode);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3164,24 +4266,91 @@ type
   /// </remarks>
   ICefClient = interface(ICefBaseRefCounted)
     ['{1D502075-2FF0-4E13-A112-9E541CD811F4}']
+    /// <summary>
+    /// Return the handler for audio rendering events.
+    /// </summary>
     procedure GetAudioHandler(var aHandler : ICefAudioHandler);
+    /// <summary>
+    /// Return the handler for commands. If no handler is provided the default
+    /// implementation will be used.
+    /// </summary>
     procedure GetCommandHandler(var aHandler : ICefCommandHandler);
+    /// <summary>
+    /// Return the handler for context menus. If no handler is provided the
+    /// default implementation will be used.
+    /// </summary>
     procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
+    /// <summary>
+    /// Return the handler for dialogs. If no handler is provided the default
+    /// implementation will be used.
+    /// </summary>
     procedure GetDialogHandler(var aHandler : ICefDialogHandler);
+    /// <summary>
+    /// Return the handler for browser display state events.
+    /// </summary>
     procedure GetDisplayHandler(var aHandler : ICefDisplayHandler);
+    /// <summary>
+    /// Return the handler for download events. If no handler is returned
+    /// downloads will not be allowed.
+    /// </summary>
     procedure GetDownloadHandler(var aHandler : ICefDownloadHandler);
+    /// <summary>
+    /// Return the handler for drag events.
+    /// </summary>
     procedure GetDragHandler(var aHandler : ICefDragHandler);
+    /// <summary>
+    /// Return the handler for find result events.
+    /// </summary>
     procedure GetFindHandler(var aHandler : ICefFindHandler);
+    /// <summary>
+    /// Return the handler for focus events.
+    /// </summary>
     procedure GetFocusHandler(var aHandler : ICefFocusHandler);
+    /// <summary>
+    /// Return the handler for events related to cef_frame_t lifespan. This
+    /// function will be called once during cef_browser_t creation and the result
+    /// will be cached for performance reasons.
+    /// </summary>
     procedure GetFrameHandler(var aHandler : ICefFrameHandler);
+    /// <summary>
+    /// Return the handler for permission requests.
+    /// </summary>
     procedure GetPermissionHandler(var aHandler: ICefPermissionHandler);
+    /// <summary>
+    /// Return the handler for JavaScript dialogs. If no handler is provided the
+    /// default implementation will be used.
+    /// </summary>
     procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler);
+    /// <summary>
+    /// Return the handler for keyboard events.
+    /// </summary>
     procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler);
+    /// <summary>
+    /// Return the handler for browser life span events.
+    /// </summary>
     procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler);
+    /// <summary>
+    /// Return the handler for browser load status events.
+    /// </summary>
     procedure GetLoadHandler(var aHandler : ICefLoadHandler);
+    /// <summary>
+    /// Return the handler for printing on Linux. If a print handler is not
+    /// provided then printing will not be supported on the Linux platform.
+    /// </summary>
     procedure GetPrintHandler(var aHandler : ICefPrintHandler);
+    /// <summary>
+    /// Return the handler for off-screen rendering events.
+    /// </summary>
     procedure GetRenderHandler(var aHandler : ICefRenderHandler);
+    /// <summary>
+    /// Return the handler for browser request events.
+    /// </summary>
     procedure GetRequestHandler(var aHandler : ICefRequestHandler);
+    /// <summary>
+    /// Called when a new message is received from a different process. Return
+    /// true (1) if the message was handled or false (0) otherwise.  It is safe to
+    /// keep a reference to |message| outside of this callback.
+    /// </summary>
     function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3261,7 +4430,15 @@ type
   /// </remarks>
   ICefFileDialogCallback = interface(ICefBaseRefCounted)
     ['{1AF659AB-4522-4E39-9C52-184000D8E3C7}']
+    /// <summary>
+    /// Continue the file selection. |file_paths| should be a single value or a
+    /// list of values depending on the dialog mode. An NULL |file_paths| value is
+    /// treated the same as calling cancel().
+    /// </summary>
     procedure Cont(const filePaths: TStrings);
+    /// <summary>
+    /// Cancel the file selection.
+    /// </summary>
     procedure Cancel;
   end;
 
@@ -3313,7 +4490,20 @@ type
   /// </remarks>
   ICefDragHandler = interface(ICefBaseRefCounted)
     ['{59A89579-5B18-489F-A25C-5CC25FF831FC}']
+    /// <summary>
+    /// Called when an external drag event enters the browser window. |dragData|
+    /// contains the drag event data and |mask| represents the type of drag
+    /// operation. Return false (0) for default drag handling behavior or true (1)
+    /// to cancel the drag event.
+    /// </summary>
     function  OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean;
+    /// <summary>
+    /// Called whenever draggable regions for the browser window change. These can
+    /// be specified using the '-webkit-app-region: drag/no-drag' CSS-property. If
+    /// draggable regions are never defined in a document this function will also
+    /// never be called. If the last draggable region is removed from a document
+    /// this function will be called with an NULL vector.
+    /// </summary>
     procedure OnDraggableRegionsChanged(const browser: ICefBrowser; const frame: ICefFrame; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3331,6 +4521,15 @@ type
   /// </remarks>
   ICefFindHandler = interface(ICefBaseRefCounted)
     ['{F20DF234-BD43-42B3-A80B-D354A9E5B787}']
+    /// <summary>
+    /// Called to report find results returned by cef_browser_host_t::find().
+    /// |identifer| is a unique incremental identifier for the currently active
+    /// search, |count| is the number of matches currently identified,
+    /// |selectionRect| is the location of where the match was found (in window
+    /// coordinates), |activeMatchOrdinal| is the current position in the search
+    /// results, and |finalUpdate| is true (1) if this is the last find
+    /// notification.
+    /// </summary>
     procedure OnFindResult(const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3349,7 +4548,30 @@ type
   /// </remarks>
   ICefRequestContextHandler = interface(ICefBaseRefCounted)
     ['{76EB1FA7-78DF-4FD5-ABB3-1CDD3E73A140}']
+    /// <summary>
+    /// Called on the browser process UI thread immediately after the request
+    /// context has been initialized.
+    /// </summary>
     procedure OnRequestContextInitialized(const request_context: ICefRequestContext);
+    /// <summary>
+    /// Called on the browser process IO thread before a resource request is
+    /// initiated. The |browser| and |frame| values represent the source of the
+    /// request, and may be NULL for requests originating from service workers or
+    /// cef_urlrequest_t. |request| represents the request contents and cannot be
+    /// modified in this callback. |is_navigation| will be true (1) if the
+    /// resource request is a navigation. |is_download| will be true (1) if the
+    /// resource request is a download. |request_initiator| is the origin (scheme
+    /// + domain) of the page that initiated the request. Set
+    /// |disable_default_handling| to true (1) to disable default handling of the
+    /// request, in which case it will need to be handled via
+    /// cef_resource_request_handler_t::GetResourceHandler or it will be canceled.
+    /// To allow the resource load to proceed with default handling return NULL.
+    /// To specify a handler for the resource return a
+    /// cef_resource_request_handler_t object. This function will not be called if
+    /// the client associated with |browser| returns a non-NULL value from
+    /// cef_request_handler_t::GetResourceRequestHandler for the same request
+    /// (identified by cef_request_t::GetIdentifier).
+    /// </summary>
     procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3489,7 +4711,13 @@ type
   /// </remarks>
   ICefPrintDialogCallback = interface(ICefBaseRefCounted)
     ['{1D7FB71E-0019-4A80-95ED-91DDD019253B}']
+    /// <summary>
+    /// Continue printing with the specified |settings|.
+    /// </summary>
     procedure cont(const settings: ICefPrintSettings);
+    /// <summary>
+    /// Cancel the printing.
+    /// </summary>
     procedure cancel;
   end;
 
@@ -3502,6 +4730,9 @@ type
   /// </remarks>
   ICefPrintJobCallback = interface(ICefBaseRefCounted)
     ['{5554852A-052C-464B-A868-B618C7E7E2FD}']
+    /// <summary>
+    /// Indicate completion of the print job.
+    /// </summary>
     procedure cont;
   end;
 
@@ -3516,11 +4747,40 @@ type
   /// </remarks>
   ICefPrintHandler = interface(ICefBaseRefCounted)
     ['{2831D5C9-6E2B-4A30-A65A-0F4435371EFC}']
+    /// <summary>
+    /// Called when printing has started for the specified |browser|. This
+    /// function will be called before the other OnPrint*() functions and
+    /// irrespective of how printing was initiated (e.g.
+    /// cef_browser_host_t::print(), JavaScript window.print() or PDF extension
+    /// print button).
+    /// </summary>
     procedure OnPrintStart(const browser: ICefBrowser);
+    /// <summary>
+    /// Synchronize |settings| with client state. If |get_defaults| is true (1)
+    /// then populate |settings| with the default print settings. Do not keep a
+    /// reference to |settings| outside of this callback.
+    /// </summary>
     procedure OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
+    /// <summary>
+    /// Show the print dialog. Execute |callback| once the dialog is dismissed.
+    /// Return true (1) if the dialog will be displayed or false (0) to cancel the
+    /// printing immediately.
+    /// </summary>
     procedure OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult: boolean);
+    /// <summary>
+    /// Send the print job to the printer. Execute |callback| once the job is
+    /// completed. Return true (1) if the job will proceed or false (0) to cancel
+    /// the job immediately.
+    /// </summary>
     procedure OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult: boolean);
+    /// <summary>
+    /// Reset client state related to printing.
+    /// </summary>
     procedure OnPrintReset(const browser: ICefBrowser);
+    /// <summary>
+    /// Return the PDF paper size in device units. Used in combination with
+    /// cef_browser_host_t::print_to_pdf().
+    /// </summary>
     procedure GetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: integer; var aResult: TCefSize);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -3637,6 +4897,10 @@ type
   /// </remarks>
   ICefSelectClientCertificateCallback = interface(ICefBaseRefCounted)
     ['{003E3D09-ADE8-4C6E-A174-079D3D616608}']
+    /// <summary>
+    /// Chooses the specified certificate for client certificate authentication.
+    /// NULL value means that no client certificate should be used.
+    /// </summary>
     procedure Select(const cert: ICefX509Certificate);
   end;
 
@@ -3774,7 +5038,18 @@ type
   /// </remarks>
   ICefMediaAccessCallback = interface(ICefBaseRefCounted)
     ['{66F6F5F4-8489-408B-B9ED-6B705C2E2010}']
+    /// <summary>
+    /// Call to allow or deny media access. If this callback was initiated in
+    /// response to a getUserMedia (indicated by
+    /// CEF_MEDIA_PERMISSION_DEVICE_AUDIO_CAPTURE and/or
+    /// CEF_MEDIA_PERMISSION_DEVICE_VIDEO_CAPTURE being set) then
+    /// |allowed_permissions| must match |required_permissions| passed to
+    /// OnRequestMediaAccessPermission.
+    /// </summary>
     procedure cont(allowed_permissions: TCefMediaAccessPermissionTypes);
+    /// <summary>
+    /// Cancel the media access request.
+    /// </summary>
     procedure cancel;
   end;
 
@@ -3805,6 +5080,9 @@ type
   /// </remarks>
   ICefPermissionPromptCallback = interface(ICefBaseRefCounted)
     ['{F8827C7D-7B14-499E-B38A-5F9FEB1FD6A6}']
+    /// <summary>
+    /// Complete the permissions request with the specified |result|.
+    /// </summary>
     procedure cont(result: TCefPermissionRequestResult);
   end;
 
@@ -3819,8 +5097,41 @@ type
   /// </remarks>
   ICefPermissionHandler = interface(ICefBaseRefCounted)
     ['{DC079268-FB08-44DA-B216-35C5C339B341}']
+    /// <summary>
+    /// Called when a page requests permission to access media.
+    /// |requesting_origin| is the URL origin requesting permission.
+    /// |requested_permissions| is a combination of values from
+    /// cef_media_access_permission_types_t that represent the requested
+    /// permissions. Return true (1) and call cef_media_access_callback_t
+    /// functions either in this function or at a later time to continue or cancel
+    /// the request. Return false (0) to proceed with default handling. With the
+    /// Chrome runtime, default handling will display the permission request UI.
+    /// With the Alloy runtime, default handling will deny the request. This
+    /// function will not be called if the "--enable-media-stream" command-line
+    /// switch is used to grant all permissions.
+    /// </summary>
     function  OnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback): boolean;
+    /// <summary>
+    /// Called when a page should show a permission prompt. |prompt_id| uniquely
+    /// identifies the prompt. |requesting_origin| is the URL origin requesting
+    /// permission. |requested_permissions| is a combination of values from
+    /// cef_permission_request_types_t that represent the requested permissions.
+    /// Return true (1) and call cef_permission_prompt_callback_t::Continue either
+    /// in this function or at a later time to continue or cancel the request.
+    /// Return false (0) to proceed with default handling. With the Chrome
+    /// runtime, default handling will display the permission prompt UI. With the
+    /// Alloy runtime, default handling is CEF_PERMISSION_RESULT_IGNORE.
+    /// </summary>
     function  OnShowPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback): boolean;
+    /// <summary>
+    /// Called when a permission prompt handled via OnShowPermissionPrompt is
+    /// dismissed. |prompt_id| will match the value that was passed to
+    /// OnShowPermissionPrompt. |result| will be the value passed to
+    /// cef_permission_prompt_callback_t::Continue or CEF_PERMISSION_RESULT_IGNORE
+    /// if the dialog was dismissed for other reasons such as navigation, browser
+    /// closure, etc. This function will not be called if OnShowPermissionPrompt
+    /// returned false (0) for |prompt_id|.
+    /// </summary>
     procedure OnDismissPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; result: TCefPermissionRequestResult);
     /// <summary>
     /// Custom procedure to clear all references.
