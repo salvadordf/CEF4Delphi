@@ -70,6 +70,7 @@ type
     class function CreateForCustomStream(const stream: ICefCustomStreamReader): ICefStreamReader;
     class function CreateForStream(const stream: TSTream; owned: Boolean): ICefStreamReader;
     class function CreateForData(data: Pointer; size: NativeUInt): ICefStreamReader;
+    class function CreateForHandler(const handler: ICefReadHandler): ICefStreamReader;
   end;
 
 implementation
@@ -85,6 +86,11 @@ end;
 class function TCefStreamReaderRef.CreateForData(data: Pointer; size: NativeUInt): ICefStreamReader;
 begin
   Result := UnWrap(cef_stream_reader_create_for_data(data, size))
+end;
+
+class function TCefStreamReaderRef.CreateForHandler(const handler: ICefReadHandler): ICefStreamReader;
+begin
+  Result := UnWrap(cef_stream_reader_create_for_handler(CefGetData(handler)));
 end;
 
 class function TCefStreamReaderRef.CreateForFile(const filename: ustring): ICefStreamReader;

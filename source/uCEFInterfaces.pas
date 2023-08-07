@@ -162,6 +162,8 @@ type
   ICefPermissionHandler = interface;
   ICefSharedMemoryRegion = interface;
   ICefSharedProcessMessageBuilder = interface;
+  ICefBrowserViewDelegate = interface;
+  ICefMenuButtonPressedLock = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -233,6 +235,9 @@ type
   // ************ Custom interfaces ************
   // *******************************************
 
+  /// <summary>
+  /// Custom interface used to handle all the CEF functions related to CefStringList.
+  /// </summary>
   ICefStringList = interface
     ['{DB24F301-2F64-48D6-A72E-33697748147E}']
     function  GetHandle: TCefStringList;
@@ -249,6 +254,9 @@ type
     property Value[index: NativeUInt] : ustring        read GetValue;
   end;
 
+  /// <summary>
+  /// Custom interface used to handle all the CEF functions related to CefStringMap.
+  /// </summary>
   ICefStringMap = interface
     ['{A33EBC01-B23A-4918-86A4-E24A243B342F}']
     function  GetHandle: TCefStringMap;
@@ -265,6 +273,9 @@ type
     property Value[index: NativeUInt] : ustring       read GetValue;
   end;
 
+  /// <summary>
+  /// Custom interface used to handle all the CEF functions related to CefStringMultimap.
+  /// </summary>
   ICefStringMultimap = interface
     ['{583ED0C2-A9D6-4034-A7C9-20EC7E47F0C7}']
     function  GetHandle: TCefStringMultimap;
@@ -283,6 +294,9 @@ type
     property Enumerate[const aKey: ustring; aValueIndex: NativeUInt] : ustring            read GetEnumerate;
   end;
 
+  /// <summary>
+  /// Custom interface used to handle all the TCefApplicationCore events.
+  /// </summary>
   IApplicationCoreEvents = interface
     ['{55E99E25-A05D-46D5-B3A4-C8C2E71C1F4D}']
 
@@ -317,9 +331,11 @@ type
     procedure doOnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
     procedure doOnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
     procedure doOnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
-
   end;
 
+  /// <summary>
+  /// Custom interface used to handle all the TChromiumCore events.
+  /// </summary>
   IChromiumEvents = interface
     ['{0C139DB1-0349-4D7F-8155-76FEA6A0126D}']
     procedure GetSettings(var settings: TCefBrowserSettings);
@@ -547,8 +563,12 @@ type
     function  MustCreatePermissionHandler : boolean;
   end;
 
+  /// <summary>
+  /// Custom interface used to handle all the TCEFServerComponent events.
+  /// </summary>
   IServerEvents = interface
     ['{06A1B3C6-0967-4F6C-A751-8AA3A29E2FF5}']
+    // ICefServerHandler
     procedure doOnServerCreated(const server: ICefServer);
     procedure doOnServerDestroyed(const server: ICefServer);
     procedure doOnClientConnected(const server: ICefServer; connection_id: Integer);
@@ -559,6 +579,9 @@ type
     procedure doOnWebSocketMessage(const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
   end;
 
+  /// <summary>
+  /// Custom interface used to handle all the TCEFUrlRequestClientComponent events.
+  /// </summary>
   ICEFUrlRequestClientEvents = interface
     ['{1AA800A7-56A1-43CA-A224-49368F18BDD8}']
     // ICefUrlrequestClient
@@ -572,6 +595,98 @@ type
     procedure doOnCreateURLRequest;
   end;
 
+  /// <summary>
+  /// Custom interface used to handle the ICefViewDelegate events.
+  /// </summary>
+  ICefViewDelegateEvents = interface
+    ['{74DDDB37-8F08-4672-BDB6-55CA2CD374ED}']
+    // ICefViewDelegate
+    procedure doOnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
+    procedure doOnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
+    procedure doOnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
+    procedure doOnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
+    procedure doOnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
+    procedure doOnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+    procedure doOnWindowChanged(const view: ICefView; added: boolean);
+    procedure doOnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
+    procedure doOnFocus(const view: ICefView);
+    procedure doOnBlur(const view: ICefView);
+
+    // Custom
+    procedure doCreateCustomView;
+  end;
+
+  /// <summary>
+  /// Custom interface used to handle all the ICefTextfieldDelegate events.
+  /// </summary>
+  ICefTextfieldDelegateEvents = interface(ICefViewDelegateEvents)
+    ['{682480E0-C786-4E65-B950-4FF2B13B97B9}']
+    procedure doOnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
+    procedure doOnAfterUserAction(const textfield: ICefTextfield);
+  end;
+
+  /// <summary>
+  /// Custom interface used to handle all the ICefBrowserViewDelegate events.
+  /// </summary>
+  ICefBrowserViewDelegateEvents = interface(ICefViewDelegateEvents)
+    ['{AB94B875-63C6-4FEF-BB30-0816402ABA1C}']
+    procedure doOnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
+    procedure doOnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
+    procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
+    procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
+    procedure doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
+    procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+  end;
+
+  /// <summary>
+  /// Custom interface used to handle all the ICefButtonDelegate events.
+  /// </summary>
+  ICefButtonDelegateEvents = interface(ICefViewDelegateEvents)
+    ['{E8DF70BE-5DEB-42CF-AF86-B0FF1040498E}']
+    procedure doOnButtonPressed(const button: ICefButton);
+    procedure doOnButtonStateChanged(const button: ICefButton);
+  end;
+
+  /// <summary>
+  /// Custom interface used to handle all the ICefMenuButtonDelegate events.
+  /// </summary>
+  ICefMenuButtonDelegateEvents = interface(ICefButtonDelegateEvents)
+    ['{DA36DD60-7609-4576-BB8E-6A55FD48C680}']
+    procedure doOnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
+  end;
+
+  /// <summary>
+  /// Custom interface used to handle all the ICefPanelDelegate events.
+  /// </summary>
+  ICefPanelDelegateEvents = interface(ICefViewDelegateEvents)
+    ['{F1F2963F-82C3-48F0-9B9C-7C213BACB96B}']
+  end;
+
+  /// <summary>
+  /// Custom interface used to handle all the ICefWindowDelegate events.
+  /// </summary>
+  ICefWindowDelegateEvents = interface(ICefPanelDelegateEvents)
+    ['{05C19A41-E75D-459E-AD4D-C8A0CA4A49D3}']
+    procedure doOnWindowCreated(const window_: ICefWindow);
+    procedure doOnWindowClosing(const window_: ICefWindow);
+    procedure doOnWindowDestroyed(const window_: ICefWindow);
+    procedure doOnWindowActivationChanged(const window_: ICefWindow; active: boolean);
+    procedure doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+    procedure doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+    procedure doOnIsWindowModalDialog(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
+    procedure doOnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
+    procedure doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
+    procedure doOnCanResize(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnCanMaximize(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnCanMinimize(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnCanClose(const window_: ICefWindow; var aResult : boolean);
+    procedure doOnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
+    procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+    procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+  end;
 
 
   // *******************************************
@@ -587,11 +702,27 @@ type
   /// </remarks>
   ICefBaseRefCounted = interface
     ['{1F9A7B44-DCDC-4477-9180-3ADD44BDEB7B}']
+    /// <summary>
+    /// Called to increment the reference count for the object. Should be called
+    /// for every new copy of a pointer to a given object.
+    /// </summary>
     function Wrap: Pointer;
+    /// <summary>
+    /// Compares the aData pointer with the FData field if the current instance.
+    /// </summary>
     function SameAs(aData : Pointer) : boolean; overload;
     function SameAs(const aBaseRefCounted : ICefBaseRefCounted) : boolean; overload;
+    /// <summary>
+    /// Returns true (1) if the current reference count is 1.
+    /// </summary>
     function HasOneRef : boolean;
+    /// <summary>
+    /// Returns true (1) if the current reference count is at least 1.
+    /// </summary>
     function HasAtLeastOneRef : boolean;
+    /// <summary>
+    /// Releases all other instances.
+    /// </summary>
     procedure DestroyOtherRefs;
   end;
 
@@ -605,6 +736,11 @@ type
   /// </remarks>
   ICefRunFileDialogCallback = interface(ICefBaseRefCounted)
     ['{59FCECC6-E897-45BA-873B-F09586C4BE47}']
+    /// <summary>
+    /// Called asynchronously after the file dialog is dismissed. |file_paths|
+    /// will be a single value or a list of values depending on the dialog mode.
+    /// If the selection was cancelled |file_paths| will be NULL.
+    /// </summary>
     procedure OnFileDialogDismissed(const filePaths: TStrings);
   end;
 
@@ -618,6 +754,13 @@ type
   /// </remarks>
   ICefNavigationEntryVisitor = interface(ICefBaseRefCounted)
     ['{CC4D6BC9-0168-4C2C-98BA-45E9AA9CD619}']
+    /// <summary>
+    /// Method that will be executed. Do not keep a reference to |entry| outside
+    /// of this callback. Return true (1) to continue visiting entries or false
+    /// (0) to stop. |current| is true (1) if this entry is the currently loaded
+    /// navigation entry. |index| is the 0-based index of this entry and |total|
+    /// is the total number of entries.
+    /// </summary>
     function Visit(const entry: ICefNavigationEntry; current: Boolean; index, total: Integer): Boolean;
   end;
 
@@ -631,6 +774,11 @@ type
   /// </remarks>
   ICefPdfPrintCallback = interface(ICefBaseRefCounted)
     ['{F1CC58E9-2C30-4932-91AE-467C8D8EFB8E}']
+    /// <summary>
+    /// Method that will be executed when the PDF printing has completed. |path|
+    /// is the output path. |ok| will be true (1) if the printing completed
+    /// successfully or false (0) otherwise.
+    /// </summary>
     procedure OnPdfPrintFinished(const path: ustring; ok: Boolean);
   end;
 
@@ -644,6 +792,12 @@ type
   /// </remarks>
   ICefDownloadImageCallback = interface(ICefBaseRefCounted)
     ['{0C6E9032-27DF-4584-95C6-DC3C7CB63727}']
+    /// <summary>
+    /// Method that will be executed when the image download has completed.
+    /// |image_url| is the URL that was downloaded and |http_status_code| is the
+    /// resulting HTTP status code. |image| is the resulting image, possibly at
+    /// multiple scale factors, or NULL if the download failed.
+    /// </summary>
     procedure OnDownloadImageFinished(const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
   end;
 
@@ -659,73 +813,531 @@ type
   /// </remarks>
   ICefBrowserHost = interface(ICefBaseRefCounted)
     ['{53AE02FF-EF5D-48C3-A43E-069DA9535424}']
+    /// <summary>
+    /// Returns the hosted browser object.
+    /// </summary>
     function  GetBrowser: ICefBrowser;
+    /// <summary>
+    /// Request that the browser close. The JavaScript 'onbeforeunload' event will
+    /// be fired. If |force_close| is false (0) the event handler, if any, will be
+    /// allowed to prompt the user and the user can optionally cancel the close.
+    /// If |force_close| is true (1) the prompt will not be displayed and the
+    /// close will proceed. Results in a call to
+    /// ICefLifeSpanHandler.DoClose() if the event handler allows the close
+    /// or if |force_close| is true (1). See ICefLifeSpanHandler.DoClose()
+    /// documentation for additional usage information.
+    /// </summary>
     procedure CloseBrowser(forceClose: Boolean);
+    /// <summary>
+    /// Helper for closing a browser. Call this function from the top-level window
+    /// close handler (if any). Internally this calls CloseBrowser(false (0)) if
+    /// the close has not yet been initiated. This function returns false (0)
+    /// while the close is pending and true (1) after the close has completed. See
+    /// CloseBrowser() and ICefLifeSpanHandler.DoClose() documentation for
+    /// additional usage information. This function must be called on the browser
+    /// process UI thread.
+    /// </summary>
     function  TryCloseBrowser: Boolean;
+    /// <summary>
+    /// Set whether the browser is focused.
+    /// </summary>
     procedure SetFocus(focus: Boolean);
+    /// <summary>
+    /// Retrieve the window handle (if any) for this browser. If this browser is
+    /// wrapped in a cef_browser_view_t this function should be called on the
+    /// browser process UI thread and it will return the handle for the top-level
+    /// native window.
+    /// </summary>
     function  GetWindowHandle: TCefWindowHandle;
+    /// <summary>
+    /// Retrieve the window handle (if any) of the browser that opened this
+    /// browser. Will return NULL for non-popup browsers or if this browser is
+    /// wrapped in a cef_browser_view_t. This function can be used in combination
+    /// with custom handling of modal windows.
+    /// </summary>
     function  GetOpenerWindowHandle: TCefWindowHandle;
+    /// <summary>
+    /// Returns true (1) if this browser is wrapped in a cef_browser_view_t.
+    /// </summary>
     function  HasView: Boolean;
+    /// <summary>
+    /// Returns the client for this browser.
+    /// </summary>
+    function  GetClient: ICefClient;
+    /// <summary>
+    /// Returns the request context for this browser.
+    /// </summary>
     function  GetRequestContext: ICefRequestContext;
+    /// <summary>
+    /// Get the current zoom level. The default zoom level is 0.0. This function
+    /// can only be called on the UI thread.
+    /// </summary>
     function  GetZoomLevel: Double;
+    /// <summary>
+    /// Change the zoom level to the specified value. Specify 0.0 to reset the
+    /// zoom level. If called on the UI thread the change will be applied
+    /// immediately. Otherwise, the change will be applied asynchronously on the
+    /// UI thread.
+    /// </summary>
     procedure SetZoomLevel(const zoomLevel: Double);
+    /// <summary>
+    /// Call to run a file chooser dialog. Only a single file chooser dialog may
+    /// be pending at any given time. |mode| represents the type of dialog to
+    /// display. |title| to the title to be used for the dialog and may be NULL to
+    /// show the default title ("Open" or "Save" depending on the mode).
+    /// |default_file_path| is the path with optional directory and/or file name
+    /// component that will be initially selected in the dialog. |accept_filters|
+    /// are used to restrict the selectable file types and may any combination of
+    /// (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"), (b)
+    /// individual file extensions (e.g. ".txt" or ".png"), or (c) combined
+    /// description and file extension delimited using "|" and ";" (e.g. "Image
+    /// Types|.png;.gif;.jpg"). |callback| will be executed after the dialog is
+    /// dismissed or immediately if another dialog is already pending. The dialog
+    /// will be initiated asynchronously on the UI thread.
+    /// </summary>
     procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefRunFileDialogCallback);
+    /// <summary>
+    /// Call to run a file chooser dialog. Only a single file chooser dialog may
+    /// be pending at any given time. |mode| represents the type of dialog to
+    /// display. |title| to the title to be used for the dialog and may be NULL to
+    /// show the default title ("Open" or "Save" depending on the mode).
+    /// |default_file_path| is the path with optional directory and/or file name
+    /// component that will be initially selected in the dialog. |accept_filters|
+    /// are used to restrict the selectable file types and may any combination of
+    /// (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"), (b)
+    /// individual file extensions (e.g. ".txt" or ".png"), or (c) combined
+    /// description and file extension delimited using "|" and ";" (e.g. "Image
+    /// Types|.png;.gif;.jpg"). |callback| will be executed after the dialog is
+    /// dismissed or immediately if another dialog is already pending. The dialog
+    /// will be initiated asynchronously on the UI thread.
+    /// </summary>
     procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: TCefRunFileDialogCallbackProc);
+    /// <summary>
+    /// Download the file at |url| using ICefDownloadHandler.
+    /// </summary>
     procedure StartDownload(const url: ustring);
+    /// <summary>
+    /// Download |image_url| and execute |callback| on completion with the images
+    /// received from the renderer. If |is_favicon| is true (1) then cookies are
+    /// not sent and not accepted during download. Images with density independent
+    /// pixel (DIP) sizes larger than |max_image_size| are filtered out from the
+    /// image results. Versions of the image at different scale factors may be
+    /// downloaded up to the maximum scale factor supported by the system. If
+    /// there are no image results <= |max_image_size| then the smallest image is
+    /// resized to |max_image_size| and is the only result. A |max_image_size| of
+    /// 0 means unlimited. If |bypass_cache| is true (1) then |image_url| is
+    /// requested from the server even if it is present in the browser cache.
+    /// </summary>
     procedure DownloadImage(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean; const callback: ICefDownloadImageCallback);
+    /// <summary>
+    /// Print the current browser contents.
+    /// </summary>
     procedure Print;
+    /// <summary>
+    /// Print the current browser contents to the PDF file specified by |path| and
+    /// execute |callback| on completion. The caller is responsible for deleting
+    /// |path| when done. For PDF printing to work on Linux you must implement the
+    /// ICefPrintHandler.GetPdfPaperSize function.
+    /// </summary>
     procedure PrintToPdf(const path: ustring; settings: PCefPdfPrintSettings; const callback: ICefPdfPrintCallback);
+    /// <summary>
+    /// Print the current browser contents to the PDF file specified by |path| and
+    /// execute |callback| on completion. The caller is responsible for deleting
+    /// |path| when done. For PDF printing to work on Linux you must implement the
+    /// ICefPrintHandler.GetPdfPaperSize function.
+    /// </summary>
     procedure PrintToPdfProc(const path: ustring; settings: PCefPdfPrintSettings; const callback: TOnPdfPrintFinishedProc);
+    /// <summary>
+    /// Search for |searchText|. |forward| indicates whether to search forward or
+    /// backward within the page. |matchCase| indicates whether the search should
+    /// be case-sensitive. |findNext| indicates whether this is the first request
+    /// or a follow-up. The search will be restarted if |searchText| or
+    /// |matchCase| change. The search will be stopped if |searchText| is NULL.
+    /// The ICefFindHandler instance, if any, returned via
+    /// ICefClient.GetFindHandler will be called to report find results.
+    /// </summary>
     procedure Find(const searchText: ustring; forward_, matchCase, findNext: Boolean);
+    /// <summary>
+    /// Cancel all searches that are currently going on.
+    /// </summary>
     procedure StopFinding(clearSelection: Boolean);
+    /// <summary>
+    /// Open developer tools (DevTools) in its own browser. The DevTools browser
+    /// will remain associated with this browser. If the DevTools browser is
+    /// already open then it will be focused, in which case the |windowInfo|,
+    /// |client| and |settings| parameters will be ignored. If
+    /// |inspectElementAt| is non-NULL then the element at the specified (x,y)
+    /// location will be inspected. The |windowInfo| parameter will be ignored if
+    /// this browser is wrapped in a ICefBrowserView.
+    /// </summary>
     procedure ShowDevTools(const windowInfo: PCefWindowInfo; const client: ICefClient; const settings: PCefBrowserSettings; inspectElementAt: PCefPoint);
+    /// <summary>
+    /// Explicitly close the associated DevTools browser, if any.
+    /// </summary>
     procedure CloseDevTools;
+    /// <summary>
+    /// Returns true (1) if this browser currently has an associated DevTools
+    /// browser. Must be called on the browser process UI thread.
+    /// </summary>
     function  HasDevTools: Boolean;
+    /// <summary>
+    /// Send a function call message over the DevTools protocol. |message| must be
+    /// a UTF8-encoded JSON dictionary that contains "id" (int), "function"
+    /// (string) and "params" (dictionary, optional) values. See the DevTools
+    /// protocol documentation at https://chromedevtools.github.io/devtools-
+    /// protocol/ for details of supported functions and the expected "params"
+    /// dictionary contents. |message| will be copied if necessary. This function
+    /// will return true (1) if called on the UI thread and the message was
+    /// successfully submitted for validation, otherwise false (0). Validation
+    /// will be applied asynchronously and any messages that fail due to
+    /// formatting errors or missing parameters may be discarded without
+    /// notification. Prefer ExecuteDevToolsMethod if a more structured approach
+    /// to message formatting is desired.
+    ///
+    /// Every valid function call will result in an asynchronous function result
+    /// or error message that references the sent message "id". Event messages are
+    /// received while notifications are enabled (for example, between function
+    /// calls for "Page.enable" and "Page.disable"). All received messages will be
+    /// delivered to the observer(s) registered with AddDevToolsMessageObserver.
+    /// See ICefDevToolsMessageObserver.OnDevToolsMessage documentation for
+    /// details of received message contents.
+    ///
+    /// Usage of the SendDevToolsMessage, ExecuteDevToolsMethod and
+    /// AddDevToolsMessageObserver functions does not require an active DevTools
+    /// front-end or remote-debugging session. Other active DevTools sessions will
+    /// continue to function independently. However, any modification of global
+    /// browser state by one session may not be reflected in the UI of other
+    /// sessions.
+    ///
+    /// Communication with the DevTools front-end (when displayed) can be logged
+    /// for development purposes by passing the `--devtools-protocol-log-
+    /// file=<path>` command-line flag.
+    /// </summary>
     function  SendDevToolsMessage(const message_: ustring): boolean;
+    /// <summary>
+    /// Execute a function call over the DevTools protocol. This is a more
+    /// structured version of SendDevToolsMessage. |message_id| is an incremental
+    /// number that uniquely identifies the message (pass 0 to have the next
+    /// number assigned automatically based on previous values). |function| is the
+    /// function name. |params| are the function parameters, which may be NULL.
+    /// See the DevTools protocol documentation (linked above) for details of
+    /// supported functions and the expected |params| dictionary contents. This
+    /// function will return the assigned message ID if called on the UI thread
+    /// and the message was successfully submitted for validation, otherwise 0.
+    /// See the SendDevToolsMessage documentation for additional usage
+    /// information.
+    /// </summary>
     function  ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
+    /// <summary>
+    /// Add an observer for DevTools protocol messages (function results and
+    /// events). The observer will remain registered until the returned
+    /// Registration object is destroyed. See the SendDevToolsMessage
+    /// documentation for additional usage information.
+    /// </summary>
     function  AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
+    /// <summary>
+    /// Retrieve a snapshot of current navigation entries as values sent to the
+    /// specified visitor. If |current_only| is true (1) only the current
+    /// navigation entry will be sent, otherwise all navigation entries will be
+    /// sent.
+    /// </summary>
     procedure GetNavigationEntries(const visitor: ICefNavigationEntryVisitor; currentOnly: Boolean);
+    /// <summary>
+    /// Retrieve a snapshot of current navigation entries as values sent to the
+    /// specified visitor. If |current_only| is true (1) only the current
+    /// navigation entry will be sent, otherwise all navigation entries will be
+    /// sent.
+    /// </summary>
     procedure GetNavigationEntriesProc(const proc: TCefNavigationEntryVisitorProc; currentOnly: Boolean);
+    /// <summary>
+    /// If a misspelled word is currently selected in an editable node calling
+    /// this function will replace it with the specified |word|.
+    /// </summary>
     procedure ReplaceMisspelling(const word: ustring);
+    /// <summary>
+    /// Add the specified |word| to the spelling dictionary.
+    /// </summary>
     procedure AddWordToDictionary(const word: ustring);
+    /// <summary>
+    /// Returns true (1) if window rendering is disabled.
+    /// </summary>
     function  IsWindowRenderingDisabled: Boolean;
+    /// <summary>
+    /// Notify the browser that the widget has been resized. The browser will
+    /// first call ICefRenderHandler.GetViewRect to get the new size and then
+    /// call ICefRenderHandler.OnPaint asynchronously with the updated
+    /// regions. This function is only used when window rendering is disabled.
+    /// </summary>
     procedure WasResized;
+    /// <summary>
+    /// Notify the browser that it has been hidden or shown. Layouting and
+    /// ICefRenderHandler.OnPaint notification will stop when the browser is
+    /// hidden. This function is only used when window rendering is disabled.
+    /// </summary>
     procedure WasHidden(hidden: Boolean);
+    /// <summary>
+    /// Send a notification to the browser that the screen info has changed. The
+    /// browser will then call ICefRenderHandler.GetScreenInfo to update the
+    /// screen information with the new values. This simulates moving the webview
+    /// window from one display to another, or changing the properties of the
+    /// current display. This function is only used when window rendering is
+    /// disabled.
+    /// </summary>
     procedure NotifyScreenInfoChanged;
+    /// <summary>
+    /// Invalidate the view. The browser will call ICefRenderHandler.OnPaint
+    /// asynchronously. This function is only used when window rendering is
+    /// disabled.
+    /// </summary>
     procedure Invalidate(kind: TCefPaintElementType);
+    /// <summary>
+    /// Issue a BeginFrame request to Chromium.  Only valid when
+    /// TCefWindowInfo.external_begin_frame_enabled is set to true (1).
+    /// </summary>
     procedure SendExternalBeginFrame;
+    /// <summary>
+    /// Send a key event to the browser.
+    /// </summary>
     procedure SendKeyEvent(const event: PCefKeyEvent);
+    /// <summary>
+    /// Send a mouse click event to the browser. The |x| and |y| coordinates are
+    /// relative to the upper-left corner of the view.
+    /// </summary>
     procedure SendMouseClickEvent(const event: PCefMouseEvent; type_: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
+    /// <summary>
+    /// Send a mouse move event to the browser. The |x| and |y| coordinates are
+    /// relative to the upper-left corner of the view.
+    /// </summary>
     procedure SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
+    /// <summary>
+    /// Send a mouse wheel event to the browser. The |x| and |y| coordinates are
+    /// relative to the upper-left corner of the view. The |deltaX| and |deltaY|
+    /// values represent the movement delta in the X and Y directions
+    /// respectively. In order to scroll inside select popups with window
+    /// rendering disabled ICefRenderHandler.GetScreenPoint should be
+    /// implemented properly.
+    /// </summary>
     procedure SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
+    /// <summary>
+    /// Send a touch event to the browser for a windowless browser.
+    /// </summary>
     procedure SendTouchEvent(const event: PCefTouchEvent);
+    /// <summary>
+    /// Send a capture lost event to the browser.
+    /// </summary>
     procedure SendCaptureLostEvent;
+    /// <summary>
+    /// Notify the browser that the window hosting it is about to be moved or
+    /// resized. This function is only used on Windows and Linux.
+    /// </summary>
     procedure NotifyMoveOrResizeStarted;
+    /// <summary>
+    /// Returns the maximum rate in frames per second (fps) that
+    /// ICefRenderHandler.OnPaint will be called for a windowless browser. The
+    /// actual fps may be lower if the browser cannot generate frames at the
+    /// requested rate. The minimum value is 1 and the maximum value is 60
+    /// (default 30). This function can only be called on the UI thread.
+    /// </summary>
     function  GetWindowlessFrameRate : Integer;
+    /// <summary>
+    /// Set the maximum rate in frames per second (fps) that
+    /// ICefRenderHandler.OnPaint will be called for a windowless browser.
+    /// The actual fps may be lower if the browser cannot generate frames at the
+    /// requested rate. The minimum value is 1 and the maximum value is 60
+    /// (default 30). Can also be set at browser creation via
+    /// TCefBrowserSettings.windowless_frame_rate.
+    /// </summary>
     procedure SetWindowlessFrameRate(frameRate: Integer);
+    /// <summary>
+    /// Begins a new composition or updates the existing composition. Blink has a
+    /// special node (a composition node) that allows the input function to change
+    /// text without affecting other DOM nodes. |text| is the optional text that
+    /// will be inserted into the composition node. |underlines| is an optional
+    /// set of ranges that will be underlined in the resulting text.
+    /// |replacement_range| is an optional range of the existing text that will be
+    /// replaced. |selection_range| is an optional range of the resulting text
+    /// that will be selected after insertion or replacement. The
+    /// |replacement_range| value is only used on OS X.
+    ///
+    /// This function may be called multiple times as the composition changes.
+    /// When the client is done making changes the composition should either be
+    /// canceled or completed. To cancel the composition call
+    /// ImeCancelComposition. To complete the composition call either
+    /// ImeCommitText or ImeFinishComposingText. Completion is usually signaled
+    /// when:
+    ///
+    /// 1. The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR
+    ///    flag (on Windows), or;
+    /// 2. The client receives a "commit" signal of GtkIMContext (on Linux), or;
+    /// 3. insertText of NSTextInput is called (on Mac).
+    ///
+    /// This function is only used when window rendering is disabled.
+    /// </summary>
     procedure IMESetComposition(const text: ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : PCefRange);
+    /// <summary>
+    /// Completes the existing composition by optionally inserting the specified
+    /// |text| into the composition node. |replacement_range| is an optional range
+    /// of the existing text that will be replaced. |relative_cursor_pos| is where
+    /// the cursor will be positioned relative to the current cursor position. See
+    /// comments on ImeSetComposition for usage. The |replacement_range| and
+    /// |relative_cursor_pos| values are only used on OS X. This function is only
+    /// used when window rendering is disabled.
+    /// </summary>
     procedure IMECommitText(const text: ustring; const replacement_range : PCefRange; relative_cursor_pos : integer);
+    /// <summary>
+    /// Completes the existing composition by applying the current composition
+    /// node contents. If |keep_selection| is false (0) the current selection, if
+    /// any, will be discarded. See comments on ImeSetComposition for usage. This
+    /// function is only used when window rendering is disabled.
+    /// </summary>
     procedure IMEFinishComposingText(keep_selection : boolean);
+    /// <summary>
+    /// Cancels the existing composition and discards the composition node
+    /// contents without applying them. See comments on ImeSetComposition for
+    /// usage. This function is only used when window rendering is disabled.
+    /// </summary>
     procedure IMECancelComposition;
+    /// <summary>
+    /// Call this function when the user drags the mouse into the web view (before
+    /// calling DragTargetDragOver/DragTargetLeave/DragTargetDrop). |drag_data|
+    /// should not contain file contents as this type of data is not allowed to be
+    /// dragged into the web view. File contents can be removed using
+    /// ICefDragData.ResetFileContents (for example, if |drag_data| comes from
+    /// ICefRenderHandler.StartDragging). This function is only used when
+    /// window rendering is disabled.
+    /// </summary>
     procedure DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);
+    /// <summary>
+    /// Call this function each time the mouse is moved across the web view during
+    /// a drag operation (after calling DragTargetDragEnter and before calling
+    /// DragTargetDragLeave/DragTargetDrop). This function is only used when
+    /// window rendering is disabled.
+    /// </summary>
     procedure DragTargetDragOver(const event: PCefMouseEvent; allowedOps: TCefDragOperations);
+    /// <summary>
+    /// Call this function when the user drags the mouse out of the web view
+    /// (after calling DragTargetDragEnter). This function is only used when
+    /// window rendering is disabled.
+    /// </summary>
     procedure DragTargetDragLeave;
+    /// <summary>
+    /// Call this function when the user completes the drag operation by dropping
+    /// the object onto the web view (after calling DragTargetDragEnter). The
+    /// object being dropped is |drag_data|, given as an argument to the previous
+    /// DragTargetDragEnter call. This function is only used when window rendering
+    /// is disabled.
+    /// </summary>
     procedure DragTargetDrop(const event: PCefMouseEvent);
+    /// <summary>
+    /// Call this function when the drag operation started by a
+    /// ICefRenderHandler.StartDragging call has ended either in a drop or by
+    /// being cancelled. |x| and |y| are mouse coordinates relative to the upper-
+    /// left corner of the view. If the web view is both the drag source and the
+    /// drag target then all DragTarget* functions should be called before
+    /// DragSource* mthods. This function is only used when window rendering is
+    /// disabled.
+    /// </summary>
     procedure DragSourceEndedAt(x, y: Integer; op: TCefDragOperation);
+    /// <summary>
+    /// Call this function when the drag operation started by a
+    /// ICefRenderHandler.StartDragging call has completed. This function may
+    /// be called immediately without first calling DragSourceEndedAt to cancel a
+    /// drag operation. If the web view is both the drag source and the drag
+    /// target then all DragTarget* functions should be called before DragSource*
+    /// mthods. This function is only used when window rendering is disabled.
+    /// </summary>
     procedure DragSourceSystemDragEnded;
+    /// <summary>
+    /// Returns the current visible navigation entry for this browser. This
+    /// function can only be called on the UI thread.
+    /// </summary>
     function  GetVisibleNavigationEntry : ICefNavigationEntry;
+    /// <summary>
+    /// Set accessibility state for all frames. |accessibility_state| may be
+    /// default, enabled or disabled. If |accessibility_state| is STATE_DEFAULT
+    /// then accessibility will be disabled by default and the state may be
+    /// further controlled with the "force-renderer-accessibility" and "disable-
+    /// renderer-accessibility" command-line switches. If |accessibility_state| is
+    /// STATE_ENABLED then accessibility will be enabled. If |accessibility_state|
+    /// is STATE_DISABLED then accessibility will be completely disabled.
+    ///
+    /// For windowed browsers accessibility will be enabled in Complete mode
+    /// (which corresponds to kAccessibilityModeComplete in Chromium). In this
+    /// mode all platform accessibility objects will be created and managed by
+    /// Chromium's internal implementation. The client needs only to detect the
+    /// screen reader and call this function appropriately. For example, on macOS
+    /// the client can handle the @"AXEnhancedUserStructure" accessibility
+    /// attribute to detect VoiceOver state changes and on Windows the client can
+    /// handle WM_GETOBJECT with OBJID_CLIENT to detect accessibility readers.
+    ///
+    /// For windowless browsers accessibility will be enabled in TreeOnly mode
+    /// (which corresponds to kAccessibilityModeWebContentsOnly in Chromium). In
+    /// this mode renderer accessibility is enabled, the full tree is computed,
+    /// and events are passed to CefAccessibiltyHandler, but platform
+    /// accessibility objects are not created. The client may implement platform
+    /// accessibility objects using CefAccessibiltyHandler callbacks if desired.
+    /// </summary>
     procedure SetAccessibilityState(accessibilityState: TCefState);
+    /// <summary>
+    /// Enable notifications of auto resize via
+    /// cef_display_handler_t::OnAutoResize. Notifications are disabled by
+    /// default. |min_size| and |max_size| define the range of allowed sizes.
+    /// </summary>
     procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
+    /// <summary>
+    /// Returns the extension hosted in this browser or NULL if no extension is
+    /// hosted. See cef_request_context_t::LoadExtension for details.
+    /// </summary>
     function  GetExtension : ICefExtension;
+    /// <summary>
+    /// Returns true (1) if this browser is hosting an extension background
+    /// script. Background hosts do not have a window and are not displayable. See
+    /// ICefRequestContext.LoadExtension for details.
+    /// </summary>
     function  IsBackgroundHost : boolean;
+    /// <summary>
+    /// Set whether the browser's audio is muted.
+    /// </summary>
     procedure SetAudioMuted(mute: boolean);
+    /// <summary>
+    /// Returns true (1) if the browser's audio is muted.  This function can only
+    /// be called on the UI thread.
+    /// </summary>
     function  IsAudioMuted : boolean;
 
+    /// <summary>
+    /// Returns the hosted browser object.
+    /// </summary>
     property Browser                    : ICefBrowser              read GetBrowser;
+    /// <summary>
+    /// Retrieve the window handle (if any) for this browser. If this browser is
+    /// wrapped in a ICefBrowserView this function should be called on the
+    /// browser process UI thread and it will return the handle for the top-level
+    /// native window.
+    /// </summary>
     property WindowHandle               : TCefWindowHandle         read GetWindowHandle;
+    /// <summary>
+    /// Retrieve the window handle (if any) of the browser that opened this
+    /// browser. Will return NULL for non-popup browsers or if this browser is
+    /// wrapped in a ICefBrowserView. This function can be used in combination
+    /// with custom handling of modal windows.
+    /// </summary>
     property OpenerWindowHandle         : TCefWindowHandle         read GetOpenerWindowHandle;
+    /// <summary>
+    /// Get the current zoom level. The default zoom level is 0.0. This function
+    /// can only be called on the UI thread.
+    /// </summary>
     property ZoomLevel                  : Double                   read GetZoomLevel                 write SetZoomLevel;
+    /// <summary>
+    /// Returns the request context for this browser.
+    /// </summary>
     property RequestContext             : ICefRequestContext       read GetRequestContext;
+    /// <summary>
+    /// Retrieve a snapshot of current navigation entries as values sent to the
+    /// specified visitor. If |current_only| is true (1) only the current
+    /// navigation entry will be sent, otherwise all navigation entries will be
+    /// sent.
+    /// </summary>
     property VisibleNavigationEntry     : ICefNavigationEntry      read GetVisibleNavigationEntry;
   end;
 
@@ -738,15 +1350,48 @@ type
   /// </remarks>
   ICefProcessMessage = interface(ICefBaseRefCounted)
     ['{E0B1001A-8777-425A-869B-29D40B8B93B1}']
+    /// <summary>
+    /// Returns true (1) if this object is valid. Do not call any other functions
+    /// if this function returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns true (1) if the values of this object are read-only. Some APIs may
+    /// expose read-only objects.
+    /// </summary>
     function IsReadOnly: Boolean;
+    /// <summary>
+    /// Returns a writable copy of this object. Returns nullptr when message
+    /// contains a shared memory region.
+    /// </summary>
     function Copy: ICefProcessMessage;
+    /// <summary>
+    /// Returns the message name.
+    /// </summary>
     function GetName: ustring;
+    /// <summary>
+    /// Returns the list of arguments. Returns nullptr when message contains a
+    /// shared memory region.
+    /// </summary>
     function GetArgumentList: ICefListValue;
+    /// <summary>
+    /// Returns the shared memory region. Returns nullptr when message contains an
+    /// argument list.
+    /// </summary>
     function GetSharedMemoryRegion: ICefSharedMemoryRegion;
-
+    /// <summary>
+    /// Returns the message name.
+    /// </summary>
     property Name               : ustring                 read GetName;
+    /// <summary>
+    /// Returns the list of arguments. Returns nullptr when message contains a
+    /// shared memory region.
+    /// </summary>
     property ArgumentList       : ICefListValue           read GetArgumentList;
+    /// <summary>
+    /// Returns the shared memory region. Returns nullptr when message contains an
+    /// argument list.
+    /// </summary>
     property SharedMemoryRegion : ICefSharedMemoryRegion  read GetSharedMemoryRegion;
   end;
 
@@ -762,32 +1407,128 @@ type
   /// </remarks>
   ICefBrowser = interface(ICefBaseRefCounted)
     ['{BA003C2E-CF15-458F-9D4A-FE3CEFCF3EEF}']
+    /// <summary>
+    /// True if this object is currently valid. This will return false (0) after
+    /// cef_life_span_handler_t::OnBeforeClose is called.
+    /// </summary>
     function  IsValid: boolean;
+    /// <summary>
+    /// Returns the browser host object. This function can only be called in the
+    /// browser process.
+    /// </summary>
     function  GetHost: ICefBrowserHost;
+    /// <summary>
+    /// Returns true (1) if the browser can navigate backwards.
+    /// </summary>
     function  CanGoBack: Boolean;
+    /// <summary>
+    /// Navigate backwards.
+    /// </summary>
     procedure GoBack;
+    /// <summary>
+    /// Returns true (1) if the browser can navigate forwards.
+    /// </summary>
     function  CanGoForward: Boolean;
+    /// <summary>
+    /// Navigate forwards.
+    /// </summary>
     procedure GoForward;
+    /// <summary>
+    /// Returns true (1) if the browser is currently loading.
+    /// </summary>
     function  IsLoading: Boolean;
+    /// <summary>
+    /// Reload the current page.
+    /// </summary>
     procedure Reload;
+    /// <summary>
+    /// Reload the current page ignoring any cached data.
+    /// </summary>
     procedure ReloadIgnoreCache;
+    /// <summary>
+    /// Stop loading the page.
+    /// </summary>
     procedure StopLoad;
+    /// <summary>
+    /// Returns the globally unique identifier for this browser. This value is
+    /// also used as the tabId for extension APIs.
+    /// </summary>
     function  GetIdentifier: Integer;
+    /// <summary>
+    /// Returns true (1) if this object is pointing to the same handle as |that|
+    /// object.
+    /// </summary>
     function  IsSame(const that: ICefBrowser): Boolean;
+    /// <summary>
+    /// Returns true (1) if the browser is a popup.
+    /// </summary>
     function  IsPopup: Boolean;
+    /// <summary>
+    /// Returns true (1) if a document has been loaded in the browser.
+    /// </summary>
     function  HasDocument: Boolean;
+    /// <summary>
+    /// Returns the main (top-level) frame for the browser. In the browser process
+    /// this will return a valid object until after
+    /// ICefLifeSpanHandler.OnBeforeClose is called. In the renderer process
+    /// this will return NULL if the main frame is hosted in a different renderer
+    /// process (e.g. for cross-origin sub-frames). The main frame object will
+    /// change during cross-origin navigation or re-navigation after renderer
+    /// process termination (due to crashes, etc).
+    ///
     function  GetMainFrame: ICefFrame;
+    /// <summary>
+    /// Returns the focused frame for the browser.
+    /// </summary>
     function  GetFocusedFrame: ICefFrame;
+    /// <summary>
+    /// Returns the frame with the specified identifier, or NULL if not found.
+    /// </summary>
     function  GetFrameByident(const identifier: Int64): ICefFrame;
+    /// <summary>
+    /// Returns the frame with the specified name, or NULL if not found.
+    /// </summary>
     function  GetFrame(const name: ustring): ICefFrame;
+    /// <summary>
+    /// Returns the number of frames that currently exist.
+    /// </summary>
     function  GetFrameCount: NativeUInt;
+    /// <summary>
+    /// Returns the identifiers of all existing frames.
+    /// </summary>
     function  GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+    /// <summary>
+    /// Returns the names of all existing frames.
+    /// </summary>
     function  GetFrameNames(var aFrameNames : TStrings) : boolean;
 
+    /// <summary>
+    /// Returns the main (top-level) frame for the browser. In the browser process
+    /// this will return a valid object until after
+    /// ICefLifeSpanHandler.OnBeforeClose is called. In the renderer process
+    /// this will return NULL if the main frame is hosted in a different renderer
+    /// process (e.g. for cross-origin sub-frames). The main frame object will
+    /// change during cross-origin navigation or re-navigation after renderer
+    /// process termination (due to crashes, etc).
+    /// </summary>
     property MainFrame    : ICefFrame       read GetMainFrame;
+    /// <summary>
+    /// Returns the focused frame for the browser.
+    /// </summary>
     property FocusedFrame : ICefFrame       read GetFocusedFrame;
+    /// <summary>
+    /// Returns the number of frames that currently exist.
+    /// </summary>
     property FrameCount   : NativeUInt      read GetFrameCount;
+    /// <summary>
+    /// Returns the browser host object. This function can only be called in the
+    /// browser process.
+    /// </summary>
     property Host         : ICefBrowserHost read GetHost;
+    /// <summary>
+    /// Returns the globally unique identifier for this browser. This value is
+    /// also used as the tabId for extension APIs.
+    /// </summary>
     property Identifier   : Integer         read GetIdentifier;
   end;
 
@@ -801,13 +1542,39 @@ type
   /// </remarks>
   ICefPostDataElement = interface(ICefBaseRefCounted)
     ['{3353D1B8-0300-4ADC-8D74-4FF31C77D13C}']
+    /// <summary>
+    /// Returns true (1) if this object is read-only.
+    /// </summary>
     function  IsReadOnly: Boolean;
+    /// <summary>
+    /// Remove all contents from the post data element.
+    /// </summary>
     procedure SetToEmpty;
+    /// <summary>
+    /// The post data element will represent a file.
+    /// </summary>
     procedure SetToFile(const fileName: ustring);
+    /// <summary>
+    /// The post data element will represent bytes.  The bytes passed in will be
+    /// copied.
+    /// </summary>
     procedure SetToBytes(size: NativeUInt; const bytes: Pointer);
+    /// <summary>
+    /// Return the type of this post data element.
+    /// </summary>
     function  GetType: TCefPostDataElementType;
+    /// <summary>
+    /// Return the file name.
+    /// </summary>
     function  GetFile: ustring;
+    /// <summary>
+    /// Return the number of bytes.
+    /// </summary>
     function  GetBytesCount: NativeUInt;
+    /// <summary>
+    /// Read up to |size| bytes into |bytes| and return the number of bytes
+    /// actually read.
+    /// </summary>
     function  GetBytes(size: NativeUInt; bytes: Pointer): NativeUInt;
   end;
 
@@ -821,12 +1588,38 @@ type
   /// </remarks>
   ICefPostData = interface(ICefBaseRefCounted)
     ['{1E677630-9339-4732-BB99-D6FE4DE4AEC0}']
+    /// <summary>
+    /// Returns true (1) if this object is read-only.
+    /// </summary>
     function  IsReadOnly: Boolean;
+    /// <summary>
+    /// Returns true (1) if the underlying POST data includes elements that are
+    /// not represented by this ICefPostData object (for example, multi-part
+    /// file upload data). Modifying ICefPostData objects with excluded
+    /// elements may result in the request failing.
+    /// </summary>
     function  HasExcludedElements: Boolean;
+    /// <summary>
+    /// Returns the number of existing post data elements.
+    ///
     function  GetElementCount: NativeUInt;
+    /// <summary>
+    /// Retrieve the post data elements.
+    /// </summary>
     procedure GetElements(elementsCount: NativeUInt; var elements: TCefPostDataElementArray);
+    /// <summary>
+    /// Remove the specified post data element.  Returns true (1) if the removal
+    /// succeeds.
+    /// </summary>
     function  RemoveElement(const element: ICefPostDataElement): Boolean;
+    /// <summary>
+    /// Add the specified post data element.  Returns true (1) if the add
+    /// succeeds.
+    /// </summary>
     function  AddElement(const element: ICefPostDataElement): Boolean;
+    /// <summary>
+    /// Remove all existing post data elements.
+    /// </summary>
     procedure RemoveElements;
   end;
 
@@ -840,38 +1633,161 @@ type
   /// </remarks>
   ICefRequest = interface(ICefBaseRefCounted)
     ['{FB4718D3-7D13-4979-9F4C-D7F6C0EC592A}']
+    ///
+    /// Returns true (1) if this object is read-only.
+    ///
     function  IsReadOnly: Boolean;
+    ///
+    /// Get the fully qualified URL.
+    ///
     function  GetUrl: ustring;
-    function  GetMethod: ustring;
-    function  GetPostData: ICefPostData;
-    procedure GetHeaderMap(const HeaderMap: ICefStringMultimap);
+    ///
+    /// Set the fully qualified URL.
+    ///
     procedure SetUrl(const value: ustring);
+    ///
+    /// Get the request function type. The value will default to POST if post data
+    /// is provided and GET otherwise.
+    ///
+    function  GetMethod: ustring;
+    ///
+    /// Set the request function type.
+    ///
     procedure SetMethod(const value: ustring);
+    ///
+    /// Set the referrer URL and policy. If non-NULL the referrer URL must be
+    /// fully qualified with an HTTP or HTTPS scheme component. Any username,
+    /// password or ref component will be removed.
+    ///
     procedure SetReferrer(const referrerUrl: ustring; policy: TCefReferrerPolicy);
+    ///
+    /// Get the referrer URL.
+    ///
     function  GetReferrerUrl: ustring;
+    ///
+    /// Get the referrer policy.
+    ///
     function  GetReferrerPolicy: TCefReferrerPolicy;
+    ///
+    /// Get the post data.
+    ///
+    function  GetPostData: ICefPostData;
+    ///
+    /// Set the post data.
+    ///
     procedure SetPostData(const value: ICefPostData);
+    ///
+    /// Get the header values. Will not include the Referer value if any.
+    ///
+    procedure GetHeaderMap(const HeaderMap: ICefStringMultimap);
+    ///
+    /// Set the header values. If a Referer value exists in the header map it will
+    /// be removed and ignored.
+    ///
     procedure SetHeaderMap(const HeaderMap: ICefStringMultimap);
+    ///
+    /// Returns the first header value for |name| or an NULL string if not found.
+    /// Will not return the Referer value if any. Use GetHeaderMap instead if
+    /// |name| might have multiple values.
+    ///
     function  GetHeaderByName(const name: ustring): ustring;
+    ///
+    /// Set the header |name| to |value|. If |overwrite| is true (1) any existing
+    /// values will be replaced with the new value. If |overwrite| is false (0)
+    /// any existing values will not be overwritten. The Referer value cannot be
+    /// set using this function.
+    ///
     procedure SetHeaderByName(const name, value: ustring; overwrite: boolean);
+    ///
+    /// Get the flags used in combination with ICefUrlRequest. See
+    /// TCefUrlRequestFlags for supported values.
+    ///
     function  GetFlags: TCefUrlRequestFlags;
+    ///
+    /// Set the flags used in combination with ICefUrlRequest.  See
+    /// TCefUrlRequestFlags for supported values.
+    ///
     procedure SetFlags(flags: TCefUrlRequestFlags);
+    ///
+    /// Get the URL to the first party for cookies used in combination with
+    /// ICefUrlRequest.
+    ///
     function  GetFirstPartyForCookies: ustring;
+    ///
+    /// Set the URL to the first party for cookies used in combination with
+    /// ICefUrlRequest.
+    ///
     procedure SetFirstPartyForCookies(const url: ustring);
+    ///
+    /// Set all values at one time. This method corresponds to TCefRequest.set_ and cef_request_t.set
+    ///
     procedure Assign(const url, method: ustring; const postData: ICefPostData; const headerMap: ICefStringMultimap);
+    ///
+    /// Get the resource type for this request. Only available in the browser
+    /// process.
+    ///
     function  GetResourceType: TCefResourceType;
+    ///
+    /// Get the transition type for this request. Only available in the browser
+    /// process and only applies to requests that represent a main frame or sub-
+    /// frame navigation.
+    ///
     function  GetTransitionType: TCefTransitionType;
+    ///
+    /// Returns the globally unique identifier for this request or 0 if not
+    /// specified. Can be used by ICefResourceRequestHandler implementations
+    /// in the browser process to track a single request across multiple
+    /// callbacks.
+    ///
     function  GetIdentifier: UInt64;
-
+    ///
+    /// Get the fully qualified URL.
+    ///
     property Url                  : ustring               read GetUrl                    write SetUrl;
+    ///
+    /// Get the request function type. The value will default to POST if post data
+    /// is provided and GET otherwise.
+    ///
     property Method               : ustring               read GetMethod                 write SetMethod;
+    ///
+    /// Get the referrer URL.
+    ///
     property ReferrerUrl          : ustring               read GetReferrerUrl;
+    ///
+    /// Get the referrer policy.
+    ///
     property ReferrerPolicy       : TCefReferrerPolicy    read GetReferrerPolicy;
+    ///
+    /// Get the post data.
+    ///
     property PostData             : ICefPostData          read GetPostData               write SetPostData;
+    ///
+    /// Get the flags used in combination with ICefUrlRequest. See
+    /// TCefUrlRequestFlags for supported values.
+    ///
     property Flags                : TCefUrlRequestFlags   read GetFlags                  write SetFlags;
+    ///
+    /// Get the URL to the first party for cookies used in combination with
+    /// ICefUrlRequest.
+    ///
     property FirstPartyForCookies : ustring               read GetFirstPartyForCookies   write SetFirstPartyForCookies;
+    ///
+    /// Get the resource type for this request. Only available in the browser
+    /// process.
+    ///
     property ResourceType         : TCefResourceType      read GetResourceType;
+    ///
+    /// Get the transition type for this request. Only available in the browser
+    /// process and only applies to requests that represent a main frame or sub-
+    /// frame navigation.
+    ///
     property TransitionType       : TCefTransitionType    read GetTransitionType;
+    ///
+    /// Returns the globally unique identifier for this request or 0 if not
+    /// specified. Can be used by ICefResourceRequestHandler implementations
+    /// in the browser process to track a single request across multiple
+    /// callbacks.
+    ///
     property Identifier           : UInt64                read GetIdentifier;
   end;
 
@@ -884,6 +1800,9 @@ type
   /// </remarks>
   ICefStringVisitor = interface(ICefBaseRefCounted)
     ['{63ED4D6C-2FC8-4537-964B-B84C008F6158}']
+    /// <summary>
+    /// Method that will be executed.
+    /// </summary>
     procedure Visit(const str: ustring);
   end;
 
@@ -899,39 +1818,184 @@ type
   /// </remarks>
   ICefFrame = interface(ICefBaseRefCounted)
     ['{8FD3D3A6-EA3A-4A72-8501-0276BD5C3D1D}']
+    /// <summary>
+    /// True if this object is currently attached to a valid frame.
+    /// </summary>
     function  IsValid: Boolean;
+    /// <summary>
+    /// Execute undo in this frame.
+    /// </summary>
     procedure Undo;
+    /// <summary>
+    /// Execute redo in this frame.
+    ///
     procedure Redo;
+    /// <summary>
+    /// Execute cut in this frame.
+    /// </summary>
     procedure Cut;
+    /// <summary>
+    /// Execute copy in this frame.
+    /// </summary>
     procedure Copy;
+    /// <summary>
+    /// Execute paste in this frame.
+    /// </summary>
     procedure Paste;
+    /// <summary>
+    /// Execute delete in this frame.
+    /// </summary>
     procedure Del;
+    /// <summary>
+    /// Execute select all in this frame.
+    /// </summary>
     procedure SelectAll;
+    /// <summary>
+    /// Save this frame's HTML source to a temporary file and open it in the
+    /// default text viewing application. This function can only be called from
+    /// the browser process.
+    /// </summary>
     procedure ViewSource;
+    /// <summary>
+    /// Retrieve this frame's HTML source as a string sent to the specified
+    /// visitor.
+    /// </summary>
     procedure GetSource(const visitor: ICefStringVisitor);
+    /// <summary>
+    /// Retrieve this frame's HTML source as a string sent to the specified
+    /// visitor.
+    /// </summary>
     procedure GetSourceProc(const proc: TCefStringVisitorProc);
+    /// <summary>
+    /// Retrieve this frame's display text as a string sent to the specified
+    /// visitor.
+    /// </summary>
     procedure GetText(const visitor: ICefStringVisitor);
+    /// <summary>
+    /// Retrieve this frame's display text as a string sent to the specified
+    /// visitor.
+    /// </summary>
     procedure GetTextProc(const proc: TCefStringVisitorProc);
+    /// <summary>
+    /// Load the request represented by the |request| object.
+    ///
+    /// WARNING: This function will fail with "bad IPC message" reason
+    /// INVALID_INITIATOR_ORIGIN (213) unless you first navigate to the request
+    /// origin using some other mechanism (LoadURL, link click, etc).
+    /// </summary>
     procedure LoadRequest(const request: ICefRequest);
+    /// <summary>
+    /// Load the specified |url|.
+    /// </summary>
     procedure LoadUrl(const url: ustring);
+    /// <summary>
+    /// Execute a string of JavaScript code in this frame. The |script_url|
+    /// parameter is the URL where the script in question can be found, if any.
+    /// The renderer may request this URL to show the developer the source of the
+    /// error.  The |start_line| parameter is the base line number to use for
+    /// error reporting.
+    /// </summary>
     procedure ExecuteJavaScript(const code, scriptUrl: ustring; startLine: Integer);
+    /// <summary>
+    /// Returns true (1) if this is the main (top-level) frame.
+    /// </summary>
     function  IsMain: Boolean;
+    /// <summary>
+    /// Returns true (1) if this is the focused frame.
+    /// </summary>
     function  IsFocused: Boolean;
+    /// <summary>
+    /// Returns the name for this frame. If the frame has an assigned name (for
+    /// example, set via the iframe "name" attribute) then that value will be
+    /// returned. Otherwise a unique name will be constructed based on the frame
+    /// parent hierarchy. The main (top-level) frame will always have an NULL name
+    /// value.
+    /// </summary>
     function  GetName: ustring;
+    /// <summary>
+    /// Returns the globally unique identifier for this frame or < 0 if the
+    /// underlying frame does not yet exist.
+    /// </summary>
     function  GetIdentifier: Int64;
+    /// <summary>
+    /// Returns the parent of this frame or NULL if this is the main (top-level)
+    /// frame.
+    /// </summary>
     function  GetParent: ICefFrame;
+    /// <summary>
+    /// Returns the URL currently loaded in this frame.
+    /// </summary>
     function  GetUrl: ustring;
+    /// <summary>
+    /// Returns the browser that this frame belongs to.
+    /// </summary>
     function  GetBrowser: ICefBrowser;
+    /// <summary>
+    /// Get the V8 context associated with the frame. This function can only be
+    /// called from the render process.
+    /// </summary>
     function  GetV8Context: ICefv8Context;
+    /// <summary>
+    /// Visit the DOM document. This function can only be called from the render
+    /// process.
+    /// </summary>
     procedure VisitDom(const visitor: ICefDomVisitor);
+    /// <summary>
+    /// Visit the DOM document. This function can only be called from the render
+    /// process.
+    /// </summary>
     procedure VisitDomProc(const proc: TCefDomVisitorProc);
+    /// <summary>
+    /// Create a new URL request that will be treated as originating from this
+    /// frame and the associated browser. Use TCustomCefUrlrequestClient.Create instead if
+    /// you do not want the request to have this association, in which case it may
+    /// be handled differently (see documentation on that function). A request
+    /// created with this function may only originate from the browser process,
+    /// and will behave as follows:
+    ///   - It may be intercepted by the client via CefResourceRequestHandler or
+    ///     CefSchemeHandlerFactory.
+    ///   - POST data may only contain a single element of type PDE_TYPE_FILE or
+    ///     PDE_TYPE_BYTES.
+    ///
+    /// The |request| object will be marked as read-only after calling this
+    /// function.
+    /// </summary>
     function  CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient): ICefUrlRequest;
+    /// <summary>
+    /// Send a message to the specified |target_process|. Ownership of the message
+    /// contents will be transferred and the |message| reference will be
+    /// invalidated. Message delivery is not guaranteed in all cases (for example,
+    /// if the browser is closing, navigating, or if the target process crashes).
+    /// Send an ACK message back from the target process if confirmation is
+    /// required.
+    /// </summary>
     procedure SendProcessMessage(targetProcess: TCefProcessId; const message_: ICefProcessMessage);
 
+    /// <summary>
+    /// Returns the name for this frame. If the frame has an assigned name (for
+    /// example, set via the iframe "name" attribute) then that value will be
+    /// returned. Otherwise a unique name will be constructed based on the frame
+    /// parent hierarchy. The main (top-level) frame will always have an NULL name
+    /// value.
+    /// </summary>
     property Name       : ustring     read GetName;
+    /// <summary>
+    /// Returns the URL currently loaded in this frame.
+    /// </summary>
     property Url        : ustring     read GetUrl;
+    /// <summary>
+    /// Returns the browser that this frame belongs to.
+    /// </summary>
     property Browser    : ICefBrowser read GetBrowser;
+    /// <summary>
+    /// Returns the parent of this frame or NULL if this is the main (top-level)
+    /// frame.
+    /// </summary>
     property Parent     : ICefFrame   read GetParent;
+    /// <summary>
+    /// Returns the globally unique identifier for this frame or < 0 if the
+    /// underlying frame does not yet exist.
+    /// </summary>
     property Identifier : int64       read GetIdentifier;
   end;
 
@@ -1035,9 +2099,9 @@ type
     /// <summary>
     /// Called when a frame loses its connection to the renderer process and will
     /// be destroyed. Any pending or future commands will be discarded and
-    /// cef_frame_t::is_valid() will now return false (0) for |frame|. If called
-    /// after cef_life_span_handler_t::on_before_close() during browser
-    /// destruction then cef_browser_t::is_valid() will return false (0) for
+    /// ICefFrame.IsValid() will now return false (0) for |frame|. If called
+    /// after ICefLifeSpanHandler.OnBeforeClose() during browser
+    /// destruction then ICefBrowser.IsValid() will return false (0) for
     /// |browser|.
     /// </summary>
     procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
@@ -1051,11 +2115,11 @@ type
     /// from |browser| for the last time. Both |old_frame| and |new_frame| will be
     /// non-NULL for cross-origin navigations or re-navigation after renderer
     /// process termination. This function will be called after on_frame_created()
-    /// for |new_frame| and/or after on_frame_detached() for |old_frame|. If
-    /// called after cef_life_span_handler_t::on_before_close() during browser
-    /// destruction then cef_browser_t::is_valid() will return false (0) for
+    /// for |new_frame| and/or after OnFrameDetached() for |old_frame|. If
+    /// called after ICefLifeSpanHandler.OnBeforeClose() during browser
+    /// destruction then ICefBrowser.IsValid() will return false (0) for
     /// |browser|.
-    ///
+    /// </summary>
     procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
     /// <summary>
     /// Custom procedure to clear all references.
@@ -1073,10 +2137,29 @@ type
   /// </remarks>
   ICefCustomStreamReader = interface(ICefBaseRefCounted)
     ['{BBCFF23A-6FE7-4C28-B13E-6D2ACA5C83B7}']
+    /// <summary>
+    /// Read raw binary data.
+    /// </summary>
     function Read(ptr: Pointer; size, n: NativeUInt): NativeUInt;
+    /// <summary>
+    /// Seek to the specified offset position. |whence| may be any one of
+    /// SEEK_CUR, SEEK_END or SEEK_SET. Return zero on success and non-zero on
+    /// failure.
+    /// </summary>
     function Seek(offset: Int64; whence: Integer): Integer;
+    /// <summary>
+    /// Return the current offset position.
+    /// </summary>
     function Tell: Int64;
+    /// <summary>
+    /// Return non-zero if at end of file.
+    /// </summary>
     function Eof: Boolean;
+    /// <summary>
+    /// Return true (1) if this handler performs work like accessing the file
+    /// system which may block. Used as a hint for determining the thread to
+    /// access the handler from.
+    /// </summary>
     function MayBlock: Boolean;
   end;
 
@@ -1090,10 +2173,65 @@ type
   /// </remarks>
   ICefStreamReader = interface(ICefBaseRefCounted)
     ['{DD5361CB-E558-49C5-A4BD-D1CE84ADB277}']
+    /// <summary>
+    /// Read raw binary data.
+    /// </summary>
     function Read(ptr: Pointer; size, n: NativeUInt): NativeUInt;
+    /// <summary>
+    /// Seek to the specified offset position. |whence| may be any one of
+    /// SEEK_CUR, SEEK_END or SEEK_SET. Return zero on success and non-zero on
+    /// failure.
+    /// </summary>
     function Seek(offset: Int64; whence: Integer): Integer;
+    /// <summary>
+    /// Return the current offset position.
+    /// </summary>
     function Tell: Int64;
+    /// <summary>
+    /// Return non-zero if at end of file.
+    ///
     function Eof: Boolean;
+    /// <summary>
+    /// Return true (1) if this handler performs work like accessing the file
+    /// system which may block. Used as a hint for determining the thread to
+    /// access the handler from.
+    /// </summary>
+    function MayBlock: Boolean;
+  end;
+
+  /// <summary>
+  /// Structure the client can implement to provide a custom stream reader. The
+  /// functions of this structure may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefReadHandler">Implements TCefReadHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_read_handler_tcef_stream_reader_t)</see></para>
+  /// </remarks>
+  ICefReadHandler = interface(ICefBaseRefCounted)
+    ['{10152506-B2F8-4765-BBBC-9CA8A85A2C87}']
+    /// <summary>
+    /// Read raw binary data.
+    /// </summary>
+    function Read(ptr: Pointer; size, n: NativeUInt): NativeUInt;
+    /// <summary>
+    /// Seek to the specified offset position. |whence| may be any one of
+    /// SEEK_CUR, SEEK_END or SEEK_SET. Return zero on success and non-zero on
+    /// failure.
+    /// </summary>
+    function Seek(offset: Int64; whence: Integer): Integer;
+    /// <summary>
+    /// Return the current offset position.
+    /// </summary>
+    function Tell: Int64;
+    /// <summary>
+    /// Return non-zero if at end of file.
+    ///
+    function Eof: Boolean;
+    /// <summary>
+    /// Return true (1) if this handler performs work like accessing the file
+    /// system which may block. Used as a hint for determining the thread to
+    /// access the handler from.
+    /// </summary>
     function MayBlock: Boolean;
   end;
 
@@ -1107,10 +2245,29 @@ type
   /// </remarks>
   ICefWriteHandler = interface(ICefBaseRefCounted)
     ['{F2431888-4EAB-421E-9EC3-320BE695AF30}']
+    /// <summary>
+    /// Write raw binary data.
+    /// </summary>
     function Write(const ptr: Pointer; size, n: NativeUInt): NativeUInt;
+    /// <summary>
+    /// Seek to the specified offset position. |whence| may be any one of
+    /// SEEK_CUR, SEEK_END or SEEK_SET. Return zero on success and non-zero on
+    /// failure.
+    /// </summary>
     function Seek(offset: Int64; whence: Integer): Integer;
+    /// <summary>
+    /// Return the current offset position.
+    /// </summary>
     function Tell: Int64;
+    /// <summary>
+    /// Flush the stream.
+    /// </summary>
     function Flush: Integer;
+    /// <summary>
+    /// Return true (1) if this handler performs work like accessing the file
+    /// system which may block. Used as a hint for determining the thread to
+    /// access the handler from.
+    /// </summary>
     function MayBlock: Boolean;
   end;
 
@@ -1124,10 +2281,29 @@ type
   /// </remarks>
   ICefStreamWriter = interface(ICefBaseRefCounted)
     ['{4AA6C477-7D8A-4D5A-A704-67F900A827E7}']
+    /// <summary>
+    /// Write raw binary data.
+    /// </summary>
     function Write(const ptr: Pointer; size, n: NativeUInt): NativeUInt;
+    /// <summary>
+    /// Seek to the specified offset position. |whence| may be any one of
+    /// SEEK_CUR, SEEK_END or SEEK_SET. Returns zero on success and non-zero on
+    /// failure.
+    /// </summary>
     function Seek(offset: Int64; whence: Integer): Integer;
+    /// <summary>
+    /// Return the current offset position.
+    /// </summary>
     function Tell: Int64;
+    /// <summary>
+    /// Flush the stream.
+    /// </summary>
     function Flush: Integer;
+    /// <summary>
+    /// Returns true (1) if this writer performs work like accessing the file
+    /// system which may block. Used as a hint for determining the thread to
+    /// access the writer from.
+    /// </summary>
     function MayBlock: Boolean;
   end;
 
@@ -1141,29 +2317,100 @@ type
   /// </remarks>
   ICefResponse = interface(ICefBaseRefCounted)
     ['{E9C896E4-59A8-4B96-AB5E-6EA3A498B7F1}']
+    /// <summary>
+    /// Returns true (1) if this object is read-only.
+    /// </summary>
     function  IsReadOnly: Boolean;
+    /// <summary>
+    /// Get the response error code. Returns ERR_NONE if there was no error.
+    /// </summary>
     function  GetError: TCefErrorCode;
+    /// <summary>
+    /// Set the response error code. This can be used by custom scheme handlers to
+    /// return errors during initial request processing.
+    /// </summary>
     procedure SetError(error: TCefErrorCode);
+    /// <summary>
+    /// Get the response status code.
+    /// </summary>
     function  GetStatus: Integer;
+    /// <summary>
+    /// Set the response status code.
+    /// </summary>
     procedure SetStatus(status: Integer);
+    /// <summary>
+    /// Get the response status text.
+    /// </summary>
     function  GetStatusText: ustring;
+    /// <summary>
+    /// Set the response status text.
+    /// </summary>
     procedure SetStatusText(const StatusText: ustring);
+    /// <summary>
+    /// Get the response mime type.
+    /// </summary>
     function  GetMimeType: ustring;
+    /// <summary>
+    /// Set the response mime type.
+    /// </summary>
     procedure SetMimeType(const mimetype: ustring);
+    /// <summary>
+    /// Get the response charset.
+    /// </summary>
     function  GetCharset: ustring;
+    /// <summary>
+    /// Set the response charset.
+    /// </summary>
     procedure SetCharset(const charset: ustring);
+    /// <summary>
+    /// Get the value for the specified response header field.
+    /// </summary>
     function  GetHeaderByName(const name: ustring): ustring;
+    /// <summary>
+    /// Set the header |name| to |value|. If |overwrite| is true (1) any existing
+    /// values will be replaced with the new value. If |overwrite| is false (0)
+    /// any existing values will not be overwritten.
+    /// </summary>
     procedure SetHeaderByName(const name, value: ustring; overwrite: boolean);
+    /// <summary>
+    /// Get all response header fields.
+    /// </summary>
     procedure GetHeaderMap(const headerMap: ICefStringMultimap);
+    /// <summary>
+    /// Set all response header fields.
+    /// </summary>
     procedure SetHeaderMap(const headerMap: ICefStringMultimap);
+    /// <summary>
+    /// Get the resolved URL after redirects or changed as a result of HSTS.
+    /// </summary>
     function  GetURL: ustring;
+    /// <summary>
+    /// Set the resolved URL after redirects or changed as a result of HSTS.
+    /// </summary>
     procedure SetURL(const url: ustring);
-
+    /// <summary>
+    /// Get the response status code.
+    /// </summary>
     property Status     : Integer       read GetStatus      write SetStatus;
+    /// <summary>
+    /// Get the response status text.
+    /// </summary>
     property StatusText : ustring       read GetStatusText  write SetStatusText;
+    /// <summary>
+    /// Get the response mime type.
+    /// </summary>
     property MimeType   : ustring       read GetMimeType    write SetMimeType;
+    /// <summary>
+    /// Get the response charset.
+    /// </summary>
     property Charset    : ustring       read GetCharset     write SetCharset;
+    /// <summary>
+    /// Get the response error code. Returns ERR_NONE if there was no error.
+    /// </summary>
     property Error      : TCefErrorCode read GetError       write SetError;
+    /// <summary>
+    /// Get the resolved URL after redirects or changed as a result of HSTS.
+    /// </summary>
     property URL        : ustring       read GetURL         write SetURL;
   end;
 
@@ -1176,39 +2423,140 @@ type
   /// </remarks>
   ICefDownloadItem = interface(ICefBaseRefCounted)
     ['{B34BD320-A82E-4185-8E84-B98E5EEC803F}']
+    /// <summary>
+    /// Returns true (1) if this object is valid. Do not call any other functions
+    /// if this function returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns true (1) if the download is in progress.
+    /// </summary>
     function IsInProgress: Boolean;
+    /// <summary>
+    /// Returns true (1) if the download is complete.
+    /// </summary>
     function IsComplete: Boolean;
+    /// <summary>
+    /// Returns true (1) if the download has been canceled.
+    /// </summary>
     function IsCanceled: Boolean;
+    /// <summary>
+    /// Returns true (1) if the download has been interrupted.
+    /// </summary>
     function IsInterrupted: Boolean;
+    /// <summary>
+    /// Returns the most recent interrupt reason.
+    /// </summary>
     function GetInterruptReason: TCefDownloadInterruptReason;
+    /// <summary>
+    /// Returns a simple speed estimate in bytes/s.
+    /// </summary>
     function GetCurrentSpeed: Int64;
+    /// <summary>
+    /// Returns the rough percent complete or -1 if the receive total size is
+    /// unknown.
+    /// </summary>
     function GetPercentComplete: Integer;
+    /// <summary>
+    /// Returns the total number of bytes.
+    /// </summary>
     function GetTotalBytes: Int64;
+    /// <summary>
+    /// Returns the number of received bytes.
+    /// </summary>
     function GetReceivedBytes: Int64;
+    /// <summary>
+    /// Returns the time that the download started.
+    /// </summary>
     function GetStartTime: TDateTime;
+    /// <summary>
+    /// Returns the time that the download ended.
+    /// </summary>
     function GetEndTime: TDateTime;
+    /// <summary>
+    /// Returns the full path to the downloaded or downloading file.
+    /// </summary>
     function GetFullPath: ustring;
+    /// <summary>
+    /// Returns the unique identifier for this download.
+    /// </summary>
     function GetId: Cardinal;
+    /// <summary>
+    /// Returns the URL.
+    /// </summary>
     function GetUrl: ustring;
+    /// <summary>
+    /// Returns the original URL before any redirections.
+    /// </summary>
     function GetOriginalUrl: ustring;
+    /// <summary>
+    /// Returns the suggested file name.
+    /// </summary>
     function GetSuggestedFileName: ustring;
+    /// <summary>
+    /// Returns the content disposition.
+    /// </summary>
     function GetContentDisposition: ustring;
+    /// <summary>
+    /// Returns the mime type.
+    /// </summary>
     function GetMimeType: ustring;
-
+    /// <summary>
+    /// Returns a simple speed estimate in bytes/s.
+    /// </summary>
     property CurrentSpeed        : Int64                         read GetCurrentSpeed;
+    /// <summary>
+    /// Returns the rough percent complete or -1 if the receive total size is
+    /// unknown.
+    /// </summary>
     property PercentComplete     : Integer                       read GetPercentComplete;
+    /// <summary>
+    /// Returns the total number of bytes.
+    /// </summary>
     property TotalBytes          : Int64                         read GetTotalBytes;
+    /// <summary>
+    /// Returns the number of received bytes.
+    /// </summary>
     property ReceivedBytes       : Int64                         read GetReceivedBytes;
+    /// <summary>
+    /// Returns the time that the download started.
+    /// </summary>
     property StartTime           : TDateTime                     read GetStartTime;
+    /// <summary>
+    /// Returns the time that the download ended.
+    /// </summary>
     property EndTime             : TDateTime                     read GetEndTime;
+    /// <summary>
+    /// Returns the full path to the downloaded or downloading file.
+    /// </summary>
     property FullPath            : ustring                       read GetFullPath;
+    /// <summary>
+    /// Returns the unique identifier for this download.
+    /// </summary>
     property Id                  : Cardinal                      read GetId;
+    /// <summary>
+    /// Returns the URL.
+    /// </summary>
     property Url                 : ustring                       read GetUrl;
+    /// <summary>
+    /// Returns the original URL before any redirections.
+    /// </summary>
     property OriginalUrl         : ustring                       read GetOriginalUrl;
+    /// <summary>
+    /// Returns the suggested file name.
+    /// </summary>
     property SuggestedFileName   : ustring                       read GetSuggestedFileName;
+    /// <summary>
+    /// Returns the content disposition.
+    /// </summary>
     property ContentDisposition  : ustring                       read GetContentDisposition;
+    /// <summary>
+    /// Returns the mime type.
+    /// </summary>
     property MimeType            : ustring                       read GetMimeType;
+    /// <summary>
+    /// Returns the most recent interrupt reason.
+    /// </summary>
     property InterruptReason     : TCefDownloadInterruptReason   read GetInterruptReason;
   end;
 
@@ -1281,7 +2629,7 @@ type
     procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
     /// <summary>
     /// Called when a download's status or progress information has been updated.
-    /// This may be called multiple times before and after on_before_download().
+    /// This may be called multiple times before and after OnBeforeDownload.
     /// Execute |callback| either asynchronously or in this function to cancel the
     /// download if desired. Do not keep a reference to |download_item| outside of
     /// this function.
@@ -1303,22 +2651,81 @@ type
   /// </remarks>
   ICefV8Exception = interface(ICefBaseRefCounted)
     ['{7E422CF0-05AC-4A60-A029-F45105DCE6A4}']
+    /// <summary>
+    /// Returns the exception message.
+    /// </summary>
     function GetMessage: ustring;
+    /// <summary>
+    /// Returns the line of source code that the exception occurred within.
+    /// </summary>
     function GetSourceLine: ustring;
+    /// <summary>
+    /// Returns the resource name for the script from where the function causing
+    /// the error originates.
+    /// </summary>
     function GetScriptResourceName: ustring;
+    /// <summary>
+    /// Returns the 1-based number of the line where the error occurred or 0 if
+    /// the line number is unknown.
+    /// </summary>
     function GetLineNumber: Integer;
+    /// <summary>
+    /// Returns the index within the script of the first character where the error
+    /// occurred.
+    /// </summary>
     function GetStartPosition: Integer;
+    /// <summary>
+    /// Returns the index within the script of the last character where the error
+    /// occurred.
+    /// </summary>
     function GetEndPosition: Integer;
+    /// <summary>
+    /// Returns the index within the line of the first character where the error
+    /// occurred.
+    /// </summary>
     function GetStartColumn: Integer;
+    /// <summary>
+    /// Returns the index within the line of the last character where the error
+    /// occurred.
+    /// </summary>
     function GetEndColumn: Integer;
-
+    /// <summary>
+    /// Returns the exception message.
+    /// </summary>
     property Message            : ustring read GetMessage;
+    /// <summary>
+    /// Returns the line of source code that the exception occurred within.
+    /// </summary>
     property SourceLine         : ustring read GetSourceLine;
+    /// <summary>
+    /// Returns the resource name for the script from where the function causing
+    /// the error originates.
+    /// </summary>
     property ScriptResourceName : ustring read GetScriptResourceName;
+    /// <summary>
+    /// Returns the 1-based number of the line where the error occurred or 0 if
+    /// the line number is unknown.
+    /// </summary>
     property LineNumber         : Integer read GetLineNumber;
+    /// <summary>
+    /// Returns the index within the script of the first character where the error
+    /// occurred.
+    /// </summary>
     property StartPosition      : Integer read GetStartPosition;
+    /// <summary>
+    /// Returns the index within the script of the last character where the error
+    /// occurred.
+    /// </summary>
     property EndPosition        : Integer read GetEndPosition;
+    /// <summary>
+    /// Returns the index within the line of the first character where the error
+    /// occurred.
+    /// </summary>
     property StartColumn        : Integer read GetStartColumn;
+    /// <summary>
+    /// Returns the index within the line of the last character where the error
+    /// occurred.
+    /// </summary>
     property EndColumn          : Integer read GetEndColumn;
   end;
 
@@ -1331,6 +2738,11 @@ type
   /// </remarks>
   ICefv8ArrayBufferReleaseCallback = interface(ICefBaseRefCounted)
     ['{4EAAB422-D046-43DF-B1F0-5503116A5816}']
+    /// <summary>
+    /// Called to release |buffer| when the ArrayBuffer JS object is garbage
+    /// collected. |buffer| is the value that was passed to CreateArrayBuffer
+    /// along with this object.
+    /// </summary>
     procedure ReleaseBuffer(buffer : Pointer);
   end;
 
@@ -1347,18 +2759,74 @@ type
   /// </remarks>
   ICefv8Context = interface(ICefBaseRefCounted)
     ['{2295A11A-8773-41F2-AD42-308C215062D9}']
+    /// <summary>
+    /// Returns the task runner associated with this context. V8 handles can only
+    /// be accessed from the thread on which they are created. This function can
+    /// be called on any render process thread.
+    /// </summary>
     function GetTaskRunner: ICefTaskRunner;
+    /// <summary>
+    /// Returns true (1) if the underlying handle is valid and it can be accessed
+    /// on the current thread. Do not call any other functions if this function
+    /// returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns the browser for this context. This function will return an NULL
+    /// reference for WebWorker contexts.
+    /// </summary>
     function GetBrowser: ICefBrowser;
+    /// <summary>
+    /// Returns the frame for this context. This function will return an NULL
+    /// reference for WebWorker contexts.
+    /// </summary>
     function GetFrame: ICefFrame;
+    /// <summary>
+    /// Returns the global object for this context. The context must be entered
+    /// before calling this function.
+    /// </summary>
     function GetGlobal: ICefv8Value;
+    /// <summary>
+    /// Enter this context. A context must be explicitly entered before creating a
+    /// V8 Object, Array, Function or Date asynchronously. exit() must be called
+    /// the same number of times as enter() before releasing this context. V8
+    /// objects belong to the context in which they are created. Returns true (1)
+    /// if the scope was entered successfully.
+    /// </summary>
     function Enter: Boolean;
+    /// <summary>
+    /// Exit this context. Call this function only after calling enter(). Returns
+    /// true (1) if the scope was exited successfully.
+    /// </summary>
     function Exit: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object is pointing to the same handle as |that|
+    /// object.
+    /// </summary>
     function IsSame(const that: ICefv8Context): Boolean;
+    /// <summary>
+    /// Execute a string of JavaScript code in this V8 context. The |script_url|
+    /// parameter is the URL where the script in question can be found, if any.
+    /// The |start_line| parameter is the base line number to use for error
+    /// reporting. On success |retval| will be set to the return value, if any,
+    /// and the function will return true (1). On failure |exception| will be set
+    /// to the exception, if any, and the function will return false (0).
+    /// </summary>
     function Eval(const code: ustring; const script_url: ustring; start_line: integer; var retval: ICefv8Value; var exception: ICefV8Exception): Boolean;
-
+    /// <summary>
+    /// Returns the browser for this context. This function will return an NULL
+    /// reference for WebWorker contexts.
+    /// </summary>
     property Browser  : ICefBrowser read GetBrowser;
+    /// <summary>
+    /// Returns the frame for this context. This function will return an NULL
+    /// reference for WebWorker contexts.
+    /// </summary>
     property Frame    : ICefFrame   read GetFrame;
+    /// <summary>
+    /// Returns the global object for this context. The context must be entered
+    /// before calling this function.
+    /// </summary>
     property Global   : ICefv8Value read GetGlobal;
   end;
 
@@ -1373,6 +2841,13 @@ type
   /// </remarks>
   ICefv8Handler = interface(ICefBaseRefCounted)
     ['{F94CDC60-FDCB-422D-96D5-D2A775BD5D73}']
+    /// <summary>
+    /// Handle execution of the function identified by |name|. |object| is the
+    /// receiver ('this' object) of the function. |arguments| is the list of
+    /// arguments passed to the function. If execution succeeds set |retval| to
+    /// the function return value. If execution fails set |exception| to the
+    /// exception that will be thrown. Return true (1) if execution was handled.
+    /// </summary>
     function Execute(const name: ustring; const object_: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean;
   end;
 
@@ -1390,9 +2865,41 @@ type
   /// </remarks>
   ICefV8Interceptor = interface(ICefBaseRefCounted)
     ['{B3B8FD7C-A916-4B25-93A2-2892AC324F21}']
+    /// <summary>
+    /// Handle retrieval of the interceptor value identified by |name|. |object|
+    /// is the receiver ('this' object) of the interceptor. If retrieval succeeds,
+    /// set |retval| to the return value. If the requested value does not exist,
+    /// don't set either |retval| or |exception|. If retrieval fails, set
+    /// |exception| to the exception that will be thrown. If the property has an
+    /// associated accessor, it will be called only if you don't set |retval|.
+    /// Return true (1) if interceptor retrieval was handled, false (0) otherwise.
+    /// </summary>
     function GetByName(const name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean;
+    /// <summary>
+    /// Handle retrieval of the interceptor value identified by |index|. |object|
+    /// is the receiver ('this' object) of the interceptor. If retrieval succeeds,
+    /// set |retval| to the return value. If the requested value does not exist,
+    /// don't set either |retval| or |exception|. If retrieval fails, set
+    /// |exception| to the exception that will be thrown. Return true (1) if
+    /// interceptor retrieval was handled, false (0) otherwise.
+    /// </summary>
     function GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): boolean;
+    /// <summary>
+    /// Handle assignment of the interceptor value identified by |name|. |object|
+    /// is the receiver ('this' object) of the interceptor. |value| is the new
+    /// value being assigned to the interceptor. If assignment fails, set
+    /// |exception| to the exception that will be thrown. This setter will always
+    /// be called, even when the property has an associated accessor. Return true
+    /// (1) if interceptor assignment was handled, false (0) otherwise.
+    /// </summary>
     function SetByName(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): boolean;
+    /// <summary>
+    /// Handle assignment of the interceptor value identified by |index|. |object|
+    /// is the receiver ('this' object) of the interceptor. |value| is the new
+    /// value being assigned to the interceptor. If assignment fails, set
+    /// |exception| to the exception that will be thrown. Return true (1) if
+    /// interceptor assignment was handled, false (0) otherwise.
+    /// </summary>
     function SetByIndex(index: integer; const object_, value: ICefv8Value; var exception: ustring): boolean;
   end;
 
@@ -1408,7 +2915,21 @@ type
   /// </remarks>
   ICefV8Accessor = interface(ICefBaseRefCounted)
     ['{DCA6D4A2-726A-4E24-AA64-5E8C731D868A}']
+    /// <summary>
+    /// Handle retrieval the accessor value identified by |name|. |object| is the
+    /// receiver ('this' object) of the accessor. If retrieval succeeds set
+    /// |retval| to the return value. If retrieval fails set |exception| to the
+    /// exception that will be thrown. Return true (1) if accessor retrieval was
+    /// handled.
+    /// </summary>
     function Get(const name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var exception: ustring): Boolean;
+    /// <summary>
+    /// Handle assignment of the accessor value identified by |name|. |object| is
+    /// the receiver ('this' object) of the accessor. |value| is the new value
+    /// being assigned to the accessor. If assignment fails set |exception| to the
+    /// exception that will be thrown. Return true (1) if accessor assignment was
+    /// handled.
+    /// </summary>
     function Set_(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): Boolean;
   end;
 
@@ -1426,6 +2947,9 @@ type
   /// </remarks>
   ICefTask = interface(ICefBaseRefCounted)
     ['{0D965470-4A86-47CE-BD39-A8770021AD7E}']
+    /// <summary>
+    /// Method that will be executed on the target thread.
+    /// </summary>
     procedure Execute;
   end;
 
@@ -1444,10 +2968,30 @@ type
   /// </remarks>
   ICefTaskRunner = interface(ICefBaseRefCounted)
     ['{6A500FA3-77B7-4418-8EA8-6337EED1337B}']
+    /// <summary>
+    /// Returns true (1) if this object is pointing to the same task runner as
+    /// |that| object.
+    /// </summary>
     function IsSame(const that: ICefTaskRunner): Boolean;
+    /// <summary>
+    /// Returns true (1) if this task runner belongs to the current thread.
+    /// </summary>
     function BelongsToCurrentThread: Boolean;
+    /// <summary>
+    /// Returns true (1) if this task runner is for the specified CEF thread.
+    /// </summary>
     function BelongsToThread(threadId: TCefThreadId): Boolean;
+    /// <summary>
+    /// Post a task for execution on the thread associated with this task runner.
+    /// Execution will occur asynchronously.
+    /// </summary>
     function PostTask(const task: ICefTask): Boolean;
+    /// <summary>
+    /// Post a task for delayed execution on the thread associated with this task
+    /// runner. Execution will occur asynchronously. Delayed tasks are not
+    /// supported on V8 WebWorker threads and will be executed without the
+    /// specified delay.
+    /// </summary>
     function PostDelayedTask(const task: ICefTask; delayMs: Int64): Boolean;
   end;
 
@@ -1468,9 +3012,26 @@ type
   /// </remarks>
   ICefThread = interface(ICefBaseRefCounted)
     ['{26B30EA5-F44A-4C40-97DF-67FD9E73A4FF}']
+    /// <summary>
+    /// Returns the cef_task_runner_t that will execute code on this thread's
+    /// message loop. This function is safe to call from any thread.
+    /// </summary>
     function  GetTaskRunner : ICefTaskRunner;
+    /// <summary>
+    /// Returns the platform thread ID. It will return the same value after stop()
+    /// is called. This function is safe to call from any thread.
+    /// </summary>
     function  GetPlatformThreadID : TCefPlatformThreadId;
+    /// <summary>
+    /// Stop and join the thread. This function must be called from the same
+    /// thread that called cef_thread_create(). Do not call this function if
+    /// cef_thread_create() was called with a |stoppable| value of false (0).
+    /// </summary>
     procedure Stop;
+    /// <summary>
+    /// Returns true (1) if the thread is currently running. This function must be
+    /// called from the same thread that called cef_thread_create().
+    /// </summary>
     function  IsRunning : boolean;
   end;
 
@@ -1491,10 +3052,34 @@ type
   /// </remarks>
   ICefWaitableEvent = interface(ICefBaseRefCounted)
     ['{965C90C9-3DAE-457F-AA64-E04FF508094A}']
+    /// <summary>
+    /// Put the event in the un-signaled state.
+    /// </summary>
     procedure Reset;
+    /// <summary>
+    /// Put the event in the signaled state. This causes any thread blocked on
+    /// Wait to be woken up.
+    /// </summary>
     procedure Signal;
+    /// <summary>
+    /// Returns true (1) if the event is in the signaled state, else false (0). If
+    /// the event was created with |automatic_reset| set to true (1) then calling
+    /// this function will also cause a reset.
+    /// </summary>
     function  IsSignaled : boolean;
+    /// <summary>
+    /// Wait indefinitely for the event to be signaled. This function will not
+    /// return until after the call to signal() has completed. This function
+    /// cannot be called on the browser process UI or IO threads.
+    /// </summary>
     procedure Wait;
+    /// <summary>
+    /// Wait up to |max_ms| milliseconds for the event to be signaled. Returns
+    /// true (1) if the event was signaled. A return value of false (0) does not
+    /// necessarily mean that |max_ms| was exceeded. This function will not return
+    /// until after the call to signal() has completed. This function cannot be
+    /// called on the browser process UI or IO threads.
+    /// </summary>
     function  TimedWait(max_ms: int64): boolean;
   end;
 
@@ -1511,55 +3096,272 @@ type
   /// </remarks>
   ICefv8Value = interface(ICefBaseRefCounted)
     ['{52319B8D-75A8-422C-BD4B-16FA08CC7F42}']
+    /// <summary>
+    /// Returns true (1) if the underlying handle is valid and it can be accessed
+    /// on the current thread. Do not call any other functions if this function
+    /// returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// True if the value type is undefined.
+    /// </summary>
     function IsUndefined: Boolean;
+    /// <summary>
+    /// True if the value type is null.
+    /// </summary>
     function IsNull: Boolean;
+    /// <summary>
+    /// True if the value type is bool.
+    /// </summary>
     function IsBool: Boolean;
+    /// <summary>
+    /// True if the value type is int.
+    /// </summary>
     function IsInt: Boolean;
+    /// <summary>
+    /// True if the value type is unsigned int.
+    /// </summary>
     function IsUInt: Boolean;
+    /// <summary>
+    /// True if the value type is double.
+    /// </summary>
     function IsDouble: Boolean;
+    /// <summary>
+    /// True if the value type is Date.
+    /// </summary>
     function IsDate: Boolean;
+    /// <summary>
+    /// True if the value type is string.
+    /// </summary>
     function IsString: Boolean;
+    /// <summary>
+    /// True if the value type is object.
+    /// </summary>
     function IsObject: Boolean;
+    /// <summary>
+    /// True if the value type is array.
+    /// </summary>
     function IsArray: Boolean;
+    /// <summary>
+    /// True if the value type is an ArrayBuffer.
+    /// </summary>
     function IsArrayBuffer: Boolean;
+    /// <summary>
+    /// True if the value type is function.
+    /// </summary>
     function IsFunction: Boolean;
+    /// <summary>
+    /// True if the value type is a Promise.
+    /// </summary>
     function IsPromise: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object is pointing to the same handle as |that|
+    /// object.
+    /// </summary>
     function IsSame(const that: ICefv8Value): Boolean;
+    /// <summary>
+    /// Return a bool value.
+    /// </summary>
     function GetBoolValue: Boolean;
+    /// <summary>
+    /// Return an int value.
+    /// </summary>
     function GetIntValue: Integer;
+    /// <summary>
+    /// Return an unsigned int value.
+    /// </summary>
     function GetUIntValue: Cardinal;
+    /// <summary>
+    /// Return a double value.
+    /// </summary>
     function GetDoubleValue: Double;
+    /// <summary>
+    /// Return a Date value.
+    /// </summary>
     function GetDateValue: TDateTime;
+    /// <summary>
+    /// Return a string value.
+    /// </summary>
     function GetStringValue: ustring;
+    /// <summary>
+    /// Returns true (1) if this is a user created object.
+    /// </summary>
     function IsUserCreated: Boolean;
+    /// <summary>
+    /// Returns true (1) if the last function call resulted in an exception. This
+    /// attribute exists only in the scope of the current CEF value object.
+    /// </summary>
     function HasException: Boolean;
+    /// <summary>
+    /// Returns the exception resulting from the last function call. This
+    /// attribute exists only in the scope of the current CEF value object.
+    /// </summary>
     function GetException: ICefV8Exception;
+    /// <summary>
+    /// Clears the last exception and returns true (1) on success.
+    /// </summary>
     function ClearException: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object will re-throw future exceptions. This
+    /// attribute exists only in the scope of the current CEF value object.
+    /// </summary>
     function WillRethrowExceptions: Boolean;
+    /// <summary>
+    /// Set whether this object will re-throw future exceptions. By default
+    /// exceptions are not re-thrown. If a exception is re-thrown the current
+    /// context should not be accessed again until after the exception has been
+    /// caught and not re-thrown. Returns true (1) on success. This attribute
+    /// exists only in the scope of the current CEF value object.
+    /// </summary>
     function SetRethrowExceptions(rethrow: Boolean): Boolean;
+    /// <summary>
+    /// Returns true (1) if the object has a value with the specified identifier.
+    /// </summary>
     function HasValueByKey(const key: ustring): Boolean;
+    /// <summary>
+    /// Returns true (1) if the object has a value with the specified identifier.
+    /// </summary>
     function HasValueByIndex(index: Integer): Boolean;
+    /// <summary>
+    /// Deletes the value with the specified identifier and returns true (1) on
+    /// success. Returns false (0) if this function is called incorrectly or an
+    /// exception is thrown. For read-only and don't-delete values this function
+    /// will return true (1) even though deletion failed.
+    /// </summary>
     function DeleteValueByKey(const key: ustring): Boolean;
+    /// <summary>
+    /// Deletes the value with the specified identifier and returns true (1) on
+    /// success. Returns false (0) if this function is called incorrectly,
+    /// deletion fails or an exception is thrown. For read-only and don't-delete
+    /// values this function will return true (1) even though deletion failed.
+    /// </summary>
     function DeleteValueByIndex(index: Integer): Boolean;
+    /// <summary>
+    /// Returns the value with the specified identifier on success. Returns NULL
+    /// if this function is called incorrectly or an exception is thrown.
+    /// </summary>
     function GetValueByKey(const key: ustring): ICefv8Value;
+    /// <summary>
+    /// Returns the value with the specified identifier on success. Returns NULL
+    /// if this function is called incorrectly or an exception is thrown.
+    /// </summary>
     function GetValueByIndex(index: Integer): ICefv8Value;
+    /// <summary>
+    /// Associates a value with the specified identifier and returns true (1) on
+    /// success. Returns false (0) if this function is called incorrectly or an
+    /// exception is thrown. For read-only values this function will return true
+    /// (1) even though assignment failed.
+    /// </summary>
     function SetValueByKey(const key: ustring; const value: ICefv8Value; attribute: TCefV8PropertyAttributes): Boolean;
+    /// <summary>
+    /// Associates a value with the specified identifier and returns true (1) on
+    /// success. Returns false (0) if this function is called incorrectly or an
+    /// exception is thrown. For read-only values this function will return true
+    /// (1) even though assignment failed.
+    /// </summary>
     function SetValueByIndex(index: Integer; const value: ICefv8Value): Boolean;
+    /// <summary>
+    /// Registers an identifier and returns true (1) on success. Access to the
+    /// identifier will be forwarded to the cef_v8accessor_t instance passed to
+    /// cef_v8value_t::cef_v8value_create_object(). Returns false (0) if this
+    /// function is called incorrectly or an exception is thrown. For read-only
+    /// values this function will return true (1) even though assignment failed.
+    /// </summary>
     function SetValueByAccessor(const key: ustring; settings: TCefV8AccessControls; attribute: TCefV8PropertyAttributes): Boolean;
+    /// <summary>
+    /// Read the keys for the object's values into the specified vector. Integer-
+    /// based keys will also be returned as strings.
+    /// </summary>
     function GetKeys(const keys: TStrings): Integer;
+    /// <summary>
+    /// Sets the user data for this object and returns true (1) on success.
+    /// Returns false (0) if this function is called incorrectly. This function
+    /// can only be called on user created objects.
+    /// </summary>
     function SetUserData(const data: ICefv8Value): Boolean;
+    /// <summary>
+    /// Returns the user data, if any, assigned to this object.
+    /// </summary>
     function GetUserData: ICefv8Value;
+    /// <summary>
+    /// Returns the amount of externally allocated memory registered for the
+    /// object.
+    /// </summary>
     function GetExternallyAllocatedMemory: Integer;
+    /// <summary>
+    /// Adjusts the amount of registered external memory for the object. Used to
+    /// give V8 an indication of the amount of externally allocated memory that is
+    /// kept alive by JavaScript objects. V8 uses this information to decide when
+    /// to perform global garbage collection. Each cef_v8value_t tracks the amount
+    /// of external memory associated with it and automatically decreases the
+    /// global total by the appropriate amount on its destruction.
+    /// |change_in_bytes| specifies the number of bytes to adjust by. This
+    /// function returns the number of bytes associated with the object after the
+    /// adjustment. This function can only be called on user created objects.
+    /// </summary>
     function AdjustExternallyAllocatedMemory(changeInBytes: Integer): Integer;
+    /// <summary>
+    /// Returns the number of elements in the array.
+    /// </summary>
     function GetArrayLength: Integer;
+    /// <summary>
+    /// Returns the ReleaseCallback object associated with the ArrayBuffer or NULL
+    /// if the ArrayBuffer was not created with CreateArrayBuffer.
+    /// </summary>
     function GetArrayBufferReleaseCallback : ICefv8ArrayBufferReleaseCallback;
+    /// <summary>
+    /// Prevent the ArrayBuffer from using it's memory block by setting the length
+    /// to zero. This operation cannot be undone. If the ArrayBuffer was created
+    /// with CreateArrayBuffer then
+    /// cef_v8array_buffer_release_callback_t::ReleaseBuffer will be called to
+    /// release the underlying buffer.
+    /// </summary>
     function NeuterArrayBuffer : boolean;
+    /// <summary>
+    /// Returns the function name.
+    /// </summary>
     function GetFunctionName: ustring;
+    /// <summary>
+    /// Returns the function handler or NULL if not a CEF-created function.
+    /// </summary>
     function GetFunctionHandler: ICefv8Handler;
+    /// <summary>
+    /// Execute the function using the current V8 context. This function should
+    /// only be called from within the scope of a cef_v8handler_t or
+    /// cef_v8accessor_t callback, or in combination with calling enter() and
+    /// exit() on a stored cef_v8context_t reference. |object| is the receiver
+    /// ('this' object) of the function. If |object| is NULL the current context's
+    /// global object will be used. |arguments| is the list of arguments that will
+    /// be passed to the function. Returns the function return value on success.
+    /// Returns NULL if this function is called incorrectly or an exception is
+    /// thrown.
+    /// </summary>
     function ExecuteFunction(const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
+    /// <summary>
+    /// Execute the function using the specified V8 context. |object| is the
+    /// receiver ('this' object) of the function. If |object| is NULL the
+    /// specified context's global object will be used. |arguments| is the list of
+    /// arguments that will be passed to the function. Returns the function return
+    /// value on success. Returns NULL if this function is called incorrectly or
+    /// an exception is thrown.
+    /// </summary>
     function ExecuteFunctionWithContext(const context: ICefv8Context; const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
+    /// <summary>
+    /// Resolve the Promise using the current V8 context. This function should
+    /// only be called from within the scope of a cef_v8handler_t or
+    /// cef_v8accessor_t callback, or in combination with calling enter() and
+    /// exit() on a stored cef_v8context_t reference. |arg| is the argument passed
+    /// to the resolved promise. Returns true (1) on success. Returns false (0) if
+    /// this function is called incorrectly or an exception is thrown.
+    /// </summary>
     function ResolvePromise(const arg: ICefv8Value): boolean;
+    /// <summary>
+    /// Reject the Promise using the current V8 context. This function should only
+    /// be called from within the scope of a cef_v8handler_t or cef_v8accessor_t
+    /// callback, or in combination with calling enter() and exit() on a stored
+    /// cef_v8context_t reference. Returns true (1) on success. Returns false (0)
+    /// if this function is called incorrectly or an exception is thrown.
+    /// </summary>
     function RejectPromise(const errorMsg: ustring): boolean;
   end;
 
@@ -1576,19 +3378,65 @@ type
   /// </remarks>
   ICefV8StackFrame = interface(ICefBaseRefCounted)
     ['{BA1FFBF4-E9F2-4842-A827-DC220F324286}']
+    /// <summary>
+    /// Returns true (1) if the underlying handle is valid and it can be accessed
+    /// on the current thread. Do not call any other functions if this function
+    /// returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns the name of the resource script that contains the function.
+    /// </summary>
     function GetScriptName: ustring;
+    /// <summary>
+    /// Returns the name of the resource script that contains the function or the
+    /// sourceURL value if the script name is undefined and its source ends with a
+    /// "//@ sourceURL=..." string.
+    /// </summary>
     function GetScriptNameOrSourceUrl: ustring;
+    /// <summary>
+    /// Returns the name of the function.
+    /// </summary>
     function GetFunctionName: ustring;
+    /// <summary>
+    /// Returns the 1-based line number for the function call or 0 if unknown.
+    /// </summary>
     function GetLineNumber: Integer;
+    /// <summary>
+    /// Returns the 1-based column offset on the line for the function call or 0
+    /// if unknown.
+    /// </summary>
     function GetColumn: Integer;
+    /// <summary>
+    /// Returns true (1) if the function was compiled using eval().
+    /// </summary>
     function IsEval: Boolean;
+    /// <summary>
+    /// Returns true (1) if the function was called as a constructor via "new".
+    /// </summary>
     function IsConstructor: Boolean;
-
+    /// <summary>
+    /// Returns the name of the resource script that contains the function.
+    /// </summary>
     property ScriptName             : ustring read GetScriptName;
+    /// <summary>
+    /// Returns the name of the resource script that contains the function or the
+    /// sourceURL value if the script name is undefined and its source ends with a
+    /// "//@ sourceURL=..." string.
+    /// </summary>
     property ScriptNameOrSourceUrl  : ustring read GetScriptNameOrSourceUrl;
+    /// <summary>
+    /// Returns the name of the function.
+    /// </summary>
     property FunctionName           : ustring read GetFunctionName;
+    /// <summary>
+    /// Returns the 1-based line number for the function call or 0 if unknown.
+    /// </summary>
     property LineNumber             : Integer read GetLineNumber;
+    /// <summary>
+    /// Returns the 1-based column offset on the line for the function call or 0
+    /// if unknown.
+    /// </summary>
     property Column                 : Integer read GetColumn;
   end;
 
@@ -1605,11 +3453,27 @@ type
   /// </remarks>
   ICefV8StackTrace = interface(ICefBaseRefCounted)
     ['{32111C84-B7F7-4E3A-92B9-7CA1D0ADB613}']
+    /// <summary>
+    /// Returns true (1) if the underlying handle is valid and it can be accessed
+    /// on the current thread. Do not call any other functions if this function
+    /// returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns the number of stack frames.
+    /// </summary>
     function GetFrameCount: Integer;
+    /// <summary>
+    /// Returns the stack frame at the specified 0-based index.
+    /// </summary>
     function GetFrame(index: Integer): ICefV8StackFrame;
-
+    /// <summary>
+    /// Returns the number of stack frames.
+    /// </summary>
     property FrameCount            : Integer          read GetFrameCount;
+    /// <summary>
+    /// Returns the stack frame at the specified 0-based index.
+    /// </summary>
     property Frame[index: Integer] : ICefV8StackFrame read GetFrame;
   end;
 
@@ -1624,34 +3488,139 @@ type
   /// </remarks>
   ICefXmlReader = interface(ICefBaseRefCounted)
     ['{0DE686C3-A8D7-45D2-82FD-92F7F4E62A90}']
+    /// <summary>
+    /// Moves the cursor to the next node in the document. This function must be
+    /// called at least once to set the current cursor position. Returns true (1)
+    /// if the cursor position was set successfully.
+    /// </summary>
     function MoveToNextNode: Boolean;
+    /// <summary>
+    /// Close the document. This should be called directly to ensure that cleanup
+    /// occurs on the correct thread.
+    /// </summary>
     function Close: Boolean;
+    /// <summary>
+    /// Returns true (1) if an error has been reported by the XML parser.
+    /// </summary>
     function HasError: Boolean;
+    /// <summary>
+    /// Returns the error string.
+    /// </summary>
     function GetError: ustring;
+    /// <summary>
+    /// Returns the node type.
+    /// </summary>
     function GetType: TCefXmlNodeType;
+    /// <summary>
+    /// Returns the node depth. Depth starts at 0 for the root node.
+    /// </summary>
     function GetDepth: Integer;
+    /// <summary>
+    /// Returns the local name. See http://www.w3.org/TR/REC-xml-names/#NT-
+    /// LocalPart for additional details.
+    /// </summary>
     function GetLocalName: ustring;
+    /// <summary>
+    /// Returns the namespace prefix. See http://www.w3.org/TR/REC-xml-names/ for
+    /// additional details.
+    /// </summary>
     function GetPrefix: ustring;
+    /// <summary>
+    /// Returns the qualified name, equal to (Prefix:)LocalName. See
+    /// http://www.w3.org/TR/REC-xml-names/#ns-qualnames for additional details.
+    /// </summary>
     function GetQualifiedName: ustring;
+    /// <summary>
+    /// Returns the URI defining the namespace associated with the node. See
+    /// http://www.w3.org/TR/REC-xml-names/ for additional details.
+    /// </summary>
     function GetNamespaceUri: ustring;
+    /// <summary>
+    /// Returns the base URI of the node. See http://www.w3.org/TR/xmlbase/ for
+    /// additional details.
+    /// </summary>
     function GetBaseUri: ustring;
+    /// <summary>
+    /// Returns the xml:lang scope within which the node resides. See
+    /// http://www.w3.org/TR/REC-xml/#sec-lang-tag for additional details.
+    /// </summary>
     function GetXmlLang: ustring;
+    /// <summary>
+    /// Returns true (1) if the node represents an NULL element. "<a/>" is
+    /// considered NULL but "<a></a>" is not.
+    /// </summary>
     function IsEmptyElement: Boolean;
+    /// <summary>
+    /// Returns true (1) if the node has a text value.
+    /// </summary>
     function HasValue: Boolean;
+    /// <summary>
+    /// Returns the text value.
+    /// </summary>
     function GetValue: ustring;
+    /// <summary>
+    /// Returns true (1) if the node has attributes.
+    /// </summary>
     function HasAttributes: Boolean;
+    /// <summary>
+    /// Returns the number of attributes.
+    /// </summary>
     function GetAttributeCount: NativeUInt;
+    /// <summary>
+    /// Returns the value of the attribute at the specified 0-based index.
+    /// </summary>
     function GetAttributeByIndex(index: Integer): ustring;
+    /// <summary>
+    /// Returns the value of the attribute with the specified qualified name.
+    /// </summary>
     function GetAttributeByQName(const qualifiedName: ustring): ustring;
+    /// <summary>
+    /// Returns the value of the attribute with the specified local name and
+    /// namespace URI.
+    /// </summary>
     function GetAttributeByLName(const localName, namespaceURI: ustring): ustring;
+    /// <summary>
+    /// Returns an XML representation of the current node's children.
+    /// </summary>
     function GetInnerXml: ustring;
+    /// <summary>
+    /// Returns an XML representation of the current node including its children.
+    /// </summary>
     function GetOuterXml: ustring;
+    /// <summary>
+    /// Returns the line number for the current node.
+    /// </summary>
     function GetLineNumber: Integer;
+    /// <summary>
+    /// Moves the cursor to the attribute at the specified 0-based index. Returns
+    /// true (1) if the cursor position was set successfully.
+    /// </summary>
     function MoveToAttributeByIndex(index: Integer): Boolean;
+    /// <summary>
+    /// Moves the cursor to the attribute with the specified qualified name.
+    /// Returns true (1) if the cursor position was set successfully.
+    /// </summary>
     function MoveToAttributeByQName(const qualifiedName: ustring): Boolean;
+    /// <summary>
+    /// Moves the cursor to the attribute with the specified local name and
+    /// namespace URI. Returns true (1) if the cursor position was set
+    /// successfully.
+    /// </summary>
     function MoveToAttributeByLName(const localName, namespaceURI: ustring): Boolean;
+    /// <summary>
+    /// Moves the cursor to the first attribute in the current element. Returns
+    /// true (1) if the cursor position was set successfully.
+    /// </summary>
     function MoveToFirstAttribute: Boolean;
+    /// <summary>
+    /// Moves the cursor to the next attribute in the current element. Returns
+    /// true (1) if the cursor position was set successfully.
+    /// </summary>
     function MoveToNextAttribute: Boolean;
+    /// <summary>
+    /// Moves the cursor back to the carrying element. Returns true (1) if the
+    /// cursor position was set successfully.
+    /// </summary>
     function MoveToCarryingElement: Boolean;
   end;
 
@@ -1666,17 +3635,60 @@ type
   /// </remarks>
   ICefZipReader = interface(ICefBaseRefCounted)
     ['{3B6C591F-9877-42B3-8892-AA7B27DA34A8}']
+    /// <summary>
+    /// Moves the cursor to the first file in the archive. Returns true (1) if the
+    /// cursor position was set successfully.
+    /// </summary>
     function MoveToFirstFile: Boolean;
+    /// <summary>
+    /// Moves the cursor to the next file in the archive. Returns true (1) if the
+    /// cursor position was set successfully.
+    /// </summary>
     function MoveToNextFile: Boolean;
+    /// <summary>
+    /// Moves the cursor to the specified file in the archive. If |caseSensitive|
+    /// is true (1) then the search will be case sensitive. Returns true (1) if
+    /// the cursor position was set successfully.
+    /// </summary>
     function MoveToFile(const fileName: ustring; caseSensitive: Boolean): Boolean;
+    /// <summary>
+    /// Closes the archive. This should be called directly to ensure that cleanup
+    /// occurs on the correct thread.
+    /// </summary>
     function Close: Boolean;
+    /// <summary>
+    /// Returns the name of the file.
+    /// </summary>
     function GetFileName: ustring;
+    /// <summary>
+    /// Returns the uncompressed size of the file.
+    /// </summary>
     function GetFileSize: Int64;
+    /// <summary>
+    /// Returns the last modified timestamp for the file.
+    /// </summary>
     function GetFileLastModified: TCefBaseTime;
+    /// <summary>
+    /// Opens the file for reading of uncompressed data. A read password may
+    /// optionally be specified.
+    /// </summary>
     function OpenFile(const password: ustring): Boolean;
+    /// <summary>
+    /// Closes the file.
+    /// </summary>
     function CloseFile: Boolean;
+    /// <summary>
+    /// Read uncompressed file contents into the specified buffer. Returns < 0 if
+    /// an error occurred, 0 if at the end of file, or the number of bytes read.
+    /// </summary>
     function ReadFile(buffer: Pointer; bufferSize: NativeUInt): Integer;
+    /// <summary>
+    /// Returns the current offset in the uncompressed file contents.
+    /// </summary>
     function Tell: Int64;
+    /// <summary>
+    /// Returns true (1) if at end of the file contents.
+    /// </summary>
     function Eof: Boolean;
   end;
 
@@ -1690,45 +3702,165 @@ type
   /// </remarks>
   ICefDomNode = interface(ICefBaseRefCounted)
     ['{96C03C9E-9C98-491A-8DAD-1947332232D6}']
+    /// <summary>
+    /// Returns the type for this node.
+    /// </summary>
     function  GetType: TCefDomNodeType;
+    /// <summary>
+    /// Returns true (1) if this is a text node.
+    /// </summary>
     function  IsText: Boolean;
+    /// <summary>
+    /// Returns true (1) if this is an element node.
+    /// </summary>
     function  IsElement: Boolean;
+    /// <summary>
+    /// Returns true (1) if this is an editable node.
+    /// </summary>
     function  IsEditable: Boolean;
+    /// <summary>
+    /// Returns true (1) if this is a form control element node.
+    /// </summary>
     function  IsFormControlElement: Boolean;
+    /// <summary>
+    /// Returns the type of this form control element node.
+    /// </summary>
     function  GetFormControlElementType: ustring;
+    /// <summary>
+    /// Returns true (1) if this object is pointing to the same handle as |that|
+    /// object.
+    /// </summary>
     function  IsSame(const that: ICefDomNode): Boolean;
+    /// <summary>
+    /// Returns the name of this node.
+    /// </summary>
     function  GetName: ustring;
+    /// <summary>
+    /// Returns the value of this node.
+    /// </summary>
     function  GetValue: ustring;
+    /// <summary>
+    /// Set the value of this node. Returns true (1) on success.
+    /// </summary>
     function  SetValue(const value: ustring): Boolean;
+    /// <summary>
+    /// Returns the contents of this node as markup.
+    /// </summary>
     function  GetAsMarkup: ustring;
+    /// <summary>
+    /// Returns the document associated with this node.
+    /// </summary>
     function  GetDocument: ICefDomDocument;
+    /// <summary>
+    /// Returns the parent node.
+    /// </summary>
     function  GetParent: ICefDomNode;
+    /// <summary>
+    /// Returns the previous sibling node.
+    /// </summary>
     function  GetPreviousSibling: ICefDomNode;
+    /// <summary>
+    /// Returns the next sibling node.
+    /// </summary>
     function  GetNextSibling: ICefDomNode;
+    /// <summary>
+    /// Returns true (1) if this node has child nodes.
+    /// </summary>
     function  HasChildren: Boolean;
+    /// <summary>
+    /// Return the first child node.
+    /// </summary>
     function  GetFirstChild: ICefDomNode;
+    /// <summary>
+    /// Returns the last child node.
+    /// </summary>
     function  GetLastChild: ICefDomNode;
+    /// <summary>
+    /// Returns the tag name of this element.
+    /// </summary>
     function  GetElementTagName: ustring;
+    /// <summary>
+    /// Returns true (1) if this element has attributes.
+    /// </summary>
     function  HasElementAttributes: Boolean;
+    /// <summary>
+    /// Returns true (1) if this element has an attribute named |attrName|.
+    /// </summary>
     function  HasElementAttribute(const attrName: ustring): Boolean;
+    /// <summary>
+    /// Returns the element attribute named |attrName|.
+    /// </summary>
     function  GetElementAttribute(const attrName: ustring): ustring;
+    /// <summary>
+    /// Returns a ICefStringMap of all element attributes.
+    /// </summary>
     procedure GetElementAttributes(const attrMap: ICefStringMap); overload;
+    /// <summary>
+    /// Returns a TStrings of all element attributes.
+    /// </summary>
     procedure GetElementAttributes(var attrList: TStrings); overload;
+    /// <summary>
+    /// Set the value for the element attribute named |attrName|. Returns true (1)
+    /// on success.
+    /// </summary>
     function  SetElementAttribute(const attrName, value: ustring): Boolean;
+    /// <summary>
+    /// Returns the inner text of the element.
+    /// </summary>
     function  GetElementInnerText: ustring;
+    /// <summary>
+    /// Returns the bounds of the element in device pixels. Use
+    /// "window.devicePixelRatio" to convert to/from CSS pixels.
+    /// </summary>
     function  GetElementBounds: TCefRect;
-
+    /// <summary>
+    /// Returns the type for this node.
+    /// </summary>
     property NodeType         : TCefDomNodeType read GetType;
+    /// <summary>
+    /// Returns the name of this node.
+    /// </summary>
     property Name             : ustring         read GetName;
+    /// <summary>
+    /// Returns the contents of this node as markup.
+    /// </summary>
     property AsMarkup         : ustring         read GetAsMarkup;
+    /// <summary>
+    /// Returns the document associated with this node.
+    /// </summary>
     property Document         : ICefDomDocument read GetDocument;
+    /// <summary>
+    /// Returns the parent node.
+    /// </summary>
     property Parent           : ICefDomNode     read GetParent;
+    /// <summary>
+    /// Returns the previous sibling node.
+    /// </summary>
     property PreviousSibling  : ICefDomNode     read GetPreviousSibling;
+    /// <summary>
+    /// Returns the next sibling node.
+    /// </summary>
     property NextSibling      : ICefDomNode     read GetNextSibling;
+    /// <summary>
+    /// Return the first child node.
+    /// </summary>
     property FirstChild       : ICefDomNode     read GetFirstChild;
+    /// <summary>
+    /// Returns the last child node.
+    /// </summary>
     property LastChild        : ICefDomNode     read GetLastChild;
+    /// <summary>
+    /// Returns the tag name of this element.
+    /// </summary>
     property ElementTagName   : ustring         read GetElementTagName;
+    /// <summary>
+    /// Returns the inner text of the element.
+    /// </summary>
     property ElementInnerText : ustring         read GetElementInnerText;
+    /// <summary>
+    /// Returns the bounds of the element in device pixels. Use
+    /// "window.devicePixelRatio" to convert to/from CSS pixels.
+    /// </summary>
     property ElementBounds    : TCefRect        read GetElementBounds;
   end;
 
@@ -1742,31 +3874,106 @@ type
   /// </remarks>
   ICefDomDocument = interface(ICefBaseRefCounted)
     ['{08E74052-45AF-4F69-A578-98A5C3959426}']
+    /// <summary>
+    /// Returns the document type.
+    /// </summary>
     function GetType: TCefDomDocumentType;
+    /// <summary>
+    /// Returns the root document node.
+    /// </summary>
     function GetDocument: ICefDomNode;
+    /// <summary>
+    /// Returns the BODY node of an HTML document.
+    /// </summary>
     function GetBody: ICefDomNode;
+    /// <summary>
+    /// Returns the HEAD node of an HTML document.
+    /// </summary>
     function GetHead: ICefDomNode;
+    /// <summary>
+    /// Returns the title of an HTML document.
+    /// </summary>
     function GetTitle: ustring;
+    /// <summary>
+    /// Returns the document element with the specified ID value.
+    /// </summary>
     function GetElementById(const id: ustring): ICefDomNode;
+    /// <summary>
+    /// Returns the node that currently has keyboard focus.
+    /// </summary>
     function GetFocusedNode: ICefDomNode;
+    /// <summary>
+    /// Returns true (1) if a portion of the document is selected.
+    /// </summary>
     function HasSelection: Boolean;
+    /// <summary>
+    /// Returns the selection offset within the start node.
+    /// </summary>
     function GetSelectionStartOffset: Integer;
+    /// <summary>
+    /// Returns the selection offset within the end node.
+    /// </summary>
     function GetSelectionEndOffset: Integer;
+    /// <summary>
+    /// Returns the contents of this selection as markup.
+    /// </summary>
     function GetSelectionAsMarkup: ustring;
+    /// <summary>
+    /// Returns the contents of this selection as text.
+    /// </summary>
     function GetSelectionAsText: ustring;
+    /// <summary>
+    /// Returns the base URL for the document.
+    /// </summary>
     function GetBaseUrl: ustring;
+    /// <summary>
+    /// Returns a complete URL based on the document base URL and the specified
+    /// partial URL.
+    /// </summary>
     function GetCompleteUrl(const partialURL: ustring): ustring;
-
+    /// <summary>
+    /// Returns the document type.
+    /// </summary>
     property DocType              : TCefDomDocumentType read GetType;
+    /// <summary>
+    /// Returns the root document node.
+    /// </summary>
     property Document             : ICefDomNode         read GetDocument;
+    /// <summary>
+    /// Returns the BODY node of an HTML document.
+    /// </summary>
     property Body                 : ICefDomNode         read GetBody;
+    /// <summary>
+    /// Returns the HEAD node of an HTML document.
+    /// </summary>
     property Head                 : ICefDomNode         read GetHead;
+    /// <summary>
+    /// Returns the title of an HTML document.
+    /// </summary>
     property Title                : ustring             read GetTitle;
+    /// <summary>
+    /// Returns the node that currently has keyboard focus.
+    /// </summary>
     property FocusedNode          : ICefDomNode         read GetFocusedNode;
+    /// <summary>
+    /// Returns the selection offset within the start node.
+    /// </summary>
     property SelectionStartOffset : Integer             read GetSelectionStartOffset;
+    /// <summary>
+    /// Returns the selection offset within the end node.
+    /// </summary>
     property SelectionEndOffset   : Integer             read GetSelectionEndOffset;
+    /// <summary>
+    /// Returns the contents of this selection as markup.
+    /// </summary>
     property SelectionAsMarkup    : ustring             read GetSelectionAsMarkup;
+    /// <summary>
+    /// Returns the contents of this selection as text.
+    /// </summary>
     property SelectionAsText      : ustring             read GetSelectionAsText;
+    /// <summary>
+    /// Returns the base URL for the document.
+    /// </summary>
     property BaseUrl              : ustring             read GetBaseUrl;
   end;
 
@@ -1780,6 +3987,13 @@ type
   /// </remarks>
   ICefDomVisitor = interface(ICefBaseRefCounted)
     ['{30398428-3196-4531-B968-2DDBED36F6B0}']
+    /// <summary>
+    /// Method executed for visiting the DOM. The document object passed to this
+    /// function represents a snapshot of the DOM at the time this function is
+    /// executed. DOM objects are only valid for the scope of this function. Do
+    /// not keep references to or attempt to access any DOM objects outside the
+    /// scope of this function.
+    /// </summary>
     procedure visit(const document: ICefDomDocument);
   end;
 
@@ -1793,6 +4007,13 @@ type
   /// </remarks>
   ICefCookieVisitor = interface(ICefBaseRefCounted)
     ['{8378CF1B-84AB-4FDB-9B86-34DDABCCC402}']
+    /// <summary>
+    /// Method that will be called once for each cookie. |count| is the 0-based
+    /// index for the current cookie. |total| is the total number of cookies. Set
+    /// |deleteCookie| to true (1) to delete the cookie currently being visited.
+    /// Return false (0) to stop visiting cookies. This function may never be
+    /// called if no cookies are found.
+    /// </summary>
     function visit(const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; out deleteCookie: Boolean): Boolean;
   end;
 
@@ -1813,28 +4034,107 @@ type
   /// </remarks>
   ICefCommandLine = interface(ICefBaseRefCounted)
     ['{6B43D21B-0F2C-4B94-B4E6-4AF0D7669D8E}']
+    /// <summary>
+    /// Returns true (1) if this object is valid. Do not call any other functions
+    /// if this function returns false (0).
+    /// </summary>
     function  IsValid: Boolean;
+    /// <summary>
+    /// Returns true (1) if the values of this object are read-only. Some APIs may
+    /// expose read-only objects.
+    /// </summary>
     function  IsReadOnly: Boolean;
+    /// <summary>
+    /// Returns a writable copy of this object.
+    /// </summary>
     function  Copy: ICefCommandLine;
+    /// <summary>
+    /// Initialize the command line with the specified |argc| and |argv| values.
+    /// The first argument must be the name of the program. This function is only
+    /// supported on non-Windows platforms.
+    /// </summary>
     procedure InitFromArgv(argc: Integer; const argv: PPAnsiChar);
+    /// <summary>
+    /// Initialize the command line with the string returned by calling
+    /// GetCommandLineW(). This function is only supported on Windows.
+    /// </summary>
     procedure InitFromString(const commandLine: ustring);
+    /// <summary>
+    /// Reset the command-line switches and arguments but leave the program
+    /// component unchanged.
+    /// </summary>
     procedure Reset;
+    /// <summary>
+    /// Constructs and returns the represented command line string. Use this
+    /// function cautiously because quoting behavior is unclear.
+    /// </summary>
     function  GetCommandLineString: ustring;
+    /// <summary>
+    /// Retrieve the original command line string as a vector of strings. The argv
+    /// array: `{ program, [(--|-|/)switch[=value]]*, [--], [argument]* }`
+    /// </summary>
     procedure GetArgv(var args: TStrings);
+    /// <summary>
+    /// Get the program part of the command line string (the first item).
+    /// </summary>
     function  GetProgram: ustring;
+    /// <summary>
+    /// Set the program part of the command line string (the first item).
+    /// </summary>
     procedure SetProgram(const prog: ustring);
+    /// <summary>
+    /// Returns true (1) if the command line has switches.
+    /// </summary>
     function  HasSwitches: Boolean;
+    /// <summary>
+    /// Returns true (1) if the command line contains the given switch.
+    /// </summary>
     function  HasSwitch(const name: ustring): Boolean;
+    /// <summary>
+    /// Returns the value associated with the given switch. If the switch has no
+    /// value or isn't present this function returns the NULL string.
+    /// </summary>
     function  GetSwitchValue(const name: ustring): ustring;
+    /// <summary>
+    /// Returns the map of switch names and values. If a switch has no value an
+    /// NULL string is returned.
+    /// </summary>
     function  GetSwitches(var switches: TStrings): boolean; overload;
+    /// <summary>
+    /// Returns the map of switch names and values. If a switch has no value an
+    /// NULL string is returned.
+    /// </summary>
     function  GetSwitches(var SwitchKeys, SwitchValues: TStringList): boolean; overload;
+    /// <summary>
+    /// Add a switch to the end of the command line.
+    /// </summary>
     procedure AppendSwitch(const name: ustring);
+    /// <summary>
+    /// Add a switch with the specified value to the end of the command line. If
+    /// the switch has no value pass an NULL value string.
+    /// </summary>
     procedure AppendSwitchWithValue(const name, value: ustring);
+    /// <summary>
+    /// True if there are remaining command line arguments.
+    /// </summary>
     function  HasArguments: Boolean;
+    /// <summary>
+    /// Get the remaining command line arguments.
+    /// </summary>
     procedure GetArguments(var arguments: TStrings);
+    /// <summary>
+    /// Add an argument to the end of the command line.
+    /// </summary>
     procedure AppendArgument(const argument: ustring);
+    /// <summary>
+    /// Insert a command before the current command. Common for debuggers, like
+    /// "valgrind" or "gdb --args".
+    /// </summary>
     procedure PrependWrapper(const wrapper: ustring);
-
+    /// <summary>
+    /// Constructs and returns the represented command line string. Use this
+    /// function cautiously because quoting behavior is unclear.
+    /// </summary>
     property  CommandLineString  : ustring   read GetCommandLineString;
   end;
 
@@ -1870,7 +4170,7 @@ type
     ///
     /// Method result dictionaries include an "id" (int) value that identifies the
     /// orginating function call sent from
-    /// cef_browser_host_t::SendDevToolsMessage, and optionally either a "result"
+    /// ICefBrowserHost.SendDevToolsMessage, and optionally either a "result"
     /// (dictionary) or "error" (dictionary) value. The "error" dictionary will
     /// contain "code" (int) and "message" (string) values. Event dictionaries
     /// include a "function" (string) value and optionally a "params" (dictionary)
@@ -1942,21 +4242,21 @@ type
     /// </summary>
     function  GetSource(const urn: ustring): ICefMediaSource;
     /// <summary>
-    /// Trigger an asynchronous call to cef_media_observer_t::OnSinks on all
+    /// Trigger an asynchronous call to ICefMediaObserver.OnSinks on all
     /// registered observers.
     /// </summary>
     procedure NotifyCurrentSinks;
     /// <summary>
     /// Create a new route between |source| and |sink|. Source and sink must be
-    /// valid, compatible (as reported by cef_media_sink_t::IsCompatibleWith), and
+    /// valid, compatible (as reported by ICefMediaSink.IsCompatibleWith), and
     /// a route between them must not already exist. |callback| will be executed
     /// on success or failure. If route creation succeeds it will also trigger an
-    /// asynchronous call to cef_media_observer_t::OnRoutes on all registered
+    /// asynchronous call to ICefMediaObserver.OnRoutes on all registered
     /// observers.
     /// </summary>
     procedure CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink; const callback: ICefMediaRouteCreateCallback);
     /// <summary>
-    /// Trigger an asynchronous call to cef_media_observer_t::OnRoutes on all
+    /// Trigger an asynchronous call to ICefMediaObserver.OnRoutes on all
     /// registered observers.
     /// </summary>
     procedure NotifyCurrentRoutes;
@@ -1975,12 +4275,12 @@ type
     ['{0B27C8D1-63E3-4F69-939F-DCAD518654A3}']
     /// <summary>
     /// The list of available media sinks has changed or
-    /// cef_media_router_t::NotifyCurrentSinks was called.
+    /// ICefMediaRouter.NotifyCurrentSinks was called.
     /// </summary>
     procedure OnSinks(const sinks: TCefMediaSinkArray);
     /// <summary>
     /// The list of available media routes has changed or
-    /// cef_media_router_t::NotifyCurrentRoutes was called.
+    /// ICefMediaRouter.NotifyCurrentRoutes was called.
     /// </summary>
     procedure OnRoutes(const routes: TCefMediaRouteArray);
     /// <summary>
@@ -1992,17 +4292,6 @@ type
     /// of this callback and should be copied if necessary.
     /// </summary>
     procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
-  end;
-
-  /// <summary>
-  /// Custom interface used to handle the ICefMediaObserver events in a component.
-  /// </summary>
-  ICefMediaObserverEvents = interface
-    ['{267D5287-08DB-49D6-AF6E-B27C66C6E5D4}']
-    procedure doOnSinks(const sinks: TCefMediaSinkArray);
-    procedure doOnRoutes(const routes: TCefMediaRouteArray);
-    procedure doOnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
-    procedure doOnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
   end;
 
   /// <summary>
@@ -2018,14 +4307,38 @@ type
   /// </remarks>
   ICefMediaRoute = interface(ICefBaseRefCounted)
     ['{D8959122-DD19-4933-B4D9-DF829062A0D3}']
+    /// <summary>
+    /// Returns the ID for this route.
+    /// </summary>
     function  GetId: ustring;
+    /// <summary>
+    /// Returns the source associated with this route.
+    /// </summary>
     function  GetSource: ICefMediaSource;
+    /// <summary>
+    /// Returns the sink associated with this route.
+    /// </summary>
     function  GetSink: ICefMediaSink;
+    /// <summary>
+    /// Send a message over this route. |message_| will be copied if necessary.
+    /// </summary>
     procedure SendRouteMessage(const message_: ustring);
+    /// <summary>
+    /// Terminate this route. Will result in an asynchronous call to
+    /// ICefMediaObserver.OnRoutes on all registered observers.
+    /// </summary>
     procedure Terminate;
-
+    /// <summary>
+    /// Returns the ID for this route.
+    /// </summary>
     property ID     : ustring         read GetId;
+    /// <summary>
+    /// Returns the source associated with this route.
+    /// </summary>
     property Source : ICefMediaSource read GetSource;
+    /// <summary>
+    /// Returns the sink associated with this route.
+    /// </summary>
     property Sink   : ICefMediaSink   read GetSink;
   end;
 
@@ -2403,6 +4716,9 @@ type
   /// </remarks>
   ICefCompletionCallback = interface(ICefBaseRefCounted)
     ['{A8ECCFBB-FEE0-446F-AB32-AD69A7478D57}']
+    /// <summary>
+    /// Method that will be called once the task is complete.
+    /// </summary>
     procedure OnComplete;
   end;
 
@@ -2416,6 +4732,10 @@ type
   /// </remarks>
   ICefSetCookieCallback = interface(ICefBaseRefCounted)
     ['{16E14B6F-CB0A-4F9D-A008-239E0BC7B892}']
+    /// <summary>
+    /// Method that will be called upon completion. |success| will be true (1) if
+    /// the cookie was set successfully.
+    /// </summary>
     procedure OnComplete(success: Boolean);
   end;
 
@@ -2429,6 +4749,10 @@ type
   /// </remarks>
   ICefDeleteCookiesCallback = interface(ICefBaseRefCounted)
     ['{758B79A1-B9E8-4F0D-94A0-DCE5AFADE33D}']
+    /// <summary>
+    /// Method that will be called upon completion. |num_deleted| will be the
+    /// number of cookies that were deleted.
+    /// </summary>
     procedure OnComplete(numDeleted: Integer);
   end;
 
@@ -2442,14 +4766,51 @@ type
   /// </remarks>
   ICefCookieManager = Interface(ICefBaseRefCounted)
     ['{CC1749E6-9AD3-4283-8430-AF6CBF3E8785}']
+    /// <summary>
+    /// Visit all cookies on the UI thread. The returned cookies are ordered by
+    /// longest path, then by earliest creation date. Returns false (0) if cookies
+    /// cannot be accessed.
+    /// </summary>
     function  VisitAllCookies(const visitor: ICefCookieVisitor): Boolean;
     function  VisitAllCookiesProc(const visitor: TCefCookieVisitorProc): Boolean;
+    /// <summary>
+    /// Visit a subset of cookies on the UI thread. The results are filtered by
+    /// the given url scheme, host, domain and path. If |includeHttpOnly| is true
+    /// (1) HTTP-only cookies will also be included in the results. The returned
+    /// cookies are ordered by longest path, then by earliest creation date.
+    /// Returns false (0) if cookies cannot be accessed.
+    /// </summary>
     function  VisitUrlCookies(const url: ustring; includeHttpOnly: Boolean; const visitor: ICefCookieVisitor): Boolean;
     function  VisitUrlCookiesProc(const url: ustring; includeHttpOnly: Boolean; const visitor: TCefCookieVisitorProc): Boolean;
+    /// <summary>
+    /// Sets a cookie given a valid URL and explicit user-provided cookie
+    /// attributes. This function expects each attribute to be well-formed. It
+    /// will check for disallowed characters (e.g. the ';' character is disallowed
+    /// within the cookie value attribute) and fail without setting the cookie if
+    /// such characters are found. If |callback| is non-NULL it will be executed
+    /// asnychronously on the UI thread after the cookie has been set. Returns
+    /// false (0) if an invalid URL is specified or if cookies cannot be accessed.
+    /// </summary>
     function  SetCookie(const url, name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : TCefCookieSameSite; priority : TCefCookiePriority; const callback: ICefSetCookieCallback): Boolean;
     function  SetCookieProc(const url: ustring; const name, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : TCefCookieSameSite; priority : TCefCookiePriority; const callback: TCefSetCookieCallbackProc): Boolean;
+    /// <summary>
+    /// Delete all cookies that match the specified parameters. If both |url| and
+    /// |cookie_name| values are specified all host and domain cookies matching
+    /// both will be deleted. If only |url| is specified all host cookies (but not
+    /// domain cookies) irrespective of path will be deleted. If |url| is NULL all
+    /// cookies for all hosts and domains will be deleted. If |callback| is non-
+    /// NULL it will be executed asnychronously on the UI thread after the cookies
+    /// have been deleted. Returns false (0) if a non-NULL invalid URL is
+    /// specified or if cookies cannot be accessed. Cookies can alternately be
+    /// deleted using the Visit*Cookies() functions.
+    /// </summary>
     function  DeleteCookies(const url, cookieName: ustring; const callback: ICefDeleteCookiesCallback): Boolean;
     function  DeleteCookiesProc(const url, cookieName: ustring; const callback: TCefDeleteCookiesCallbackProc): Boolean;
+    /// <summary>
+    /// Flush the backing store (if any) to disk. If |callback| is non-NULL it
+    /// will be executed asnychronously on the UI thread after the flush is
+    /// complete. Returns false (0) if cookies cannot be accessed.
+    /// </summary>
     function  FlushStore(const callback: ICefCompletionCallback): Boolean;
     function  FlushStoreProc(const proc: TCefCompletionCallbackProc): Boolean;
   end;
@@ -2463,7 +4824,13 @@ type
   /// </remarks>
   ICefCallback = interface(ICefBaseRefCounted)
     ['{1B8C449F-E2D6-4B78-9BBA-6F47E8BCDF37}']
-    procedure Cont;
+    /// <summary>
+    /// Continue processing.
+    /// </summary>
+      procedure Cont;
+    /// <summary>
+    /// Cancel processing.
+    /// </summary>
     procedure Cancel;
   end;
 
@@ -2618,7 +4985,13 @@ type
   /// </remarks>
   ICefAuthCallback = interface(ICefBaseRefCounted)
     ['{500C2023-BF4D-4FF7-9C04-165E5C389131}']
+    /// <summary>
+    /// Continue the authentication request.
+    /// </summary>
     procedure Cont(const username, password: ustring);
+    /// <summary>
+    /// Cancel the authentication request.
+    /// </summary>
     procedure Cancel;
   end;
 
@@ -2838,61 +5211,289 @@ type
   /// </remarks>
   ICefMenuModel = interface(ICefBaseRefCounted)
     ['{40AF19D3-8B4E-44B8-8F89-DEB5907FC495}']
+    /// <summary>
+    /// Returns true (1) if this menu is a submenu.
+    /// </summary>
     function IsSubMenu: Boolean;
+    /// <summary>
+    /// Clears the menu. Returns true (1) on success.
+    /// </summary>
     function Clear: Boolean;
+    /// <summary>
+    /// Returns the number of items in this menu.
+    /// </summary>
     function GetCount: NativeUInt;
+    /// <summary>
+    /// Add a separator to the menu. Returns true (1) on success.
+    /// </summary>
     function AddSeparator: Boolean;
+    /// <summary>
+    /// Add an item to the menu. Returns true (1) on success.
+    /// </summary>
     function AddItem(commandId: Integer; const text: ustring): Boolean;
+    /// <summary>
+    /// Add a check item to the menu. Returns true (1) on success.
+    /// </summary>
     function AddCheckItem(commandId: Integer; const text: ustring): Boolean;
+    /// <summary>
+    /// Add a radio item to the menu. Only a single item with the specified
+    /// |group_id| can be checked at a time. Returns true (1) on success.
+    /// </summary>
     function AddRadioItem(commandId: Integer; const text: ustring; groupId: Integer): Boolean;
+    /// <summary>
+    /// Add a sub-menu to the menu. The new sub-menu is returned.
+    /// </summary>
     function AddSubMenu(commandId: Integer; const text: ustring): ICefMenuModel;
+    /// <summary>
+    /// Insert a separator in the menu at the specified |index|. Returns true (1)
+    /// on success.
+    /// </summary>
     function InsertSeparatorAt(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Insert an item in the menu at the specified |index|. Returns true (1) on
+    /// success.
+    /// </summary>
     function InsertItemAt(index: NativeUInt; commandId: Integer; const text: ustring): Boolean;
+    /// <summary>
+    /// Insert a check item in the menu at the specified |index|. Returns true (1)
+    /// on success.
+    /// </summary>
     function InsertCheckItemAt(index: NativeUInt; commandId: Integer; const text: ustring): Boolean;
+    /// <summary>
+    /// Insert a radio item in the menu at the specified |index|. Only a single
+    /// item with the specified |group_id| can be checked at a time. Returns true
+    /// (1) on success.
+    /// </summary>
     function InsertRadioItemAt(index: NativeUInt; commandId: Integer; const text: ustring; groupId: Integer): Boolean;
+    /// <summary>
+    /// Insert a sub-menu in the menu at the specified |index|. The new sub-menu
+    /// is returned.
+    /// </summary>
     function InsertSubMenuAt(index: NativeUInt; commandId: Integer; const text: ustring): ICefMenuModel;
+    /// <summary>
+    /// Removes the item with the specified |command_id|. Returns true (1) on
+    /// success.
+    /// </summary>
     function Remove(commandId: Integer): Boolean;
+    /// <summary>
+    /// Removes the item at the specified |index|. Returns true (1) on success.
+    /// </summary>
     function RemoveAt(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Returns the index associated with the specified |command_id| or -1 if not
+    /// found due to the command id not existing in the menu.
+    /// </summary>
     function GetIndexOf(commandId: Integer): Integer;
+    /// <summary>
+    /// Returns the command id at the specified |index| or -1 if not found due to
+    /// invalid range or the index being a separator.
+    /// </summary>
     function GetCommandIdAt(index: NativeUInt): Integer;
+    /// <summary>
+    /// Sets the command id at the specified |index|. Returns true (1) on success.
+    /// </summary>
     function SetCommandIdAt(index: NativeUInt; commandId: Integer): Boolean;
+    /// <summary>
+    /// Returns the label for the specified |command_id| or NULL if not found.
+    /// </summary>
     function GetLabel(commandId: Integer): ustring;
+    /// <summary>
+    /// Returns the label at the specified |index| or NULL if not found due to
+    /// invalid range or the index being a separator.
+    /// </summary>
     function GetLabelAt(index: NativeUInt): ustring;
+    /// <summary>
+    /// Sets the label for the specified |command_id|. Returns true (1) on
+    /// success.
+    /// </summary>
     function SetLabel(commandId: Integer; const text: ustring): Boolean;
+    /// <summary>
+    /// Set the label at the specified |index|. Returns true (1) on success.
+    /// </summary>
     function SetLabelAt(index: NativeUInt; const text: ustring): Boolean;
+    /// <summary>
+    /// Returns the item type for the specified |command_id|.
+    /// </summary>
     function GetType(commandId: Integer): TCefMenuItemType;
+    /// <summary>
+    /// Returns the item type at the specified |index|.
+    /// </summary>
     function GetTypeAt(index: NativeUInt): TCefMenuItemType;
+    /// <summary>
+    /// Returns the group id for the specified |command_id| or -1 if invalid.
+    /// </summary>
     function GetGroupId(commandId: Integer): Integer;
+    /// <summary>
+    /// Returns the group id at the specified |index| or -1 if invalid.
+    /// </summary>
     function GetGroupIdAt(index: NativeUInt): Integer;
+    /// <summary>
+    /// Sets the group id for the specified |command_id|. Returns true (1) on
+    /// success.
+    /// </summary>
     function SetGroupId(commandId, groupId: Integer): Boolean;
+    /// <summary>
+    /// Sets the group id at the specified |index|. Returns true (1) on success.
+    /// </summary>
     function SetGroupIdAt(index: NativeUInt; groupId: Integer): Boolean;
+    /// <summary>
+    /// Returns the submenu for the specified |command_id| or NULL if invalid.
+    /// </summary>
     function GetSubMenu(commandId: Integer): ICefMenuModel;
+    /// <summary>
+    /// Returns the submenu at the specified |index| or NULL if invalid.
+    /// </summary>
     function GetSubMenuAt(index: NativeUInt): ICefMenuModel;
+    /// <summary>
+    /// Returns true (1) if the specified |command_id| is visible.
+    /// </summary>
     function IsVisible(commandId: Integer): Boolean;
+    /// <summary>
+    /// Returns true (1) if the specified |index| is visible.
+    /// </summary>
     function isVisibleAt(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Change the visibility of the specified |command_id|. Returns true (1) on
+    /// success.
+    /// </summary>
     function SetVisible(commandId: Integer; visible: Boolean): Boolean;
+    /// <summary>
+    /// Change the visibility at the specified |index|. Returns true (1) on
+    /// success.
+    /// </summary>
     function SetVisibleAt(index: NativeUInt; visible: Boolean): Boolean;
+    /// <summary>
+    /// Returns true (1) if the specified |command_id| is enabled.
+    /// </summary>
     function IsEnabled(commandId: Integer): Boolean;
+    /// <summary>
+    /// Returns true (1) if the specified |index| is enabled.
+    /// </summary>
     function IsEnabledAt(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Change the enabled status of the specified |command_id|. Returns true (1)
+    /// on success.
+    /// </summary>
     function SetEnabled(commandId: Integer; enabled: Boolean): Boolean;
+    /// <summary>
+    /// Change the enabled status at the specified |index|. Returns true (1) on
+    /// success.
+    /// </summary>
     function SetEnabledAt(index: NativeUInt; enabled: Boolean): Boolean;
+    /// <summary>
+    /// Returns true (1) if the specified |command_id| is checked. Only applies to
+    /// check and radio items.
+    /// </summary>
     function IsChecked(commandId: Integer): Boolean;
+    /// <summary>
+    /// Returns true (1) if the specified |index| is checked. Only applies to
+    /// check and radio items.
+    /// </summary>
     function IsCheckedAt(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Check the specified |command_id|. Only applies to check and radio items.
+    /// Returns true (1) on success.
+    /// </summary>
     function setChecked(commandId: Integer; checked: Boolean): Boolean;
+    /// <summary>
+    /// Check the specified |index|. Only applies to check and radio items.
+    /// Returns true (1) on success.
+    /// </summary>
     function setCheckedAt(index: NativeUInt; checked: Boolean): Boolean;
+    /// <summary>
+    /// Returns true (1) if the specified |command_id| has a keyboard accelerator
+    /// assigned.
+    /// </summary>
     function HasAccelerator(commandId: Integer): Boolean;
+    /// <summary>
+    /// Returns true (1) if the specified |index| has a keyboard accelerator
+    /// assigned.
+    /// </summary>
     function HasAcceleratorAt(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Set the keyboard accelerator for the specified |command_id|. |key_code|
+    /// can be any virtual key or character value. Returns true (1) on success.
+    /// </summary>
     function SetAccelerator(commandId, keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+    /// <summary>
+    /// Set the keyboard accelerator at the specified |index|. |key_code| can be
+    /// any virtual key or character value. Returns true (1) on success.
+    /// </summary>
     function SetAcceleratorAt(index: NativeUInt; keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+    /// <summary>
+    /// Remove the keyboard accelerator for the specified |command_id|. Returns
+    /// true (1) on success.
+    /// </summary>
     function RemoveAccelerator(commandId: Integer): Boolean;
+    /// <summary>
+    /// Remove the keyboard accelerator at the specified |index|. Returns true (1)
+    /// on success.
+    /// </summary>
     function RemoveAcceleratorAt(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Retrieves the keyboard accelerator for the specified |command_id|. Returns
+    /// true (1) on success.
+    /// </summary>
     function GetAccelerator(commandId: Integer; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+    /// <summary>
+    /// Retrieves the keyboard accelerator for the specified |index|. Returns true
+    /// (1) on success.
+    /// </summary>
     function GetAcceleratorAt(index: NativeUInt; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;
+    /// <summary>
+    /// Set the explicit color for |command_id| and |color_type| to |color|.
+    /// Specify a |color| value of 0 to remove the explicit color. If no explicit
+    /// color or default color is set for |color_type| then the system color will
+    /// be used. Returns true (1) on success.
+    /// </summary>
     function SetColor(commandId: Integer; colorType: TCefMenuColorType; color: TCefColor): Boolean;
+    /// <summary>
+    /// Set the explicit color for |command_id| and |index| to |color|. Specify a
+    /// |color| value of 0 to remove the explicit color. Specify an |index| value
+    /// of -1 to set the default color for items that do not have an explicit
+    /// color set. If no explicit color or default color is set for |color_type|
+    /// then the system color will be used. Returns true (1) on success.
+    /// </summary>
     function SetColorAt(index: Integer; colorType: TCefMenuColorType; color: TCefColor): Boolean;
+    /// <summary>
+    /// Returns in |color| the color that was explicitly set for |command_id| and
+    /// |color_type|. If a color was not set then 0 will be returned in |color|.
+    /// Returns true (1) on success.
+    /// </summary>
     function GetColor(commandId: Integer; colorType: TCefMenuColorType; out color: TCefColor): Boolean;
+    /// <summary>
+    /// Returns in |color| the color that was explicitly set for |command_id| and
+    /// |color_type|. Specify an |index| value of -1 to return the default color
+    /// in |color|. If a color was not set then 0 will be returned in |color|.
+    /// Returns true (1) on success.
+    /// </summary>
     function GetColorAt(index: Integer; colorType: TCefMenuColorType; out color: TCefColor): Boolean;
+    /// <summary>
+    /// Sets the font list for the specified |command_id|. If |font_list| is NULL
+    /// the system font will be used. Returns true (1) on success. The format is
+    /// "<FONT_FAMILY_LIST>,[STYLES] <SIZE>", where: - FONT_FAMILY_LIST is a
+    /// comma-separated list of font family names, - STYLES is an optional space-
+    /// separated list of style names
+    ///   (case-sensitive "Bold" and "Italic" are supported), and
+    /// - SIZE is an integer font size in pixels with the suffix "px".
+    ///
+    /// Here are examples of valid font description strings: - "Arial, Helvetica,
+    /// Bold Italic 14px" - "Arial, 14px"
+    /// </summary>
     function SetFontList(commandId: Integer; const fontList: ustring): Boolean;
+    /// <summary>
+    /// Sets the font list for the specified |index|. Specify an |index| value of
+    /// -1 to set the default font. If |font_list| is NULL the system font will be
+    /// used. Returns true (1) on success. The format is
+    /// "<FONT_FAMILY_LIST>,[STYLES] <SIZE>", where: - FONT_FAMILY_LIST is a
+    /// comma-separated list of font family names, - STYLES is an optional space-
+    /// separated list of style names
+    ///   (case-sensitive "Bold" and "Italic" are supported), and
+    /// - SIZE is an integer font size in pixels with the suffix "px".
+    ///
+    /// Here are examples of valid font description strings: - "Arial, Helvetica,
+    /// Bold Italic 14px" - "Arial, 14px"
+    /// </summary>
     function SetFontListAt(index: Integer; const fontList: ustring): Boolean;
   end;
 
@@ -2907,27 +5508,128 @@ type
   /// </remarks>
   ICefValue = interface(ICefBaseRefCounted)
     ['{66F9F439-B12B-4EC3-A945-91AE4EF4D4BA}']
+    /// <summary>
+    /// Returns true (1) if the underlying data is valid. This will always be true
+    /// (1) for simple types. For complex types (binary, dictionary and list) the
+    /// underlying data may become invalid if owned by another object (e.g. list
+    /// or dictionary) and that other object is then modified or destroyed. This
+    /// value object can be re-used by calling Set*() even if the underlying data
+    /// is invalid.
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns true (1) if the underlying data is owned by another object.
+    /// </summary>
     function IsOwned: Boolean;
+    /// <summary>
+    /// Returns true (1) if the underlying data is read-only. Some APIs may expose
+    /// read-only objects.
+    /// </summary>
     function IsReadOnly: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object and |that| object have the same underlying
+    /// data. If true (1) modifications to this object will also affect |that|
+    /// object and vice-versa.
+    /// </summary>
     function IsSame(const that: ICefValue): Boolean;
+    /// <summary>
+    /// Returns true (1) if this object and |that| object have an equivalent
+    /// underlying value but are not necessarily the same object.
+    /// </summary>
     function IsEqual(const that: ICefValue): Boolean;
+    /// <summary>
+    /// Returns a copy of this object. The underlying data will also be copied.
+    /// </summary>
     function Copy: ICefValue;
+    /// <summary>
+    /// Returns the underlying value type.
+    /// </summary>
     function GetType: TCefValueType;
+    /// <summary>
+    /// Returns the underlying value as type bool.
+    /// </summary>
     function GetBool: Boolean;
+    /// <summary>
+    /// Returns the underlying value as type int.
+    /// </summary>
     function GetInt: Integer;
+    /// <summary>
+    /// Returns the underlying value as type double.
+    /// </summary>
     function GetDouble: Double;
+    /// <summary>
+    /// Returns the underlying value as type string.
+    /// </summary>
     function GetString: ustring;
+    /// <summary>
+    /// Returns the underlying value as type binary. The returned reference may
+    /// become invalid if the value is owned by another object or if ownership is
+    /// transferred to another object in the future. To maintain a reference to
+    /// the value after assigning ownership to a dictionary or list pass this
+    /// object to the set_value() function instead of passing the returned
+    /// reference to set_binary().
+    /// </summary>
     function GetBinary: ICefBinaryValue;
+    /// <summary>
+    /// Returns the underlying value as type dictionary. The returned reference
+    /// may become invalid if the value is owned by another object or if ownership
+    /// is transferred to another object in the future. To maintain a reference to
+    /// the value after assigning ownership to a dictionary or list pass this
+    /// object to the set_value() function instead of passing the returned
+    /// reference to set_dictionary().
+    /// </summary>
     function GetDictionary: ICefDictionaryValue;
+    /// <summary>
+    /// Returns the underlying value as type list. The returned reference may
+    /// become invalid if the value is owned by another object or if ownership is
+    /// transferred to another object in the future. To maintain a reference to
+    /// the value after assigning ownership to a dictionary or list pass this
+    /// object to the set_value() function instead of passing the returned
+    /// reference to set_list().
+    /// </summary>
     function GetList: ICefListValue;
+    /// <summary>
+    /// Sets the underlying value as type null. Returns true (1) if the value was
+    /// set successfully.
+    /// </summary>
     function SetNull: Boolean;
+    /// <summary>
+    /// Sets the underlying value as type bool. Returns true (1) if the value was
+    /// set successfully.
+    /// </summary>
     function SetBool(value: boolean): Boolean;
+    /// <summary>
+    /// Sets the underlying value as type int. Returns true (1) if the value was
+    /// set successfully.
+    /// </summary>
     function SetInt(value: Integer): Boolean;
+    /// <summary>
+    /// Sets the underlying value as type double. Returns true (1) if the value
+    /// was set successfully.
+    /// </summary>
     function SetDouble(value: Double): Boolean;
+    /// <summary>
+    /// Sets the underlying value as type string. Returns true (1) if the value
+    /// was set successfully.
+    /// </summary>
     function SetString(const value: ustring): Boolean;
+    /// <summary>
+    /// Sets the underlying value as type binary. Returns true (1) if the value
+    /// was set successfully. This object keeps a reference to |value| and
+    /// ownership of the underlying data remains unchanged.
+    /// </summary>
     function SetBinary(const value: ICefBinaryValue): Boolean;
+    /// <summary>
+    /// Sets the underlying value as type dict. Returns true (1) if the value was
+    /// set successfully. This object keeps a reference to |value| and ownership
+    /// of the underlying data remains unchanged.
+    /// </summary>
     function SetDictionary(const value: ICefDictionaryValue): Boolean;
+    /// <summary>
+    /// Sets the underlying value as type list. Returns true (1) if the value was
+    /// set successfully. This object keeps a reference to |value| and ownership
+    /// of the underlying data remains unchanged.
+    /// </summary>
     function SetList(const value: ICefListValue): Boolean;
   end;
 
@@ -2941,14 +5643,44 @@ type
   /// </remarks>
   ICefBinaryValue = interface(ICefBaseRefCounted)
     ['{974AA40A-9C5C-4726-81F0-9F0D46D7C5B3}']
+    /// <summary>
+    /// Returns true (1) if this object is valid. This object may become invalid
+    /// if the underlying data is owned by another object (e.g. list or
+    /// dictionary) and that other object is then modified or destroyed. Do not
+    /// call any other functions if this function returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object is currently owned by another object.
+    /// </summary>
     function IsOwned: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object and |that| object have the same underlying
+    /// data.
+    /// </summary>
     function IsSame(const that: ICefBinaryValue): Boolean;
+    /// <summary>
+    /// Returns true (1) if this object and |that| object have an equivalent
+    /// underlying value but are not necessarily the same object.
+    /// </summary>
     function IsEqual(const that: ICefBinaryValue): Boolean;
+    /// <summary>
+    /// Returns a copy of this object. The data in this object will also be
+    /// copied.
+    /// </summary>
     function Copy: ICefBinaryValue;
+    /// <summary>
+    /// Returns the data size.
+    /// </summary>
     function GetSize: NativeUInt;
+    /// <summary>
+    /// Read up to |buffer_size| number of bytes into |buffer|. Reading begins at
+    /// the specified byte |data_offset|. Returns the number of bytes read.
+    /// </summary>
     function GetData(buffer: Pointer; bufferSize, dataOffset: NativeUInt): NativeUInt;
-
+    /// <summary>
+    /// Returns the data size.
+    /// </summary>
     property Size  : NativeUInt   read GetSize;
   end;
 
@@ -2962,34 +5694,161 @@ type
   /// </remarks>
   ICefDictionaryValue = interface(ICefBaseRefCounted)
     ['{B9638559-54DC-498C-8185-233EEF12BC69}']
+    /// <summary>
+    /// Returns true (1) if this object is valid. This object may become invalid
+    /// if the underlying data is owned by another object (e.g. list or
+    /// dictionary) and that other object is then modified or destroyed. Do not
+    /// call any other functions if this function returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object is currently owned by another object.
+    /// </summary>
     function isOwned: Boolean;
+    /// <summary>
+    /// Returns true (1) if the values of this object are read-only. Some APIs may
+    /// expose read-only objects.
+    /// </summary>
     function IsReadOnly: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object and |that| object have the same underlying
+    /// data. If true (1) modifications to this object will also affect |that|
+    /// object and vice-versa.
+    /// </summary>
     function IsSame(const that: ICefDictionaryValue): Boolean;
+    /// <summary>
+    /// Returns true (1) if this object and |that| object have an equivalent
+    /// underlying value but are not necessarily the same object.
+    /// </summary>
     function IsEqual(const that: ICefDictionaryValue): Boolean;
+    /// <summary>
+    /// Returns a writable copy of this object. If |exclude_NULL_children| is true
+    /// (1) any NULL dictionaries or lists will be excluded from the copy.
+    /// </summary>
     function Copy(excludeEmptyChildren: Boolean): ICefDictionaryValue;
+    /// <summary>
+    /// Returns the number of values.
+    /// </summary>
     function GetSize: NativeUInt;
+    /// <summary>
+    /// Removes all values. Returns true (1) on success.
+    /// </summary>
     function Clear: Boolean;
+    /// <summary>
+    /// Returns true (1) if the current dictionary has a value for the given key.
+    /// </summary>
     function HasKey(const key: ustring): Boolean;
+    /// <summary>
+    /// Reads all keys for this dictionary into the specified vector.
+    /// </summary>
     function GetKeys(const keys: TStrings): Boolean;
+    /// <summary>
+    /// Removes the value at the specified key. Returns true (1) is the value was
+    /// removed successfully.
+    /// </summary>
     function Remove(const key: ustring): Boolean;
+    /// <summary>
+    /// Returns the value type for the specified key.
+    /// </summary>
     function GetType(const key: ustring): TCefValueType;
+    /// <summary>
+    /// Returns the value at the specified key. For simple types the returned
+    /// value will copy existing data and modifications to the value will not
+    /// modify this object. For complex types (binary, dictionary and list) the
+    /// returned value will reference existing data and modifications to the value
+    /// will modify this object.
+    /// </summary>
     function GetValue(const key: ustring): ICefValue;
+    /// <summary>
+    /// Returns the value at the specified key as type bool.
+    /// </summary>
     function GetBool(const key: ustring): Boolean;
+    /// <summary>
+    /// Returns the value at the specified key as type int.
+    /// </summary>
     function GetInt(const key: ustring): Integer;
+    /// <summary>
+    /// Returns the value at the specified key as type double.
+    /// </summary>
     function GetDouble(const key: ustring): Double;
+    /// <summary>
+    /// Returns the value at the specified key as type string.
+    /// </summary>
     function GetString(const key: ustring): ustring;
+    /// <summary>
+    /// Returns the value at the specified key as type binary. The returned value
+    /// will reference existing data.
+    /// </summary>
     function GetBinary(const key: ustring): ICefBinaryValue;
+    /// <summary>
+    /// Returns the value at the specified key as type dictionary. The returned
+    /// value will reference existing data and modifications to the value will
+    /// modify this object.
+    /// </summary>
     function GetDictionary(const key: ustring): ICefDictionaryValue;
+    /// <summary>
+    /// Returns the value at the specified key as type list. The returned value
+    /// will reference existing data and modifications to the value will modify
+    /// this object.
+    /// </summary>
     function GetList(const key: ustring): ICefListValue;
+    /// <summary>
+    /// Sets the value at the specified key. Returns true (1) if the value was set
+    /// successfully. If |value| represents simple data then the underlying data
+    /// will be copied and modifications to |value| will not modify this object.
+    /// If |value| represents complex data (binary, dictionary or list) then the
+    /// underlying data will be referenced and modifications to |value| will
+    /// modify this object.
+    /// </summary>
     function SetValue(const key: ustring; const value: ICefValue): Boolean;
+    /// <summary>
+    /// Sets the value at the specified key as type null. Returns true (1) if the
+    /// value was set successfully.
+    /// </summary>
     function SetNull(const key: ustring): Boolean;
+    /// <summary>
+    /// Sets the value at the specified key as type bool. Returns true (1) if the
+    /// value was set successfully.
+    /// </summary>
     function SetBool(const key: ustring; value: Boolean): Boolean;
+    /// <summary>
+    /// Sets the value at the specified key as type int. Returns true (1) if the
+    /// value was set successfully.
+    /// </summary>
     function SetInt(const key: ustring; value: Integer): Boolean;
+    /// <summary>
+    /// Sets the value at the specified key as type double. Returns true (1) if
+    /// the value was set successfully.
+    /// </summary>
     function SetDouble(const key: ustring; value: Double): Boolean;
+    /// <summary>
+    /// Sets the value at the specified key as type string. Returns true (1) if
+    /// the value was set successfully.
+    /// </summary>
     function SetString(const key, value: ustring): Boolean;
+    /// <summary>
+    /// Sets the value at the specified key as type binary. Returns true (1) if
+    /// the value was set successfully. If |value| is currently owned by another
+    /// object then the value will be copied and the |value| reference will not
+    /// change. Otherwise, ownership will be transferred to this object and the
+    /// |value| reference will be invalidated.
+    /// </summary>
     function SetBinary(const key: ustring; const value: ICefBinaryValue): Boolean;
+    /// <summary>
+    /// Sets the value at the specified key as type dict. Returns true (1) if the
+    /// value was set successfully. If |value| is currently owned by another
+    /// object then the value will be copied and the |value| reference will not
+    /// change. Otherwise, ownership will be transferred to this object and the
+    /// |value| reference will be invalidated.
+    /// </summary>
     function SetDictionary(const key: ustring; const value: ICefDictionaryValue): Boolean;
+    /// <summary>
+    /// Sets the value at the specified key as type list. Returns true (1) if the
+    /// value was set successfully. If |value| is currently owned by another
+    /// object then the value will be copied and the |value| reference will not
+    /// change. Otherwise, ownership will be transferred to this object and the
+    /// |value| reference will be invalidated.
+    /// </summary>
     function SetList(const key: ustring; const value: ICefListValue): Boolean;
   end;
 
@@ -3002,33 +5861,156 @@ type
   /// </remarks>
   ICefListValue = interface(ICefBaseRefCounted)
     ['{09174B9D-0CC6-4360-BBB0-3CC0117F70F6}']
+    /// <summary>
+    /// Returns true (1) if this object is valid. This object may become invalid
+    /// if the underlying data is owned by another object (e.g. list or
+    /// dictionary) and that other object is then modified or destroyed. Do not
+    /// call any other functions if this function returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object is currently owned by another object.
+    /// </summary>
     function IsOwned: Boolean;
+    /// <summary>
+    /// Returns true (1) if the values of this object are read-only. Some APIs may
+    /// expose read-only objects.
+    /// </summary>
     function IsReadOnly: Boolean;
+    /// <summary>
+    /// Returns true (1) if this object and |that| object have the same underlying
+    /// data. If true (1) modifications to this object will also affect |that|
+    /// object and vice-versa.
+    /// </summary>
     function IsSame(const that: ICefListValue): Boolean;
+    /// <summary>
+    /// Returns true (1) if this object and |that| object have an equivalent
+    /// underlying value but are not necessarily the same object.
+    /// </summary>
     function IsEqual(const that: ICefListValue): Boolean;
+    /// <summary>
+    /// Returns a writable copy of this object.
+    /// </summary>
     function Copy: ICefListValue;
+    /// <summary>
+    /// Sets the number of values. If the number of values is expanded all new
+    /// value slots will default to type null. Returns true (1) on success.
+    /// </summary>
     function SetSize(size: NativeUInt): Boolean;
+    /// <summary>
+    /// Returns the number of values.
+    /// </summary>
     function GetSize: NativeUInt;
+    /// <summary>
+    /// Removes all values. Returns true (1) on success.
+    /// </summary>
     function Clear: Boolean;
+    /// <summary>
+    /// Removes the value at the specified index.
+    /// </summary>
     function Remove(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Returns the value type at the specified index.
+    /// </summary>
     function GetType(index: NativeUInt): TCefValueType;
+    /// <summary>
+    /// Returns the value at the specified index. For simple types the returned
+    /// value will copy existing data and modifications to the value will not
+    /// modify this object. For complex types (binary, dictionary and list) the
+    /// returned value will reference existing data and modifications to the value
+    /// will modify this object.
+    /// </summary>
     function GetValue(index: NativeUInt): ICefValue;
+    /// <summary>
+    /// Returns the value at the specified index as type bool.
+    /// </summary>
     function GetBool(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Returns the value at the specified index as type int.
+    /// </summary>
     function GetInt(index: NativeUInt): Integer;
+    /// <summary>
+    /// Returns the value at the specified index as type double.
+    /// </summary>
     function GetDouble(index: NativeUInt): Double;
+    /// <summary>
+    /// Returns the value at the specified index as type string.
+    /// </summary>
     function GetString(index: NativeUInt): ustring;
+    /// <summary>
+    /// Returns the value at the specified index as type binary. The returned
+    /// value will reference existing data.
+    /// </summary>
     function GetBinary(index: NativeUInt): ICefBinaryValue;
+    /// <summary>
+    /// Returns the value at the specified index as type dictionary. The returned
+    /// value will reference existing data and modifications to the value will
+    /// modify this object.
+    /// </summary>
     function GetDictionary(index: NativeUInt): ICefDictionaryValue;
+    /// <summary>
+    /// Returns the value at the specified index as type list. The returned value
+    /// will reference existing data and modifications to the value will modify
+    /// this object.
+    /// </summary>
     function GetList(index: NativeUInt): ICefListValue;
+    /// <summary>
+    /// Sets the value at the specified index. Returns true (1) if the value was
+    /// set successfully. If |value| represents simple data then the underlying
+    /// data will be copied and modifications to |value| will not modify this
+    /// object. If |value| represents complex data (binary, dictionary or list)
+    /// then the underlying data will be referenced and modifications to |value|
+    /// will modify this object.
+    /// </summary>
     function SetValue(index: NativeUInt; const value: ICefValue): Boolean;
+    /// <summary>
+    /// Sets the value at the specified index as type null. Returns true (1) if
+    /// the value was set successfully.
+    /// </summary>
     function SetNull(index: NativeUInt): Boolean;
+    /// <summary>
+    /// Sets the value at the specified index as type bool. Returns true (1) if
+    /// the value was set successfully.
+    /// </summary>
     function SetBool(index: NativeUInt; value: Boolean): Boolean;
+    /// <summary>
+    /// Sets the value at the specified index as type int. Returns true (1) if the
+    /// value was set successfully.
+    /// </summary>
     function SetInt(index: NativeUInt; value: Integer): Boolean;
+    /// <summary>
+    /// Sets the value at the specified index as type double. Returns true (1) if
+    /// the value was set successfully.
+    /// </summary>
     function SetDouble(index: NativeUInt; value: Double): Boolean;
+    /// <summary>
+    /// Sets the value at the specified index as type string. Returns true (1) if
+    /// the value was set successfully.
+    /// </summary>
     function SetString(index: NativeUInt; const value: ustring): Boolean;
+    /// <summary>
+    /// Sets the value at the specified index as type binary. Returns true (1) if
+    /// the value was set successfully. If |value| is currently owned by another
+    /// object then the value will be copied and the |value| reference will not
+    /// change. Otherwise, ownership will be transferred to this object and the
+    /// |value| reference will be invalidated.
+    /// </summary>
     function SetBinary(index: NativeUInt; const value: ICefBinaryValue): Boolean;
+    /// <summary>
+    /// Sets the value at the specified index as type dict. Returns true (1) if
+    /// the value was set successfully. If |value| is currently owned by another
+    /// object then the value will be copied and the |value| reference will not
+    /// change. Otherwise, ownership will be transferred to this object and the
+    /// |value| reference will be invalidated.
+    /// </summary>
     function SetDictionary(index: NativeUInt; const value: ICefDictionaryValue): Boolean;
+    /// <summary>
+    /// Sets the value at the specified index as type list. Returns true (1) if
+    /// the value was set successfully. If |value| is currently owned by another
+    /// object then the value will be copied and the |value| reference will not
+    /// change. Otherwise, ownership will be transferred to this object and the
+    /// |value| reference will be invalidated.
+    /// </summary>
     function SetList(index: NativeUInt; const value: ICefListValue): Boolean;
   end;
 
@@ -3061,61 +6043,61 @@ type
     /// value is set to false (0) the new browser will not be scriptable and may
     /// not be hosted in the same renderer process as the source browser. Any
     /// modifications to |windowInfo| will be ignored if the parent browser is
-    /// wrapped in a cef_browser_view_t. Popup browser creation will be canceled
+    /// wrapped in a ICefBrowserView. Popup browser creation will be canceled
     /// if the parent browser is destroyed before the popup browser creation
     /// completes (indicated by a call to OnAfterCreated for the popup browser).
     /// The |extra_info| parameter provides an opportunity to specify extra
     /// information specific to the created popup browser that will be passed to
-    /// cef_render_process_handler_t::on_browser_created() in the render process.
+    /// ICefRenderProcessHandler.OnBrowserCreated in the render process.
     /// </summary>
     function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean;
     /// <summary>
     /// Called after a new browser is created. It is now safe to begin performing
-    /// actions with |browser|. cef_frame_handler_t callbacks related to initial
+    /// actions with |browser|. ICefFrameHandler callbacks related to initial
     /// main frame creation will arrive before this callback. See
-    /// cef_frame_handler_t documentation for additional usage information.
+    /// ICefFrameHandler documentation for additional usage information.
     /// </summary>
     procedure OnAfterCreated(const browser: ICefBrowser);
     /// <summary>
     /// Called when a browser has recieved a request to close. This may result
-    /// directly from a call to cef_browser_host_t::*close_browser() or indirectly
+    /// directly from a call to ICefBrowserHost.*CloseBrowser or indirectly
     /// if the browser is parented to a top-level window created by CEF and the
     /// user attempts to close that window (by clicking the 'X', for example). The
-    /// do_close() function will be called after the JavaScript 'onunload' event
+    /// DoClose function will be called after the JavaScript 'onunload' event
     /// has been fired.
     ///
     /// An application should handle top-level owner window close notifications by
-    /// calling cef_browser_host_t::try_close_browser() or
-    /// cef_browser_host_t::CloseBrowser(false (0)) instead of allowing the window
+    /// calling ICefBrowserHost.TryCloseBrowser or
+    /// ICefBrowserHost.CloseBrowser(false) instead of allowing the window
     /// to close immediately (see the examples below). This gives CEF an
     /// opportunity to process the 'onbeforeunload' event and optionally cancel
-    /// the close before do_close() is called.
+    /// the close before DoClose is called.
     ///
     /// When windowed rendering is enabled CEF will internally create a window or
-    /// view to host the browser. In that case returning false (0) from do_close()
+    /// view to host the browser. In that case returning false (0) from DoClose()
     /// will send the standard close notification to the browser's top-level owner
     /// window (e.g. WM_CLOSE on Windows, performClose: on OS X, "delete_event" on
-    /// Linux or cef_window_delegate_t::can_close() callback from Views). If the
+    /// Linux or ICefWindowDelegate.CanClose callback from Views). If the
     /// browser's host window/view has already been destroyed (via view hierarchy
-    /// tear-down, for example) then do_close() will not be called for that
+    /// tear-down, for example) then DoClose() will not be called for that
     /// browser since is no longer possible to cancel the close.
     ///
-    /// When windowed rendering is disabled returning false (0) from do_close()
+    /// When windowed rendering is disabled returning false (0) from DoClose()
     /// will cause the browser object to be destroyed immediately.
     ///
     /// If the browser's top-level owner window requires a non-standard close
-    /// notification then send that notification from do_close() and return true
+    /// notification then send that notification from DoClose() and return true
     /// (1).
     ///
-    /// The cef_life_span_handler_t::on_before_close() function will be called
-    /// after do_close() (if do_close() is called) and immediately before the
+    /// The ICefLifeSpanHandler.OnBeforeClose function will be called
+    /// after DoClose() (if DoClose() is called) and immediately before the
     /// browser object is destroyed. The application should only exit after
-    /// on_before_close() has been called for all existing browsers.
+    /// OnBeforeClose() has been called for all existing browsers.
     ///
     /// The below examples describe what should happen during window close when
     /// the browser is parented to an application-provided top-level window.
     ///
-    /// Example 1: Using cef_browser_host_t::try_close_browser(). This is
+    /// Example 1: Using ICefBrowserHost.TryCloseBrowser(). This is
     /// recommended for clients using standard close handling and windows created
     /// on the browser process UI thread.
     /// 1.  User clicks the window close button which sends a close notification
@@ -3126,7 +6108,7 @@ type
     ///     close.
     /// 3.  JavaScript 'onbeforeunload' handler executes and shows the close
     ///     confirmation dialog (which can be overridden via
-    ///     CefJSDialogHandler::OnBeforeUnloadDialog()).
+    ///     ICefJSDialogHandler.OnBeforeUnloadDialog()).
     /// 4.  User approves the close.
     /// 5.  JavaScript 'onunload' handler executes.
     /// 6.  CEF sends a close notification to the application's top-level window
@@ -3135,31 +6117,31 @@ type
     ///     calls TryCloseBrowser(). TryCloseBrowser() returns true so the client
     ///     allows the window close.
     /// 8.  Application's top-level window is destroyed.
-    /// 9.  Application's on_before_close() handler is called and the browser object is destroyed.
+    /// 9.  Application's OnBeforeClose() handler is called and the browser object is destroyed.
     /// 10. Application exits by calling cef_quit_message_loop() if no other browsers exist.
     ///
-    /// Example 2: Using cef_browser_host_t::CloseBrowser(false (0)) and
-    /// implementing the do_close() callback. This is recommended for clients
+    /// Example 2: Using ICefBrowserHost::CloseBrowser(false) and
+    /// implementing the DoClose() callback. This is recommended for clients
     /// using non-standard close handling or windows that were not created on the
     /// browser process UI thread.
     /// 1.  User clicks the window close button which sends a close notification
     ///     to the application's top-level window.
     /// 2.  Application's top-level window receives the close notification and:
-    ///     A. Calls CefBrowserHost::CloseBrowser(false).
+    ///     A. Calls ICefBrowserHost.CloseBrowser(false).
     ///     B. Cancels the window close.
     /// 3.  JavaScript 'onbeforeunload' handler executes and shows the close
     ///     confirmation dialog (which can be overridden via
-    ///     CefJSDialogHandler::OnBeforeUnloadDialog()).
+    ///     ICefJSDialogHandler.OnBeforeUnloadDialog()).
     /// 4.  User approves the close.
     /// 5.  JavaScript 'onunload' handler executes.
-    /// 6.  Application's do_close() handler is called. Application will:
+    /// 6.  Application's DoClose() handler is called. Application will:
     ///     A. Set a flag to indicate that the next close attempt will be allowed.
     ///     B. Return false.
     /// 7.  CEF sends an close notification to the application's top-level window.
     /// 8.  Application's top-level window receives the close notification and
     ///     allows the window to close based on the flag from #6B.
     /// 9.  Application's top-level window is destroyed.
-    /// 10. Application's on_before_close() handler is called and the browser object is destroyed.
+    /// 10. Application's OnBeforeClose() handler is called and the browser object is destroyed.
     /// 11. Application exits by calling cef_quit_message_loop() if no other browsers exist.
     /// </summary>
     function  DoClose(const browser: ICefBrowser): Boolean;
@@ -3167,13 +6149,13 @@ type
     /// Called just before a browser is destroyed. Release all references to the
     /// browser object and do not attempt to execute any functions on the browser
     /// object (other than IsValid, GetIdentifier or IsSame) after this callback
-    /// returns. cef_frame_handler_t callbacks related to final main frame
-    /// destruction will arrive after this callback and cef_browser_t::IsValid
+    /// returns. ICefFrameHandler callbacks related to final main frame
+    /// destruction will arrive after this callback and ICefBrowser.IsValid
     /// will return false (0) at that time. Any in-progress network requests
     /// associated with |browser| will be aborted when the browser is destroyed,
-    /// and cef_resource_request_handler_t callbacks related to those requests may
-    /// still arrive on the IO thread after this callback. See cef_frame_handler_t
-    /// and do_close() documentation for additional usage information.
+    /// and ICefResourceRequestHandler callbacks related to those requests may
+    /// still arrive on the IO thread after this callback. See ICefFrameHandler
+    /// and DoClose() documentation for additional usage information.
     /// </summary>
     procedure OnBeforeClose(const browser: ICefBrowser);
     /// <summary>
@@ -3198,7 +6180,7 @@ type
     /// cef_command_ids.h file. |disposition| provides information about the
     /// intended command target. Return true (1) if the command was handled or
     /// false (0) for the default implementation. For context menu commands this
-    /// will be called after cef_context_menu_handler_t::OnContextMenuCommand.
+    /// will be called after ICefContextMenuHandler.OnContextMenuCommand.
     /// Only used with the Chrome runtime.
     /// </summary>
     function  OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
@@ -3267,17 +6249,17 @@ type
   ICefExtensionHandler = interface(ICefBaseRefCounted)
     ['{3234008F-D809-459D-963D-23BA50219648}']
     /// <summary>
-    /// Called if the cef_request_context_t::LoadExtension request fails. |result|
+    /// Called if the ICefRequestContext.LoadExtension request fails. |result|
     /// will be the error code.
     /// </summary>
     procedure OnExtensionLoadFailed(result: TCefErrorcode);
     /// <summary>
-    /// Called if the cef_request_context_t::LoadExtension request succeeds.
+    /// Called if the ICefRequestContext.LoadExtension request succeeds.
     /// |extension| is the loaded extension.
     /// </summary>
     procedure OnExtensionLoaded(const extension: ICefExtension);
     /// <summary>
-    /// Called after the cef_extension_t::Unload request has completed.
+    /// Called after the ICefExtension.Unload request has completed.
     /// </summary>
     procedure OnExtensionUnloaded(const extension: ICefExtension);
     /// <summary>
@@ -3290,8 +6272,8 @@ type
     /// optionally modify |client| and |settings| and return false (0). To cancel
     /// creation of the browser (and consequently cancel load of the background
     /// script) return true (1). Successful creation will be indicated by a call
-    /// to cef_life_span_handler_t::OnAfterCreated, and
-    /// cef_browser_host_t::IsBackgroundHost will return true (1) for the
+    /// to ICefLifeSpanHandler.OnAfterCreated, and
+    /// ICefBrowserHost.IsBackgroundHost will return true (1) for the
     /// resulting browser. See https://developer.chrome.com/extensions/event_pages
     /// for more information about extension background script usage.
     /// </summary>
@@ -3308,8 +6290,8 @@ type
     /// browser optionally modify |windowInfo|, |client| and |settings| and return
     /// false (0). To cancel creation of the browser return true (1). Successful
     /// creation will be indicated by a call to
-    /// cef_life_span_handler_t::OnAfterCreated. Any modifications to |windowInfo|
-    /// will be ignored if |active_browser| is wrapped in a cef_browser_view_t.
+    /// ICefLifeSpanHandler.OnAfterCreated. Any modifications to |windowInfo|
+    /// will be ignored if |active_browser| is wrapped in a ICefBrowserView.
     /// </summary>
     function  OnBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
     /// <summary>
@@ -3317,7 +6299,7 @@ type
     /// tabId parameter (e.g. chrome.tabs.*). |extension| and |browser| are the
     /// source of the API call. Return the browser that will be acted on by the
     /// API call or return NULL to act on |browser|. The returned browser must
-    /// share the same cef_request_context_t as |browser|. Incognito browsers
+    /// share the same ICefRequestContext as |browser|. Incognito browsers
     /// should not be considered unless the source extension has incognito access
     /// enabled, in which case |include_incognito| will be true (1).
     /// </summary>
@@ -3359,13 +6341,52 @@ type
   /// </remarks>
   ICefExtension = interface(ICefBaseRefCounted)
     ['{D30D1C64-A26F-49C0-AEB7-C55EC68951CA}']
+    /// <summary>
+    /// Returns the unique extension identifier. This is calculated based on the
+    /// extension public key, if available, or on the extension path. See
+    /// https://developer.chrome.com/extensions/manifest/key for details.
+    /// </summary>
     function  GetIdentifier : ustring;
+    /// <summary>
+    /// Returns the absolute path to the extension directory on disk. This value
+    /// will be prefixed with PK_DIR_RESOURCES if a relative path was passed to
+    /// cef_request_context_t::LoadExtension.
+    /// </summary>
     function  GetPath : ustring;
+    /// <summary>
+    /// Returns the extension manifest contents as a cef_dictionary_value_t
+    /// object. See https://developer.chrome.com/extensions/manifest for details.
+    /// </summary>
     function  GetManifest : ICefDictionaryValue;
+    /// <summary>
+    /// Returns true (1) if this object is the same extension as |that| object.
+    /// Extensions are considered the same if identifier, path and loader context
+    /// match.
+    /// </summary>
     function  IsSame(const that : ICefExtension) : boolean;
+    /// <summary>
+    /// Returns the handler for this extension. Will return NULL for internal
+    /// extensions or if no handler was passed to
+    /// cef_request_context_t::LoadExtension.
+    /// </summary>
     function  GetHandler : ICefExtensionHandler;
+    /// <summary>
+    /// Returns the request context that loaded this extension. Will return NULL
+    /// for internal extensions or if the extension has been unloaded. See the
+    /// cef_request_context_t::LoadExtension documentation for more information
+    /// about loader contexts. Must be called on the browser process UI thread.
+    /// </summary>
     function  GetLoaderContext : ICefRequestContext;
+    /// <summary>
+    /// Returns true (1) if this extension is currently loaded. Must be called on
+    /// the browser process UI thread.
+    /// </summary>
     function  IsLoaded : boolean;
+    /// <summary>
+    /// Unload this extension if it is not an internal extension and is currently
+    /// loaded. Will result in a call to
+    /// cef_extension_handler_t::OnExtensionUnloaded on success.
+    /// </summary>
     procedure unload;
     function  GetBrowserActionPopup : ustring;
     function  GetBrowserActionIcon : ustring;
@@ -3375,11 +6396,35 @@ type
     function  GetOptionsUIPage : ustring;
     function  GetBackgroundPage : ustring;
     function  GetURL : ustring;
-
+    /// <summary>
+    /// Returns the unique extension identifier. This is calculated based on the
+    /// extension public key, if available, or on the extension path. See
+    /// https://developer.chrome.com/extensions/manifest/key for details.
+    /// </summary>
     property  Identifier          : ustring               read GetIdentifier;
+    /// <summary>
+    /// Returns the absolute path to the extension directory on disk. This value
+    /// will be prefixed with PK_DIR_RESOURCES if a relative path was passed to
+    /// cef_request_context_t::LoadExtension.
+    /// </summary>
     property  Path                : ustring               read GetPath;
+    /// <summary>
+    /// Returns the extension manifest contents as a cef_dictionary_value_t
+    /// object. See https://developer.chrome.com/extensions/manifest for details.
+    /// </summary>
     property  Manifest            : ICefDictionaryValue   read GetManifest;
+    /// <summary>
+    /// Returns the handler for this extension. Will return NULL for internal
+    /// extensions or if no handler was passed to
+    /// cef_request_context_t::LoadExtension.
+    /// </summary>
     property  Handler             : ICefExtensionHandler  read GetHandler;
+    /// <summary>
+    /// Returns the request context that loaded this extension. Will return NULL
+    /// for internal extensions or if the extension has been unloaded. See the
+    /// cef_request_context_t::LoadExtension documentation for more information
+    /// about loader contexts. Must be called on the browser process UI thread.
+    /// </summary>
     property  LoaderContext       : ICefRequestContext    read GetLoaderContext;
     property  BrowserActionPopup  : ustring               read GetBrowserActionPopup;
     property  BrowserActionIcon   : ustring               read GetBrowserActionIcon;
@@ -3476,10 +6521,10 @@ type
     /// Called on the UI thread before browser navigation. Return true (1) to
     /// cancel the navigation or false (0) to allow the navigation to proceed. The
     /// |request| object cannot be modified in this callback.
-    /// cef_load_handler_t::OnLoadingStateChange will be called twice in all
-    /// cases. If the navigation is allowed cef_load_handler_t::OnLoadStart and
-    /// cef_load_handler_t::OnLoadEnd will be called. If the navigation is
-    /// canceled cef_load_handler_t::OnLoadError will be called with an
+    /// ICefLoadHandler.OnLoadingStateChange will be called twice in all
+    /// cases. If the navigation is allowed ICefLoadHandler.OnLoadStart and
+    /// ICefLoadHandler.OnLoadEnd will be called. If the navigation is
+    /// canceled ICefLoadHandler.OnLoadError will be called with an
     /// |errorCode| value of ERR_ABORTED. The |user_gesture| value will be true
     /// (1) if the browser navigated via explicit user gesture (e.g. clicking a
     /// link) or false (0) if it navigated automatically (e.g. via the
@@ -3512,12 +6557,12 @@ type
     /// a download. |request_initiator| is the origin (scheme + domain) of the
     /// page that initiated the request. Set |disable_default_handling| to true
     /// (1) to disable default handling of the request, in which case it will need
-    /// to be handled via cef_resource_request_handler_t::GetResourceHandler or it
+    /// to be handled via ICefResourceRequestHandler.GetResourceHandler or it
     /// will be canceled. To allow the resource load to proceed with default
     /// handling return NULL. To specify a handler for the resource return a
-    /// cef_resource_request_handler_t object. If this callback returns NULL the
+    /// ICefResourceRequestHandler object. If this callback returns NULL the
     /// same function will be called on the associated
-    /// cef_request_context_handler_t, if any.
+    /// ICefRequestContextHandler, if any.
     /// </summary>
     procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
     /// <summary>
@@ -3528,17 +6573,17 @@ type
     /// and may be NULL. |scheme| is the authentication scheme used, such as
     /// "basic" or "digest", and will be NULL if the source of the request is an
     /// FTP server. Return true (1) to continue the request and call
-    /// cef_auth_callback_t::cont() either in this function or at a later time
+    /// ICefAuthCallback.cont() either in this function or at a later time
     /// when the authentication information is available. Return false (0) to
     /// cancel the request immediately.
     /// </summary>
     function  GetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean;
     /// <summary>
     /// Called on the UI thread to handle requests for URLs with an invalid SSL
-    /// certificate. Return true (1) and call cef_callback_t functions either in
+    /// certificate. Return true (1) and call ICefCallback functions either in
     /// this function or at a later time to continue or cancel the request. Return
     /// false (0) to cancel the request immediately. If
-    /// cef_settings_t.ignore_certificate_errors is set all invalid certificates
+    /// TCefSettings.ignore_certificate_errors is set all invalid certificates
     /// will be accepted without calling this function.
     /// </summary>
     function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean;
@@ -3546,7 +6591,7 @@ type
     /// Called on the UI thread when a client certificate is being requested for
     /// authentication. Return false (0) to use the default behavior and
     /// automatically select the first certificate available. Return true (1) and
-    /// call cef_select_client_certificate_callback_t::Select either in this
+    /// call ICefSelectClientCertificateCallback.Select either in this
     /// function or at a later time to select a certificate. Do not call Select or
     /// call it with NULL to continue without using any certificate. |isProxy|
     /// indicates whether the host is an HTTPS proxy or the origin server. |host|
@@ -3592,20 +6637,20 @@ type
     /// <summary>
     /// Called on the IO thread before a resource request is loaded. The |browser|
     /// and |frame| values represent the source of the request, and may be NULL
-    /// for requests originating from service workers or cef_urlrequest_t. To
+    /// for requests originating from service workers or ICefUrlRequest. To
     /// optionally filter cookies for the request return a
-    /// cef_cookie_access_filter_t object. The |request| object cannot not be
+    /// ICefCookieAccessFilter object. The |request| object cannot not be
     /// modified in this callback.
     /// </summary>
     procedure GetCookieAccessFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aFilter: ICefCookieAccessFilter);
     /// <summary>
     /// Called on the IO thread before a resource request is loaded. The |browser|
     /// and |frame| values represent the source of the request, and may be NULL
-    /// for requests originating from service workers or cef_urlrequest_t. To
+    /// for requests originating from service workers or ICefUrlRequest. To
     /// redirect or change the resource load optionally modify |request|.
     /// Modification of the request URL will be treated as a redirect. Return
     /// RV_CONTINUE to continue the request immediately. Return RV_CONTINUE_ASYNC
-    /// and call cef_callback_t functions at a later time to continue or cancel
+    /// and call ICefCallback functions at a later time to continue or cancel
     /// the request asynchronously. Return RV_CANCEL to cancel the request
     /// immediately.
     /// </summary>
@@ -3613,16 +6658,16 @@ type
     /// <summary>
     /// Called on the IO thread before a resource is loaded. The |browser| and
     /// |frame| values represent the source of the request, and may be NULL for
-    /// requests originating from service workers or cef_urlrequest_t. To allow
+    /// requests originating from service workers or ICefUrlRequest. To allow
     /// the resource to load using the default network loader return NULL. To
-    /// specify a handler for the resource return a cef_resource_handler_t object.
+    /// specify a handler for the resource return a ICefResourceHandler object.
     /// The |request| object cannot not be modified in this callback.
     /// </summary>
     procedure GetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler : ICefResourceHandler);
     /// <summary>
     /// Called on the IO thread when a resource load is redirected. The |browser|
     /// and |frame| values represent the source of the request, and may be NULL
-    /// for requests originating from service workers or cef_urlrequest_t. The
+    /// for requests originating from service workers or ICefUrlRequest. The
     /// |request| parameter will contain the old URL and other request-related
     /// information. The |response| parameter will contain the response that
     /// resulted in the redirect. The |new_url| parameter will contain the new URL
@@ -3633,7 +6678,7 @@ type
     /// <summary>
     /// Called on the IO thread when a resource response is received. The
     /// |browser| and |frame| values represent the source of the request, and may
-    /// be NULL for requests originating from service workers or cef_urlrequest_t.
+    /// be NULL for requests originating from service workers or ICefUrlRequest.
     /// To allow the resource load to proceed without modification return false
     /// (0). To redirect or retry the resource load optionally modify |request|
     /// and return true (1). Modification of the request URL will be treated as a
@@ -3649,22 +6694,22 @@ type
     /// Called on the IO thread to optionally filter resource response content.
     /// The |browser| and |frame| values represent the source of the request, and
     /// may be NULL for requests originating from service workers or
-    /// cef_urlrequest_t. |request| and |response| represent the request and
+    /// ICefUrlRequest. |request| and |response| represent the request and
     /// response respectively and cannot be modified in this callback.
     /// </summary>
     procedure GetResourceResponseFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var aResourceFilter: ICefResponseFilter);
     /// <summary>
     /// Called on the IO thread when a resource load has completed. The |browser|
     /// and |frame| values represent the source of the request, and may be NULL
-    /// for requests originating from service workers or cef_urlrequest_t.
+    /// for requests originating from service workers or ICefUrlRequest.
     /// |request| and |response| represent the request and response respectively
     /// and cannot be modified in this callback. |status| indicates the load
     /// completion status. |received_content_length| is the number of response
     /// bytes actually read. This function will be called for all requests,
     /// including requests that are aborted due to CEF shutdown or destruction of
     /// the associated browser. In cases where the associated browser is destroyed
-    /// this callback may arrive after the cef_life_span_handler_t::OnBeforeClose
-    /// callback for that browser. The cef_frame_t::IsValid function can be used
+    /// this callback may arrive after the ICefLifeSpanHandler.OnBeforeClose
+    /// callback for that browser. The ICefFrame.IsValid function can be used
     /// to test for this situation, and care should be taken not to call |browser|
     /// or |frame| functions that modify state (like LoadURL, SendProcessMessage,
     /// etc.) if the frame is invalid.
@@ -3674,7 +6719,7 @@ type
     /// Called on the IO thread to handle requests for URLs with an unknown
     /// protocol component. The |browser| and |frame| values represent the source
     /// of the request, and may be NULL for requests originating from service
-    /// workers or cef_urlrequest_t. |request| cannot be modified in this
+    /// workers or ICefUrlRequest. |request| cannot be modified in this
     /// callback. Set |allow_os_execution| to true (1) to attempt execution via
     /// the registered OS protocol handler, if any. SECURITY WARNING: YOU SHOULD
     /// USE THIS METHOD TO ENFORCE RESTRICTIONS BASED ON SCHEME, HOST OR OTHER URL
@@ -3698,7 +6743,22 @@ type
   /// </remarks>
   ICefCookieAccessFilter = interface(ICefBaseRefCounted)
     ['{65ECD862-F55F-46E4-8AC3-2AE90DCC86F5}']
+    /// <summary>
+    /// Called on the IO thread before a resource request is sent. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or ICefUrlRequest.
+    /// |request| cannot be modified in this callback. Return true (1) if the
+    /// specified cookie can be sent with the request or false (0) otherwise.
+    /// </summary>
     function CanSendCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie): boolean;
+    /// <summary>
+    /// Called on the IO thread after a resource response is received. The
+    /// |browser| and |frame| values represent the source of the request, and may
+    /// be NULL for requests originating from service workers or ICefUrlRequest.
+    /// |request| cannot be modified in this callback. Return true (1) if the
+    /// specified cookie returned with the response can be saved or false (0)
+    /// otherwise.
+    /// </summary>
     function CanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -4178,13 +7238,13 @@ type
     /// <summary>
     /// Called when an element should be painted. Pixel values passed to this
     /// function are scaled relative to view coordinates based on the value of
-    /// CefScreenInfo.device_scale_factor returned from GetScreenInfo. |type|
+    /// TCefScreenInfo.device_scale_factor returned from GetScreenInfo. |type|
     /// indicates whether the element is the view or the popup widget. |buffer|
     /// contains the pixel data for the whole image. |dirtyRects| contains the set
     /// of rectangles in pixel coordinates that need to be repainted. |buffer|
     /// will be |width|*|height|*4 bytes in size and represents a BGRA image with
     /// an upper-left origin. This function is only called when
-    /// cef_window_tInfo::shared_texture_enabled is set to false (0).
+    /// TCefWindowInfo.shared_texture_enabled is set to false (0).
     /// </summary>
     procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
     /// <summary>
@@ -4193,7 +7253,7 @@ type
     /// |dirtyRects| contains the set of rectangles in pixel coordinates that need
     /// to be repainted. |shared_handle| is the handle for a D3D11 Texture2D that
     /// can be accessed via ID3D11Device using the OpenSharedResource function.
-    /// This function is only called when cef_window_tInfo::shared_texture_enabled
+    /// This function is only called when TCefWindowInfo.shared_texture_enabled
     /// is set to true (1), and is currently only supported on Windows.
     /// </summary>
     procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer);
@@ -4214,10 +7274,10 @@ type
     /// system message loop may be used within the StartDragging call.
     ///
     /// Return false (0) to abort the drag operation. Don't call any of
-    /// cef_browser_host_t::DragSource*Ended* functions after returning false (0).
+    /// ICefBrowserHost.DragSource*Ended* functions after returning false (0).
     ///
     /// Return true (1) to handle the drag operation. Call
-    /// cef_browser_host_t::DragSourceEndedAt and DragSourceSystemDragEnded either
+    /// ICefBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either
     /// synchronously or asynchronously to inform the web view that the drag
     /// operation has ended.
     /// </summary>
@@ -4371,17 +7431,66 @@ type
   /// </remarks>
   ICefUrlRequest = interface(ICefBaseRefCounted)
     ['{59226AC1-A0FA-4D59-9DF4-A65C42391A67}']
+    /// <summary>
+    /// Returns the request object used to create this URL request. The returned
+    /// object is read-only and should not be modified.
+    /// </summary>
     function  GetRequest: ICefRequest;
+    /// <summary>
+    /// Returns the client.
+    /// </summary>
+    function  GetClient: ICefUrlrequestClient;
+    /// <summary>
+    /// Returns the request status.
+    /// </summary>
     function  GetRequestStatus: TCefUrlRequestStatus;
+    /// <summary>
+    /// Returns the request error if status is UR_CANCELED or UR_FAILED, or 0
+    /// otherwise.
+    /// </summary>
     function  GetRequestError: Integer;
+    /// <summary>
+    /// Returns the response, or NULL if no response information is available.
+    /// Response information will only be available after the upload has
+    /// completed. The returned object is read-only and should not be modified.
+    /// </summary>
     function  GetResponse: ICefResponse;
+    /// <summary>
+    /// Returns true (1) if the response body was served from the cache. This
+    /// includes responses for which revalidation was required.
+    /// </summary>
     function  GetResponseWasCached: boolean;
+    /// <summary>
+    /// Cancel the request.
+    /// </summary>
     procedure Cancel;
-
+    /// <summary>
+    /// Returns the request object used to create this URL request. The returned
+    /// object is read-only and should not be modified.
+    /// </summary>
     property Request           : ICefRequest           read GetRequest;
+    /// <summary>
+    /// Returns the client.
+    /// </summary>
+    property Client            : ICefUrlrequestClient  read Getclient;
+    /// <summary>
+    /// Returns the request status.
+    /// </summary>
     property RequestStatus     : TCefUrlRequestStatus  read GetRequestStatus;
+    /// <summary>
+    /// Returns the request error if status is UR_CANCELED or UR_FAILED, or 0
+    /// otherwise.
+    /// </summary>
     property RequestError      : Integer               read GetRequestError;
+    /// <summary>
+    /// Returns true (1) if the response body was served from the cache. This
+    /// includes responses for which revalidation was required.
+    /// </summary>
     property Response          : ICefResponse          read GetResponse;
+    /// <summary>
+    /// Returns true (1) if the response body was served from the cache. This
+    /// includes responses for which revalidation was required.
+    /// </summary>
     property ResponseWasCached : boolean               read GetResponseWasCached;
   end;
 
@@ -4396,10 +7505,43 @@ type
   /// </remarks>
   ICefUrlrequestClient = interface(ICefBaseRefCounted)
     ['{114155BD-C248-4651-9A4F-26F3F9A4F737}']
+    /// <summary>
+    /// Notifies the client that the request has completed. Use the
+    /// ICefUrlRequest.GetRequestStatus function to determine if the request
+    /// was successful or not.
+    /// </summary>
     procedure OnRequestComplete(const request: ICefUrlRequest);
+    /// <summary>
+    /// Notifies the client of upload progress. |current| denotes the number of
+    /// bytes sent so far and |total| is the total size of uploading data (or -1
+    /// if chunked upload is enabled). This function will only be called if the
+    /// UR_FLAG_REPORT_UPLOAD_PROGRESS flag is set on the request.
+    /// </summary>
     procedure OnUploadProgress(const request: ICefUrlRequest; current, total: Int64);
+    /// <summary>
+    /// Notifies the client of download progress. |current| denotes the number of
+    /// bytes received up to the call and |total| is the expected total size of
+    /// the response (or -1 if not determined).
+    /// </summary>
     procedure OnDownloadProgress(const request: ICefUrlRequest; current, total: Int64);
+    /// <summary>
+    /// Called when some part of the response is read. |data| contains the current
+    /// bytes received since the last call. This function will not be called if
+    /// the UR_FLAG_NO_DOWNLOAD_DATA flag is set on the request.
+    /// </summary>
     procedure OnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt);
+    /// <summary>
+    /// Called on the IO thread when the browser needs credentials from the user.
+    /// |isProxy| indicates whether the host is a proxy server. |host| contains
+    /// the hostname and |port| contains the port number. Return true (1) to
+    /// continue the request and call ICefAuthCallback.cont() when the
+    /// authentication information is available. If the request has an associated
+    /// browser/frame then returning false (0) will result in a call to
+    /// GetAuthCredentials on the ICefRequestHandler associated with that
+    /// browser, if any. Otherwise, returning false (0) will cancel the request
+    /// immediately. This function will only be called for requests initiated from
+    /// the browser process.
+    /// </summary>
     function  OnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
@@ -4418,6 +7560,11 @@ type
   /// </remarks>
   ICefEndTracingCallback = interface(ICefBaseRefCounted)
     ['{79020EBE-9D1D-49A6-9714-8778FE8929F2}']
+    /// <summary>
+    /// Called after all processes have sent their trace data. |tracing_file| is
+    /// the path at which tracing data was written. The client is responsible for
+    /// deleting |tracing_file|.
+    /// </summary>
     procedure OnEndTracingComplete(const tracingFile: ustring);
   end;
 
@@ -4452,31 +7599,117 @@ type
   /// </remarks>
   ICefDragData = interface(ICefBaseRefCounted)
     ['{FBB6A487-F633-4055-AB3E-6619EDE75683}']
+    /// <summary>
+    /// Returns a copy of the current object.
+    /// </summary>
     function  Clone: ICefDragData;
+    /// <summary>
+    /// Returns true (1) if this object is read-only.
+    /// </summary>
     function  IsReadOnly: Boolean;
+    /// <summary>
+    /// Returns true (1) if the drag data is a link.
+    /// </summary>
     function  IsLink: Boolean;
+    /// <summary>
+    /// Returns true (1) if the drag data is a text or html fragment.
+    /// </summary>
     function  IsFragment: Boolean;
+    /// <summary>
+    /// Returns true (1) if the drag data is a file.
+    /// </summary>
     function  IsFile: Boolean;
+    /// <summary>
+    /// Return the link URL that is being dragged.
+    /// </summary>
     function  GetLinkUrl: ustring;
+    /// <summary>
+    /// Return the title associated with the link being dragged.
+    /// </summary>
     function  GetLinkTitle: ustring;
+    /// <summary>
+    /// Return the metadata, if any, associated with the link being dragged.
+    /// </summary>
     function  GetLinkMetadata: ustring;
+    /// <summary>
+    /// Return the plain text fragment that is being dragged.
+    /// </summary>
     function  GetFragmentText: ustring;
+    /// <summary>
+    /// Return the text/html fragment that is being dragged.
+    /// </summary>
     function  GetFragmentHtml: ustring;
+    /// <summary>
+    /// Return the base URL that the fragment came from. This value is used for
+    /// resolving relative URLs and may be NULL.
+    /// </summary>
     function  GetFragmentBaseUrl: ustring;
+    /// <summary>
+    /// Return the name of the file being dragged out of the browser window.
+    /// </summary>
     function  GetFileName: ustring;
+    /// <summary>
+    /// Write the contents of the file being dragged out of the web view into
+    /// |writer|. Returns the number of bytes sent to |writer|. If |writer| is
+    /// NULL this function will return the size of the file contents in bytes.
+    /// Call get_file_name() to get a suggested name for the file.
+    /// </summary>
     function  GetFileContents(const writer: ICefStreamWriter): NativeUInt;
+    /// <summary>
+    /// Retrieve the list of file names that are being dragged into the browser
+    /// window.
+    /// </summary>
     function  GetFileNames(var names: TStrings): Integer;
+    /// <summary>
+    /// Set the link URL that is being dragged.
+    /// </summary>
     procedure SetLinkUrl(const url: ustring);
+    /// <summary>
+    /// Set the title associated with the link being dragged.
+    /// </summary>
     procedure SetLinkTitle(const title: ustring);
+    /// <summary>
+    /// Set the metadata associated with the link being dragged.
+    /// </summary>
     procedure SetLinkMetadata(const data: ustring);
+    /// <summary>
+    /// Set the plain text fragment that is being dragged.
+    /// </summary>
     procedure SetFragmentText(const text: ustring);
+    /// <summary>
+    /// Set the text/html fragment that is being dragged.
+    /// </summary>
     procedure SetFragmentHtml(const html: ustring);
+    /// <summary>
+    /// Set the base URL that the fragment came from.
+    /// </summary>
     procedure SetFragmentBaseUrl(const baseUrl: ustring);
+    /// <summary>
+    /// Reset the file contents. You should do this before calling
+    /// cef_browser_host_t::DragTargetDragEnter as the web view does not allow us
+    /// to drag in this kind of data.
+    /// </summary>
     procedure ResetFileContents;
+    /// <summary>
+    /// Add a file that is being dragged into the webview.
+    /// </summary>
     procedure AddFile(const path, displayName: ustring);
+    /// <summary>
+    /// Clear list of filenames.
+    /// </summary>
     procedure ClearFilenames;
+    /// <summary>
+    /// Get the image representation of drag data. May return NULL if no image
+    /// representation is available.
+    /// </summary>
     function  GetImage : ICefImage;
+    /// <summary>
+    /// Get the image hotspot (drag start location relative to image dimensions).
+    /// </summary>
     function  GetImageHotspot : TCefPoint;
+    /// <summary>
+    /// Returns true (1) if an image representation of drag data is available.
+    /// </summary>
     function  HasImage : boolean;
   end;
 
@@ -4522,7 +7755,7 @@ type
   ICefFindHandler = interface(ICefBaseRefCounted)
     ['{F20DF234-BD43-42B3-A80B-D354A9E5B787}']
     /// <summary>
-    /// Called to report find results returned by cef_browser_host_t::find().
+    /// Called to report find results returned by ICefBrowserHost.find().
     /// |identifer| is a unique incremental identifier for the currently active
     /// search, |count| is the number of matches currently identified,
     /// |selectionRect| is the location of where the match was found (in window
@@ -4557,20 +7790,20 @@ type
     /// Called on the browser process IO thread before a resource request is
     /// initiated. The |browser| and |frame| values represent the source of the
     /// request, and may be NULL for requests originating from service workers or
-    /// cef_urlrequest_t. |request| represents the request contents and cannot be
+    /// ICefUrlRequest. |request| represents the request contents and cannot be
     /// modified in this callback. |is_navigation| will be true (1) if the
     /// resource request is a navigation. |is_download| will be true (1) if the
     /// resource request is a download. |request_initiator| is the origin (scheme
     /// + domain) of the page that initiated the request. Set
     /// |disable_default_handling| to true (1) to disable default handling of the
     /// request, in which case it will need to be handled via
-    /// cef_resource_request_handler_t::GetResourceHandler or it will be canceled.
+    /// ICefResourceRequestHandler.GetResourceHandler or it will be canceled.
     /// To allow the resource load to proceed with default handling return NULL.
     /// To specify a handler for the resource return a
-    /// cef_resource_request_handler_t object. This function will not be called if
+    /// ICefResourceRequestHandler object. This function will not be called if
     /// the client associated with |browser| returns a non-NULL value from
-    /// cef_request_handler_t::GetResourceRequestHandler for the same request
-    /// (identified by cef_request_t::GetIdentifier).
+    /// ICefRequestHandler.GetResourceRequestHandler for the same request
+    /// (identified by ICefRequest.GetIdentifier).
     /// </summary>
     procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
     /// <summary>
@@ -4588,6 +7821,11 @@ type
   /// </remarks>
   ICefResolveCallback = interface(ICefBaseRefCounted)
     ['{0C0EA252-7968-4163-A1BE-A1453576DD06}']
+    /// <summary>
+    /// Called on the UI thread after the ResolveHost request has completed.
+    /// |result| will be the result code. |resolved_ips| will be the list of
+    /// resolved IP addresses or NULL if the resolution failed.
+    /// </summary>
     procedure OnResolveCompleted(result: TCefErrorCode; const resolvedIps: TStrings);
   end;
 
@@ -4603,10 +7841,43 @@ type
   /// </remarks>
   ICefPreferenceManager = interface(ICefBaseRefCounted)
     ['{E8231D35-D028-4E64-BFDB-7E4596027DEC}']
+    /// <summary>
+    /// Returns true (1) if a preference with the specified |name| exists. This
+    /// function must be called on the browser process UI thread.
+    /// </summary>
     function  HasPreference(const name: ustring): Boolean;
+    /// <summary>
+    /// Returns the value for the preference with the specified |name|. Returns
+    /// NULL if the preference does not exist. The returned object contains a copy
+    /// of the underlying preference value and modifications to the returned
+    /// object will not modify the underlying preference value. This function must
+    /// be called on the browser process UI thread.
+    /// </summary>
     function  GetPreference(const name: ustring): ICefValue;
+    /// <summary>
+    /// Returns all preferences as a dictionary. If |include_defaults| is true (1)
+    /// then preferences currently at their default value will be included. The
+    /// returned object contains a copy of the underlying preference values and
+    /// modifications to the returned object will not modify the underlying
+    /// preference values. This function must be called on the browser process UI
+    /// thread.
+    /// </summary>
     function  GetAllPreferences(includeDefaults: Boolean): ICefDictionaryValue;
+    /// <summary>
+    /// Returns true (1) if the preference with the specified |name| can be
+    /// modified using SetPreference. As one example preferences set via the
+    /// command-line usually cannot be modified. This function must be called on
+    /// the browser process UI thread.
+    /// </summary>
     function  CanSetPreference(const name: ustring): Boolean;
+    /// <summary>
+    /// Set the |value| associated with preference |name|. Returns true (1) if the
+    /// value is set successfully and false (0) otherwise. If |value| is NULL the
+    /// preference will be restored to its default value. If setting the
+    /// preference fails then |error| will be populated with a detailed
+    /// description of the problem. This function must be called on the browser
+    /// process UI thread.
+    /// </summary>
     function  SetPreference(const name: ustring; const value: ICefValue; out error: ustring): Boolean;
   end;
 
@@ -4632,31 +7903,225 @@ type
   /// </remarks>
   ICefRequestContext = interface(ICefPreferenceManager)
     ['{5830847A-2971-4BD5-ABE6-21451F8923F7}']
+    /// <summary>
+    /// Returns true (1) if this object is pointing to the same context as |that|
+    /// object.
+    /// </summary>
     function  IsSame(const other: ICefRequestContext): Boolean;
+    /// <summary>
+    /// Returns true (1) if this object is sharing the same storage as |that|
+    /// object.
+    /// </summary>
     function  IsSharingWith(const other: ICefRequestContext): Boolean;
+    /// <summary>
+    /// Returns true (1) if this object is the global context. The global context
+    /// is used by default when creating a browser or URL request with a NULL
+    /// context argument.
+    /// </summary>
     function  IsGlobal: Boolean;
+    /// <summary>
+    /// Returns the handler for this context if any.
+    /// </summary>
     function  GetHandler: ICefRequestContextHandler;
+    /// <summary>
+    /// Returns the cache path for this object. If NULL an "incognito mode" in-
+    /// memory cache is being used.
+    /// </summary>
     function  GetCachePath: ustring;
+    /// <summary>
+    /// Returns the cookie manager for this object. If |callback| is non-NULL it
+    /// will be executed asnychronously on the UI thread after the manager's
+    /// storage has been initialized.
+    /// </summary>
     function  GetCookieManager(const callback: ICefCompletionCallback): ICefCookieManager;
+    /// <summary>
+    /// Returns the cookie manager for this object. If |callback| is non-NULL it
+    /// will be executed asnychronously on the UI thread after the manager's
+    /// storage has been initialized.
+    /// </summary>
     function  GetCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
+    /// <summary>
+    /// Register a scheme handler factory for the specified |scheme_name| and
+    /// optional |domain_name|. An NULL |domain_name| value for a standard scheme
+    /// will cause the factory to match all domain names. The |domain_name| value
+    /// will be ignored for non-standard schemes. If |scheme_name| is a built-in
+    /// scheme and no handler is returned by |factory| then the built-in scheme
+    /// handler factory will be called. If |scheme_name| is a custom scheme then
+    /// you must also implement the cef_app_t::on_register_custom_schemes()
+    /// function in all processes. This function may be called multiple times to
+    /// change or remove the factory that matches the specified |scheme_name| and
+    /// optional |domain_name|. Returns false (0) if an error occurs. This
+    /// function may be called on any thread in the browser process.
+    /// </summary>
     function  RegisterSchemeHandlerFactory(const schemeName, domainName: ustring; const factory: ICefSchemeHandlerFactory): Boolean;
+    /// <summary>
+    /// Clear all registered scheme handler factories. Returns false (0) on error.
+    /// This function may be called on any thread in the browser process.
+    /// </summary>
     function  ClearSchemeHandlerFactories: Boolean;
+    /// <summary>
+    /// Clears all certificate exceptions that were added as part of handling
+    /// ICefRequestHandler.OnCertificateError(). If you call this it is
+    /// recommended that you also call CloseAllConnections() or you risk not
+    /// being prompted again for server certificates if you reconnect quickly. If
+    /// |callback| is non-NULL it will be executed on the UI thread after
+    /// completion.
+    /// </summary>
     procedure ClearCertificateExceptions(const callback: ICefCompletionCallback);
+    /// <summary>
+    /// Clears all HTTP authentication credentials that were added as part of
+    /// handling GetAuthCredentials. If |callback| is non-NULL it will be executed
+    /// on the UI thread after completion.
+    /// </summary>
     procedure ClearHttpAuthCredentials(const callback: ICefCompletionCallback);
+    /// <summary>
+    /// Clears all active and idle connections that Chromium currently has. This
+    /// is only recommended if you have released all other CEF objects but don't
+    /// yet want to call cef_shutdown(). If |callback| is non-NULL it will be
+    /// executed on the UI thread after completion.
+    /// </summary>
     procedure CloseAllConnections(const callback: ICefCompletionCallback);
+    /// <summary>
+    /// Attempts to resolve |origin| to a list of associated IP addresses.
+    /// |callback| will be executed on the UI thread after completion.
+    /// </summary>
     procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
+    /// <summary>
+    /// Load an extension.
+    ///
+    /// If extension resources will be read from disk using the default load
+    /// implementation then |root_directory| should be the absolute path to the
+    /// extension resources directory and |manifest| should be NULL. If extension
+    /// resources will be provided by the client (e.g. via cef_request_handler_t
+    /// and/or cef_extension_handler_t) then |root_directory| should be a path
+    /// component unique to the extension (if not absolute this will be internally
+    /// prefixed with the PK_DIR_RESOURCES path) and |manifest| should contain the
+    /// contents that would otherwise be read from the "manifest.json" file on
+    /// disk.
+    ///
+    /// The loaded extension will be accessible in all contexts sharing the same
+    /// storage (HasExtension returns true (1)). However, only the context on
+    /// which this function was called is considered the loader (DidLoadExtension
+    /// returns true (1)) and only the loader will receive
+    /// cef_request_context_handler_t callbacks for the extension.
+    ///
+    /// cef_extension_handler_t::OnExtensionLoaded will be called on load success
+    /// or cef_extension_handler_t::OnExtensionLoadFailed will be called on load
+    /// failure.
+    ///
+    /// If the extension specifies a background script via the "background"
+    /// manifest key then cef_extension_handler_t::OnBeforeBackgroundBrowser will
+    /// be called to create the background browser. See that function for
+    /// additional information about background scripts.
+    ///
+    /// For visible extension views the client application should evaluate the
+    /// manifest to determine the correct extension URL to load and then pass that
+    /// URL to the cef_browser_host_t::CreateBrowser* function after the extension
+    /// has loaded. For example, the client can look for the "browser_action"
+    /// manifest key as documented at
+    /// https://developer.chrome.com/extensions/browserAction. Extension URLs take
+    /// the form "chrome-extension://<extension_id>/<path>".
+    ///
+    /// Browsers that host extensions differ from normal browsers as follows:
+    ///  - Can access chrome.* JavaScript APIs if allowed by the manifest. Visit
+    ///    chrome://extensions-support for the list of extension APIs currently
+    ///    supported by CEF.
+    ///  - Main frame navigation to non-extension content is blocked.
+    ///  - Pinch-zooming is disabled.
+    ///  - CefBrowserHost::GetExtension returns the hosted extension.
+    ///  - CefBrowserHost::IsBackgroundHost returns true for background hosts.
+    ///
+    /// See https://developer.chrome.com/extensions for extension implementation
+    /// and usage documentation.
+    /// </summary>
     procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
+    /// <summary>
+    /// Returns true (1) if this context was used to load the extension identified
+    /// by |extension_id|. Other contexts sharing the same storage will also have
+    /// access to the extension (see HasExtension). This function must be called
+    /// on the browser process UI thread.
+    /// </summary>
     function  DidLoadExtension(const extension_id: ustring): boolean;
+    /// <summary>
+    /// Returns true (1) if this context has access to the extension identified by
+    /// |extension_id|. This may not be the context that was used to load the
+    /// extension (see DidLoadExtension). This function must be called on the
+    /// browser process UI thread.
+    /// </summary>
     function  HasExtension(const extension_id: ustring): boolean;
+    /// <summary>
+    /// Retrieve the list of all extensions that this context has access to (see
+    /// HasExtension). |extension_ids| will be populated with the list of
+    /// extension ID values. Returns true (1) on success. This function must be
+    /// called on the browser process UI thread.
+    /// </summary>
     function  GetExtensions(const extension_ids: TStringList): boolean;
+    /// <summary>
+    /// Returns the extension matching |extension_id| or NULL if no matching
+    /// extension is accessible in this context (see HasExtension). This function
+    /// must be called on the browser process UI thread.
+    /// </summary>
     function  GetExtension(const extension_id: ustring): ICefExtension;
+    /// <summary>
+    /// Returns the MediaRouter object associated with this context.  If
+    /// |callback| is non-NULL it will be executed asnychronously on the UI thread
+    /// after the manager's context has been initialized.
+    /// </summary>
     function  GetMediaRouter(const callback: ICefCompletionCallback): ICefMediaRouter;
+    /// <summary>
+    /// Returns the current value for |content_type| that applies for the
+    /// specified URLs. If both URLs are NULL the default value will be returned.
+    /// Returns nullptr if no value is configured. Must be called on the browser
+    /// process UI thread.
+    /// </summary>
     function  GetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): ICefValue;
+    /// <summary>
+    /// Sets the current value for |content_type| for the specified URLs in the
+    /// default scope. If both URLs are NULL, and the context is not incognito,
+    /// the default value will be set. Pass nullptr for |value| to remove the
+    /// default value for this content type.
+    ///
+    /// WARNING: Incorrect usage of this function may cause instability or
+    /// security issues in Chromium. Make sure that you first understand the
+    /// potential impact of any changes to |content_type| by reviewing the related
+    /// source code in Chromium. For example, if you plan to modify
+    /// CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of
+    /// ContentSettingsType::POPUPS in Chromium:
+    /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+    /// </summary>
     procedure SetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; const value: ICefValue);
+    /// <summary>
+    /// Returns the current value for |content_type| that applies for the
+    /// specified URLs. If both URLs are NULL the default value will be returned.
+    /// Returns CEF_CONTENT_SETTING_VALUE_DEFAULT if no value is configured. Must
+    /// be called on the browser process UI thread.
+    /// </summary>
     function  GetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): TCefContentSettingValues;
+    /// <summary>
+    /// Sets the current value for |content_type| for the specified URLs in the
+    /// default scope. If both URLs are NULL, and the context is not incognito,
+    /// the default value will be set. Pass CEF_CONTENT_SETTING_VALUE_DEFAULT for
+    /// |value| to use the default value for this content type.
+    ///
+    /// WARNING: Incorrect usage of this function may cause instability or
+    /// security issues in Chromium. Make sure that you first understand the
+    /// potential impact of any changes to |content_type| by reviewing the related
+    /// source code in Chromium. For example, if you plan to modify
+    /// CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of
+    /// ContentSettingsType::POPUPS in Chromium:
+    /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+    /// </summary>
     procedure SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
-
+    /// <summary>
+    /// Returns the cache path for this object. If NULL an "incognito mode" in-
+    /// memory cache is being used.
+    /// </summary>
     property  CachePath        : ustring         read GetCachePath;
+    /// <summary>
+    /// Returns true (1) if this object is the global context. The global context
+    /// is used by default when creating a browser or URL request with a NULL
+    /// context argument.
+    /// </summary>
     property  IsGlobalContext  : boolean         read IsGlobal;
   end;
 
@@ -4669,36 +8134,129 @@ type
   /// </remarks>
   ICefPrintSettings = Interface(ICefBaseRefCounted)
     ['{ACBD2395-E9C1-49E5-B7F3-344DAA4A0F12}']
+    /// <summary>
+    /// Returns true (1) if this object is valid. Do not call any other functions
+    /// if this function returns false (0).
+    /// </summary>
     function  IsValid: Boolean;
+    /// <summary>
+    /// Returns true (1) if the values of this object are read-only. Some APIs may
+    /// expose read-only objects.
+    /// </summary>
     function  IsReadOnly: Boolean;
+    /// <summary>
+    /// Set the page orientation.
+    /// </summary>
     procedure SetOrientation(landscape: Boolean);
+    /// <summary>
+    /// Returns true (1) if the orientation is landscape.
+    /// </summary>
     function  IsLandscape: Boolean;
+    /// <summary>
+    /// Set the printer printable area in device units. Some platforms already
+    /// provide flipped area. Set |landscape_needs_flip| to false (0) on those
+    /// platforms to avoid double flipping.
+    /// </summary>
     procedure SetPrinterPrintableArea(const physicalSizeDeviceUnits: PCefSize; const printableAreaDeviceUnits: PCefRect; landscapeNeedsFlip: Boolean);
+    /// <summary>
+    /// Set the device name.
+    /// </summary>
     procedure SetDeviceName(const name: ustring);
+    /// <summary>
+    /// Get the device name.
+    /// </summary>
     function  GetDeviceName: ustring;
+    /// <summary>
+    /// Set the DPI (dots per inch).
+    /// </summary>
     procedure SetDpi(dpi: Integer);
+    /// <summary>
+    /// Get the DPI (dots per inch).
+    /// </summary>
     function  GetDpi: Integer;
+    /// <summary>
+    /// Set the page ranges.
+    /// </summary>
     procedure SetPageRanges(const ranges: TCefRangeArray);
+    /// <summary>
+    /// Returns the number of page ranges that currently exist.
+    /// </summary>
     function  GetPageRangesCount: NativeUInt;
+    /// <summary>
+    /// Retrieve the page ranges.
+    /// </summary>
     procedure GetPageRanges(out ranges: TCefRangeArray);
+    /// <summary>
+    /// Set whether only the selection will be printed.
+    /// </summary>
     procedure SetSelectionOnly(selectionOnly: Boolean);
+    /// <summary>
+    /// Returns true (1) if only the selection will be printed.
+    /// </summary>
     function  IsSelectionOnly: Boolean;
+    /// <summary>
+    /// Set whether pages will be collated.
+    /// </summary>
     procedure SetCollate(collate: Boolean);
+    /// <summary>
+    /// Returns true (1) if pages will be collated.
+    /// </summary>
     function  WillCollate: Boolean;
+    /// <summary>
+    /// Set the color model.
+    /// </summary>
     procedure SetColorModel(model: TCefColorModel);
+    /// <summary>
+    /// Get the color model.
+    /// </summary>
     function  GetColorModel: TCefColorModel;
+    /// <summary>
+    /// Set the number of copies.
+    /// </summary>
     procedure SetCopies(copies: Integer);
+    /// <summary>
+    /// Get the number of copies.
+    /// </summary>
     function  GetCopies: Integer;
+    /// <summary>
+    /// Set the duplex mode.
+    /// </summary>
     procedure SetDuplexMode(mode: TCefDuplexMode);
+    /// <summary>
+    /// Get the duplex mode.
+    /// </summary>
     function  GetDuplexMode: TCefDuplexMode;
-
+    /// <summary>
+    /// Returns true (1) if the orientation is landscape.
+    /// </summary>
     property Landscape      : Boolean         read IsLandscape      write SetOrientation;
+    /// <summary>
+    /// Get the device name.
+    /// </summary>
     property DeviceName     : ustring         read GetDeviceName    write SetDeviceName;
+    /// <summary>
+    /// Get the DPI (dots per inch).
+    /// </summary>
     property Dpi            : Integer         read GetDpi           write SetDpi;
+    /// <summary>
+    /// Returns true (1) if only the selection will be printed.
+    /// </summary>
     property SelectionOnly  : Boolean         read IsSelectionOnly  write SetSelectionOnly;
+    /// <summary>
+    /// Returns true (1) if pages will be collated.
+    /// </summary>
     property Collate        : Boolean         read WillCollate      write SetCollate;
+    /// <summary>
+    /// Get the color model.
+    /// </summary>
     property ColorModel     : TCefColorModel  read GetColorModel    write SetColorModel;
+    /// <summary>
+    /// Get the number of copies.
+    /// </summary>
     property Copies         : Integer         read GetCopies        write SetCopies;
+    /// <summary>
+    /// Get the duplex mode.
+    /// </summary>
     property DuplexMode     : TCefDuplexMode  read GetDuplexMode    write SetDuplexMode;
   end;
 
@@ -4751,7 +8309,7 @@ type
     /// Called when printing has started for the specified |browser|. This
     /// function will be called before the other OnPrint*() functions and
     /// irrespective of how printing was initiated (e.g.
-    /// cef_browser_host_t::print(), JavaScript window.print() or PDF extension
+    /// ICefBrowserHost.print(), JavaScript window.print() or PDF extension
     /// print button).
     /// </summary>
     procedure OnPrintStart(const browser: ICefBrowser);
@@ -4779,7 +8337,7 @@ type
     procedure OnPrintReset(const browser: ICefBrowser);
     /// <summary>
     /// Return the PDF paper size in device units. Used in combination with
-    /// cef_browser_host_t::print_to_pdf().
+    /// ICefBrowserHost.PrintToPdf().
     /// </summary>
     procedure GetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: integer; var aResult: TCefSize);
     /// <summary>
@@ -4797,24 +8355,92 @@ type
   /// </remarks>
   ICefNavigationEntry = interface(ICefBaseRefCounted)
     ['{D17B4B37-AA45-42D9-B4E4-AAB6FE2AB297}']
+    /// <summary>
+    /// Returns true (1) if this object is valid. Do not call any other functions
+    /// if this function returns false (0).
+    /// </summary>
     function IsValid: Boolean;
+    /// <summary>
+    /// Returns the actual URL of the page. For some pages this may be data: URL
+    /// or similar. Use get_display_url() to return a display-friendly version.
+    /// </summary>
     function GetUrl: ustring;
+    /// <summary>
+    /// Returns a display-friendly version of the URL.
+    /// </summary>
     function GetDisplayUrl: ustring;
+    /// <summary>
+    /// Returns the original URL that was entered by the user before any
+    /// redirects.
+    /// </summary>
     function GetOriginalUrl: ustring;
+    /// <summary>
+    /// Returns the title set by the page. This value may be NULL.
+    /// </summary>
     function GetTitle: ustring;
+    /// <summary>
+    /// Returns the transition type which indicates what the user did to move to
+    /// this page from the previous page.
+    /// </summary>
     function GetTransitionType: TCefTransitionType;
+    /// <summary>
+    /// Returns true (1) if this navigation includes post data.
+    /// </summary>
     function HasPostData: Boolean;
+    /// <summary>
+    /// Returns the time for the last known successful navigation completion. A
+    /// navigation may be completed more than once if the page is reloaded. May be
+    /// 0 if the navigation has not yet completed.
+    /// </summary>
     function GetCompletionTime: TDateTime;
+    /// <summary>
+    /// Returns the HTTP status code for the last known successful navigation
+    /// response. May be 0 if the response has not yet been received or if the
+    /// navigation has not yet completed.
+    /// </summary>
     function GetHttpStatusCode: Integer;
+    /// <summary>
+    /// Returns the SSL information for this navigation entry.
+    /// </summary>
     function GetSSLStatus: ICefSSLStatus;
-
+    /// <summary>
+    /// Returns the actual URL of the page. For some pages this may be data: URL
+    /// or similar. Use get_display_url() to return a display-friendly version.
+    /// </summary>
     property Url              : ustring             read GetUrl;
+    /// <summary>
+    /// Returns a display-friendly version of the URL.
+    /// </summary>
     property DisplayUrl       : ustring             read GetDisplayUrl;
+    /// <summary>
+    /// Returns the original URL that was entered by the user before any
+    /// redirects.
+    /// </summary>
     property OriginalUrl      : ustring             read GetOriginalUrl;
+    /// <summary>
+    /// Returns the title set by the page. This value may be NULL.
+    /// </summary>
     property Title            : ustring             read GetTitle;
+    /// <summary>
+    /// Returns the transition type which indicates what the user did to move to
+    /// this page from the previous page.
+    /// </summary>
     property TransitionType   : TCefTransitionType  read GetTransitionType;
+    /// <summary>
+    /// Returns the time for the last known successful navigation completion. A
+    /// navigation may be completed more than once if the page is reloaded. May be
+    /// 0 if the navigation has not yet completed.
+    /// </summary>
     property CompletionTime   : TDateTime           read GetCompletionTime;
+    /// <summary>
+    /// Returns the HTTP status code for the last known successful navigation
+    /// response. May be 0 if the response has not yet been received or if the
+    /// navigation has not yet completed.
+    /// </summary>
     property HttpStatusCode   : Integer             read GetHttpStatusCode;
+    /// <summary>
+    /// Returns the SSL information for this navigation entry.
+    /// </summary>
     property SSLStatus        : ICefSSLStatus       read GetSSLStatus;
   end;
 
@@ -4827,12 +8453,35 @@ type
   /// </remarks>
   ICefX509CertPrincipal = interface(ICefBaseRefCounted)
     ['{CD3621ED-7D68-4A1F-95B5-190C7001B65F}']
+    /// <summary>
+    /// Returns a name that can be used to represent the issuer. It tries in this
+    /// order: Common Name (CN), Organization Name (O) and Organizational Unit
+    /// Name (OU) and returns the first non-NULL one found.
+    /// </summary>
     function  GetDisplayName: ustring;
+    /// <summary>
+    /// Returns the common name.
+    /// </summary>
     function  GetCommonName: ustring;
+    /// <summary>
+    /// Returns the locality name.
+    /// </summary>
     function  GetLocalityName: ustring;
+    /// <summary>
+    /// Returns the state or province name.
+    /// </summary>
     function  GetStateOrProvinceName: ustring;
+    /// <summary>
+    /// Returns the country name.
+    /// </summary>
     function  GetCountryName: ustring;
+    /// <summary>
+    /// Retrieve the list of organization names.
+    /// </summary>
     procedure GetOrganizationNames(const names: TStrings);
+    /// <summary>
+    /// Retrieve the list of organization unit names.
+    /// </summary>
     procedure GetOrganizationUnitNames(const names: TStrings);
   end;
 
@@ -4845,17 +8494,65 @@ type
   /// </remarks>
   ICefX509Certificate = interface(ICefBaseRefCounted)
     ['{C897979D-F068-4428-82DF-4221612FF7E0}']
+    /// <summary>
+    /// Returns the subject of the X.509 certificate. For HTTPS server
+    /// certificates this represents the web server.  The common name of the
+    /// subject should match the host name of the web server.
+    /// </summary>
     function  GetSubject: ICefX509CertPrincipal;
+    /// <summary>
+    /// Returns the issuer of the X.509 certificate.
+    /// </summary>
     function  GetIssuer: ICefX509CertPrincipal;
+    /// <summary>
+    /// Returns the DER encoded serial number for the X.509 certificate. The value
+    /// possibly includes a leading 00 byte.
+    /// </summary>
     function  GetSerialNumber: ICefBinaryValue;
+    /// <summary>
+    /// Returns the date before which the X.509 certificate is invalid.
+    /// CefBaseTime.GetTimeT() will return 0 if no date was specified.
+    /// </summary>
     function  GetValidStart: TCefBaseTime;
+    /// <summary>
+    /// Returns the date after which the X.509 certificate is invalid.
+    /// CefBaseTime.GetTimeT() will return 0 if no date was specified.
+    /// </summary>
     function  GetValidExpiry: TCefBaseTime;
+    /// <summary>
+    /// Returns the date before which the X.509 certificate is invalid.
+    /// CefBaseTime.GetTimeT() will return 0 if no date was specified.
+    /// </summary>
     function  GetValidStartAsDateTime: TDateTime;
+    /// <summary>
+    /// Returns the date after which the X.509 certificate is invalid.
+    /// CefBaseTime.GetTimeT() will return 0 if no date was specified.
+    /// </summary>
     function  GetValidExpiryAsDateTime: TDateTime;
+    /// <summary>
+    /// Returns the DER encoded data for the X.509 certificate.
+    /// </summary>
     function  GetDerEncoded: ICefBinaryValue;
+    /// <summary>
+    /// Returns the PEM encoded data for the X.509 certificate.
+    /// </summary>
     function  GetPemEncoded: ICefBinaryValue;
+    /// <summary>
+    /// Returns the number of certificates in the issuer chain. If 0, the
+    /// certificate is self-signed.
+    /// </summary>
     function  GetIssuerChainSize: NativeUInt;
+    /// <summary>
+    /// Returns the DER encoded data for the certificate issuer chain. If we
+    /// failed to encode a certificate in the chain it is still present in the
+    /// array but is an NULL string.
+    /// </summary>
     procedure GetDEREncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
+    /// <summary>
+    /// Returns the PEM encoded data for the certificate issuer chain. If we
+    /// failed to encode a certificate in the chain it is still present in the
+    /// array but is an NULL string.
+    /// </summary>
     procedure GetPEMEncodedIssuerChain(chainCount: NativeUInt; var chain : TCefBinaryValueArray);
   end;
 
@@ -4868,7 +8565,14 @@ type
   /// </remarks>
   ICefSslInfo = interface(ICefBaseRefCounted)
     ['{67EC86BD-DE7D-453D-908F-AD15626C514F}']
+    /// <summary>
+    /// Returns a bitmask containing any and all problems verifying the server
+    /// certificate.
+    /// </summary>
     function GetCertStatus: TCefCertStatus;
+    /// <summary>
+    /// Returns the X.509 certificate.
+    /// </summary>
     function GetX509Certificate: ICefX509Certificate;
   end;
 
@@ -4881,10 +8585,26 @@ type
   /// </remarks>
   ICefSSLStatus = interface(ICefBaseRefCounted)
     ['{E3F004F2-03D5-46A2-91D0-510C50F3B225}']
+    /// <summary>
+    /// Returns true (1) if the status is related to a secure SSL/TLS connection.
+    /// </summary>
     function IsSecureConnection: boolean;
+    /// <summary>
+    /// Returns a bitmask containing any and all problems verifying the server
+    /// certificate.
+    /// </summary>
     function GetCertStatus: TCefCertStatus;
+    /// <summary>
+    /// Returns the SSL version used for the SSL connection.
+    /// </summary>
     function GetSSLVersion: TCefSSLVersion;
+    /// <summary>
+    /// Returns a bitmask containing the page security content status.
+    /// </summary>
     function GetContentStatus: TCefSSLContentStatus;
+    /// <summary>
+    /// Returns the X.509 certificate.
+    /// </summary>
     function GetX509Certificate: ICefX509Certificate;
   end;
 
@@ -4917,8 +8637,25 @@ type
   /// </remarks>
   ICefResourceBundle = interface(ICefBaseRefCounted)
     ['{3213CF97-C854-452B-B615-39192F8D07DC}']
+    /// <summary>
+    /// Returns the localized string for the specified |string_id| or an NULL
+    /// string if the value is not found. Include cef_pack_strings.h for a listing
+    /// of valid string ID values.
+    /// </summary>
     function GetLocalizedString(stringId: Integer): ustring;
+    /// <summary>
+    /// Returns a cef_binary_value_t containing the decompressed contents of the
+    /// specified scale independent |resource_id| or NULL if not found. Include
+    /// cef_pack_resources.h for a listing of valid resource ID values.
+    /// </summary>
     function GetDataResource(resourceId: Integer): ICefBinaryValue;
+    /// <summary>
+    /// Returns a cef_binary_value_t containing the decompressed contents of the
+    /// specified |resource_id| nearest the scale factor |scale_factor| or NULL if
+    /// not found. Use a |scale_factor| value of SCALE_FACTOR_NONE for scale
+    /// independent resources or call GetDataResource instead.Include
+    /// cef_pack_resources.h for a listing of valid resource ID values.
+    /// </summary>
     function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor): ICefBinaryValue;
   end;
 
@@ -4936,21 +8673,95 @@ type
   /// </remarks>
   ICefImage = interface(ICefBaseRefCounted)
     ['{E2C2F424-26A2-4498-BB45-DA23219831BE}']
+    /// <summary>
+    /// Returns true (1) if this Image is NULL.
+    /// </summary>
     function IsEmpty: Boolean;
+    /// <summary>
+    /// Returns true (1) if this Image and |that| Image share the same underlying
+    /// storage. Will also return true (1) if both images are NULL.
+    /// </summary>
     function IsSame(const that: ICefImage): Boolean;
+    /// <summary>
+    /// Add a bitmap image representation for |scale_factor|. Only 32-bit
+    /// RGBA/BGRA formats are supported. |pixel_width| and |pixel_height| are the
+    /// bitmap representation size in pixel coordinates. |pixel_data| is the array
+    /// of pixel data and should be |pixel_width| x |pixel_height| x 4 bytes in
+    /// size. |color_type| and |alpha_type| values specify the pixel format.
+    /// </summary>
     function AddBitmap(scaleFactor: Single; pixelWidth, pixelHeight: Integer; colorType: TCefColorType; alphaType: TCefAlphaType; const pixelData: Pointer; pixelDataSize: NativeUInt): Boolean;
+    /// <summary>
+    /// Add a PNG image representation for |scale_factor|. |png_data| is the image
+    /// data of size |png_data_size|. Any alpha transparency in the PNG data will
+    /// be maintained.
+    /// </summary>
     function AddPng(scaleFactor: Single; const pngData: Pointer; pngDataSize: NativeUInt): Boolean;
+    /// <summary>
+    /// Create a JPEG image representation for |scale_factor|. |jpeg_data| is the
+    /// image data of size |jpeg_data_size|. The JPEG format does not support
+    /// transparency so the alpha byte will be set to 0xFF for all pixels.
+    /// </summary>
     function AddJpeg(scaleFactor: Single; const jpegData: Pointer; jpegDataSize: NativeUInt): Boolean;
+    /// <summary>
+    /// Returns the image width in density independent pixel (DIP) units.
+    /// </summary>
     function GetWidth: NativeUInt;
+    /// <summary>
+    /// Returns the image height in density independent pixel (DIP) units.
+    /// </summary>
     function GetHeight: NativeUInt;
+    /// <summary>
+    /// Returns true (1) if this image contains a representation for
+    /// |scale_factor|.
+    /// </summary>
     function HasRepresentation(scaleFactor: Single): Boolean;
+    /// <summary>
+    /// Removes the representation for |scale_factor|. Returns true (1) on
+    /// success.
+    /// </summary>
     function RemoveRepresentation(scaleFactor: Single): Boolean;
+    /// <summary>
+    /// Returns information for the representation that most closely matches
+    /// |scale_factor|. |actual_scale_factor| is the actual scale factor for the
+    /// representation. |pixel_width| and |pixel_height| are the representation
+    /// size in pixel coordinates. Returns true (1) on success.
+    /// </summary>
     function GetRepresentationInfo(scaleFactor: Single; var actualScaleFactor: Single; var pixelWidth, pixelHeight: Integer): Boolean;
+    /// <summary>
+    /// Returns the bitmap representation that most closely matches
+    /// |scale_factor|. Only 32-bit RGBA/BGRA formats are supported. |color_type|
+    /// and |alpha_type| values specify the desired output pixel format.
+    /// |pixel_width| and |pixel_height| are the output representation size in
+    /// pixel coordinates. Returns a cef_binary_value_t containing the pixel data
+    /// on success or NULL on failure.
+    /// </summary>
     function GetAsBitmap(scaleFactor: Single; colorType: TCefColorType; alphaType: TCefAlphaType; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
+    /// <summary>
+    /// Returns the PNG representation that most closely matches |scale_factor|.
+    /// If |with_transparency| is true (1) any alpha transparency in the image
+    /// will be represented in the resulting PNG data. |pixel_width| and
+    /// |pixel_height| are the output representation size in pixel coordinates.
+    /// Returns a cef_binary_value_t containing the PNG image data on success or
+    /// NULL on failure.
+    /// </summary>
     function GetAsPng(scaleFactor: Single; withTransparency: Boolean; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
+    /// <summary>
+    /// Returns the JPEG representation that most closely matches |scale_factor|.
+    /// |quality| determines the compression level with 0 == lowest and 100 ==
+    /// highest. The JPEG format does not support alpha transparency and the alpha
+    /// channel, if any, will be discarded. |pixel_width| and |pixel_height| are
+    /// the output representation size in pixel coordinates. Returns a
+    /// cef_binary_value_t containing the JPEG image data on success or NULL on
+    /// failure.
+    /// </summary>
     function GetAsJpeg(scaleFactor: Single; quality: Integer; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
-
+    /// <summary>
+    /// Returns the image width in density independent pixel (DIP) units.
+    /// </summary>
     property Width  : NativeUInt read GetWidth;
+    /// <summary>
+    /// Returns the image height in density independent pixel (DIP) units.
+    /// </summary>
     property Height : NativeUInt read GetHeight;
   end;
 
@@ -4965,12 +8776,38 @@ type
   /// </remarks>
   ICefMenuModelDelegate = interface(ICefBaseRefCounted)
     ['{1430D202-2795-433E-9A35-C79A0996F316}']
+    /// <summary>
+    /// Perform the action associated with the specified |command_id| and optional
+    /// |event_flags|.
+    /// </summary>
     procedure ExecuteCommand(const menuModel: ICefMenuModel; commandId: Integer; eventFlags: TCefEventFlags);
+    /// <summary>
+    /// Called when the user moves the mouse outside the menu and over the owning
+    /// window.
+    /// </summary>
     procedure MouseOutsideMenu(const menuModel: ICefMenuModel; const screenPoint: PCefPoint);
+    /// <summary>
+    /// Called on unhandled open submenu keyboard commands. |is_rtl| will be true
+    /// (1) if the menu is displaying a right-to-left language.
+    /// </summary>
     procedure UnhandledOpenSubmenu(const menuModel: ICefMenuModel; isRTL: boolean);
+    /// <summary>
+    /// Called on unhandled close submenu keyboard commands. |is_rtl| will be true
+    /// (1) if the menu is displaying a right-to-left language.
+    /// </summary>
     procedure UnhandledCloseSubmenu(const menuModel: ICefMenuModel; isRTL: boolean);
+    /// <summary>
+    /// The menu is about to show.
+    /// </summary>
     procedure MenuWillShow(const menuModel: ICefMenuModel);
+    /// <summary>
+    /// The menu has closed.
+    /// </summary>
     procedure MenuClosed(const menuModel: ICefMenuModel);
+    /// <summary>
+    /// Optionally modify a menu item label. Return true (1) if |label| was
+    /// modified.
+    /// </summary>
     function  FormatLabel(const menuModel: ICefMenuModel; var label_ : ustring) : boolean;
   end;
 
@@ -4987,18 +8824,93 @@ type
   /// </remarks>
   ICefServer = interface(ICefBaseRefCounted)
     ['{41D41764-A74B-4552-B166-C77E70549047}']
+    /// <summary>
+    /// Returns the task runner for the dedicated server thread.
+    /// </summary>
     function  GetTaskRunner : ICefTaskRunner;
+    /// <summary>
+    /// Stop the server and shut down the dedicated server thread. See
+    /// ICefServerHandler.OnServerCreated documentation for a description of
+    /// server lifespan.
+    /// </summary>
     procedure Shutdown;
+    /// <summary>
+    /// Returns true (1) if the server is currently running and accepting incoming
+    /// connections. See ICefServerHandler.OnServerCreated documentation for a
+    /// description of server lifespan. This function must be called on the
+    /// dedicated server thread.
+    /// </summary>
     function  IsRunning : boolean;
+    /// <summary>
+    /// Returns the server address including the port number.
+    /// </summary>
     function  GetAddress : ustring;
+    /// <summary>
+    /// Returns true (1) if the server currently has a connection. This function
+    /// must be called on the dedicated server thread.
+    /// </summary>
     function  HasConnection : boolean;
+    /// <summary>
+    /// Returns true (1) if |connection_id| represents a valid connection. This
+    /// function must be called on the dedicated server thread.
+    /// </summary>
     function  IsValidConnection(connection_id: Integer) : boolean;
+    /// <summary>
+    /// Send an HTTP 200 "OK" response to the connection identified by
+    /// |connection_id|. |content_type| is the response content type (e.g.
+    /// "text/html"), |data| is the response content, and |data_size| is the size
+    /// of |data| in bytes. The contents of |data| will be copied. The connection
+    /// will be closed automatically after the response is sent.
+    /// </summary>
     procedure SendHttp200response(connection_id: Integer; const content_type: ustring; const data: Pointer; data_size: NativeUInt);
+    /// <summary>
+    /// Send an HTTP 404 "Not Found" response to the connection identified by
+    /// |connection_id|. The connection will be closed automatically after the
+    /// response is sent.
+    /// </summary>
     procedure SendHttp404response(connection_id: Integer);
+    /// <summary>
+    /// Send an HTTP 500 "Internal Server Error" response to the connection
+    /// identified by |connection_id|. |error_message| is the associated error
+    /// message. The connection will be closed automatically after the response is
+    /// sent.
+    /// </summary>
     procedure SendHttp500response(connection_id: Integer; const error_message: ustring);
+    /// <summary>
+    /// Send a custom HTTP response to the connection identified by
+    /// |connection_id|. |response_code| is the HTTP response code sent in the
+    /// status line (e.g. 200), |content_type| is the response content type sent
+    /// as the "Content-Type" header (e.g. "text/html"), |content_length| is the
+    /// expected content length, and |extra_headers| is the map of extra response
+    /// headers. If |content_length| is >= 0 then the "Content-Length" header will
+    /// be sent. If |content_length| is 0 then no content is expected and the
+    /// connection will be closed automatically after the response is sent. If
+    /// |content_length| is < 0 then no "Content-Length" header will be sent and
+    /// the client will continue reading until the connection is closed. Use the
+    /// SendRawData function to send the content, if applicable, and call
+    /// CloseConnection after all content has been sent.
+    /// </summary>
     procedure SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; const extra_headers: ICefStringMultimap);
+    /// <summary>
+    /// Send raw data directly to the connection identified by |connection_id|.
+    /// |data| is the raw data and |data_size| is the size of |data| in bytes. The
+    /// contents of |data| will be copied. No validation of |data| is performed
+    /// internally so the client should be careful to send the amount indicated by
+    /// the "Content-Length" header, if specified. See SendHttpResponse
+    /// documentation for intended usage.
+    /// </summary>
     procedure SendRawData(connection_id: Integer; const data: Pointer; data_size: NativeUInt);
+    /// <summary>
+    /// Close the connection identified by |connection_id|. See SendHttpResponse
+    /// documentation for intended usage.
+    /// </summary>
     procedure CloseConnection(connection_id: Integer);
+    /// <summary>
+    /// Send a WebSocket message to the connection identified by |connection_id|.
+    /// |data| is the response content and |data_size| is the size of |data| in
+    /// bytes. The contents of |data| will be copied. See
+    /// ICefServerHandler.OnWebSocketRequest documentation for intended usage.
+    /// </summary>
     procedure SendWebSocketMessage(connection_id: Integer; const data: Pointer; data_size: NativeUInt);
   end;
 
@@ -5016,13 +8928,74 @@ type
   /// </remarks>
   ICefServerHandler = interface(ICefBaseRefCounted)
     ['{AFB64A63-44C9-44CD-959B-D8E20F549879}']
+    /// <summary>
+    /// Called when |server| is created. If the server was started successfully
+    /// then ICefServer.IsRunning will return true (1). The server will
+    /// continue running until ICefServerShutdown is called, after which time
+    /// OnServerDestroyed will be called. If the server failed to start then
+    /// OnServerDestroyed will be called immediately after this function returns.
+    /// </summary>
     procedure OnServerCreated(const server: ICefServer);
+    /// <summary>
+    /// Called when |server| is destroyed. The server thread will be stopped after
+    /// this function returns. The client should release any references to
+    /// |server| when this function is called. See OnServerCreated documentation
+    /// for a description of server lifespan.
+    /// </summary>
     procedure OnServerDestroyed(const server: ICefServer);
+    /// <summary>
+    /// Called when a client connects to |server|. |connection_id| uniquely
+    /// identifies the connection. Each call to this function will have a matching
+    /// call to OnClientDisconnected.
+    /// </summary>
     procedure OnClientConnected(const server: ICefServer; connection_id: Integer);
+    /// <summary>
+    /// Called when a client disconnects from |server|. |connection_id| uniquely
+    /// identifies the connection. The client should release any data associated
+    /// with |connection_id| when this function is called and |connection_id|
+    /// should no longer be passed to ICefServer functions. Disconnects can
+    /// originate from either the client or the server. For example, the server
+    /// will disconnect automatically after a ICefServer.SendHttpXXXResponse
+    /// function is called.
+    /// </summary>
     procedure OnClientDisconnected(const server: ICefServer; connection_id: Integer);
+    /// <summary>
+    /// Called when |server| receives an HTTP request. |connection_id| uniquely
+    /// identifies the connection, |client_address| is the requesting IPv4 or IPv6
+    /// client address including port number, and |request| contains the request
+    /// contents (URL, function, headers and optional POST data). Call
+    /// ICefServer functions either synchronously or asynchronusly to send a
+    /// response.
+    /// </summary>
     procedure OnHttpRequest(const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest);
+    /// <summary>
+    /// Called when |server| receives a WebSocket request. |connection_id|
+    /// uniquely identifies the connection, |client_address| is the requesting
+    /// IPv4 or IPv6 client address including port number, and |request| contains
+    /// the request contents (URL, function, headers and optional POST data).
+    /// Execute |callback| either synchronously or asynchronously to accept or
+    /// decline the WebSocket connection. If the request is accepted then
+    /// OnWebSocketConnected will be called after the WebSocket has connected and
+    /// incoming messages will be delivered to the OnWebSocketMessage callback. If
+    /// the request is declined then the client will be disconnected and
+    /// OnClientDisconnected will be called. Call the
+    /// ICefServer.SendWebSocketMessage function after receiving the
+    /// OnWebSocketConnected callback to respond with WebSocket messages.
+    /// </summary>
     procedure OnWebSocketRequest(const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest; const callback: ICefCallback);
+    /// <summary>
+    /// Called after the client has accepted the WebSocket connection for |server|
+    /// and |connection_id| via the OnWebSocketRequest callback. See
+    /// OnWebSocketRequest documentation for intended usage.
+    /// </summary>
     procedure OnWebSocketConnected(const server: ICefServer; connection_id: Integer);
+    /// <summary>
+    /// Called when |server| receives an WebSocket message. |connection_id|
+    /// uniquely identifies the connection, |data| is the message content and
+    /// |data_size| is the size of |data| in bytes. Do not keep a reference to
+    /// |data| outside of this function. See OnWebSocketRequest documentation for
+    /// intended usage.
+    /// </summary>
     procedure OnWebSocketMessage(const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
   end;
 
@@ -5101,8 +9074,8 @@ type
     /// Called when a page requests permission to access media.
     /// |requesting_origin| is the URL origin requesting permission.
     /// |requested_permissions| is a combination of values from
-    /// cef_media_access_permission_types_t that represent the requested
-    /// permissions. Return true (1) and call cef_media_access_callback_t
+    /// TCefMediaAccessPermissionTypes that represent the requested
+    /// permissions. Return true (1) and call ICefMediaAccessCallback
     /// functions either in this function or at a later time to continue or cancel
     /// the request. Return false (0) to proceed with default handling. With the
     /// Chrome runtime, default handling will display the permission request UI.
@@ -5115,8 +9088,8 @@ type
     /// Called when a page should show a permission prompt. |prompt_id| uniquely
     /// identifies the prompt. |requesting_origin| is the URL origin requesting
     /// permission. |requested_permissions| is a combination of values from
-    /// cef_permission_request_types_t that represent the requested permissions.
-    /// Return true (1) and call cef_permission_prompt_callback_t::Continue either
+    /// TCefPermissionRequestTypes that represent the requested permissions.
+    /// Return true (1) and call ICefPermissionPromptCallback.Continue either
     /// in this function or at a later time to continue or cancel the request.
     /// Return false (0) to proceed with default handling. With the Chrome
     /// runtime, default handling will display the permission prompt UI. With the
@@ -5127,7 +9100,7 @@ type
     /// Called when a permission prompt handled via OnShowPermissionPrompt is
     /// dismissed. |prompt_id| will match the value that was passed to
     /// OnShowPermissionPrompt. |result| will be the value passed to
-    /// cef_permission_prompt_callback_t::Continue or CEF_PERMISSION_RESULT_IGNORE
+    /// ICefPermissionPromptCallback.Continue or CEF_PERMISSION_RESULT_IGNORE
     /// if the dialog was dismissed for other reasons such as navigation, browser
     /// closure, etc. This function will not be called if OnShowPermissionPrompt
     /// returned false (0) for |prompt_id|.
@@ -5148,8 +9121,18 @@ type
   /// </remarks>
   ICefSharedMemoryRegion = interface(ICefBaseRefCounted)
     ['{2828D0E1-44D0-4C6F-8C63-5CA6036DDA82}']
+    /// <summary>
+    /// Returns true (1) if the mapping is valid.
+    /// </summary>
     function IsValid: boolean;
+    /// <summary>
+    /// Returns the size of the mapping in bytes. Returns 0 for invalid instances.
+    /// </summary>
     function Size: NativeUInt;
+    /// <summary>
+    /// Returns the pointer to the memory. Returns nullptr for invalid instances.
+    /// The returned pointer is only valid for the life span of this object.
+    /// </summary>
     function Memory: pointer;
   end;
 
@@ -5164,9 +9147,25 @@ type
   /// </remarks>
   ICefSharedProcessMessageBuilder = interface(ICefBaseRefCounted)
     ['{B2AF627F-33FA-44F1-B943-FC4F120C84F8}']
+    /// <summary>
+    /// Returns true (1) if the builder is valid.
+    /// </summary>
     function IsValid: boolean;
+    /// <summary>
+    /// Returns the size of the shared memory region in bytes. Returns 0 for
+    /// invalid instances.
+    /// </summary>
     function Size: NativeUInt;
+    /// <summary>
+    /// Returns the pointer to the writable memory. Returns nullptr for invalid
+    /// instances. The returned pointer is only valid for the life span of this
+    /// object.
+    /// </summary>
     function Memory: pointer;
+    /// <summary>
+    /// Creates a new cef_process_message_t from the data provided to the builder.
+    /// Returns nullptr for invalid instances. Invalidates the builder instance.
+    /// </summary>
     function Build: ICefProcessMessage;
   end;
 
@@ -5410,27 +9409,6 @@ type
   end;
 
   /// <summary>
-  /// Custom interface used to handle the ICefViewDelegate events in a component.
-  /// </summary>
-  ICefViewDelegateEvents = interface
-    ['{74DDDB37-8F08-4672-BDB6-55CA2CD374ED}']
-    // ICefViewDelegate
-    procedure doOnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
-    procedure doOnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
-    procedure doOnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
-    procedure doOnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
-    procedure doOnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
-    procedure doOnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
-    procedure doOnWindowChanged(const view: ICefView; added: boolean);
-    procedure doOnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
-    procedure doOnFocus(const view: ICefView);
-    procedure doOnBlur(const view: ICefView);
-
-    // Custom
-    procedure doCreateCustomView;
-  end;
-
-  /// <summary>
   /// A Textfield supports editing of text. This control is custom rendered with
   /// no platform-specific code. Methods must be called on the browser process UI
   /// thread unless otherwise indicated.
@@ -5496,12 +9474,6 @@ type
     ['{72612994-92BB-4DE9-BB38-6F49FB45F94B}']
     procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
     procedure OnAfterUserAction(const textfield: ICefTextfield);
-  end;
-
-  ICefTextfieldDelegateEvents = interface(ICefViewDelegateEvents)
-    ['{682480E0-C786-4E65-B950-4FF2B13B97B9}']
-    procedure doOnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
-    procedure doOnAfterUserAction(const textfield: ICefTextfield);
   end;
 
   /// <summary>
@@ -5570,13 +9542,6 @@ type
   end;
 
   /// <summary>
-  /// Custom interface used to handle the ICefPanelDelegate events in a component.
-  /// </summary>
-  ICefPanelDelegateEvents = interface(ICefViewDelegateEvents)
-    ['{F1F2963F-82C3-48F0-9B9C-7C213BACB96B}']
-  end;
-
-  /// <summary>
   /// A View hosting a ICefBrowser instance. Methods must be called on the
   /// browser process UI thread unless otherwise indicated.
   /// </summary>
@@ -5613,19 +9578,6 @@ type
   end;
 
   /// <summary>
-  /// Custom interface used to handle the ICefBrowserViewDelegate events in a component.
-  /// </summary>
-  ICefBrowserViewDelegateEvents = interface(ICefViewDelegateEvents)
-    ['{AB94B875-63C6-4FEF-BB30-0816402ABA1C}']
-    procedure doOnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
-    procedure doOnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
-    procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
-    procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
-    procedure doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
-    procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
-  end;
-
-  /// <summary>
   /// A View representing a button. Depending on the specific type, the button
   /// could be implemented by a native control or custom rendered. Methods must be
   /// called on the browser process UI thread unless otherwise indicated.
@@ -5659,15 +9611,6 @@ type
     ['{EA1EB5A4-DFB0-4A13-A23B-54FAF9401B39}']
     procedure OnButtonPressed(const button: ICefButton);
     procedure OnButtonStateChanged(const button: ICefButton);
-  end;
-
-  /// <summary>
-  /// Custom interface used to handle the ICefButtonDelegate events in a component.
-  /// </summary>
-  ICefButtonDelegateEvents = interface(ICefViewDelegateEvents)
-    ['{E8DF70BE-5DEB-42CF-AF86-B0FF1040498E}']
-    procedure doOnButtonPressed(const button: ICefButton);
-    procedure doOnButtonStateChanged(const button: ICefButton);
   end;
 
   /// <summary>
@@ -5735,14 +9678,6 @@ type
   ICefMenuButtonDelegate = interface(ICefButtonDelegate)
     ['{D0E89A75-463A-4766-8701-BD8D24B11E9F}']
     procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
-  end;
-
-  /// <summary>
-  /// Custom interface used to handle the ICefMenuButtonDelegate events in a component.
-  /// </summary>
-  ICefMenuButtonDelegateEvents = interface(ICefButtonDelegateEvents)
-    ['{DA36DD60-7609-4576-BB8E-6A55FD48C680}']
-    procedure doOnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
   end;
 
   /// <summary>
@@ -5835,32 +9770,6 @@ type
     procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
     procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
     procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
-  end;
-
-  /// <summary>
-  /// Custom interface used to handle the ICefWindowDelegate events in a component.
-  /// </summary>
-  ICefWindowDelegateEvents = interface(ICefPanelDelegateEvents)
-    ['{05C19A41-E75D-459E-AD4D-C8A0CA4A49D3}']
-    procedure doOnWindowCreated(const window_: ICefWindow);
-    procedure doOnWindowClosing(const window_: ICefWindow);
-    procedure doOnWindowDestroyed(const window_: ICefWindow);
-    procedure doOnWindowActivationChanged(const window_: ICefWindow; active: boolean);
-    procedure doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
-    procedure doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
-    procedure doOnIsWindowModalDialog(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
-    procedure doOnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
-    procedure doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
-    procedure doOnCanResize(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnCanMaximize(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnCanMinimize(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnCanClose(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
-    procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-    procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
   end;
 
 implementation

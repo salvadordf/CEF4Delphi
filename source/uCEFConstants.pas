@@ -1750,10 +1750,25 @@ const
 
   DEVTOOLS_WINDOWNAME = 'DevTools';
 
+  /// <summary>
+  /// Direct proxy type: Never use a proxy.
+  /// </summary>
   CEF_PROXYTYPE_DIRECT        = 0;
+  /// <summary>
+  /// Auto_detect proxy type: Auto detect proxy settings.
+  /// </summary>
   CEF_PROXYTYPE_AUTODETECT    = 1;
+  /// <summary>
+  /// System proxy type: Use system proxy settings.
+  /// </summary>
   CEF_PROXYTYPE_SYSTEM        = 2;
+  /// <summary>
+  /// Fixed_servers proxy type: Use fixed proxy servers.
+  /// </summary>
   CEF_PROXYTYPE_FIXED_SERVERS = 3;
+  /// <summary>
+  /// Pac_script proxy type: Use a .pac proxy script.
+  /// </summary>
   CEF_PROXYTYPE_PAC_SCRIPT    = 4;
 
   /// <summary>

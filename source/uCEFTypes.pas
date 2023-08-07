@@ -984,7 +984,7 @@ type
   /// Values used by the battery saver mode state preference
   /// </summary>
   /// <remarks>
-  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:components/performance_manager/public/user_tuning/prefs.h">prefs.h</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:components/performance_manager/public/user_tuning/prefs.h">components/performance_manager/public/user_tuning/prefs.h</see></para>
   /// </remarks>
   TCefBatterySaverModeState = (
     bsmsDisabled = 0,
@@ -995,6 +995,22 @@ type
     /// Custom value used to update the preferences only when there's a non-default value
     /// </summary>
     bsmsDefault = 4
+  );
+
+  /// <summary>
+  /// Values used by the high efficiency mode state preference
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:components/performance_manager/public/user_tuning/prefs.h">components/performance_manager/public/user_tuning/prefs.h</see></para>
+  /// </remarks>
+  TCefHighEfficiencyModeState = (
+    kDisabled = 0,
+    kEnabled = 1,
+    kEnabledOnTimer = 2,
+    /// <summary>
+    /// Custom value used to update the preferences only when there's a non-default value
+    /// </summary>
+    kDefault = 3
   );
 
   /// <summary>

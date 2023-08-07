@@ -55,6 +55,7 @@ type
   TCefUrlRequestRef = class(TCefBaseRefCountedRef, ICefUrlRequest)
   protected
     function  GetRequest: ICefRequest;
+    function  GetClient: ICefUrlrequestClient;
     function  GetRequestStatus: TCefUrlRequestStatus;
     function  GetRequestError: Integer;
     function  GetResponse: ICefResponse;
@@ -69,7 +70,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFRequest, uCEFResponse;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFRequest, uCEFResponse, uCEFUrlrequestClient;
 
 procedure TCefUrlRequestRef.Cancel;
 begin
@@ -86,6 +87,11 @@ end;
 function TCefUrlRequestRef.GetRequest: ICefRequest;
 begin
   Result := TCefRequestRef.UnWrap(PCefUrlRequest(FData)^.get_request(PCefUrlRequest(FData)));
+end;
+
+function TCefUrlRequestRef.GetClient: ICefUrlrequestClient;
+begin
+  Result := TCefUrlrequestClientRef.UnWrap(PCefUrlRequest(FData)^.get_client(PCefUrlRequest(FData)));
 end;
 
 function TCefUrlRequestRef.GetRequestError: Integer;

@@ -94,6 +94,7 @@ type
       function  GetWindowHandle: TCefWindowHandle;
       function  GetOpenerWindowHandle: TCefWindowHandle;
       function  HasView: Boolean;
+      function  GetClient: ICefClient;
       function  GetRequestContext: ICefRequestContext;
       function  GetZoomLevel: Double;
       procedure SetZoomLevel(const zoomLevel: Double);
@@ -159,7 +160,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFDownloadImageCallBack, uCEFFrame, uCEFPDFPrintCallback,
   uCEFRunFileDialogCallback, uCEFRequestContext, uCEFNavigationEntryVisitor, uCEFNavigationEntry,
-  uCEFExtension, uCEFStringList, uCEFRegistration;
+  uCEFExtension, uCEFStringList, uCEFRegistration, uCEFClient;
 
 
 // TCefBrowserRef
@@ -559,6 +560,11 @@ end;
 function TCefBrowserHostRef.GetOpenerWindowHandle: TCefWindowHandle;
 begin
   Result := PCefBrowserHost(FData)^.get_opener_window_handle(PCefBrowserHost(FData));
+end;
+
+function TCefBrowserHostRef.GetClient: ICefClient;
+begin
+  Result := TCefClientRef.UnWrap(PCefBrowserHost(FData)^.get_client(PCefBrowserHost(FData)));
 end;
 
 function TCefBrowserHostRef.GetRequestContext: ICefRequestContext;
