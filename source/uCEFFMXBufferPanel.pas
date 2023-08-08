@@ -58,6 +58,10 @@ type
   TDialogKeyEvent = procedure(Sender: TObject; var Key: Word; Shift: TShiftState) of object;
 
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  /// TBufferPanel is used by FMX applications with browsers in OSR mode
+  /// to draw the browser contents. See the FMXExternalPumpBrowser demo for more details.
+  /// </summary>
   TFMXBufferPanel = class(TControl)
     protected
       {$IFDEF MSWINDOWS}

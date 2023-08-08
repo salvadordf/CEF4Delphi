@@ -65,6 +65,16 @@ uses
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  /// This component can be used by VCL and LCL applications. It has the
+  /// same purpose as TCEFWindowParent but it has a Chromium property to
+  /// link it directly to a TChromium component.
+  /// TCEFLinkedWindowParent resizes the child controls created by CEF
+  /// for browsers in normal mode and sets the browser focus using the
+  /// linked TChromium component. TCEFWindowParent and TCEFLinkedWindowParent
+  /// work fine in Windows and you can used any of them but you can't use
+  /// TCEFWindowParent in Linux or MacOS.
+  /// </summary>
   TCEFLinkedWindowParent = class(TCEFLinkedWinControlBase)
     protected
       FChromium : TChromium;

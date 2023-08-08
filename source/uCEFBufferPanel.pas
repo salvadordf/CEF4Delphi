@@ -68,6 +68,10 @@ type
   {$ENDIF}
 
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  /// TBufferPanel is used by VCL and LCL applications with browsers in OSR mode
+  /// to draw the browser contents. See the SimpleOSRBrowser demo for more details.
+  /// </summary>
   TBufferPanel = class(TCustomPanel)
     protected
       FScanlineSize            : integer;

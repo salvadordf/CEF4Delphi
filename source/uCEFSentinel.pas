@@ -78,6 +78,13 @@ type
   TSentinelStatus = (ssIdle, ssInitialDelay, ssCheckingChildren, ssClosing);
 
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  /// TCEFSentinel is used as a timer that checks the number of running
+  /// CEF processes when you close all browsers before shutdown.
+  /// This component is only used as a last resort when there's an unresolved
+  /// shutdown issue in CEF or CEF4Delphi that generates exceptions when the
+  /// application is closed.
+  /// </summary>
   TCEFSentinel = class(TComponent)
     protected
       {$IFDEF MSWINDOWS}

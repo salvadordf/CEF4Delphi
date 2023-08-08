@@ -74,21 +74,63 @@ type
       procedure InitializeDevToolsWindowInfo(aDevTools : TWinControl); virtual;
     public
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Used with browsers in OSR mode to initialize drag and drop in Windows.
+      /// </summary>
       procedure InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
       {$ENDIF MSWINDOWS}
-
+      /// <summary>
+      /// Open developer tools (DevTools) in its own browser. If inspectElementAt has a valid point
+      /// with coordinates different than low(integer) then the element at the specified location
+      /// will be inspected. If the DevTools browser is already open then it will be focused.
+      /// </summary>
       procedure ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl = nil);
+      /// <summary>
+      /// Close the developer tools.
+      /// </summary>
       procedure CloseDevTools(const aDevTools : TWinControl = nil);
-
+      /// <summary>
+      /// Move the parent form to the x and y coordinates.
+      /// </summary>
       procedure MoveFormTo(const x, y: Integer);
+      /// <summary>
+      /// Move the parent form adding x and y to the coordinates.
+      /// </summary>
       procedure MoveFormBy(const x, y: Integer);
+      /// <summary>
+      /// Add x to the parent form width.
+      /// </summary>
       procedure ResizeFormWidthTo(const x : Integer);
+      /// <summary>
+      /// Add y to the parent form height.
+      /// </summary>
       procedure ResizeFormHeightTo(const y : Integer);
+      /// <summary>
+      /// Set the parent form left property to x.
+      /// </summary>
       procedure SetFormLeftTo(const x : Integer);
+      /// <summary>
+      /// Set the parent form top property to y.
+      /// </summary>
       procedure SetFormTopTo(const y : Integer);
-
+      /// <summary>
+      /// Used to create the browser after the global request context has been
+      /// initialized. You need to set all properties and events before calling
+      /// this function because it will only create the internal handlers needed
+      /// for those events and the property values will be used in the browser
+      /// initialization.
+      /// The browser will be fully initialized when the TChromiumCore.OnAfterCreated
+      /// event is triggered.
+      /// </summary>
       function  CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
+      /// Copy the DC to a bitmap stream. Only works on Windows with browsers without GPU acceleration.
+      /// It's recommended to use the "Page.captureScreenshot" DevTools method instead.
+      /// </summary>
       function  SaveAsBitmapStream(const aStream : TStream) : boolean;
+      /// <summary>
+      /// Copy the DC to a TBitmap. Only works on Windows with browsers without GPU acceleration.
+      /// It's recommended to use the "Page.captureScreenshot" DevTools method instead.
+      /// </summary>
       function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
   end;
 
