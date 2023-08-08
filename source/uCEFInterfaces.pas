@@ -844,7 +844,7 @@ type
     procedure SetFocus(focus: Boolean);
     /// <summary>
     /// Retrieve the window handle (if any) for this browser. If this browser is
-    /// wrapped in a cef_browser_view_t this function should be called on the
+    /// wrapped in a ICefBrowserView this function should be called on the
     /// browser process UI thread and it will return the handle for the top-level
     /// native window.
     /// </summary>
@@ -852,12 +852,12 @@ type
     /// <summary>
     /// Retrieve the window handle (if any) of the browser that opened this
     /// browser. Will return NULL for non-popup browsers or if this browser is
-    /// wrapped in a cef_browser_view_t. This function can be used in combination
+    /// wrapped in a ICefBrowserView. This function can be used in combination
     /// with custom handling of modal windows.
     /// </summary>
     function  GetOpenerWindowHandle: TCefWindowHandle;
     /// <summary>
-    /// Returns true (1) if this browser is wrapped in a cef_browser_view_t.
+    /// Returns true (1) if this browser is wrapped in a ICefBrowserView.
     /// </summary>
     function  HasView: Boolean;
     /// <summary>
@@ -1280,13 +1280,13 @@ type
     procedure SetAccessibilityState(accessibilityState: TCefState);
     /// <summary>
     /// Enable notifications of auto resize via
-    /// cef_display_handler_t::OnAutoResize. Notifications are disabled by
+    /// ICefDisplayHandler.OnAutoResize. Notifications are disabled by
     /// default. |min_size| and |max_size| define the range of allowed sizes.
     /// </summary>
     procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
     /// <summary>
     /// Returns the extension hosted in this browser or NULL if no extension is
-    /// hosted. See cef_request_context_t::LoadExtension for details.
+    /// hosted. See ICefRequestContext.LoadExtension for details.
     /// </summary>
     function  GetExtension : ICefExtension;
     /// <summary>
@@ -1409,7 +1409,7 @@ type
     ['{BA003C2E-CF15-458F-9D4A-FE3CEFCF3EEF}']
     /// <summary>
     /// True if this object is currently valid. This will return false (0) after
-    /// cef_life_span_handler_t::OnBeforeClose is called.
+    /// ICefLifeSpanHandler.OnBeforeClose is called.
     /// </summary>
     function  IsValid: boolean;
     /// <summary>
@@ -3013,7 +3013,7 @@ type
   ICefThread = interface(ICefBaseRefCounted)
     ['{26B30EA5-F44A-4C40-97DF-67FD9E73A4FF}']
     /// <summary>
-    /// Returns the cef_task_runner_t that will execute code on this thread's
+    /// Returns the ICefTaskRunner that will execute code on this thread's
     /// message loop. This function is safe to call from any thread.
     /// </summary>
     function  GetTaskRunner : ICefTaskRunner;
@@ -3262,8 +3262,8 @@ type
     function SetValueByIndex(index: Integer; const value: ICefv8Value): Boolean;
     /// <summary>
     /// Registers an identifier and returns true (1) on success. Access to the
-    /// identifier will be forwarded to the cef_v8accessor_t instance passed to
-    /// cef_v8value_t::cef_v8value_create_object(). Returns false (0) if this
+    /// identifier will be forwarded to the ICefV8Accessor instance passed to
+    /// cef_v8value_create_object(). Returns false (0) if this
     /// function is called incorrectly or an exception is thrown. For read-only
     /// values this function will return true (1) even though assignment failed.
     /// </summary>
@@ -3292,7 +3292,7 @@ type
     /// Adjusts the amount of registered external memory for the object. Used to
     /// give V8 an indication of the amount of externally allocated memory that is
     /// kept alive by JavaScript objects. V8 uses this information to decide when
-    /// to perform global garbage collection. Each cef_v8value_t tracks the amount
+    /// to perform global garbage collection. Each ICefv8Value tracks the amount
     /// of external memory associated with it and automatically decreases the
     /// global total by the appropriate amount on its destruction.
     /// |change_in_bytes| specifies the number of bytes to adjust by. This
@@ -3313,7 +3313,7 @@ type
     /// Prevent the ArrayBuffer from using it's memory block by setting the length
     /// to zero. This operation cannot be undone. If the ArrayBuffer was created
     /// with CreateArrayBuffer then
-    /// cef_v8array_buffer_release_callback_t::ReleaseBuffer will be called to
+    /// ICefv8ArrayBufferReleaseCallback.ReleaseBuffer will be called to
     /// release the underlying buffer.
     /// </summary>
     function NeuterArrayBuffer : boolean;
@@ -3327,9 +3327,9 @@ type
     function GetFunctionHandler: ICefv8Handler;
     /// <summary>
     /// Execute the function using the current V8 context. This function should
-    /// only be called from within the scope of a cef_v8handler_t or
-    /// cef_v8accessor_t callback, or in combination with calling enter() and
-    /// exit() on a stored cef_v8context_t reference. |object| is the receiver
+    /// only be called from within the scope of a ICefv8Handler or
+    /// ICefV8Accessor callback, or in combination with calling enter() and
+    /// exit() on a stored ICefv8Context reference. |object| is the receiver
     /// ('this' object) of the function. If |object| is NULL the current context's
     /// global object will be used. |arguments| is the list of arguments that will
     /// be passed to the function. Returns the function return value on success.
@@ -3348,18 +3348,18 @@ type
     function ExecuteFunctionWithContext(const context: ICefv8Context; const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
     /// <summary>
     /// Resolve the Promise using the current V8 context. This function should
-    /// only be called from within the scope of a cef_v8handler_t or
-    /// cef_v8accessor_t callback, or in combination with calling enter() and
-    /// exit() on a stored cef_v8context_t reference. |arg| is the argument passed
+    /// only be called from within the scope of a ICefv8Handler or
+    /// ICefV8Accessor callback, or in combination with calling enter() and
+    /// exit() on a stored ICefv8Context reference. |arg| is the argument passed
     /// to the resolved promise. Returns true (1) on success. Returns false (0) if
     /// this function is called incorrectly or an exception is thrown.
     /// </summary>
     function ResolvePromise(const arg: ICefv8Value): boolean;
     /// <summary>
     /// Reject the Promise using the current V8 context. This function should only
-    /// be called from within the scope of a cef_v8handler_t or cef_v8accessor_t
+    /// be called from within the scope of a ICefv8Handler or ICefV8Accessor
     /// callback, or in combination with calling enter() and exit() on a stored
-    /// cef_v8context_t reference. Returns true (1) on success. Returns false (0)
+    /// ICefv8Context reference. Returns true (1) on success. Returns false (0)
     /// if this function is called incorrectly or an exception is thrown.
     /// </summary>
     function RejectPromise(const errorMsg: ustring): boolean;
@@ -4667,8 +4667,8 @@ type
     /// Provides an opportunity to view and/or modify command-line arguments
     /// before processing by CEF and Chromium. The |process_type| value will be
     /// NULL for the browser process. Do not keep a reference to the
-    /// cef_command_line_t object passed to this function. The
-    /// cef_settings_t.command_line_args_disabled value can be used to start with
+    /// ICefCommandLine object passed to this function. The
+    /// TCefSettings.command_line_args_disabled value can be used to start with
     /// an NULL command-line object. Any values specified in CefSettings that
     /// equate to command-line arguments will be set before this function is
     /// called. Be cautious when using this function to modify command-line
@@ -4685,7 +4685,7 @@ type
     procedure OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
     /// <summary>
     /// Return the handler for resource bundle events. If
-    /// cef_settings_t.pack_loading_disabled is true (1) a handler must be
+    /// TCefSettings.pack_loading_disabled is true (1) a handler must be
     /// returned. If no handler is returned resources will be loaded from pack
     /// files. This function is called by the browser and render processes on
     /// multiple threads.
@@ -6350,11 +6350,11 @@ type
     /// <summary>
     /// Returns the absolute path to the extension directory on disk. This value
     /// will be prefixed with PK_DIR_RESOURCES if a relative path was passed to
-    /// cef_request_context_t::LoadExtension.
+    /// ICefRequestContext.LoadExtension.
     /// </summary>
     function  GetPath : ustring;
     /// <summary>
-    /// Returns the extension manifest contents as a cef_dictionary_value_t
+    /// Returns the extension manifest contents as a ICefDictionaryValue
     /// object. See https://developer.chrome.com/extensions/manifest for details.
     /// </summary>
     function  GetManifest : ICefDictionaryValue;
@@ -6367,13 +6367,13 @@ type
     /// <summary>
     /// Returns the handler for this extension. Will return NULL for internal
     /// extensions or if no handler was passed to
-    /// cef_request_context_t::LoadExtension.
+    /// ICefRequestContext.LoadExtension.
     /// </summary>
     function  GetHandler : ICefExtensionHandler;
     /// <summary>
     /// Returns the request context that loaded this extension. Will return NULL
     /// for internal extensions or if the extension has been unloaded. See the
-    /// cef_request_context_t::LoadExtension documentation for more information
+    /// ICefRequestContext.LoadExtension documentation for more information
     /// about loader contexts. Must be called on the browser process UI thread.
     /// </summary>
     function  GetLoaderContext : ICefRequestContext;
@@ -6385,7 +6385,7 @@ type
     /// <summary>
     /// Unload this extension if it is not an internal extension and is currently
     /// loaded. Will result in a call to
-    /// cef_extension_handler_t::OnExtensionUnloaded on success.
+    /// ICefExtensionHandler.OnExtensionUnloaded on success.
     /// </summary>
     procedure unload;
     function  GetBrowserActionPopup : ustring;
@@ -6405,24 +6405,24 @@ type
     /// <summary>
     /// Returns the absolute path to the extension directory on disk. This value
     /// will be prefixed with PK_DIR_RESOURCES if a relative path was passed to
-    /// cef_request_context_t::LoadExtension.
+    /// ICefRequestContext.LoadExtension.
     /// </summary>
     property  Path                : ustring               read GetPath;
     /// <summary>
-    /// Returns the extension manifest contents as a cef_dictionary_value_t
+    /// Returns the extension manifest contents as a ICefDictionaryValue
     /// object. See https://developer.chrome.com/extensions/manifest for details.
     /// </summary>
     property  Manifest            : ICefDictionaryValue   read GetManifest;
     /// <summary>
     /// Returns the handler for this extension. Will return NULL for internal
     /// extensions or if no handler was passed to
-    /// cef_request_context_t::LoadExtension.
+    /// ICefRequestContext.LoadExtension.
     /// </summary>
     property  Handler             : ICefExtensionHandler  read GetHandler;
     /// <summary>
     /// Returns the request context that loaded this extension. Will return NULL
     /// for internal extensions or if the extension has been unloaded. See the
-    /// cef_request_context_t::LoadExtension documentation for more information
+    /// ICefRequestContext.LoadExtension documentation for more information
     /// about loader contexts. Must be called on the browser process UI thread.
     /// </summary>
     property  LoaderContext       : ICefRequestContext    read GetLoaderContext;
@@ -6817,7 +6817,7 @@ type
     function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean;
     /// <summary>
     /// Called when auto-resize is enabled via
-    /// cef_browser_host_t::SetAutoResizeEnabled and the contents have auto-
+    /// ICefBrowserHost.SetAutoResizeEnabled and the contents have auto-
     /// resized. |new_size| will be the desired size in view coordinates. Return
     /// true (1) if the resize was handled or false (0) for default handling.
     /// </summary>
@@ -7088,7 +7088,7 @@ type
     /// <summary>
     /// Called to execute a command selected from the context menu. Return true
     /// (1) if the command was handled or false (0) for the default
-    /// implementation. See cef_menu_id_t for the command ids that have default
+    /// implementation. See TCefMenuId for the command ids that have default
     /// implementations. All user-defined command ids should be between
     /// MENU_ID_USER_FIRST and MENU_ID_USER_LAST. |params| will have the same
     /// values as what was passed to on_before_context_menu(). Do not keep a
@@ -7113,7 +7113,7 @@ type
     /// <summary>
     /// Called to execute a command selected from the quick menu for a windowless
     /// browser. Return true (1) if the command was handled or false (0) for the
-    /// default implementation. See cef_menu_id_t for command IDs that have
+    /// default implementation. See TCefMenuId for command IDs that have
     /// default implementations.
     /// </summary>
     function  OnQuickMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; command_id: integer; event_flags: TCefEventFlags): boolean;
@@ -7367,8 +7367,8 @@ type
     /// </summary>
     procedure GetFocusHandler(var aHandler : ICefFocusHandler);
     /// <summary>
-    /// Return the handler for events related to cef_frame_t lifespan. This
-    /// function will be called once during cef_browser_t creation and the result
+    /// Return the handler for events related to ICefFrame lifespan. This
+    /// function will be called once during ICefBrowser creation and the result
     /// will be cached for performance reasons.
     /// </summary>
     procedure GetFrameHandler(var aHandler : ICefFrameHandler);
@@ -7686,7 +7686,7 @@ type
     procedure SetFragmentBaseUrl(const baseUrl: ustring);
     /// <summary>
     /// Reset the file contents. You should do this before calling
-    /// cef_browser_host_t::DragTargetDragEnter as the web view does not allow us
+    /// ICefBrowserHost.DragTargetDragEnter as the web view does not allow us
     /// to drag in this kind of data.
     /// </summary>
     procedure ResetFileContents;
@@ -7947,7 +7947,7 @@ type
     /// will be ignored for non-standard schemes. If |scheme_name| is a built-in
     /// scheme and no handler is returned by |factory| then the built-in scheme
     /// handler factory will be called. If |scheme_name| is a custom scheme then
-    /// you must also implement the cef_app_t::on_register_custom_schemes()
+    /// you must also implement the ICefApp.OnRegisterCustomSchemes()
     /// function in all processes. This function may be called multiple times to
     /// change or remove the factory that matches the specified |scheme_name| and
     /// optional |domain_name|. Returns false (0) if an error occurs. This
@@ -7992,8 +7992,8 @@ type
     /// If extension resources will be read from disk using the default load
     /// implementation then |root_directory| should be the absolute path to the
     /// extension resources directory and |manifest| should be NULL. If extension
-    /// resources will be provided by the client (e.g. via cef_request_handler_t
-    /// and/or cef_extension_handler_t) then |root_directory| should be a path
+    /// resources will be provided by the client (e.g. via ICefRequestHandler
+    /// and/or ICefExtensionHandler) then |root_directory| should be a path
     /// component unique to the extension (if not absolute this will be internally
     /// prefixed with the PK_DIR_RESOURCES path) and |manifest| should contain the
     /// contents that would otherwise be read from the "manifest.json" file on
@@ -8003,20 +8003,20 @@ type
     /// storage (HasExtension returns true (1)). However, only the context on
     /// which this function was called is considered the loader (DidLoadExtension
     /// returns true (1)) and only the loader will receive
-    /// cef_request_context_handler_t callbacks for the extension.
+    /// ICefRequestContextHandler callbacks for the extension.
     ///
-    /// cef_extension_handler_t::OnExtensionLoaded will be called on load success
-    /// or cef_extension_handler_t::OnExtensionLoadFailed will be called on load
+    /// ICefExtensionHandler.OnExtensionLoaded will be called on load success
+    /// or ICefExtensionHandler.OnExtensionLoadFailed will be called on load
     /// failure.
     ///
     /// If the extension specifies a background script via the "background"
-    /// manifest key then cef_extension_handler_t::OnBeforeBackgroundBrowser will
+    /// manifest key then ICefExtensionHandler.OnBeforeBackgroundBrowser will
     /// be called to create the background browser. See that function for
     /// additional information about background scripts.
     ///
     /// For visible extension views the client application should evaluate the
     /// manifest to determine the correct extension URL to load and then pass that
-    /// URL to the cef_browser_host_t::CreateBrowser* function after the extension
+    /// URL to the ICefBrowserHost.CreateBrowser* function after the extension
     /// has loaded. For example, the client can look for the "browser_action"
     /// manifest key as documented at
     /// https://developer.chrome.com/extensions/browserAction. Extension URLs take
@@ -8644,13 +8644,13 @@ type
     /// </summary>
     function GetLocalizedString(stringId: Integer): ustring;
     /// <summary>
-    /// Returns a cef_binary_value_t containing the decompressed contents of the
+    /// Returns a ICefBinaryValue containing the decompressed contents of the
     /// specified scale independent |resource_id| or NULL if not found. Include
     /// cef_pack_resources.h for a listing of valid resource ID values.
     /// </summary>
     function GetDataResource(resourceId: Integer): ICefBinaryValue;
     /// <summary>
-    /// Returns a cef_binary_value_t containing the decompressed contents of the
+    /// Returns a ICefBinaryValue containing the decompressed contents of the
     /// specified |resource_id| nearest the scale factor |scale_factor| or NULL if
     /// not found. Use a |scale_factor| value of SCALE_FACTOR_NONE for scale
     /// independent resources or call GetDataResource instead.Include
@@ -8732,7 +8732,7 @@ type
     /// |scale_factor|. Only 32-bit RGBA/BGRA formats are supported. |color_type|
     /// and |alpha_type| values specify the desired output pixel format.
     /// |pixel_width| and |pixel_height| are the output representation size in
-    /// pixel coordinates. Returns a cef_binary_value_t containing the pixel data
+    /// pixel coordinates. Returns a ICefBinaryValue containing the pixel data
     /// on success or NULL on failure.
     /// </summary>
     function GetAsBitmap(scaleFactor: Single; colorType: TCefColorType; alphaType: TCefAlphaType; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
@@ -8741,7 +8741,7 @@ type
     /// If |with_transparency| is true (1) any alpha transparency in the image
     /// will be represented in the resulting PNG data. |pixel_width| and
     /// |pixel_height| are the output representation size in pixel coordinates.
-    /// Returns a cef_binary_value_t containing the PNG image data on success or
+    /// Returns a ICefBinaryValue containing the PNG image data on success or
     /// NULL on failure.
     /// </summary>
     function GetAsPng(scaleFactor: Single; withTransparency: Boolean; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
@@ -8751,7 +8751,7 @@ type
     /// highest. The JPEG format does not support alpha transparency and the alpha
     /// channel, if any, will be discarded. |pixel_width| and |pixel_height| are
     /// the output representation size in pixel coordinates. Returns a
-    /// cef_binary_value_t containing the JPEG image data on success or NULL on
+    /// ICefBinaryValue containing the JPEG image data on success or NULL on
     /// failure.
     /// </summary>
     function GetAsJpeg(scaleFactor: Single; quality: Integer; var pixelWidth, pixelHeight: Integer): ICefBinaryValue;
@@ -9163,7 +9163,7 @@ type
     /// </summary>
     function Memory: pointer;
     /// <summary>
-    /// Creates a new cef_process_message_t from the data provided to the builder.
+    /// Creates a new ICefProcessMessage from the data provided to the builder.
     /// Returns nullptr for invalid instances. Invalidates the builder instance.
     /// </summary>
     function Build: ICefProcessMessage;
@@ -9189,18 +9189,65 @@ type
   /// </remarks>
   ICefDisplay = interface(ICefBaseRefCounted)
     ['{EC2D3606-DB4C-4894-8D38-B8F99E091965}']
+    /// <summary>
+    /// Returns the unique identifier for this Display.
+    /// </summary>
     function  GetID : int64;
+    /// <summary>
+    /// Returns this Display's device pixel scale factor. This specifies how much
+    /// the UI should be scaled when the actual output has more pixels than
+    /// standard displays (which is around 100~120dpi). The potential return
+    /// values differ by platform.
+    /// </summary>
     function  GetDeviceScaleFactor : Single;
+    /// <summary>
+    /// Convert |point| from DIP coordinates to pixel coordinates using this
+    /// Display's device scale factor.
+    /// </summary>
     procedure ConvertPointToPixels(var point: TCefPoint);
+    /// <summary>
+    /// Convert |point| from pixel coordinates to DIP coordinates using this
+    /// Display's device scale factor.
+    /// </summary>
     procedure ConvertPointFromPixels(var point: TCefPoint);
+    /// <summary>
+    /// Returns this Display's bounds in DIP screen coordinates. This is the full
+    /// size of the display.
+    /// </summary>
     function  GetBounds : TCefRect;
+    /// <summary>
+    /// Returns this Display's work area in DIP screen coordinates. This excludes
+    /// areas of the display that are occupied with window manager toolbars, etc.
+    /// </summary>
     function  GetWorkArea : TCefRect;
+    /// <summary>
+    /// Returns this Display's rotation in degrees.
+    /// </summary>
     function  GetRotation : Integer;
-
+    /// <summary>
+    /// Returns the unique identifier for this Display.
+    /// </summary>
     property  ID                : int64      read GetID;
+    /// <summary>
+    /// Returns this Display's device pixel scale factor. This specifies how much
+    /// the UI should be scaled when the actual output has more pixels than
+    /// standard displays (which is around 100~120dpi). The potential return
+    /// values differ by platform.
+    /// </summary>
     property  DeviceScaleFactor : Single     read GetDeviceScaleFactor;
+    /// <summary>
+    /// Returns this Display's bounds in DIP screen coordinates. This is the full
+    /// size of the display.
+    /// </summary>
     property  Bounds            : TCefRect   read GetBounds;
+    /// <summary>
+    /// Returns this Display's work area in DIP screen coordinates. This excludes
+    /// areas of the display that are occupied with window manager toolbars, etc.
+    /// </summary>
     property  WorkArea          : TCefRect   read GetWorkArea;
+    /// <summary>
+    /// Returns this Display's rotation in degrees.
+    /// </summary>
     property  Rotation          : Integer    read GetRotation;
   end;
 
@@ -9215,8 +9262,17 @@ type
   /// </remarks>
   ICefLayout = interface(ICefBaseRefCounted)
     ['{0EC7AE4B-1672-4D0B-B617-0BDA72F3C7F4}']
+    /// <summary>
+    /// Returns this Layout as a BoxLayout or NULL if this is not a BoxLayout.
+    /// </summary>
     function AsBoxLayout : ICefBoxLayout;
+    /// <summary>
+    /// Returns this Layout as a FillLayout or NULL if this is not a FillLayout.
+    /// </summary>
     function AsFillLayout : ICefFillLayout;
+    /// <summary>
+    /// Returns true (1) if this Layout is valid.
+    /// </summary>
     function IsValid : boolean;
 
     property Valid              : boolean    read IsValid;
@@ -9236,7 +9292,18 @@ type
   /// </remarks>
   ICefBoxLayout = interface(ICefLayout)
     ['{E59FCCAE-A371-4C21-98D3-93D3217016AE}']
+    /// <summary>
+    /// Set the flex weight for the given |view|. Using the preferred size as the
+    /// basis, free space along the main axis is distributed to views in the ratio
+    /// of their flex weights. Similarly, if the views will overflow the parent,
+    /// space is subtracted in these ratios. A flex of 0 means this view is not
+    /// resized. Flex values must not be negative.
+    /// </summary>
     procedure SetFlexForView(const view: ICefView; flex: Integer);
+    /// <summary>
+    /// Clears the flex for the given |view|, causing it to use the default flex
+    /// specified via TCefBoxLayoutSettings.default_flex.
+    /// </summary>
     procedure ClearFlexForView(const view: ICefView);
   end;
 
@@ -9266,34 +9333,169 @@ type
   /// </remarks>
   ICefOverlayController = interface(ICefBaseRefCounted)
     ['{13E1F3D2-32FF-4D30-A30E-D67B6A4846AB}']
+    /// <summary>
+    /// Returns true (1) if this object is valid.
+    /// </summary>
     function  IsValid: boolean;
+    /// <summary>
+    /// Returns true (1) if this object is the same as |that| object.
+    /// </summary>
     function  IsSame(const that: ICefOverlayController): boolean;
+    /// <summary>
+    /// Returns the contents View for this overlay.
+    /// </summary>
     function  GetContentsView: ICefView;
+    /// <summary>
+    /// Returns the top-level Window hosting this overlay. Use this function
+    /// instead of calling get_window() on the contents View.
+    /// </summary>
     function  GetWindow: ICefWindow;
+    /// <summary>
+    /// Returns the docking mode for this overlay.
+    /// </summary>
     function  GetDockingMode: TCefDockingMode;
+    /// <summary>
+    /// Destroy this overlay.
+    /// </summary>
     procedure DestroyOverlay;
+    /// <summary>
+    /// Sets the bounds (size and position) of this overlay. This will set the
+    /// bounds of the contents View to match and trigger a re-layout if necessary.
+    /// |bounds| is in parent coordinates and any insets configured on this
+    /// overlay will be ignored. Use this function only for overlays created with
+    /// a docking mode value of CEF_DOCKING_MODE_CUSTOM. With other docking modes
+    /// modify the insets of this overlay and/or layout of the contents View and
+    /// call size_to_preferred_size() instead to calculate the new size and re-
+    /// position the overlay if necessary.
+    /// </summary>
     procedure SetBounds(const bounds: TCefRect);
+    /// <summary>
+    /// Returns the bounds (size and position) of this overlay in parent
+    /// coordinates.
+    /// </summary>
     function  GetBounds: TCefRect;
+    /// <summary>
+    /// Returns the bounds (size and position) of this overlay in DIP screen
+    /// coordinates.
+    /// </summary>
     function  GetBoundsInScreen: TCefRect;
+    /// <summary>
+    /// Sets the size of this overlay without changing the position. This will set
+    /// the size of the contents View to match and trigger a re-layout if
+    /// necessary. |size| is in parent coordinates and any insets configured on
+    /// this overlay will be ignored. Use this function only for overlays created
+    /// with a docking mode value of CEF_DOCKING_MODE_CUSTOM. With other docking
+    /// modes modify the insets of this overlay and/or layout of the contents View
+    /// and call size_to_preferred_size() instead to calculate the new size and
+    /// re-position the overlay if necessary.
+    /// </summary>
     procedure SetSize(const size: TCefSize);
+    /// <summary>
+    /// Returns the size of this overlay in parent coordinates.
+    /// </summary>
     function  GetSize: TCefSize;
+    /// <summary>
+    /// Sets the position of this overlay without changing the size. |position| is
+    /// in parent coordinates and any insets configured on this overlay will be
+    /// ignored. Use this function only for overlays created with a docking mode
+    /// value of CEF_DOCKING_MODE_CUSTOM. With other docking modes modify the
+    /// insets of this overlay and/or layout of the contents View and call
+    /// size_to_preferred_size() instead to calculate the new size and re-position
+    /// the overlay if necessary.
+    /// </summary>
     procedure SetPosition(const position: TCefPoint);
+    /// <summary>
+    /// Returns the position of this overlay in parent coordinates.
+    /// </summary>
     function  GetPosition: TCefPoint;
+    /// <summary>
+    /// Sets the insets for this overlay. |insets| is in parent coordinates. Use
+    /// this function only for overlays created with a docking mode value other
+    /// than CEF_DOCKING_MODE_CUSTOM.
+    /// </summary>
     procedure SetInsets(const insets: TCefInsets);
+    /// <summary>
+    /// Returns the insets for this overlay in parent coordinates.
+    /// </summary>
     function  GetInsets: TCefInsets;
+    /// <summary>
+    /// Size this overlay to its preferred size and trigger a re-layout if
+    /// necessary. The position of overlays created with a docking mode value of
+    /// CEF_DOCKING_MODE_CUSTOM will not be modified by calling this function.
+    /// With other docking modes this function may re-position the overlay if
+    /// necessary to accommodate the new size and any insets configured on the
+    /// contents View.
+    /// </summary>
     procedure SizeToPreferredSize;
+    /// <summary>
+    /// Sets whether this overlay is visible. Overlays are hidden by default. If
+    /// this overlay is hidden then it and any child Views will not be drawn and,
+    /// if any of those Views currently have focus, then focus will also be
+    /// cleared. Painting is scheduled as needed.
+    /// </summary>
     procedure SetVisible(visible: boolean);
+    /// <summary>
+    /// Returns whether this overlay is visible. A View may be visible but still
+    /// not drawn in a Window if any parent Views are hidden. Call is_drawn() to
+    /// determine whether this overlay and all parent Views are visible and will
+    /// be drawn.
+    /// </summary>
     function  IsVisible: boolean;
+    /// <summary>
+    /// Returns whether this overlay is visible and drawn in a Window. A View is
+    /// drawn if it and all parent Views are visible. To determine if the
+    /// containing Window is visible to the user on-screen call is_visible() on
+    /// the Window.
+    /// </summary>
     function  IsDrawn: boolean;
+    /// <summary>
+    /// Returns the contents View for this overlay.
+    /// </summary>
     property ContentsView   : ICefView          read GetContentsView;
+    /// <summary>
+    /// Returns the top-level Window hosting this overlay. Use this function
+    /// instead of calling get_window() on the contents View.
+    /// </summary>
     property Window         : ICefWindow        read GetWindow;
+    /// <summary>
+    /// Returns the docking mode for this overlay.
+    /// </summary>
     property DockingMode    : TCefDockingMode   read GetDockingMode;
+    /// <summary>
+    /// Returns the bounds (size and position) of this overlay in parent
+    /// coordinates.
+    /// </summary>
     property Bounds         : TCefRect          read GetBounds           write SetBounds;
+    /// <summary>
+    /// Returns the bounds (size and position) of this overlay in DIP screen
+    /// coordinates.
+    /// </summary>
     property BoundsInScreen : TCefRect          read GetBoundsInScreen;
+    /// <summary>
+    /// Returns the size of this overlay in parent coordinates.
+    /// </summary>
     property Size           : TCefSize          read GetSize             write SetSize;
+    /// <summary>
+    /// Returns the position of this overlay in parent coordinates.
+    /// </summary>
     property Position       : TCefPoint         read GetPosition         write SetPosition;
+    /// <summary>
+    /// Returns the insets for this overlay in parent coordinates.
+    /// </summary>
     property Insets         : TCefInsets        read GetInsets           write SetInsets;
+    /// <summary>
+    /// Returns whether this overlay is visible. A View may be visible but still
+    /// not drawn in a Window if any parent Views are hidden. Call is_drawn() to
+    /// determine whether this overlay and all parent Views are visible and will
+    /// be drawn.
+    /// </summary>
     property Visible        : boolean           read IsVisible           write SetVisible;
+    /// <summary>
+    /// Returns whether this overlay is visible and drawn in a Window. A View is
+    /// drawn if it and all parent Views are visible. To determine if the
+    /// containing Window is visible to the user on-screen call is_visible() on
+    /// the Window.
+    /// </summary>
     property Drawn          : boolean           read IsDrawn;
   end;
 
@@ -9309,78 +9511,381 @@ type
   /// </remarks>
   ICefView = interface(ICefBaseRefCounted)
     ['{E9AF950A-F4E8-420C-BD1F-F26F4FDFA48D}']
+    /// <summary>
+    /// Returns this View as a BrowserView or NULL if this is not a BrowserView.
+    /// </summary>
     function  AsBrowserView : ICefBrowserView;
+    /// <summary>
+    /// Returns this View as a Button or NULL if this is not a Button.
+    /// </summary>
     function  AsButton : ICefButton;
+    /// <summary>
+    /// Returns this View as a Panel or NULL if this is not a Panel.
+    /// </summary>
     function  AsPanel : ICefPanel;
+    /// <summary>
+    /// Returns this View as a ScrollView or NULL if this is not a ScrollView.
+    /// </summary>
     function  AsScrollView : ICefScrollView;
+    /// <summary>
+    /// Returns this View as a Textfield or NULL if this is not a Textfield.
+    /// </summary>
     function  AsTextfield : ICefTextfield;
+    /// <summary>
+    /// Returns the type of this View as a string. Used primarily for testing
+    /// purposes.
+    /// </summary>
     function  GetTypeString : ustring;
+    /// <summary>
+    /// Returns a string representation of this View which includes the type and
+    /// various type-specific identifying attributes. If |include_children| is
+    /// true (1) any child Views will also be included. Used primarily for testing
+    /// purposes.
+    /// </summary>
     function  ToStringEx(include_children: boolean): ustring;
+    /// <summary>
+    /// Returns true (1) if this View is valid.
+    /// </summary>
     function  IsValid : boolean;
+    /// <summary>
+    /// Returns true (1) if this View is currently attached to another View. A
+    /// View can only be attached to one View at a time.
+    /// </summary>
     function  IsAttached : boolean;
+    /// <summary>
+    /// Returns true (1) if this View is the same as |that| View.
+    /// </summary>
     function  IsSame(const that: ICefView): boolean;
+    /// <summary>
+    /// Returns the delegate associated with this View, if any.
+    /// </summary>
     function  GetDelegate : ICefViewDelegate;
+    /// <summary>
+    /// Returns the top-level Window hosting this View, if any.
+    /// </summary>
     function  GetWindow : ICefWindow;
+    /// <summary>
+    /// Returns the ID for this View.
+    /// </summary>
     function  GetID : Integer;
+    /// <summary>
+    /// Sets the ID for this View. ID should be unique within the subtree that you
+    /// intend to search for it. 0 is the default ID for views.
+    /// </summary>
     procedure SetID(id_: Integer);
+    /// <summary>
+    /// Returns the group id of this View, or -1 if not set.
+    /// </summary>
     function  GetGroupID : Integer;
+    /// <summary>
+    /// A group id is used to tag Views which are part of the same logical group.
+    /// Focus can be moved between views with the same group using the arrow keys.
+    /// The group id is immutable once it's set.
+    /// </summary>
     procedure SetGroupID(group_id: Integer);
+    /// <summary>
+    /// Returns the View that contains this View, if any.
+    /// </summary>
     function  GetParentView : ICefView;
+    /// <summary>
+    /// Recursively descends the view tree starting at this View, and returns the
+    /// first child that it encounters with the given ID. Returns NULL if no
+    /// matching child view is found.
+    /// </summary>
     function  GetViewForID(id_: Integer): ICefView;
+    /// <summary>
+    /// Sets the bounds (size and position) of this View. |bounds| is in parent
+    /// coordinates, or DIP screen coordinates if there is no parent.
+    /// </summary>
     procedure SetBounds(const bounds_: TCefRect);
+    /// <summary>
+    /// Returns the bounds (size and position) of this View in parent coordinates,
+    /// or DIP screen coordinates if there is no parent.
+    /// </summary>
     function  GetBounds : TCefRect;
+    /// <summary>
+    /// Returns the bounds (size and position) of this View in DIP screen
+    /// coordinates.
+    /// </summary>
     function  GetBoundsInScreen : TCefRect;
+    /// <summary>
+    /// Sets the size of this View without changing the position. |size| in parent
+    /// coordinates, or DIP screen coordinates if there is no parent.
+    /// </summary>
     procedure SetSize(const size_: TCefSize);
+    /// <summary>
+    /// Returns the size of this View in parent coordinates, or DIP screen
+    /// coordinates if there is no parent.
+    /// </summary>
     function  GetSize : TCefSize;
+    /// <summary>
+    /// Sets the position of this View without changing the size. |position| is in
+    /// parent coordinates, or DIP screen coordinates if there is no parent.
+    /// </summary>
     procedure SetPosition(const position_: TCefPoint);
+    /// <summary>
+    /// Returns the position of this View. Position is in parent coordinates, or
+    /// DIP screen coordinates if there is no parent.
+    /// </summary>
     function  GetPosition : TCefPoint;
+    /// <summary>
+    /// Sets the insets for this View. |insets| is in parent coordinates, or DIP
+    /// screen coordinates if there is no parent.
+    /// </summary>
     procedure SetInsets(const insets: TCefInsets);
+    /// <summary>
+    /// Returns the insets for this View in parent coordinates, or DIP screen
+    /// coordinates if there is no parent.
+    /// </summary>
     function  GetInsets: TCefInsets;
+    /// <summary>
+    /// Returns the size this View would like to be if enough space is available.
+    /// Size is in parent coordinates, or DIP screen coordinates if there is no
+    /// parent.
+    /// </summary>
     function  GetPreferredSize : TCefSize;
+    /// <summary>
+    /// Size this View to its preferred size. Size is in parent coordinates, or
+    /// DIP screen coordinates if there is no parent.
+    /// </summary>
     procedure SizeToPreferredSize;
+    /// <summary>
+    /// Returns the minimum size for this View. Size is in parent coordinates, or
+    /// DIP screen coordinates if there is no parent.
+    /// </summary>
     function  GetMinimumSize : TCefSize;
+    /// <summary>
+    /// Returns the maximum size for this View. Size is in parent coordinates, or
+    /// DIP screen coordinates if there is no parent.
+    /// </summary>
     function  GetMaximumSize : TCefSize;
+    /// <summary>
+    /// Returns the height necessary to display this View with the provided width.
+    /// </summary>
     function  GetHeightForWidth(width: Integer): Integer;
+    /// <summary>
+    /// Indicate that this View and all parent Views require a re-layout. This
+    /// ensures the next call to layout() will propagate to this View even if the
+    /// bounds of parent Views do not change.
+    /// </summary>
     procedure InvalidateLayout;
+    /// <summary>
+    /// Sets whether this View is visible. Windows are hidden by default and other
+    /// views are visible by default. This View and any parent views must be set
+    /// as visible for this View to be drawn in a Window. If this View is set as
+    /// hidden then it and any child views will not be drawn and, if any of those
+    /// views currently have focus, then focus will also be cleared. Painting is
+    /// scheduled as needed. If this View is a Window then calling this function
+    /// is equivalent to calling the Window show() and hide() functions.
+    /// </summary>
     procedure SetVisible(visible_: boolean);
+    /// <summary>
+    /// Returns whether this View is visible. A view may be visible but still not
+    /// drawn in a Window if any parent views are hidden. If this View is a Window
+    /// then a return value of true (1) indicates that this Window is currently
+    /// visible to the user on-screen. If this View is not a Window then call
+    /// is_drawn() to determine whether this View and all parent views are visible
+    /// and will be drawn.
+    /// </summary>
     function  IsVisible : boolean;
+    /// <summary>
+    /// Returns whether this View is visible and drawn in a Window. A view is
+    /// drawn if it and all parent views are visible. If this View is a Window
+    /// then calling this function is equivalent to calling is_visible().
+    /// Otherwise, to determine if the containing Window is visible to the user
+    /// on-screen call is_visible() on the Window.
+    /// </summary>
     function  IsDrawn : boolean;
+    /// <summary>
+    /// Set whether this View is enabled. A disabled View does not receive
+    /// keyboard or mouse inputs. If |enabled| differs from the current value the
+    /// View will be repainted. Also, clears focus if the focused View is
+    /// disabled.
+    /// </summary>
     procedure SetEnabled(enabled_: boolean);
+    /// <summary>
+    /// Returns whether this View is enabled.
+    /// </summary>
     function  IsEnabled : boolean;
+    /// <summary>
+    /// Sets whether this View is capable of taking focus. It will clear focus if
+    /// the focused View is set to be non-focusable. This is false (0) by default
+    /// so that a View used as a container does not get the focus.
+    /// </summary>
     procedure SetFocusable(focusable_: boolean);
+    /// <summary>
+    /// Returns true (1) if this View is focusable, enabled and drawn.
+    /// </summary>
     function  IsFocusable : boolean;
+    /// <summary>
+    /// Return whether this View is focusable when the user requires full keyboard
+    /// access, even though it may not be normally focusable.
+    /// </summary>
     function  IsAccessibilityFocusable : boolean;
+    /// <summary>
+    /// Request keyboard focus. If this View is focusable it will become the
+    /// focused View.
+    /// </summary>
     procedure RequestFocus;
+    /// <summary>
+    /// Sets the background color for this View.
+    /// </summary>
     procedure SetBackgroundColor(color: TCefColor);
+    /// <summary>
+    /// Returns the background color for this View.
+    /// </summary>
     function  GetBackgroundColor : TCefColor;
+    /// <summary>
+    /// Convert |point| from this View's coordinate system to DIP screen
+    /// coordinates. This View must belong to a Window when calling this function.
+    /// Returns true (1) if the conversion is successful or false (0) otherwise.
+    /// Use ICefDisplay.ConvertPointToPixels() after calling this function
+    /// if further conversion to display-specific pixel coordinates is desired.
+    /// </summary>
     function  ConvertPointToScreen(var point: TCefPoint): boolean;
+    /// <summary>
+    /// Convert |point| to this View's coordinate system from DIP screen
+    /// coordinates. This View must belong to a Window when calling this function.
+    /// Returns true (1) if the conversion is successful or false (0) otherwise.
+    /// Use ICefDisplay.ConvertPointFromPixels() before calling this
+    /// function if conversion from display-specific pixel coordinates is
+    /// necessary.
+    /// </summary>
     function  ConvertPointFromScreen(var point: TCefPoint): boolean;
+    /// <summary>
+    /// Convert |point| from this View's coordinate system to that of the Window.
+    /// This View must belong to a Window when calling this function. Returns true
+    /// (1) if the conversion is successful or false (0) otherwise.
+    /// </summary>
     function  ConvertPointToWindow(var point: TCefPoint): boolean;
+    /// <summary>
+    /// Convert |point| to this View's coordinate system from that of the Window.
+    /// This View must belong to a Window when calling this function. Returns true
+    /// (1) if the conversion is successful or false (0) otherwise.
+    /// </summary>
     function  ConvertPointFromWindow(var point: TCefPoint): boolean;
+    /// <summary>
+    /// Convert |point| from this View's coordinate system to that of |view|.
+    /// |view| needs to be in the same Window but not necessarily the same view
+    /// hierarchy. Returns true (1) if the conversion is successful or false (0)
+    /// otherwise.
+    /// </summary>
     function  ConvertPointToView(const view : ICefView; var point: TCefPoint): boolean;
+    /// <summary>
+    /// Convert |point| to this View's coordinate system from that |view|. |view|
+    /// needs to be in the same Window but not necessarily the same view
+    /// hierarchy. Returns true (1) if the conversion is successful or false (0)
+    /// otherwise.
+    /// </summary>
     function  ConvertPointFromView(const view : ICefView; var point: TCefPoint): boolean;
-
+    /// <summary>
+    /// Returns true (1) if this View is valid.
+    /// </summary>
     property Valid                  : boolean          read IsValid;
+    /// <summary>
+    /// Returns true (1) if this View is currently attached to another View. A
+    /// View can only be attached to one View at a time.
+    /// </summary>
     property Attached               : boolean          read IsAttached;
+    /// <summary>
+    /// Returns the delegate associated with this View, if any.
+    /// </summary>
     property Delegate               : ICefViewDelegate read GetDelegate;
+    /// <summary>
+    /// Returns the top-level Window hosting this View, if any.
+    /// </summary>
     property Window                 : ICefWindow       read GetWindow;
+    /// <summary>
+    /// Returns the View that contains this View, if any.
+    /// </summary>
     property ParentView             : ICefView         read GetParentView;
+    /// <summary>
+    /// Returns the bounds (size and position) of this View in DIP screen
+    /// coordinates.
+    /// </summary>
     property BoundsInScreen         : TCefRect         read GetBoundsInScreen;
+    /// <summary>
+    /// Returns the size this View would like to be if enough space is available.
+    /// Size is in parent coordinates, or DIP screen coordinates if there is no
+    /// parent.
+    /// </summary>
     property PreferredSize          : TCefSize         read GetPreferredSize;
+    /// <summary>
+    /// Returns the minimum size for this View. Size is in parent coordinates, or
+    /// DIP screen coordinates if there is no parent.
+    /// </summary>
     property MinimumSize            : TCefSize         read GetMinimumSize;
+    /// <summary>
+    /// Returns the maximum size for this View. Size is in parent coordinates, or
+    /// DIP screen coordinates if there is no parent.
+    /// </summary>
     property MaximumSize            : TCefSize         read GetMaximumSize;
+    /// <summary>
+    /// Returns whether this View is visible. A view may be visible but still not
+    /// drawn in a Window if any parent views are hidden. If this View is a Window
+    /// then a return value of true (1) indicates that this Window is currently
+    /// visible to the user on-screen. If this View is not a Window then call
+    /// is_drawn() to determine whether this View and all parent views are visible
+    /// and will be drawn.
+    /// </summary>
     property Visible                : boolean          read IsVisible                  write SetVisible;
+    /// <summary>
+    /// Returns whether this View is visible and drawn in a Window. A view is
+    /// drawn if it and all parent views are visible. If this View is a Window
+    /// then calling this function is equivalent to calling is_visible().
+    /// Otherwise, to determine if the containing Window is visible to the user
+    /// on-screen call is_visible() on the Window.
+    /// </summary>
     property Drawn                  : boolean          read IsDrawn;
+    /// <summary>
+    /// Returns whether this View is enabled.
+    /// </summary>
     property Enabled                : boolean          read IsEnabled                  write SetEnabled;
+    /// <summary>
+    /// Returns true (1) if this View is focusable, enabled and drawn.
+    /// </summary>
     property Focusable              : boolean          read IsFocusable                write SetFocusable;
+    /// <summary>
+    /// Return whether this View is focusable when the user requires full keyboard
+    /// access, even though it may not be normally focusable.
+    /// </summary>
     property AccessibilityFocusable : boolean          read IsAccessibilityFocusable;
+    /// <summary>
+    /// Returns the background color for this View.
+    /// </summary>
     property BackgroundColor        : TCefColor        read GetBackgroundColor         write SetBackgroundColor;
+    /// <summary>
+    /// Returns the ID for this View.
+    /// </summary>
     property ID                     : integer          read GetID                      write SetID;
+    /// <summary>
+    /// Returns the group id of this View, or -1 if not set.
+    /// </summary>
     property GroupID                : integer          read GetGroupID                 write SetGroupID;
+    /// <summary>
+    /// Returns the bounds (size and position) of this View in parent coordinates,
+    /// or DIP screen coordinates if there is no parent.
+    /// </summary>
     property Bounds                 : TCefRect         read GetBounds                  write SetBounds;
+    /// <summary>
+    /// Returns the size of this View in parent coordinates, or DIP screen
+    /// coordinates if there is no parent.
+    /// </summary>
     property Size                   : TCefSize         read GetSize                    write SetSize;
+    /// <summary>
+    /// Returns the position of this View. Position is in parent coordinates, or
+    /// DIP screen coordinates if there is no parent.
+    /// </summary>
     property Position               : TCefPoint        read GetPosition                write SetPosition;
+    /// <summary>
+    /// Returns the insets for this View in parent coordinates, or DIP screen
+    /// coordinates if there is no parent.
+    /// </summary>
     property Insets                 : TCefInsets       read GetInsets                  write SetInsets;
+    /// <summary>
+    /// Returns the type of this View as a string. Used primarily for testing
+    /// purposes.
+    /// </summary>
     property TypeString             : ustring          read GetTypeString;
   end;
 
@@ -9396,15 +9901,58 @@ type
   /// </remarks>
   ICefViewDelegate = interface(ICefBaseRefCounted)
     ['{5F900206-B969-4E51-B56C-0FF38D749C72}']
+    /// <summary>
+    /// Return the preferred size for |view|. The Layout will use this information
+    /// to determine the display size.
+    /// </summary>
     procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
+    /// <summary>
+    /// Return the minimum size for |view|.
+    /// </summary>
     procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
+    /// <summary>
+    /// Return the maximum size for |view|.
+    /// </summary>
     procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
+    /// <summary>
+    /// Return the height necessary to display |view| with the provided |width|.
+    /// If not specified the result of get_preferred_size().height will be used by
+    /// default. Override if |view|'s preferred height depends upon the width (for
+    /// example, with Labels).
+    /// </summary>
     procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
+    /// <summary>
+    /// Called when the parent of |view| has changed. If |view| is being added to
+    /// |parent| then |added| will be true (1). If |view| is being removed from
+    /// |parent| then |added| will be false (0). If |view| is being reparented the
+    /// remove notification will be sent before the add notification. Do not
+    /// modify the view hierarchy in this callback.
+    /// </summary>
     procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
+    /// <summary>
+    /// Called when a child of |view| has changed. If |child| is being added to
+    /// |view| then |added| will be true (1). If |child| is being removed from
+    /// |view| then |added| will be false (0). If |child| is being reparented the
+    /// remove notification will be sent to the old parent before the add
+    /// notification is sent to the new parent. Do not modify the view hierarchy
+    /// in this callback.
+    /// </summary>
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
+    /// <summary>
+    /// Called when |view| is added or removed from the ICefWindow.
+    /// </summary>
     procedure OnWindowChanged(const view: ICefView; added: boolean);
+    /// <summary>
+    /// Called when the layout of |view| has changed.
+    /// </summary>
     procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
+    /// <summary>
+    /// Called when |view| gains focus.
+    /// </summary>
     procedure OnFocus(const view: ICefView);
+    /// <summary>
+    /// Called when |view| loses focus.
+    /// </summary>
     procedure OnBlur(const view: ICefView);
   end;
 
@@ -9419,45 +9967,181 @@ type
   /// </remarks>
   ICefTextfield = interface(ICefView)
     ['{B5E30155-DEA5-4CBF-BC9D-578CBCA586D9}']
+    /// <summary>
+    /// Sets whether the text will be displayed as asterisks.
+    /// </summary>
     procedure SetPasswordInput(password_input: boolean);
+    /// <summary>
+    /// Returns true (1) if the text will be displayed as asterisks.
+    /// </summary>
     function  IsPasswordInput : boolean;
+    /// <summary>
+    /// Sets whether the text will read-only.
+    /// </summary>
     procedure SetReadOnly(read_only: boolean);
+    /// <summary>
+    /// Returns true (1) if the text is read-only.
+    /// </summary>
     function  IsReadOnly : boolean;
+    /// <summary>
+    /// Returns the currently displayed text.
+    /// </summary>
     function  GetText : ustring;
+    /// <summary>
+    /// Sets the contents to |text|. The cursor will be moved to end of the text
+    /// if the current position is outside of the text range.
+    /// </summary>
     procedure SetText(const text_: ustring);
+    /// <summary>
+    /// Appends |text| to the previously-existing text.
+    /// </summary>
     procedure AppendText(const text_: ustring);
+    /// <summary>
+    /// Inserts |text| at the current cursor position replacing any selected text.
+    /// </summary>
     procedure InsertOrReplaceText(const text_: ustring);
+    /// <summary>
+    /// Returns true (1) if there is any selected text.
+    /// </summary>
     function  HasSelection : boolean;
+    /// <summary>
+    /// Returns the currently selected text.
+    /// </summary>
     function  GetSelectedText : ustring;
+    /// <summary>
+    /// Selects all text. If |reversed| is true (1) the range will end at the
+    /// logical beginning of the text; this generally shows the leading portion of
+    /// text that overflows its display area.
+    /// </summary>
     procedure SelectAll(reversed: boolean);
+    /// <summary>
+    /// Clears the text selection and sets the caret to the end.
+    /// </summary>
     procedure ClearSelection;
+    /// <summary>
+    /// Returns the selected logical text range.
+    /// </summary>
     function  GetSelectedRange : TCefRange;
+    /// <summary>
+    /// Selects the specified logical text range.
+    /// </summary>
     procedure SelectRange(const range: TCefRange);
+    /// <summary>
+    /// Returns the current cursor position.
+    /// </summary>
     function  GetCursorPosition : NativeUInt;
+    /// <summary>
+    /// Sets the text color.
+    /// </summary>
     procedure SetTextColor(color: TCefColor);
+    /// <summary>
+    /// Returns the text color.
+    /// </summary>
     function  GetTextColor : TCefColor;
+    /// <summary>
+    /// Sets the selection text color.
+    /// </summary>
     procedure SetSelectionTextColor(color: TCefColor);
+    /// <summary>
+    /// Returns the selection text color.
+    /// </summary>
     function  GetSelectionTextColor : TCefColor;
+    /// <summary>
+    /// Sets the selection background color.
+    /// </summary>
     procedure SetSelectionBackgroundColor(color: TCefColor);
+    /// <summary>
+    /// Returns the selection background color.
+    /// </summary>
     function  GetSelectionBackgroundColor : TCefColor;
+    /// <summary>
+    /// Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
+    /// where: - FONT_FAMILY_LIST is a comma-separated list of font family names,
+    /// - STYLES is an optional space-separated list of style names (case-
+    /// sensitive
+    ///   "Bold" and "Italic" are supported), and
+    /// - SIZE is an integer font size in pixels with the suffix "px".
+    ///
+    /// Here are examples of valid font description strings: - "Arial, Helvetica,
+    /// Bold Italic 14px" - "Arial, 14px"
+    /// </summary>
     procedure SetFontList(const font_list: ustring);
+    /// <summary>
+    /// Applies |color| to the specified |range| without changing the default
+    /// color. If |range| is NULL the color will be set on the complete text
+    /// contents.
+    /// </summary>
     procedure ApplyTextColor(color: TCefColor; const range: TCefRange);
+    /// <summary>
+    /// Applies |style| to the specified |range| without changing the default
+    /// style. If |add| is true (1) the style will be added, otherwise the style
+    /// will be removed. If |range| is NULL the style will be set on the complete
+    /// text contents.
+    /// </summary>
     procedure ApplyTextStyle(style: TCefTextStyle; add: boolean; const range: TCefRange);
+    /// <summary>
+    /// Returns true (1) if the action associated with the specified command id is
+    /// enabled. See additional comments on execute_command().
+    /// </summary>
     function  IsCommandEnabled(command_id: TCefTextFieldCommands): boolean;
+    /// <summary>
+    /// Performs the action associated with the specified command id.
+    /// </summary>
     procedure ExecuteCommand(command_id: TCefTextFieldCommands);
+    /// <summary>
+    /// Clears Edit history.
+    /// </summary>
     procedure ClearEditHistory;
+    /// <summary>
+    /// Sets the placeholder text that will be displayed when the Textfield is
+    /// NULL.
+    /// </summary>
     procedure SetPlaceholderText(const text_: ustring);
+    /// <summary>
+    /// Returns the placeholder text that will be displayed when the Textfield is
+    /// NULL.
+    /// </summary>
     function  GetPlaceholderText : ustring;
+    /// <summary>
+    /// Sets the placeholder text color.
+    /// </summary>
     procedure SetPlaceholderTextColor(color: TCefColor);
+    /// <summary>
+    /// Set the accessible name that will be exposed to assistive technology (AT).
+    /// </summary>
     procedure SetAccessibleName(const name: ustring);
-
+    /// <summary>
+    /// Returns true (1) if the text will be displayed as asterisks.
+    /// </summary>
     property  PasswordInput            : boolean       read IsPasswordInput               write SetPasswordInput;
+    /// <summary>
+    /// Returns true (1) if the text is read-only.
+    /// </summary>
     property  ReadOnly                 : boolean       read IsReadOnly                    write SetReadOnly;
+    /// <summary>
+    /// Returns the currently displayed text.
+    /// </summary>
     property  Text                     : ustring       read GetText                       write SetText;
+    /// <summary>
+    /// Returns the currently selected text.
+    /// </summary>
     property  SelectedText             : ustring       read GetSelectedText;
+    /// <summary>
+    /// Returns the text color.
+    /// </summary>
     property  TextColor                : TCefColor     read GetTextColor                  write SetTextColor;
+    /// <summary>
+    /// Returns the selection text color.
+    /// </summary>
     property  SelectionTextColor       : TCefColor     read GetSelectionTextColor         write SetSelectionTextColor;
+    /// <summary>
+    /// Returns the selection background color.
+    /// </summary>
     property  SelectionBackgroundColor : TCefColor     read GetSelectionBackgroundColor   write SetSelectionBackgroundColor;
+    /// <summary>
+    /// Returns the placeholder text that will be displayed when the Textfield is
+    /// NULL.
+    /// </summary>
     property  PlaceholderText          : ustring       read GetPlaceholderText            write SetPlaceholderText;
   end;
 
@@ -9472,7 +10156,15 @@ type
   /// </remarks>
   ICefTextfieldDelegate = interface(ICefViewDelegate)
     ['{72612994-92BB-4DE9-BB38-6F49FB45F94B}']
+    /// <summary>
+    /// Called when |textfield| recieves a keyboard event. |event| contains
+    /// information about the keyboard event. Return true (1) if the keyboard
+    /// event was handled or false (0) otherwise for default handling.
+    /// </summary>
     procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
+    /// <summary>
+    /// Called after performing a user action that may change |textfield|.
+    /// </summary>
     procedure OnAfterUserAction(const textfield: ICefTextfield);
   end;
 
@@ -9487,17 +10179,50 @@ type
   /// </remarks>
   ICefScrollView = interface(ICefView)
     ['{55DF2883-0574-4F10-B6F5-DE4730964B5B}']
+    /// <summary>
+    /// Set the content View. The content View must have a specified size (e.g.
+    /// via ICefView.SetBounds or ICefViewDelegate.GetPreferredSize).
+    /// </summary>
     procedure SetContentView(const view: ICefView);
+    /// <summary>
+    /// Returns the content View.
+    /// </summary>
     function  GetContentView : ICefView;
+    /// <summary>
+    /// Returns the visible region of the content View.
+    /// </summary>
     function  GetVisibleContentRect : TCefRect;
+    /// <summary>
+    /// Returns true (1) if the horizontal scrollbar is currently showing.
+    /// </summary>
     function  HasHorizontalScrollbar : boolean;
+    /// <summary>
+    /// Returns the height of the horizontal scrollbar.
+    /// </summary>
     function  GetHorizontalScrollbarHeight : Integer;
+    /// <summary>
+    /// Returns true (1) if the vertical scrollbar is currently showing.
+    /// </summary>
     function  HasVerticalScrollbar : boolean;
+    /// <summary>
+    /// Returns the width of the vertical scrollbar.
+    /// </summary>
     function  GetVerticalScrollbarWidth : Integer;
-
+    /// <summary>
+    /// Returns the content View.
+    /// </summary>
     property  ContentView               : ICefView      read GetContentView                write SetContentView;
+    /// <summary>
+    /// Returns the visible region of the content View.
+    /// </summary>
     property  VisibleContentRect        : TCefRect      read GetVisibleContentRect;
+    /// <summary>
+    /// Returns the height of the horizontal scrollbar.
+    /// </summary>
     property  HorizontalScrollbarHeight : Integer       read GetHorizontalScrollbarHeight;
+    /// <summary>
+    /// Returns the width of the vertical scrollbar.
+    /// </summary>
     property  VerticalScrollbarWidth    : Integer       read GetVerticalScrollbarWidth;
   end;
 
@@ -9512,19 +10237,61 @@ type
   /// </remarks>
   ICefPanel = interface(ICefView)
     ['{6F2F680A-3637-4438-81B8-79AD6C02252D}']
+    /// <summary>
+    /// Returns this Panel as a Window or NULL if this is not a Window.
+    /// </summary>
     function  GetAsWindow : ICefWindow;
+    /// <summary>
+    /// Set this Panel's Layout to FillLayout and return the FillLayout object.
+    /// </summary>
     function  SetToFillLayout : ICefFillLayout;
+    /// <summary>
+    /// Set this Panel's Layout to BoxLayout and return the BoxLayout object.
+    /// </summary>
     function  SetToBoxLayout(const settings: TCefBoxLayoutSettings): ICefBoxLayout;
+    /// <summary>
+    /// Get the Layout.
+    /// </summary>
     function  GetLayout : ICefLayout;
+    /// <summary>
+    /// Lay out the child Views (set their bounds based on sizing heuristics
+    /// specific to the current Layout).
+    /// </summary>
     procedure Layout;
+    /// <summary>
+    /// Add a child View.
+    /// </summary>
     procedure AddChildView(const view: ICefView);
+    /// <summary>
+    /// Add a child View at the specified |index|. If |index| matches the result
+    /// of GetChildCount() then the View will be added at the end.
+    /// </summary>
     procedure AddChildViewAt(const view: ICefView; index: Integer);
+    /// <summary>
+    /// Move the child View to the specified |index|. A negative value for |index|
+    /// will move the View to the end.
+    /// </summary>
     procedure ReorderChildView(const view: ICefView; index: Integer);
+    /// <summary>
+    /// Remove a child View. The View can then be added to another Panel.
+    /// </summary>
     procedure RemoveChildView(const view: ICefView);
+    /// <summary>
+    /// Remove all child Views. The removed Views will be deleted if the client
+    /// holds no references to them.
+    /// </summary>
     procedure RemoveAllChildViews;
+    /// <summary>
+    /// Returns the number of child Views.
+    /// </summary>
     function  GetChildViewCount : NativeUInt;
+    /// <summary>
+    /// Returns the child View at the specified |index|.
+    /// </summary>
     function  GetChildViewAt(index: Integer): ICefView;
-
+    /// <summary>
+    /// Returns this Panel as a Window or NULL if this is not a Window.
+    /// </summary>
     property AsWindow : ICefWindow    read GetAsWindow;
   end;
 
@@ -9551,8 +10318,29 @@ type
   /// </remarks>
   ICefBrowserView = interface(ICefView)
     ['{A617EE5D-B933-4E14-9FC0-7E88E9B6C051}']
+    /// <summary>
+    /// Returns the ICefBrowser hosted by this BrowserView. Will return NULL if
+    /// the browser has not yet been created or has already been destroyed.
+    /// </summary>
     function  GetBrowser : ICefBrowser;
+    /// <summary>
+    /// Returns the Chrome toolbar associated with this BrowserView. Only
+    /// supported when using the Chrome runtime. The ICefBrowserViewDelegate.get_chrome_toolbar_type()
+    /// function must return a value other than
+    /// CEF_CTT_NONE and the toolbar will not be available until after this
+    /// BrowserView is added to a ICefWindow and
+    /// ICefViewDelegate.OnWindowChanged() has been called.
+    /// </summary>
     function  GetChromeToolbar : ICefView;
+    /// <summary>
+    /// Sets whether accelerators registered with ICefWindow.SetAccelerator are
+    /// triggered before or after the event is sent to the ICefBrowser. If
+    /// |prefer_accelerators| is true (1) then the matching accelerator will be
+    /// triggered immediately and the event will not be sent to the ICefBrowser.
+    /// If |prefer_accelerators| is false (0) then the matching accelerator will
+    /// only be triggered if the event is not handled by web content or by
+    /// ICefKeyboardHandler. The default value is false (0).
+    /// </summary>
     procedure SetPreferAccelerators(prefer_accelerators: boolean);
   end;
 
@@ -9567,13 +10355,57 @@ type
   /// </remarks>
   ICefBrowserViewDelegate = interface(ICefViewDelegate)
     ['{578A0DD4-2E7D-4061-B4DB-7C3CDC7A90C0}']
+    /// <summary>
+    /// Called when |browser| associated with |browser_view| is created. This
+    /// function will be called after ICefLifeSpanHandler.OnAfterCreated()
+    /// is called for |browser| and before OnPopupBrowserViewCreated() is
+    /// called for |browser|'s parent delegate if |browser| is a popup.
+    /// </summary>
     procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
+    /// <summary>
+    /// Called when |browser| associated with |browser_view| is destroyed. Release
+    /// all references to |browser| and do not attempt to execute any functions on
+    /// |browser| after this callback returns. This function will be called before
+    /// ICefLifeSpanHandler.OnBeforeClose() is called for |browser|.
+    /// </summary>
     procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
+    /// <summary>
+    /// Called before a new popup BrowserView is created. The popup originated
+    /// from |browser_view|. |settings| and |client| are the values returned from
+    /// ICefLifeSpanHandler.OnBeforePopup(). |is_devtools| will be true (1)
+    /// if the popup will be a DevTools browser. Return the delegate that will be
+    /// used for the new popup BrowserView.
+    /// </summary>
     procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
+    /// <summary>
+    /// Called after |popup_browser_view| is created. This function will be called
+    /// after ICefLifeSpanHandler.OnAfterCreated() and OnBrowserCreated()
+    /// are called for the new popup browser. The popup originated from
+    /// |browser_view|. |is_devtools| will be true (1) if the popup is a DevTools
+    /// browser. Optionally add |popup_browser_view| to the views hierarchy
+    /// yourself and return true (1). Otherwise return false (0) and a default
+    /// ICefWindow will be created for the popup.
+    /// </summary>
     procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
+    /// <summary>
+    /// Returns the Chrome toolbar type that will be available via
+    /// ICefBrowserView.GetChromeToolbar(). See that function for related
+    /// documentation.
+    /// </summary>
     function  GetChromeToolbarType: TCefChromeToolbarType;
+    /// <summary>
+    /// Called when |browser_view| receives a gesture command. Return true (1) to
+    /// handle (or disable) a |gesture_command| or false (0) to propagate the
+    /// gesture to the browser for default handling. This function will only be
+    /// called with the Alloy runtime. To handle these commands with the Chrome
+    /// runtime implement ICefCommandHandler.OnChromeCommand instead.
+    /// </summary>
     procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
-
+    /// <summary>
+    /// Returns the Chrome toolbar type that will be available via
+    /// ICefBrowserView.GetChromeToolbar(). See that function for related
+    /// documentation.
+    /// </summary>
     property ChromeToolbarType: TCefChromeToolbarType read GetChromeToolbarType;
   end;
 
@@ -9588,11 +10420,31 @@ type
   /// </remarks>
   ICefButton = interface(ICefView)
     ['{D3D2E8A0-9F9C-4BD8-B495-655976534281}']
+    /// <summary>
+    /// Returns this Button as a LabelButton or NULL if this is not a LabelButton.
+    /// </summary>
     function  AsLabelButton : ICefLabelButton;
+    /// <summary>
+    /// Sets the current display state of the Button.
+    /// </summary>
     procedure SetState(state_: TCefButtonState);
+    /// <summary>
+    /// Returns the current display state of the Button.
+    /// </summary>
     function  GetState : TCefButtonState;
+    /// <summary>
+    /// Sets the Button will use an ink drop effect for displaying state changes.
+    /// </summary>
     procedure SetInkDropEnabled(enabled_: boolean);
+    /// <summary>
+    /// Sets the tooltip text that will be displayed when the user hovers the
+    /// mouse cursor over the Button.
+    /// </summary>
     procedure SetTooltipText(const tooltip_text: ustring);
+    /// <summary>
+    /// Sets the accessible name that will be exposed to assistive technology
+    /// (AT).
+    /// </summary>
     procedure SetAccessibleName(const name: ustring);
 
     property  State : TCefButtonState read GetState write SetState;
@@ -9609,7 +10461,13 @@ type
   /// </remarks>
   ICefButtonDelegate = interface(ICefViewDelegate)
     ['{EA1EB5A4-DFB0-4A13-A23B-54FAF9401B39}']
+    /// <summary>
+    /// Called when |button| is pressed.
+    /// </summary>
     procedure OnButtonPressed(const button: ICefButton);
+    /// <summary>
+    /// Called when the state of |button| changes.
+    /// </summary>
     procedure OnButtonStateChanged(const button: ICefButton);
   end;
 
@@ -9623,18 +10481,67 @@ type
   /// </remarks>
   ICefLabelButton = interface(ICefButton)
     ['{A99FD4F3-7EE6-4796-8BF6-EC367D51EED8}']
+    /// <summary>
+    /// Returns this LabelButton as a MenuButton or NULL if this is not a
+    /// MenuButton.
+    /// </summary>
     function  AsMenuButton : ICefMenuButton;
+    /// <summary>
+    /// Sets the text shown on the LabelButton. By default |text| will also be
+    /// used as the accessible name.
+    /// </summary>
     procedure SetText(const text_: ustring);
+    /// <summary>
+    /// Returns the text shown on the LabelButton.
+    /// </summary>
     function  GetText : ustring;
+    /// <summary>
+    /// Sets the image shown for |button_state|. When this Button is drawn if no
+    /// image exists for the current state then the image for
+    /// CEF_BUTTON_STATE_NORMAL, if any, will be shown.
+    /// </summary>
     procedure SetImage(button_state: TCefButtonState; const image: ICefImage);
+    /// <summary>
+    /// Returns the image shown for |button_state|. If no image exists for that
+    /// state then the image for CEF_BUTTON_STATE_NORMAL will be returned.
+    /// </summary>
     function  GetImage(button_state: TCefButtonState): ICefImage;
+    /// <summary>
+    /// Sets the text color shown for the specified button |for_state| to |color|.
+    /// </summary>
     procedure SetTextColor(for_state: TCefButtonState; color: TCefColor);
+    /// <summary>
+    /// Sets the text colors shown for the non-disabled states to |color|.
+    /// </summary>
     procedure SetEnabledTextColors(color: TCefColor);
+    /// <summary>
+    /// Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
+    /// where: - FONT_FAMILY_LIST is a comma-separated list of font family names,
+    /// - STYLES is an optional space-separated list of style names (case-
+    /// sensitive
+    ///   "Bold" and "Italic" are supported), and
+    /// - SIZE is an integer font size in pixels with the suffix "px".
+    ///
+    /// Here are examples of valid font description strings: - "Arial, Helvetica,
+    /// Bold Italic 14px" - "Arial, 14px"
+    /// </summary>
     procedure SetFontList(const font_list: ustring);
+    /// <summary>
+    /// Sets the horizontal alignment; reversed in RTL. Default is
+    /// CEF_HORIZONTAL_ALIGNMENT_CENTER.
+    /// </summary>
     procedure SetHorizontalAlignment(alignment: TCefHorizontalAlignment);
+    /// <summary>
+    /// Reset the minimum size of this LabelButton to |size|.
+    /// </summary>
     procedure SetMinimumSize(const size_: TCefSize);
+    /// <summary>
+    /// Reset the maximum size of this LabelButton to |size|.
+    /// </summary>
     procedure SetMaximumSize(const size_: TCefSize);
-
+    /// <summary>
+    /// Returns the text shown on the LabelButton.
+    /// </summary>
     property  Text  : ustring       read GetText write SetText;
   end;
 
@@ -9651,7 +10558,17 @@ type
   /// </remarks>
   ICefMenuButton = interface(ICefLabelButton)
     ['{62BFE81A-7810-400B-83C6-76D1DF133710}']
+    /// <summary>
+    /// Show a menu with contents |menu_model|. |screen_point| specifies the menu
+    /// position in screen coordinates. |anchor_position| specifies how the menu
+    /// will be anchored relative to |screen_point|. This function should be
+    /// called from ICefMenuButtonDelegate.OnMenuButtonPressed().
+    /// </summary>
     procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position: TCefMenuAnchorPosition);
+    /// <summary>
+    /// Show the menu for this button. Results in a call to
+    /// ICefMenuButtonDelegate.OnMenuButtonPressed().
+    /// </summary>
     procedure TriggerMenu;
   end;
 
@@ -9677,6 +10594,12 @@ type
   /// </remarks>
   ICefMenuButtonDelegate = interface(ICefButtonDelegate)
     ['{D0E89A75-463A-4766-8701-BD8D24B11E9F}']
+    /// <summary>
+    /// Called when |button| is pressed. Call ICefMenuButton.ShowMenu() to
+    /// show a popup menu at |screen_point|. When showing a custom popup such as a
+    /// window keep a reference to |button_pressed_lock| until the popup is hidden
+    /// to maintain the pressed button state.
+    /// </summary>
     procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
   end;
 
@@ -9693,50 +10616,245 @@ type
   /// </remarks>
   ICefWindow = interface(ICefPanel)
     ['{C450C974-BF0A-4968-A6BE-153CEAD10DA6}']
+    /// <summary>
+    /// Show the Window.
+    /// </summary>
     procedure Show;
+    /// <summary>
+    /// Show the Window as a browser modal dialog relative to |browser_view|. A
+    /// parent Window must be returned via
+    /// ICefWindowDelegate.GetParentWindow() and |browser_view| must belong
+    /// to that parent Window. While this Window is visible, |browser_view| will
+    /// be disabled while other controls in the parent Window remain enabled.
+    /// Navigating or destroying the |browser_view| will close this Window
+    /// automatically. Alternately, use show() and return true (1) from
+    /// ICefWindowDelegate.IsWindowModalDialog() for a window modal dialog
+    /// where all controls in the parent Window are disabled.
+    /// </summary>
     procedure ShowAsBrowserModalDialog(const browser_view: ICefBrowserView);
+    /// <summary>
+    /// Hide the Window.
+    /// </summary>
     procedure Hide;
+    /// <summary>
+    /// Sizes the Window to |size| and centers it in the current display.
+    /// </summary>
     procedure CenterWindow(const size_: TCefSize);
+    /// <summary>
+    /// Close the Window.
+    /// </summary>
     procedure Close;
+    /// <summary>
+    /// Returns true (1) if the Window has been closed.
+    /// </summary>
     function  IsClosed : boolean;
+    /// <summary>
+    /// Activate the Window, assuming it already exists and is visible.
+    /// </summary>
     procedure Activate;
+    /// <summary>
+    /// Deactivate the Window, making the next Window in the Z order the active
+    /// Window.
+    /// </summary>
     procedure Deactivate;
+    /// <summary>
+    /// Returns whether the Window is the currently active Window.
+    /// </summary>
     function  IsActive : boolean;
+    /// <summary>
+    /// Bring this Window to the top of other Windows in the Windowing system.
+    /// </summary>
     procedure BringToTop;
+    /// <summary>
+    /// Set the Window to be on top of other Windows in the Windowing system.
+    /// </summary>
     procedure SetAlwaysOnTop(on_top: boolean);
+    /// <summary>
+    /// Returns whether the Window has been set to be on top of other Windows in
+    /// the Windowing system.
+    /// </summary>
     function  IsAlwaysOnTop : boolean;
+    /// <summary>
+    /// Maximize the Window.
+    /// </summary>
     procedure Maximize;
+    /// <summary>
+    /// Minimize the Window.
+    /// </summary>
     procedure Minimize;
+    /// <summary>
+    /// Restore the Window.
+    /// </summary>
     procedure Restore;
+    /// <summary>
+    /// Set fullscreen Window state.
+    /// </summary>
     procedure SetFullscreen(fullscreen: boolean);
+    /// <summary>
+    /// Returns true (1) if the Window is maximized.
+    /// </summary>
     function  IsMaximized : boolean;
+    /// <summary>
+    /// Returns true (1) if the Window is minimized.
+    /// </summary>
     function  IsMinimized : boolean;
+    /// <summary>
+    /// Returns true (1) if the Window is fullscreen.
+    /// </summary>
     function  IsFullscreen : boolean;
+    /// <summary>
+    /// Set the Window title.
+    /// </summary>
     procedure SetTitle(const title_: ustring);
+    /// <summary>
+    /// Get the Window title.
+    /// </summary>
     function  GetTitle : ustring;
+    /// <summary>
+    /// Set the Window icon. This should be a 16x16 icon suitable for use in the
+    /// Windows's title bar.
+    /// </summary>
     procedure SetWindowIcon(const image: ICefImage);
+    /// <summary>
+    /// Get the Window icon.
+    /// </summary>
     function  GetWindowIcon : ICefImage;
+    /// <summary>
+    /// Set the Window App icon. This should be a larger icon for use in the host
+    /// environment app switching UI. On Windows, this is the ICON_BIG used in
+    /// Alt-Tab list and Windows taskbar. The Window icon will be used by default
+    /// if no Window App icon is specified.
+    /// </summary>
     procedure SetWindowAppIcon(const image: ICefImage);
+    /// <summary>
+    /// Get the Window App icon.
+    /// </summary>
     function  GetWindowAppIcon : ICefImage;
+    /// <summary>
+    /// Add a View that will be overlayed on the Window contents with absolute
+    /// positioning and high z-order. Positioning is controlled by |docking_mode|
+    /// as described below. The returned ICefOverlayController object is used
+    /// to control the overlay. Overlays are hidden by default.
+    ///
+    /// With CEF_DOCKING_MODE_CUSTOM:
+    ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
+    ///      and positioned in the top-left corner.
+    ///   2. Optionally change the overlay position and/or size by calling
+    ///      CefOverlayController methods.
+    ///   3. Call ICefOverlayController.SetVisible(true) to show the overlay.
+    ///   4. The overlay will be automatically re-sized if |view|'s layout
+    ///      changes. Optionally change the overlay position and/or size when
+    ///      OnLayoutChanged is called on the Window's delegate to indicate a
+    ///      change in Window bounds.
+    ///
+    /// With other docking modes:
+    ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
+    ///      and positioned based on |docking_mode|.
+    ///   2. Call ICefOverlayController.SetVisible(true) to show the overlay.
+    ///   3. The overlay will be automatically re-sized if |view|'s layout changes
+    ///      and re-positioned as appropriate when the Window resizes.
+    ///
+    /// Overlays created by this function will receive a higher z-order then any
+    /// child Views added previously. It is therefore recommended to call this
+    /// function last after all other child Views have been added so that the
+    /// overlay displays as the top-most child of the Window.
+    /// </summary>
     function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
+    /// <summary>
+    /// Show a menu with contents |menu_model|. |screen_point| specifies the menu
+    /// position in screen coordinates. |anchor_position| specifies how the menu
+    /// will be anchored relative to |screen_point|.
+    /// </summary>
     procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition);
+    /// <summary>
+    /// Cancel the menu that is currently showing, if any.
+    /// </summary>
     procedure CancelMenu;
+    /// <summary>
+    /// Returns the Display that most closely intersects the bounds of this
+    /// Window. May return NULL if this Window is not currently displayed.
+    /// </summary>
     function  GetDisplay : ICefDisplay;
+    /// <summary>
+    /// Returns the bounds (size and position) of this Window's client area.
+    /// Position is in screen coordinates.
+    /// </summary>
     function  GetClientAreaBoundsInScreen : TCefRect;
+    /// <summary>
+    /// Set the regions where mouse events will be intercepted by this Window to
+    /// support drag operations. Call this function with an NULL vector to clear
+    /// the draggable regions. The draggable region bounds should be in window
+    /// coordinates.
+    /// </summary>
     procedure SetDraggableRegions(regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
+    /// <summary>
+    /// Retrieve the platform window handle for this Window.
+    /// </summary>
     function  GetWindowHandle : TCefWindowHandle;
+    /// <summary>
+    /// Simulate a key press. |key_code| is the VKEY_* value from Chromium's
+    /// ui/events/keycodes/keyboard_codes.h header (VK_* values on Windows).
+    /// |event_flags| is some combination of EVENTFLAG_SHIFT_DOWN,
+    /// EVENTFLAG_CONTROL_DOWN and/or EVENTFLAG_ALT_DOWN. This function is exposed
+    /// primarily for testing purposes.
+    /// </summary>
     procedure SendKeyPress(key_code: Integer; event_flags: cardinal);
+    /// <summary>
+    /// Simulate a mouse move. The mouse cursor will be moved to the specified
+    /// (screen_x, screen_y) position. This function is exposed primarily for
+    /// testing purposes.
+    /// </summary>
     procedure SendMouseMove(screen_x, screen_y: Integer);
+    /// <summary>
+    /// Simulate mouse down and/or mouse up events. |button| is the mouse button
+    /// type. If |mouse_down| is true (1) a mouse down event will be sent. If
+    /// |mouse_up| is true (1) a mouse up event will be sent. If both are true (1)
+    /// a mouse down event will be sent followed by a mouse up event (equivalent
+    /// to clicking the mouse button). The events will be sent using the current
+    /// cursor position so make sure to call send_mouse_move() first to position
+    /// the mouse. This function is exposed primarily for testing purposes.
+    /// </summary>
     procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
+    /// <summary>
+    /// Set the keyboard accelerator for the specified |command_id|. |key_code|
+    /// can be any virtual key or character value.
+    /// ICefWindowDelegate.OnAccelerator will be called if the keyboard
+    /// combination is triggered while this window has focus.
+    /// </summary>
     procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
+    /// <summary>
+    /// Remove the keyboard accelerator for the specified |command_id|.
+    /// </summary>
     procedure RemoveAccelerator(command_id: Integer);
+    /// <summary>
+    /// Remove all keyboard accelerators.
+    /// </summary>
     procedure RemoveAllAccelerators;
-
+    /// <summary>
+    /// Get the Window title.
+    /// </summary>
     property Title                    : ustring            read GetTitle                     write SetTitle;
+    /// <summary>
+    /// Get the Window icon.
+    /// </summary>
     property WindowIcon               : ICefImage          read GetWindowIcon                write SetWindowIcon;
+    /// <summary>
+    /// Get the Window App icon.
+    /// </summary>
     property WindowAppIcon            : ICefImage          read GetWindowAppIcon             write SetWindowAppIcon;
+    /// <summary>
+    /// Returns the Display that most closely intersects the bounds of this
+    /// Window. May return NULL if this Window is not currently displayed.
+    /// </summary>
     property Display                  : ICefDisplay        read GetDisplay;
+    /// <summary>
+    /// Returns the bounds (size and position) of this Window's client area.
+    /// Position is in screen coordinates.
+    /// </summary>
     property ClientAreaBoundsInScreen : TCefRect           read GetClientAreaBoundsInScreen;
+    /// <summary>
+    /// Retrieve the platform window handle for this Window.
+    /// </summary>
     property WindowHandle             : TCefWindowHandle   read GetWindowHandle;
   end;
 
@@ -9751,24 +10869,115 @@ type
   /// </remarks>
   ICefWindowDelegate = interface(ICefPanelDelegate)
     ['{52D4EE2C-303B-42B6-A35F-30D03834A23F}']
+    /// <summary>
+    /// Called when |window| is created.
+    /// </summary>
     procedure OnWindowCreated(const window_: ICefWindow);
+    /// <summary>
+    /// Called when |window| is closing.
+    /// </summary>
     procedure OnWindowClosing(const window_: ICefWindow);
+    /// <summary>
+    /// Called when |window| is destroyed. Release all references to |window| and
+    /// do not attempt to execute any functions on |window| after this callback
+    /// returns.
+    /// </summary>
     procedure OnWindowDestroyed(const window_: ICefWindow);
+    /// <summary>
+    /// Called when |window| is activated or deactivated.
+    /// </summary>
     procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
+    /// <summary>
+    /// Called when |window| bounds have changed. |new_bounds| will be in DIP
+    /// screen coordinates.
+    /// </summary>
     procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+    /// <summary>
+    /// Return the parent for |window| or NULL if the |window| does not have a
+    /// parent. Windows with parents will not get a taskbar button. Set |is_menu|
+    /// to true (1) if |window| will be displayed as a menu, in which case it will
+    /// not be clipped to the parent window bounds. Set |can_activate_menu| to
+    /// false (0) if |is_menu| is true (1) and |window| should not be activated
+    /// (given keyboard focus) when displayed.
+    /// </summary>
     procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+    /// <summary>
+    /// Return true (1) if |window| should be created as a window modal dialog.
+    /// Only called when a Window is returned via get_parent_window() with
+    /// |is_menu| set to false (0). All controls in the parent Window will be
+    /// disabled while |window| is visible. This functionality is not supported by
+    /// all Linux window managers. Alternately, use
+    /// ICefWindow.ShowAsBrowserModalDialog() for a browser modal dialog
+    /// that works on all platforms.
+    /// </summary>
     procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
+    /// <summary>
+    /// Return the initial bounds for |window| in density independent pixel (DIP)
+    /// coordinates. If this function returns an NULL CefRect then
+    /// GetPreferredSize() will be called to retrieve the size, and the window
+    /// will be placed on the screen with origin (0,0). This function can be used
+    /// in combination with ICefView.GetBoundsInScreen() to restore the
+    /// previous window bounds.
+    /// </summary>
     procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
+    /// <summary>
+    /// Return the initial show state for |window|.
+    /// </summary>
     procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
+    /// <summary>
+    /// Return true (1) if |window| should be created without a frame or title
+    /// bar. The window will be resizable if can_resize() returns true (1). Use
+    /// ICefWindow.SetDraggableRegions() to specify draggable regions.
+    /// </summary>
     procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
+    /// <summary>
+    /// Return true (1) if |window| should be created with standard window buttons
+    /// like close, minimize and zoom. This function is only supported on macOS.
+    /// </summary>
     procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
+    /// <summary>
+    /// Return whether the titlebar height should be overridden, and sets the
+    /// height of the titlebar in |titlebar_height|. On macOS, it can also be used
+    /// to adjust the vertical position of the traffic light buttons in frameless
+    /// windows. The buttons will be positioned halfway down the titlebar at a
+    /// height of |titlebar_height| / 2.
+    /// </summary>
     procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
+    /// <summary>
+    /// Return true (1) if |window| can be resized.
+    /// </summary>
     procedure OnCanResize(const window_: ICefWindow; var aResult : boolean);
+    /// <summary>
+    /// Return true (1) if |window| can be maximized.
+    /// </summary>
     procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
+    /// <summary>
+    /// Return true (1) if |window| can be minimized.
+    /// </summary>
     procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
+    /// <summary>
+    /// Return true (1) if |window| can be closed. This will be called for user-
+    /// initiated window close actions and when ICefWindow.close() is called.
+    /// </summary>
     procedure OnCanClose(const window_: ICefWindow; var aResult : boolean);
+    /// <summary>
+    /// Called when a keyboard accelerator registered with
+    /// ICefWindow.SetAccelerator is triggered. Return true (1) if the
+    /// accelerator was handled or false (0) otherwise.
+    /// </summary>
     procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
+    /// <summary>
+    /// Called after all other controls in the window have had a chance to handle
+    /// the event. |event| contains information about the keyboard event. Return
+    /// true (1) if the keyboard event was handled or false (0) otherwise.
+    /// </summary>
     procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+    /// <summary>
+    /// Called when the |window| is transitioning to or from fullscreen mode. The
+    /// transition occurs in two stages, with |is_competed| set to false (0) when
+    /// the transition starts and true (1) when the transition completes. This
+    /// function is only supported on macOS.
+    /// </summary>
     procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
   end;
 
