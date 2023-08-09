@@ -2,7 +2,7 @@
 
 CEF4Delphi is based on [DCEF3](https://github.com/hgourvest/dcef3) and [fpCEF3](https://github.com/dliw/fpCEF3) that use [CEF](https://bitbucket.org/chromiumembedded/cef/) to embed a chromium-based browser in Delphi and Lazarus/FPC applications.
 
-The original licenses of those projects still applies to CEF4Delphi.
+The original licenses of those projects still apply to CEF4Delphi.
 
 For more information about CEF4Delphi visit :
         https://www.briskbard.com/index.php?lang=en&pageid=cef
