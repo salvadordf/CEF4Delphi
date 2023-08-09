@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFTypes;
 
 {$IFDEF FPC}
@@ -743,6 +706,9 @@ type
   NativeUInt  = PtrUInt;
   PNativeInt  = ^NativeInt;
   PNativeUInt = ^NativeUInt;
+  /// <summary>
+  /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
+  /// </summary>
   ustring     = type UnicodeString;
   rbstring    = type AnsiString;
 {$ELSE}
@@ -751,9 +717,15 @@ type
     PNativeUInt = ^NativeUInt;
     NativeInt   = Integer;
     uint16      = Word;
+    /// <summary>
+    /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
+    /// </summary>
     ustring     = type WideString;
     rbstring    = type AnsiString;
   {$ELSE}
+    /// <summary>
+    /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
+    /// </summary>
     ustring     = type string;
     rbstring    = type RawByteString;
     {$IFNDEF DELPHI15_UP}
@@ -769,6 +741,12 @@ type
   TCefCustomByteArray = array of byte;
 
   {$IFDEF MSWINDOWS}
+  /// <summary>
+  /// Record used with GetGlobalMemoryStatusEx to get the memory status.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-memorystatusex">See the MEMORYSTATUSEX structure.</see></para>
+  /// </remarks>
   TMyMemoryStatusEx = record
      dwLength : DWORD;
      dwMemoryLoad : DWORD;
@@ -782,6 +760,12 @@ type
   end;
   LPMEMORYSTATUSEX = ^TMyMemoryStatusEx;
 
+  /// <summary>
+  /// Record used with RtlGetVersion to get the Windows version information.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ns-wdm-_osversioninfoexw">See the OSVERSIONINFOEXW structure.</see></para>
+  /// </remarks>
   TOSVersionInfoEx = record
     dwOSVersionInfoSize: DWORD;
     dwMajorVersion: DWORD;
@@ -797,6 +781,12 @@ type
   end;
 
   {$IFDEF DELPHI14_UP}
+  /// <summary>
+  /// Record used with GetSystemMetrics(SM_DIGITIZER) to get the digitizer properties.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://learn.microsoft.com/es-es/windows/win32/api/winuser/nf-winuser-getsystemmetrics">See the GetSystemMetrics function.</see></para>
+  /// </remarks>
   TDigitizerStatus = record
     IntegratedTouch : boolean;
     ExternalTouch   : boolean;
@@ -864,6 +854,16 @@ type
     dtor   : procedure(str: PChar16); stdcall;
   end;
 
+  /// <summary>
+  /// String record used by the CEF C API.
+  /// The CEF interface is built with the UTF16 string type as the default.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_string.h">CEF source file: /include/internal/cef_string.h (cef_string_t)</see></para>
+  /// </remarks>
+  TCefString = TCefStringUtf16;
+  PCefString = PCefStringUtf16;
+
   TCefStringUserFreeWide  = type TCefStringWide;
   TCefStringUserFreeUtf8  = type TCefStringUtf8;
   TCefStringUserFreeUtf16 = type TCefStringUtf16;
@@ -872,9 +872,10 @@ type
   PCefChar = PChar16;
   TCefStringUserFree = TCefStringUserFreeUtf16;
   PCefStringUserFree = PCefStringUserFreeUtf16;
-  TCefString = TCefStringUtf16;
-  PCefString = PCefStringUtf16;
 
+  /// <summary>
+  /// Record used by GetDLLVersion to get the DLL version information
+  /// </summary>
   TFileVersionInfo = record
     MajorVer : uint16;
     MinorVer : uint16;
@@ -908,6 +909,9 @@ type
   /// </summary>
   TCefBrowserNavigation = (bnBack, bnForward, bnReload, bnReloadIgnoreCache, bnStopLoad);
 
+  /// <summary>
+  /// Status of TCefAplicationCore
+  /// </summary>
   TCefAplicationStatus = (asLoading,
                           asLoaded,
                           asInitialized,
@@ -920,8 +924,14 @@ type
                           asErrorInitializingLibrary,
                           asErrorExecutingProcess);
 
+  /// <summary>
+  /// Supported proxy schemes in Chromium.
+  /// </summary>
   TCefProxyScheme = (psHTTP, psSOCKS4, psSOCKS5);
 
+  /// <summary>
+  /// Storage types used by the Storage.clearDataForOrigin DevTools method in TChromiumCore.ClearDataForOrigin
+  /// </summary>
   TCefClearDataStorageTypes = (cdstAppCache,
                                cdstCookies,
                                cdstFileSystems,
@@ -933,11 +943,17 @@ type
                                cdstCacheStorage,
                                cdstAll);
 
+  /// <summary>
+  /// Autoplay policy types used by TCefApplicationCore.AutoplayPolicy. See the --autoplay-policy switch.
+  /// </summary>
   TCefAutoplayPolicy = (appDefault,
                         appDocumentUserActivationRequired,
                         appNoUserGestureRequired,
                         appUserGestureRequired);
 
+  /// <summary>
+  /// WebRTC handling policy types used by TChromiumCore.WebRTCIPHandlingPolicy.
+  /// </summary>
   TCefWebRTCHandlingPolicy = (
     hpDefault,
     hpDefaultPublicAndPrivateInterfaces,
@@ -3424,7 +3440,7 @@ type
     /// <summary>
     /// Controls whether local storage can be used. Also configurable using the
     /// "disable-local-storage" command-line switch.
-    ///
+    /// </summary>
     local_storage                   : TCefState;
     /// <summary>
     /// Controls whether databases can be used. Also configurable using the
@@ -3638,6 +3654,9 @@ type
     priority    : TCefCookiePriority;
   end;
 
+  /// <summary>
+  /// Cookie information.
+  /// </summary>
   TCookie = record
     name        : ustring;
     value       : ustring;
@@ -3966,6 +3985,7 @@ type
     CEF_CONTENT_SETTING_TYPE_IDLE_DETECTION,
     /// <summary>
     /// Setting for enabling auto-select of all screens for getDisplayMediaSet.
+    /// </summary>
     CEF_CONTENT_SETTING_TYPE_GET_DISPLAY_MEDIA_SET_SELECT_ALL_SCREENS,
     /// <summary>
     /// Content settings for access to serial ports. The "guard" content setting
@@ -4094,6 +4114,7 @@ type
     /// <summary>
     /// Stores per-origin state of the most recently selected directory for the
     /// use by the File System Access API.
+    /// </summary>
     CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_LAST_PICKED_DIRECTORY,
     /// <summary>
     /// Controls access to the getDisplayMedia API when {preferCurrentTab: true}
@@ -4242,7 +4263,7 @@ type
   /// All ref-counted framework structures must include this structure first.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBaseRefCounted">Implemented by ICefBaseRefCounted</see></para>
+  /// <para>Implemented by ICefBaseRefCounted.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_base_capi.h">CEF source file: /include/capi/cef_base_capi.h (cef_base_ref_counted_t)</see></para>
   /// </remarks>
   TCefBaseRefCounted = record
@@ -4257,7 +4278,7 @@ type
   /// All scoped framework structures must include this structure first.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBaseScoped">Implemented by ICefBaseScoped</see></para>
+  /// <para>Implemented by ICefBaseScoped.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_base_capi.h">CEF source file: /include/capi/cef_base_capi.h (cef_base_scoped_t)</see></para>
   /// </remarks>
   TCefBaseScoped = record
@@ -4270,7 +4291,7 @@ type
   /// may be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefStreamWriter">Implemented by ICefStreamWriter</see></para>
+  /// <para>Implemented by ICefStreamWriter.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_stream_writer_t)</see></para>
   /// </remarks>
   TCefStreamWriter = record
@@ -4286,7 +4307,7 @@ type
   /// Structure representing the issuer or subject field of an X.509 certificate.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefX509CertPrincipal">Implemented by ICefX509CertPrincipal</see></para>
+  /// <para>Implemented by ICefX509CertPrincipal.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509cert_principal_t)</see></para>
   /// </remarks>
   TCefX509CertPrincipal = record
@@ -4304,7 +4325,7 @@ type
   /// Structure representing a X.509 certificate.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefX509Certificate">Implemented by ICefX509Certificate</see></para>
+  /// <para>Implemented by ICefX509Certificate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509certificate_t)</see></para>
   /// </remarks>
   TCefX509Certificate = record
@@ -4325,7 +4346,7 @@ type
   /// Structure representing SSL information.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefSslInfo">Implemented by ICefSslInfo</see></para>
+  /// <para>Implemented by ICefSslInfo</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_ssl_info_capi.h">CEF source file: /include/capi/cef_ssl_info_capi.h (cef_sslinfo_t)</see></para>
   /// </remarks>
   TCefSslInfo = record
@@ -4338,7 +4359,7 @@ type
   /// Structure representing the SSL information for a navigation entry.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefSSLStatus">Implemented by ICefSSLStatus</see></para>
+  /// <para>Implemented by ICefSSLStatus.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_ssl_status_capi.h">CEF source file: /include/capi/cef_ssl_status_capi.h (cef_sslstatus_t)</see></para>
   /// </remarks>
   TCefSSLStatus = record
@@ -4354,7 +4375,7 @@ type
   /// Callback structure used to select a client certificate for authentication.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefSelectClientCertificateCallback">Implemented by ICefSelectClientCertificateCallback</see></para>
+  /// <para>Implemented by ICefSelectClientCertificateCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_handler_capi.h">CEF source file: /include/capi/cef_request_handler_capi.h (cef_select_client_certificate_callback_t)</see></para>
   /// </remarks>
   TCefSelectClientCertificateCallback = record
@@ -4366,7 +4387,7 @@ type
   /// Callback structure used for continuation of custom context menu display.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRunContextMenuCallback">Implemented by ICefRunContextMenuCallback</see></para>
+  /// <para>Implemented by ICefRunContextMenuCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_run_context_menu_callback_t)</see></para>
   /// </remarks>
   TCefRunContextMenuCallback = record
@@ -4379,7 +4400,7 @@ type
   /// Callback structure for asynchronous continuation of file dialog requests.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefFileDialogCallback">Implemented by ICefFileDialogCallback</see></para>
+  /// <para>Implemented by ICefFileDialogCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dialog_handler_capi.h">CEF source file: /include/capi/cef_dialog_handler_capi.h (cef_file_dialog_callback_t)</see></para>
   /// </remarks>
   TCefFileDialogCallback = record
@@ -4393,7 +4414,7 @@ type
   /// structure will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDialogHandler">Implemented by ICefDialogHandler</see></para>
+  /// <para>Implemented by ICefDialogHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dialog_handler_capi.h">CEF source file: /include/capi/cef_dialog_handler_capi.h (cef_dialog_handler_t)</see></para>
   /// </remarks>
   TCefDialogHandler = record
@@ -4406,7 +4427,7 @@ type
   /// The functions of this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDisplayHandler">Implemented by ICefDisplayHandler</see></para>
+  /// <para>Implemented by ICefDisplayHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_display_handler_capi.h">CEF source file: /include/capi/cef_display_handler_capi.h (cef_display_handler_t)</see></para>
   /// </remarks>
   TCefDisplayHandler = record
@@ -4429,7 +4450,7 @@ type
   /// will called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDownloadHandler">Implemented by ICefDownloadHandler</see></para>
+  /// <para>Implemented by ICefDownloadHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_handler_capi.h">CEF source file: /include/capi/cef_download_handler_capi.h (cef_download_handler_t)</see></para>
   /// </remarks>
   TCefDownloadHandler = record
@@ -4444,7 +4465,7 @@ type
   /// of this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDragHandler">Implemented by ICefDragHandler</see></para>
+  /// <para>Implemented by ICefDragHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_drag_handler_capi.h">CEF source file: /include/capi/cef_drag_handler_capi.h (cef_drag_handler_t)</see></para>
   /// </remarks>
   TCefDragHandler = record
@@ -4458,7 +4479,7 @@ type
   /// functions of this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefFindHandler">Implemented by ICefFindHandler</see></para>
+  /// <para>Implemented by ICefFindHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_find_handler_capi.h">CEF source file: /include/capi/cef_find_handler_capi.h (cef_find_handler_t)</see></para>
   /// </remarks>
   TCefFindHandler = record
@@ -4471,7 +4492,7 @@ type
   /// this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefFocusHandler">Implemented by ICefFocusHandler</see></para>
+  /// <para>Implemented by ICefFocusHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_focus_handler_capi.h">CEF source file: /include/capi/cef_focus_handler_capi.h (cef_focus_handler_t)</see></para>
   /// </remarks>
   TCefFocusHandler = record
@@ -4486,7 +4507,7 @@ type
   /// functions of this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefJsDialogHandler">Implemented by ICefJsDialogHandler</see></para>
+  /// <para>Implemented by ICefJsDialogHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_jsdialog_handler_capi.h">CEF source file: /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_handler_t)</see></para>
   /// </remarks>
   TCefJsDialogHandler = record
@@ -4502,7 +4523,7 @@ type
   /// requests.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefJsDialogCallback">Implemented by ICefJsDialogCallback</see></para>
+  /// <para>Implemented by ICefJsDialogCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_jsdialog_handler_capi.h">CEF source file: /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_callback_t)</see></para>
   /// </remarks>
   TCefJsDialogCallback = record
@@ -4515,7 +4536,7 @@ type
   /// functions of this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefKeyboardHandler">Implemented by ICefKeyboardHandler</see></para>
+  /// <para>Implemented by ICefKeyboardHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_keyboard_handler_capi.h">CEF source file: /include/capi/cef_keyboard_handler_capi.h (cef_keyboard_handler_t)</see></para>
   /// </remarks>
   TCefKeyboardHandler = record
@@ -4530,7 +4551,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefLifeSpanHandler">Implemented by ICefLifeSpanHandler</see></para>
+  /// <para>Implemented by ICefLifeSpanHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h">CEF source file: /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)</see></para>
   /// </remarks>
   TCefLifeSpanHandler = record
@@ -4545,7 +4566,7 @@ type
   /// Generic callback structure used for managing the lifespan of a registration.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRegistration">Implemented by ICefRegistration</see></para>
+  /// <para>Implemented by ICefRegistration.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_registration_capi.h">CEF source file: /include/capi/cef_registration_capi.h (cef_registration_t)</see></para>
   /// </remarks>
   TCefRegistration = record
@@ -4557,7 +4578,7 @@ type
   /// functions of this structure will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDevToolsMessageObserver">Implemented by ICefDevToolsMessageObserver</see></para>
+  /// <para>Implemented by ICefDevToolsMessageObserver.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_devtools_message_observer_capi.h">CEF source file: /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t)</see></para>
   /// </remarks>
   TCefDevToolsMessageObserver = record
@@ -4575,7 +4596,7 @@ type
   /// be called on any browser process thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaRouter">Implemented by ICefMediaRouter</see></para>
+  /// <para>Implemented by ICefMediaRouter.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_router_t)</see></para>
   /// </remarks>
   TCefMediaRouter = record
@@ -4593,7 +4614,7 @@ type
   /// called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaObserver">Implemented by ICefMediaObserver</see></para>
+  /// <para>Implemented by ICefMediaObserver.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_observer_t)</see></para>
   /// </remarks>
   TCefMediaObserver = record
@@ -4612,7 +4633,7 @@ type
   /// browser process thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaRoute">Implemented by ICefMediaRoute</see></para>
+  /// <para>Implemented by ICefMediaRoute.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_route_t)</see></para>
   /// </remarks>
   TCefMediaRoute = record
@@ -4629,7 +4650,7 @@ type
   /// this structure will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaRouteCreateCallback">Implemented by ICefMediaRouteCreateCallback</see></para>
+  /// <para>Implemented by ICefMediaRouteCreateCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_route_create_callback_t)</see></para>
   /// </remarks>
   TCefMediaRouteCreateCallback = record
@@ -4643,7 +4664,7 @@ type
   /// may be called on any browser process thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaSink">Implemented by ICefMediaSink</see></para>
+  /// <para>Implemented by ICefMediaSink.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_sink_t)</see></para>
   /// </remarks>
   TCefMediaSink = record
@@ -4662,7 +4683,7 @@ type
   /// this structure will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaSinkDeviceInfoCallback">Implemented by ICefMediaSinkDeviceInfoCallback</see></para>
+  /// <para>Implemented by ICefMediaSinkDeviceInfoCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_sink_device_info_callback_t)</see></para>
   /// </remarks>
   TCefMediaSinkDeviceInfoCallback = record
@@ -4677,7 +4698,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaSource">Implemented by ICefMediaSource</see></para>
+  /// <para>Implemented by ICefMediaSource.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">CEF source file: /include/capi/cef_media_router_capi.h (cef_media_source_t)</see></para>
   /// </remarks>
   TCefMediaSource = record
@@ -4692,7 +4713,7 @@ type
   /// ICefExtensionHandler.GetExtensionResource.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefGetExtensionResourceCallback">Implemented by ICefGetExtensionResourceCallback</see></para>
+  /// <para>Implemented by ICefGetExtensionResourceCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_get_extension_resource_callback_t)</see></para>
   /// </remarks>
   TCefGetExtensionResourceCallback = record
@@ -4708,7 +4729,7 @@ type
   /// loading.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefExtensionHandler">Implemented by ICefExtensionHandler</see></para>
+  /// <para>Implemented by ICefExtensionHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
   /// </remarks>
   TCefExtensionHandler = record
@@ -4727,7 +4748,7 @@ type
   /// Implement this structure to handle audio events.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefAudioHandler">Implemented by ICefAudioHandler</see></para>
+  /// <para>Implemented by ICefAudioHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_audio_handler_capi.h">CEF source file: /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t)</see></para>
   /// </remarks>
   TCefAudioHandler = record
@@ -4744,7 +4765,7 @@ type
   /// otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefExtension">Implemented by ICefExtension</see></para>
+  /// <para>Implemented by ICefExtension.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_capi.h">CEF source file: /include/capi/cef_extension_capi.h (cef_extension_t)</see></para>
   /// </remarks>
   TCefExtension = record
@@ -4765,7 +4786,7 @@ type
   /// thread or render process main thread (TID_RENDERER).
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefLoadHandler">Implemented by ICefLoadHandler</see></para>
+  /// <para>Implemented by ICefLoadHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t)</see></para>
   /// </remarks>
   TCefLoadHandler = record
@@ -4781,7 +4802,7 @@ type
   /// The functions of this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRenderHandler">Implemented by ICefRenderHandler</see></para>
+  /// <para>Implemented by ICefRenderHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_handler_capi.h">CEF source file: /include/capi/cef_render_handler_capi.h (cef_render_handler_t)</see></para>
   /// </remarks>
   TCefRenderHandler = record
@@ -4809,7 +4830,7 @@ type
   /// Structure that manages custom preference registrations.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPreferenceRegistrar">Implemented by ICefPreferenceRegistrar</see></para>
+  /// <para>Implemented by ICefPreferenceRegistrar.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_registrar_t)</see></para>
   /// </remarks>
   TCefPreferenceRegistrar = record
@@ -4823,7 +4844,7 @@ type
   /// ICefBrowserProcessHandler.OnRegisterCustomPreferences.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPreferenceManager">Implemented by ICefPreferenceManager</see></para>
+  /// <para>Implemented by ICefPreferenceManager.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_manager_t)</see></para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_manager_capi.h">CEF source file: /include/capi/cef_preference_manager_capi.h (cef_preference_manager_t)</see></para>
   /// </remarks>
@@ -4844,7 +4865,7 @@ type
   /// thread can be retrieved via the ICefv8context.GetTaskRunner() function.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefV8StackTrace">Implemented by ICefV8StackTrace</see></para>
+  /// <para>Implemented by ICefV8StackTrace.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)</see></para>
   /// </remarks>
   TCefV8StackTrace = record
@@ -4862,7 +4883,7 @@ type
   /// thread can be retrieved via the ICefv8context.GetTaskRunner() function.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefV8StackFrame">Implemented by ICefV8StackFrame</see></para>
+  /// <para>Implemented by ICefV8StackFrame.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_frame_t)</see></para>
   /// </remarks>
   TCefV8StackFrame = record
@@ -4882,8 +4903,7 @@ type
   /// may be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefStreamReader">Implemented by ICefStreamReader</see></para>
-  /// <para><see cref="uCEFInterfaces|ICefCustomStreamReader">Implemented by ICefCustomStreamReader</see></para>
+  /// <para>Implemented by ICefStreamReader and ICefCustomStreamReader.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_stream_reader_t)</see></para>
   /// </remarks>
   TCefStreamReader = record
@@ -4900,7 +4920,7 @@ type
   /// functions of this structure may be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefReadHandler">Implemented by ICefReadHandler</see></para>
+  /// <para>Implemented by ICefReadHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_read_handler_t)</see></para>
   /// </remarks>
   TCefReadHandler = record
@@ -4917,7 +4937,7 @@ type
   /// functions of this structure may be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefWriteHandler">Implemented by ICefWriteHandler</see></para>
+  /// <para>Implemented by ICefWriteHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_stream_capi.h">CEF source file: /include/capi/cef_stream_capi.h (cef_write_handler_t)</see></para>
   /// </remarks>
   TCefWriteHandler = record
@@ -4935,7 +4955,7 @@ type
   /// that creates the object.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefXmlReader">Implemented by ICefXmlReader</see></para>
+  /// <para>Implemented by ICefXmlReader.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_xml_reader_capi.h">CEF source file: /include/capi/cef_xml_reader_capi.h (cef_xml_reader_t)</see></para>
   /// </remarks>
   TCefXmlReader = record
@@ -4977,7 +4997,7 @@ type
   /// creates the object.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefZipReader">Implemented by ICefZipReader</see></para>
+  /// <para>Implemented by ICefZipReader.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_zip_reader_capi.h">CEF source file: /include/capi/cef_zip_reader_capi.h (cef_zip_reader_t)</see></para>
   /// </remarks>
   TCefZipReader = record
@@ -5002,7 +5022,7 @@ type
   /// the request unless otherwise documented.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefUrlrequestClient">Implemented by ICefUrlrequestClient</see></para>
+  /// <para>Implemented by ICefUrlrequestClient.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_urlrequest_capi.h">CEF source file: /include/capi/cef_urlrequest_capi.h (cef_urlrequest_client_t)</see></para>
   /// </remarks>
   TCefUrlrequestClient = record
@@ -5022,7 +5042,7 @@ type
   /// accessed on the same thread that created it.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefUrlRequest">Implemented by ICefUrlRequest</see></para>
+  /// <para>Implemented by ICefUrlRequest.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_urlrequest_capi.h">CEF source file: /include/capi/cef_urlrequest_capi.h (cef_urlrequest_t)</see></para>
   /// </remarks>
   TCefUrlRequest = record
@@ -5048,7 +5068,7 @@ type
   /// of creating a new one; see cef_task.h for details.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefThread">Implemented by ICefThread</see></para>
+  /// <para>Implemented by ICefThread.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_thread_capi.h">CEF source file: /include/capi/cef_thread_capi.h (cef_thread_t)</see></para>
   /// </remarks>
   TCefThread = record
@@ -5071,7 +5091,7 @@ type
   /// browser process UI or IO threads.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefWaitableEvent">Implemented by ICefWaitableEvent</see></para>
+  /// <para>Implemented by ICefWaitableEvent.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_waitable_event_capi.h">CEF source file: /include/capi/cef_waitable_event_capi.h (cef_waitable_event_t)</see></para>
   /// </remarks>
   TCefWaitableEvent = record
@@ -5093,7 +5113,7 @@ type
   /// other CEF threads as appropriate (for example, V8 WebWorker threads).
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefTaskRunner">Implemented by ICefTaskRunner</see></para>
+  /// <para>Implemented by ICefTaskRunner.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_capi.h">CEF source file: /include/capi/cef_task_capi.h (cef_task_runner_t)</see></para>
   /// </remarks>
   TCefTaskRunner = record
@@ -5111,7 +5131,7 @@ type
   /// thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefEndTracingCallback">Implemented by ICefEndTracingCallback</see></para>
+  /// <para>Implemented by ICefEndTracingCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_trace_capi.h">CEF source file: /include/capi/cef_trace_capi.h (cef_end_tracing_callback_t)</see></para>
   /// </remarks>
   TCefEndTracingCallback = record
@@ -5127,7 +5147,7 @@ type
   /// structure may be called on any thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResourceBundle">Implemented by ICefResourceBundle</see></para>
+  /// <para>Implemented by ICefResourceBundle.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_capi.h">CEF source file: /include/capi/cef_resource_bundle_capi.h (cef_resource_bundle_t)</see></para>
   /// </remarks>
   TCefResourceBundle = record
@@ -5143,7 +5163,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMenuModelDelegate">Implemented by ICefMenuModelDelegate</see></para>
+  /// <para>Implemented by ICefMenuModelDelegate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_menu_model_delegate_capi.h">CEF source file: /include/capi/cef_menu_model_delegate_capi.h (cef_menu_model_delegate_t)</see></para>
   /// </remarks>
   TCefMenuModelDelegate = record
@@ -5161,7 +5181,7 @@ type
   /// Structure representing a message. Can be used on any process and thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefProcessMessage">Implemented by ICefProcessMessage</see></para>
+  /// <para>Implemented by ICefProcessMessage.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_process_message_capi.h">CEF source file: /include/capi/cef_process_message_capi.h (cef_process_message_t)</see></para>
   /// </remarks>
   TCefProcessMessage = record
@@ -5180,7 +5200,7 @@ type
   /// unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRenderProcessHandler">Implemented by ICefRenderProcessHandler</see></para>
+  /// <para>Implemented by ICefRenderProcessHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
   /// </remarks>
   TCefRenderProcessHandler = record
@@ -5201,7 +5221,7 @@ type
   /// functions of this structure will be called on the thread indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRequestHandler">Implemented by ICefRequestHandler</see></para>
+  /// <para>Implemented by ICefRequestHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_handler_capi.h">CEF source file: /include/capi/cef_request_handler_capi.h (cef_request_handler_t)</see></para>
   /// </remarks>
   TCefRequestHandler = record
@@ -5222,7 +5242,7 @@ type
   /// permission requests.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaAccessCallback">Implemented by ICefMediaAccessCallback</see></para>
+  /// <para>Implemented by ICefMediaAccessCallback.</para>
   /// This record is declared twice with almost identical parameters. "allowed_permissions" is defined as int and uint32.
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h">CEF source file: /include/capi/cef_media_access_handler_capi.h (cef_media_access_callback_t)</see></para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">CEF source file: /include/capi/cef_permission_handler_capi.h (cef_media_access_callback_t)</see></para>
@@ -5239,7 +5259,7 @@ type
   /// process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMediaAccessHandler">Implemented by ICefMediaAccessHandler</see></para>
+  /// <para>Implemented by ICefMediaAccessHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h">CEF source file: /include/capi/cef_media_access_handler_capi.h (cef_media_access_handler_t)</see></para>
   /// </remarks>
   TCefMediaAccessHandler = record
@@ -5251,7 +5271,7 @@ type
   /// Callback structure used for asynchronous continuation of permission prompts.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPermissionPromptCallback">Implemented by ICefPermissionPromptCallback</see></para>
+  /// <para>Implemented by ICefPermissionPromptCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">CEF source file: /include/capi/cef_permission_handler_capi.h (cef_permission_prompt_callback_t)</see></para>
   /// </remarks>
   TCefPermissionPromptCallback = record
@@ -5265,7 +5285,7 @@ type
   /// thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPermissionHandler">Implemented by ICefPermissionHandler</see></para>
+  /// <para>Implemented by ICefPermissionHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">CEF source file: /include/capi/cef_permission_handler_capi.h (cef_permission_handler_t)</see></para>
   /// </remarks>
   TCefPermissionHandler = record
@@ -5279,7 +5299,7 @@ type
   /// Structure that wraps platform-dependent share memory region mapping.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefSharedMemoryRegion">Implemented by ICefSharedMemoryRegion</see></para>
+  /// <para>Implemented by ICefSharedMemoryRegion.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_shared_memory_region_capi.h">CEF source file: /include/capi/cef_shared_memory_region_capi.h (cef_shared_memory_region_t)</see></para>
   /// </remarks>
   TCefSharedMemoryRegion = record
@@ -5295,7 +5315,7 @@ type
   /// different thread from the one which constructed it.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefSharedProcessMessageBuilder">Implemented by ICefSharedProcessMessageBuilder</see></para>
+  /// <para>Implemented by ICefSharedProcessMessageBuilder.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_shared_process_message_builder_capi.h">CEF source file: /include/capi/cef_shared_process_message_builder_capi.h (cef_shared_process_message_builder_t)</see></para>
   /// </remarks>
   TCefSharedProcessMessageBuilder = record
@@ -5310,7 +5330,7 @@ type
   /// Callback for asynchronous continuation of ICefResourceHandler.skip().
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResourceSkipCallback">Implemented by ICefResourceSkipCallback</see></para>
+  /// <para>Implemented by ICefResourceSkipCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_handler_capi.h">CEF source file: /include/capi/cef_resource_handler_capi.h (cef_resource_skip_callback_t)</see></para>
   /// </remarks>
   TCefResourceSkipCallback = record
@@ -5322,7 +5342,7 @@ type
   /// Callback for asynchronous continuation of ICefResourceHandler.read().
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResourceReadCallback">Implemented by ICefResourceReadCallback</see></para>
+  /// <para>Implemented by ICefResourceReadCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_handler_capi.h">CEF source file: /include/capi/cef_resource_handler_capi.h (cef_resource_read_callback_t)</see></para>
   /// </remarks>
   TCefResourceReadCallback = record
@@ -5336,7 +5356,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResourceHandler">Implemented by ICefResourceHandler</see></para>
+  /// <para>Implemented by ICefResourceHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_handler_capi.h">CEF source file: /include/capi/cef_resource_handler_capi.h (cef_resource_handler_t)</see></para>
   /// </remarks>
   TCefResourceHandler = record
@@ -5356,7 +5376,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResourceRequestHandler">Implemented by ICefResourceRequestHandler</see></para>
+  /// <para>Implemented by ICefResourceRequestHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_request_handler_capi.h">CEF source file: /include/capi/cef_resource_request_handler_capi.h (cef_resource_request_handler_t)</see></para>
   /// </remarks>
   TCefResourceRequestHandler = record
@@ -5377,7 +5397,7 @@ type
   /// thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefCookieAccessFilter">Implemented by ICefCookieAccessFilter</see></para>
+  /// <para>Implemented by ICefCookieAccessFilter.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_request_handler_capi.h">CEF source file: /include/capi/cef_resource_request_handler_capi.h (cef_cookie_access_filter_t)</see></para>
   /// </remarks>
   TCefCookieAccessFilter = record
@@ -5391,7 +5411,7 @@ type
   /// may be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResponse">Implemented by ICefResponse</see></para>
+  /// <para>Implemented by ICefResponse.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_response_capi.h">CEF source file: /include/capi/cef_response_capi.h (cef_response_t)</see></para>
   /// </remarks>
   TCefResponse = record
@@ -5420,7 +5440,7 @@ type
   /// of this structure will be called on the browser process IO thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResponseFilter">Implemented by ICefResponseFilter</see></para>
+  /// <para>Implemented by ICefResponseFilter.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_response_filter_capi.h">CEF source file: /include/capi/cef_response_filter_capi.h (cef_response_filter_t)</see></para>
   /// </remarks>
   TCefResponseFilter = record
@@ -5434,7 +5454,7 @@ type
   /// requests.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefAuthCallback">Implemented by ICefAuthCallback</see></para>
+  /// <para>Implemented by ICefAuthCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_auth_callback_capi.h">CEF source file: /include/capi/cef_auth_callback_capi.h (cef_auth_callback_t)</see></para>
   /// </remarks>
   TCefAuthCallback = record
@@ -5447,7 +5467,7 @@ type
   /// Generic callback structure used for asynchronous continuation.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefCallback">Implemented by ICefCallback</see></para>
+  /// <para>Implemented by ICefCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_callback_capi.h">CEF source file: /include/capi/cef_callback_capi.h (cef_callback_t)</see></para>
   /// </remarks>
   TCefCallback = record
@@ -5473,7 +5493,7 @@ type
   /// function and all other request context objects will be ignored.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRequestContext">Implemented by ICefRequestContext</see></para>
+  /// <para>Implemented by ICefRequestContext.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_capi.h">CEF source file: /include/capi/cef_request_context_capi.h (cef_request_context_t)</see></para>
   /// </remarks>
   TCefRequestContext = record
@@ -5508,7 +5528,7 @@ type
   /// been destroyed.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRequestContextHandler">Implemented by ICefRequestContextHandler</see></para>
+  /// <para>Implemented by ICefRequestContextHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_handler_capi.h">CEF source file: /include/capi/cef_request_context_handler_capi.h (cef_request_context_handler_t)</see></para>
   /// </remarks>
   TCefRequestContextHandler = record
@@ -5521,7 +5541,7 @@ type
   /// Generic callback structure used for asynchronous completion.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefCompletionCallback">Implemented by ICefCompletionCallback</see></para>
+  /// <para>Implemented by ICefCompletionCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_callback_capi.h">CEF source file: /include/capi/cef_callback_capi.h (cef_completion_callback_t)</see></para>
   /// </remarks>
   TCefCompletionCallback = record
@@ -5534,7 +5554,7 @@ type
   /// called on any thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefCookieManager">Implemented by ICefCookieManager</see></para>
+  /// <para>Implemented by ICefCookieManager.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">CEF source file: /include/capi/cef_cookie_capi.h (cef_cookie_manager_t)</see></para>
   /// </remarks>
   TCefCookieManager = record
@@ -5552,7 +5572,7 @@ type
   /// thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefSchemeHandlerFactory">Implemented by ICefSchemeHandlerFactory</see></para>
+  /// <para>Implemented by ICefSchemeHandlerFactory.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_scheme_capi.h">CEF source file: /include/capi/cef_scheme_capi.h (cef_scheme_handler_factory_t)</see></para>
   /// </remarks>
   TCefSchemeHandlerFactory = record
@@ -5564,7 +5584,7 @@ type
   /// Callback structure for ICefRequestContext.ResolveHost.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResolveCallback">Implemented by ICefResolveCallback</see></para>
+  /// <para>Implemented by ICefResolveCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_capi.h">CEF source file: /include/capi/cef_request_context_capi.h (cef_resolve_callback_t)</see></para>
   /// </remarks>
   TCefResolveCallback = record
@@ -5577,7 +5597,7 @@ type
   /// structure will always be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefCookieVisitor">Implemented by ICefCookieVisitor</see></para>
+  /// <para>Implemented by ICefCookieVisitor.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">CEF source file: /include/capi/cef_cookie_capi.h (cef_cookie_visitor_t)</see></para>
   /// </remarks>
   TCefCookieVisitor = record
@@ -5590,7 +5610,7 @@ type
   /// ICefCookieManager.SetCookie().
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefSetCookieCallback">Implemented by ICefSetCookieCallback</see></para>
+  /// <para>Implemented by ICefSetCookieCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">CEF source file: /include/capi/cef_cookie_capi.h (cef_set_cookie_callback_t)</see></para>
   /// </remarks>
   TCefSetCookieCallback = record
@@ -5603,7 +5623,7 @@ type
   /// ICefCookieManager.DeleteCookies().
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDeleteCookiesCallback">Implemented by ICefDeleteCookiesCallback</see></para>
+  /// <para>Implemented by ICefDeleteCookiesCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">CEF source file: /include/capi/cef_cookie_capi.h (cef_delete_cookies_callback_t)</see></para>
   /// </remarks>
   TCefDeleteCookiesCallback = record
@@ -5616,7 +5636,7 @@ type
   /// this structure will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRunFileDialogCallback">Implemented by ICefRunFileDialogCallback</see></para>
+  /// <para>Implemented by ICefRunFileDialogCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_run_file_dialog_callback_t)</see></para>
   /// </remarks>
   TCefRunFileDialogCallback = record
@@ -5629,7 +5649,7 @@ type
   /// this structure will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDownloadImageCallback">Implemented by ICefDownloadImageCallback</see></para>
+  /// <para>Implemented by ICefDownloadImageCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_download_image_callback_t)</see></para>
   /// </remarks>
   TCefDownloadImageCallback = record
@@ -5646,7 +5666,7 @@ type
   /// structure can be called on any browser process thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefImage">Implemented by ICefImage</see></para>
+  /// <para>Implemented by ICefImage.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_image_capi.h">CEF source file: /include/capi/cef_image_capi.h (cef_image_t)</see></para>
   /// </remarks>
   TCefImage = record
@@ -5671,7 +5691,7 @@ type
   /// structure will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPdfPrintCallback">Implemented by ICefPdfPrintCallback</see></para>
+  /// <para>Implemented by ICefPdfPrintCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_pdf_print_callback_t)</see></para>
   /// </remarks>
   TCefPdfPrintCallback = record
@@ -5684,7 +5704,7 @@ type
   /// functions of this structure will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefNavigationEntryVisitor">Implemented by ICefNavigationEntryVisitor</see></para>
+  /// <para>Implemented by ICefNavigationEntryVisitor.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_navigation_entry_visitor_t)</see></para>
   /// </remarks>
   TCefNavigationEntryVisitor = record
@@ -5696,7 +5716,7 @@ type
   /// Structure used to represent an entry in navigation history.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefNavigationEntry">Implemented by ICefNavigationEntry</see></para>
+  /// <para>Implemented by ICefNavigationEntry.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_navigation_entry_capi.h">CEF source file: /include/capi/cef_navigation_entry_capi.h (cef_navigation_entry_t)</see></para>
   /// </remarks>
   TCefNavigationEntry = record
@@ -5717,7 +5737,7 @@ type
   /// Structure representing print settings.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPrintSettings">Implemented by ICefPrintSettings</see></para>
+  /// <para>Implemented by ICefPrintSettings.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_settings_capi.h">CEF source file: /include/capi/cef_print_settings_capi.h (cef_print_settings_t)</see></para>
   /// </remarks>
   TCefPrintSettings = record
@@ -5750,7 +5770,7 @@ type
   /// Callback structure for asynchronous continuation of print dialog requests.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPrintDialogCallback">Implemented by ICefPrintDialogCallback</see></para>
+  /// <para>Implemented by ICefPrintDialogCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h">CEF source file: /include/capi/cef_print_handler_capi.h (cef_print_dialog_callback_t)</see></para>
   /// </remarks>
   TCefPrintDialogCallback = record
@@ -5763,7 +5783,7 @@ type
   /// Callback structure for asynchronous continuation of print job requests.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPrintJobCallback">Implemented by ICefPrintJobCallback</see></para>
+  /// <para>Implemented by ICefPrintJobCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h">CEF source file: /include/capi/cef_print_handler_capi.h (cef_print_job_callback_t)</see></para>
   /// </remarks>
   TCefPrintJobCallback = record
@@ -5777,7 +5797,7 @@ type
   /// will be called on the browser process UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPrintHandler">Implemented by ICefPrintHandler</see></para>
+  /// <para>Implemented by ICefPrintHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h">CEF source file: /include/capi/cef_print_handler_capi.h (cef_print_handler_t)</see></para>
   /// </remarks>
   TCefPrintHandler = record
@@ -5795,7 +5815,7 @@ type
   /// be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDragData">Implemented by ICefDragData</see></para>
+  /// <para>Implemented by ICefDragData.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_drag_data_capi.h">CEF source file: /include/capi/cef_drag_data_capi.h (cef_drag_data_t)</see></para>
   /// </remarks>
   TCefDragData = record
@@ -5840,7 +5860,7 @@ type
   /// encoding. This structure can be used before cef_initialize() is called.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefCommandLine">Implemented by ICefCommandLine</see></para>
+  /// <para>Implemented by ICefCommandLine.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_line_capi.h">CEF source file: /include/capi/cef_command_line_capi.h (cef_command_line_t)</see></para>
   /// </remarks>
   TCefCommandLine = record
@@ -5872,7 +5892,7 @@ type
   /// of this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefCommandHandler">Implemented by ICefCommandHandler</see></para>
+  /// <para>Implemented by ICefCommandHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_handler_capi.h">CEF source file: /include/capi/cef_command_handler_capi.h (cef_command_handler_t)</see></para>
   /// </remarks>
   TCefCommandHandler = record
@@ -5888,7 +5908,7 @@ type
   /// Structure that manages custom scheme registrations.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefSchemeRegistrar">Implemented by ICefSchemeRegistrar</see></para>
+  /// <para>Implemented by ICefSchemeRegistrar.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_scheme_capi.h">CEF source file: /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)</see></para>
   /// </remarks>
   TCefSchemeRegistrar = record
@@ -5901,7 +5921,7 @@ type
   /// thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBinaryValue">Implemented by ICefBinaryValue</see></para>
+  /// <para>Implemented by ICefBinaryValue.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_binary_value_t)</see></para>
   /// </remarks>
   TCefBinaryValue = record
@@ -5921,7 +5941,7 @@ type
   /// used on any process and thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefValue">Implemented by ICefValue</see></para>
+  /// <para>Implemented by ICefValue.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_value_t)</see></para>
   /// </remarks>
   TCefValue = record
@@ -5955,7 +5975,7 @@ type
   /// thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDictionaryValue">Implemented by ICefDictionaryValue</see></para>
+  /// <para>Implemented by ICefDictionaryValue.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_dictionary_value_t)</see></para>
   /// </remarks>
   TCefDictionaryValue = record
@@ -5995,7 +6015,7 @@ type
   /// Structure representing a list value. Can be used on any process and thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefListValue">Implemented by ICefListValue</see></para>
+  /// <para>Implemented by ICefListValue.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_list_value_t)</see></para>
   /// </remarks>
   TCefListValue = record
@@ -6034,7 +6054,7 @@ type
   /// Implement this structure to receive string values asynchronously.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefStringVisitor">Implemented by ICefStringVisitor</see></para>
+  /// <para>Implemented by ICefStringVisitor.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_string_visitor_capi.h">CEF source file: /include/capi/cef_string_visitor_capi.h (cef_string_visitor_t)</see></para>
   /// </remarks>
   TCefStringVisitor = record
@@ -6047,7 +6067,7 @@ type
   /// functions of this structure may be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPostDataElement">Implemented by ICefPostDataElement</see></para>
+  /// <para>Implemented by ICefPostDataElement.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h">CEF source file: /include/capi/cef_request_capi.h (cef_post_data_element_t)</see></para>
   /// </remarks>
   TCefPostDataElement = record
@@ -6067,7 +6087,7 @@ type
   /// this structure may be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPostData>Implemented by ICefPostData</see></para>
+  /// <para>Implemented by ICefPostData.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h">CEF source file: /include/capi/cef_request_capi.h (cef_post_data_t)</see></para>
   /// </remarks>
   TCefPostData = record
@@ -6086,7 +6106,7 @@ type
   /// may be called on any thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRequest">Implemented by ICefRequest</see></para>
+  /// <para>Implemented by ICefRequest.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h">CEF source file: /include/capi/cef_request_capi.h (cef_request_t)</see></para>
   /// </remarks>
   TCefRequest = record
@@ -6124,7 +6144,7 @@ type
   /// work in the task object destructor.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefTask">Implemented by ICefTask</see></para>
+  /// <para>Implemented by ICefTask.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_capi.h">CEF source file: /include/capi/cef_task_capi.h (cef_task_t)</see></para>
   /// </remarks>
   TCefTask = record
@@ -6137,7 +6157,7 @@ type
   /// will be called on the render process main thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDomVisitor">Implemented by ICefDomVisitor</see></para>
+  /// <para>Implemented by ICefDomVisitor.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h">CEF source file: /include/capi/cef_dom_capi.h (cef_domvisitor_t)</see></para>
   /// </remarks>
   TCefDomVisitor = record
@@ -6152,7 +6172,7 @@ type
   /// this structure can only be accessed on the browser process the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMenuModel">Implemented by ICefMenuModel</see></para>
+  /// <para>Implemented by ICefMenuModel.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_menu_model_capi.h">CEF source file: /include/capi/cef_menu_model_capi.h (cef_menu_model_t)</see></para>
   /// </remarks>
   TCefMenuModel = record
@@ -6220,7 +6240,7 @@ type
   /// structure can only be accessed on browser process the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefContextMenuParams">Implemented by ICefContextMenuParams</see></para>
+  /// <para>Implemented by ICefContextMenuParams.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_params_t)</see></para>
   /// </remarks>
   TCefContextMenuParams = record
@@ -6251,7 +6271,7 @@ type
   /// Structure used to represent a download item.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDownloadItem">Implemented by ICefDownloadItem</see></para>
+  /// <para>Implemented by ICefDownloadItem.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_item_capi.h">CEF source file: /include/capi/cef_download_item_capi.h (cef_download_item_t)</see></para>
   /// </remarks>
   TCefDownloadItem = record
@@ -6281,7 +6301,7 @@ type
   /// Callback structure used to asynchronously continue a download.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBeforeDownloadCallback">Implemented by ICefBeforeDownloadCallback</see></para>
+  /// <para>Implemented by ICefBeforeDownloadCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_handler_capi.h">CEF source file: /include/capi/cef_download_handler_capi.h (cef_before_download_callback_t)</see></para>
   /// </remarks>
   TCefBeforeDownloadCallback = record
@@ -6293,7 +6313,7 @@ type
   /// Callback structure used to asynchronously cancel a download.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDownloadItemCallback">Implemented by ICefDownloadItemCallback</see></para>
+  /// <para>Implemented by ICefDownloadItemCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_handler_capi.h">CEF source file: /include/capi/cef_download_handler_capi.h (cef_download_item_callback_t)</see></para>
   /// </remarks>
   TCefDownloadItemCallback = record
@@ -6308,7 +6328,7 @@ type
   /// should only be called on the render process main thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDomNode">Implemented by ICefDomNode</see></para>
+  /// <para>Implemented by ICefDomNode.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h">CEF source file: /include/capi/cef_dom_capi.h (cef_domnode_t)</see></para>
   /// </remarks>
   TCefDomNode = record
@@ -6346,7 +6366,7 @@ type
   /// should only be called on the render process main thread thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDomDocument">Implemented by ICefDomDocument</see></para>
+  /// <para>Implemented by ICefDomDocument.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h">CEF source file: /include/capi/cef_dom_capi.h (cef_domdocument_t)</see></para>
   /// </remarks>
   TCefDomDocument = record
@@ -6375,7 +6395,7 @@ type
   /// V8 function.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefv8Handler">Implemented by ICefv8Handler</see></para>
+  /// <para>Implemented by ICefv8Handler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8handler_t)</see></para>
   /// </remarks>
   TCefv8Handler = record
@@ -6388,7 +6408,7 @@ type
   /// be called on any render process thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefV8Exception">Implemented by ICefV8Exception</see></para>
+  /// <para>Implemented by ICefV8Exception.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8exception_t)</see></para>
   /// </remarks>
   TCefV8Exception = record
@@ -6407,7 +6427,7 @@ type
   /// Callback structure that is passed to ICefv8value.CreateArrayBuffer.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefv8ArrayBufferReleaseCallback">Implemented by ICefv8ArrayBufferReleaseCallback</see></para>
+  /// <para>Implemented by ICefv8ArrayBufferReleaseCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8array_buffer_release_callback_t)</see></para>
   /// </remarks>
   TCefv8ArrayBufferReleaseCallback = record
@@ -6423,7 +6443,7 @@ type
   /// retrieved via the ICefv8context.GetTaskRunner() function.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefv8Value">Implemented by ICefv8Value</see></para>
+  /// <para>Implemented by ICefv8Value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8value_t)</see></para>
   /// </remarks>
   TCefv8Value = record
@@ -6488,7 +6508,7 @@ type
   /// retrieved via the ICefv8context.GetTaskRunner() function.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefv8Context">Implemented by ICefv8Context</see></para>
+  /// <para>Implemented by ICefv8Context.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8context_t)</see></para>
   /// </remarks>
   TCefV8Context = record
@@ -6513,7 +6533,7 @@ type
   /// is indexed by integer.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefV8Interceptor">Implemented by ICefV8Interceptor</see></para>
+  /// <para>Implemented by ICefV8Interceptor.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8interceptor_t)</see></para>
   /// </remarks>
   TCefV8Interceptor = record
@@ -6531,7 +6551,7 @@ type
   /// V8 accessor.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefV8Accessor">Implemented by ICefV8Accessor</see></para>
+  /// <para>Implemented by ICefV8Accessor.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8accessor_t)</see></para>
   /// </remarks>
   TCefV8Accessor = record
@@ -6547,7 +6567,7 @@ type
   /// the functions of this structure may only be called on the main thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefFrame">Implemented by ICefFrame</see></para>
+  /// <para>Implemented by ICefFrame.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_capi.h">CEF source file: /include/capi/cef_frame_capi.h (cef_frame_t)</see></para>
   /// </remarks>
   TCefFrame = record
@@ -6657,7 +6677,7 @@ type
   /// otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefFrameHandler">Implemented by ICefFrameHandler</see></para>
+  /// <para>Implemented by ICefFrameHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_handler_capi.h">CEF source file: /include/capi/cef_frame_handler_capi.h (cef_frame_handler_t)</see></para>
   /// </remarks>
   TCefFrameHandler = record
@@ -6674,7 +6694,7 @@ type
   /// will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefAccessibilityHandler">Implemented by ICefAccessibilityHandler</see></para>
+  /// <para>Implemented by ICefAccessibilityHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_accessibility_handler_capi.h">CEF source file: /include/capi/cef_accessibility_handler_capi.h (cef_accessibility_handler_t)</see></para>
   /// </remarks>
   TCefAccessibilityHandler = record
@@ -6688,7 +6708,7 @@ type
   /// this structure will be called on the UI thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefContextMenuHandler">Implemented by ICefContextMenuHandler</see></para>
+  /// <para>Implemented by ICefContextMenuHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_handler_t)</see></para>
   /// </remarks>
   TCefContextMenuHandler = record
@@ -6706,7 +6726,7 @@ type
   /// Callback structure used for continuation of custom quick menu display.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefRunQuickMenuCallback">Implemented by ICefRunQuickMenuCallback</see></para>
+  /// <para>Implemented by ICefRunQuickMenuCallback.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_run_quick_menu_callback_t)</see></para>
   /// </remarks>
   TCefRunQuickMenuCallback = record
@@ -6719,7 +6739,7 @@ type
   /// Implement this structure to provide handler implementations.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefClient">Implemented by ICefClient</see></para>
+  /// <para>Implemented by ICefClient.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_client_capi.h">CEF source file: /include/capi/cef_client_capi.h (cef_client_t)</see></para>
   /// </remarks>
   TCefClient = record
@@ -6752,7 +6772,7 @@ type
   /// the comments.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBrowserHost">Implemented by ICefBrowserHost</see></para>
+  /// <para>Implemented by ICefBrowserHost.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_browser_host_t)</see></para>
   /// </remarks>
   TCefBrowserHost = record
@@ -6825,7 +6845,7 @@ type
   /// this structure may only be called on the main thread.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBrowser">Implemented by ICefBrowser</see></para>
+  /// <para>Implemented by ICefBrowser.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_browser_t)</see></para>
   /// </remarks>
   TCefBrowser = record
@@ -6859,7 +6879,7 @@ type
   /// functions of this structure may be called on multiple threads.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefResourceBundleHandler">Implemented by ICefResourceBundleHandler</see></para>
+  /// <para>Implemented by ICefResourceBundleHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_handler_capi.h">CEF source file: /include/capi/cef_resource_bundle_handler_capi.h (cef_resource_bundle_handler_t)</see></para>
   /// </remarks>
   TCefResourceBundleHandler = record
@@ -6875,7 +6895,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBrowserProcessHandler">Implemented by ICefBrowserProcessHandler</see></para>
+  /// <para>Implemented by ICefBrowserProcessHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
   /// </remarks>
   TCefBrowserProcessHandler = record
@@ -6892,7 +6912,7 @@ type
   /// called by the process and/or thread indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefApp">Implemented by ICefApp</see></para>
+  /// <para>Implemented by ICefApp.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_app_capi.h">CEF source file: /include/capi/cef_app_capi.h (cef_app_t)</see></para>
   /// </remarks>
   TCefApp = record
@@ -6912,7 +6932,7 @@ type
   /// in the brower process unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefServer">Implemented by ICefServer</see></para>
+  /// <para>Implemented by ICefServer.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">CEF source file: /include/capi/cef_server_capi.h (cef_server_t)</see></para>
   /// </remarks>
   TCefServer = record
@@ -6941,7 +6961,7 @@ type
   /// the ICefServerHandler implementation.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefServerHandler">Implemented by ICefServerHandler</see></para>
+  /// <para>Implemented by ICefServerHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t)</see></para>
   /// </remarks>
   TCefServerHandler = record
@@ -6957,43 +6977,43 @@ type
   end;
 
 
-  /// <summary>
-  /// *********************************
-  /// ************* Views *************
-  /// *********************************
-  ///
-  ///  (*) Has CEF creation function
-  ///  (d) Has delegate
-  ///
-  /// ----------------          ----------------------
-  /// | TCefView (d) | -------> | TCefTextfield (*d) |
-  /// ----------------    |     ----------------------
-  ///                     |
-  ///                     |     ----------------------
-  ///                     |---> | TCefScrollView (*) |
-  ///                     |     ----------------------
-  ///                     |
-  ///                     |     ------------------          -------------------
-  ///                     |---> | TCefPanel (*d) | -------> | TCefWindow (*d) |
-  ///                     |     ------------------          -------------------
-  ///                     |
-  ///                     |     ------------------------
-  ///                     |---> | TCefBrowserView (*d) |
-  ///                     |     ------------------------
-  ///                     |
-  ///                     |     ------------------          -----------------------          -----------------------
-  ///                     |---> | TCefButton (d) | -------> | TCefLabelButton (*) | -------> | TCefMenuButton (*d) |
-  ///                           ------------------          -----------------------          -----------------------
-  ///
-  ///
-  /// --------------          -----------------
-  /// | TCefLayout | -------> | TCefBoxLayout |
-  /// --------------    |     -----------------
-  ///                   |
-  ///                   |     ------------------
-  ///                   |---> | TCefFillLayout |
-  ///                         ------------------
-  /// </summary>
+  {*
+   *********************************
+   ************* Views *************
+   *********************************
+
+    (*) Has CEF creation function
+    (d) Has delegate
+
+   ----------------          ----------------------
+   | TCefView (d) | -------> | TCefTextfield (*d) |
+   ----------------    |     ----------------------
+                       |
+                       |     ----------------------
+                       |---> | TCefScrollView (*) |
+                       |     ----------------------
+                       |
+                       |     ------------------          -------------------
+                       |---> | TCefPanel (*d) | -------> | TCefWindow (*d) |
+                       |     ------------------          -------------------
+                       |
+                       |     ------------------------
+                       |---> | TCefBrowserView (*d) |
+                       |     ------------------------
+                       |
+                       |     ------------------          -----------------------          -----------------------
+                       |---> | TCefButton (d) | -------> | TCefLabelButton (*) | -------> | TCefMenuButton (*d) |
+                             ------------------          -----------------------          -----------------------
+
+
+   --------------          -----------------
+   | TCefLayout | -------> | TCefBoxLayout |
+   --------------    |     -----------------
+                     |
+                     |     ------------------
+                     |---> | TCefFillLayout |
+                           ------------------
+  *}
 
 
   /// <summary>
@@ -7005,7 +7025,7 @@ type
   /// otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefDisplay">Implemented by ICefDisplay</see></para>
+  /// <para>Implemented by ICefDisplay.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_display_capi.h">CEF source file: /include/capi/views/cef_display_capi.h (cef_display_t)</see></para>
   /// </remarks>
   TCefDisplay = record
@@ -7025,7 +7045,7 @@ type
   /// process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefLayout">Implemented by ICefLayout</see></para>
+  /// <para>Implemented by ICefLayout.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_layout_capi.h">CEF source file: /include/capi/views/cef_layout_capi.h (cef_layout_t)</see></para>
   /// </remarks>
   TCefLayout = record
@@ -7044,7 +7064,7 @@ type
   /// process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBoxLayout">Implemented by ICefBoxLayout</see></para>
+  /// <para>Implemented by ICefBoxLayout.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_box_layout_capi.h">CEF source file: /include/capi/views/cef_box_layout_capi.h (cef_box_layout_t)</see></para>
   /// </remarks>
   TCefBoxLayout = record
@@ -7059,7 +7079,7 @@ type
   /// process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefFillLayout">Implemented by ICefFillLayout</see></para>
+  /// <para>Implemented by ICefFillLayout.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_fill_layout_capi.h">CEF source file: /include/capi/views/cef_fill_layout_capi.h (cef_fill_layout_t)</see></para>
   /// </remarks>
   TCefFillLayout = record
@@ -7074,7 +7094,7 @@ type
   /// process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefOverlayController">Implemented by ICefOverlayController</see></para>
+  /// <para>Implemented by ICefOverlayController.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_overlay_controller_capi.h">CEF source file: /include/capi/views/cef_overlay_controller_capi.h (cef_overlay_controller_t)</see></para>
   /// </remarks>
   TCefOverlayController = record
@@ -7107,7 +7127,7 @@ type
   /// on the browser process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefView">Implemented by ICefView</see></para>
+  /// <para>Implemented by ICefView.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_view_capi.h">CEF source file: /include/capi/views/cef_view_capi.h (cef_view_t)</see></para>
   /// </remarks>
   TCefView = record
@@ -7171,7 +7191,7 @@ type
   /// unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefViewDelegate">Implemented by ICefViewDelegate</see></para>
+  /// <para>Implemented by ICefViewDelegate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_view_delegate_capi.h">CEF source file: /include/capi/views/cef_view_delegate_capi.h (cef_view_delegate_t)</see></para>
   /// </remarks>
   TCefViewDelegate = record
@@ -7194,7 +7214,7 @@ type
   /// thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefTextfield">Implemented by ICefTextfield</see></para>
+  /// <para>Implemented by ICefTextfield.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_capi.h">CEF source file: /include/capi/views/cef_textfield_capi.h (cef_textfield_t)</see></para>
   /// </remarks>
   TCefTextfield = record
@@ -7238,7 +7258,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefTextfieldDelegate">Implemented by ICefTextfieldDelegate</see></para>
+  /// <para>Implemented by ICefTextfieldDelegate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_delegate_capi.h">CEF source file: /include/capi/views/cef_textfield_delegate_capi.h (cef_textfield_delegate_t)</see></para>
   /// </remarks>
   TCefTextfieldDelegate = record
@@ -7253,7 +7273,7 @@ type
   /// the browser process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefScrollView">Implemented by ICefScrollView</see></para>
+  /// <para>Implemented by ICefScrollView.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_scroll_view_capi.h">CEF source file: /include/capi/views/cef_scroll_view_capi.h (cef_scroll_view_t)</see></para>
   /// </remarks>
   TCefScrollView = record
@@ -7273,7 +7293,7 @@ type
   /// otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPanel">Implemented by ICefPanel</see></para>
+  /// <para>Implemented by ICefPanel.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_panel_capi.h">CEF source file: /include/capi/views/cef_panel_capi.h (cef_panel_t)</see></para>
   /// </remarks>
   TCefPanel = record
@@ -7298,7 +7318,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefPanelDelegate">Implemented by ICefPanelDelegate</see></para>
+  /// <para>Implemented by ICefPanelDelegate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_panel_delegate_capi.h">CEF source file: /include/capi/views/cef_panel_delegate_capi.h (cef_panel_delegate_t)</see></para>
   /// </remarks>
   TCefPanelDelegate = record
@@ -7310,7 +7330,7 @@ type
   /// browser process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBrowserView">Implemented by ICefBrowserView</see></para>
+  /// <para>Implemented by ICefBrowserView.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_capi.h">CEF source file: /include/capi/views/cef_browser_view_capi.h (cef_browser_view_t)</see></para>
   /// </remarks>
   TCefBrowserView = record
@@ -7326,7 +7346,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefBrowserViewDelegate">Implemented by ICefBrowserViewDelegate</see></para>
+  /// <para>Implemented by ICefBrowserViewDelegate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_delegate_capi.h">CEF source file: /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)</see></para>
   /// </remarks>
   TCefBrowserViewDelegate = record
@@ -7345,7 +7365,7 @@ type
   /// called on the browser process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefButton">Implemented by ICefButton</see></para>
+  /// <para>Implemented by ICefButton.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_capi.h">CEF source file: /include/capi/views/cef_button_capi.h (cef_button_t)</see></para>
   /// </remarks>
   TCefButton = record
@@ -7364,7 +7384,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefButtonDelegate">Implemented by ICefButtonDelegate</see></para>
+  /// <para>Implemented by ICefButtonDelegate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_delegate_capi.h">CEF source file: /include/capi/views/cef_button_delegate_capi.h (cef_button_delegate_t)</see></para>
   /// </remarks>
   TCefButtonDelegate = record
@@ -7378,7 +7398,7 @@ type
   /// called on the browser process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefLabelButton">Implemented by ICefLabelButton</see></para>
+  /// <para>Implemented by ICefLabelButton.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_label_button_capi.h">CEF source file: /include/capi/views/cef_label_button_capi.h (cef_label_button_t)</see></para>
   /// </remarks>
   TCefLabelButton = record
@@ -7404,7 +7424,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMenuButton">Implemented by ICefMenuButton</see></para>
+  /// <para>Implemented by ICefMenuButton.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_capi.h">CEF source file: /include/capi/views/cef_menu_button_capi.h (cef_menu_button_t)</see></para>
   /// </remarks>
   TCefMenuButton = record
@@ -7417,7 +7437,7 @@ type
   /// MenuButton pressed lock is released when this object is destroyed.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMenuButtonPressedLock">Implemented by ICefMenuButtonPressedLock</see></para>
+  /// <para>Implemented by ICefMenuButtonPressedLock.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_delegate_capi.h">CEF source file: /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_pressed_lock_t)</see></para>
   /// </remarks>
   TCefMenuButtonPressedLock = record
@@ -7430,7 +7450,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefMenuButtonDelegate">Implemented by ICefMenuButtonDelegate</see></para>
+  /// <para>Implemented by ICefMenuButtonDelegate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_delegate_capi.h">CEF source file: /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_delegate_t)</see></para>
   /// </remarks>
   TCefMenuButtonDelegate = record
@@ -7446,7 +7466,7 @@ type
   /// browser process UI thread unless otherwise indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefWindow">Implemented by ICefWindow</see></para>
+  /// <para>Implemented by ICefWindow.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_window_capi.h">CEF source file: /include/capi/views/cef_window_capi.h (cef_window_t)</see></para>
   /// </remarks>
   TCefWindow = record
@@ -7497,7 +7517,7 @@ type
   /// indicated.
   /// </summary>
   /// <remarks>
-  /// <para><see cref="uCEFInterfaces|ICefWindowDelegate">Implemented by ICefWindowDelegate</see></para>
+  /// <para>Implemented by ICefWindowDelegate.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_window_delegate_capi.h">CEF source file: /include/capi/views/cef_window_delegate_capi.h (cef_window_delegate_t)</see></para>
   /// </remarks>
   TCefWindowDelegate = record
@@ -7526,3 +7546,4 @@ type
 implementation
 
 end.
+

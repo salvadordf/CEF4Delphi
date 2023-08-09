@@ -1,7 +1,7 @@
 # CEF4Delphi [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Use%20CEF4Delphi%20to%20embed%20Chromium-based%20browsers%20in%20your%20application&url=https://github.com/salvadordf/CEF4Delphi&via=briskbard&hashtags=cef4delphi,delphi,lazarus,fpc)
 CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with [Delphi](https://www.embarcadero.com/products/delphi/starter) or [Lazarus/FPC](https://www.lazarus-ide.org/) for Windows, Linux and MacOS.
 
-CEF4Delphi is based on DCEF3 and fpCEF3. The original license of those projects still applies to CEF4Delphi. Read the license terms in the first lines of any *.pas file.
+CEF4Delphi is based on DCEF3 and fpCEF3. The original license of those projects still applies to CEF4Delphi. Read the license terms in the LICENSE.md file.
 
 CEF4Delphi uses CEF 115.3.13 which includes Chromium 115.0.5790.171. 
 
@@ -47,6 +47,7 @@ Delphinus-Support
 * [fpCEF3](https://github.com/dliw/fpCEF3)
 * [CEF](https://bitbucket.org/chromiumembedded/cef/)
 * [DCPcrypt](https://sourceforge.net/projects/lazarus-ccr/files/DCPcrypt/)
+* [PasDoc](https://pasdoc.github.io/)
 * [Chromium](https://chromium.googlesource.com/chromium/src/)
 
 ## Other resources

@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFInterfaces;
 
 {$IFDEF FPC}
@@ -174,6 +137,9 @@ type
   TCefMediaSinkArray       = array of ICefMediaSink;
   TCefDisplayArray         = array of ICefDisplay;
 
+  /// <summary>
+  /// Custom record with media sink information.
+  /// </summary>
   TCefMediaSinkInfo = record
     ID          : ustring;
     Name        : ustring;
@@ -183,6 +149,9 @@ type
   end;
   TCefMediaSinkInfoArray = array of TCefMediaSinkInfo;
 
+  /// <summary>
+  /// Custom record with media route information.
+  /// </summary>
   TCefMediaRouteInfo = record
     ID        : ustring;
     SourceID  : ustring;
@@ -191,6 +160,9 @@ type
   end;
   TCefMediaRouteInfoArray = array of TCefMediaRouteInfo;
 
+  /// <summary>
+  /// Custom record with media source information.
+  /// </summary>
   TCefMediaSourceInfo = record
     ID         : ustring;
     Valid      : boolean;
@@ -199,10 +171,11 @@ type
   end;
   TCefMediaSourceInfoArray = array of TCefMediaSourceInfo;
 
-
-  // *******************************************
-  // **** Callback procedures and functions ****
-  // *******************************************
+  {*
+   *******************************************
+   **** Callback procedures and functions ****
+   *******************************************
+  *}
 
   TCefEndTracingCallbackProc           = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const tracingFile: ustring);
   TCefFastTaskProc                     = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure();
@@ -230,10 +203,11 @@ type
   TCefMediaSinkDeviceInfoCallbackProc  = {$IFDEF DELPHI12_UP}reference to{$ENDIF} procedure(const ip_address: ustring; port: integer; const model_name: ustring);
 
 
-
-  // *******************************************
-  // ************ Custom interfaces ************
-  // *******************************************
+  {*
+   *******************************************
+   ************ Custom interfaces ************
+   *******************************************
+  *}
 
   /// <summary>
   /// Custom interface used to handle all the CEF functions related to CefStringList.
@@ -688,10 +662,11 @@ type
     procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
   end;
 
-
-  // *******************************************
-  // ************** CEF interfaces *************
-  // *******************************************
+  {*
+   *******************************************
+   ************** CEF interfaces *************
+   *******************************************
+  *}
 
   /// <summary>
   /// All ref-counted framework interfaces must inherit from this interface.
@@ -1475,7 +1450,7 @@ type
     /// process (e.g. for cross-origin sub-frames). The main frame object will
     /// change during cross-origin navigation or re-navigation after renderer
     /// process termination (due to crashes, etc).
-    ///
+    /// </summary>
     function  GetMainFrame: ICefFrame;
     /// <summary>
     /// Returns the focused frame for the browser.
@@ -1601,7 +1576,7 @@ type
     function  HasExcludedElements: Boolean;
     /// <summary>
     /// Returns the number of existing post data elements.
-    ///
+    /// </summary>
     function  GetElementCount: NativeUInt;
     /// <summary>
     /// Retrieve the post data elements.
@@ -1828,7 +1803,7 @@ type
     procedure Undo;
     /// <summary>
     /// Execute redo in this frame.
-    ///
+    /// </summary>
     procedure Redo;
     /// <summary>
     /// Execute cut in this frame.
@@ -2189,7 +2164,7 @@ type
     function Tell: Int64;
     /// <summary>
     /// Return non-zero if at end of file.
-    ///
+    /// </summary>
     function Eof: Boolean;
     /// <summary>
     /// Return true (1) if this handler performs work like accessing the file
@@ -2225,7 +2200,7 @@ type
     function Tell: Int64;
     /// <summary>
     /// Return non-zero if at end of file.
-    ///
+    /// </summary>
     function Eof: Boolean;
     /// <summary>
     /// Return true (1) if this handler performs work like accessing the file
@@ -5062,7 +5037,7 @@ type
     /// <summary>
     /// Returns the title text or the alt text if the context menu was invoked on
     /// an image.
-    ///
+    /// </summary>
     function GetTitleText: ustring;
     /// <summary>
     /// Returns the URL of the top level page that the context menu was invoked
@@ -5136,7 +5111,7 @@ type
     /// <summary>
     /// Returns flags representing the type of node that the context menu was
     /// invoked on.
-    ///
+    /// </summary>
     property TypeFlags         : TCefContextMenuTypeFlags       read GetTypeFlags;
     /// <summary>
     /// Returns the URL of the link, if any, that encloses the node that the
@@ -9170,10 +9145,11 @@ type
   end;
 
 
-
-  // *********************************
-  // ************* Views *************
-  // *********************************
+  {*
+   *********************************
+   ************* Views *************
+   *********************************
+  *}
 
   /// <summary>
   /// This interface typically, but not always, corresponds to a physical display
