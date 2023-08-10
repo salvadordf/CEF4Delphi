@@ -3877,8 +3877,8 @@ begin
   FQuicAllowed             := True;
   FJavascriptEnabled       := True;
   FLoadImagesAutomatically := True;
-  FBatterySaverModeState   := TCefBatterySaverModeState.bsmsDefault;
-  FHighEfficiencyModeState := TCefHighEfficiencyModeState.kDefault;
+  FBatterySaverModeState   := bsmsDefault;
+  FHighEfficiencyModeState := kDefault;
   FCanFocus                := False;
   FEnableFocusDelayMs      := CEF_DEFAULT_ENABLEFOCUSDELAY;
   {$IFDEF LINUX}
@@ -6687,10 +6687,10 @@ begin
   UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
   UpdatePreference(aBrowser, 'webkit.webprefs.loads_images_automatically', FLoadImagesAutomatically);
 
-  if (FHighEfficiencyModeState <> TCefHighEfficiencyModeState.kDefault) then
+  if (FHighEfficiencyModeState <> kDefault) then
     UpdatePreference(aBrowser, 'performance_tuning.high_efficiency_mode.state', integer(FHighEfficiencyModeState));
 
-  if (FBatterySaverModeState <> TCefBatterySaverModeState.bsmsDefault) then
+  if (FBatterySaverModeState <> bsmsDefault) then
     UpdatePreference(aBrowser, 'performance_tuning.battery_saver_mode.state', integer(FBatterySaverModeState));
 
   if assigned(FOnPrefsUpdated) then
