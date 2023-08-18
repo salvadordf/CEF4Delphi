@@ -223,21 +223,21 @@ type
 
   {$IFDEF MSWINDOWS}
   /// <summary>
-  /// Native Window handle
+  /// Native Window handle.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_window_handle_t)</see></para>
   /// </remarks>
   TCefWindowHandle = type HWND;
   /// <summary>
-  /// Native Cursor handle
+  /// Native Cursor handle.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_cursor_handle_t)</see></para>
   /// </remarks>
   TCefCursorHandle = type HCURSOR;
   /// <summary>
-  /// Native event handle
+  /// Native event handle.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_event_handle_t)</see></para>
@@ -248,21 +248,21 @@ type
   {$IFDEF MACOSX}
     {$IFDEF FPC}
     /// <summary>
-    /// Native Window handle
+    /// Native Window handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_window_handle_t)</see></para>
     /// </remarks>
     TCefWindowHandle = type PtrUInt;
     /// <summary>
-    /// Native Cursor handle
+    /// Native Cursor handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_cursor_handle_t)</see></para>
     /// </remarks>
     TCefCursorHandle = type PtrUInt;
     /// <summary>
-    /// Native event handle
+    /// Native event handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_event_handle_t)</see></para>
@@ -270,21 +270,21 @@ type
     TCefEventHandle  = type PtrUInt;
     {$ELSE}
     /// <summary>
-    /// Native Window handle
+    /// Native Window handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_window_handle_t)</see></para>
     /// </remarks>
     TCefWindowHandle = type Pointer;
     /// <summary>
-    /// Native Cursor handle
+    /// Native Cursor handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_cursor_handle_t)</see></para>
     /// </remarks>
     TCefCursorHandle = type Pointer;
     /// <summary>
-    /// Native event handle
+    /// Native event handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_event_handle_t)</see></para>
@@ -296,14 +296,14 @@ type
   {$IFDEF LINUX}
     {$IFDEF FPC}
     /// <summary>
-    /// Native Window handle
+    /// Native Window handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_handle_t)</see></para>
     /// </remarks>
     TCefWindowHandle = type culong;
     /// <summary>
-    /// Native Cursor handle
+    /// Native Cursor handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_cursor_handle_t)</see></para>
@@ -311,14 +311,14 @@ type
     TCefCursorHandle = type culong;
     {$ELSE}
     /// <summary>
-    /// Native Window handle
+    /// Native Window handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_handle_t)</see></para>
     /// </remarks>
     TCefWindowHandle = type LongWord;
     /// <summary>
-    /// Native Cursor handle
+    /// Native Cursor handle.
     /// </summary>
     /// <remarks>
     /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_cursor_handle_t)</see></para>
@@ -326,7 +326,7 @@ type
     TCefCursorHandle = type LongWord;
     {$ENDIF}
   /// <summary>
-  /// Native event handle
+  /// Native event handle.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_event_handle_t)</see></para>
@@ -884,18 +884,18 @@ type
   end;
 
   /// <summary>
-  /// Action taken after the TChromium.Onclose event
-  /// cbaCancel : stop closing the browser
-  /// cbaClose  : continue closing the browser
-  /// cbaDelay  : stop closing the browser momentarily. Used when the application
+  /// <para>Action taken after the TChromium.Onclose event.</para>
+  /// <para>cbaCancel : stop closing the browser.</para>
+  /// <para>cbaClose  : continue closing the browser.</para>
+  /// <para>cbaDelay  : stop closing the browser momentarily. Used when the application
   ///             needs to execute some custom processes before closing the
   ///             browser. This is usually needed to destroy a TCEFWindowParent
-  ///             in the main thread before closing the browser.
+  ///             in the main thread before closing the browser.</para>
   /// </summary>
   TCefCloseBrowserAction = (cbaClose, cbaDelay, cbaCancel);
 
   /// <summary>
-  /// Sub-process types of Chromium
+  /// Sub-process types of Chromium.
   /// </summary>
   TCefProcessType = (ptBrowser, ptRenderer, ptZygote, ptGPU, ptUtility, ptBroker, ptCrashpad, ptOther);
 
@@ -905,12 +905,12 @@ type
   TCefCookiePref = (cpDefault, cpAllow, cpBlock);
 
   /// <summary>
-  /// Used by TCefBrowserNavigationTask to navigate in the right CEF thread
+  /// Used by TCefBrowserNavigationTask to navigate in the right CEF thread.
   /// </summary>
   TCefBrowserNavigation = (bnBack, bnForward, bnReload, bnReloadIgnoreCache, bnStopLoad);
 
   /// <summary>
-  /// Status of TCefAplicationCore
+  /// Status of TCefAplicationCore.
   /// </summary>
   TCefAplicationStatus = (asLoading,
                           asLoaded,
@@ -930,7 +930,7 @@ type
   TCefProxyScheme = (psHTTP, psSOCKS4, psSOCKS5);
 
   /// <summary>
-  /// Storage types used by the Storage.clearDataForOrigin DevTools method in TChromiumCore.ClearDataForOrigin
+  /// Storage types used by the Storage.clearDataForOrigin DevTools method in TChromiumCore.ClearDataForOrigin.
   /// </summary>
   TCefClearDataStorageTypes = (cdstAppCache,
                                cdstCookies,
@@ -997,7 +997,7 @@ type
   );
 
   /// <summary>
-  /// Values used by the battery saver mode state preference
+  /// Values used by the battery saver mode state preference.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:components/performance_manager/public/user_tuning/prefs.h">components/performance_manager/public/user_tuning/prefs.h</see></para>
@@ -1008,13 +1008,13 @@ type
     bsmsEnabledOnBattery = 2,
     bsmsEnabled = 3,
     /// <summary>
-    /// Custom value used to update the preferences only when there's a non-default value
+    /// Custom value used to update the preferences only when there's a non-default value.
     /// </summary>
     bsmsDefault = 4
   );
 
   /// <summary>
-  /// Values used by the high efficiency mode state preference
+  /// Values used by the high efficiency mode state preference.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:components/performance_manager/public/user_tuning/prefs.h">components/performance_manager/public/user_tuning/prefs.h</see></para>
@@ -1024,18 +1024,18 @@ type
     kEnabled = 1,
     kEnabledOnTimer = 2,
     /// <summary>
-    /// Custom value used to update the preferences only when there's a non-default value
+    /// Custom value used to update the preferences only when there's a non-default value.
     /// </summary>
     kDefault = 3
   );
 
   /// <summary>
-  /// Used by TCEFFileDialogInfo
+  /// Used by TCEFFileDialogInfo.
   /// </summary>
   TCEFDialogType = (dtOpen, dtOpenMultiple, dtOpenFolder, dtSave);
 
   /// <summary>
-  /// Used by TCefMediaSinkInfo and TCefMediaSourceInfo
+  /// Used by TCefMediaSinkInfo and TCefMediaSourceInfo.
   /// </summary>
   TCefMediaType = (mtCast, mtDial, mtUnknown);
 
@@ -1683,7 +1683,8 @@ type
     CEF_TEXT_INPUT_MODE_EMAIL,
     CEF_TEXT_INPUT_MODE_NUMERIC,
     CEF_TEXT_INPUT_MODE_DECIMAL,
-    CEF_TEXT_INPUT_MODE_SEARCH    // CEF_TEXT_INPUT_MODE_MAX = CEF_TEXT_INPUT_MODE_SEARCH
+    CEF_TEXT_INPUT_MODE_SEARCH
+    {* CEF_TEXT_INPUT_MODE_MAX = CEF_TEXT_INPUT_MODE_SEARCH *}
   );
 
   /// <summary>
@@ -1800,9 +1801,9 @@ type
     /// Front Height L, Front Height R, Rear Height L, Rear Height R
     /// Will be represented as six channels (5.1) due to eight channel limit
     /// kMaxConcurrentChannels
-    /// CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX
     /// </summary>
     CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX = 33
+    {* CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX *}
   );
 
   /// <summary>
@@ -2664,10 +2665,9 @@ type
     CEF_CPAIT_VIRTUAL_CARD_MANUAL_FALLBACK,
     CEF_CPAIT_ZOOM,
     CEF_CPAIT_SAVE_IBAN,
-    /// <summary>
-    /// CEF_CPAIT_MAX_VALUE = CEF_CPAIT_MANDATORY_REAUTH
-    /// </summary>
-    CEF_CPAIT_MANDATORY_REAUTH
+    CEF_CPAIT_MANDATORY_REAUTH,
+    CEF_CPAIT_PRICE_INSIGHTS
+    {* CEF_CPAIT_MAX_VALUE = CEF_CPAIT_PRICE_INSIGHTS *}
   );
 
   /// <summary>
@@ -2681,14 +2681,12 @@ type
     CEF_CTBT_CAST,
     CEF_CTBT_DOWNLOAD,
     CEF_CTBT_SEND_TAB_TO_SELF,
-    /// <summary>
-    /// CEF_CTBT_MAX_VALUE = CEF_CTBT_SIDE_PANEL
-    /// </summary>
     CEF_CTBT_SIDE_PANEL
+    {* CEF_CTBT_MAX_VALUE = CEF_CTBT_SIDE_PANEL *}
   );
 
   /// <summary>
-  /// Touch handle state
+  /// Touch handle state.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_touch_handle_state_t)</see></para>
