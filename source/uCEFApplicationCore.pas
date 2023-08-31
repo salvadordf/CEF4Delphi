@@ -151,6 +151,7 @@ type
       FNetLogCaptureMode                 : TCefNetLogCaptureMode;
       FRemoteAllowOrigins                : ustring;
       FAutoAcceptCamAndMicCapture        : boolean;
+      FUIColorMode                       : TUIColorMode;
 
 
       // Fields used during the CEF initialization
@@ -1154,6 +1155,13 @@ type
       /// </remarks>
       property AutoAcceptCamAndMicCapture        : boolean                             read FAutoAcceptCamAndMicCapture        write FAutoAcceptCamAndMicCapture;
       /// <summary>
+      /// Forces light or dark mode in UI for platforms that support it.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switches: --force-dark-mode --force-light-mode</see></para>
+      /// </remarks>
+      property UIColorMode                       : TUIColorMode                        read FUIColorMode                       write FUIColorMode;
+      /// <summary>
       /// Ignores certificate-related errors.
       /// </summary>
       /// <remarks>
@@ -1772,6 +1780,7 @@ begin
   FNetLogCaptureMode                 := nlcmDefault;
   FRemoteAllowOrigins                := '';
   FAutoAcceptCamAndMicCapture        := False;
+  FUIColorMode                       := uicmSystemDefault;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -3194,6 +3203,11 @@ begin
 
   if FAutoAcceptCamAndMicCapture then
     ReplaceSwitch(aKeys, aValues, '--auto-accept-camera-and-microphone-capture');
+
+  case FUIColorMode of
+    uicmForceDark  : ReplaceSwitch(aKeys, aValues, '--force-dark-mode');
+    uicmForceLight : ReplaceSwitch(aKeys, aValues, '--force-light-mode');
+  end;
 
   if FNetLogEnabled then
     begin

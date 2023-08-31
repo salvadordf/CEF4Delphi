@@ -925,6 +925,23 @@ type
                           asErrorExecutingProcess);
 
   /// <summary>
+  /// Color mode in UI for platforms that support it.
+  /// </summary>
+  TUIColorMode = (
+    /// <summary>
+    /// System default.
+    /// </summary>
+    uicmSystemDefault,
+    /// <summary>
+    /// Forces light color mode in UI for platforms that support it.
+    /// </summary>
+    uicmForceLight,
+    /// <summary>
+    /// Forces dark color mode in UI for platforms that support it.
+    /// </summary>
+    uicmForceDark);
+
+  /// <summary>
   /// Supported proxy schemes in Chromium.
   /// </summary>
   TCefProxyScheme = (psHTTP, psSOCKS4, psSOCKS5);
