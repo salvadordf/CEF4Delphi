@@ -151,7 +151,7 @@ type
       FNetLogCaptureMode                 : TCefNetLogCaptureMode;
       FRemoteAllowOrigins                : ustring;
       FAutoAcceptCamAndMicCapture        : boolean;
-      FUIColorMode                       : TUIColorMode;
+      FUIColorMode                       : TCefUIColorMode;
 
 
       // Fields used during the CEF initialization
@@ -1160,7 +1160,7 @@ type
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switches: --force-dark-mode --force-light-mode</see></para>
       /// </remarks>
-      property UIColorMode                       : TUIColorMode                        read FUIColorMode                       write FUIColorMode;
+      property UIColorMode                       : TCefUIColorMode                     read FUIColorMode                       write FUIColorMode;
       /// <summary>
       /// Ignores certificate-related errors.
       /// </summary>

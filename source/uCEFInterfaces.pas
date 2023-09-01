@@ -10372,9 +10372,8 @@ type
     /// <summary>
     /// Called when |browser_view| receives a gesture command. Return true (1) to
     /// handle (or disable) a |gesture_command| or false (0) to propagate the
-    /// gesture to the browser for default handling. This function will only be
-    /// called with the Alloy runtime. To handle these commands with the Chrome
-    /// runtime implement ICefCommandHandler.OnChromeCommand instead.
+    /// gesture to the browser for default handling. With the Chrome runtime these
+    /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
     /// </summary>
     procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
     /// <summary>

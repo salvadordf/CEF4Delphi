@@ -927,7 +927,7 @@ type
   /// <summary>
   /// Color mode in UI for platforms that support it.
   /// </summary>
-  TUIColorMode = (
+  TCefUIColorMode = (
     /// <summary>
     /// System default.
     /// </summary>
