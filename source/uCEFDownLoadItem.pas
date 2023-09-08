@@ -1,4 +1,4 @@
-unit uCEFDownLoadItem;
+unit uCEFDownloadItem;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
@@ -15,7 +15,7 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDownLoadItemRef = class(TCefBaseRefCountedRef, ICefDownLoadItem)
+  TCefDownloadItemRef = class(TCefBaseRefCountedRef, ICefDownLoadItem)
   protected
     function IsValid: Boolean;
     function IsInProgress: Boolean;
@@ -45,102 +45,102 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-function TCefDownLoadItemRef.GetContentDisposition: ustring;
+function TCefDownloadItemRef.GetContentDisposition: ustring;
 begin
   Result := CefStringFreeAndGet(PCefDownloadItem(FData)^.get_content_disposition(PCefDownloadItem(FData)));
 end;
 
-function TCefDownLoadItemRef.GetCurrentSpeed: Int64;
+function TCefDownloadItemRef.GetCurrentSpeed: Int64;
 begin
   Result := PCefDownloadItem(FData)^.get_current_speed(PCefDownloadItem(FData));
 end;
 
-function TCefDownLoadItemRef.GetEndTime: TDateTime;
+function TCefDownloadItemRef.GetEndTime: TDateTime;
 begin
   Result := CefBaseTimeToDateTime(PCefDownloadItem(FData)^.get_end_time(PCefDownloadItem(FData)));
 end;
 
-function TCefDownLoadItemRef.GetFullPath: ustring;
+function TCefDownloadItemRef.GetFullPath: ustring;
 begin
   Result := CefStringFreeAndGet(PCefDownloadItem(FData)^.get_full_path(PCefDownloadItem(FData)));
 end;
 
-function TCefDownLoadItemRef.GetId: Cardinal;
+function TCefDownloadItemRef.GetId: Cardinal;
 begin
   Result := PCefDownloadItem(FData)^.get_id(PCefDownloadItem(FData));
 end;
 
-function TCefDownLoadItemRef.GetMimeType: ustring;
+function TCefDownloadItemRef.GetMimeType: ustring;
 begin
   Result := CefStringFreeAndGet(PCefDownloadItem(FData)^.get_mime_type(PCefDownloadItem(FData)));
 end;
 
-function TCefDownLoadItemRef.GetOriginalUrl: ustring;
+function TCefDownloadItemRef.GetOriginalUrl: ustring;
 begin
   Result := CefStringFreeAndGet(PCefDownloadItem(FData)^.get_original_url(PCefDownloadItem(FData)));
 end;
 
-function TCefDownLoadItemRef.GetPercentComplete: Integer;
+function TCefDownloadItemRef.GetPercentComplete: Integer;
 begin
   Result := PCefDownloadItem(FData)^.get_percent_complete(PCefDownloadItem(FData));
 end;
 
-function TCefDownLoadItemRef.GetReceivedBytes: Int64;
+function TCefDownloadItemRef.GetReceivedBytes: Int64;
 begin
   Result := PCefDownloadItem(FData)^.get_received_bytes(PCefDownloadItem(FData));
 end;
 
-function TCefDownLoadItemRef.GetStartTime: TDateTime;
+function TCefDownloadItemRef.GetStartTime: TDateTime;
 begin
   Result := CefBaseTimeToDateTime(PCefDownloadItem(FData)^.get_start_time(PCefDownloadItem(FData)));
 end;
 
-function TCefDownLoadItemRef.GetSuggestedFileName: ustring;
+function TCefDownloadItemRef.GetSuggestedFileName: ustring;
 begin
   Result := CefStringFreeAndGet(PCefDownloadItem(FData)^.get_suggested_file_name(PCefDownloadItem(FData)));
 end;
 
-function TCefDownLoadItemRef.GetTotalBytes: Int64;
+function TCefDownloadItemRef.GetTotalBytes: Int64;
 begin
   Result := PCefDownloadItem(FData)^.get_total_bytes(PCefDownloadItem(FData));
 end;
 
-function TCefDownLoadItemRef.GetUrl: ustring;
+function TCefDownloadItemRef.GetUrl: ustring;
 begin
   Result := CefStringFreeAndGet(PCefDownloadItem(FData)^.get_url(PCefDownloadItem(FData)));
 end;
 
-function TCefDownLoadItemRef.IsCanceled: Boolean;
+function TCefDownloadItemRef.IsCanceled: Boolean;
 begin
   Result := PCefDownloadItem(FData)^.is_canceled(PCefDownloadItem(FData)) <> 0;
 end;
 
-function TCefDownLoadItemRef.IsInterrupted: Boolean;
+function TCefDownloadItemRef.IsInterrupted: Boolean;
 begin
   Result := PCefDownloadItem(FData)^.is_interrupted(PCefDownloadItem(FData)) <> 0;
 end;
 
-function TCefDownLoadItemRef.GetInterruptReason: TCefDownloadInterruptReason;
+function TCefDownloadItemRef.GetInterruptReason: TCefDownloadInterruptReason;
 begin
   Result := PCefDownloadItem(FData)^.get_interrupt_reason(PCefDownloadItem(FData));
 end;
 
-function TCefDownLoadItemRef.IsComplete: Boolean;
+function TCefDownloadItemRef.IsComplete: Boolean;
 begin
   Result := PCefDownloadItem(FData)^.is_complete(PCefDownloadItem(FData)) <> 0;
 end;
 
-function TCefDownLoadItemRef.IsInProgress: Boolean;
+function TCefDownloadItemRef.IsInProgress: Boolean;
 begin
   Result := PCefDownloadItem(FData)^.is_in_progress(PCefDownloadItem(FData)) <> 0;
 end;
 
-function TCefDownLoadItemRef.IsValid: Boolean;
+function TCefDownloadItemRef.IsValid: Boolean;
 begin
   Result := PCefDownloadItem(FData)^.is_valid(PCefDownloadItem(FData)) <> 0;
 end;
 
-class function TCefDownLoadItemRef.UnWrap(data: Pointer): ICefDownLoadItem;
+class function TCefDownloadItemRef.UnWrap(data: Pointer): ICefDownLoadItem;
 begin
   if (data <> nil) then
     Result := Create(data) as ICefDownLoadItem
