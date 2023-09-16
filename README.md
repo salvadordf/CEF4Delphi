@@ -49,6 +49,12 @@ Delphinus-Support
 * [DCPcrypt](https://sourceforge.net/projects/lazarus-ccr/files/DCPcrypt/)
 * [PasDoc](https://pasdoc.github.io/)
 * [Chromium](https://chromium.googlesource.com/chromium/src/)
+* [CefSharp](https://github.com/cefsharp/CefSharp)
+* [CefGlue](https://gitlab.com/xiliumhq/chromiumembedded/cefglue)
+* [Cef2Go](https://github.com/cztomczak/cef2go)
+* [Energy](https://github.com/energye/energy)
+* [java-cef](https://bitbucket.org/chromiumembedded/java-cef)
+* [cefpython](https://github.com/cztomczak/cefpython)
 
 ## Other resources
 * [Learn Delphi](https://learndelphi.org/)
