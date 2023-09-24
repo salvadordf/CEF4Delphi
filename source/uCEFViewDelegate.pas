@@ -332,22 +332,25 @@ end;
 
 procedure TCefViewDelegateOwn.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
-  //
+  aResult.width  := 0;
+  aResult.height := 0;
 end;
 
 procedure TCefViewDelegateOwn.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
-  //
+  aResult.width  := 0;
+  aResult.height := 0;
 end;
 
 procedure TCefViewDelegateOwn.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
-  //
+  aResult.width  := 0;
+  aResult.height := 0;
 end;
 
 procedure TCefViewDelegateOwn.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
-  //
+  aResult := 0;
 end;
 
 procedure TCefViewDelegateOwn.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
@@ -401,6 +404,8 @@ end;
 
 procedure TCustomViewDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetPreferredSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefViewDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
@@ -412,6 +417,8 @@ end;
 
 procedure TCustomViewDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMinimumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefViewDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
@@ -423,6 +430,8 @@ end;
 
 procedure TCustomViewDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMaximumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefViewDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
@@ -434,6 +443,8 @@ end;
 
 procedure TCustomViewDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
+  inherited OnGetHeightForWidth(view, width, aResult);
+
   try
     if (FEvents <> nil) then
       ICefViewDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);

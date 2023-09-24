@@ -78,6 +78,7 @@ type
       FLocale                            : ustring;
       FLogFile                           : ustring;
       FLogSeverity                       : TCefLogSeverity;
+      FLogItems                          : TCefLogItems;
       FJavaScriptFlags                   : ustring;
       FResourcesDirPath                  : ustring;
       FLocalesDirPath                    : ustring;
@@ -599,6 +600,13 @@ type
       /// "warning", "error", "fatal" or "disable".
       /// </summary>
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
+      /// <summary>
+      /// The log items prepended to each log line. If not set the default log items
+      /// will be used. Also configurable using the "log-items" command-line switch
+      /// with a value of "none" for no log items, or a comma-delimited list of
+      /// values "pid", "tid", "timestamp" or "tickcount" for custom log items.
+      /// </summary>
+      property LogItems                          : TCefLogItems                        read FLogItems                          write FLogItems;
       /// <summary>
       /// Custom flags that will be used when initializing the V8 JavaScript engine.
       /// The consequences of using custom flags may not be well tested. Also
@@ -1707,6 +1715,7 @@ begin
   FLocale                            := '';
   FLogFile                           := '';
   FLogSeverity                       := LOGSEVERITY_DISABLE;
+  FLogItems                          := LOG_ITEMS_DEFAULT;
   FJavaScriptFlags                   := '';
   FResourcesDirPath                  := '';
   FLocalesDirPath                    := '';
@@ -2654,6 +2663,7 @@ begin
   aSettings.locale                                  := CefString(FLocale);
   aSettings.log_file                                := CefString(FLogFile);
   aSettings.log_severity                            := FLogSeverity;
+  aSettings.log_items                               := FLogItems;
   aSettings.javascript_flags                        := CefString(FJavaScriptFlags);
   aSettings.resources_dir_path                      := CefString(ResourcesDirPath);
   aSettings.locales_dir_path                        := CefString(LocalesDirPath);

@@ -19,6 +19,9 @@ uses
   {$ENDIF}
 
 type
+  /// <summary>
+  /// Class that stores a copy of the raw bitmap buffer sent by CEF in the TChromiumCore.OnPaint event.
+  /// </summary>
   TCEFBitmapBitBuffer = class
     protected
       FBuffer          : pointer;
@@ -39,15 +42,41 @@ type
     public
       constructor Create(aWidth, aHeight : integer);
       destructor  Destroy; override;
+      /// <summary>
+      /// Updates the image size.
+      /// </summary>
       procedure   UpdateSize(aWidth, aHeight : integer);
-
+      /// <summary>
+      /// Image width.
+      /// </summary>
       property    Width                  : integer   read FImageWidth;
+      /// <summary>
+      /// Image height.
+      /// </summary>
       property    Height                 : integer   read FImageHeight;
+      /// <summary>
+      /// Buffer length.
+      /// </summary>
       property    BufferLength           : integer   read GetBufferLength;
+      /// <summary>
+      /// Returns true if the buffer is empty.
+      /// </summary>
       property    Empty                  : boolean   read GetEmpty;
+      /// <summary>
+      /// Returns a pointer to the first byte in of the Y scnaline.
+      /// </summary>
       property    Scanline[y : integer]  : PByte     read GetScanline;
-      property    ScanlineSize           : integer   read GetScanlineSize;       
+      /// <summary>
+      /// Returns the scanline size.
+      /// </summary>
+      property    ScanlineSize           : integer   read GetScanlineSize;
+      /// <summary>
+      /// Returns the real buffer scanline size.
+      /// </summary>
       property    BufferScanlineSize     : integer   read GetBufferScanlineSize;
+      /// <summary>
+      /// Returns a pointer to the buffer that stores the image.
+      /// </summary>
       property    BufferBits             : pointer   read FBuffer;
   end;
 

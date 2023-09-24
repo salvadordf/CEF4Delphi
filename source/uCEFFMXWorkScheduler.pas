@@ -14,6 +14,10 @@ uses
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  /// <para>Implementation of an external message pump for FMX.</para>
+  /// <para>Read the GlobalCEFApp.OnScheduleMessagePumpWork documentation for all the details.</para>
+  /// </summary>
   TFMXWorkScheduler = class(TComponent)
     protected
       FThread             : TCEFWorkSchedulerThread;
@@ -50,24 +54,65 @@ type
       procedure Thread_OnPulse(Sender : TObject);
 
     public
+      /// <summary>
+      /// Full constructor of TFMXWorkScheduler. This constructor also creates the internal threads.
+      /// </summary>
       constructor Create(AOwner: TComponent); override;
+      /// <summary>
+      /// Partial constructor of TFMXWorkScheduler. This constructor doesn't create any threads.
+      /// Call TFMXWorkScheduler.CreateThread when necessary.
+      /// </summary>
       constructor CreateDelayed;
+      /// <summary>
+      /// TFMXWorkScheduler destructor.
+      /// </summary>
       destructor  Destroy; override;
+      /// <summary>
+      /// Called from GlobalCEFApp.OnScheduleMessagePumpWork to schedule
+      /// a GlobalCEFApp.DoMessageLoopWork call asynchronously to perform a single
+      /// iteration of CEF message loop processing.
+      /// </summary>
+      /// <param name="delay_ms">Requested delay in milliseconds.</param>
       procedure   ScheduleMessagePumpWork(const delay_ms : int64);
+      /// <summary>
+      /// Stop the scheduler. This function must be called after the destruction of all the forms in the application.
+      /// </summary>
       procedure   StopScheduler;
+      /// <summary>
+      /// Schedule a GlobalCEFApp.DoMessageLoopWork call synchronously to perform a single
+      /// iteration of CEF message loop processing.
+      /// </summary>
       procedure   ScheduleWork(const delay_ms : int64);
+      /// <summary>
+      /// Creates all the internal threads used by TCEFWorkScheduler.
+      /// </summary>
       procedure   CreateThread;
 
 
     published
       {$IFDEF MSWINDOWS}
       {$WARN SYMBOL_PLATFORM OFF}
+      /// <summary>
+      /// Priority of TCEFWorkSchedulerThread in Windows.
+      /// </summary>
       property    Priority           : TThreadPriority  read FPriority            write SetPriority         default  tpNormal;
       {$WARN SYMBOL_PLATFORM ON}
       {$ENDIF}
+      /// <summary>
+      /// Default interval in milliseconds to do the next GlobalCEFApp.DoMessageLoopWork call.
+      /// </summary>
       property    DefaultInterval    : integer          read FDefaultInterval     write SetDefaultInterval  default  CEF_TIMER_MAXDELAY;
+      /// <summary>
+      /// Number of cycles used to deplete the remaining messages in the work loop.
+      /// </summary>
       property    DepleteWorkCycles  : cardinal         read FDepleteWorkCycles   write FDepleteWorkCycles  default  CEF_TIMER_DEPLETEWORK_CYCLES;
+      /// <summary>
+      /// Delay in milliseconds between the cycles used to deplete the remaining messages in the work loop.
+      /// </summary>
       property    DepleteWorkDelay   : cardinal         read FDepleteWorkDelay    write FDepleteWorkDelay   default  CEF_TIMER_DEPLETEWORK_DELAY;
+      /// <summary>
+      /// Use a custom queue thread instead of Windows messages or any other way to schedule the next pump work.
+      /// </summary>
       property    UseQueueThread     : boolean          read FUseQueueThread      write FUseQueueThread     default  False;
   end;
 

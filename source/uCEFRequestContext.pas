@@ -206,7 +206,7 @@ type
       /// Returns the extension matching |extension_id| or NULL if no matching
       /// extension is accessible in this context (see HasExtension). This function
       /// must be called on the browser process UI thread.
-      ///
+      /// </summary>
       function  GetExtension(const extension_id: ustring): ICefExtension;
 
       /// <summary>

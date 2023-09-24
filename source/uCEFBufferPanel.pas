@@ -111,41 +111,141 @@ type
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
+      /// <summary>
+      /// Save the visible web contents as a bitmap file.
+      /// </summary>
       function    SaveToFile(const aFilename : string) : boolean;
+      /// <summary>
+      /// Invalidate this panel.
+      /// </summary>
       function    InvalidatePanel : boolean;
+      /// <summary>
+      /// Acquires the synchronization object before drawing into the background bitmap.
+      /// </summary>
       function    BeginBufferDraw : boolean;
+      /// <summary>
+      /// Releases the synchronization object after drawing into the background bitmap.
+      /// </summary>
       procedure   EndBufferDraw;
+      /// <summary>
+      /// Draws aBitmap into the background bitmap buffer at the specified coordinates.
+      /// </summary>
+      /// <param name="x">x coordinate where the bitmap will be drawn.</param>
+      /// <param name="y">y coordinate where the bitmap will be drawn.</param>
+      /// <param name="aBitmap">Bitmap that will be drawn into the background bitmap.</param>
       procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap); overload;
+      /// <summary>
+      /// Draws a part of aBitmap into the background bitmap buffer at the specified rectangle.
+      /// </summary>
+      /// <param name="aBitmap">Bitmap that will be drawn into the background bitmap.</param>
+      /// <param name="aSrcRect">Rectangle that defines the area of aBitmap that will be drawn into the background bitmap.</param>
+      /// <param name="aDstRect">Rectangle that defines the area of the background bitmap where aBitmap will be drawn.</param>
       procedure   BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); overload;
-      function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;        
+      /// <summary>
+      /// Update the background bitmap size.
+      /// </summary>
+      function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
+      /// <summary>
+      /// Update the image size of the original buffer copy.
+      /// </summary>
       function    UpdateOrigBufferDimensions(aWidth, aHeight : integer) : boolean;
+      /// <summary>
+      /// Update the popup image size of the original buffer copy.
+      /// </summary>
       function    UpdateOrigPopupBufferDimensions(aWidth, aHeight : integer) : boolean;
+      /// <summary>
+      /// Update the FDeviceScaleFactor value with the current scale.
+      /// </summary>
       procedure   UpdateDeviceScaleFactor;
+      /// <summary>
+      /// Check if the background image buffers have the same dimensions as this panel. Returns true if they have the same size.
+      /// </summary>
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
+      /// <summary>
+      /// Creates the IME handler.
+      /// </summary>
       procedure   CreateIMEHandler;
+      /// <summary>
+      /// Calls ChangeCompositionRange in the IME handler.
+      /// </summary>
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
+      /// <summary>
+      /// Copy the contents from the original popup buffer copy to the main buffer copy.
+      /// </summary>
       procedure   DrawOrigPopupBuffer(const aSrcRect, aDstRect : TRect);
-
+      /// <summary>
+      /// Returns the scanline size.
+      /// </summary>
       property ScanlineSize              : integer                   read FScanlineSize;
+      /// <summary>
+      /// Image width.
+      /// </summary>
       property BufferWidth               : integer                   read GetBufferWidth;
+      /// <summary>
+      /// Image height.
+      /// </summary>
       property BufferHeight              : integer                   read GetBufferHeight;
+      /// <summary>
+      /// Returns a pointer to the buffer that stores the image.
+      /// </summary>
       property BufferBits                : pointer                   read GetBufferBits;
+      /// <summary>
+      /// Returns the screen scale.
+      /// </summary>
       property ScreenScale               : single                    read GetScreenScale;
+      /// <summary>
+      /// Screen scale value used instead of the real one.
+      /// </summary>
       property ForcedDeviceScaleFactor   : single                    read FForcedDeviceScaleFactor   write FForcedDeviceScaleFactor;
+      /// <summary>
+      /// Clear the background image before copying the original buffer contents.
+      /// </summary>
       property MustInitBuffer            : boolean                   read FMustInitBuffer            write FMustInitBuffer;
-
+      /// <summary>
+      /// Background bitmap.
+      /// </summary>
       property Buffer                    : TBitmap                   read FBuffer;
+      /// <summary>
+      /// Copy of the raw main bitmap buffer sent by CEF in the TChromiumCore.OnPaint event.
+      /// </summary>
       property OrigBuffer                : TCEFBitmapBitBuffer       read FOrigBuffer;
+      /// <summary>
+      /// Image width of the raw main bitmap buffer copy.
+      /// </summary>
       property OrigBufferWidth           : integer                   read GetOrigBufferWidth;
+      /// <summary>
+      /// Image height of the raw main bitmap buffer copy.
+      /// </summary>
       property OrigBufferHeight          : integer                   read GetOrigBufferHeight;
+      /// <summary>
+      /// Copy of the raw popup bitmap buffer sent by CEF in the TChromiumCore.OnPaint event.
+      /// </summary>
       property OrigPopupBuffer           : TCEFBitmapBitBuffer       read FOrigPopupBuffer;
+      /// <summary>
+      /// Image width of the raw popup bitmap buffer copy.
+      /// </summary>
       property OrigPopupBufferWidth      : integer                   read GetOrigPopupBufferWidth;
+      /// <summary>
+      /// Image height of the raw popup bitmap buffer copy.
+      /// </summary>
       property OrigPopupBufferHeight     : integer                   read GetOrigPopupBufferHeight;
+      /// <summary>
+      /// Returns a pointer to the raw popup bitmap buffer copye.
+      /// </summary>
       property OrigPopupBufferBits       : pointer                   read GetOrigPopupBufferBits;
+      /// <summary>
+      /// Returns the scanline size of the raw popup bitmap buffer copy.
+      /// </summary>
       property OrigPopupScanlineSize     : integer                   read FOrigPopupScanlineSize;
 
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Returns the handle of the parent form.
+      /// </summary>
       property ParentFormHandle          : TCefWindowHandle          read GetParentFormHandle;
+      /// <summary>
+      /// Returns the parent form.
+      /// </summary>
       property ParentForm                : TCustomForm               read GetParentForm;
       {$ENDIF}
 

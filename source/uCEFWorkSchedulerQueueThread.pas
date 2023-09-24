@@ -119,7 +119,7 @@ begin
   Result := 0;
 
   if Lock then
-    begin
+    try
       TempLen := length(FValues);
 
       if (TempLen > 0) then
@@ -137,7 +137,7 @@ begin
               Finalize(TempNewValues);
             end;
         end;
-
+    finally
       Unlock;
     end;
 end;
@@ -147,13 +147,13 @@ begin
   Result := False;
 
   if Lock then
-    begin
+    try
       if not(Terminated) and not(FStop) then
         begin
           FWaiting := False;
           Result   := (Length(FValues) > 0);
         end;
-
+    finally
       Unlock;
     end;
 end;
@@ -161,7 +161,7 @@ end;
 procedure TCEFWorkSchedulerQueueThread.StopThread;
 begin
   if Lock then
-    begin
+    try
       FStop := True;
 
       if FWaiting then
@@ -169,7 +169,7 @@ begin
           FWaiting := False;
           FEvent.SetEvent;
         end;
-
+    finally
       Unlock;
     end;
 end;

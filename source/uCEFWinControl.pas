@@ -29,18 +29,38 @@ uses
   uCEFTypes, uCEFInterfaces;
 
 type
+  /// <summary>
+  /// Custom TWinControl used by CEF browsers.
+  /// </summary>
   TCEFWinControl = class(TWinControl)
     protected
       function  GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; virtual;
       procedure Resize; override;
 
     public
+      /// <summary>
+      /// Take a snapshot of the browser contents into aBitmap. This function only works in Windows without hardware acceleration.
+      /// </summary>
       function    TakeSnapshot(var aBitmap : TBitmap) : boolean;
+      /// <summary>
+      /// Destroy the child windows created by the browser.
+      /// </summary>
       function    DestroyChildWindow : boolean;
+      /// <summary>
+      /// Exposes the CreateHandle procedure to create the Handle at any time.
+      /// </summary>
       procedure   CreateHandle; override;
+      /// <summary>
+      /// Invalidate the child windows created by the browser.
+      /// </summary>
       procedure   InvalidateChildren;
+      /// <summary>
+      /// Updates the size of the child windows created by the browser.
+      /// </summary>
       procedure   UpdateSize; virtual;
-
+      /// <summary>
+      /// Handle of the first child window created by the browser.
+      /// </summary>
       property  ChildWindowHandle : THandle  read GetChildWindowHandle;
 
     published

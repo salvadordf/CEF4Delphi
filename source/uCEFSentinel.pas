@@ -76,18 +76,43 @@ type
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
+      /// <summary>
+      /// Start checking all the CEF subprocesses.
+      /// </summary>
       procedure   Start; virtual;
-
+      /// <summary>
+      /// Status of this component.
+      /// </summary>
       property Status          : TSentinelStatus  read GetStatus;
+      /// <summary>
+      /// Number of CEF subprocesses.
+      /// </summary>
       property ChildProcCount  : integer          read GetChildProcCount;
 
     published
+      /// <summary>
+      /// Delay per subprocess in milliseconds. This delay is used to calculate how much time to wait until this component checks the CEF subprocesses again.
+      /// </summary>
       property DelayPerProcMs  : cardinal         read FDelayPerProcMs   write FDelayPerProcMs  default CEFSENTINEL_DEFAULT_DELAYPERPROCMS;
+      /// <summary>
+      /// Minimum initial delay in milliseconds. This is the minimum time to wait until this component checks the CEF subprocesses again.
+      /// </summary>
       property MinInitDelayMs  : cardinal         read FMinInitDelayMs   write FMinInitDelayMs  default CEFSENTINEL_DEFAULT_MININITDELAYMS;
+      /// <summary>
+      /// Final delay in milliseconds. This is an extra delay to wait after enough CEF subprocesses are closed.
+      /// </summary>
       property FinalDelayMs    : cardinal         read FFinalDelayMs     write FFinalDelayMs    default CEFSENTINEL_DEFAULT_FINALDELAYMS;
+      /// <summary>
+      /// Minimum number of CEF subprocesses. When ChildProcCount reaches this value it's considered safe to trigger OnClose.
+      /// </summary>
       property MinChildProcs   : integer          read FMinChildProcs    write FMinChildProcs   default CEFSENTINEL_DEFAULT_MINCHILDPROCS;
+      /// <summary>
+      /// Maximum number of times this component will check the CEF subprocesses.
+      /// </summary>
       property MaxCheckCount   : integer          read FMaxCheckCount    write FMaxCheckCount   default CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS;
-
+      /// <summary>
+      /// Event triggered when enought CEF subprocesses are closed.
+      /// </summary>
       property OnClose         : TNotifyEvent     read FOnClose          write FOnClose;
   end;
 
@@ -175,7 +200,7 @@ procedure TCEFSentinel.doStartMsg({$IFDEF MSWINDOWS}var aMessage : TMessage{$ELS
 begin
   if (FTimer <> nil) then
     begin
-      FTimer.Interval := max(ChildProcCount * CEFSENTINEL_DEFAULT_DELAYPERPROCMS, FMinInitDelayMs);
+      FTimer.Interval := max(cardinal(ChildProcCount) * FDelayPerProcMs, FMinInitDelayMs);
       FTimer.Enabled  := True;
     end;
 end;

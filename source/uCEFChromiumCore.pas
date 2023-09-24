@@ -782,42 +782,72 @@ type
       function    SetNewBrowserParent(aNewParentHwnd : HWND) : boolean;
       {$ENDIF MSWINDOWS}
       /// <summary>
-      /// Used to create the browser after the global request context has been
+      /// <para>Used to create the browser after the global request context has been
       /// initialized. You need to set all properties and events before calling
       /// this function because it will only create the internal handlers needed
       /// for those events and the property values will be used in the browser
-      /// initialization.
-      /// The browser will be fully initialized when the TChromiumCore.OnAfterCreated
-      /// event is triggered.
+      /// initialization.</para>
+      /// <para>The browser will be fully initialized when the TChromiumCore.OnAfterCreated
+      /// event is triggered.</para>
       /// </summary>
       function    CreateBrowser(aParentHandle : TCefWindowHandle; aParentRect : TRect; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil; aForceAsPopup : boolean = False) : boolean; overload; virtual;
+      /// <summary>
+      /// <para>Used to create the browser after the global request context has been
+      /// initialized. You need to set all properties and events before calling
+      /// this function because it will only create the internal handlers needed
+      /// for those events and the property values will be used in the browser
+      /// initialization.</para>
+      /// <para>The browser will be fully initialized when the TChromiumCore.OnAfterCreated
+      /// event is triggered.</para>
+      /// </summary>
       function    CreateBrowser(const aURL : ustring; const aBrowserViewComp : TCEFBrowserViewComponent; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
       /// <summary>
       /// Used to navigate to a URL in the specified frame or the main frame.
       /// </summary>
       procedure   LoadURL(const aURL : ustring; const aFrameName : ustring = ''); overload;
+      /// <summary>
+      /// Used to navigate to a URL in the specified frame or the main frame.
+      /// </summary>
       procedure   LoadURL(const aURL : ustring; const aFrame : ICefFrame); overload;
+      /// <summary>
+      /// Used to navigate to a URL in the specified frame or the main frame.
+      /// </summary>
       procedure   LoadURL(const aURL : ustring; const aFrameIdentifier : int64); overload;
       /// <summary>
       /// Used to load a DATA URI with the HTML string contents in the specified frame or the main frame.
       /// </summary>
       procedure   LoadString(const aHTML : ustring; const aFrameName : ustring = ''); overload;
+      /// <summary>
+      /// Used to load a DATA URI with the HTML string contents in the specified frame or the main frame.
+      /// </summary>
       procedure   LoadString(const aHTML : ustring; const aFrame : ICefFrame); overload;
+      /// <summary>
+      /// Used to load a DATA URI with the HTML string contents in the specified frame or the main frame.
+      /// </summary>
       procedure   LoadString(const aHTML : ustring; const aFrameIdentifier : int64); overload;
       /// <summary>
       /// Used to load a DATA URI with the stream contents in the specified frame or the main frame.
       /// The DATA URI will be configured with the mime type and charset specified in the parameters.
       /// </summary>
       procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName : ustring = ''); overload;
+      /// <summary>
+      /// Used to load a DATA URI with the stream contents in the specified frame or the main frame.
+      /// The DATA URI will be configured with the mime type and charset specified in the parameters.
+      /// </summary>
       procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrame : ICefFrame); overload;
+      /// <summary>
+      /// Used to load a DATA URI with the stream contents in the specified frame or the main frame.
+      /// The DATA URI will be configured with the mime type and charset specified in the parameters.
+      /// </summary>
       procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameIdentifier : int64); overload;
       /// <summary>
       /// Load the request represented by the aRequest object.
-      ///
+      /// </summary>
+      /// <remarks>
       /// WARNING: This function will fail with bad IPC message reason
       /// INVALID_INITIATOR_ORIGIN (213) unless you first navigate to the request
       /// origin using some other mechanism (LoadURL, link click, etc).
-      /// </summary>
+      /// </remarks>
       procedure   LoadRequest(const aRequest: ICefRequest);
       /// <summary>
       /// Navigate backwards.
@@ -854,20 +884,20 @@ type
       /// </summary>
       procedure   SimulateMouseWheel(aDeltaX, aDeltaY : integer);
       /// <summary>
-      /// Clears all certificate exceptions that were added as part of handling
+      /// <para>Clears all certificate exceptions that were added as part of handling
       /// OnCertificateError. If you call this it is recommended that you also call
       /// CloseAllConnections() or you risk not being prompted again for server
-      /// certificates if you reconnect quickly.
-      /// If aClearImmediately is false then OnCertificateExceptionsCleared is
-      /// triggered when the exceptions are cleared.
+      /// certificates if you reconnect quickly.</para>
+      /// <para>If aClearImmediately is false then OnCertificateExceptionsCleared is
+      /// triggered when the exceptions are cleared.</para>
       /// </summary>
       function    ClearCertificateExceptions(aClearImmediately : boolean = True) : boolean;
       /// <summary>
-      /// Clears all HTTP authentication credentials that were added as part of
+      /// <para>Clears all HTTP authentication credentials that were added as part of
       /// handling GetAuthCredentials. If |callback| is non-NULL it will be executed
-      /// on the UI thread after completion.
-      /// If aClearImmediately is false then OnHttpAuthCredentialsCleared is triggered
-      /// when the credeintials are cleared.
+      /// on the UI thread after completion.</para>
+      /// <para>If aClearImmediately is false then OnHttpAuthCredentialsCleared is triggered
+      /// when the credeintials are cleared.</para>
       /// </summary>
       function    ClearHttpAuthCredentials(aClearImmediately : boolean = True) : boolean;
       /// <summary>
@@ -877,17 +907,17 @@ type
       /// </summary>
       function    CloseAllConnections(aCloseImmediately : boolean = True) : boolean;
       /// <summary>
-      /// Retrieve all the HTML content from the specified frame or the main frame.
-      /// Leave aFrameName empty to get the HTML source from the main frame.
-      /// It uses a CefStringVisitor to get the HTML content asynchronously and the
-      /// result will be received in the TChromiumCore.OnTextResultAvailable event.
+      /// <para>Retrieve all the HTML content from the specified frame or the main frame.
+      /// Leave aFrameName empty to get the HTML source from the main frame.</para>
+      /// <para>It uses a CefStringVisitor to get the HTML content asynchronously and the
+      /// result will be received in the TChromiumCore.OnTextResultAvailable event.</para>
       /// </summary>
       procedure   RetrieveHTML(const aFrameName : ustring = ''); overload;
       /// <summary>
-      /// Retrieve all the HTML content from the specified frame or the main frame.
-      /// Set aFrame to nil to get the HTML source from the main frame.
-      /// It uses a CefStringVisitor to get the HTML content asynchronously and the
-      /// result will be received in the TChromiumCore.OnTextResultAvailable event.
+      /// <para>Retrieve all the HTML content from the specified frame or the main frame.
+      /// Set aFrame to nil to get the HTML source from the main frame.</para>
+      /// <para>It uses a CefStringVisitor to get the HTML content asynchronously and the
+      /// result will be received in the TChromiumCore.OnTextResultAvailable event.</para>
       /// </summary>
       procedure   RetrieveHTML(const aFrame : ICefFrame); overload;
       /// <summary>
@@ -933,14 +963,28 @@ type
       /// </summary>
       function    GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
       /// <summary>
-      /// Execute a string of JavaScript code in this frame. The |aScriptURL|
-      /// parameter is the URL where the script in question can be found, if any.
-      /// The renderer may request this URL to show the developer the source of the
-      /// error.  The |aStartLine| parameter is the base line number to use for
-      /// error reporting.
+      /// Execute a string of JavaScript code in this frame.
       /// </summary>
+      /// <param name="aCode">JavaScript code.</param>
+      /// <param name="aScriptURL">The URL where the script in question can be found, if any. The renderer may request this URL to show the developer the source of the error.</param>
+      /// <param name="aFrameName">Name of the frame where the JavaScript code will be executed. This name is generated automatically by Chromium. See ICefBrowser.GetFrameNames.</param>
+      /// <param name="aStartLine">The base line number to use for error reporting.</param>
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameName : ustring = ''; aStartLine : integer = 0); overload;
+      /// <summary>
+      /// Execute a string of JavaScript code in this frame.
+      /// </summary>
+      /// <param name="aCode">JavaScript code.</param>
+      /// <param name="aScriptURL">The URL where the script in question can be found, if any. The renderer may request this URL to show the developer the source of the error.</param>
+      /// <param name="aFrame">Frame where the JavaScript code will be executed.</param>
+      /// <param name="aStartLine">The base line number to use for error reporting.</param>
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrame : ICefFrame; aStartLine : integer = 0); overload;
+      /// <summary>
+      /// Execute a string of JavaScript code in this frame.
+      /// </summary>
+      /// <param name="aCode">JavaScript code.</param>
+      /// <param name="aScriptURL">The URL where the script in question can be found, if any. The renderer may request this URL to show the developer the source of the error.</param>
+      /// <param name="aFrameIdentifier">Frame where the JavaScript code will be executed.</param>
+      /// <param name="aStartLine">The base line number to use for error reporting.</param>
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameIdentifier : int64; aStartLine : integer = 0); overload;
       /// <summary>
       /// Used to update the browser preferences using the TChromiumCore property values asynchronously.
@@ -989,21 +1033,21 @@ type
       /// </summary>
       function    DeleteCookies(const url : ustring = ''; const cookieName : ustring = ''; aDeleteImmediately : boolean = False) : boolean;
       /// <summary>
-      /// TChromiumCore.VisitAllCookies triggers the TChromiumCore.OnCookiesVisited event for each cookie
+      /// <para>TChromiumCore.VisitAllCookies triggers the TChromiumCore.OnCookiesVisited event for each cookie
       /// aID is an optional parameter to identify which VisitAllCookies call has triggered the
-      /// OnCookiesVisited event.
-      /// TChromiumCore.OnCookiesVisited may not be triggered if the cookie store is empty but the
+      /// OnCookiesVisited event.</para>
+      /// <para>TChromiumCore.OnCookiesVisited may not be triggered if the cookie store is empty but the
       /// TChromium.OnCookieVisitorDestroyed event will always be triggered to signal when the browser
-      /// when the visit is over.
+      /// when the visit is over.</para>
       /// </summary>
       function    VisitAllCookies(aID : integer = 0) : boolean;
       /// <summary>
-      /// TChromiumCore.VisitURLCookies triggers the TChromiumCore.OnCookiesVisited event for each cookie
+      /// <para>TChromiumCore.VisitURLCookies triggers the TChromiumCore.OnCookiesVisited event for each cookie
       /// aID is an optional parameter to identify which VisitURLCookies call has triggered the
-      /// OnCookiesVisited event.
-      /// TChromiumCore.OnCookiesVisited may not be triggered if the cookie store is empty but the
+      /// OnCookiesVisited event.</para>
+      /// <para>TChromiumCore.OnCookiesVisited may not be triggered if the cookie store is empty but the
       /// TChromium.OnCookieVisitorDestroyed event will always be triggered to signal when the browser
-      /// when the visit is over.
+      /// when the visit is over.</para>
       /// </summary>
       function    VisitURLCookies(const url : ustring; includeHttpOnly : boolean = False; aID : integer = 0) : boolean;
       /// <summary>
@@ -1033,7 +1077,7 @@ type
       /// </summary>
       procedure   CloseDevTools(const aDevToolsWnd : TCefWindowHandle); overload;
       /// <summary>
-      /// Send a function call message over the DevTools protocol. |message_| must be
+      /// <para>Send a function call message over the DevTools protocol. |message_| must be
       /// a UTF8-encoded JSON dictionary that contains "id" (int), "function"
       /// (string) and "params" (dictionary, optional) values. See the DevTools
       /// protocol documentation at https://chromedevtools.github.io/devtools-
@@ -1044,40 +1088,37 @@ type
       /// will be applied asynchronously and any messages that fail due to
       /// formatting errors or missing parameters may be discarded without
       /// notification. Prefer ExecuteDevToolsMethod if a more structured approach
-      /// to message formatting is desired.
-      ///
-      /// Every valid function call will result in an asynchronous function result
+      /// to message formatting is desired.</para>
+      /// <para>Every valid function call will result in an asynchronous function result
       /// or error message that references the sent message "id". Event messages are
       /// received while notifications are enabled (for example, between function
       /// calls for "Page.enable" and "Page.disable"). All received messages will be
       /// delivered to the observer(s) registered with AddDevToolsMessageObserver.
       /// See ICefDevToolsMessageObserver.OnDevToolsMessage documentation for
-      /// details of received message contents.
-      ///
-      /// Usage of the SendDevToolsMessage, ExecuteDevToolsMethod and
+      /// details of received message contents.</para>
+      /// <para>Usage of the SendDevToolsMessage, ExecuteDevToolsMethod and
       /// AddDevToolsMessageObserver functions does not require an active DevTools
       /// front-end or remote-debugging session. Other active DevTools sessions will
       /// continue to function independently. However, any modification of global
       /// browser state by one session may not be reflected in the UI of other
-      /// sessions.
-      ///
-      /// Communication with the DevTools front-end (when displayed) can be logged
+      /// sessions.</para>
+      /// <para>Communication with the DevTools front-end (when displayed) can be logged
       /// for development purposes by passing the `--devtools-protocol-log-
-      /// file=<path>` command-line flag.
+      /// file=<path>` command-line flag.</para>
       /// </summary>
       function    SendDevToolsMessage(const message_: ustring): boolean;
       /// <summary>
-      /// Execute a function call over the DevTools protocol. This is a more
+      /// <para>Execute a function call over the DevTools protocol. This is a more
       /// structured version of SendDevToolsMessage. |message_id| is an incremental
       /// number that uniquely identifies the message (pass 0 to have the next
       /// number assigned automatically based on previous values). |function| is the
-      /// function name. |params| are the function parameters, which may be NULL.
-      /// See the DevTools protocol documentation (linked above) for details of
+      /// function name. |params| are the function parameters, which may be NULL.</para>
+      /// <para>See the DevTools protocol documentation (linked above) for details of
       /// supported functions and the expected |params| dictionary contents. This
       /// function will return the assigned message ID if called on the UI thread
-      /// and the message was successfully submitted for validation, otherwise 0.
-      /// See the SendDevToolsMessage documentation for additional usage
-      /// information.
+      /// and the message was successfully submitted for validation, otherwise 0.</para>
+      /// <para>See the SendDevToolsMessage documentation for additional usage
+      /// information.</para>
       /// </summary>
       function    ExecuteDevToolsMethod(message_id: integer; const method: ustring; const params: ICefDictionaryValue): Integer;
       /// <summary>
@@ -1088,12 +1129,12 @@ type
       /// </summary>
       function    AddDevToolsMessageObserver(const observer: ICefDevToolsMessageObserver): ICefRegistration;
       /// <summary>
-      /// Search for |searchText|. |forward| indicates whether to search forward or
+      /// <para>Search for |searchText|. |forward| indicates whether to search forward or
       /// backward within the page. |matchCase| indicates whether the search should
       /// be case-sensitive. |findNext| indicates whether this is the first request
       /// or a follow-up. The search will be restarted if |searchText| or
-      /// |matchCase| change. The search will be stopped if |searchText| is NULL.
-      /// OnFindResult will be triggered to report find results.
+      /// |matchCase| change. The search will be stopped if |searchText| is NULL.</para>
+      /// <para>OnFindResult will be triggered to report find results.</para>
       /// </summary>
       procedure   Find(const aSearchText : ustring; aForward, aMatchCase, aFindNext : Boolean);
       /// <summary>
@@ -1105,12 +1146,12 @@ type
       /// </summary>
       procedure   Print;
       /// <summary>
-      /// Print the current browser contents to the PDF file specified by |path| and
+      /// <para>Print the current browser contents to the PDF file specified by |path| and
       /// execute |callback| on completion. The caller is responsible for deleting
       /// |path| when done. For PDF printing to work on Linux you must implement the
-      /// ICefPrintHandler.GetPdfPaperSize function.
-      /// The TChromiumCore.OnPdfPrintFinished event will be triggered when the PDF
-      /// file is created.
+      /// ICefPrintHandler.GetPdfPaperSize function.</para>
+      /// <para>The TChromiumCore.OnPdfPrintFinished event will be triggered when the PDF
+      /// file is created.</para>
       /// </summary>
       procedure   PrintToPDF(const aFilePath : ustring);
       /// <summary>
@@ -1270,51 +1311,54 @@ type
       /// </summary>
       procedure   SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameIdentifier : int64); overload;
       /// <summary>
-      /// Create a new URL request that will be treated as originating from this
+      /// <para>Create a new URL request that will be treated as originating from this
       /// frame and the associated browser. Use TCustomCefUrlrequestClient.Create instead if
       /// you do not want the request to have this association, in which case it may
       /// be handled differently (see documentation on that function). A request
       /// created with this function may only originate from the browser process,
-      /// and will behave as follows:
+      /// and will behave as follows:</para>
+      /// </code>
       ///   - It may be intercepted by the client via CefResourceRequestHandler or
       ///     CefSchemeHandlerFactory.
       ///   - POST data may only contain a single element of type PDE_TYPE_FILE or
       ///     PDE_TYPE_BYTES.
-      ///
-      /// The |request| object will be marked as read-only after calling this
-      /// function.
+      /// </code>
+      /// <para>The |request| object will be marked as read-only after calling this
+      /// function.</para>
       /// </summary>
       function    CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameName : ustring = ''): ICefUrlRequest; overload;
       /// <summary>
-      /// Create a new URL request that will be treated as originating from this
+      /// <para>Create a new URL request that will be treated as originating from this
       /// frame and the associated browser. Use TCustomCefUrlrequestClient.Create instead if
       /// you do not want the request to have this association, in which case it may
       /// be handled differently (see documentation on that function). A request
       /// created with this function may only originate from the browser process,
-      /// and will behave as follows:
+      /// and will behave as follows:</para>
+      /// <code>
       ///   - It may be intercepted by the client via CefResourceRequestHandler or
       ///     CefSchemeHandlerFactory.
       ///   - POST data may only contain a single element of type PDE_TYPE_FILE or
       ///     PDE_TYPE_BYTES.
-      ///
-      /// The |request| object will be marked as read-only after calling this
-      /// function.
+      /// </code>
+      /// <para>The |request| object will be marked as read-only after calling this
+      /// function.</para>
       /// </summary>
       function    CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrame : ICefFrame): ICefUrlRequest; overload;
       /// <summary>
-      /// Create a new URL request that will be treated as originating from this
+      /// <para>Create a new URL request that will be treated as originating from this
       /// frame and the associated browser. Use TCustomCefUrlrequestClient.Create instead if
       /// you do not want the request to have this association, in which case it may
       /// be handled differently (see documentation on that function). A request
       /// created with this function may only originate from the browser process,
-      /// and will behave as follows:
+      /// and will behave as follows:</para>
+      /// <code>
       ///   - It may be intercepted by the client via CefResourceRequestHandler or
       ///     CefSchemeHandlerFactory.
       ///   - POST data may only contain a single element of type PDE_TYPE_FILE or
       ///     PDE_TYPE_BYTES.
-      ///
-      /// The |request| object will be marked as read-only after calling this
-      /// function.
+      /// </code>
+      /// <para>The |request| object will be marked as read-only after calling this
+      /// function.</para>
       /// </summary>
       function    CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameIdentifier : int64): ICefUrlRequest; overload;
       /// <summary>
@@ -1322,29 +1366,27 @@ type
       /// </summary>
       procedure   SetFocus(focus: Boolean);
       /// <summary>
-      /// Set accessibility state for all frames. |accessibility_state| may be
+      /// <para>Set accessibility state for all frames. |accessibility_state| may be
       /// default, enabled or disabled. If |accessibility_state| is STATE_DEFAULT
       /// then accessibility will be disabled by default and the state may be
       /// further controlled with the "force-renderer-accessibility" and "disable-
       /// renderer-accessibility" command-line switches. If |accessibility_state| is
       /// STATE_ENABLED then accessibility will be enabled. If |accessibility_state|
-      /// is STATE_DISABLED then accessibility will be completely disabled.
-      ///
-      /// For windowed browsers accessibility will be enabled in Complete mode
+      /// is STATE_DISABLED then accessibility will be completely disabled.</para>
+      /// <para>For windowed browsers accessibility will be enabled in Complete mode
       /// (which corresponds to kAccessibilityModeComplete in Chromium). In this
       /// mode all platform accessibility objects will be created and managed by
       /// Chromium's internal implementation. The client needs only to detect the
       /// screen reader and call this function appropriately. For example, on macOS
       /// the client can handle the @"AXEnhancedUserStructure" accessibility
       /// attribute to detect VoiceOver state changes and on Windows the client can
-      /// handle WM_GETOBJECT with OBJID_CLIENT to detect accessibility readers.
-      ///
-      /// For windowless browsers accessibility will be enabled in TreeOnly mode
+      /// handle WM_GETOBJECT with OBJID_CLIENT to detect accessibility readers.</para>
+      /// <para>For windowless browsers accessibility will be enabled in TreeOnly mode
       /// (which corresponds to kAccessibilityModeWebContentsOnly in Chromium). In
       /// this mode renderer accessibility is enabled, the full tree is computed,
       /// and events are passed to CefAccessibiltyHandler, but platform
       /// accessibility objects are not created. The client may implement platform
-      /// accessibility objects using CefAccessibiltyHandler callbacks if desired.
+      /// accessibility objects using CefAccessibiltyHandler callbacks if desired.</para>
       /// </summary>
       procedure   SetAccessibilityState(accessibilityState: TCefState);
       /// <summary>
@@ -1398,29 +1440,28 @@ type
       /// </summary>
       procedure   DragSourceSystemDragEnded;
       /// <summary>
-      /// Begins a new composition or updates the existing composition. Blink has a
+      /// <para>Begins a new composition or updates the existing composition. Blink has a
       /// special node (a composition node) that allows the input function to change
       /// text without affecting other DOM nodes. |text| is the optional text that
       /// will be inserted into the composition node. |underlines| is an optional
-      /// set of ranges that will be underlined in the resulting text.
-      /// |replacement_range| is an optional range of the existing text that will be
+      /// set of ranges that will be underlined in the resulting text.</para>
+      /// <para>|replacement_range| is an optional range of the existing text that will be
       /// replaced. |selection_range| is an optional range of the resulting text
       /// that will be selected after insertion or replacement. The
-      /// |replacement_range| value is only used on OS X.
-      ///
-      /// This function may be called multiple times as the composition changes.
+      /// |replacement_range| value is only used on OS X.</para>
+      /// <para>This function may be called multiple times as the composition changes.
       /// When the client is done making changes the composition should either be
       /// canceled or completed. To cancel the composition call
       /// ImeCancelComposition. To complete the composition call either
       /// ImeCommitText or ImeFinishComposingText. Completion is usually signaled
-      /// when:
-      ///
+      /// when:</para>
+      /// <code>
       /// 1. The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR
       ///    flag (on Windows), or;
       /// 2. The client receives a "commit" signal of GtkIMContext (on Linux), or;
       /// 3. insertText of NSTextInput is called (on Mac).
-      ///
-      /// This function is only used when window rendering is disabled.
+      /// </code>
+      /// <para>This function is only used when window rendering is disabled.</para>
       /// </summary>
       procedure   IMESetComposition(const text: ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : PCefRange);
       /// <summary>
@@ -1487,25 +1528,24 @@ type
       /// </summary>
       procedure   NotifyCurrentRoutes;
       /// <summary>
-      /// Create a new route between |source| and |sink|. Source and sink must be
+      /// <para>Create a new route between |source| and |sink|. Source and sink must be
       /// valid, compatible (as reported by ICefMediaSink.IsCompatibleWith), and
       /// a route between them must not already exist. |callback| will be executed
       /// on success or failure. If route creation succeeds it will also trigger an
       /// asynchronous call to ICefMediaObserver.OnRoutes on all registered
-      /// observers.
-      /// This procedure is asynchronous and the result, ICefMediaRoute and the error
-      /// message will be available in the TChromium.OnMediaRouteCreateFinished event.
+      /// observers.</para>
+      /// <para>This procedure is asynchronous and the result, ICefMediaRoute and the error
+      /// message will be available in the TChromium.OnMediaRouteCreateFinished event.</para>
       /// </summary>
       procedure   CreateRoute(const source: ICefMediaSource; const sink: ICefMediaSink);
       /// <summary>
-      /// Asynchronously retrieves device info.
-      /// This procedure will trigger OnMediaSinkDeviceInfo with the device info.
+      /// <para>Asynchronously retrieves device info.</para>
+      /// <para>This procedure will trigger OnMediaSinkDeviceInfo with the device info.</para>
       /// </summary>
       procedure   GetDeviceInfo(const aMediaSink: ICefMediaSink);
       /// <summary>
-      /// Load an extension.
-      ///
-      /// If extension resources will be read from disk using the default load
+      /// <para>Load an extension.</para>
+      /// <para>If extension resources will be read from disk using the default load
       /// implementation then |root_directory| should be the absolute path to the
       /// extension resources directory and |manifest| should be NULL. If extension
       /// resources will be provided by the client (e.g. via cef_request_handler_t
@@ -1513,32 +1553,28 @@ type
       /// component unique to the extension (if not absolute this will be internally
       /// prefixed with the PK_DIR_RESOURCES path) and |manifest| should contain the
       /// contents that would otherwise be read from the "manifest.json" file on
-      /// disk.
-      ///
-      /// The loaded extension will be accessible in all contexts sharing the same
+      /// disk.</para>
+      /// <para>The loaded extension will be accessible in all contexts sharing the same
       /// storage (HasExtension returns true (1)). However, only the context on
       /// which this function was called is considered the loader (DidLoadExtension
       /// returns true (1)) and only the loader will receive
-      /// cef_request_context_handler_t callbacks for the extension.
-      ///
-      /// cef_extension_handler_t::OnExtensionLoaded will be called on load success
-      /// or cef_extension_handler_t::OnExtensionLoadFailed will be called on load
-      /// failure.
-      ///
-      /// If the extension specifies a background script via the "background"
-      /// manifest key then cef_extension_handler_t::OnBeforeBackgroundBrowser will
+      /// TCustomRequestContextHandler callbacks for the extension.</para>
+      /// <para>TCustomExtensionHandler.OnExtensionLoaded will be called on load success
+      /// or TCustomExtensionHandler.OnExtensionLoadFailed will be called on load
+      /// failure.</para>
+      /// <para>If the extension specifies a background script via the "background"
+      /// manifest key then TCustomExtensionHandler.OnBeforeBackgroundBrowser will
       /// be called to create the background browser. See that function for
-      /// additional information about background scripts.
-      ///
-      /// For visible extension views the client application should evaluate the
+      /// additional information about background scripts.</para>
+      /// <para>For visible extension views the client application should evaluate the
       /// manifest to determine the correct extension URL to load and then pass that
-      /// URL to the cef_browser_host_t::CreateBrowser* function after the extension
+      /// URL to the ICefBrowserHost.CreateBrowser* function after the extension
       /// has loaded. For example, the client can look for the "browser_action"
       /// manifest key as documented at
       /// https://developer.chrome.com/extensions/browserAction. Extension URLs take
-      /// the form "chrome-extension://<extension_id>/<path>".
-      ///
-      /// Browsers that host extensions differ from normal browsers as follows:
+      /// the form "chrome-extension://<extension_id>/<path>".</para>
+      /// <para>Browsers that host extensions differ from normal browsers as follows:</para>
+      /// <code>
       ///  - Can access chrome.* JavaScript APIs if allowed by the manifest. Visit
       ///    chrome://extensions-support for the list of extension APIs currently
       ///    supported by CEF.
@@ -1546,9 +1582,9 @@ type
       ///  - Pinch-zooming is disabled.
       ///  - CefBrowserHost::GetExtension returns the hosted extension.
       ///  - CefBrowserHost::IsBackgroundHost returns true for background hosts.
-      ///
-      /// See https://developer.chrome.com/extensions for extension implementation
-      /// and usage documentation.
+      /// </code>
+      /// <para>See https://developer.chrome.com/extensions for extension implementation
+      /// and usage documentation.</para>
       /// </summary>
       function    LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue = nil; const handler: ICefExtensionHandler = nil; const requestContext : ICefRequestContext = nil) : boolean;
       /// <summary>
@@ -1586,18 +1622,17 @@ type
       /// </summary>
       function    GetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): ICefValue;
       /// <summary>
-      /// Sets the current value for |content_type| for the specified URLs in the
+      /// <para>Sets the current value for |content_type| for the specified URLs in the
       /// default scope. If both URLs are NULL, and the context is not incognito,
       /// the default value will be set. Pass nullptr for |value| to remove the
-      /// default value for this content type.
-      ///
-      /// WARNING: Incorrect usage of this function may cause instability or
+      /// default value for this content type.</para>
+      /// <para>WARNING: Incorrect usage of this function may cause instability or
       /// security issues in Chromium. Make sure that you first understand the
       /// potential impact of any changes to |content_type| by reviewing the related
       /// source code in Chromium. For example, if you plan to modify
       /// CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of
       /// ContentSettingsType::POPUPS in Chromium:
-      /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+      /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS</para>
       /// </summary>
       procedure   SetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; const value: ICefValue);
       /// <summary>
@@ -1608,22 +1643,21 @@ type
       /// </summary>
       function    GetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): TCefContentSettingValues;
       /// <summary>
-      /// Sets the current value for |content_type| for the specified URLs in the
+      /// <para>Sets the current value for |content_type| for the specified URLs in the
       /// default scope. If both URLs are NULL, and the context is not incognito,
       /// the default value will be set. Pass CEF_CONTENT_SETTING_VALUE_DEFAULT for
-      /// |value| to use the default value for this content type.
-      ///
-      /// WARNING: Incorrect usage of this function may cause instability or
+      /// |value| to use the default value for this content type.</para>
+      /// <para>WARNING: Incorrect usage of this function may cause instability or
       /// security issues in Chromium. Make sure that you first understand the
       /// potential impact of any changes to |content_type| by reviewing the related
       /// source code in Chromium. For example, if you plan to modify
       /// CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of
       /// ContentSettingsType::POPUPS in Chromium:
-      /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+      /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS</para>
       /// </summary>
       procedure   SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
       /// <summary>
-      /// 	First URL loaded by the browser after its creation.
+      /// First URL loaded by the browser after its creation.
       /// </summary>
       property  DefaultUrl                    : ustring                      read FDefaultUrl                  write SetDefaultUrl;
       /// <summary>
@@ -1635,7 +1669,7 @@ type
       /// </summary>
       property  FontOptions                   : TChromiumFontOptions         read FFontOptions                 write FFontOptions;
       /// <summary>
-      /// 	Properties used to fill the TCefPdfPrintSettings record which is used in the TChromiumCore.PrintToPDF call.
+      /// Properties used to fill the TCefPdfPrintSettings record which is used in the TChromiumCore.PrintToPDF call.
       /// </summary>
       property  PDFPrintOptions               : TPDFPrintOptions             read FPDFPrintOptions             write FPDFPrintOptions;
       /// <summary>
@@ -2538,47 +2572,47 @@ type
       /// </remarks>
       property OnBeforeClose                    : TOnBeforeClose                    read FOnBeforeClose                    write FOnBeforeClose;
       /// <summary>
-      /// Called when a browser has recieved a request to close. This may result
+      /// <para>Called when a browser has recieved a request to close. This may result
       /// directly from a call to ICefBrowserHost.*CloseBrowser or indirectly
       /// if the browser is parented to a top-level window created by CEF and the
       /// user attempts to close that window (by clicking the 'X', for example). The
       /// OnClose function will be called after the JavaScript 'onunload' event
-      /// has been fired.
+      /// has been fired.</para>
       ///
-      /// An application should handle top-level owner window close notifications by
+      /// <para>An application should handle top-level owner window close notifications by
       /// calling ICefBrowserHost.TryCloseBrowser or
       /// ICefBrowserHost.CloseBrowser(false) instead of allowing the window
       /// to close immediately (see the examples below). This gives CEF an
       /// opportunity to process the 'onbeforeunload' event and optionally cancel
-      /// the close before OnClose is called.
+      /// the close before OnClose is called.</para>
       ///
-      /// When windowed rendering is enabled CEF will internally create a window or
+      /// <para>When windowed rendering is enabled CEF will internally create a window or
       /// view to host the browser. In that case returning false (0) from OnClose()
       /// will send the standard close notification to the browser's top-level owner
       /// window (e.g. WM_CLOSE on Windows, performClose: on OS X, "delete_event" on
       /// Linux or ICefWindowDelegate.CanClose callback from Views). If the
       /// browser's host window/view has already been destroyed (via view hierarchy
       /// tear-down, for example) then OnClose() will not be called for that
-      /// browser since is no longer possible to cancel the close.
+      /// browser since is no longer possible to cancel the close.</para>
       ///
-      /// When windowed rendering is disabled returning false (0) from OnClose()
-      /// will cause the browser object to be destroyed immediately.
+      /// <para>When windowed rendering is disabled returning false (0) from OnClose()
+      /// will cause the browser object to be destroyed immediately.</para>
       ///
-      /// If the browser's top-level owner window requires a non-standard close
-      /// notification then send that notification from OnClose() and return true
-      /// (1).
+      /// <para>If the browser's top-level owner window requires a non-standard close
+      /// notification then send that notification from OnClose() and return true.</para>
       ///
-      /// The ICefLifeSpanHandler.OnBeforeClose function will be called
+      /// <para>The ICefLifeSpanHandler.OnBeforeClose function will be called
       /// after OnClose() (if OnClose() is called) and immediately before the
       /// browser object is destroyed. The application should only exit after
-      /// OnBeforeClose() has been called for all existing browsers.
+      /// OnBeforeClose() has been called for all existing browsers.</para>
       ///
-      /// The below examples describe what should happen during window close when
-      /// the browser is parented to an application-provided top-level window.
+      /// <para>The below examples describe what should happen during window close when
+      /// the browser is parented to an application-provided top-level window.</para>
       ///
-      /// Example 1: Using ICefBrowserHost.TryCloseBrowser(). This is
+      /// <para>Example 1: Using ICefBrowserHost.TryCloseBrowser(). This is
       /// recommended for clients using standard close handling and windows created
-      /// on the browser process UI thread.
+      /// on the browser process UI thread.</para>
+      /// <code>
       /// 1.  User clicks the window close button which sends a close notification
       ///     to the application's top-level window.
       /// 2.  Application's top-level window receives the close notification and
@@ -2598,11 +2632,12 @@ type
       /// 8.  Application's top-level window is destroyed.
       /// 9.  Application's OnBeforeClose() handler is called and the browser object is destroyed.
       /// 10. Application exits by calling cef_quit_message_loop() if no other browsers exist.
-      ///
-      /// Example 2: Using ICefBrowserHost::CloseBrowser(false) and
+      /// </code>
+      /// <para>Example 2: Using ICefBrowserHost::CloseBrowser(false) and
       /// implementing the OnClose() callback. This is recommended for clients
       /// using non-standard close handling or windows that were not created on the
-      /// browser process UI thread.
+      /// browser process UI thread.</para>
+      /// <code>
       /// 1.  User clicks the window close button which sends a close notification
       ///     to the application's top-level window.
       /// 2.  Application's top-level window receives the close notification and:
@@ -2622,6 +2657,7 @@ type
       /// 9.  Application's top-level window is destroyed.
       /// 10. Application's OnBeforeClose() handler is called and the browser object is destroyed.
       /// 11. Application exits by calling cef_quit_message_loop() if no other browsers exist.
+      /// </code>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -2629,17 +2665,17 @@ type
       /// </remarks>
       property OnClose                          : TOnClose                          read FOnClose                          write FOnClose;
       /// <summary>
-      /// Called on the UI thread before browser navigation. Return true (1) to
+      /// <para>Called on the UI thread before browser navigation. Return true (1) to
       /// cancel the navigation or false (0) to allow the navigation to proceed. The
-      /// |request| object cannot be modified in this callback.
-      /// ICefLoadHandler.OnLoadingStateChange will be called twice in all
+      /// |request| object cannot be modified in this callback.</para>
+      /// <para>ICefLoadHandler.OnLoadingStateChange will be called twice in all
       /// cases. If the navigation is allowed ICefLoadHandler.OnLoadStart and
       /// ICefLoadHandler.OnLoadEnd will be called. If the navigation is
       /// canceled ICefLoadHandler.OnLoadError will be called with an
       /// |errorCode| value of ERR_ABORTED. The |user_gesture| value will be true
       /// (1) if the browser navigated via explicit user gesture (e.g. clicking a
       /// link) or false (0) if it navigated automatically (e.g. via the
-      /// DomContentLoaded event).
+      /// DomContentLoaded event).</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -2809,7 +2845,7 @@ type
       /// </remarks>
       property OnResourceRedirect               : TOnResourceRedirect               read FOnResourceRedirect               write FOnResourceRedirect;
       /// <summary>
-      /// Called on the IO thread when a resource response is received. The
+      /// <para>Called on the IO thread when a resource response is received. The
       /// |browser| and |frame| values represent the source of the request, and may
       /// be NULL for requests originating from service workers or ICefUrlRequest.
       /// To allow the resource load to proceed without modification return false
@@ -2817,10 +2853,9 @@ type
       /// and return true (1). Modification of the request URL will be treated as a
       /// redirect. Requests handled using the default network loader cannot be
       /// redirected in this callback. The |response| object cannot be modified in
-      /// this callback.
-      ///
-      /// WARNING: Redirecting using this function is deprecated. Use
-      /// OnBeforeResourceLoad or GetResourceHandler to perform redirects.
+      /// this callback.</para>
+      /// <para>WARNING: Redirecting using this function is deprecated. Use
+      /// OnBeforeResourceLoad or GetResourceHandler to perform redirects.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF IO thread.</para>
@@ -3038,18 +3073,16 @@ type
       /// </remarks>
       property OnTouchHandleStateChanged        : TOnTouchHandleStateChanged        read FOnTouchHandleStateChanged        write FOnTouchHandleStateChanged;
       /// <summary>
-      /// Called when the user starts dragging content in the web view. Contextual
+      /// <para>Called when the user starts dragging content in the web view. Contextual
       /// information about the dragged content is supplied by |drag_data|. (|x|,
       /// |y|) is the drag start location in screen coordinates. OS APIs that run a
-      /// system message loop may be used within the StartDragging call.
-      ///
-      /// Return false (0) to abort the drag operation. Don't call any of
-      /// ICefBrowserHost.DragSource*Ended* functions after returning false (0).
-      ///
-      /// Return true (1) to handle the drag operation. Call
+      /// system message loop may be used within the StartDragging call.</para>
+      /// <para>Return false (0) to abort the drag operation. Don't call any of
+      /// ICefBrowserHost.DragSource*Ended* functions after returning false (0).</para>
+      /// <para>Return true (1) to handle the drag operation. Call
       /// ICefBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either
       /// synchronously or asynchronously to inform the web view that the drag
-      /// operation has ended.
+      /// operation has ended.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3270,15 +3303,14 @@ type
       /// </remarks>
       property OnAudioStreamError                     : TOnAudioStreamErrorEvent          read FOnAudioStreamError                     write FOnAudioStreamError;
       /// <summary>
-      /// Method that will be called on receipt of a DevTools protocol message.
+      /// <para>Method that will be called on receipt of a DevTools protocol message.
       /// |browser| is the originating browser instance. |message| is a UTF8-encoded
-      /// JSON dictionary representing either a function result or an event.
-      /// |message| is only valid for the scope of this callback and should be
+      /// JSON dictionary representing either a function result or an event.</para>
+      /// <para>|message| is only valid for the scope of this callback and should be
       /// copied if necessary. Return true (1) if the message was handled or false
       /// (0) if the message should be further processed and passed to the
-      /// OnDevToolsMethodResult or OnDevToolsEvent functions as appropriate.
-      ///
-      /// Method result dictionaries include an "id" (int) value that identifies the
+      /// OnDevToolsMethodResult or OnDevToolsEvent functions as appropriate.</para>
+      /// <para>Method result dictionaries include an "id" (int) value that identifies the
       /// orginating function call sent from
       /// ICefBrowserHost.SendDevToolsMessage, and optionally either a "result"
       /// (dictionary) or "error" (dictionary) value. The "error" dictionary will
@@ -3289,7 +3321,7 @@ type
       /// supported function calls and the expected "result" or "params" dictionary
       /// contents. JSON dictionaries can be parsed using the CefParseJSON function
       /// if desired, however be aware of performance considerations when parsing
-      /// large messages (some of which may exceed 1MB in size).
+      /// large messages (some of which may exceed 1MB in size).</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3297,15 +3329,14 @@ type
       /// </remarks>
       property OnDevToolsMessage                      : TOnDevToolsMessageEvent           read FOnDevToolsMessage                      write FOnDevToolsMessage;
       /// <summary>
-      /// Method that will be called on receipt of a DevTools protocol message.
+      /// <para>Method that will be called on receipt of a DevTools protocol message.
       /// |browser| is the originating browser instance. |message| is a UTF8-encoded
-      /// JSON dictionary representing either a function result or an event.
-      /// |message| is only valid for the scope of this callback and should be
+      /// JSON dictionary representing either a function result or an event.</para>
+      /// <para>|message| is only valid for the scope of this callback and should be
       /// copied if necessary. Return true (1) if the message was handled or false
       /// (0) if the message should be further processed and passed to the
-      /// OnDevToolsMethodResult or OnDevToolsEvent functions as appropriate.
-      ///
-      /// Method result dictionaries include an "id" (int) value that identifies the
+      /// OnDevToolsMethodResult or OnDevToolsEvent functions as appropriate.</para>
+      /// <para>Method result dictionaries include an "id" (int) value that identifies the
       /// orginating function call sent from
       /// ICefBrowserHost.SendDevToolsMessage, and optionally either a "result"
       /// (dictionary) or "error" (dictionary) value. The "error" dictionary will
@@ -3316,7 +3347,7 @@ type
       /// supported function calls and the expected "result" or "params" dictionary
       /// contents. JSON dictionaries can be parsed using the CefParseJSON function
       /// if desired, however be aware of performance considerations when parsing
-      /// large messages (some of which may exceed 1MB in size).
+      /// large messages (some of which may exceed 1MB in size).</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3324,16 +3355,16 @@ type
       /// </remarks>
       property OnDevToolsRawMessage                   : TOnDevToolsRawMessageEvent        read FOnDevToolsRawMessage                   write FOnDevToolsRawMessage;
       /// <summary>
-      /// Method that will be called after attempted execution of a DevTools
-      /// protocol function. |browser| is the originating browser instance.
-      /// |message_id| is the "id" value that identifies the originating function
+      /// <para>Method that will be called after attempted execution of a DevTools
+      /// protocol function. |browser| is the originating browser instance.</para>
+      /// <para>|message_id| is the "id" value that identifies the originating function
       /// call message. If the function succeeded |success| will be true (1) and
       /// |result| will be the UTF8-encoded JSON "result" dictionary value (which
       /// may be NULL). If the function failed |success| will be false (0) and
       /// |result| will be the UTF8-encoded JSON "error" dictionary value. |result|
       /// is only valid for the scope of this callback and should be copied if
       /// necessary. See the OnDevToolsMessage documentation for additional details
-      /// on |result| contents.
+      /// on |result| contents.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3341,16 +3372,16 @@ type
       /// </remarks>
       property OnDevToolsMethodResult                 : TOnDevToolsMethodResultEvent      read FOnDevToolsMethodResult                 write FOnDevToolsMethodResult;
       /// <summary>
-      /// Method that will be called after attempted execution of a DevTools
-      /// protocol function. |browser| is the originating browser instance.
-      /// |message_id| is the "id" value that identifies the originating function
+      /// <para>Method that will be called after attempted execution of a DevTools
+      /// protocol function. |browser| is the originating browser instance.</para>
+      /// <para>|message_id| is the "id" value that identifies the originating function
       /// call message. If the function succeeded |success| will be true (1) and
       /// |result| will be the UTF8-encoded JSON "result" dictionary value (which
       /// may be NULL). If the function failed |success| will be false (0) and
       /// |result| will be the UTF8-encoded JSON "error" dictionary value. |result|
       /// is only valid for the scope of this callback and should be copied if
       /// necessary. See the OnDevToolsMessage documentation for additional details
-      /// on |result| contents.
+      /// on |result| contents.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3404,7 +3435,6 @@ type
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_devtools_message_observer_capi.h">CEF source file: /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t)</see></para>
       /// </remarks>
       property OnDevToolsAgentDetached                : TOnDevToolsAgentDetachedEvent     read FOnDevToolsAgentDetached                write FOnDevToolsAgentDetached;
-
       /// <summary>
       /// Called if the ICefRequestContext.LoadExtension request fails. |result|
       /// will be the error code.
@@ -3687,17 +3717,17 @@ type
       /// </remarks>
       property OnIsChromeToolbarButtonVisible         : TOnIsChromeToolbarButtonVisibleEvent  read FOnIsChromeToolbarButtonVisible     write FOnIsChromeToolbarButtonVisible;
       /// <summary>
-      /// Called when a page requests permission to access media.
-      /// |requesting_origin| is the URL origin requesting permission.
-      /// |requested_permissions| is a combination of values from
+      /// <para>Called when a page requests permission to access media.
+      /// |requesting_origin| is the URL origin requesting permission.</para>
+      /// <para>|requested_permissions| is a combination of values from
       /// TCefMediaAccessPermissionTypes that represent the requested
       /// permissions. Return true (1) and call ICefMediaAccessCallback
       /// functions either in this function or at a later time to continue or cancel
       /// the request. Return false (0) to proceed with default handling. With the
-      /// Chrome runtime, default handling will display the permission request UI.
-      /// With the Alloy runtime, default handling will deny the request. This
+      /// Chrome runtime, default handling will display the permission request UI.</para>
+      /// <para>With the Alloy runtime, default handling will deny the request. This
       /// function will not be called if the "--enable-media-stream" command-line
-      /// switch is used to grant all permissions.
+      /// switch is used to grant all permissions.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3705,15 +3735,15 @@ type
       /// </remarks>
       property OnRequestMediaAccessPermission         : TOnRequestMediaAccessPermissionEvent read FOnRequestMediaAccessPermission      write FOnRequestMediaAccessPermission;
       /// <summary>
-      /// Called when a page should show a permission prompt. |prompt_id| uniquely
+      /// <para>Called when a page should show a permission prompt. |prompt_id| uniquely
       /// identifies the prompt. |requesting_origin| is the URL origin requesting
       /// permission. |requested_permissions| is a combination of values from
-      /// TCefPermissionRequestTypes that represent the requested permissions.
-      /// Return true (1) and call ICefPermissionPromptCallback.Continue either
-      /// in this function or at a later time to continue or cancel the request.
-      /// Return false (0) to proceed with default handling. With the Chrome
+      /// TCefPermissionRequestTypes that represent the requested permissions.</para>
+      /// <para>Return true (1) and call ICefPermissionPromptCallback.Continue either
+      /// in this function or at a later time to continue or cancel the request.</para>
+      /// <para>Return false (0) to proceed with default handling. With the Chrome
       /// runtime, default handling will display the permission prompt UI. With the
-      /// Alloy runtime, default handling is CEF_PERMISSION_RESULT_IGNORE.
+      /// Alloy runtime, default handling is CEF_PERMISSION_RESULT_IGNORE.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>

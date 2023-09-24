@@ -29,9 +29,21 @@ type
       {$ENDIF}
     public
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Set a new parent for this control.
+      /// </summary>
       procedure Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
+      /// <summary>
+      /// Updates the size of the child windows created by the browser.
+      /// </summary>
       procedure UpdateSize;
+      /// <summary>
+      /// Handle of the first child window created by the browser.
+      /// </summary>
       property  ChildWindowHandle : HWND          read GetChildWindowHandle;
+      /// <summary>
+      /// TChromium instance used by this component.
+      /// </summary>
       property  Chromium          : TFMXChromium  read FChromium              write FChromium;
       {$ENDIF}
       {$IFNDEF DELPHI17_UP}

@@ -91,6 +91,8 @@ end;
 
 procedure TCustomPanelDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetPreferredSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefPanelDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
@@ -102,6 +104,8 @@ end;
 
 procedure TCustomPanelDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMinimumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefPanelDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
@@ -113,6 +117,8 @@ end;
 
 procedure TCustomPanelDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMaximumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefPanelDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
@@ -124,6 +130,8 @@ end;
 
 procedure TCustomPanelDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
+  inherited OnGetHeightForWidth(view, width, aResult);
+
   try
     if (FEvents <> nil) then
       ICefPanelDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);

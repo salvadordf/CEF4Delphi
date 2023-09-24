@@ -2064,11 +2064,9 @@ const
   CEF_PERMISSION_TYPE_NOTIFICATIONS              = 1 shl 14;
   CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER = 1 shl 15;
   CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER  = 1 shl 16;
-  CEF_PERMISSION_TYPE_SECURITY_ATTESTATION       = 1 shl 17;
-  CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 18;
-  CEF_PERMISSION_TYPE_U2F_API_REQUEST            = 1 shl 19;
-  CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 20;
-  CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 21;
+  CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 17;
+  CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 18;
+  CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 19;
 
   /// <summary>
   /// Platform API hash.
@@ -2350,6 +2348,59 @@ const
   /// </remarks>
   CEF_DOWNLOAD_INTERRUPT_REASON_CRASH                           = 50;
 
+  /// <summary>
+  /// Prepend the default list of items.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefLogItems value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  LOG_ITEMS_DEFAULT         = 0;
+
+  /// <summary>
+  /// Prepend no items.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefLogItems value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  LOG_ITEMS_NONE            = 1 shl 0;
+
+  /// <summary>
+  /// Prepend the process ID.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefLogItems value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  LOG_ITEMS_FLAG_PROCESS_ID = 1 shl 1;
+
+  /// <summary>
+  /// Prepend the thread ID.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefLogItems value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  LOG_ITEMS_FLAG_THREAD_ID  = 1 shl 2;
+
+  /// <summary>
+  /// Prepend the timestamp.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefLogItems value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  LOG_ITEMS_FLAG_TIME_STAMP = 1 shl 3;
+
+  /// <summary>
+  /// Prepend the tickcount.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefLogItems value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  LOG_ITEMS_FLAG_TICK_COUNT = 1 shl 4;
 
 
 {*

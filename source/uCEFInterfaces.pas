@@ -609,6 +609,7 @@ type
     procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
     procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
     procedure doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
+    procedure doOnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
     procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
   end;
 
@@ -10301,7 +10302,7 @@ type
     function  GetBrowser : ICefBrowser;
     /// <summary>
     /// Returns the Chrome toolbar associated with this BrowserView. Only
-    /// supported when using the Chrome runtime. The ICefBrowserViewDelegate.get_chrome_toolbar_type()
+    /// supported when using the Chrome runtime. The ICefBrowserViewDelegate.GetChromeToolbarType
     /// function must return a value other than
     /// CEF_CTT_NONE and the toolbar will not be available until after this
     /// BrowserView is added to a ICefWindow and
@@ -10368,7 +10369,13 @@ type
     /// ICefBrowserView.GetChromeToolbar(). See that function for related
     /// documentation.
     /// </summary>
-    function  GetChromeToolbarType: TCefChromeToolbarType;
+    procedure OnGetChromeToolbarType(var aResult : TCefChromeToolbarType);
+    /// <summary>
+    /// Return true (1) to create frameless windows for Document picture-in-
+    /// picture popups. Content in frameless windows should specify draggable
+    /// regions using "-webkit-app-region: drag" CSS.
+    /// </summary>
+    procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
     /// <summary>
     /// Called when |browser_view| receives a gesture command. Return true (1) to
     /// handle (or disable) a |gesture_command| or false (0) to propagate the
@@ -10376,12 +10383,6 @@ type
     /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
     /// </summary>
     procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
-    /// <summary>
-    /// Returns the Chrome toolbar type that will be available via
-    /// ICefBrowserView.GetChromeToolbar(). See that function for related
-    /// documentation.
-    /// </summary>
-    property ChromeToolbarType: TCefChromeToolbarType read GetChromeToolbarType;
   end;
 
   /// <summary>

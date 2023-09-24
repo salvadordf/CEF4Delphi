@@ -159,6 +159,8 @@ end;
 
 procedure TCustomButtonDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetPreferredSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefButtonDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
@@ -170,6 +172,8 @@ end;
 
 procedure TCustomButtonDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMinimumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefButtonDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
@@ -181,6 +185,8 @@ end;
 
 procedure TCustomButtonDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMaximumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefButtonDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
@@ -192,6 +198,8 @@ end;
 
 procedure TCustomButtonDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
+  inherited OnGetHeightForWidth(view, width, aResult);
+
   try
     if (FEvents <> nil) then
       ICefButtonDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);

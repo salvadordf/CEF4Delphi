@@ -371,6 +371,7 @@ type
 
   /// <summary>
   /// Supported error code values.
+  /// <code>
   /// Ranges:
   ///     0- 99 System related errors
   ///   100-199 Connection related errors
@@ -381,6 +382,7 @@ type
   ///   600-699 FTP errors
   ///   700-799 Certificate manager errors
   ///   800-899 DNS resolver errors
+  /// </code>
   /// </summary>
   /// <remarks>
   /// <para>See the uCEFConstants unit for all possible values.</para>
@@ -700,6 +702,15 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_menu_id_t)</see></para>
   /// </remarks>
   TCefMenuId                       = type Integer;
+
+  /// <summary>
+  /// Log items prepended to each log line.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  TCefLogItems                     = type Cardinal;
 
 {$IFDEF FPC}
   NativeInt   = PtrInt;
@@ -3049,6 +3060,13 @@ type
     /// </summary>
     log_severity                             : TCefLogSeverity;
     /// <summary>
+    /// The log items prepended to each log line. If not set the default log items
+    /// will be used. Also configurable using the "log-items" command-line switch
+    /// with a value of "none" for no log items, or a comma-delimited list of
+    /// values "pid", "tid", "timestamp" or "tickcount" for custom log items.
+    /// </summary>
+    log_items                                : TCefLogItems;
+    /// <summary>
     /// Custom flags that will be used when initializing the V8 JavaScript engine.
     /// The consequences of using custom flags may not be well tested. Also
     /// configurable using the "js-flags" command-line switch.
@@ -3770,6 +3788,10 @@ type
     /// |header_template|.
     /// </summary>
     footer_template       : TCefString;
+    /// <summary>
+    /// Set to true (1) to generate tagged (accessible) PDF.
+    /// </summary>
+    generate_tagged_pdf   : integer;
   end;
 
   /// <summary>
@@ -4253,7 +4275,14 @@ type
     /// Used to indicate whether HTTPS-First Mode is enabled on the hostname.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_HTTPS_ENFORCED,
-
+    /// <summary>
+    /// Stores per origin metadata for cookie controls.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_COOKIE_CONTROLS_METADATA,
+    /// <summary>
+    /// Setting for supporting 3PCD.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_TPCD_SUPPORT,
     CEF_CONTENT_SETTING_TYPE_NUM_TYPES
   );
 
@@ -7365,13 +7394,14 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_delegate_capi.h">CEF source file: /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)</see></para>
   /// </remarks>
   TCefBrowserViewDelegate = record
-    base                                : TCefViewDelegate;
-    on_browser_created                  : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
-    on_browser_destroyed                : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
-    get_delegate_for_popup_browser_view : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; const settings: PCefBrowserSettings; client: PCefClient; is_devtools: Integer): PCefBrowserViewDelegate; stdcall;
-    on_popup_browser_view_created       : function(self: PCefBrowserViewDelegate; browser_view, popup_browser_view: PCefBrowserView; is_devtools: Integer): Integer; stdcall;
-    get_chrome_toolbar_type             : function(self: PCefBrowserViewDelegate): TCefChromeToolbarType; stdcall;
-    on_gesture_command                  : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
+    base                                        : TCefViewDelegate;
+    on_browser_created                          : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
+    on_browser_destroyed                        : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
+    get_delegate_for_popup_browser_view         : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; const settings: PCefBrowserSettings; client: PCefClient; is_devtools: Integer): PCefBrowserViewDelegate; stdcall;
+    on_popup_browser_view_created               : function(self: PCefBrowserViewDelegate; browser_view, popup_browser_view: PCefBrowserView; is_devtools: Integer): Integer; stdcall;
+    get_chrome_toolbar_type                     : function(self: PCefBrowserViewDelegate): TCefChromeToolbarType; stdcall;
+    use_frameless_window_for_picture_in_picture : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall;
+    on_gesture_command                          : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
   end;
 
   /// <summary>

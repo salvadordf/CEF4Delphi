@@ -24,13 +24,20 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFWinControl, uCEFChromium;
 
 type
-
-  { TCEFLinkedWinControlBase }
-
+  /// <summary>
+  /// TCEFLinkedWinControlBase is a custom TWinControl to host the child controls created by the web browser
+  /// to show the web contents and it's linked to the TChromium instance that handles that web browser.
+  /// TCEFLinkedWinControlBase is the parent class of TChromiumWindow, TBrowserWindow and TCEFLinkedWindowParent.
+  /// </summary>
   TCEFLinkedWinControlBase = class(TCEFWinControl)
     protected
+      {$IFDEF MSWINDOWS}
+      FUseSetFocus    : boolean;
+      {$ENDIF}
       function  GetChromium: TChromium; virtual; abstract;
       function  GetUseSetFocus: Boolean; virtual;
+
+      procedure SetUseSetFocus(aValue : boolean); virtual;
 
       {$IFDEF FPC}
       procedure SetVisible(Value: Boolean); override;
@@ -39,19 +46,42 @@ type
       {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage); override;
       {$ENDIF}
-
+      /// <summary>
+      /// TChromium instance used by this component.
+      /// </summary>
       property  Chromium   : TChromium    read GetChromium;
     public
+      constructor Create(AOwner: TComponent); override;
       procedure UpdateSize; override;
+    published
+      {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Use TChromium.SetFocus when the component receives a WM_SETFOCUS message in Windows.
+      /// </summary>
+      property UseSetFocus      : boolean         read GetUseSetFocus      write SetUseSetFocus  default True;
+      {$ENDIF}
   end;
 
 implementation
 
 { TCEFLinkedWinControlBase }
 
+constructor TCEFLinkedWinControlBase.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  {$IFDEF MSWINDOWS}
+  FUseSetFocus := True;
+  {$ENDIF}
+end;
+
 function TCEFLinkedWinControlBase.GetUseSetFocus: Boolean;
 begin
-  Result := True;
+  Result := FUseSetFocus;
+end;
+
+procedure TCEFLinkedWinControlBase.SetUseSetFocus(aValue : boolean);
+begin
+  FUseSetFocus := aValue;
 end;
 
 {$IFDEF FPC}
@@ -94,7 +124,7 @@ begin
   case aMessage.Msg of
     WM_SETFOCUS:
       begin
-        if GetUseSetFocus and (Chromium <> nil) then
+        if UseSetFocus and (Chromium <> nil) then
           Chromium.SetFocus(True)
          else
           begin

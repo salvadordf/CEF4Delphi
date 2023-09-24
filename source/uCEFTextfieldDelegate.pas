@@ -168,6 +168,8 @@ end;
 
 procedure TCustomTextfieldDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetPreferredSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefTextfieldDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
@@ -179,6 +181,8 @@ end;
 
 procedure TCustomTextfieldDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMinimumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefTextfieldDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
@@ -190,6 +194,8 @@ end;
 
 procedure TCustomTextfieldDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMaximumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefTextfieldDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
@@ -201,6 +207,8 @@ end;
 
 procedure TCustomTextfieldDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
+  inherited OnGetHeightForWidth(view, width, aResult);
+
   try
     if (FEvents <> nil) then
       ICefTextfieldDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);

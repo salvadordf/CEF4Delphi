@@ -51,6 +51,9 @@ type
       constructor Create(AOwner : TComponent); override;
 
     published
+      /// <summary>
+      /// TChromium instance used by this component.
+      /// </summary>
       property  Chromium   : TChromium    read FChromium   write SetChromium;
   end;
 
