@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uMiniBrowser;
 
 {$I cef.inc}
@@ -192,6 +155,7 @@ type
     procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: Boolean);
     procedure Chromium1MediaAccessChange(Sender: TObject; const browser: ICefBrowser; has_video_access, has_audio_access: Boolean);
     procedure Chromium1RequestMediaAccessPermission(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: Cardinal; const callback: ICefMediaAccessCallback; var aResult: Boolean);
+    procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: Cardinal; const message_, source: ustring; line: Integer; out Result: Boolean);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -234,6 +198,7 @@ type
     FSelectCertCallback  : ICefSelectClientCertificateCallback;
     FCertificates        : TCefX509CertificateArray;
     FAllowDownloads      : boolean;
+    FJSException         : integer;
 
     FMediaAccessCallback  : ICefMediaAccessCallback;
     FRequestingOrigin     : string;
@@ -315,14 +280,29 @@ uses
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
+procedure GlobalCEFApp_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
+begin
+  // This code runs in the render process and we can't set a breakpoint to debug it from the main application process.
+  // Read this for more information about debugging CEF subprocesses :
+  // https://www.briskbard.com/index.php?lang=en&pageid=cef#debugging
+  // In this example we only use the "console trick" explained in the DOMVisitor demo to send some custom text to the
+  // main process that will be received in TChromiumCore.OnConsoleMessage
+  // Load the following page and delete the try..catch lines to test this event :
+  // https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_state_throw_error
+  if assigned(frame) and frame.IsValid then
+    frame.ExecuteJavaScript('console.log("GlobalCEFApp_OnUncaughtException");', '', 0);
+end;
+
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.cache               := 'cache';
-  GlobalCEFApp.EnablePrintPreview  := True;
-  GlobalCEFApp.EnableGPU           := True;
-  GlobalCEFApp.LogFile             := 'debug.log';
-  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  GlobalCEFApp                            := TCefApplication.Create;
+  GlobalCEFApp.cache                      := 'cache';
+  GlobalCEFApp.EnablePrintPreview         := True;
+  GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.LogFile                    := 'debug.log';
+  GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  GlobalCEFApp.UncaughtExceptionStackSize := 50;
+  GlobalCEFApp.OnUncaughtException        := GlobalCEFApp_OnUncaughtException;
   //GlobalCEFApp.ChromeRuntime       := True;
 end;
 
@@ -522,6 +502,17 @@ begin
     begin
       PostMessage(Handle, CEF_DESTROY, 0, 0);
       aAction := cbaDelay;
+    end;
+end;
+
+procedure TMiniBrowserFrm.Chromium1ConsoleMessage(Sender: TObject;
+  const browser: ICefBrowser; level: Cardinal; const message_,
+  source: ustring; line: Integer; out Result: Boolean);
+begin
+  if (message_ = 'GlobalCEFApp_OnUncaughtException') then
+    begin
+      inc(FJSException);
+      StatusBar1.Panels[4].Text := 'JS exception: ' + inttostr(FJSException);
     end;
 end;
 

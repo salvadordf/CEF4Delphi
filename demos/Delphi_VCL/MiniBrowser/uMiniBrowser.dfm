@@ -143,6 +143,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input' +
             '_type_file'
+          
+            'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_stat' +
+            'e_throw_error'
           'https://www.htmlquick.com/es/reference/tags/input-file.html'
           
             'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/' +
@@ -273,6 +276,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
       end
       item
         Width = 100
+      end
+      item
+        Width = 50
       end>
     ExplicitTop = 691
     ExplicitWidth = 1176
@@ -298,6 +304,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnTitleChange = Chromium1TitleChange
     OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
+    OnConsoleMessage = Chromium1ConsoleMessage
     OnLoadingProgressChange = Chromium1LoadingProgressChange
     OnCursorChange = Chromium1CursorChange
     OnMediaAccessChange = Chromium1MediaAccessChange

@@ -17,9 +17,7 @@ object PreferencesFrm: TPreferencesFrm
   Padding.Top = 10
   Padding.Right = 10
   Padding.Bottom = 10
-  OldCreateOrder = False
   Position = poScreenCenter
-  PixelsPerInch = 96
   TextHeight = 13
   object GroupBox1: TGroupBox
     Left = 10
@@ -29,6 +27,7 @@ object PreferencesFrm: TPreferencesFrm
     Align = alTop
     Caption = ' Proxy '
     TabOrder = 0
+    ExplicitWidth = 404
     object ProxyTypeLbl: TLabel
       Left = 12
       Top = 27
@@ -180,6 +179,7 @@ object PreferencesFrm: TPreferencesFrm
     Align = alTop
     Caption = ' Custom header '
     TabOrder = 1
+    ExplicitWidth = 404
     object HeaderNameLbl: TLabel
       Left = 12
       Top = 26
@@ -219,7 +219,8 @@ object PreferencesFrm: TPreferencesFrm
     Padding.Left = 30
     Padding.Right = 30
     TabOrder = 2
-    ExplicitTop = 373
+    ExplicitTop = 352
+    ExplicitWidth = 404
     object Button1: TButton
       Left = 30
       Top = 0
@@ -239,7 +240,7 @@ object PreferencesFrm: TPreferencesFrm
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 278
+      ExplicitLeft = 254
     end
   end
 end
