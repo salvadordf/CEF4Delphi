@@ -54,7 +54,7 @@ type
       procedure doOnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
       procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
       procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
-      procedure doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
+      procedure doOnGetChromeToolbarType(const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
       procedure doOnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
       procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
 
@@ -298,10 +298,10 @@ begin
     FOnPopupBrowserViewCreated(self, browser_view, popup_browser_view, is_devtools, aResult);
 end;
 
-procedure TCEFBrowserViewComponent.doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
+procedure TCEFBrowserViewComponent.doOnGetChromeToolbarType(const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
 begin
   if assigned(FOnGetChromeToolbarType) then
-    FOnGetChromeToolbarType(self, aChromeToolbarType);
+    FOnGetChromeToolbarType(self, browser_view, aChromeToolbarType);
 end;
 
 procedure TCEFBrowserViewComponent.doOnUseFramelessWindowForPictureInPicture(const browser_view : ICefBrowserView;

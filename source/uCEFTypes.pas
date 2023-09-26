@@ -7399,7 +7399,7 @@ type
     on_browser_destroyed                        : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
     get_delegate_for_popup_browser_view         : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; const settings: PCefBrowserSettings; client: PCefClient; is_devtools: Integer): PCefBrowserViewDelegate; stdcall;
     on_popup_browser_view_created               : function(self: PCefBrowserViewDelegate; browser_view, popup_browser_view: PCefBrowserView; is_devtools: Integer): Integer; stdcall;
-    get_chrome_toolbar_type                     : function(self: PCefBrowserViewDelegate): TCefChromeToolbarType; stdcall;
+    get_chrome_toolbar_type                     : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): TCefChromeToolbarType; stdcall;
     use_frameless_window_for_picture_in_picture : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall;
     on_gesture_command                          : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
   end;

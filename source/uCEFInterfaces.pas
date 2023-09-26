@@ -608,7 +608,7 @@ type
     procedure doOnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
     procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
     procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
-    procedure doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
+    procedure doOnGetChromeToolbarType(const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
     procedure doOnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
     procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
   end;
@@ -10369,7 +10369,7 @@ type
     /// ICefBrowserView.GetChromeToolbar(). See that function for related
     /// documentation.
     /// </summary>
-    procedure OnGetChromeToolbarType(var aResult : TCefChromeToolbarType);
+    procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult : TCefChromeToolbarType);
     /// <summary>
     /// Return true (1) to create frameless windows for Document picture-in-
     /// picture popups. Content in frameless windows should specify draggable
