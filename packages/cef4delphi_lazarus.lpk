@@ -157,8 +157,8 @@
         <UnitName Value="uCEFDownloadImageCallBack"/>
       </Item33>
       <Item34>
-        <Filename Value="..\source\uCEFDownLoadItem.pas"/>
-        <UnitName Value="uCEFDownLoadItem"/>
+        <Filename Value="..\source\uCEFDownloadItem.pas"/>
+        <UnitName Value="uCEFDownloadItem"/>
       </Item34>
       <Item35>
         <Filename Value="..\source\uCEFDownloadItemCallback.pas"/>

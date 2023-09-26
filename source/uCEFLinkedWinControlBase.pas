@@ -35,9 +35,10 @@ type
       FUseSetFocus    : boolean;
       {$ENDIF}
       function  GetChromium: TChromium; virtual; abstract;
+      {$IFDEF MSWINDOWS}
       function  GetUseSetFocus: Boolean; virtual;
-
       procedure SetUseSetFocus(aValue : boolean); virtual;
+      {$ENDIF}
 
       {$IFDEF FPC}
       procedure SetVisible(Value: Boolean); override;
@@ -74,6 +75,7 @@ begin
   {$ENDIF}
 end;
 
+{$IFDEF MSWINDOWS}
 function TCEFLinkedWinControlBase.GetUseSetFocus: Boolean;
 begin
   Result := FUseSetFocus;
@@ -83,6 +85,7 @@ procedure TCEFLinkedWinControlBase.SetUseSetFocus(aValue : boolean);
 begin
   FUseSetFocus := aValue;
 end;
+{$ENDIF}
 
 {$IFDEF FPC}
 procedure TCEFLinkedWinControlBase.SetVisible(Value: Boolean);
