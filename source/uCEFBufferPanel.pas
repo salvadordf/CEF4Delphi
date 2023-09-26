@@ -207,6 +207,8 @@ type
       property Buffer                    : TBitmap                   read FBuffer;
       /// <summary>
       /// Copy of the raw main bitmap buffer sent by CEF in the TChromiumCore.OnPaint event.
+      /// OrigBuffer will be transferred to the bitmap buffer before copying the bitmap buffer
+      /// to the panel.
       /// </summary>
       property OrigBuffer                : TCEFBitmapBitBuffer       read FOrigBuffer;
       /// <summary>
@@ -254,17 +256,90 @@ type
 
     published
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Event triggered when a WM_IME_ENDCOMPOSITION message is received because
+      /// the IME ended composition.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-endcomposition">See the WM_IME_ENDCOMPOSITION article.</see></para>
+      /// </remarks>
       property OnIMECancelComposition    : TNotifyEvent              read FOnIMECancelComposition    write FOnIMECancelComposition;
+      /// <summary>
+      /// Event triggered when a WM_IME_COMPOSITION message is received because
+      /// the IME changed composition status as a result of a keystroke. This
+      /// event is triggered after retrieving a composition result of the ongoing
+      /// composition if it exists.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition">See the WM_IME_COMPOSITION article.</see></para>
+      /// </remarks>
       property OnIMECommitText           : TOnIMECommitTextEvent     read FOnIMECommitText           write FOnIMECommitText;
+      /// <summary>
+      /// Event triggered when a WM_IME_COMPOSITION message is received because
+      /// the IME changed composition status as a result of a keystroke.
+      /// This event is triggered after retrieving the current composition
+      /// status of the ongoing composition.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition">See the WM_IME_COMPOSITION article.</see></para>
+      /// </remarks>
       property OnIMESetComposition       : TOnIMESetCompositionEvent read FOnIMESetComposition       write FOnIMESetComposition;
+      /// <summary>
+      /// Event triggered when a WM_TOUCH message is received. It notifies the
+      /// window when one or more touch points, such as a finger or pen,
+      /// touches a touch-sensitive digitizer surface.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/wintouch/wm-touchdown">See the WM_TOUCH article.</see></para>
+      /// </remarks>
       property OnCustomTouch             : TOnHandledMessageEvent    read FOnCustomTouch             write FOnCustomTouch;
+      /// <summary>
+      /// Event triggered when a WM_POINTERDOWN message is received.
+      /// Posted when a pointer makes contact over the client area of a window.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerdown">See the WM_POINTERDOWN article.</see></para>
+      /// </remarks>
       property OnPointerDown             : TOnHandledMessageEvent    read FOnPointerDown             write FOnPointerDown;
+      /// <summary>
+      /// Event triggered when a WM_POINTERUP message is received.
+      /// Posted when a pointer that made contact over the client area of a window breaks contact.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerup">See the WM_POINTERUP article.</see></para>
+      /// </remarks>
       property OnPointerUp               : TOnHandledMessageEvent    read FOnPointerUp               write FOnPointerUp;
+      /// <summary>
+      /// Event triggered when a WM_POINTERUPDATE message is received.
+      /// Posted to provide an update on a pointer that made contact over the client area of a
+      /// window or on a hovering uncaptured pointer over the client area of a window.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerupdate">See the WM_POINTERUPDATE article.</see></para>
+      /// </remarks>
       property OnPointerUpdate           : TOnHandledMessageEvent    read FOnPointerUpdate           write FOnPointerUpdate;
       {$ENDIF}
+      /// <summary>
+      /// Event triggered before the AlphaBlend call that transfer the web contents from the
+      /// bitmap buffer to the panel when the Transparent property is True.
+      /// </summary>
       property OnPaintParentBkg          : TNotifyEvent              read FOnPaintParentBkg          write FOnPaintParentBkg;
 
+      /// <summary>
+      /// Set Transparent to True to use a WS_EX_TRANSPARENT window style in the panel
+      /// and to call AlphaBlend in order to transfer the web contents from the bitmap
+      /// buffer to the panel.
+      /// If this property is False then BitBlt is used to transfer the web contents
+      /// from the bitmap buffer to the panel.
+      /// </summary>
       property Transparent               : boolean                   read FTransparent               write SetTransparent       default False;
+      /// <summary>
+      /// When CopyOriginalBuffer is True then OrigBuffer will be used internally to copy of
+      /// the raw main bitmap buffer sent by CEF in the TChromiumCore.OnPaint event.
+      /// OrigBuffer will be transferred to the bitmap buffer before copying the buffer to the panel.
+      /// This is necessary in GTK applications in order to avoid handling bitmaps in background
+      /// threads.
+      /// </summary>
       property CopyOriginalBuffer        : boolean                   read FCopyOriginalBuffer        write FCopyOriginalBuffer  default False;
 
       property Align;

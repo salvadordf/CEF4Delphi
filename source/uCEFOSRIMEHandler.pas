@@ -36,6 +36,9 @@ type
   {$ENDIF}
   {$ENDIF}
 
+  /// <summary>
+  /// Class used to handle the IME window.
+  /// </summary>
   TCEFOSRIMEHandler = class
     protected
       FHWND              : HWND;
@@ -65,25 +68,106 @@ type
       destructor  Destroy; override;
 
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Sets InputLanguageID using the name of the active input locale identifier obtained from a GetKeyboardLayoutNameW call.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutnamew">See the GetKeyboardLayoutNameW article.</see></para>
+      /// </remarks>
       procedure   SetInputLanguage;
       {$ENDIF}
+      /// <summary>
+      /// Calls CreateCaret for some languages in order to creates a new shape
+      /// for the system caret and assigns ownership of the caret to the specified
+      /// window.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createcaret">See the CreateCaret article.</see></para>
+      /// </remarks>
       procedure   CreateImeWindow;
+      /// <summary>
+      /// Calls DestroyCaret for some languages in order to destroy the caret's
+      /// current shape, frees the caret from the window, and removes the caret
+      /// from the screen.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroycaret">See the DestroyCaret article.</see></para>
+      /// </remarks>
       procedure   DestroyImeWindow;
+      /// <summary>
+      /// Cleans up the all resources attached to the given IMM32Manager object, and
+      /// reset its composition status.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immnotifyime">See the ImmNotifyIME article.</see></para>
+      /// </remarks>
       procedure   CleanupComposition;
+      /// <summary>
+      /// Reset the composition status. Cancel the ongoing composition if it exists.
+      /// </summary>
       procedure   ResetComposition;
+      /// <summary>
+      /// Retrieve a composition result of the ongoing composition if it exists.
+      /// </summary>
       function    GetResult(aParam : LPARAM; var aResult : ustring) : boolean;
+      /// <summary>
+      /// Retrieve the current composition status of the ongoing composition.
+      /// Includes composition text, underline information and selection range in the
+      /// composition text. IMM32 does not support char selection.
+      /// </summary>
       function    GetComposition(aParam : LPARAM; var composition_text : ustring; var underlines : TCefCompositionUnderlineDynArray; var composition_start : integer) : boolean;
+      /// <summary>
+      /// Enable the IME attached to the given window, i.e. allows user-input events
+      /// to be dispatched to the IME. In Chromium, this function is used when a
+      /// renderer process moves its input focus to another edit control, or a
+      /// renrerer process moves the position of the focused edit control.
+      /// </summary>
       procedure   EnableIME;
+      /// <summary>
+      /// Disable the IME attached to the given window, i.e. prohibits any user-input
+      /// events from being dispatched to the IME. In Chromium, this function is used
+      /// when a renreder process sets its input focus to a password input.
+      /// </summary>
       procedure   DisableIME;
+      /// <summary>
+      /// Cancels an ongoing composition of the IME.
+      /// </summary>
       procedure   CancelIME;
+      /// <summary>
+      /// Updates the IME caret position of the given window.
+      /// </summary>
       procedure   UpdateCaretPosition(index : cardinal);
+      /// <summary>
+      /// Updates the composition range. |selected_range| is the range of characters
+      /// that have been selected. |character_bounds| is the bounds of each character
+      /// in view device coordinates.
+      /// </summary>
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
+      /// <summary>
+      /// Updates the position of the IME windows.
+      /// </summary>
       procedure   MoveImeWindow;
 
+      /// <summary>
+      /// Retrieves whether or not there is an ongoing composition.
+      /// </summary>
       property    IsComposing     : boolean   read FIsComposing;
+      /// <summary>
+      /// The current input Language ID retrieved from Windows
+      /// used for processing language-specific operations in IME.
+      /// </summary>
       property    InputLanguageID : LANGID    read FInputLanguageID;
+      /// <summary>
+      /// Returns the primary language ID based on the InputLanguageID value.
+      /// </summary>
       property    PrimaryLangID   : word      read GetPrimaryLangID;
+      /// <summary>
+      /// Returns the sublanguage ID based on the InputLanguageID value.
+      /// </summary>
       property    SubLangID       : word      read GetSubLangID;
+      /// <summary>
+      /// Resturns True if the library was loaded successfully.
+      /// </summary>
       property    Initialized     : boolean   read GetInitialized;
 
   end;
