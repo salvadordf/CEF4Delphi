@@ -47,11 +47,30 @@ type
       procedure doCreateCustomView; override;
 
     public
+      /// <summary>
+      /// Create a new MenuButton.
+      /// </summary>
       procedure CreateMenuButton(const aText : ustring);
+      /// <summary>
+      /// Show a menu with contents |menu_model|. |screen_point| specifies the menu
+      /// position in screen coordinates. |anchor_position| specifies how the menu
+      /// will be anchored relative to |screen_point|. This function should be
+      /// called from ICefMenuButtonDelegate.OnMenuButtonPressed().
+      /// </summary>
       procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position: TCefMenuAnchorPosition);
+      /// <summary>
+      /// Show the menu for this button. Results in a call to
+      /// ICefMenuButtonDelegate.OnMenuButtonPressed().
+      /// </summary>
       procedure TriggerMenu;
 
     published
+      /// <summary>
+      /// Called when |button| is pressed. Call ICefMenuButton.ShowMenu() to
+      /// show a popup menu at |screen_point|. When showing a custom popup such as a
+      /// window keep a reference to |button_pressed_lock| until the popup is hidden
+      /// to maintain the pressed button state.
+      /// </summary>
       property OnMenuButtonPressed   : TOnMenuButtonPressedEvent     read FOnMenuButtonPressed     write FOnMenuButtonPressed;
   end;
 

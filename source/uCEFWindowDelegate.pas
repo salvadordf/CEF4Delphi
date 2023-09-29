@@ -43,37 +43,145 @@ type
       procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
 
     public
+      /// <summary>
+      /// Returns a ICefWindowDelegate instance using a PCefWindowDelegate data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefWindowDelegate;
   end;
 
+  /// <summary>
+  /// Implement this interface to handle window events. The functions of this
+  /// interface will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_window_delegate_capi.h">CEF source file: /include/capi/views/cef_window_delegate_capi.h (cef_window_delegate_t)</see></para>
+  /// </remarks>
   TCefWindowDelegateOwn = class(TCefPanelDelegateOwn, ICefWindowDelegate)
     protected
+      /// <summary>
+      /// Called when |window| is created.
+      /// </summary>
       procedure OnWindowCreated(const window_: ICefWindow); virtual;
+      /// <summary>
+      /// Called when |window| is closing.
+      /// </summary>
       procedure OnWindowClosing(const window_: ICefWindow); virtual;
+      /// <summary>
+      /// Called when |window| is destroyed. Release all references to |window| and
+      /// do not attempt to execute any functions on |window| after this callback
+      /// returns.
+      /// </summary>
       procedure OnWindowDestroyed(const window_: ICefWindow); virtual;
+      /// <summary>
+      /// Called when |window| is activated or deactivated.
+      /// </summary>
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); virtual;
+      /// <summary>
+      /// Called when |window| bounds have changed. |new_bounds| will be in DIP
+      /// screen coordinates.
+      /// </summary>
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); virtual;
+      /// <summary>
+      /// Return the parent for |window| or NULL if the |window| does not have a
+      /// parent. Windows with parents will not get a taskbar button. Set |is_menu|
+      /// to true (1) if |window| will be displayed as a menu, in which case it will
+      /// not be clipped to the parent window bounds. Set |can_activate_menu| to
+      /// false (0) if |is_menu| is true (1) and |window| should not be activated
+      /// (given keyboard focus) when displayed.
+      /// </summary>
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); virtual;
+      /// <summary>
+      /// Return true (1) if |window| should be created as a window modal dialog.
+      /// Only called when a Window is returned via get_parent_window() with
+      /// |is_menu| set to false (0). All controls in the parent Window will be
+      /// disabled while |window| is visible. This functionality is not supported by
+      /// all Linux window managers. Alternately, use
+      /// ICefWindow.ShowAsBrowserModalDialog() for a browser modal dialog
+      /// that works on all platforms.
+      /// </summary>
       procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); virtual;
+      /// <summary>
+      /// Return the initial bounds for |window| in density independent pixel (DIP)
+      /// coordinates. If this function returns an NULL CefRect then
+      /// GetPreferredSize() will be called to retrieve the size, and the window
+      /// will be placed on the screen with origin (0,0). This function can be used
+      /// in combination with ICefView.GetBoundsInScreen() to restore the
+      /// previous window bounds.
+      /// </summary>
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); virtual;
+      /// <summary>
+      /// Return the initial show state for |window|.
+      /// </summary>
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); virtual;
+      /// <summary>
+      /// Return true (1) if |window| should be created without a frame or title
+      /// bar. The window will be resizable if can_resize() returns true (1). Use
+      /// ICefWindow.SetDraggableRegions() to specify draggable regions.
+      /// </summary>
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| should be created with standard window buttons
+      /// like close, minimize and zoom. This function is only supported on macOS.
+      /// </summary>
       procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return whether the titlebar height should be overridden, and sets the
+      /// height of the titlebar in |titlebar_height|. On macOS, it can also be used
+      /// to adjust the vertical position of the traffic light buttons in frameless
+      /// windows. The buttons will be positioned halfway down the titlebar at a
+      /// height of |titlebar_height| / 2.
+      /// </summary>
       procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| can be resized.
+      /// </summary>
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| can be maximized.
+      /// </summary>
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| can be minimized.
+      /// </summary>
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| can be closed. This will be called for user-
+      /// initiated window close actions and when ICefWindow.close() is called.
+      /// </summary>
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Called when a keyboard accelerator registered with
+      /// ICefWindow.SetAccelerator is triggered. Return true (1) if the
+      /// accelerator was handled or false (0) otherwise.
+      /// </summary>
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); virtual;
+      /// <summary>
+      /// Called after all other controls in the window have had a chance to handle
+      /// the event. |event| contains information about the keyboard event. Return
+      /// true (1) if the keyboard event was handled or false (0) otherwise.
+      /// </summary>
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
+      /// <summary>
+      /// Called when the |window| is transitioning to or from fullscreen mode. The
+      /// transition occurs in two stages, with |is_competed| set to false (0) when
+      /// the transition starts and true (1) when the transition completes. This
+      /// function is only supported on macOS.
+      /// </summary>
       procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); virtual;
-
+      /// <summary>
+      /// Links the methods in the internal CEF record data pointer with the methods in this class.
+      /// </summary>
       procedure InitializeCEFMethods; override;
 
     public
       constructor Create; override;
   end;
 
+  /// <summary>
+  /// This class handles all the TCustomWindowDelegate methods which call the ICefWindowDelegateEvents methods.
+  /// ICefWindowDelegateEvents will be implemented by the control receiving the TCustomWindowDelegate events.
+  /// </summary>
   TCustomWindowDelegate = class(TCefWindowDelegateOwn)
     protected
       FEvents : Pointer;
@@ -112,6 +220,9 @@ type
       procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); override;
 
     public
+      /// <summary>
+      /// Creates an instance of this class liked to an interface that's implemented by a control receiving the events.
+      /// </summary>
       constructor Create(const events: ICefWindowDelegateEvents); reintroduce;
   end;
 

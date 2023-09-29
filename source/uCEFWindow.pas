@@ -282,7 +282,13 @@ type
       procedure RemoveAllAccelerators;
 
     public
+      /// <summary>
+      /// Returns a ICefWindow instance using a PCefWindow data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefWindow;
+      /// <summary>
+      /// Create a new Window.
+      /// </summary>
       class function CreateTopLevel(const delegate: ICefWindowDelegate): ICefWindow;
   end;
 

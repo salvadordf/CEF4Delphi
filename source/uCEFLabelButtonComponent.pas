@@ -47,16 +47,62 @@ type
       procedure doCreateCustomView; override;
 
     public
+      /// <summary>
+      /// Create a new LabelButton. |aText| will be shown on the LabelButton and used as the default
+      /// accessible name.
+      /// </summary>
       procedure CreateLabelButton(const aText : ustring);
+      /// <summary>
+      /// Sets the text color shown for the specified button |for_state| to |color|.
+      /// </summary>
       procedure SetTextColor(for_state: TCefButtonState; color: TCefColor);
+      /// <summary>
+      /// Sets the text colors shown for the non-disabled states to |color|.
+      /// </summary>
       procedure SetEnabledTextColors(color: TCefColor);
+      /// <summary>
+      /// <para>Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
+      /// where:</para>
+      /// <code>
+      /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
+      /// - STYLES is an optional space-separated list of style names (case-sensitive
+      ///   "Bold" and "Italic" are supported), and
+      /// - SIZE is an integer font size in pixels with the suffix "px".
+      /// </code>
+      /// <para>Here are examples of valid font description strings:</para>
+      /// <code>
+      /// - "Arial, Helvetica, Bold Italic 14px"
+      /// - "Arial, 14px"
+      /// </code>
+      /// </summary>
       procedure SetFontList(const font_list: ustring);
+      /// <summary>
+      /// Sets the horizontal alignment; reversed in RTL. Default is
+      /// CEF_HORIZONTAL_ALIGNMENT_CENTER.
+      /// </summary>
       procedure SetHorizontalAlignment(alignment: TCefHorizontalAlignment);
+      /// <summary>
+      /// Reset the minimum size of this LabelButton to |size|.
+      /// </summary>
       procedure SetMinimumSize(const size_: TCefSize);
+      /// <summary>
+      /// Reset the maximum size of this LabelButton to |size|.
+      /// </summary>
       procedure SetMaximumSize(const size_: TCefSize);
-
+      /// <summary>
+      /// Gets and sets the text shown on the LabelButton. By default |text| will also be
+      /// used as the accessible name.
+      /// </summary>
       property  Text                                  : ustring         read GetText          write SetText;
+      /// <summary>
+      /// Returns the image shown for |button_state|. If no image exists for that
+      /// state then the image for CEF_BUTTON_STATE_NORMAL will be returned.
+      /// </summary>
       property  Image[button_state : TCefButtonState] : ICefImage       read GetImage         write SetImage;
+      /// <summary>
+      /// Returns this LabelButton as a MenuButton or NULL if this is not a
+      /// MenuButton.
+      /// </summary>
       property  AsMenuButton                          : ICefMenuButton  read GetAsMenuButton;
   end;
 

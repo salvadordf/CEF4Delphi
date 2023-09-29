@@ -20,22 +20,84 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFButton;
 
 type
+  /// <summary>
+  /// LabelButton is a button with optional text and/or icon. Methods must be
+  /// called on the browser process UI thread unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_label_button_capi.h">CEF source file: /include/capi/views/cef_label_button_capi.h (cef_label_button_t)</see></para>
+  /// </remarks>
   TCefLabelButtonRef = class(TCefButtonRef, ICefLabelButton)
     protected
+      /// <summary>
+      /// Returns this LabelButton as a MenuButton or NULL if this is not a
+      /// MenuButton.
+      /// </summary>
       function  AsMenuButton : ICefMenuButton;
+      /// <summary>
+      /// Sets the text shown on the LabelButton. By default |text| will also be
+      /// used as the accessible name.
+      /// </summary>
       procedure SetText(const text_: ustring);
+      /// <summary>
+      /// Returns the text shown on the LabelButton.
+      /// </summary>
       function  GetText : ustring;
+      /// <summary>
+      /// Sets the image shown for |button_state|. When this Button is drawn if no
+      /// image exists for the current state then the image for
+      /// CEF_BUTTON_STATE_NORMAL, if any, will be shown.
+      /// </summary>
       procedure SetImage(button_state: TCefButtonState; const image: ICefImage);
+      /// <summary>
+      /// Returns the image shown for |button_state|. If no image exists for that
+      /// state then the image for CEF_BUTTON_STATE_NORMAL will be returned.
+      /// </summary>
       function  GetImage(button_state: TCefButtonState): ICefImage;
+      /// <summary>
+      /// Sets the text color shown for the specified button |for_state| to |color|.
+      /// </summary>
       procedure SetTextColor(for_state: TCefButtonState; color: TCefColor);
+      /// <summary>
+      /// Sets the text colors shown for the non-disabled states to |color|.
+      /// </summary>
       procedure SetEnabledTextColors(color: TCefColor);
+      /// <summary>
+      /// Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
+      /// where: - FONT_FAMILY_LIST is a comma-separated list of font family names,
+      /// - STYLES is an optional space-separated list of style names (case-
+      /// sensitive
+      ///   "Bold" and "Italic" are supported), and
+      /// - SIZE is an integer font size in pixels with the suffix "px".
+      ///
+      /// Here are examples of valid font description strings: - "Arial, Helvetica,
+      /// Bold Italic 14px" - "Arial, 14px"
+      /// </summary>
       procedure SetFontList(const font_list: ustring);
+      /// <summary>
+      /// Sets the horizontal alignment; reversed in RTL. Default is
+      /// CEF_HORIZONTAL_ALIGNMENT_CENTER.
+      /// </summary>
       procedure SetHorizontalAlignment(alignment: TCefHorizontalAlignment);
+      /// <summary>
+      /// Reset the minimum size of this LabelButton to |size|.
+      /// </summary>
       procedure SetMinimumSize(const size_: TCefSize);
+      /// <summary>
+      /// Reset the maximum size of this LabelButton to |size|.
+      /// </summary>
       procedure SetMaximumSize(const size_: TCefSize);
 
     public
+      /// <summary>
+      /// Returns a ICefLabelButton instance using a PCefLabelButton data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefLabelButton;
+      /// <summary>
+      /// Create a new LabelButton. A |delegate| must be provided to handle the button
+      /// click. |text| will be shown on the LabelButton and used as the default
+      /// accessible name.
+      /// </summary>
       class function CreateLabelButton(const delegate: ICefButtonDelegate; const text: ustring): ICefLabelButton;
   end;
 

@@ -57,6 +57,7 @@ type
       procedure SetSelectionTextColor(color: TCefColor);
       procedure SetSelectionBackgroundColor(color: TCefColor);
       procedure SetPlaceholderText(const text_: ustring);
+      procedure SetSelectedRange(const range: TCefRange);
 
       // ICefTextfieldDelegateEvents
       procedure doOnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
@@ -66,33 +67,134 @@ type
       procedure doCreateCustomView; override;
 
     public
+      /// <summary>
+      /// Create a new Textfield.
+      /// </summary>
       procedure CreateTextField;
+      /// <summary>
+      /// Appends |text| to the previously-existing text.
+      /// </summary>
       procedure AppendText(const text_: ustring);
+      /// <summary>
+      /// Inserts |text| at the current cursor position replacing any selected text.
+      /// </summary>
       procedure InsertOrReplaceText(const text_: ustring);
+      /// <summary>
+      /// Selects all text. If |reversed| is true (1) the range will end at the
+      /// logical beginning of the text; this generally shows the leading portion of
+      /// text that overflows its display area.
+      /// </summary>
       procedure SelectAll(reversed: boolean);
+      /// <summary>
+      /// Clears the text selection and sets the caret to the end.
+      /// </summary>
       procedure ClearSelection;
-      procedure SelectRange(const range: TCefRange);
+      /// <summary>
+      /// <para>Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
+      /// where:</para>
+      /// <code>
+      /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
+      /// - STYLES is an optional space-separated list of style names (case-sensitive
+      ///   "Bold" and "Italic" are supported), and
+      /// - SIZE is an integer font size in pixels with the suffix "px".
+      /// </code>
+      /// <para>Here are examples of valid font description strings:</para>
+      /// <code>
+      /// - "Arial, Helvetica, Bold Italic 14px"
+      /// - "Arial, 14px"
+      /// </code>
+      /// </summary>
       procedure SetFontList(const font_list: ustring);
+      /// <summary>
+      /// Applies |color| to the specified |range| without changing the default
+      /// color. If |range| is NULL the color will be set on the complete text
+      /// contents.
+      /// </summary>
       procedure ApplyTextColor(color: TCefColor; const range: TCefRange);
+      /// <summary>
+      /// Applies |style| to the specified |range| without changing the default
+      /// style. If |add| is true (1) the style will be added, otherwise the style
+      /// will be removed. If |range| is NULL the style will be set on the complete
+      /// text contents.
+      /// </summary>
       procedure ApplyTextStyle(style: TCefTextStyle; add: boolean; const range: TCefRange);
+      /// <summary>
+      /// Returns true (1) if the action associated with the specified command id is
+      /// enabled. See additional comments on execute_command().
+      /// </summary>
       function  IsCommandEnabled(command_id: TCefTextFieldCommands): boolean;
+      /// <summary>
+      /// Performs the action associated with the specified command id.
+      /// </summary>
       procedure ExecuteCommand(command_id: TCefTextFieldCommands);
+      /// <summary>
+      /// Clears Edit history.
+      /// </summary>
       procedure ClearEditHistory;
+      /// <summary>
+      /// Set the accessible name that will be exposed to assistive technology (AT).
+      /// </summary>
       procedure SetAccessibleName(const name_: ustring);
+      /// <summary>
+      /// Sets the placeholder text color.
+      /// </summary>
       procedure SetPlaceholderTextColor(color: TCefColor);
-
+      /// <summary>
+      /// Returns true (1) if the text will be displayed as asterisks.
+      /// </summary>
       property  PasswordInput            : boolean       read GetIsPasswordInput            write SetPasswordInput;
+      /// <summary>
+      /// Returns true (1) if the text is read-only.
+      /// </summary>
       property  ReadOnly                 : boolean       read GetIsReadOnly                 write SetReadOnly;
+      /// <summary>
+      /// Returns the currently displayed text.
+      /// </summary>
       property  Text                     : ustring       read GetText                       write SetText;
+      /// <summary>
+      /// Returns the currently selected text.
+      /// </summary>
       property  SelectedText             : ustring       read GetSelectedText;
+      /// <summary>
+      /// Returns the selected logical text range.
+      /// </summary>
+      property  SelectedRange            : TCefRange     read GetSelectedRange              write SetSelectedRange;
+      /// <summary>
+      /// Returns the current cursor position.
+      /// </summary>
+      property  CursorPosition           : NativeUInt    read GetCursorPosition;
+      /// <summary>
+      /// Returns the text color.
+      /// </summary>
       property  TextColor                : TCefColor     read GetTextColor                  write SetTextColor;
+      /// <summary>
+      /// Returns the selection text color.
+      /// </summary>
       property  SelectionTextColor       : TCefColor     read GetSelectionTextColor         write SetSelectionTextColor;
+      /// <summary>
+      /// Returns the selection background color.
+      /// </summary>
       property  SelectionBackgroundColor : TCefColor     read GetSelectionBackgroundColor   write SetSelectionBackgroundColor;
+      /// <summary>
+      /// Returns the placeholder text that will be displayed when the Textfield is
+      /// NULL.
+      /// </summary>
       property  PlaceholderText          : ustring       read GetPlaceholderText            write SetPlaceholderText;
+      /// <summary>
+      /// Returns true (1) if there is any selected text.
+      /// </summary>
       property  HasSelection             : boolean       read GetHasSelection;
 
     published
+      /// <summary>
+      /// Called when |textfield| recieves a keyboard event. |event| contains
+      /// information about the keyboard event. Return true (1) if the keyboard
+      /// event was handled or false (0) otherwise for default handling.
+      /// </summary>
       property  OnTextfieldKeyEvent      : TOnTextfieldKeyEventEvent   read FOnTextfieldKeyEvent   write FOnTextfieldKeyEvent;
+      /// <summary>
+      /// Called after performing a user action that may change |textfield|.
+      /// </summary>
       property  OnAfterUserAction        : TOnAfterUserActionEvent     read FOnAfterUserAction     write FOnAfterUserAction;
   end;
 
@@ -345,7 +447,7 @@ begin
     FTextfield.ClearSelection;
 end;
 
-procedure TCEFTextfieldComponent.SelectRange(const range: TCefRange);
+procedure TCEFTextfieldComponent.SetSelectedRange(const range: TCefRange);
 begin
   if Initialized then
     FTextfield.SelectRange(range);

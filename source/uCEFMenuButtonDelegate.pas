@@ -25,18 +25,41 @@ type
       procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
 
     public
+      /// <summary>
+      /// Returns a ICefMenuButtonDelegate instance using a PCefMenuButtonDelegate data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefMenuButtonDelegate;
   end;
 
+  /// <summary>
+  /// Implement this interface to handle MenuButton events. The functions of this
+  /// interface will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_delegate_capi.h">CEF source file: /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_delegate_t)</see></para>
+  /// </remarks>
   TCefMenuButtonDelegateOwn = class(TCefButtonDelegateOwn, ICefMenuButtonDelegate)
     protected
+      /// <summary>
+      /// Called when |button| is pressed. Call ICefMenuButton.ShowMenu() to
+      /// show a popup menu at |screen_point|. When showing a custom popup such as a
+      /// window keep a reference to |button_pressed_lock| until the popup is hidden
+      /// to maintain the pressed button state.
+      /// </summary>
       procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock); virtual;
-
+      /// <summary>
+      /// Links the methods in the internal CEF record data pointer with the methods in this class.
+      /// </summary>
       procedure InitializeCEFMethods; override;
     public
       constructor Create; override;
   end;
 
+  /// <summary>
+  /// This class handles all the ICefMenuButtonDelegate methods which call the ICefMenuButtonDelegateEvents methods.
+  /// ICefMenuButtonDelegateEvents will be implemented by the control receiving the ICefMenuButtonDelegate events.
+  /// </summary>
   TCustomMenuButtonDelegate = class(TCefMenuButtonDelegateOwn)
     protected
       FEvents : Pointer;
@@ -61,6 +84,9 @@ type
       procedure OnMenuButtonPressed(const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock); override;
 
     public
+      /// <summary>
+      /// Creates an instance of this class liked to an interface that's implemented by a control receiving the events.
+      /// </summary>
       constructor Create(const events: ICefMenuButtonDelegateEvents); reintroduce;
   end;
 

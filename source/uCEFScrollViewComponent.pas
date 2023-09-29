@@ -47,13 +47,34 @@ type
       procedure doCreateCustomView; override;
 
     public
+      /// <summary>
+      /// Create a new ScrollView.
+      /// </summary>
       procedure CreateScrollView;
-
+      /// <summary>
+      /// Get and set the content View. The content View must have a specified size (e.g.
+      /// via ICefView.SetBounds or ICefViewDelegate.GetPreferredSize).
+      /// </summary>
       property  ContentView               : ICefView      read GetContentView                 write SetContentView;
+      /// <summary>
+      /// Returns the visible region of the content View.
+      /// </summary>
       property  VisibleContentRect        : TCefRect      read GetVisibleContentRect;
+      /// <summary>
+      /// Returns the height of the horizontal scrollbar.
+      /// </summary>
       property  HorizontalScrollbarHeight : Integer       read GetHorizontalScrollbarHeight;
+      /// <summary>
+      /// Returns the width of the vertical scrollbar.
+      /// </summary>
       property  VerticalScrollbarWidth    : Integer       read GetVerticalScrollbarWidth;
+      /// <summary>
+      /// Returns true (1) if the horizontal scrollbar is currently showing.
+      /// </summary>
       property  HasHorizontalScrollbar    : boolean       read GetHasHorizontalScrollbar;
+      /// <summary>
+      /// Returns true (1) if the vertical scrollbar is currently showing.
+      /// </summary>
       property  HasVerticalScrollbar      : boolean       read GetHasVerticalScrollbar;
   end;
 

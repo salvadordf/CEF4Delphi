@@ -20,23 +20,77 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFView;
 
 type
+  /// <summary>
+  /// A Panel is a container in the views hierarchy that can contain other Views
+  /// as children. Methods must be called on the browser process UI thread unless
+  /// otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_panel_capi.h">CEF source file: /include/capi/views/cef_panel_capi.h (cef_panel_t)</see></para>
+  /// </remarks>
   TCefPanelRef = class(TCefViewRef, ICefPanel)
     protected
+      /// <summary>
+      /// Returns this Panel as a Window or NULL if this is not a Window.
+      /// </summary>
       function  GetAsWindow : ICefWindow;
+      /// <summary>
+      /// Set this Panel's Layout to FillLayout and return the FillLayout object.
+      /// </summary>
       function  SetToFillLayout : ICefFillLayout;
+      /// <summary>
+      /// Set this Panel's Layout to BoxLayout and return the BoxLayout object.
+      /// </summary>
       function  SetToBoxLayout(const settings: TCefBoxLayoutSettings): ICefBoxLayout;
+      /// <summary>
+      /// Get the Layout.
+      /// </summary>
       function  GetLayout : ICefLayout;
+      /// <summary>
+      /// Lay out the child Views (set their bounds based on sizing heuristics
+      /// specific to the current Layout).
+      /// </summary>
       procedure Layout;
+      /// <summary>
+      /// Add a child View.
+      /// </summary>
       procedure AddChildView(const view: ICefView);
+      /// <summary>
+      /// Add a child View at the specified |index|. If |index| matches the result
+      /// of GetChildCount() then the View will be added at the end.
+      /// </summary>
       procedure AddChildViewAt(const view: ICefView; index: Integer);
+      /// <summary>
+      /// Move the child View to the specified |index|. A negative value for |index|
+      /// will move the View to the end.
+      /// </summary>
       procedure ReorderChildView(const view: ICefView; index: Integer);
+      /// <summary>
+      /// Remove a child View. The View can then be added to another Panel.
+      /// </summary>
       procedure RemoveChildView(const view: ICefView);
+      /// <summary>
+      /// Remove all child Views. The removed Views will be deleted if the client
+      /// holds no references to them.
+      /// </summary>
       procedure RemoveAllChildViews;
+      /// <summary>
+      /// Returns the number of child Views.
+      /// </summary>
       function  GetChildViewCount : NativeUInt;
+      /// <summary>
+      /// Returns the child View at the specified |index|.
+      /// </summary>
       function  GetChildViewAt(index: Integer): ICefView;
 
     public
+      /// <summary>
+      /// Returns a ICefPanel instance using a PCefPanel data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefPanel;
+      /// <summary>
+      /// Create a new Panel.
+      /// </summary>
       class function CreatePanel(const delegate: ICefPanelDelegate): ICefPanel;
   end;
 

@@ -47,15 +47,37 @@ type
       procedure doOnButtonStateChanged(const button: ICefButton);
 
     public
+      /// <summary>
+      /// Sets the Button will use an ink drop effect for displaying state changes.
+      /// </summary>
       procedure SetInkDropEnabled(enabled_: boolean);
+      /// <summary>
+      /// Sets the tooltip text that will be displayed when the user hovers the
+      /// mouse cursor over the Button.
+      /// </summary>
       procedure SetTooltipText(const tooltip_text: ustring);
+      /// <summary>
+      /// Sets the accessible name that will be exposed to assistive technology
+      /// (AT).
+      /// </summary>
       procedure SetAccessibleName(const name_: ustring);
-
+      /// <summary>
+      /// Returns this Button as a LabelButton or NULL if this is not a LabelButton.
+      /// </summary>
       property AsLabelButton          : ICefLabelButton             read GetAsLabelButton;
+      /// <summary>
+      /// Returns the current display state of the Button.
+      /// </summary>
       property State                  : TCefButtonState             read GetState                  write SetState;
 
     published
+      /// <summary>
+      /// Called when |button| is pressed.
+      /// </summary>
       property OnButtonPressed        : TOnButtonPressedEvent       read FOnButtonPressed          write FOnButtonPressed;
+      /// <summary>
+      /// Called when the state of |button| changes.
+      /// </summary>
       property OnButtonStateChanged   : TOnButtonStateChangedEvent  read FOnButtonStateChanged     write FOnButtonStateChanged;
   end;
 

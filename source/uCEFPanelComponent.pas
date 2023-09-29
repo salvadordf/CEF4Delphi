@@ -35,25 +35,68 @@ type
       function  GetAsView : ICefView; override;
       function  GetAsPanel : ICefPanel; override;
       function  GetAsWindow : ICefWindow; virtual;
+      function  GetChildViewCount : NativeUInt;
 
       // ICefViewDelegateEvents
       procedure doCreateCustomView; override;
 
     public
+      /// <summary>
+      /// Create a new Panel.
+      /// </summary>
       procedure CreatePanel;
+      /// <summary>
+      /// Set this Panel's Layout to FillLayout and return the FillLayout object.
+      /// </summary>
       function  SetToFillLayout : ICefFillLayout;
+      /// <summary>
+      /// Set this Panel's Layout to BoxLayout and return the BoxLayout object.
+      /// </summary>
       function  SetToBoxLayout(const settings: TCefBoxLayoutSettings): ICefBoxLayout;
+      /// <summary>
+      /// Get the Layout.
+      /// </summary>
       function  GetLayout : ICefLayout;
+      /// <summary>
+      /// Lay out the child Views (set their bounds based on sizing heuristics
+      /// specific to the current Layout).
+      /// </summary>
       procedure Layout;
+      /// <summary>
+      /// Add a child View.
+      /// </summary>
       procedure AddChildView(const view: ICefView);
+      /// <summary>
+      /// Add a child View at the specified |index|. If |index| matches the result
+      /// of GetChildCount() then the View will be added at the end.
+      /// </summary>
       procedure AddChildViewAt(const view: ICefView; index: Integer);
+      /// <summary>
+      /// Move the child View to the specified |index|. A negative value for |index|
+      /// will move the View to the end.
+      /// </summary>
       procedure ReorderChildView(const view: ICefView; index: Integer);
+      /// <summary>
+      /// Remove a child View. The View can then be added to another Panel.
+      /// </summary>
       procedure RemoveChildView(const view: ICefView);
+      /// <summary>
+      /// Remove all child Views. The removed Views will be deleted if the client
+      /// holds no references to them.
+      /// </summary>
       procedure RemoveAllChildViews;
-      function  GetChildViewCount : NativeUInt;
+      /// <summary>
+      /// Returns the child View at the specified |index|.
+      /// </summary>
       function  GetChildViewAt(index: Integer): ICefView;
-
-      property AsWindow : ICefWindow   read GetAsWindow;
+      /// <summary>
+      /// Returns this Panel as a Window or NULL if this is not a Window.
+      /// </summary>
+      property AsWindow       : ICefWindow   read GetAsWindow;
+      /// <summary>
+      /// Returns the number of child Views.
+      /// </summary>
+      property ChildViewCount : NativeUInt   read GetChildViewCount;
   end;
 
 {$IFDEF FPC}

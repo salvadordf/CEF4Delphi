@@ -31,25 +31,86 @@ type
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
 
     public
+      /// <summary>
+      /// Returns a ICefBrowserViewDelegate instance using a PCefBrowserViewDelegate data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefBrowserViewDelegate;
   end;
 
+  /// <summary>
+  /// Implement this interface to handle BrowserView events. The functions of this
+  /// interface will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_delegate_capi.h">CEF source file: /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)</see></para>
+  /// </remarks>
   TCefBrowserViewDelegateOwn = class(TCefViewDelegateOwn, ICefBrowserViewDelegate)
     protected
+      /// <summary>
+      /// Called when |browser| associated with |browser_view| is created. This
+      /// function will be called after ICefLifeSpanHandler.OnAfterCreated()
+      /// is called for |browser| and before OnPopupBrowserViewCreated() is
+      /// called for |browser|'s parent delegate if |browser| is a popup.
+      /// </summary>
       procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser); virtual;
+      /// <summary>
+      /// Called when |browser| associated with |browser_view| is destroyed. Release
+      /// all references to |browser| and do not attempt to execute any functions on
+      /// |browser| after this callback returns. This function will be called before
+      /// ICefLifeSpanHandler.OnBeforeClose() is called for |browser|.
+      /// </summary>
       procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser); virtual;
+      /// <summary>
+      /// Called before a new popup BrowserView is created. The popup originated
+      /// from |browser_view|. |settings| and |client| are the values returned from
+      /// ICefLifeSpanHandler.OnBeforePopup(). |is_devtools| will be true (1)
+      /// if the popup will be a DevTools browser. Return the delegate that will be
+      /// used for the new popup BrowserView.
+      /// </summary>
       procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate); virtual;
+      /// <summary>
+      /// Called after |popup_browser_view| is created. This function will be called
+      /// after ICefLifeSpanHandler.OnAfterCreated() and OnBrowserCreated()
+      /// are called for the new popup browser. The popup originated from
+      /// |browser_view|. |is_devtools| will be true (1) if the popup is a DevTools
+      /// browser. Optionally add |popup_browser_view| to the views hierarchy
+      /// yourself and return true (1). Otherwise return false (0) and a default
+      /// ICefWindow will be created for the popup.
+      /// </summary>
       procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean); virtual;
-      procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult: TCefChromeToolbarType); virtual;
+      /// <summary>
+      /// Returns the Chrome toolbar type that will be available via
+      /// ICefBrowserView.GetChromeToolbar(). See that function for related
+      /// documentation.
+      /// </summary>
+      procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult : TCefChromeToolbarType); virtual;
+      /// <summary>
+      /// Return true (1) to create frameless windows for Document picture-in-
+      /// picture popups. Content in frameless windows should specify draggable
+      /// regions using "-webkit-app-region: drag" CSS.
+      /// </summary>
       procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); virtual;
+      /// <summary>
+      /// Called when |browser_view| receives a gesture command. Return true (1) to
+      /// handle (or disable) a |gesture_command| or false (0) to propagate the
+      /// gesture to the browser for default handling. With the Chrome runtime these
+      /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
+      /// </summary>
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); virtual;
-
+      /// <summary>
+      /// Links the methods in the internal CEF record data pointer with the methods in this class.
+      /// </summary>
       procedure InitializeCEFMethods; override;
 
     public
       constructor Create; override;
   end;
 
+  /// <summary>
+  /// This class handles all the ICefBrowserViewDelegate methods which call the ICefBrowserViewDelegateEvents methods.
+  /// ICefBrowserViewDelegateEvents will be implemented by the control receiving the ICefBrowserViewDelegate events.
+  /// </summary>
   TCustomBrowserViewDelegate = class(TCefBrowserViewDelegateOwn)
     protected
       FEvents : Pointer;

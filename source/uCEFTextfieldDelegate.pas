@@ -26,20 +26,45 @@ type
       procedure OnAfterUserAction(const textfield: ICefTextfield);
 
     public
+      /// <summary>
+      /// Returns a ICefTextfieldDelegate instance using a PCefTextfieldDelegate data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefTextfieldDelegate;
   end;
 
+  /// <summary>
+  /// Implement this interface to handle Textfield events. The functions of this
+  /// interface will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_delegate_capi.h">CEF source file: /include/capi/views/cef_textfield_delegate_capi.h (cef_textfield_delegate_t)</see></para>
+  /// </remarks>
   TCefTextfieldDelegateOwn = class(TCefViewDelegateOwn, ICefTextfieldDelegate)
     protected
+      /// <summary>
+      /// Called when |textfield| recieves a keyboard event. |event| contains
+      /// information about the keyboard event. Return true (1) if the keyboard
+      /// event was handled or false (0) otherwise for default handling.
+      /// </summary>
       procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean); virtual;
+      /// <summary>
+      /// Called after performing a user action that may change |textfield|.
+      /// </summary>
       procedure OnAfterUserAction(const textfield: ICefTextfield); virtual;
-
+      /// <summary>
+      /// Links the methods in the internal CEF record data pointer with the methods in this class.
+      /// </summary>
       procedure InitializeCEFMethods; override;
 
     public
       constructor Create; override;
   end;
 
+  /// <summary>
+  /// This class handles all the ICefTextfieldDelegate and ICefViewDelegate methods which call the ICefTextfieldDelegateEvents methods.
+  /// ICefTextfieldDelegateEvents will be implemented by the control receiving the ICefTextfieldDelegate events.
+  /// </summary>
   TCustomTextfieldDelegate = class(TCefTextfieldDelegateOwn)
     protected
       FEvents : Pointer;
@@ -61,6 +86,9 @@ type
       procedure OnAfterUserAction(const textfield: ICefTextfield); override;
 
     public
+      /// <summary>
+      /// Creates an instance of this class liked to an interface that's implemented by a control receiving the events.
+      /// </summary>
       constructor Create(const events: ICefTextfieldDelegateEvents); reintroduce;
   end;
 
