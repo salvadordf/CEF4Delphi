@@ -115,7 +115,9 @@ type
       procedure Restore;
 
       /// <summary>
-      /// Set fullscreen Window state.
+      /// Set fullscreen Window state. The
+      /// ICefWindowDelegate.OnWindowFullscreenTransition function will be
+      /// called during the fullscreen transition for notification purposes.
       /// </summary>
       procedure SetFullscreen(fullscreen: boolean);
 

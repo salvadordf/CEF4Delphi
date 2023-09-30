@@ -6768,8 +6768,13 @@ type
     /// Called when web content in the page has toggled fullscreen mode. If
     /// |fullscreen| is true (1) the content will automatically be sized to fill
     /// the browser content area. If |fullscreen| is false (0) the content will
-    /// automatically return to its original size and position. The client is
-    /// responsible for resizing the browser if desired.
+    /// automatically return to its original size and position. With the Alloy
+    /// runtime the client is responsible for triggering the fullscreen transition
+    /// (for example, by calling cef_window_t::SetFullscreen when using Views).
+    /// With the Chrome runtime the fullscreen transition will be triggered
+    /// automatically. The cef_window_delegate_t::OnWindowFullscreenTransition
+    /// function will be called during the fullscreen transition for notification
+    /// purposes.
     /// </summary>
     procedure OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
     /// <summary>
@@ -10663,7 +10668,9 @@ type
     /// </summary>
     procedure Restore;
     /// <summary>
-    /// Set fullscreen Window state.
+    /// Set fullscreen Window state. The
+    /// ICefWindowDelegate.OnWindowFullscreenTransition function will be
+    /// called during the fullscreen transition for notification purposes.
     /// </summary>
     procedure SetFullscreen(fullscreen: boolean);
     /// <summary>
@@ -10869,6 +10876,16 @@ type
     /// </summary>
     procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
     /// <summary>
+    /// Called when |window| is transitioning to or from fullscreen mode. On MacOS
+    /// the transition occurs asynchronously with |is_competed| set to false (0)
+    /// when the transition starts and true (1) after the transition completes. On
+    /// other platforms the transition occurs synchronously with |is_completed|
+    /// set to true (1) after the transition completes. With the Alloy runtime you
+    /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
+    /// handle fullscreen transitions initiated by browser content.
+    /// </summary>
+    procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+    /// <summary>
     /// Return the parent for |window| or NULL if the |window| does not have a
     /// parent. Windows with parents will not get a taskbar button. Set |is_menu|
     /// to true (1) if |window| will be displayed as a menu, in which case it will
@@ -10948,13 +10965,6 @@ type
     /// true (1) if the keyboard event was handled or false (0) otherwise.
     /// </summary>
     procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-    /// <summary>
-    /// Called when the |window| is transitioning to or from fullscreen mode. The
-    /// transition occurs in two stages, with |is_competed| set to false (0) when
-    /// the transition starts and true (1) when the transition completes. This
-    /// function is only supported on macOS.
-    /// </summary>
-    procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
   end;
 
 implementation

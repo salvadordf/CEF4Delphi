@@ -20,20 +20,86 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
+  /// <summary>
+  /// Event handler related to browser display state.
+  /// The functions of this interface will be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_display_handler_capi.h">CEF source file: /include/capi/cef_display_handler_capi.h (cef_display_handler_t)</see></para>
+  /// </remarks>
   TCefDisplayHandlerOwn = class(TCefBaseRefCountedOwn, ICefDisplayHandler)
     protected
+      /// <summary>
+      /// Called when a frame's address has changed.
+      /// </summary>
       procedure OnAddressChange(const browser: ICefBrowser; const frame: ICefFrame; const url: ustring); virtual;
+      /// <summary>
+      /// Called when the page title changes.
+      /// </summary>
       procedure OnTitleChange(const browser: ICefBrowser; const title: ustring); virtual;
+      /// <summary>
+      /// Called when the page icon changes.
+      /// </summary>
       procedure OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings); virtual;
+      /// <summary>
+      /// Called when web content in the page has toggled fullscreen mode. If
+      /// |fullscreen| is true (1) the content will automatically be sized to fill
+      /// the browser content area. If |fullscreen| is false (0) the content will
+      /// automatically return to its original size and position. With the Alloy
+      /// runtime the client is responsible for triggering the fullscreen transition
+      /// (for example, by calling cef_window_t::SetFullscreen when using Views).
+      /// With the Chrome runtime the fullscreen transition will be triggered
+      /// automatically. The cef_window_delegate_t::OnWindowFullscreenTransition
+      /// function will be called during the fullscreen transition for notification
+      /// purposes.
+      /// </summary>
       procedure OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean); virtual;
+      /// <summary>
+      /// Called when the browser is about to display a tooltip. |text| contains the
+      /// text that will be displayed in the tooltip. To handle the display of the
+      /// tooltip yourself return true (1). Otherwise, you can optionally modify
+      /// |text| and then return false (0) to allow the browser to display the
+      /// tooltip. When window rendering is disabled the application is responsible
+      /// for drawing tooltips and the return value is ignored.
+      /// </summary>
       function  OnTooltip(const browser: ICefBrowser; var text: ustring): Boolean; virtual;
+      /// <summary>
+      /// Called when the browser receives a status message. |value| contains the
+      /// text that will be displayed in the status message.
+      /// </summary>
       procedure OnStatusMessage(const browser: ICefBrowser; const value: ustring); virtual;
+      /// <summary>
+      /// Called to display a console message. Return true (1) to stop the message
+      /// from being output to the console.
+      /// </summary>
       function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean; virtual;
+      /// <summary>
+      /// Called when auto-resize is enabled via
+      /// ICefBrowserHost.SetAutoResizeEnabled and the contents have auto-
+      /// resized. |new_size| will be the desired size in view coordinates. Return
+      /// true (1) if the resize was handled or false (0) for default handling.
+      /// </summary>
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
+      /// <summary>
+      /// Called when the overall page loading progress has changed. |progress|
+      /// ranges from 0.0 to 1.0.
+      /// </summary>
       procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
+      /// <summary>
+      /// Called when the browser's cursor has changed. If |type| is CT_CUSTOM then
+      /// |custom_cursor_info| will be populated with the custom cursor information.
+      /// Return true (1) if the cursor change was handled or false (0) for default
+      /// handling.
+      /// </summary>
       procedure OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
+      /// <summary>
+      /// Called when the browser's access to an audio and/or video source has
+      /// changed.
+      /// </summary>
       procedure OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean); virtual;
-
+      /// <summary>
+      /// Custom procedure to clear all references.
+      /// </summary>
       procedure RemoveReferences; virtual;
 
     public

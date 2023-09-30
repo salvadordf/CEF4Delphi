@@ -7572,6 +7572,7 @@ type
     on_window_destroyed              : procedure(self: PCefWindowDelegate; window: PCefWindow); stdcall;
     on_window_activation_changed     : procedure(self: PCefWindowDelegate; window: PCefWindow; active: integer); stdcall;
     on_window_bounds_changed         : procedure(self: PCefWindowDelegate; window: PCefWindow; const new_bounds: PCefRect); stdcall;
+    on_window_fullscreen_transition  : procedure(self: PCefWindowDelegate; window: PCefWindow; is_completed: integer); stdcall;
     get_parent_window                : function(self: PCefWindowDelegate; window: PCefWindow; is_menu, can_activate_menu: PInteger): PCefWindow; stdcall;
     is_window_modal_dialog           : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     get_initial_bounds               : function(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
@@ -7585,7 +7586,6 @@ type
     can_close                        : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     on_accelerator                   : function(self: PCefWindowDelegate; window: PCefWindow; command_id: Integer): Integer; stdcall;
     on_key_event                     : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyEvent): Integer; stdcall;
-    on_window_fullscreen_transition  : procedure(self: PCefWindowDelegate; window: PCefWindow; is_completed: integer); stdcall;
   end;
 
 implementation

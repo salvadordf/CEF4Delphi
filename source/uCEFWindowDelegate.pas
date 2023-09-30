@@ -163,10 +163,13 @@ type
       /// </summary>
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
       /// <summary>
-      /// Called when the |window| is transitioning to or from fullscreen mode. The
-      /// transition occurs in two stages, with |is_competed| set to false (0) when
-      /// the transition starts and true (1) when the transition completes. This
-      /// function is only supported on macOS.
+      /// Called when |window| is transitioning to or from fullscreen mode. On MacOS
+      /// the transition occurs asynchronously with |is_competed| set to false (0)
+      /// when the transition starts and true (1) after the transition completes. On
+      /// other platforms the transition occurs synchronously with |is_completed|
+      /// set to true (1) after the transition completes. With the Alloy runtime you
+      /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
+      /// handle fullscreen transitions initiated by browser content.
       /// </summary>
       procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); virtual;
       /// <summary>
