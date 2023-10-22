@@ -59,6 +59,9 @@ type
       function  HasView: Boolean;
       function  GetClient: ICefClient;
       function  GetRequestContext: ICefRequestContext;
+      function  CanZoom(command: TCefZoomCommand): boolean;
+      procedure Zoom(command: TCefZoomCommand);
+      function  GetDefaultZoomLevel: Double;
       function  GetZoomLevel: Double;
       procedure SetZoomLevel(const zoomLevel: Double);
       procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefRunFileDialogCallback);
@@ -533,6 +536,21 @@ end;
 function TCefBrowserHostRef.GetRequestContext: ICefRequestContext;
 begin
   Result := TCefRequestContextRef.UnWrap(PCefBrowserHost(FData)^.get_request_context(PCefBrowserHost(FData)));
+end;
+
+function TCefBrowserHostRef.CanZoom(command: TCefZoomCommand): boolean;
+begin
+  Result := (PCefBrowserHost(FData)^.can_zoom(PCefBrowserHost(FData), command) <> 0);
+end;
+
+procedure TCefBrowserHostRef.Zoom(command: TCefZoomCommand);
+begin
+  PCefBrowserHost(FData)^.zoom(PCefBrowserHost(FData), command);
+end;
+
+function TCefBrowserHostRef.GetDefaultZoomLevel: Double;
+begin
+  Result := PCefBrowserHost(FData)^.get_default_zoom_level(PCefBrowserHost(FData));
 end;
 
 procedure TCefBrowserHostRef.GetNavigationEntries(const visitor: ICefNavigationEntryVisitor; currentOnly: Boolean);

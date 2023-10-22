@@ -345,6 +345,10 @@ type
       function  GetZoomLevel : double;
       function  GetZoomPct : double;
       function  GetZoomStep : byte;
+      function  GetDefaultZoomLevel : double;
+      function  GetCanIncZoom: boolean;
+      function  GetCanDecZoom: boolean;
+      function  GetCanResetZoom: boolean;
       function  GetIsPopUp : boolean;
       function  GetWindowHandle : TCefWindowHandle;
       function  GetOpenerWindowHandle : TCefWindowHandle;
@@ -1215,6 +1219,24 @@ type
       /// </summary>
       procedure   ReadZoom;
       /// <summary>
+      /// Execute a zoom IN command in this browser. If called on the CEF UI thread the
+      /// change will be applied immediately. Otherwise, the change will be applied
+      /// asynchronously on the CEF UI thread.
+      /// </summary>
+      procedure   IncZoomCommand;
+      /// <summary>
+      /// Execute a zoom OUT command in this browser. If called on the CEF UI thread the
+      /// change will be applied immediately. Otherwise, the change will be applied
+      /// asynchronously on the CEF UI thread.
+      /// </summary>
+      procedure   DecZoomCommand;
+      /// <summary>
+      /// Execute a zoom RESET command in this browser. If called on the CEF UI thread the
+      /// change will be applied immediately. Otherwise, the change will be applied
+      /// asynchronously on the CEF UI thread.
+      /// </summary>
+      procedure   ResetZoomCommand;
+      /// <summary>
       /// Notify the browser that the widget has been resized. The browser will
       /// first call ICefRenderHandler.GetViewRect to get the new size and then
       /// call ICefRenderHandler.OnPaint asynchronously with the updated
@@ -1832,6 +1854,27 @@ type
       /// Returns the current zoom value. This property is based on the CefBrowserHost.ZoomLevel value which can only be read in the CEF UI thread.
       /// </summary>
       property  ZoomLevel                     : double                       read GetZoomLevel                 write SetZoomLevel;
+      /// <summary>
+      /// Get the default zoom level. This value will be 0.0 by default but can be
+      /// configured with the Chrome runtime. This function can only be called on
+      /// the CEF UI thread.
+      /// </summary>
+      property  DefaultZoomLevel              : double                       read GetDefaultZoomLevel;
+      /// <summary>
+      /// Returns true (1) if this browser can execute the zoom IN command.
+      /// This function can only be called on the CEF UI thread.
+      /// </summary>
+      property  CanIncZoom                    : boolean                      read GetCanIncZoom;
+      /// <summary>
+      /// Returns true (1) if this browser can execute the zoom OUT command.
+      /// This function can only be called on the CEF UI thread.
+      /// </summary>
+      property  CanDecZoom                    : boolean                      read GetCanDecZoom;
+      /// <summary>
+      /// Returns true (1) if this browser can execute the zoom RESET command.
+      /// This function can only be called on the CEF UI thread.
+      /// </summary>
+      property  CanResetZoom                  : boolean                      read GetCanResetZoom;
       /// <summary>
       /// Returns the current zoom value. This property is based on the CefBrowserHost.ZoomLevel value which can only be read in the CEF UI thread.
       /// </summary>
@@ -5027,8 +5070,8 @@ begin
       aSettings.databases                       := FOptions.Databases;
       aSettings.webgl                           := FOptions.Webgl;
       aSettings.background_color                := FOptions.BackgroundColor;
-      aSettings.accept_language_list            := CefString(FOptions.AcceptLanguageList);
       aSettings.chrome_status_bubble            := FOptions.ChromeStatusBubble;
+      aSettings.chrome_zoom_bubble              := FOptions.ChromeZoomBubble;
     end;
 end;
 
@@ -5605,6 +5648,32 @@ begin
     end;
 end;
 
+function TChromiumCore.GetDefaultZoomLevel : double;
+begin
+  if Initialized then
+    Result := Browser.Host.DefaultZoomLevel
+   else
+    Result := 0;
+end;
+
+function TChromiumCore.GetCanIncZoom: boolean;
+begin
+  Result := Initialized and
+            Browser.Host.CanZoom(CEF_ZOOM_COMMAND_IN);
+end;
+
+function TChromiumCore.GetCanDecZoom: boolean;
+begin
+  Result := Initialized and
+            Browser.Host.CanZoom(CEF_ZOOM_COMMAND_OUT);
+end;
+
+function TChromiumCore.GetCanResetZoom: boolean;
+begin
+  Result := Initialized and
+            Browser.Host.CanZoom(CEF_ZOOM_COMMAND_RESET);
+end;
+
 procedure TChromiumCore.SetZoomLevel(const aValue : double);
 begin
   if CefCurrentlyOn(TID_UI) then
@@ -5629,7 +5698,6 @@ begin
     ExecuteSetZoomStepTask(aValue);
 end;
 
-// Increments the Zoom Step value and triggers the TChromium.OnZoomPctAvailable event with the new value
 procedure TChromiumCore.IncZoomStep;
 begin
   if CefCurrentlyOn(TID_UI) then
@@ -5638,7 +5706,6 @@ begin
     ExecuteUpdateZoomStepTask(True);
 end;
 
-// Decrements the Zoom Step value and triggers the TChromium.OnZoomPctAvailable event with the new value
 procedure TChromiumCore.DecZoomStep;
 begin
   if CefCurrentlyOn(TID_UI) then
@@ -5647,7 +5714,6 @@ begin
     ExecuteUpdateZoomStepTask(False);
 end;
 
-// Increments the Zoom Percent value and triggers the TChromium.OnZoomPctAvailable event with the new value
 procedure TChromiumCore.IncZoomPct;
 begin
   if CefCurrentlyOn(TID_UI) then
@@ -5656,7 +5722,6 @@ begin
     ExecuteUpdateZoomPctTask(True);
 end;
 
-// Decrements the Zoom Percent value and triggers the TChromium.OnZoomPctAvailable event with the new value
 procedure TChromiumCore.DecZoomPct;
 begin
   if CefCurrentlyOn(TID_UI) then
@@ -5665,31 +5730,45 @@ begin
     ExecuteUpdateZoomPctTask(False);
 end;
 
-// Sets the Zoom Step to the default value and triggers the TChromium.OnZoomPctAvailable event
 procedure TChromiumCore.ResetZoomStep;
 begin
   ZoomStep := ZOOM_STEP_DEF;
 end;
 
-// Sets the Zoom Level to the default value and triggers the TChromium.OnZoomPctAvailable event
 procedure TChromiumCore.ResetZoomLevel;
 begin
   ZoomLevel := 0;
 end;
 
-// Sets the Zoom Percent to the default value and triggers the TChromium.OnZoomPctAvailable event
 procedure TChromiumCore.ResetZoomPct;
 begin
   ZoomPct := ZoomStepValues[ZOOM_STEP_DEF];
 end;
 
-// Triggers the TChromium.OnZoomPctAvailable event with the current Zoom Percent value
 procedure TChromiumCore.ReadZoom;
 begin
   if CefCurrentlyOn(TID_UI) then
     doReadZoom
    else
     ExecuteReadZoomTask;
+end;
+
+procedure TChromiumCore.IncZoomCommand;
+begin
+  if Initialized then
+    Browser.Host.Zoom(CEF_ZOOM_COMMAND_IN);
+end;
+
+procedure TChromiumCore.DecZoomCommand;
+begin
+  if Initialized then
+    Browser.Host.Zoom(CEF_ZOOM_COMMAND_OUT);
+end;
+
+procedure TChromiumCore.ResetZoomCommand;
+begin
+  if Initialized then
+    Browser.Host.Zoom(CEF_ZOOM_COMMAND_RESET);
 end;
 
 function TChromiumCore.ExecuteUpdateZoomStepTask(aInc : boolean) : boolean;
@@ -6677,9 +6756,6 @@ begin
   UpdatePreference(aBrowser, 'printing.enabled',                     FPrintingEnabled);
 
   TempLanguagesList := FAcceptLanguageList;
-
-  if (length(TempLanguagesList) = 0) and (FOptions <> nil) then
-    TempLanguagesList := FOptions.AcceptLanguageList;
 
   if (length(TempLanguagesList) = 0) then
     TempLanguagesList := GlobalCEFApp.AcceptLanguageList;

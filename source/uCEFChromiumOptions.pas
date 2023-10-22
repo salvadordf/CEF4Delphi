@@ -38,8 +38,8 @@ type
       FDatabases                   : TCefState;
       FWebgl                       : TCefState;
       FBackgroundColor             : TCefColor;
-      FAcceptLanguageList          : ustring;
       FChromeStatusBubble          : TCefState;
+      FChromeZoomBubble            : TCefState;
 
     public
       /// <summary>
@@ -123,13 +123,6 @@ type
       /// </summary>
       property BackgroundColor             : TCefColor read FBackgroundColor              write FBackgroundColor             default 0;
       /// <summary>
-      /// Comma delimited ordered list of language codes without any whitespace that
-      /// will be used in the "Accept-Language" HTTP header. May be set globally
-      /// using the TCefSettings.accept_language_list value. If both values are
-      /// empty then "en-US,en" will be used.
-      /// </summary>
-      property AcceptLanguageList          : ustring   read FAcceptLanguageList           write FAcceptLanguageList;
-      /// <summary>
       /// The maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint
       /// will be called for a windowless browser. The actual fps may be lower if
       /// the browser cannot generate frames at the requested rate. The minimum
@@ -147,6 +140,11 @@ type
       /// https://www.chromium.org/user-experience/status-bubble/
       /// </summary>
       property ChromeStatusBubble          : TCefState read FChromeStatusBubble           write FChromeStatusBubble          default STATE_DEFAULT;
+      /// <summary>
+      /// Controls whether the Chrome zoom bubble will be shown when zooming. Only
+      /// supported with the Chrome runtime.
+      /// </summary>
+      property ChromeZoomBubble            : TCefState read FChromeZoomBubble             write FChromeZoomBubble            default STATE_DEFAULT;
   end;
 
 implementation
@@ -167,6 +165,7 @@ begin
   FWebgl                       := STATE_DEFAULT;
   FBackgroundColor             := 0;
   FChromeStatusBubble          := STATE_DEFAULT;
+  FChromeZoomBubble            := STATE_DEFAULT;
 end;
 
 end.

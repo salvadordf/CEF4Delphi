@@ -845,15 +845,32 @@ type
     /// </summary>
     function  GetRequestContext: ICefRequestContext;
     /// <summary>
-    /// Get the current zoom level. The default zoom level is 0.0. This function
-    /// can only be called on the UI thread.
+    /// Returns true (1) if this browser can execute the specified zoom command.
+    /// This function can only be called on the UI thread.
+    /// </summary>
+    function  CanZoom(command: TCefZoomCommand): boolean;
+    /// <summary>
+    /// Execute a zoom command in this browser. If called on the UI thread the
+    /// change will be applied immediately. Otherwise, the change will be applied
+    /// asynchronously on the UI thread.
+    /// </summary>
+    procedure Zoom(command: TCefZoomCommand);
+    /// <summary>
+    /// Get the default zoom level. This value will be 0.0 by default but can be
+    /// configured with the Chrome runtime. This function can only be called on
+    /// the UI thread.
+    /// </summary>
+    function GetDefaultZoomLevel: Double;
+    /// <summary>
+    /// Get the current zoom level. This function can only be called on the UI
+    /// thread.
     /// </summary>
     function  GetZoomLevel: Double;
     /// <summary>
     /// Change the zoom level to the specified value. Specify 0.0 to reset the
-    /// zoom level. If called on the UI thread the change will be applied
-    /// immediately. Otherwise, the change will be applied asynchronously on the
-    /// UI thread.
+    /// zoom level to the default. If called on the UI thread the change will be
+    /// applied immediately. Otherwise, the change will be applied asynchronously
+    /// on the UI thread.
     /// </summary>
     procedure SetZoomLevel(const zoomLevel: Double);
     /// <summary>
@@ -1304,6 +1321,12 @@ type
     /// can only be called on the UI thread.
     /// </summary>
     property ZoomLevel                  : Double                   read GetZoomLevel                 write SetZoomLevel;
+    /// <summary>
+    /// Get the default zoom level. This value will be 0.0 by default but can be
+    /// configured with the Chrome runtime. This function can only be called on
+    /// the UI thread.
+    /// </summary>
+    property DefaultZoomLevel           : Double                   read GetDefaultZoomLevel;
     /// <summary>
     /// Returns the request context for this browser.
     /// </summary>
@@ -7641,6 +7664,11 @@ type
     /// window.
     /// </summary>
     function  GetFileNames(var names: TStrings): Integer;
+    /// <summary>
+    /// Retrieve the list of file paths that are being dragged into the browser
+    /// window.
+    /// </summary>
+    function  GetFilePaths(var paths: TStrings): Integer;
     /// <summary>
     /// Set the link URL that is being dragged.
     /// </summary>

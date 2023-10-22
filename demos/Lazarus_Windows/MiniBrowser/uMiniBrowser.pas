@@ -79,7 +79,10 @@ const
   MINIBROWSER_CONTEXTMENU_TAKESNAPSHOT    = MENU_ID_USER_FIRST + 11;
   MINIBROWSER_CONTEXTMENU_GETNAVIGATION   = MENU_ID_USER_FIRST + 12;
   MINIBROWSER_CONTEXTMENU_MUTEAUDIO       = MENU_ID_USER_FIRST + 13;
-  MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO     = MENU_ID_USER_FIRST + 14;    
+  MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO     = MENU_ID_USER_FIRST + 14;        
+  MINIBROWSER_CONTEXTMENU_INCZOOM         = MENU_ID_USER_FIRST + 15;
+  MINIBROWSER_CONTEXTMENU_DECZOOM         = MENU_ID_USER_FIRST + 16;
+  MINIBROWSER_CONTEXTMENU_RESETZOOM       = MENU_ID_USER_FIRST + 17;
 
   DEVTOOLS_SCREENSHOT_MSGID       = 1;
   DEVTOOLS_MHTML_MSGID            = 2;
@@ -409,7 +412,6 @@ var
   TempLanguageList : ustring;
 begin
   TempLanguageList := Chromium1.AcceptLanguageList;
-  if (length(TempLanguageList) = 0) then TempLanguageList := Chromium1.Options.AcceptLanguageList;
   if (length(TempLanguageList) = 0) then TempLanguageList := GlobalCEFApp.AcceptLanguageList;
 
   Chromium1.AcceptLanguageList := InputBox('Language', 'Accept language list', TempLanguageList);
@@ -519,7 +521,17 @@ begin
       if Chromium1.AudioMuted then
         model.AddItem(MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO, 'Unmute audio')
        else
-        model.AddItem(MINIBROWSER_CONTEXTMENU_MUTEAUDIO,   'Mute audio');
+        model.AddItem(MINIBROWSER_CONTEXTMENU_MUTEAUDIO,   'Mute audio');  
+
+      model.AddSeparator;
+      if Chromium1.CanIncZoom then
+        model.AddItem(MINIBROWSER_CONTEXTMENU_INCZOOM,   'Increment zoom');
+
+      if Chromium1.CanDecZoom then
+        model.AddItem(MINIBROWSER_CONTEXTMENU_DECZOOM,   'Decrement zoom');
+
+      if Chromium1.CanResetZoom then
+        model.AddItem(MINIBROWSER_CONTEXTMENU_RESETZOOM, 'Reset zoom');
     end
    else
     model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
@@ -679,7 +691,16 @@ begin
         Chromium1.AudioMuted := False;
 
       MINIBROWSER_CONTEXTMENU_MUTEAUDIO :
-        Chromium1.AudioMuted := True;
+        Chromium1.AudioMuted := True;        
+
+      MINIBROWSER_CONTEXTMENU_INCZOOM :
+        Chromium1.IncZoomCommand;
+
+      MINIBROWSER_CONTEXTMENU_DECZOOM :
+        Chromium1.DecZoomCommand;
+
+      MINIBROWSER_CONTEXTMENU_RESETZOOM :
+        Chromium1.ResetZoomCommand;
     end
    else
     case commandId of

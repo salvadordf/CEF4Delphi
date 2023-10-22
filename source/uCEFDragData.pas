@@ -36,6 +36,7 @@ type
     function  GetFileName: ustring;
     function  GetFileContents(const writer: ICefStreamWriter): NativeUInt;
     function  GetFileNames(var names: TStrings): Integer;
+    function  GetFilePaths(var paths: TStrings): Integer;
     procedure SetLinkUrl(const url: ustring);
     procedure SetLinkTitle(const title: ustring);
     procedure SetLinkMetadata(const data: ustring);
@@ -116,6 +117,24 @@ begin
         begin
           TempSL.CopyToStrings(names);
           Result := names.Count;
+        end;
+    end;
+end;
+
+function TCefDragDataRef.GetFilePaths(var paths: TStrings): Integer;
+var
+  TempSL : ICefStringList;
+begin
+  Result := 0;
+
+  if (paths <> nil) then
+    begin
+      TempSL := TCefStringListOwn.Create;
+
+      if (PCefDragData(FData)^.get_file_paths(FData, TempSL.Handle) <> 0) then
+        begin
+          TempSL.CopyToStrings(paths);
+          Result := paths.Count;
         end;
     end;
 end;
