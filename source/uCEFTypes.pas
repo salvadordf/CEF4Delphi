@@ -975,17 +975,41 @@ type
   /// Autoplay policy types used by TCefApplicationCore.AutoplayPolicy. See the --autoplay-policy switch.
   /// </summary>
   TCefAutoplayPolicy = (appDefault,
+                        /// <summary>
+                        /// Autoplay policy that requires a document user activation.
+                        /// </summary>
                         appDocumentUserActivationRequired,
+                        /// <summary>
+                        /// Autoplay policy that does not require any user gesture.
+                        /// </summary>
                         appNoUserGestureRequired,
+                        /// <summary>
+                        /// Autoplay policy to require a user gesture in order to play.
+                        /// </summary>
                         appUserGestureRequired);
 
   /// <summary>
   /// WebRTC handling policy types used by TChromiumCore.WebRTCIPHandlingPolicy.
   /// </summary>
   TCefWebRTCHandlingPolicy = (
+    /// <summary>
+    /// WebRTC will use all available interfaces when searching for the best path.
+    /// </summary>
     hpDefault,
+    /// <summary>
+    /// WebRTC will only use the interface connecting to the public Internet,
+    /// but may connect using private IP addresses.
+    /// </summary>
     hpDefaultPublicAndPrivateInterfaces,
+    /// <summary>
+    /// WebRTC will only use the interface connecting to the public Internet,
+    /// and will not connect using private IP addresses.
+    /// </summary>
     hpDefaultPublicInterfaceOnly,
+    /// <summary>
+    /// WebRTC will use TCP on the public-facing interface, and will only use
+    /// UDP if supported by a configured proxy.
+    /// </summary>
     hpDisableNonProxiedUDP
   );
 
@@ -999,27 +1023,30 @@ type
   /// </remarks>
   TCefNetLogCaptureMode = (
     /// <summary>
-    /// Default logging level, which is expected to be light-weight and
-    /// does best-effort stripping of privacy/security sensitive data.
-    ///
+    /// <para>Default logging level, which is expected to be light-weight and
+    /// does best-effort stripping of privacy/security sensitive data.</para>
+    /// <code>
     ///  * Includes most HTTP request/response headers, but strips cookies and
     ///    auth.
     ///  * Does not include the full bytes read/written to sockets.
+    /// </code>
     /// </summary>
     nlcmDefault,
     /// <summary>
-    /// Logging level that includes everything from kDefault, plus sensitive data
-    /// that it may have strippped.
-    ///
+    /// <para>Logging level that includes everything from kDefault, plus sensitive data
+    /// that it may have strippped.</para>
+    /// <code>
     ///  * Includes cookies and authentication headers.
     ///  * Does not include the full bytes read/written to sockets.
+    /// </code>
     /// </summary>
     nlcmIncludeSensitive,
     /// <summary>
-    /// Logging level that includes everything that is possible to be logged.
-    ///
+    /// <para>Logging level that includes everything that is possible to be logged.</para>
+    /// <code>
     ///  * Includes the actual bytes read/written to sockets
     ///  * Will result in large log files.
+    /// </code>
     /// </summary>
     nlcmEverything
   );
@@ -3936,7 +3963,7 @@ type
   /// ContentSettingsType type.
   /// </summary>
   /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_content_setting_types_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_content_settings.h">CEF source file: /include/internal/cef_types_content_settings.h (cef_content_setting_types_t)</see></para>
   /// </remarks>
   TCefContentSettingTypes = (
     /// <summary>
@@ -4093,14 +4120,13 @@ type
     CEF_CONTENT_SETTING_TYPE_WAKE_LOCK_SCREEN,
     CEF_CONTENT_SETTING_TYPE_WAKE_LOCK_SYSTEM,
     /// <summary>
-    /// Legacy SameSite cookie behavior. This disables SameSite=Lax-by-default,
+    /// <para>Legacy SameSite cookie behavior. This disables SameSite=Lax-by-default,
     /// SameSite=None requires Secure, and Schemeful Same-Site, forcing the
     /// legacy behavior wherein 1) cookies that don't specify SameSite are treated
     /// as SameSite=None, 2) SameSite=None cookies are not required to be Secure,
-    /// and 3) schemeful same-site is not active.
-    ///
-    /// This will also be used to revert to legacy behavior when future changes
-    /// in cookie handling are introduced.
+    /// and 3) schemeful same-site is not active.</para>
+    /// <para>This will also be used to revert to legacy behavior when future changes
+    /// in cookie handling are introduced.</para>
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_LEGACY_COOKIE_ACCESS,
     /// <summary>
@@ -4340,7 +4366,7 @@ type
   /// ContentSetting type.
   /// </summary>
   /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_content_setting_values_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_content_settings.h">CEF source file: /include/internal/cef_types_content_settings.h (cef_content_setting_values_t)</see></para>
   /// </remarks>
   TCefContentSettingValues = (
     CEF_CONTENT_SETTING_VALUE_DEFAULT = 0,
