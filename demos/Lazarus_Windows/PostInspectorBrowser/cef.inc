@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
  // The complete list of compiler versions is here :
  // http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Compiler_Versions
 
@@ -430,6 +393,35 @@
   {$DEFINE DELPHI28_UP}
 {$ENDIF}
 
+// Rad Studio 12.0 - Delphi Yukon
+{$IFDEF VER360}
+  {$UNDEF DELPHI_VERSION_UNKNOW}
+  {$DEFINE DELPHI5_UP}
+  {$DEFINE DELPHI6_UP}
+  {$DEFINE DELPHI7_UP}
+  {$DEFINE DELPHI8_UP}
+  {$DEFINE DELPHI9_UP}
+  {$DEFINE DELPHI10_UP}
+  {$DEFINE DELPHI11_UP}
+  {$DEFINE DELPHI12_UP}
+  {$DEFINE DELPHI14_UP}
+  {$DEFINE DELPHI15_UP}
+  {$DEFINE DELPHI16_UP}
+  {$DEFINE DELPHI17_UP}
+  {$DEFINE DELPHI18_UP}
+  {$DEFINE DELPHI19_UP}
+  {$DEFINE DELPHI20_UP}
+  {$DEFINE DELPHI21_UP}
+  {$DEFINE DELPHI22_UP}
+  {$DEFINE DELPHI23_UP}
+  {$DEFINE DELPHI24_UP}
+  {$DEFINE DELPHI25_UP}
+  {$DEFINE DELPHI26_UP}
+  {$DEFINE DELPHI27_UP}
+  {$DEFINE DELPHI28_UP}
+  {$DEFINE DELPHI29_UP}
+{$ENDIF}
+
 {$IFDEF FPC}
   {$DEFINE SUPPORTS_INLINE}
   {$IF DEFINED(FPC_FULLVERSION) AND (FPC_FULLVERSION >= 30200)}
@@ -505,3 +497,11 @@
     {$DEFINE MACOSX}
   {$ENDIF}
 {$ENDIF}
+
+{$IFDEF LINUX}
+  {$IFDEF FPC}
+    {$DEFINE LINUXFPC}
+  {$ELSE}
+    {$DEFINE LINUXFMX}
+  {$ENDIF}
+{$ENDIF}  
