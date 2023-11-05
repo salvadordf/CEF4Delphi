@@ -4949,7 +4949,7 @@ type
   /// Structure that manages custom preference registrations.
   /// </summary>
   /// <remarks>
-  /// <para>Implemented by ICefPreferenceRegistrar.</para>
+  /// <para>Implemented by TCefPreferenceRegistrarRef.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_registrar_t)</see></para>
   /// </remarks>
   TCefPreferenceRegistrar = record
@@ -6028,7 +6028,7 @@ type
   /// Structure that manages custom scheme registrations.
   /// </summary>
   /// <remarks>
-  /// <para>Implemented by ICefSchemeRegistrar.</para>
+  /// <para>Implemented by TCefSchemeRegistrarRef.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_scheme_capi.h">CEF source file: /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)</see></para>
   /// </remarks>
   TCefSchemeRegistrar = record

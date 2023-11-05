@@ -4971,6 +4971,14 @@ type
   /// </remarks>
   ICefSchemeHandlerFactory = interface(ICefBaseRefCounted)
     ['{4D9B7960-B73B-4EBD-9ABE-6C1C43C245EB}']
+    /// <summary>
+    /// Return a new resource handler instance to handle the request or an NULL
+    /// reference to allow default handling of the request. |browser| and |frame|
+    /// will be the browser window and frame respectively that originated the
+    /// request or NULL if the request did not originate from a browser window
+    /// (for example, if the request came from ICefUrlRequest). The |request|
+    /// object passed to this function cannot be modified.
+    /// </summary>
     function New(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest): ICefResourceHandler;
   end;
 
