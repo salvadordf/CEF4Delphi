@@ -361,6 +361,7 @@ type
       function  GetRequestContextCache : ustring;
       function  GetRequestContextIsGlobal : boolean;
       function  GetAudioMuted : boolean;
+      function  GetFullscreen : boolean;
       function  GetParentFormHandle : TCefWindowHandle; virtual;
       function  GetRequestContext : ICefRequestContext;
       function  GetMediaRouter : ICefMediaRouter;
@@ -1270,6 +1271,18 @@ type
       /// </summary>
       procedure   Invalidate(type_: TCefPaintElementType = PET_VIEW);
       /// <summary>
+      /// Requests the renderer to exit browser fullscreen. In most cases exiting
+      /// window fullscreen should also exit browser fullscreen. With the Alloy
+      /// runtime this function should be called in response to a user action such
+      /// as clicking the green traffic light button on MacOS
+      /// (ICefWindowDelegate.OnWindowFullscreenTransition callback) or pressing
+      /// the "ESC" key (ICefKeyboardHandler.OnPreKeyEvent callback). With the
+      /// Chrome runtime these standard exit actions are handled internally but
+      /// new/additional user actions can use this function. Set |will_cause_resize|
+      /// to true (1) if exiting browser fullscreen will cause a view resize.
+      /// </summary>
+      procedure ExitFullscreen(will_cause_resize: boolean);
+      /// <summary>
       /// Issue a BeginFrame request to Chromium.  Only valid when
       /// TCefWindowInfo.external_begin_frame_enabled is set to true (1).
       /// </summary>
@@ -1943,6 +1956,14 @@ type
       /// Returns true if the browser's audio is muted.
       /// </summary>
       property  AudioMuted                    : boolean                      read GetAudioMuted                write SetAudioMuted;
+      /// <summary>
+      /// Returns true (1) if the renderer is currently in browser fullscreen. This
+      /// differs from window fullscreen in that browser fullscreen is entered using
+      /// the JavaScript Fullscreen API and modifies CSS attributes such as the
+      /// ::backdrop pseudo-element and :fullscreen pseudo-structure. This property
+      /// can only be called on the UI thread.
+      /// </summary>
+      property  Fullscreen                    : boolean                      read GetFullscreen;
       /// <summary>
       /// Forces the Google safesearch in the browser preferences.
       /// </summary>
@@ -5492,6 +5513,11 @@ end;
 function TChromiumCore.GetAudioMuted : boolean;
 begin
   Result := Initialized and Browser.host.IsAudioMuted;
+end;
+
+function TChromiumCore.GetFullscreen : boolean;
+begin
+  Result := Initialized and Browser.host.IsFullscreen;
 end;
 
 function TChromiumCore.GetParentFormHandle : TCefWindowHandle;
@@ -9319,6 +9345,12 @@ begin
           InvalidateRect(WindowHandle, nil, False);
        {$ENDIF}
     end;
+end;
+
+procedure TChromiumCore.ExitFullscreen(will_cause_resize: boolean);
+begin
+  if Initialized then
+    Browser.Host.ExitFullscreen(will_cause_resize);
 end;
 
 procedure TChromiumCore.SendExternalBeginFrame;

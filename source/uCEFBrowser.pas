@@ -116,6 +116,8 @@ type
       function  IsBackgroundHost : boolean;
       procedure SetAudioMuted(mute: boolean);
       function  IsAudioMuted : boolean;
+      function  IsFullscreen : boolean;
+      procedure ExitFullscreen(will_cause_resize: boolean);
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -356,6 +358,16 @@ end;
 function TCefBrowserHostRef.IsAudioMuted : boolean;
 begin
   Result := PCefBrowserHost(FData)^.is_audio_muted(PCefBrowserHost(FData)) <> 0;
+end;
+
+function TCefBrowserHostRef.IsFullscreen : boolean;
+begin
+  Result := PCefBrowserHost(FData)^.is_fullscreen(PCefBrowserHost(FData)) <> 0;
+end;
+
+procedure TCefBrowserHostRef.ExitFullscreen(will_cause_resize: boolean);
+begin
+  PCefBrowserHost(FData)^.exit_fullscreen(PCefBrowserHost(FData), Ord(will_cause_resize));
 end;
 
 procedure TCefBrowserHostRef.DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);

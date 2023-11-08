@@ -1297,6 +1297,26 @@ type
     /// be called on the UI thread.
     /// </summary>
     function  IsAudioMuted : boolean;
+    /// <summary>
+    /// Returns true (1) if the renderer is currently in browser fullscreen. This
+    /// differs from window fullscreen in that browser fullscreen is entered using
+    /// the JavaScript Fullscreen API and modifies CSS attributes such as the
+    /// ::backdrop pseudo-element and :fullscreen pseudo-structure. This function
+    /// can only be called on the UI thread.
+    /// </summary>
+    function IsFullscreen : boolean;
+    /// <summary>
+    /// Requests the renderer to exit browser fullscreen. In most cases exiting
+    /// window fullscreen should also exit browser fullscreen. With the Alloy
+    /// runtime this function should be called in response to a user action such
+    /// as clicking the green traffic light button on MacOS
+    /// (ICefWindowDelegate.OnWindowFullscreenTransition callback) or pressing
+    /// the "ESC" key (ICefKeyboardHandler.OnPreKeyEvent callback). With the
+    /// Chrome runtime these standard exit actions are handled internally but
+    /// new/additional user actions can use this function. Set |will_cause_resize|
+    /// to true (1) if exiting browser fullscreen will cause a view resize.
+    /// </summary>
+    procedure ExitFullscreen(will_cause_resize: boolean);
 
     /// <summary>
     /// Returns the hosted browser object.
@@ -6801,9 +6821,9 @@ type
     /// the browser content area. If |fullscreen| is false (0) the content will
     /// automatically return to its original size and position. With the Alloy
     /// runtime the client is responsible for triggering the fullscreen transition
-    /// (for example, by calling cef_window_t::SetFullscreen when using Views).
+    /// (for example, by calling ICefWindow.SetFullscreen when using Views).
     /// With the Chrome runtime the fullscreen transition will be triggered
-    /// automatically. The cef_window_delegate_t::OnWindowFullscreenTransition
+    /// automatically. The ICefWindowDelegate.OnWindowFullscreenTransition
     /// function will be called during the fullscreen transition for notification
     /// purposes.
     /// </summary>

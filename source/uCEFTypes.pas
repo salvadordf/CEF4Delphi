@@ -6959,6 +6959,8 @@ type
     is_background_host                : function(self: PCefBrowserHost): integer; stdcall;
     set_audio_muted                   : procedure(self: PCefBrowserHost; mute: integer); stdcall;
     is_audio_muted                    : function(self: PCefBrowserHost): integer; stdcall;
+    is_fullscreen                     : function(self: PCefBrowserHost): integer; stdcall;
+    exit_fullscreen                   : procedure(self: PCefBrowserHost; will_cause_resize: integer); stdcall;
   end;
 
   /// <summary>

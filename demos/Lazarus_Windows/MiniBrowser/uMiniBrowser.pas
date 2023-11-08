@@ -82,7 +82,8 @@ const
   MINIBROWSER_CONTEXTMENU_UNMUTEAUDIO     = MENU_ID_USER_FIRST + 14;        
   MINIBROWSER_CONTEXTMENU_INCZOOM         = MENU_ID_USER_FIRST + 15;
   MINIBROWSER_CONTEXTMENU_DECZOOM         = MENU_ID_USER_FIRST + 16;
-  MINIBROWSER_CONTEXTMENU_RESETZOOM       = MENU_ID_USER_FIRST + 17;
+  MINIBROWSER_CONTEXTMENU_RESETZOOM       = MENU_ID_USER_FIRST + 17;   
+  MINIBROWSER_CONTEXTMENU_EXITFULLSCREEN  = MENU_ID_USER_FIRST + 18;
 
   DEVTOOLS_SCREENSHOT_MSGID       = 1;
   DEVTOOLS_MHTML_MSGID            = 2;
@@ -531,7 +532,13 @@ begin
         model.AddItem(MINIBROWSER_CONTEXTMENU_DECZOOM,   'Decrement zoom');
 
       if Chromium1.CanResetZoom then
-        model.AddItem(MINIBROWSER_CONTEXTMENU_RESETZOOM, 'Reset zoom');
+        model.AddItem(MINIBROWSER_CONTEXTMENU_RESETZOOM, 'Reset zoom');     
+
+      if Chromium1.Fullscreen then
+        begin
+          model.AddSeparator;
+          model.AddItem(MINIBROWSER_CONTEXTMENU_EXITFULLSCREEN, 'Exit fullscreen');
+        end;
     end
    else
     model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
@@ -700,7 +707,10 @@ begin
         Chromium1.DecZoomCommand;
 
       MINIBROWSER_CONTEXTMENU_RESETZOOM :
-        Chromium1.ResetZoomCommand;
+        Chromium1.ResetZoomCommand;  
+
+      MINIBROWSER_CONTEXTMENU_EXITFULLSCREEN :
+        Chromium1.ExitFullscreen(True);
     end
    else
     case commandId of
