@@ -9,7 +9,10 @@ uses
 
 {$R *.res}
 
-{$SetPEFlags $20}
+const
+  IMAGE_FILE_LARGE_ADDRESS_AWARE = $0020;
+
+{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
 begin
   CreateGlobalCEFApp;
