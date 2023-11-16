@@ -184,6 +184,7 @@ type
 
       // ICefLifeSpanHandler
       FOnBeforePopup                  : TOnBeforePopup;
+      FOnBeforeDevToolsPopup          : TOnBeforeDevToolsPopup;
       FOnAfterCreated                 : TOnAfterCreated;
       FOnBeforeClose                  : TOnBeforeClose;
       FOnClose                        : TOnClose;
@@ -545,6 +546,7 @@ type
 
       // ICefLifeSpanHandler
       function  doOnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; virtual;
+      procedure doOnBeforeDevToolsPopup(const browser: ICefBrowser; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var use_default_window: boolean); virtual;
       procedure doOnAfterCreated(const browser: ICefBrowser); virtual;
       procedure doOnBeforeClose(const browser: ICefBrowser); virtual;
       function  doOnClose(const browser: ICefBrowser): Boolean; virtual;
@@ -1282,6 +1284,26 @@ type
       /// to true (1) if exiting browser fullscreen will cause a view resize.
       /// </summary>
       procedure ExitFullscreen(will_cause_resize: boolean);
+      /// <summary>
+      /// Returns true (1) if a Chrome command is supported and enabled. Values for
+      /// |command_id| can be found in the cef_command_ids.h file. This function can
+      /// only be called on the UI thread. Only used with the Chrome runtime.
+      /// </summary>
+      /// <remarks>
+      /// <para><see cref="uCEFConstants">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</see></para>
+      /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/app/chrome_command_ids.h">The command_id values are also available in chrome/app/chrome_command_ids.h</see></para>
+      /// </remarks>
+      function CanExecuteChromeCommand(command_id: integer): boolean;
+      /// <summary>
+      /// Execute a Chrome command. Values for |command_id| can be found in the
+      /// cef_command_ids.h file. |disposition| provides information about the
+      /// intended command target. Only used with the Chrome runtime.
+      /// </summary>
+      /// <remarks>
+      /// <para><see cref="uCEFConstants">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</see></para>
+      /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/app/chrome_command_ids.h">The command_id values are also available in chrome/app/chrome_command_ids.h</see></para>
+      /// </remarks>
+      procedure ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
       /// <summary>
       /// Issue a BeginFrame request to Chromium.  Only valid when
       /// TCefWindowInfo.external_begin_frame_enabled is set to true (1).
@@ -2583,7 +2605,7 @@ type
       /// </remarks>
       property OnDialogClosed                   : TOnDialogClosed                   read FOnDialogClosed                   write FOnDialogClosed;
       /// <summary>
-      /// Called on the UI thread before a new popup browser is created. The
+      /// Called on the CEF UI thread before a new popup browser is created. The
       /// |browser| and |frame| values represent the source of the popup request.
       /// The |target_url| and |target_frame_name| values indicate where the popup
       /// browser should navigate and may be NULL if not specified with the request.
@@ -2612,6 +2634,28 @@ type
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h">CEF source file: /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)</see></para>
       /// </remarks>
       property OnBeforePopup                    : TOnBeforePopup                    read FOnBeforePopup                    write FOnBeforePopup;
+      /// <summary>
+      /// <para>Called on the CEF UI thread before a new DevTools popup browser is created.
+      /// The |browser| value represents the source of the popup request. Optionally
+      /// modify |windowInfo|, |client|, |settings| and |extra_info| values. The
+      /// |client|, |settings| and |extra_info| values will default to the source
+      /// browser's values. Any modifications to |windowInfo| will be ignored if the
+      /// parent browser is Views-hosted (wrapped in a ICefBrowserView).</para>
+      /// <para>The |extra_info| parameter provides an opportunity to specify extra
+      /// information specific to the created popup browser that will be passed to
+      /// ICefRenderProcessHandler.OnBrowserCreated() in the render process.
+      /// The existing |extra_info| object, if any, will be read-only but may be
+      /// replaced with a new object.</para>
+      /// <para>Views-hosted source browsers will create Views-hosted DevTools popups
+      /// unless |use_default_window| is set to to true (1). DevTools popups can be
+      /// blocked by returning true (1) from ICefCommandHandler.OnChromeCommand
+      /// for IDC_DEV_TOOLS. Only used with the Chrome runtime.</para>
+      /// </summary>
+      /// <remarks>
+      /// <para>This event will be called on the browser process CEF UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h">CEF source file: /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)</see></para>
+      /// </remarks>
+      property OnBeforeDevToolsPopup          : TOnBeforeDevToolsPopup              read FOnBeforeDevToolsPopup            write FOnBeforeDevToolsPopup;
       /// <summary>
       /// Called after a new browser is created. It is now safe to begin performing
       /// actions with |browser|. ICefFrameHandler callbacks related to initial
@@ -4458,6 +4502,7 @@ begin
 
   // ICefLifeSpanHandler
   FOnBeforePopup                  := nil;
+  FOnBeforeDevToolsPopup          := nil;
   FOnAfterCreated                 := nil;
   FOnBeforeClose                  := nil;
   FOnClose                        := nil;
@@ -8173,6 +8218,18 @@ begin
                    settings, extra_info, noJavascriptAccess, Result);
 end;
 
+procedure TChromiumCore.doOnBeforeDevToolsPopup(const browser            : ICefBrowser;
+                                                var   windowInfo         : TCefWindowInfo;
+                                                var   client             : ICefClient;
+                                                var   settings           : TCefBrowserSettings;
+                                                var   extra_info         : ICefDictionaryValue;
+                                                var   use_default_window : boolean);
+begin
+  if assigned(FOnBeforeDevToolsPopup) then
+    FOnBeforeDevToolsPopup(Self, browser, windowInfo, client,
+                           settings, extra_info, use_default_window);
+end;
+
 function TChromiumCore.doOnBeforeResourceLoad(const browser  : ICefBrowser;
                                               const frame    : ICefFrame;
                                               const request  : ICefRequest;
@@ -9351,6 +9408,18 @@ procedure TChromiumCore.ExitFullscreen(will_cause_resize: boolean);
 begin
   if Initialized then
     Browser.Host.ExitFullscreen(will_cause_resize);
+end;
+
+function TChromiumCore.CanExecuteChromeCommand(command_id: integer): boolean;
+begin
+  Result := Initialized and
+            Browser.Host.CanExecuteChromeCommand(command_id);
+end;
+
+procedure TChromiumCore.ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
+begin
+  if Initialized then
+    Browser.Host.ExecuteChromeCommand(command_id, disposition);
 end;
 
 procedure TChromiumCore.SendExternalBeginFrame;

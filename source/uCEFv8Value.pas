@@ -65,7 +65,9 @@ type
       function AdjustExternallyAllocatedMemory(changeInBytes: Integer): Integer;
       function GetArrayLength: Integer;
       function GetArrayBufferReleaseCallback : ICefv8ArrayBufferReleaseCallback;
-      function NeuterArrayBuffer : boolean;
+      function NeuterArrayBuffer: boolean;
+      function GetArrayBufferByteLength: NativeUInt;
+      function GetArrayBufferData: Pointer;
       function GetFunctionName: ustring;
       function GetFunctionHandler: ICefv8Handler;
       function ExecuteFunction(const obj: ICefv8Value; const arguments: TCefv8ValueArray): ICefv8Value;
@@ -74,25 +76,99 @@ type
       function RejectPromise(const errorMsg: ustring): boolean;
 
     public
+      /// <summary>
+      /// Returns a ICefv8Value instance using a PCefv8Value data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type undefined.
+      /// </summary>
       class function NewUndefined: ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type null.
+      /// </summary>
       class function NewNull: ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type bool.
+      /// </summary>
       class function NewBool(value: Boolean): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type int.
+      /// </summary>
       class function NewInt(value: Integer): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type unsigned int.
+      /// </summary>
       class function NewUInt(value: Cardinal): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type double.
+      /// </summary>
       class function NewDouble(value: Double): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type Date. This function should only be
+      /// called from within the scope of a ICefRenderProcessHandler,
+      /// ICefv8Handler or ICefv8Accessor callback, or in combination with calling
+      /// enter() and exit() on a stored ICefv8Context reference.
+      /// </summary>
       class function NewDate(value: TDateTime): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type string.
+      /// </summary>
       class function NewString(const str: ustring): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type object with optional accessor
+      /// and/or interceptor. This function should only be called from within the
+      /// scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor
+      /// callback, or in combination with calling enter() and exit() on a stored
+      /// ICefv8Context reference.
+      /// </summary>
       class function NewObject(const Accessor: ICefV8Accessor; const Interceptor: ICefV8Interceptor): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type object with optional accessor
+      /// and/or interceptor. This function should only be called from within the
+      /// scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor
+      /// callback, or in combination with calling enter() and exit() on a stored
+      /// ICefv8Context reference.
+      /// </summary>
       class function NewObjectProc(const getter        : TCefV8AccessorGetterProc;
                                    const setter        : TCefV8AccessorSetterProc;
                                    const getterbyname  : TCefV8InterceptorGetterByNameProc;
                                    const setterbyname  : TCefV8InterceptorSetterByNameProc;
                                    const getterbyindex : TCefV8InterceptorGetterByIndexProc;
                                    const setterbyindex : TCefV8InterceptorSetterByIndexProc): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type array with the specified |length|.
+      /// If |length| is negative the returned array will have length 0. This function
+      /// should only be called from within the scope of a
+      /// ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback,
+      /// or in combination with calling enter() and exit() on a stored
+      /// ICefv8Context reference.
+      /// </summary>
       class function NewArray(len: Integer): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type ArrayBuffer which wraps the
+      /// provided |buffer| of size |length| bytes. The ArrayBuffer is externalized,
+      /// meaning that it does not own |buffer|. The caller is responsible for freeing
+      /// |buffer| when requested via a call to
+      /// ICefv8ArrayBufferReleaseCallback.ReleaseBuffer. This function should
+      /// only be called from within the scope of a ICefRenderProcessHandler,
+      /// ICefv8Handler or ICefv8Accessor callback, or in combination with calling
+      /// enter() and exit() on a stored ICefv8Context reference.
+      /// </summary>
       class function NewArrayBuffer(buffer: Pointer; length: NativeUInt; const callback : ICefv8ArrayBufferReleaseCallback): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type function. This function should
+      /// only be called from within the scope of a ICefRenderProcessHandler,
+      /// ICefv8Handler or ICefv8Accessor callback, or in combination with calling
+      /// enter() and exit() on a stored ICefv8Context reference.
+      /// </summary>
       class function NewFunction(const name: ustring; const handler: ICefv8Handler): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type Promise. This function should only
+      /// be called from within the scope of a ICefRenderProcessHandler,
+      /// ICefv8Handler or ICefv8Accessor callback, or in combination with calling
+      /// enter() and exit() on a stored ICefv8Context reference.
+      /// </summary>
       class function NewPromise: ICefv8Value;
   end;
 
@@ -314,6 +390,16 @@ end;
 function TCefv8ValueRef.NeuterArrayBuffer : boolean;
 begin
   Result := PCefV8Value(FData)^.neuter_array_buffer(PCefV8Value(FData)) <> 0;
+end;
+
+function TCefv8ValueRef.GetArrayBufferByteLength: NativeUInt;
+begin
+  Result := PCefV8Value(FData)^.get_array_buffer_byte_length(PCefV8Value(FData));
+end;
+
+function TCefv8ValueRef.GetArrayBufferData: Pointer;
+begin
+  Result := PCefV8Value(FData)^.get_array_buffer_data(PCefV8Value(FData));
 end;
 
 function TCefv8ValueRef.GetBoolValue: Boolean;

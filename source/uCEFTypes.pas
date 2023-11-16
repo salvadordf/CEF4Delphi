@@ -1545,6 +1545,49 @@ type
   );
 
   /// <summary>
+  /// DOM form control types. Should be kept in sync with Chromium's
+  /// blink::mojom::FormControlType type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_form_control_type_t)</see></para>
+  /// </remarks>
+  TCefDomFormControlType = (
+    DOM_FORM_CONTROL_TYPE_UNSUPPORTED = 0,
+    DOM_FORM_CONTROL_TYPE_BUTTON_BUTTON,
+    DOM_FORM_CONTROL_TYPE_BUTTON_SUBMIT,
+    DOM_FORM_CONTROL_TYPE_BUTTON_RESET,
+    DOM_FORM_CONTROL_TYPE_BUTTON_SELECT_LIST,
+    DOM_FORM_CONTROL_TYPE_FIELDSET,
+    DOM_FORM_CONTROL_TYPE_INPUT_BUTTON,
+    DOM_FORM_CONTROL_TYPE_INPUT_CHECKBOX,
+    DOM_FORM_CONTROL_TYPE_INPUT_COLOR,
+    DOM_FORM_CONTROL_TYPE_INPUT_DATE,
+    DOM_FORM_CONTROL_TYPE_INPUT_DATETIME_LOCAL,
+    DOM_FORM_CONTROL_TYPE_INPUT_EMAIL,
+    DOM_FORM_CONTROL_TYPE_INPUT_FILE,
+    DOM_FORM_CONTROL_TYPE_INPUT_HIDDEN,
+    DOM_FORM_CONTROL_TYPE_INPUT_IMAGE,
+    DOM_FORM_CONTROL_TYPE_INPUT_MONTH,
+    DOM_FORM_CONTROL_TYPE_INPUT_NUMBER,
+    DOM_FORM_CONTROL_TYPE_INPUT_PASSWORD,
+    DOM_FORM_CONTROL_TYPE_INPUT_RADIO,
+    DOM_FORM_CONTROL_TYPE_INPUT_RANGE,
+    DOM_FORM_CONTROL_TYPE_INPUT_RESET,
+    DOM_FORM_CONTROL_TYPE_INPUT_SEARCH,
+    DOM_FORM_CONTROL_TYPE_INPUT_SUBMIT,
+    DOM_FORM_CONTROL_TYPE_INPUT_TELEPHONE,
+    DOM_FORM_CONTROL_TYPE_INPUT_TEXT,
+    DOM_FORM_CONTROL_TYPE_INPUT_TIME,
+    DOM_FORM_CONTROL_TYPE_INPUT_URL,
+    DOM_FORM_CONTROL_TYPE_INPUT_WEEK,
+    DOM_FORM_CONTROL_TYPE_OUTPUT,
+    DOM_FORM_CONTROL_TYPE_SELECT_ONE,
+    DOM_FORM_CONTROL_TYPE_SELECT_MULTIPLE,
+    DOM_FORM_CONTROL_TYPE_SELECT_LIST,
+    DOM_FORM_CONTROL_TYPE_TEXT_AREA
+);
+
+  /// <summary>
   /// Supported context menu media types. These constants match their equivalents
   /// in Chromium's ContextMenuDataMediaType and should not be renumbered.
   /// </summary>
@@ -4220,7 +4263,11 @@ type
     /// <summary>
     /// Website setting to store permissions metadata granted to paths on the
     /// local file system via the File System Access API.
-    /// |FILE_SYSTEM_WRITE_GUARD| is the corresponding "guard" setting.
+    /// |FILE_SYSTEM_WRITE_GUARD| is the corresponding "guard" setting. The stored
+    /// data represents valid permission only if
+    /// |FILE_SYSTEM_ACCESS_EXTENDED_PERMISSION| is enabled via user opt-in.
+    /// Otherwise, they represent "recently granted but revoked permission", which
+    /// are used to restore the permission.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_CHOOSER_DATA,
     /// <summary>
@@ -4358,6 +4405,13 @@ type
     /// `net::features::kTpcdMetadataGrants` is enabled.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_TPCD_METADATA_GRANTS,
+    /// <summary>
+    /// Whether user has opted into keeping file/directory permissions persistent
+    /// between visits for a given origin. When enabled, permission metadata
+    /// stored under |FILE_SYSTEM_ACCESS_CHOOSER_DATA| can auto-grant incoming
+    /// permission request.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_EXTENDED_PERMISSION,
     CEF_CONTENT_SETTING_TYPE_NUM_TYPES
   );
 
@@ -4674,11 +4728,12 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h">CEF source file: /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)</see></para>
   /// </remarks>
   TCefLifeSpanHandler = record
-    base              : TCefBaseRefCounted;
-    on_before_popup   : function(self: PCefLifeSpanHandler; browser: PCefBrowser; frame: PCefFrame; const target_url, target_frame_name: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer; const popupFeatures: PCefPopupFeatures; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; no_javascript_access: PInteger): Integer; stdcall;
-    on_after_created  : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
-    do_close          : function(self: PCefLifeSpanHandler; browser: PCefBrowser): Integer; stdcall;
-    on_before_close   : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
+    base                      : TCefBaseRefCounted;
+    on_before_popup           : function(self: PCefLifeSpanHandler; browser: PCefBrowser; frame: PCefFrame; const target_url, target_frame_name: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer; const popupFeatures: PCefPopupFeatures; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; no_javascript_access: PInteger): Integer; stdcall;
+    on_before_dev_tools_popup : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; use_default_window: PInteger); stdcall;
+    on_after_created          : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
+    do_close                  : function(self: PCefLifeSpanHandler; browser: PCefBrowser): Integer; stdcall;
+    on_before_close           : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
   end;
 
   /// <summary>
@@ -6045,14 +6100,15 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_values_capi.h">CEF source file: /include/capi/cef_values_capi.h (cef_binary_value_t)</see></para>
   /// </remarks>
   TCefBinaryValue = record
-    base      : TCefBaseRefCounted;
-    is_valid  : function(self: PCefBinaryValue): Integer; stdcall;
-    is_owned  : function(self: PCefBinaryValue): Integer; stdcall;
-    is_same   : function(self, that: PCefBinaryValue):Integer; stdcall;
-    is_equal  : function(self, that: PCefBinaryValue): Integer; stdcall;
-    copy      : function(self: PCefBinaryValue): PCefBinaryValue; stdcall;
-    get_size  : function(self: PCefBinaryValue): NativeUInt; stdcall;
-    get_data  : function(self: PCefBinaryValue; buffer: Pointer; buffer_size, data_offset: NativeUInt): NativeUInt; stdcall;
+    base          : TCefBaseRefCounted;
+    is_valid      : function(self: PCefBinaryValue): Integer; stdcall;
+    is_owned      : function(self: PCefBinaryValue): Integer; stdcall;
+    is_same       : function(self, that: PCefBinaryValue):Integer; stdcall;
+    is_equal      : function(self, that: PCefBinaryValue): Integer; stdcall;
+    copy          : function(self: PCefBinaryValue): PCefBinaryValue; stdcall;
+    get_raw_data  : function(self: PCefBinaryValue): Pointer; stdcall;
+    get_size      : function(self: PCefBinaryValue): NativeUInt; stdcall;
+    get_data      : function(self: PCefBinaryValue; buffer: Pointer; buffer_size, data_offset: NativeUInt): NativeUInt; stdcall;
   end;
 
   /// <summary>
@@ -6458,7 +6514,7 @@ type
     is_element                    : function(self: PCefDomNode): Integer; stdcall;
     is_editable                   : function(self: PCefDomNode): Integer; stdcall;
     is_form_control_element       : function(self: PCefDomNode): Integer; stdcall;
-    get_form_control_element_type : function(self: PCefDomNode): PCefStringUserFree; stdcall;
+    get_form_control_element_type : function(self: PCefDomNode): TCefDomFormControlType; stdcall;
     is_same                       : function(self, that: PCefDomNode): Integer; stdcall;
     get_name                      : function(self: PCefDomNode): PCefStringUserFree; stdcall;
     get_value                     : function(self: PCefDomNode): PCefStringUserFree; stdcall;
@@ -6612,6 +6668,8 @@ type
     get_array_length                    : function(self: PCefv8Value): Integer; stdcall;
     get_array_buffer_release_callback   : function(self: PCefv8Value): PCefv8ArrayBufferReleaseCallback; stdcall;
     neuter_array_buffer                 : function(self: PCefv8Value): Integer; stdcall;
+    get_array_buffer_byte_length        : function(self: PCefv8Value): NativeUInt; stdcall;
+    get_array_buffer_data               : function(self: PCefv8Value): Pointer; stdcall;
     get_function_name                   : function(self: PCefv8Value): PCefStringUserFree; stdcall;
     get_function_handler                : function(self: PCefv8Value): PCefv8Handler; stdcall;
     execute_function                    : function(self: PCefv8Value; obj: PCefv8Value; argumentsCount: NativeUInt; const arguments: PPCefV8Value): PCefv8Value; stdcall;
@@ -6961,6 +7019,8 @@ type
     is_audio_muted                    : function(self: PCefBrowserHost): integer; stdcall;
     is_fullscreen                     : function(self: PCefBrowserHost): integer; stdcall;
     exit_fullscreen                   : procedure(self: PCefBrowserHost; will_cause_resize: integer); stdcall;
+    can_execute_chrome_command        : function(self: PCefBrowserHost; command_id: integer): integer; stdcall;
+    execute_chrome_command            : procedure(self: PCefBrowserHost; command_id: integer; disposition: TCefWindowOpenDisposition); stdcall;
   end;
 
   /// <summary>
@@ -7632,7 +7692,7 @@ type
     send_key_press                   : procedure(self: PCefWindow; key_code: Integer; event_flags: cardinal); stdcall;
     send_mouse_move                  : procedure(self: PCefWindow; screen_x, screen_y: Integer); stdcall;
     send_mouse_events                : procedure(self: PCefWindow; button: TCefMouseButtonType; mouse_down, mouse_up: Integer); stdcall;
-    set_accelerator                  : procedure(self: PCefWindow; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer); stdcall;
+    set_accelerator                  : procedure(self: PCefWindow; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed, high_priority: Integer); stdcall;
     remove_accelerator               : procedure(self: PCefWindow; command_id: Integer); stdcall;
     remove_all_accelerators          : procedure(self: PCefWindow); stdcall;
   end;

@@ -16,16 +16,27 @@ uses
 
 type
   TCefTaskRunnerRef = class(TCefBaseRefCountedRef, ICefTaskRunner)
-  protected
-    function IsSame(const that: ICefTaskRunner): Boolean;
-    function BelongsToCurrentThread: Boolean;
-    function BelongsToThread(threadId: TCefThreadId): Boolean;
-    function PostTask(const task: ICefTask): Boolean;
-    function PostDelayedTask(const task: ICefTask; delayMs: Int64): Boolean;
-  public
-    class function UnWrap(data: Pointer): ICefTaskRunner;
-    class function GetForCurrentThread: ICefTaskRunner;
-    class function GetForThread(threadId: TCefThreadId): ICefTaskRunner;
+    protected
+      function IsSame(const that: ICefTaskRunner): Boolean;
+      function BelongsToCurrentThread: Boolean;
+      function BelongsToThread(threadId: TCefThreadId): Boolean;
+      function PostTask(const task: ICefTask): Boolean;
+      function PostDelayedTask(const task: ICefTask; delayMs: Int64): Boolean;
+    public
+      /// <summary>
+      /// Returns a ICefTaskRunner instance using a PCefTaskRunner data pointer.
+      /// </summary>
+      class function UnWrap(data: Pointer): ICefTaskRunner;
+      /// <summary>
+      /// Returns the task runner for the current thread. Only CEF threads will have
+      /// task runners. An NULL reference will be returned if this function is called
+      /// on an invalid thread.
+      /// </summary>
+      class function GetForCurrentThread: ICefTaskRunner;
+      /// <summary>
+      /// Returns the task runner for the specified CEF thread.
+      /// </summary>
+      class function GetForThread(threadId: TCefThreadId): ICefTaskRunner;
   end;
 
 implementation

@@ -171,12 +171,12 @@ type
       function  GetWindowAppIcon : ICefImage;
 
       /// <summary>
-      /// Add a View that will be overlayed on the Window contents with absolute
+      /// <para>Add a View that will be overlayed on the Window contents with absolute
       /// positioning and high z-order. Positioning is controlled by |docking_mode|
       /// as described below. The returned cef_overlay_controller_t object is used
-      /// to control the overlay. Overlays are hidden by default.
-      ///
-      /// With CEF_DOCKING_MODE_CUSTOM:
+      /// to control the overlay. Overlays are hidden by default.</para>
+      /// <para>With CEF_DOCKING_MODE_CUSTOM:</para>
+      /// <code>
       ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
       ///      and positioned in the top-left corner.
       ///   2. Optionally change the overlay position and/or size by calling
@@ -186,18 +186,19 @@ type
       ///      changes. Optionally change the overlay position and/or size when
       ///      OnLayoutChanged is called on the Window's delegate to indicate a
       ///      change in Window bounds.
-      ///
-      /// With other docking modes:
+      /// </code>
+      /// <para>With other docking modes:</para>
+      /// <code>
       ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
       ///      and positioned based on |docking_mode|.
       ///   2. Call CefOverlayController::SetVisible(true) to show the overlay.
       ///   3. The overlay will be automatically re-sized if |view|'s layout changes
       ///      and re-positioned as appropriate when the Window resizes.
-      ///
-      /// Overlays created by this function will receive a higher z-order then any
+      /// </code>
+      /// <para>Overlays created by this function will receive a higher z-order then any
       /// child Views added previously. It is therefore recommended to call this
       /// function last after all other child Views have been added so that the
-      /// overlay displays as the top-most child of the Window.
+      /// overlay displays as the top-most child of the Window.</para>
       /// </summary>
       function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
 
@@ -266,12 +267,19 @@ type
       procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
 
       /// <summary>
-      /// Set the keyboard accelerator for the specified |command_id|. |key_code|
-      /// can be any virtual key or character value.
-      /// cef_window_delegate_t::OnAccelerator will be called if the keyboard
-      /// combination is triggered while this window has focus.
+      /// <para>Set the keyboard accelerator for the specified |command_id|. |key_code|
+      /// can be any virtual key or character value. Required modifier keys are
+      /// specified by |shift_pressed|, |ctrl_pressed| and/or |alt_pressed|.
+      /// ICefWindowDelegate.OnAccelerator will be called if the keyboard
+      /// combination is triggered while this window has focus.</para>
+      /// <para>The |high_priority| value will be considered if a child ICefBrowserView
+      /// has focus when the keyboard combination is triggered. If |high_priority|
+      /// is true (1) then the key event will not be forwarded to the web content
+      /// (`keydown` event handler) or ICefKeyboardHandler first. If
+      /// |high_priority| is false (0) then the behavior will depend on the
+      /// ICefBrowserView.SetPreferAccelerators configuration.</para>
       /// </summary>
-      procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
+      procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: boolean);
 
       /// <summary>
       /// Remove the keyboard accelerator for the specified |command_id|.
@@ -493,14 +501,16 @@ procedure TCefWindowRef.SetAccelerator(command_id    : Integer;
                                        key_code      : Integer;
                                        shift_pressed : boolean;
                                        ctrl_pressed  : boolean;
-                                       alt_pressed   : boolean);
+                                       alt_pressed   : boolean;
+                                       high_priority : boolean);
 begin
   PCefWindow(FData)^.set_accelerator(PCefWindow(FData),
                                      command_id,
                                      key_code,
                                      ord(shift_pressed),
                                      ord(ctrl_pressed),
-                                     ord(alt_pressed));
+                                     ord(alt_pressed),
+                                     ord(high_priority));
 end;
 
 procedure TCefWindowRef.RemoveAccelerator(command_id: Integer);

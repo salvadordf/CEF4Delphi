@@ -27,7 +27,7 @@ type
       function  IsElement: Boolean;
       function  IsEditable: Boolean;
       function  IsFormControlElement: Boolean;
-      function  GetFormControlElementType: ustring;
+      function  GetFormControlElementType: TCefDomFormControlType;
       function  IsSame(const that: ICefDomNode): Boolean;
       function  GetName: ustring;
       function  GetValue: ustring;
@@ -146,9 +146,9 @@ begin
   Result := TCefDomNodeRef.UnWrap(PCefDomNode(FData)^.get_first_child(PCefDomNode(FData)));
 end;
 
-function TCefDomNodeRef.GetFormControlElementType: ustring;
+function TCefDomNodeRef.GetFormControlElementType: TCefDomFormControlType;
 begin
-  Result := CefStringFreeAndGet(PCefDomNode(FData)^.get_form_control_element_type(PCefDomNode(FData)));
+  Result := PCefDomNode(FData)^.get_form_control_element_type(PCefDomNode(FData));
 end;
 
 function TCefDomNodeRef.GetLastChild: ICefDomNode;

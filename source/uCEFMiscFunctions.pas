@@ -72,7 +72,9 @@ function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLI
 function CefStringAlloc(const str: ustring): TCefString;
 function CefStringClearAndGet(str: PCefString): ustring;
 
+/// <summary>Converts ustring to TCefString.</summary>
 function  CefString(const str: ustring): TCefString; overload;
+/// <summary>Converts PCefString to ustring.</summary>
 function  CefString(const str: PCefString): ustring; overload;
 function  CefUserFreeString(const str: ustring): PCefStringUserFree;
 procedure CefStringFree(const str: PCefString);
@@ -80,40 +82,210 @@ function  CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
 procedure CefStringSet(const str: PCefString; const value: ustring);
 procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
+/// <summary>
+/// Register a new V8 extension with the specified JavaScript extension code and
+/// handler. Functions implemented by the handler are prototyped using the
+/// keyword 'native'. The calling of a native function is restricted to the
+/// scope in which the prototype of the native function is defined. This
+/// function may only be called on the render process main thread.
+///
+/// Example JavaScript extension code: <pre>
+///   // create the 'example' global object if it doesn't already exist.
+///   if (!example)
+///     example = {};
+///   // create the 'example.test' global object if it doesn't already exist.
+///   if (!example.test)
+///     example.test = {};
+///   (function() {
+///     // Define the function 'example.test.myfunction'.
+///     example.test.myfunction = function() {
+///       // Call CefV8Handler::Execute() with the function name 'MyFunction'
+///       // and no arguments.
+///       native function MyFunction();
+///       return MyFunction();
+///     };
+///     // Define the getter function for parameter 'example.test.myparam'.
+///     example.test.__defineGetter__('myparam', function() {
+///       // Call CefV8Handler::Execute() with the function name 'GetMyParam'
+///       // and no arguments.
+///       native function GetMyParam();
+///       return GetMyParam();
+///     });
+///     // Define the setter function for parameter 'example.test.myparam'.
+///     example.test.__defineSetter__('myparam', function(b) {
+///       // Call CefV8Handler::Execute() with the function name 'SetMyParam'
+///       // and a single argument.
+///       native function SetMyParam();
+///       if(b) SetMyParam(b);
+///     });
+///
+///     // Extension definitions can also contain normal JavaScript variables
+///     // and functions.
+///     var myint = 0;
+///     example.test.increment = function() {
+///       myint += 1;
+///       return myint;
+///     };
+///   })();
+/// </pre>
+///
+/// Example usage in the page: <pre>
+///   // Call the function.
+///   example.test.myfunction();
+///   // Set the parameter.
+///   example.test.myparam = value;
+///   // Get the parameter.
+///   value = example.test.myparam;
+///   // Call another function.
+///   example.test.increment();
+/// </pre>
+/// </summary>
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
-
+/// <summary>
+/// Post a task for execution on the specified thread. Equivalent to using
+/// TCefTaskRunnerRef.GetForThread(threadId).PostTask(task).
+/// </summary>
 function CefPostTask(aThreadId : TCefThreadId; const aTask: ICefTask) : boolean;
+/// <summary>
+/// Post a task for delayed execution on the specified thread. Equivalent to
+/// using TCefTaskRunnerRef.GetForThread(threadId).PostDelayedTask(task,
+/// delay_ms).
+/// </summary>
 function CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; aDelayMs : Int64) : boolean;
+/// <summary>
+/// Returns true (1) if called on the specified thread. Equivalent to using
+/// TCefTaskRunnerRef.GetForThread(threadId).BelongsToCurrentThread().
+/// </summary>
 function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
 
 {$IFDEF MSWINDOWS}
+/// <summary>
+/// Converts a TCefTime value to TSystemTime.
+/// </summary>
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
+/// <summary>
+/// Converts a TSystemTime value to TCefTime.
+/// </summary>
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 {$ELSE}
   {$IFDEF LINUX}
     {$IFDEF FPC}
+    /// <summary>
+    /// Converts a TCefTime value to TSystemTime.
+    /// </summary>
     function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
+    /// <summary>
+    /// Converts a TSystemTime value to TCefTime.
+    /// </summary>
     function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
     {$ENDIF}
   {$ENDIF}
 {$ENDIF}
-
+/// <summary>
+/// Returns a new TCefTime with a valid time in case the original has errors.
+/// </summary>
 function FixCefTime(const dt : TCefTime): TCefTime;
+/// <summary>
+/// Converts a TCefTime value to TDateTime.
+/// </summary>
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
+/// <summary>
+/// Converts a TDateTime value to TCefTime.
+/// </summary>
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
+/// <summary>
+/// Converts a TDateTime value to TCefBaseTime.
+/// </summary>
 function DateTimeToCefBaseTime(dt: TDateTime): TCefBaseTime;
+/// <summary>
+/// Converts TCefTime to a double which is the number of seconds since
+/// epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0
+/// means "not initialized".
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_to_doublet)</see></para>
+/// </remarks>
 function CefTimeToDouble(const dt: TCefTime): double;
+/// <summary>
+/// Converts TCefTime from a double which is the number of seconds since
+/// epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0
+/// means "not initialized".
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_from_doublet)</see></para>
+/// </remarks>
 function DoubleToCefTime(const dt: double): TCefTime;
+/// <summary>
+/// Converts cef_time_t to time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_to_timet)</see></para>
+/// </remarks>
 function CefTimeToUnixTime(const dt: TCefTime): int64;
+/// <summary>
+/// Converts cef_time_t from time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_from_timet)</see></para>
+/// </remarks>
 function UnixTimeToCefTime(const dt: int64): TCefTime;
+/// <summary>
+/// Retrieve the current system time in a TCefTime type.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_now)</see></para>
+/// </remarks>
 function CefTimeNow: TCefTime;
+/// <summary>
+/// Retrieve the current system time in a double type.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_now)</see></para>
+/// </remarks>
 function DoubleTimeNow: double;
+/// <summary>
+/// Retrieve the delta in milliseconds between two time values.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_delta)</see></para>
+/// </remarks>
 function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
+/// <summary>
+/// Retrieve the current system time in a TCefBaseTime type.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_basetime_now)</see></para>
+/// </remarks>
 function CefBaseTimeNow: TCefBaseTime;
+/// <summary>
+/// Converts TCefTime to TCefBaseTime.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_to_basetime)</see></para>
+/// </remarks>
 function CetTimeToCefBaseTime(const ct: TCefTime) : TCefBaseTime;
+/// <summary>
+/// Converts TCefBaseTime to TCefTime.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_from_basetime)</see></para>
+/// </remarks>
 function CetTimeFromCefBaseTime(const cbt: TCefBaseTime) : TCefTime;
+/// <summary>
+/// Converts TCefBaseTime to TDateTime.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_from_basetime)</see></para>
+/// </remarks>
 function CefBaseTimeToDateTime(const cbt: TCefBaseTime) : TDateTime;
+/// <summary>
+/// Returns the time interval between now and from_ in milliseconds.
+/// This funcion should only be used by TCEFTimerWorkScheduler.
+/// </summary>
 function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
+/// <summary>
+/// Initialize a TCefTime variable.
+/// </summary>
 procedure InitializeCefTime(var aTime : TCefTime);
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
@@ -168,34 +340,249 @@ const
 
 {$ENDIF}
 
+/// <summary>
+/// Returns true if aPath is a relative path.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisrelativew">See the PathIsRelativeW article.</see></para>
+/// </remarks>
 function CustomPathIsRelative(const aPath : string) : boolean;
+/// <summary>
+/// Simplifies a path by removing navigation elements such as "." and ".." to produce a direct, well-formed path.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathcanonicalizew">See the PathCanonicalizeW article.</see></para>
+/// </remarks>
 function CustomPathCanonicalize(const aOriginalPath : string; var aCanonicalPath : string) : boolean;
+/// <summary>
+/// Returns the absolute path version of aPath.
+/// </summary>
 function CustomAbsolutePath(const aPath : string; aMustExist : boolean = False) : string;
+/// <summary>
+/// Tests aPath to determine if it conforms to a valid URL format.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisurlw">See the PathIsURLW article.</see></para>
+/// </remarks>
 function CustomPathIsURL(const aPath : string) : boolean;
+/// <summary>
+/// Determines if aPath is a valid Universal Naming Convention (UNC) path, as opposed to a path based on a drive letter.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisuncw">See the PathIsUNCW article.</see></para>
+/// </remarks>
 function CustomPathIsUNC(const aPath : string) : boolean;
+/// <summary>
+/// Retrieves the fully qualified path for the current module.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew">See the GetModuleFileNameW article.</see></para>
+/// </remarks>
 function GetModulePath : string;
-
+/// <summary>
+/// Returns true (1) if the certificate status represents an error.
+/// </summary>
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
-
+/// <summary>
+/// Crash reporting is configured using an INI-style config file named
+/// "crash_reporter.cfg". On Windows and Linux this file must be placed next to
+/// the main application executable. On macOS this file must be placed in the
+/// top-level app bundle Resources directory (e.g.
+/// "<appname>.app/Contents/Resources"). File contents are as follows:
+///
+/// <pre>
+///  # Comments start with a hash character and must be on their own line.
+///
+///  [Config]
+///  ProductName=<Value of the "prod" crash key; defaults to "cef">
+///  ProductVersion=<Value of the "ver" crash key; defaults to the CEF version>
+///  AppName=<Windows only; App-specific folder name component for storing crash
+///           information; default to "CEF">
+///  ExternalHandler=<Windows only; Name of the external handler exe to use
+///                   instead of re-launching the main exe; default to empty>
+///  BrowserCrashForwardingEnabled=<macOS only; True if browser process crashes
+///                                 should be forwarded to the system crash
+///                                 reporter; default to false>
+///  ServerURL=<crash server URL; default to empty>
+///  RateLimitEnabled=<True if uploads should be rate limited; default to true>
+///  MaxUploadsPerDay=<Max uploads per 24 hours, used if rate limit is enabled;
+///                    default to 5>
+///  MaxDatabaseSizeInMb=<Total crash report disk usage greater than this value
+///                       will cause older reports to be deleted; default to 20>
+///  MaxDatabaseAgeInDays=<Crash reports older than this value will be deleted;
+///                        default to 5>
+///
+///  [CrashKeys]
+///  my_key1=<small|medium|large>
+///  my_key2=<small|medium|large>
+/// </pre>
+///
+/// <b>Config section:</b>
+///
+/// If "ProductName" and/or "ProductVersion" are set then the specified values
+/// will be included in the crash dump metadata. On macOS if these values are
+/// set to NULL then they will be retrieved from the Info.plist file using the
+/// "CFBundleName" and "CFBundleShortVersionString" keys respectively.
+///
+/// If "AppName" is set on Windows then crash report information (metrics,
+/// database and dumps) will be stored locally on disk under the
+/// "C:\Users\[CurrentUser]\AppData\Local\[AppName]\User Data" folder. On other
+/// platforms the cef_settings_t.root_cache_path value will be used.
+///
+/// If "ExternalHandler" is set on Windows then the specified exe will be
+/// launched as the crashpad-handler instead of re-launching the main process
+/// exe. The value can be an absolute path or a path relative to the main exe
+/// directory. On Linux the cef_settings_t.browser_subprocess_path value will be
+/// used. On macOS the existing subprocess app bundle will be used.
+///
+/// If "BrowserCrashForwardingEnabled" is set to true (1) on macOS then browser
+/// process crashes will be forwarded to the system crash reporter. This results
+/// in the crash UI dialog being displayed to the user and crash reports being
+/// logged under "~/Library/Logs/DiagnosticReports". Forwarding of crash reports
+/// from non-browser processes and Debug builds is always disabled.
+///
+/// If "ServerURL" is set then crashes will be uploaded as a multi-part POST
+/// request to the specified URL. Otherwise, reports will only be stored locally
+/// on disk.
+///
+/// If "RateLimitEnabled" is set to true (1) then crash report uploads will be
+/// rate limited as follows:
+///  1. If "MaxUploadsPerDay" is set to a positive value then at most the
+///     specified number of crashes will be uploaded in each 24 hour period.
+///  2. If crash upload fails due to a network or server error then an
+///     incremental backoff delay up to a maximum of 24 hours will be applied
+///     for retries.
+///  3. If a backoff delay is applied and "MaxUploadsPerDay" is > 1 then the
+///     "MaxUploadsPerDay" value will be reduced to 1 until the client is
+///     restarted. This helps to avoid an upload flood when the network or
+///     server error is resolved.
+/// Rate limiting is not supported on Linux.
+///
+/// If "MaxDatabaseSizeInMb" is set to a positive value then crash report
+/// storage on disk will be limited to that size in megabytes. For example, on
+/// Windows each dump is about 600KB so a "MaxDatabaseSizeInMb" value of 20
+/// equates to about 34 crash reports stored on disk. Not supported on Linux.
+///
+/// If "MaxDatabaseAgeInDays" is set to a positive value then crash reports
+/// older than the specified age in days will be deleted. Not supported on
+/// Linux.
+///
+/// <b>CrashKeys section:</b>
+///
+/// A maximum of 26 crash keys of each size can be specified for use by the
+/// application. Crash key values will be truncated based on the specified size
+/// (small = 64 bytes, medium = 256 bytes, large = 1024 bytes). The value of
+/// crash keys can be set from any thread or process using the
+/// CefSetCrashKeyValue function. These key/value pairs will be sent to the
+/// crash server along with the crash dump file.
+/// </summary>
 function  CefCrashReportingEnabled : boolean;
+/// <summary>
+/// Sets or clears a specific key-value pair from the crash metadata.
+/// </summary>
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
-
 /// <summary>
 /// Add a log message. See the LogSeverity defines for supported |severity|
 /// values.
 /// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (cef_log)</see></para>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (LogSeverity)</see></para>
+/// </remarks>
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
 procedure CefDebugLog(const aMessage : string; aSeverity : integer = CEF_LOG_SEVERITY_ERROR);
 procedure CefKeyEventLog(const aEvent : TCefKeyEvent);
 procedure CefMouseEventLog(const aEvent : TCefMouseEvent);
 procedure OutputDebugMessage(const aMessage : string);
 function  CustomExceptionHandler(const aFunctionName : string; const aException : exception) : boolean;
-
+/// <summary>
+/// Gets the current log verbose level (LogSeverity).
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (cef_get_min_log_level)</see></para>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (LogSeverity)</see></para>
+/// </remarks>
+function CefGetMinLogLevel: integer;
+/// <summary>
+/// Gets the current vlog level for the given file.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (cef_get_vlog_level)</see></para>
+/// </remarks>
+function CefGetVLogLevel(const file_start : string): integer;
+/// <summary>
+/// Gets the log severity name.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (LogSeverity)</see></para>
+/// </remarks>
+function CefGetLogSeverityName(aSeverity: integer): ustring;
+/// <summary>
+/// Register a scheme handler factory with the global request context. An NULL
+/// |DomainName| value for a standard scheme will cause the factory to match
+/// all domain names. The |DomainName| value will be ignored for non-standard
+/// schemes. If |SchemeName| is a built-in scheme and no handler is returned by
+/// |factory| then the built-in scheme handler factory will be called. If
+/// |SchemeName| is a custom scheme then you must also implement the
+/// ICefApp.OnRegisterCustomSchemes function in all processes. This
+/// function may be called multiple times to change or remove the factory that
+/// matches the specified |SchemeName| and optional |DomainName|. Returns
+/// false (0) if an error occurs. This function may be called on any thread in
+/// the browser process. Using this function is equivalent to calling cef_reques
+/// t_context_t::cef_request_context_get_global_context()->register_scheme_handl
+/// er_factory().
+/// </summary>
 function CefRegisterSchemeHandlerFactory(const SchemeName, DomainName : ustring; const handler: TCefResourceHandlerClass = nil): Boolean;
+/// <summary>
+/// Clear all scheme handler factories registered with the global request
+/// context. Returns false (0) on error. This function may be called on any
+/// thread in the browser process. Using this function is equivalent to calling
+/// cef_request_context_t::cef_request_context_get_global_context()->clear_schem
+/// e_handler_factories().
+/// </summary>
 function CefClearSchemeHandlerFactories : boolean;
-
+/// <summary>
+/// <para>Add an entry to the cross-origin access whitelist.</para>
+/// <para>The same-origin policy restricts how scripts hosted from different origins
+/// (scheme + domain + port) can communicate. By default, scripts can only
+/// access resources with the same origin. Scripts hosted on the HTTP and HTTPS
+/// schemes (but no other schemes) can use the "Access-Control-Allow-Origin"
+/// header to allow cross-origin requests. For example,
+/// https://source.example.com can make XMLHttpRequest requests on
+/// http://target.example.com if the http://target.example.com request returns
+/// an "Access-Control-Allow-Origin: https://source.example.com" response
+/// header.</para>
+/// <para>Scripts in separate frames or iframes and hosted from the same protocol and
+/// domain suffix can execute cross-origin JavaScript if both pages set the
+/// document.domain value to the same domain suffix. For example,
+/// scheme://foo.example.com and scheme://bar.example.com can communicate using
+/// JavaScript if both domains set document.domain="example.com".</para>
+/// <para>This function is used to allow access to origins that would otherwise
+/// violate the same-origin policy. Scripts hosted underneath the fully
+/// qualified |source_origin| URL (like http://www.example.com) will be allowed
+/// access to all resources hosted on the specified |target_protocol| and
+/// |target_domain|. If |target_domain| is non-NULL and
+/// |allow_target_subdomains| is false (0) only exact domain matches will be
+/// allowed. If |target_domain| contains a top- level domain component (like
+/// "example.com") and |allow_target_subdomains| is true (1) sub-domain matches
+/// will be allowed. If |target_domain| is NULL and |allow_target_subdomains| if
+/// true (1) all domains and IP addresses will be allowed.</para>
+/// <para>This function cannot be used to bypass the restrictions on local or display
+/// isolated schemes. See the comments on CefRegisterCustomScheme for more
+/// information.</para>
+/// <para>This function may be called on any thread. Returns false (0) if
+/// |source_origin| is invalid or the whitelist cannot be accessed.</para>
+/// </summary>
 function CefAddCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
+/// <summary>
+/// Remove an entry from the cross-origin access whitelist. Returns false (0) if
+/// |source_origin| is invalid or the whitelist cannot be accessed.
+/// </summary>
 function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
+/// <summary>
+/// Remove all entries from the cross-origin access whitelist. Returns false (0)
+/// if the whitelist cannot be accessed.
+/// </summary>
 function CefClearCrossOriginWhitelist: Boolean;
 
 procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
@@ -223,29 +610,142 @@ function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
 function Is32BitProcess : boolean;
 
+/// <summary>
+/// Combines specified |base_url| and |relative_url| into a ustring.
+/// </summary>
 function  CefResolveUrl(const base_url, relative_url: ustring): ustring;
+/// <summary>
+/// Parse the specified |url| into its component parts. Returns false (0) if the
+/// URL is invalid.
+/// </summary>
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
+/// <summary>
+/// Creates a URL from the specified |parts|, which must contain a non-NULL spec
+/// or a non-NULL host and path (at a minimum), but not both.
+/// </summary>
 function  CefCreateUrl(var parts: TUrlParts): ustring;
+/// <summary>
+/// This is a convenience function for formatting a URL in a concise and human-
+/// friendly way to help users make security-related decisions (or in other
+/// circumstances when people need to distinguish sites, origins, or otherwise-
+/// simplified URLs from each other). Internationalized domain names (IDN) may
+/// be presented in Unicode if the conversion is considered safe. The returned
+/// value will (a) omit the path for standard schemes, excepting file and
+/// filesystem, and (b) omit the port if it is the default for the scheme. Do
+/// not use this for URLs which will be parsed or sent to other applications.
+/// </summary>
 function  CefFormatUrlForSecurityDisplay(const originUrl: string): string;
+/// <summary>
+/// Returns the mime type for the specified file extension or an NULL string if
+/// unknown.
+/// </summary>
 function  CefGetMimeType(const extension: ustring): ustring;
+/// <summary>
+/// Get the extensions associated with the given mime type. This should be
+/// passed in lower case. There could be multiple extensions for a given mime
+/// type, like "html,htm" for "text/html", or "txt,text,html,..." for "text/*".
+/// Any existing elements in the provided vector will not be erased.
+/// </summary>
 procedure CefGetExtensionsForMimeType(const mimeType: ustring; var extensions: TStringList);
-
+/// <summary>
+/// Encodes |data| as a base64 string.
+/// </summary>
 function CefBase64Encode(const data: Pointer; dataSize: NativeUInt): ustring;
+/// <summary>
+/// Decodes the base64 encoded string |data|. The returned value will be NULL if
+/// the decoding fails.
+/// </summary>
 function CefBase64Decode(const data: ustring): ICefBinaryValue;
+/// <summary>
+/// Escapes characters in |text| which are unsuitable for use as a query
+/// parameter value. Everything except alphanumerics and -_.!~*'() will be
+/// converted to "%XX". If |use_plus| is true (1) spaces will change to "+". The
+/// result is basically the same as encodeURIComponent in Javacript.
+/// </summary>
 function CefUriEncode(const text: ustring; usePlus: Boolean): ustring;
+/// <summary>
+/// Unescapes |text| and returns the result. Unescaping consists of looking for
+/// the exact pattern "%XX" where each X is a hex digit and converting to the
+/// character with the numerical value of those digits (e.g. "i%20=%203%3b"
+/// unescapes to "i = 3;"). If |convert_to_utf8| is true (1) this function will
+/// attempt to interpret the initial decoded result as UTF-8. If the result is
+/// convertable into UTF-8 it will be returned as converted. Otherwise the
+/// initial decoded result will be returned.  The |unescape_rule| parameter
+/// supports further customization the decoding process.
+/// </summary>
 function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule: TCefUriUnescapeRule): ustring;
-
+/// <summary>
+/// Retrieve the path associated with the specified |aPathKey|.
+/// Can be called on any thread in the browser process.
+/// </summary>
 function CefGetPath(const aPathKey : TCefPathKey) : ustring;
-
+/// <summary>
+/// Returns true (1) if the application text direction is right-to-left.
+/// </summary>
 function CefIsRTL : boolean;
-
+/// <summary>
+/// Creates a directory and all parent directories if they don't already exist.
+/// Returns true (1) on successful creation or if the directory already exists.
+/// The directory is only readable by the current user. Calling this function on
+/// the browser process UI or IO threads is not allowed.
+/// </summary>
 function CefCreateDirectory(const fullPath: ustring): Boolean;
+/// <summary>
+/// Get the temporary directory provided by the system.
+/// WARNING: In general, you should use the temp directory variants below
+/// instead of this function. Those variants will ensure that the proper
+/// permissions are set so that other users on the system can't edit them while
+/// they're open (which could lead to security issues).
+/// </summary>
 function CefGetTempDirectory(out tempDir: ustring): Boolean;
+/// <summary>
+/// Creates a new directory. On Windows if |prefix| is provided the new
+/// directory name is in the format of "prefixyyyy". Returns true (1) on success
+/// and sets |newTempPath| to the full path of the directory that was created.
+/// The directory is only readable by the current user. Calling this function on
+/// the browser process UI or IO threads is not allowed.
+/// </summary>
 function CefCreateNewTempDirectory(const prefix: ustring; out newTempPath: ustring): Boolean;
+/// <summary>
+/// Creates a directory within another directory. Extra characters will be
+/// appended to |prefix| to ensure that the new directory does not have the same
+/// name as an existing directory. Returns true (1) on success and sets
+/// |newDir| to the full path of the directory that was created. The directory
+/// is only readable by the current user. Calling this function on the browser
+/// process UI or IO threads is not allowed.
+/// </summary>
 function CefCreateTempDirectoryInDirectory(const baseDir, prefix: ustring; out newDir: ustring): Boolean;
+/// <summary>
+/// Returns true (1) if the given path exists and is a directory. Calling this
+/// function on the browser process UI or IO threads is not allowed.
+/// </summary>
 function CefDirectoryExists(const path: ustring): Boolean;
+/// <summary>
+/// Deletes the given path whether it's a file or a directory. If |path| is a
+/// directory all contents will be deleted.  If |recursive| is true (1) any sub-
+/// directories and their contents will also be deleted (equivalent to executing
+/// "rm -rf", so use with caution). On POSIX environments if |path| is a
+/// symbolic link then only the symlink will be deleted. Returns true (1) on
+/// successful deletion or if |path| does not exist. Calling this function on
+/// the browser process UI or IO threads is not allowed.
+/// </summary>
 function CefDeleteFile(const path: ustring; recursive: Boolean): Boolean;
+/// <summary>
+/// Writes the contents of |srcDir| into a zip archive at |destFile|. If
+/// |includeHiddenFiles| is true (1) files starting with "." will be included.
+/// Returns true (1) on success.  Calling this function on the browser process
+/// UI or IO threads is not allowed.
+/// </summary>
 function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Boolean): Boolean;
+/// <summary>
+/// Loads the existing "Certificate Revocation Lists" file that is managed by
+/// Google Chrome. This file can generally be found in Chrome's User Data
+/// directory (e.g. "C:\Users\[User]\AppData\Local\Google\Chrome\User Data\" on
+/// Windows) and is updated periodically by Chrome's component updater service.
+/// Must be called in the browser process after the context has been
+/// initialized. See https://dev.chromium.org/Home/chromium-security/crlsets for
+/// background.
+/// </summary>
 procedure CefLoadCRLSetsFile(const path : ustring);
 
 {$IFDEF MSWINDOWS}
@@ -284,8 +784,13 @@ function GetDeviceScaleFactor : single;
 function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList = nil) : boolean;
 function DeleteFileList(const aFileList : TStringList) : boolean;
 function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;
-
+/// <summary>
+/// Returns a URI with a DATA scheme using |aString| as the URI's data.
+/// </summary>
 function CefGetDataURI(const aString, aMimeType : ustring) : ustring; overload;
+/// <summary>
+/// Returns a URI with a DATA scheme encoding |aData| as a base64 string.
+/// </summary>
 function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustring; const aCharset : ustring = '') : ustring; overload;
 
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
@@ -974,6 +1479,39 @@ begin
 
       cef_log(@TempFile[1], aLine, aSeverity, @TempMessage[1]);
     end;
+end;
+
+function CefGetMinLogLevel: integer;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_get_min_log_level()
+   else
+    Result := 0;
+end;
+
+function CefGetVLogLevel(const file_start : string): integer;
+var
+  TempFile : AnsiString;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (length(file_start) > 0) then
+    begin
+      TempFile := AnsiString(file_start + #0);
+      Result   := cef_get_vlog_level(@TempFile[1], length(file_start) + 1);
+    end
+   else
+    Result := 0;
+end;
+
+function CefGetLogSeverityName(aSeverity: integer): ustring;
+begin
+  case aSeverity of
+    CEF_LOG_SEVERITY_VERBOSE : Result := 'VERBOSE';
+    CEF_LOG_SEVERITY_INFO    : Result := 'INFO';
+    CEF_LOG_SEVERITY_WARNING : Result := 'WARNING';
+    CEF_LOG_SEVERITY_ERROR   : Result := 'ERROR';
+    CEF_LOG_SEVERITY_FATAL   : Result := 'FATAL';
+    else                       Result := 'UNKNOWN';
+  end;
 end;
 
 procedure CefDebugLog(const aMessage : string; aSeverity : integer);

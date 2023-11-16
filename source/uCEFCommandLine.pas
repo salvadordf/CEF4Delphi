@@ -45,8 +45,18 @@ type
       procedure PrependWrapper(const wrapper: ustring);
 
     public
+      /// <summary>
+      /// Returns a ICefCommandLine instance using a PCefCommandLine data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefCommandLine;
+      /// <summary>
+      /// Create a new ICefCommandLine instance.
+      /// </summary>
       class function New: ICefCommandLine;
+      /// <summary>
+      /// Returns the singleton global ICefCommandLine object. The returned object
+      /// will be read-only.
+      /// </summary>
       class function Global: ICefCommandLine;
   end;
 

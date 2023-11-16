@@ -22,24 +22,90 @@ uses
 type
   TCEFJson = class
     public
+      /// <summary>
+      /// Returns the ICefValue value at the specified key.
+      /// </summary>
       class function ReadValue(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefValue) : boolean;
+      /// <summary>
+      /// Returns the boolean value at the specified key.
+      /// </summary>
       class function ReadBoolean(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : boolean) : boolean;
+      /// <summary>
+      /// Returns the integer value at the specified key.
+      /// </summary>
       class function ReadInteger(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : integer) : boolean;
+      /// <summary>
+      /// Returns the double value at the specified key.
+      /// </summary>
       class function ReadDouble(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : double) : boolean;
+      /// <summary>
+      /// Returns the ustring value at the specified key.
+      /// </summary>
       class function ReadString(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ustring) : boolean;
+      /// <summary>
+      /// Returns the ICefBinaryValue value at the specified key.
+      /// </summary>
       class function ReadBinary(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefBinaryValue) : boolean;
+      /// <summary>
+      /// Returns the ICefDictionaryValue value at the specified key.
+      /// </summary>
       class function ReadDictionary(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefDictionaryValue) : boolean;
+      /// <summary>
+      /// Returns the ICefListValue value at the specified key.
+      /// </summary>
       class function ReadList(const aDictionary : ICefDictionaryValue; const aKey : string; var aValue : ICefListValue) : boolean;
-
+      /// <summary>
+      /// Parses the specified |json_string| and returns a dictionary or list
+      /// representation. If JSON parsing fails this function returns NULL.
+      /// </summary>
       class function Parse(const jsonString: ustring; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
+      /// <summary>
+      /// Parses the specified UTF8-encoded |json| buffer of size |json_size| and
+      /// returns a dictionary or list representation. If JSON parsing fails this
+      /// function returns NULL.
+      /// </summary>
       class function Parse(const json: Pointer; json_size: NativeUInt; options: TCefJsonParserOptions = JSON_PARSER_RFC): ICefValue; overload;
+      /// <summary>
+      /// Parses the specified |json_string| and returns a dictionary or list
+      /// representation. If JSON parsing fails this function returns NULL and
+      /// populates |error_msg_out| with a formatted error message.
+      /// </summary>
       class function ParseAndReturnError(const jsonString: ustring; options: TCefJsonParserOptions; out errorMsgOut: ustring): ICefValue;
+      /// <summary>
+      /// Generates a JSON string from the specified root |node|.
+      /// Returns an NULL string on failure. This function
+      /// requires exclusive access to |node| including any underlying data.
+      /// </summary>
       class function Write(const node: ICefValue; options: TCefJsonWriterOptions = JSON_WRITER_DEFAULT): ustring; overload;
+      /// <summary>
+      /// Generates a JSON string from the specified root |node|.
+      /// Returns an NULL string on failure. This function
+      /// requires exclusive access to |node| including any underlying data.
+      /// </summary>
       class function Write(const node: ICefDictionaryValue; options: TCefJsonWriterOptions = JSON_WRITER_DEFAULT): ustring; overload;
+      /// <summary>
+      /// Generates a JSON string from the specified root |node|.
+      /// Returns an NULL string on failure. This function
+      /// requires exclusive access to |node| including any underlying data.
+      /// </summary>
       class function Write(const node: ICefValue; var aRsltStrings: TStringList): boolean; overload;
+      /// <summary>
+      /// Generates a JSON string from the specified root |node|.
+      /// Returns an NULL string on failure. This function
+      /// requires exclusive access to |node| including any underlying data.
+      /// </summary>
       class function Write(const node: ICefDictionaryValue; var aRsltStrings: TStringList): boolean; overload;
+      /// <summary>
+      /// Saves the JSON data in |node| to a file in aFileName.
+      /// </summary>
       class function SaveToFile(const node: ICefValue; const aFileName: ustring): boolean; overload;
+      /// <summary>
+      /// Saves the JSON data in |node| to a file in aFileName.
+      /// </summary>
       class function SaveToFile(const node: ICefDictionaryValue; const aFileName: ustring): boolean; overload;
+      /// <summary>
+      /// Loads the JSON data in |aFileName| using the |encoding| and returns an ICefValue node in |aRsltNode|.
+      /// </summary>
       class function LoadFromFile(const aFileName: ustring; var aRsltNode: ICefValue; {$IFDEF DELPHI12_UP}encoding: TEncoding = nil;{$ENDIF} options: TCefJsonParserOptions = JSON_PARSER_RFC): boolean;
   end;
 

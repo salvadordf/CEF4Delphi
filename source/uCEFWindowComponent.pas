@@ -112,12 +112,12 @@ type
       /// <summary>
       /// Show the Window as a browser modal dialog relative to |browser_view|. A
       /// parent Window must be returned via
-      /// cef_window_delegate_t::get_parent_window() and |browser_view| must belong
+      /// ICefWindowDelegate.OnGetParentWindow and |browser_view| must belong
       /// to that parent Window. While this Window is visible, |browser_view| will
       /// be disabled while other controls in the parent Window remain enabled.
       /// Navigating or destroying the |browser_view| will close this Window
       /// automatically. Alternately, use show() and return true (1) from
-      /// cef_window_delegate_t::is_window_modal_dialog() for a window modal dialog
+      /// ICefWindowDelegate.OnIsWindowModalDialog for a window modal dialog
       /// where all controls in the parent Window are disabled.
       /// </summary>
       procedure ShowAsBrowserModalDialog(const browser_view: ICefBrowserView);
@@ -229,12 +229,19 @@ type
       /// </summary>
       procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
       /// <summary>
-      /// Set the keyboard accelerator for the specified |command_id|. |key_code|
-      /// can be any virtual key or character value.
-      /// cef_window_delegate_t::OnAccelerator will be called if the keyboard
-      /// combination is triggered while this window has focus.
+      /// <para>Set the keyboard accelerator for the specified |command_id|. |key_code|
+      /// can be any virtual key or character value. Required modifier keys are
+      /// specified by |shift_pressed|, |ctrl_pressed| and/or |alt_pressed|.
+      /// ICefWindowDelegate.OnAccelerator will be called if the keyboard
+      /// combination is triggered while this window has focus.</para>
+      /// <para>The |high_priority| value will be considered if a child ICefBrowserView
+      /// has focus when the keyboard combination is triggered. If |high_priority|
+      /// is true (1) then the key event will not be forwarded to the web content
+      /// (`keydown` event handler) or ICefKeyboardHandler first. If
+      /// |high_priority| is false (0) then the behavior will depend on the
+      /// ICefBrowserView.SetPreferAccelerators configuration.</para>
       /// </summary>
-      procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
+      procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: boolean);
       /// <summary>
       /// Remove the keyboard accelerator for the specified |command_id|.
       /// </summary>
@@ -855,9 +862,9 @@ begin
   if Initialized then FWindow.SendMouseEvents(button, mouse_down, mouse_up);
 end;
 
-procedure TCEFWindowComponent.SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
+procedure TCEFWindowComponent.SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: boolean);
 begin
-  if Initialized then FWindow.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed);
+  if Initialized then FWindow.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed, high_priority);
 end;
 
 procedure TCEFWindowComponent.RemoveAccelerator(command_id: Integer);

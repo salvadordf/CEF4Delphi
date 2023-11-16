@@ -259,7 +259,7 @@ var
 
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;
-  cef_get_vlog_level    : function(const file_start: PAnsiChar; N: NativeInt): Integer; cdecl;
+  cef_get_vlog_level    : function(const file_start: PAnsiChar; N: NativeUInt): Integer; cdecl;
   cef_log               : procedure(const file_: PAnsiChar; line, severity: Integer; const message_: PAnsiChar); cdecl;
 
   // /include/internal/cef_string_list.h

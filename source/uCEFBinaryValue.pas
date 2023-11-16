@@ -22,6 +22,7 @@ type
       function IsSame(const that: ICefBinaryValue): Boolean;
       function IsEqual(const that: ICefBinaryValue): Boolean;
       function Copy: ICefBinaryValue;
+      function GetRawData: Pointer;
       function GetSize: NativeUInt;
       function GetData(buffer: Pointer; bufferSize, dataOffset: NativeUInt): NativeUInt;
 
@@ -37,6 +38,7 @@ type
       function IsSame(const that: ICefBinaryValue): Boolean;
       function IsEqual(const that: ICefBinaryValue): Boolean;
       function Copy: ICefBinaryValue;
+      function GetRawData: Pointer;
       function GetSize: NativeUInt;
       function GetData(buffer: Pointer; bufferSize, dataOffset: NativeUInt): NativeUInt;
 
@@ -58,6 +60,11 @@ uses
 function TCefBinaryValueRef.Copy: ICefBinaryValue;
 begin
   Result := UnWrap(PCefBinaryValue(FData)^.copy(PCefBinaryValue(FData)));
+end;
+
+function TCefBinaryValueRef.GetRawData: Pointer;
+begin
+  Result := PCefBinaryValue(FData)^.get_raw_data(PCefBinaryValue(FData));
 end;
 
 function TCefBinaryValueRef.GetData(buffer: Pointer; bufferSize, dataOffset: NativeUInt): NativeUInt;
@@ -163,6 +170,17 @@ begin
     Result := CefGetData(TCefBinaryValueOwn(TempObject).Copy);
 end;
 
+function cef_binary_value_get_raw_data(self: PCefBinaryValue): Pointer; stdcall;
+var
+  TempObject  : TObject;
+begin
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefBinaryValueOwn) then
+    Result := TCefBinaryValueOwn(TempObject).GetRawData;
+end;
+
 function cef_binary_value_get_size(self: PCefBinaryValue): NativeUInt; stdcall;
 var
   TempObject  : TObject;
@@ -191,13 +209,14 @@ begin
 
   with PCefBinaryValue(FData)^ do
     begin
-      is_valid := {$IFDEF FPC}@{$ENDIF}cef_binary_value_is_valid;
-      is_owned := {$IFDEF FPC}@{$ENDIF}cef_binary_value_is_owned;
-      is_same  := {$IFDEF FPC}@{$ENDIF}cef_binary_value_is_same;
-      is_equal := {$IFDEF FPC}@{$ENDIF}cef_binary_value_is_equal;
-      copy     := {$IFDEF FPC}@{$ENDIF}cef_binary_value_copy;
-      get_size := {$IFDEF FPC}@{$ENDIF}cef_binary_value_get_size;
-      get_data := {$IFDEF FPC}@{$ENDIF}cef_binary_value_get_data;
+      is_valid     := {$IFDEF FPC}@{$ENDIF}cef_binary_value_is_valid;
+      is_owned     := {$IFDEF FPC}@{$ENDIF}cef_binary_value_is_owned;
+      is_same      := {$IFDEF FPC}@{$ENDIF}cef_binary_value_is_same;
+      is_equal     := {$IFDEF FPC}@{$ENDIF}cef_binary_value_is_equal;
+      copy         := {$IFDEF FPC}@{$ENDIF}cef_binary_value_copy;
+      get_raw_data := {$IFDEF FPC}@{$ENDIF}cef_binary_value_get_raw_data;
+      get_size     := {$IFDEF FPC}@{$ENDIF}cef_binary_value_get_size;
+      get_data     := {$IFDEF FPC}@{$ENDIF}cef_binary_value_get_data;
     end;
 end;
 
@@ -224,6 +243,11 @@ end;
 function TCefBinaryValueOwn.Copy: ICefBinaryValue;
 begin
   Result := nil;
+end;
+
+function TCefBinaryValueOwn.GetRawData: Pointer;
+begin
+  Result := nil;
 end;
 
 function TCefBinaryValueOwn.GetSize: NativeUInt;
