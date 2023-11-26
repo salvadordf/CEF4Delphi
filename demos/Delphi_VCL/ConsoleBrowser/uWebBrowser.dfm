@@ -19,7 +19,6 @@ object WebBrowserFrm: TWebBrowserFrm
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TBufferPanel
     Left = 0

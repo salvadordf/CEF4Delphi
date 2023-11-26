@@ -16,12 +16,10 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
   Padding.Top = 10
   Padding.Right = 10
   Padding.Bottom = 10
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
   TextHeight = 13
   object LoginGrp: TGroupBox
     Left = 10

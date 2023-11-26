@@ -27,8 +27,6 @@ object URLRequestFrm: TURLRequestFrm
       item
         Width = 500
       end>
-    ExplicitTop = 425
-    ExplicitWidth = 514
   end
   object GETGbx: TGroupBox
     Left = 10

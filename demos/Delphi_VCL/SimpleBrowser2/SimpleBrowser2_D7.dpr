@@ -37,7 +37,7 @@
  
 program SimpleBrowser2_D7;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 uses
   Forms,

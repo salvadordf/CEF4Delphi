@@ -1,6 +1,6 @@
 program MiniBrowser;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 uses
   Forms,

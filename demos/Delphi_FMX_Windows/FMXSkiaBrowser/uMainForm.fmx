@@ -57,6 +57,7 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       TabOrder = 1
       Text = 'Go'
+      TextSettings.Trimming = None
       OnClick = GoBtnClick
       OnEnter = GoBtnEnter
     end

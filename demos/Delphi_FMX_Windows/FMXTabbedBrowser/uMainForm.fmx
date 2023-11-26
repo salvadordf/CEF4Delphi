@@ -25,7 +25,6 @@ object MainForm: TMainForm
     object AddTabBtn: TSpeedButton
       Action = AddTabAction
       Align = Top
-      Enabled = True
       ImageIndex = -1
       Margins.Top = 5.000000000000000000
       Position.X = 5.000000000000000000
@@ -34,11 +33,11 @@ object MainForm: TMainForm
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'additembutton'
+      TextSettings.Trimming = None
     end
     object RemoveTabBtn: TSpeedButton
       Action = RemoveTabAction
       Align = Top
-      Enabled = True
       ImageIndex = -1
       Margins.Top = 5.000000000000000000
       Position.X = 5.000000000000000000
@@ -47,11 +46,11 @@ object MainForm: TMainForm
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'deleteitembutton'
+      TextSettings.Trimming = None
     end
     object PrevTabBtn: TSpeedButton
       Action = PrevTabAction
       Align = Top
-      Enabled = True
       ImageIndex = -1
       Position.X = 5.000000000000000000
       Position.Y = 54.000000000000000000
@@ -59,11 +58,11 @@ object MainForm: TMainForm
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'arrowlefttoolbutton'
+      TextSettings.Trimming = None
     end
     object NextTabBtn: TSpeedButton
       Action = NextTabAction
       Align = Top
-      Enabled = True
       ImageIndex = -1
       Position.X = 5.000000000000000000
       Position.Y = 76.000000000000000000
@@ -71,11 +70,11 @@ object MainForm: TMainForm
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'arrowrighttoolbutton'
+      TextSettings.Trimming = None
     end
     object ShowTabsBtn: TSpeedButton
       Action = ShowTabsAction
       Align = Top
-      Enabled = True
       ImageIndex = -1
       Position.X = 5.000000000000000000
       Position.Y = 98.000000000000000000
@@ -83,6 +82,7 @@ object MainForm: TMainForm
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'passwordeditbutton'
+      TextSettings.Trimming = None
     end
   end
   object BrowserTabCtrl: TTabControl

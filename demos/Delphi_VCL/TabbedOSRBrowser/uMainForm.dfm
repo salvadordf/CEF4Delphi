@@ -25,8 +25,6 @@ object MainForm: TMainForm
     TabOrder = 0
     TabWidth = 150
     OnChange = BrowserPageCtrlChange
-    ExplicitWidth = 959
-    ExplicitHeight = 703
   end
   object ButtonPnl: TPanel
     Left = 0
@@ -41,7 +39,6 @@ object MainForm: TMainForm
     Padding.Right = 3
     Padding.Bottom = 3
     TabOrder = 1
-    ExplicitHeight = 703
     object AddTabBtn: TSpeedButton
       Left = 3
       Top = 3

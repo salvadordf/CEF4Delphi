@@ -37,7 +37,7 @@
 
 program VirtualUIBrowser;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 uses
   {$IFDEF DELPHI16_UP}

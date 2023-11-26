@@ -34,7 +34,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     object ComboBox1: TComboBox
       Left = 5
       Top = 5
-      Width = 834
+      Width = 830
       Height = 21
       Align = alClient
       ItemIndex = 0

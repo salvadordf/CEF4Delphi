@@ -41,7 +41,6 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitTop = -6
   end
   object TouchKeyboard1: TTouchKeyboard
     Left = 0

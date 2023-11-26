@@ -1,43 +1,6 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright ?2018 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uResponseFilterBrowser;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 interface
 
@@ -51,7 +14,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs, ComCtrls, pngimage,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFResponseFilter,
-  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFWinControl, uCEFChromiumCore;
 
 const
   STREAM_COPY_COMPLETE    = WM_APP + $B00;
@@ -80,7 +43,7 @@ type
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1LoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: Cardinal);
+    procedure Chromium1LoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
     procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
     procedure Chromium1ResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: Boolean);
 
@@ -158,7 +121,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser
 //    which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy
+// 2. TChromium.OnClose sends a CEF_DESTROY message to destroy
 //    CEFWindowParent1 in the main thread, which triggers the
 //    TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
@@ -589,7 +552,7 @@ end;
 procedure TResponseFilterBrowserFrm.Chromium1LoadStart(      Sender         : TObject;
                                                        const browser        : ICefBrowser;
                                                        const frame          : ICefFrame;
-                                                             transitionType : Cardinal);
+                                                             transitionType : TCefTransitionType);
 const
   IMAGE_FILENAME = 'jupiter.png';
 var

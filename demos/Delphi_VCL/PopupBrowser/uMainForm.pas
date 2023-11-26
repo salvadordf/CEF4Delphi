@@ -1,43 +1,6 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uMainForm;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 interface
 
@@ -50,7 +13,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm,
-  Vcl.AppEvnts, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  Vcl.AppEvnts, uCEFWinControl, uCEFChromiumCore;
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;
@@ -141,7 +104,7 @@ uses
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE and it closes all child forms.
 // 2. When all the child forms are closed then FormCloseQuery is triggered again, sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
-// 3. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnClose sends a CEF_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 4. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;

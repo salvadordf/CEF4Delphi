@@ -38,6 +38,7 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       TabOrder = 1
       Text = 'Open'
+      TextSettings.Trimming = None
       OnClick = OpenBtnClick
     end
   end

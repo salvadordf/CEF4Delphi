@@ -30,7 +30,6 @@ object Form1: TForm1
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 1
-    ExplicitWidth = 1046
     object AddressCb: TComboBox
       Left = 5
       Top = 5
@@ -40,7 +39,6 @@ object Form1: TForm1
       TabOrder = 0
       Text = 'https://www.google.com'
       OnEnter = AddressCbEnter
-      ExplicitWidth = 965
     end
     object Panel2: TPanel
       Left = 974
@@ -55,7 +53,6 @@ object Form1: TForm1
       BevelOuter = bvNone
       Padding.Left = 4
       TabOrder = 1
-      ExplicitLeft = 970
       object GoBtn: TButton
         Left = 4
         Top = 0
@@ -118,8 +115,6 @@ object Form1: TForm1
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitWidth = 1046
-    ExplicitHeight = 653
   end
   object chrmosr: TChromium
     OnCanFocus = chrmosrCanFocus

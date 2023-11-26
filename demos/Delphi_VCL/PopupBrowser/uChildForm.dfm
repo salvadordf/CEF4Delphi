@@ -38,8 +38,6 @@ object ChildForm: TChildForm
     OnMouseUp = Panel1MouseUp
     OnResize = Panel1Resize
     OnMouseLeave = Panel1MouseLeave
-    ExplicitWidth = 348
-    ExplicitHeight = 255
   end
   object Chromium1: TChromium
     OnCanFocus = Chromium1CanFocus

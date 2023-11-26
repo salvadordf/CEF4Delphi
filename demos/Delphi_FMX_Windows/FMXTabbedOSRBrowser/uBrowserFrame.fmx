@@ -15,12 +15,13 @@ object BrowserFrame: TBrowserFrame
     Size.Width = 998.000000000000000000
     Size.Height = 22.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 2
+    TabOrder = 1
     object StatusLbl: TLabel
       Align = Client
       Size.Width = 988.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
+      TextSettings.Trimming = None
       TabOrder = 0
     end
   end
@@ -46,6 +47,7 @@ object BrowserFrame: TBrowserFrame
       Size.PlatformDefault = False
       StyleLookup = 'arrowrighttoolbutton'
       Text = 'GoBtn'
+      TextSettings.Trimming = None
       OnClick = GoBtnClick
     end
     object NavButtonLay: TLayout
@@ -65,6 +67,7 @@ object BrowserFrame: TBrowserFrame
         Size.PlatformDefault = False
         StyleLookup = 'priortoolbutton'
         Text = 'BackBtn'
+        TextSettings.Trimming = None
         OnClick = BackBtnClick
       end
       object ForwardBtn: TSpeedButton
@@ -76,6 +79,7 @@ object BrowserFrame: TBrowserFrame
         Size.PlatformDefault = False
         StyleLookup = 'nexttoolbutton'
         Text = 'SpeedButton1'
+        TextSettings.Trimming = None
         OnClick = ForwardBtnClick
       end
       object ReloadBtn: TSpeedButton
@@ -87,6 +91,7 @@ object BrowserFrame: TBrowserFrame
         Size.PlatformDefault = False
         StyleLookup = 'refreshtoolbutton'
         Text = 'SpeedButton1'
+        TextSettings.Trimming = None
         OnClick = ReloadBtnClick
       end
       object StopBtn: TSpeedButton
@@ -97,6 +102,7 @@ object BrowserFrame: TBrowserFrame
         Size.PlatformDefault = False
         StyleLookup = 'stoptoolbutton'
         Text = 'SpeedButton1'
+        TextSettings.Trimming = None
         OnClick = StopBtnClick
       end
     end

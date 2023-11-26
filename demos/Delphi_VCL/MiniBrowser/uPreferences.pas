@@ -1,6 +1,6 @@
 unit uPreferences;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 interface
 

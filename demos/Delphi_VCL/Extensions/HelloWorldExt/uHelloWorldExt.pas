@@ -1,43 +1,6 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uHelloWorldExt;
 
-{$I cef.inc}
+{$I ..\..\..\..\source\cef.inc}
 
 interface
 
@@ -91,10 +54,10 @@ type
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
     procedure ExtensionChrExtensionLoaded(Sender: TObject; const extension: ICefExtension);
-    procedure ExtensionChrExtensionLoadFailed(Sender: TObject; result: Integer);
+    procedure ExtensionChrExtensionLoadFailed(Sender: TObject; result: TCefErrorcode);
     procedure ExtensionChrExtensionUnloaded(Sender: TObject; const extension: ICefExtension);
     procedure ExtensionChrLoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
-    procedure ExtensionChrLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+    procedure ExtensionChrLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
     procedure ExtensionChrClose(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
     procedure ExtensionChrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 
@@ -274,7 +237,7 @@ begin
   PostMessage(Handle, CEF_EXT_LOADED, 0, 0);
 end;
 
-procedure TForm1.ExtensionChrExtensionLoadFailed(Sender: TObject; result: Integer);
+procedure TForm1.ExtensionChrExtensionLoadFailed(Sender: TObject; result: TCefErrorcode);
 begin
   PostMessage(Handle, CEF_EXT_ERROR, 0, result);
 end;
@@ -295,7 +258,7 @@ begin
 end;
 
 procedure TForm1.ExtensionChrLoadError(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
+  const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode;
   const errorText, failedUrl: ustring);
 begin
   PostMessage(Handle, CEF_EXT_POPUP_ERROR, 0, errorCode);

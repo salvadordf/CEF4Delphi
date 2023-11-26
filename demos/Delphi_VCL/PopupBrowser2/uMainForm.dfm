@@ -29,11 +29,10 @@ object MainForm: TMainForm
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 0
-    ExplicitWidth = 1038
     object AddressEdt: TEdit
       Left = 5
       Top = 5
-      Width = 997
+      Width = 993
       Height = 20
       Margins.Right = 5
       Align = alClient
@@ -42,7 +41,7 @@ object MainForm: TMainForm
       ExplicitHeight = 21
     end
     object GoBtn: TButton
-      Left = 1002
+      Left = 998
       Top = 5
       Width = 31
       Height = 20
@@ -60,8 +59,6 @@ object MainForm: TMainForm
     Height = 593
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 1038
-    ExplicitHeight = 594
   end
   object Timer1: TTimer
     Enabled = False

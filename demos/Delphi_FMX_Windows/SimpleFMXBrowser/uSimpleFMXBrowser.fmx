@@ -50,6 +50,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
         Size.PlatformDefault = False
         TabOrder = 0
         Text = 'Go'
+        TextSettings.Trimming = None
         OnClick = GoBtnClick
       end
       object SnapShotBtn: TButton
@@ -63,6 +64,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
         Text = #181
         TextSettings.Font.Family = 'Webdings'
         TextSettings.Font.Size = 24.000000000000000000
+        TextSettings.Trimming = None
         OnClick = SnapShotBtnClick
       end
     end
@@ -91,6 +93,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
       Size.Height = 1.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
+      TextSettings.Trimming = None
     end
   end
   object StatusBar1: TStatusBar
@@ -109,6 +112,7 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
       Size.Width = 967.000000000000000000
       Size.Height = 16.000000000000000000
       Size.PlatformDefault = False
+      TextSettings.Trimming = None
       TabOrder = 0
     end
   end

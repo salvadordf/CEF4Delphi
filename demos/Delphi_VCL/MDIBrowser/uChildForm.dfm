@@ -14,7 +14,6 @@ object ChildForm: TChildForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 15
   object Panel1: TPanel
     Left = 0

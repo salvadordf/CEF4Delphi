@@ -42,6 +42,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
         Size.PlatformDefault = False
         TabOrder = 0
         Text = 'Go'
+        TextSettings.Trimming = None
         OnClick = GoBtnClick
         OnEnter = GoBtnEnter
       end
@@ -56,6 +57,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
         Text = #181
         TextSettings.Font.Family = 'Webdings'
         TextSettings.Font.Size = 32.000000000000000000
+        TextSettings.Trimming = None
         OnClick = SnapshotBtnClick
         OnEnter = SnapshotBtnEnter
       end

@@ -1,43 +1,6 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uSimpleServer;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 interface
 
@@ -64,31 +27,23 @@ type
     BacklogEdt: TSpinEdit;
     StartBtn: TButton;
     StopBtn: TButton;
+
     procedure StartBtnClick(Sender: TObject);
-    procedure AddressEdtChange(Sender: TObject);
-    procedure CEFServerComponent1ServerCreated(Sender: TObject;
-      const server: ICefServer);
-    procedure CEFServerComponent1ServerDestroyed(Sender: TObject;
-      const server: ICefServer);
-    procedure CEFServerComponent1ClientConnected(Sender: TObject;
-      const server: ICefServer; connection_id: Integer);
-    procedure CEFServerComponent1ClientDisconnected(Sender: TObject;
-      const server: ICefServer; connection_id: Integer);
     procedure StopBtnClick(Sender: TObject);
+    procedure AddressEdtChange(Sender: TObject);
+
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
-    procedure CEFServerComponent1HttpRequest(Sender: TObject;
-      const server: ICefServer; connection_id: Integer;
-      const client_address: ustring; const request: ICefRequest);
-    procedure CEFServerComponent1WebSocketConnected(Sender: TObject;
-      const server: ICefServer; connection_id: Integer);
-    procedure CEFServerComponent1WebSocketMessage(Sender: TObject;
-      const server: ICefServer; connection_id: Integer;
-      const data: Pointer; data_size: NativeUInt);
-    procedure CEFServerComponent1WebSocketRequest(Sender: TObject;
-      const server: ICefServer; connection_id: Integer;
-      const client_address: ustring; const request: ICefRequest;
-      const callback: ICefCallback);
+
+    procedure CEFServerComponent1ServerCreated(Sender: TObject; const server: ICefServer);
+    procedure CEFServerComponent1ServerDestroyed(Sender: TObject; const server: ICefServer);
+    procedure CEFServerComponent1ClientConnected(Sender: TObject; const server: ICefServer; connection_id: Integer);
+    procedure CEFServerComponent1ClientDisconnected(Sender: TObject; const server: ICefServer; connection_id: Integer);
+    procedure CEFServerComponent1HttpRequest(Sender: TObject; const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest);
+    procedure CEFServerComponent1WebSocketConnected(Sender: TObject; const server: ICefServer; connection_id: Integer);
+    procedure CEFServerComponent1WebSocketMessage(Sender: TObject; const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
+    procedure CEFServerComponent1WebSocketRequest(Sender: TObject; const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest; const callback: ICefCallback);
+
   protected
     FClosing : boolean;
 

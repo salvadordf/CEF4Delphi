@@ -1,6 +1,6 @@
 unit uMiniBrowser;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 interface
 

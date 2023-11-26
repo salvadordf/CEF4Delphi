@@ -12,11 +12,9 @@ object ImageSelectionFrm: TImageSelectionFrm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   DesignSize = (
     481
     223)
-  PixelsPerInch = 96
   TextHeight = 13
   object URLLbl: TLabel
     Left = 56

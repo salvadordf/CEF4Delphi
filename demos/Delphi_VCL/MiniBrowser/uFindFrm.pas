@@ -1,10 +1,17 @@
 unit uFindFrm;
 
+{$I ..\..\..\source\cef.inc}
+
 interface
 
 uses
+  {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.FileCtrl, Vcl.ExtCtrls, Vcl.Buttons;
+  {$ELSE}
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  FileCtrl, ExtCtrls, Vcl.Buttons, Buttons;
+  {$ENDIF}
 
 type
   TFindFrm = class(TForm)

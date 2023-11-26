@@ -1,43 +1,6 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uMainForm;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 interface
 
@@ -49,8 +12,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ComCtrls, Buttons, ExtCtrls, StdCtrls,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFSentinel;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants;
 
 const
   CEFBROWSER_DESTROYWNDPARENT = WM_APP + $100;
@@ -146,8 +108,7 @@ implementation
 // 1. FormCloseQuery hides the form and calls CloseAllBrowsers which calls TChromium.CloseBrowser in all tabs and triggers the TChromium.OnClose event.
 // 2. TChromium.OnClose sends a CEFBROWSER_DESTROYWNDPARENT message to destroy TCEFWindowParent in the main thread which triggers a TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sends a CEFBROWSER_CHECKTAGGEDTABS message to set the TAG property to 1 in the TabSheet containing the TChromium.
-//    When all tabsheets have a TAG = 1 it calls TCEFSentinel.Start, which will trigger TCEFSentinel.OnClose when the renderer processes are closed.
-// 4. TCEFSentinel.OnClose sends WM_CLOSE to the form.
+//    When all tabsheets have a TAG = 1 it sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin

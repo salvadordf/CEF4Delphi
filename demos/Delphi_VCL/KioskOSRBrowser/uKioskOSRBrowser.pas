@@ -1,43 +1,6 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uKioskOSRBrowser;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 interface
 
@@ -51,7 +14,7 @@ uses
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts, Keyboard,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFSentinel, uCEFChromiumCore, Vcl.Touch.GestureMgr;
+  uCEFChromiumCore, Vcl.Touch.GestureMgr;
 
 const
   HOMEPAGE_URL         = 'https://www.google.com';
@@ -108,7 +71,7 @@ type
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
-    procedure chrmosrContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
+    procedure chrmosrContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags; out Result: Boolean);
     procedure chrmosrVirtualKeyboardRequested(Sender: TObject; const browser: ICefBrowser; input_mode: TCefTextInpuMode);
     procedure chrmosrCanFocus(Sender: TObject);
 
@@ -351,7 +314,7 @@ procedure TForm1.chrmosrContextMenuCommand(      Sender     : TObject;
                                            const frame      : ICefFrame;
                                            const params     : ICefContextMenuParams;
                                                  commandId  : Integer;
-                                                 eventFlags : Cardinal;
+                                                 eventFlags : TCefEventFlags;
                                            out   Result     : Boolean);
 begin
   Result := False;

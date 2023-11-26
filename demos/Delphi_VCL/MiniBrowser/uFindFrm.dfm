@@ -19,7 +19,6 @@ object FindFrm: TFindFrm
   Position = poScreenCenter
   OnClose = FormClose
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object FindPrevBtn: TSpeedButton
     Left = 503
@@ -65,6 +64,6 @@ object FindFrm: TFindFrm
     Align = alLeft
     TabOrder = 0
     OnChange = FindTextEdtChange
-    ExplicitHeight = 20
+    ExplicitHeight = 21
   end
 end

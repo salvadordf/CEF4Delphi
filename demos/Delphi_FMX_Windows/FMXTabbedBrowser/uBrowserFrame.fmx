@@ -17,7 +17,7 @@ object BrowserFrame: TBrowserFrame
     Size.Width = 998.000000000000000000
     Size.Height = 35.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 3
+    TabOrder = 2
     object GoBtn: TSpeedButton
       Align = Right
       Margins.Left = 5.000000000000000000
@@ -28,6 +28,7 @@ object BrowserFrame: TBrowserFrame
       Size.PlatformDefault = False
       StyleLookup = 'arrowrighttoolbutton'
       Text = 'GoBtn'
+      TextSettings.Trimming = None
       OnClick = GoBtnClick
     end
     object NavButtonLay: TLayout
@@ -47,6 +48,7 @@ object BrowserFrame: TBrowserFrame
         Size.PlatformDefault = False
         StyleLookup = 'priortoolbutton'
         Text = 'BackBtn'
+        TextSettings.Trimming = None
         OnClick = BackBtnClick
       end
       object ForwardBtn: TSpeedButton
@@ -58,6 +60,7 @@ object BrowserFrame: TBrowserFrame
         Size.PlatformDefault = False
         StyleLookup = 'nexttoolbutton'
         Text = 'SpeedButton1'
+        TextSettings.Trimming = None
         OnClick = ForwardBtnClick
       end
       object ReloadBtn: TSpeedButton
@@ -69,6 +72,7 @@ object BrowserFrame: TBrowserFrame
         Size.PlatformDefault = False
         StyleLookup = 'refreshtoolbutton'
         Text = 'SpeedButton1'
+        TextSettings.Trimming = None
         OnClick = ReloadBtnClick
       end
       object StopBtn: TSpeedButton
@@ -79,6 +83,7 @@ object BrowserFrame: TBrowserFrame
         Size.PlatformDefault = False
         StyleLookup = 'stoptoolbutton'
         Text = 'SpeedButton1'
+        TextSettings.Trimming = None
         OnClick = StopBtnClick
       end
     end
@@ -96,7 +101,7 @@ object BrowserFrame: TBrowserFrame
     Size.Width = 998.000000000000000000
     Size.Height = 674.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 4
+    TabOrder = 3
     OnResize = WindowParentLayResize
     object FocusWorkaroundBtn: TButton
       Position.X = 304.000000000000000000
@@ -105,6 +110,7 @@ object BrowserFrame: TBrowserFrame
       Size.Height = 1.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
+      TextSettings.Trimming = None
     end
   end
   object StatusBar1: TStatusBar
@@ -124,6 +130,7 @@ object BrowserFrame: TBrowserFrame
       Size.Width = 965.000000000000000000
       Size.Height = 16.000000000000000000
       Size.PlatformDefault = False
+      TextSettings.Trimming = None
       TabOrder = 0
     end
   end

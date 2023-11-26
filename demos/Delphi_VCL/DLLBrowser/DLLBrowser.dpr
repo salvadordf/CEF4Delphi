@@ -47,7 +47,7 @@ library DLLBrowser;
   with your DLL. To avoid using BORLNDMM.DLL, pass string information
   using PChar or ShortString parameters. }
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 uses
   {$IFDEF DELPHI16_UP}

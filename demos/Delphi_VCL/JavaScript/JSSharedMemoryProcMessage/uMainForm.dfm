@@ -23,7 +23,6 @@ object MainForm: TMainForm
     Height = 549
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 530
   end
   object AddressBarPnl: TPanel
     Left = 0
@@ -48,7 +47,6 @@ object MainForm: TMainForm
       Align = alClient
       TabOrder = 0
       Text = 'https://www.google.com/'
-      ExplicitWidth = 754
       ExplicitHeight = 21
     end
     object Panel1: TPanel
@@ -80,7 +78,6 @@ object MainForm: TMainForm
         Caption = 'Send message'
         TabOrder = 1
         OnClick = SendMessageBtnClick
-        ExplicitLeft = 39
       end
     end
   end

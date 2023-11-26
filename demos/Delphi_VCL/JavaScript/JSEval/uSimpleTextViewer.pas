@@ -2,6 +2,8 @@ unit uSimpleTextViewer;
 
 interface
 
+{$I ..\..\..\..\source\cef.inc}
+
 uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,

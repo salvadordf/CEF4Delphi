@@ -26,8 +26,6 @@ object DirectorySelectorFrm: TDirectorySelectorFrm
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 0
-    ExplicitTop = 404
-    ExplicitWidth = 313
     object OkBtn: TButton
       Left = 5
       Top = 5
@@ -47,7 +45,6 @@ object DirectorySelectorFrm: TDirectorySelectorFrm
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 188
     end
   end
   object Panel2: TPanel
@@ -62,7 +59,6 @@ object DirectorySelectorFrm: TDirectorySelectorFrm
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 1
-    ExplicitWidth = 313
     object DriveComboBox1: TDriveComboBox
       Left = 5
       Top = 5
@@ -71,7 +67,6 @@ object DirectorySelectorFrm: TDirectorySelectorFrm
       Align = alClient
       DirList = DirectoryListBox1
       TabOrder = 0
-      ExplicitWidth = 303
     end
   end
   object Panel3: TPanel
@@ -84,8 +79,6 @@ object DirectorySelectorFrm: TDirectorySelectorFrm
     Padding.Left = 5
     Padding.Right = 5
     TabOrder = 2
-    ExplicitWidth = 313
-    ExplicitHeight = 373
     object DirectoryListBox1: TDirectoryListBox
       Left = 5
       Top = 0
@@ -93,8 +86,6 @@ object DirectorySelectorFrm: TDirectorySelectorFrm
       Height = 374
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 303
-      ExplicitHeight = 373
     end
   end
 end

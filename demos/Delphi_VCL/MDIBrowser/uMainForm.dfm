@@ -12,11 +12,9 @@ object MainForm: TMainForm
   Font.Name = 'Default'
   Font.Style = []
   FormStyle = fsMDIForm
-  OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object ButtonPnl: TPanel
     Left = 0

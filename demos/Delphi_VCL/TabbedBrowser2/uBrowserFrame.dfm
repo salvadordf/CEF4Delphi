@@ -4,7 +4,6 @@ object BrowserFrame: TBrowserFrame
   Width = 932
   Height = 670
   TabOrder = 0
-  PixelsPerInch = 96
   object NavControlPnl: TPanel
     Left = 0
     Top = 0

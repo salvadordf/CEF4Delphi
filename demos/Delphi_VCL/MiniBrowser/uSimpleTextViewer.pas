@@ -1,5 +1,7 @@
 unit uSimpleTextViewer;
 
+{$I ..\..\..\source\cef.inc}
+
 interface
 
 uses
