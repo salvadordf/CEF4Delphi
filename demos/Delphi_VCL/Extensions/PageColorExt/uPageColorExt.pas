@@ -13,7 +13,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
-  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFWinControl, uCEFChromiumCore;
 
 const
   CEF_EXT_LOADED          = WM_APP + $B01;

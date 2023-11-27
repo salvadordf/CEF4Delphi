@@ -13,7 +13,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
-  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFWinControl, uCEFChromiumCore;
 
 type
   TForm1 = class(TForm)

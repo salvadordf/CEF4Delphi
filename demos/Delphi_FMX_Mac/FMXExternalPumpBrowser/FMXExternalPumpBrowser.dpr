@@ -1,6 +1,6 @@
 program FMXExternalPumpBrowser;
 
-{$I cef.inc}
+{$I ..\..\..\source\cef.inc}
 
 uses
   {$IFDEF DELPHI17_UP}

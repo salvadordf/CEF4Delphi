@@ -7,7 +7,6 @@
         <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="External Pump Browser"/>
       <Scaled Value="True"/>
       <NSPrincipalClass Value="TCrCocoaApplication"/>
@@ -27,7 +26,6 @@
     </PublishOptions>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0"/>
     </RunParams>
     <RequiredPackages Count="2">
       <Item1>

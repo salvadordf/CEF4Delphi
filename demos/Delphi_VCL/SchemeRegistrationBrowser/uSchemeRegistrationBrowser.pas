@@ -14,7 +14,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFSchemeRegistrar,
-  uCEFTypes, uCEFConstants, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFTypes, uCEFConstants, uCEFWinControl, uCEFChromiumCore;
 
 const
   MINIBROWSER_CONTEXTMENU_REGSCHEME    = MENU_ID_USER_FIRST + 1;

@@ -8,13 +8,12 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
   Vcl.Controls, Vcl.StdCtrls, Vcl.Dialogs, Vcl.Buttons, Winapi.Messages,
-  Vcl.ExtCtrls, Vcl.ComCtrls,
+  Vcl.ExtCtrls, Vcl.ComCtrls;
   {$ELSE}
   Windows, SysUtils, Classes, Graphics, Forms,
   Controls, StdCtrls, Dialogs, Buttons, Messages,
-  ExtCtrls, ComCtrls,
-  {$ENDIF}
-  uCEFSentinel;
+  ExtCtrls, ComCtrls;
+  {$ENDIF} 
 
 const
   CEFBROWSER_CREATED          = WM_APP + $100;

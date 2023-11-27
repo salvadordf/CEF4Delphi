@@ -15,7 +15,7 @@ uses
   AppEvnts, ActiveX, ShlObj, SyncObjs,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFWinControl, uCEFChromiumCore;
 
 const
   MEDIA_ROUTER_PENDING_LOG_LINES    = WM_APP + $B00;

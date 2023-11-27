@@ -9,14 +9,14 @@ object Form1: TForm1
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.2.6.0'
   object PanelLeft: TPanel
     Left = 0
-    Height = 557
-    Top = 32
+    Height = 556
+    Top = 33
     Width = 484
     Align = alLeft
-    ClientHeight = 557
+    ClientHeight = 556
     ClientWidth = 484
     TabOrder = 0
     object AddressPnlLeft: TPanel
@@ -42,11 +42,11 @@ object Form1: TForm1
       end
       object AddressEdtLeft: TComboBox
         Left = 0
-        Height = 23
+        Height = 24
         Top = 0
         Width = 424
         Align = alClient
-        ItemHeight = 15
+        ItemHeight = 16
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
@@ -96,17 +96,17 @@ object Form1: TForm1
   end
   object Splitter1: TSplitter
     Left = 484
-    Height = 557
-    Top = 32
+    Height = 556
+    Top = 33
     Width = 5
   end
   object PanelRight: TPanel
     Left = 489
-    Height = 557
-    Top = 32
+    Height = 556
+    Top = 33
     Width = 478
     Align = alClient
-    ClientHeight = 557
+    ClientHeight = 556
     ClientWidth = 478
     TabOrder = 2
     object AddressPnlRight: TPanel
@@ -132,11 +132,11 @@ object Form1: TForm1
       end
       object AddressEdtRight: TComboBox
         Left = 0
-        Height = 23
+        Height = 24
         Top = 0
         Width = 418
         Align = alClient
-        ItemHeight = 15
+        ItemHeight = 16
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
@@ -186,7 +186,7 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 0
-    Height = 32
+    Height = 33
     Top = 0
     Width = 967
     Align = alTop
@@ -197,12 +197,12 @@ object Form1: TForm1
     ChildSizing.VerticalSpacing = 3
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 5
-    ClientHeight = 32
+    ClientHeight = 33
     ClientWidth = 967
     TabOrder = 3
     object BtnCloseApp: TButton
       Left = 5
-      Height = 25
+      Height = 26
       Top = 3
       Width = 80
       Caption = 'Close App'
@@ -211,7 +211,7 @@ object Form1: TForm1
     end
     object BtnCloseForm: TButton
       Left = 95
-      Height = 25
+      Height = 26
       Top = 3
       Width = 86
       Caption = 'Close Form'
@@ -220,17 +220,17 @@ object Form1: TForm1
     end
     object BtnModal: TButton
       Left = 191
-      Height = 25
+      Height = 26
       Top = 3
-      Width = 92
+      Width = 93
       Caption = 'Show Modal'
       OnClick = BtnModalClick
       TabOrder = 2
     end
   end
   object ImageList1: TImageList
-    left = 672
-    top = 104
+    Left = 672
+    Top = 104
     Bitmap = {
       4C7A010000001000000010000000D70000000000000078DAE591CB0A82501445
       FD19C5C7F58DA2A0F8C2FFF2178BA0226C12A6A1627DC1E9EE410D1CA8E3BA70

@@ -13,7 +13,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFConstants,
-  uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  uCEFWinControl, uCEFChromiumCore;
 
 type
   TJSWindowBindingWithObjectFrm = class(TForm)

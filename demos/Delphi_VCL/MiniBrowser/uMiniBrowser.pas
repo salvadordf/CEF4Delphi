@@ -17,7 +17,7 @@ uses
   AppEvnts, ActiveX, ShlObj, NetEncoding,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
-  uCEFConstants, uCEFWinControl, uCEFSentinel, uCEFChromiumCore, uCEFFileDialogInfo;
+  uCEFConstants, uCEFWinControl, uCEFChromiumCore, uCEFFileDialogInfo;
 
 const
   MINIBROWSER_SHOWDEVTOOLS     = WM_APP + $101;

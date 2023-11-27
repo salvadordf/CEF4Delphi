@@ -9,7 +9,7 @@ object Form1: TForm1
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.2.6.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 23
@@ -32,11 +32,11 @@ object Form1: TForm1
     end
     object AddressEdt: TComboBox
       Left = 0
-      Height = 23
+      Height = 24
       Top = 0
       Width = 932
       Align = alClient
-      ItemHeight = 15
+      ItemHeight = 16
       ItemIndex = 0
       Items.Strings = (
         'https://www.google.com'

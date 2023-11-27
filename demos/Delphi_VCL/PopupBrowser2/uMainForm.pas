@@ -13,7 +13,7 @@ uses
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm,
-  Vcl.AppEvnts, uCEFWinControl, uCEFSentinel, uCEFChromiumCore;
+  Vcl.AppEvnts, uCEFWinControl, uCEFChromiumCore;
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;
