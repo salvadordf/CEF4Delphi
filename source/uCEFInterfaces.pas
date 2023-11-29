@@ -536,6 +536,9 @@ type
     function  MustCreatePrintHandler : boolean;
     function  MustCreateFrameHandler : boolean;
     function  MustCreatePermissionHandler : boolean;
+    function  GetComponentID : integer;
+
+    property ComponentID : integer read GetComponentID;
   end;
 
   /// <summary>
@@ -568,6 +571,9 @@ type
 
     // Custom
     procedure doOnCreateURLRequest;
+    function  GetComponentID : integer;
+
+    property ComponentID : integer read GetComponentID;
   end;
 
   /// <summary>
@@ -589,6 +595,9 @@ type
 
     // Custom
     procedure doCreateCustomView;
+    function  GetComponentID : integer;
+
+    property ComponentID : integer read GetComponentID;
   end;
 
   /// <summary>

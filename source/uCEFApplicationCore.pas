@@ -18,16 +18,16 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes, System.SyncObjs,
     {$IFDEF FMX}uCEFLinuxTypes,{$ENDIF}
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF} SyncObjs,
   {$ENDIF}
   {$IFDEF LINUX}
     {$IFDEF FPC}xlib,{$ENDIF} uCEFArgCopy,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFApplicationEvents, uCEFBaseRefCounted,
-  uCEFSchemeRegistrar, uCEFPreferenceRegistrar;
+  uCEFSchemeRegistrar, uCEFPreferenceRegistrar, uCEFComponentIdList;
 
 const
   {$I uCEFVersion.inc}
@@ -192,6 +192,7 @@ type
       FCustomCommandLineValues           : TStringList;
       FAppSettings                       : TCefSettings;
       FDisableGPUCache                   : boolean;
+      FComponentIDList                   : TCEFComponentIdList;
 
       // ICefApp
       FOnRegisterCustomSchemes           : TOnRegisterCustomSchemesEvent;
@@ -446,6 +447,19 @@ type
       /// </summary>
       procedure   InitLibLocationFromArgs;
       {$ENDIF}
+      /// <summary>
+      /// Returns true if a custom component ID is valid before executing a CEF task.
+      /// </summary>
+      function    ValidComponentID(aComponentID : integer) : boolean;
+      /// <summary>
+      /// Returns the next component ID and adds this value to the valid ID list.
+      /// </summary>
+      function    NextComponentID : integer;
+      /// <summary>
+      /// Removes a component ID from the valid ID list when a component is destroyed.
+      /// </summary>
+      procedure   RemoveComponentID(aComponentID : integer);
+
       /// <summary>
       /// Set to true (1) to disable the sandbox for sub-processes. See
       /// cef_sandbox_win.h for requirements to enable the sandbox on Windows. Also
@@ -1859,6 +1873,7 @@ begin
   FillChar(FAppSettings, SizeOf(TCefSettings), 0);
   FAppSettings.size := SizeOf(TCefSettings);
   FDisableGPUCache                   := True;
+  FComponentIDList                   := nil;
 
   // ICefApp
   FOnRegisterCustomSchemes           := nil;
@@ -1914,6 +1929,7 @@ begin
     {$ENDIF}
     if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
+    if (FComponentIDList         <> nil) then FreeAndNil(FComponentIDList);
   finally
     inherited Destroy;
   end;
@@ -2131,6 +2147,7 @@ begin
 
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
+  FComponentIDList         := TCEFComponentIDList.Create;
 end;
 
 procedure TCefApplicationCore.AddCustomCommandLine(const aCommandLine, aValue : string);
@@ -2569,6 +2586,21 @@ begin
     FDeviceScaleFactor := FForcedDeviceScaleFactor
    else
     FDeviceScaleFactor := GetDeviceScaleFactor;
+end;
+
+function TCefApplicationCore.ValidComponentID(aComponentID : integer) : boolean;
+begin
+  Result := FComponentIDList.ValidID(aComponentID);
+end;
+
+function TCefApplicationCore.NextComponentID : integer;
+begin
+  Result := FComponentIDList.NextID;
+end;
+
+procedure TCefApplicationCore.RemoveComponentID(aComponentID : integer);
+begin
+  FComponentIDList.RemoveID(aComponentID);
 end;
 
 procedure TCefApplicationCore.ShutDown;

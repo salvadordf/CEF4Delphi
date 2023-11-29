@@ -37,6 +37,8 @@ type
       FOnFocus                   : TOnFocusEvent;
       FOnBlur                    : TOnBlurEvent;
 
+      FComponentID               : integer;
+
       procedure CreateView; virtual;
       procedure DestroyView; virtual;
       procedure Initialize; virtual;
@@ -72,6 +74,7 @@ type
       function  GetViewForID(id_: Integer): ICefView;
       function  GetHeightForWidth(width: Integer): Integer;
       function  GetInsets: TCefInsets;
+      function  GetComponentID : integer;
 
       procedure SetID(id_: Integer);
       procedure SetGroupID(group_id: Integer);
@@ -99,6 +102,7 @@ type
 
     public
       constructor Create(AOwner: TComponent); override;
+      procedure   AfterConstruction; override;
       procedure   BeforeDestruction; override;
       /// <summary>
       /// Returns a string representation of this View which includes the type and
@@ -410,17 +414,29 @@ type
 implementation
 
 uses
-  uCEFViewDelegate, uCEFMiscFunctions, uCEFTask;
+  uCEFViewDelegate, uCEFMiscFunctions, uCEFTask, uCEFApplicationCore;
 
 constructor TCEFViewComponent.Create(AOwner: TComponent);
 begin
   inherited Create(aOwner);
 
   Initialize;
+  FComponentID := 0;
+end;
+
+procedure TCEFViewComponent.AfterConstruction;
+begin
+  inherited AfterConstruction;
+
+  if assigned(GlobalCEFApp) then
+    FComponentID := GlobalCEFApp.NextComponentID;
 end;
 
 procedure TCEFViewComponent.BeforeDestruction;
 begin
+  if assigned(GlobalCEFApp) then
+    GlobalCEFApp.RemoveComponentID(FComponentID);
+
   DestroyView;
 
   inherited BeforeDestruction;
@@ -463,6 +479,11 @@ end;
 function TCEFViewComponent.GetInitialized : boolean;
 begin
   Result := False;
+end;
+
+function TCEFViewComponent.GetComponentID : integer;
+begin
+  Result := FComponentID;
 end;
 
 function TCEFViewComponent.GetAsView : ICefView;

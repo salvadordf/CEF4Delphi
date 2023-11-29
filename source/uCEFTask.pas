@@ -43,177 +43,158 @@ type
       constructor Create(const method: TCefFastTaskProc); reintroduce;
   end;
 
-  TCefUpdatePrefsTask = class(TCefTaskOwn)
+  /// <summary>
+  /// Custom class used to execute CEF tasks with CEF4Delphi components.
+  /// </summary>
+  TCefManagedTask = class(TCefTaskOwn)
     protected
-      FEvents : Pointer;
+      FComponentID : integer;
+      FEvents      : Pointer;
 
-      procedure Execute; override;
+      function CanExecute: boolean; virtual;
 
     public
-      constructor Create(const aEvents : IChromiumEvents); reintroduce;
+      constructor Create; override;
       destructor  Destroy; override;
   end;
 
-  TCefSavePrefsTask = class(TCefTaskOwn)
-    protected
-      FEvents : Pointer;
-
-      procedure Execute; override;
-
+  /// <summary>
+  /// Custom class used to execute CEF tasks with a TChromiumCore component.
+  /// </summary>
+  TCefChromiumTask = class(TCefManagedTask)
     public
       constructor Create(const aEvents : IChromiumEvents); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefURLRequestTask = class(TCefTaskOwn)
-    protected
-      FEvents : Pointer;
+  /// <summary>
+  /// Custom class used to execute CEF tasks with a TCEFViewComponent component.
+  /// </summary>
+  TCefViewDelegateTask = class(TCefManagedTask)
+    public
+      constructor Create(const aEvents : ICefViewDelegateEvents); reintroduce;
+  end;
 
-      procedure Execute; override;
-
+  /// <summary>
+  /// Custom class used to execute CEF tasks with a TCEFUrlRequestClientComponent component.
+  /// </summary>
+  TCefURLRequestClientTask = class(TCefManagedTask)
     public
       constructor Create(const aEvents : ICEFUrlRequestClientEvents); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefGenericTask = class(TCefTaskOwn)
+  TCefUpdatePrefsTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
+      procedure Execute; override;
+  end;
+
+  TCefSavePrefsTask = class(TCefChromiumTask)
+    protected
+      procedure Execute; override;
+  end;
+
+  TCefURLRequestTask = class(TCefURLRequestClientTask)
+    protected
+      procedure Execute; override;
+  end;
+
+  TCefGenericTask = class(TCefChromiumTask)
+    protected
       FTaskID : cardinal;
 
       procedure Execute; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; aTaskID : cardinal); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefUpdateZoomStepTask = class(TCefTaskOwn)
+  TCefUpdateZoomStepTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-      FInc    : boolean;
+      FInc : boolean;
 
       procedure Execute; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; aInc : boolean); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefUpdateZoomPctTask = class(TCefTaskOwn)
+  TCefUpdateZoomPctTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-      FInc    : boolean;
+      FInc : boolean;
 
       procedure Execute; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; aInc : boolean); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefReadZoomTask = class(TCefTaskOwn)
+  TCefReadZoomTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-
       procedure Execute; override;
-
-    public
-      constructor Create(const aEvents : IChromiumEvents); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefSetZoomLevelTask = class(TCefTaskOwn)
+  TCefSetZoomLevelTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-      FValue  : double;
+      FValue : double;
 
       procedure Execute; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; const aValue : double); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefSetZoomPctTask = class(TCefTaskOwn)
+  TCefSetZoomPctTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-      FValue  : double;
+      FValue : double;
 
       procedure Execute; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; const aValue : double); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefSetZoomStepTask = class(TCefTaskOwn)
+  TCefSetZoomStepTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-      FValue  : byte;
+      FValue : byte;
 
       procedure Execute; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; aValue : byte); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefCreateCustomViewTask = class(TCefTaskOwn)
+  TCefCreateCustomViewTask = class(TCefViewDelegateTask)
     protected
-      FEvents : Pointer;
-
       procedure Execute; override;
-
-    public
-      constructor Create(const aEvents : ICefViewDelegateEvents); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefBrowserNavigationTask = class(TCefTaskOwn)
+  TCefBrowserNavigationTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-      FTask   : TCefBrowserNavigation;
+      FTask : TCefBrowserNavigation;
 
       procedure Execute; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; aTask : TCefBrowserNavigation); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefSetAudioMutedTask = class(TCefTaskOwn)
+  TCefSetAudioMutedTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
       FValue  : boolean;
 
       procedure Execute; override;
 
     public
       constructor Create(const aEvents : IChromiumEvents; aValue : boolean); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefToggleAudioMutedTask = class(TCefTaskOwn)
+  TCefToggleAudioMutedTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-
       procedure Execute; override;
-
-    public
-      constructor Create(const aEvents : IChromiumEvents); reintroduce;
-      destructor  Destroy; override;
   end;
 
-  TCefEnableFocusTask = class(TCefTaskOwn)
+  TCefEnableFocusTask = class(TCefChromiumTask)
     protected
-      FEvents : Pointer;
-
       procedure Execute; override;
-
-    public
-      constructor Create(const aEvents : IChromiumEvents); reintroduce;
-      destructor  Destroy; override;
   end;
 
 implementation
@@ -224,7 +205,10 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFUrlRequest;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFUrlRequest, uCEFApplicationCore;
+
+
+// TCefTaskOwn
 
 procedure cef_task_execute(self: PCefTask); stdcall;
 var
@@ -249,8 +233,8 @@ begin
 end;
 
 
-// TCefTaskRef
 
+// TCefTaskRef
 
 procedure TCefTaskRef.Execute;
 begin
@@ -266,8 +250,8 @@ begin
 end;
 
 
-// TCefFastTask
 
+// TCefFastTask
 
 constructor TCefFastTask.Create(const method: TCefFastTaskProc);
 begin
@@ -292,28 +276,77 @@ begin
 end;
 
 
-// TCefUpdatePrefsTask
 
+// TCefManagedTask
 
-constructor TCefUpdatePrefsTask.Create(const aEvents : IChromiumEvents);
+constructor TCefManagedTask.Create;
 begin
   inherited Create;
 
-  FEvents := Pointer(aEvents);
+  FComponentID := 0;
+  FEvents      := nil;
 end;
 
-destructor TCefUpdatePrefsTask.Destroy;
+destructor TCefManagedTask.Destroy;
 begin
   FEvents := nil;
 
   inherited Destroy;
 end;
 
+function TCefManagedTask.CanExecute: boolean;
+begin
+  Result := (FEvents <> nil) and
+            assigned(GlobalCEFApp) and
+            GlobalCEFApp.ValidComponentID(FComponentID);
+end;
+
+
+
+// TCefChromiumTask
+
+constructor TCefChromiumTask.Create(const aEvents : IChromiumEvents);
+begin
+  inherited Create;
+
+  FComponentID := aEvents.ComponentID;
+  FEvents      := Pointer(aEvents);
+end;
+
+
+
+// TCefViewDelegateTask
+
+constructor TCefViewDelegateTask.Create(const aEvents : ICefViewDelegateEvents);
+begin
+  inherited Create;
+
+  FComponentID := aEvents.ComponentID;
+  FEvents      := Pointer(aEvents);
+end;
+
+
+
+// TCefURLRequestClientTask
+
+constructor TCefURLRequestClientTask.Create(const aEvents : ICEFUrlRequestClientEvents);
+begin
+  inherited Create;
+
+  FComponentID := aEvents.ComponentID;
+  FEvents      := Pointer(aEvents);
+end;
+
+
+
+// TCefUpdatePrefsTask
+
 procedure TCefUpdatePrefsTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdateOwnPreferences;
+      if CanExecute then
+        IChromiumEvents(FEvents).doUpdateOwnPreferences;
     except
       on e : exception do
         if CustomExceptionHandler('TCefUpdatePrefsTask.Execute', e) then raise;
@@ -326,26 +359,12 @@ end;
 
 // TCefSavePrefsTask
 
-
-constructor TCefSavePrefsTask.Create(const aEvents : IChromiumEvents);
-begin
-  inherited Create;
-
-  FEvents := Pointer(aEvents);
-end;
-
-destructor TCefSavePrefsTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
-end;
-
 procedure TCefSavePrefsTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doSavePreferences;
+      if CanExecute then
+        IChromiumEvents(FEvents).doSavePreferences;
     except
       on e : exception do
         if CustomExceptionHandler('TCefSavePrefsTask.Execute', e) then raise;
@@ -356,13 +375,15 @@ begin
 end;
 
 
+
 // TCefURLRequestTask
 
 procedure TCefURLRequestTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then ICEFUrlRequestClientEvents(FEvents).doOnCreateURLRequest;
+      if CanExecute then
+        ICEFUrlRequestClientEvents(FEvents).doOnCreateURLRequest;
     except
       on e : exception do
         if CustomExceptionHandler('TCefURLRequestTask.Execute', e) then raise;
@@ -372,19 +393,6 @@ begin
   end;
 end;
 
-constructor TCefURLRequestTask.Create(const aEvents : ICEFUrlRequestClientEvents);
-begin
-  inherited Create;
-
-  FEvents := Pointer(aEvents);
-end;
-
-destructor TCefURLRequestTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
-end;
 
 
 // TCefGenericTask
@@ -393,7 +401,8 @@ procedure TCefGenericTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doOnExecuteTaskOnCefThread(FTaskID);
+      if CanExecute then
+        IChromiumEvents(FEvents).doOnExecuteTaskOnCefThread(FTaskID);
     except
       on e : exception do
         if CustomExceptionHandler('TCefGenericTask.Execute', e) then raise;
@@ -405,17 +414,9 @@ end;
 
 constructor TCefGenericTask.Create(const aEvents : IChromiumEvents; aTaskID : cardinal);
 begin
-  inherited Create;
+  inherited Create(aEvents);
 
-  FEvents := Pointer(aEvents);
   FTaskID := aTaskID;
-end;
-
-destructor TCefGenericTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
 end;
 
 
@@ -426,7 +427,8 @@ procedure TCefUpdateZoomStepTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdateZoomStep(FInc);
+      if CanExecute then
+        IChromiumEvents(FEvents).doUpdateZoomStep(FInc);
     except
       on e : exception do
         if CustomExceptionHandler('TCefUpdateZoomStepTask.Execute', e) then raise;
@@ -438,17 +440,9 @@ end;
 
 constructor TCefUpdateZoomStepTask.Create(const aEvents : IChromiumEvents; aInc : boolean);
 begin
-  inherited Create;
+  inherited Create(aEvents);
 
-  FEvents := Pointer(aEvents);
-  FInc    := aInc;
-end;
-
-destructor TCefUpdateZoomStepTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
+  FInc := aInc;
 end;
 
 
@@ -459,7 +453,8 @@ procedure TCefUpdateZoomPctTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdateZoomPct(FInc);
+      if CanExecute then
+        IChromiumEvents(FEvents).doUpdateZoomPct(FInc);
     except
       on e : exception do
         if CustomExceptionHandler('TCefUpdateZoomPctTask.Execute', e) then raise;
@@ -471,17 +466,9 @@ end;
 
 constructor TCefUpdateZoomPctTask.Create(const aEvents : IChromiumEvents; aInc : boolean);
 begin
-  inherited Create;
+  inherited Create(aEvents);
 
-  FEvents := Pointer(aEvents);
-  FInc    := aInc;
-end;
-
-destructor TCefUpdateZoomPctTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
+  FInc := aInc;
 end;
 
 
@@ -492,7 +479,8 @@ procedure TCefReadZoomTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doReadZoom;
+      if CanExecute then
+        IChromiumEvents(FEvents).doReadZoom;
     except
       on e : exception do
         if CustomExceptionHandler('TCefReadZoomTask.Execute', e) then raise;
@@ -500,20 +488,6 @@ begin
   finally
     FEvents := nil;
   end;
-end;
-
-constructor TCefReadZoomTask.Create(const aEvents : IChromiumEvents);
-begin
-  inherited Create;
-
-  FEvents := Pointer(aEvents);
-end;
-
-destructor TCefReadZoomTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
 end;
 
 
@@ -524,7 +498,8 @@ procedure TCefSetZoomLevelTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetZoomLevel(FValue);
+      if CanExecute then
+        IChromiumEvents(FEvents).doSetZoomLevel(FValue);
     except
       on e : exception do
         if CustomExceptionHandler('TCefSetZoomLevelTask.Execute', e) then raise;
@@ -536,17 +511,9 @@ end;
 
 constructor TCefSetZoomLevelTask.Create(const aEvents : IChromiumEvents; const aValue : double);
 begin
-  inherited Create;
+  inherited Create(aEvents);
 
-  FEvents := Pointer(aEvents);
-  FValue  := aValue;
-end;
-
-destructor TCefSetZoomLevelTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
+  FValue := aValue;
 end;
 
 
@@ -557,7 +524,8 @@ procedure TCefSetZoomPctTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetZoomPct(FValue);
+      if CanExecute then
+        IChromiumEvents(FEvents).doSetZoomPct(FValue);
     except
       on e : exception do
         if CustomExceptionHandler('TCefSetZoomPctTask.Execute', e) then raise;
@@ -569,17 +537,9 @@ end;
 
 constructor TCefSetZoomPctTask.Create(const aEvents : IChromiumEvents; const aValue : double);
 begin
-  inherited Create;
+  inherited Create(aEvents);
 
-  FEvents := Pointer(aEvents);
-  FValue  := aValue;
-end;
-
-destructor TCefSetZoomPctTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
+  FValue := aValue;
 end;
 
 
@@ -590,7 +550,8 @@ procedure TCefSetZoomStepTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetZoomStep(FValue);
+      if CanExecute then
+        IChromiumEvents(FEvents).doSetZoomStep(FValue);
     except
       on e : exception do
         if CustomExceptionHandler('TCefSetZoomStepTask.Execute', e) then raise;
@@ -602,18 +563,11 @@ end;
 
 constructor TCefSetZoomStepTask.Create(const aEvents : IChromiumEvents; aValue : byte);
 begin
-  inherited Create;
+  inherited Create(aEvents);
 
-  FEvents := Pointer(aEvents);
-  FValue  := aValue;
+  FValue := aValue;
 end;
 
-destructor TCefSetZoomStepTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
-end;
 
 
 // TCefCreateCustomViewTask
@@ -622,7 +576,8 @@ procedure TCefCreateCustomViewTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then ICefViewDelegateEvents(FEvents).doCreateCustomView;
+      if CanExecute then
+        ICefViewDelegateEvents(FEvents).doCreateCustomView;
     except
       on e : exception do
         if CustomExceptionHandler('ICefViewDelegateEvents.Execute', e) then raise;
@@ -632,19 +587,6 @@ begin
   end;
 end;
 
-constructor TCefCreateCustomViewTask.Create(const aEvents : ICefViewDelegateEvents);
-begin
-  inherited Create;
-
-  FEvents := Pointer(aEvents);
-end;
-
-destructor TCefCreateCustomViewTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
-end;
 
 
 // TCefBrowserNavigationTask
@@ -653,7 +595,8 @@ procedure TCefBrowserNavigationTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doBrowserNavigation(FTask);
+      if CanExecute then
+        IChromiumEvents(FEvents).doBrowserNavigation(FTask);
     except
       on e : exception do
         if CustomExceptionHandler('TCefBrowserNavigationTask.Execute', e) then raise;
@@ -665,18 +608,11 @@ end;
 
 constructor TCefBrowserNavigationTask.Create(const aEvents : IChromiumEvents; aTask : TCefBrowserNavigation);
 begin
-  inherited Create;
+  inherited Create(aEvents);
 
-  FEvents := Pointer(aEvents);
-  FTask   := aTask;
+  FTask := aTask;
 end;
 
-destructor TCefBrowserNavigationTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
-end;
 
 
 // TCefSetAudioMutedTask
@@ -685,7 +621,8 @@ procedure TCefSetAudioMutedTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetAudioMuted(FValue);
+      if CanExecute then
+        IChromiumEvents(FEvents).doSetAudioMuted(FValue);
     except
       on e : exception do
         if CustomExceptionHandler('TCefSetAudioMutedTask.Execute', e) then raise;
@@ -697,18 +634,11 @@ end;
 
 constructor TCefSetAudioMutedTask.Create(const aEvents : IChromiumEvents; aValue : boolean);
 begin
-  inherited Create;
+  inherited Create(aEvents);
 
-  FEvents := Pointer(aEvents);
-  FValue  := aValue;
+  FValue := aValue;
 end;
 
-destructor TCefSetAudioMutedTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
-end;
 
 
 // TCefToggleAudioMutedTask
@@ -717,7 +647,8 @@ procedure TCefToggleAudioMutedTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doToggleAudioMuted;
+      if CanExecute then
+        IChromiumEvents(FEvents).doToggleAudioMuted;
     except
       on e : exception do
         if CustomExceptionHandler('TCefToggleAudioMutedTask.Execute', e) then raise;
@@ -727,19 +658,6 @@ begin
   end;
 end;
 
-constructor TCefToggleAudioMutedTask.Create(const aEvents : IChromiumEvents);
-begin
-  inherited Create;
-
-  FEvents := Pointer(aEvents);
-end;
-
-destructor TCefToggleAudioMutedTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
-end;
 
 
 // TCefEnableFocusTask
@@ -748,7 +666,8 @@ procedure TCefEnableFocusTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doEnableFocus;
+      if CanExecute then
+        IChromiumEvents(FEvents).doEnableFocus;
     except
       on e : exception do
         if CustomExceptionHandler('TCefEnableFocusTask.Execute', e) then raise;
@@ -756,20 +675,6 @@ begin
   finally
     FEvents := nil;
   end;
-end;
-
-constructor TCefEnableFocusTask.Create(const aEvents : IChromiumEvents);
-begin
-  inherited Create;
-
-  FEvents := Pointer(aEvents);
-end;
-
-destructor TCefEnableFocusTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
 end;
 
 end.

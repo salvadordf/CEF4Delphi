@@ -114,6 +114,7 @@ type
       FHighEfficiencyModeState  : TCefHighEfficiencyModeState;
       FCanFocus                 : boolean;
       FEnableFocusDelayMs       : cardinal;
+      FComponentID              : integer;
 
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
@@ -371,6 +372,7 @@ type
       function  GetBrowserById(aID : integer) : ICefBrowser;
       function  GetBrowserCount : integer;
       function  GetBrowserIdByIndex(aIndex : integer) : integer;
+      function  GetComponentID : integer;
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
       {$ENDIF}
@@ -725,6 +727,7 @@ type
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
+      procedure   BeforeDestruction; override;
       /// <summary>
       /// Used to create the client handler which will also create most of the browser handlers needed for the browser.
       /// </summary>
@@ -4024,6 +4027,7 @@ begin
   FHighEfficiencyModeState := kDefault;
   FCanFocus                := False;
   FEnableFocusDelayMs      := CEF_DEFAULT_ENABLEFOCUSDELAY;
+  FComponentID             := 0;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -4093,6 +4097,9 @@ destructor TChromiumCore.Destroy;
 begin
   try
     try
+      if assigned(GlobalCEFApp) then
+        GlobalCEFApp.RemoveComponentID(FComponentID);
+
       DestroyAllHandlersAndObservers;
 
       {$IFDEF MSWINDOWS}
@@ -4412,6 +4419,17 @@ begin
   {$ENDIF}
   CreateBrowserInfoList;
   CreateRequestContextHandler;
+
+  if assigned(GlobalCEFApp) then
+    FComponentID := GlobalCEFApp.NextComponentID;
+end;
+
+procedure TChromiumCore.BeforeDestruction;
+begin
+  if assigned(GlobalCEFApp) then
+    GlobalCEFApp.RemoveComponentID(FComponentID);
+
+  inherited BeforeDestruction;
 end;
 
 function TChromiumCore.CreateClientHandler(aIsOSR : boolean) : boolean;
@@ -5488,6 +5506,11 @@ begin
     finally
       FBrowsersCS.Release;
     end;
+end;
+
+function TChromiumCore.GetComponentID : integer;
+begin
+  Result := FComponentID;
 end;
 
 {$IFDEF LINUX}

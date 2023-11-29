@@ -70,7 +70,8 @@ uses
   uCEFRunQuickMenuCallback, uCEFMediaAccessHandler, uCEFMediaAccessCallback, 
   uCEFPermissionPromptCallback, uCEFSharedProcessMessageBuilder, 
   uCEFSharedMemoryRegion, uCEFPreferenceManager, uCEFPreferenceRegistrar, 
-  uCEFApplicationEvents, uCEFBrowserBitmap, LazarusPackageIntf;
+  uCEFApplicationEvents, uCEFBrowserBitmap, uCEFComponentIdList, 
+  LazarusPackageIntf;
 
 implementation
 

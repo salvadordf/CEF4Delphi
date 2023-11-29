@@ -34,6 +34,7 @@ type
     protected
       FClient               : ICefUrlrequestClient;
       FThreadID             : TCefThreadId;
+      FComponentID          : integer;
 
       FOnRequestComplete    : TOnRequestComplete;
       FOnUploadProgress     : TOnUploadProgress;
@@ -41,6 +42,8 @@ type
       FOnDownloadData       : TOnDownloadData;
       FOnGetAuthCredentials : TOnGetAuthCredentials;
       FOnCreateURLRequest   : TNotifyEvent;
+
+      function  GetComponentID : integer;
 
       // ICefUrlrequestClient
       procedure doOnRequestComplete(const request: ICefUrlRequest);
@@ -175,7 +178,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFRequest, uCEFTask, uCEFMiscFunctions;
+  uCEFRequest, uCEFTask, uCEFMiscFunctions, uCEFApplicationCore;
 
 
 constructor TCEFUrlRequestClientComponent.Create(AOwner: TComponent);
@@ -190,6 +193,7 @@ begin
   FOnDownloadData       := nil;
   FOnGetAuthCredentials := nil;
   FOnCreateURLRequest   := nil;
+  FComponentID          := 0;
 end;
 
 procedure TCEFUrlRequestClientComponent.AfterConstruction;
@@ -198,13 +202,24 @@ begin
 
   if not(csDesigning in ComponentState) then
     FClient := TCustomCefUrlrequestClient.Create(self);
+
+  if assigned(GlobalCEFApp) then
+    FComponentID := GlobalCEFApp.NextComponentID;
 end;
 
 procedure TCEFUrlRequestClientComponent.BeforeDestruction;
 begin
+  if assigned(GlobalCEFApp) then
+    GlobalCEFApp.RemoveComponentID(FComponentID);
+
   DestroyRequestClient;
 
   inherited BeforeDestruction;
+end;
+
+function TCEFUrlRequestClientComponent.GetComponentID : integer;
+begin
+  Result := FComponentID;
 end;
 
 procedure TCEFUrlRequestClientComponent.DestroyRequestClient;

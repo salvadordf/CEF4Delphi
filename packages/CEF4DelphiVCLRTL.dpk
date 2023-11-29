@@ -234,7 +234,8 @@ contains
   uCEFPreferenceRegistrar in '..\source\uCEFPreferenceRegistrar.pas',
   uCEFPreferenceManager in '..\source\uCEFPreferenceManager.pas',
   uCEFApplicationEvents in '..\source\uCEFApplicationEvents.pas',
-  uCEFBrowserBitmap in '..\source\uCEFBrowserBitmap.pas';
+  uCEFBrowserBitmap in '..\source\uCEFBrowserBitmap.pas',
+  uCEFComponentIdList in '..\source\uCEFComponentIdList.pas';
 
 end.
 
