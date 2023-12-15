@@ -282,6 +282,7 @@ type
     procedure doOnRegisterCustomPreferences(type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar);
     procedure doOnContextInitialized;
     procedure doOnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+    procedure doOnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean);
     procedure doOnScheduleMessagePumpWork(const delayMs: Int64);
     procedure doGetDefaultClient(var aClient : ICefClient);
 
@@ -4574,26 +4575,23 @@ type
   ICefBrowserProcessHandler = interface(ICefBaseRefCounted)
     ['{27291B7A-C0AE-4EE0-9115-15C810E22F6C}']
     /// <summary>
-    /// Provides an opportunity to register custom preferences prior to global and
-    /// request context initialization.
-    ///
-    /// If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be
+    /// <para>Provides an opportunity to register custom preferences prior to global and
+    /// request context initialization.</para>
+    /// <para>If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be
     /// accessed via ICefPreferenceManager.GetGlobalPreferences after
     /// OnContextInitialized is called. Global preferences are registered a single
     /// time at application startup. See related TCefSettings.cache_path and
-    /// TCefSettings.persist_user_preferences configuration.
-    ///
-    /// If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be
+    /// TCefSettings.persist_user_preferences configuration.</para>
+    /// <para>If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be
     /// accessed via the ICefRequestContext after
     /// ICefRequestContextHandler.OnRequestContextInitialized is called.
     /// Request context preferences are registered each time a new
     /// ICefRequestContext is created. It is intended but not required that all
     /// request contexts have the same registered preferences. See related
     /// TCefRequestContextSettings.cache_path and
-    /// TCefRequestContextSettings.persist_user_preferences configuration.
-    ///
-    /// Do not keep a reference to the |registrar| object. This function is called
-    /// on the browser process UI thread.
+    /// TCefRequestContextSettings.persist_user_preferences configuration.</para>
+    /// <para>Do not keep a reference to the |registrar| object. This function is called
+    /// on the browser process UI thread.</para>
     /// </summary>
     procedure OnRegisterCustomPreferences(type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar);
     /// <summary>
@@ -4609,6 +4607,23 @@ type
     /// |command_line| outside of this function.
     /// </summary>
     procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+    /// <summary>
+    /// <para>Implement this function to provide app-specific behavior when an already
+    /// running app is relaunched with the same TCefSettings.root_cache_path value.
+    /// For example, activate an existing app window or create a new app window.
+    /// |command_line| will be read-only. Do not keep a reference to
+    /// |command_line| outside of this function. Return true (1) if the relaunch
+    /// is handled or false (0) for default relaunch behavior. Default behavior
+    /// will create a new default styled Chrome window.</para>
+    /// <para>To avoid cache corruption only a single app instance is allowed to run for
+    /// a given TCefSettings.root_cache_path value. On relaunch the app checks a
+    /// process singleton lock and then forwards the new launch arguments to the
+    /// already running app process before exiting early. Client apps should
+    /// therefore check the cef_initialize() return value for early exit before
+    /// proceeding.</para>
+    /// <para>This function will be called on the browser process UI thread.</para>
+    /// </summary>
+    procedure OnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean);
     /// <summary>
     /// Called from any thread when work has been scheduled for the browser
     /// process main (UI) thread. This callback is used in combination with

@@ -1712,43 +1712,43 @@ type
     /// <summary>
     /// Unknown disposition.
     /// </summary>
-    WOD_UNKNOWN,
+    CEF_WOD_UNKNOWN,
     /// <summary>
     /// Current tab. This is the default in most cases.
     /// </summary>
-    WOD_CURRENT_TAB,
+    CEF_WOD_CURRENT_TAB,
     /// <summary>
     /// Indicates that only one tab with the url should exist in the same window.
     /// </summary>
-    WOD_SINGLETON_TAB,
+    CEF_WOD_SINGLETON_TAB,
     /// <summary>
     /// Shift key + Middle mouse button or meta/ctrl key while clicking.
     /// </summary>
-    WOD_NEW_FOREGROUND_TAB,
+    CEF_WOD_NEW_FOREGROUND_TAB,
     /// <summary>
     /// Middle mouse button or meta/ctrl key while clicking.
     /// </summary>
-    WOD_NEW_BACKGROUND_TAB,
+    CEF_WOD_NEW_BACKGROUND_TAB,
     /// <summary>
     /// New popup window.
     /// </summary>
-    WOD_NEW_POPUP,
+    CEF_WOD_NEW_POPUP,
     /// <summary>
     /// Shift key while clicking.
     /// </summary>
-    WOD_NEW_WINDOW,
+    CEF_WOD_NEW_WINDOW,
     /// <summary>
     /// Alt key while clicking.
     /// </summary>
-    WOD_SAVE_TO_DISK,
+    CEF_WOD_SAVE_TO_DISK,
     /// <summary>
     /// New off-the-record (incognito) window.
     /// </summary>
-    WOD_OFF_THE_RECORD,
+    CEF_WOD_OFF_THE_RECORD,
     /// <summary>
     /// Special case error condition from the renderer.
     /// </summary>
-    WOD_IGNORE_ACTION,
+    CEF_WOD_IGNORE_ACTION,
     /// <summary>
     /// Activates an existing tab containing the url, rather than navigating.
     /// This is similar to SINGLETON_TAB, but searches across all windows from
@@ -1757,11 +1757,11 @@ type
     /// no session history; and behaves like CURRENT_TAB instead of
     /// NEW_FOREGROUND_TAB when no existing tab is found.
     /// </summary>
-    WOD_SWITCH_TO_TAB,
+    CEF_WOD_SWITCH_TO_TAB,
     /// <summary>
     /// Creates a new document picture-in-picture window showing a child WebView.
     /// </summary>
-    WOD_NEW_PICTURE_IN_PICTURE
+    CEF_WOD_NEW_PICTURE_IN_PICTURE
   );
 
   /// <summary>
@@ -3057,30 +3057,43 @@ type
     /// </summary>
     command_line_args_disabled               : Integer;
     /// <summary>
-    /// The location where data for the global browser cache will be stored on
+    /// The directory where data for the global browser cache will be stored on
     /// disk. If this value is non-empty then it must be an absolute path that is
-    /// either equal to or a child directory of TCefSettings.root_cache_path. If
+    /// either equal to or a child directory of CefSettings.root_cache_path. If
     /// this value is empty then browsers will be created in "incognito mode"
-    /// where in-memory caches are used for storage and no data is persisted to
-    /// disk. HTML5 databases such as localStorage will only persist across
-    /// sessions if a cache path is specified. Can be overridden for individual
-    /// CefRequestContext instances via the TCefRequestContextSettings.cache_path
-    /// value. When using the Chrome runtime the "default" profile will be used if
-    /// |cache_path| and |root_cache_path| have the same value.
+    /// where in-memory caches are used for storage and no profile-specific data
+    /// is persisted to disk (installation-specific data will still be persisted
+    /// in root_cache_path). HTML5 databases such as localStorage will only
+    /// persist across sessions if a cache path is specified. Can be overridden
+    /// for individual ICefRequestContext instances via the
+    /// ICefRequestContextSettings.cache_path value. When using the Chrome runtime
+    /// any child directory value will be ignored and the "default" profile (also
+    /// a child directory) will be used instead.
     /// </summary>
     cache_path                               : TCefString;
     /// <summary>
-    /// The root directory that all TCefSettings.cache_path and
-    /// TCefRequestContextSettings.cache_path values must have in common. If this
-    /// value is empty and TCefSettings.cache_path is non-empty then it will
-    /// default to the TCefSettings.cache_path value. If both values are empty
-    /// then the default platform-specific directory will be used
+    /// <para>The root directory for installation-specific data and the parent directory
+    /// for profile-specific data. All TCefSettings.cache_path and
+    /// ICefRequestContextSettings.cache_path values must have this parent
+    /// directory in common. If this value is empty and TCefSettings.cache_path is
+    /// non-empty then it will default to the TCefSettings.cache_path value. Any
+    /// non-empty value must be an absolute path. If both values are empty then
+    /// the default platform-specific directory will be used
     /// ("~/.config/cef_user_data" directory on Linux, "~/Library/Application
     /// Support/CEF/User Data" directory on MacOS, "AppData\Local\CEF\User Data"
-    /// directory under the user profile directory on Windows). If this value is
-    /// non-empty then it must be an absolute path. Failure to set this value
-    /// correctly may result in the sandbox blocking read/write access to certain
-    /// files.
+    /// directory under the user profile directory on Windows). Use of the default
+    /// directory is not recommended in production applications (see below).</para>
+    /// <para>Multiple application instances writing to the same root_cache_path
+    /// directory could result in data corruption. A process singleton lock based
+    /// on the root_cache_path value is therefore used to protect against this.
+    /// This singleton behavior applies to all CEF-based applications using
+    /// version 120 or newer. You should customize root_cache_path for your
+    /// application and implement ICefBrowserProcessHandler.OnAlreadyRunningAppRelaunch,
+    /// which will then be called on any app relaunch
+    /// with the same root_cache_path value.</para>
+    /// <para>Failure to set the root_cache_path value correctly may result in startup
+    /// crashes or other unexpected behaviors (for example, the sandbox blocking
+    /// read/write access to certain files).</para>
     /// </summary>
     root_cache_path                          : TCefString;
     /// <summary>
@@ -3229,7 +3242,6 @@ type
     /// </summary>
     cookieable_schemes_list                  : TCefString;
     cookieable_schemes_exclude_defaults      : integer;
-
     /// <summary>
     /// <para>Specify an ID to enable Chrome policy management via Platform and OS-user
     /// policies. On Windows, this is a registry key like
@@ -3243,6 +3255,14 @@ type
     /// for details.</para>
     /// </summary>
     chrome_policy_id                        : TCefString;
+    /// <summary>
+    /// Specify an ID for an ICON resource that can be loaded from the main
+    /// executable and used when creating default Chrome windows such as DevTools
+    /// and Task Manager. If unspecified the default Chromium ICON (IDR_MAINFRAME
+    /// [101]) will be loaded from libcef.dll. Only supported with the Chrome
+    /// runtime on Windows.
+    /// </summary>
+    chrome_app_icon_id                      : Integer;
   end;
 
   /// <summary>
@@ -3672,14 +3692,15 @@ type
     /// </summary>
     size                                     : NativeUInt;
     /// <summary>
-    /// The location where cache data for this request context will be stored on
+    /// The directory where cache data for this request context will be stored on
     /// disk. If this value is non-empty then it must be an absolute path that is
     /// either equal to or a child directory of TCefSettings.root_cache_path. If
     /// this value is empty then browsers will be created in "incognito mode"
-    /// where in-memory caches are used for storage and no data is persisted to
-    /// disk. HTML5 databases such as localStorage will only persist across
-    /// sessions if a cache path is specified. To share the global browser cache
-    /// and related configuration set this value to match the
+    /// where in-memory caches are used for storage and no profile-specific data
+    /// is persisted to disk (installation-specific data will still be persisted
+    /// in root_cache_path). HTML5 databases such as localStorage will only
+    /// persist across sessions if a cache path is specified. To share the global
+    /// browser cache and related configuration set this value to match the
     /// TCefSettings.cache_path value.
     /// </summary>
     cache_path                               : TCefString;
@@ -3710,7 +3731,7 @@ type
     accept_language_list                     : TCefString;
     /// <summary>
     /// Comma delimited list of schemes supported by the associated
-    /// CefCookieManager. If |cookieable_schemes_exclude_defaults| is false (0)
+    /// ICefCookieManager. If |cookieable_schemes_exclude_defaults| is false (0)
     /// the default schemes ("http", "https", "ws" and "wss") will also be
     /// supported. Not specifying a |cookieable_schemes_list| value and setting
     /// |cookieable_schemes_exclude_defaults| to true (1) will disable all loading
@@ -4412,6 +4433,11 @@ type
     /// permission request.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_EXTENDED_PERMISSION,
+    /// <summary>
+    /// Content Setting for temporary 3PC accesses granted by user behavior
+    /// heuristics.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS,
     CEF_CONTENT_SETTING_TYPE_NUM_TYPES
   );
 
@@ -7088,6 +7114,7 @@ type
     on_register_custom_preferences    : procedure(self: PCefBrowserProcessHandler; type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); stdcall;
     on_context_initialized            : procedure(self: PCefBrowserProcessHandler); stdcall;
     on_before_child_process_launch    : procedure(self: PCefBrowserProcessHandler; command_line: PCefCommandLine); stdcall;
+    on_already_running_app_relaunch   : function(self: PCefBrowserProcessHandler; command_line: PCefCommandLine; const current_directory: PCefString): integer; stdcall;
     on_schedule_message_pump_work     : procedure(self: PCefBrowserProcessHandler; delay_ms: Int64); stdcall;
     get_default_client                : function(self: PCefBrowserProcessHandler): PCefClient; stdcall;
   end;

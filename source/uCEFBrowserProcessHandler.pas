@@ -25,6 +25,7 @@ type
       procedure OnRegisterCustomPreferences(type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); virtual; abstract;
       procedure OnContextInitialized; virtual; abstract;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); virtual; abstract;
+      procedure OnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean); virtual; abstract;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual; abstract;
       procedure GetDefaultClient(var aClient : ICefClient); virtual;
 
@@ -41,6 +42,7 @@ type
       procedure OnRegisterCustomPreferences(type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); override;
       procedure OnContextInitialized; override;
       procedure OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine); override;
+      procedure OnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean); override;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
       procedure GetDefaultClient(var aClient : ICefClient); override;
 
@@ -96,6 +98,25 @@ begin
     TCefBrowserProcessHandlerOwn(TempObject).OnBeforeChildProcessLaunch(TCefCommandLineRef.UnWrap(command_line));
 end;
 
+function cef_browser_process_handler_on_already_running_app_relaunch(      self              : PCefBrowserProcessHandler;
+                                                                           command_line      : PCefCommandLine;
+                                                                     const current_directory : PCefString): integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and
+     (TempObject is TCefBrowserProcessHandlerOwn) then
+    TCefBrowserProcessHandlerOwn(TempObject).OnAlreadyRunningAppRelaunch(TCefCommandLineRef.UnWrap(command_line),
+                                                                         CefString(current_directory),
+                                                                         TempResult);
+
+  Result := Ord(TempResult);
+end;
+
 procedure cef_browser_process_handler_on_schedule_message_pump_work(self     : PCefBrowserProcessHandler;
                                                                     delay_ms : Int64); stdcall;
 var
@@ -136,6 +157,7 @@ begin
       on_register_custom_preferences   := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_register_custom_preferences;
       on_context_initialized           := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_context_initialized;
       on_before_child_process_launch   := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_before_child_process_launch;
+      on_already_running_app_relaunch  := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_already_running_app_relaunch;
       on_schedule_message_pump_work    := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_on_schedule_message_pump_work;
       get_default_client               := {$IFDEF FPC}@{$ENDIF}cef_browser_process_handler_get_default_client;
     end;
@@ -199,6 +221,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch', e) then raise;
+  end;
+end;
+
+procedure TCefCustomBrowserProcessHandler.OnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean);
+begin
+  try
+    if (FCefApp <> nil) then
+      IApplicationCoreEvents(FCefApp).doOnAlreadyRunningAppRelaunch(commandLine, current_directory, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnAlreadyRunningAppRelaunch', e) then raise;
   end;
 end;
 

@@ -190,11 +190,11 @@ procedure TMainForm.Chromium1BeforePopup(Sender : TObject;
                                          var   Result             : Boolean);
 begin
   case targetDisposition of
-    WOD_NEW_FOREGROUND_TAB,
-    WOD_NEW_BACKGROUND_TAB,
-    WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
+    CEF_WOD_NEW_FOREGROUND_TAB,
+    CEF_WOD_NEW_BACKGROUND_TAB,
+    CEF_WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
 
-    WOD_NEW_POPUP  : Result := not(CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
+    CEF_WOD_NEW_POPUP  : Result := not(CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
 
     else Result := False;
   end;

@@ -584,14 +584,14 @@ begin
     FCriticalSection.Acquire;
 
     case targetDisposition of
-      WOD_NEW_FOREGROUND_TAB,
-      WOD_NEW_BACKGROUND_TAB :
+      CEF_WOD_NEW_FOREGROUND_TAB,
+      CEF_WOD_NEW_BACKGROUND_TAB :
         Result := (FHiddenTab <> nil) and
                   FHiddenTab.CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures) and
                   PostMessage(Handle, CEF_CREATENEXTTAB, 0, ord(False));
 
-      WOD_NEW_WINDOW,
-      WOD_NEW_POPUP :
+      CEF_WOD_NEW_WINDOW,
+      CEF_WOD_NEW_POPUP :
         Result := (FChildForm <> nil) and
                   FChildForm.CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures) and
                   PostMessage(Handle, CEF_CREATENEXTCHILD, 0, ord(False));
@@ -610,15 +610,15 @@ begin
     FCriticalSection.Acquire;
 
     case targetDisposition of
-      WOD_NEW_FOREGROUND_TAB,
-      WOD_NEW_BACKGROUND_TAB :
+      CEF_WOD_NEW_FOREGROUND_TAB,
+      CEF_WOD_NEW_BACKGROUND_TAB :
         begin
           FPendingURL := targetUrl;
           Result      := PostMessage(Handle, CEF_CREATENEXTTAB, 0, ord(True));
         end;
 
-      WOD_NEW_WINDOW,
-      WOD_NEW_POPUP :
+      CEF_WOD_NEW_WINDOW,
+      CEF_WOD_NEW_POPUP :
         begin
           FPendingURL := targetUrl;
           Result      := PostMessage(Handle, CEF_CREATENEXTCHILD, 0, ord(True));

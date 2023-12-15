@@ -137,7 +137,7 @@ procedure TJSExtensionWithFunctionFrm.Chromium1BeforePopup(Sender: TObject;
   var Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
-  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
 end;
 
 procedure TJSExtensionWithFunctionFrm.Chromium1Close(Sender: TObject;

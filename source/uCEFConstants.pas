@@ -2067,6 +2067,7 @@ const
   CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 17;
   CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 18;
   CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 19;
+  CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS         = 1 shl 20;
 
   /// <summary>
   /// Platform API hash.

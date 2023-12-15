@@ -270,18 +270,31 @@ type
       /// Returns the global context object.
       /// </summary>
       class function Global: ICefRequestContext; reintroduce;
-
       /// <summary>
       /// Creates a new context object with the specified |settings| and optional
       /// |handler|.
       /// </summary>
+      /// <param name="settings">Pointer to TCefRequestContextSettings.</param>
+      /// <param name="handler">Optional handler for the request context.</param>
       class function New(const settings: PCefRequestContextSettings; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
+      /// <summary>
+      /// Creates a new context object with the specified settings and optional
+      /// |handler|.
+      /// </summary>
+      /// <param name="aCache">The directory where cache data for this request context will be stored on disk. See TCefRequestContextSettings.cache_path for more information.</param>
+      /// <param name="aAcceptLanguageList">Comma delimited ordered list of language codes without any whitespace that will be used in the "Accept-Language" HTTP header. See TCefRequestContextSettings.accept_language_list for more information.</param>
+      /// <param name="aCookieableSchemesList">Comma delimited list of schemes supported by the associated ICefCookieManager. See TCefRequestContextSettings.cookieable_schemes_list for more information.</param>
+      /// <param name="aCookieableSchemesExcludeDefaults">Setting this parameter to true will disable all loading and saving of cookies. See TCefRequestContextSettings.cookieable_schemes_list for more information.</param>
+      /// <param name="aPersistSessionCookies">To persist session cookies (cookies without an expiry date or validity interval) by default when using the global cookie manager set this value to true. See TCefRequestContextSettings.persist_session_cookies for more information.</param>
+      /// <param name="aPersistUserPreferences">To persist user preferences as a JSON file in the cache path directory set this value to true. See TCefRequestContextSettings.persist_user_preferences for more information.</param>
+      /// <param name="handler">Optional handler for the request context.</param>
       class function New(const aCache, aAcceptLanguageList, aCookieableSchemesList : ustring; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
-
       /// <summary>
       /// Creates a new context object that shares storage with |other| and uses an
       /// optional |handler|.
       /// </summary>
+      /// <param name="other">Another ICefRequestContext instance that will share storage with the new ICefRequestContext instance.</param>
+      /// <param name="handler">Optional handler for the request context.</param>
       class function Shared(const other: ICefRequestContext; const handler: ICefRequestContextHandler): ICefRequestContext;
   end;
 

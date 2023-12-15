@@ -213,7 +213,7 @@ procedure TBrowserFrame.FMXChromium1BeforePopup(Sender: TObject;
   var noJavascriptAccess, Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
-  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
 end;
 
 procedure TBrowserFrame.FMXChromium1Close(Sender: TObject;
@@ -277,7 +277,7 @@ procedure TBrowserFrame.FMXChromium1OpenUrlFromTab(Sender: TObject;
   out Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
-  Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
 end;
 
 procedure TBrowserFrame.FMXChromium1StatusMessage(Sender: TObject;
