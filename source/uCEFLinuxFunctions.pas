@@ -53,15 +53,9 @@ function gdk_screen_get_resolution(screen:PGdkScreen):gdouble; cdecl; external '
 {$ENDIF}
 {$IFDEF FPC}
 {$IFDEF LCLGTK3}
-  {$IF LCL_FULLVERSION>3000000}
-  function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external LazGdk3_library;
-  function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external LazGdk3_library;
-  procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external LazGdk3_library;
-  {$ELSE}
-  function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external Gdk3_library;
-  function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external Gdk3_library;
-  procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external Gdk3_library;
-  {$ENDIF}
+function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external 'libgdk-3.so.0';
+function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external 'libgdk-3.so.0';
+procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external 'libgdk-3.so.0';
 {$ENDIF}
 procedure ShowX11Message(const aMessage : string);
 {$ENDIF}{$ENDIF}
