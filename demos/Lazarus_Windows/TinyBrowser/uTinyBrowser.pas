@@ -238,7 +238,8 @@ begin
   GlobalCEFApp.ExternalMessagePump      := False;
   GlobalCEFApp.ChromeRuntime            := True;  // Enable this line to test the new "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.OnContextInitialized     := GlobalCEFApp_OnContextInitialized;
-  GlobalCEFApp.OnGetDefaultClient       := GlobalCEFApp_OnGetDefaultClient;  // This event is only used in "ChromeRuntime" mode
+  GlobalCEFApp.OnGetDefaultClient       := GlobalCEFApp_OnGetDefaultClient;  // This event is only used in "ChromeRuntime" mode     
+  GlobalCEFApp.SetCurrentDir            := True;
 end;
 
 procedure DestroyTinyBrowser;

@@ -2,7 +2,7 @@
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+{$I ..\..\..\..\source\cef.inc}
 
 interface
 
@@ -104,7 +104,8 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
-  GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
+  GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;      
+  GlobalCEFApp.SetCurrentDir    := True;
 end;
 
 procedure TJSWindowBindingWithObjectFrm.GoBtnClick(Sender: TObject);

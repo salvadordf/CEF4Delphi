@@ -15,7 +15,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '3.0.0.3'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -35,6 +35,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     ClientHeight = 67
     ClientWidth = 1054
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object AddressEdt: TEdit
       Left = 3
@@ -55,6 +56,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       BevelOuter = bvNone
       ClientHeight = 67
       ClientWidth = 304
+      ParentBackground = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 3
@@ -62,8 +64,8 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
         Top = 0
         Width = 63
         Caption = 'Go'
-        OnClick = GoBtnClick
         TabOrder = 0
+        OnClick = GoBtnClick
       end
       object RscNameEdt: TEdit
         Left = 174
@@ -75,9 +77,9 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       end
       object CopyScriptBtn: TRadioButton
         Left = 72
-        Height = 19
+        Height = 17
         Top = 0
-        Width = 81
+        Width = 79
         Caption = 'Copy script :'
         Checked = True
         TabOrder = 2
@@ -85,17 +87,17 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       end
       object ReplaceLogoBtn: TRadioButton
         Left = 72
-        Height = 19
+        Height = 17
         Top = 19
-        Width = 81
+        Width = 79
         Caption = 'Replace logo'
         TabOrder = 3
       end
       object ReplaceTextBtn: TRadioButton
         Left = 72
-        Height = 19
+        Height = 17
         Top = 38
-        Width = 81
+        Width = 79
         Caption = 'Replace text'
         TabOrder = 4
       end
@@ -118,6 +120,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     BevelOuter = bvNone
     ClientHeight = 230
     ClientWidth = 1054
+    ParentBackground = False
     TabOrder = 2
     object Memo1: TMemo
       Left = 0

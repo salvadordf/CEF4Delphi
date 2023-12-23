@@ -309,6 +309,7 @@ begin
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   GlobalCEFApp.EnablePrintPreview  := True;          
   GlobalCEFApp.EnableGPU           := True;
+  GlobalCEFApp.SetCurrentDir       := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);

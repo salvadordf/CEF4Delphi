@@ -15,9 +15,9 @@ uses
 begin
   GlobalCEFApp                            := TCefApplicationCore.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.ShowMessageDlg             := False;
-  GlobalCEFApp.BlinkSettings              := 'hideScrollbars';
+  GlobalCEFApp.BlinkSettings              := 'hideScrollbars';     
+  GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.StartSubProcess;
   DestroyGlobalCEFApp;
 end.

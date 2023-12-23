@@ -12,7 +12,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.0.0.3'
   object AddressPnl: TPanel
     Left = 0
     Height = 30
@@ -29,9 +29,9 @@ object Form1: TForm1
       Width = 929
       Align = alClient
       AutoSelect = False
-      OnEnter = AddressEdtEnter
       TabOrder = 0
       Text = 'https://www.google.com'
+      OnEnter = AddressEdtEnter
     end
     object GoBtn: TButton
       Left = 930
@@ -40,9 +40,9 @@ object Form1: TForm1
       Width = 70
       Align = alRight
       Caption = 'Go'
+      TabOrder = 1
       OnClick = GoBtnClick
       OnEnter = GoBtnEnter
-      TabOrder = 1
     end
   end
   object Panel1: TBufferPanel
@@ -69,10 +69,10 @@ object Form1: TForm1
       Top = -9000
       Width = 80
       BorderStyle = bsNone
-      OnEnter = FocusWorkaroundEdtEnter
-      OnExit = FocusWorkaroundEdtExit
       ReadOnly = True
       TabOrder = 0
+      OnEnter = FocusWorkaroundEdtEnter
+      OnExit = FocusWorkaroundEdtExit
     end
   end
   object Chromium1: TChromium

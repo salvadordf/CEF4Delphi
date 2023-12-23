@@ -16,7 +16,7 @@ object Form1: TForm1
   OnHide = FormHide
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '3.0.0.3'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -27,6 +27,7 @@ object Form1: TForm1
     ClientHeight = 21
     ClientWidth = 931
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object ComboBox1: TComboBox
       Left = 0
@@ -41,9 +42,9 @@ object Form1: TForm1
         'https://www.briskbard.com'
         'https://frames-per-second.appspot.com/'
       )
-      OnEnter = ComboBox1Enter
       TabOrder = 0
       Text = 'https://www.google.com'
+      OnEnter = ComboBox1Enter
     end
     object Panel2: TPanel
       Left = 892
@@ -54,6 +55,7 @@ object Form1: TForm1
       BevelOuter = bvNone
       ClientHeight = 21
       ClientWidth = 39
+      ParentBackground = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 4
@@ -61,9 +63,9 @@ object Form1: TForm1
         Top = 0
         Width = 31
         Caption = 'Go'
+        TabOrder = 0
         OnClick = GoBtnClick
         OnEnter = GoBtnEnter
-        TabOrder = 0
       end
     end
   end

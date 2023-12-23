@@ -16,7 +16,7 @@ object URLRequestFrm: TURLRequestFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.0.0.3'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
@@ -36,6 +36,7 @@ object URLRequestFrm: TURLRequestFrm
     Caption = ' GET example '
     ClientHeight = 87
     ClientWidth = 490
+    ParentBackground = False
     TabOrder = 1
     object Label1: TLabel
       Left = 14
@@ -51,8 +52,8 @@ object URLRequestFrm: TURLRequestFrm
       Top = 48
       Width = 465
       Caption = 'Download'
-      OnClick = DownloadBtnClick
       TabOrder = 0
+      OnClick = DownloadBtnClick
     end
     object GetURLEdt: TEdit
       Left = 43
@@ -71,6 +72,7 @@ object URLRequestFrm: TURLRequestFrm
     Caption = ' POST example '
     ClientHeight = 428
     ClientWidth = 490
+    ParentBackground = False
     TabOrder = 2
     object Label2: TLabel
       Left = 14
@@ -94,8 +96,8 @@ object URLRequestFrm: TURLRequestFrm
       Top = 179
       Width = 462
       Caption = 'Send POST request'
-      OnClick = SendPostReqBtnClick
       TabOrder = 1
+      OnClick = SendPostReqBtnClick
     end
     object GroupBox1: TGroupBox
       Left = 14
@@ -105,6 +107,7 @@ object URLRequestFrm: TURLRequestFrm
       Caption = ' Parameter 1 '
       ClientHeight = 39
       ClientWidth = 458
+      ParentBackground = False
       TabOrder = 2
       object Label3: TLabel
         Left = 14
@@ -147,6 +150,7 @@ object URLRequestFrm: TURLRequestFrm
       Caption = ' Parameter 2 '
       ClientHeight = 39
       ClientWidth = 458
+      ParentBackground = False
       TabOrder = 3
       object Label5: TLabel
         Left = 14

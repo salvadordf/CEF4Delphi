@@ -13,6 +13,7 @@ begin
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  GlobalCEFApp.SetCurrentDir              := True;
 
   // The main process and the subprocess *MUST* have the same GlobalCEFApp
   // properties and events, specially FrameworkDirPath, ResourcesDirPath,

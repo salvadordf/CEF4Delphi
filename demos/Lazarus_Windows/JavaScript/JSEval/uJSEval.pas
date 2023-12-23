@@ -2,7 +2,7 @@
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+{$I ..\..\..\..\source\cef.inc}
 
 interface
 
@@ -36,7 +36,6 @@ type
     GoBtn: TButton;
     AddressEdt: TEdit;
     Timer1: TTimer;
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -146,11 +145,6 @@ uses
 procedure TJSEvalFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
-end;
-
-procedure TJSEvalFrm.CEFSentinel1Close(Sender: TObject);
-begin
-
 end;
 
 procedure TJSEvalFrm.Chromium1BeforeClose(Sender: TObject;
@@ -508,7 +502,8 @@ end;
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                          := TCefApplication.Create;
+  GlobalCEFApp                          := TCefApplication.Create;                                 
+  GlobalCEFApp.SetCurrentDir            := True;
   GlobalCEFApp.OnProcessMessageReceived := RenderProcessHandler_OnProcessMessageReceivedEvent;
 end;
 

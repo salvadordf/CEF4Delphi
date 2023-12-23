@@ -157,7 +157,8 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.EnableGPU                  := True;  
-  GlobalCEFApp.BrowserSubprocessPath      := 'VirtualUIBrowser_sp.exe';
+  GlobalCEFApp.BrowserSubprocessPath      := 'VirtualUIBrowser_sp.exe';  
+  GlobalCEFApp.SetCurrentDir              := True;
   //GlobalCEFApp.LogFile                    := 'debug.log';
   //GlobalCEFApp.LogSeverity                := LOGSEVERITY_VERBOSE;
 end;

@@ -14,7 +14,7 @@ interface
 uses
   {$IFDEF LINUX}
     {$IFDEF FPC}
-      ctypes, keysym, xf86keysym, x, xlib,
+      ctypes, keysym, xf86keysym, x, xlib, LCLVersion,
       {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}         
       {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3objects, gtk3procs,{$ENDIF}
     {$ENDIF}
@@ -24,7 +24,12 @@ uses
 {$IFDEF LINUX}
 procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 function  KeyboardCodeFromXKeysym(keysym : uint32) : integer;
+{$IFDEF LCLGTK2 or (LCLGTK3 and (LCL_FULLVERSION<3000000))}
 function  GetCefStateModifiers(state : uint32) : integer;
+{$ENDIF}
+{$IFDEF LCLGTK3 and (LCL_FULLVERSION>3000000)}
+function  GetCefStateModifiers(state : TGdkModifierType) : integer;
+{$ENDIF}
 function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
@@ -48,9 +53,15 @@ function gdk_screen_get_resolution(screen:PGdkScreen):gdouble; cdecl; external '
 {$ENDIF}
 {$IFDEF FPC}
 {$IFDEF LCLGTK3}
-function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external Gdk3_library;
-function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external Gdk3_library;
-procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external Gdk3_library;
+  {$IF LCL_FULLVERSION>3000000}
+  function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external LazGdk3_library;
+  function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external LazGdk3_library;
+  procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external LazGdk3_library;
+  {$ELSE}
+  function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external Gdk3_library;
+  function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external Gdk3_library;
+  procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external Gdk3_library;
+  {$ENDIF}
 {$ENDIF}
 procedure ShowX11Message(const aMessage : string);
 {$ENDIF}{$ENDIF}
@@ -448,6 +459,7 @@ begin
   end;
 end;
 
+{$IFDEF LCLGTK2 or (LCLGTK3 and (LCL_FULLVERSION<3000000))}
 function GetCefStateModifiers(state : uint32) : integer;
 begin
   Result := EVENTFLAG_NONE;
@@ -473,6 +485,36 @@ begin
   if ((state and GDK_BUTTON3_MASK) <> 0) then
     Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
 end;
+{$ENDIF}
+{$IFDEF LCLGTK3 and (LCL_FULLVERSION>3000000)}
+function GetCefStateModifiers(state : TGdkModifierType) : integer;
+begin
+  Result := EVENTFLAG_NONE;
+
+  if (GDK_SHIFT_MASK in state) then
+    Result := Result or EVENTFLAG_SHIFT_DOWN;
+
+  if (GDK_LOCK_MASK in state) then
+    Result := Result or EVENTFLAG_CAPS_LOCK_ON;
+
+  if (GDK_CONTROL_MASK in state) then
+    Result := Result or EVENTFLAG_CONTROL_DOWN;
+
+  if (GDK_MOD1_MASK in state) then
+    Result := Result or EVENTFLAG_ALT_DOWN;
+
+  if (GDK_BUTTON1_MASK in state) then
+    Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+
+  if (GDK_BUTTON2_MASK in state) then
+    Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+
+  if (GDK_BUTTON3_MASK in state) then
+    Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+end;
+{$ENDIF}
+
+
 
 function GdkEventToWindowsKeyCode(event: PGdkEventKey) : integer;
 var

@@ -147,7 +147,8 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
   GlobalCEFApp.LogFile          := 'cef.log';
-  GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+  GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;    
+  GlobalCEFApp.SetCurrentDir    := True;
   // Workaround for CEF issue #3345
   // https://bitbucket.org/chromiumembedded/cef/issues/3345/getresourceresponsefilter-not-called-for
   GlobalCEFApp.DisableFeatures  := 'CombineResponseBody';

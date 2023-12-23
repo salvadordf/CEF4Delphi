@@ -15,7 +15,7 @@ object DOMVisitorFrm: TDOMVisitorFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '3.0.0.3'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 539
@@ -35,6 +35,7 @@ object DOMVisitorFrm: TDOMVisitorFrm
     ClientWidth = 878
     DoubleBuffered = True
     Enabled = False
+    ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 1
     object AddressEdt: TEdit
@@ -55,6 +56,7 @@ object DOMVisitorFrm: TDOMVisitorFrm
       BevelOuter = bvNone
       ClientHeight = 21
       ClientWidth = 114
+      ParentBackground = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 0
@@ -63,8 +65,8 @@ object DOMVisitorFrm: TDOMVisitorFrm
         Width = 31
         Align = alLeft
         Caption = 'Go'
-        OnClick = GoBtnClick
         TabOrder = 0
+        OnClick = GoBtnClick
       end
       object VisitDOMBtn: TButton
         Left = 39
@@ -73,8 +75,8 @@ object DOMVisitorFrm: TDOMVisitorFrm
         Width = 75
         Align = alRight
         Caption = 'Visit DOM'
-        OnClick = VisitDOMBtnClick
         TabOrder = 1
+        OnClick = VisitDOMBtnClick
       end
     end
   end
@@ -85,6 +87,7 @@ object DOMVisitorFrm: TDOMVisitorFrm
     Width = 878
     Align = alBottom
     BevelOuter = bvLowered
+    ParentBackground = False
     TabOrder = 2
   end
   object Chromium1: TChromium

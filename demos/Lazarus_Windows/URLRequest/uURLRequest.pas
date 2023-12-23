@@ -108,9 +108,10 @@ uses
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                 := TCefApplication.Create;
+  GlobalCEFApp                  := TCefApplication.Create;
   GlobalCEFApp.LogFile          := 'cef.log';
-  GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+  GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;     
+  GlobalCEFApp.SetCurrentDir    := True;
 end;
 
 procedure TURLRequestFrm.DownloadBtnClick(Sender: TObject);

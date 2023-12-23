@@ -70,7 +70,8 @@ begin
   GlobalCEFApp.ExternalMessagePump        := False;                              
   GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.DisablePopupBlocking       := True;
-  GlobalCEFApp.cache                      := 'cache';
+  GlobalCEFApp.cache                      := 'cache'; 
+  GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
   GlobalCEFApp.OnGetDefaultClient         := GlobalCEFApp_OnGetDefaultClient;    // This event is only used in "ChromeRuntime" mode
 end;

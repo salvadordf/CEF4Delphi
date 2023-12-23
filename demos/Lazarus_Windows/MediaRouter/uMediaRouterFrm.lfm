@@ -15,7 +15,7 @@ object MediaRouterFrm: TMediaRouterFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '3.0.0.3'
   object CEFWindowParent1: TCEFWindowParent
     Left = 184
     Height = 0
@@ -34,6 +34,7 @@ object MediaRouterFrm: TMediaRouterFrm
     BevelOuter = bvNone
     ClientHeight = 757
     ClientWidth = 1029
+    ParentBackground = False
     TabOrder = 1
     object SinksGbx: TGroupBox
       Left = 0
@@ -44,6 +45,7 @@ object MediaRouterFrm: TMediaRouterFrm
       Caption = ' Sinks on this network '
       ClientHeight = 739
       ClientWidth = 246
+      ParentBackground = False
       TabOrder = 0
       object SinksLbx: TListBox
         Left = 0
@@ -52,8 +54,8 @@ object MediaRouterFrm: TMediaRouterFrm
         Width = 246
         Align = alClient
         ItemHeight = 0
-        OnClick = SinksLbxClick
         TabOrder = 0
+        OnClick = SinksLbxClick
       end
       object SinksButtonsPnl: TPanel
         Left = 0
@@ -64,6 +66,7 @@ object MediaRouterFrm: TMediaRouterFrm
         BevelOuter = bvNone
         ClientHeight = 60
         ClientWidth = 246
+        ParentBackground = False
         TabOrder = 1
         object CreateRouteBtn: TButton
           Left = 0
@@ -73,8 +76,8 @@ object MediaRouterFrm: TMediaRouterFrm
           Align = alTop
           Caption = 'Create route'
           Enabled = False
-          OnClick = CreateRouteBtnClick
           TabOrder = 0
+          OnClick = CreateRouteBtnClick
         end
         object NotifySinksBtn: TButton
           Left = 0
@@ -83,8 +86,8 @@ object MediaRouterFrm: TMediaRouterFrm
           Width = 246
           Align = alBottom
           Caption = 'Notify sinks'
-          OnClick = NotifySinksBtnClick
           TabOrder = 1
+          OnClick = NotifySinksBtnClick
         end
       end
     end
@@ -97,6 +100,7 @@ object MediaRouterFrm: TMediaRouterFrm
       BevelOuter = bvNone
       ClientHeight = 757
       ClientWidth = 529
+      ParentBackground = False
       TabOrder = 1
       object SourcePnl: TPanel
         Left = 0
@@ -107,6 +111,7 @@ object MediaRouterFrm: TMediaRouterFrm
         BevelOuter = bvNone
         ClientHeight = 21
         ClientWidth = 529
+        ParentBackground = False
         TabOrder = 0
         object SourceLblPnl: TPanel
           Left = 0
@@ -117,6 +122,7 @@ object MediaRouterFrm: TMediaRouterFrm
           BevelOuter = bvNone
           ClientHeight = 21
           ClientWidth = 65
+          ParentBackground = False
           TabOrder = 0
           object SourceURNLbl: TLabel
             Left = 0
@@ -155,6 +161,7 @@ object MediaRouterFrm: TMediaRouterFrm
         Caption = ' Message '
         ClientHeight = 412
         ClientWidth = 525
+        ParentBackground = False
         TabOrder = 1
         object SendMessagePnl: TPanel
           Left = 0
@@ -165,6 +172,7 @@ object MediaRouterFrm: TMediaRouterFrm
           BevelOuter = bvNone
           ClientHeight = 27
           ClientWidth = 525
+          ParentBackground = False
           TabOrder = 0
           object SendMsgBtn: TButton
             Left = 0
@@ -173,8 +181,8 @@ object MediaRouterFrm: TMediaRouterFrm
             Width = 525
             Align = alClient
             Caption = 'Send message'
-            OnClick = SendMsgBtnClick
             TabOrder = 0
+            OnClick = SendMsgBtnClick
           end
         end
         object MessageMem: TMemo
@@ -183,9 +191,9 @@ object MediaRouterFrm: TMediaRouterFrm
           Top = 0
           Width = 525
           Align = alClient
-          OnChange = MessageMemChange
           ScrollBars = ssBoth
           TabOrder = 1
+          OnChange = MessageMemChange
         end
       end
       object LogGbx: TGroupBox
@@ -197,6 +205,7 @@ object MediaRouterFrm: TMediaRouterFrm
         Caption = ' Log '
         ClientHeight = 278
         ClientWidth = 525
+        ParentBackground = False
         TabOrder = 2
         object LogMem: TMemo
           Left = 0
@@ -217,6 +226,7 @@ object MediaRouterFrm: TMediaRouterFrm
           BevelOuter = bvNone
           ClientHeight = 27
           ClientWidth = 525
+          ParentBackground = False
           TabOrder = 1
           object ClearLogBtn: TButton
             Left = 0
@@ -225,8 +235,8 @@ object MediaRouterFrm: TMediaRouterFrm
             Width = 525
             Align = alClient
             Caption = 'Clear log'
-            OnClick = ClearLogBtnClick
             TabOrder = 0
+            OnClick = ClearLogBtnClick
           end
         end
       end
@@ -237,6 +247,7 @@ object MediaRouterFrm: TMediaRouterFrm
         Width = 529
         Align = alTop
         BevelOuter = bvNone
+        ParentBackground = False
         TabOrder = 3
       end
     end
@@ -249,6 +260,7 @@ object MediaRouterFrm: TMediaRouterFrm
       Caption = ' Established routes '
       ClientHeight = 739
       ClientWidth = 246
+      ParentBackground = False
       TabOrder = 2
       object RoutesLbx: TListBox
         Left = 0
@@ -257,8 +269,8 @@ object MediaRouterFrm: TMediaRouterFrm
         Width = 246
         Align = alClient
         ItemHeight = 0
-        OnClick = RoutesLbxClick
         TabOrder = 0
+        OnClick = RoutesLbxClick
       end
       object RoutesButtonPnl: TPanel
         Left = 0
@@ -269,6 +281,7 @@ object MediaRouterFrm: TMediaRouterFrm
         BevelOuter = bvNone
         ClientHeight = 60
         ClientWidth = 246
+        ParentBackground = False
         TabOrder = 1
         object TerminateRouteBtn: TButton
           Left = 0
@@ -278,8 +291,8 @@ object MediaRouterFrm: TMediaRouterFrm
           Align = alTop
           Caption = 'Terminate route'
           Enabled = False
-          OnClick = TerminateRouteBtnClick
           TabOrder = 0
+          OnClick = TerminateRouteBtnClick
         end
         object NotifyRoutesBtn: TButton
           Left = 0
@@ -288,8 +301,8 @@ object MediaRouterFrm: TMediaRouterFrm
           Width = 246
           Align = alBottom
           Caption = 'Notify routes'
-          OnClick = NotifyRoutesBtnClick
           TabOrder = 1
+          OnClick = NotifyRoutesBtnClick
         end
       end
     end

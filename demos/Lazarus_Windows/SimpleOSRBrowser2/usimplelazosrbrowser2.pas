@@ -169,7 +169,8 @@ begin
   GlobalCEFApp.EnableGPU                  := True;
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
-  GlobalCEFApp.OnScheduleMessagePumpWork  := @GlobalCEFApp_OnScheduleMessagePumpWork;
+  GlobalCEFApp.OnScheduleMessagePumpWork  := @GlobalCEFApp_OnScheduleMessagePumpWork;      
+  GlobalCEFApp.SetCurrentDir              := True;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);

@@ -2,7 +2,7 @@
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+{$I ..\..\..\..\source\cef.inc}
 
 interface
 
@@ -40,7 +40,6 @@ type
     Chromium1: TChromium;
     StatusPnl: TPanel;
     Timer1: TTimer;
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Chromium1BeforeContextMenu(Sender: TObject;
@@ -287,7 +286,8 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                     := TCefApplication.Create;
-  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
+  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;   
+  GlobalCEFApp.SetCurrentDir       := True;
   {$IFDEF DEBUG}
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
@@ -471,11 +471,6 @@ begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
-end;
-
-procedure TJSExtensionFrm.CEFSentinel1Close(Sender: TObject);
-begin
-
 end;
 
 procedure TJSExtensionFrm.WMMove(var aMessage : TWMMove);

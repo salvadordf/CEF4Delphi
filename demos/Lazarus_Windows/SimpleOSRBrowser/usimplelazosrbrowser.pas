@@ -175,7 +175,8 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.EnableGPU                  := True; 
+  GlobalCEFApp.SetCurrentDir              := True;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);

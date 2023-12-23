@@ -15,7 +15,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.0.0.3'
   object Splitter1: TSplitter
     Left = 1179
     Height = 663
@@ -35,6 +35,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     ClientHeight = 25
     ClientWidth = 1184
     Enabled = False
+    ParentBackground = False
     TabOrder = 1
     object NavButtonPnl: TPanel
       Left = 0
@@ -45,6 +46,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
       BevelOuter = bvNone
       ClientHeight = 25
       ClientWidth = 133
+      ParentBackground = False
       TabOrder = 0
       object BackBtn: TButton
         Left = 8
@@ -56,9 +58,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        OnClick = BackBtnClick
         ParentFont = False
         TabOrder = 0
+        OnClick = BackBtnClick
       end
       object ForwardBtn: TButton
         Left = 39
@@ -70,9 +72,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        OnClick = ForwardBtnClick
         ParentFont = False
         TabOrder = 1
+        OnClick = ForwardBtnClick
       end
       object ReloadBtn: TButton
         Left = 70
@@ -84,9 +86,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        OnClick = ReloadBtnClick
         ParentFont = False
         TabOrder = 2
+        OnClick = ReloadBtnClick
       end
       object StopBtn: TButton
         Left = 101
@@ -98,9 +100,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        OnClick = StopBtnClick
         ParentFont = False
         TabOrder = 3
+        OnClick = StopBtnClick
       end
     end
     object URLEditPnl: TPanel
@@ -112,14 +114,15 @@ object MiniBrowserFrm: TMiniBrowserFrm
       BevelOuter = bvNone
       ClientHeight = 25
       ClientWidth = 978
+      ParentBackground = False
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0
-        Height = 22
+        Height = 21
         Top = 3
         Width = 978
         Anchors = [akTop, akLeft, akRight, akBottom]
-        ItemHeight = 14
+        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
@@ -175,6 +178,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
       BevelOuter = bvNone
       ClientHeight = 25
       ClientWidth = 73
+      ParentBackground = False
       TabOrder = 2
       object ConfigBtn: TButton
         Left = 40
@@ -187,9 +191,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Height = -17
         Font.Name = 'Arial'
         Font.Style = [fsBold]
-        OnClick = ConfigBtnClick
         ParentFont = False
         TabOrder = 0
+        OnClick = ConfigBtnClick
       end
       object GoBtn: TButton
         Left = 8
@@ -203,9 +207,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Height = -17
         Font.Name = 'Arial'
         Font.Style = [fsBold]
-        OnClick = GoBtnClick
         ParentFont = False
         TabOrder = 1
+        OnClick = GoBtnClick
       end
     end
   end
@@ -235,6 +239,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Width = 1184
     Align = alBottom
     BevelOuter = bvLowered
+    ParentBackground = False
     TabOrder = 4
   end
   object Chromium1: TChromium

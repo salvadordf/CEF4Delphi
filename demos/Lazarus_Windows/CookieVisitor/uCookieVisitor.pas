@@ -109,7 +109,8 @@ uses
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                     := TCefApplication.Create;
+  GlobalCEFApp                     := TCefApplication.Create; 
+  GlobalCEFApp.SetCurrentDir       := True;
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;

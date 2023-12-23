@@ -174,6 +174,7 @@ begin
   GlobalCEFApp.BackgroundColor            := CefColorSetARGB($FF, $FF, $FF, $FF);  
   GlobalCEFApp.ExternalMessagePump        := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
+  GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.OnScheduleMessagePumpWork  := @GlobalCEFApp_OnScheduleMessagePumpWork;
 
   // This is a workaround for the 'GPU is not usable error' issue :
@@ -217,8 +218,8 @@ end;
 
 function ConnectKeyPressReleaseEvents(const aWidget : PGtkWidget): boolean;
 begin
-  Result := (g_signal_connect_data(aWidget, 'key-press-event',   TGCallback(@GTKKeyPress), nil, nil, 0) <> 0) and
-            (g_signal_connect_data(aWidget, 'key-release-event', TGCallback(@GTKKeyPress), nil, nil, 0) <> 0);
+  Result := (g_signal_connect_data(aWidget, 'key-press-event',   TGCallback(@GTKKeyPress), nil, nil, G_CONNECT_DEFAULT) <> 0) and
+            (g_signal_connect_data(aWidget, 'key-release-event', TGCallback(@GTKKeyPress), nil, nil, G_CONNECT_DEFAULT) <> 0);
 end;
 
 { TForm1 }

@@ -15,7 +15,7 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '3.0.0.3'
   object AddressPnl: TPanel
     Left = 0
     Height = 21
@@ -26,6 +26,7 @@ object MainForm: TMainForm
     ClientHeight = 21
     ClientWidth = 1038
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object AddressEdt: TEdit
       Left = 0
@@ -43,8 +44,8 @@ object MainForm: TMainForm
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 1
+      OnClick = GoBtnClick
     end
   end
   object CEFWindowParent1: TCEFWindowParent
@@ -59,19 +60,19 @@ object MainForm: TMainForm
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 56
-    top = 88
+    Left = 56
+    Top = 88
   end
   object Chromium1: TChromium
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
-    left = 56
-    top = 152
+    Left = 56
+    Top = 152
   end
   object ApplicationProperties1: TApplicationProperties
-    left = 56
-    top = 40
+    Left = 56
+    Top = 40
   end
 end

@@ -16,7 +16,8 @@ uses
 {$SetPEFlags $20}
 
 begin
-  GlobalCEFApp := TCefApplication.Create;
+  GlobalCEFApp := TCefApplication.Create; 
+  GlobalCEFApp.SetCurrentDir       := True;
 
   // This is the same demo than the JSSimpleWindowBinding but using a different executable for the subprocesses.
   // Notice that GlobalCEFApp.OnContextCreated is now defined in the SubProcess.

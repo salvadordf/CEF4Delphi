@@ -176,9 +176,10 @@ uses
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp             := TCefApplication.Create;
-  GlobalCEFApp.LogFile     := 'debug.log';
-  GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO;
+  GlobalCEFApp               := TCefApplication.Create;
+  GlobalCEFApp.LogFile       := 'debug.log';
+  GlobalCEFApp.LogSeverity   := LOGSEVERITY_INFO;
+  GlobalCEFApp.SetCurrentDir := True;
 end;
 
 procedure TMediaRouterFrm.Chromium1AfterCreated(Sender: TObject;

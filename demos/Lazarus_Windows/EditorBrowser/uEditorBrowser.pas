@@ -137,7 +137,8 @@ uses
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                      := TCefApplication.Create;
+  GlobalCEFApp                      := TCefApplication.Create; 
+  GlobalCEFApp.SetCurrentDir        := True;
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
@@ -175,6 +176,9 @@ begin
   FCanClose := False;
   FClosing  := False;
 
+  // The path to the HTML file should be absolute or the browser might not find
+  // it if the application is launched from a different application.
+  // For example, running this demo inside the Lazarus debugger.
   Chromium1.DefaultURL := 'file:///EditorBrowser.html';
 end;
 

@@ -13,7 +13,8 @@ uses
 {$SetPEFlags $20}
 
 begin
-  GlobalCEFApp                  := TCefApplicationCore.Create;
+  GlobalCEFApp                  := TCefApplicationCore.Create;  
+  GlobalCEFApp.SetCurrentDir    := True;
 
   // The main process and the subprocess *MUST* have the same GlobalCEFApp
   // properties and events, specially FrameworkDirPath, ResourcesDirPath,

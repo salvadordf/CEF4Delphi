@@ -106,7 +106,8 @@ begin
   GlobalCEFApp.OnRegCustomSchemes    := GlobalCEFApp_OnRegCustomSchemes;
   GlobalCEFApp.BrowserSubprocessPath := 'SchemeRegistrationBrowser_sp.exe';
   GlobalCEFApp.LogFile               := 'debug.log';
-  GlobalCEFApp.LogSeverity           := LOGSEVERITY_INFO;
+  GlobalCEFApp.LogSeverity           := LOGSEVERITY_INFO;     
+  GlobalCEFApp.SetCurrentDir         := True;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);

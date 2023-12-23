@@ -86,7 +86,8 @@ begin
   GlobalCEFApp                           := TCefApplication.Create;
   GlobalCEFApp.ExternalMessagePump       := True;
   GlobalCEFApp.MultiThreadedMessageLoop  := False;      
-  GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
+  GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;      
+  GlobalCEFApp.SetCurrentDir             := True;
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.FormCreate(Sender: TObject);

@@ -431,7 +431,8 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;  
-  GlobalCEFApp.OnFocusedNodeChanged     := GlobalCEFApp_OnFocusedNodeChanged;
+  GlobalCEFApp.OnFocusedNodeChanged     := GlobalCEFApp_OnFocusedNodeChanged;     
+  GlobalCEFApp.SetCurrentDir            := True;
 
   // Enabling the debug log file for then DOM visitor demo.
   // This adds lots of warnings to the console, specially if you run this inside VirtualBox.

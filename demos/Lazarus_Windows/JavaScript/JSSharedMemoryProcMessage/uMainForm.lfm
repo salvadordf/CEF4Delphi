@@ -15,7 +15,7 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.2.0'
+  LCLVersion = '3.0.0.3'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 559
@@ -35,6 +35,7 @@ object MainForm: TMainForm
     ClientWidth = 878
     DoubleBuffered = True
     Enabled = False
+    ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 1
     object AddressEdt: TEdit
@@ -55,6 +56,7 @@ object MainForm: TMainForm
       BevelOuter = bvNone
       ClientHeight = 20
       ClientWidth = 128
+      ParentBackground = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 0
@@ -63,8 +65,8 @@ object MainForm: TMainForm
         Width = 31
         Align = alLeft
         Caption = 'Go'
-        OnClick = GoBtnClick
         TabOrder = 0
+        OnClick = GoBtnClick
       end
       object SendMessageBtn: TButton
         Left = 40
@@ -73,8 +75,8 @@ object MainForm: TMainForm
         Width = 88
         Align = alRight
         Caption = 'Send message'
-        OnClick = SendMessageBtnClick
         TabOrder = 1
+        OnClick = SendMessageBtnClick
       end
     end
   end

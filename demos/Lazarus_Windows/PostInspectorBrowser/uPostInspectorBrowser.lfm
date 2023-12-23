@@ -15,7 +15,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '3.0.0.3'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -35,6 +35,7 @@ object Form1: TForm1
     ClientHeight = 21
     ClientWidth = 1038
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object GoBtn: TButton
       Left = 1007
@@ -43,8 +44,8 @@ object Form1: TForm1
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 0
+      OnClick = GoBtnClick
     end
     object AddressCb: TComboBox
       Left = 0

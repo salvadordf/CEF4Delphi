@@ -15,7 +15,7 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.0.0.3'
   object BrowserPageCtrl: TPageControl
     Left = 32
     Height = 703
@@ -35,6 +35,7 @@ object MainForm: TMainForm
     ClientHeight = 703
     ClientWidth = 32
     Enabled = False
+    ParentBackground = False
     TabOrder = 1
     object AddTabBtn: TSpeedButton
       Left = 1

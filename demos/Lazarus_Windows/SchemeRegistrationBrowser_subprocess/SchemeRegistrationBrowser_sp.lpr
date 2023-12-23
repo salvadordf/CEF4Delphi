@@ -22,7 +22,8 @@ begin
   GlobalCEFApp                     := TCefApplicationCore.Create;   
   GlobalCEFApp.OnRegCustomSchemes  := GlobalCEFApp_OnRegCustomSchemes;       
   GlobalCEFApp.LogFile             := 'debug.log';
-  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;  
+  GlobalCEFApp.SetCurrentDir       := True;
   GlobalCEFApp.StartSubProcess;
   GlobalCEFApp.Free;
   GlobalCEFApp := nil;

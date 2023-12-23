@@ -2,7 +2,7 @@
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+{$I ..\..\..\..\source\cef.inc}
 
 interface
 
@@ -152,7 +152,8 @@ begin
   GlobalCEFApp                          := TCefApplication.Create;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
   GlobalCEFApp.LogFile                  := 'debug.log';
-  GlobalCEFApp.LogSeverity              := LOGSEVERITY_INFO;
+  GlobalCEFApp.LogSeverity              := LOGSEVERITY_INFO;         
+  GlobalCEFApp.SetCurrentDir            := True;
 
   // Delphi can only debug one process and it debugs the browser process by
   // default. If you need to debug code executed in the render process you will

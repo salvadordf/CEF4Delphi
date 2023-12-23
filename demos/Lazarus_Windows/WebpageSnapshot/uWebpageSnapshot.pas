@@ -67,6 +67,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.SetCurrentDir              := True;
 end;
 
 procedure TWebpageSnapshotFrm.GoBtnClick(Sender: TObject);
