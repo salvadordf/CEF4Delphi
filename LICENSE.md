@@ -7,7 +7,7 @@ The original licenses of those projects still apply to CEF4Delphi.
 For more information about CEF4Delphi visit :
         https://www.briskbard.com/index.php?lang=en&pageid=cef
 
-        Copyright © 2023 Salvador Díaz Fau. All rights reserved.
+        Copyright © 2024 Salvador Díaz Fau. All rights reserved.
 
 
 ## Original licenses
