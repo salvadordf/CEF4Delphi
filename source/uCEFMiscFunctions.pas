@@ -796,7 +796,14 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 
+/// <summary>
+/// Returns a command line switch value if it exists.
+/// </summary>
 function GetCommandLineSwitchValue(const aKey : string; var aValue : ustring) : boolean;
+/// <summary>
+/// Returns true if the command line switch has a "type" value.
+/// </summary>
+function IsCEFSubprocess : boolean;
 
 implementation
 
@@ -3357,6 +3364,13 @@ begin
       end
      else
       dec(i);
+end;
+
+function IsCEFSubprocess : boolean;
+var
+  TempValue : ustring;
+begin
+  Result := GetCommandLineSwitchValue('type', TempValue) and (length(TempValue) > 0);
 end;
 
 end.
