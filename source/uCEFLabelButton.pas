@@ -64,14 +64,15 @@ type
       procedure SetEnabledTextColors(color: TCefColor);
       /// <summary>
       /// Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
-      /// where: - FONT_FAMILY_LIST is a comma-separated list of font family names,
-      /// - STYLES is an optional space-separated list of style names (case-
-      /// sensitive
+      /// where:
+      /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
+      /// - STYLES is an optional space-separated list of style names (case-sensitive
       ///   "Bold" and "Italic" are supported), and
       /// - SIZE is an integer font size in pixels with the suffix "px".
       ///
-      /// Here are examples of valid font description strings: - "Arial, Helvetica,
-      /// Bold Italic 14px" - "Arial, 14px"
+      /// Here are examples of valid font description strings:
+      /// - "Arial, Helvetica, Bold Italic 14px"
+      /// - "Arial, 14px"
       /// </summary>
       procedure SetFontList(const font_list: ustring);
       /// <summary>

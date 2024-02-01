@@ -1964,10 +1964,27 @@ const
   /// <para>TCefShowState values.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
   /// </remarks>
+  /// <summary>
+  /// Show the window as normal.
+  /// </summary>
   CEF_SHOW_STATE_NORMAL      = 1;
+  /// <summary>
+  /// Show the window as minimized.
+  /// </summary>
   CEF_SHOW_STATE_MINIMIZED   = 2;
+  /// <summary>
+  /// Show the window as maximized.
+  /// </summary>
   CEF_SHOW_STATE_MAXIMIZED   = 3;
+  /// <summary>
+  /// Show the window as fullscreen.
+  /// </summary>
   CEF_SHOW_STATE_FULLSCREEN  = 4;
+  /// <summary>
+  /// Show the window as hidden (no dock thumbnail).
+  /// Only supported on MacOS..
+  /// </summary>
+  CEF_SHOW_STATE_HIDDEN      = 5;
 
   /// <summary>
   /// Supported quick menu state bit flags.

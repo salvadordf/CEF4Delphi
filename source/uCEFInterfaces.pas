@@ -4347,7 +4347,7 @@ type
     /// </summary>
     procedure OnRouteStateChanged(const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
     /// <summary>
-    /// A message was recieved over |route|. |message| is only valid for the scope
+    /// A message was received over |route|. |message| is only valid for the scope
     /// of this callback and should be copied if necessary.
     /// </summary>
     procedure OnRouteMessageReceived(const route: ICefMediaRoute; const message_: ustring);
@@ -5552,28 +5552,30 @@ type
     /// <summary>
     /// Sets the font list for the specified |command_id|. If |font_list| is NULL
     /// the system font will be used. Returns true (1) on success. The format is
-    /// "<FONT_FAMILY_LIST>,[STYLES] <SIZE>", where: - FONT_FAMILY_LIST is a
-    /// comma-separated list of font family names, - STYLES is an optional space-
-    /// separated list of style names
+    /// "<FONT_FAMILY_LIST>,[STYLES] <SIZE>", where:
+    /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
+    /// - STYLES is an optional space-separated list of style names
     ///   (case-sensitive "Bold" and "Italic" are supported), and
     /// - SIZE is an integer font size in pixels with the suffix "px".
     ///
-    /// Here are examples of valid font description strings: - "Arial, Helvetica,
-    /// Bold Italic 14px" - "Arial, 14px"
+    /// Here are examples of valid font description strings:
+    /// - "Arial, Helvetica, Bold Italic 14px"
+    /// - "Arial, 14px"
     /// </summary>
     function SetFontList(commandId: Integer; const fontList: ustring): Boolean;
     /// <summary>
     /// Sets the font list for the specified |index|. Specify an |index| value of
     /// -1 to set the default font. If |font_list| is NULL the system font will be
     /// used. Returns true (1) on success. The format is
-    /// "<FONT_FAMILY_LIST>,[STYLES] <SIZE>", where: - FONT_FAMILY_LIST is a
-    /// comma-separated list of font family names, - STYLES is an optional space-
-    /// separated list of style names
+    /// "<FONT_FAMILY_LIST>,[STYLES] <SIZE>", where:
+    /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
+    /// - STYLES is an optional space-separated list of style names
     ///   (case-sensitive "Bold" and "Italic" are supported), and
     /// - SIZE is an integer font size in pixels with the suffix "px".
     ///
-    /// Here are examples of valid font description strings: - "Arial, Helvetica,
-    /// Bold Italic 14px" - "Arial, 14px"
+    /// Here are examples of valid font description strings:
+    /// - "Arial, Helvetica, Bold Italic 14px"
+    /// - "Arial, 14px"
     /// </summary>
     function SetFontListAt(index: Integer; const fontList: ustring): Boolean;
   end;
@@ -6163,7 +6165,7 @@ type
     /// </summary>
     procedure OnAfterCreated(const browser: ICefBrowser);
     /// <summary>
-    /// Called when a browser has recieved a request to close. This may result
+    /// Called when a browser has received a request to close. This may result
     /// directly from a call to ICefBrowserHost.*CloseBrowser or indirectly
     /// if the browser is parented to a top-level window created by CEF and the
     /// user attempts to close that window (by clicking the 'X', for example). The
@@ -10171,14 +10173,15 @@ type
     function  GetSelectionBackgroundColor : TCefColor;
     /// <summary>
     /// Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
-    /// where: - FONT_FAMILY_LIST is a comma-separated list of font family names,
-    /// - STYLES is an optional space-separated list of style names (case-
-    /// sensitive
+    /// where:
+    /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
+    /// - STYLES is an optional space-separated list of style names (case-sensitive
     ///   "Bold" and "Italic" are supported), and
     /// - SIZE is an integer font size in pixels with the suffix "px".
     ///
-    /// Here are examples of valid font description strings: - "Arial, Helvetica,
-    /// Bold Italic 14px" - "Arial, 14px"
+    /// Here are examples of valid font description strings:
+    /// - "Arial, Helvetica, Bold Italic 14px"
+    /// - "Arial, 14px"
     /// </summary>
     procedure SetFontList(const font_list: ustring);
     /// <summary>
@@ -10272,7 +10275,7 @@ type
   ICefTextfieldDelegate = interface(ICefViewDelegate)
     ['{72612994-92BB-4DE9-BB38-6F49FB45F94B}']
     /// <summary>
-    /// Called when |textfield| recieves a keyboard event. |event| contains
+    /// Called when |textfield| receives a keyboard event. |event| contains
     /// information about the keyboard event. Return true (1) if the keyboard
     /// event was handled or false (0) otherwise for default handling.
     /// </summary>
@@ -10635,14 +10638,15 @@ type
     procedure SetEnabledTextColors(color: TCefColor);
     /// <summary>
     /// Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
-    /// where: - FONT_FAMILY_LIST is a comma-separated list of font family names,
-    /// - STYLES is an optional space-separated list of style names (case-
-    /// sensitive
+    /// where:
+    /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
+    /// - STYLES is an optional space-separated list of style names (case-sensitive
     ///   "Bold" and "Italic" are supported), and
     /// - SIZE is an integer font size in pixels with the suffix "px".
     ///
-    /// Here are examples of valid font description strings: - "Arial, Helvetica,
-    /// Bold Italic 14px" - "Arial, 14px"
+    /// Here are examples of valid font description strings:
+    /// - "Arial, Helvetica, Bold Italic 14px"
+    /// - "Arial, 14px"
     /// </summary>
     procedure SetFontList(const font_list: ustring);
     /// <summary>
@@ -10854,8 +10858,9 @@ type
     /// <summary>
     /// Add a View that will be overlayed on the Window contents with absolute
     /// positioning and high z-order. Positioning is controlled by |docking_mode|
-    /// as described below. The returned ICefOverlayController object is used
-    /// to control the overlay. Overlays are hidden by default.
+    /// as described below. Setting |can_activate| to true (1) will allow the
+    /// overlay view to receive input focus. The returned cef_overlay_controller_t
+    /// object is used to control the overlay. Overlays are hidden by default.
     ///
     /// With CEF_DOCKING_MODE_CUSTOM:
     ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
@@ -10880,7 +10885,7 @@ type
     /// function last after all other child Views have been added so that the
     /// overlay displays as the top-most child of the Window.
     /// </summary>
-    function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
+    function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode; can_activate: boolean): ICefOverlayController;
     /// <summary>
     /// Show a menu with contents |menu_model|. |screen_point| specifies the menu
     /// position in screen coordinates. |anchor_position| specifies how the menu

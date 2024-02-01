@@ -161,8 +161,9 @@ type
       /// <summary>
       /// <para>Add a View that will be overlayed on the Window contents with absolute
       /// positioning and high z-order. Positioning is controlled by |docking_mode|
-      /// as described below. The returned cef_overlay_controller_t object is used
-      /// to control the overlay. Overlays are hidden by default.</para>
+      /// as described below. Setting |can_activate| to true (1) will allow the
+      /// overlay view to receive input focus. The returned cef_overlay_controller_t
+      /// object is used to control the overlay. Overlays are hidden by default.</para>
       /// <para>With CEF_DOCKING_MODE_CUSTOM:</para>
       /// <code>
       ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
@@ -186,7 +187,7 @@ type
       /// function last after all other child Views have been added so that the
       /// overlay displays as the top-most child of the Window.</para>
       /// </summary>
-      function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
+      function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode; can_activate: boolean): ICefOverlayController;
       /// <summary>
       /// Show a menu with contents |menu_model|. |screen_point| specifies the menu
       /// position in screen coordinates. |anchor_position| specifies how the menu
@@ -790,10 +791,10 @@ begin
     Result := nil;
 end;
 
-function TCEFWindowComponent.AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
+function TCEFWindowComponent.AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode; can_activate: boolean): ICefOverlayController;
 begin
   if Initialized then
-    Result := FWindow.AddOverlayView(view, docking_mode)
+    Result := FWindow.AddOverlayView(view, docking_mode, can_activate)
    else
     Result := nil;
 end;

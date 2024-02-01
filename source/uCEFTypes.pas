@@ -2776,8 +2776,9 @@ type
     CEF_CPAIT_ZOOM,
     CEF_CPAIT_SAVE_IBAN,
     CEF_CPAIT_MANDATORY_REAUTH,
-    CEF_CPAIT_PRICE_INSIGHTS
-    {* CEF_CPAIT_MAX_VALUE = CEF_CPAIT_PRICE_INSIGHTS *}
+    CEF_CPAIT_PRICE_INSIGHTS,
+    CEF_CPAIT_PRICE_READ_ANYTHING
+    {* CEF_CPAIT_MAX_VALUE = CEF_CPAIT_PRICE_READ_ANYTHING *}
   );
 
   /// <summary>
@@ -3906,6 +3907,10 @@ type
     /// Set to true (1) to generate tagged (accessible) PDF.
     /// </summary>
     generate_tagged_pdf   : integer;
+    /// <summary>
+    /// Set to true (1) to generate a document outline.
+    /// </summary>
+    generate_document_outline : integer;
   end;
 
   /// <summary>
@@ -4277,8 +4282,7 @@ type
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_LAST_PICKED_DIRECTORY,
     /// <summary>
-    /// Controls access to the getDisplayMedia API when {preferCurrentTab: true}
-    /// is specified.
+    /// Controls access to the getDisplayMedia API.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_DISPLAY_CAPTURE,
     /// <summary>
@@ -4320,9 +4324,9 @@ type
     /// between a specified relying party and a specified identity provider for
     /// a specified account. When this is present it allows access to session
     /// management capabilities between the sites. This setting is associated
-    /// with the relying party's origin.
+    /// with the relying party's origin. Obsolete on Nov 2023.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_ACTIVE_SESSION,
+    CEF_CONTENT_SETTING_TYPE_DEPRECATED_FEDERATED_IDENTITY_ACTIVE_SESSION,
     /// <summary>
     /// Setting to indicate whether Chrome should automatically apply darkening to
     /// web content.
@@ -4438,6 +4442,11 @@ type
     /// heuristics.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS,
+    /// <summary>
+    /// Whether the FSA Persistent Permissions restore prompt is eligible to be
+    /// shown to the user, for a given origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_RESTORE_PERMISSION,
     CEF_CONTENT_SETTING_TYPE_NUM_TYPES
   );
 
@@ -7709,7 +7718,7 @@ type
     get_window_icon                  : function(self: PCefWindow): PCefImage; stdcall;
     set_window_app_icon              : procedure(self: PCefWindow; image: PCefImage); stdcall;
     get_window_app_icon              : function(self: PCefWindow): PCefImage; stdcall;
-    add_overlay_view                 : function(self: PCefWindow; view: PCefView; docking_mode: TCefDockingMode): PCefOverlayController; stdcall;
+    add_overlay_view                 : function(self: PCefWindow; view: PCefView; docking_mode: TCefDockingMode; can_activate: integer): PCefOverlayController; stdcall;
     show_menu                        : procedure(self: PCefWindow; menu_model: PCefMenuModel; const screen_point: PCefPoint; anchor_position : TCefMenuAnchorPosition); stdcall;
     cancel_menu                      : procedure(self: PCefWindow); stdcall;
     get_display                      : function(self: PCefWindow): PCefDisplay; stdcall;

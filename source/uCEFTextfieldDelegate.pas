@@ -43,7 +43,7 @@ type
   TCefTextfieldDelegateOwn = class(TCefViewDelegateOwn, ICefTextfieldDelegate)
     protected
       /// <summary>
-      /// Called when |textfield| recieves a keyboard event. |event| contains
+      /// Called when |textfield| receives a keyboard event. |event| contains
       /// information about the keyboard event. Return true (1) if the keyboard
       /// event was handled or false (0) otherwise for default handling.
       /// </summary>
