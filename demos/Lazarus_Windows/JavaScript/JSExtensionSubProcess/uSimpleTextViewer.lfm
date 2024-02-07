@@ -1,0 +1,27 @@
+object SimpleTextViewerFrm: TSimpleTextViewerFrm
+  Left = 0
+  Height = 572
+  Top = 0
+  Width = 694
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Simple text viewer'
+  ClientHeight = 572
+  ClientWidth = 694
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '2.0.1.0'
+  object Memo1: TMemo
+    Left = 0
+    Height = 572
+    Top = 0
+    Width = 694
+    Align = alClient
+    ReadOnly = True
+    ScrollBars = ssBoth
+    TabOrder = 0
+  end
+end

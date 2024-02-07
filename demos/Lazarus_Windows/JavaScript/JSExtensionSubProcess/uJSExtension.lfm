@@ -1,0 +1,86 @@
+object JSExtensionFrm: TJSExtensionFrm
+  Left = 483
+  Height = 589
+  Top = 152
+  Width = 978
+  Caption = 'JSExtension'
+  ClientHeight = 589
+  ClientWidth = 978
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '3.0.0.3'
+  object NavControlPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 0
+    Width = 978
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 978
+    Enabled = False
+    ParentBackground = False
+    TabOrder = 0
+    object Edit1: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 947
+      Align = alClient
+      TabOrder = 0
+      Text = 'http://www.google.com'
+    end
+    object GoBtn: TButton
+      Left = 947
+      Height = 21
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      TabOrder = 1
+      OnClick = GoBtnClick
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 547
+    Top = 21
+    Width = 978
+    Align = alClient
+    TabOrder = 1
+  end
+  object StatusPnl: TPanel
+    Left = 0
+    Height = 21
+    Top = 568
+    Width = 978
+    Align = alBottom
+    BevelOuter = bvLowered
+    ParentBackground = False
+    TabOrder = 2
+  end
+  object Chromium1: TChromium
+    OnProcessMessageReceived = Chromium1ProcessMessageReceived
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    Left = 32
+    Top = 224
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 32
+    Top = 288
+  end
+end

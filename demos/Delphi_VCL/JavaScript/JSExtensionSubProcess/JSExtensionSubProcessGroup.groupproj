@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{898EF1FF-A3E5-45E8-9D69-68E86985BB25}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="JSExtension.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="JSExtension_sp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="JSExtension">
+        <MSBuild Projects="JSExtension.dproj"/>
+    </Target>
+    <Target Name="JSExtension:Clean">
+        <MSBuild Projects="JSExtension.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JSExtension:Make">
+        <MSBuild Projects="JSExtension.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JSExtension_sp">
+        <MSBuild Projects="JSExtension_sp.dproj"/>
+    </Target>
+    <Target Name="JSExtension_sp:Clean">
+        <MSBuild Projects="JSExtension_sp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JSExtension_sp:Make">
+        <MSBuild Projects="JSExtension_sp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="JSExtension;JSExtension_sp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="JSExtension:Clean;JSExtension_sp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="JSExtension:Make;JSExtension_sp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
