@@ -1932,6 +1932,10 @@ begin
       TempList.Add(TempDir + 'vulkan-1.dll');
       TempList.Add(TempDir + 'libEGL.dll');
       TempList.Add(TempDir + 'libGLESv2.dll');
+      {$IFDEF WIN64}
+      TempList.Add(TempDir + 'dxcompiler.dll');
+      TempList.Add(TempDir + 'dxil.dll');
+      {$ENDIF}
       {$ENDIF}
       {$IFDEF LINUX}
       TempList.Add(TempDir + 'libEGL.so');
